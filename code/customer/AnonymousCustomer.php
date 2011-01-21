@@ -10,6 +10,7 @@
  * @license BSD
  */
 class AnonymousCustomer extends Member {
+
     /**
      * default instances related to $this
      *
@@ -21,7 +22,9 @@ class AnonymousCustomer extends Member {
         parent::requireDefaultRecords();
 
         // Create an own group for this class. The group is identified by "Code", so its name can be changed via backend.
-        if (!DataObject::get_one('Group', "\"Code\" = 'anonymous'")) {
+        $group = DataObject::get_one('Group', "\"Code\" = 'anonymous'");
+        
+        if (!$group) {
             $group = new Group();
             $group->Title = "anonyme Kunden";
             $group->Code = "anonymous";

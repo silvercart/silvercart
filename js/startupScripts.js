@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
     $("#quickCartLink").hover(
         function () {
             $("#quickCartBox").css({'visibility' : 'visible', 'left' : '1100px' , 'top' : '40px'});

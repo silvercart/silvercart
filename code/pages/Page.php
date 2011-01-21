@@ -72,10 +72,10 @@ class Page_Controller extends ContentController implements PermissionProvider {
     public function init() {
         $this->registerCustomHtmlForm('QuickSearch', new QuickSearchForm($this));
         $this->registerCustomHtmlForm('QuickLogin', new QuickLoginForm($this));
-        $this->extend('init');
 
+        $this->extend('init');
         parent::init();
-        
+
         $cssForLayoutType = $this->getCssForLayoutType($this->LayoutType);
         Requirements::themedCSS($cssForLayoutType);
         Requirements::javascript("pixeltricks_module/script/jquery.js");

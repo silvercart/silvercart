@@ -11,6 +11,18 @@
 class ShoppingCart extends DataObject {
 
     /**
+     * Contains all registered modules that get called when the shoppingcart
+     * is displayed.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.01.2011
+     */
+    public static $registeredModules = array();
+
+    /**
      * Singular-Beschreibung zur Darstellung im Backend.
      *
      * @var string
@@ -226,5 +238,65 @@ class ShoppingCart extends DataObject {
                 $obj->delete();
             }
         }
+    }
+
+    /**
+     * Register a module.
+     * Registered modules will be called when the shoppingcart is displayed.
+     *
+     * @param string $module The module class name
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.01.2011
+     */
+    public static function registerModule($module) {
+        array_push(
+            self::$registeredModules,
+            $module
+        );
+    }
+
+    /**
+     * Returns all registered modules.
+     *
+     * Every module contains two keys for further iteration inside templates:
+     *      - ShoppingCartPositions
+     *      - ShoppingCartActions
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.01.2011
+     */
+    public function registeredModules() {
+        $modules            = new DataObjectSet();
+        $registeredModules  = self::$registeredModules;
+        $hookMethods        = array(
+            'ShoppingCartPositions',
+            'ShoppingCartActions'
+        );
+
+        foreach ($registeredModules as $registeredModule) {
+        
+            $registeredModuleObj = new $registeredModule();
+
+            foreach ($hookMethods as $hookMethod) {
+                if ($registeredModuleObj->hasMethod($hookMethod)) {
+                    $modules->push(
+                        new ArrayData(
+                            array(
+                                $hookMethod => $registeredModuleObj->$hookMethod($this)
+                            )
+                        )
+                    );
+                }
+            }
+        }
+
+        return $modules;
     }
 }

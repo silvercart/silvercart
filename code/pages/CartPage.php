@@ -47,4 +47,27 @@ class CartPage extends Page {
  */
 class CartPage_Controller extends Page_Controller {
 
+    /**
+     * Calls the registered shoppingcart modules method "ShoppingCartInit"
+     * if available.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.01.2011
+     */
+    public function init() {
+        $registeredModules  = ShoppingCart::$registeredModules;
+
+        foreach ($registeredModules as $registeredModule) {
+            $registeredModuleObj = new $registeredModule();
+
+            if ($registeredModuleObj->hasMethod('ShoppingCartInit')) {
+                $registeredModuleObj->ShoppingCartInit();
+            }
+        }
+        
+        parent::init();
+    }
 }
