@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * checkout step for payment method
+ *
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @copyright Pixeltricks GmbH
+ * @since 03.01.2011
+ * @license BSD
+ */
+class CheckoutFormStep2 extends CustomHtmlForm {
+
+    protected $formFields = array(
+        'PaymentMethod' => array(
+            'type' => 'DropdownField',
+            'title' => 'Bezahlart',
+            'checkRequirements' => array(
+                'isFilledIn' => true
+            )
+        )
+    );
+
+    /**
+     * Initialisierung
+     *
+     * @param Controller $controller  Das Controllerobjekt
+     * @param array      $params      Zusaetzliche Parameter
+     * @param array      $preferences Array mit Voreinstellungen
+     * @param bool       $barebone    Gibt an, ob das Formular komplett initialisiert werden soll
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.01.2011
+     */
+    public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        parent::__construct($controller, $params, $preferences, $barebone);
+
+        if (!$barebone) {
+            /*
+             * redirect a user if his cart is empty
+             */
+            if (!$this->controller->isFilledCart()) {
+                Director::redirect("/home/");
+            }
+        }
+    }
+
+    /**
+     * Setzt Initialwerte in Formularfeldern.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 09.11.2010
+     */
+    protected function fillInFieldValues() {
+        $this->controller->fillFormFields(&$this->formFields);
+
+        $stepData = $this->controller->getCombinedStepData();
+        if ($stepData['Shipping_Country'] != "") {
+            $shippingCountry = DataObject::get_by_id('Country', $stepData['Shipping_Country']);
+            if ($shippingCountry) {
+                $allowedPaymentMethods = $shippingCountry->paymentMethods();
+                if ($allowedPaymentMethods) {
+                    $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', '--Bezahlart--');
+                }
+            }
+        }
+    }
+
+    /**
+     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
+     * fehler aufgetreten sind.
+     * Speichert die gesendeten Formulardaten in der Session zum spaeteren
+     * Abruf.
+     *
+     * @param SS_HTTPRequest $data     Enthaelt die gesendeten "rohen" Formulardaten
+     * @param Form           $form     wird nicht verwendet
+     * @param array          $formData Enthaelt die geparsten Formulardaten
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 09.11.2010
+     */
+    public function submitSuccess($data, $form, $formData) {
+        $this->controller->setStepData($formData);
+        $this->controller->addCompletedStep();
+        $this->controller->NextStep();
+    }
+
+}
+
