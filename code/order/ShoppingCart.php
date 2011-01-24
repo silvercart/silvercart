@@ -169,6 +169,16 @@ class ShoppingCart extends DataObject {
         foreach ($positions as $position) {
             $price += (float) $position->article()->Price->getAmount() * $position->Quantity;
         }
+
+        $modulesOutput = $this->callMethodOnRegisteredModules('ShoppingCartTotal');
+
+        foreach ($modulesOutput as $moduleName => $moduleOutput) {
+            $price += (float) $moduleOutput->getAmount();
+        }
+
+        if ($price < 0) {
+            $price = 0;
+        }
         
         $priceObj = new Money;
         $priceObj->setAmount($price);
@@ -277,26 +287,72 @@ class ShoppingCart extends DataObject {
         $registeredModules  = self::$registeredModules;
         $hookMethods        = array(
             'ShoppingCartPositions',
-            'ShoppingCartActions'
+            'ShoppingCartActions',
+            'ShoppingCartTotal'
         );
 
         foreach ($registeredModules as $registeredModule) {
-        
-            $registeredModuleObj = new $registeredModule();
+            $registeredModuleObjPlain   = new $registeredModule();
 
-            foreach ($hookMethods as $hookMethod) {
-                if ($registeredModuleObj->hasMethod($hookMethod)) {
-                    $modules->push(
-                        new ArrayData(
-                            array(
-                                $hookMethod => $registeredModuleObj->$hookMethod($this)
+            if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
+                $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
+            }
+            
+            if (!$registeredModuleObj) {
+                $registeredModuleObj = $registeredModuleObjPlain;
+            }
+            
+            if ($registeredModuleObj) {
+                foreach ($hookMethods as $hookMethod) {
+                    if ($registeredModuleObj->hasMethod($hookMethod)) {
+                        $modules->push(
+                            new ArrayData(
+                                array(
+                                    $hookMethod => $registeredModuleObj->$hookMethod($this)
+                                )
                             )
-                        )
-                    );
+                        );
+                    }
                 }
             }
         }
 
         return $modules;
+    }
+
+    /**
+     * Calls a method on all registered modules and returns its output.
+     *
+     * @param string $methodName The name of the method to call
+     * @param array  $parameters Additional parameters for the method call
+     *
+     * @return array Associative array:
+     *      'ModuleName' => 'ModuleOutput'
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.01.2011
+     */
+    public function callMethodOnRegisteredModules($methodName, $parameters = array()) {
+        $registeredModules  = self::$registeredModules;
+        $outputOfModules    = array();
+
+        foreach ($registeredModules as $registeredModule) {
+            $registeredModuleObjPlain   = new $registeredModule();
+
+            if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
+                $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
+            } else {
+                $registeredModuleObj = $registeredModuleObjPlain;
+            }
+
+            if ($registeredModuleObj) {
+                if ($registeredModuleObj->hasMethod($methodName)) {
+                    $outputOfModules[$registeredModule] = $registeredModuleObj->$methodName($this, $parameters);
+                }
+            }
+        }
+
+        return $outputOfModules;
     }
 }
