@@ -71,6 +71,21 @@ class ShoppingCart extends DataObject {
     );
 
     /**
+     * Initialisation
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 25.01.2011
+     */
+    public function init() {
+        parent::init();
+
+        $this->callMethodOnRegisteredModules('performShoppingCartConditionsCheck', array($this, Member::currentUser()));
+    }
+
+    /**
      * Legt einen Artikel in den Warenkorb.
      *
      * @param array $formData Die gesendeten Formulardaten
@@ -157,12 +172,15 @@ class ShoppingCart extends DataObject {
     /**
      * Gibt die Summe aller Artikel im Warenkorb zurueck.
      *
+     * @param bool  $withModules    Calculate the total sum with modules activated
+     * @param array $excluceModules Calculate the total sum with some modules deactivated
+     *
      * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.10
      */
-    public function getPrice() {
+    public function getPrice($withModules = true, $excludeModules = array()) {
         $positions = $this->positions();
         $price     = 0.0;
 
@@ -170,16 +188,20 @@ class ShoppingCart extends DataObject {
             $price += (float) $position->article()->Price->getAmount() * $position->Quantity;
         }
 
-        $modulesOutput = $this->callMethodOnRegisteredModules('ShoppingCartTotal');
+        if ($withModules) {
+            $modulesOutput = $this->callMethodOnRegisteredModules('ShoppingCartTotal');
 
-        foreach ($modulesOutput as $moduleName => $moduleOutput) {
-            $price += (float) $moduleOutput->getAmount();
+            foreach ($modulesOutput as $moduleName => $moduleOutput) {
+                if (!in_array($moduleName, $excludeModules)) {
+                    $price += (float) $moduleOutput->getAmount();
+                }
+            }
+
+            if ($price < 0) {
+                $price = 0;
+            }
         }
 
-        if ($price < 0) {
-            $price = 0;
-        }
-        
         $priceObj = new Money;
         $priceObj->setAmount($price);
 
@@ -283,6 +305,7 @@ class ShoppingCart extends DataObject {
      * @since 21.01.2011
      */
     public function registeredModules() {
+        $customer           = Member::currentUser();
         $modules            = new DataObjectSet();
         $registeredModules  = self::$registeredModules;
         $hookMethods        = array(
@@ -308,7 +331,7 @@ class ShoppingCart extends DataObject {
                         $modules->push(
                             new ArrayData(
                                 array(
-                                    $hookMethod => $registeredModuleObj->$hookMethod($this)
+                                    $hookMethod => $registeredModuleObj->$hookMethod($this, $customer)
                                 )
                             )
                         );
@@ -338,7 +361,7 @@ class ShoppingCart extends DataObject {
         $outputOfModules    = array();
 
         foreach ($registeredModules as $registeredModule) {
-            $registeredModuleObjPlain   = new $registeredModule();
+            $registeredModuleObjPlain = new $registeredModule();
 
             if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
                 $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
@@ -348,7 +371,19 @@ class ShoppingCart extends DataObject {
 
             if ($registeredModuleObj) {
                 if ($registeredModuleObj->hasMethod($methodName)) {
-                    $outputOfModules[$registeredModule] = $registeredModuleObj->$methodName($this, $parameters);
+
+                    if (!is_array($parameters)) {
+                        $parameters = array($parameters);
+                    }
+
+                    //$outputOfModules[$registeredModule] = $registeredModuleObj->$methodName($this, eval($parameterList));
+                    $outputOfModules[$registeredModule] = call_user_func_array(
+                        array(
+                            $registeredModuleObj,
+                            $methodName
+                        ),
+                        $parameters
+                    );
                 }
             }
         }
