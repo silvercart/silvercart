@@ -55,8 +55,8 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
      * @since 09.11.2010
      */
     public function init() {
-        $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL.'templates/Layout/';
-        
+        $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
+
         parent::init();
     }
 
@@ -89,18 +89,21 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     /**
      * Loescht den Warenkorb.
      *
+     * @param bool $includeShoppingCart set wether the shoppingcart should be
+     *                                  deleted
+     *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pxieltricks GmbH
      * @since 22.11.2010
      */
-    public function deleteSessionData() {
+    public function deleteSessionData($includeShoppingCart = true) {
         parent::deleteSessionData();
 
         $member = Member::currentUser();
 
-        if ($member) {
+        if ($includeShoppingCart && $member) {
             if ($member->shoppingCartID != 0) {
                 $shoppingCart = $member->ShoppingCart();
                 $shoppingCart->delete();
@@ -114,4 +117,171 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
             unset($_SESSION['paypal_module_token']);
         }
     }
+
+    /**
+     * Liefert die Bearbeitungsgebuehren fuer die gewaehlte Zahlungsart
+     * zurueck.
+     *
+     * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 25.11.2010
+     */
+    public function getHandlingCosts() {
+        $checkoutData = $this->getCombinedStepData();
+        $handlingCosts = 0;
+
+        $paymentMethodObj = DataObject::get_by_id(
+            'PaymentMethod',
+            $checkoutData['PaymentMethod']
+        );
+
+        if ($paymentMethodObj) {
+            $handlingCostsObj = $paymentMethodObj->getHandlingCost();
+        } else {
+            $handlingCostsObj = new Money;
+            $handlingCostsObj->setAmount($handlingCosts);
+        }
+
+        return $handlingCostsObj;
+    }
+
+    /**
+     * Returns the shipping method title.
+     *
+     * @return string
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function CarrierAndShippingMethodTitle() {
+        $checkoutData = $this->getCombinedStepData();
+        $title = '';
+
+        $selectedShippingMethod = DataObject::get_by_id(
+            'ShippingMethod',
+            $checkoutData['ShippingMethod']
+        );
+
+        if ($selectedShippingMethod) {
+            $title = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
+        }
+
+        return $title;
+    }
+
+    /**
+     * Returns the handling costs for the chosen shipping method.
+     *
+     * @return Money
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function HandlingCostShipment() {
+        $checkoutData = $this->getCombinedStepData();
+        $handlingCostShipment = 0;
+
+        $selectedShippingMethod = DataObject::get_by_id(
+                        'ShippingMethod',
+                        $checkoutData['ShippingMethod']
+        );
+
+        if ($selectedShippingMethod) {
+            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
+        } else {
+            $handlingCostShipmentObj = new Money();
+            $handlingCostShipmentObj->setAmount($handlingCostShipment);
+        }
+
+        return $handlingCostShipmentObj;
+    }
+
+    /**
+     * Returns the payment method title.
+     *
+     * @return string
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function PaymentMethodTitle() {
+        $checkoutData = $this->getCombinedStepData();
+        $title = '';
+
+        $paymentMethodObj = DataObject::get_by_id(
+                        'PaymentMethod',
+                        $checkoutData['PaymentMethod']
+        );
+
+        if ($paymentMethodObj) {
+            $title = $paymentMethodObj->Name;
+        }
+
+        return $title;
+    }
+
+    /**
+     * Returns the handling costs for the chosen payment method.
+     *
+     * @return Money
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function HandlingCostPayment() {
+        $checkoutData = $this->getCombinedStepData();
+        $handlingCostPayment = 0;
+
+        $paymentMethodObj = DataObject::get_by_id(
+                        'PaymentMethod',
+                        $checkoutData['PaymentMethod']
+        );
+
+        if ($paymentMethodObj) {
+            $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
+        } else {
+            $handlingCostPaymentObj = new Money();
+            $handlingCostPaymentObj->setAmount(0);
+        }
+
+        return $handlingCostPaymentObj;
+    }
+
+    /**
+     * Template metod; returns the price of the cart positions + shipping fee
+     *
+     * @return string a price amount
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 4.1.2011
+     */
+    public function getAmountGrossRaw() {
+        $member = Member::currentUser();
+        $stepData = $this->getCombinedStepData();
+        $cart = $member->shoppingCart();
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
+        $amountTotal = 0;
+
+        if ($cart && $shippingMethod) {
+            $shippingFee = $shippingMethod->getShippingFee()->Price->getAmount();
+            $priceSumCart = $cart->getPrice()->getAmount();
+
+            if ($shippingFee && $priceSumCart) {
+                $amountTotal = $shippingFee + $priceSumCart;
+            }
+        }
+
+        $amountTotalObj = new Money;
+        $amountTotalObj->setAmount($amountTotal);
+
+        return $amountTotalObj;
+    }
+
 }

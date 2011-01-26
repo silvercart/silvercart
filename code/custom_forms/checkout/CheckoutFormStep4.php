@@ -137,5 +137,27 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         );
         return $addressData;
     }
+
+    /**
+     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
+     * fehler aufgetreten sind.
+     * Speichert die gesendeten Formulardaten in der Session zum spaeteren
+     * Abruf.
+     *
+     * @param SS_HTTPRequest $data     Enthaelt die gesendeten "rohen" Formulardaten
+     * @param Form           $form     wird nicht verwendet
+     * @param array          $formData Enthaelt die geparsten Formulardaten
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 4.1.2011
+     */
+    public function submitSuccess($data, $form, $formData) {
+        $this->controller->setStepData($formData);
+        $this->controller->addCompletedStep();
+        $this->controller->NextStep();
+    }
 }
 
