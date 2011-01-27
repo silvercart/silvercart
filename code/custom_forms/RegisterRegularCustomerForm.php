@@ -239,13 +239,13 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
      *
      * @param SS_HTTPRequest $data             SS session data
      * @param Form           $form             the form object
-     * @param array          $registrationData CustomHTMLForms session data
+     * @param array          $formData CustomHTMLForms session data
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 21.10.2010
      * @return void
      */
-    protected function submitSuccess($data, $form, $registrationData) {
+    protected function submitSuccess($data, $form, $formData) {
         /*
          * Logout any user before registration, which should not happen, because the form is not shown if logged in
          * This is just double precaution
@@ -256,33 +256,32 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
 
         // Create Confirmation hash for opt-in confirmation mail
         $confirmationHash = md5(
-                        $registrationData['Email'] .
-                        $registrationData['FirstName'] .
-                        $registrationData['Surname'] .
+                        $formData['Email'] .
+                        $formData['FirstName'] .
+                        $formData['Surname'] .
                         mktime() .
                         rand()
         );
 
         // Aggregate Data and set defaults
-        $registrationData['ConfirmationHash'] = $confirmationHash;
-        $registrationData['Locale'] = 'de_DE';
-        $registrationData['OptInStatus'] = 0;
-        $registrationData['Birthday'] = $registrationData['BirthdayYear'] . '-' .
-                $registrationData['BirthdayMonth'] . '-' .
-                $registrationData['BirthdayDay'];
+        $formData['ownerID']            = Member::currentUserID();
+        $formData['ConfirmationHash']   = $confirmationHash;
+        $formData['Locale']             = 'de_DE';
+        $formData['OptInStatus']        = 0;
+        $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
+                                          $formData['BirthdayMonth'] . '-' .
+                                          $formData['BirthdayDay'];
 
         // Create new regular customer and perform a log in
         $customer = new RegularCustomer();
-        $customer->castedUpdate($registrationData);
+        $customer->castedUpdate($formData);
         $customer->write();
         $customer->logIn();
 
-        $registrationData['ownerID'] = Member::currentUserID();
-
         // Add customer to intermediate group
         $customerGroup = DataObject::get_one(
-                        'Group',
-                        "`Code` = 'b2c-optin'"
+            'Group',
+            "`Code` = 'b2c-optin'"
         );
         if ($customerGroup) {
             $customer->Groups()->add($customerGroup);
@@ -290,18 +289,23 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
 
         // Create ShippingAddress for customer and populate it with registration data
         $shippingAddress = new ShippingAddress();
-        $shippingAddress->castedUpdate($registrationData);
-        $filter = sprintf("`Title` = '%s'", $registrationData['Country']);
-        $country = DataObject::get_one('Country', $filter);
+        $shippingAddress->castedUpdate($formData);
+
+        $country = DataObject::get_one(
+            'Country',
+            sprintf(
+                "`Title` = '%s'",
+                $formData['Country']
+            )
+        );
         if ($country) {
             $shippingAddress->countryID = $country->ID;
         }
         $shippingAddress->write();
 
-
         // Create InvoiceAddress for customer and populate it with registration data
         $invoiceAddress = new InvoiceAddress();
-        $invoiceAddress->castedUpdate($registrationData);
+        $invoiceAddress->castedUpdate($formData);
         if ($country) {
             $invoiceAddress->countryID = $country->ID;
         }
@@ -309,86 +313,36 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
         $customer->shippingAddressID = $shippingAddress->ID;
-        $customer->invoiceAddressID = $invoiceAddress->ID;
+        $customer->invoiceAddressID  = $invoiceAddress->ID;
         $customer->write();
 
-        // Send activation mail
-        $this->sendActivationMail($registrationData);
+        $this->sendOptInMail($formData);
 
-        // Redirect to first child of this page that is a Page Type
-        // (regularly used for displaying text information)
-        $children = $this->controller->Children();
-        $child = false;
-
-        foreach ($children as $child) {
-            if ($child->class == 'Page') {
-                break;
-            }
-        }
-
-        if ($child) {
-            Director::redirect($child->Link());
-        } else {
-            throw new Exception('Konnte die Bestätigungsseite mit Willkommentext nicht finden.');
-        }
+        // Redirect to welcome page
+        //Director::redirect('registrierung/begruessung');
     }
 
     /**
-     * Versendet eine Mail mit einem Aktivierungslink. Wenn der Kunde auf
-     * diesen Link klickt, wird sein Account vollwertig.
+     * sendOptInMail
      *
-     * @param array $registrationData session data of CustomHTMLForms
+     * @param array $formData Enthaelt die geparsten Formulardaten
+     *
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.10.2010
-     * @return void
+     * @copyright 2010 pixeltricks GmbH
+     * @since 25.10.2010
      */
-    protected function sendActivationMail($registrationData) {
-        $email = new Email(
-                        Email::getAdminEmail(),
-                        $registrationData['Email'],
-                        $this->controller->ActivationMailSubject,
-                        ''
+    protected function sendOptInMail($formData) {
+        ShopEmail::send(
+            'RegistrationOptIn',
+            $formData['Email'],
+            array(
+                'FirstName'         => $formData['FirstName'],
+                'Surname'           => $formData['Surname'],
+                'Email'             => $formData['Email'],
+                'ConfirmationLink'  => Director::absoluteURL('/registrierung/bestaetigung').'/?h='.urlencode($formData['ConfirmationHash'])
+            )
         );
-
-        // Get registration confirmation page
-        $children = $this->controller->Children();
-
-        foreach ($children as $child) {
-            if ($child->class == 'RegistrationPage') {
-                break;
-            }
-        }
-
-        if (!$child) {
-            throw new Exception('Found no registration confirmation page');
-        }
-
-        $message = str_replace(
-                        array(
-                            '__SALUTATION__',
-                            '__SURNAME__',
-                            '__EMAIL__',
-                            '__LINK__',
-                            '__CONFIRMATIONHASH__'
-                        ),
-                        array(
-                            $registrationData['Salutation'],
-                            $registrationData['Surname'],
-                            $registrationData['Email'],
-                            Director::absoluteURL($child->Link() . '?h=' . urlencode($registrationData['ConfirmationHash'])),
-                            $registrationData['ConfirmationHash']
-                        ),
-                        $this->controller->ActivationMailMessage
-        );
-
-        $email->setTemplate('MailRegistrationActivation');
-        $email->populateTemplate(
-                array(
-                    'message' => $message
-                )
-        );
-
-        $email->send();
     }
 }

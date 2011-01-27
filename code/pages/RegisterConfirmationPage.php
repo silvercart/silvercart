@@ -82,14 +82,10 @@ class RegisterConfirmationPage_Controller extends Page_Controller {
 
             if ($hash) {
                 $customer = DataObject::get_one(
-                                'Member',
-                                'ConfirmationHash LIKE \'' . $hash . '\''
+                    'Member',
+                    'ConfirmationHash LIKE \''.$hash.'\''
                 );
 
-                // Hash wurde gefunden, also das Bestaetigungsdatum speichern.
-                // Die Umtragung in die entsprechende Kundengruppe erfolgt automatisch
-                // im entsprechenden Customer-Objekt.
-                //
                 // Dem Kunde wird eine endgueltige Bestaetigungsmail geschickt.
                 if ($customer) {
                     if ($customer->OptInStatus == 1) {
@@ -102,14 +98,14 @@ class RegisterConfirmationPage_Controller extends Page_Controller {
                         // Remove customer from intermediate group
                         $customerGroup = DataObject::get_one(
                                         'Group',
-                                        'ID=6'
+                                        "code LIKE 'b2c-optin'"
                         );
                         $customer->Groups()->remove($customerGroup);
 
                         // Add customer to group with confirmed members
                         $customerGroup = DataObject::get_one(
                                         'Group',
-                                        'ID=5'
+                                        "code LIKE 'b2c'"
                         );
                         $customer->Groups()->add($customerGroup);
                         $customer->logIn();
@@ -127,43 +123,25 @@ class RegisterConfirmationPage_Controller extends Page_Controller {
     }
 
     /**
-     * sendOptInMail
+     * Send confirmation mail to customer
      *
-     * @param Member $customer receiver of the email
+     * @param Customer $customer Das Kundenobjekt
+     *
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2010
-     * @return void
+     * @copyright 2010 pixeltricks GmbH
+     * @since 25.10.2010
      */
     public function sendConfirmationMail($customer) {
-        $email = new Email(
-                        Email::getAdminEmail(),
-                        $customer->Email,
-                        $this->ConfirmationMailSubject,
-                        ''
+        ShopEmail::send(
+            'RegistrationConfirmation',
+            $customer->Email,
+            array(
+                'FirstName' => $customer->FirstName,
+                'Surname'   => $customer->Surname,
+                'Email'     => $customer->Email
+            )
         );
-
-        $message = str_replace(
-                        array(
-                            '__SALUTATION__',
-                            '__SURNAME__',
-                            '__EMAIL__'
-                        ),
-                        array(
-                            $customer->Salutation,
-                            $customer->Surname,
-                            $customer->Email
-                        ),
-                        $this->ConfirmationMailMessage
-        );
-
-        $email->setTemplate('MailRegistrationConfirmation');
-        $email->populateTemplate(
-                array(
-                    'message' => $message
-                )
-        );
-
-        $email->send();
     }
 }

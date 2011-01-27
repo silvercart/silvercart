@@ -57,25 +57,25 @@ class RegistrationPage extends Page {
 
         $records = DataObject::get_one($this->ClassName);
         if (!$records) {
-            $page = new RegistrationPage();
-            $page->Title = "Registrierung";
-            $page->URLSegment = "registrierung";
-            $page->Status = "Published";
-            $page->ShowInMenus = false;
+            $page               = new RegistrationPage();
+            $page->Title        = "Registrierung";
+            $page->URLSegment   = "registrierung";
+            $page->Status       = "Published";
+            $page->ShowInMenus  = false;
             $page->ShowInSearch = true;
             $page->write();
             $page->publish("Stage", "Live");
         }
         $confirmationPage = DataObject::get_one('RegisterConfirmationPage', "\"URLSegment\" = 'bestaetigung'");
         if (!$confirmationPage) {
-            $confirmationPage = new RegisterConfirmationPage();
-            $confirmationPage->Title = "Bestätigunsseite";
-            $confirmationPage->URLSegment = "bestaetigung";
-            $confirmationPage->Status = "Published";
+            $confirmationPage               = new RegisterConfirmationPage();
+            $confirmationPage->Title        = "Bestätigunsseite";
+            $confirmationPage->URLSegment   = "bestaetigung";
+            $confirmationPage->Status       = "Published";
             if ($page instanceof RegistrationPage) {
                 $confirmationPage->ParentID = $page->ID;
             }
-            $confirmationPage->ShowInMenus = false;
+            $confirmationPage->ShowInMenus  = false;
             $confirmationPage->ShowInSearch = false;
             $confirmationPage->write();
             $confirmationPage->publish("Stage", "Live");
@@ -83,20 +83,57 @@ class RegistrationPage extends Page {
 
         $welcomePage = DataObject::get_one('Page', "\"URLSegment\" = 'begruessung'");
         if (!$welcomePage) {
-            $welcomePage = new Page();
-            $welcomePage->Title = "Begrüßung";
-            $welcomePage->URLSegment = "begruessung";
-            $welcomePage->Status = "Published";
+            $welcomePage                = new Page();
+            $welcomePage->Title         = "Begrüßung";
+            $welcomePage->URLSegment    = "begruessung";
+            $welcomePage->Status        = "Published";
             if ($page instanceof RegistrationPage) {
                 $welcomePage->ParentID = $page->ID;
             }
-            $welcomePage->ShowInMenus = false;
-            $welcomePage->ShowInSearch = false;
+            $welcomePage->ShowInMenus   = false;
+            $welcomePage->ShowInSearch  = false;
             $welcomePage->write();
             $welcomePage->publish("Stage", "Live");
         }
-    }
+        $shopEmailRegistrationOptIn = DataObject::get_one(
+            'ShopEmail',
+            "Identifier = 'RegistrationOptIn'"
+        );
+        if (!$shopEmailRegistrationOptIn) {
+            $shopEmailRegistrationOptIn = new ShopEmail();
+            $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
+            $shopEmailRegistrationOptIn->setField('Subject',    'Bestätigen Sie bitte Ihre Registrierung');
+            $shopEmailRegistrationOptIn->setField('EmailText',  '<h1>Registrierung abschließen</h1>
 
+<p>Bitte bestätigen sie ihren Aktivierungs-Link, oder Kopieren sie den untenstehenden Link und fügen ihn in Ihren Browser ein.</p>
+
+<p>
+    <a href="$ConfirmationLink">Registrierung bestätigen</a>
+</p>
+
+<p>Falls die Registrierung unbeabsichtigt vorgenommen wurde, ignorieren sie diese E-Mail.</p>
+
+<p>Ihr Team</p>');
+            $shopEmailRegistrationOptIn->write();
+        }
+        $shopEmailRegistrationConfirmation = DataObject::get_one(
+            'ShopEmail',
+            "Identifier = 'RegistrationConfirmation'"
+        );
+        if (!$shopEmailRegistrationConfirmation) {
+            $shopEmailRegistrationConfirmation = new ShopEmail();
+            $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
+            $shopEmailRegistrationConfirmation->setField('Subject',    'Danke für Ihre Registrierung');
+            $shopEmailRegistrationConfirmation->setField('EmailText',  '<h1>Registrierung erfolgreich abgeschlossen!</h1>
+
+<p>Vielen Dank für Ihre Registrierung und das entgegengebrachte Vertrauen.</p>
+
+<p>Wir wünschen Ihnen eine schöne Zeit auf unserer Webseite!</p>
+
+<p>Ihr Team</p>');
+            $shopEmailRegistrationConfirmation->write();
+        }
+    }
 }
 
 /**
