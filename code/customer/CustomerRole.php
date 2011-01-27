@@ -23,7 +23,7 @@ class CustomerRole extends DataObjectDecorator {
                 'Salutation' => "Enum('Herr,Frau', 'Herr')",
                 'SubscribedToNewsletter' => 'Boolean',
                 'HasAcceptedTermsAndConditions' => 'Boolean',
-                'HasAcceptedDataPrivacyStatement' => 'Boolean',
+                'HasAcceptedRevocationInstruction' => 'Boolean',
                 'ConfirmationDate' => 'SS_DateTime',
                 'ConfirmationHash' => 'VarChar(100)',
                 'OptInStatus' => 'Boolean',

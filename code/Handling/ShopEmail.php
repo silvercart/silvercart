@@ -57,11 +57,11 @@ class ShopEmail extends DataObject {
      */
     public static function send($identifier, $to, $variables = array()) {
         $mailObj = DataObject::get_one(
-                        'ShopEmail',
-                        sprintf(
-                                "\"Identifier\" = '%s'",
-                                $identifier
-                        )
+            'ShopEmail',
+            sprintf(
+                    "\"Identifier\" = '%s'",
+                    $identifier
+            )
         );
 
         if (!$mailObj) {
@@ -76,17 +76,17 @@ class ShopEmail extends DataObject {
         $emailTextTemplate = new SSViewer_FromString($mailObj->EmailText);
         $emailText = HTTP::absoluteURLs($emailTextTemplate->process($templateVariables));
         $email = new Email(
-                        Email::getAdminEmail(),
-                        $to,
-                        $mailObj->Subject,
-                        $mailObj->EmailText
+            Email::getAdminEmail(),
+            $to,
+            $mailObj->Subject,
+            $mailObj->EmailText
         );
 
         $email->setTemplate('ShopEmail');
         $email->populateTemplate(
-                array(
-                    'ShopEmailMessage' => $emailText
-                )
+            array(
+                'ShopEmailMessage' => $emailText
+            )
         );
 
         $email->send();
