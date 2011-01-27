@@ -10,14 +10,8 @@
  */
 class Page extends SiteTree {
 
-    public static $db = array(
-        'LayoutType' => "int(3)",
-    );
     public static $has_one = array(
         'headerPicture' => 'Image'
-    );
-    public static $defaults = array(
-        'LayoutType' => 2
     );
 
     /**
@@ -29,21 +23,8 @@ class Page extends SiteTree {
      */
     public function getCMSFields() {
 
-        // add Page Layout Array
-        $layoutTypes = array(
-            1 => 'Einspalter',
-            11 => 'Einspalter mit Teaser',
-            2 => 'Zweispalter Content Links',
-            22 => 'Zweispalter Content Links mit Teaser',
-            3 => 'Zweispalter Content Rechts',
-            33 => 'Zweispalter Content Rechts mit Teaser',
-            4 => 'Dreispalter',
-            44 => 'Dreispalter mit Teaser',
-        );
-
         $fields = parent::getCMSFields();
         $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('headerPicture', 'Headergrafik'));
-        $fields->addFieldToTab("Root.Behaviour", new DropdownField('LayoutType', 'Layouttyp', $layoutTypes));
         return $fields;
     }
 
@@ -76,51 +57,10 @@ class Page_Controller extends ContentController implements PermissionProvider {
         $this->extend('init');
         parent::init();
 
-        $cssForLayoutType = $this->getCssForLayoutType($this->LayoutType);
-        Requirements::themedCSS($cssForLayoutType);
+        Requirements::themedCSS('layout');
         Requirements::javascript("pixeltricks_module/script/jquery.js");
         Requirements::javascript("silvercart/js/startupScripts.js");
         Requirements::javascript("silvercart/js/jquery.pixeltricks.tools.js");
-    }
-
-    /**
-     * set Yaml CSS framework Layoutcolumns to Page Template
-     *
-     * @param integer $LayoutType CSS Layout type
-     *
-     * @return string String as with name of used Layout
-     * @author Jiri Ripa <jripa@pixeltricks.de>
-     * @since 25.09.2010
-     */
-    public function getCssForLayoutType($LayoutType) {
-        switch ($LayoutType) {
-            case 1:
-                return 'layout1column';
-                break;
-            case 11:
-                return 'layout1columnTeaser';
-                break;
-            case 2:
-                return 'layout2columnLeft';
-                break;
-            case 22:
-                return 'layout2columnTeaserLeft';
-                break;
-            case 3:
-                return 'layout2columnRight';
-                break;
-            case 33:
-                return 'layout2columnTeaserRight';
-                break;
-            case 4:
-                return 'layout3column';
-                break;
-            case 44:
-                return 'layout3columnTeaser';
-                break;
-            default:
-                return 'layout2columnLeft';
-        }
     }
 
     /**

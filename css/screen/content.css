@@ -1,0 +1,652 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
+ *
+ * (en) Uniform design of standard content elements
+ * (de) Einheitliche Standardformatierungen für die wichtigten Inhalts-Elemente
+ *
+ * @copyright       Copyright 2005-2010, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.2.1
+ * @revision        $Revision:392 $
+ * @lastmodified    $Date:2009-07-05 12:18:40 +0200 (So, 05. Jul 2009) $
+ * @appdef yaml
+*/
+
+@media all
+{
+    /**
+     * Fonts
+     *
+     * (en) global settings of font-families and font-sizes
+     * (de) Globale Einstellungen für Zeichensatz und Schriftgrößen
+     *
+     * @section content-global-settings
+    */
+
+    /* (en) reset font size for all elements to standard (16 Pixel) */
+    /* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
+    html * { font-size:100.01%; }
+
+    /**
+     * (en) reset monospaced elements to font size 16px in all browsers
+     * (de) Schriftgröße von monospaced Elemente in allen Browsern auf 16 Pixel setzen
+     *
+     * @see: http://webkit.org/blog/67/strange-medium/
+    */
+
+    textarea, pre, code, kbd, samp, var, tt {
+        font-family:Consolas, "Lucida Console", "Andale Mono", "Bitstream Vera Sans Mono", "Courier New", Courier;
+    }
+
+    /* (en) base layout gets standard font size 12px */
+    /* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
+    body {
+        font-family: Verdana;
+        font-size:70.00%;
+        color:#666;
+    }
+
+    /*--- Headings | Überschriften ------------------------------------------------------------------------*/
+
+    h1,h2,h3,h4,h5,h6 {
+        font-family: verdana;
+        font-weight:normal;
+        color:#333;
+        margin:0 0 0.5em 0;
+    }
+
+    h1 { font-size:170%; color:#8C0011 }                       /* 30px */
+    h2 { font-size:150%; color:#8C0011 }                       /* 24px */
+    h3 { font-size:135%; }                       /* 18px */
+    h4 { font-size:105.33%; }                    /* 16px */
+    h5 { font-size:116.67%; }                    /* 14px */
+    h6 { font-size:116.67%; }                    /* 14px */
+
+    h3 a,  h3 a:visited { color:#8C0011 }
+
+    /* --- Lists | Listen  -------------------------------------------------------------------------------- */
+
+    ul, ol, dl { line-height:1.5em; margin:0 0 1em 1em; }
+    ul { list-style-type:none; }
+    ul ul { list-style-type:circle; margin-bottom:0; }
+
+    ol { list-style-type:decimal; }
+    ol ol { list-style-type:lower-latin; margin-bottom:0; }
+
+    li { margin-left:0.8em; line-height:1.5em; }
+
+    dt { font-weight:bold; }
+    dd { margin:0 0 1em 0.8em; }
+
+    /* --- general text formatting | Allgemeine Textauszeichnung ------------------------------------------ */
+
+    p { line-height:1.5em; margin:0 0 1em 0; }
+
+    blockquote, cite, q {
+        font-family:Georgia, "Times New Roman", Times, serif;
+        font-style:italic;
+    }
+    blockquote { margin:0 0 1em 1.6em; color:#666; }
+
+    strong,b { font-weight:bold; }
+    em,i { font-style:italic; }
+
+    big { font-size:116.667%; }
+    small { font-size:91.667%; }
+
+    pre { line-height:1.5em; margin:0 0 1em 0; }
+    pre, code, kbd, tt, samp, var { font-size:100%; }
+    pre, code { color:#800; }
+    kbd, samp, var, tt { color:#666; font-weight:bold; }
+    var, dfn { font-style:italic; }
+
+    acronym, abbr {
+        border-bottom:1px #aaa dotted;
+        font-variant:small-caps;
+        letter-spacing:.07em;
+        cursor:help;
+    }
+
+    sub, sup { font-size:91.6667%; line-height:0; }
+
+    hr {
+        color:#fff;
+        background:transparent;
+        margin:0 0 0.5em 0;
+        padding:0 0 0.5em 0;
+        border:0;
+        border-bottom:1px #eee solid;
+    }
+
+    /*--- Links ----------------------------------------------------------------------------------------- */
+
+    a { color:#3a3436; background:transparent; text-decoration:none; }
+    a:visited  { color:#3a3436; }
+
+    /* (en) maximum constrast for tab focus - change with great care */
+    /* (en) Maximaler Kontrast für Tab Focus - Ändern Sie diese Regel mit Bedacht */
+    a:focus { text-decoration:underline; color:#000; }
+    a:hover,
+    a:active { color:#8C0011; text-decoration:underline; outline: 0 none; }
+
+    /* --- images (with optional captions) | Bilder (mit optionaler Bildunterschrift) ------------------ */
+
+    p.icaption_left { float:left; display:inline; margin:0 1em 0.15em 0; }
+    p.icaption_right { float:right; display:inline; margin:0 0 0.15em 1em; }
+
+    p.icaption_left img,
+    p.icaption_right img { padding:0; border:1px #888 solid; }
+
+    p.icaption_left strong,
+    p.icaption_right strong { display:block; overflow:hidden; margin-top:2px; padding:0.3em 0.5em; background:#eee; font-weight:normal; font-size:91.667%; }
+
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Generic Content Classes
+     *
+     * (en) standard classes for positioning and highlighting
+     * (de) Standardklassen zur Positionierung und Hervorhebung
+     *
+     * @section content-generic-classes
+    */
+
+    .highlight { color:#c30; }
+    .dimmed { color:#888; }
+
+    .info { background:#f8f8f8; color:#666; padding:10px; margin-bottom:0.5em; font-size:91.7%; }
+
+    .note { background:#efe; color:#040; border:2px #484 solid; padding:10px; margin-bottom:1em; }
+    .important { background:#ffe; color:#440; border:2px #884 solid; padding:10px; margin-bottom:1em; }
+    .warning { background:#fee; color:#400; border:2px #844 solid; padding:10px; margin-bottom:1em; }
+
+    .float_left { float:left; display:inline; margin-right:1em; margin-bottom:0.15em; }
+    .float_right { float:right; display:inline; margin-left:1em; margin-bottom:0.15em; }
+    .center { display:block; text-align:center; margin:0.5em auto; }
+
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Tables | Tabellen
+     *
+     * (en) Generic classes for table-width and design definition
+     * (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
+     *
+     * @section content-tables
+    */
+
+    table { width:auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px #888 solid; border-bottom:0px #888 solid; }
+    table caption { font-variant:small-caps; }
+    table.full { width:100%; }
+    table.fixed { table-layout:fixed; }
+
+    th,td { padding:0.5em; }
+    thead th { color:#000; border-bottom:1px #800 solid; }
+    tbody th { background:#e0e0e0; color:#333; }
+    tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }
+
+    tbody th { border-bottom:1px solid #fff; text-align:left; }
+    tbody td { border-bottom:1px solid #eee; }
+
+    tbody tr:hover th[scope="row"],
+    tbody tr:hover tbody th.sub {  }
+    tbody tr:hover td {  }
+
+    tfoot td {border-top: 1px #800 solid; }
+
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Miscellaneous | Sonstiges
+     *
+     * @section content-misc
+    */
+
+    /**
+     * (en) Emphasizing external Hyperlinks via CSS
+     * (de) Hervorhebung externer Hyperlinks mit CSS
+     *
+     * @section             content-external-links
+     * @app-yaml-default    disabled
+    */
+
+    /*
+    #main a[href^="http://www.my-domain.com"],
+    #main a[href^="https://www.my-domain.com"]
+    {
+      padding-left:12px;
+      background-image:url('your_image.gif');
+      background-repeat:no-repeat;
+      background-position:0 0.45em;
+    }
+    */
+
+    .content_greybox {padding: 10px; width:100%; background-color:#e1e5e8; color: #993333}
+
+    #footer a {color:#3a3436}
+    #footer p {margin: 0; color: #fff; padding-left: 5px; font-style: italic; }
+    .footer_content {text-align: center; padding: 10px; color:#3a3436;}
+    #linkfooter {background: #3a3436; width: 100%; }
+    #linkfooter a {color: #fff}
+    #footer_margins { margin: 0 auto; width:980px; }
+    #footer_content {color:#000; text-align: left; padding: 10px 20px; }
+    #footer_content small { font-size: 80%; line-height: 5px;}
+    #footer_bottom {padding: 10px 20px; border-top:2px #888 solid;}
+
+    .translations {font-size: 70%}
+    .translations img {width:40px;}
+
+    /* SEARCH HEADERBAR LIST STYLES
+  ------------------------------------------------ */
+    .headerbar_margins {margin: 0 auto; width:980px; }
+    .headerbar_content {padding: 10px 20px 10px 20px;}
+    #headerbar  {font-size : 85%; border-bottom: 1px white solid;}
+    #headerbar a {color:#ccc}
+    #headerbar  .subcr {text-align: right;}
+    #headerbar  .button {padding: 3px 10px 3px 10px; line-height: 15px; border: 1px #ccc solid; display: inline-block; text-align: center; cursor:pointer;}
+
+    /* HEADER STYLES
+  ------------------------------------------------ */
+    #header .c50l img {margin: 40px 0 106px 10px}
+    #header .c50r  {text-align: right;}
+    #header .subcolumns {height: 303px;}
+
+    /* ARTIKELHOLDER + WARENGRUPPEN -> ARTIKEL PREVIEW LIST STYLES
+   ------------------------------------------------ */
+    #articles li { padding:  20px 0 20px 0 }
+
+    /* CARTFORM PREVIEW FORM STYLES
+    -------------------------------------------------*/
+    .price {
+        color: #000;
+        font-size: 1.8em;
+        vertical-align: middle;
+        text-align: right;
+        padding: 30px 1px 20px 20px;
+        color: #666666;
+        font-weight: normal;
+    }
+    .price small { font-size:60%; color: #666}
+    .artikelpreview .headline {border-bottom:1px #ccc solid;}
+    .artikelpreview .subcolumns .c33l .subcl {padding: 5px;}
+    .artikelpreview .subcolumns .c50r {vertical-align: middle; text-align: center;}
+
+    .pagination_content {padding:0 10px 10px 10px; font-size: 80%; font-weight: bold; text-align: right;}
+    .pagination_content strong {font-size: 150%; color: #8C0011; }
+
+    .addcartform { padding: 0; vertical-align: bottom;}
+    .addcartform .yform {background: transparent; padding: 0; margin: 0;  border: none; }
+    .addcartform .type-text .text {width: 30px; }
+    .addcartform .action  {min-width: 110px; border: 1px #888 solid; padding: 4px 20px 4px 20px; line-height: 25px;}
+
+    .addcartform .detailButton  { background:url("images/button_gray.png") repeat-x scroll left top #454545;
+                                       border-color:#DDDDDD #444444 #444444 #DDDDDD;
+                                       border-style:solid;
+                                       border-width:1px;
+                                       color:#000000;
+                                       padding: 4px 39px 4px 39px;
+                                       line-height: 25px;
+    }
+
+     .addcartform .detailButton:hover , .addcartform .detailButton:active, .yform .type-button input[type="submit"]:hover.action {
+                                      background:none repeat scroll 0 0 #555555;
+                                      border-color:#444444 #DDDDDD #DDDDDD #444444;
+                                      border-style:solid;
+                                      border-width:1px;
+                                      color:#FFFFFF;
+                                      text-decoration: none;
+    }
+
+    .yform .type-button input[type="submit"].action {
+        background:url("images/button_gray.png") repeat-x scroll left top #454545;
+        margin: 0 0 0 0;
+}
+
+    #shoppingCart table {width: 100%}
+    #shoppingCart .Actions  input { display: block;}
+
+   #Form_decrementAmountForm_action_doDecrementAmount {
+      background:url(images/button_remove.png) no-repeat center center;
+      cursor:pointer;
+      width: 18px;
+      height: 18px;
+      border: none;
+      color: #fff;
+   }
+
+   #Form_incrementAmountForm_action_doIncrementAmount {
+      background:url(images/button_add.png) no-repeat center center;
+      cursor:pointer;
+      width: 18px;
+      height: 18px;
+      border: none;
+      color: #fff;
+   }
+
+     #Form_removeFromCartForm_action_doRemoveFromCart {
+      background:url(images/button_delete.png) no-repeat top left;
+      padding-left: 20px;
+      cursor:pointer;
+      width: 100px;
+      height: 30px;
+      border: none;
+   }
+
+    .amount { width: 20px;}
+
+    .alignright {text-align: right; }
+
+    #shoppingCart .detailButton  { background:url("images/button_gray.png") repeat-x scroll left top #454545;
+                                       border-color:#DDDDDD #444444 #444444 #DDDDDD;
+                                       border-style:solid;
+                                       border-width:1px;
+                                       color:#000000;
+                                       padding: 4px 35px 4px 35px;
+                                       line-height: 25px;
+    }
+
+ #shoppingCart .detailButton:hover , .addcartform .detailButton:active {
+                                      background:none repeat scroll 0 0 #555555;
+                                      border-color:#444444 #DDDDDD #DDDDDD #444444;
+                                      border-style:solid;
+                                      border-width:1px;
+                                      color:#FFFFFF;
+    }
+
+    .articlePreviewBox {
+        margin-bottom: 4em;
+}
+.acticlePreviewPrice {
+    text-align: right;
+}
+
+    /* SEARCH RESULTS STYLES
+  ------------------------------------------------ */
+
+    ul#SearchResults {
+        margin: 10px 0;
+    }
+    ul#SearchResults li {
+        list-style: none;
+        margin: 5px 0;
+        font-size: 1em;
+    }
+
+    /* SEARCH FORM
+    -----------------------------------------------*/
+
+    #SearchForm_SearchForm {background: transparent; border: none; margin: 0; padding: 0; width: 210px; }
+
+    #SearchForm_SearchForm .yform {background: transparent; border: none; padding: 0; margin: 0;}
+
+    #SearchForm_SearchForm .type-text {float: left; width: 180px; padding: 0; margin: 0; color: #3a3436; font-size: 120%}
+    #SearchForm_SearchForm .type-text .text { width: 160px;}
+
+    /*#SearchForm_SearchForm #quickSearchQuery .clear {clear: none}*/
+    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(images/searchbutton_bg.png) no-repeat;}
+
+    #Search_Login {background: #3a3436; border: none; margin-top: 0; padding: 0; width: 300px;}
+
+    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(images/searchbutton_bg.png) no-repeat;}
+
+    #Search_Login .yform {background: transparent; border: none; padding: 5px 0 0 0; margin: 0;}
+
+    #Search_Login .type-text {float: left; color: #3a3436; margin: 0;padding:0;}
+    #Search_Login .type-text .text { width: 90%; padding-top:5px; margin-left: 5px; margin-bottom: 5px;}
+
+    #SendAction {Border: none;}
+
+    /* BUTTON STYLES
+       ------------------------------------------------ */
+
+    #quickCartBox { position: absolute;  z-index: 999; background: #fff; visibility: hidden;}
+    .widget {width:100%; margin-bottom: 35px; color: #000;}
+    .widget_content {padding: 5px;}
+    .widget span {font-size: 100%}
+
+    /* ------ Everything about the Blog ------ */
+    
+    #Sidebar{
+        padding: 10px;
+    }
+
+    .BlogSideBar h3{
+        color: #8C0011;
+        font-size:150%;
+    }
+
+    .blogSummary{
+        padding: 10px;
+    }
+
+    .blogEntry{
+        font-size:12px;
+        line-height:1.5em;
+        padding:10px;
+    }
+
+    .postTitle a{
+        color: #8C0011;
+        font-size:100%;
+    }
+    
+    .BlogContent{
+        font-size: 110%;
+    }
+
+    .tagcloud a{
+        font-size: 120%;
+    }
+
+    .BlogPageComments{
+        padding: 10px;
+    }
+
+    .BlogPageComments h4{
+        color: #8C0011;
+        font-size: 150%;
+    }
+
+    .BlogPageComments .left {
+        font-size: 110%;
+        margin: 5px;
+    }
+
+    .BlogPageComments .Actions{
+        width: 50px;
+        margin: 5px;
+    }
+
+    .middleColumn .text, textarea{
+        width: 200px;
+        margin: 5px;
+    }
+
+    #PageNumbers {
+        padding-left: 10px;
+    }
+
+    #PageNumbers a{
+        color: #8C0011;
+        font-size: 100%;
+    }
+
+    #Search_Login div.error, .note{
+        background:none repeat scroll 0 0 #3A3436;
+        border:1px solid white;
+        color:white;
+        margin: 1px 10px 5px 5px;
+        padding: 10px 5px 0 1px;
+    }
+
+    #Search_Login div.error .message {
+        color: #ccc;
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+
+    .errorlist{
+        text-align: left;
+    }
+    
+    .Footer_Blog{
+        padding-left: 6px;    
+    }
+
+    .Footer_Links{
+        text-align: right;
+        padding-right: 6px;
+    }
+
+    #CustomerArea{
+        text-align: right;
+        padding-right: 3px;
+    }
+
+    #CompanyInformations{
+        text-align: center;
+    }
+    
+    img.left{
+        float:left;
+        padding:5px;
+    }
+
+    img.right{
+        float:right;
+        padding:5px;
+    }
+
+    #Shopping_Checkout{
+        text-align: right;
+    }
+
+    #Customer{
+        text-align: center;
+    }
+
+    .hBox{
+        display: none;
+    }
+    
+    .Head_line{
+        text-align: left;
+        padding-left: 5px;
+        color: #ccc;
+    }
+
+    .LoginPopup{
+        border: 1px solid #ccc;
+    }
+
+    #modalLogin{
+       margin-top: 5px;
+       min-width: 302px;
+    }
+
+    .note ul, li {
+       text-align: left;
+    }
+
+    .MemberName{
+       margin-top: 1px;
+    }
+
+    .MetaNavigation{
+       margin-top: 3px;
+       padding-top: 1px;
+    }
+
+    .Katalog {
+        padding-left: 10px;
+        padding-bottom: 10px;
+        text-align: center
+    }
+
+    .items{
+        text-align: center
+    }
+
+    .Sitemap{
+        padding-left: 10px;
+    }
+
+    .ShoppingCartPage{
+        padding: 10px;
+    }
+
+    .Amount{
+        text-align: center;
+    }
+
+    .ShoppingCart{
+        color: #8C0011;
+    }
+
+    .subcolumns label {
+        text-align: left;
+}
+
+    .articlePreviewArticleTitle {
+        padding-bottom: 5px;
+        border-bottom: 1px solid #c9c9c9;
+    }
+
+    .emailIcon{
+        padding-top: 0.5px;
+    }
+
+    .pricewidth{
+        width: 60px;
+        text-align: center;
+    }
+    
+    #Shipping_Cost{
+        font-family: Verdana;
+        border: none;
+        color: #666;
+        padding-left: 6px;
+        text-align: center;
+    }
+
+    #ShippingInfos{
+        text-align: left;
+        padding-left: 33%;
+        padding-bottom: 10px;
+    }
+
+    #InvoiceInfos{
+        padding-right: 33%;
+    }
+
+    #Sum_Price{
+        font-family: Verdana;
+        border: none;
+        font-weight: bold;
+        color: #666;
+        padding-left: 6px;
+        text-align: center;
+    }
+
+    #MWST{
+        font-family: Verdana;
+        border: none;
+        color: #666;
+        padding-left: 6px;
+        text-align: center;
+    }
+    
+    .cartSummary {
+        width: 100%;
+    }
+    .cartSummary th td {
+        border-bottom: 1px #aaa solid;
+    }
+    .cartSummary tr.separator td {
+        border-bottom: 1px #aaa solid;
+    }
+}
