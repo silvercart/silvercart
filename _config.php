@@ -15,6 +15,9 @@ Director::addRules(100, array(
     'meinkonto/bestelluebersicht/$URLSegment!/$ID'  => 'OrderDetailPage_Controller'
 ));
 
+// disable default pages for SiteTree
+SiteTree::set_create_default_pages(false);
+
 // ----------------------------------------------------------------------------
 // Logging
 // ----------------------------------------------------------------------------
