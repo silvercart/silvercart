@@ -9,6 +9,7 @@
  * @license BSD
  */
 class CheckoutFormStep8 extends CustomHtmlForm {
+
     /**
      * Prozessormethode.
      *
@@ -19,38 +20,39 @@ class CheckoutFormStep8 extends CustomHtmlForm {
      * @since 16.11.2010
      */
     public function process() {
-        $member				= Member::currentUser();
-		$checkoutData		= $this->controller->getCombinedStepData();
-		$paymentSuccessful	= false;
+        $member = Member::currentUser();
+        $checkoutData = $this->controller->getCombinedStepData();
+        $paymentSuccessful = false;
 
-		if ($member) {
-			// Nachbearbeitung der Zahlungsmethode durchfuehren
-			if (!$this->controller->paymentMethodObj) {
-				$this->controller->paymentMethodObj = DataObject::get_by_id(
-                    'PaymentMethod',
-                    $checkoutData['PaymentMethod']
+        if ($member) {
+            // Nachbearbeitung der Zahlungsmethode durchfuehren
+            if (!$this->controller->paymentMethodObj) {
+                $this->controller->paymentMethodObj = DataObject::get_by_id(
+                                'PaymentMethod',
+                                $checkoutData['PaymentMethod']
                 );
-			}
+            }
 
-			$orderObj = DataObject::get_by_id(
-				'Order',
-				$checkoutData['orderId']
-			);
+            $orderObj = DataObject::get_by_id(
+                            'Order',
+                            $checkoutData['orderId']
+            );
 
-			if ($this->controller->paymentMethodObj &&
-				$orderObj) {
+            if ($this->controller->paymentMethodObj &&
+                    $orderObj) {
 
-				$this->controller->paymentMethodObj->setController($this->controller);
-				$paymentSuccessful = $this->controller->paymentMethodObj->processPaymentAfterOrder($orderObj);
-			} else {
-				Director::redirect($this->controller->Link().'/Cancel');
-				exit();
-			}
+                $this->controller->paymentMethodObj->setController($this->controller);
+                $paymentSuccessful = $this->controller->paymentMethodObj->processPaymentAfterOrder($orderObj);
+            } else {
+                Director::redirect($this->controller->Link() . '/Cancel');
+                exit();
+            }
 
-			if ($paymentSuccessful) {
-				$this->controller->addCompletedStep();
-				$this->controller->NextStep();
-			}
-		}
+            if ($paymentSuccessful) {
+                $this->controller->addCompletedStep();
+                $this->controller->NextStep();
+            }
+        }
     }
+
 }

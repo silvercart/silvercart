@@ -50,19 +50,20 @@ class CheckoutFormStep6 extends CustomHtmlForm {
     public function process() {
         $checkoutData = $this->controller->getCombinedStepData();
 
-		if (!$this->paymentMethodObj) {
-			$this->paymentMethodObj = DataObject::get_by_id(
-                'PaymentMethod',
-                $checkoutData['PaymentMethod']
+        if (!$this->paymentMethodObj) {
+            $this->paymentMethodObj = DataObject::get_by_id(
+                            'PaymentMethod',
+                            $checkoutData['PaymentMethod']
             );
-		}
+        }
 
-		if ($this->paymentMethodObj) {
-			$this->paymentMethodObj->setController($this->controller);
-			$this->paymentMethodObj->processReturnJumpFromPaymentProvider();
-		} else {
-			Director::redirect($this->controller->Link().'/Cancel');
-		}
+        if ($this->paymentMethodObj) {
+            $this->paymentMethodObj->setController($this->controller);
+            $this->paymentMethodObj->processReturnJumpFromPaymentProvider();
+        } else {
+            Director::redirect($this->controller->Link() . '/Cancel');
+        }
     }
+
 }
 

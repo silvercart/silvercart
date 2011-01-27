@@ -47,6 +47,17 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     );
 
     /**
+     * Voreinstellungen
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 26.1.2011
+     */
+    protected $preferences = array(
+        'submitButtonTitle'         => 'bestellen',
+        'stepTitle' => 'Übersicht'
+    );
+
+    /**
      * Initialisierung
      *
      * @param Controller $controller  Das Controllerobjekt

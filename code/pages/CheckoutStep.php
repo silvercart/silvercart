@@ -284,4 +284,43 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         return $amountTotalObj;
     }
 
+    /**
+     * Fügt den Versandadressdaten ein Präfix hinzu.
+     *
+     * @param string $prefix Präfix
+     * @param array  $data   Extrahiert die Versandadressdaten aus den Checkout-daten.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 05.01.2011
+     */
+    public function extractAddressDataFrom($prefix, $data) {
+        $addressData = array();
+        $shippingDataFields = array(
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Country'          => 'CountryID'
+        );
+
+        if (is_array($data)) {
+            foreach ($shippingDataFields as $shippingFieldName => $dataFieldName) {
+                if (isset($data[$shippingFieldName])) {
+                    $addressData[$dataFieldName] = $data[$shippingFieldName];
+                }
+            }
+        }
+
+        return $addressData;
+    }
+
 }

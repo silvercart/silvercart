@@ -21,6 +21,17 @@ class CheckoutFormStep2 extends CustomHtmlForm {
     );
 
     /**
+     * Voreinstellungen
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 26.1.2011
+     */
+    protected $preferences = array(
+        'submitButtonTitle'         => 'weiter',
+        'stepTitle' => 'Zahlart'
+    );
+
+    /**
      * Initialisierung
      *
      * @param Controller $controller  Das Controllerobjekt

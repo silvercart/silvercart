@@ -50,38 +50,39 @@ class CheckoutFormStep5 extends CustomHtmlForm {
      * @since 16.11.2010
      */
     public function process() {
-        $member				= Member::currentUser();
-		$checkoutData		= $this->controller->getCombinedStepData();
+        $member = Member::currentUser();
+        $checkoutData = $this->controller->getCombinedStepData();
 
-		if (!$this->paymentMethodObj) {
+        if (!$this->paymentMethodObj) {
             $this->paymentMethodObj = DataObject::get_by_id(
-                'PaymentMethod',
-                $checkoutData['PaymentMethod']
+                            'PaymentMethod',
+                            $checkoutData['PaymentMethod']
             );
-		}
+        }
 
-		if ($this->paymentMethodObj) {
-			$this->paymentMethodObj->setController($this->controller);
-			$orderAmount		= $member->ShoppingCart()->getPrice();
-			$taxAmount			= $member->ShoppingCart()->getTax();
-			$taxRate			= 0;
+        if ($this->paymentMethodObj) {
+            $this->paymentMethodObj->setController($this->controller);
+            $orderAmount = $member->ShoppingCart()->getPrice();
+            $taxAmount = $member->ShoppingCart()->getTax();
+            $taxRate = 0;
 
-			$this->paymentMethodObj->setCancelLink(Director::absoluteURL($this->controller->Link()).'Cancel');
-			$this->paymentMethodObj->setReturnLink(Director::absoluteURL($this->controller->Link()));
-			$this->paymentMethodObj->setData('order', 'amount_gross',	  $orderAmount->getAmount());
-			$this->paymentMethodObj->setData('order', 'tax_amount_gross', $taxAmount->getAmount());
-			$this->paymentMethodObj->setData('order', 'tax_rate',		  $taxRate);
-			$this->paymentMethodObj->setData('customer', array('details', 'FirstName'),   $member->FirstName);
-			$this->paymentMethodObj->setData('customer', array('details', 'SurName'),	  $member->Surname);
-			$this->paymentMethodObj->setData('customer', array('deliveryAddress', 'FirstName'),   $member->FirstName);
-			$this->paymentMethodObj->setData('customer', array('deliveryAddress', 'SurName'),	  $member->Surname);
-			$this->paymentMethodObj->setData('customer', array('shippingAddress', 'FirstName'),   $member->FirstName);
-			$this->paymentMethodObj->setData('customer', array('shippingAddress', 'SurName'),	  $member->Surname);
+            $this->paymentMethodObj->setCancelLink(Director::absoluteURL($this->controller->Link()) . 'Cancel');
+            $this->paymentMethodObj->setReturnLink(Director::absoluteURL($this->controller->Link()));
+            $this->paymentMethodObj->setData('order', 'amount_gross', $orderAmount->getAmount());
+            $this->paymentMethodObj->setData('order', 'tax_amount_gross', $taxAmount->getAmount());
+            $this->paymentMethodObj->setData('order', 'tax_rate', $taxRate);
+            $this->paymentMethodObj->setData('customer', array('details', 'FirstName'), $member->FirstName);
+            $this->paymentMethodObj->setData('customer', array('details', 'SurName'), $member->Surname);
+            $this->paymentMethodObj->setData('customer', array('deliveryAddress', 'FirstName'), $member->FirstName);
+            $this->paymentMethodObj->setData('customer', array('deliveryAddress', 'SurName'), $member->Surname);
+            $this->paymentMethodObj->setData('customer', array('shippingAddress', 'FirstName'), $member->FirstName);
+            $this->paymentMethodObj->setData('customer', array('shippingAddress', 'SurName'), $member->Surname);
 
-			$this->paymentMethodObj->processPaymentBeforeOrder();
-		} else {
-			Director::redirect($this->controller->Link().'/Cancel');
-		}
+            $this->paymentMethodObj->processPaymentBeforeOrder();
+        } else {
+            Director::redirect($this->controller->Link() . '/Cancel');
+        }
     }
+
 }
 
