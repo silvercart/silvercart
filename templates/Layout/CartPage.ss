@@ -3,9 +3,11 @@
         <h2>$Title</h2>
         $Content
         <% include ShoppingCart %>
+        <% if isFilledCart %>
         <div>
             <a class="detailButton" href="{$BaseHref}checkout/"><strong class="ShoppingCart">Zur Kasse</strong></a>
         </div>
+        <% end_if %>
         $Form
         $PageComments
 </div>

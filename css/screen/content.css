@@ -59,14 +59,14 @@
         margin:0 0 0.5em 0;
     }
 
-    h1 { font-size:170%; color:#8C0011 }                       /* 30px */
-    h2 { font-size:150%; color:#8C0011 }                       /* 24px */
+    h1 { font-size:170%; color:#429bb9 }                       /* 30px */
+    h2 { font-size:150%; color:#429bb9 }                       /* 24px */
     h3 { font-size:135%; }                       /* 18px */
     h4 { font-size:105.33%; }                    /* 16px */
     h5 { font-size:116.67%; }                    /* 14px */
     h6 { font-size:116.67%; }                    /* 14px */
 
-    h3 a,  h3 a:visited { color:#8C0011 }
+    h3 a,  h3 a:visited { color:#429bb9 }
 
     /* --- Lists | Listen  -------------------------------------------------------------------------------- */
 
@@ -100,7 +100,7 @@
 
     pre { line-height:1.5em; margin:0 0 1em 0; }
     pre, code, kbd, tt, samp, var { font-size:100%; }
-    pre, code { color:#800; }
+    pre, code { color:#429bb9; }
     kbd, samp, var, tt { color:#666; font-weight:bold; }
     var, dfn { font-style:italic; }
 
@@ -131,7 +131,7 @@
     /* (en) Maximaler Kontrast für Tab Focus - Ändern Sie diese Regel mit Bedacht */
     a:focus { text-decoration:underline; color:#000; }
     a:hover,
-    a:active { color:#8C0011; text-decoration:underline; outline: 0 none; }
+    a:active { color:#429bb9; text-decoration:underline; outline: 0 none; }
 
     /* --- images (with optional captions) | Bilder (mit optionaler Bildunterschrift) ------------------ */
 
@@ -185,7 +185,7 @@
     table.fixed { table-layout:fixed; }
 
     th,td { padding:0.5em; }
-    thead th { color:#000; border-bottom:1px #800 solid; }
+    thead th { color:#000; border-bottom:1px #429bb9 solid; }
     tbody th { background:#e0e0e0; color:#333; }
     tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }
 
@@ -196,7 +196,7 @@
     tbody tr:hover tbody th.sub {  }
     tbody tr:hover td {  }
 
-    tfoot td {border-top: 1px #800 solid; }
+    tfoot td {border-top: 1px #429bb9 solid; }
 
     /**
      * ------------------------------------------------------------------------------------------------- #
@@ -240,20 +240,9 @@
     .translations {font-size: 70%}
     .translations img {width:40px;}
 
-    /* SEARCH HEADERBAR LIST STYLES
-  ------------------------------------------------ */
-    .headerbar_margins {margin: 0 auto; width:980px; }
-    .headerbar_content {padding: 10px 20px 10px 20px;}
-    #headerbar  {font-size : 85%; border-bottom: 1px white solid;}
-    #headerbar a {color:#ccc}
-    #headerbar  .subcr {text-align: right;}
-    #headerbar  .button {padding: 3px 10px 3px 10px; line-height: 15px; border: 1px #ccc solid; display: inline-block; text-align: center; cursor:pointer;}
-
     /* HEADER STYLES
   ------------------------------------------------ */
-    #header .c50l img {margin: 40px 0 106px 10px}
     #header .c50r  {text-align: right;}
-    #header .subcolumns {height: 303px;}
 
     /* ARTIKELHOLDER + WARENGRUPPEN -> ARTIKEL PREVIEW LIST STYLES
    ------------------------------------------------ */
@@ -276,7 +265,7 @@
     .artikelpreview .subcolumns .c50r {vertical-align: middle; text-align: center;}
 
     .pagination_content {padding:0 10px 10px 10px; font-size: 80%; font-weight: bold; text-align: right;}
-    .pagination_content strong {font-size: 150%; color: #8C0011; }
+    .pagination_content strong {font-size: 150%; color: #429bb9; }
 
     .addcartform { padding: 0; vertical-align: bottom;}
     .addcartform .yform {background: transparent; padding: 0; margin: 0;  border: none; }
@@ -415,7 +404,7 @@
     }
 
     .BlogSideBar h3{
-        color: #8C0011;
+        color: #429bb9;
         font-size:150%;
     }
 
@@ -430,7 +419,7 @@
     }
 
     .postTitle a{
-        color: #8C0011;
+        color: #429bb9;
         font-size:100%;
     }
     
@@ -447,7 +436,7 @@
     }
 
     .BlogPageComments h4{
-        color: #8C0011;
+        color: #429bb9;
         font-size: 150%;
     }
 
@@ -471,7 +460,7 @@
     }
 
     #PageNumbers a{
-        color: #8C0011;
+        color: #429bb9;
         font-size: 100%;
     }
 
@@ -584,7 +573,7 @@
     }
 
     .ShoppingCart{
-        color: #8C0011;
+        color: #429bb9;
     }
 
     .subcolumns label {

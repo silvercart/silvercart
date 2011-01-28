@@ -29,13 +29,13 @@
   /* (de) Randbereiche & Seitenhintergrund */
   body { background: #fff url("images/bg.jpg") repeat-x top left fixed; padding: 0; }
 
-  #headerbar {height: 40px; width: 100%; background:#3a3436; position:fixed; left: 0; top:0; z-index: 100;}
+  #headerbar {height: 40px; width: 100%; background:#959697; position:fixed; left: 0; top:0; z-index: 100; font-size : 85%; border-bottom: 1px white solid;}
 
   /* Layout Alignment | Layout-Ausrichtung */  /* Layout Properties | Layout-Eigenschaften */
   .page_margins { width: 980px; margin: 42px auto 0; background: #fff; }
 
   .page { padding: 0; border: 1px black solid }
-  #header { padding: 0 ; color: #000; background: #e2e6e9 url("images/header.jpg") no-repeat; }
+  #header { padding: 0 ; color: #000; background: #e2e6e9; }
   #topnav { position:static; color: #aaa; background: transparent;  }
   #header #topnav { }
   #nav { overflow:hidden; }
@@ -48,6 +48,28 @@
   #nav ul { margin-left: 20px; }
 
   /*-------------------------------------------------------------------------*/
+
+
+  #main { float: left; width: 100% }
+  #teaser { display: none; }
+
+
+  #col1 { float: left; width: 70%}
+  #col2 { display:none}
+  #col3 { width: auto; margin: 0 0 0 70%}
+  #col1_content { padding: 20px 10px 0 20px }
+  #col2 { display:none}
+  #col3_content { padding: 20px 20px 0 10px }
+  /* use col4 for one-column-pages */
+  #col4 { float: left; width: 100%}
+  #col4_content { padding: 20px 20px 0 20px }
+
+    /* SEARCH HEADERBAR LIST STYLES
+  ------------------------------------------------ */
+  .headerbar_margins {margin: 0 auto; width:980px; }
+  .headerbar_content {padding: 10px 20px 10px 20px;}
+  #headerbar a {color:#ccc}
+  #headerbar .subcr {text-align: right;}
+  #headerbar .button {padding: 3px 10px 3px 10px; line-height: 15px; border: 1px #ccc solid; display: inline-block; text-align: center; cursor:pointer;}
  
-  
 }

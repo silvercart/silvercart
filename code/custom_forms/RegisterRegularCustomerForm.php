@@ -319,7 +319,7 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
         $this->sendOptInMail($formData);
 
         // Redirect to welcome page
-        //Director::redirect('registrierung/begruessung');
+        Director::redirect('registrierung/begruessung');
     }
 
     /**

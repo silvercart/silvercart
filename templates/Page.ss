@@ -68,7 +68,7 @@
                                 <ul class="translations">
                                     <% control Translations %>
                                     <li class="$Locale.RFC1766">
-                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SHOWINPAGE','Show page in %s'),$Locale.Nice) %>"><img alt="$Locale" src="{$themeDir}/images/icons/flags/{$Locale}.png" /></a>
+                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SHOWINPAGE','Sprache auf %s setzen'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
                                     </li>
                                     <% end_control %>
                                 </ul>

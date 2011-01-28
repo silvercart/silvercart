@@ -63,7 +63,7 @@
     .hlist ul li a,
     .hlist ul li strong {
         background:transparent;
-        color:#8c0011;
+        color:#429bb9;
         display:block;
         font-size:110%;
         font-weight:bold;
@@ -93,7 +93,7 @@
     .hlist ul li.active strong,
     .hlist ul li.active a:focus,
     .hlist ul li.active a:hover,
-    .hlist ul li.active a:active { background:transparent; color:#fff; text-decoration:none; }
+    .hlist ul li.active a:active { background:transparent; color:#959697; text-decoration:none; }
 
 
 
