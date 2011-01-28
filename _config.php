@@ -40,3 +40,5 @@ $relPath = substr(Director::makeRelative($path), 1);
 
 define('PIXELTRICKS_CHECKOUT_BASE_PATH', $path);
 define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
+
+CustomHtmlForm::registerModule('silvercart',49);
