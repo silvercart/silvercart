@@ -35,23 +35,6 @@
 						</li>
 					<% end_if %>
                 <% end_control %>
-            <% control StepList %>
-                <% control step %>
-                    <% if StepIsVisible %>
-                    <li<% if IsCurrentStep %> class="active"<% end_if %>>
-                        <% if IsCurrentStep %>
-                        <p><% if StepImage %>$StepImage<% end_if %>$StepTitle</p>
-                        <% else_if isStepCompleted %>
-                        <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle</a>
-                        <% else_if isPreviousStepCompleted %>
-                        <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle</a>
-                        <% else %>
-                        <p><% if StepImage %>$StepImage<% end_if %>$StepTitle</p>
-                        <% end_if %>
-                    </li>
-                    <% end_if %>
-                <% end_control %>
-            <% end_control %>
                 </ul>
 
             </div>
