@@ -271,16 +271,13 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
         $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
                                           $formData['BirthdayMonth'] . '-' .
                                           $formData['BirthdayDay'];
-        $customer = new RegularCustomer();
-        $customer->castedUpdate($formData);
-        $customer->write();
-        $customer->changePassword($formData['Password']);
-        
+
         // Create new regular customer and perform a log in
         $customer = new RegularCustomer();
         $customer->castedUpdate($formData);
         $customer->write();
         $customer->logIn();
+        $customer->changePassword($formData['Password']);
 
         // Add customer to intermediate group
         $customerGroup = DataObject::get_one(
