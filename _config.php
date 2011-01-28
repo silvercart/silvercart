@@ -18,6 +18,11 @@ Director::addRules(100, array(
 // disable default pages for SiteTree
 SiteTree::set_create_default_pages(false);
 
+// Set default language
+Translatable::set_default_locale("de_DE");
+i18n::enable();
+i18n::set_default_locale('de_DE');
+
 // ----------------------------------------------------------------------------
 // Logging
 // ----------------------------------------------------------------------------
