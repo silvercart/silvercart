@@ -11,6 +11,30 @@
  */
 class CheckoutStep extends CustomHtmlFormStepPage {
 
+    /**
+     * Creates a default checkout page if non exists.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.01.2011
+     */
+    public function requireDefaultRecords() {
+        parent::requireDefaultRecords();
+
+        $records = DataObject::get_one($this->ClassName);
+        if (!$records) {
+            $page               = new $this->ClassName();
+            $page->Title        = "Checkout";
+            $page->URLSegment   = "checkout";
+            $page->Status       = "Published";
+            $page->ShowInMenus  = true;
+            $page->ShowInSearch = true;
+            $page->write();
+            $page->publish("Stage", "Live");
+        }
+    }
 }
 
 /**
