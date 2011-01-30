@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Spezielle Tabelle fuer die Auflistung von Emails.
+ * table for display of email templates
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 03.12.2010
@@ -12,14 +11,14 @@
 class EmailTableField extends ComplexTableField {
 
     /**
-     * Das Template fuer die Tabelle.
+     * template for the table
      *
      * @var string
      */
     protected $template = "EmailTableField";
 
     /**
-     * Konstruktor
+     * constructor
      *
      * @param string $controller       current controller
      * @param string $name             field name
@@ -41,7 +40,7 @@ class EmailTableField extends ComplexTableField {
     }
 
     /**
-     * Liefert den FieldHolder
+     * returns the FieldHolder
      *
      * @return FieldHolder
      *
@@ -58,7 +57,7 @@ class EmailTableField extends ComplexTableField {
     }
 
     /**
-     * Beschreibung
+     * descriptions
      *
      * @return DataObjectSet
      *

@@ -21,7 +21,7 @@ class CheckoutFormStep3 extends CustomHtmlForm {
     );
 
     /**
-     * Voreinstellungen
+     * preferences
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 26.1.2011
@@ -32,12 +32,12 @@ class CheckoutFormStep3 extends CustomHtmlForm {
     );
 
     /**
-     * Initialisierung
+     * constructor
      *
-     * @param Controller $controller  Das Controllerobjekt
-     * @param array      $params      Zusaetzliche Parameter
-     * @param array      $preferences Array mit Voreinstellungen
-     * @param bool       $barebone    Gibt an, ob das Formular komplett initialisiert werden soll
+     * @param Controller $controller  the controller object
+     * @param array      $params      additional parameters
+     * @param array      $preferences array with preferences
+     * @param bool       $barebone    is the form initialized completely?
      *
      * @return void
      *
@@ -72,20 +72,18 @@ class CheckoutFormStep3 extends CustomHtmlForm {
         if ($paymentMethod) {
             $allowedShippingMethods = $paymentMethod->shippingMethods();
             if ($allowedShippingMethods) {
-                $this->formFields['ShippingMethod']['value'] = $allowedShippingMethods->map('ID', 'TitleWithCarrierAndFee', '--Versandart--');
+                $this->formFields['ShippingMethod']['value'] = $allowedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('CheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
         }
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
-     * Speichert die gesendeten Formulardaten in der Session zum spaeteren
-     * Abruf.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     Enthaelt die gesendeten "rohen" Formulardaten
-     * @param Form           $form     wird nicht verwendet
-     * @param array          $formData Enthaelt die geparsten Formulardaten
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @return void
      *

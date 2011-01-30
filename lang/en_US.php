@@ -1,0 +1,40 @@
+<?php
+
+global $lang;
+
+$lang['en_US']['PaymentMethod']['SHIPPINGMETHOD'] = 'shipping method';
+$lang['en_US']['ShopAdmin']['PAYMENT_ISACTIVE'] = 'activated';
+$lang['en_US']['ShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'minimum amout for module';
+$lang['en_US']['ShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'maximum amount for module';
+$lang['en_US']['PaymentMethod']['STANDARD_ORDER_STATUS'] = 'standard order status for this payment method';
+$lang['en_US']['PaymentMethod']['BASIC_SETTINGS'] = 'basic settings';
+$lang['en_US']['Zone']['COUNTRIES'] = 'countries';
+$lang['en_US']['Article']['MASTERARTICLE'] = 'master article';
+$lang['en_US']['Article']['CHOOSE_MASTER'] = '-- choose master --';
+$lang['en_US']['Article']['QUANTITY'] = 'quantity';
+$lang['en_US']['Article']['ADD_TO_CART'] = 'ad to cart';
+$lang['en_US']['ShopAdmin']['PAYMENT_NAME'] = 'name';
+$lang['en_US']['ShopAdmin']['PAYMENTMETHODS'] = 'payment methods';
+$lang['en_US']['ShopAdmin']['SHIPPING_TITLE'] = 'name';
+$lang['en_US']['ShopAdmin']['SHIPPING_ISACTIVE'] = 'activated';
+$lang['en_US']['ShopAdmin']['SHIPPING_MINAMOUNTFORACTIVATION'] = 'minimum amout for module';
+$lang['en_US']['ShopAdmin']['SHIPPING_MAXAMOUNTFORACTIVATION'] = 'maximum amount for module';
+$lang['en_US']['ShopAdmin']['SHIPPINGMETHODS'] = 'shipping methods';
+$lang['en_US']['ShopAdmin']['ZONE_NAME'] = 'name';
+$lang['en_US']['ShopAdmin']['ZONE_ISACTIVE'] = 'activated';
+$lang['en_US']['ShopAdmin']['ZONE_MINAMOUNTFORACTIVATION'] = 'minimum amout for module';
+$lang['en_US']['ShopAdmin']['ZONE_MAXAMOUNTFORACTIVATION'] = 'maximum amount for module';
+$lang['en_US']['ShopAdmin']['ZONES'] = 'zones';
+$lang['en_US']['ShopAdmin']['TAX_TITLE'] = 'title';
+$lang['en_US']['ShopAdmin']['TAX_RATE'] = 'tax rate in percent';
+$lang['en_US']['ShopAdmin']['TAXRATES'] = 'tax rates';
+$lang['en_US']['ShopAdmin']['EMAIL_IDENTIFIER'] = 'identifier';
+$lang['en_US']['ShopAdmin']['EMAIL_SUBJECT'] = 'subject';
+$lang['en_US']['ShopAdmin']['EMAIL_TEXT'] = 'text';
+$lang['en_US']['ShopAdmin']['EMAIL_VARIABLES'] = 'variables';
+$lang['en_US']['ShopAdmin']['EMAILS'] = 'emails';
+$lang['en_US']['ShopAdmin']['EMAIL_TITLE'] = 'title';
+$lang['en_US']['CheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--country--';
+$lang['en_US']['CheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
+$lang['en_US']['CheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
+$lang['en_US']['EditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';

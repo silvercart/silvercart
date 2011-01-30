@@ -20,7 +20,7 @@ class OrderAdmin extends ModelAdmin {
         'PaymentMethod',
         'ShippingFee'
     );
-    static $url_segment = 'orders';
-    static $menu_title = 'Bestellungen';
+    public static $url_segment = 'orders';
+    public static $menu_title = 'Bestellungen';
 
 }

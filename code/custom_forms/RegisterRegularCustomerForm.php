@@ -11,7 +11,7 @@
 class RegisterRegularCustomerForm extends CustomHtmlForm {
 
     /**
-     * Enthaelt die zu pruefenden und zu verarbeitenden Formularfelder.
+     * define form fields
      *
      * @var array
      */

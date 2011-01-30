@@ -170,7 +170,7 @@ class CheckoutFormStep1 extends CustomHtmlForm {
     );
 
     /**
-     * Voreinstellungen
+     * preferences
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 26.1.2011
@@ -181,12 +181,12 @@ class CheckoutFormStep1 extends CustomHtmlForm {
     );
 
     /**
-     * Initialisierung
+     * init
      *
-     * @param Controller $controller  Das Controllerobjekt
-     * @param array      $params      Zusaetzliche Parameter
-     * @param array      $preferences Array mit Voreinstellungen
-     * @param bool       $barebone    Gibt an, ob das Formular komplett initialisiert werden soll
+     * @param Controller $controller  the controller object
+     * @param array      $params      additional parameters
+     * @param array      $preferences array with preferences
+     * @param bool       $barebone    is the form initialized completely?
      *
      * @return void
      *
@@ -217,8 +217,8 @@ class CheckoutFormStep1 extends CustomHtmlForm {
     protected function fillInFieldValues() {
         $countries = DataObject::get('Country');
         if ($countries) {
-            $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', '--Land--');
-            $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', '--Land--');
+            $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('CheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+            $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('CheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
         }
         $member = CustomerRole::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
         if ($member) {
@@ -253,14 +253,12 @@ class CheckoutFormStep1 extends CustomHtmlForm {
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
-     * Speichert die gesendeten Formulardaten in der Session zum spaeteren
-     * Abruf.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     Enthaelt die gesendeten "rohen" Formulardaten
-     * @param Form           $form     wird nicht verwendet
-     * @param array          $formData Enthaelt die geparsten Formulardaten
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @return void
      *

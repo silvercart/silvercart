@@ -10,8 +10,8 @@
  */
 class ShippingMethod extends DataObject {
 
-    public static $singular_name = "Versandart";
-    public static $plural_name = "Versandarten";
+    public static $singular_name = "shipping method";
+    public static $plural_name = "shipping methods";
     public static $db = array(
         'Title' => 'VarChar'
     );
@@ -114,7 +114,7 @@ class ShippingMethod extends DataObject {
      */
     public function getTitleWithCarrierAndFee() {
         if ($this->getShippingFee()) {
-            $titleWithCarrierAndFee = $this->carrier()->Title . "-" . $this->Title ." (+". number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') . "€)";
+            $titleWithCarrierAndFee = $this->carrier()->Title . "-" . $this->Title ." (+". number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .$this->getShippingFee()->Price->getSymbol().")";
             return $titleWithCarrierAndFee;
         }
     }

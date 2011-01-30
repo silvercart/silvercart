@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Beschreibung des Formulars.
+ * form definition
  *
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -11,7 +11,7 @@
 class QuickSearchForm extends CustomHtmlForm {
 
     /**
-     * Enthaelt die zu pruefenden und zu verarbeitenden Formularfelder.
+     * form field definition
      *
      * @var array
      */
@@ -40,12 +40,12 @@ class QuickSearchForm extends CustomHtmlForm {
     );
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     session data
-     * @param Form           $form     the form object
-     * @param array          $formData CustomHTMLForms Session data
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Oliver Scheer <oscheer@pixeltricks.de>

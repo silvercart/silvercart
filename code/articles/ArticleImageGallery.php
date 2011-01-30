@@ -8,8 +8,8 @@
  * @copyright Pixeltricks GmbH
  */
 class ArticleImageGallery extends DataObject {
-    static $singular_name = "Galerie";
-    static $plural_name = "Gallerien";
+    static $singular_name = "gallery";
+    static $plural_name = "galleries";
     public static $db = array(
         'Title' => 'VarChar'
     );

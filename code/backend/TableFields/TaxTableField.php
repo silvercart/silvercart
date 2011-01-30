@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Spezielle Tabelle fuer die Auflistung von Steuersaetzen.
+ * table for display of taxes
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -12,14 +12,14 @@
 class TaxTableField extends ComplexTableField {
 
     /**
-     * Das Template fuer die Tabelle.
+     * the template for the table
      *
      * @var string
      */
     protected $template = "TaxTableField";
 
     /**
-     * Konstruktor
+     * constructor
      *
      * @param string $controller       current controller
      * @param string $name             field name
@@ -41,7 +41,7 @@ class TaxTableField extends ComplexTableField {
     }
 
     /**
-     * Liefert den FieldHolder
+     * returns the FieldHolder
      *
      * @return FieldHolder
      *
@@ -58,7 +58,7 @@ class TaxTableField extends ComplexTableField {
     }
 
     /**
-     * Beschreibung
+     * description
      *
      * @return DataObjectSet
      *
@@ -86,9 +86,8 @@ class TaxTableField extends ComplexTableField {
 }
 
 /**
- * Spezielle Tabelle fuer die Auflistung von Steuersaetzen.
+ * ???
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 24.11.2010

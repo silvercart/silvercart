@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Definiert Steuersaetze.
+ * abstract for taxes
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 24.11.2010
@@ -12,7 +11,7 @@
 class Tax extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
+     * singular name for backend
      *
      * @var string
      *
@@ -20,9 +19,10 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $singular_name = "Steuer";
+    static $singular_name = "tax";
+
     /**
-     * Plural-Beschreibung zur Darstellung im Backend.
+     * plural name for backend
      *
      * @var string
      *
@@ -30,9 +30,10 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $plural_name = "Steuern";
+    static $plural_name = "taxes";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -44,8 +45,9 @@ class Tax extends DataObject {
         'Title'             => 'VarChar',
         'Rate'              => 'VarChar(3)'
     );
+
     /**
-     * n:m Beziehungen
+     * n:m relations
      *
      * @var array
      *
