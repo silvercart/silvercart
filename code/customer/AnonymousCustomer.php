@@ -26,7 +26,7 @@ class AnonymousCustomer extends Member {
         
         if (!$group) {
             $group = new Group();
-            $group->Title = "anonyme Kunden";
+            $group->Title = _t('AnonymousCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
             $group->Code = "anonymous";
             $group->write();
         }
@@ -34,6 +34,7 @@ class AnonymousCustomer extends Member {
 
     /**
      * distinguish customer classes
+     * determin if a customer is an anonymous customer
      *
      * @return Object an instance of AnonymousCustomer of false
      * @author Roland Lehmann <rlehmann@pixeltricks.de>

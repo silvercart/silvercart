@@ -1,6 +1,6 @@
 <?php
 /**
- * ShoppingCart Objekt
+ * abstract for shopping cart
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -45,7 +45,7 @@ class ShoppingCart extends DataObject {
     public static $plural_name = "Warenkörbe";
 
     /**
-     * 1:n Beziehungen
+     * 1:n relations
      *
      * @var array
      *
@@ -71,7 +71,7 @@ class ShoppingCart extends DataObject {
     );
 
     /**
-     * Initialisation
+     * initialisation
      *
      * @return void
      *
@@ -86,9 +86,9 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Legt einen Artikel in den Warenkorb.
+     * adds an article to the cart
      *
-     * @param array $formData Die gesendeten Formulardaten
+     * @param array $formData the sended form data
      *
      * @return bool
      *
@@ -127,7 +127,7 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Loescht alle Positionen aus dem Warenkorb.
+     * empties cart
      *
      * @return void
      *
@@ -144,10 +144,9 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Gibt die Menge aller Artikel im Warenkorb zurueck.
+     * returns quantity of all articles in the cart
      *
-     * @param int $articleId Wenn angegeben, wird nur die Menge der Artikel
-     *                       geliefert, deren ID der $articleId entspricht
+     * @param int $articleId if set only article quantity of this article is returned
      *
      * @return int
      *
@@ -170,12 +169,12 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Gibt die Summe aller Artikel im Warenkorb zurueck.
+     * returns the price sum of all articles in the cart
      *
      * @param bool  $withModules    Calculate the total sum with modules activated
-     * @param array $excluceModules Calculate the total sum with some modules deactivated
+     * @param array $excludeModules Calculate the total sum with some modules deactivated
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.10
@@ -209,9 +208,9 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Gibt die Summe aller Mehrwertsteuern im Warenkorb zurueck.
+     * returns tax included in $this
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 24.11.10
@@ -252,8 +251,7 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Alle ShoppingCarPositions entfernen, wenn der Warenkorb selbst
-     * geloescht wird.
+     * deletes all shopping cart positions when cart is deleted
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.10.2010

@@ -55,8 +55,8 @@ class ShippingFee extends DataObject {
        if ($zones) {
            $fields->addFieldToTab(
                    "Root.Main",
-                   new DropdownField('zoneID', 'Zone (nur die des Frachtführers verfügbar)',
-                           $zones->toDropDownMap('ID', 'Title', "-- Zone wählen --")
+                   new DropdownField('zoneID', _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
+                           $zones->toDropDownMap('ID', 'Title', _t('ShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
                            )
                    );
        }
