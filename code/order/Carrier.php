@@ -60,6 +60,21 @@ class Carrier extends DataObject {
     );
 
     /**
+     * Summaryfields for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $summary_fields = array(
+        'Title'                     => 'Name',
+        'AttributedZones'           => 'Zugeordnete Zonen',
+        'AttributedShippingMethods' => 'Zugeordnete Versandart'
+    );
+
+    /**
      * Column labels for display in tables.
      *
      * @var array
@@ -69,8 +84,24 @@ class Carrier extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title'             => 'Name',
-        'FullTitle'         => 'voller Name'
+        'Title'                     => 'Name',
+        'FullTitle'                 => 'voller Name',
+        'AttributedZones'           => 'Zugeordnete Zonen',
+        'AttributedShippingMethods' => 'Zugeordnete Versandart'
+    );
+
+    /**
+     * Virtual database fields.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $casting = array(
+        'AttributedZones'           => 'Varchar(255)',
+        'AttributedShippingMethods' => 'Varchar(255)'
     );
 
     /**
@@ -98,5 +129,63 @@ class Carrier extends DataObject {
                 $shippingMethod->write();
             }
         }
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedZones() {
+        $attributedZonesStr = '';
+        $attributedZones    = array();
+        $maxLength          = 150;
+
+        foreach ($this->zones() as $zone) {
+            $attributedZones[] = $zone->Title;
+        }
+
+        if (!empty($attributedZones)) {
+            $attributedZonesStr = implode(', ', $attributedZones);
+
+            if (strlen($attributedZonesStr) > $maxLength) {
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedZonesStr;
+    }
+
+    /**
+     * Returns the attributed shipping methods as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedShippingMethods() {
+        $attributedShippingMethodsStr = '';
+        $attributedShippingMethods    = array();
+        $maxLength          = 150;
+
+        foreach ($this->shippingMethods() as $shippingMethod) {
+            $attributedShippingMethods[] = $shippingMethod->Title;
+        }
+
+        if (!empty($attributedShippingMethods)) {
+            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
+
+            if (strlen($attributedShippingMethodsStr) > $maxLength) {
+                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedShippingMethodsStr;
     }
 }

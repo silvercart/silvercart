@@ -83,9 +83,10 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'MaximumWeight'     => 'Maximalgewicht (g)',
-        'PriceFormatted'    => 'Kosten',
-        'zone.Title'        => 'Zone'
+        'zone.Title'                => 'Für Zone',
+        'AttributedShippingMethods' => 'Zugeordnete Versandart',
+        'MaximumWeight'             => 'Maximalgewicht (g)',
+        'PriceFormatted'            => 'Kosten'
     );
 
     /**
@@ -98,8 +99,10 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'MaximumWeight'     => 'Maximalgewicht (g)',
-        'Price'             => 'Kosten'
+        'MaximumWeight'             => 'Maximalgewicht (g)',
+        'Price'                     => 'Kosten',
+        'zone.Title'                => 'Für Zone',
+        'AttributedShippingMethods' => 'Zugeordnete Versandart'
     );
 
     /**
@@ -125,7 +128,8 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'PriceFormatted' => 'Varchar(20)'
+        'PriceFormatted'            => 'Varchar(20)',
+        'AttributedShippingMethods' => 'Varchar(255)'
     );
 
     /**
@@ -169,6 +173,35 @@ class ShippingFee extends DataObject {
      */
     public function PriceFormatted() {
         return $this->Price->Nice();
+    }
+
+    /**
+     * Returns the attributed shipping methods as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedShippingMethods() {
+        $attributedShippingMethodsStr = '';
+        $attributedShippingMethods    = array();
+        $maxLength          = 150;
+
+        foreach ($this->shippingMethod() as $shippingMethod) {
+            $attributedShippingMethods[] = $shippingMethod->Title;
+        }
+
+        if (!empty($attributedShippingMethods)) {
+            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
+
+            if (strlen($attributedShippingMethodsStr) > $maxLength) {
+                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedShippingMethodsStr;
     }
 }
 

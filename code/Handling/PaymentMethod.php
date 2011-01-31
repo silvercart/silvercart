@@ -162,8 +162,10 @@ class PaymentMethod extends DataObject {
      * @since 08.11.2010
      */
     public static $summary_fields = array(
-        'isActive'                  => 'aktiviert?',
         'Name'                      => 'Bezeichnung',
+        'activatedStatus'           => 'aktiviert?',
+        'AttributedZones'           => 'Zugeordnete Zone',
+        'AttributedCountries'       => 'Zugeordnete Länder',
         'minAmountForActivation'    => 'Mindestbetrag',
         'maxAmountForActivation'    => 'Hoechstbetrag'
     );
@@ -177,11 +179,29 @@ class PaymentMethod extends DataObject {
      * @since 08.11.2010
      */
     public static $field_labels = array(
-        'isActive'                  => 'Aktiviert',
         'Name'                      => 'Name',
+        'activatedStatus'           => 'Aktiviert',
+        'AttributedZones'           => 'Zugeordnete Zone',
+        'AttributedCountries'       => 'Zugeordnete Länder',
         'minAmountForActivation'    => 'Ab Einkaufswert',
         'maxAmountForActivation'    => 'Bis Einkaufswert'
     );
+
+    /**
+     * Virtual database columns.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $casting = array(
+        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedZones'           => 'Varchar(255)',
+        'activatedStatus'           => 'Varchar(255)'
+    );
+
     /**
      * Contains inormation that might be interesting for the payment process
      *
@@ -734,6 +754,79 @@ class PaymentMethod extends DataObject {
     }
 
     /**
+     * Returns the attributed countries as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedCountries() {
+        $attributedCountriesStr = '';
+        $attributedCountries    = array();
+        $maxLength          = 150;
+
+        foreach ($this->countries() as $country) {
+            $attributedCountries[] = $country->Title;
+        }
+
+        if (!empty($attributedCountries)) {
+            $attributedCountriesStr = implode(', ', $attributedCountries);
+
+            if (strlen($attributedCountriesStr) > $maxLength) {
+                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedCountriesStr;
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedZones() {
+        $attributedZonesStr = '';
+        $attributedZones    = array();
+        $maxLength          = 150;
+
+        foreach ($this->Zone() as $zone) {
+            $attributedZones[] = $zone->Title;
+        }
+
+        if (!empty($attributedZones)) {
+            $attributedZonesStr = implode(', ', $attributedZones);
+
+            if (strlen($attributedZonesStr) > $maxLength) {
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedZonesStr;
+    }
+
+    /**
+     * Returns the activation status as HTML-Checkbox-Tag.
+     *
+     * @return CheckboxField
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function activatedStatus() {
+        $checkboxField = new CheckboxField('isActivated'.$this->ID, 'isActived', $this->isActive);
+
+        return $checkboxField;
+    }
+
+    /**
      * writes a log entry
      *
      * @param string $context the context for the log entry
@@ -780,5 +873,4 @@ class PaymentMethod extends DataObject {
     protected function addError($errorText) {
         array_push($this->errorList, $errorText);
     }
-
 }

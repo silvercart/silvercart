@@ -41,7 +41,8 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'         => 'VarChar',
+        'isActive'      => 'Boolean'
     );
 
     /**
@@ -108,8 +109,11 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'Title'         => 'Bezeichnung',
-        'carrier.Title' => 'Frachtführer'
+        'Title'                     => 'Bezeichnung',
+        'activatedStatus'           => 'Aktiviert',
+        'AttributedZones'           => 'Für Zonen',
+        'carrier.Title'             => 'Frachtführer',
+        'AttributedPaymentMethods'  => 'Für Bezahlarten'
     );
 
     /**
@@ -122,7 +126,25 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title' => 'Bezeichnung'
+        'Title'                     => 'Bezeichnung',
+        'activatedStatus'           => 'Aktiviert',
+        'AttributedZones'           => 'Für Zonen',
+        'AttributedPaymentMethods'  => 'Für Bezahlarten'
+    );
+
+    /**
+     * Virtual database columns.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $casting = array(
+        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedPaymentMethods'  => 'Varchar(255)',
+        'activatedStatus'           => 'Varchar(255)'
     );
 
     /**
@@ -234,5 +256,78 @@ class ShippingMethod extends DataObject {
             
             return $titleWithCarrierAndFee;
         }
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedZones() {
+        $attributedZonesStr = '';
+        $attributedZones    = array();
+        $maxLength          = 150;
+
+        foreach ($this->zones() as $zone) {
+            $attributedZones[] = $zone->Title;
+        }
+
+        if (!empty($attributedZones)) {
+            $attributedZonesStr = implode(', ', $attributedZones);
+
+            if (strlen($attributedZonesStr) > $maxLength) {
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedZonesStr;
+    }
+
+    /**
+     * Returns the attributed payment methods as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedPaymentMethods() {
+        $attributedPaymentMethodsStr = '';
+        $attributedPaymentMethods    = array();
+        $maxLength                   = 150;
+
+        foreach ($this->paymentMethods() as $paymentMethod) {
+            $attributedPaymentMethods[] = $paymentMethod->Title;
+        }
+
+        if (!empty($attributedPaymentMethods)) {
+            $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
+
+            if (strlen($attributedPaymentMethodsStr) > $maxLength) {
+                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedPaymentMethodsStr;
+    }
+
+    /**
+     * Returns the activation status as HTML-Checkbox-Tag.
+     *
+     * @return CheckboxField
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function activatedStatus() {
+        $checkboxField = new CheckboxField('isActivated'.$this->ID, 'isActived', $this->isActive);
+
+        return $checkboxField;
     }
 }
