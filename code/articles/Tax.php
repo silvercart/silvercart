@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Definiert Steuersaetze.
+ * Defines Taxrates.
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -12,7 +11,7 @@
 class Tax extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
+     * Singular name
      *
      * @var string
      *
@@ -21,8 +20,9 @@ class Tax extends DataObject {
      * @since 24.11.2010
      */
     static $singular_name = "Steuer";
+
     /**
-     * Plural-Beschreibung zur Darstellung im Backend.
+     * Plural name
      *
      * @var string
      *
@@ -31,8 +31,9 @@ class Tax extends DataObject {
      * @since 24.11.2010
      */
     static $plural_name = "Steuern";
+
     /**
-     * Attribute
+     * Attributes
      *
      * @var array
      *
@@ -44,8 +45,9 @@ class Tax extends DataObject {
         'Title'             => 'VarChar',
         'Rate'              => 'VarChar(3)'
     );
+
     /**
-     * n:m Beziehungen
+     * Has-many relationships
      *
      * @var array
      *
@@ -56,5 +58,42 @@ class Tax extends DataObject {
     public static $has_many = array(
         'articles' => 'Article'
     );
+
+    /**
+     * Inserts the two german standard tax rates into the database.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function requireDefaultRecords() {
+        parent::requireDefaultRecords();
+
+        $lowerTaxRate = DataObject::get_one(
+            'Tax',
+            "Rate = 7"
+        );
+
+        if (!$lowerTaxRate) {
+            $lowerTaxRate = new Tax();
+            $lowerTaxRate->setField('Rate', 7);
+            $lowerTaxRate->setField('Title', '7%');
+            $lowerTaxRate->write();
+        }
+
+        $higherTaxRate = DataObject::get_one(
+            'Tax',
+            "Rate = 19"
+        );
+
+        if (!$higherTaxRate) {
+            $higherTaxRate = new Tax();
+            $higherTaxRate->setField('Rate', 19);
+            $higherTaxRate->setField('Title', '19%');
+            $higherTaxRate->write();
+        }
+    }
 }
 

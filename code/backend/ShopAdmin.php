@@ -358,10 +358,10 @@ class ShopAdmin extends LeftAndMain {
                         new TextField('maxAmountForActivation', _t('ShopAdmin.ZONE_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul'))
         );
 
-        $table = new ShippingTableField(
+        $table = new ZoneTableField(
                         $this,
                         "Zonen",
-                        "Shipping",
+                        "Zone",
                         $tableFields,
                         $popupFields,
                         array('1 = 1'),
