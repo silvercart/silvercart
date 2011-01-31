@@ -47,7 +47,7 @@ class ShippingFee extends DataObject {
     );
 
     /**
-     * Has-one relationship.
+     * Has-one relationships.
      *
      * @var array
      *

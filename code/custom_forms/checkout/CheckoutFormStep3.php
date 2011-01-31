@@ -1,19 +1,18 @@
 <?php
-
 /**
  * checkout step for shipping method
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 03.01.2011
- * @license BSD
+ * @license none
  */
 class CheckoutFormStep3 extends CustomHtmlForm {
 
     protected $formFields = array(
         'ShippingMethod' => array(
-            'type' => 'DropdownField',
-            'title' => 'Versandart',
+            'type'              => 'DropdownField',
+            'title'             => 'Versandart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
@@ -27,8 +26,8 @@ class CheckoutFormStep3 extends CustomHtmlForm {
      * @since 26.1.2011
      */
     protected $preferences = array(
-        'submitButtonTitle'         => 'weiter',
-        'stepTitle' => 'Versandart'
+        'submitButtonTitle'     => 'weiter',
+        'stepTitle'             => 'Versandart'
     );
 
     /**
@@ -49,9 +48,7 @@ class CheckoutFormStep3 extends CustomHtmlForm {
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
-            /*
-             * redirect a user if his cart is empty
-             */
+            // redirect a user if his cart is empty
             if (!$this->controller->isFilledCart()) {
                 Director::redirect("/home/");
             }
@@ -61,14 +58,18 @@ class CheckoutFormStep3 extends CustomHtmlForm {
     /**
      * Set initial form values
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 3.1.2011
      * @return void
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 3.1.2011
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $stepData = $this->controller->getCombinedStepData();
-        $paymentMethod = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);
+
+        $stepData       = $this->controller->getCombinedStepData();
+        $paymentMethod  = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);
+        
         if ($paymentMethod) {
             $allowedShippingMethods = $paymentMethod->shippingMethods();
             if ($allowedShippingMethods) {
@@ -96,6 +97,5 @@ class CheckoutFormStep3 extends CustomHtmlForm {
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
     }
-
 }
 
