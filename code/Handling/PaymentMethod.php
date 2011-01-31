@@ -203,6 +203,30 @@ class PaymentMethod extends DataObject {
     );
 
     /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $searchable_fields = array(
+        'Name',
+        'isActive' => array(
+            'title' => 'Aktiviert'
+        ),
+        'minAmountForActivation',
+        'maxAmountForActivation',
+        'Zone.ID' => array(
+            'title' => 'Zugeordnete Zone'
+        ),
+        'countries.ID' => array(
+            'title' => 'Zugeordnete Länder'
+        )
+    );
+
+    /**
      * Contains inormation that might be interesting for the payment process
      *
      * @var array
@@ -287,6 +311,30 @@ class PaymentMethod extends DataObject {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+
+    /**
+     * Set a custom search context for fields like "greater than", "less than",
+     * etc.
+     * 
+     * @return SearchContext
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function getDefaultSearchContext() {
+        $fields     = $this->scaffoldSearchFields();
+        $filters    = array(
+            'minAmountForActivation'    => new GreaterThanFilter('minAmountForActivation'),
+            'maxAmountForActivation'    => new LessThanFilter('maxAmountForActivation'),
+            'isActive'                  => new ExactMatchFilter('isActive')
+        );
+        return new SearchContext(
+            $this->class,
+            $fields,
+            $filters
+        );
+    }
 
     /**
      * Returns the title of the payment method
@@ -603,11 +651,11 @@ class PaymentMethod extends DataObject {
          * add ability to set the relation to ShippingMethod with checkboxes
          */
         $shippingMethodsTable = new ManyManyComplexTableField(
-                        $this,
-                        'ShippingMethods',
-                        'ShippingMethod',
-                        array('Title' => 'Title'),
-                        'getCMSFields_forPopup'
+            $this,
+            'ShippingMethods',
+            'ShippingMethod',
+            array('Title' => 'Title'),
+            'getCMSFields_forPopup'
         );
         $shippingMethodsTable->setAddTitle(_t('PaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root."._t('PaymentMethod.SHIPPINGMETHOD', 'shipping method');
@@ -634,13 +682,13 @@ class PaymentMethod extends DataObject {
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $tabBasic->setChildren(
-                new FieldSet(
-                        new CheckboxField('isActive', _t('ShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                        new DropdownField('mode', 'Modus', array('Live' => 'Live', 'Dev' => 'Entwicklung'), $this->mode),
-                        new TextField('minAmountForActivation', _t('ShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                        new TextField('maxAmountForActivation', _t('ShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
-                        new DropdownField('orderStatus', _t('PaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'), OrderStatus::getStatusList()->map('Code', 'Title'))
-                )
+            new FieldSet(
+                new CheckboxField('isActive', _t('ShopAdmin.PAYMENT_ISACTIVE', 'activated')),
+                new DropdownField('mode', 'Modus', array('Live' => 'Live', 'Dev' => 'Entwicklung'), $this->mode),
+                new TextField('minAmountForActivation', _t('ShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
+                new TextField('maxAmountForActivation', _t('ShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
+                new DropdownField('orderStatus', _t('PaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'), OrderStatus::getStatusList()->map('Code', 'Title'))
+            )
         );
 
         return new FieldSet($tabset);

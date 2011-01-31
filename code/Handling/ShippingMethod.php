@@ -148,7 +148,7 @@ class ShippingMethod extends DataObject {
     );
 
     /**
-     * Searchable fields in the model admin.
+     * List of searchable fields for the model admin
      *
      * @var array
      *
@@ -157,7 +157,17 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $searchable_fields = array(
-        'Title'
+        'Title',
+        'isActive',
+        'carrier.ID' => array(
+            'title' => 'Frachtführer'
+        ),
+        'zones.ID' => array(
+            'title' => 'Für Zonen'
+        ),
+        'paymentMethods.ID' => array(
+            'title' => 'Für Bezahlarten'
+        )
     );
 
     /**

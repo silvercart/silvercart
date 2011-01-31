@@ -71,7 +71,7 @@ class Carrier extends DataObject {
     public static $summary_fields = array(
         'Title'                     => 'Name',
         'AttributedZones'           => 'Zugeordnete Zonen',
-        'AttributedShippingMethods' => 'Zugeordnete Versandart'
+        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
     );
 
     /**
@@ -87,7 +87,7 @@ class Carrier extends DataObject {
         'Title'                     => 'Name',
         'FullTitle'                 => 'voller Name',
         'AttributedZones'           => 'Zugeordnete Zonen',
-        'AttributedShippingMethods' => 'Zugeordnete Versandart'
+        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
     );
 
     /**
@@ -102,6 +102,25 @@ class Carrier extends DataObject {
     public static $casting = array(
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)'
+    );
+
+    /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $searchable_fields = array(
+        'Title',
+        'zones.ID' => array(
+            'title' => 'Zugeordnete Zonen'
+        ),
+        'shippingMethods.ID' => array(
+            'title' => 'Zugeordnete Versandarten'
+        )
     );
 
     /**

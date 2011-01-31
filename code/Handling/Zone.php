@@ -164,6 +164,28 @@ class Zone extends DataObject {
     );
 
     /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $searchable_fields = array(
+        'Title',
+        'carrier.ID' => array(
+            'title' => 'Frachtführer'
+        ),
+        'countries.ID' => array(
+            'title' => 'Für Länder'
+        ),
+        'shippingMethods.ID' => array(
+            'title' => 'Zugeordnete Versandarten'
+        )
+    );
+
+    /**
      * Default database records.
      *
      * @return void

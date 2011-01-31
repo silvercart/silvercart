@@ -108,6 +108,27 @@ class Country extends DataObject {
     );
 
     /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $searchable_fields = array(
+        'Title',
+        'ISO2',
+        'ISO3',
+        'zones.ID' => array(
+            'title' => 'Zugeordnete Zonen'
+        ),
+        'paymentMethods.ID' => array(
+            'title' => 'Zugeordnete Bezahlarten'
+        )
+    );
+
+    /**
      * Virtual database columns.
      *
      * @var array

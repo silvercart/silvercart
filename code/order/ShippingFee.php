@@ -106,7 +106,7 @@ class ShippingFee extends DataObject {
     );
 
     /**
-     * Searchable fields in the model admin.
+     * List of searchable fields for the model admin
      *
      * @var array
      *
@@ -115,7 +115,13 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $searchable_fields = array(
-        'MaximumWeight'
+        'MaximumWeight',
+        'zone.ID' => array(
+            'title' => 'Für Zone'
+        ),
+        'shippingMethod.ID' => array(
+            'title' => 'Für Versandart'
+        )
     );
 
     /**
@@ -131,6 +137,28 @@ class ShippingFee extends DataObject {
         'PriceFormatted'            => 'Varchar(20)',
         'AttributedShippingMethods' => 'Varchar(255)'
     );
+
+    /**
+     * Set a custom search context for fields like "greater than", "less than",
+     * etc.
+     *
+     * @return SearchContext
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function getDefaultSearchContext() {
+        $fields     = $this->scaffoldSearchFields();
+        $filters    = array(
+            'MaximumWeight'             => new LessThanFilter('MaximumWeight')
+        );
+        return new SearchContext(
+            $this->class,
+            $fields,
+            $filters
+        );
+    }
 
     /**
      * Customizes the backends fields, mainly for ModelAdmin
