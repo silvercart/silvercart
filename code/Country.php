@@ -83,7 +83,11 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'Title' => 'Land'
+        'Title',
+        'ISO2',
+        'ISO3',
+        'AttributedZones',
+        'AttributedPaymentMethods'
     );
 
     /**
@@ -96,7 +100,25 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title' => 'Land'
+        'Title'                     => 'Land',
+        'ISO2'                      => 'ISO2 Code',
+        'ISO3'                      => 'ISO3 Code',
+        'AttributedZones'           => 'Zugeordnete Zonen',
+        'AttributedPaymentMethods'  => 'Zugeordnete Bezahlarten'
+    );
+
+    /**
+     * Virtual database columns.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $casting = array(
+        'AttributedZones'           => 'Varchar(255)',
+        'AttributedPaymentMethods'  => 'Varchar(255)'
     );
 
     /**
@@ -115,7 +137,7 @@ class Country extends DataObject {
             'Country'
         );
 
-        if (!standardCountry) {
+        if (!$standardCountry) {
             $obj        = new Country();
             $obj->Title = 'Deutschland';
             $obj->ISO2  = 'de';
@@ -149,5 +171,63 @@ class Country extends DataObject {
         $fields->addFieldToTab('Root.Zahlarten', $paymentMethodsTable);
         
         return $fields;
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedZones() {
+        $attributedZonesStr = '';
+        $attributedZones    = array();
+        $maxLength          = 150;
+
+        foreach ($this->zones() as $zone) {
+            $attributedZones[] = $zone->Title;
+        }
+
+        if (!empty($attributedZones)) {
+            $attributedZonesStr = implode(', ', $attributedZones);
+
+            if (strlen($attributedZonesStr) > $maxLength) {
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedZonesStr;
+    }
+
+    /**
+     * Returns the attributed payment methods as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedPaymentMethods() {
+        $attributedPaymentMethodsStr = '';
+        $attributedPaymentMethods    = array();
+        $maxLength                   = 150;
+
+        foreach ($this->paymentMethods() as $paymentMethod) {
+            $attributedPaymentMethods[] = $paymentMethod->Name;
+        }
+
+        if (!empty($attributedPaymentMethods)) {
+            $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
+
+            if (strlen($attributedPaymentMethodsStr) > $maxLength) {
+                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedPaymentMethodsStr;
     }
 }

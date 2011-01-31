@@ -18,7 +18,7 @@ class ShippingMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "shipping method";
+    public static $singular_name = "Versandart";
 
     /**
      * Plural name
@@ -29,7 +29,7 @@ class ShippingMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "shipping methods";
+    public static $plural_name = "Versandarten";
 
     /**
      * Attributes.

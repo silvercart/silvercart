@@ -1,13 +1,14 @@
 <?php
 /**
- * backend interface to CRUD the defined classes
+ * The Silvercart configuration backend.
  *
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 23.10.2010
- * @copyright 2010 pixeltricks GmbH
+ * @package silvercart
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 31.01.2011
  * @license none
  */
-class OrderAdmin extends ModelAdmin {
+class ShopConfigurationAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -19,7 +20,13 @@ class OrderAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $managed_models = array(
-        'Order'
+        'Country',
+        'Zone',
+        'PaymentMethod',
+        'ShippingMethod',
+        'ShippingFee',
+        'Carrier',
+        'OrderStatus'
     );
 
     /**
@@ -31,7 +38,7 @@ class OrderAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $url_segment = 'orders';
+    public static $url_segment = 'silvercart-configuration';
 
     /**
      * The menu title
@@ -42,5 +49,5 @@ class OrderAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $menu_title = 'Bestellungen';
+    public static $menu_title = 'Silvercart Konfiguration';
 }

@@ -19,7 +19,7 @@ class Zone extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "zone";
+    public static $singular_name = "Zone";
 
     /**
      * Plural name
@@ -30,7 +30,27 @@ class Zone extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "zones";
+    public static $plural_name = "Zonen";
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record This will be null for a new database record.
+     *      Alternatively, you can pass an array of
+	 *      field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+	 * @param boolean $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+	 *      don't have their defaults set.
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.01.2011
+     */
+    public function  __construct($record = null, $isSingleton = false) {
+        self::$singular_name    = _t('Zone.SINGULARNAME', 'Zone');
+        self::$plural_name      = _t('Zone.PLURALNAME', 'Zonen');
+        
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * Attributes.
@@ -107,8 +127,40 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'Title'         => 'Name',
-        'carrier.Title' => 'Frachtführer'
+        'Title',
+        'carrier.Title',
+        'AttributedCountries',
+        'AttributedShippingMethods'
+    );
+
+    /**
+     * Column labels for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $field_labels = array(
+        'Title'                     => 'Name',
+        'carrier.Title'             => 'Frachtführer',
+        'AttributedCountries'       => 'Für Länder',
+        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
+    );
+
+    /**
+     * Virtual database columns.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $casting = array(
+        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedShippingMethods' => 'Varchar(255)'
     );
 
     /**
@@ -127,7 +179,7 @@ class Zone extends DataObject {
             'Zone'
         );
 
-        if (!standardZone) {
+        if (!$standardZone) {
             $obj        = new Zone();
             $obj->Title = 'EU';
             $obj->write();
@@ -154,5 +206,63 @@ class Zone extends DataObject {
         $tabParam = "Root."._t('Zone.COUNTRIES', 'countries');
         $fields->addFieldToTab($tabParam, $countriesTable);
         return $fields;
+    }
+
+    /**
+     * Returns the attributed countries as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedCountries() {
+        $attributedCountriesStr = '';
+        $attributedCountries    = array();
+        $maxLength          = 150;
+
+        foreach ($this->countries() as $country) {
+            $attributedCountries[] = $country->Title;
+        }
+
+        if (!empty($attributedCountries)) {
+            $attributedCountriesStr = implode(', ', $attributedCountries);
+
+            if (strlen($attributedCountriesStr) > $maxLength) {
+                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedCountriesStr;
+    }
+
+    /**
+     * Returns the attributed shipping methods as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function AttributedShippingMethods() {
+        $attributedShippingMethodsStr = '';
+        $attributedShippingMethods    = array();
+        $maxLength          = 150;
+
+        foreach ($this->shippingMethods() as $shippingMethod) {
+            $attributedShippingMethods[] = $shippingMethod->Title;
+        }
+
+        if (!empty($attributedShippingMethods)) {
+            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
+
+            if (strlen($attributedShippingMethodsStr) > $maxLength) {
+                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
+            }
+        }
+
+        return $attributedShippingMethodsStr;
     }
 }

@@ -58,9 +58,33 @@ class PaymentMethod extends DataObject {
      * @since 18.11.2010
      */
     protected $errorList = array();
+    
     // ------------------------------------------------------------------------
     // Attribute und Beziehungen
     // ------------------------------------------------------------------------
+
+    /**
+     * Singular name
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $singular_name = "Bezahlart";
+
+    /**
+     * Plural name
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $plural_name = "Bezahlarten";
+
     /**
      * Definiert die Attribute der Klasse.
      *
@@ -71,13 +95,13 @@ class PaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $db = array(
-        'isActive' => 'Boolean',
-        'minAmountForActivation' => 'Float',
-        'maxAmountForActivation' => 'Float',
-        'Name' => 'Varchar(150)',
-        'Description' => 'Text',
-        'mode' => "Enum('Live,Dev','Dev')",
-        'orderStatus' => "Varchar(50)"
+        'isActive'                  => 'Boolean',
+        'minAmountForActivation'    => 'Float',
+        'maxAmountForActivation'    => 'Float',
+        'Name'                      => 'Varchar(150)',
+        'Description'               => 'Text',
+        'mode'                      => "Enum('Live,Dev','Dev')",
+        'orderStatus'               => "Varchar(50)"
     );
     /**
      * Definiert die 1:1 Beziehungen der Klasse.
@@ -89,8 +113,8 @@ class PaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $has_one = array(
-        'HandlingCost' => 'HandlingCost',
-        'Zone' => 'Zone'
+        'HandlingCost'              => 'HandlingCost',
+        'Zone'                      => 'Zone'
     );
     /**
      * Defines 1:n relations
@@ -138,10 +162,10 @@ class PaymentMethod extends DataObject {
      * @since 08.11.2010
      */
     public static $summary_fields = array(
-        'isActive'=> 'aktiviert?',
-        'Name' => 'Bezeichnung',
-        'minAmountForActivation' => 'Mindestbetrag',
-        'maxAmountForActivation' => 'Hoechstbetrag'
+        'isActive'                  => 'aktiviert?',
+        'Name'                      => 'Bezeichnung',
+        'minAmountForActivation'    => 'Mindestbetrag',
+        'maxAmountForActivation'    => 'Hoechstbetrag'
     );
     /**
      * Legt die Bezeichnungen fuer die Felder fest.
@@ -153,10 +177,10 @@ class PaymentMethod extends DataObject {
      * @since 08.11.2010
      */
     public static $field_labels = array(
-        'isActive' => 'Aktiviert',
-        'Name' => 'Name',
-        'minAmountForActivation' => 'Ab Einkaufswert',
-        'maxAmountForActivation' => 'Bis Einkaufswert'
+        'isActive'                  => 'Aktiviert',
+        'Name'                      => 'Name',
+        'minAmountForActivation'    => 'Ab Einkaufswert',
+        'maxAmountForActivation'    => 'Bis Einkaufswert'
     );
     /**
      * Contains inormation that might be interesting for the payment process
