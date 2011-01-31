@@ -104,12 +104,12 @@ class ContactForm extends CustomHtmlForm {
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     silverstripes session data
-     * @param Form           $form     the form object
-     * @param array          $formData session data of CustomHTMLForms modul
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 21.10.2010

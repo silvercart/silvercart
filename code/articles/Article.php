@@ -1,6 +1,6 @@
 <?php
 /**
- * Article class.
+ * abstract for an article, you might call this a "product" as well
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
@@ -10,7 +10,7 @@
 class Article extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
+     * singular name for backend
      *
      * @var string
      *
@@ -18,10 +18,10 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Artikel";
+    public static $singular_name = "article";
 
     /**
-     * Plural-Beschreibung zur Darstellung im Backend.
+     * plural name for backend
      *
      * @var string
      *
@@ -29,10 +29,10 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Artikel";
+    public static $plural_name = "articles";
 
     /**
-     * Attributes
+     * attributes
      *
      * @var array
      *
@@ -43,7 +43,7 @@ class Article extends DataObject {
     public static $db = array(
         'Title'                     => 'VarChar(255)',
         'PurchasePrice'             => 'Money',
-        'Price'                     => 'Money', //Wenn kein Price-Object gepflegt ist, gilt dieser Preis
+        'Price'                     => 'Money', //if no price object exists this attribute is choosen
         'ShortDescription'          => 'VarChar(255)',
         'LongDescription'           => 'Text',
         'MSRPrice'                  => 'Money',
@@ -89,7 +89,7 @@ class Article extends DataObject {
     protected static $requiredAttributes = array();
 
     /**
-     * 1:n Beziehungen
+     * 1:n relations
      *
      * @var array
      *
@@ -106,7 +106,7 @@ class Article extends DataObject {
     );
 
     /**
-     * n:m Beziehungen
+     * n:m relations
      *
      * @var array
      *
@@ -118,6 +118,15 @@ class Article extends DataObject {
         'shoppingCartPositions' => 'ShoppingCartPosition'
     );
 
+    /**
+     * m:n relations
+     *
+     * @var array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 22.11.2010
+     */
     public static $belongs_many_many = array(
         'shoppingCarts'         => 'ShoppingCart',
         'orders'                => 'Order',
@@ -182,7 +191,7 @@ class Article extends DataObject {
         //Get all articles that have no master
         $var = sprintf("\"masterArticleID\" = '%s'", "0");
         $masterArticles = DataObject::get("Article", $var);
-        $dropdownField = new DropdownField('masterArticleID', 'Master Artikel', $masterArticles->toDropDownMap(), null, null, "-- Master wählen --");
+        $dropdownField = new DropdownField('masterArticleID', _t('Article.MASTERARTICLE', 'master article'), $masterArticles->toDropDownMap(), null, null, _t('Article.CHOOSE_MASTER', '-- choose master --'));
         $fields->push($dropdownField);
         return $fields;
     }
@@ -267,8 +276,7 @@ class Article extends DataObject {
     }
 
     /**
-     * Fuegt einen Artikel zum ShoppingCart hinzu oder erhoeht dessen Anzahl,
-     * wenn er schon vorhanden ist.
+     * adds an article to the cart or increases its amount
      *
      * @param int $cartID   ID of the users shopping cart
      * @param int $quantity Amount of articles to be added
@@ -325,17 +333,17 @@ class Article extends DataObject {
     public function addToCartForm() {
         $fields = new FieldSet();
         $fields->push(new HiddenField('articleID', 'articleID', $this->ID));
-        $fields->push(new NumericField('articleAmount', 'Anzahl', $value = 1));
+        $fields->push(new NumericField('articleAmount', _t('Article.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', 'in den Warenkorb'));
+        $actions->push(new FormAction('doAddToCart', _t('Article.ADD_TO_CART', 'add to cart')));
         $form = new Form(Controller::curr(), 'doAddToCart', $fields, $actions);
         return $form;
     }
 
     /**
-     * Liefert den Betrag des Steueranteils fuer diesen Artikel.
+     * returns the tax amount included in $this
      *
-     * @return void
+     * @return float
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

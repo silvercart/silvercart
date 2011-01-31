@@ -1,6 +1,6 @@
 <?php
 /**
- * Bestellung
+ * abstract for an order
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -20,6 +20,7 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $singular_name = "Bestellung";
+
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
      *
@@ -30,8 +31,9 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $plural_name = "Bestellungen";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -72,7 +74,7 @@ class Order extends DataObject {
         'invoiceAddress'    => 'Rechnungsadresse',
         'status'            => 'Bestellstatus'
     );
-    
+
     public static $default_sort = "Created DESC";
 
     /**
@@ -87,7 +89,7 @@ class Order extends DataObject {
     );
 
     /**
-     * 1:n Beziehungen
+     * 1:1 relations
      *
      * @var array
      *
@@ -106,7 +108,7 @@ class Order extends DataObject {
     );
 
     /**
-     * 1:n Beziehungen
+     * 1:n relations
      *
      * @var array
      *
@@ -121,9 +123,9 @@ class Order extends DataObject {
     public static $many_many = array(
         'articles' => 'Article'
     );
-    
+
     /**
-     * Extensions fuer dieses DataObject registrieren.
+     * register extensions
      *
      * @var array
      *
@@ -135,8 +137,56 @@ class Order extends DataObject {
         "Versioned('Live')",
     );
 
-
     /**
+     * Creates default records, if not exitstent:
+     * order email templates
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.01.2011
+     */
+    public function  requireDefaultRecords() {
+        parent::requireDefaultRecords();
+        $checkOrderMail = DataObject::get_one(
+            'ShopEmail',
+            "`Identifier` = 'MailOrderConfirmation'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new ShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderConfirmation');
+            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderConfirmation.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
+            }
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+        $checkOrderMail = DataObject::get_one(
+            'ShopEmail',
+            "`Identifier` = 'MailOrderNotification'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new ShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderNotification');
+            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
+            }
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+    }
+
+        /**
      * customize backend fields
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -244,7 +294,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Erzeugt eine Bestellung aus dem Warenkorbobjekt.
+     * creates an order from the cart
      *
      * @return void
      *
@@ -256,25 +306,25 @@ class Order extends DataObject {
         $member = Member::currentUser();
         $this->customerID = $member->ID;
 
-        // Mehrwertsteuersaetze aller Positionen
+        // VAT tax for all positions
         $this->Tax = $member->shoppingCart()->getTax()->getAmount();
 
-        // Bestellwert aller Positionen
+        // price sum of all positions
         $this->PriceTotal->setAmount($member->shoppingCart()->getPrice()->getAmount());
         $this->PriceTotal->setCurrency('EUR');
 
-        // Bestellwert aller Positionen plus Bearbeitungsgebuehren der Zahlungsart plus Versandkosten
+        // amount of all positions + handling fee of the payment method + shipping fee
         $totalAmount = 
             $this->getPaymentHandlingCosts()->getAmount() +
             $this->getShippingCosts()->getAmount() +
             $member->shoppingCart()->getPrice()->getAmount();
-        
+
         $this->AmountTotal->setAmount(
             $totalAmount
         );
         $this->AmountTotal->setCurrency('EUR');
 
-        // Standardstatus der Bestellung einstellen
+        // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
             'PaymentMethod',
             $this->paymentID
@@ -289,16 +339,13 @@ class Order extends DataObject {
         if ($orderStatus) {
             $this->statusID = $orderStatus->ID;
         }
-        
-        // Bestellung erzeugen, damit ist auch die ID vorhanden
+        // write order to have an id
         $this->write();
-
-        // Warenkorbpositionen umwandeln in Bestellpositionen
         $this->convertShoppingCartPositionsToOrderPositions();
     }
 
     /**
-     * Konvertiert die Positionen aus dem ShoppingCart zu OrderPositions.
+     * convert cart positions in order positions
      *
      * @return void
      *
@@ -338,7 +385,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Speichert die Bestellung in der Datenbank.
+     * save order to db
      *
      * @return void
      *
@@ -351,9 +398,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Setzt die Zahlungsmethode fuer diese Bestellung.
+     * set payment method for $this
      *
-     * @param int $paymentMethodID Die ID der Zahlungsmethode
+     * @param int $paymentMethodID id of payment method
      *
      * @return void
      *
@@ -376,9 +423,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Setzt den Status der Bestellung.
+     * set status of $this
      *
-     * @param OrderStatus $orderStatus Das OrderStatus Objekt
+     * @param OrderStatus $orderStatus the order status object
      *
      * @return bool
      *
@@ -438,7 +485,7 @@ class Order extends DataObject {
      */
     public function setPriceTotal() {
         $member = Member::currentUser();
-        
+
         if ($member && $member->shoppingCart()) {
             $this->PriceTotal = $member->shoppingCart()->getPrice();
             $this->customerID = $member->ID;
@@ -468,7 +515,7 @@ class Order extends DataObject {
 
     /**
      * The shipping method is a relation + an attribte of the order
-     * 
+     *
      * @param int $shippingMethodID the ID of the shipping method
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -481,7 +528,7 @@ class Order extends DataObject {
             'ShippingMethod',
             $shippingMethodID
         );
-        
+
         if ($selectedShippingMethod) {
             $this->shippingMethodID              = $selectedShippingMethod->ID;
             $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
@@ -492,7 +539,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den im Warenkorb enthaltenen Steuerbetrag.
+     * returns tax included in $this
      *
      * @return float
      *
@@ -506,18 +553,17 @@ class Order extends DataObject {
         foreach ($this->orderPositions() as $orderPosition) {
             $tax += $orderPosition->TaxTotal;
         }
-        
+
         $taxObj = new Money('Tax');
         $taxObj->setAmount($tax);
-        
+
         return $taxObj;
     }
 
     /**
-     * Liefert den Netto-Wert des Warenkorbs inkl. aller Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns carts net value including all editional costs
      *
-     * @return float
+     * @return Money amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -532,8 +578,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Brutto-Wert des Warenkorbs inkl. aller Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns carts gross value including all editional costs
      *
      * @return Money
      *
@@ -544,9 +589,9 @@ class Order extends DataObject {
     public function getAmountGross() {
         return $this->AmountTotal;
     }
-    
+
     /**
-     * Liefert die Waehrung der Rechnung.
+     * returns bills currency
      * 
      * @return string
      *
@@ -559,10 +604,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Netto-Warenwert des Warenkorbs ohne Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns the cart's net amount
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -577,10 +621,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Brutto-Warenwert des Warenkorbs ohne Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns the cart's gross amount
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -591,8 +634,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Versandkosten fuer die gewaehlte Versandart
-     * zurueck.
+     * returns shipping costs for the choosen payment method
      *
      * @return float
      *
@@ -605,8 +647,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Bearbeitungsgebuehren fuer die gewaehlte Zahlungsart
-     * zurueck.
+     * returns handling fee for choosen payment method
      *
      * @return float
      *
@@ -617,13 +658,12 @@ class Order extends DataObject {
     public function getHandlingCosts() {
         return $this->HandlingCostPayment;
     }
-    
+
 
     /**
-     * Gibt die Menge aller Artikel der Bestellung zurueck.
+     * returns quantity of all articles of the order
      *
-     * @param int $articleId Wenn angegeben, wird nur die Menge der Artikel
-     * 						 geliefert, deren ID der $articleId entspricht
+     * @param int $articleId if set only article quantity of this article is returned
      *
      * @return int
      *
@@ -646,7 +686,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Bearbeitungsgebuehren fuer die eingestellte Zahlungsart.
+     * returns handling fee for choosen payment method
      *
      * @return float
      *
@@ -661,7 +701,7 @@ class Order extends DataObject {
             $this->paymentID
         );
 
-        // Bearbeitungsgebuehren von der Zahlungsart holen
+        // get handling fee
         if ($paymentObj) {
             $handlingCosts += $paymentObj->getHandlingCost()->getAmount();
         }
@@ -672,10 +712,10 @@ class Order extends DataObject {
     }
 
     /**
-     * Schreibt einen Logeintrag.
+     * writes a log entry
      * 
-     * @param string $context Der Kontext fuer den Logeintrag
-     * @param string $text    Der Text fuer den Logeintrag
+     * @param string $context context for log entry
+     * @param string $text    text for log entry
      *
      * @return void
      *
@@ -707,35 +747,33 @@ class Order extends DataObject {
     /**
      * send a confirmation mail with order details to the customer $member
      *
-     * @param string $recipientEmail to get anonymous customers email only
-     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.11.2010
      * @return void
      */
-    public function sendConfirmationMail($recipientEmail = "") {
+    public function sendConfirmationMail() {
         $member = Member::currentUser();
         if ($member) {
-            if ($member->Email) { //for registered customers
-                $memberEmail = $member->Email;
-            } else { // for anonymous customers
-                $memberEmail = $recipientEmail;
-            }
-            $email = new Email(
-                            'info@pourlatable.de',
-                            $memberEmail,
-                            'Ihre Bestellung bei pourlatable.de',
-                            '');
-            $email->setTemplate('MailOrderConfirmation');
-            $email->populateTemplate(
-                    array(
-                        'FirstName' => $member->FirstName,
-                        'Surname' => $member->Surname,
-                        'Salutation' => $member->Salutation,
-                        'Order' => $this
-                    )
+            ShopEmail::send(
+                'MailOrderConfirmation',
+                $this->CustomersEmail,
+                array(
+                    'FirstName' => $member->FirstName,
+                    'Surname' => $member->Surname,
+                    'Salutation' => $member->Salutation,
+                    'Order' => $this
+                )
             );
-            $email->send();
+            ShopEmail::send(
+                'MailOrderNotification',
+                Email::getAdminEmail(),
+                array(
+                    'FirstName' => $member->FirstName,
+                    'Surname' => $member->Surname,
+                    'Salutation' => $member->Salutation,
+                    'Order' => $this
+                )
+            );
         }
     }
 

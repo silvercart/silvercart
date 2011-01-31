@@ -2,7 +2,7 @@
 
 /**
  * CheckoutReturnFromPaymentProviderPage
- * Legt die Bestellung an.
+ * This step creates the order
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
@@ -12,12 +12,12 @@
 class CheckoutFormStep6 extends CustomHtmlForm {
 
     /**
-     * Initialisierung
+     * constructor
      *
-     * @param Controller $controller  Das Controllerobjekt
-     * @param array      $params      Zusaetzliche Parameter
-     * @param array      $preferences Array mit Voreinstellungen
-     * @param bool       $barebone    Gibt an, ob das Formular komplett initialisiert werden soll
+     * @param Controller $controller  the controller object
+     * @param array      $params      additional parameters
+     * @param array      $preferences array with preferences
+     * @param bool       $barebone    is the form initialized completely?
      *
      * @return void
      *
@@ -39,9 +39,9 @@ class CheckoutFormStep6 extends CustomHtmlForm {
     }
 
     /**
-     * Prozessormethode.
+     * processor method
      *
-     * @return empty
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

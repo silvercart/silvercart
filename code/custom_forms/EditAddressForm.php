@@ -98,39 +98,26 @@ class EditAddressForm extends CustomHtmlForm {
                 $this->formFields['City']['value'] = $address->City;
                 $this->formFields['PhoneAreaCode']['value'] = $address->PhoneAreaCode;
                 $this->formFields['Phone']['value'] = $address->Phone;
-                $this->formFields['Country']['value'] = DataObject::get('Country')->toDropdownMap('Title', 'Title', '-bitte wählen-');
+                $this->formFields['Country']['value'] = DataObject::get('Country')->toDropdownMap('Title', 'Title', _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
                 $this->formFields['Country']['selectedValue'] = $address->country()->Title;
             }
         }
     }
 
     /**
-     * Ersetzt den Abschickenbutton des Formulars.
-     *
-     * @return array
+     * configure submit button
      */
-    protected function getForm() {
-        $formDefinition = parent::getForm('submit');
-
-        $actions = new FieldSet(
-                        new FormAction(
-                                'submit',
-                                'Speichern'
-                        )
-        );
-
-        $formDefinition['actions'] = $actions;
-
-        return $formDefinition;
-    }
+    protected $preferences = array(
+        'submitButtonTitle' => 'Speichern'
+    );
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data             the session data
-     * @param Form           $form             the form itself
-     * @param array          $registrationData special session data of CustomHTMLForm module
+     * @param SS_HTTPRequest $data             contains the frameworks form data
+     * @param Form           $form             not used
+     * @param array          $registrationData contains the modules form data
      *
      * @return void
      * @since 19.10.2010

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bestellstatus
+ * abstract for an order status
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -21,6 +21,7 @@ class OrderStatus extends DataObject {
      * @since 22.11.2010
      */
     static $singular_name = "Bestellstatus";
+
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
      *
@@ -31,8 +32,9 @@ class OrderStatus extends DataObject {
      * @since 22.11.2010
      */
     static $plural_name = "Bestellstatus";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -45,7 +47,7 @@ class OrderStatus extends DataObject {
         'Code' => 'VarChar'
     );
     /**
-     * n:m Beziehungen
+     * n:m relations
      *
      * @var array
      *
@@ -59,7 +61,7 @@ class OrderStatus extends DataObject {
     );
 
     // -----------------------------------------------------------------------
-    // Methoden
+    // methods
     // -----------------------------------------------------------------------
 
     /**
@@ -76,7 +78,7 @@ class OrderStatus extends DataObject {
     }
 
     /**
-     * Default Statuseintraege anlegen.
+     * create default entries
      *
      * @return void
      *
@@ -106,7 +108,7 @@ class OrderStatus extends DataObject {
     }
 
     /**
-     * Liefert ein assoziatives Array mit StatusCode => StatusText zurueck.
+     * returns array with StatusCode => StatusText
      *
      * @return DataObjectSet
      *

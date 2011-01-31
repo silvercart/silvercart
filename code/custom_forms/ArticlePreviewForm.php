@@ -1,6 +1,6 @@
 <?php
 /**
- * Beschreibung des Formulars.
+ * form definition
  *
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -9,7 +9,7 @@
  */
 class ArticlePreviewForm extends CustomHtmlForm {
     /**
-     * Enthaelt die zu pruefenden und zu verarbeitenden Formularfelder.
+     * field configuration
      *
      * @var array
      */
@@ -41,7 +41,7 @@ class ArticlePreviewForm extends CustomHtmlForm {
     );
 
     /**
-     * Setzt Initialwerte in Formularfeldern.
+     * initial field values
      *
      * @return void
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -51,12 +51,12 @@ class ArticlePreviewForm extends CustomHtmlForm {
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     session data
-     * @param Form           $form     form object
-     * @param array          $formData CustomHTMLForms session data
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010

@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Definiert einen Preis und bietet Methoden fuer dessen Handhabung an.
+ * abstract for a price
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010
@@ -12,7 +11,7 @@
 class Price extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
+     * singular name for backend
      *
      * @var string
      *
@@ -20,9 +19,10 @@ class Price extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    static $singular_name = "Preis";
+    static $singular_name = "price";
+
     /**
-     * Plural-Beschreibung zur Darstellung im Backend.
+     * plural name for backend
      *
      * @var string
      *
@@ -30,9 +30,10 @@ class Price extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    static $plural_name = "Preise";
+    static $plural_name = "prices";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -44,8 +45,9 @@ class Price extends DataObject {
         'Value' => 'Currency',
         'Amount' => 'Int'
     );
+
     /**
-     * 1:1 Beziehungen
+     * 1:1 relations
      *
      * @var array
      *
@@ -57,6 +59,7 @@ class Price extends DataObject {
         'customerCategory' => 'CustomerCategory',
         'owner' => 'Article'
     );
+    
     public static $summary_fields = array(
         'customerCategory.Title' => 'Kundengruppe',
         'Value' => 'Einzelpreis',

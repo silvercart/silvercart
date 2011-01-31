@@ -2,7 +2,7 @@
 /**
  * CheckoutShowConfirmation
  *
- * Zeigt die Bestellbestaetigung an.
+ * shows order confirmation
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH

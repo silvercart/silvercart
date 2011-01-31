@@ -47,7 +47,7 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     );
 
     /**
-     * Voreinstellungen
+     * preferences
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 26.1.2011
@@ -58,12 +58,12 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     );
 
     /**
-     * Initialisierung
+     * constructor
      *
-     * @param Controller $controller  Das Controllerobjekt
-     * @param array      $params      Zusaetzliche Parameter
-     * @param array      $preferences Array mit Voreinstellungen
-     * @param bool       $barebone    Gibt an, ob das Formular komplett initialisiert werden soll
+     * @param Controller $controller  the controller object
+     * @param array      $params      additional parameters
+     * @param array      $preferences array with preferences
+     * @param bool       $barebone    is the form initialized completely?
      *
      * @return void
      *
@@ -85,7 +85,7 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     }
 
     /**
-     * Setzt Initialwerte in Formularfeldern.
+     * Set initial form values
      *
      * @return void
      *
@@ -109,9 +109,9 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     }
 
     /**
-     * Liefert die Adressdaten als DataObject zurueck.
+     * returns address data as ArrayData
      *
-     * @return DataObjectSet
+     * @return ArrayData
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -150,14 +150,12 @@ class CheckoutFormStep4 extends CustomHtmlForm {
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
-     * Speichert die gesendeten Formulardaten in der Session zum spaeteren
-     * Abruf.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     Enthaelt die gesendeten "rohen" Formulardaten
-     * @param Form           $form     wird nicht verwendet
-     * @param array          $formData Enthaelt die geparsten Formulardaten
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @return void
      *

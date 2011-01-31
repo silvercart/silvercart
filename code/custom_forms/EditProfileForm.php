@@ -118,7 +118,7 @@ class EditProfileForm extends CustomHtmlForm {
     );
 
     /**
-     * Setzt Voreinstellungen fuer das Formular.
+     * form preferences
      *
      * @var array
      *
@@ -161,12 +161,12 @@ class EditProfileForm extends CustomHtmlForm {
     }
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data             the session data
-     * @param Form           $form             the form instance
-     * @param array          $registrationData session data of CustomHTMLForms
+     * @param SS_HTTPRequest $data             contains the frameworks form data
+     * @param Form           $form             not used
+     * @param array          $registrationData contains the modules form data
      *
      * @return void
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
@@ -176,15 +176,15 @@ class EditProfileForm extends CustomHtmlForm {
         $member = Member::currentUser();
 
         // -------------------------------------------------------------------
-        // Daten aufbereiten
+        // process data
         // -------------------------------------------------------------------
-        // Passwort
+        // Password
         unset($registrationData['PasswordCheck']);
         if (empty($registrationData['Password'])) {
             unset($registrationData['Password']);
         }
 
-        // Geburtstag
+        // birthday
         if (!empty($registrationData['BirthdayDay']) &&
             !empty($registrationData['BirthdayMonth']) &&
             !empty($registrationData['BirthdayYear'])) {

@@ -11,9 +11,9 @@
 class CheckoutFormStep8 extends CustomHtmlForm {
 
     /**
-     * Prozessormethode.
+     * processor method
      *
-     * @return empty
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -25,7 +25,7 @@ class CheckoutFormStep8 extends CustomHtmlForm {
         $paymentSuccessful = false;
 
         if ($member) {
-            // Nachbearbeitung der Zahlungsmethode durchfuehren
+            // postprocessing of payment method
             if (!$this->controller->paymentMethodObj) {
                 $this->controller->paymentMethodObj = DataObject::get_by_id(
                                 'PaymentMethod',

@@ -11,7 +11,7 @@
 class Tax extends DataObject {
 
     /**
-     * Singular name
+     * singular name for backend
      *
      * @var string
      *
@@ -19,10 +19,10 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $singular_name = "Steuer";
+    static $singular_name = "tax";
 
     /**
-     * Plural name
+     * plural name for backend
      *
      * @var string
      *
@@ -30,10 +30,10 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $plural_name = "Steuern";
+    static $plural_name = "taxes";
 
     /**
-     * Attributes
+     * attributes
      *
      * @var array
      *
@@ -47,7 +47,7 @@ class Tax extends DataObject {
     );
 
     /**
-     * Has-many relationships
+     * n:m relations
      *
      * @var array
      *

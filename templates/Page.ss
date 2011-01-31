@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$ContentLocale" lang="$ContentLocale">
     <head>
         <% base_tag %>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
@@ -19,7 +19,7 @@
                                 <div class="c66r">
                                     <div class="subcolumns">
                                         <div class="c33l">
-                                            <div class="subcr">Finden:</div>
+                                            <div class="subcr"><% _t('Page.FIND', 'find:') %></div>
                                             
                                         </div>
                                         <div class="c66r">
@@ -33,7 +33,7 @@
                             <div class="subcolumns">
                                 <div class="c50l" id="Customer">
                                     <% if MemberInformation %>
-                                    <a class="button" id="myaccount" href="/meinkonto/">Kundenbereich</a>
+                                    <a class="button" id="myaccount" href="/meinkonto/"><% _t('Page.MYACCOUNT', 'my account') %></a>
                                     <a class="button" id="logout" href="/home/logout/">Logout</a>
                                     <% else %>
                                     <% include LoginPopup %>
@@ -42,10 +42,10 @@
                                 <div class="c50r" id="Shopping_Checkout">
                                     <div class="subcolumns">
                                         <div class="c50l">
-                                            <a class="button" id="scart" href="/warenkorb"><% if CurrentMember %> Warenkorb ($getCount) <% else %> Warenkorb (0) <% end_if %></a>
+                                            <a class="button" id="scart" href="/warenkorb"><% _t('Page.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
                                         </div>
                                         <div class="c50r">
-                                            <a class="button" href="/checkout/">zur Kasse</a>
+                                            <a class="button" href="/checkout/"><% _t('Page.CHECKOUT', 'checkout') %></a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                 <ul class="translations">
                                     <% control Translations %>
                                     <li class="$Locale.RFC1766">
-                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SHOWINPAGE','Sprache auf %s setzen'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
+                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('Page.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
                                     </li>
                                     <% end_control %>
                                 </ul>

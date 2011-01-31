@@ -1,7 +1,7 @@
 <?php
 /**
- * Einzelne Posten einer Bestellung.
- * Diese sind nach dem Anlegen nicht mehr veraenderbar und dienen als Historie.
+ * abstract for a single position of an order
+ * they are not changeable after creation and serve as a history
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -12,7 +12,7 @@
 class OrderPosition extends DataObject {
 
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -32,7 +32,7 @@ class OrderPosition extends DataObject {
     );
 
     /**
-     * 1:n Beziehung
+     * 1:n relations
      *
      * @var array
      *

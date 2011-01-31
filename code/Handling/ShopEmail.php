@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Die Basisklasse fuer Emails
+ * base class for emails
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -12,7 +12,7 @@
 class ShopEmail extends DataObject {
 
     /**
-     * Definiert die Attribute der Klasse.
+     * classes attributes
      *
      * @var array
      *
@@ -28,7 +28,7 @@ class ShopEmail extends DataObject {
     );
 
     /**
-     * Liefert die Eingabefelder zum Bearbeiten des Datensatzes.
+     * input fields for backend manipulation
      *
      * @return FieldSet
      *
@@ -43,11 +43,11 @@ class ShopEmail extends DataObject {
     }
 
     /**
-     * Sendet eine Nachricht an die angegebene Email-Adresse.
+     * sends email to defined address
      *
-     * @param string $identifier Bezeichner, der angibt, welche Nachricht gesendet werden soll
-     * @param string $to         Die Email-Adresse, an die die Nachricht gesendet werden soll
-     * @param array  $variables  Assoziatives Array mit Variablen, auf die im Template zugegriffen werden kann
+     * @param string $identifier identifier for email template
+     * @param string $to         recipients email address
+     * @param array  $variables  array with template variables that can be called in the template
      *
      * @return bool
      *
@@ -93,11 +93,10 @@ class ShopEmail extends DataObject {
     }
 
     /**
-     * Ersetzt Platzhalter in dem uebergebenen Text mit den angegebenen
-     * Variablen und gibt den geparsten Text zurueck.
+     * populates the template with the defined and called variables
      *
-     * @param string $text      Der Text mit Platzhalten.
-     * @param array  $variables Assoziatives Array mit Variablen, auf die im Text zugegriffen werden kann
+     * @param string $text      text with the template variables
+     * @param array  $variables array with template variables
      *
      * @return string
      *

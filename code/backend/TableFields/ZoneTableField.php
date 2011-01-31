@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Spezielle Tabelle fuer die Auflistung von Zonen.
+ * table for display of zones
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 10.10.2010
@@ -12,14 +11,14 @@
 class ZoneTableField extends ComplexTableField {
 
     /**
-     * Das Template fuer die Tabelle.
+     * the template for the table
      *
      * @var string
      */
     protected $template = "ZoneTableField";
 
     /**
-     * Konstruktor
+     * constructor
      *
      * @param string $controller       current controller
      * @param string $name             field name
@@ -41,7 +40,7 @@ class ZoneTableField extends ComplexTableField {
     }
 
     /**
-     * Liefert den FieldHolder
+     * returns the FieldHolder
      *
      * @return FieldHolder
      *
@@ -58,7 +57,7 @@ class ZoneTableField extends ComplexTableField {
     }
 
     /**
-     * Beschreibung
+     * description
      *
      * @return DataObjectSet
      *

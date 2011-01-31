@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ShoppingCartPosition
+ * abstract for shopping cart positions
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -21,6 +21,7 @@ class ShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $singular_name = "Warenkorbposition";
+
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
      *
@@ -31,8 +32,9 @@ class ShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $plural_name = "Warenkorbpositionen";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -43,8 +45,9 @@ class ShoppingCartPosition extends DataObject {
     public static $db = array(
         'Quantity' => 'Int'
     );
+
     /**
-     * n:m Beziehungen
+     * n:m relations
      *
      * @var array
      *
@@ -58,7 +61,7 @@ class ShoppingCartPosition extends DataObject {
     );
 
     /**
-     * Liefert den Preis fuer alle Mengeneinheiten dieser Position.
+     * price sum of this position
      *
      * @return Money the price sum
      * 

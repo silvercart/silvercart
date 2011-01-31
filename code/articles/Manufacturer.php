@@ -9,8 +9,8 @@
  * @copyright 2010 pixeltricks GmbH
  */
 class Manufacturer extends DataObject {
-        static $singular_name = "Hersteller";
-    static $plural_name = "Hersteller";
+        static $singular_name = "Manufacturer";
+    static $plural_name = "Manufacturers";
 
     public static $db = array(
         'Title' => 'VarChar',
