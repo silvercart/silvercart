@@ -9,13 +9,13 @@
  * @license BSD
  */
 class ArticleAdmin extends ModelAdmin {
+
     public static $managed_models = array(
         'Article',
         'Manufacturer',
         'ArticleImageGallery'
-
     );
+    public static $url_segment = 'articles';
+    public static $menu_title = 'articles';
 
-    static $url_segment = 'articles';
-    static $menu_title  = 'Artikel';
 }

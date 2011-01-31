@@ -9,8 +9,8 @@
  * @copyright Pixeltricks GmbH
  */
 class Zone extends DataObject {
-    public static $singular_name = "Zone";
-    public static $plural_name = "Zonen";
+    public static $singular_name = "zone";
+    public static $plural_name = "zones";
     public static $db = array(
         'Title' => 'VarChar'
     );
@@ -48,7 +48,8 @@ class Zone extends DataObject {
                 array('Title' => 'Land'),
                 'getCMSFields_forPopup'
                 );
-        $fields->addFieldToTab('Root.Laender', $countriesTable);
+        $tabParam = "Root."._t('Zone.COUNTRIES', 'countries');
+        $fields->addFieldToTab($tabParam, $countriesTable);
         return $fields;
     }
 }

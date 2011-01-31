@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Spezielle Tabelle fuer die Auflistung von Versandarten.
+ * template for display of shipping methods
  *
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 10.10.2010
@@ -12,14 +11,14 @@
 class ShippingTableField extends ComplexTableField {
 
     /**
-     * Das Template fuer die Tabelle.
+     * template for the table
      *
      * @var string
      */
     protected $template = "ShippingTableField";
 
     /**
-     * Konstruktor
+     * constructor
      *
      * @param string $controller       current controller
      * @param string $name             field name
@@ -41,7 +40,7 @@ class ShippingTableField extends ComplexTableField {
     }
 
     /**
-     * Liefert den FieldHolder
+     * retunrs the FieldHolder
      *
      * @return FieldHolder
      *
@@ -58,7 +57,7 @@ class ShippingTableField extends ComplexTableField {
     }
 
     /**
-     * Beschreibung
+     * description
      *
      * @return DataObjectSet
      *
@@ -88,7 +87,6 @@ class ShippingTableField extends ComplexTableField {
 /**
  * Single row of a {@link ShippingTableField}
  * 
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 10.10.2010

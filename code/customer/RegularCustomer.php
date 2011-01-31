@@ -26,7 +26,7 @@ class RegularCustomer extends Member {
          */
         if (!DataObject::get_one('Group', "\"Code\" = 'b2c'")) {
             $group = new Group();
-            $group->Title = "Endkunden";
+            $group->Title = _t('RegularCustomer.REGULARCUSTOMER', 'regular customer');
             $group->Code = "b2c";
             $group->write();
         }
@@ -36,7 +36,7 @@ class RegularCustomer extends Member {
          */
         if (!DataObject::get_one('Group', "\"Code\" = 'b2c-optin'")) {
             $group = new Group();
-            $group->Title = "Endkunden OptIn";
+            $group->Title = _t('RegularCustomer.REGULARCUSTOMER', 'regular customer')." OptIn";
             $group->Code = "b2c-optin";
             $group->write();
         }

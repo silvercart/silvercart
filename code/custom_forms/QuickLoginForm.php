@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Beschreibung des Formulars.
+ * form definition
  *
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -11,7 +11,7 @@
 class QuickLoginForm extends CustomHtmlForm {
 
     /**
-     * Enthaelt die zu pruefenden und zu verarbeitenden Formularfelder.
+     * defines form fields
      *
      * @var array
      */
@@ -35,7 +35,7 @@ class QuickLoginForm extends CustomHtmlForm {
     );
 
     /**
-     * Voreinstellungen.
+     * form preferences
      *
      * @var array
      *
@@ -47,12 +47,12 @@ class QuickLoginForm extends CustomHtmlForm {
     );
 
     /**
-     * Wird ausgefuehrt, wenn nach dem Senden des Formulars keine Validierungs-
-     * fehler aufgetreten sind.
+     * executed if there are no valdation errors on submit
+     * Form data is saved in session
      *
-     * @param SS_HTTPRequest $data     session data
-     * @param Form           $form     the form object
-     * @param array          $formData CustomHTMLForms Session data
+     * @param SS_HTTPRequest $data     contains the frameworks form data
+     * @param Form           $form     not used
+     * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -63,7 +63,7 @@ class QuickLoginForm extends CustomHtmlForm {
         $emailAddress = $formData['emailaddress'];
         $password = $formData['password'];
 
-        // Daten des Kunden holen
+        // get customers data
         $user = DataObject::get_one(
                         'Member',
                         'Member.Email LIKE \'' . $formData['emailaddress'] . '\''

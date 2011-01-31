@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Die Verwaltungsmaske fuer die Bezahlarten.
+ * The shops backend admin interface
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -12,7 +12,7 @@
 class ShopAdmin extends LeftAndMain {
 
     /**
-     * Legt die Basisobjekte fest.
+     * defines the base objects
      *
      * @var array
      *
@@ -28,7 +28,7 @@ class ShopAdmin extends LeftAndMain {
         'Emails' => 'Email'
     );
     /**
-     * Legt die URL fest, unter der die Maske erreichbar ist.
+     * define the url segment
      *
      * @var string
      *
@@ -37,6 +37,7 @@ class ShopAdmin extends LeftAndMain {
      * @since 08.11.2010
      */
     public static $url_segment = 'shopadmin';
+
     /**
      * Legt die Bezeichnung in der Navigation fest.
      *
@@ -46,9 +47,11 @@ class ShopAdmin extends LeftAndMain {
      * @copyright 2010 pixeltricks GmbH
      * @since 08.11.2010
      */
-    public static $menu_title = 'Shopverwaltung';
+
+    public static $menu_title = 'shop administration';
+
     /**
-     * Legt die auswertbaren URL-Parameter fest.
+     * defines url actions
      *
      * @var string
      *
@@ -57,8 +60,9 @@ class ShopAdmin extends LeftAndMain {
      * @since 10.11.2010
      */
     public static $url_rule = '/$Action';
+
     /**
-     * Legt die erlaubten Aktionen fest.
+     * defines the allowed actions
      *
      * @var array
      *
@@ -76,7 +80,7 @@ class ShopAdmin extends LeftAndMain {
     );
 
     /**
-     * Initialisierung
+     * init method
      *
      * @return void
      *
@@ -92,10 +96,9 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die aktuelle Sektion zurueck.
+     * returns the current section
      *
-     * Wird von der Navigation in der linken Spalte verwendet, um den
-     * aktuellen Menuepunkt hervorzuheben.
+     * Used by navigation in the left column to mark the selected menu entry
      *
      * @return string
      *
@@ -123,7 +126,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert das Formular fuer die Popupfelder zurueck.
+     * returns the form for the popup
      *
      * @return Form
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -152,7 +155,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Zeigt die Uebersicht der Bezahlarten an.
+     * overview of payment methods
      *
      * @param array $params ???
      *
@@ -169,7 +172,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die Uebersicht der Bezahlarten als Tabelle zurueck.
+     * returns overview of payment methods as table
      *
      * @return Form
      *
@@ -181,9 +184,9 @@ class ShopAdmin extends LeftAndMain {
         $section = $this->Section();
 
         // --------------------------------------------------------------------
-        // Tabelle definieren
+        // define table
         // --------------------------------------------------------------------
-        // Ueberschriften der Tabelle definieren
+        // define table´s heading
         $tableFields = array(
             "Name" => _t('ShopAdmin.PAYMENT_NAME', 'Name'),
             "isActive" => _t('ShopAdmin.PAYMENT_ISACTIVE', 'Aktiviert')
@@ -191,7 +194,7 @@ class ShopAdmin extends LeftAndMain {
 
         $table = new PaymentTableField(
                         $this,
-                        "Bezahlarten",
+                        _t('ShopAdmin.PAYMENTMETHODS', 'Bezahlarten'),
                         "PaymentMethod",
                         $tableFields,
                         'getCMSFields_forPopup',
@@ -212,7 +215,7 @@ class ShopAdmin extends LeftAndMain {
         // Formular definieren
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.PAYMENT_TITLE', 'Bezahlarten')),
+                        new LiteralField("Title", _t('ShopAdmin.PAYMENT_NAME', 'Bezahlarten')),
                         $table,
                         $idField
         );
@@ -229,11 +232,11 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Zeigt die Uebersicht der Versandarten an.
+     * shows an overview of shipping methods
      *
      * @param array $params ???
      *
-     * @return void
+     * @return ???
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -246,7 +249,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die Uebersicht der Versandarten als Tabelle zurueck.
+     * returns overview of shipping methods as table
      *
      * @return Form
      *
@@ -258,9 +261,9 @@ class ShopAdmin extends LeftAndMain {
         $section = $this->Section();
 
         // --------------------------------------------------------------------
-        // Tabelle definieren
+        // define table
         // --------------------------------------------------------------------
-        // Ueberschriften der Tabelle definieren
+        // table headings
         $tableFields = array(
             "Title" => _t('ShopAdmin.SHIPPING_TITLE', 'Title'),
             "isActive" => _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')
@@ -269,13 +272,13 @@ class ShopAdmin extends LeftAndMain {
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $popupFields = new FieldSet(
                         new TextField('isActive', _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')),
-                        new TextField('minAmountForActivation', _t('ShopAdmin.SHIPPING_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                        new TextField('maxAmountForActivation', _t('ShopAdmin.SHIPPING_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul'))
+                        new TextField('minAmountForActivation', _t('ShopAdmin.SHIPPING_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
+                        new TextField('maxAmountForActivation', _t('ShopAdmin.SHIPPING_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
         );
 
         $table = new ShippingTableField(
                         $this,
-                        "Versandarten",
+                        _t('ShopAdmin.SHIPPINGMETHODS', 'shipping methods'),
                         "ShippingMethod",
                         $tableFields,
                         $popupFields,
@@ -294,10 +297,10 @@ class ShopAdmin extends LeftAndMain {
         $idField = new HiddenField('ID', '', $section);
 
         // --------------------------------------------------------------------
-        // Formular definieren
+        // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.SHIPPING_TITLE', 'Versandarten')),
+                        new LiteralField("Title", _t('ShopAdmin.SHIPPINGMETHODS', 'Versandarten')),
                         $table,
                         $idField
         );
@@ -314,11 +317,11 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Zeigt die Uebersicht der Zonen an.
+     * shows zone overview
      *
      * @param array $params ???
      *
-     * @return void
+     * @return ???
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -331,7 +334,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die Uebersicht der Zonen als Tabelle zurueck.
+     * zone overview as table
      *
      * @return Form
      *
@@ -343,24 +346,24 @@ class ShopAdmin extends LeftAndMain {
         $section = $this->Section();
 
         // --------------------------------------------------------------------
-        // Tabelle definieren
+        // define table
         // --------------------------------------------------------------------
-        // Ueberschriften der Tabelle definieren
+        // table's headings
         $tableFields = array(
-            "Name" => _t('ShopAdmin.ZONE_NAME', 'Name'),
-            "isActive" => _t('ShopAdmin.ZONE_ISACTIVE', 'Aktiviert')
+            "Name" => _t('ShopAdmin.ZONE_NAME', 'name'),
+            "isActive" => _t('ShopAdmin.ZONE_ISACTIVE', 'activated')
         );
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $popupFields = new FieldSet(
-                        new TextField('isActive', _t('ShopAdmin.ZONE_ISACTIVE', 'Aktiviert')),
-                        new TextField('minAmountForActivation', _t('ShopAdmin.ZONE_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                        new TextField('maxAmountForActivation', _t('ShopAdmin.ZONE_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul'))
+                        new TextField('isActive', _t('ShopAdmin.ZONE_ISACTIVE', 'activated')),
+                        new TextField('minAmountForActivation', _t('ShopAdmin.ZONE_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
+                        new TextField('maxAmountForActivation', _t('ShopAdmin.ZONE_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
         );
 
         $table = new ShippingTableField(
                         $this,
-                        "Zonen",
+                        _t('ShopAdmin.ZONES', 'zones'),
                         "Shipping",
                         $tableFields,
                         $popupFields,
@@ -379,7 +382,7 @@ class ShopAdmin extends LeftAndMain {
         $idField = new HiddenField('ID', '', $section);
 
         // --------------------------------------------------------------------
-        // Formular definieren
+        // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
                         new LiteralField("Title", _t('ShopAdmin.ZONE_TITLE', 'Zonen')),
@@ -399,11 +402,11 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Zeigt die Uebersicht der Steuersaetze an.
+     * tax's overview
      *
      * @param array $params ???
      *
-     * @return void
+     * @return ???
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -416,7 +419,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die Uebersicht der Steuersaetze als Tabelle zurueck.
+     * tax's overview as a table
      *
      * @return Form
      *
@@ -428,23 +431,23 @@ class ShopAdmin extends LeftAndMain {
         $section = $this->Section();
 
         // --------------------------------------------------------------------
-        // Tabelle definieren
+        // define table
         // --------------------------------------------------------------------
-        // Ueberschriften der Tabelle definieren
+        // define table's headings
         $tableFields = array(
-            "Title" => _t('ShopAdmin.TAX_TITLE', 'Title'),
-            "Rate" => _t('ShopAdmin.TAX_RATE', 'Rate')
+            "Title" => _t('ShopAdmin.TAX_TITLE', 'title'),
+            "Rate" => _t('ShopAdmin.TAX_RATE', 'rate')
         );
 
         // Popupfelder fuers Bearbeiten des Steuersatzes
         $popupFields = new FieldSet(
-                        new TextField('Title', _t('ShopAdmin.TAX_TITLE', 'Titel')),
-                        new TextField('Rate', _t('ShopAdmin.TAX_RATE', 'Steuersatz in Prozent'))
+                        new TextField('Title', _t('ShopAdmin.TAX_TITLE', 'title')),
+                        new TextField('Rate', _t('ShopAdmin.TAX_RATE', 'tax rate in percent'))
         );
 
         $table = new TaxTableField(
                         $this,
-                        "Steuersätze",
+                        _t('ShopAdmin.TAXRATES', 'tax rates'),
                         "Tax",
                         $tableFields,
                         $popupFields,
@@ -463,7 +466,7 @@ class ShopAdmin extends LeftAndMain {
         $idField = new HiddenField('ID', '', $section);
 
         // --------------------------------------------------------------------
-        // Formular definieren
+        // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
                         new LiteralField("Title", _t('ShopAdmin.TAX_TITLE', 'Steuersätze')),
@@ -483,11 +486,11 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Zeigt die Uebersicht der Emails an.
+     * shows email's overview
      *
      * @param array $params ???
      *
-     * @return void
+     * @return ???
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -500,7 +503,7 @@ class ShopAdmin extends LeftAndMain {
     }
 
     /**
-     * Liefert die Uebersicht der Steuersaetze als Tabelle zurueck.
+     * returns tax rate's overview as table
      *
      * @return Form
      *
@@ -512,25 +515,25 @@ class ShopAdmin extends LeftAndMain {
         $section = $this->Section();
 
         // --------------------------------------------------------------------
-        // Tabelle definieren
+        // define table
         // --------------------------------------------------------------------
-        // Ueberschriften der Tabelle definieren
+        // define table's headings
         $tableFields = array(
-            "Identifier" => _t('ShopAdmin.EMAIL_IDENTIFIER', 'Bezeichner'),
-            "Subject" => _t('ShopAdmin.EMAIL_SUBJECT', 'Betreff')
+            "Identifier" => _t('ShopAdmin.EMAIL_IDENTIFIER', 'identifier'),
+            "Subject" => _t('ShopAdmin.EMAIL_SUBJECT', 'subject')
         );
 
         // Popupfelder fuers Bearbeiten der Email
         $popupFields = new FieldSet(
-                        new TextField('Identifier', _t('ShopAdmin.EMAIL_IDENTIFIERT', 'Bezeichner')),
-                        new TextField('Subject', _t('ShopAdmin.EMAIL_SUBJECT', 'Betreff')),
-                        new TextareaField('EmailText', _t('ShopAdmin.EMAIL_TEXT', 'Text'), 8),
-                        new TextareaField('Variables', _t('ShopAdmin.EMAIL_VARIABLES', 'Variablen'))
+                        new TextField('Identifier', _t('ShopAdmin.EMAIL_IDENTIFIERT', 'identifier')),
+                        new TextField('Subject', _t('ShopAdmin.EMAIL_SUBJECT', 'subject')),
+                        new TextareaField('EmailText', _t('ShopAdmin.EMAIL_TEXT', 'text'), 8),
+                        new TextareaField('Variables', _t('ShopAdmin.EMAIL_VARIABLES', 'variables'))
         );
 
         $table = new EmailTableField(
                         $this,
-                        "Emails",
+                        _t('ShopAdmin.EMAILS', 'emails'),
                         "ShopEmail",
                         $tableFields,
                         $popupFields,
@@ -549,10 +552,10 @@ class ShopAdmin extends LeftAndMain {
         $idField = new HiddenField('ID', '', $section);
 
         // --------------------------------------------------------------------
-        // Formular definieren
+        // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.EMAIL_TITLE', 'EMAILS')),
+                        new LiteralField("Title", _t('ShopAdmin.EMAIL_TITLE', 'title')),
                         $table,
                         $idField
         );

@@ -159,8 +159,7 @@ class PaymentMethod extends DataObject {
         'maxAmountForActivation' => 'Bis Einkaufswert'
     );
     /**
-     * Enthaelt Informationen, die fuer die Kaufabwicklung von Belang sein
-     * koennen.
+     * Contains inormation that might be interesting for the payment process
      *
      * @var array
      *
@@ -220,7 +219,7 @@ class PaymentMethod extends DataObject {
         )
     );
     /**
-     * Enthaelt den Modulname zur Anzeige in der Adminoberflaeche.
+     * Contains the module name for display in the admin backend
      *
      * @var string
      *
@@ -229,8 +228,9 @@ class PaymentMethod extends DataObject {
      * @since 03.12.2010
      */
     protected $moduleName = '';
+
     /**
-     * Enthaelt eine Referenz auf das Controller-Objekt.
+     * Contains a referer to the order object
      *
      * @var Controller
      *
@@ -241,11 +241,11 @@ class PaymentMethod extends DataObject {
     protected $controller;
 
     // ------------------------------------------------------------------------
-    // Methoden
+    // Methods
     // ------------------------------------------------------------------------
 
     /**
-     * Liefert den Titel der Zahlungsart.
+     * Returns the title of the payment method
      *
      * @return string
      *
@@ -258,10 +258,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert den Status den die Bestellung annehmen soll, wenn dieses
-     * Modul als Bezahlart gewaehlt wird.
+     * Returns the status that for orders created with this payment method
      *
-     * @return string Code des Bestellstatus
+     * @return string orderstatus code
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -272,7 +271,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert die Beschreibung der Zahlungsart.
+     * Returns the payment methods description
      *
      * @return string
      *
@@ -285,7 +284,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert den Pfad zum Logo der Zahlungsart.
+     * Returns the path to the payment methods logo
      *
      * @return string
      *
@@ -298,8 +297,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert den Link, der bei Abbruch durch den Benutzer oder Sessionablauf
-     * angesprungen werden soll.
+     * Returns the link for cancel action or end of session
      *
      * @return string
      *
@@ -312,8 +310,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert den Link, der fuer den Ruecksprung in den Shop benutzt werden
-     * soll.
+     * Returns the link to get back in the shop
      *
      * @return string
      *
@@ -326,9 +323,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert die Bearbeitungskosten fuer die Zahlungsart.
+     * Returns handling costs for this payment method
      *
-     * @return float
+     * @return Money a money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -342,8 +339,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert den Pfad zu einem ergaenzenden Bild mit Informationen zu der
-     * Zahlungsart.
+     * Retunrns a path to a picture with additional information for this payment method
      *
      * @return int
      *
@@ -356,7 +352,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Gibt zurueck, ob ein Fehler aufgetreten ist.
+     * Returns if an error has occured
      *
      * @return bool
      *
@@ -369,7 +365,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Gibt eine Liste mit Fehlern zurueck.
+     * Returns a DataObjectSet with errors
      *
      * @return DataObjectSet
      *
@@ -392,11 +388,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Gibt zurueck, ob die Zahlungsart fuer die angegebene Zone verfuegbar
-     * ist.
+     * Returns weather this payment method is available for a zone specified by id or not
      *
-     * @param int $zoneId Die ID der Zone, fuer die die Zahlungsart geprueft
-     * 					  werden soll.
+     * @param int $zoneId Zone id to be checked
      *
      * @return bool
      *
@@ -409,11 +403,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Gibt zurueck, ob die Zahlungsart fuer die angegebene Versandart
-     * verfuegbar ist.
+     * Is this payment method allowed for a shipping method?
      *
-     * @param int $shippingMethodId Die ID der Versandart, fuer die die
-     * 								Zahlungsart geprueft werden soll.
+     * @param int $shippingMethodId Die ID id of shipping method to be checked
      *
      * @return bool
      *
@@ -426,11 +418,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Gibt zurueck, ob die Zahlungsart fuer den angegebenen Betrag verfuegbar
-     * ist.
+     * Is this payment method allowed for a total amount?
      *
-     * @param int $amount Der Betrag, fuer den die Zahlungsart geprueft werden
-     * 					  soll.
+     * @param int $amount Amount to be checked
      *
      * @return bool
      *
@@ -466,8 +456,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Bietet die Moeglichkeit, Code vor dem Anlegen der Bestellung
-     * auszufuehren.
+     * Hook: processed before order creation
      *
      * @return void
      *
@@ -481,11 +470,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Bietet die Moeglichkeit, Code nach dem Anlegen der Bestellung
-     * auszufuehren.
+     * Hook: processed after order creation
      *
-     * @param Order $orderObj Das Order-Objekt, mit dessen Daten die Abwicklung
-     * erfolgen soll.
+     * @param Order $orderObj created order object
      *
      * @return void
      *
@@ -499,9 +486,8 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Bietet die Moeglichkeit, Code nach dem Ruecksprung vom Payment
-     * Provider auszufuehren.
-     * Diese Methode wird vor dem Anlegen der Bestellung durchgefuehrt.
+     * Hook: called after jumpback from payment provider
+     * processed before order creation
      *
      * @return void
      *
@@ -515,12 +501,10 @@ class PaymentMethod extends DataObject {
     }
     
     /**
-     * Bietet die Moeglichkeit, nach dem Ende der Bestellung noch einen Text
-     * auszugeben.
-     * Diese Methode wird nach dem Ende der Bestellung aufgerufen.
+     * possibility to return a text at the end of the order process
+     * processed after order creation
      *
-     * @param Order $orderObj Das Order-Objekt, mit dessen Daten die Abwicklung
-     * erfolgen soll.
+     * @param Order $orderObj the order object
      * 
      * @return void
      *
@@ -532,8 +516,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Legt die Zahlungsart in der Datenbank an, wenn noch kein Eintrag
-     * existiert.
+     * writes a payment method to the db in case none does exist yet
      *
      * @return void
      *
@@ -573,7 +556,7 @@ class PaymentMethod extends DataObject {
         $fields->removeByName('orders');
 
         /*
-         * set the relation to ShippingMethod with checkboxes
+         * add ability to set the relation to ShippingMethod with checkboxes
          */
         $shippingMethodsTable = new ManyManyComplexTableField(
                         $this,
@@ -582,15 +565,16 @@ class PaymentMethod extends DataObject {
                         array('Title' => 'Title'),
                         'getCMSFields_forPopup'
         );
-        $shippingMethodsTable->setAddTitle('Versandart');
-        $fields->addFieldToTab('Root.Versandart', $shippingMethodsTable);
+        $shippingMethodsTable->setAddTitle(_t('PaymentMethod.SHIPPINGMETHOD', 'shipping method'));
+        $tabParam = "Root."._t('PaymentMethod.SHIPPINGMETHOD', 'shipping method');
+        $fields->addFieldToTab($tabParam, $shippingMethodsTable);
         return $fields;
     }
 
     /**
-     * Liefert die Eingabefelder zum Bearbeiten des Datensatzes.
+     * Returns the detail fields for $this
      *
-     * @param mixed $params Optionale Parameter
+     * @param mixed $params optional parameters
      *
      * @return FieldSet
      *
@@ -601,17 +585,17 @@ class PaymentMethod extends DataObject {
     public function getCmsFields_forPopup($params = null) {
 
         $tabset = new TabSet('Sections');
-        $tabBasic = new Tab('Basic', 'Grundeinstellungen');
+        $tabBasic = new Tab('Basic', _t('PaymentMethod.BASIC_SETTINGS', 'basic settings'));
         $tabset->push($tabBasic);
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $tabBasic->setChildren(
                 new FieldSet(
-                        new CheckboxField('isActive', _t('ShopAdmin.PAYMENT_ISACTIVE', 'Aktiviert')),
+                        new CheckboxField('isActive', _t('ShopAdmin.PAYMENT_ISACTIVE', 'activated')),
                         new DropdownField('mode', 'Modus', array('Live' => 'Live', 'Dev' => 'Entwicklung'), $this->mode),
                         new TextField('minAmountForActivation', _t('ShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
                         new TextField('maxAmountForActivation', _t('ShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
-                        new DropdownField('orderStatus', 'Standard Bestellstatus für diese Zahlungsart', OrderStatus::getStatusList()->map('Code', 'Title'))
+                        new DropdownField('orderStatus', _t('PaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'), OrderStatus::getStatusList()->map('Code', 'Title'))
                 )
         );
 
@@ -619,8 +603,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Liefert die fuer die Zahlung relevante Informationen zurueck, die dem
-     * Modul uebergeben worden sind.
+     * Returns the information relevant for payment suppied by this module
      *
      * @return array
      *
@@ -633,12 +616,11 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Setzt eine Information, die fuer die Abwicklung der Zahlung relevant
-     * sein kann.
+     * Set information relevat for payment
      *
-     * @param string       $section    Die Informationssektion
-     * @param string|array $subSection Untergliederungspfad der Sektion
-     * @param mixed        $value      Der Wert, der gesetzt werden soll
+     * @param string       $section    section of information
+     * @param string|array $subSection subsection path
+     * @param mixed        $value      value to be set
      *
      * @return void
      *
@@ -683,10 +665,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Nimmt den Link entgegen, der bei Abbruch durch den Kunde oder
-     * Sessionablauf angesprungen werden soll.
+     * set the link to be visited on a cancel action
      *
-     * @param string $link Der Link
+     * @param string $link the url
      *
      * @return void
      *
@@ -699,10 +680,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Nimmt den Link entgegen, der fuer den Ruecksprung in den Shop
-     * benutzt werden soll.
+     * sets the link to return to the shop
      *
-     * @param string $link Der Link
+     * @param string $link the url
      *
      * @return void
      *
@@ -715,9 +695,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Uebergibt den Controller an das Payment-Modul.
+     * set the controller
      *
-     * @param Controller $controller Das Controller-Objekt
+     * @param Controller $controller the controller action
      *
      * @return void
      *
@@ -730,10 +710,10 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Schreibt einen Logeintrag.
+     * writes a log entry
      *
-     * @param string $context Der Kontext fuer den Logeintrag
-     * @param string $text    Der Text fuer den Logeintrag
+     * @param string $context the context for the log entry
+     * @param string $text    the text for the log entry
      *
      * @return void
      *
@@ -763,9 +743,9 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Registriert einen Fehler.
+     * registers an error
      *
-     * @param string $errorText Der Text fuer die Fehlermeldung
+     * @param string $errorText text for the error message
      *
      * @return void
      *

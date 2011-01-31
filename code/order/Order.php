@@ -1,6 +1,6 @@
 <?php
 /**
- * Bestellung
+ * abstract for an order
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -20,6 +20,7 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $singular_name = "Bestellung";
+
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
      *
@@ -30,8 +31,9 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $plural_name = "Bestellungen";
+
     /**
-     * Attribute
+     * attributes
      *
      * @var array
      *
@@ -87,7 +89,7 @@ class Order extends DataObject {
     );
 
     /**
-     * 1:n Beziehungen
+     * 1:1 relations
      *
      * @var array
      *
@@ -106,7 +108,7 @@ class Order extends DataObject {
     );
 
     /**
-     * 1:n Beziehungen
+     * 1:n relations
      *
      * @var array
      *
@@ -123,7 +125,7 @@ class Order extends DataObject {
     );
 
     /**
-     * Extensions fuer dieses DataObject registrieren.
+     * register extensions
      *
      * @var array
      *
@@ -136,8 +138,8 @@ class Order extends DataObject {
     );
 
     /**
-     * Legt Default Records an, falls noch nicht vorhanden:
-     * Template für Bestellbestätigungs-Emails
+     * Creates default records, if not exitstent:
+     * order email templates
      * 
      * @return void
      *
@@ -292,7 +294,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Erzeugt eine Bestellung aus dem Warenkorbobjekt.
+     * creates an order from the cart
      *
      * @return void
      *
@@ -304,15 +306,15 @@ class Order extends DataObject {
         $member = Member::currentUser();
         $this->customerID = $member->ID;
 
-        // Mehrwertsteuersaetze aller Positionen
+        // VAT tax for all positions
         $this->Tax = $member->shoppingCart()->getTax()->getAmount();
 
-        // Bestellwert aller Positionen
+        // price sum of all positions
         $this->PriceTotal->setAmount($member->shoppingCart()->getPrice()->getAmount());
         $this->PriceTotal->setCurrency('EUR');
 
-        // Bestellwert aller Positionen plus Bearbeitungsgebuehren der Zahlungsart plus Versandkosten
-        $totalAmount =
+        // amount of all positions + handling fee of the payment method + shipping fee
+        $totalAmount = 
             $this->getPaymentHandlingCosts()->getAmount() +
             $this->getShippingCosts()->getAmount() +
             $member->shoppingCart()->getPrice()->getAmount();
@@ -322,7 +324,7 @@ class Order extends DataObject {
         );
         $this->AmountTotal->setCurrency('EUR');
 
-        // Standardstatus der Bestellung einstellen
+        // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
             'PaymentMethod',
             $this->paymentID
@@ -337,16 +339,13 @@ class Order extends DataObject {
         if ($orderStatus) {
             $this->statusID = $orderStatus->ID;
         }
-
-        // Bestellung erzeugen, damit ist auch die ID vorhanden
+        // write order to have an id
         $this->write();
-
-        // Warenkorbpositionen umwandeln in Bestellpositionen
         $this->convertShoppingCartPositionsToOrderPositions();
     }
 
     /**
-     * Konvertiert die Positionen aus dem ShoppingCart zu OrderPositions.
+     * convert cart positions in order positions
      *
      * @return void
      *
@@ -386,7 +385,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Speichert die Bestellung in der Datenbank.
+     * save order to db
      *
      * @return void
      *
@@ -399,9 +398,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Setzt die Zahlungsmethode fuer diese Bestellung.
+     * set payment method for $this
      *
-     * @param int $paymentMethodID Die ID der Zahlungsmethode
+     * @param int $paymentMethodID id of payment method
      *
      * @return void
      *
@@ -424,9 +423,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Setzt den Status der Bestellung.
+     * set status of $this
      *
-     * @param OrderStatus $orderStatus Das OrderStatus Objekt
+     * @param OrderStatus $orderStatus the order status object
      *
      * @return bool
      *
@@ -540,7 +539,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den im Warenkorb enthaltenen Steuerbetrag.
+     * returns tax included in $this
      *
      * @return float
      *
@@ -562,10 +561,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Netto-Wert des Warenkorbs inkl. aller Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns carts net value including all editional costs
      *
-     * @return float
+     * @return Money amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -580,8 +578,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Brutto-Wert des Warenkorbs inkl. aller Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns carts gross value including all editional costs
      *
      * @return Money
      *
@@ -594,8 +591,8 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Waehrung der Rechnung.
-     *
+     * returns bills currency
+     * 
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -607,10 +604,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Netto-Warenwert des Warenkorbs ohne Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns the cart's net amount
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -625,10 +621,9 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert den Brutto-Warenwert des Warenkorbs ohne Nebenkosten
-     * (Versand, Bearbeitungsgebuehren, etc.).
+     * returns the cart's gross amount
      *
-     * @return Money
+     * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -639,8 +634,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Versandkosten fuer die gewaehlte Versandart
-     * zurueck.
+     * returns shipping costs for the choosen payment method
      *
      * @return float
      *
@@ -653,8 +647,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Bearbeitungsgebuehren fuer die gewaehlte Zahlungsart
-     * zurueck.
+     * returns handling fee for choosen payment method
      *
      * @return float
      *
@@ -668,10 +661,9 @@ class Order extends DataObject {
 
 
     /**
-     * Gibt die Menge aller Artikel der Bestellung zurueck.
+     * returns quantity of all articles of the order
      *
-     * @param int $articleId Wenn angegeben, wird nur die Menge der Artikel
-     * 						 geliefert, deren ID der $articleId entspricht
+     * @param int $articleId if set only article quantity of this article is returned
      *
      * @return int
      *
@@ -694,7 +686,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Liefert die Bearbeitungsgebuehren fuer die eingestellte Zahlungsart.
+     * returns handling fee for choosen payment method
      *
      * @return float
      *
@@ -709,7 +701,7 @@ class Order extends DataObject {
             $this->paymentID
         );
 
-        // Bearbeitungsgebuehren von der Zahlungsart holen
+        // get handling fee
         if ($paymentObj) {
             $handlingCosts += $paymentObj->getHandlingCost()->getAmount();
         }
@@ -720,10 +712,10 @@ class Order extends DataObject {
     }
 
     /**
-     * Schreibt einen Logeintrag.
-     *
-     * @param string $context Der Kontext fuer den Logeintrag
-     * @param string $text    Der Text fuer den Logeintrag
+     * writes a log entry
+     * 
+     * @param string $context context for log entry
+     * @param string $text    text for log entry
      *
      * @return void
      *
