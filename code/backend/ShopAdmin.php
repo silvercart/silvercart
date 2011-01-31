@@ -20,11 +20,11 @@ class ShopAdmin extends LeftAndMain {
      * @since 08.11.2010
      */
     public static $base_models = array(
-        'PaymentMethods' => 'PaymentMethod',
-        'ShippingMethods' => 'ShipppingMethod',
-        'Zones' => 'Zone',
-        'Taxes' => 'Tax',
-        'Emails' => 'Email'
+        'PaymentMethods'    => 'PaymentMethod',
+        'ShippingMethods'   => 'ShipppingMethod',
+        'Zones'             => 'Zone',
+        'Taxes'             => 'Tax',
+        'Emails'            => 'Email'
     );
     /**
      * define the url segment
@@ -192,13 +192,13 @@ class ShopAdmin extends LeftAndMain {
         );
 
         $table = new PaymentTableField(
-                        $this,
-                        _t('ShopAdmin.PAYMENTMETHODS', 'Bezahlarten'),
-                        "PaymentMethod",
-                        $tableFields,
-                        'getCMSFields_forPopup',
-                        array('1 = 1'),
-                        'Created DESC'
+            $this,
+            _t('ShopAdmin.PAYMENTMETHODS', 'Bezahlarten'),
+            "PaymentMethod",
+            $tableFields,
+            'getCMSFields_forPopup',
+            array('1 = 1'),
+            'Created DESC'
         );
         $table->setParentClass(false);
         $table->setFieldCasting(array(
@@ -214,17 +214,17 @@ class ShopAdmin extends LeftAndMain {
         // Formular definieren
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.PAYMENT_NAME', 'Bezahlarten')),
-                        $table,
-                        $idField
+            new LiteralField("Title", _t('ShopAdmin.PAYMENT_NAME', 'Bezahlarten')),
+            $table,
+            $idField
         );
         $actions = new FieldSet();
 
         $form = new Form(
-                        $this,
-                        'EditForm',
-                        $fields,
-                        $actions
+            $this,
+            'EditForm',
+            $fields,
+            $actions
         );
 
         return $form;
@@ -264,25 +264,25 @@ class ShopAdmin extends LeftAndMain {
         // --------------------------------------------------------------------
         // table headings
         $tableFields = array(
-            "Title" => _t('ShopAdmin.SHIPPING_TITLE', 'Title'),
-            "isActive" => _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')
+            "Title"     => _t('ShopAdmin.SHIPPING_TITLE', 'Title'),
+            "isActive"  => _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')
         );
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $popupFields = new FieldSet(
-                        new TextField('isActive', _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')),
-                        new TextField('minAmountForActivation', _t('ShopAdmin.SHIPPING_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
-                        new TextField('maxAmountForActivation', _t('ShopAdmin.SHIPPING_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
+            new TextField('isActive', _t('ShopAdmin.SHIPPING_ISACTIVE', 'Aktiviert')),
+            new TextField('minAmountForActivation', _t('ShopAdmin.SHIPPING_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
+            new TextField('maxAmountForActivation', _t('ShopAdmin.SHIPPING_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
         );
 
         $table = new ShippingTableField(
-                        $this,
-                        _t('ShopAdmin.SHIPPINGMETHODS', 'shipping methods'),
-                        "ShippingMethod",
-                        $tableFields,
-                        $popupFields,
-                        array('1 = 1'),
-                        'Created DESC'
+            $this,
+            _t('ShopAdmin.SHIPPINGMETHODS', 'shipping methods'),
+            "ShippingMethod",
+            $tableFields,
+            $popupFields,
+            array('1 = 1'),
+            'Created DESC'
         );
 
         $table->setParentClass(false);
@@ -299,17 +299,17 @@ class ShopAdmin extends LeftAndMain {
         // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.SHIPPINGMETHODS', 'Versandarten')),
-                        $table,
-                        $idField
+            new LiteralField("Title", _t('ShopAdmin.SHIPPINGMETHODS', 'Versandarten')),
+            $table,
+            $idField
         );
         $actions = new FieldSet();
 
         $form = new Form(
-                        $this,
-                        'EditForm',
-                        $fields,
-                        $actions
+            $this,
+            'EditForm',
+            $fields,
+            $actions
         );
 
         return $form;
@@ -355,19 +355,19 @@ class ShopAdmin extends LeftAndMain {
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $popupFields = new FieldSet(
-                        new TextField('isActive', _t('ShopAdmin.ZONE_ISACTIVE', 'activated')),
-                        new TextField('minAmountForActivation', _t('ShopAdmin.ZONE_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
-                        new TextField('maxAmountForActivation', _t('ShopAdmin.ZONE_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
+            new TextField('isActive', _t('ShopAdmin.ZONE_ISACTIVE', 'activated')),
+            new TextField('minAmountForActivation', _t('ShopAdmin.ZONE_MINAMOUNTFORACTIVATION', 'minimum amout for module')),
+            new TextField('maxAmountForActivation', _t('ShopAdmin.ZONE_MAXAMOUNTFORACTIVATION', 'maximum amount for module'))
         );
 
         $table = new ShippingTableField(
-                        $this,
-                        _t('ShopAdmin.ZONES', 'zones'),
-                        "Shipping",
-                        $tableFields,
-                        $popupFields,
-                        array('1 = 1'),
-                        'Created DESC'
+            $this,
+            _t('ShopAdmin.ZONES', 'zones'),
+            "Zone",
+            $tableFields,
+            $popupFields,
+            array('1 = 1'),
+            'Created DESC'
         );
 
         $table->setParentClass(false);
@@ -384,17 +384,17 @@ class ShopAdmin extends LeftAndMain {
         // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.ZONE_TITLE', 'Zonen')),
-                        $table,
-                        $idField
+            new LiteralField("Title", _t('ShopAdmin.ZONE_TITLE', 'Zonen')),
+            $table,
+            $idField
         );
         $actions = new FieldSet();
 
         $form = new Form(
-                        $this,
-                        'EditForm',
-                        $fields,
-                        $actions
+            $this,
+            'EditForm',
+            $fields,
+            $actions
         );
 
         return $form;
@@ -440,18 +440,18 @@ class ShopAdmin extends LeftAndMain {
 
         // Popupfelder fuers Bearbeiten des Steuersatzes
         $popupFields = new FieldSet(
-                        new TextField('Title', _t('ShopAdmin.TAX_TITLE', 'title')),
-                        new TextField('Rate', _t('ShopAdmin.TAX_RATE', 'tax rate in percent'))
+            new TextField('Title', _t('ShopAdmin.TAX_TITLE', 'title')),
+            new TextField('Rate', _t('ShopAdmin.TAX_RATE', 'tax rate in percent'))
         );
 
         $table = new TaxTableField(
-                        $this,
-                        _t('ShopAdmin.TAXRATES', 'tax rates'),
-                        "Tax",
-                        $tableFields,
-                        $popupFields,
-                        array('1 = 1'),
-                        'Created DESC'
+            $this,
+            _t('ShopAdmin.TAXRATES', 'tax rates'),
+            "Tax",
+            $tableFields,
+            $popupFields,
+            array('1 = 1'),
+            'Created DESC'
         );
 
         $table->setParentClass(false);
@@ -468,17 +468,17 @@ class ShopAdmin extends LeftAndMain {
         // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.TAX_TITLE', 'Steuersätze')),
-                        $table,
-                        $idField
+            new LiteralField("Title", _t('ShopAdmin.TAX_TITLE', 'Steuersätze')),
+            $table,
+            $idField
         );
         $actions = new FieldSet();
 
         $form = new Form(
-                        $this,
-                        'EditForm',
-                        $fields,
-                        $actions
+            $this,
+            'EditForm',
+            $fields,
+            $actions
         );
 
         return $form;
@@ -524,20 +524,20 @@ class ShopAdmin extends LeftAndMain {
 
         // Popupfelder fuers Bearbeiten der Email
         $popupFields = new FieldSet(
-                        new TextField('Identifier', _t('ShopAdmin.EMAIL_IDENTIFIERT', 'identifier')),
-                        new TextField('Subject', _t('ShopAdmin.EMAIL_SUBJECT', 'subject')),
-                        new TextareaField('EmailText', _t('ShopAdmin.EMAIL_TEXT', 'text'), 8),
-                        new TextareaField('Variables', _t('ShopAdmin.EMAIL_VARIABLES', 'variables'))
+            new TextField('Identifier', _t('ShopAdmin.EMAIL_IDENTIFIERT', 'identifier')),
+            new TextField('Subject', _t('ShopAdmin.EMAIL_SUBJECT', 'subject')),
+            new TextareaField('EmailText', _t('ShopAdmin.EMAIL_TEXT', 'text'), 8),
+            new TextareaField('Variables', _t('ShopAdmin.EMAIL_VARIABLES', 'variables'))
         );
 
         $table = new EmailTableField(
-                        $this,
-                        _t('ShopAdmin.EMAILS', 'emails'),
-                        "ShopEmail",
-                        $tableFields,
-                        $popupFields,
-                        array('1 = 1'),
-                        'Created DESC'
+            $this,
+            _t('ShopAdmin.EMAILS', 'emails'),
+            "ShopEmail",
+            $tableFields,
+            $popupFields,
+            array('1 = 1'),
+            'Created DESC'
         );
 
         $table->setParentClass(false);
@@ -554,17 +554,17 @@ class ShopAdmin extends LeftAndMain {
         // define form
         // --------------------------------------------------------------------
         $fields = new FieldSet(
-                        new LiteralField("Title", _t('ShopAdmin.EMAIL_TITLE', 'title')),
-                        $table,
-                        $idField
+            new LiteralField("Title", _t('ShopAdmin.EMAIL_TITLE', 'title')),
+            $table,
+            $idField
         );
         $actions = new FieldSet();
 
         $form = new Form(
-                        $this,
-                        'EditForm',
-                        $fields,
-                        $actions
+            $this,
+            'EditForm',
+            $fields,
+            $actions
         );
 
         return $form;
