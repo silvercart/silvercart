@@ -197,8 +197,19 @@ class Order extends DataObject {
         $fields = parent::getCMSFields();
         $fields->removeByName('Versandadresse');
         $fields->removeByName('Rechnungsadresse');
-        $shippingAddressTable = new HasOneComplexTableField($this, 'shippingAddress', 'OrderShippingAddress', array('Postcode' => 'PLZ'), 'getCMSFields_forPopup');
-        $fields->addFieldToTab('Root.Versandadresse', $shippingAddressTable);
+
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Name', 'Name', $this->shippingAddress()->FirstName . ' ' . $this->shippingAddress()->Surname));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Street', 'Straße', $this->shippingAddress()->Street . ' ' . $this->shippingAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Addition', 'Zusatz', $this->shippingAddress()->Addition));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_City', 'PLZ/Ort', strtoupper($this->shippingAddress()->country()->ISO2) . '-' . $this->shippingAddress()->Postcode . ' ' . $this->shippingAddress()->City));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Phone', 'Telefon', $this->shippingAddress()->PhoneAreaCode . '/' . $this->shippingAddress()->Phone));
+
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Name', 'Name', $this->invoiceAddress()->FirstName . ' ' . $this->invoiceAddress()->Surname));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Street', 'Straße', $this->invoiceAddress()->Street . ' ' . $this->invoiceAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Addition', 'Zusatz', $this->invoiceAddress()->Addition));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->invoiceAddress()->country()->ISO2) . '-' . $this->invoiceAddress()->Postcode . ' ' . $this->invoiceAddress()->City));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Phone', 'Telefon', $this->invoiceAddress()->PhoneAreaCode . '/' . $this->invoiceAddress()->Phone));
+
         return $fields;
     }
 
