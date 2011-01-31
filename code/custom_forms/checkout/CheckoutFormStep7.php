@@ -76,6 +76,9 @@ class CheckoutFormStep7 extends CustomHtmlForm {
         $order->createShippingAddress($shippingData);
         $order->createInvoiceAddress($invoiceData);
 
+        // send order confirmation mail
+        $order->sendConfirmationMail();
+
         $this->controller->setStepData(
                 array(
                     'orderId' => $order->ID

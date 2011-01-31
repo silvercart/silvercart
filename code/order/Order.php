@@ -72,7 +72,7 @@ class Order extends DataObject {
         'invoiceAddress'    => 'Rechnungsadresse',
         'status'            => 'Bestellstatus'
     );
-    
+
     public static $default_sort = "Created DESC";
 
     /**
@@ -121,7 +121,7 @@ class Order extends DataObject {
     public static $many_many = array(
         'articles' => 'Article'
     );
-    
+
     /**
      * Extensions fuer dieses DataObject registrieren.
      *
@@ -135,8 +135,56 @@ class Order extends DataObject {
         "Versioned('Live')",
     );
 
-
     /**
+     * Legt Default Records an, falls noch nicht vorhanden:
+     * Template für Bestellbestätigungs-Emails
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.01.2011
+     */
+    public function  requireDefaultRecords() {
+        parent::requireDefaultRecords();
+        $checkOrderMail = DataObject::get_one(
+            'ShopEmail',
+            "`Identifier` = 'MailOrderConfirmation'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new ShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderConfirmation');
+            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderConfirmation.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
+            }
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+        $checkOrderMail = DataObject::get_one(
+            'ShopEmail',
+            "`Identifier` = 'MailOrderNotification'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new ShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderNotification');
+            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
+            }
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+    }
+
+        /**
      * customize backend fields
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -264,11 +312,11 @@ class Order extends DataObject {
         $this->PriceTotal->setCurrency('EUR');
 
         // Bestellwert aller Positionen plus Bearbeitungsgebuehren der Zahlungsart plus Versandkosten
-        $totalAmount = 
+        $totalAmount =
             $this->getPaymentHandlingCosts()->getAmount() +
             $this->getShippingCosts()->getAmount() +
             $member->shoppingCart()->getPrice()->getAmount();
-        
+
         $this->AmountTotal->setAmount(
             $totalAmount
         );
@@ -289,7 +337,7 @@ class Order extends DataObject {
         if ($orderStatus) {
             $this->statusID = $orderStatus->ID;
         }
-        
+
         // Bestellung erzeugen, damit ist auch die ID vorhanden
         $this->write();
 
@@ -438,7 +486,7 @@ class Order extends DataObject {
      */
     public function setPriceTotal() {
         $member = Member::currentUser();
-        
+
         if ($member && $member->shoppingCart()) {
             $this->PriceTotal = $member->shoppingCart()->getPrice();
             $this->customerID = $member->ID;
@@ -468,7 +516,7 @@ class Order extends DataObject {
 
     /**
      * The shipping method is a relation + an attribte of the order
-     * 
+     *
      * @param int $shippingMethodID the ID of the shipping method
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -481,7 +529,7 @@ class Order extends DataObject {
             'ShippingMethod',
             $shippingMethodID
         );
-        
+
         if ($selectedShippingMethod) {
             $this->shippingMethodID              = $selectedShippingMethod->ID;
             $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
@@ -506,10 +554,10 @@ class Order extends DataObject {
         foreach ($this->orderPositions() as $orderPosition) {
             $tax += $orderPosition->TaxTotal;
         }
-        
+
         $taxObj = new Money('Tax');
         $taxObj->setAmount($tax);
-        
+
         return $taxObj;
     }
 
@@ -544,10 +592,10 @@ class Order extends DataObject {
     public function getAmountGross() {
         return $this->AmountTotal;
     }
-    
+
     /**
      * Liefert die Waehrung der Rechnung.
-     * 
+     *
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -617,7 +665,7 @@ class Order extends DataObject {
     public function getHandlingCosts() {
         return $this->HandlingCostPayment;
     }
-    
+
 
     /**
      * Gibt die Menge aller Artikel der Bestellung zurueck.
@@ -673,7 +721,7 @@ class Order extends DataObject {
 
     /**
      * Schreibt einen Logeintrag.
-     * 
+     *
      * @param string $context Der Kontext fuer den Logeintrag
      * @param string $text    Der Text fuer den Logeintrag
      *
@@ -707,35 +755,33 @@ class Order extends DataObject {
     /**
      * send a confirmation mail with order details to the customer $member
      *
-     * @param string $recipientEmail to get anonymous customers email only
-     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.11.2010
      * @return void
      */
-    public function sendConfirmationMail($recipientEmail = "") {
+    public function sendConfirmationMail() {
         $member = Member::currentUser();
         if ($member) {
-            if ($member->Email) { //for registered customers
-                $memberEmail = $member->Email;
-            } else { // for anonymous customers
-                $memberEmail = $recipientEmail;
-            }
-            $email = new Email(
-                            'info@pourlatable.de',
-                            $memberEmail,
-                            'Ihre Bestellung bei pourlatable.de',
-                            '');
-            $email->setTemplate('MailOrderConfirmation');
-            $email->populateTemplate(
-                    array(
-                        'FirstName' => $member->FirstName,
-                        'Surname' => $member->Surname,
-                        'Salutation' => $member->Salutation,
-                        'Order' => $this
-                    )
+            ShopEmail::send(
+                'MailOrderConfirmation',
+                $this->CustomersEmail,
+                array(
+                    'FirstName' => $member->FirstName,
+                    'Surname' => $member->Surname,
+                    'Salutation' => $member->Salutation,
+                    'Order' => $this
+                )
             );
-            $email->send();
+            ShopEmail::send(
+                'MailOrderNotification',
+                Email::getAdminEmail(),
+                array(
+                    'FirstName' => $member->FirstName,
+                    'Surname' => $member->Surname,
+                    'Salutation' => $member->Salutation,
+                    'Order' => $this
+                )
+            );
         }
     }
 
