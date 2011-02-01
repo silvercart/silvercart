@@ -61,6 +61,22 @@ class ArticleGroupPage extends Page {
         return $fields;
     }
 
+    /**
+     * Checks if ArticleGroup has children or articles.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.02.2011
+     */
+    public function hasArticlesOrChildren() {
+        if ($this->articles()->Count() > 0
+         || count($this->Children()) > 0) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 /**
