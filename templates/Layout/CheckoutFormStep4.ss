@@ -5,8 +5,8 @@
             <thead>
                 <tr>
                     <th>Artikelname</th>
-                    <th class="Amount">Anzahl</th>
-                    <th class="pricewidth">Preis </th>
+                    <th class="right">Anzahl</th>
+                    <th class="right">Preis </th>
                 </tr>
             </thead>
 
@@ -16,16 +16,37 @@
                         <% control positions %>
                             <tr<% if Last %> class="separator"<% end_if %>>
                                 <td>$article.Title</td>
-                                <td>$Quantity</td>
-                                <td>$Price.Nice</td>
+                                <td class="right">$Quantity</td>
+                                <td class="right">$Price.Nice</td>
                             </tr>
                         <% end_control %>
+
+                        <tr class="separator">
+                            <td>Warenwert</td>
+                            <td></td>
+                            <td class="right">$getPrice(0).Nice</td>
+                        </tr>
 
                         <tr>
                             <td>Enthaltene Mehrwertsteuer</td>
                             <td></td>
-                            <td>$getTax.Nice</td>
+                            <td class="right">$getTax.Nice</td>
                         </tr>
+
+                        <% if registeredModules %>
+                            <% control registeredModules %>
+                                <% if ShoppingCartPositions %>
+                                    <% control ShoppingCartPositions %>
+                                        <tr>
+                                            <td>$moduleOutput.Title</td>
+                                            <td class="right">$moduleOutput.Quantity</td>
+                                            <td class="right">$moduleOutput.PriceTotalFormatted</td>
+                                        </tr>
+                                    <% end_control %>
+                                <% end_if %>
+                            <% end_control %>
+                        <% end_if %>
+
                     <% end_control %>
                 <% end_control %>
 
@@ -33,38 +54,39 @@
                     <tr class="separator">
                         <td>Bearbeitungsgebühren</td>
                         <td></td>
-                        <td>$getHandlingCosts.Nice</td>
+                        <td class="right">$getHandlingCosts.Nice</td>
                     </tr>
-                    <tr>
+                    <tr">
                         <td>Versandart</td>
                         <td></td>
-                        <td>$CarrierAndShippingMethodTitle</td>
+                        <td class="right">$CarrierAndShippingMethodTitle</td>
                     </tr>
-                    <tr>
+                    <tr class="separator">
                         <td>Versandkosten</td>
                         <td></td>
-                        <td>$HandlingCostShipment.Nice</td>
+                        <td class="right">$HandlingCostShipment.Nice</td>
                     </tr>
                     <tr>
                         <td>Bezahlart</td>
                         <td></td>
-                        <td>$PaymentMethodTitle</td>
+                        <td class="right">$PaymentMethodTitle</td>
                     </tr>
                     <tr class="separator">
                         <td>Bezahlart Gebühren</td>
                         <td></td>
-                        <td>$HandlingCostPayment.Nice</td>
+                        <td class="right">$HandlingCostPayment.Nice</td>
                     </tr>
                     <tr>
                         <td><strong>Gesamtbetrag</strong></td>
                         <td></td>
-                        <td><strong>$AmountGrossRaw.Nice</strong></td>
+                        <td class="right"><strong>$AmountGrossRaw.Nice</strong></td>
                     </tr>
                 <% end_control %>
             </tbody>
 
         </table>
     </fieldset>
+
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
 

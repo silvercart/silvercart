@@ -231,8 +231,14 @@ class ShippingMethod extends DataObject {
         $cartWeightTotal = Member::currentUser()->shoppingCart()->getWeightTotal();
 
         if ($cartWeightTotal) {
-            $filter = sprintf("`shippingMethodID` = '%s' AND `MaximumWeight` >= '%s'", $this->ID, $cartWeightTotal);
-            $fees   = DataObject::get('ShippingFee', $filter);
+            $fees = DataObject::get(
+                'ShippingFee',
+                sprintf(
+                    "`shippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
+                    $this->ID,
+                    $cartWeightTotal
+                )
+            );
 
             if ($fees) {
                 $fees->sort('PriceAmount');
