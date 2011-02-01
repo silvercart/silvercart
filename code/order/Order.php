@@ -56,16 +56,24 @@ class Order extends DataObject {
     );
 
     public static $summary_fields = array(
-        'Created'               => 'Datum',
-        'customer.FirstName'    => 'Vorname Kunde',
-        'customer.Surname'      => 'Nachname Kunde'
+        'CreatedNice'               => 'Datum',
+        'ID'                        => 'Bestellnummer',
+        'ShippingAddressSummary'    => 'Lieferadresse',
+        'InvoiceAddressSummary'     => 'Rechnungsadresse',
+        'AmountTotalNice'           => 'Bestellwert',
     );
 
     public static $casting = array(
-        'Created' => 'Date'
+        'Created'                   => 'Date',
+        'CreatedNice'               => 'VarChar',
+        'ShippingAddressSummary'    => 'VarChar',
+        'InvoiceAddressSummary'     => 'VarChar',
+        'AmountTotalNice'           => 'VarChar',
     );
 
     public static $field_labels = array(
+        'ID'                => 'Bestellnummer',
+        'Created'           => 'Datum',
         'ShippingRate'      => 'Versandkosten',
         'Note'              => 'Kundenbemerkungen',
         'isConfirmed'       => 'bestätigt?',
@@ -84,7 +92,8 @@ class Order extends DataObject {
      */
     public static $searchable_fields = array(
         'Created',
-        'customer.FirstName'
+        'customer.FirstName',
+        'customer.Surname',
 
     );
 
@@ -136,6 +145,52 @@ class Order extends DataObject {
     static $extensions = array(
         "Versioned('Live')",
     );
+
+    /**
+     * returns the orders creation date formated: dd.mm.yyyy hh:mm
+     *
+     * @return string
+     */
+    public function getCreatedNice() {
+        return date('d.m.Y H:i', strtotime($this->Created)) . ' Uhr';
+    }
+
+    /**
+     * return the orders shipping address as complete string.
+     *
+     * @return string
+     */
+    public function getShippingAddressSummary() {
+        $shippingAddressSummary = '';
+        $shippingAddressSummary .= $this->shippingAddress()->FirstName . ' ' . $this->shippingAddress()->Surname . "\n";
+        $shippingAddressSummary .= $this->shippingAddress()->Street . ' ' . $this->shippingAddress()->StreetNumber . "\n";
+        $shippingAddressSummary .= $this->shippingAddress()->Addition == '' ? '' : $this->shippingAddress()->Addition . "\n";
+        $shippingAddressSummary .= strtoupper($this->shippingAddress()->country()->ISO2) . '-' . $this->shippingAddress()->Postcode . ' ' . $this->shippingAddress()->City . "\n";
+        return $shippingAddressSummary;
+    }
+
+    /**
+     * return the orders invoice address as complete string.
+     *
+     * @return string
+     */
+    public function getInvoiceAddressSummary() {
+        $invoiceAddressSummary = '';
+        $invoiceAddressSummary .= $this->invoiceAddress()->FirstName . ' ' . $this->invoiceAddress()->Surname . "\n";
+        $invoiceAddressSummary .= $this->invoiceAddress()->Street . ' ' . $this->invoiceAddress()->StreetNumber . "\n";
+        $invoiceAddressSummary .= $this->invoiceAddress()->Addition == '' ? '' : $this->invoiceAddress()->Addition . "\n";
+        $invoiceAddressSummary .= strtoupper($this->invoiceAddress()->country()->ISO2) . '-' . $this->invoiceAddress()->Postcode . ' ' . $this->invoiceAddress()->City . "\n";
+        return $invoiceAddressSummary;
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getAmountTotalNice() {
+        return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
+    }
 
     /**
      * Creates default records, if not exitstent:
