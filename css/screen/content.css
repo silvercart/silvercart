@@ -316,7 +316,9 @@
       color: #fff;
    }
 
-     #Form_removeFromCartForm_action_doRemoveFromCart {
+     #Form_removeFromCartForm_action_doRemoveFromCart,
+     form .action-remove input
+     {
       background:url(images/button_delete.png) no-repeat top left;
       padding-left: 20px;
       cursor:pointer;
