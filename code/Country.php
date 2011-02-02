@@ -19,8 +19,7 @@ class Country extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "Land";
-
+    public static $singular_name = "";
     /**
      * Plural name
      *
@@ -30,8 +29,7 @@ class Country extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "Länder";
-
+    public static $plural_name = "";
     /**
      * Attributes.
      *
@@ -43,10 +41,9 @@ class Country extends DataObject {
      */
     public static $db = array(
         'Title' => 'VarChar',
-        'ISO2'  => 'VarChar',
-        'ISO3'  => 'VarChar'
+        'ISO2' => 'VarChar',
+        'ISO3' => 'VarChar'
     );
-
     /**
      * Many-many relationships.
      *
@@ -59,7 +56,6 @@ class Country extends DataObject {
     public static $many_many = array(
         'paymentMethods' => 'PaymentMethod'
     );
-
     /**
      * Belongs-many-many relationships.
      *
@@ -72,7 +68,6 @@ class Country extends DataObject {
     public static $belongs_many_many = array(
         'zones' => 'Zone'
     );
-
     /**
      * Summaryfields for display in tables.
      *
@@ -89,7 +84,6 @@ class Country extends DataObject {
         'AttributedZones',
         'AttributedPaymentMethods'
     );
-
     /**
      * Column labels for display in tables.
      *
@@ -100,13 +94,7 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title'                     => 'Land',
-        'ISO2'                      => 'ISO2 Code',
-        'ISO3'                      => 'ISO3 Code',
-        'AttributedZones'           => 'Zugeordnete Zonen',
-        'AttributedPaymentMethods'  => 'Zugeordnete Bezahlarten'
     );
-
     /**
      * List of searchable fields for the model admin
      *
@@ -117,17 +105,7 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $searchable_fields = array(
-        'Title',
-        'ISO2',
-        'ISO3',
-        'zones.ID' => array(
-            'title' => 'Zugeordnete Zonen'
-        ),
-        'paymentMethods.ID' => array(
-            'title' => 'Zugeordnete Bezahlarten'
-        )
     );
-
     /**
      * Virtual database columns.
      *
@@ -138,9 +116,44 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedZones'           => 'Varchar(255)',
-        'AttributedPaymentMethods'  => 'Varchar(255)'
+        'AttributedZones' => 'Varchar(255)',
+        'AttributedPaymentMethods' => 'Varchar(255)'
     );
+
+    /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('Country.SINGULARNAME', 'country');
+        self::$plural_name = _t('Country.PLURALNAME', 'countries');
+        self::$field_labels = array(
+            'Title' => _t('Country.SINGULARNAME'),
+            'ISO2' => 'ISO2 Code',
+            'ISO3' => 'ISO3 Code',
+            'AttributedZones' => _t('Country.ATTRIBUTED_ZONES', 'attributed zones'),
+            'AttributedPaymentMethods' => _t('Country.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method')
+        );
+        self::$searchable_fields = array(
+            'Title',
+            'ISO2',
+            'ISO3',
+            'zones.ID' => array(
+                'title' => _t('Country.ATTRIBUTED_ZONES')
+            ),
+            'paymentMethods.ID' => array(
+                'title' => _t('Country.ATTRIBUTED_PAYMENTMETHOD')
+            )
+        );
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * Default database records
@@ -155,14 +168,14 @@ class Country extends DataObject {
         parent::requireDefaultRecords();
 
         $standardCountry = DataObject::get_one(
-            'Country'
+                        'Country'
         );
 
         if (!$standardCountry) {
-            $obj        = new Country();
+            $obj = new Country();
             $obj->Title = 'Deutschland';
-            $obj->ISO2  = 'de';
-            $obj->ISO3  = 'deu';
+            $obj->ISO2 = 'de';
+            $obj->ISO3 = 'deu';
             $obj->write();
         }
     }
@@ -182,15 +195,16 @@ class Country extends DataObject {
         $fields->removeByName('zones');
 
         $paymentMethodsTable = new ManyManyComplexTableField(
-            $this,
-            'paymentMethods',
-            'PaymentMethod',
-            null,
-            'getCmsFields_forPopup'
+                        $this,
+                        'paymentMethods',
+                        'PaymentMethod',
+                        null,
+                        'getCmsFields_forPopup'
         );
-        $paymentMethodsTable->setAddTitle('Zahlarten');
-        $fields->addFieldToTab('Root.Zahlarten', $paymentMethodsTable);
-        
+        $paymentMethodsTable->setAddTitle(_t('PaymentMethod.TITLE', 'payment method'));
+        $tabParam = "Root." . _t('PaymentMethod.TITLE');
+        $fields->addFieldToTab($tabParam, $paymentMethodsTable);
+
         return $fields;
     }
 
@@ -205,8 +219,8 @@ class Country extends DataObject {
      */
     public function AttributedZones() {
         $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
+        $attributedZones = array();
+        $maxLength = 150;
 
         foreach ($this->zones() as $zone) {
             $attributedZones[] = $zone->Title;
@@ -216,7 +230,7 @@ class Country extends DataObject {
             $attributedZonesStr = implode(', ', $attributedZones);
 
             if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
             }
         }
 
@@ -234,8 +248,8 @@ class Country extends DataObject {
      */
     public function AttributedPaymentMethods() {
         $attributedPaymentMethodsStr = '';
-        $attributedPaymentMethods    = array();
-        $maxLength                   = 150;
+        $attributedPaymentMethods = array();
+        $maxLength = 150;
 
         foreach ($this->paymentMethods() as $paymentMethod) {
             $attributedPaymentMethods[] = $paymentMethod->Name;
@@ -245,10 +259,11 @@ class Country extends DataObject {
             $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
 
             if (strlen($attributedPaymentMethodsStr) > $maxLength) {
-                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength).'...';
+                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength) . '...';
             }
         }
 
         return $attributedPaymentMethodsStr;
     }
+
 }

@@ -30,17 +30,18 @@ class RegisterConfirmationPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $confirmationMailSubjectField = new TextField('ConfirmationMailSubject', 'Bestätigungsmail: Betreff');
-        $confirmationMailTextField = new HtmlEditorField('ConfirmationMailMessage', 'Bestätigungsmail: Nachricht', 20);
-        $confirmationFailureMessageTextField = new HtmlEditorField('ConfirmationFailureMessage', 'Fehlernachricht', 20);
-        $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', 'Erfolgsnachricht', 20);
-        $alreadyConfirmedMessageTextField = new HtmlEditorField('AlreadyConfirmedMessage', 'Nachricht, wenn User schon aktiviert ist', 20);
+        $confirmationMailSubjectField = new TextField('ConfirmationMailSubject', _t('RegisterConfirmationPage.CONFIRMATIONMAIL_SUBJECT', 'confirmation mail: subject'));
+        $confirmationMailTextField = new HtmlEditorField('ConfirmationMailMessage', _t('RegisterConfirmationPage.CONFIRMATIONMAIL_TEXT', 'confirmation mail: text'), 20);
+        $confirmationFailureMessageTextField = new HtmlEditorField('ConfirmationFailureMessage', _t('RegisterConfirmationPage.FAILURE_MESSAGE_TEXT', 'failure message'), 20);
+        $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', _t('RegisterConfirmationPage.SUCCESS_MESSAGE_TEXT', 'success message'), 20);
+        $alreadyConfirmedMessageTextField = new HtmlEditorField('AlreadyConfirmedMessage', _t('RegisterConfirmationPage.ALREADY_REGISTERES_MESSAGE_TEXT', 'message: user already registered'), 20);
 
         $fields->addFieldToTab('Root.Content.Main', $confirmationFailureMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $confirmationSuccessMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $alreadyConfirmedMessageTextField);
-        $fields->addFieldToTab('Root.Content.ConfirmationMail', $confirmationMailSubjectField);
-        $fields->addFieldToTab('Root.Content.ConfirmationMail', $confirmationMailTextField);
+        $tabParam = "Root.Content."._t('RegisterConfirmationPage.CONFIRMATION_MAIL', 'confirmation mail');
+        $fields->addFieldToTab($tabParam, $confirmationMailSubjectField);
+        $fields->addFieldToTab($tabParam, $confirmationMailTextField);
 
         return $fields;
     }

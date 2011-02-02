@@ -49,9 +49,6 @@ $lang['en_US']['BusinessCustomer']['BUSINESSCUSTOMER'] = 'business customer';
 $lang['en_US']['RegularCustomer']['REGULARCUSTOMER'] = 'regular customer';
 $lang['en_US']['ShippingFee']['ZONE_WITH_DESCRIPTION'] = 'zone (only carrier\'s zones available)';
 $lang['en_US']['ShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zone--';
-
-
-//noch nicht in der deutschen sprachdatei
 $lang['en_US']['AddressHolder']['SINGULARNAME'] = 'address holder';
 $lang['en_US']['AddressPage']['SINGULARNAME'] = 'address details page';
 $lang['en_US']['ArticleCategoryHolder']['SINGULARNAME'] = 'article category holder';
@@ -118,25 +115,36 @@ $lang['en_US']['Page']['API_EDIT'] = 'can edit objects via the API';
 $lang['en_US']['Page']['API_DELETE'] = 'can delete objects via the API';
 $lang['en_US']['PaymentNotification']['TITLE'] = 'payment notification';
 $lang['en_US']['PaymentNotification']['URL_SEGMENT'] = 'payment-notification';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-$lang['en_US'][''][''] = '';
-
-
+$lang['en_US']['RegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'confirmation mail: subject';
+$lang['en_US']['RegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'confirmation mail: text';
+$lang['en_US']['RegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'failure message';
+$lang['en_US']['RegisterConfirmationPage']['SUCCESS_MESSAGE_TEXT'] = 'success message';
+$lang['en_US']['RegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'message: user already registered';
+$lang['en_US']['RegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'confirmation mail';
+$lang['en_US']['RegisterWelcomePage']['SINGULARNAME'] = 'register welcome page';
+$lang['en_US']['RegistrationPage']['CUSTOMER_SALUTATION'] = 'Dear customer\,';
+$lang['en_US']['RegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'activation mail subject';
+$lang['en_US']['RegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'activation mail text';
+$lang['en_US']['RegistrationPage']['ACTIVATION_MAIL'] = 'activation mail';
+$lang['en_US']['RegistrationPage']['TITLE'] = 'registration page';
+$lang['en_US']['RegistrationPage']['URL_SEGMENT'] = 'registration';
+$lang['en_US']['RegistrationPage']['PLEASE_COFIRM'] = 'please confirm Your registration';
+$lang['en_US']['RegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>';
+$lang['en_US']['RegistrationPage']['THANKS'] = 'Many thanks for Your registration';
+$lang['en_US']['RegistrationPage']['SUCCESS_TEXT'] = '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>';
+$lang['en_US']['RegisterConfirmationPage']['TITLE'] = 'register confirmation page';
+$lang['en_US']['RegisterConfirmationPage']['URL_SEGMENT'] = 'register-confirmation';
+$lang['en_US']['RegistrationPage']['PLEASE_COFIRM'] = 'please confirm Your registration';
+$lang['en_US']['SearchResultsPage']['SINGULARNAME'] = 'search results page';
+$lang['en_US']['SearchResultsPage']['TITLE'] = 'search results';
+$lang['en_US']['SearchResultsPage']['URL_SEGMENT'] = 'search-results';
+$lang['en_US']['ShippingFeesPage']['SINGULARNAME'] = 'shipping fees page';
+$lang['en_US']['TermsAndConditionsPage']['SINGULARNAME'] = 'terms and conditions page';
+$lang['en_US']['Country']['SINGULARNAME'] = 'country';
+$lang['en_US']['Country']['PLURALNAME'] = 'countries';
+$lang['en_US']['PaymentMethod']['TITLE'] = 'payment method';
+$lang['en_US']['Country']['ATTRIBUTED_ZONES'] = 'attributed zones';
+$lang['en_US']['Country']['ATTRIBUTED_PAYMENTMETHOD'] = 'attributed payment method';
 
 
 
