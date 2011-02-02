@@ -1,6 +1,6 @@
 <?php
 /**
- * Script fuer Rueckmeldungen von Zahlungsprovidern.
+ * feddback from payment providers
  *
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -11,8 +11,7 @@
 class PaymentNotification extends Page {
 
     /**
-     * Legt die Notificationseite in der Datenbank an, wenn sie noch nicht
-     * vorhanden ist.
+     * create a default record
      *
      * @return void 
      *
@@ -23,7 +22,7 @@ class PaymentNotification extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        if (!SiteTree::get_by_link('payment-notification')) {
+        if (!SiteTree::get_by_link(_t('PaymentNotification.URL_SEGMENT', 'payment-notification'))) {
 
             $checkPage = DataObject::get_one(
                 'Page',
@@ -38,8 +37,8 @@ class PaymentNotification extends Page {
             }
 
             $page               = new PaymentNotification();
-            $page->URLSegment   = 'payment-notification';
-            $page->Title        = 'Payment Notification';
+            $page->URLSegment   = _t('PaymentNotification.URL_SEGMENT');
+            $page->Title        = _t('PaymentNotification.TITLE', 'payment notification');
             $page->Status       = 'Published';
             $page->Sort         = $sort;
             $page->ShowInMenus  = 0;

@@ -10,8 +10,23 @@
  */
 class FrontPage extends Page {
 
-    public static $singular_name = "Frontpage";
-    public static $plural_name = "Frontpages";
+    public static $singular_name = "";
+
+    /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('FrontPage.SINGULARNAME', 'front page');
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * creates a default silvercart startpage.
@@ -31,7 +46,7 @@ class FrontPage extends Page {
         $frontPage->ShowInMenue = true;
         $frontPage->ShowInSearch = true;
         $frontPage->Title = 'Start';
-        $frontPage->Content = '<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>';
+        $frontPage->Content = _t('FrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
         $frontPage->write();
         $frontPage->publish("Stage", "Live");
     }

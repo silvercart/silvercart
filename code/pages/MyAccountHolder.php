@@ -11,12 +11,28 @@
 class MyAccountHolder extends Page {
 
     public static $singular_name = "Accountseite";
-    public static $plural_name = "Accountseiten";
+    
     public static $allowed_children = array(
         "DataPage",
         "OrderHolder",
         "AddressHolder"
     );
+
+    /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('MyAccountHolder.SINGULARNAME', 'account page');
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * default instances related to $this
@@ -31,8 +47,8 @@ class MyAccountHolder extends Page {
         $records = DataObject::get_one($this->ClassName);
         if (!$records) {
             $page = new $this->ClassName();
-            $page->Title = "Mein Konto";
-            $page->URLSegment = "meinkonto";
+            $page->Title = _t('MyAccountHolder.TITLE', 'my account');
+            $page->URLSegment = _t('MyAccountHolder.URL_SEGMENT', 'my account');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = false;
@@ -44,8 +60,8 @@ class MyAccountHolder extends Page {
              * Create a DataPage as child of $this
              */
             $dataPage = new DataPage();
-            $dataPage->Title = "Meine Daten";
-            $dataPage->URLSegment = "meinedaten";
+            $dataPage->Title = _t('DataPage.TITLE', 'my data');
+            $dataPage->URLSegment = _t('DataPage.URL_SEGMENT', 'my-data');
             $dataPage->Status = "Published";
             $dataPage->ShowInMenus = false;
             $dataPage->ShowInSearch = false;
@@ -58,8 +74,8 @@ class MyAccountHolder extends Page {
              * Create a OrderHolder as child of $this
              */
             $orderHolder = new OrderHolder();
-            $orderHolder->Title = "Bestellübersicht";
-            $orderHolder->URLSegment = "bestelluebersicht";
+            $orderHolder->Title = _t('OrderHolder.TITLE', 'my oders');
+            $orderHolder->URLSegment = _t('OrderHolder.URL_SEGMENT', 'my-oders');
             $orderHolder->Status = "Published";
             $orderHolder->ShowInMenus = true;
             $orderHolder->ShowInSearch = false;
@@ -72,8 +88,8 @@ class MyAccountHolder extends Page {
              * Create a OrderDetailPage as child of OrderHolder
              */
             $orderDetailPage = new OrderDetailPage();
-            $orderDetailPage->Title = "Bestellansicht";
-            $orderDetailPage->URLSegment = "bestellansicht";
+            $orderDetailPage->Title = _t('OrderDetailPage.TITLE', 'order details');
+            $orderDetailPage->URLSegment = _t('OrderDetailPage.URL_SEGMENT', 'order-details');
             $orderDetailPage->Status = "Published";
             $orderDetailPage->ShowInMenus = true;
             $orderDetailPage->ShowInSearch = false;
@@ -86,8 +102,8 @@ class MyAccountHolder extends Page {
              * Create a AddressHolder as child of $this
              */
             $addressHolder = new AddressHolder();
-            $addressHolder->Title = "Adressübersicht";
-            $addressHolder->URLSegment = "adressuebersicht";
+            $addressHolder->Title = _t('AddressHolder.TITLE', 'address overview');
+            $addressHolder->URLSegment = _t('AddressHolder.URL_SEGMENT', 'address-overview');
             $addressHolder->Status = "Published";
             $addressHolder->ShowInMenus = true;
             $addressHolder->ShowInSearch = false;
@@ -100,8 +116,8 @@ class MyAccountHolder extends Page {
              * Create a AddressPage as a child of AddressHolder
              */
             $addressPage = new AddressPage();
-            $addressPage->Title = "Adressansicht";
-            $addressPage->URLSegment = "adressansicht";
+            $addressPage->Title = _t('AddressPage.TITLE', 'address details');
+            $addressPage->URLSegment = _t('AddressPage.URL_SEGMENT', 'address-details');
             $addressPage->Status = "Published";
             $addressPage->ShowInMenus = true;
             $addressPage->ShowInSearch = false;

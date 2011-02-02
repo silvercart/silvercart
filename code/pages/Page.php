@@ -24,7 +24,7 @@ class Page extends SiteTree {
     public function getCMSFields() {
 
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('headerPicture', 'Headergrafik'));
+        $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('headerPicture', _t('Page.HEADERPICTURE', 'header picture')));
         return $fields;
     }
 
@@ -171,7 +171,7 @@ class Page_Controller extends ContentController implements PermissionProvider {
         $fields = new FieldSet();
         $fields->push(new HiddenField('ShoppingCartPositionID', 'ShoppingCartPositionID'));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doRemoveFromCart', 'entfernen'));
+        $actions->push(new FormAction('doRemoveFromCart', _t('Page.REMOVE_FROM_CART', 'remove')));
         $form = new Form($this, 'removeFromCartForm', $fields, $actions);
         return $form;
     }
@@ -207,7 +207,7 @@ class Page_Controller extends ContentController implements PermissionProvider {
         $fields = new FieldSet();
         $fields->push(new HiddenField('cartID', 'cartID', Member::currentUser()->shoppingCartID));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doFlushCart', 'leeren'));
+        $actions->push(new FormAction('doFlushCart', _t('Page.EMPTY_CART', 'empty')));
         $form = new Form($this, 'flushCartForm', $fields, $actions);
         return $form;
     }
@@ -243,10 +243,10 @@ class Page_Controller extends ContentController implements PermissionProvider {
      */
     public function providePermissions() {
         return array(
-            'API_VIEW' => 'Darf über die API Objekte auslesen',
-            'API_CREATE' => 'Darf über die API Objekte erstellen',
-            'API_EDIT' => 'Darf über die API Objekte ändern',
-            'API_DELETE' => 'Darf über die API Objekte löschen'
+            'API_VIEW' => _t('Page.API_VIEW', 'can read objects via the API'),
+            'API_CREATE' => _t('Page.API_CREATE', 'can create objects via the API'),
+            'API_EDIT' => _t('Page.API_EDIT', 'can edit objects via the API'),
+            'API_DELETE' => _t('Page.API_DELETE', 'can delete objects via the API')
         );
     }
 
