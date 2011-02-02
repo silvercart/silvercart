@@ -55,6 +55,15 @@ class Order extends DataObject {
         'CustomersEmail'                => 'VarChar(60)'
     );
 
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $summary_fields = array(
         'CreatedNice'               => 'Datum',
         'ID'                        => 'Bestellnummer',
@@ -63,6 +72,15 @@ class Order extends DataObject {
         'AmountTotalNice'           => 'Bestellwert',
     );
 
+    /**
+     * Casting.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $casting = array(
         'Created'                   => 'Date',
         'CreatedNice'               => 'VarChar',
@@ -71,6 +89,15 @@ class Order extends DataObject {
         'AmountTotalNice'           => 'VarChar',
     );
 
+    /**
+     * Field labels for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $field_labels = array(
         'ID'                => 'Bestellnummer',
         'Created'           => 'Datum',
@@ -83,12 +110,25 @@ class Order extends DataObject {
         'status'            => 'Bestellstatus'
     );
 
+    /**
+     * Default sort direction in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $default_sort = "Created DESC";
 
     /**
-     * Makes the column in a backend table sortable
+     * Searchable fields
      *
      * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
      */
     public static $searchable_fields = array(
         'Created',
@@ -129,6 +169,15 @@ class Order extends DataObject {
         'orderPositions' => 'OrderPosition'
     );
 
+    /**
+     * m:n relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $many_many = array(
         'articles' => 'Article'
     );
@@ -455,25 +504,24 @@ class Order extends DataObject {
                 )
             );
 
-            foreach ($modulesOutput as $moduleName => $moduleOutput) {
+            foreach ($modulesOutput as $moduleName => $modulePositions) {
 
-                print_r($moduleOutput);
-                exit();
-
-                $orderPosition = new OrderPosition();
-                $orderPosition->Price->setAmount($moduleOutput->Price);
-                $orderPosition->Price->setCurrency($moduleOutput->Currency);
-                $orderPosition->PriceTotal->setAmount($moduleOutput->PriceTotal);
-                $orderPosition->PriceTotal->setCurrency($moduleOutput->Currency);
-                $orderPosition->Tax                 = 0;
-                $orderPosition->TaxTotal            = 0;
-                $orderPosition->TaxRate             = 0;
-                $orderPosition->ArticleDescription  = $moduleOutput->LongDescription;
-                $orderPosition->Quantity            = $moduleOutput->Quantity;
-                $orderPosition->Title               = $moduleOutput->Title;
-                $orderPosition->orderID             = $this->ID;
-                $orderPosition->write();
-                unset($orderPosition);
+                foreach ($modulePositions as $modulePosition) {
+                    $orderPosition = new OrderPosition();
+                    $orderPosition->Price->setAmount($modulePosition->moduleOutput->Price);
+                    $orderPosition->Price->setCurrency($modulePosition->moduleOutput->Currency);
+                    $orderPosition->PriceTotal->setAmount($modulePosition->moduleOutput->PriceTotal);
+                    $orderPosition->PriceTotal->setCurrency($modulePosition->moduleOutput->Currency);
+                    $orderPosition->Tax                 = 0;
+                    $orderPosition->TaxTotal            = 0;
+                    $orderPosition->TaxRate             = 0;
+                    $orderPosition->ArticleDescription  = $modulePosition->moduleOutput->LongDescription;
+                    $orderPosition->Quantity            = $modulePosition->moduleOutput->Quantity;
+                    $orderPosition->Title               = $modulePosition->moduleOutput->Title;
+                    $orderPosition->orderID             = $this->ID;
+                    $orderPosition->write();
+                    unset($orderPosition);
+                }
             }
 
             // Delete the shoppingcart positions
@@ -536,9 +584,9 @@ class Order extends DataObject {
         $orderStatusSet = false;
 
         if ($orderStatus && $orderStatus->exists()) {
-                $this->statusID = $orderStatus->ID;
-                $this->write();
-                $orderStatusSet = true;
+            $this->statusID = $orderStatus->ID;
+            $this->write();
+            $orderStatusSet = true;
         }
 
         return $orderStatusSet;
@@ -555,7 +603,26 @@ class Order extends DataObject {
      * @return void
      */
     public function setNote($note) {
-        $this->Note = $note;
+        $this->setField('Note', $note);
+    }
+
+    /**
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     *
+     */
+    public function getFormattedNote() {
+        $note = $this->Note;
+        $note = str_replace(
+            '\r\n',
+            '<br />',
+            $note
+        );
+
+        return $note;
     }
 
     /**
@@ -587,8 +654,6 @@ class Order extends DataObject {
 
         if ($member && $member->shoppingCart()) {
             $this->PriceTotal = $member->shoppingCart()->getPrice();
-            $this->customerID = $member->ID;
-            $this->write();
         }
     }
 
@@ -730,6 +795,71 @@ class Order extends DataObject {
      */
     public function getPriceGross() {
         return $this->PriceTotal;
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees.
+     *
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function getTaxableAmountGross() {
+        $priceGross = new Money();
+        $priceGross->setAmount(0);
+
+        foreach ($this->orderPositions() as $position) {
+            if ($position->TaxRate > 0) {
+                $priceGross->setAmount(
+                    $priceGross->getAmount() + $position->PriceTotal->getAmount()
+                );
+            }
+        }
+
+        return $priceGross;
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 including
+     * all fees.
+     *
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function getTaxableAmountGrossWithFees() {
+        $priceGross = new Money();
+        $priceGross->setAmount(0);
+
+        foreach ($this->orderPositions() as $position) {
+            if ($position->TaxRate > 0) {
+                $priceGross->setAmount(
+                    $priceGross->getAmount() + $position->PriceTotal->getAmount()
+                );
+            }
+        }
+
+        $priceGross->setAmount(
+            $priceGross->getAmount() +
+            $this->getPaymentHandlingCosts()->getAmount()
+        );
+
+        $priceGross->setAmount(
+            $priceGross->getAmount() +
+            $this->getShippingCosts()->getAmount()
+        );
+
+        $priceGross->setAmount(
+            $priceGross->getAmount() +
+            $this->getHandlingCosts()->getAmount()
+        );
+
+        return $priceGross;
     }
 
     /**

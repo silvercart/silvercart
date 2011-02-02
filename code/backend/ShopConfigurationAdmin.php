@@ -26,6 +26,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
         'ShippingMethod',
         'ShippingFee',
         'Carrier',
+        'Tax',
         'OrderStatus'
     );
 

@@ -19,7 +19,7 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $singular_name = "tax";
+    static $singular_name = "Steuersatz";
 
     /**
      * plural name for backend
@@ -30,7 +30,7 @@ class Tax extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $plural_name = "taxes";
+    static $plural_name = "Steuersätze";
 
     /**
      * attributes
@@ -57,6 +57,47 @@ class Tax extends DataObject {
      */
     public static $has_many = array(
         'articles' => 'Article'
+    );
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public static $summary_fields = array(
+        'Title'                     => 'Label',
+        'Rate'                      => 'Steuersatz in %'
+    );
+
+    /**
+     * Column labels for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public static $field_labels = array(
+        'Title'                     => 'Label',
+        'Rate'                      => 'Steuersatz in %'
+    );
+
+    /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public static $searchable_fields = array(
+        'Rate'
     );
 
     /**

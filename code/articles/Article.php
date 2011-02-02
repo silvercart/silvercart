@@ -18,7 +18,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "article";
+    public static $singular_name = "Artikel";
 
     /**
      * plural name for backend
@@ -29,7 +29,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "articles";
+    public static $plural_name = "Artikel";
 
     /**
      * attributes
@@ -58,10 +58,29 @@ class Article extends DataObject {
         'EANCode'                   => 'VarChar(13)'
     );
 
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $summary_fields = array(
         'Title'                     => 'Artikel',
         'manufacturer.Title'        => 'Hersteller'
     );
+
+    /**
+     * List of searchable fields for the model admin
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
     public static $searchable_fields = array(
         'Title',
         'ShortDescription',
@@ -69,9 +88,15 @@ class Article extends DataObject {
         'manufacturer.Title',
         'isFreeOfCharge'
     );
+
     /**
-     * defines names on scaffolded forms
-     * @var <type> array
+     * Field labels for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
      */
     public static $field_labels = array(
         'Title'                     => 'Bezeichnung',
@@ -81,10 +106,15 @@ class Article extends DataObject {
         'PurchasePrice'             => 'Einkaufspreis',
         'MSRPrice'                  => 'UVP'
     );
+
     /**
-     * Array of all attributes that must be set to show an article in the frontend and enter it via backend
-     * @var <type> array
-     * @author Roland Lehmann
+     * Array of all attributes that must be set to show an article in the frontend and enter it via backend.
+     *
+     * @var array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
      */
     protected static $requiredAttributes = array();
 
