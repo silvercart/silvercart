@@ -49,3 +49,96 @@ $lang['en_US']['BusinessCustomer']['BUSINESSCUSTOMER'] = 'business customer';
 $lang['en_US']['RegularCustomer']['REGULARCUSTOMER'] = 'regular customer';
 $lang['en_US']['ShippingFee']['ZONE_WITH_DESCRIPTION'] = 'zone (only carrier\'s zones available)';
 $lang['en_US']['ShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zone--';
+
+
+//noch nicht in der deutschen sprachdatei
+$lang['en_US']['AddressHolder']['SINGULARNAME'] = 'address holder';
+$lang['en_US']['AddressPage']['SINGULARNAME'] = 'address details page';
+$lang['en_US']['ArticleCategoryHolder']['SINGULARNAME'] = 'article category holder';
+$lang['en_US']['ArticleCategoryHolder']['TITLE'] = 'category overview';
+$lang['en_US']['ArticleCategoryHolder']['URL_SEGMENT'] = 'categoryoverview';
+$lang['en_US']['ArticleCategoryPage']['SINGULARNAME'] = 'article category';
+$lang['en_US']['ArticleCategoryPage']['PLURALNAME'] = 'article categories';
+$lang['en_US']['ArticleCategoryPage']['COLUMN_TITLE'] = 'title';
+$lang['en_US']['ArticleCategoryPage']['ARTICLES'] = 'articles';
+$lang['en_US']['ArticleGroupHolder']['SINGULARNAME'] = 'article group overview';
+$lang['en_US']['ArticleGroupHolder']['PLURALNAME'] = 'article groups';
+$lang['en_US']['ArticleGroupHolder']['URL_SEGMENT'] = 'artclegroups';
+$lang['en_US']['ArticleGroupPage']['SINGULARNAME'] = 'article group';
+$lang['en_US']['ArticleGroupPage']['PLURALNAME'] = 'article groups';
+$lang['en_US']['Article']['PRICE'] = 'price';
+$lang['en_US']['Article']['WEIGHT'] = 'weight';
+$lang['en_US']['Article']['TITLE'] = 'article';
+$lang['en_US']['ArticleGroupPage']['ATTRIBUTES'] = 'attributes';
+$lang['en_US']['ArticleGroupPage']['GROUP_PICTURE'] = 'group picture';
+$lang['en_US']['ArticlePage']['SINGULARNAME'] = 'article details';
+$lang['en_US']['ArticlePage']['URL_SEGMENT'] = 'articledetails';
+$lang['en_US']['ArticlePage']['QUANTITY'] = 'quantity';
+$lang['en_US']['ArticlePage']['ADD_TO_CART'] = 'add to cart';
+$lang['en_US']['CartPage']['URL_SEGMENT'] = 'cart';
+$lang['en_US']['CheckoutStep']['URL_SEGMENT'] = 'checkout';
+$lang['en_US']['ContactFormPage']['SINGULARNAME'] = 'contact form page';
+$lang['en_US']['ContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'contact confirmation';
+$lang['en_US']['ContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
+$lang['en_US']['DataPage']['SINGULARNAME'] = 'my data';
+$lang['en_US']['DataPrivacyStatementPage']['SINGULARNAME'] = 'privacy policy page';
+$lang['en_US']['FooterNavigationHolder']['SINGULARNAME'] = 'footer navigation';
+$lang['en_US']['FooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
+$lang['en_US']['Page']['ABOUT_US'] = 'about us';
+$lang['en_US']['Page']['ABOUT_US_URL_SEGMENT'] = 'about-us';
+$lang['en_US']['FrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
+$lang['en_US']['ContactFormPage']['TITLE'] = 'contact';
+$lang['en_US']['ContactFormPage']['URL_SEGMENT'] = 'contact';
+$lang['en_US']['Page']['TITLE_TERMS'] = 'terms of service';
+$lang['en_US']['Page']['URL_SEGMENT_TERMS'] = 'terms-of-service';
+$lang['en_US']['Page']['TITLE_IMPRINT'] = 'imprint';
+$lang['en_US']['Page']['URL_SEGMENT_IMPRINT'] = 'imprint';
+$lang['en_US']['ShippingFeesPage']['TITLE'] = 'shipping fees';
+$lang['en_US']['ShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
+$lang['en_US']['MyAccountHolder']['SINGULARNAME'] = 'account page';
+$lang['en_US']['MyAccountHolder']['URL_SEGMENT'] = 'my-account';
+$lang['en_US']['DataPage']['TITLE'] = 'my data';
+$lang['en_US']['DataPage']['URL_SEGMENT'] = 'my-data';
+$lang['en_US']['OrderHolder']['TITLE'] = 'my orders';
+$lang['en_US']['OrderHolder']['URL_SEGMENT'] = 'my-orders';
+$lang['en_US']['OrderDetailPage']['TITLE'] = 'order details';
+$lang['en_US']['OrderDetailPage']['URL_SEGMENT'] = 'order-details';
+$lang['en_US']['AddressHolder']['TILTE'] = 'address overview';
+$lang['en_US']['AddressHolder']['URL_SEGMENT'] = 'address-overview';
+$lang['en_US']['AddressPage']['TILTE'] = 'address details';
+$lang['en_US']['AddressPage']['URL_SEGMENT'] = 'address-details';
+$lang['en_US']['OrderConfirmationPage']['SINGULARNAME'] = 'order confirmation page';
+$lang['en_US']['OrderConfirmationPage']['URL_SEGMENT'] = 'order-confirmation';
+$lang['en_US']['Page']['HEADERPICTURE'] = 'header picture';
+$lang['en_US']['Page']['REMOVE_FROM_CART'] = 'remove';
+$lang['en_US']['Page']['EMPTY_CART'] = 'empty';
+$lang['en_US']['Page']['API_VIEW'] = 'can read objects via the API';
+$lang['en_US']['Page']['API_CREATE'] = 'can create objects via the API';
+$lang['en_US']['Page']['API_EDIT'] = 'can edit objects via the API';
+$lang['en_US']['Page']['API_DELETE'] = 'can delete objects via the API';
+$lang['en_US']['PaymentNotification']['TITLE'] = 'payment notification';
+$lang['en_US']['PaymentNotification']['URL_SEGMENT'] = 'payment-notification';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+$lang['en_US'][''][''] = '';
+
+
+
+
+
+
+

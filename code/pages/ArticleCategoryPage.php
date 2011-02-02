@@ -11,8 +11,8 @@
  */
 class ArticleCategoryPage extends Page {
 
-    static $singular_name = "Artikelkategorie";
-    static $plural_name = "Artikelkategorien";
+    static $singular_name = "";
+    static $plural_name = "";
     public static $can_be_root = false;
     public static $allowed_children = array(
         'none'
@@ -25,6 +25,23 @@ class ArticleCategoryPage extends Page {
     );
 
     /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('ArticleCategoryPage.SINGULARNAME', 'article category');
+        self::$singular_name = _t('ArticleCategoryPage.PLURALNAME', 'article categories');
+        parent::__construct($record, $isSingleton);
+    }
+
+    /**
      * customizes the CMS
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -33,24 +50,26 @@ class ArticleCategoryPage extends Page {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Content.CategoryPicture', new FileIFrameField('categoryPicture', 'Kategoriebild'));
+        $tabParam = "Root.Content."._t('ArticleCategoryPage.CATEGORY_PICTURE', 'category picture');
+        $fields->addFieldToTab($tabParam, new FileIFrameField('categoryPicture', 'Kategoriebild'));
         $articlesTableField = new ManyManyComplexTableField(
                         $this,
                         'articles',
                         'Article',
                         array(
-                            'Title' => 'Bezeichnung'
+                            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE', 'title')
                         ),
                         'getCMSFields_forPopup'
         );
-        $fields->addFieldToTab('Root.Content.Artikel', $articlesTableField);
+        $tabParam2 = "Root.Content."._t('ArticleCategoryPage.ARTICLES', 'articles');
+        $fields->addFieldToTab($tabParam2, $articlesTableField);
         return $fields;
     }
 
 }
 
 /**
- * coorelation controller
+ * corelating controller
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license BSD

@@ -26,8 +26,8 @@ class CheckoutStep extends CustomHtmlFormStepPage {
         $records = DataObject::get_one($this->ClassName);
         if (!$records) {
             $page               = new $this->ClassName();
-            $page->Title        = "Checkout";
-            $page->URLSegment   = "checkout";
+            $page->Title        = _t('Page.CHECKOUT');
+            $page->URLSegment   = _t('CheckoutStep.URL_SEGMENT', 'checkout');
             $page->Status       = "Published";
             $page->ShowInMenus  = true;
             $page->ShowInSearch = true;

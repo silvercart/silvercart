@@ -11,10 +11,25 @@
 class ArticlePage extends Page {
 
     public static $singular_name = "Artikeldetails";
-    public static $plural_name = "Artikeldetails";
     public static $allowed_children = array(
         'none'
     );
+
+    /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('ArticlePage.SINGULARNAME', 'article details');
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * default instances related to $this
@@ -29,8 +44,8 @@ class ArticlePage extends Page {
         $records = DataObject::get_one($this->ClassName);
         if (!$records) {
             $page = new $this->ClassName();
-            $page->Title = "Artikelansicht";
-            $page->URLSegment = "artikelansicht";
+            $page->Title = _t('ArticlePage.SINGULARNAME', 'article details');
+            $page->URLSegment = _t('ArticlePage.URL_SEGMENT', 'articledetails');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = true;
@@ -114,9 +129,9 @@ class ArticlePage_Controller extends Page_Controller {
      */
     public function addToCartForm() {
         $fields = new FieldSet();
-        $fields->push(new NumericField('articleAmount', 'Anzahl', $value = 1));
+        $fields->push(new NumericField('articleAmount', _t('ArticlePage.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', 'in den Warenkorb'));
+        $actions->push(new FormAction('doAddToCart', _t('ArticlePage.ADD_TO_CART', 'add to cart')));
         $form = new Form($this, 'addToCartForm', $fields, $actions);
         return $form;
     }

@@ -26,6 +26,23 @@ class ArticleGroupPage extends Page {
     );
 
     /**
+     * Constructor
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 2.2.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('ArticleGroupPage.SINGULARNAME', 'article group');
+        self::$plural_name = _t('ArticleGroupPage.PLURALNAME', 'article groups');
+        parent::__construct($record, $isSingleton);
+    }
+
+    /**
      * Return all fields of the backend
      *
      * @return FieldSet Fields of the CMS
@@ -38,25 +55,28 @@ class ArticleGroupPage extends Page {
                         'articles',
                         'Article',
                         array(
-                            'Title' => 'Bezeichnung',
-                            'PriceAmount' => 'Preis',
-                            'Weight' => 'Gewicht'
+                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title'),
+                            'PriceAmount' => _t('Article.PRICE', 'price'),
+                            'Weight' => _t('Article.WEIGHT', 'weight')
                         ),
                         'getCMSFields',
                         "`articleGroupID` = $this->ID"
         );
-        $fields->addFieldToTab('Root.Content.Artikel', $articlesTableField);
+        $tabPARAM = "Root.Content."._t('Article.TITLE', 'article');
+        $fields->addFieldToTab($tabPARAM, $articlesTableField);
         
         $attributeTableField = new ManyManyDataObjectManager(
                         $this,
                         'attributes',
                         'Attribute',
                         array(
-                            'Title' => 'Bezeichnung'
+                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title')
                         )
         );
-        $fields->addFieldToTab('Root.Content.Atribute', $attributeTableField);
-        $fields->addFieldToTab("Root.Content.Gruppenbild", new FileIFrameField('groupPicture', 'Gruppenlogo'));
+        $tabPARAM2 = "Root.Content."._t('ArticleGroupPage.ATTRIBUTES', 'attributes');
+        $fields->addFieldToTab($tabPARAM2, $attributeTableField);
+        $tabPARAM3 = "Root.Content."._t('ArticleGroupPage.GROUP_PICTURE', 'group picture');
+        $fields->addFieldToTab($tabPARAM3, new FileIFrameField('groupPicture', 'Gruppenlogo'));
         
         return $fields;
     }
