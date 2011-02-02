@@ -5,6 +5,8 @@
             <thead>
                 <tr>
                     <th>Artikelname</th>
+                    <th>Einzelpreis</th>
+                    <th>MwSt.</th>
                     <th class="right">Anzahl</th>
                     <th class="right">Preis </th>
                 </tr>
@@ -16,22 +18,84 @@
                         <% control positions %>
                             <tr<% if Last %> class="separator"<% end_if %>>
                                 <td>$article.Title</td>
+                                <td class="right">$article.Price.Nice</td>
+                                <td class="right">{$article.tax.Rate}%</td>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
                             </tr>
                         <% end_control %>
 
-                        <tr class="separator">
-                            <td>Warenwert</td>
+                        <tr>
                             <td></td>
-                            <td class="right">$getPrice(0).Nice</td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Zwischensumme</strong></td>
+                            <td class="right" id="Sum"><strong>$CommodityPrice.Nice</strong></td>
+                            <td></td>
+                            <td></td>
                         </tr>
 
-                        <tr>
-                            <td>Enthaltene Mehrwertsteuer</td>
-                            <td></td>
-                            <td class="right">$getTax.Nice</td>
-                        </tr>
+                        <% if TaxRates %>
+                            <% control TaxRates %>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Darin enthaltene Mehrwertsteuer ({$Rate}%)</td>
+                                <td class="right">$Amount.Nice</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <% end_control %>
+                        <% end_if %>
+
+                        <% control Top.controller %>
+                            <tr class="separator">
+                                <td>Bearbeitungsgebühren</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right">$getHandlingCosts.Nice</td>
+                            </tr>
+                            <tr">
+                                <td>Versandart</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right">$CarrierAndShippingMethodTitle</td>
+                            </tr>
+                            <tr class="separator">
+                                <td>Versandkosten</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right">$HandlingCostShipment.Nice</td>
+                            </tr>
+                            <tr>
+                                <td>Bezahlart</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right">$PaymentMethodTitle</td>
+                            </tr>
+                            <tr class="separator">
+                                <td>Bezahlart Gebühren</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right">$HandlingCostPayment.Nice</td>
+                            </tr>
+                        
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Zwischensumme</strong></td>
+                                <td class="right" id="Sum"><strong>$AmountGrossRawWithoutModules.Nice</strong></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        <% end_control %>
 
                         <% if registeredModules %>
                             <% control registeredModules %>
@@ -39,6 +103,8 @@
                                     <% control ShoppingCartPositions %>
                                         <tr>
                                             <td>$moduleOutput.Title</td>
+                                            <td class="right">$moduleOutput.PriceFormatted</td>
+                                            <td></td>
                                             <td class="right">$moduleOutput.Quantity</td>
                                             <td class="right">$moduleOutput.PriceTotalFormatted</td>
                                         </tr>
@@ -51,33 +117,10 @@
                 <% end_control %>
 
                 <% control controller %>
-                    <tr class="separator">
-                        <td>Bearbeitungsgebühren</td>
-                        <td></td>
-                        <td class="right">$getHandlingCosts.Nice</td>
-                    </tr>
-                    <tr">
-                        <td>Versandart</td>
-                        <td></td>
-                        <td class="right">$CarrierAndShippingMethodTitle</td>
-                    </tr>
-                    <tr class="separator">
-                        <td>Versandkosten</td>
-                        <td></td>
-                        <td class="right">$HandlingCostShipment.Nice</td>
-                    </tr>
-                    <tr>
-                        <td>Bezahlart</td>
-                        <td></td>
-                        <td class="right">$PaymentMethodTitle</td>
-                    </tr>
-                    <tr class="separator">
-                        <td>Bezahlart Gebühren</td>
-                        <td></td>
-                        <td class="right">$HandlingCostPayment.Nice</td>
-                    </tr>
                     <tr>
                         <td><strong>Gesamtbetrag</strong></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td class="right"><strong>$AmountGrossRaw.Nice</strong></td>
                     </tr>

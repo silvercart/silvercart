@@ -1,12 +1,11 @@
 <?php
-
 /**
  * CheckoutProcessOrder
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 03.01.2011
- * @license BSD
+ * @license none
  */
 class CheckoutFormStep7 extends CustomHtmlForm {
 
@@ -56,14 +55,13 @@ class CheckoutFormStep7 extends CustomHtmlForm {
             $customerEmail = '';
         }
 
-        if (isset($checkoutData['note'])) {
-            $customerNote = $checkoutData['note'];
+        if (isset($checkoutData['Note'])) {
+            $customerNote = $checkoutData['Note'];
         } else {
             $customerNote = '';
         }
 
         $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-
         $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
         $order = new Order();
@@ -73,6 +71,7 @@ class CheckoutFormStep7 extends CustomHtmlForm {
         $order->setNote($customerNote);
         $order->setWeight();
         $order->createFromShoppingCart();
+
         $order->createShippingAddress($shippingData);
         $order->createInvoiceAddress($invoiceData);
 
@@ -80,9 +79,9 @@ class CheckoutFormStep7 extends CustomHtmlForm {
         $order->sendConfirmationMail();
 
         $this->controller->setStepData(
-                array(
-                    'orderId' => $order->ID
-                )
+            array(
+                'orderId' => $order->ID
+            )
         );
         $this->controller->addCompletedStep();
         $this->controller->NextStep();

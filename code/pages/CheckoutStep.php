@@ -280,13 +280,16 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     /**
      * Template metod; returns the price of the cart positions + shipping fee
      *
+     * @param bool  $withModules    Calculate the total sum with modules activated
+     * @param array $excludeModules Calculate the total sum with some modules deactivated
+     *
      * @return string a price amount
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 4.1.2011
      */
-    public function getAmountGrossRaw() {
+    public function getAmountGrossRaw($withModules = true, $excludeModules = array()) {
         $member = Member::currentUser();
         $stepData = $this->getCombinedStepData();
         $cart = $member->shoppingCart();
@@ -295,7 +298,7 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
 
         if ($cart && $shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee()->Price->getAmount();
-            $priceSumCart = $cart->getPrice()->getAmount();
+            $priceSumCart = $cart->getPrice($withModules, $excludeModules)->getAmount();
 
             if ($shippingFee && $priceSumCart) {
                 $amountTotal = $shippingFee + $priceSumCart;
@@ -306,6 +309,20 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         $amountTotalObj->setAmount($amountTotal);
 
         return $amountTotalObj;
+    }
+
+    /**
+     * Returns the price of the cart positions + shipping fee without the
+     * costs related to modules.
+     *
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function getAmountGrossRawWithoutModules() {
+        return $this->getAmountGrossRaw(false);
     }
 
     /**

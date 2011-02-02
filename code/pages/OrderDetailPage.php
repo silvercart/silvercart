@@ -59,11 +59,19 @@ class OrderDetailPage_Controller extends Page_Controller {
      * @since 27.10.10
      */
     public function CustomersOrder() {
-        $id = $this->urlParams['ID'];
-        $memberID = Member::currentUserID();
-        if ($id) {
-            $filter = sprintf("`ID`= '%s' AND `customerID` = '%s'", $id, $memberID);
-            $order = DataObject::get_one('Order', $filter);
+        $id         = Convert::raw2sql($this->urlParams['ID']);
+        $memberID   = Member::currentUserID();
+        
+        if ($memberID && $id) {
+            $order = DataObject::get_one(
+                'Order',
+                sprintf(
+                    "`ID`= '%s' AND `customerID` = '%s'",
+                    $id,
+                    $memberID
+                )
+            );
+
             return $order;
         }
     }
