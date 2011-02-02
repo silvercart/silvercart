@@ -317,8 +317,7 @@
    }
 
      #Form_removeFromCartForm_action_doRemoveFromCart,
-     form .action-remove input
-     {
+     form .action-remove input {
       background:url(images/button_delete.png) no-repeat top left;
       padding-left: 20px;
       cursor:pointer;
@@ -400,7 +399,7 @@
     .widget span {font-size: 100%}
 
     /* ------ Everything about the Blog ------ */
-    
+
     #Sidebar{
         padding: 10px;
     }
@@ -424,7 +423,7 @@
         color: #429bb9;
         font-size:100%;
     }
-    
+
     .BlogContent{
         font-size: 110%;
     }
@@ -483,9 +482,9 @@
     .errorlist{
         text-align: left;
     }
-    
+
     .Footer_Blog{
-        padding-left: 6px;    
+        padding-left: 6px;
     }
 
     .Footer_Links{
@@ -501,7 +500,7 @@
     #CompanyInformations{
         text-align: center;
     }
-    
+
     img.left{
         float:left;
         padding:5px;
@@ -523,7 +522,7 @@
     .hBox{
         display: none;
     }
-    
+
     .Head_line{
         text-align: left;
         padding-left: 5px;
@@ -595,7 +594,7 @@
         width: 60px;
         text-align: center;
     }
-    
+
     #Shipping_Cost{
         font-family: Verdana;
         border: none;
@@ -630,14 +629,20 @@
         padding-left: 6px;
         text-align: center;
     }
-    
+
     .cartSummary {
         width: 100%;
     }
     .cartSummary th td {
         border-bottom: 1px #aaa solid;
     }
-    .cartSummary tr.separator td {
+    .cartSummary .separator td {
         border-bottom: 1px #aaa solid;
+    }
+    .cartSummary .separatorTop td {
+        border-top: 1px #aaa solid;
+    }
+    .cartSummary .right {
+        text-align: right;
     }
 }

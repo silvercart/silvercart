@@ -208,6 +208,18 @@ class ShoppingCart extends DataObject {
     }
 
     /**
+     * returns the price sum of all articles in the cart
+     *
+     * @return Money money object
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.10
+     */
+    public function getCommodityPrice() {
+        return $this->getPrice(false);
+    }
+
+    /**
      * returns tax included in $this
      *
      * @return Money money object
@@ -227,6 +239,47 @@ class ShoppingCart extends DataObject {
         $taxObj->setAmount($tax);
 
         return $taxObj;
+    }
+
+    /**
+     * Returns tax amounts included in the shoppingcart separated by tax rates.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.02.2011
+     */
+    public function getTaxRates() {
+        $positions = $this->positions();
+        $taxes     = new DataObjectSet;
+
+        foreach ($positions as $position) {
+
+            $taxRate = $position->article()->tax()->Rate;
+
+            if (!$taxes->find('Rate', $taxRate)) {
+                $taxes->push(
+                    new DataObject(
+                        array(
+                            'Rate'      => $taxRate,
+                            'AmountRaw' => 0.0,
+                        )
+                    )
+                );
+            }
+            $taxSection = $taxes->find('Rate', $taxRate);
+            $taxSection->AmountRaw += $position->article()->getTaxAmount() * $position->Quantity;
+        }
+
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+            
+            $tax->Amount = $taxObj;
+        }
+
+        return $taxes;
     }
 
     /**
@@ -374,7 +427,6 @@ class ShoppingCart extends DataObject {
                         $parameters = array($parameters);
                     }
 
-                    //$outputOfModules[$registeredModule] = $registeredModuleObj->$methodName($this, eval($parameterList));
                     $outputOfModules[$registeredModule] = call_user_func_array(
                         array(
                             $registeredModuleObj,

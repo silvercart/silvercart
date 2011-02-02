@@ -433,17 +433,50 @@ class Order extends DataObject {
                     $orderPosition->Price->setCurrency($article->Price->getCurrency());
                     $orderPosition->PriceTotal->setAmount($article->Price->getAmount() * $shoppingCartPosition->Quantity);
                     $orderPosition->PriceTotal->setCurrency($article->Price->getCurrency());
-                    $orderPosition->Tax = $article->getTaxAmount();
-                    $orderPosition->TaxTotal = $article->getTaxAmount() * $shoppingCartPosition->Quantity;
-                    $orderPosition->TaxRate = $article->tax()->Rate;
-                    $orderPosition->ArticleDescription = $article->LongDescription;
-                    $orderPosition->Quantity = $shoppingCartPosition->Quantity;
-                    $orderPosition->Title = $article->Title;
-                    $orderPosition->orderID = $this->ID;
-                    $orderPosition->articleID = $article->ID;
+                    $orderPosition->Tax                 = $article->getTaxAmount();
+                    $orderPosition->TaxTotal            = $article->getTaxAmount() * $shoppingCartPosition->Quantity;
+                    $orderPosition->TaxRate             = $article->tax()->Rate;
+                    $orderPosition->ArticleDescription  = $article->LongDescription;
+                    $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
+                    $orderPosition->Title               = $article->Title;
+                    $orderPosition->orderID             = $this->ID;
+                    $orderPosition->articleID           = $article->ID;
                     $orderPosition->write();
+                    unset($orderPosition);
                 }
             }
+
+            // Convert positions from registered modules
+            $modulesOutput = $member->currentUser()->shoppingCart()->callMethodOnRegisteredModules(
+                'ShoppingCartPositions',
+                array(
+                    Member::currentUser()->shoppingCart(),
+                    Member::currentUser()
+                )
+            );
+
+            foreach ($modulesOutput as $moduleName => $moduleOutput) {
+
+                print_r($moduleOutput);
+                exit();
+
+                $orderPosition = new OrderPosition();
+                $orderPosition->Price->setAmount($moduleOutput->Price);
+                $orderPosition->Price->setCurrency($moduleOutput->Currency);
+                $orderPosition->PriceTotal->setAmount($moduleOutput->PriceTotal);
+                $orderPosition->PriceTotal->setCurrency($moduleOutput->Currency);
+                $orderPosition->Tax                 = 0;
+                $orderPosition->TaxTotal            = 0;
+                $orderPosition->TaxRate             = 0;
+                $orderPosition->ArticleDescription  = $moduleOutput->LongDescription;
+                $orderPosition->Quantity            = $moduleOutput->Quantity;
+                $orderPosition->Title               = $moduleOutput->Title;
+                $orderPosition->orderID             = $this->ID;
+                $orderPosition->write();
+                unset($orderPosition);
+            }
+
+            // Delete the shoppingcart positions
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
                 $shoppingCartPosition->delete();
             }
