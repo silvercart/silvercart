@@ -865,6 +865,34 @@ class Order extends DataObject {
     }
 
     /**
+     * Returns the sum of tax amounts grouped by tax rates for the articles
+     * of the order.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 03.02.2011
+     */
+    public function getTaxRatesForArticles() {
+        
+    }
+
+    /**
+     * Returns the sum of tax amounts grouped by tax rates for the articles
+     * and all fees of the order.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 03.02.2011
+     */
+    public function getTaxRatesTotal() {
+
+    }
+
+    /**
      * returns shipping costs for the choosen payment method
      *
      * @return float
