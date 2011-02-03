@@ -19,7 +19,7 @@ class Country extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "";
+    public static $singular_name = "country";
     /**
      * Plural name
      *
@@ -29,7 +29,7 @@ class Country extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "";
+    public static $plural_name = "countries";
     /**
      * Attributes.
      *
@@ -132,8 +132,6 @@ class Country extends DataObject {
      * @since 2.2.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('Country.SINGULARNAME', 'country');
-        self::$plural_name = _t('Country.PLURALNAME', 'countries');
         self::$field_labels = array(
             'Title' => _t('Country.SINGULARNAME'),
             'ISO2' => 'ISO2 Code',

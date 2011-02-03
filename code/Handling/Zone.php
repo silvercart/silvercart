@@ -1,4 +1,5 @@
 <?php
+
 /**
  * abstract for a shipping zone; makes it easier to calculate shipping rates
  * Every carrier might have it´s own zones. That´s why zones:countries is n:m
@@ -20,7 +21,6 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $singular_name = "Zone";
-
     /**
      * Plural name
      *
@@ -30,25 +30,22 @@ class Zone extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "Zonen";
+    public static $plural_name = "Zones";
 
     /**
      * Constructor. We localize the static variables here.
      *
-     * @param array|null $record This will be null for a new database record.
-     *      Alternatively, you can pass an array of
-	 *      field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-	 * @param boolean $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-	 *      don't have their defaults set.
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 24.01.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
-        self::$singular_name    = _t('Zone.SINGULARNAME', 'Zone');
-        self::$plural_name      = _t('Zone.PLURALNAME', 'Zonen');
-        
+    public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
     }
 
@@ -64,7 +61,6 @@ class Zone extends DataObject {
     public static $db = array(
         'Title' => 'VarChar'
     );
-
     /**
      * Has-one relationships.
      *
@@ -77,7 +73,6 @@ class Zone extends DataObject {
     public static $has_one = array(
         'carrier' => 'Carrier'
     );
-
     /**
      * Has-many relationship.
      *
@@ -90,7 +85,6 @@ class Zone extends DataObject {
     public static $has_many = array(
         'shippingFees' => 'ShippingFee'
     );
-
     /**
      * Many-many relationships.
      *
@@ -103,7 +97,6 @@ class Zone extends DataObject {
     public static $many_many = array(
         'countries' => 'Country'
     );
-
     /**
      * Belongs-many-many relationships.
      *
@@ -116,7 +109,6 @@ class Zone extends DataObject {
     public static $belongs_many_many = array(
         'shippingMethods' => 'ShippingMethod'
     );
-
     /**
      * Summaryfields for display in tables.
      *
@@ -132,7 +124,6 @@ class Zone extends DataObject {
         'AttributedCountries',
         'AttributedShippingMethods'
     );
-
     /**
      * Column labels for display in tables.
      *
@@ -143,12 +134,11 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title'                     => 'Name',
-        'carrier.Title'             => 'Frachtführer',
-        'AttributedCountries'       => 'Für Länder',
+        'Title' => 'Name',
+        'carrier.Title' => 'Frachtführer',
+        'AttributedCountries' => 'Für Länder',
         'AttributedShippingMethods' => 'Zugeordnete Versandarten'
     );
-
     /**
      * Virtual database columns.
      *
@@ -159,10 +149,9 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedCountries' => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)'
     );
-
     /**
      * List of searchable fields for the model admin
      *
@@ -198,11 +187,11 @@ class Zone extends DataObject {
         parent::requireDefaultRecords();
 
         $standardZone = DataObject::get_one(
-            'Zone'
+                        'Zone'
         );
 
         if (!$standardZone) {
-            $obj        = new Zone();
+            $obj = new Zone();
             $obj->Title = 'EU';
             $obj->write();
         }
@@ -215,17 +204,17 @@ class Zone extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 7.11.10
      */
-    public function  getCMSFields() {
+    public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeByName('countries');
         $countriesTable = new ManyManyComplexTableField(
-            $this,
-            'countries',
-            'Country',
-            array('Title' => 'Land'),
-            'getCMSFields_forPopup'
+                        $this,
+                        'countries',
+                        'Country',
+                        array('Title' => 'Land'),
+                        'getCMSFields_forPopup'
         );
-        $tabParam = "Root."._t('Zone.COUNTRIES', 'countries');
+        $tabParam = "Root." . _t('Zone.COUNTRIES', 'countries');
         $fields->addFieldToTab($tabParam, $countriesTable);
         return $fields;
     }
@@ -241,8 +230,8 @@ class Zone extends DataObject {
      */
     public function AttributedCountries() {
         $attributedCountriesStr = '';
-        $attributedCountries    = array();
-        $maxLength          = 150;
+        $attributedCountries = array();
+        $maxLength = 150;
 
         foreach ($this->countries() as $country) {
             $attributedCountries[] = $country->Title;
@@ -252,7 +241,7 @@ class Zone extends DataObject {
             $attributedCountriesStr = implode(', ', $attributedCountries);
 
             if (strlen($attributedCountriesStr) > $maxLength) {
-                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength).'...';
+                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength) . '...';
             }
         }
 
@@ -270,8 +259,8 @@ class Zone extends DataObject {
      */
     public function AttributedShippingMethods() {
         $attributedShippingMethodsStr = '';
-        $attributedShippingMethods    = array();
-        $maxLength          = 150;
+        $attributedShippingMethods = array();
+        $maxLength = 150;
 
         foreach ($this->shippingMethods() as $shippingMethod) {
             $attributedShippingMethods[] = $shippingMethod->Title;
@@ -281,10 +270,11 @@ class Zone extends DataObject {
             $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
 
             if (strlen($attributedShippingMethodsStr) > $maxLength) {
-                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
+                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength) . '...';
             }
         }
 
         return $attributedShippingMethodsStr;
     }
+
 }

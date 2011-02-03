@@ -28,12 +28,12 @@ $lang['en_US']['AddressHolder']['SINGULARNAME'] = array(
 $lang['en_US']['AddressHolder']['TITLE'] = 'address overview';
 $lang['en_US']['AddressHolder']['URL_SEGMENT'] = 'address-overview';
 $lang['en_US']['AddressPage']['PLURALNAME'] = array(
-    'Addressdetailsseits',
+    'Address details pags',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['AddressPage']['SINGULARNAME'] = array(
-    'Addressdetailsseite',
+    'address details page',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -87,12 +87,12 @@ $lang['en_US']['ArticleCategoryPage']['CATEGORY_PICTURE'] = 'category picture';
 $lang['en_US']['ArticleCategoryPage']['COLUMN_TITLE'] = 'title';
 $lang['en_US']['ArticleCategoryPage']['COLUM_TITLE'] = 'title';
 $lang['en_US']['ArticleCategoryPage']['PLURALNAME'] = array(
-    'Article categoriessss',
+    'Article categoriess',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ArticleCategoryPage']['SINGULARNAME'] = array(
-    'Article categoriesss',
+    'article categories',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -184,12 +184,12 @@ $lang['en_US']['Carrier']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['CartPage']['PLURALNAME'] = array(
-    'Carts',
+    'Cart Pags',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['CartPage']['SINGULARNAME'] = array(
-    'cart',
+    'Cart Page',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -396,24 +396,24 @@ $lang['en_US']['OrderConfirmationPage']['SINGULARNAME'] = array(
 );
 $lang['en_US']['OrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
 $lang['en_US']['OrderDetailPage']['PLURALNAME'] = array(
-    'Order detailss',
+    'Order Detail Pags',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderDetailPage']['SINGULARNAME'] = array(
-    'order details',
+    'Order Detail Page',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['OrderDetailPage']['TITLE'] = 'order details';
 $lang['en_US']['OrderDetailPage']['URL_SEGMENT'] = 'order-details';
 $lang['en_US']['OrderHolder']['PLURALNAME'] = array(
-    'My oderss',
+    'Order Holders',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderHolder']['SINGULARNAME'] = array(
-    'my oders',
+    'Order Holder',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );

@@ -11,7 +11,7 @@
  */
 class RegistrationPage extends Page {
 
-    public static $singular_name = "Registrierungsseite";
+    public static $singular_name = "";
     public static $db = array(
         'ActivationMailSubject' => 'Varchar(255)',
         'ActivationMailMessage' => 'HTMLText'
@@ -31,7 +31,6 @@ class RegistrationPage extends Page {
      * @since 2.2.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('RegistrationPage.SINGULARNAME', 'registration page');
         self::$defaults = array(
             'ActivationMailSubject' => _t('RegistrationPage.YOUR_REGISTRATION', 'your registration'),
             'ActivationMailMessage' => _t('RegistrationPage.CUSTOMER_SALUTATION', 'Dear customer\,')

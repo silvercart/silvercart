@@ -245,7 +245,7 @@ $lang['de_DE']['ContactFormResponsePage']['SINGULARNAME'] = array(
 );
 $lang['de_DE']['ContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
 $lang['de_DE']['Country']['ATTRIBUTED_PAYMENTMETHOD'] = 'attributed payment method';
-$lang['de_DE']['Country']['ATTRIBUTED_ZONES'] = 'attributed zones';
+$lang['de_DE']['Country']['ATTRIBUTED_ZONES'] = 'zugeordnete Zone';
 $lang['de_DE']['Country']['PLURALNAME'] = array(
     'countries',
     50,
