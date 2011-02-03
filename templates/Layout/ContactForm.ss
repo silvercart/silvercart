@@ -5,7 +5,7 @@
       $CustomHtmlFormMetadata
 
       <fieldset>
-        <legend>Kontaktformular</legend>
+        <legend><% _t('Page.CONTACT_FORM','contact form') %></legend>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">

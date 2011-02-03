@@ -94,9 +94,9 @@
             <% control Page(metanavigation) %>
             <% control Children %>
             <% if Last %>
-            <a href="$Link" title="Gehe zur $Title.XML Seite" class="$LinkingMode levela">$MenuTitle.XML</a>
+            <a href="$Link" title="<% sprintf(_t('Page.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
             <% else %>
-            <a href="$Link" title="Gehe zur $Title.XML Seite" class="$LinkingMode levela">$MenuTitle.XML</a> |
+            <a href="$Link" title="<% sprintf(_t('Page.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
             <% end_if %>
             <% end_control %>
             <% end_control %>

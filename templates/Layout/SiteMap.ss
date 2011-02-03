@@ -1,13 +1,13 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <h1> Sitemap </h1>
-        <p> Hier sehen Sie das komplette Verzeichnis unserer Website. </p>
+        <p> <% _t('Page.SITMAP_HERE','Here You can see the complete directory to our site.') %> </p>
         <br/>
         <ul class="Sitemap">
             <% control getPages %>
                 <li><strong><a href="$Link">$Title</a></strong></li><br/>
             <% end_control %>
-            <li><strong>Katalog:</strong></li>
+            <li><strong><% _t('Page.CATALOG', 'catalog') %></strong></li>
         </ul>
     </div>
 </div>

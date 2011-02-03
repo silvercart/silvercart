@@ -14,13 +14,13 @@
             </div>
             <div class="c50r">
                 <h1>$Title</h1>
-                <strong>Artikelbeschreibung:</strong>
+                <strong><% _t('Article.DESCRIPTION','article description') %>:</strong>
                 <p>$LongDescription</p>
                 <div class="acticlePreviewPrice">
                     <strong class="price">$Price.Nice</strong>
                     <p>
-                        inkl. 19% MwSt.<br/>
-                        zzgl. Versand
+                        <% sprintf(_t('Page.TAX'),$tax.Rate) %><br />
+                        <% _t('Page.PLUS_SHIPPING') %>
                     </p>
         <% end_control %>
                    <div class="addcartform">
@@ -31,11 +31,6 @@
         </div>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include ThirdLevelNavigation %>

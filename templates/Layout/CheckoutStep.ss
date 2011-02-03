@@ -8,7 +8,7 @@
         $Process
 
         <% if CustomHtmlFormStepLinkCancel %>
-            <a href="$CustomHtmlFormStepLinkCancel">Abbrechen</a>
+            <a href="$CustomHtmlFormStepLinkCancel"><% _t('Page.CANCEL') %></a>
         <% end_if %>
 
         $PageComments
@@ -21,7 +21,7 @@
 
         <div class="sidebarBox">
             <div class="sidebarBox_content">
-                <strong>Schritte</strong>
+                <strong><% _t('Page.STEPS','steps') %></strong>
 
                 <ul>
             <% control StepList %>

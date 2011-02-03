@@ -12,7 +12,7 @@
 
     <% if errorMessages %>
     <div class="error">
-        <p><strong>Bitte pr&uuml;fen Sie Ihre Eingaben in folgenden Feldern:</strong></p>
+        <p><strong><% _t('Page.CHECK_FIELDS_CALL','Please check Your input on the following fields:') %></strong></p>
         <ul>
             <% control errorMessages %>
             <li>$fieldname</li>
@@ -23,7 +23,7 @@
 
     <fieldset>
         <legend>Login</legend>
-        <p><strong>Bitte geben Sie Ihre Zugangsdaten ein:</strong></p>
+        <p><strong><% _t('Page.ACCESS_CREDENTIALS_CALL','Please fill in Your access credentials:') %></strong></p>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -50,7 +50,7 @@
                         </strong>
                         <% end_if %>
                         <% end_control %>
-                        <label for="{$FormName}_Password">* Passwort: </label>
+                        <label for="{$FormName}_Password">* <% _t('Page.PASSWORD','Password:') %> </label>
                         $dataFieldByName(Password)
                     </div>
                 </div>

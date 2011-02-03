@@ -5,7 +5,7 @@
       $CustomHtmlFormMetadata
 
       <fieldset>
-        <legend>Adresse</legend>
+            <legend><% _t('Page.ADDRESS', 'address') %></legend>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">

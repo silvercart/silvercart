@@ -5,7 +5,7 @@
       $CustomHtmlFormMetadata
 
       <fieldset>
-        <legend>Versandart</legend>
+        <legend><% _t('PaymentMethod.SHIPPINGMETHOD') %></legend>
         
         <div class="subcolumns" >
             <div class="c50l">
@@ -25,7 +25,7 @@
       </fieldset>
 
       <fieldset>
-          <legend>Bemerkungen</legend>
+          <legend><% _t('Page.REMARKS') %></legend>
           $CustomHtmlFormFieldByName(Note)
       </fieldset>
     <div class="actionRow">

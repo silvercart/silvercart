@@ -4,13 +4,13 @@
     $CustomHtmlFormErrorMessages
 
     <fieldset>
-        <legend>Ihre Bestellung ist abgeschlossen</legend>
+        <legend><%_t('Page.ORDER_COMPLETED','Your order is completed') %></legend>
 
         <p>
-            Vielen Dank für Ihre Bestellung.
+            <% _t('Page.ORDER_THANKS','Many thanks for Your oder.') %>
         </p>
         <p>
-            Sie können den Status Ihrer Bestellung jederzeit in Ihrer <a href="/meinkonto/bestelluebersicht">Bestellübersicht</a> abrufen.
+            <% sprintf(_t('Page.VIEW_ORDERS_TEXT_AND_LINK','You can check the status of Your order any time in Your <a href="/%s/%s">order overview</a>'),_t('MyAccountHolder.URL_SEGMENT'),_t('OrderHolder.URL_SEGMENT')) %>
         </p>
 
         $PaymentConfirmationText

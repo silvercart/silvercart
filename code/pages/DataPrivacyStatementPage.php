@@ -10,7 +10,7 @@
  */
 class DataPrivacyStatementPage extends Page {
 
-    public static $singular_name = "";
+    public static $singular_name = "privacy policy page";
     public static $allowed_children = array(
         'none'
     );
@@ -27,7 +27,6 @@ class DataPrivacyStatementPage extends Page {
      * @since 2.2.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('DataPrivacyStatementPage.SINGULARNAME', 'privacy policy page');
         parent::__construct($record, $isSingleton);
     }
 

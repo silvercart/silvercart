@@ -12,17 +12,12 @@
                     <% include ArticlePreview %>
                 <% end_control %>
             <% else %>
-                <p>Zum Suchbegriff <b>$SearchQuery</b> gibt es in unserem Shop keinen Treffer.</p>
+                <p><% _t('Page.THE_QUERY', 'The query') %> <b>$SearchQuery</b> <% _t('Page.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>.</p>
             <% end_if %>
             <% include ArticlePagination %>
         </div>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include ThirdLevelNavigation %>

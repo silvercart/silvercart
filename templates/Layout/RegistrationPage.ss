@@ -7,18 +7,13 @@
         $PageComments
         <% if CurrentMember %>
         <p>
-            Hallo $CurrentMember.FirstName $CurrentMember.Surname, Sie sind bereits registriert.
+            <% sprintf(_t('Page.ALREADY_REGISTERED','Hello %s, You have already registered.'),$CurrentMember.FirstName) %>
         </p>
         <% else %>
         $InsertCustomHtmlForm(RegisterRegularCustomerForm)
         <% end_if %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
             <% include SideBarCart %>

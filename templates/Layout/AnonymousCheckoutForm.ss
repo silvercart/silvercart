@@ -4,7 +4,7 @@
 
       $CustomHtmlFormMetadata
       <fieldset>
-        <legend>Adressangaben</legend>
+        <legend><% _t('Page.ADDRESSINFORMATION','address information') %></legend>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
@@ -75,7 +75,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend>Versand- und Zahlungsarten</legend>
+        <legend><% _t('Page.SHIPPING_AND_BILLING','shipping and billing address')%></legend>
         <div class="subcolumns">
 
             <div class="c50l">
@@ -94,13 +94,13 @@
 
     </fieldset>
     <fieldset>
-        <legend>Bemerkungen</legend>
+        <legend><% _t('Page.REMARKS','REMARKS') %></legend>
         <div class="subcolumns">
             $CustomHtmlFormFieldByName(Note)
         </div>
     </fieldset>
     <fieldset>
-        <legend>AGB und Datenschutz</legend>
+        <legend><% _t('Page.TERMSOFSERVICE_PRIVACY','terms of service and privacy statement') %></legend>
         $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,HasAcceptedTermsAndConditionsFieldCheck)
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,HasAcceptedRevocationInstructionFieldCheck)
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,CustomHtmlFormFieldCheck)

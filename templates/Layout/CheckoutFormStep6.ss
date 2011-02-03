@@ -3,16 +3,16 @@
     <fieldset>
         <legend>
             <% if controller.getErrorOccured %>
-                Es ist ein Fehler aufgetreten
+                <% _t('Page.ERROR_OCCURED') %>
             <% else %>
-                Das gewählte Zahlungsmodul ist fehlerhaft
+                <% _t('Page.PAYMENT_NOT_WORKING') %>
             <% end_if %>
         </legend>
 
         <% if controller.getErrorOccured %>
 
             <p>
-                Es sind folgende Fehler aufgetreten:
+                <% _t('Page.ERROR_LISTING') %>
             </p>
 
             <div class="error">
@@ -28,7 +28,7 @@
         <% end_if %>
 
         <p>
-            Bitte wählen Sie ein anderes Zahlungsmodul oder setzen Sie sich mit dem Webseitenbetreiber in Verbindung.
+            <% _t('Page.CHANGE_PAYMENTMETHOD_CALL') %>
         </p>
         <div class="subcolumns">
             <div class="c50l">
@@ -36,7 +36,7 @@
                     <a href="{$controller.Link}Cancel" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
-                                <span class="button_type1_panel_content">Ein anderes Zahlungsmodul wählen</span>
+                                <span class="button_type1_panel_content"><%_t('Page.CHANGE_PAYMENTMETHOD_LINK') %></span>
                             </span>
                         </span>
                     </a>
@@ -44,10 +44,10 @@
             </div>
             <div class="c50r">
                 <div class="subcr">
-                    <a href="/kontakt" class="button_type1">
+                    <a href="/<% _t('ContactFormPage.URL_SEGMENT') %>" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
-                                <span class="button_type1_panel_content">Zur Seite "Kontakt" gehen</span>
+                                <span class="button_type1_panel_content"><% _t('Page.GOTO_CONTACT_LINK') %></span>
                             </span>
                         </span>
                     </a>

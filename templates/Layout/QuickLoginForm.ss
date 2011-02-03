@@ -5,7 +5,7 @@
      <div class="c50l">
           <div class="subcl">
               <div class="Head_line">
-                  Email Adresse:
+                  <% _t('Page.EMAIL_ADDRESS') %>
               </div>
                   $CustomHtmlFormFieldByName(emailaddress,QuickLoginFormFields)
           </div>
@@ -14,7 +14,7 @@
     <div class="c40l">
          <div class="subcl">
              <div class="Head_line">
-                  Passwort:
+                  <% _t('Page.PASSWORD','password') %>:
              </div>
                   $CustomHtmlFormFieldByName(password,QuickLoginFormFields)
          </div>

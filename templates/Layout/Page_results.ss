@@ -18,16 +18,16 @@
                 <% end_control %>
             </ul>
             <% else %>
-            <p>Sorry, your search query did not return any results.</p>
+            <p><% _t('Page.NO_RESULTS','Sorry, but Your query did not return any results.') %></p>
             <% end_if %>
 
             <% if Results.MoreThanOnePage %>
             <div id="PageNumbers">
                 <% if Results.NotLastPage %>
-                <a class="next" href="$Results.NextLink" title="View the next page">Next</a>
+                <a class="next" href="$Results.NextLink" title="View the next page"><% _t('Page.NEXT') %></a>
                 <% end_if %>
                 <% if Results.NotFirstPage %>
-                <a class="prev" href="$Results.PrevLink" title="View the previous page">Prev</a>
+                <a class="prev" href="$Results.PrevLink" title="View the previous page"><% _t('Page.PREV') %></a>
                 <% end_if %>
                 <span>
                     <% control Results.SummaryPagination(5) %>
@@ -44,11 +44,6 @@
         </div>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include ThirdLevelNavigation %>

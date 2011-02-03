@@ -78,6 +78,15 @@ class MetaNavigationHolder extends Page {
             $imprintPage->write();
             $imprintPage->publish("Stage", "Live");
 
+            $dataPrivacyStatementPage = new DataPrivacyStatementPage();
+            $dataPrivacyStatementPage->Title = _t('DataPrivacyStatementPage.TITLE', 'data privacy statement');
+            $dataPrivacyStatementPage->URLSegment = _t('DataPrivacyStatementPage.URL_SEGMENT','data-privacy-statement');
+            $dataPrivacyStatementPage->Status = "Published";
+            $dataPrivacyStatementPage->ShowInMenus = 1;
+            $dataPrivacyStatementPage->ParentID = $page->ID;
+            $dataPrivacyStatementPage->write();
+            $dataPrivacyStatementPage->publish("Stage", "Live");
+
             $shippingFeesPage = new ShippingFeesPage();
             $shippingFeesPage->Title = _t('ShippingFeesPage.TITLE', 'shipping fees');
             $shippingFeesPage->URLSegment = _t('ShippingFeesPage.URL_SEGMENT', 'shipping-fees');

@@ -1,14 +1,14 @@
 <form class="yform full" $FormAttributes >
     <fieldset>
-        <legend>Artikel</legend>
+        <legend><% _t('Article.TITLE') %></legend>
         <table class="cartSummary">
             <thead>
                 <tr>
-                    <th>Artikelname</th>
-                    <th>Einzelpreis</th>
-                    <th>MwSt.</th>
-                    <th class="right">Anzahl</th>
-                    <th class="right">Preis </th>
+                    <th><% _t('Page.ARTICLENAME','article name') %></th>
+                    <th><% _t('Article.PRICE_SINGLE', 'price single') %></th>
+                    <th><% _t('Article.VAT','VAT') %></th>
+                    <th class="right"><% _t('ArticlePage.QUANTITY') %></th>
+                    <th class="right"><% _t('Article.PRICE') %></th>
                 </tr>
             </thead>
 
@@ -29,7 +29,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><strong>Zwischensumme</strong></td>
+                            <td><strong><% _t('Page.SUBTOTAL','subtotal') %></strong></td>
                             <td class="right" id="Sum"><strong>$CommodityPrice.Nice</strong></td>
                             <td></td>
                             <td></td>
@@ -41,7 +41,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>Darin enthaltene Mehrwertsteuer ({$Rate}%)</td>
+                                <td><% _t('Page.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                                 <td class="right">$Amount.Nice</td>
                                 <td></td>
                                 <td></td>
@@ -51,35 +51,35 @@
 
                         <% control Top.controller %>
                             <tr class="separator">
-                                <td>Bearbeitungsgebühren</td>
+                                <td><% _t('Page.PROCESSING_FEE','processing fee') %></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$getHandlingCosts.Nice</td>
                             </tr>
-                            <tr">
-                                <td>Versandart</td>
+                            <tr>
+                                <td><% _t('PaymentMethod.SHIPPINGMETHOD') %></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$CarrierAndShippingMethodTitle</td>
                             </tr>
                             <tr class="separator">
-                                <td>Versandkosten</td>
+                                <td><% _t('ShippingFee.TITLE','shipping fee') %></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$HandlingCostShipment.Nice</td>
                             </tr>
                             <tr>
-                                <td>Bezahlart</td>
+                                <td><% _t('PaymentMethod.TITLE') %></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$PaymentMethodTitle</td>
                             </tr>
                             <tr class="separator">
-                                <td>Bezahlart Gebühren</td>
+                                <td><% _t('PaymentMethod.FEE','payment method fee') %></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -90,7 +90,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><strong>Zwischensumme</strong></td>
+                                <td><strong><% _t('Page.SUBTOTAL') %></strong></td>
                                 <td class="right" id="Sum"><strong>$AmountGrossRawWithoutModules.Nice</strong></td>
                                 <td></td>
                                 <td></td>
@@ -118,7 +118,7 @@
 
                 <% control controller %>
                     <tr>
-                        <td><strong>Gesamtbetrag</strong></td>
+                        <td><strong><% _t('Page.TOTAL','total') %></strong></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -137,7 +137,7 @@
         <div class="c50l">
             <div class="subcl">
                 <fieldset>
-                    <legend>Versandadresse</legend>
+                    <legend><% _t('AddressHolder.SHIPPINGADDRESS') %></legend>
                     <% control AddressData %>
                         <% control shippingAddress %>
                          <% include AddressTable %>
@@ -150,7 +150,7 @@
         <div class="c50r">
             <div class="subcr">
                 <fieldset>
-                    <legend>Rechnungsadresse</legend>
+                    <legend><% _t('AddressHolder.INVOICEADDRESS') %></legend>
                     <% control AddressData %>
                         <% control invoiceAddress %>
                             <% include AddressTable %>
@@ -162,11 +162,11 @@
     </div>
 
       <fieldset>
-          <legend>Bemerkung</legend>
+          <legend><% _t('Page.REMARKS') %></legend>
           $CustomHtmlFormFieldByName(Note)
     </fieldset>
     <fieldset>
-        <legend>AGB und Datenschutz</legend>
+        <legend><% _t('Page.TERMSOFSERVICE_PRIVACY') %></legend>
         $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,HasAcceptedTermsAndConditionsFieldCheck)
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,HasAcceptedRevocationInstructionFieldCheck)
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,CustomHtmlFormFieldCheck)
