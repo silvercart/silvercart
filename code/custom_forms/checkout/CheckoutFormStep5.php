@@ -62,7 +62,7 @@ class CheckoutFormStep5 extends CustomHtmlForm {
 
         if ($this->paymentMethodObj) {
             $this->paymentMethodObj->setController($this->controller);
-            $orderAmount = $member->ShoppingCart()->getPrice();
+            $orderAmount = $member->ShoppingCart()->getAmountTotal();
             $taxAmount = $member->ShoppingCart()->getTax();
             $taxRate = 0;
 

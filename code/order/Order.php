@@ -42,8 +42,9 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'PriceTotal'                    => 'Money', // Wert aller Artikel
-        'AmountTotal'                   => 'Money', // Wert aller Artikel + Transaktionskosten
+        'AmountTotal'                   => 'Money', // Wert aller Artikel
+        'AmountGrossTotal'              => 'Money', // Wert aller Artikel + Transaktionskosten
+        'HandlingCosts'                 => 'Money',
         'HandlingCostPayment'           => 'Money',
         'HandlingCostShipment'          => 'Money',
         'Tax'                           => 'Float',
@@ -69,7 +70,7 @@ class Order extends DataObject {
         'ID'                        => 'Bestellnummer',
         'ShippingAddressSummary'    => 'Lieferadresse',
         'InvoiceAddressSummary'     => 'Rechnungsadresse',
-        'AmountTotalNice'           => 'Bestellwert',
+        'AmountGrossTotalNice'      => 'Bestellwert',
     );
 
     /**
@@ -86,7 +87,7 @@ class Order extends DataObject {
         'CreatedNice'               => 'VarChar',
         'ShippingAddressSummary'    => 'VarChar',
         'InvoiceAddressSummary'     => 'VarChar',
-        'AmountTotalNice'           => 'VarChar',
+        'AmountGrossTotalNice'      => 'VarChar',
     );
 
     /**
@@ -237,7 +238,7 @@ class Order extends DataObject {
      *
      * @return string
      */
-    public function getAmountTotalNice() {
+    public function getAmountGrossTotalNice() {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
     }
 
@@ -425,19 +426,19 @@ class Order extends DataObject {
         $this->Tax = $member->shoppingCart()->getTax()->getAmount();
 
         // price sum of all positions
-        $this->PriceTotal->setAmount($member->shoppingCart()->getPrice()->getAmount());
-        $this->PriceTotal->setCurrency('EUR');
+        $this->AmountTotal->setAmount($member->shoppingCart()->getAmountTotal()->getAmount());
+        $this->AmountTotal->setCurrency('EUR');
 
         // amount of all positions + handling fee of the payment method + shipping fee
         $totalAmount = 
-            $this->getPaymentHandlingCosts()->getAmount() +
-            $this->getShippingCosts()->getAmount() +
-            $member->shoppingCart()->getPrice()->getAmount();
+            $this->HandlingCostPayment->getAmount() +
+            $this->HandlingCostShipment->getAmount() +
+            $member->shoppingCart()->getAmountTotal()->getAmount();
 
         $this->AmountTotal->setAmount(
             $totalAmount
         );
-        $this->AmountTotal->setCurrency('EUR');
+        $this->AmountGrossTotal->setCurrency('EUR');
 
         // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
@@ -517,7 +518,7 @@ class Order extends DataObject {
                     $orderPosition->TaxRate             = 0;
                     $orderPosition->ArticleDescription  = $modulePosition->moduleOutput->LongDescription;
                     $orderPosition->Quantity            = $modulePosition->moduleOutput->Quantity;
-                    $orderPosition->Title               = $modulePosition->moduleOutput->Title;
+                    $orderPosition->Title               = $modulePosition->moduleOutput->Name;
                     $orderPosition->orderID             = $this->ID;
                     $orderPosition->write();
                     unset($orderPosition);
@@ -651,11 +652,11 @@ class Order extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 16.12.10
      */
-    public function setPriceTotal() {
+    public function setAmountTotal() {
         $member = Member::currentUser();
 
         if ($member && $member->shoppingCart()) {
-            $this->PriceTotal = $member->shoppingCart()->getPrice();
+            $this->AmountTotal = $member->shoppingCart()->getAmountTotal();
         }
     }
 
@@ -736,7 +737,7 @@ class Order extends DataObject {
      * @since 24.11.2010
      */
     public function getAmountNet() {
-        $amountNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
+        $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
         $amountNetObj = new Money();
         $amountNetObj->setAmount($amountNet);
 
@@ -753,7 +754,7 @@ class Order extends DataObject {
      * @since 05.01.2011
      */
     public function getAmountGross() {
-        return $this->AmountTotal;
+        return $this->AmountGrossTotal;
     }
 
     /**
@@ -766,7 +767,7 @@ class Order extends DataObject {
      * @since 06.01.2011
      */
     public function getCurrency() {
-        return $this->AmountTotal->getCurrency();
+        return $this->AmountGrossTotal->getCurrency();
     }
 
     /**
@@ -779,7 +780,7 @@ class Order extends DataObject {
      * @since 24.11.2010
      */
     public function getPriceNet() {
-        $priceNet = $this->PriceTotal->getAmount() - $this->Tax->getAmount();
+        $priceNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
 
@@ -796,7 +797,7 @@ class Order extends DataObject {
      * @since 24.11.2010
      */
     public function getPriceGross() {
-        return $this->PriceTotal;
+        return $this->AmountTotal;
     }
 
     /**
@@ -848,17 +849,12 @@ class Order extends DataObject {
 
         $priceGross->setAmount(
             $priceGross->getAmount() +
-            $this->getPaymentHandlingCosts()->getAmount()
+            $this->HandlingCostPayment->getAmount()
         );
 
         $priceGross->setAmount(
             $priceGross->getAmount() +
-            $this->getShippingCosts()->getAmount()
-        );
-
-        $priceGross->setAmount(
-            $priceGross->getAmount() +
-            $this->getHandlingCosts()->getAmount()
+            $this->HandlingCostShipment->getAmount()
         );
 
         return $priceGross;
@@ -891,33 +887,6 @@ class Order extends DataObject {
     public function getTaxRatesTotal() {
 
     }
-
-    /**
-     * returns shipping costs for the choosen payment method
-     *
-     * @return float
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.11.2010
-     */
-    public function getShippingCosts() {
-        return $this->HandlingCostShipment;
-    }
-
-    /**
-     * returns handling fee for choosen payment method
-     *
-     * @return float
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.11.2010
-     */
-    public function getHandlingCosts() {
-        return $this->HandlingCostPayment;
-    }
-
 
     /**
      * returns quantity of all articles of the order
@@ -953,7 +922,7 @@ class Order extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 23.11.2010
      */
-    public function getPaymentHandlingCosts() {
+    public function getHandlingCostPayment() {
         $handlingCosts = 0.0;
         $paymentObj = DataObject::get_by_id(
             'PaymentMethod',
@@ -1045,10 +1014,10 @@ class Order extends DataObject {
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
-        if ($this->AmountTotal->hasAmount() === false) {
-            $price = $this->PriceTotal->getAmount() + $this->HandlingCostShipment->getAmount();
-            $this->AmountTotal->setAmount($price);
-            $this->AmountTotal->setCurrency('EUR');
+        if ($this->AmountGrossTotal->hasAmount() === false) {
+            $price = $this->AmountTotal->getAmount() + $this->HandlingCostShipment->getAmount();
+            $this->AmountGrossTotal->setAmount($price);
+            $this->AmountGrossTotal->setCurrency('EUR');
             $this->write();
         }
     }

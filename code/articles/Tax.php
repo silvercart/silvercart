@@ -43,7 +43,7 @@ class Tax extends DataObject {
      */
     public static $db = array(
         'Title'             => 'VarChar',
-        'Rate'              => 'VarChar(3)'
+        'Rate'              => 'Int'
     );
 
     /**

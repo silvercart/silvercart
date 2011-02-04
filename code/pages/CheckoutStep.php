@@ -143,35 +143,6 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     }
 
     /**
-     * Liefert die Bearbeitungsgebuehren fuer die gewaehlte Zahlungsart
-     * zurueck.
-     *
-     * @return float
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.11.2010
-     */
-    public function getHandlingCosts() {
-        $checkoutData = $this->getCombinedStepData();
-        $handlingCosts = 0;
-
-        $paymentMethodObj = DataObject::get_by_id(
-            'PaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
-
-        if ($paymentMethodObj) {
-            $handlingCostsObj = $paymentMethodObj->getHandlingCost();
-        } else {
-            $handlingCostsObj = new Money;
-            $handlingCostsObj->setAmount($handlingCosts);
-        }
-
-        return $handlingCostsObj;
-    }
-
-    /**
      * Returns the shipping method title.
      *
      * @return string
@@ -225,28 +196,23 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     }
 
     /**
-     * Returns the payment method title.
+     * Returns the payment method object.
      *
-     * @return string
+     * @return PaymentMethod
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 26.1.2011
      */
-    public function PaymentMethodTitle() {
+    public function getPayment() {
         $checkoutData = $this->getCombinedStepData();
-        $title = '';
 
         $paymentMethodObj = DataObject::get_by_id(
-                        'PaymentMethod',
-                        $checkoutData['PaymentMethod']
+            'PaymentMethod',
+            $checkoutData['PaymentMethod']
         );
 
-        if ($paymentMethodObj) {
-            $title = $paymentMethodObj->Name;
-        }
-
-        return $title;
+        return $paymentMethodObj;
     }
 
     /**
@@ -263,8 +229,8 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         $handlingCostPayment = 0;
 
         $paymentMethodObj = DataObject::get_by_id(
-                        'PaymentMethod',
-                        $checkoutData['PaymentMethod']
+            'PaymentMethod',
+            $checkoutData['PaymentMethod']
         );
 
         if ($paymentMethodObj) {
@@ -278,27 +244,48 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     }
 
     /**
-     * Template metod; returns the price of the cart positions + shipping fee
-     *
-     * @param bool  $withModules    Calculate the total sum with modules activated
-     * @param array $excludeModules Calculate the total sum with some modules deactivated
+     * Returns the price of the cart positions.
      *
      * @return string a price amount
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 4.1.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
      */
-    public function getAmountGrossRaw($withModules = true, $excludeModules = array()) {
-        $member = Member::currentUser();
-        $stepData = $this->getCombinedStepData();
-        $cart = $member->shoppingCart();
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
-        $amountTotal = 0;
+    public function getTaxableAmountGrossWithoutFees() {
+        $member         = Member::currentUser();
+        $shoppingCart   = $member->shoppingCart();
+        $amountTotal    = 0;
 
-        if ($cart && $shippingMethod) {
-            $shippingFee = $shippingMethod->getShippingFee()->Price->getAmount();
-            $priceSumCart = $cart->getPrice($withModules, $excludeModules)->getAmount();
+        if ($shoppingCart && $shippingMethod) {
+            $amountTotal = $shoppingCart->getAmountTotal()->getAmount();
+        }
+
+        $amountTotalObj = new Money;
+        $amountTotalObj->setAmount($amountTotal);
+
+        return $amountTotalObj;
+    }
+
+    /**
+     * Returns the price of the cart positions + fees.
+     *
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
+     */
+    public function getTaxableAmountGrossWithFees() {
+        $member         = Member::currentUser();
+        $stepData       = $this->getCombinedStepData();
+        $shoppingCart   = $member->shoppingCart();
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
+        $amountTotal    = 0;
+
+        if ($shoppingCart && $shippingMethod) {
+            $shippingFee  = $shippingMethod->getShippingFee()->Price->getAmount();
+            $priceSumCart = $shoppingCart->getTaxableAmountGrossWithoutFees()->getAmount();
 
             if ($shippingFee && $priceSumCart) {
                 $amountTotal = $shippingFee + $priceSumCart;
@@ -312,17 +299,32 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     }
 
     /**
-     * Returns the price of the cart positions + shipping fee without the
-     * costs related to modules.
+     * Returns the end sum of the cart (taxable positions + nontaxable
+     * positions + fees).
      *
      * @return string a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 04.02.2011
      */
-    public function getAmountGrossRawWithoutModules() {
-        return $this->getAmountGrossRaw(false);
+    public function getAmountTotal() {
+        $member         = Member::currentUser();
+        $stepData       = $this->getCombinedStepData();
+        $shoppingCart   = $member->shoppingCart();
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
+        $amountTotal    = 0;
+
+        if ($shoppingCart && $shippingMethod) {
+            $shippingFee  = $shippingMethod->getShippingFee()->Price->getAmount();
+            $priceSumCart = $shoppingCart->getAmountTotal()->getAmount();
+            $amountTotal  = $shippingFee + $priceSumCart;
+        }
+
+        $amountTotalObj = new Money;
+        $amountTotalObj->setAmount($amountTotal);
+
+        return $amountTotalObj;
     }
 
     /**
