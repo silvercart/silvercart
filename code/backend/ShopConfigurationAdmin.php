@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The Silvercart configuration backend.
  *
@@ -29,7 +30,6 @@ class ShopConfigurationAdmin extends ModelAdmin {
         'Tax',
         'OrderStatus'
     );
-
     /**
      * The URL segment
      *
@@ -40,7 +40,6 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $url_segment = 'silvercart-configuration';
-
     /**
      * The menu title
      *
@@ -50,8 +49,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $menu_title = 'Silvercart Konfiguration';
-
+    public static $menu_title = 'silvercart configuration';
     /**
      * The collection controller class to use for the shop configuration.
      *
@@ -62,6 +60,19 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $collection_controller_class = 'ShopConfigurationAdmin_CollectionController';
+
+    /**
+     * constructor
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function __construct() {
+        self::$menu_title = _t('ShopConfigurationAdmin.SILVERCART_CONFIG', 'silvercart configuration');
+        parent::__construct();
+    }
+
 }
 
 /**
@@ -122,4 +133,5 @@ class ShopConfigurationAdmin_CollectionController extends ModelAdmin_CollectionC
     protected function adjustSearchFormForPaymentMethod(Form $form) {
         return $form;
     }
+
 }

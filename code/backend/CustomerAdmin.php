@@ -17,6 +17,18 @@ class CustomerAdmin extends ModelAdmin {
         'BusinessCustomer'
     );
     public static $url_segment = 'customers';
-    public static $menu_title = 'Kunden';
+    public static $menu_title = 'customers';
+
+    /**
+     * constructor
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function  __construct() {
+        self::$menu_title = _t('CustomerAdmin.customers', 'customers');
+        parent::__construct();
+    }
 
 }

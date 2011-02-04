@@ -45,4 +45,16 @@ class ArticleAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public static $menu_title = 'Artikel';
+
+    /**
+     * constructor
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function  __construct() {
+        self::$menu_title = _t('Article.SINGULARNAME');
+        parent::__construct();
+    }
 }
