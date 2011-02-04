@@ -6,7 +6,7 @@
 
 
     <fieldset>
-        <legend>Kontaktdaten</legend>
+        <legend><% _t('Page.ADDRESS_DATA','address data') %></legend>
 
                $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
 
@@ -29,7 +29,7 @@
 
 
     <fieldset>
-        <legend>Geburtstag:</legend>
+        <legend><% _t('Page.BIRTHDAY','birthday') %>:</legend>
 
         <div class="subcolumns">
             <div class="c33l">
@@ -52,9 +52,9 @@
     </fieldset>
 
         <fieldset>
-        <legend>Passwort</legend>
+        <legend><% _t('Page.PASSWORD') %></legend>
         <div>
-            <p>Wenn Sie dieses Feld leer lassen, wird Ihr Passwort nicht ge&auml;ndert.</p>
+            <p><% _t('Page.PASSWORD_CASE_EMPTY','If You leave this field empty, Your password will not be changed.') %></p>
         </div>
 
         <div class="subcolumns">
@@ -72,7 +72,7 @@
 
     </fieldset>
  <fieldset>
-        <legend>Newsletter</legend>
+        <legend><% _t('Page.NEWSLETTER','newsletter') %></legend>
 
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,CustomHtmlFormFieldCheck)
 

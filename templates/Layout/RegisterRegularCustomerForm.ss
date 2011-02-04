@@ -5,7 +5,7 @@
     $CustomHtmlFormMetadata
 
     <fieldset>
-        <legend>Kontaktdaten</legend>
+        <legend><% _t('Page.ADDRESS_DATA') %></legend>
         
         $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
 
@@ -71,7 +71,7 @@
     </fieldset>
 
     <fieldset>
-        <legend>Geburtstag:</legend>
+        <legend><% _t('Page.BIRTHDAY') %>:</legend>
 
         <div class="subcolumns">
             <div class="c33l">
@@ -94,7 +94,7 @@
     </fieldset>
 
     <fieldset>
-        <legend>Passwort</legend>
+        <legend><% _t('Page.PASSWORD') %></legend>
 
         <div class="subcolumns">
             <div class="c50l">
@@ -112,7 +112,7 @@
     </fieldset>
 
     <fieldset>
-        <legend>AGB und Datenschutzerkl&auml;rung</legend>
+        <legend><% _t('Page.TERMSOFSERVICE_PRIVACY') %></legend>
 
         $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,HasAcceptedTermsAndConditionsFieldCheck)
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,HasAcceptedRevocationInstructionFieldCheck)

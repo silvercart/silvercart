@@ -11,37 +11,30 @@
                 $InsertCustomHtmlForm
                 <% if CustomHtmlFormStepLinkCancel %>
                 <p>
-                    <a href="$CustomHtmlFormStepLinkCancel">Abbrechen</a>
+                    <a href="$CustomHtmlFormStepLinkCancel"><% _t('Page.CANCEL','cancel') %></a>
                 </p>
                 <% end_if %>
                 <% if CustomHtmlFormStepLinkPrev %>
                 <p>
-                    <a href="$CustomHtmlFormStepLinkPrev">Zurück</a>
+                    <a href="$CustomHtmlFormStepLinkPrev"><% _t('Page.PREV') %></a>
                 </p>
                 <% end_if %>
                 <% if CustomHtmlFormStepLinkNext %>
                 <p>
-                    <a href="$CustomHtmlFormStepLinkNext">Vor</a>
+                    <a href="$CustomHtmlFormStepLinkNext"><% _t('Page.NEXT') %></a>
                 </p>
                 <% end_if %>
 
                 <% else %>
                 $CheckoutLoginForm
                 <div id="continueAnonymously">
-                    <a href="{$BaseHref}/checkoutloginoptions/checkout-schritt-1/">ohne Registrierung einkaufen</a>
+                    <a href="{$BaseHref}/checkoutloginoptions/checkout-schritt-1/"><% _t('Page.SHOP_WITHOUT_REGISTRATION','shop without registration') %></a>
                 </div>
                 <% end_if %>
             </div>
         </div>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix">
-
-    </div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SecondLevelNavigation %>

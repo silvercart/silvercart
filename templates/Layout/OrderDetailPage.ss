@@ -13,11 +13,6 @@
         <% include OrderDetails %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SecondLevelNavigation %>

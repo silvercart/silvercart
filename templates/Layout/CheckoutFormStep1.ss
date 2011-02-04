@@ -3,14 +3,14 @@
       $CustomHtmlFormMetadata
       $CustomHtmlFormErrorMessages
       <fieldset>
-          <legend>Email-Adresse</legend>
+          <legend><% _t('Page.EMAIL_ADDRESS','email address') %></legend>
           <div class="subcolumns">
               $CustomHtmlFormFieldByName(Email)
           </div>
     </fieldset>
 
       <fieldset>
-        <legend>Rechnungsadresse</legend>
+        <legend><% _t('Page.BILLING_ADDRESS','billing address') %></legend>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
@@ -76,7 +76,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend>Lieferadresse</legend>
+        <legend><% _t('Page.SHIPPING_ADDRESS','shipping address') %></legend>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">

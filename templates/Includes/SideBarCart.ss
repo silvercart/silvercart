@@ -1,12 +1,12 @@
 <% if isFilledCart %>
     <div class="widget">
         <div class="widget_content">
-            <h2>Warenkorb</h2>
+            <h2><% _t('Page.CART') %></h2>
                 <table>
                     <tr>
-                        <th>Artikelname</th>
-                        <th class="Amount">Anzahl</th>
-                        <th class="pricewidth">Preis </th>
+                        <th><% _t('Article.TITLE') %></th>
+                        <th class="Amount"><% _t('ArticlePage.QUANTITY') %></th>
+                        <th class="pricewidth"><% _t('Article.PRICE') %></th>
                     </tr>
                     <% control CurrentMember %>
                         <% control shoppingCart %>
@@ -19,13 +19,13 @@
                             <% end_control %>
                                 <tr>
                                     <td></td>
-                                    <td>Summe</td>
+                                    <td><% _t('Page.SUM','sum') %></td>
                                     <td class="pricewidth">$Price.Nice</td>
                                 </tr>
                         <% end_control %>
                     <% end_control %>
                 </table>
-            <a href="{$baseHref}warenkorb"><strong class="ShoppingCart">zum Warenkorb</strong></a>
+            <a href="{$baseHref}warenkorb"><strong class="ShoppingCart"><% _t('Page.GOTO_CART', 'go to cart') %></strong></a>
         </div>
     </div>
 <% end_if %>

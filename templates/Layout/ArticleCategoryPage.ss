@@ -13,16 +13,11 @@
         </ul>
         <% end_if %>
         <% if CategoriesArticles.MoreThanOnePage %>
-        <% if CategoriesArticles.PrevLink %><a style="float: left" href="$CategoriesArticles.PrevLink">Zur&uuml;ck</a><% end_if %>
-        <% if CategoriesArticles.NextLink %><a style="float: right" href="$CategoriesArticles.NextLink">Vor</a><% end_if %>
+        <% if CategoriesArticles.PrevLink %><a style="float: left" href="$CategoriesArticles.PrevLink"><% _t('Page.PREV','prev') %></a><% end_if %>
+        <% if CategoriesArticles.NextLink %><a style="float: right" href="$CategoriesArticles.NextLink"><% _t('Page.NEXT','next') %></a><% end_if %>
         <% end_if %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SideBarCart %>

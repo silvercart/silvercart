@@ -11,15 +11,15 @@
                 <div class="subcolumns">
                     <div class="c33l"></div>
                     <div class="c66r">
-                        <a class="detailButton" href="$Link" title="Details zu $Title">Details</a>
+                        <a class="detailButton" href="$Link" title="Details zu $Title"><% _t('Page.DETAILS','details') %></a>
                     </div>
                 </div>
             </div>
             <div class="c50r acticlePreviewPrice">
                 <strong class="price">$Price.Nice</strong>
                 <p>
-                    inkl. 19% MwSt.<br />
-                    zzgl. Versand
+                    <% sprintf(_t('Page.TAX', 'incl. %s%% VAT'),$tax.Rate) %><br />
+                    <% _t('Page.PLUS_SHIPPING','plus shipping') %>
                 </p>
             </div>
         </div>

@@ -11,10 +11,10 @@
         <% if CurrentMembersOrders %>
         <table>
             <tr>
-                <th>Bestelldatum</th>
-                <th>bestellte Artikel</th>
-                <th>Status</th>
-                <th>Ihre Bemerkung</th>
+                <th><% _t('Page.ORDER_DATE','order date') %></th>
+                <th><%_t('Page.ORDERD_ARTICLES','ordered articles') %></th>
+                <th><%_t('OrderStatus.SINGULARNAME') %></th>
+                <th><% _t('Page.REMARKS') %></th>
             </tr>
             <tr>
                 <% control CurrentMembersOrders %>
@@ -38,15 +38,10 @@
             <% end_control %>
         </table>
         <% else %>
-        <p>Sie haben noch keine abgeschlossenen Bestellungen.</p>
+        <p><% _t('Page.NO_ORDERS','You do not have any orders yet') %></p>
         <% end_if %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SecondLevelNavigation %>

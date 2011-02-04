@@ -13,15 +13,10 @@
             <% if CustomersOrder %>
             <% include OrderDetails %>
             <% else %>
-            <p>Ihre Sitzung ist abgelaufen.</p>
+            <p><%_t('Page.SESSION_EXPIRED','Your session has expired.') %></p>
             <% end_if %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SecondLevelNavigation %>

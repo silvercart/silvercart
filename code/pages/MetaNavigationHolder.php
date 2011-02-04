@@ -15,22 +15,6 @@ class MetaNavigationHolder extends Page {
     public static $singular_name = "Metanavigation";
 
     /**
-     * Constructor
-     *
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
-     *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                don't have their defaults set.
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 2.2.2011
-     */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('MetaNavigationHolder.SINGULARNAME', 'meta navigation');
-        parent::__construct($record, $isSingleton);
-    }
-
-    /**
      * For this page type is one entry with this exact URLSegment needed.
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -77,6 +61,15 @@ class MetaNavigationHolder extends Page {
             $imprintPage->ParentID = $page->ID;
             $imprintPage->write();
             $imprintPage->publish("Stage", "Live");
+
+            $dataPrivacyStatementPage = new DataPrivacyStatementPage();
+            $dataPrivacyStatementPage->Title = _t('DataPrivacyStatementPage.TITLE', 'data privacy statement');
+            $dataPrivacyStatementPage->URLSegment = _t('DataPrivacyStatementPage.URL_SEGMENT','data-privacy-statement');
+            $dataPrivacyStatementPage->Status = "Published";
+            $dataPrivacyStatementPage->ShowInMenus = 1;
+            $dataPrivacyStatementPage->ParentID = $page->ID;
+            $dataPrivacyStatementPage->write();
+            $dataPrivacyStatementPage->publish("Stage", "Live");
 
             $shippingFeesPage = new ShippingFeesPage();
             $shippingFeesPage->Title = _t('ShippingFeesPage.TITLE', 'shipping fees');

@@ -3,7 +3,7 @@
       $CustomHtmlFormMetadata
       $CustomHtmlFormErrorMessages
       <fieldset>
-          <legend>Versandart</legend>
+          <legend><% _t('PaymentMethod.SHIPPINGMETHOD') %></legend>
           <div class="subcolumns">
               $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldSelect)
           </div>

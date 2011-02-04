@@ -18,7 +18,7 @@
             <div class="c80r">
                 <table>
                     <tr>
-                        <th>Gewicht (g)</th><th>Zone</th><th>Preis</th>
+                        <th><% _t('Article.WEIGHT') %> (g)</th><th><% _t('Zone.SINGULARNAME') %></th><th><% _t('Article.PRICE') %></th>
                     </tr>
                     <% control shippingFees %>
                     <tr>
@@ -32,11 +32,6 @@
         <% end_control %>
     </div>
 </div>
-<% if LayoutType = 4 %>
-<div id="col2">
-    <div id="col2_content" class="clearfix"></div>
-</div>
-<% end_if %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SecondLevelNavigation %>
