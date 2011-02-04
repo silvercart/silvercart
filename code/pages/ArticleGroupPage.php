@@ -38,7 +38,7 @@ class ArticleGroupPage extends Page {
                         'articles',
                         'Article',
                         array(
-                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title'),
+                            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
                             'PriceAmount' => _t('Article.PRICE', 'price'),
                             'Weight' => _t('Article.WEIGHT', 'weight')
                         ),
@@ -53,7 +53,7 @@ class ArticleGroupPage extends Page {
                         'attributes',
                         'Attribute',
                         array(
-                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title')
+                            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE')
                         )
         );
         $tabPARAM2 = "Root.Content."._t('ArticleGroupPage.ATTRIBUTES', 'attributes');

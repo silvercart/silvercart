@@ -72,7 +72,7 @@ class PaymentMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "Bezahlart";
+    public static $singular_name = "payment method";
 
     /**
      * Plural name
@@ -83,7 +83,7 @@ class PaymentMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "Bezahlarten";
+    public static $plural_name = "payment methods";
 
     /**
      * Definiert die Attribute der Klasse.
@@ -153,7 +153,7 @@ class PaymentMethod extends DataObject {
         'countries' => 'Country'
     );
     /**
-     * Legt fest, welche Spalten in der Tabellenuebersicht angezeigt werden.
+     * define colums to be shown in a table
      *
      * @var array
      * 
@@ -170,7 +170,7 @@ class PaymentMethod extends DataObject {
         'maxAmountForActivation'    => 'Hoechstbetrag'
     );
     /**
-     * Legt die Bezeichnungen fuer die Felder fest.
+     * define field labels
      *
      * @return string
      *
@@ -313,6 +313,45 @@ class PaymentMethod extends DataObject {
     // ------------------------------------------------------------------------
 
     /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 2.02.2011
+     */
+    public function  __construct($record = null, $isSingleton = false) {
+        self::$searchable_fields = array(
+        'Name',
+        'isActive' => array(
+            'title' => _t('ShopAdmin.PAYMENT_ISACTIVE')
+        ),
+        'minAmountForActivation',
+        'maxAmountForActivation',
+        'Zone.ID' => array(
+            'title' => _t('Country.ATTRIBUTED_ZONES')
+        ),
+        'countries.ID' => array(
+            'title' => _t('PaymentMethod.ATTRIBUTED_COUNTRIES', 'attributed countries')
+        )
+    );
+    self::$field_labels = array(
+        'Name'                      => 'Name',
+        'activatedStatus'           => _t('ShopAdmin.PAYMENT_ISACTIVE'),
+        'AttributedZones'           => _t('Country.ATTRIBUTED_ZONES'),
+        'AttributedCountries'       => _t('PaymentMethod.ATTRIBUTED_COUNTRIES'),
+        'minAmountForActivation'    => _t('PaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+        'maxAmountForActivation'    => _t('PaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
+    );
+        parent::__construct($record, $isSingleton);
+    }
+
+        /**
      * Set a custom search context for fields like "greater than", "less than",
      * etc.
      * 

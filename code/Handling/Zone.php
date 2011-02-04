@@ -20,7 +20,7 @@ class Zone extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "Zone";
+    public static $singular_name = "zone";
     /**
      * Plural name
      *
@@ -30,7 +30,7 @@ class Zone extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "Zones";
+    public static $plural_name = "zones";
 
     /**
      * Constructor. We localize the static variables here.
@@ -46,6 +46,24 @@ class Zone extends DataObject {
      * @since 24.01.2011
      */
     public function __construct($record = null, $isSingleton = false) {
+        self::$field_labels = array(
+            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
+            'carrier.Title' => _t('Carrier.SINGULARNAME'),
+            'AttributedCountries' => _t('Zone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
+            'AttributedShippingMethods' => _t('Zone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+        );
+        self::$searchable_fields = array(
+            'Title',
+            'carrier.ID' => array(
+                'title' => _t('Carrier.SINGULARNAME')
+            ),
+            'countries.ID' => array(
+                'title' => _t('Zone.FOR_COUNTRIES', 'for countries')
+            ),
+            'shippingMethods.ID' => array(
+                'title' => _t('Zone.ATTRIBUTED_SHIPPINGMETHODS')
+            )
+        );
         parent::__construct($record, $isSingleton);
     }
 
@@ -211,7 +229,7 @@ class Zone extends DataObject {
                         $this,
                         'countries',
                         'Country',
-                        array('Title' => 'Land'),
+                        array('Title' => _t('Country.SINGULARNAME')),
                         'getCMSFields_forPopup'
         );
         $tabParam = "Root." . _t('Zone.COUNTRIES', 'countries');
