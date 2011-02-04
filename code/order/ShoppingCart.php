@@ -169,54 +169,106 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * returns the price sum of all articles in the cart
+     * Returns the taxable amount of positions in the shopping cart.
      *
-     * @param bool  $withModules    Calculate the total sum with modules activated
-     * @param array $excludeModules Calculate the total sum with some modules deactivated
+     * Those are regular articles and can originate from registered modules too.
+     * Contains no fees.
      *
-     * @return Money money object
+     * @param array $excludeModules An array of registered modules that shall not
+     *      be taken into account.
+     *
+     * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.10
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
      */
-    public function getPrice($withModules = true, $excludeModules = array()) {
-        $positions = $this->positions();
-        $price     = 0.0;
+    public function getTaxableAmountGrossWithoutFees($excludeModules = array()) {
+        $amount             = 0;
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions',
+            array(
+                Member::currentUser()->shoppingCart(),
+                Member::currentUser(),
+                true
+            ),
+            $excludeModules
+        );
 
-        foreach ($positions as $position) {
-            $price += (float) $position->article()->Price->getAmount() * $position->Quantity;
+        // Articles
+        foreach ($this->positions() as $position) {
+            $amount += (float) $position->article()->Price->getAmount() * $position->Quantity;
         }
 
-        if ($withModules) {
-            $modulesOutput = $this->callMethodOnRegisteredModules('ShoppingCartTotal');
-
-            foreach ($modulesOutput as $moduleName => $moduleOutput) {
-                if (!in_array($moduleName, $excludeModules)) {
-                    $price += (float) $moduleOutput->getAmount();
-                }
-            }
-
-            if ($price < 0) {
-                $price = 0;
+        // Registered Modules
+        foreach ($registeredModules as $moduleName => $modulePositions) {
+            foreach ($modulePositions as $modulePosition) {
+                $amount += (float) $modulePosition->PriceTotal;
             }
         }
 
-        $priceObj = new Money;
-        $priceObj->setAmount($price);
+        $amountObj = new Money;
+        $amountObj->setAmount($amount);
 
-        return $priceObj;
+        return $amountObj;
     }
 
     /**
-     * returns the price sum of all articles in the cart
+     * Returns the non taxable amount of positions in the shopping cart.
+     * Those can originate from registered modules only.
      *
-     * @return Money money object
+     * @param array $excludeModules An array of registered modules that shall not
+     *      be taken into account.
+     *
+     * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.10
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
      */
-    public function getCommodityPrice() {
-        return $this->getPrice(false);
+    public function getNonTaxableAmount($excludeModules = array()) {
+        $amount             = 0;
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions',
+            array(
+                Member::currentUser()->shoppingCart(),
+                Member::currentUser(),
+                false,
+                $excludeModules
+            )
+        );
+
+        // Registered Modules
+        foreach ($registeredModules as $moduleName => $modulePositions) {
+            foreach ($modulePositions as $modulePosition) {
+                $amount += (float) $modulePosition->PriceTotal;
+            }
+        }
+
+        $amountObj = new Money;
+        $amountObj->setAmount($amount);
+
+        return $amountObj;
+    }
+
+    /**
+     * Returns the end sum of the shopping cart.
+     *
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
+     */
+    public function getAmountTotal() {
+        $amount  = 0;
+        $amount += $this->getTaxableAmountGrossWithoutFees()->getAmount();
+        $amount += $this->getNonTaxableAmount()->getAmount();
+
+        $amountObj = new Money;
+        $amountObj->setAmount($amount);
+
+        return $amountObj;
     }
 
     /**
@@ -225,14 +277,33 @@ class ShoppingCart extends DataObject {
      * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 24.11.10
      */
     public function getTax() {
-        $positions = $this->positions();
-        $tax       = 0.0;
+        $positions          = $this->positions();
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions',
+            array(
+                Member::currentUser()->shoppingCart(),
+                Member::currentUser(),
+                true
+            )
+        );
+        $tax                = 0.0;
 
+        // Articles
         foreach ($positions as $position) {
             $tax += $position->article()->getTaxAmount() * $position->Quantity;
+        }
+
+        // Registered Modules
+        foreach ($registeredModules as $moduleName => $moduleOutput) {
+            foreach ($moduleOutput as $modulePositions) {
+                foreach ($modulePositions->moduleOutput as $modulePosition) {
+                    $tax += (float) $modulePosition->TaxAmount;
+                }
+            }
         }
         
         $taxObj = new Money;
@@ -242,7 +313,8 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Returns tax amounts included in the shoppingcart separated by tax rates.
+     * Returns tax amounts included in the shoppingcart separated by tax rates
+     * without fee taxes.
      *
      * @return DataObjectSet
      *
@@ -250,12 +322,20 @@ class ShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 01.02.2011
      */
-    public function getTaxRates() {
-        $positions = $this->positions();
-        $taxes     = new DataObjectSet;
+    public function getTaxRatesWithoutFees() {
+        $positions          = $this->positions();
+        $taxes              = new DataObjectSet;
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions',
+            array(
+                Member::currentUser()->shoppingCart(),
+                Member::currentUser(),
+                true
+            )
+        );
 
+        // Articles
         foreach ($positions as $position) {
-
             $taxRate = $position->article()->tax()->Rate;
 
             if (!$taxes->find('Rate', $taxRate)) {
@@ -272,6 +352,27 @@ class ShoppingCart extends DataObject {
             $taxSection->AmountRaw += $position->article()->getTaxAmount() * $position->Quantity;
         }
 
+        // Registered Modules
+        foreach ($registeredModules as $moduleName => $moduleOutput) {
+            foreach ($moduleOutput as $modulePositions) {
+                foreach ($modulePositions->moduleOutput as $modulePosition) {
+                    $taxRate = $modulePosition->TaxRate;
+                    if (!$taxes->find('Rate', $taxRate)) {
+                        $taxes->push(
+                            new DataObject(
+                                array(
+                                    'Rate'      => $taxRate,
+                                    'AmountRaw' => 0.0,
+                                )
+                            )
+                        );
+                    }
+                    $taxSection = $taxes->find('Rate', $taxRate);
+                    $taxSection->AmountRaw += $modulePosition->TaxAmount;
+                }
+            }
+        }
+
         foreach ($taxes as $tax) {
             $taxObj = new Money;
             $taxObj->setAmount($tax->AmountRaw);
@@ -280,6 +381,20 @@ class ShoppingCart extends DataObject {
         }
 
         return $taxes;
+    }
+
+    /**
+     * Returns tax amounts included in the shoppingcart separated by tax rates
+     * with fee taxes.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
+     */
+    public function getTaxRatesWithFees() {
+        return $this->getTaxRatesWithoutFees();
     }
 
     /**
@@ -357,10 +472,11 @@ class ShoppingCart extends DataObject {
      */
     public function registeredModules() {
         $customer           = Member::currentUser();
-        $modules            = new DataObjectSet();
+        $modules            = array();
         $registeredModules  = self::$registeredModules;
         $hookMethods        = array(
-            'ShoppingCartPositions',
+            'NonTaxableShoppingCartPositions',
+            'TaxableShoppingCartPositions',
             'ShoppingCartActions',
             'ShoppingCartTotal'
         );
@@ -379,19 +495,15 @@ class ShoppingCart extends DataObject {
             if ($registeredModuleObj) {
                 foreach ($hookMethods as $hookMethod) {
                     if ($registeredModuleObj->hasMethod($hookMethod)) {
-                        $modules->push(
-                            new ArrayData(
-                                array(
-                                    $hookMethod => $registeredModuleObj->$hookMethod($this, $customer)
-                                )
-                            )
+                        $modules[] = array(
+                            $hookMethod => $registeredModuleObj->$hookMethod($this, $customer)
                         );
                     }
                 }
             }
         }
 
-        return $modules;
+        return new DataObjectSet($modules);
     }
 
     /**
@@ -399,6 +511,8 @@ class ShoppingCart extends DataObject {
      *
      * @param string $methodName The name of the method to call
      * @param array  $parameters Additional parameters for the method call
+     * @param array $excludeModules An array of registered modules that shall not
+     *      be taken into account.
      *
      * @return array Associative array:
      *      'ModuleName' => 'ModuleOutput'
@@ -407,11 +521,21 @@ class ShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 24.01.2011
      */
-    public function callMethodOnRegisteredModules($methodName, $parameters = array()) {
+    public function callMethodOnRegisteredModules($methodName, $parameters = array(), $excludeModules = array()) {
         $registeredModules  = self::$registeredModules;
         $outputOfModules    = array();
 
+        if (!is_array($excludeModules)) {
+            $excludeModules = array($excludeModules);
+        }
+
         foreach ($registeredModules as $registeredModule) {
+
+            // Skip excluded modules
+            if (in_array($registeredModule, $excludeModules)) {
+                continue;
+            }
+
             $registeredModuleObjPlain = new $registeredModule();
 
             if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {

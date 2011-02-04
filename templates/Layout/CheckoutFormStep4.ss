@@ -25,18 +25,32 @@
                             </tr>
                         <% end_control %>
 
+                        <% control registeredModules %>
+                            <% if TaxableShoppingCartPositions %>
+                                <% control TaxableShoppingCartPositions %>
+                                    <tr>
+                                        <td>$Name</td>
+                                        <td class="right">$PriceFormatted</td>
+                                        <td class="right">$Tax.Title</td>
+                                        <td class="right">$Quantity</td>
+                                        <td class="right">$PriceTotalFormatted</td>
+                                    </tr>
+                                <% end_control %>
+                            <% end_if %>
+                        <% end_control %>
+
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td><strong>Zwischensumme</strong></td>
-                            <td class="right" id="Sum"><strong>$CommodityPrice.Nice</strong></td>
+                            <td class="right" id="Sum"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
                             <td></td>
                             <td></td>
                         </tr>
 
-                        <% if TaxRates %>
-                            <% control TaxRates %>
+                        <% if TaxRatesWithoutFees %>
+                            <% control TaxRatesWithoutFees %>
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -50,68 +64,44 @@
                         <% end_if %>
 
                         <% control Top.controller %>
-                            <tr class="separator">
-                                <td>Bearbeitungsgebühren</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="right">$getHandlingCosts.Nice</td>
-                            </tr>
                             <tr">
-                                <td>Versandart</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="right">$CarrierAndShippingMethodTitle</td>
-                            </tr>
-                            <tr class="separator">
-                                <td>Versandkosten</td>
+                                <td>Versandart: $CarrierAndShippingMethodTitle</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$HandlingCostShipment.Nice</td>
                             </tr>
                             <tr>
-                                <td>Bezahlart</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="right">$PaymentMethodTitle</td>
-                            </tr>
-                            <tr class="separator">
-                                <td>Bezahlart Gebühren</td>
+                                <td>Bezahlart: $payment.Title</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right">$HandlingCostPayment.Nice</td>
                             </tr>
-                        
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td><strong>Zwischensumme</strong></td>
-                                <td class="right" id="Sum"><strong>$AmountGrossRawWithoutModules.Nice</strong></td>
+                                <td class="right" id="Sum"><strong>$TaxableAmountGrossWithFees.Nice</strong></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                         <% end_control %>
 
-                        <% if registeredModules %>
-                            <% control registeredModules %>
-                                <% if ShoppingCartPositions %>
-                                    <% control ShoppingCartPositions %>
-                                        <tr>
-                                            <td>$moduleOutput.Title</td>
-                                            <td class="right">$moduleOutput.PriceFormatted</td>
-                                            <td></td>
-                                            <td class="right">$moduleOutput.Quantity</td>
-                                            <td class="right">$moduleOutput.PriceTotalFormatted</td>
-                                        </tr>
-                                    <% end_control %>
-                                <% end_if %>
-                            <% end_control %>
-                        <% end_if %>
+                        <% control registeredModules %>
+                            <% if NonTaxableShoppingCartPositions %>
+                                <% control NonTaxableShoppingCartPositions %>
+                                    <tr>
+                                        <td>$Name</td>
+                                        <td class="right">$PriceFormatted</td>
+                                        <td></td>
+                                        <td class="right">$Quantity</td>
+                                        <td class="right">$PriceTotalFormatted</td>
+                                    </tr>
+                                <% end_control %>
+                            <% end_if %>
+                        <% end_control %>
 
                     <% end_control %>
                 <% end_control %>
@@ -122,7 +112,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="right"><strong>$AmountGrossRaw.Nice</strong></td>
+                        <td class="right"><strong>$AmountTotal.Nice</strong></td>
                     </tr>
                 <% end_control %>
             </tbody>
