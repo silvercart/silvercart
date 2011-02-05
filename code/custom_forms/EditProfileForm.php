@@ -86,7 +86,6 @@ class EditProfileForm extends CustomHtmlForm {
             'type' => 'TextField',
             'title' => 'Jahr',
             'maxLength' => 4,
-            'title' => 'Geburtstag Jahr',
             'checkRequirements' => array(
                 'isFilledIn' => true,
                 'isNumbersOnly' => true,
@@ -138,6 +137,25 @@ class EditProfileForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
+        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS', 'missis') => _t('Address.MISSIS'), _t('Address.MISTER', 'mister') => _t('Address.MISTER'));
+        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title'] = _t('Address.SURNAME', 'surname');
+        $this->formFields['Invoice_Phone']['title'] = _t('Address.PHONE', 'phone');
+        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
+        $this->formFields['Email']['title'] = _('Address.EMAIL');
+        $this->formFields['Phone']['title'] = _t('Address.PHONE');
+        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
+        $this->formFields['BirthdayDay']['title'] = _t('Page.DAY', 'day');
+        $this->formFields['BirthdayDay']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '20' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
+        $this->formFields['BirthdayMonth']['title'] = _t('Page.MONTH', 'month');
+        $this->formFields['BirthdayMonth']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => _t('Page.JANUARY', 'january'), '2' => _t('Page.FEBRUARY', 'february'), '3' => _t('Page.MARCH', 'march'), '4' => _t('Page.APRIL', 'april'), '5' => _t('Page.MAY', 'may'), '6' => _t('Page.JUNE', 'june'), '7' => _t('Page.July', 'july'), '8' => _t('Page.AUGUST', 'august'), '9' => _t('Page.SEPTEMBER', 'september'), '10' => _t('Page.OCTOBER', 'october'), '11' => _t('Page.NOVEMBER', 'november'), '12' => _t('Page.DECEMBER', 'december'));
+        $this->formFields['BirthdayYear']['title'] = _t('Page.YEAR', 'year');
+        $this->formFields['Password']['title'] = _t('Page.PASSWORD');
+        $this->formFields['PasswordCheck']['title'] = _t('Page.PASSWORD_CHECK', 'password check');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
+        $this->preferences['submitButtonTitle'] = _t('Page.SAVE');
+
         $member = Member::currentUser();
         #var_dump(date('d', strtotime($member->Birthday)));die();
         if ($member) {

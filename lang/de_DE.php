@@ -793,3 +793,5 @@ $lang['de_DE']['Zone']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['Address']['MISTER'] = 'Herr';
+$lang['de_DE']['Address']['MISSIS'] = 'Frau';

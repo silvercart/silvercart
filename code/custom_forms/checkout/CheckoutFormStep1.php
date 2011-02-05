@@ -215,6 +215,32 @@ class CheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
+        $this->formFields['Invoice_Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
+        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS', 'missis') => _t('Address.MISSIS'), _t('Address.MISTER', 'mister') => _t('Address.MISTER'));
+        $this->formFields['Invoice_FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
+        $this->formFields['Invoice_Surname']['title'] = _t('Address.SURNAME', 'surname');
+        $this->formFields['Invoice_Addition']['title'] = _t('Address.ADDITION', 'addition');
+        $this->formFields['Invoice_Street']['title'] = _t('Address.STREET', 'street');
+        $this->formFields['Invoice_StreetNumber']['title'] = _t('Address.STREETNUMBER', 'streetnumber');
+        $this->formFields['Invoice_Postcode']['title'] = _t('Address.POSTCODE', 'postcode');
+        $this->formFields['Invoice_City']['title'] = _t('Address.CITY', 'city');
+        $this->formFields['Invoice_Phone']['title'] = _t('Address.PHONE', 'phone');
+        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
+        $this->formFields['Invoice_Country']['title'] = _t('Country.SINGULARNAME');
+
+        $this->formFields['Shipping_Salutation']['title'] = _t('Address.SALUTATION');
+        $this->formFields['Shipping_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS') => _t('Address.MISSIS'), _t('Address.MISTER') => _t('Address.MISTER'));
+        $this->formFields['Shipping_FirstName']['title'] = _t('Address.FIRSTNAME');
+        $this->formFields['Shipping_Surname']['title'] = _t('Address.SURNAME');
+        $this->formFields['Shipping_Addition']['title'] = _t('Address.ADDITION');
+        $this->formFields['Shipping_Street']['title'] = _t('Address.STREET');
+        $this->formFields['Shipping_StreetNumber']['title'] = _t('Address.STREETNUMBER');
+        $this->formFields['Shipping_Postcode']['title'] = _t('Address.POSTCODE');
+        $this->formFields['Shipping_City']['title'] = _t('Address.CITY');
+        $this->formFields['Shipping_Phone']['title'] = _t('Address.PHONE');
+        $this->formFields['Shipping_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
+        $this->formFields['Shipping_Country']['title'] = _t('Country.SINGULARNAME');
+
         $countries = DataObject::get('Country');
         if ($countries) {
             $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('CheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));

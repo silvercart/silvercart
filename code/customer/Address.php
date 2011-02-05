@@ -11,8 +11,8 @@
  */
 class Address extends DataObject {
 
-    public static $singular_name = 'Adresse';
-    public static $plural_name = 'Adressen';
+    public static $singular_name = 'address';
+    public static $plural_name = 'addresses';
     public static $db = array(
         'FirstName' => 'VarChar(50)',
         'Surname' => 'VarChar(50)',

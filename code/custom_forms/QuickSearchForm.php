@@ -54,7 +54,7 @@ class QuickSearchForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         Session::set("searchQuery", $formData['quickSearchQuery']);
-        Director::redirect('/suchergebnisse');
+        Director::redirect(sprintf("/%s", _t('SearchResultsPage.URL_SEGMENT')));
 
     }
 }
