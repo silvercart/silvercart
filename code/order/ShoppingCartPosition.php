@@ -20,7 +20,7 @@ class ShoppingCartPosition extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Warenkorbposition";
+    public static $singular_name = "cart position";
 
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
@@ -31,7 +31,7 @@ class ShoppingCartPosition extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Warenkorbpositionen";
+    public static $plural_name = "cart positions";
 
     /**
      * attributes

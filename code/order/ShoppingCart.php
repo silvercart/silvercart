@@ -31,7 +31,7 @@ class ShoppingCart extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Warenkorb";
+    public static $singular_name = "cart";
 
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
@@ -42,7 +42,7 @@ class ShoppingCart extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Warenkörbe";
+    public static $plural_name = "carts";
 
     /**
      * 1:n relations

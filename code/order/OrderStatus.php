@@ -20,7 +20,7 @@ class OrderStatus extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    static $singular_name = "Bestellstatus";
+    static $singular_name = "order status";
 
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
@@ -31,7 +31,7 @@ class OrderStatus extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    static $plural_name = "Bestellstatus";
+    static $plural_name = "order stati";
 
     /**
      * attributes
@@ -94,8 +94,8 @@ class OrderStatus extends DataObject {
         if (!DataObject::get($className)) {
 
             $defaultStatusEntries = array(
-                'pending' => 'Auf Zahlungseingang wird gewartet',
-                'payed' => 'bezahlt'
+                'pending' => _t('OrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment', null, 'Auf Zahlungseingang wird gewartet'),
+                'payed' => _t('OrderStatus.PAYED', 'payed')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {

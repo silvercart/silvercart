@@ -1,4 +1,5 @@
 <?php
+
 /**
  * abstract for a single position of an order
  * they are not changeable after creation and serve as a history
@@ -21,16 +22,15 @@ class OrderPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'Price'              => 'Money',
-        'PriceTotal'         => 'Money',
-        'Tax'                => 'Float',
-        'TaxTotal'           => 'Float',
-        'TaxRate'            => 'Float',
+        'Price' => 'Money',
+        'PriceTotal' => 'Money',
+        'Tax' => 'Float',
+        'TaxTotal' => 'Float',
+        'TaxRate' => 'Float',
         'ArticleDescription' => 'Text',
-        'Quantity'           => 'Int',
-        'Title'              => 'VarChar'
+        'Quantity' => 'Int',
+        'Title' => 'VarChar'
     );
-
     /**
      * 1:n relations
      *
@@ -41,10 +41,9 @@ class OrderPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'order'   => 'Order',
+        'order' => 'Order',
         'article' => 'Article'
     );
-
     /**
      *
      * @var array configuration for attributes=>label
@@ -59,4 +58,28 @@ class OrderPosition extends DataObject {
         'Price' => 'Preis',
         'Quantity' => 'Anzahl'
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+            'Title' => _t('Page.ARTICLENAME'),
+            'ArticleDescription' => _t('Article.DESCRIPTION'),
+            'Price' => _t('Article.PRICE'),
+            'Quantity' => _t('Article.QUANTITY')
+        );
+        parent::__construct($record, $isSingleton);
+    }
+
 }

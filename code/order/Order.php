@@ -19,7 +19,7 @@ class Order extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Bestellung";
+    public static $singular_name = "order";
 
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
@@ -30,7 +30,7 @@ class Order extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Bestellungen";
+    public static $plural_name = "orders";
 
     /**
      * attributes
@@ -195,6 +195,41 @@ class Order extends DataObject {
     static $extensions = array(
         "Versioned('Live')",
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function  __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+        'CreatedNice'               => _t('Page.ORDER_DATE'),
+        'ID'                        => _t('Order.ORDER_ID', 'order id'),
+        'ShippingAddressSummary'    => _t('ShippingAddress.SINGULARNAME'),
+        'InvoiceAddressSummary'     => _t('InvoiceAddress.SINGULARNAME'),
+        'AmountGrossTotalNice'      => _t('Order.ORDER_VALUE', 'order value'),
+    );
+    self::$field_labels = array(
+        'ID'                => _t('Order.ORDER_ID'),
+        'Created'           => _t('Page.ORDER_DATE'),
+        'ShippingRate'      => _t('Order.SHIPPINGRATE', 'shipping costs'),
+        'Note'              => _t('Page.REMARKS'),
+        'isConfirmed'       => _t('Order.CONFIRMED', 'confirmed?'),
+        'customer'          => _t('Order.CUSTOMER', 'customer'),
+        'shippingAddress'   => _t('ShippingAddress.SINGULARNAME'),
+        'invoiceAddress'    => _t('InvoiceAddress.SINGULARNAME'),
+        'status'            => _t('Order.STATUS', 'order status')
+    );
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * returns the orders creation date formated: dd.mm.yyyy hh:mm
