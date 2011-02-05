@@ -621,7 +621,7 @@ $lang['de_DE']['PaymentMethod']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['PaymentMethod']['SHIPPINGMETHOD'] = 'shipping method';
+$lang['de_DE']['PaymentMethod']['SHIPPINGMETHOD'] = 'Versandart';
 $lang['de_DE']['PaymentMethod']['SINGULARNAME'] = array(
     'Zahlart',
     50,

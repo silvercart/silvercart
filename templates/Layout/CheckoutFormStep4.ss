@@ -72,7 +72,7 @@
                                 <td class="right">$HandlingCostShipment.Nice</td>
                             </tr>
                             <tr>
-                                <td><% _t('PaymentMethod.SHIPPINGMETHOD') %>: $payment.Title</td>
+                                <td><% _t('PaymentMethod.SINGULARNAME') %>: $payment.Title</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

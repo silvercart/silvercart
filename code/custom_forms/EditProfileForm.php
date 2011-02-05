@@ -141,9 +141,9 @@ class EditProfileForm extends CustomHtmlForm {
         $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
         $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('Address.SURNAME', 'surname');
-        $this->formFields['Invoice_Phone']['title'] = _t('Address.PHONE', 'phone');
-        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
-        $this->formFields['Email']['title'] = _('Address.EMAIL');
+        $this->formFields['Phone']['title'] = _t('Address.PHONE', 'phone');
+        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
+        $this->formFields['Email']['title'] = _t('Address.EMAIL');
         $this->formFields['Phone']['title'] = _t('Address.PHONE');
         $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
         $this->formFields['BirthdayDay']['title'] = _t('Page.DAY', 'day');
