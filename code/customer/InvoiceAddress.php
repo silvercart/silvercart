@@ -9,6 +9,6 @@
  * @license BSD
  */
 class InvoiceAddress extends Address {
-    public static $singular_name = "Rechnungsadresse";
-    public static $plural_name = "Rechnungsadressen";
+    public static $singular_name = "invoice address";
+    public static $plural_name = "invoice addresses";
 }

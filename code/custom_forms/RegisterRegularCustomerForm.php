@@ -176,8 +176,8 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['Invoice_Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS') => _t('Address.MISSIS'), _t('Address.MISTER') => _t('Address.MISTER'));
+        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
         $this->formFields['BirthdayDay']['title'] = _t('Page.DAY');
         $this->formFields['BirthdayMonth']['title'] = _t('Page.MONTH');
         $this->formFields['BirthdayYear']['title'] = _t('Page.YEAR');

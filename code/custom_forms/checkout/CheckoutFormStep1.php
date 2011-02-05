@@ -216,7 +216,7 @@ class CheckoutFormStep1 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->formFields['Invoice_Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
-        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS', 'missis') => _t('Address.MISSIS'), _t('Address.MISTER', 'mister') => _t('Address.MISTER'));
+        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS', 'misses'), "Herr" => _t('Address.MISTER', 'mister'));
         $this->formFields['Invoice_FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
         $this->formFields['Invoice_Surname']['title'] = _t('Address.SURNAME', 'surname');
         $this->formFields['Invoice_Addition']['title'] = _t('Address.ADDITION', 'addition');
@@ -229,7 +229,7 @@ class CheckoutFormStep1 extends CustomHtmlForm {
         $this->formFields['Invoice_Country']['title'] = _t('Country.SINGULARNAME');
 
         $this->formFields['Shipping_Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Shipping_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS') => _t('Address.MISSIS'), _t('Address.MISTER') => _t('Address.MISTER'));
+        $this->formFields['Shipping_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
         $this->formFields['Shipping_FirstName']['title'] = _t('Address.FIRSTNAME');
         $this->formFields['Shipping_Surname']['title'] = _t('Address.SURNAME');
         $this->formFields['Shipping_Addition']['title'] = _t('Address.ADDITION');

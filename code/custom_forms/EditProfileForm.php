@@ -138,7 +138,7 @@ class EditProfileForm extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
-        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), _t('Address.MISSIS', 'missis') => _t('Address.MISSIS'), _t('Address.MISTER', 'mister') => _t('Address.MISTER'));
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
         $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('Address.SURNAME', 'surname');
         $this->formFields['Invoice_Phone']['title'] = _t('Address.PHONE', 'phone');
