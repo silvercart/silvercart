@@ -125,12 +125,12 @@ $lang['en_US']['ArticleGroupHolder']['URL_SEGMENT'] = 'articlegroups';
 $lang['en_US']['ArticleGroupPage']['ATTRIBUTES'] = 'attributes';
 $lang['en_US']['ArticleGroupPage']['GROUP_PICTURE'] = 'group picture';
 $lang['en_US']['ArticleGroupPage']['PLURALNAME'] = array(
-    'Warengruppen',
+    'article groups',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ArticleGroupPage']['SINGULARNAME'] = array(
-    'Warengruppe',
+    'article group',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -146,13 +146,13 @@ $lang['en_US']['ArticleImageGallery']['SINGULARNAME'] = array(
 );
 $lang['en_US']['ArticlePage']['ADD_TO_CART'] = 'add to cart';
 $lang['en_US']['ArticlePage']['PLURALNAME'] = array(
-    'Artikeldetailss',
+    'article details pages',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ArticlePage']['QUANTITY'] = 'quantity';
 $lang['en_US']['ArticlePage']['SINGULARNAME'] = array(
-    'Artikeldetails',
+    'article details page',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -305,12 +305,12 @@ $lang['en_US']['DataPrivacyStatementPage']['TITLE'] = 'data privacy statement';
 $lang['en_US']['DataPrivacyStatementPage']['URL_SEGMENT'] = 'data-privacy-statement';
 $lang['en_US']['EditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
 $lang['en_US']['EmailTemplates']['PLURALNAME'] = array(
-    'Emailvorlagen',
+    'email templates',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['EmailTemplates']['SINGULARNAME'] = array(
-    'Emailvorlage',
+    'email template',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -388,24 +388,30 @@ $lang['en_US']['MyAccountHolder']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['MyAccountHolder']['TITLE'] = 'my account';
-$lang['en_US']['MyAccountHolder']['URL_SEGMENT'] = 'my account';
+$lang['en_US']['MyAccountHolder']['URL_SEGMENT'] = 'my-account';
+$lang['en_US']['Order']['CONFIRMED'] = 'bestätigt?';
+$lang['en_US']['Order']['CUSTOMER'] = 'Kunde';
+$lang['en_US']['Order']['ORDER_ID'] = 'Bestellnummer';
+$lang['en_US']['Order']['ORDER_VALUE'] = 'Bestellwert';
 $lang['en_US']['Order']['PLURALNAME'] = array(
     'orders',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['en_US']['Order']['SHIPPINGRATE'] = 'Versandkosten';
 $lang['en_US']['Order']['SINGULARNAME'] = array(
     'order',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['Order']['STATUS'] = 'Bestellstatus';
 $lang['en_US']['OrderAddress']['PLURALNAME'] = array(
-    'addresses',
+    'order addresses',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderAddress']['SINGULARNAME'] = array(
-    'address',
+    'order address',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -445,12 +451,12 @@ $lang['en_US']['OrderHolder']['SINGULARNAME'] = array(
 $lang['en_US']['OrderHolder']['TITLE'] = 'my oders';
 $lang['en_US']['OrderHolder']['URL_SEGMENT'] = 'my-oders';
 $lang['en_US']['OrderInvoiceAddress']['PLURALNAME'] = array(
-    'addresses',
+    'order invoice addresses',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderInvoiceAddress']['SINGULARNAME'] = array(
-    'address',
+    'order invoice address',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -465,24 +471,30 @@ $lang['en_US']['OrderPosition']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['OrderShippingAddress']['PLURALNAME'] = array(
-    'addresses',
+    'order shipping addresses',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderShippingAddress']['SINGULARNAME'] = array(
-    'address',
+    'order shipping address',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['OrderStatus']['PAYED'] = 'payed';
 $lang['en_US']['OrderStatus']['PLURALNAME'] = array(
-    'Bestellstatus',
+    'order stati',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['OrderStatus']['SINGULARNAME'] = array(
-    'Bestellstatus',
+    'order status',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
+);
+$lang['en_US']['OrderStatus']['WAITING_FOR_PAYMENT'] = array(
+    'waiting for payment',
+    null,
+    'Auf Zahlungseingang wird gewartet'
 );
 $lang['en_US']['OrderStatusTexts']['PLURALNAME'] = array(
     'Order Status Textss',
@@ -539,7 +551,7 @@ $lang['en_US']['Page']['I_ACCEPT'] = 'I accept the';
 $lang['en_US']['Page']['I_HAVE_READ'] = 'I have read the';
 $lang['en_US']['Page']['JANUARY'] = 'january';
 $lang['en_US']['Page']['JUNE'] = 'june';
-$lang['en_US']['Page']['July'] = 'july';
+$lang['en_US']['Page']['JULY'] = 'july';
 $lang['en_US']['Page']['MARCH'] = 'march';
 $lang['en_US']['Page']['MAY'] = 'may';
 $lang['en_US']['Page']['MESSAGE'] = 'message';
@@ -586,7 +598,7 @@ $lang['en_US']['Page']['TOTAL'] = 'total';
 $lang['en_US']['Page']['URL_SEGMENT_IMPRINT'] = 'imprint';
 $lang['en_US']['Page']['URL_SEGMENT_TERMS'] = 'terms-of-service';
 $lang['en_US']['Page']['USER_NOT_EXISTING'] = 'This user does not exist.';
-$lang['en_US']['Page']['VIEW_ORDERS_TEXT_AND_LINK'] = 'You can check the status of Your order any time in Your <a href="/%s/%s">order overview</a>';
+$lang['en_US']['Page']['VIEW_ORDERS_TEXT'] = 'You can check the status of Your order any time in Your';
 $lang['en_US']['Page']['WELCOME_PAGE_TITLE'] = 'welcome';
 $lang['en_US']['Page']['WELCOME_PAGE_URL_SEGMENT'] = 'welcome';
 $lang['en_US']['Page']['YEAR'] = 'year';
@@ -645,12 +657,12 @@ $lang['en_US']['RegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'confirmat
 $lang['en_US']['RegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'confirmation mail';
 $lang['en_US']['RegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'failure message';
 $lang['en_US']['RegisterConfirmationPage']['PLURALNAME'] = array(
-    'Registrierungsbestätigungsseits',
+    'register confirmation pages',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['RegisterConfirmationPage']['SINGULARNAME'] = array(
-    'Registrierungsbestätigungsseite',
+    'register confirmation page',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -721,14 +733,26 @@ $lang['en_US']['ShippingAddress']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['ShippingFee']['ATTRIBUTED_SHIPPINGMETHOD'] = 'attributed shipping method';
+$lang['en_US']['ShippingFee']['COSTS'] = 'costs';
 $lang['en_US']['ShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zone--';
+$lang['en_US']['ShippingFee']['FOR_SHIPPINGMETHOD'] = array(
+    'for shipping method',
+    null,
+    'Für Versandart'
+);
+$lang['en_US']['ShippingFee']['MAXIMUM_WEIGHT'] = array(
+    'maximum weight (g)',
+    null,
+    'Maximalgewicht (g)'
+);
 $lang['en_US']['ShippingFee']['PLURALNAME'] = array(
-    'Versandtarife',
+    'shipping fees',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ShippingFee']['SINGULARNAME'] = array(
-    'Versandtarif',
+    'shipping fee',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -782,22 +806,22 @@ $lang['en_US']['ShopEmail']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['ShoppingCart']['PLURALNAME'] = array(
-    'Warenkörbe',
+    'carts',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ShoppingCart']['SINGULARNAME'] = array(
-    'Warenkorb',
+    'cart',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['en_US']['ShoppingCartPosition']['PLURALNAME'] = array(
-    'Warenkorbpositionen',
+    'cart positions',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['ShoppingCartPosition']['SINGULARNAME'] = array(
-    'Warenkorbposition',
+    'cart position',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );

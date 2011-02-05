@@ -84,7 +84,7 @@ class ContactForm extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Herr" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
         $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('Address.SURNAME');
         $this->formFields['Email']['title'] = _t('Address.EMAIL', 'email address');

@@ -9,8 +9,8 @@
  */
 class ArticleGroupPage extends Page {
 
-    public static $singular_name = "Warengruppe";
-    public static $plural_name = "Warengruppen";
+    public static $singular_name = "article group";
+    public static $plural_name = "article groups";
     public static $allowed_children = array('ArticleGroupPage');
     public static $can_be_root = false;
     public static $db = array(

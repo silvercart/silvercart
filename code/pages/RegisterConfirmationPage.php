@@ -11,7 +11,7 @@
  */
 class RegisterConfirmationPage extends Page {
 
-    public static $singular_name = "Registrierungsbestätigungsseite";
+    public static $singular_name = "register confirmation page";
     public static $db = array(
         'ConfirmationMailSubject' => 'Varchar(255)',
         'ConfirmationMailMessage' => 'HTMLText',

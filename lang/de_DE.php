@@ -14,177 +14,193 @@ if (array_key_exists('de_DE', $lang) && is_array($lang['de_DE'])) {
     $lang['de_DE'] = $lang['en_US'];
 }
 
+$lang['de_DE']['Address']['ADDITION'] = 'Addresszusatz';
+$lang['de_DE']['Address']['CITY'] = 'Ort';
+$lang['de_DE']['Address']['EMAIL'] = 'Emailadresse';
+$lang['de_DE']['Address']['FIRSTNAME'] = 'Vorname';
+$lang['de_DE']['Address']['MISSIS'] = 'Frau';
+$lang['de_DE']['Address']['MISTER'] = 'Herr';
+$lang['de_DE']['Address']['PHONE'] = 'Telefonnummer';
+$lang['de_DE']['Address']['PHONEAREACODE'] = 'Vorwahl';
 $lang['de_DE']['Address']['PLURALNAME'] = array(
     'Adressen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['de_DE']['Address']['POSTCODE'] = 'PLZ';
+$lang['de_DE']['Address']['SALUTATION'] = 'Anrede';
 $lang['de_DE']['Address']['SINGULARNAME'] = array(
     'Adresse',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['AddressHolder']['EDIT'] = 'edit';
-$lang['de_DE']['AddressHolder']['INVOICEADDRESS'] = 'invoice address';
+$lang['de_DE']['Address']['STREET'] = 'Straße';
+$lang['de_DE']['Address']['STREETNUMBER'] = 'Hausnummer';
+$lang['de_DE']['Address']['SURNAME'] = 'Nachname';
+$lang['de_DE']['AddressHolder']['EDIT'] = 'bearbeiten';
+$lang['de_DE']['AddressHolder']['INVOICEADDRESS'] = 'Rechnungsadresse';
 $lang['de_DE']['AddressHolder']['PLURALNAME'] = array(
-    'Address holders',
+    'Adressübersichtseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['AddressHolder']['SHIPPINGADDRESS'] = 'shipping address';
+$lang['de_DE']['AddressHolder']['SHIPPINGADDRESS'] = 'Versandadresse';
 $lang['de_DE']['AddressHolder']['SINGULARNAME'] = array(
-    'address holder',
+    'Adressübersichtseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['AddressHolder']['TITLE'] = 'address overview';
-$lang['de_DE']['AddressHolder']['URL_SEGMENT'] = 'address-overview';
+$lang['de_DE']['AddressHolder']['TITLE'] = 'Adressübersicht';
+$lang['de_DE']['AddressHolder']['URL_SEGMENT'] = 'addressuebersicht';
 $lang['de_DE']['AddressPage']['PLURALNAME'] = array(
-    'Addressdetailsseits',
+    'Adressseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['AddressPage']['SINGULARNAME'] = array(
-    'Addressdetailsseite',
+    'Adressseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['AddressPage']['TITLE'] = 'address details';
-$lang['de_DE']['AddressPage']['URL_SEGMENT'] = 'address-details';
-$lang['de_DE']['AnonymousCustomer']['ANONYMOUSCUSTOMER'] = 'anonymous customer';
+$lang['de_DE']['AddressPage']['TITLE'] = 'Adressdetails';
+$lang['de_DE']['AddressPage']['URL_SEGMENT'] = 'adressdetails';
+$lang['de_DE']['AnonymousCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymer Kunde';
 $lang['de_DE']['AnonymousCustomer']['PLURALNAME'] = array(
-    'Anonymous Customers',
+    'Anonyme Kunden',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['AnonymousCustomer']['SINGULARNAME'] = array(
-    'Anonymous Customer',
+    'Anonymer Kunde',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['Article']['ADD_TO_CART'] = 'add to cart';
-$lang['de_DE']['Article']['CHOOSE_MASTER'] = '-- choose master --';
-$lang['de_DE']['Article']['DESCRIPTION'] = 'article description';
-$lang['de_DE']['Article']['MASTERARTICLE'] = 'master article';
+$lang['de_DE']['Article']['ADD_TO_CART'] = 'in den Warenkorb';
+$lang['de_DE']['Article']['CHOOSE_MASTER'] = '-- Master wählen --';
+$lang['de_DE']['Article']['DESCRIPTION'] = 'Artikelbeschreibung';
+$lang['de_DE']['Article']['FREE_OF_CHARGE'] = 'Masterartikel';
+$lang['de_DE']['Article']['MSRP'] = 'UVP';
 $lang['de_DE']['Article']['PLURALNAME'] = array(
     'Artikel',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['Article']['PRICE'] = 'price';
-$lang['de_DE']['Article']['PRICE_SINGLE'] = 'price single';
-$lang['de_DE']['Article']['QUANTITY'] = 'quantity';
+$lang['de_DE']['Article']['PRICE'] = 'Preis';
+$lang['de_DE']['Article']['PRICE_SINGLE'] = 'Einzelpreis';
+$lang['de_DE']['Article']['PURCHASEPRICE'] = 'Einkaufspreis';
+$lang['de_DE']['Article']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['Article']['SINGULARNAME'] = array(
     'Artikel',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['Article']['TITLE'] = 'article';
-$lang['de_DE']['Article']['VAT'] = 'VAT';
-$lang['de_DE']['Article']['WEIGHT'] = 'weight';
+$lang['de_DE']['Article']['TITLE'] = 'Artikel';
+$lang['de_DE']['Article']['VAT'] = 'MwSt';
+$lang['de_DE']['Article']['WEIGHT'] = 'Gewicht';
 $lang['de_DE']['ArticleCategoryHolder']['PLURALNAME'] = array(
-    'Article category holders',
+    'Artikelkategorieübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleCategoryHolder']['SINGULARNAME'] = array(
-    'article category holder',
+    'Artikelkategorieübersicht',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ArticleCategoryHolder']['TITLE'] = 'category overview';
-$lang['de_DE']['ArticleCategoryHolder']['URL_SEGMENT'] = 'categoryoverview';
-$lang['de_DE']['ArticleCategoryPage']['ARTICLES'] = 'articles';
-$lang['de_DE']['ArticleCategoryPage']['CATEGORY_PICTURE'] = 'category picture';
-$lang['de_DE']['ArticleCategoryPage']['COLUMN_TITLE'] = 'title';
-$lang['de_DE']['ArticleCategoryPage']['COLUM_TITLE'] = 'title';
+$lang['de_DE']['ArticleCategoryHolder']['TITLE'] = 'Kategorieübersicht';
+$lang['de_DE']['ArticleCategoryHolder']['URL_SEGMENT'] = 'kategorieuebersicht';
+$lang['de_DE']['ArticleCategoryPage']['ARTICLES'] = 'Artikel';
+$lang['de_DE']['ArticleCategoryPage']['CATEGORY_PICTURE'] = 'Bild der Kategorie';
+$lang['de_DE']['ArticleCategoryPage']['COLUMN_TITLE'] = 'Name';
 $lang['de_DE']['ArticleCategoryPage']['PLURALNAME'] = array(
-    'Article categoriessss',
+    'Artikelkategorieseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleCategoryPage']['SINGULARNAME'] = array(
-    'Article categoriesss',
+    'Artikelkategorieseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['ArticleGroupHolder']['PLURALNAME'] = array(
-    'article groups',
+    'Artikelgruppenübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleGroupHolder']['SINGULARNAME'] = array(
-    'article group overview',
+    'Artikelgruppenübersicht',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ArticleGroupHolder']['URL_SEGMENT'] = 'articlegroups';
-$lang['de_DE']['ArticleGroupPage']['ATTRIBUTES'] = 'attributes';
-$lang['de_DE']['ArticleGroupPage']['GROUP_PICTURE'] = 'group picture';
+$lang['de_DE']['ArticleGroupHolder']['URL_SEGMENT'] = 'artikelgruppen';
+$lang['de_DE']['ArticleGroupPage']['ATTRIBUTES'] = 'Attribut';
+$lang['de_DE']['ArticleGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['ArticleGroupPage']['PLURALNAME'] = array(
-    'article groups',
+    'Warengruppen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleGroupPage']['SINGULARNAME'] = array(
-    'article group',
+    'Warengruppe',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['ArticleImageGallery']['PLURALNAME'] = array(
-    'galleries',
+    'Gallerien',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleImageGallery']['SINGULARNAME'] = array(
-    'gallery',
+    'Gallerie',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ArticlePage']['ADD_TO_CART'] = 'add to cart';
+$lang['de_DE']['ArticlePage']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['ArticlePage']['PLURALNAME'] = array(
-    'Article detailss',
+    'Artikeldetailseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['ArticlePage']['QUANTITY'] = 'quantity';
+$lang['de_DE']['ArticlePage']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['ArticlePage']['SINGULARNAME'] = array(
-    'article details',
+    'Artikeldetailseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ArticlePage']['URL_SEGMENT'] = 'articledetails';
+$lang['de_DE']['ArticlePage']['URL_SEGMENT'] = 'artikeldetails';
 $lang['de_DE']['ArticleTexts']['PLURALNAME'] = array(
-    'Artikelübersetzungstexte',
+    'article translation texts',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ArticleTexts']['SINGULARNAME'] = array(
-    'Artikelübersetzungstext',
+    'article translation text',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['Attribute']['PLURALNAME'] = array(
-    'Attributs',
+    'Attribute',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['Attribute']['SINGULARNAME'] = array(
-    'Attribute',
+    'Attribut',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['BusinessCustomer']['BUSINESSCUSTOMER'] = 'business customer';
+$lang['de_DE']['BusinessCustomer']['BUSINESSCUSTOMER'] = 'Geschäftskunde';
 $lang['de_DE']['BusinessCustomer']['PLURALNAME'] = array(
-    'Business Customers',
+    'Geschäftskunden',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['BusinessCustomer']['SINGULARNAME'] = array(
-    'Business Customer',
+    'Geschäftskunde',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['Carrier']['ATTRIBUTED_SHIPPINGMETHODS'] = 'zugeordnete Versandart';
+$lang['de_DE']['Carrier']['FULL_NAME'] = 'voller Name';
 $lang['de_DE']['Carrier']['PLURALNAME'] = array(
     'Frachtführer',
     50,
@@ -196,66 +212,74 @@ $lang['de_DE']['Carrier']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['CartPage']['PLURALNAME'] = array(
-    'Carts',
+    'Warenkorbseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['CartPage']['SINGULARNAME'] = array(
-    'cart',
+    'Warenkorbseiten',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['CartPage']['URL_SEGMENT'] = 'cart';
-$lang['de_DE']['CheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--country--';
-$lang['de_DE']['CheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
-$lang['de_DE']['CheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
+$lang['de_DE']['CartPage']['URL_SEGMENT'] = 'warenkorb';
+$lang['de_DE']['CheckoutFormStep']['CHOOSEN_PAYMENT'] = 'gewählte Bezahlart';
+$lang['de_DE']['CheckoutFormStep']['CHOOSEN_SHIPPING'] = 'gewählte Versandart';
+$lang['de_DE']['CheckoutFormStep']['I_ACCEPT_REVOCATION'] = 'Ich akzeptiere die Wiederufsbelehrung';
+$lang['de_DE']['CheckoutFormStep']['I_ACCEPT_TERMS'] = 'Ich akzeptiere die Allgemeinen Geschäftsbedingungen.';
+$lang['de_DE']['CheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'Ich möchte den Newsletter abonnieren.';
+$lang['de_DE']['CheckoutFormStep']['ORDER'] = 'Bestellung';
+$lang['de_DE']['CheckoutFormStep']['OVERVIEW'] = 'Übersicht';
+$lang['de_DE']['CheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--Land--';
+$lang['de_DE']['CheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
+$lang['de_DE']['CheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
 $lang['de_DE']['CheckoutStep']['PLURALNAME'] = array(
-    'Checkout Steps',
+    'Checkout Schritte',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['CheckoutStep']['SINGULARNAME'] = array(
-    'Checkout Step',
+    'Checkout Schritt',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['CheckoutStep']['URL_SEGMENT'] = 'checkout';
 $lang['de_DE']['ContactFormPage']['PLURALNAME'] = array(
-    'Contact form pags',
+    'Kontaktformularseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ContactFormPage']['SINGULARNAME'] = array(
-    'contact form page',
+    'Kontaktformularseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ContactFormPage']['TITLE'] = 'contact';
-$lang['de_DE']['ContactFormPage']['URL_SEGMENT'] = 'contact';
-$lang['de_DE']['ContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'contact confirmation';
+$lang['de_DE']['ContactFormPage']['TITLE'] = 'Kontakt';
+$lang['de_DE']['ContactFormPage']['URL_SEGMENT'] = 'kontakt';
+$lang['de_DE']['ContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Kontaktbestätigung';
 $lang['de_DE']['ContactFormResponsePage']['PLURALNAME'] = array(
-    'Contact form response pags',
+    'Kontaktformularantwortseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ContactFormResponsePage']['SINGULARNAME'] = array(
-    'contact form response page',
+    'Kontaktformularantwortseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
-$lang['de_DE']['Country']['ATTRIBUTED_PAYMENTMETHOD'] = 'attributed payment method';
-$lang['de_DE']['Country']['ATTRIBUTED_ZONES'] = 'zugeordnete Zone';
+$lang['de_DE']['ContactFormResponsePage']['URL_SEGMENT'] = 'kontaktbestaetigung';
+$lang['de_DE']['Country']['ATTRIBUTED_PAYMENTMETHOD'] = 'zugeordnete Bezahlart';
+$lang['de_DE']['Country']['ATTRIBUTED_ZONES'] = 'zugeordnete Zonen';
 $lang['de_DE']['Country']['PLURALNAME'] = array(
-    'countries',
+    'Länder',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['Country']['SINGULARNAME'] = array(
-    'country',
+    'Land',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['CustomerAdmin']['customers'] = 'Kunden';
 $lang['de_DE']['CustomerCategory']['PLURALNAME'] = array(
     'Kundengruppen',
     50,
@@ -267,30 +291,30 @@ $lang['de_DE']['CustomerCategory']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['DataPage']['PLURALNAME'] = array(
-    'My datas',
+    'Datenseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['DataPage']['SINGULARNAME'] = array(
-    'my data',
+    'Datenseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['DataPage']['TITLE'] = 'my data';
-$lang['de_DE']['DataPage']['URL_SEGMENT'] = 'my-data';
+$lang['de_DE']['DataPage']['TITLE'] = 'meine Daten';
+$lang['de_DE']['DataPage']['URL_SEGMENT'] = 'meine-daten';
 $lang['de_DE']['DataPrivacyStatementPage']['PLURALNAME'] = array(
-    'Privacy policy pags',
+    'Datenschutzseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['DataPrivacyStatementPage']['SINGULARNAME'] = array(
-    'privacy policy page',
+    'Datenschutzseiten',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['DataPrivacyStatementPage']['TITLE'] = 'data privacy statement';
-$lang['de_DE']['DataPrivacyStatementPage']['URL_SEGMENT'] = 'data-privacy-statement';
-$lang['de_DE']['EditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
+$lang['de_DE']['DataPrivacyStatementPage']['TITLE'] = 'Datenschutzerklärung';
+$lang['de_DE']['DataPrivacyStatementPage']['URL_SEGMENT'] = 'datenschutzerklaerung';
+$lang['de_DE']['EditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--bitte wählen--';
 $lang['de_DE']['EmailTemplates']['PLURALNAME'] = array(
     'Emailvorlagen',
     50,
@@ -302,34 +326,34 @@ $lang['de_DE']['EmailTemplates']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['FooterNavigationHolder']['PLURALNAME'] = array(
-    'Footer navigations',
+    'Footernavigationsübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['FooterNavigationHolder']['SINGULARNAME'] = array(
-    'footer navigation',
+    'Footernavigationsübersichten',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['FooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
-$lang['de_DE']['FrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
+$lang['de_DE']['FrontPage']['DEFAULT_CONTENT'] = '<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>';
 $lang['de_DE']['FrontPage']['PLURALNAME'] = array(
-    'Front pags',
+    'Frontseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['FrontPage']['SINGULARNAME'] = array(
-    'front page',
+    'Frontseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['HandlingCost']['PLURALNAME'] = array(
-    'Handling Costs',
+    'Bearbeitungskosten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['HandlingCost']['SINGULARNAME'] = array(
-    'Handling Cost',
+    'Bearbeitungskosten',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
@@ -354,115 +378,122 @@ $lang['de_DE']['Manufacturer']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['MetaNavigationHolder']['PLURALNAME'] = array(
-    'Meta navigations',
+    'Metanavigationsübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['MetaNavigationHolder']['SINGULARNAME'] = array(
-    'meta navigation',
+    'Metanavigationsübersicht',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['MetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
 $lang['de_DE']['MyAccountHolder']['PLURALNAME'] = array(
-    'Account pags',
+    'Accountübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['MyAccountHolder']['SINGULARNAME'] = array(
-    'account page',
+    'Accountübersicht',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['MyAccountHolder']['TITLE'] = 'my account';
-$lang['de_DE']['MyAccountHolder']['URL_SEGMENT'] = 'my account';
+$lang['de_DE']['MyAccountHolder']['TITLE'] = 'mein Konto';
+$lang['de_DE']['MyAccountHolder']['URL_SEGMENT'] = 'myaccount';
+$lang['de_DE']['Order']['CONFIRMED'] = 'confirmed?';
+$lang['de_DE']['Order']['CUSTOMER'] = 'customer';
+$lang['de_DE']['Order']['ORDER_ID'] = 'order id';
+$lang['de_DE']['Order']['ORDER_VALUE'] = 'order value';
 $lang['de_DE']['Order']['PLURALNAME'] = array(
-    'Bestellungen',
+    'Bestellung',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['de_DE']['Order']['SHIPPINGRATE'] = 'Versandkosten';
 $lang['de_DE']['Order']['SINGULARNAME'] = array(
     'Bestellung',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['Order']['STATUS'] = 'order status';
 $lang['de_DE']['OrderAddress']['PLURALNAME'] = array(
-    'Adressen',
+    'Bestelladressen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderAddress']['SINGULARNAME'] = array(
-    'Adresse',
+    'Bestelladresse',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['OrderConfirmationPage']['PLURALNAME'] = array(
-    'Order conirmation pags',
+    'Bestellbestätigungsseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderConfirmationPage']['SINGULARNAME'] = array(
-    'order conirmation page',
+    'Bestellbestätigungsseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['OrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
+$lang['de_DE']['OrderConfirmationPage']['URL_SEGMENT'] = 'bestellbestaetigung';
 $lang['de_DE']['OrderDetailPage']['PLURALNAME'] = array(
-    'Order detailss',
+    'Bestelldetailsseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderDetailPage']['SINGULARNAME'] = array(
-    'order details',
+    'Bestelldetailsseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['OrderDetailPage']['TITLE'] = 'order details';
-$lang['de_DE']['OrderDetailPage']['URL_SEGMENT'] = 'order-details';
+$lang['de_DE']['OrderDetailPage']['TITLE'] = 'Bestelldetails';
+$lang['de_DE']['OrderDetailPage']['URL_SEGMENT'] = 'bestelldetails';
 $lang['de_DE']['OrderHolder']['PLURALNAME'] = array(
-    'My oderss',
+    'Bestellübersichten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderHolder']['SINGULARNAME'] = array(
-    'my oders',
+    'Bestellübersicht',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['OrderHolder']['TITLE'] = 'my oders';
-$lang['de_DE']['OrderHolder']['URL_SEGMENT'] = 'my-oders';
+$lang['de_DE']['OrderHolder']['TITLE'] = 'meine Bestellungen';
+$lang['de_DE']['OrderHolder']['URL_SEGMENT'] = 'meine-bestellungen';
 $lang['de_DE']['OrderInvoiceAddress']['PLURALNAME'] = array(
-    'Adressen',
+    'Rechnungsadressen der Bestellungen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderInvoiceAddress']['SINGULARNAME'] = array(
-    'Adresse',
+    'Rechnungsadresse der Bestellung',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['OrderPosition']['PLURALNAME'] = array(
-    'Order Positions',
+    'Bestellpositionen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderPosition']['SINGULARNAME'] = array(
-    'Order Position',
+    'Bestellposition',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['OrderShippingAddress']['PLURALNAME'] = array(
-    'Adressen',
+    'Versandadressen derBestellungen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderShippingAddress']['SINGULARNAME'] = array(
-    'Adresse',
+    'Versandadresse der Bestellung',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['OrderStatus']['PAYED'] = 'payed';
 $lang['de_DE']['OrderStatus']['PLURALNAME'] = array(
-    'Bestellstatus',
+    'Bestellstati',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
@@ -471,92 +502,120 @@ $lang['de_DE']['OrderStatus']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['OrderStatus']['WAITING_FOR_PAYMENT'] = array(
+    'Auf Zahlungseingang wird gewartet',
+    null,
+    'Auf Zahlungseingang wird gewartet'
+);
 $lang['de_DE']['OrderStatusTexts']['PLURALNAME'] = array(
-    'Order Status Textss',
+    'Bestellstatustexte',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['OrderStatusTexts']['SINGULARNAME'] = array(
-    'Order Status Texts',
+    'Bestellstatustext',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['Page']['ABOUT_US'] = 'about us';
-$lang['de_DE']['Page']['ABOUT_US_URL_SEGMENT'] = 'about-us';
-$lang['de_DE']['Page']['ACCESS_CREDENTIALS_CALL'] = 'Please fill in Your access credentials:';
-$lang['de_DE']['Page']['ADDRESS'] = 'address';
-$lang['de_DE']['Page']['ADDRESSINFORMATION'] = 'address information';
-$lang['de_DE']['Page']['ADDRESS_DATA'] = 'address data';
-$lang['de_DE']['Page']['ALREADY_REGISTERED'] = 'Hello %s, You have already registered.';
-$lang['de_DE']['Page']['API_CREATE'] = 'can create objects via the API';
-$lang['de_DE']['Page']['API_DELETE'] = 'can delete objects via the API';
-$lang['de_DE']['Page']['API_EDIT'] = 'can edit objects via the API';
-$lang['de_DE']['Page']['API_VIEW'] = 'can read objects via the API';
-$lang['de_DE']['Page']['ARTICLENAME'] = 'article name';
-$lang['de_DE']['Page']['BILLING_ADDRESS'] = 'billing address';
-$lang['de_DE']['Page']['BIRTHDAY'] = 'birthday';
-$lang['de_DE']['Page']['CANCEL'] = 'cancel';
-$lang['de_DE']['Page']['CART'] = 'cart';
-$lang['de_DE']['Page']['CATALOG'] = 'catalog';
-$lang['de_DE']['Page']['CHANGE_PAYMENTMETHOD_CALL'] = 'Please choose another payment method or contact the shop owner.';
-$lang['de_DE']['Page']['CHANGE_PAYMENTMETHOD_LINK'] = 'choose another payment method';
-$lang['de_DE']['Page']['CHECKOUT'] = 'checkout';
-$lang['de_DE']['Page']['CHECK_FIELDS_CALL'] = 'Please check Your input on the following fields:';
-$lang['de_DE']['Page']['CONTACT_FORM'] = 'contact form';
-$lang['de_DE']['Page']['DETAILS'] = 'details';
-$lang['de_DE']['Page']['DIDNOT_RETURN_RESULTS'] = 'did not return any results in our shop.';
-$lang['de_DE']['Page']['EMAIL_ADDRESS'] = 'email address';
-$lang['de_DE']['Page']['EMPTY_CART'] = 'empty';
-$lang['de_DE']['Page']['ERROR_LISTING'] = 'The following errors have occured:';
-$lang['de_DE']['Page']['ERROR_OCCURED'] = 'An error has occured.';
-$lang['de_DE']['Page']['FIND'] = 'find:';
-$lang['de_DE']['Page']['GOTO'] = 'go to %s page';
-$lang['de_DE']['Page']['GOTO_CART'] = 'go to cart';
-$lang['de_DE']['Page']['GOTO_CONTACT_LINK'] = 'go to contact page';
-$lang['de_DE']['Page']['HEADERPICTURE'] = 'header picture';
-$lang['de_DE']['Page']['INCLUDED_VAT'] = 'included VAT';
-$lang['de_DE']['Page']['I_ACCEPT'] = 'I accept the';
-$lang['de_DE']['Page']['I_HAVE_READ'] = 'I have read the';
-$lang['de_DE']['Page']['MYACCOUNT'] = 'my account';
-$lang['de_DE']['Page']['NEWSLETTER'] = 'newsletter';
-$lang['de_DE']['Page']['NEXT'] = 'next';
-$lang['de_DE']['Page']['NO_ORDERS'] = 'You do not have any orders yet';
-$lang['de_DE']['Page']['NO_RESULTS'] = 'Sorry, but Your query did not return any results.';
-$lang['de_DE']['Page']['ORDERD_ARTICLES'] = 'ordered articles';
-$lang['de_DE']['Page']['ORDER_COMPLETED'] = 'Your order is completed';
-$lang['de_DE']['Page']['ORDER_DATE'] = 'order date';
-$lang['de_DE']['Page']['ORDER_THANKS'] = 'Many thanks for Your oder.';
-$lang['de_DE']['Page']['PASSWORD'] = 'password';
-$lang['de_DE']['Page']['PASSWORD_CASE_EMPTY'] = 'If You leave this field empty, Your password will not be changed.';
-$lang['de_DE']['Page']['PAYMENT_NOT_WORKING'] = 'The choosen payment module does not work.';
-$lang['de_DE']['Page']['PLUS_SHIPPING'] = 'plus shipping';
-$lang['de_DE']['Page']['PREV'] = 'prev';
-$lang['de_DE']['Page']['PROCESSING_FEE'] = 'processing fee';
-$lang['de_DE']['Page']['REMARKS'] = 'REMARKS';
-$lang['de_DE']['Page']['REMOVE_FROM_CART'] = 'remove';
-$lang['de_DE']['Page']['REVOCATION'] = 'revocation instructions';
-$lang['de_DE']['Page']['SESSION_EXPIRED'] = 'Your session has expired.';
-$lang['de_DE']['Page']['SHIPPING_ADDRESS'] = 'shipping address';
-$lang['de_DE']['Page']['SHIPPING_AND_BILLING'] = 'shipping and billing address';
-$lang['de_DE']['Page']['SHOP_WITHOUT_REGISTRATION'] = 'shop without registration';
-$lang['de_DE']['Page']['SHOWINPAGE'] = 'set language to %s';
-$lang['de_DE']['Page']['SITMAP_HERE'] = 'Here You can see the complete directory to our site.';
-$lang['de_DE']['Page']['STEPS'] = 'steps';
-$lang['de_DE']['Page']['SUBTOTAL'] = 'subtotal';
-$lang['de_DE']['Page']['SUM'] = 'sum';
-$lang['de_DE']['Page']['TAX'] = 'incl. %s%% VAT';
-$lang['de_DE']['Page']['TERMSOFSERVICE_PRIVACY'] = 'terms of service and privacy statement';
-$lang['de_DE']['Page']['THE_QUERY'] = 'The query';
-$lang['de_DE']['Page']['TITLE_IMPRINT'] = 'imprint';
-$lang['de_DE']['Page']['TITLE_TERMS'] = 'terms of service';
-$lang['de_DE']['Page']['TOTAL'] = 'total';
-$lang['de_DE']['Page']['URL_SEGMENT_IMPRINT'] = 'imprint';
-$lang['de_DE']['Page']['URL_SEGMENT_TERMS'] = 'terms-of-service';
-$lang['de_DE']['Page']['VIEW_ORDERS_TEXT_AND_LINK'] = 'You can check the status of Your order any time in Your <a href="/%s/%s">order overview</a>';
-$lang['de_DE']['Page']['WELCOME_PAGE_TITLE'] = 'welcome';
-$lang['de_DE']['Page']['WELCOME_PAGE_URL_SEGMENT'] = 'welcome';
-$lang['de_DE']['PaymentMethod']['BASIC_SETTINGS'] = 'basic settings';
-$lang['de_DE']['PaymentMethod']['FEE'] = 'payment method fee';
+$lang['de_DE']['Page']['ABOUT_US'] = 'über uns';
+$lang['de_DE']['Page']['ABOUT_US_URL_SEGMENT'] = 'ueber-uns';
+$lang['de_DE']['Page']['ACCESS_CREDENTIALS_CALL'] = 'Bitte geben Sie Ihre Zugangsdaten ein:';
+$lang['de_DE']['Page']['ADDRESS'] = 'Adresse';
+$lang['de_DE']['Page']['ADDRESSINFORMATION'] = 'Adressinformationen';
+$lang['de_DE']['Page']['ADDRESS_DATA'] = 'Adressdaten';
+$lang['de_DE']['Page']['ALREADY_REGISTERED'] = 'Hallo %s, Sie haben sich schon registriert.';
+$lang['de_DE']['Page']['API_CREATE'] = 'kann über die API Objekte erstellen';
+$lang['de_DE']['Page']['API_DELETE'] = 'kann über die API Objekte löschen';
+$lang['de_DE']['Page']['API_EDIT'] = 'kann über die API Objete verändern';
+$lang['de_DE']['Page']['API_VIEW'] = 'kann Objekte über die API lesen';
+$lang['de_DE']['Page']['APRIL'] = 'April';
+$lang['de_DE']['Page']['ARTICLENAME'] = 'Artikelbezeichnung';
+$lang['de_DE']['Page']['AUGUST'] = 'August';
+$lang['de_DE']['Page']['BILLING_ADDRESS'] = 'Rechnungsadresse';
+$lang['de_DE']['Page']['BIRTHDAY'] = 'Geburtstag';
+$lang['de_DE']['Page']['CANCEL'] = 'abbrechen';
+$lang['de_DE']['Page']['CART'] = 'Warenkorb';
+$lang['de_DE']['Page']['CATALOG'] = 'Katalog';
+$lang['de_DE']['Page']['CHANGE_PAYMENTMETHOD_CALL'] = 'Bitte wählen Sie eine andere Bezahlart oder kontaktieren sie den Shopbetreiber.';
+$lang['de_DE']['Page']['CHANGE_PAYMENTMETHOD_LINK'] = 'andere Zahlart wählen';
+$lang['de_DE']['Page']['CHECKOUT'] = 'zur Kasse';
+$lang['de_DE']['Page']['CHECK_FIELDS_CALL'] = 'Bitte überprüfen Sie Ihre Eingaben in den folgenden Feldern:';
+$lang['de_DE']['Page']['CONTACT_FORM'] = 'Kontaktformular';
+$lang['de_DE']['Page']['CREDENTIALS_WRONG'] = 'Ihre Zugangsdaten sind falsch.';
+$lang['de_DE']['Page']['DAY'] = 'Tag';
+$lang['de_DE']['Page']['DECEMBER'] = 'Dezember';
+$lang['de_DE']['Page']['DETAILS'] = 'Details';
+$lang['de_DE']['Page']['DIDNOT_RETURN_RESULTS'] = 'hat in unserem Shop keine Ergebnisse geliefert.';
+$lang['de_DE']['Page']['EMAIL_ADDRESS'] = 'Email-Adresse';
+$lang['de_DE']['Page']['EMAIL_ALREADY_REGISTERED'] = 'Ein Nutzer hat sich bereits mit dieser Email registriert.';
+$lang['de_DE']['Page']['EMPTY_CART'] = 'leeren';
+$lang['de_DE']['Page']['ERROR_LISTING'] = 'Folgende Fehler sind aufgetreten:';
+$lang['de_DE']['Page']['ERROR_OCCURED'] = 'Es ist ein Fehler aufgetreten.';
+$lang['de_DE']['Page']['FEBRUARY'] = 'Februar';
+$lang['de_DE']['Page']['FIND'] = 'finden:';
+$lang['de_DE']['Page']['GOTO'] = 'gehe zur %s Seite';
+$lang['de_DE']['Page']['GOTO_CART'] = 'zum Warenkorb';
+$lang['de_DE']['Page']['GOTO_CONTACT_LINK'] = 'Zur Kontakt Seite';
+$lang['de_DE']['Page']['HEADERPICTURE'] = 'Header Bild';
+$lang['de_DE']['Page']['INCLUDED_VAT'] = 'enthaltene MwSt.';
+$lang['de_DE']['Page']['I_ACCEPT'] = 'Ich akzeptiere die';
+$lang['de_DE']['Page']['I_HAVE_READ'] = 'Ich habe die ';
+$lang['de_DE']['Page']['JANUARY'] = 'Januar';
+$lang['de_DE']['Page']['JUNE'] = 'Juni';
+$lang['de_DE']['Page']['JULY'] = 'Juli';
+$lang['de_DE']['Page']['MARCH'] = 'März';
+$lang['de_DE']['Page']['MAY'] = 'Mai';
+$lang['de_DE']['Page']['MESSAGE'] = 'Nachricht';
+$lang['de_DE']['Page']['MONTH'] = 'Monat';
+$lang['de_DE']['Page']['MYACCOUNT'] = 'mein Konto';
+$lang['de_DE']['Page']['NAME'] = 'Name';
+$lang['de_DE']['Page']['NEWSLETTER'] = 'Newsletter';
+$lang['de_DE']['Page']['NEXT'] = 'Vor';
+$lang['de_DE']['Page']['NOVEMBER'] = 'November';
+$lang['de_DE']['Page']['NO_ORDERS'] = 'Sie haben noch keine Bestellungen abgeschlossen.';
+$lang['de_DE']['Page']['NO_RESULTS'] = 'Entschuldigung aber zu Ihrem Suchbegriff gibt es kein Ergebnisse.';
+$lang['de_DE']['Page']['OCTOBER'] = 'Oktober';
+$lang['de_DE']['Page']['ORDERD_ARTICLES'] = 'Bestellte Artikel';
+$lang['de_DE']['Page']['ORDER_COMPLETED'] = 'Ihre Bestellung ist abgeschlossen.';
+$lang['de_DE']['Page']['ORDER_DATE'] = 'Bestelldatum';
+$lang['de_DE']['Page']['ORDER_THANKS'] = 'Vielen Dank für Ihre Bestellung';
+$lang['de_DE']['Page']['PASSWORD'] = 'Passwort';
+$lang['de_DE']['Page']['PASSWORD_CASE_EMPTY'] = 'Wenn Sie dieses Feld leer lassen, wird Ihr Passwort nicht geändert.';
+$lang['de_DE']['Page']['PASSWORD_CHECK'] = 'Passwortkontrolle';
+$lang['de_DE']['Page']['PAYMENT_NOT_WORKING'] = 'Das gewählte Zahlungsmodul funktioniert nicht.';
+$lang['de_DE']['Page']['PLUS_SHIPPING'] = 'zzgl. Versand';
+$lang['de_DE']['Page']['PREV'] = 'Zurück';
+$lang['de_DE']['Page']['REMARKS'] = 'Bemerkungen';
+$lang['de_DE']['Page']['REMOVE_FROM_CART'] = 'entfernen';
+$lang['de_DE']['Page']['REVOCATION'] = 'Wiederrufsbelehrung';
+$lang['de_DE']['Page']['SAVE'] = 'speichern';
+$lang['de_DE']['Page']['SEPTEMBER'] = 'September';
+$lang['de_DE']['Page']['SESSION_EXPIRED'] = 'Ihre Sitzung ist abgelaufen.';
+$lang['de_DE']['Page']['SHIPPING_ADDRESS'] = 'Versandadresse';
+$lang['de_DE']['Page']['SHIPPING_AND_BILLING'] = 'Versand- und Rechnungsadresse';
+$lang['de_DE']['Page']['SHOP_WITHOUT_REGISTRATION'] = 'Shop ohne Registrierung';
+$lang['de_DE']['Page']['SHOWINPAGE'] = 'Sprache auf %s stellen';
+$lang['de_DE']['Page']['SITMAP_HERE'] = 'Hier können Sie eine Übersicht über unsere Seite sehen.';
+$lang['de_DE']['Page']['STEPS'] = 'Schritte';
+$lang['de_DE']['Page']['SUBMIT_MESSAGE'] = 'Nachricht absenden';
+$lang['de_DE']['Page']['SUBTOTAL'] = 'Zwischensumme';
+$lang['de_DE']['Page']['SUM'] = 'Summe';
+$lang['de_DE']['Page']['TAX'] = 'inkl. %s%% MwSt.';
+$lang['de_DE']['Page']['TERMSOFSERVICE_PRIVACY'] = 'Allgemeine Geschäftsbedingungen und Datenschutz';
+$lang['de_DE']['Page']['THE_QUERY'] = 'Der Begriff';
+$lang['de_DE']['Page']['TITLE_IMPRINT'] = 'Impressum';
+$lang['de_DE']['Page']['TITLE_TERMS'] = 'Allgemeine Geschäftsbedingungen';
+$lang['de_DE']['Page']['TOTAL'] = 'Gesamtsumme';
+$lang['de_DE']['Page']['URL_SEGMENT_IMPRINT'] = 'impressum';
+$lang['de_DE']['Page']['URL_SEGMENT_TERMS'] = 'allgemeine-geschaeftsbedingungen-kaeuferinformationen';
+$lang['de_DE']['Page']['USER_NOT_EXISTING'] = 'Diesen Benutzer gibt es nicht.';
+$lang['de_DE']['Page']['VIEW_ORDERS_TEXT'] = 'Überprüfen Sie den Status Ihrer Bestellung in der';
+$lang['de_DE']['Page']['WELCOME_PAGE_TITLE'] = 'Willkommen';
+$lang['de_DE']['Page']['WELCOME_PAGE_URL_SEGMENT'] = 'willkommen';
+$lang['de_DE']['Page']['YEAR'] = 'Jahr';
+$lang['de_DE']['PaymentMethod']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
+$lang['de_DE']['PaymentMethod']['BASIC_SETTINGS'] = 'Grundeinstellungen';
+$lang['de_DE']['PaymentMethod']['FROM_PURCHASE_VALUE'] = 'ab Warenwert';
 $lang['de_DE']['PaymentMethod']['PLURALNAME'] = array(
     'Bezahlarten',
     50,
@@ -564,12 +623,13 @@ $lang['de_DE']['PaymentMethod']['PLURALNAME'] = array(
 );
 $lang['de_DE']['PaymentMethod']['SHIPPINGMETHOD'] = 'shipping method';
 $lang['de_DE']['PaymentMethod']['SINGULARNAME'] = array(
-    'Bezahlart',
+    'Zahlart',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['PaymentMethod']['STANDARD_ORDER_STATUS'] = 'standard order status for this payment method';
-$lang['de_DE']['PaymentMethod']['TITLE'] = 'payment method';
+$lang['de_DE']['PaymentMethod']['STANDARD_ORDER_STATUS'] = 'standart Bestellstatus für diese Zahlart';
+$lang['de_DE']['PaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
+$lang['de_DE']['PaymentMethod']['TITLE'] = 'Zahlart';
 $lang['de_DE']['PaymentMethodTexts']['PLURALNAME'] = array(
     'Bezahlartübersetzungen',
     50,
@@ -581,34 +641,34 @@ $lang['de_DE']['PaymentMethodTexts']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['PaymentNotification']['PLURALNAME'] = array(
-    'Payment Notifications',
+    'Zahlungsbenachrichtigungen',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['PaymentNotification']['SINGULARNAME'] = array(
-    'Payment Notification',
+    'Zahlungsbenachrichtigung',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['PaymentNotification']['TITLE'] = 'payment notification';
-$lang['de_DE']['PaymentNotification']['URL_SEGMENT'] = 'payment-notification';
+$lang['de_DE']['PaymentNotification']['TITLE'] = 'Zahlungsbenachrichtigung';
+$lang['de_DE']['PaymentNotification']['URL_SEGMENT'] = 'zahlungsbenachrichtigung';
 $lang['de_DE']['Price']['PLURALNAME'] = array(
-    'prices',
+    'Preise',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['Price']['SINGULARNAME'] = array(
-    'price',
+    'Preis',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['RegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'message: user already registered';
-$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'confirmation mail: subject';
-$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'confirmation mail: text';
-$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'confirmation mail';
-$lang['de_DE']['RegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'failure message';
+$lang['de_DE']['RegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Nachricht: Benutzer bereits registriert';
+$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Bestätigungsmail: Betreff';
+$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Bestätigungsmail: Nachricht';
+$lang['de_DE']['RegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'Bestätigungsmail';
+$lang['de_DE']['RegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'Fehlermeldung';
 $lang['de_DE']['RegisterConfirmationPage']['PLURALNAME'] = array(
-    'Registrierungsbestätigungsseits',
+    'Registrierungsbestätigungsseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
@@ -621,59 +681,59 @@ $lang['de_DE']['RegisterConfirmationPage']['SUCCESS_MESSAGE_TEXT'] = 'success me
 $lang['de_DE']['RegisterConfirmationPage']['TITLE'] = 'register confirmation page';
 $lang['de_DE']['RegisterConfirmationPage']['URL_SEGMENT'] = 'register-confirmation';
 $lang['de_DE']['RegisterWelcomePage']['PLURALNAME'] = array(
-    'Register welcome pags',
+    'Registrierungsbegrüßungsseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['RegisterWelcomePage']['SINGULARNAME'] = array(
-    'register welcome page',
+    'Registrierungsbegrüßungsseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL'] = 'activation mail';
-$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'activation mail subject';
-$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'activation mail text';
-$lang['de_DE']['RegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>';
-$lang['de_DE']['RegistrationPage']['CUSTOMER_SALUTATION'] = 'Dear customer\,';
-$lang['de_DE']['RegistrationPage']['PLEASE_COFIRM'] = 'please confirm Your registration';
+$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL'] = 'Aktivierungsmail';
+$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'Betreff der Aktivierungsmail';
+$lang['de_DE']['RegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Nachricht der Aktivierungsmail';
+$lang['de_DE']['RegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Registrierung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href="$ConfirmationLink">Registrierung bestätigen</a></p><p>Sollten Sie sich nicht registriert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>';
+$lang['de_DE']['RegistrationPage']['CUSTOMER_SALUTATION'] = 'Sehr geehrter Kunde\,';
+$lang['de_DE']['RegistrationPage']['PLEASE_COFIRM'] = 'Bitte bestätigen Sie Ihre Registrierung.';
 $lang['de_DE']['RegistrationPage']['PLURALNAME'] = array(
-    'Registration pags',
+    'Registrierungsseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['RegistrationPage']['SINGULARNAME'] = array(
-    'registration page',
+    'Registrierungsseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['RegistrationPage']['SUCCESS_TEXT'] = '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>';
-$lang['de_DE']['RegistrationPage']['THANKS'] = 'Many thanks for Your registration';
-$lang['de_DE']['RegistrationPage']['TITLE'] = 'registration page';
-$lang['de_DE']['RegistrationPage']['URL_SEGMENT'] = 'registration';
-$lang['de_DE']['RegistrationPage']['YOUR_REGISTRATION'] = 'your registration';
+$lang['de_DE']['RegistrationPage']['SUCCESS_TEXT'] = '<h1>Registrierung erfolgreich abgeschlossen!</h1><p>Vielen Dank für Ihre Registrierung.</p><p>Viel Spass in unserem Shop!</p><p>Ihr Webshop Team</p>';
+$lang['de_DE']['RegistrationPage']['THANKS'] = 'Vielen Dank für Ihre Registrierung.';
+$lang['de_DE']['RegistrationPage']['TITLE'] = 'Registrierungsseite';
+$lang['de_DE']['RegistrationPage']['URL_SEGMENT'] = 'registrieren';
+$lang['de_DE']['RegistrationPage']['YOUR_REGISTRATION'] = 'Ihre Registrierung';
 $lang['de_DE']['RegularCustomer']['PLURALNAME'] = array(
-    'Regular Customers',
+    'Endkunden',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['RegularCustomer']['REGULARCUSTOMER'] = 'regular customer';
+$lang['de_DE']['RegularCustomer']['REGULARCUSTOMER'] = 'Endkunde';
 $lang['de_DE']['RegularCustomer']['SINGULARNAME'] = array(
-    'Regular Customer',
+    'Endkunde',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['SearchResultsPage']['PLURALNAME'] = array(
-    'Search results pags',
+    'Suchergebnisseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['SearchResultsPage']['SINGULARNAME'] = array(
-    'search results page',
+    'Suchergebnisseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SearchResultsPage']['TITLE'] = 'search results';
-$lang['de_DE']['SearchResultsPage']['URL_SEGMENT'] = 'search-results';
+$lang['de_DE']['SearchResultsPage']['TITLE'] = 'Suchergebnisse';
+$lang['de_DE']['SearchResultsPage']['URL_SEGMENT'] = 'suchergebnisse';
 $lang['de_DE']['ShippingAddress']['PLURALNAME'] = array(
     'Versandadressen',
     50,
@@ -684,31 +744,44 @@ $lang['de_DE']['ShippingAddress']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zone--';
+$lang['de_DE']['ShippingFee']['ATTRIBUTED_SHIPPINGMETHOD'] = 'zugeordnete Versandarten';
+$lang['de_DE']['ShippingFee']['COSTS'] = 'Kosten';
+$lang['de_DE']['ShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--Zone wählen--';
+$lang['de_DE']['ShippingFee']['FOR_SHIPPINGMETHOD'] = array(
+    'für Versandart',
+    null,
+    'Für Versandart'
+);
+$lang['de_DE']['ShippingFee']['MAXIMUM_WEIGHT'] = array(
+    'Maximalgewicht (g)',
+    null,
+    'Maximalgewicht (g)'
+);
 $lang['de_DE']['ShippingFee']['PLURALNAME'] = array(
-    'Versandtarife',
+    'Versandgebühren',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ShippingFee']['SINGULARNAME'] = array(
-    'Versandtarif',
+    'Versandgebühr',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ShippingFee']['TITLE'] = 'shipping fee';
 $lang['de_DE']['ShippingFee']['ZONE_WITH_DESCRIPTION'] = 'zone (only carrier\'s zones available)';
 $lang['de_DE']['ShippingFeesPage']['PLURALNAME'] = array(
-    'Shipping fees pags',
+    'Versandgebührenseiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['ShippingFeesPage']['SINGULARNAME'] = array(
-    'shipping fees page',
+    'Versandgebührenseite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ShippingFeesPage']['TITLE'] = 'shipping fees';
-$lang['de_DE']['ShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
+$lang['de_DE']['ShippingFeesPage']['TITLE'] = 'Versandgebühren';
+$lang['de_DE']['ShippingFeesPage']['URL_SEGMENT'] = 'versandgebuehren';
+$lang['de_DE']['ShippingMethod']['FOR_PAYMENTMETHODS'] = 'für Bezahlart';
+$lang['de_DE']['ShippingMethod']['FOR_ZONES'] = 'für Zonen';
 $lang['de_DE']['ShippingMethod']['PLURALNAME'] = array(
     'Versandarten',
     50,
@@ -732,6 +805,7 @@ $lang['de_DE']['ShippingMethodTexts']['SINGULARNAME'] = array(
 $lang['de_DE']['ShopAdmin']['PAYMENT_ISACTIVE'] = 'activated';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
+$lang['de_DE']['ShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'silvercart configuration';
 $lang['de_DE']['ShopEmail']['PLURALNAME'] = array(
     'Shop Emails',
     50,
@@ -743,7 +817,7 @@ $lang['de_DE']['ShopEmail']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['ShoppingCart']['PLURALNAME'] = array(
-    'Warenkörbe',
+    'carts',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
@@ -762,27 +836,32 @@ $lang['de_DE']['ShoppingCartPosition']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['Tax']['LABEL'] = 'Bezeichnung';
 $lang['de_DE']['Tax']['PLURALNAME'] = array(
     'Steuersätze',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['de_DE']['Tax']['RATE_IN_PERCENT'] = 'Steuersatz in %%';
 $lang['de_DE']['Tax']['SINGULARNAME'] = array(
     'Steuersatz',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['TermsAndConditionsPage']['PLURALNAME'] = array(
-    'Terms and conditions pags',
+    'AGB Seiten',
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['de_DE']['TermsAndConditionsPage']['SINGULARNAME'] = array(
-    'terms and conditions page',
+    'AGB Seite',
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['Zone']['COUNTRIES'] = 'countries';
+$lang['de_DE']['Zone']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
+$lang['de_DE']['Zone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'zugeordnete Versandart';
+$lang['de_DE']['Zone']['COUNTRIES'] = 'Länder';
+$lang['de_DE']['Zone']['FOR_COUNTRIES'] = 'für Länder';
 $lang['de_DE']['Zone']['PLURALNAME'] = array(
     'Zonen',
     50,
@@ -793,5 +872,3 @@ $lang['de_DE']['Zone']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['Address']['MISTER'] = 'Herr';
-$lang['de_DE']['Address']['MISSIS'] = 'Frau';

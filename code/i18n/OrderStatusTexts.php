@@ -1,14 +1,17 @@
 <?php
 
 /**
+ * ???
  *
- * @author Roland Lehmann
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
+ * @since 02.02.2011
+ * @license none
  */
 class OrderStatusTexts extends DataObject {
 
-    static $singular_name = "";
-    static $plural_name = "";
+    static $singular_name = "order status texts";
+    static $plural_name = "order status text";
     public static $db = array(
         'Title' => 'VarChar',
         'Description' => 'Text'
@@ -29,21 +32,5 @@ class OrderStatusTexts extends DataObject {
     );
     public static $belongs_many_many = array(
     );
-
-    //public static $searchable_fields = array();
-    //public static $summary_fields = array();
-
-    function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $className = $this->ClassName;
-        $objectAmount = 0;
-        if (!DataObject::get($className)) {
-            for ($i = 1; $i <= $objectAmount; $i++) {
-                $obj = new $className();
-                $obj->Title = $className . $i;
-                $obj->write();
-            }
-        }
-    }
 
 }
