@@ -10,6 +10,7 @@
  * @license BSD
  */
 class OrderInvoiceAddress extends OrderAddress {
-    
+    public static $singular_name = "order invoice address";
+    public static $plural_name = "order invoice addresses";
 }
 

@@ -48,6 +48,9 @@ class ArticlePreviewForm extends CustomHtmlForm {
      * @since 23.10.2010
      */
     protected function fillInFieldValues() {
+        $this->formFields['articleAmount']['title'] = _t('Article.QUANTITY');
+        $this->preferences['submitButtonTitle'] = _t('Article.ADD_TO_CART');
+
     }
 
     /**

@@ -9,8 +9,8 @@
  */
 class ArticleGroupPage extends Page {
 
-    public static $singular_name = "Warengruppe";
-    public static $plural_name = "Warengruppen";
+    public static $singular_name = "article group";
+    public static $plural_name = "article groups";
     public static $allowed_children = array('ArticleGroupPage');
     public static $can_be_root = false;
     public static $db = array(
@@ -38,7 +38,7 @@ class ArticleGroupPage extends Page {
                         'articles',
                         'Article',
                         array(
-                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title'),
+                            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
                             'PriceAmount' => _t('Article.PRICE', 'price'),
                             'Weight' => _t('Article.WEIGHT', 'weight')
                         ),
@@ -53,7 +53,7 @@ class ArticleGroupPage extends Page {
                         'attributes',
                         'Attribute',
                         array(
-                            'Title' => _t('ArticleCategoryPage.COLUM_TITLE', 'title')
+                            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE')
                         )
         );
         $tabPARAM2 = "Root.Content."._t('ArticleGroupPage.ATTRIBUTES', 'attributes');

@@ -18,7 +18,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Artikel";
+    public static $singular_name = "article";
 
     /**
      * plural name for backend
@@ -29,7 +29,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Artikel";
+    public static $plural_name = "articles";
 
     /**
      * attributes
@@ -164,8 +164,37 @@ class Article extends DataObject {
     );
 
     // -----------------------------------------------------------------------
-    // Methoden
+    // Methods
     // -----------------------------------------------------------------------
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+        'Title'                     => _t('Article.SINGULARNAME'),
+        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME')
+    );
+        self::$field_labels = array(
+        'Title'                     => _t('ArticleCategoryPage.COLUMN_TITLE'),
+        'LongDescription'           => _t('Article.DESCRIPTION'),
+        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME'),
+        'isFreeOfCharge'            => _t('Article.FREE_OF_CHARGE', 'free of charge'),
+        'PurchasePrice'             => _t('Article.PURCHASEPRICE', 'purchase price'),
+        'MSRPrice'                  => _t('Article.MSRP', 'MSR price')
+    );
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * Getter similar to DataObject::get(); returns a DataObectSet of articles filtered by the requirements in self::getRequiredAttributes();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * abstract for a manufacturer
  *
@@ -18,8 +19,7 @@ class Manufacturer extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    static $singular_name = "Hersteller";
-
+    static $singular_name = "manufacturer";
     /**
      * Plural name for backend
      *
@@ -29,8 +29,7 @@ class Manufacturer extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    static $plural_name = "Hersteller";
-
+    static $plural_name = "manufacturers";
     /**
      * Attributes
      *
@@ -41,10 +40,9 @@ class Manufacturer extends DataObject {
      * @since 02.02.2011
      */
     public static $db = array(
-        'Title'         => 'VarChar',
-        'URL'           => 'VarChar'
+        'Title' => 'VarChar',
+        'URL' => 'VarChar'
     );
-
     /**
      * Has-one relationships.
      *
@@ -57,7 +55,6 @@ class Manufacturer extends DataObject {
     public static $has_one = array(
         'logo' => 'Image'
     );
-
     /**
      * Has-many relationships.
      *
@@ -70,7 +67,6 @@ class Manufacturer extends DataObject {
     public static $has_many = array(
         'articles' => 'Article'
     );
-
     /**
      * Summaryfields for display in tables.
      *
@@ -83,4 +79,25 @@ class Manufacturer extends DataObject {
     public static $summary_fields = array(
         'Title' => 'Name'
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.01.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+            'Title' => _t('Page.NAME', 'name')
+        );
+        parent::__construct($record, $isSingleton);
+    }
+
 }

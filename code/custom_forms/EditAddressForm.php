@@ -82,6 +82,19 @@ class EditAddressForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
+        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME');
+        $this->formFields['Surname']['title'] = _t('Address.SURNAME');
+        $this->formFields['Addition']['title'] = _t('Address.ADDITION');
+        $this->formFields['Street']['title'] = _t('Address.STREET');
+        $this->formFields['StreetNumber']['title'] = _t('Address.STREETNUMBER');
+        $this->formFields['Postcode']['title'] = _t('Address.POSTCODE');
+        $this->formFields['City']['title'] = _t('Address.CITY');
+        $this->formFields['Phone']['title'] = _t('Address.PHONE');
+        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
+        $this->formFields['Country']['title'] = _t('Country.SINGULARNAME');
+        
+        $this->preferences['submitButtonTitle'] = _t('Page.SAVE', 'save');
+
         $member = Member::currentUser();
         $id = Controller::curr()->urlParams['ID'];
 

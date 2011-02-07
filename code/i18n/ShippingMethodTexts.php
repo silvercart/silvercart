@@ -1,14 +1,17 @@
 <?php
 
 /**
+ * ???
  *
- * @author Roland Lehmann
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
+ * @since 02.02.2011
+ * @license none
  */
 class ShippingMethodTexts extends DataObject {
 
-    static $singular_name = "Lieferartübersetzung";
-    static $plural_name = "Lieferartübersetzungen";
+    static $singular_name = "shipping method text";
+    static $plural_name = "shipping method texts";
     public static $db = array(
         'Title' => 'VarChar',
         'Description' => 'Text'
@@ -30,21 +33,5 @@ class ShippingMethodTexts extends DataObject {
     );
     public static $belongs_many_many = array(
     );
-
-    //public static $searchable_fields = array();
-    //public static $summary_fields = array();
-
-    function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $className = $this->ClassName;
-        $objectAmount = 0;
-        if (!DataObject::get($className)) {
-            for ($i = 1; $i <= $objectAmount; $i++) {
-                $obj = new $className();
-                $obj->Title = $className . $i;
-                $obj->write();
-            }
-        }
-    }
 
 }

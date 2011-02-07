@@ -63,28 +63,17 @@ class ContactForm extends CustomHtmlForm {
     );
 
     /**
-     * change the submit button
+     * form settings, mainly submit button´s name
      *
-     * @return FieldSet action field
+     * @var array
+     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
+     * @since 02.02.2011
+     * @return void
      */
-    protected function getForm() {
-        $formDefinition = parent::getForm('submit');
-
-
-
-        $actions = new FieldSet(
-                        new FormAction(
-                                'submit',
-                                'Nachricht Senden'
-                        )
-        );
-
-        $formDefinition['actions'] = $actions;
-
-        return $formDefinition;
-    }
+    protected $preferences = array(
+        'submitButtonTitle'         => 'Nachricht senden'
+    );
 
     /**
      * logged in users get there fields filled
@@ -94,6 +83,14 @@ class ContactForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
+        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
+        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title'] = _t('Address.SURNAME');
+        $this->formFields['Email']['title'] = _t('Address.EMAIL', 'email address');
+        $this->formFields['Message']['title'] = _t('Page.MESSAGE', 'message');
+        $this->preferences['submitButtonTitle'] = _t('Page.SUBMIT_MESSAGE', 'submit message');
+
         $member = Member::currentUser();
         if ($member) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;

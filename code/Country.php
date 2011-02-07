@@ -94,6 +94,11 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
+        'Title' => 'Land',
+        'ISO2' => 'ISO2 Code',
+        'ISO3' => 'ISO3 Code',
+        'AttributedZones' => 'Zugeordnete Zonen',
+        'AttributedPaymentMethods' => 'Zugeordnete Bezahlarten'
     );
     /**
      * List of searchable fields for the model admin
@@ -105,6 +110,15 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $searchable_fields = array(
+        'Title',
+        'ISO2',
+        'ISO3',
+        'zones.ID' => array(
+            'title' => 'Zugeordnete Zonen'
+        ),
+        'paymentMethods.ID' => array(
+            'title' => 'Zugeordnete Bezahlarten'
+        )
     );
     /**
      * Virtual database columns.

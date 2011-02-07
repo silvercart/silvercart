@@ -126,7 +126,6 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
             'type' => 'TextField',
             'title' => 'Jahr',
             'maxLength' => 4,
-            'title' => 'Geburtstag Jahr',
             'checkRequirements' => array(
                 'isFilledIn' => true,
                 'isNumbersOnly' => true,
@@ -177,23 +176,33 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
+        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
+        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
+        $this->formFields['BirthdayDay']['title'] = _t('Page.DAY');
+        $this->formFields['BirthdayMonth']['title'] = _t('Page.MONTH');
+        $this->formFields['BirthdayYear']['title'] = _t('Page.YEAR');
+        $this->formFields['Password']['title'] = _t('Page.PASSWORD');
+        $this->formFields['PasswordCheck']['title'] = _t('Page.PASSWORD_CHECK');
+        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('CheckoutFormStep.I_ACCEPT_TERMS');
+        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('CheckoutFormStep.I_ACCEPT_REVOCATION');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
         $birthdayDays = array(
-            '' => 'Bitte wählen'
+            '' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE')
         );
         $birthdayMonths = array(
-            '' => 'Bitte wählen',
-            '1' => 'Januar',
-            '2' => 'Februar',
-            '3' => 'März',
-            '4' => 'April',
-            '5' => 'Mai',
-            '6' => 'Juni',
-            '7' => 'Juli',
-            '8' => 'August',
-            '9' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Dezember'
+            '' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            '1' => _t('Page.JANUARY'),
+            '2' => _t('Page.FEBRUARY'),
+            '3' => _t('Page.MARCH'),
+            '4' => _t('Page.APRIL'),
+            '5' => _t('Page.MAY'),
+            '6' => _t('Page.JUNE'),
+            '7' => _t('Page.JULY'),
+            '8' => _t('Page.AUGUST'),
+            '9' => _t('Page.SEPTEMBER'),
+            '10' => _t('Page.OCTOBER'),
+            '11' => _t('Page.NOVEMBER'),
+            '12' => _t('Page.DECEMBER')
         );
 
         for ($idx = 1; $idx < 32; $idx++) {
@@ -229,7 +238,7 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
 
         return array(
             'success' => !$emailExistsAlready,
-            'errorMessage' => 'Diese Email-Adresse ist schon registriert.'
+            'errorMessage' => _t('Page.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
         );
     }
 
@@ -320,7 +329,8 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
         $this->sendOptInMail($formData);
 
         // Redirect to welcome page
-        Director::redirect('registrierung/begruessung');
+        $param = _t('RegistrationPage.URL_SEGMENT')."/"._t('Page.WELCOME_PAGE_URL_SEGMENT');
+        Director::redirect($param);
     }
 
     /**
@@ -342,7 +352,7 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
                 'FirstName'         => $formData['FirstName'],
                 'Surname'           => $formData['Surname'],
                 'Email'             => $formData['Email'],
-                'ConfirmationLink'  => Director::absoluteURL('/registrierung/bestaetigung').'/?h='.urlencode($formData['ConfirmationHash'])
+                'ConfirmationLink'  => Director::absoluteURL(sprintf("/%s/%s", _t('RegistrationPage.URL_SEGMENT'), _t('RegisterConfirmationPage.URL_SEGMENT'))).'/?h='.urlencode($formData['ConfirmationHash'])
             )
         );
     }

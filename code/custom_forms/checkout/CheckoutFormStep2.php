@@ -69,6 +69,7 @@ class CheckoutFormStep2 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
+        $this->formFields['PaymentMethod']['title'] = _t('PaymentMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
         if ($stepData['Shipping_Country'] != "") {

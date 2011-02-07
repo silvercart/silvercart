@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Theses are the shipping methods the shop offers
  *
@@ -18,8 +19,7 @@ class ShippingMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $singular_name = "Versandart";
-
+    public static $singular_name = "shipping method";
     /**
      * Plural name
      *
@@ -29,8 +29,7 @@ class ShippingMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $plural_name = "Versandarten";
-
+    public static $plural_name = "shipping methods";
     /**
      * Attributes.
      *
@@ -41,10 +40,9 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'Title'         => 'VarChar',
-        'isActive'      => 'Boolean'
+        'Title' => 'VarChar',
+        'isActive' => 'Boolean'
     );
-
     /**
      * Has-one relationships.
      *
@@ -57,7 +55,6 @@ class ShippingMethod extends DataObject {
     public static $has_one = array(
         'carrier'   => 'Carrier'
     );
-
     /**
      * Has-many relationship.
      *
@@ -68,11 +65,10 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'orders'        => 'Order',
-        'translations'  => 'ShippingMethodTexts',
-        'shippingFees'  => 'ShippingFee'
+        'orders' => 'Order',
+        'translations' => 'ShippingMethodTexts',
+        'shippingFees' => 'ShippingFee'
     );
-
     /**
      * Many-many relationships.
      *
@@ -85,7 +81,6 @@ class ShippingMethod extends DataObject {
     public static $many_many = array(
         'zones' => 'Zone'
     );
-
     /**
      * Belongs-many-many relationships.
      *
@@ -98,7 +93,6 @@ class ShippingMethod extends DataObject {
     public static $belongs_many_many = array(
         'PaymentMethods' => 'PaymentMethod'
     );
-
     /**
      * Summaryfields for display in tables.
      *
@@ -109,13 +103,12 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'Title'                     => 'Bezeichnung',
-        'activatedStatus'           => 'Aktiviert',
-        'AttributedZones'           => 'Für Zonen',
-        'carrier.Title'             => 'Frachtführer',
-        'AttributedPaymentMethods'  => 'Für Bezahlarten'
+        'Title' => 'Bezeichnung',
+        'activatedStatus' => 'Aktiviert',
+        'AttributedZones' => 'Für Zonen',
+        'carrier.Title' => 'Frachtführer',
+        'AttributedPaymentMethods' => 'Für Bezahlarten'
     );
-
     /**
      * Column labels for display in tables.
      *
@@ -126,12 +119,11 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'Title'                     => 'Bezeichnung',
-        'activatedStatus'           => 'Aktiviert',
-        'AttributedZones'           => 'Für Zonen',
-        'AttributedPaymentMethods'  => 'Für Bezahlarten'
+        'Title' => 'Bezeichnung',
+        'activatedStatus' => 'Aktiviert',
+        'AttributedZones' => 'Für Zonen',
+        'AttributedPaymentMethods' => 'Für Bezahlarten'
     );
-
     /**
      * Virtual database columns.
      *
@@ -142,11 +134,10 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedCountries'       => 'Varchar(255)',
-        'AttributedPaymentMethods'  => 'Varchar(255)',
-        'activatedStatus'           => 'Varchar(255)'
+        'AttributedCountries' => 'Varchar(255)',
+        'AttributedPaymentMethods' => 'Varchar(255)',
+        'activatedStatus' => 'Varchar(255)'
     );
-
     /**
      * List of searchable fields for the model admin
      *
@@ -169,6 +160,49 @@ class ShippingMethod extends DataObject {
             'title' => 'Für Bezahlarten'
         )
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.01.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
+            'activatedStatus' => _t('ShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones' => _t('ShippingMethod.FOR_ZONES', 'for zones'),
+            'carrier.Title' => _t('Carrier.SINGULARNAME'),
+            'AttributedPaymentMethods' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+        );
+        self::$field_labels = array(
+            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
+            'activatedStatus' => _t('ShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones' => _t('ShippingMethod.FOR_ZONES', 'for zones'),
+            'AttributedPaymentMethods' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+        );
+        self::$searchable_fields = array(
+            'Title',
+            'isActive',
+            'carrier.ID' => array(
+                'title' => _t('Carrier.SINGULARNAME')
+            ),
+            'zones.ID' => array(
+                'title' => _t('ShippingMethod.FOR_ZONES', 'for zones')
+            ),
+            'paymentMethods.ID' => array(
+                'title' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            )
+        );
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * default instances will be created if no instance exists at all
@@ -200,21 +234,21 @@ class ShippingMethod extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        
+
         $fields->removeByName('countries');
         $fields->removeByName('PaymentMethods');
         $fields->removeByName('orders');
         $fields->removeByName('zones');
-        
+
         $zonesTable = new ManyManyComplexTableField(
-            $this,
-            'zones',
-            'Zone',
-            null,
-            'getCMSFields_forPopup'
+                        $this,
+                        'zones',
+                        'Zone',
+                        null,
+                        'getCMSFields_forPopup'
         );
         $fields->addFieldToTab('Root.Zone', $zonesTable);
-        
+
         return $fields;
     }
 
@@ -232,12 +266,12 @@ class ShippingMethod extends DataObject {
 
         if ($cartWeightTotal) {
             $fees = DataObject::get(
-                'ShippingFee',
-                sprintf(
-                    "`shippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
-                    $this->ID,
-                    $cartWeightTotal
-                )
+                            'ShippingFee',
+                            sprintf(
+                                    "`shippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
+                                    $this->ID,
+                                    $cartWeightTotal
+                            )
             );
 
             if ($fees) {
@@ -265,11 +299,11 @@ class ShippingMethod extends DataObject {
     public function getTitleWithCarrierAndFee() {
         if ($this->getShippingFee()) {
             $titleWithCarrierAndFee = $this->carrier()->Title . "-" .
-                $this->Title ." (+".
-                number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '').
-                $this->getShippingFee()->Price->getSymbol().
-            ")";
-            
+                    $this->Title . " (+" .
+                    number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .
+                    $this->getShippingFee()->Price->getSymbol() .
+                    ")";
+
             return $titleWithCarrierAndFee;
         }
     }
@@ -285,8 +319,8 @@ class ShippingMethod extends DataObject {
      */
     public function AttributedZones() {
         $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
+        $attributedZones = array();
+        $maxLength = 150;
 
         foreach ($this->zones() as $zone) {
             $attributedZones[] = $zone->Title;
@@ -296,7 +330,7 @@ class ShippingMethod extends DataObject {
             $attributedZonesStr = implode(', ', $attributedZones);
 
             if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
+                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
             }
         }
 
@@ -314,8 +348,8 @@ class ShippingMethod extends DataObject {
      */
     public function AttributedPaymentMethods() {
         $attributedPaymentMethodsStr = '';
-        $attributedPaymentMethods    = array();
-        $maxLength                   = 150;
+        $attributedPaymentMethods = array();
+        $maxLength = 150;
 
         foreach ($this->paymentMethods() as $paymentMethod) {
             $attributedPaymentMethods[] = $paymentMethod->Title;
@@ -325,7 +359,7 @@ class ShippingMethod extends DataObject {
             $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
 
             if (strlen($attributedPaymentMethodsStr) > $maxLength) {
-                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength).'...';
+                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength) . '...';
             }
         }
 
@@ -342,8 +376,9 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public function activatedStatus() {
-        $checkboxField = new CheckboxField('isActivated'.$this->ID, 'isActived', $this->isActive);
+        $checkboxField = new CheckboxField('isActivated' . $this->ID, 'isActived', $this->isActive);
 
         return $checkboxField;
     }
+
 }

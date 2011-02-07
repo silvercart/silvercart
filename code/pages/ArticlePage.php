@@ -10,7 +10,7 @@
  */
 class ArticlePage extends Page {
 
-    public static $singular_name = "Artikeldetails";
+    public static $singular_name = "article details page";
     public static $allowed_children = array(
         'none'
     );

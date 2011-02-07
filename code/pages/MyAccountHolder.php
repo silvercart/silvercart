@@ -32,7 +32,7 @@ class MyAccountHolder extends Page {
         if (!$records) {
             $page = new $this->ClassName();
             $page->Title = _t('MyAccountHolder.TITLE', 'my account');
-            $page->URLSegment = _t('MyAccountHolder.URL_SEGMENT', 'my account');
+            $page->URLSegment = _t('MyAccountHolder.URL_SEGMENT', 'my-account');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = false;

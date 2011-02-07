@@ -140,6 +140,44 @@ class ShippingFee extends DataObject {
     );
 
     /**
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+            'zone.Title' => _t('ShippingMethod.FOR_ZONES'),
+            'AttributedShippingMethods' => _t('ShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
+            'MaximumWeight' => _t('ShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
+            'PriceFormatted' => _t('ShippingFee.COSTS', 'costs')
+        );
+        self::$field_labels = array(
+            'MaximumWeight' => _t('ShippingFee.MAXIMUM_WEIGHT'),
+            'Price' => _t('ShippingFee.COSTS'),
+            'zone.Title' => _t('ShippingMethod.FOR_ZONES'),
+            'AttributedShippingMethods' => _t('ShippingFee.ATTRIBUTED_SHIPPINGMETHOD')
+        );
+        self::$searchable_fields = array(
+            'MaximumWeight',
+            'zone.ID' => array(
+                'title' => _t('ShippingMethod.FOR_ZONES')
+            ),
+            'shippingMethod.ID' => array(
+                'title' => _t('ShippingFee.FOR_SHIPPINGMETHOD', 'for shipping method', null, 'Für Versandart')
+            )
+        );
+        parent::__construct($record, $isSingleton);
+    }
      * Set a custom search context for fields like "greater than", "less than",
      * etc.
      *

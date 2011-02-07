@@ -85,7 +85,7 @@ class QuickLoginForm extends CustomHtmlForm {
 
                 $this->messages = array(
                     'Authentication' => array(
-                    'message' => 'Die eingegebenen Zugangsdaten sind nicht korrekt.'
+                    'message' => _t('Page.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
                 )
                 );
                 
@@ -97,13 +97,13 @@ class QuickLoginForm extends CustomHtmlForm {
         } else {
             $this->messages = array(
                    'Authentication' => array(
-                   'message' => 'Der Benutzer existiert nicht.'
+                   'message' => _t('Page.USER_NOT_EXISTING', 'This user does not exist.')
             )
             );
 
             return $this->messages = array(
                    'Authentication' => array(
-                   'message' => 'Die angegebenen Zugangsdaten sind falsch.'
+                   'message' => _t('Page.CREDENTIALS_WRONG')
             )
             );
         }

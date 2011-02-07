@@ -9,7 +9,7 @@
  * @since 18.10.2010
  */
 class ShippingAddress extends Address {
-    public static $singular_name = "Versandadresse";
-    public static $plural_name = "Versandadressen";
+    public static $singular_name = "shipping address";
+    public static $plural_name = "shipping addresses";
 
 }

@@ -42,5 +42,17 @@ class OrderAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $menu_title = 'Bestellungen';
+    public static $menu_title = 'orders';
+
+    /**
+     * constructor
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function  __construct() {
+        self::$menu_title = _t('Order.PLURALNAME');
+        parent::__construct();
+    }
 }

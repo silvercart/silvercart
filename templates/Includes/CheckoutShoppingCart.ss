@@ -20,7 +20,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td>Die Mehrwertsteuer beträgt </td>
+                    <td><% _t('Page.INCLUDED_VAT') %> </td>
                     <td class="Amount"><input id="MWST" readOnly="true" value="$getTaxFormatted &euro;"></td>
                 </tr>
 

@@ -66,6 +66,7 @@ class CheckoutFormStep3 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
+        $this->formFields['ShippingMethod']['title'] = _t('ShippingMethod.SINGULARNAME');
 
         $stepData       = $this->controller->getCombinedStepData();
         $paymentMethod  = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);

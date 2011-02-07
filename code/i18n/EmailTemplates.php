@@ -1,14 +1,17 @@
 <?php
 
 /**
+ * abstract for email template
  *
- * @author Roland Lehmann
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
+ * @since 02.02.2011
+ * @license none
  */
 class EmailTemplates extends DataObject {
 
-    static $singular_name = "Emailvorlage";
-    static $plural_name = "Emailvorlagen";
+    static $singular_name = "email template";
+    static $plural_name = "email templates";
     public static $db = array(
         'Category' => 'VarChar',
         'Action' => 'VarChar',
@@ -33,24 +36,15 @@ class EmailTemplates extends DataObject {
     public static $belongs_many_many = array(
     );
 
-    //public static $searchable_fields = array();
-    //public static $summary_fields = array();
-
-    function getByCategoryAction() {
+    /**
+     * ???
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 02.02.2011
+     * @return void
+     */
+    public function getByCategoryAction() {
         
-    }
-
-    function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $className = $this->ClassName;
-        $objectAmount = 0;
-        if (!DataObject::get($className)) {
-            for ($i = 1; $i <= $objectAmount; $i++) {
-                $obj = new $className();
-                $obj->Title = $className . $i;
-                $obj->write();
-            }
-        }
     }
 
 }

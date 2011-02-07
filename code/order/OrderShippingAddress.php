@@ -10,6 +10,7 @@
  * @license BSD
  */
 class OrderShippingAddress extends OrderAddress {
-    
+    public static $singular_name = "order shipping address";
+    public static $plural_name = "order shipping addresses";
 }
 

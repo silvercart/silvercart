@@ -11,8 +11,8 @@
  */
 class Address extends DataObject {
 
-    public static $singular_name = 'Adresse';
-    public static $plural_name = 'Adressen';
+    public static $singular_name = 'address';
+    public static $plural_name = 'addresses';
     public static $db = array(
         'FirstName' => 'VarChar(50)',
         'Surname' => 'VarChar(50)',
@@ -44,4 +44,38 @@ class Address extends DataObject {
         'FirstName' => 'Vorname',
         'Surname' => 'Nachname'
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$summary_fields = array(
+            'Street' => _t('Address.STREET'),
+            'City' => _t('Address.CITY')
+        );
+        self::$field_labels = array(
+            'Street' => _t('Address.STREET'),
+            'StreetNumber' => _t('Address.STREETNUMBER'),
+            'Postcode' => _t('Address.POSTCODE'),
+            'City' => _t('Address.CITY'),
+            'PhoneAreaCode' => _t('Address.PHONEAREACODE'),
+            'Phone' => _t('Address.PHONE'),
+            'country' => _t('Country.SINGULARNAME'),
+            'Addition' => _t('Address.ADDITION'),
+            'FirstName' => _t('Address.FIRSTNAME'),
+            'Surname' => _t('Address.SURNAME')
+        );
+        parent::__construct($record, $isSingleton);
+    }
+
 }

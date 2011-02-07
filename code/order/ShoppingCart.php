@@ -31,7 +31,7 @@ class ShoppingCart extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "Warenkorb";
+    public static $singular_name = "cart";
 
     /**
      * Plural-Beschreibung zur Darstellung im Backend.
@@ -42,7 +42,7 @@ class ShoppingCart extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "Warenkörbe";
+    public static $plural_name = "carts";
 
     /**
      * 1:n relations
@@ -725,10 +725,10 @@ class ShoppingCart extends DataObject {
     /**
      * Calls a method on all registered modules and returns its output.
      *
-     * @param string $methodName The name of the method to call
-     * @param array  $parameters Additional parameters for the method call
-     * @param array $excludeModules An array of registered modules that shall not
-     *      be taken into account.
+     * @param string $methodName     The name of the method to call
+     * @param array  $parameters     Additional parameters for the method call
+     * @param array  $excludeModules An array of registered modules that shall not
+     *                               be taken into account.
      *
      * @return array Associative array:
      *      'ModuleName' => DataObjectSet (ModulePositions)

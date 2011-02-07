@@ -22,7 +22,6 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         'Note' => array(
             'type' => 'TextareaField'
         ),
-
         /**
          * leagal fields
          */
@@ -45,7 +44,6 @@ class CheckoutFormStep4 extends CustomHtmlForm {
             'title' => 'Ich möchte den Newsletter abonnieren'
         )
     );
-
     /**
      * preferences
      *
@@ -53,7 +51,7 @@ class CheckoutFormStep4 extends CustomHtmlForm {
      * @since 26.1.2011
      */
     protected $preferences = array(
-        'submitButtonTitle'         => 'bestellen',
+        'submitButtonTitle' => 'bestellen',
         'stepTitle' => 'Übersicht'
     );
 
@@ -94,7 +92,15 @@ class CheckoutFormStep4 extends CustomHtmlForm {
      * @since 09.11.2010
      */
     protected function fillInFieldValues() {
+        $this->preferences['submitButtonTitle'] = _t('CheckoutFormStep.ORDER', 'order');
+        $this->preferences['stepTitle'] = _t('CheckoutFormStep.OVERVIEW', 'overview');
         $this->controller->fillFormFields(&$this->formFields);
+        $this->formFields['ChosenShippingMethod']['title'] = _t('CheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
+        $this->formFields['ChosenPaymentMethod']['title'] = _t('CheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
+        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('CheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
+        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('CheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
+
         $stepData = $this->controller->getCombinedStepData();
 
         $chosenShippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
@@ -118,13 +124,13 @@ class CheckoutFormStep4 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function AddressData() {
-        $checkoutData       = $this->controller->getCombinedStepData();
-        $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceAddress     = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+        $checkoutData = $this->controller->getCombinedStepData();
+        $shippingAddress = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
+        $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
         $shippingCountry = DataObject::get_by_id(
-            'Country',
-            $shippingAddress['CountryID']
+                        'Country',
+                        $shippingAddress['CountryID']
         );
 
         if ($shippingCountry) {
@@ -132,19 +138,19 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         }
 
         $invoiceCountry = DataObject::get_by_id(
-            'Country',
-            $invoiceAddress['CountryID']
+                        'Country',
+                        $invoiceAddress['CountryID']
         );
 
         if ($invoiceCountry) {
             $invoiceAddress['country'] = $invoiceCountry;
         }
 
-        $addressData  = new ArrayData(
-            array(
-                'shippingAddress'   => $shippingAddress,
-                'invoiceAddress'    => $invoiceAddress
-            )
+        $addressData = new ArrayData(
+                        array(
+                            'shippingAddress' => $shippingAddress,
+                            'invoiceAddress' => $invoiceAddress
+                        )
         );
         return $addressData;
     }
@@ -168,5 +174,6 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
     }
+
 }
 
