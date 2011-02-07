@@ -178,6 +178,8 @@ class ShippingFee extends DataObject {
         );
         parent::__construct($record, $isSingleton);
     }
+    
+    /**
      * Set a custom search context for fields like "greater than", "less than",
      * etc.
      *

@@ -32,7 +32,7 @@
                     <% end_control %>
                 </td>
                 <td>
-                    $Note
+                    $FormattedNote
                 </td>
             </tr>
             <% end_control %>
