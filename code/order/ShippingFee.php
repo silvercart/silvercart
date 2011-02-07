@@ -57,7 +57,8 @@ class ShippingFee extends DataObject {
      */
     public static $has_one = array(
         'zone'              => 'Zone',
-        'shippingMethod'    => 'ShippingMethod'
+        'shippingMethod'    => 'ShippingMethod',
+        'Tax'               => 'Tax'
     );
 
     /**
@@ -181,7 +182,9 @@ class ShippingFee extends DataObject {
        if ($zones) {
            $fields->addFieldToTab(
                 "Root.Main",
-                new DropdownField('zoneID', _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
+                new DropdownField(
+                    'zoneID',
+                    _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
                    $zones->toDropDownMap('ID', 'Title', _t('ShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
                 )
            );
@@ -230,6 +233,21 @@ class ShippingFee extends DataObject {
         }
 
         return $attributedShippingMethodsStr;
+    }
+
+    /**
+     * returns the tax amount included in $this
+     *
+     * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getTaxAmount() {
+        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->Tax()->Rate) * 100);
+
+        return $taxRate;
     }
 }
 

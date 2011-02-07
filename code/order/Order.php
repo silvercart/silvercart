@@ -44,10 +44,12 @@ class Order extends DataObject {
     public static $db = array(
         'AmountTotal'                   => 'Money', // Wert aller Artikel
         'AmountGrossTotal'              => 'Money', // Wert aller Artikel + Transaktionskosten
-        'HandlingCosts'                 => 'Money',
         'HandlingCostPayment'           => 'Money',
         'HandlingCostShipment'          => 'Money',
-        'Tax'                           => 'Float',
+        'TaxRatePayment'                => 'Int',
+        'TaxRateShipment'               => 'Int',
+        'TaxAmountPayment'              => 'Float',
+        'TaxAmountShipment'             => 'Float',
         'Note'                          => 'Text',
         'isConfirmed'                   => 'Boolean',
         'WeightTotal'                   => 'Int', //unit is gramm
@@ -422,8 +424,30 @@ class Order extends DataObject {
         $member = Member::currentUser();
         $this->customerID = $member->ID;
 
-        // VAT tax for all positions
-        $this->Tax = $member->shoppingCart()->getTax()->getAmount();
+        // VAT tax for shipping and payment fees
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
+        if ($shippingMethod) {
+            $shippingFee  = $shippingMethod->getShippingFee();
+
+            if ($shippingFee) {
+                if ($shippingFee->Tax()) {
+                    $this->TaxRateShipment   = $shippingFee->Tax()->Rate;
+                    $this->TaxAmountShipment = $shippingFee->getTaxAmount();
+                }
+            }
+        }
+
+        $paymentMethod = DataObject::get_by_id('PaymentMethod', $this->paymentID);
+        if ($paymentMethod) {
+            $paymentFee = $paymentMethod->HandlingCost();
+
+            if ($paymentFee) {
+                if ($paymentFee->Tax()) {
+                    $this->TaxRatePayment   = $paymentFee->Tax()->Rate;
+                    $this->TaxAmountPayment = $paymentFee->getTaxAmount();
+                }
+            }
+        }
 
         // price sum of all positions
         $this->AmountTotal->setAmount($member->shoppingCart()->getAmountTotal()->getAmount());
@@ -457,6 +481,8 @@ class Order extends DataObject {
         }
         // write order to have an id
         $this->write();
+
+        // Convert shopping cart positions
         $this->convertShoppingCartPositionsToOrderPositions();
     }
 
@@ -496,34 +522,72 @@ class Order extends DataObject {
                 }
             }
 
-            // Convert positions from registered modules
-            $modulesOutput = $member->currentUser()->shoppingCart()->callMethodOnRegisteredModules(
+            // Get taxable positions from registered modules
+            $registeredModules = $member->shoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
                 array(
-                    Member::currentUser()->shoppingCart(),
-                    Member::currentUser()
+                    $member->shoppingCart(),
+                    $member,
+                    true
                 )
             );
 
-            foreach ($modulesOutput as $moduleName => $modulePositions) {
-
-                foreach ($modulePositions as $modulePosition) {
+            foreach ($registeredModules as $moduleName => $moduleOutput) {
+                foreach ($moduleOutput as $modulePosition) {
                     $orderPosition = new OrderPosition();
-                    $orderPosition->Price->setAmount($modulePosition->moduleOutput->Price);
-                    $orderPosition->Price->setCurrency($modulePosition->moduleOutput->Currency);
-                    $orderPosition->PriceTotal->setAmount($modulePosition->moduleOutput->PriceTotal);
-                    $orderPosition->PriceTotal->setCurrency($modulePosition->moduleOutput->Currency);
+                    $orderPosition->Price->setAmount($modulePosition->Price);
+                    $orderPosition->Price->setCurrency($modulePosition->Currency);
+                    $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
                     $orderPosition->Tax                 = 0;
-                    $orderPosition->TaxTotal            = 0;
-                    $orderPosition->TaxRate             = 0;
-                    $orderPosition->ArticleDescription  = $modulePosition->moduleOutput->LongDescription;
-                    $orderPosition->Quantity            = $modulePosition->moduleOutput->Quantity;
-                    $orderPosition->Title               = $modulePosition->moduleOutput->Name;
+                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
+                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
+                    $orderPosition->ArticleDescription  = $modulePosition->LongDescription;
+                    $orderPosition->Quantity            = $modulePosition->Quantity;
+                    $orderPosition->Title               = $modulePosition->Name;
                     $orderPosition->orderID             = $this->ID;
                     $orderPosition->write();
                     unset($orderPosition);
                 }
             }
+
+            // Get nontaxable positions from registered modules
+            $registeredModules = $member->shoppingCart()->callMethodOnRegisteredModules(
+                'ShoppingCartPositions',
+                array(
+                    $member->shoppingCart(),
+                    $member,
+                    false
+                )
+            );
+
+            foreach ($registeredModules as $moduleName => $moduleOutput) {
+                foreach ($moduleOutput as $modulePosition) {
+                    $orderPosition = new OrderPosition();
+                    $orderPosition->Price->setAmount($modulePosition->Price);
+                    $orderPosition->Price->setCurrency($modulePosition->Currency);
+                    $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
+                    $orderPosition->Tax                 = 0;
+                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
+                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
+                    $orderPosition->ArticleDescription  = $modulePosition->LongDescription;
+                    $orderPosition->Quantity            = $modulePosition->Quantity;
+                    $orderPosition->Title               = $modulePosition->Name;
+                    $orderPosition->orderID             = $this->ID;
+                    $orderPosition->write();
+                    unset($orderPosition);
+                }
+            }
+
+            // Convert positions of registered modules
+            $member->currentUser()->shoppingCart()->callMethodOnRegisteredModules(
+                'ShoppingCartConvert',
+                array(
+                    Member::currentUser()->shoppingCart(),
+                    Member::currentUser()
+                )
+            );
 
             // Delete the shoppingcart positions
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
@@ -870,8 +934,35 @@ class Order extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 03.02.2011
      */
-    public function getTaxRatesForArticles() {
-        
+    public function getTaxRatesWithoutFees() {
+        $taxes = new DataObjectSet;
+
+        foreach ($this->orderPositions() as $orderPosition) {
+            $taxRate = $orderPosition->TaxRate;
+            if ($taxRate > 0 &&
+                !$taxes->find('Rate', $taxRate)) {
+                
+                $taxes->push(
+                    new DataObject(
+                        array(
+                            'Rate'      => $taxRate,
+                            'AmountRaw' => 0.0,
+                        )
+                    )
+                );
+            }
+            $taxSection = $taxes->find('Rate', $taxRate);
+            $taxSection->AmountRaw += $orderPosition->TaxTotal;
+        }
+
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+
+            $tax->Amount = $taxObj;
+        }
+
+        return $taxes;
     }
 
     /**
@@ -884,8 +975,51 @@ class Order extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 03.02.2011
      */
-    public function getTaxRatesTotal() {
+    public function getTaxRatesWithFees() {
+        $taxes = $this->getTaxRatesWithoutFees();
 
+        // Shipping cost tax
+        $taxRate = $this->TaxRateShipment;
+        if ($taxRate > 0 &&
+            !$taxes->find('Rate', $taxRate)) {
+
+            $taxes->push(
+                new DataObject(
+                    array(
+                        'Rate'      => $taxRate,
+                        'AmountRaw' => 0.0,
+                    )
+                )
+            );
+        }
+        $taxSection = $taxes->find('Rate', $taxRate);
+        $taxSection->AmountRaw += $this->TaxAmountShipment;
+
+        // Payment cost tax
+        $taxRate = $this->TaxRatePayment;
+        if ($taxRate > 0 &&
+            !$taxes->find('Rate', $taxRate)) {
+
+            $taxes->push(
+                new DataObject(
+                    array(
+                        'Rate'      => $taxRate,
+                        'AmountRaw' => 0.0,
+                    )
+                )
+            );
+        }
+        $taxSection = $taxes->find('Rate', $taxRate);
+        $taxSection->AmountRaw += $this->TaxAmountPayment;
+
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+
+            $tax->Amount = $taxObj;
+        }
+
+        return $taxes;
     }
 
     /**

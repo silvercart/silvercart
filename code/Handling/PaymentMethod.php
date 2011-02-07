@@ -270,9 +270,7 @@ class PaymentMethod extends DataObject {
         'order' => array(
             'amount_net' => 0.0,
             'amount_gross' => 0.0,
-            'tax_amount_net' => 0.0,
-            'tax_amount_gross' => 0.0,
-            'tax_rate' => 0.0,
+            'tax_rates' => array(),
             'positions' => array()
         ),
         'handlingCosts' => array(
@@ -708,7 +706,7 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Set information relevat for payment
+     * Set information relevant for payment
      *
      * @param string       $section    section of information
      * @param string|array $subSection subsection path

@@ -71,6 +71,44 @@ class ShoppingCart extends DataObject {
     );
 
     /**
+     * Contains the ID of the payment method the customer has chosen.
+     *
+     * @var Int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    protected $paymentMethodID;
+
+    /**
+     * Contains the ID of the shipping method the customer has chosen.
+     *
+     * @var Int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    protected $shippingMethodID;
+
+    /**
+     * Set initial values.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function  __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        
+        $this->shippingMethodID = 0;
+        $this->paymentMethodID  = 0;
+    }
+
+    /**
      * initialisation
      *
      * @return void
@@ -82,7 +120,15 @@ class ShoppingCart extends DataObject {
     public function init() {
         parent::init();
 
-        $this->callMethodOnRegisteredModules('performShoppingCartConditionsCheck', array($this, Member::currentUser()));
+        $this->paymentMethodID  = 0;
+        $this->shippingMethodID = 0;
+        $this->callMethodOnRegisteredModules(
+            'performShoppingCartConditionsCheck',
+            array(
+                $this,
+                Member::currentUser()
+            )
+        );
     }
 
     /**
@@ -169,15 +215,51 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Returns the taxable amount of positions in the shopping cart.
+     * Returns the price of the cart positions + fees, including taxes.
      *
-     * Those are regular articles and can originate from registered modules too.
-     * Contains no fees.
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
+     */
+    public function getTaxableAmountGrossWithFees() {
+        $member         = Member::currentUser();
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
+        $paymentMethod  = DataObject::get_by_id('PaymentMethod',  $this->paymentMethodID);
+        $amountTotal    = $this->getTaxableAmountGrossWithoutFees()->getAmount();
+
+        if ($shippingMethod) {
+            $shippingFee  = $shippingMethod->getShippingFee();
+
+            if ($shippingFee) {
+                $shippingFeeAmount  = $shippingFee->Price->getAmount();
+                $amountTotal        = $shippingFeeAmount + $amountTotal;
+            }
+        }
+
+        if ($paymentMethod) {
+            $paymentFee = $paymentMethod->HandlingCost();
+
+            if ($paymentFee) {
+                $paymentFeeAmount   = $paymentFee->amount->getAmount();
+                $amountTotal        = $paymentFeeAmount + $amountTotal;
+            }
+        }
+
+        $amountTotalObj = new Money;
+        $amountTotalObj->setAmount($amountTotal);
+
+        return $amountTotalObj;
+    }
+
+    /**
+     * Returns the price of the cart positions, including taxes.
      *
      * @param array $excludeModules An array of registered modules that shall not
      *      be taken into account.
      *
-     * @return Money
+     * @return string a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -188,7 +270,7 @@ class ShoppingCart extends DataObject {
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             array(
-                Member::currentUser()->shoppingCart(),
+                $this,
                 Member::currentUser(),
                 true
             ),
@@ -231,11 +313,11 @@ class ShoppingCart extends DataObject {
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             array(
-                Member::currentUser()->shoppingCart(),
+                $this,
                 Member::currentUser(),
-                false,
-                $excludeModules
-            )
+                false
+            ),
+            $excludeModules
         );
 
         // Registered Modules
@@ -252,64 +334,119 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * Returns the end sum of the shopping cart.
+     * Returns the handling costs for the chosen payment method.
      *
      * @return Money
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function HandlingCostPayment() {
+        $handlingCostPayment = 0;
+        $paymentMethodObj    = DataObject::get_by_id(
+            'PaymentMethod',
+            $this->paymentMethodID
+        );
+
+        if ($paymentMethodObj) {
+            $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
+        } else {
+            $handlingCostPaymentObj = new Money();
+            $handlingCostPaymentObj->setAmount(0);
+        }
+
+        return $handlingCostPaymentObj;
+    }
+
+    /**
+     * Returns the handling costs for the chosen shipping method.
+     *
+     * @return Money
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function HandlingCostShipment() {
+        $handlingCostShipment   = 0;
+        $selectedShippingMethod = DataObject::get_by_id(
+                        'ShippingMethod',
+                        $this->shippingMethodID
+        );
+
+        if ($selectedShippingMethod) {
+            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
+        } else {
+            $handlingCostShipmentObj = new Money();
+            $handlingCostShipmentObj->setAmount($handlingCostShipment);
+        }
+
+        return $handlingCostShipmentObj;
+    }
+
+    /**
+     * Returns the shipping method title.
+     *
+     * @return string
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function CarrierAndShippingMethodTitle() {
+        $title                  = '';
+        $selectedShippingMethod = DataObject::get_by_id(
+            'ShippingMethod',
+            $this->shippingMethodID
+        );
+
+        if ($selectedShippingMethod) {
+            $title = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
+        }
+
+        return $title;
+    }
+
+    /**
+     * Returns the payment method object.
+     *
+     * @return PaymentMethod
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.1.2011
+     */
+    public function getPayment() {
+        $paymentMethodObj = DataObject::get_by_id(
+            'PaymentMethod',
+            $this->paymentMethodID
+        );
+
+        return $paymentMethodObj;
+    }
+
+    /**
+     * Returns the end sum of the cart (taxable positions + nontaxable
+     * positions + fees).
+     *
+     * @param array $excludeModules An array of registered modules that shall not
+     *      be taken into account.
+     * 
+     * @return string a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getAmountTotal() {
-        $amount  = 0;
-        $amount += $this->getTaxableAmountGrossWithoutFees()->getAmount();
-        $amount += $this->getNonTaxableAmount()->getAmount();
-
-        $amountObj = new Money;
+    public function getAmountTotal($excludeModules = array()) {
+        $amount     = $this->getTaxableAmountGrossWithFees()->getAmount();
+        $amount    += $this->getNonTaxableAmount($excludeModules)->getAmount();
+        
+        $amountObj  = new Money;
         $amountObj->setAmount($amount);
 
         return $amountObj;
-    }
-
-    /**
-     * returns tax included in $this
-     *
-     * @return Money money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.11.10
-     */
-    public function getTax() {
-        $positions          = $this->positions();
-        $registeredModules  = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions',
-            array(
-                Member::currentUser()->shoppingCart(),
-                Member::currentUser(),
-                true
-            )
-        );
-        $tax                = 0.0;
-
-        // Articles
-        foreach ($positions as $position) {
-            $tax += $position->article()->getTaxAmount() * $position->Quantity;
-        }
-
-        // Registered Modules
-        foreach ($registeredModules as $moduleName => $moduleOutput) {
-            foreach ($moduleOutput as $modulePositions) {
-                foreach ($modulePositions->moduleOutput as $modulePosition) {
-                    $tax += (float) $modulePosition->TaxAmount;
-                }
-            }
-        }
-        
-        $taxObj = new Money;
-        $taxObj->setAmount($tax);
-
-        return $taxObj;
     }
 
     /**
@@ -354,22 +491,20 @@ class ShoppingCart extends DataObject {
 
         // Registered Modules
         foreach ($registeredModules as $moduleName => $moduleOutput) {
-            foreach ($moduleOutput as $modulePositions) {
-                foreach ($modulePositions->moduleOutput as $modulePosition) {
-                    $taxRate = $modulePosition->TaxRate;
-                    if (!$taxes->find('Rate', $taxRate)) {
-                        $taxes->push(
-                            new DataObject(
-                                array(
-                                    'Rate'      => $taxRate,
-                                    'AmountRaw' => 0.0,
-                                )
+            foreach ($moduleOutput as $modulePosition) {
+                $taxRate = $modulePosition->TaxRate;
+                if (!$taxes->find('Rate', $taxRate)) {
+                    $taxes->push(
+                        new DataObject(
+                            array(
+                                'Rate'      => $taxRate,
+                                'AmountRaw' => 0.0,
                             )
-                        );
-                    }
-                    $taxSection = $taxes->find('Rate', $taxRate);
-                    $taxSection->AmountRaw += $modulePosition->TaxAmount;
+                        )
+                    );
                 }
+                $taxSection = $taxes->find('Rate', $taxRate);
+                $taxSection->AmountRaw += $modulePosition->TaxAmount;
             }
         }
 
@@ -394,7 +529,68 @@ class ShoppingCart extends DataObject {
      * @since 04.02.2011
      */
     public function getTaxRatesWithFees() {
-        return $this->getTaxRatesWithoutFees();
+        $taxes          = $this->getTaxRatesWithoutFees();
+        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
+        $paymentMethod  = DataObject::get_by_id('PaymentMethod',  $this->paymentMethodID);
+
+        if ($shippingMethod) {
+            $shippingFee  = $shippingMethod->getShippingFee();
+
+            if ($shippingFee) {
+                if ($shippingFee->Tax()) {
+                    $taxRate = $shippingFee->Tax()->Rate;
+
+                    if ($taxRate &&
+                        !$taxes->find('Rate', $taxRate)) {
+
+                        $taxes->push(
+                            new DataObject(
+                                array(
+                                    'Rate'      => $taxRate,
+                                    'AmountRaw' => 0.0,
+                                )
+                            )
+                        );
+                    }
+                    $taxSection = $taxes->find('Rate', $taxRate);
+                    $taxSection->AmountRaw += $shippingFee->getTaxAmount();
+                }
+            }
+        }
+
+        if ($paymentMethod) {
+            $paymentFee = $paymentMethod->HandlingCost();
+
+            if ($paymentFee) {
+                if ($paymentFee->Tax()) {
+                    $taxRate = $paymentFee->Tax()->Rate;
+
+                    if ($taxRate &&
+                        !$taxes->find('Rate', $taxRate)) {
+                        
+                        $taxes->push(
+                            new DataObject(
+                                array(
+                                    'Rate'      => $taxRate,
+                                    'AmountRaw' => 0.0,
+                                )
+                            )
+                        );
+                    }
+                    $taxSection = $taxes->find('Rate', $taxRate);
+                    $taxSection->AmountRaw += $paymentFee->getTaxAmount();
+                }
+            }
+        }
+
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+
+            $tax->Amount = $taxObj;
+        }
+        
+        return $taxes;
     }
 
     /**
@@ -416,6 +612,26 @@ class ShoppingCart extends DataObject {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Indicates wether the fees for shipping and payment should be shown.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getShowFees() {
+        $showFees = false;
+
+        if ($this->shippingMethodID > 0 &&
+            $this->paymentMethodID > 0) {
+            $showFees = true;
+        }
+
+        return $showFees;
     }
 
     /**
@@ -515,7 +731,7 @@ class ShoppingCart extends DataObject {
      *      be taken into account.
      *
      * @return array Associative array:
-     *      'ModuleName' => 'ModuleOutput'
+     *      'ModuleName' => DataObjectSet (ModulePositions)
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -563,5 +779,35 @@ class ShoppingCart extends DataObject {
         }
 
         return $outputOfModules;
+    }
+
+    /**
+     * Set the ID of the shipping method the customer has chosen.
+     *
+     * @param Int $shippingMethodId The ID of the shipping method object.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function setShippingMethodID($shippingMethodId) {
+        $this->shippingMethodID = $shippingMethodId;
+    }
+
+    /**
+     * Set the ID of the payment method the customer has chosen.
+     *
+     * @param Int $paymentMethodId The ID of the payment method object.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function setPaymentMethodID($paymentMethodId) {
+        $this->paymentMethodID = $paymentMethodId;
     }
 }

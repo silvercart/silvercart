@@ -69,4 +69,18 @@ class CartPage_Controller extends Page_Controller {
         
         parent::init();
     }
+
+    /**
+     * Indicates wether ui elements for removing items and altering their
+     * quantity should be shown in the shopping cart templates.
+     *
+     * @return boolean true
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getEditableShoppingCart() {
+        return true;
+    }
 }
