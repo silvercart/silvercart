@@ -45,6 +45,7 @@ class OrderDetailPage_Controller extends Page_Controller {
     public function CustomersOrder() {
         $id         = Convert::raw2sql($this->urlParams['ID']);
         $memberID   = Member::currentUserID();
+        $order      = false;
         
         if ($memberID && $id) {
             $order = DataObject::get_one(
