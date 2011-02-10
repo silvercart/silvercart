@@ -22,15 +22,28 @@ class CheckoutStep extends CustomHtmlFormStepPage {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-
-        $records = DataObject::get_one($this->ClassName);
+        $shoppingCartPageID = 1;
+        $records            = DataObject::get_one($this->ClassName);
         if (!$records) {
-            $page               = new $this->ClassName();
-            $page->Title        = _t('Page.CHECKOUT');
-            $page->URLSegment   = _t('CheckoutStep.URL_SEGMENT', 'checkout');
-            $page->Status       = "Published";
-            $page->ShowInMenus  = true;
-            $page->ShowInSearch = true;
+
+            // Set the ShoppingCartPage ID if available
+            $shoppingCartPage = DataObject::get_one(
+                'CartPage'
+            );
+
+            if ($shoppingCartPage) {
+                $shoppingCartPageID = $shoppingCartPage->ID;
+            }
+
+            $page                   = new $this->ClassName();
+            $page->Title            = _t('Page.CHECKOUT');
+            $page->URLSegment       = _t('CheckoutStep.URL_SEGMENT', 'checkout');
+            $page->Status           = "Published";
+            $page->ShowInMenus      = true;
+            $page->ShowInSearch     = true;
+            $page->baseName         = 'CheckoutFormStep';
+            $page->showCancelLink   = true;
+            $page->cancelPageID     = $shoppingCartPageID;
             $page->write();
             $page->publish("Stage", "Live");
         }
