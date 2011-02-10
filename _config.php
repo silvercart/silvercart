@@ -31,8 +31,8 @@ i18n::set_default_locale('de_DE');
 Object::add_extension('SiteTree', 'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
 Object::add_extension('Member', 'CustomerRole');
-Object::add_extension('Page', 'PageDecorator');
-Object::add_extension('Page_Controller', 'Page_ControllerDecorator');
+//Object::add_extension('Page', 'PageDecorator');
+//Object::add_extension('Page_Controller', 'Page_ControllerDecorator');
 
 // ----------------------------------------------------------------------------
 // Define path constants

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Standard Controller
  *
@@ -8,6 +9,14 @@
  * @license BSD
  */
 class SilvercartPage extends SiteTree {
+
+    /**
+     * extends statics
+     *
+     * @return array configuration array
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.02.11
+     */
     public function extraStatics() {
         return array(
             'db' => array(
@@ -19,6 +28,8 @@ class SilvercartPage extends SiteTree {
     /**
      * is the centerpiece of every data administration interface in Silverstripe
      *
+     * @param FieldSet $fields cms fields fieldset
+     *
      * @return FieldSet all related CMS fields
      * @author Jiri Ripa <jripa@pixeltricks.de>
      * @since 15.10.2010
@@ -26,6 +37,7 @@ class SilvercartPage extends SiteTree {
     public function updateCMSFields(FieldSet $fields) {
         $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('headerPicture', _t('Page.HEADERPICTURE', 'header picture')));
     }
+
 }
 
 /**
@@ -38,6 +50,15 @@ class SilvercartPage extends SiteTree {
  */
 class SilvercartPage_Controller extends ContentController {
 
+    /**
+     * standard page controller
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.02.2011
+     * @license LGPL
+     * @return void
+     * @copyright 2010 pixeltricks GmbH
+     */
     public function init() {
         Requirements::themedCSS('layout');
         Requirements::javascript("pixeltricks_module/script/jquery.js");
@@ -46,179 +67,8 @@ class SilvercartPage_Controller extends ContentController {
 
         $this->registerCustomHtmlForm('QuickSearch', new QuickSearchForm($this));
         $this->registerCustomHtmlForm('QuickLogin', new QuickLoginForm($this));
-        
+
         parent::init();
-    }
-
-    /**
-     * determin weather a cart is filled or empty; usefull for template conditional
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.11.2010
-     * @return boolean is cart filled?
-     */
-    public function isFilledCart() {
-        $customer = Member::currentUser();
-
-        if ($customer && $customer->hasMethod('shoppingCart') && $customer->shoppingCart()->positions()->Count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * form for incrementing the amount of a shopping cart position
-     *
-     * @return Form to increment a shopping cart position
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.09.2010
-     */
-    public function incrementAmountForm() {
-        $fields = new FieldSet();
-        $fields->push(new HiddenField('ShoppingCartPositionID', 'ShoppingCartPositionID'));
-        $actions = new FieldSet();
-        $actions->push(new FormAction('doIncrementAmount', '+'));
-        $form = new Form($this, 'doIncrementAmount', $fields, $actions);
-        return $form;
-    }
-
-    /**
-     * action method for IncrementAmountForm
-     *
-     * @param array $data Array with Cartpositions
-     * @param Form  $form Cart Form Object
-     *
-     * @return object Object CartPage_Controller
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.09.2010
-     */
-    public function doIncrementAmount($data, $form) {
-        $shoppingCartPosition = DataObject::get_by_id('ShoppingCartPosition', $data['ShoppingCartPositionID']);
-        if ($shoppingCartPosition) {
-            if ($shoppingCartPosition->shoppingCartID == Member::currentUser()->shoppingCartID) {//make shure that a customer can delete only his own shoppingCartpositions, in your face, damn hackers!
-                $shoppingCartPosition->Quantity++;
-                $shoppingCartPosition->write();
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * form for decrementing the amount of a shopping cart position
-     *
-     * @return Form
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.09.2010
-     */
-    public function decrementAmountForm() {
-        $fields = new FieldSet();
-        $fields->push(new HiddenField('ShoppingCartPositionID', 'ShoppingCartPositionID'));
-        $actions = new FieldSet();
-        $actions->push(new FormAction('doDecrementAmount', '-'));
-        $form = new Form($this, 'decrementAmountForm', $fields, $actions);
-        return $form;
-    }
-
-    /**
-     * action method for DecrementAmountForm
-     *
-     * @param array $data Array with Cartpositions
-     * @param Form  $form Cart Form Object
-     *
-     * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.09.2010
-     */
-    public function doDecrementAmount($data, $form) {
-        $shoppingCartPosition = DataObject::get_by_id('ShoppingCartPosition', $data['ShoppingCartPositionID']);
-        // Zuweisung gewollt
-        if ($shoppingCartPosition) {
-            if ($shoppingCartPosition->Quantity > 1
-                    && $shoppingCartPosition->shoppingCartID == Member::currentUser()->shoppingCartID) {
-                $shoppingCartPosition->Quantity--;
-                $shoppingCartPosition->write();
-            } elseif ($shoppingCartPosition->Quantity == 1
-                    && $shoppingCartPosition->shoppingCartID == Member::currentUser()->shoppingCartID) {
-                $shoppingCartPosition->delete();
-            }
-
-            return $this;
-        }
-    }
-
-    /**
-     * form for deleting article from shopping cart
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return Form
-     * @since 30.09.2010
-     */
-    public function removeFromCartForm() {
-        $fields = new FieldSet();
-        $fields->push(new HiddenField('ShoppingCartPositionID', 'ShoppingCartPositionID'));
-        $actions = new FieldSet();
-        $actions->push(new FormAction('doRemoveFromCart', _t('Page.REMOVE_FROM_CART', 'remove')));
-        $form = new Form($this, 'removeFromCartForm', $fields, $actions);
-        return $form;
-    }
-
-    /**
-     * Action to remove article from shopping cart
-     *
-     * @param array $data Array with Cartpositions
-     * @param Form  $form Cart Form Object
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return Bool
-     * @since 30.09.2010
-     */
-    public function doRemoveFromCart($data, $form) {
-        $shoppingCartPosition = DataObject::get_by_id('ShoppingCartPosition', $data['ShoppingCartPositionID']);
-        if ($shoppingCartPosition) {
-            if ($shoppingCartPosition->shoppingCartID == Member::currentUser()->shoppingCartID) {
-                $shoppingCartPosition->delete();
-            }
-            return $this;
-        }
-    }
-
-    /**
-     * create form for flushing article from shopping cart
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return Form
-     * @since 30.09.2010
-     */
-    public function flushCartForm() {
-        $fields = new FieldSet();
-        $fields->push(new HiddenField('cartID', 'cartID', Member::currentUser()->shoppingCartID));
-        $actions = new FieldSet();
-        $actions->push(new FormAction('doFlushCart', _t('Page.EMPTY_CART', 'empty')));
-        $form = new Form($this, 'flushCartForm', $fields, $actions);
-        return $form;
-    }
-
-    /**
-     * action to flush article from shopping cart
-     *
-     * @param array $data Array with Cartpositions
-     * @param Form  $form Cart Form Object
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return Bool
-     * @since 30.09.2010
-     */
-    public function doFlushCart($data, $form) {
-        if ($data['cartID'] == Member::currentUser()->shoppingCartID) {
-            $cartID = Member::currentUser()->shoppingCartID;
-            $filter = sprintf("\"shoppingCartID\" = '%s'", $cartID);
-            $shoppingCartPositions = DataObject::get('ShoppingCartPosition', $filter);
-            foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                $shoppingCartPosition->delete();
-            }
-            return $this;
-        }
     }
 
     /**
@@ -361,7 +211,6 @@ class SilvercartPage_Controller extends ContentController {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -409,4 +258,5 @@ class SilvercartPage_Controller extends ContentController {
             return Count($shoppingCartPositions);
         }
     }
+
 }
