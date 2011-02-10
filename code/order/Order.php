@@ -1129,11 +1129,11 @@ class Order extends DataObject {
 
         if ($fp = fopen($path, 'a+')) {
             $text = sprintf(
-                            "%s | Module: \"%s\" | Method: \"%s\"\n%s\n--------------------------------------------------------------------------------\n",
-                            date('d.m.Y H:i:s'),
-                            $this->ClassName,
-                            $context,
-                            $text
+                "%s | Module: \"%s\" | Method: \"%s\"\n%s\n--------------------------------------------------------------------------------\n",
+                date('d.m.Y H:i:s'),
+                $this->ClassName,
+                $context,
+                $text
             );
 
             fwrite($fp, $text);
@@ -1155,20 +1155,20 @@ class Order extends DataObject {
                 'MailOrderConfirmation',
                 $this->CustomersEmail,
                 array(
-                    'FirstName' => $member->FirstName,
-                    'Surname' => $member->Surname,
-                    'Salutation' => $member->Salutation,
-                    'Order' => $this
+                    'FirstName'     => $member->FirstName,
+                    'Surname'       => $member->Surname,
+                    'Salutation'    => $member->Salutation,
+                    'Order'         => $this
                 )
             );
             ShopEmail::send(
                 'MailOrderNotification',
                 Email::getAdminEmail(),
                 array(
-                    'FirstName' => $member->FirstName,
-                    'Surname' => $member->Surname,
-                    'Salutation' => $member->Salutation,
-                    'Order' => $this
+                    'FirstName'     => $member->FirstName,
+                    'Surname'       => $member->Surname,
+                    'Salutation'    => $member->Salutation,
+                    'Order'         => $this
                 )
             );
         }

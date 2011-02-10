@@ -21,10 +21,38 @@ class ShopEmail extends DataObject {
      * @since 03.12.2010
      */
     public static $db = array(
-        'Identifier' => 'Varchar(255)',
-        'Subject' => 'Varchar(255)',
-        'EmailText' => 'HTMLText',
-        'Variables' => 'Text'
+        'Identifier'    => 'Varchar(255)',
+        'Subject'       => 'Varchar(255)',
+        'EmailText'     => 'Text',
+        'Variables'     => 'Text'
+    );
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.02.2011
+     */
+    public static $summary_fields = array(
+        'Identifier'                => 'Bezeichner',
+        'Subject'                   => 'Betreff'
+    );
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.02.2011
+     */
+    public static $field_labels = array(
+        'Identifier'                => 'Bezeichner',
+        'Subject'                   => 'Betreff'
     );
 
     /**

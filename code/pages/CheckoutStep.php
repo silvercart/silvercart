@@ -41,7 +41,7 @@ class CheckoutStep extends CustomHtmlFormStepPage {
             $page->Status           = "Published";
             $page->ShowInMenus      = true;
             $page->ShowInSearch     = true;
-            $page->baseName         = 'CheckoutFormStep';
+            $page->basename         = 'CheckoutFormStep';
             $page->showCancelLink   = true;
             $page->cancelPageID     = $shoppingCartPageID;
             $page->write();
