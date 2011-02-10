@@ -55,6 +55,7 @@ class ArticleAdmin extends ModelAdmin {
      */
     public function  __construct() {
         self::$menu_title = _t('Article.SINGULARNAME');
+
         parent::__construct();
     }
 }
