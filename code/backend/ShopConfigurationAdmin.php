@@ -70,7 +70,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function __construct() {
-        self::$menu_title = _t('ShopConfigurationAdmin.SILVERCART_CONFIG', 'silvercart configuration');
+        self::$menu_title = _t('ShopConfigurationAdmin.SILVERCART_CONFIG', 'Silvercart Konfiguration');
         parent::__construct();
     }
 

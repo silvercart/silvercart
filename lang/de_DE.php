@@ -805,7 +805,7 @@ $lang['de_DE']['ShippingMethodTexts']['SINGULARNAME'] = array(
 $lang['de_DE']['ShopAdmin']['PAYMENT_ISACTIVE'] = 'aktiviert';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
-$lang['de_DE']['ShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Konfiguration';
+$lang['de_DE']['ShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'Silvercart Konfiguration';
 $lang['de_DE']['ShopEmail']['PLURALNAME'] = array(
     'Shop Emails',
     50,
