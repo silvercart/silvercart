@@ -20,7 +20,7 @@
 
                 <tbody>
             
-                    <% control positions %>
+                    <% control Top.positions %>
                         <tr<% if Last %> class="separator"<% end_if %>>
                             <td>$article.Title</td>
                             <td class="right">$article.Price.Nice</td>
@@ -29,8 +29,8 @@
                             <td class="right">$Price.Nice</td>
 
                             <% if Top.EditableShoppingCart %>
-                                <td>$decrementAmountForm $incrementAmountForm</td>
-                                <td>$removeFromCartForm</td>
+                                <td>$IncrementPositionQuantityForm $DecrementPositionQuantityForm</td>
+                                <td>$RemovePositionForm</td>
                             <% end_if %>
                         </tr>
                     <% end_control %>
