@@ -32,7 +32,7 @@
                         <div class="c50r">
                             <div class="subcolumns">
                                 <div class="c50l" id="Customer">
-                                    <% if MemberInformation %>
+                                    <% if CurrentRegisteredCustomer %>
                                     <a class="button" id="myaccount" href="/meinkonto/"><% _t('Page.MYACCOUNT', 'my account') %></a>
                                     <a class="button" id="logout" href="/home/logout/">Logout</a>
                                     <% else %>

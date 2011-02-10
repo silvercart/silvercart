@@ -5,7 +5,7 @@
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 15.11.10
- * @license BSD
+ * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  */
 class RegisterWelcomePage extends Page {
@@ -21,7 +21,7 @@ class RegisterWelcomePage extends Page {
  * controller peer
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license BSD
+ * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */

@@ -399,11 +399,11 @@ $lang['de_DE']['MyAccountHolder']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['MyAccountHolder']['TITLE'] = 'mein Konto';
-$lang['de_DE']['MyAccountHolder']['URL_SEGMENT'] = 'myaccount';
-$lang['de_DE']['Order']['CONFIRMED'] = 'confirmed?';
-$lang['de_DE']['Order']['CUSTOMER'] = 'customer';
-$lang['de_DE']['Order']['ORDER_ID'] = 'order id';
-$lang['de_DE']['Order']['ORDER_VALUE'] = 'order value';
+$lang['de_DE']['MyAccountHolder']['URL_SEGMENT'] = 'mein-konto';
+$lang['de_DE']['Order']['CONFIRMED'] = 'bestätigt?';
+$lang['de_DE']['Order']['CUSTOMER'] = 'Kunde';
+$lang['de_DE']['Order']['ORDER_ID'] = 'Bestellnummer';
+$lang['de_DE']['Order']['ORDER_VALUE'] = 'Bestellwert';
 $lang['de_DE']['Order']['PLURALNAME'] = array(
     'Bestellung',
     50,
@@ -767,7 +767,7 @@ $lang['de_DE']['ShippingFee']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ShippingFee']['ZONE_WITH_DESCRIPTION'] = 'zone (only carrier\'s zones available)';
+$lang['de_DE']['ShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (nur Zonen des Frachtführers verfügbar)';
 $lang['de_DE']['ShippingFeesPage']['PLURALNAME'] = array(
     'Versandgebührenseiten',
     50,
@@ -802,10 +802,10 @@ $lang['de_DE']['ShippingMethodTexts']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['ShopAdmin']['PAYMENT_ISACTIVE'] = 'activated';
+$lang['de_DE']['ShopAdmin']['PAYMENT_ISACTIVE'] = 'aktiviert';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['ShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
-$lang['de_DE']['ShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'silvercart configuration';
+$lang['de_DE']['ShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Konfiguration';
 $lang['de_DE']['ShopEmail']['PLURALNAME'] = array(
     'Shop Emails',
     50,
@@ -842,7 +842,7 @@ $lang['de_DE']['Tax']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['de_DE']['Tax']['RATE_IN_PERCENT'] = 'Steuersatz in %%';
+$lang['de_DE']['Tax']['RATE_IN_PERCENT'] = 'Steuersatz in %';
 $lang['de_DE']['Tax']['SINGULARNAME'] = array(
     'Steuersatz',
     50,

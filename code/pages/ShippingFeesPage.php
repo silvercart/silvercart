@@ -6,7 +6,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010
- * @license BSD
+ * @license LGPL
  */
 class ShippingFeesPage extends Page {
     public static $singular_name = "";

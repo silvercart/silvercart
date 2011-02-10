@@ -7,7 +7,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 20.10.2010
- * @license BSD
+ * @license LGPL
  */
 class RegistrationPage extends Page {
 
@@ -140,7 +140,7 @@ class RegistrationPage extends Page {
  * Controller of this page type
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license BSD
+ * @license LGPL
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */

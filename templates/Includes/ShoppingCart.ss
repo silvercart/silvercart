@@ -9,18 +9,16 @@
             <th></th>
             <th></th>
         </tr>
-        <% control CurrentMember %>
-            <% control shoppingCart %>
                 <% control positions %>
                 <tr>
                     <td><a href="$article.Link">$article.Title</a></td>
                     <td>$article.Price.Nice</td>
                     <td class="Amount">$Quantity</td>
                     <td class="Amount">$Price.Nice</td>
-                    <td>$decrementAmountForm $incrementAmountForm</td>
-                    <td>$removeFromCartForm</td>
+                    <td>$IncrementPositionQuantityForm $DecrementPositionQuantityForm</td>
+                    <td>$RemovePositionForm</td>
                 </tr>
-                <% end_control %>
+                <% control article %>
             <tr>
                 <td></td>
                 <td></td>
@@ -39,7 +37,8 @@
                 <td></td>
             </tr>
             <% end_control %>
-        <% end_control %>
+                <% end_control %>
+
      </table>
     <% else %>
      <p>Ihr Warenkorb ist leer.</p>

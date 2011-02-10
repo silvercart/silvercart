@@ -6,7 +6,7 @@
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @license BSD
+ * @license LGPL
  * @since 20.10.2010
  */
 class RegisterConfirmationPage extends Page {

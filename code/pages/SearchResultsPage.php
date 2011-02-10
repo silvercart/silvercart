@@ -5,7 +5,7 @@
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
- * @license BSD
+ * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  */
 class SearchResultsPage extends Page {
@@ -42,7 +42,7 @@ class SearchResultsPage extends Page {
  * correlating controller
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license BSD
+ * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */

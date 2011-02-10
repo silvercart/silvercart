@@ -58,7 +58,7 @@ class PaymentNotification extends Page {
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 23.11.2010
- * @license none
+ * @license LGPL
  */
 class PaymentNotification_Controller extends Page_Controller {
     

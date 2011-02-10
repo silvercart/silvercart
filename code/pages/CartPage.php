@@ -36,6 +36,7 @@ class CartPage extends Page {
     }
 
 }
+
 /**
  * related controller
  *
@@ -57,7 +58,7 @@ class CartPage_Controller extends Page_Controller {
      * @since 21.01.2011
      */
     public function init() {
-        $registeredModules  = ShoppingCart::$registeredModules;
+        $registeredModules = ShoppingCart::$registeredModules;
 
         foreach ($registeredModules as $registeredModule) {
             $registeredModuleObj = new $registeredModule();
@@ -66,7 +67,60 @@ class CartPage_Controller extends Page_Controller {
                 $registeredModuleObj->ShoppingCartInit();
             }
         }
-        
+
+        //create and register forms for shopping cart manipulation
+        $member = Member::currentUser();
+        if ($member) {
+            $cart = $member->shoppingCart();
+            if ($cart) {
+                $positions = $cart->positions();
+                if ($positions) {
+                    $this->positions = $positions;
+                    $positionIndex = 0;
+                    foreach ($this->positions as $position) {
+                        $this->registerCustomHtmlForm('IncrementPositionQuantityForm' . $positionIndex, new IncrementPositionQuantityForm($this, array('positionID' => $position->ID)));
+                        $this->registerCustomHtmlForm('DecrementPositionQuantityForm' . $positionIndex, new DecrementPositionQuantityForm($this, array('positionID' => $position->ID)));
+                        $this->registerCustomHtmlForm('RemovePositionForm' . $positionIndex, new RemovePositionForm($this, array('positionID' => $position->ID)));
+
+                        $position->IncrementPositionQuantityForm = $this->InsertCustomHtmlForm(
+                                        'IncrementPositionQuantityForm' . $positionIndex,
+                                        array(
+                                            $position
+                                        )
+                        );
+                        $position->DecrementPositionQuantityForm = $this->InsertCustomHtmlForm(
+                                        'DecrementPositionQuantityForm' . $positionIndex,
+                                        array(
+                                            $position
+                                        )
+                        );
+                        $position->RemovePositionForm = $this->InsertCustomHtmlForm(
+                                        'RemovePositionForm' . $positionIndex,
+                                        array(
+                                            $position
+                                        )
+                        );
+                        $positionIndex++;
+                    }
+                }
+            }
+        }
         parent::init();
     }
+
+    /**
+     * Return the current members cart positions for frontend
+     *
+     * @return DataObjectSet | false Returns the current members cart positions.
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 9.2.2011
+     */
+    public function getPositions() {
+        if ($this->positions) {
+            return $this->positions;
+        } else {
+            return false;
+        }
+    }
+
 }
