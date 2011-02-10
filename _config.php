@@ -33,7 +33,6 @@ i18n::set_default_locale('de_DE');
 Object::add_extension('SiteTree', 'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
 Object::add_extension('Member', 'CustomerRole');
-//Object::add_extension('CMSMain', 'CMSActionDecorator'); //for adding an new form action to the CMS
 
 $path    = dirname(__FILE__).'/';
 $relPath = substr(Director::makeRelative($path), 1);
