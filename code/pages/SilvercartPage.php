@@ -228,20 +228,6 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * This function is used to return the Latest Blogentries
-     *
-     * @return DataObjectSet blog entries
-     * @author Oliver <info@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
-     */
-    public function LatestBlogEntry() {
-
-        $blogEntry = DataObject::get("BlogEntry", "", "Created DESC", "", 1);
-
-        return $blogEntry;
-    }
-
-    /**
      * This function is used to return the current count of shopping Cart positions
      *
      * @return Integer $shoppingCartPositions Anzahl der Positionen im Warenkorb
@@ -256,6 +242,23 @@ class SilvercartPage_Controller extends ContentController {
         if ($member) {
             $shoppingCartPositions = DataObject::get("ShoppingCartPosition", "\"shoppingCartID\" = '$member->shoppingCartID'");
             return Count($shoppingCartPositions);
+        }
+    }
+
+    /**
+     * determin weather a cart is filled or empty; usefull for template conditional
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 1.11.2010
+     * @return boolean is cart filled?
+     */
+    public function isFilledCart() {
+        $customer = Member::currentUser();
+
+        if ($customer && $customer->hasMethod('shoppingCart') && $customer->shoppingCart()->positions()->Count() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
