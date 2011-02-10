@@ -53,7 +53,7 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $has_one = array(
-        'carrier' => 'Carrier'
+        'carrier'   => 'Carrier'
     );
     /**
      * Has-many relationship.

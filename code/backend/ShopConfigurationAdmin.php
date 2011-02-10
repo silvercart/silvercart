@@ -28,7 +28,8 @@ class ShopConfigurationAdmin extends ModelAdmin {
         'ShippingFee',
         'Carrier',
         'Tax',
-        'OrderStatus'
+        'OrderStatus',
+        'ShopEmail'
     );
     /**
      * The URL segment
@@ -49,7 +50,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $menu_title = 'silvercart configuration';
+    public static $menu_title = 'Silvercart Konfiguration';
     /**
      * The collection controller class to use for the shop configuration.
      *

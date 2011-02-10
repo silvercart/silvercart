@@ -55,22 +55,34 @@ class CheckoutFormStep5 extends CustomHtmlForm {
 
         if (!$this->paymentMethodObj) {
             $this->paymentMethodObj = DataObject::get_by_id(
-                            'PaymentMethod',
-                            $checkoutData['PaymentMethod']
+                'PaymentMethod',
+                $checkoutData['PaymentMethod']
             );
         }
 
         if ($this->paymentMethodObj) {
             $this->paymentMethodObj->setController($this->controller);
             $orderAmount = $member->ShoppingCart()->getAmountTotal();
-            $taxAmount = $member->ShoppingCart()->getTax();
-            $taxRate = 0;
+            $taxes       = $member->ShoppingCart()->getTaxRatesWithoutFees();
+            $taxRates    = array();
+            $this->paymentMethodObj->setData('order', 'taxes', array());
+
+            foreach ($taxes as $tax) {
+                $taxRates[] = array(
+                    'rate'   => $tax->Rate,
+                    'amount' => $tax->Amount->getAmount()
+                );
+            }
+
+            $this->paymentMethodObj->setData(
+                'order',
+                'taxes',
+                $taxRates
+            );
 
             $this->paymentMethodObj->setCancelLink(Director::absoluteURL($this->controller->Link()) . 'Cancel');
             $this->paymentMethodObj->setReturnLink(Director::absoluteURL($this->controller->Link()));
             $this->paymentMethodObj->setData('order', 'amount_gross', $orderAmount->getAmount());
-            $this->paymentMethodObj->setData('order', 'tax_amount_gross', $taxAmount->getAmount());
-            $this->paymentMethodObj->setData('order', 'tax_rate', $taxRate);
             $this->paymentMethodObj->setData('customer', array('details', 'FirstName'), $member->FirstName);
             $this->paymentMethodObj->setData('customer', array('details', 'SurName'), $member->Surname);
             $this->paymentMethodObj->setData('customer', array('deliveryAddress', 'FirstName'), $member->FirstName);

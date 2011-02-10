@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A carrier has many shipping fees.
  * They mainly depend on the freights weight.
@@ -20,7 +19,8 @@ class ShippingFee extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    static $singular_name = "shipping fee";
+    static $singular_name = "Versandtarif";
+
     /**
      * Plural name
      *
@@ -30,7 +30,8 @@ class ShippingFee extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    static $plural_name = "shipping fees";
+    static $plural_name = "Versandtarife";
+
     /**
      * Attributes.
      *
@@ -41,9 +42,10 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'MaximumWeight' => 'Int', //gramms
-        'Price' => 'Money'
+        'MaximumWeight' => 'Int',   //gramms
+        'Price'         => 'Money'
     );
+
     /**
      * Has-one relationships.
      *
@@ -54,9 +56,11 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $has_one = array(
-        'zone' => 'Zone',
-        'shippingMethod' => 'ShippingMethod'
+        'zone'              => 'Zone',
+        'shippingMethod'    => 'ShippingMethod',
+        'Tax'               => 'Tax'
     );
+
     /**
      * Has-many Relationship.
      *
@@ -69,6 +73,7 @@ class ShippingFee extends DataObject {
     public static $has_many = array(
         'orders' => 'Order'
     );
+
     /**
      * Summaryfields for display in tables.
      *
@@ -79,11 +84,12 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'zone.Title' => 'Für Zone',
+        'zone.Title'                => 'Für Zone',
         'AttributedShippingMethods' => 'Zugeordnete Versandart',
-        'MaximumWeight' => 'Maximalgewicht (g)',
-        'PriceFormatted' => 'Kosten'
+        'MaximumWeight'             => 'Maximalgewicht (g)',
+        'PriceFormatted'            => 'Kosten'
     );
+
     /**
      * Column labels for display in tables.
      *
@@ -94,11 +100,12 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $field_labels = array(
-        'MaximumWeight' => 'Maximalgewicht (g)',
-        'Price' => 'Kosten',
-        'zone.Title' => 'Für Zone',
+        'MaximumWeight'             => 'Maximalgewicht (g)',
+        'Price'                     => 'Kosten',
+        'zone.Title'                => 'Für Zone',
         'AttributedShippingMethods' => 'Zugeordnete Versandart'
     );
+
     /**
      * List of searchable fields for the model admin
      *
@@ -117,6 +124,7 @@ class ShippingFee extends DataObject {
             'title' => 'Für Versandart'
         )
     );
+
     /**
      * Virtual database fields.
      *
@@ -127,7 +135,7 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'PriceFormatted' => 'Varchar(20)',
+        'PriceFormatted'            => 'Varchar(20)',
         'AttributedShippingMethods' => 'Varchar(255)'
     );
 
@@ -168,7 +176,7 @@ class ShippingFee extends DataObject {
         );
         parent::__construct($record, $isSingleton);
     }
-
+    
     /**
      * Set a custom search context for fields like "greater than", "less than",
      * etc.
@@ -180,14 +188,14 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public function getDefaultSearchContext() {
-        $fields = $this->scaffoldSearchFields();
-        $filters = array(
-            'MaximumWeight' => new LessThanFilter('MaximumWeight')
+        $fields     = $this->scaffoldSearchFields();
+        $filters    = array(
+            'MaximumWeight'             => new LessThanFilter('MaximumWeight')
         );
         return new SearchContext(
-                $this->class,
-                $fields,
-                $filters
+            $this->class,
+            $fields,
+            $filters
         );
     }
 
@@ -201,24 +209,26 @@ class ShippingFee extends DataObject {
      * @since 8.11.10
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
+       $fields = parent::getCMSFields();
 
-        /**
-         * only the carriers zones must be selectable
-         */
-        $fields->removeByName('zone');
-        $filter = sprintf("`carrierID` = %s", $this->shippingMethod()->carrier()->ID);
-        $zones = DataObject::get('Zone', $filter);
-        if ($zones) {
-            $fields->addFieldToTab(
-                    "Root.Main",
-                    new DropdownField('zoneID', _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                            $zones->toDropDownMap('ID', 'Title', _t('ShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
-                    )
-            );
+       /**
+        * only the carriers zones must be selectable
+        */
+       $fields->removeByName('zone');
+       $filter  = sprintf("`carrierID` = %s", $this->shippingMethod()->carrier()->ID);
+       $zones   = DataObject::get('Zone', $filter);
+       if ($zones) {
+           $fields->addFieldToTab(
+                "Root.Main",
+                new DropdownField(
+                    'zoneID',
+                    _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
+                   $zones->toDropDownMap('ID', 'Title', _t('ShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
+                )
+           );
         }
 
-        return $fields;
+       return $fields;
     }
 
     /**
@@ -245,8 +255,8 @@ class ShippingFee extends DataObject {
      */
     public function AttributedShippingMethods() {
         $attributedShippingMethodsStr = '';
-        $attributedShippingMethods = array();
-        $maxLength = 150;
+        $attributedShippingMethods    = array();
+        $maxLength          = 150;
 
         foreach ($this->shippingMethod() as $shippingMethod) {
             $attributedShippingMethods[] = $shippingMethod->Title;
@@ -256,12 +266,26 @@ class ShippingFee extends DataObject {
             $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
 
             if (strlen($attributedShippingMethodsStr) > $maxLength) {
-                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength) . '...';
+                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
             }
         }
 
         return $attributedShippingMethodsStr;
     }
 
+    /**
+     * returns the tax amount included in $this
+     *
+     * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getTaxAmount() {
+        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->Tax()->Rate) * 100);
+
+        return $taxRate;
+    }
 }
 

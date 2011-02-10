@@ -110,7 +110,7 @@ class CartPage_Controller extends Page_Controller {
 
     /**
      * Return the current members cart positions for frontend
-     *
+     * 
      * @return DataObjectSet | false Returns the current members cart positions.
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 9.2.2011
@@ -121,6 +121,19 @@ class CartPage_Controller extends Page_Controller {
         } else {
             return false;
         }
+    }
+
+    /** Indicates wether ui elements for removing items and altering their
+     * quantity should be shown in the shopping cart templates.
+     *
+     * @return boolean true
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getEditableShoppingCart() {
+        return true;
     }
 
 }

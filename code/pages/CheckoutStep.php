@@ -22,15 +22,28 @@ class CheckoutStep extends CustomHtmlFormStepPage {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-
-        $records = DataObject::get_one($this->ClassName);
+        $shoppingCartPageID = 1;
+        $records            = DataObject::get_one($this->ClassName);
         if (!$records) {
-            $page               = new $this->ClassName();
-            $page->Title        = _t('Page.CHECKOUT');
-            $page->URLSegment   = _t('CheckoutStep.URL_SEGMENT', 'checkout');
-            $page->Status       = "Published";
-            $page->ShowInMenus  = true;
-            $page->ShowInSearch = true;
+
+            // Set the ShoppingCartPage ID if available
+            $shoppingCartPage = DataObject::get_one(
+                'CartPage'
+            );
+
+            if ($shoppingCartPage) {
+                $shoppingCartPageID = $shoppingCartPage->ID;
+            }
+
+            $page                   = new $this->ClassName();
+            $page->Title            = _t('Page.CHECKOUT');
+            $page->URLSegment       = _t('CheckoutStep.URL_SEGMENT', 'checkout');
+            $page->Status           = "Published";
+            $page->ShowInMenus      = true;
+            $page->ShowInSearch     = true;
+            $page->basename         = 'CheckoutFormStep';
+            $page->showCancelLink   = true;
+            $page->cancelPageID     = $shoppingCartPageID;
             $page->write();
             $page->publish("Stage", "Live");
         }
@@ -82,6 +95,21 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
 
         parent::init();
+
+        // Inject payment and shippingmethods to shoppingcart, if available
+        $member = Member::currentUser();
+        
+        if ($member) {
+            $stepData       = $this->getCombinedStepData();
+            $shoppingCart   = $member->shoppingCart();
+
+            if (isset($stepData['ShippingMethod'])) {
+                $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);
+            }
+            if (isset($stepData['PaymentMethod'])) {
+                $shoppingCart->setPaymentMethodID($stepData['PaymentMethod']);
+            }
+        }
     }
 
     /**
@@ -143,191 +171,6 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
     }
 
     /**
-     * Returns the shipping method title.
-     *
-     * @return string
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
-     */
-    public function CarrierAndShippingMethodTitle() {
-        $checkoutData = $this->getCombinedStepData();
-        $title = '';
-
-        $selectedShippingMethod = DataObject::get_by_id(
-            'ShippingMethod',
-            $checkoutData['ShippingMethod']
-        );
-
-        if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
-        }
-
-        return $title;
-    }
-
-    /**
-     * Returns the handling costs for the chosen shipping method.
-     *
-     * @return Money
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
-     */
-    public function HandlingCostShipment() {
-        $checkoutData = $this->getCombinedStepData();
-        $handlingCostShipment = 0;
-
-        $selectedShippingMethod = DataObject::get_by_id(
-                        'ShippingMethod',
-                        $checkoutData['ShippingMethod']
-        );
-
-        if ($selectedShippingMethod) {
-            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
-        } else {
-            $handlingCostShipmentObj = new Money();
-            $handlingCostShipmentObj->setAmount($handlingCostShipment);
-        }
-
-        return $handlingCostShipmentObj;
-    }
-
-    /**
-     * Returns the payment method object.
-     *
-     * @return PaymentMethod
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
-     */
-    public function getPayment() {
-        $checkoutData = $this->getCombinedStepData();
-
-        $paymentMethodObj = DataObject::get_by_id(
-            'PaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
-
-        return $paymentMethodObj;
-    }
-
-    /**
-     * Returns the handling costs for the chosen payment method.
-     *
-     * @return Money
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
-     */
-    public function HandlingCostPayment() {
-        $checkoutData = $this->getCombinedStepData();
-        $handlingCostPayment = 0;
-
-        $paymentMethodObj = DataObject::get_by_id(
-            'PaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
-
-        if ($paymentMethodObj) {
-            $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
-        } else {
-            $handlingCostPaymentObj = new Money();
-            $handlingCostPaymentObj->setAmount(0);
-        }
-
-        return $handlingCostPaymentObj;
-    }
-
-    /**
-     * Returns the price of the cart positions.
-     *
-     * @return string a price amount
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
-     */
-    public function getTaxableAmountGrossWithoutFees() {
-        $member         = Member::currentUser();
-        $shoppingCart   = $member->shoppingCart();
-        $amountTotal    = 0;
-
-        if ($shoppingCart && $shippingMethod) {
-            $amountTotal = $shoppingCart->getAmountTotal()->getAmount();
-        }
-
-        $amountTotalObj = new Money;
-        $amountTotalObj->setAmount($amountTotal);
-
-        return $amountTotalObj;
-    }
-
-    /**
-     * Returns the price of the cart positions + fees.
-     *
-     * @return string a price amount
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
-     */
-    public function getTaxableAmountGrossWithFees() {
-        $member         = Member::currentUser();
-        $stepData       = $this->getCombinedStepData();
-        $shoppingCart   = $member->shoppingCart();
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
-        $amountTotal    = 0;
-
-        if ($shoppingCart && $shippingMethod) {
-            $shippingFee  = $shippingMethod->getShippingFee()->Price->getAmount();
-            $priceSumCart = $shoppingCart->getTaxableAmountGrossWithoutFees()->getAmount();
-
-            if ($shippingFee && $priceSumCart) {
-                $amountTotal = $shippingFee + $priceSumCart;
-            }
-        }
-
-        $amountTotalObj = new Money;
-        $amountTotalObj->setAmount($amountTotal);
-
-        return $amountTotalObj;
-    }
-
-    /**
-     * Returns the end sum of the cart (taxable positions + nontaxable
-     * positions + fees).
-     *
-     * @return string a price amount
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
-     */
-    public function getAmountTotal() {
-        $member         = Member::currentUser();
-        $stepData       = $this->getCombinedStepData();
-        $shoppingCart   = $member->shoppingCart();
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
-        $amountTotal    = 0;
-
-        if ($shoppingCart && $shippingMethod) {
-            $shippingFee  = $shippingMethod->getShippingFee()->Price->getAmount();
-            $priceSumCart = $shoppingCart->getAmountTotal()->getAmount();
-            $amountTotal  = $shippingFee + $priceSumCart;
-        }
-
-        $amountTotalObj = new Money;
-        $amountTotalObj->setAmount($amountTotal);
-
-        return $amountTotalObj;
-    }
-
-    /**
      * Fügt den Versandadressdaten ein Präfix hinzu.
      *
      * @param string $prefix Präfix
@@ -366,4 +209,20 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         return $addressData;
     }
 
+    /**
+     * Indicates wether ui elements for removing items and altering their
+     * quantity should be shown in the shopping cart templates.
+     *
+     * During the checkout process the user may not be able to alter the
+     * shopping cart.
+     *
+     * @return boolean false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getEditableShoppingCart() {
+        return false;
+    }
 }
