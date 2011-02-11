@@ -78,10 +78,6 @@ class ArticlePage_Controller extends Page_Controller {
         $this->articleAddCartForm = $this->InsertCustomHtmlForm('ArticleAddCartForm');
     }
 
-    /* public static $url_handlers = array(
-      'artikelansicht/$ID/$Name' => 'order'
-      ); */
-
     /**
      * Returns one Article by ID
      *
@@ -92,10 +88,10 @@ class ArticlePage_Controller extends Page_Controller {
     public function getArticle() {
         $id = (int) $this->urlParams['ID'];
         if ($id) {
-            $article = Article::get("\"ID\" = $id");
+            $article = Article::get("`Article`.`ID` = $id");
         } elseif (Session::get('articleID') > 0) {
             $id = Session::get('articleID');
-            $article = Article::get("\"ID\" = $id");
+            $article = Article::get("`Article`.`ID` = $id");
         }
         if ($article == "") {
             Director::redirectBack();
