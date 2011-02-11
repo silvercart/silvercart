@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Increment a cart positions quantity;
  * only a button
@@ -7,7 +6,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 09.02.2011
- * @license BSD
+ * @license lgpl
  */
 class IncrementPositionQuantityForm extends CustomHtmlForm {
 
@@ -21,13 +20,12 @@ class IncrementPositionQuantityForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle' => '+',
-        'doJsValidationScrolling' => false
+        'submitButtonTitle'         => '+',
+        'doJsValidationScrolling'   => false
     );
 
     /**
-     * executed if there are no valdation errors on submit
-     * Form data is saved in session
+     * executed if there are no validation errors on submit
      *
      * @param SS_HTTPRequest $data     contains the frameworks form data
      * @param Form           $form     not used
@@ -38,7 +36,6 @@ class IncrementPositionQuantityForm extends CustomHtmlForm {
      * @return void
      */
     protected function submitSuccess($data, $form, $formData) {
-        
         if ($formData['positionID']) {
             
             //check if the position belongs to this user. Malicious people could manipulate it.
@@ -52,6 +49,5 @@ class IncrementPositionQuantityForm extends CustomHtmlForm {
             }
         }
     }
-
 }
 

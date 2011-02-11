@@ -19,8 +19,7 @@
                 </thead>
 
                 <tbody>
-            
-                    <% control Top.positions %>
+                    <% control positions %>
                         <tr<% if Last %> class="separator"<% end_if %>>
                             <td>$article.Title</td>
                             <td class="right">$article.Price.Nice</td>

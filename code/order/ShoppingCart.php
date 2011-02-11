@@ -87,47 +87,25 @@ class ShoppingCart extends DataObject {
      */
     protected $shippingMethodID;
 
-    /**
-     * Set initial values.
-     *
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
-     *                                   field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                   don't have their defaults set.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public function __construct($record = null, $isSingleton = false) {
+    public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
 
         $this->shippingMethodID = 0;
-        $this->paymentMethodID = 0;
-    }
+        $this->paymentMethodID  = 0;
 
-    /**
-     * initialisation
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 25.01.2011
-     */
-    public function init() {
-        parent::init();
-
-        $this->paymentMethodID = 0;
-        $this->shippingMethodID = 0;
         $this->callMethodOnRegisteredModules(
-                'performShoppingCartConditionsCheck',
-                array(
-                    $this,
-                    Member::currentUser()
-                )
+            'performShoppingCartConditionsCheck',
+            array(
+                $this,
+                Member::currentUser()
+            )
+        );
+        $this->callMethodOnRegisteredModules(
+            'ShoppingCartInit',
+            array(
+                $this,
+                Member::currentUser()
+            )
         );
     }
 
@@ -668,8 +646,8 @@ class ShoppingCart extends DataObject {
      */
     public static function registerModule($module) {
         array_push(
-                self::$registeredModules,
-                $module
+            self::$registeredModules,
+            $module
         );
     }
 
@@ -768,11 +746,11 @@ class ShoppingCart extends DataObject {
                     }
 
                     $outputOfModules[$registeredModule] = call_user_func_array(
-                                    array(
-                                        $registeredModuleObj,
-                                        $methodName
-                                    ),
-                                    $parameters
+                        array(
+                            $registeredModuleObj,
+                            $methodName
+                        ),
+                        $parameters
                     );
                 }
             }
