@@ -538,6 +538,7 @@ class Order extends DataObject {
         if ($shoppingCartPositions) {
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
                 $article = $shoppingCartPosition->article();
+
                 if ($article) {
                     $orderPosition = new OrderPosition();
                     $orderPosition->Price->setAmount($article->Price->getAmount());
@@ -552,6 +553,12 @@ class Order extends DataObject {
                     $orderPosition->Title               = $article->Title;
                     $orderPosition->orderID             = $this->ID;
                     $orderPosition->articleID           = $article->ID;
+
+                    // Call hook method on article if available
+                    if ($article->hasMethod('ShoppingCartConvert')) {
+                        $article->ShoppingCartConvert($this, $orderPosition);
+                    }
+
                     $orderPosition->write();
                     unset($orderPosition);
                 }

@@ -71,25 +71,28 @@ class ShoppingCartPosition extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        
-        $controller     = Controller::curr();
-        $positionForms  = array(
-            'IncrementPositionQuantityForm',
-            'DecrementPositionQuantityForm',
-            'RemovePositionForm'
-        );
 
-        foreach ($positionForms as $positionForm) {
-            if (!$controller->getRegisteredCustomHtmlForm($positionForm.$this->ID)) {
-                $controller->registerCustomHtmlForm(
-                    $positionForm.$this->ID,
-                    new $positionForm(
-                        $controller,
-                        array(
-                            'positionID' => $this->ID
+        $controller     = Controller::curr();
+
+        if ($controller->hasMethod('getRegisteredCustomHtmlForm')) {
+            $positionForms  = array(
+                'IncrementPositionQuantityForm',
+                'DecrementPositionQuantityForm',
+                'RemovePositionForm'
+            );
+
+            foreach ($positionForms as $positionForm) {
+                if (!$controller->getRegisteredCustomHtmlForm($positionForm.$this->ID)) {
+                    $controller->registerCustomHtmlForm(
+                        $positionForm.$this->ID,
+                        new $positionForm(
+                            $controller,
+                            array(
+                                'positionID' => $this->ID
+                            )
                         )
-                    )
-                );
+                    );
+                }
             }
         }
     }
