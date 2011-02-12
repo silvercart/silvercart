@@ -5,7 +5,7 @@
         <% if CurrentMember.shippingAddress %>
             <% control CurrentMember.shippingAddress %>
                 <% include AddressTable %>
-                <a href="/<% _t('MyAccountHolder.URL_SEGMENT') %>/<% _t('AddressHolder.URL_SEGMENT') %>/<% _t('AddressPage.URL_SEGMENT') %>/{$ID}"><% _t('AddressHolder.EDIT','edit') %></a>
+                <a href="/my-account/address-overview/address-details/{$ID}"><% _t('AddressHolder.EDIT','edit') %></a>
             <% end_control %>
         <% else %>
             <p>
@@ -20,7 +20,7 @@
             <% if CurrentMember.invoiceAddress %>
                 <% control CurrentMember.invoiceAddress %>
                     <% include AddressTable %>
-                        <a href="/<% _t('MyAccountHolder.URL_SEGMENT') %>/<% _t('AddressHolder.URL_SEGMENT') %>/<% _t('AddressPage.URL_SEGMENT') %>/{$ID}"><% _t('AddressHolder.EDIT','edit') %></a>
+                        <a href="/my-account/address-overview/address-details/{$ID}"><% _t('AddressHolder.EDIT','edit') %></a>
                     <% end_control %>
             <% else %>
                 <p>
