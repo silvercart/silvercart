@@ -56,8 +56,7 @@ class OrderStatus extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'orders' => 'Order',
-        'payments' => 'PaymentMethod'
+        'orders' => 'Order'
     );
 
     // -----------------------------------------------------------------------
