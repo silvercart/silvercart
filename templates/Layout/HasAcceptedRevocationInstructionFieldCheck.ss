@@ -8,6 +8,6 @@
             <% end_control %>
         </div>
     <% end_if %>
-    <label for="{$FormName}_{$FieldName}"><% _t('Page.I_HAVE_READ','I have read the') %> <a href="/<% _t('MetaNavigationHolder.URL_SEGMENT') %>/<% _t('DataPrivacyStatementPage.URL_SEGMENT') %>"><% _t('Page.REVOCATION','revocation instructions') %>:</a></label>
+    <label for="{$FormName}_{$FieldName}"><% _t('Page.I_HAVE_READ','I have read the') %> <a href="$PageByClassName(DataPrivacyStatementPage).Link"><% _t('Page.REVOCATION','revocation instructions') %>:</a></label>
     $FieldTag
 </div>

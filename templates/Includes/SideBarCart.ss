@@ -25,7 +25,7 @@
                         <% end_control %>
                     <% end_control %>
                 </table>
-            <a href="{$baseHref}warenkorb"><strong class="ShoppingCart"><% _t('Page.GOTO_CART', 'go to cart') %></strong></a>
+            <a href="$PageByClassName(CartPage).Link"><strong class="ShoppingCart"><% _t('Page.GOTO_CART', 'go to cart') %></strong></a>
         </div>
     </div>
 <% end_if %>

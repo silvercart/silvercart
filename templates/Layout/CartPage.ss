@@ -5,7 +5,7 @@
         <% include ShoppingCart %>
         <% if isFilledCart %>
         <div>
-            <a class="detailButton" href="{$BaseHref}checkout/"><strong class="ShoppingCart"><% _t('Page.CHECKOUT') %></strong></a>
+            <a class="detailButton" href="$PageByClassName(CheckoutStep).Link"><strong class="ShoppingCart"><% _t('Page.CHECKOUT') %></strong></a>
         </div>
         <% end_if %>
         $Form

@@ -262,4 +262,23 @@ class SilvercartPage_Controller extends ContentController {
         }
     }
 
+    /**
+     * returns a single page by its class name
+     * used to retrieve links dynamically
+     *
+     * @param string $className the classes name
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.2.11
+     * @return DataObject | false a single object of the site tree
+     */
+    public function PageByClassName($className) {
+        $page = DataObject::get_one($className, "`Status` = 'Published'");
+        if ($page) {
+            return $page;
+        } else {
+            return false;
+        }
+    }
+
 }

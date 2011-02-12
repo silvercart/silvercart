@@ -9,6 +9,6 @@
         </div>
     <% end_if %>
 
-    <label for="{$FormName}_{$FieldName}"><% _t('Page.I_ACCEPT','I accept the') %> <a href="/<% _t('MetaNavigationHolder.URL_SEGMENT') %>/<% _t('Page.URL_SEGMENT_TERMS') %>"><% _t('Page.TITLE_TERMS') %>:</a> </label>
+    <label for="{$FormName}_{$FieldName}"><% _t('Page.I_ACCEPT','I accept the') %> <a href="{$PageByClassName(MetaNavigationHolder).Link}<% _t('Page.URL_SEGMENT_TERMS') %>"><% _t('Page.TITLE_TERMS') %>:</a> </label>
     $FieldTag
 </div>
