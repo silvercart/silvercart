@@ -9,8 +9,8 @@ Article::setRequiredAttributes("Price");
 // ----------------------------------------------------------------------------
 Director::addRules(100, array(
     'artikelansicht/$ID/$Name'                      => 'ArticlePage_Controller',
-    'meinkonto/adressuebersicht/$URLSegment!/$ID'   => 'AddressPage_Controller',
-    'meinkonto/bestelluebersicht/$URLSegment!/$ID'  => 'OrderDetailPage_Controller'
+    'mein-konto/adressuebersicht/$URLSegment!/$ID'   => 'AddressPage_Controller',
+    'mein-konto/bestelluebersicht/$URLSegment!/$ID'  => 'OrderDetailPage_Controller'
 ));
 
 // ----------------------------------------------------------------------------

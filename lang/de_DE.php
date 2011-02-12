@@ -51,7 +51,7 @@ $lang['de_DE']['AddressHolder']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['AddressHolder']['TITLE'] = 'Adressübersicht';
-$lang['de_DE']['AddressHolder']['URL_SEGMENT'] = 'addressuebersicht';
+$lang['de_DE']['AddressHolder']['URL_SEGMENT'] = 'adressuebersicht';
 $lang['de_DE']['AddressPage']['PLURALNAME'] = array(
     'Adressseiten',
     50,
