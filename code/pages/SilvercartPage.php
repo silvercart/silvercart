@@ -127,7 +127,7 @@ class SilvercartPage_Controller extends ContentController {
 
         // Get address type
         $address = DataObject::get_by_id($context->getSection(), $this->urlParams['ID']);
-        $parts[] = $address->singular_name();
+        $parts[] = $address->i18n_singular_name();
 
         $i = 0;
         while (
