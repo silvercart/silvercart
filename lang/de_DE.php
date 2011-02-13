@@ -861,6 +861,7 @@ $lang['de_DE']['TermsAndConditionsPage']['SINGULARNAME'] = array(
 $lang['de_DE']['Zone']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
 $lang['de_DE']['Zone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'zugeordnete Versandart';
 $lang['de_DE']['Zone']['COUNTRIES'] = 'Länder';
+$lang['de_DE']['Zone']['DOMESTIC'] = 'Inland';
 $lang['de_DE']['Zone']['FOR_COUNTRIES'] = 'für Länder';
 $lang['de_DE']['Zone']['PLURALNAME'] = array(
     'Zonen',

@@ -212,7 +212,27 @@ class Zone extends DataObject {
             $obj = new Zone();
             $obj->Title = 'EU';
             $obj->write();
+
+            $domestic = new Zone();
+            $domestic->Title = _t('Zone.DOMESTIC', 'domestic');
+            $domestic->write();
+
+            //relate country to zones
+$standardCountry = DataObject::get_one(
+                        'Country'
+        );
+
+        if (!$standardCountry) {
+            $standardCountry = new Country();
+            $standardCountry->Title = 'Deutschland';
+            $standardCountry->ISO2 = 'de';
+            $standardCountry->ISO3 = 'deu';
+            $standardCountry->write();
         }
+        $domestic->countries()->add($standardCountry);
+
+        }
+
     }
 
     /**
