@@ -209,30 +209,51 @@ class Zone extends DataObject {
         );
 
         if (!$standardZone) {
-            $obj = new Zone();
-            $obj->Title = 'EU';
-            $obj->write();
+            $standardZone = new Zone();
+            $standardZone->Title = 'EU';
+            $standardZone->write();
 
             $domestic = new Zone();
             $domestic->Title = _t('Zone.DOMESTIC', 'domestic');
             $domestic->write();
 
             //relate country to zones
-$standardCountry = DataObject::get_one(
-                        'Country'
-        );
+            $standardCountry = DataObject::get_one(
+                            'Country'
+            );
 
-        if (!$standardCountry) {
-            $standardCountry = new Country();
-            $standardCountry->Title = 'Deutschland';
-            $standardCountry->ISO2 = 'de';
-            $standardCountry->ISO3 = 'deu';
-            $standardCountry->write();
+            if (!$standardCountry) {
+                $standardCountry = new Country();
+                $standardCountry->Title = 'Deutschland';
+                $standardCountry->ISO2 = 'de';
+                $standardCountry->ISO3 = 'deu';
+                $standardCountry->write();
+            }
+            $domestic->countries()->add($standardCountry);
+
+            //relate zone to carrier
+            if (!DataObject::get('Carrier')) {
+                $carrier = new Carrier();
+                $carrier->Title = 'DHL';
+                $carrier->FullTitle = 'DHL International GmbH';
+                $carrier->write();
+
+                // the carrier DHL has at least one shipping method
+                if (!DataObject::get('ShippingMethod')) {
+                    $shippingMethod = new ShippingMethod();
+                    $shippingMethod->Title = 'Paket';
+                    $shippingMethod->write();
+                    $shippingMethod->carrierID = $carrier->ID;
+                    $shippingMethod->write();
+                    $carrier->shippingMethods()->add($shippingMethod);
+                }
+                //relate zones to carrier
+                $domestic->carrierID = $carrier->ID;
+                $domestic->write();
+                $standardZone->carrierID = $carrier->ID;
+                $standardZone->write();
+            }
         }
-        $domestic->countries()->add($standardCountry);
-
-        }
-
     }
 
     /**

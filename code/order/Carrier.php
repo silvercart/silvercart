@@ -170,21 +170,7 @@ class Carrier extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        if (!DataObject::get('Carrier')) {
-            $carrier = new Carrier();
-            $carrier->Title = 'DHL';
-            $carrier->FullTitle = 'DHL International GmbH';
-            $carrier->write();
-
-            // the carrier DHL has at least one shipping method
-            if (!DataObject::get('ShippingMethod')) {
-                $shippingMethod = new ShippingMethod();
-                $shippingMethod->Title = 'Paket';
-                $shippingMethod->write();
-                $shippingMethod->carrierID = $carrier->ID;
-                $shippingMethod->write();
-            }
-        }
+        
     }
 
     /**
