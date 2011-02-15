@@ -215,10 +215,14 @@ class ShippingMethod extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-        $obj = DataObject::get($this->ClassName);
-        if (!$obj) {
+        if (!DataObject::get('ShippingMethod')) {
             $shippingMethod = new ShippingMethod();
             $shippingMethod->Title = 'Paket';
+            // relate to carrier (if exists)
+            $carrier = DataObject::get_one("Carrier", "`Title` = 'DHL'");
+            if ($carrier) {
+                $shippingMethod->carrierID = $carrier->ID;
+            }
             $shippingMethod->write();
         }
     }

@@ -204,11 +204,7 @@ class Zone extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $standardZone = DataObject::get_one(
-                        'Zone'
-        );
-
-        if (!$standardZone) {
+        if (!DataObject::get_one('Zone')) {
             $standardZone = new Zone();
             $standardZone->Title = 'EU';
             $standardZone->write();
@@ -218,40 +214,22 @@ class Zone extends DataObject {
             $domestic->write();
 
             //relate country to zones
-            $standardCountry = DataObject::get_one(
-                            'Country'
-            );
-
-            if (!$standardCountry) {
-                $standardCountry = new Country();
-                $standardCountry->Title = 'Deutschland';
-                $standardCountry->ISO2 = 'de';
-                $standardCountry->ISO3 = 'deu';
-                $standardCountry->write();
+            if (DataObject::get_one('Country')) {
+                $domestic->countries()->add(DataObject::get_one('Country'));
             }
-            $domestic->countries()->add($standardCountry);
-
-            //relate zone to carrier
-            if (!DataObject::get('Carrier')) {
-                $carrier = new Carrier();
-                $carrier->Title = 'DHL';
-                $carrier->FullTitle = 'DHL International GmbH';
-                $carrier->write();
-
-                // the carrier DHL has at least one shipping method
-                if (!DataObject::get('ShippingMethod')) {
-                    $shippingMethod = new ShippingMethod();
-                    $shippingMethod->Title = 'Paket';
-                    $shippingMethod->write();
-                    $shippingMethod->carrierID = $carrier->ID;
-                    $shippingMethod->write();
-                    $carrier->shippingMethods()->add($shippingMethod);
-                }
-                //relate zones to carrier
+            // relate carrier to zones
+            if (DataObject::get('Carrier')) {
+                $carrier = DataObject::get('Carrier');
                 $domestic->carrierID = $carrier->ID;
                 $domestic->write();
                 $standardZone->carrierID = $carrier->ID;
                 $standardZone->write();
+            }
+            // relate to ShippingFee (if exists)
+            $shippingFee = DataObject::get_one("ShippingFee");
+            if ($shippingFee) {
+                $shippingFee->zoneID = $domestic->ID;
+                $shippingFee->write();
             }
         }
     }

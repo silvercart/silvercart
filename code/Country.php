@@ -178,6 +178,18 @@ class Country extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
+        if (!DataObject::get_one('Country')) {
+            $standardCountry = new Country();
+            $standardCountry->Title = 'Deutschland';
+            $standardCountry->ISO2 = 'de';
+            $standardCountry->ISO3 = 'deu';
+            $standardCountry->write();
+            //relate country to zones
+            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            if ($domestic) {
+                $domestic->countries()->add($standardCountry);
+            }
+        }
     }
 
     /**

@@ -154,6 +154,12 @@ class Tax extends DataObject {
             $higherTaxRate->setField('Rate', 19);
             $higherTaxRate->setField('Title', '19%');
             $higherTaxRate->write();
+            // relate to ShippingFee (if exists)
+            $shippingFee = DataObject::get_one("ShippingFee");
+            if ($shippingFee) {
+                $shippingFee->TaxID = $higherTaxRate->ID;
+                $shippingFee->write();
+            }
         }
     }
 

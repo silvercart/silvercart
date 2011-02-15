@@ -176,6 +176,42 @@ class ShippingFee extends DataObject {
         );
         parent::__construct($record, $isSingleton);
     }
+
+    /**
+     * default instances will be created if no instance exists at all
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
+     */
+    public function requireDefaultRecords() {
+        parent::requireDefaultRecords();
+        if (!DataObject::get('ShippingFee')) {
+            $shippingFee = new ShippingFee();
+            $shippingFee->MaximumWeight = '1000';
+            $shippingFee->Price = new Money();
+            $shippingFee->Price->setAmount('3.9');
+            $shippingFee->Price->setCurrency('EUR');
+
+            // relate to Tax (if exists)
+            $tax = DataObject::get_one("Tax", "`Rate` = 19");
+            if ($tax) {
+                $shippingFee->TaxID = $tax->ID;
+            }
+            // relate to ShippingMethod (if exists)
+            $shippingMethod = DataObject::get_one("ShippingMethod", "`Title` = 'Paket'");
+            if ($shippingMethod) {
+                $shippingFee->shippingMethodID = $shippingMethod->ID;
+            }
+            // relate to Zone (if exists)
+            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            if ($domestic) {
+                $shippingFee->zoneID = $domestic->ID;
+            }
+            $shippingFee->write();
+        }
+    }
     
     /**
      * Set a custom search context for fields like "greater than", "less than",
