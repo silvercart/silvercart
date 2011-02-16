@@ -8,7 +8,7 @@
  * @since 02.02.2011
  * @license none
  */
-class EmailTemplates extends DataObject {
+class SilvercartEmailTemplates extends DataObject {
 
     static $singular_name = "email template";
     static $plural_name = "email templates";

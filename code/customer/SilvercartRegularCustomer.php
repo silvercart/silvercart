@@ -8,7 +8,7 @@
  * @license BSD
  * @since 22.10.2010
  */
-class RegularCustomer extends Member {
+class SilvercartRegularCustomer extends Member {
 
     /**
      * create default groups on build
@@ -26,7 +26,7 @@ class RegularCustomer extends Member {
          */
         if (!DataObject::get_one('Group', "\"Code\" = 'b2c'")) {
             $group = new Group();
-            $group->Title = _t('RegularCustomer.REGULARCUSTOMER', 'regular customer');
+            $group->Title = _t('SilvercartRegularCustomer.REGULARCUSTOMER', 'regular customer');
             $group->Code = "b2c";
             $group->write();
         }
@@ -36,7 +36,7 @@ class RegularCustomer extends Member {
          */
         if (!DataObject::get_one('Group', "\"Code\" = 'b2c-optin'")) {
             $group = new Group();
-            $group->Title = _t('RegularCustomer.REGULARCUSTOMER', 'regular customer')." OptIn";
+            $group->Title = _t('SilvercartRegularCustomer.REGULARCUSTOMER', 'regular customer')." OptIn";
             $group->Code = "b2c-optin";
             $group->write();
         }
@@ -54,7 +54,7 @@ class RegularCustomer extends Member {
         parent::onAfterWrite();
         //create a cart for every user
         if ($this->shoppingCartID == null) {
-            $cart = new ShoppingCart();
+            $cart = new SilvercartShoppingCart();
             $cart->write();
             $this->shoppingCartID = $cart->ID;
             $this->write();
@@ -72,7 +72,7 @@ class RegularCustomer extends Member {
     public function onAfterDelete() {
         parent::onAfterDelete();
         if ($this->shoppingCartID) {
-            $cart = DataObject::get_by_id('ShoppingCart', $this->shoppingCartID);
+            $cart = DataObject::get_by_id('SilvercartShoppingCart', $this->shoppingCartID);
             if ($cart) {
                 $cart->delete();
             }

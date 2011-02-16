@@ -9,7 +9,7 @@
  * @since 23.10.2010
  * @license BSD
  */
-class AnonymousCustomer extends Member {
+class SilvercartAnonymousCustomer extends Member {
 
     /**
      * default instances related to $this
@@ -26,7 +26,7 @@ class AnonymousCustomer extends Member {
         
         if (!$group) {
             $group = new Group();
-            $group->Title = _t('AnonymousCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
+            $group->Title = _t('SilvercartAnonymousCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
             $group->Code = "anonymous";
             $group->write();
         }
@@ -45,7 +45,7 @@ class AnonymousCustomer extends Member {
         if ($id) {
             $member = DataObject::get_by_id("Member", $id);
             $memberClass = $member->ClassName;
-            if (($memberClass == "AnonymousCustomer")) {
+            if (($memberClass == "SilvercartAnonymousCustomer")) {
                 return $member;
             }
         } else {

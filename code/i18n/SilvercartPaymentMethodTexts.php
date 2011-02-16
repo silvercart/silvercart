@@ -8,10 +8,10 @@
  * @since 02.02.2011
  * @license none
  */
-class ShippingMethodTexts extends DataObject {
+class SilvercartPaymentMethodTexts extends DataObject {
 
-    static $singular_name = "shipping method text";
-    static $plural_name = "shipping method texts";
+    static $singular_name = "payment method text";
+    static $plural_name = "payment method texts";
     public static $db = array(
         'Title' => 'VarChar',
         'Description' => 'Text'
@@ -25,7 +25,7 @@ class ShippingMethodTexts extends DataObject {
         "Translatable"
     );
     public static $has_one = array(
-        'owner' => 'ShippingMethod'
+        'owner' => 'SilvercartPaymentMethod'
     );
     public static $has_many = array(
     );

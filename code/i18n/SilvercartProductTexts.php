@@ -8,7 +8,7 @@
  * @since 02.02.2011
  * @license none
  */
-class ArticleTexts extends DataObject {
+class SilvercartProductTexts extends DataObject {
 
     static $singular_name = "article translation text";
     static $plural_name = "article translation texts";
@@ -29,7 +29,7 @@ class ArticleTexts extends DataObject {
         "Translatable"
     );
     public static $has_one = array(
-        'owner' => 'Article'
+        'owner' => 'SilvercartProduct'
     );
     public static $has_many = array(
     );

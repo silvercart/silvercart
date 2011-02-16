@@ -9,7 +9,7 @@
  * @license BSD
  * @since 22.10.2010
  */
-class Address extends DataObject {
+class SilvercartAddress extends DataObject {
 
     public static $singular_name = 'address';
     public static $plural_name = 'addresses';
@@ -26,7 +26,7 @@ class Address extends DataObject {
     );
     public static $has_one = array(
         'owner' => 'Member',
-        'country' => 'Country'
+        'country' => 'SilvercartCountry'
     );
     public static $summary_fields = array(
         'Street' => 'Strasse',
@@ -60,20 +60,20 @@ class Address extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Street' => _t('Address.STREET'),
-            'City' => _t('Address.CITY')
+            'Street' => _t('SilvercartAddress.STREET'),
+            'City' => _t('SilvercartAddress.CITY')
         );
         self::$field_labels = array(
-            'Street' => _t('Address.STREET'),
-            'StreetNumber' => _t('Address.STREETNUMBER'),
-            'Postcode' => _t('Address.POSTCODE'),
-            'City' => _t('Address.CITY'),
-            'PhoneAreaCode' => _t('Address.PHONEAREACODE'),
-            'Phone' => _t('Address.PHONE'),
-            'country' => _t('Country.SINGULARNAME'),
-            'Addition' => _t('Address.ADDITION'),
-            'FirstName' => _t('Address.FIRSTNAME'),
-            'Surname' => _t('Address.SURNAME')
+            'Street' => _t('SilvercartAddress.STREET'),
+            'StreetNumber' => _t('SilvercartAddress.STREETNUMBER'),
+            'Postcode' => _t('SilvercartAddress.POSTCODE'),
+            'City' => _t('SilvercartAddress.CITY'),
+            'PhoneAreaCode' => _t('SilvercartAddress.PHONEAREACODE'),
+            'Phone' => _t('SilvercartAddress.PHONE'),
+            'country' => _t('SilvercartCountry.SINGULARNAME'),
+            'Addition' => _t('SilvercartAddress.ADDITION'),
+            'FirstName' => _t('SilvercartAddress.FIRSTNAME'),
+            'Surname' => _t('SilvercartAddress.SURNAME')
         );
         parent::__construct($record, $isSingleton);
     }

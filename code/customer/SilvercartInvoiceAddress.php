@@ -8,7 +8,7 @@
  * @since 18.10.2010
  * @license BSD
  */
-class InvoiceAddress extends Address {
+class SilvercartInvoiceAddress extends SilvercartAddress {
     public static $singular_name = "invoice address";
     public static $plural_name = "invoice addresses";
 }

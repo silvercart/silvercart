@@ -8,7 +8,7 @@
  * @since 02.02.2011
  * @license none
  */
-class OrderStatusTexts extends DataObject {
+class SilvercartOrderStatusTexts extends DataObject {
 
     static $singular_name = "order status texts";
     static $plural_name = "order status text";

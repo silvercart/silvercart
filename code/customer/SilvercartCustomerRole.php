@@ -8,7 +8,7 @@
  * @since 18.10.2010
  * @license BSD
  */
-class CustomerRole extends DataObjectDecorator {
+class SilvercartCustomerRole extends DataObjectDecorator {
 
     /**
      * defines relations, attributes and some settings this class.
@@ -30,14 +30,14 @@ class CustomerRole extends DataObjectDecorator {
                 'Birthday' => 'Date'
             ),
             'has_one' => array(
-                'customerCategory' => 'CustomerCategory',
-                'shoppingCart' => 'ShoppingCart',
-                'invoiceAddress' => 'InvoiceAddress',
-                'shippingAddress' => 'ShippingAddress'
+                'customerCategory' => 'SilvercartCustomerCategory',
+                'shoppingCart' => 'SilvercartShoppingCart',
+                'invoiceAddress' => 'SilvercartInvoiceAddress',
+                'shippingAddress' => 'SilvercartShippingAddress'
             ),
             'has_many' => array(
-                'addresses' => 'Address',
-                'orders' => 'Order'
+                'addresses' => 'SilvercartAddress',
+                'orders' => 'SilvercartOrder'
             ),
             'summary_fields' => array(
                 'FirstName',
@@ -67,7 +67,7 @@ class CustomerRole extends DataObjectDecorator {
         if ($id) {
             $member = DataObject::get_by_id("Member", $id);
             $memberClass = $member->ClassName;
-            if (($memberClass == "BusinessCustomer") OR ($memberClass == "RegularCustomer")) {
+            if (($memberClass == "SilvercartBusinessCustomer") OR ($memberClass == "SilvercartRegularCustomer")) {
                 return $member;
             } else {
                 return false;
@@ -86,7 +86,7 @@ class CustomerRole extends DataObjectDecorator {
     public function getDefaultShippingAddress() {
         if ($customer = Member::currentUser()) {
             $filter = sprintf("\"ownerID\" = '%s' AND \"isDefaultForShipping\" = '1'", $customer->ID);
-            $shippingAddress = DataObject::get_one('Address', $filter);
+            $shippingAddress = DataObject::get_one('SilvercartAddress', $filter);
             return $shippingAddress;
         }
     }
@@ -102,7 +102,7 @@ class CustomerRole extends DataObjectDecorator {
      */
     public function lootShoppingCartAndKillVictim(Member $victim) {
         $filter = sprintf("\"ID\" = '%s'", $this->owner->shoppingCartID);
-        $customersOldCart = DataObject::get_one('ShoppingCart', $filter);
+        $customersOldCart = DataObject::get_one('SilvercartShoppingCart', $filter);
         if ($victim->shoppingCartID) {
             $this->owner->shoppingCartID = $victim->shoppingCartID;
             $this->owner->write();
@@ -123,7 +123,7 @@ class CustomerRole extends DataObjectDecorator {
         if ($cartID != null) { //If a user has no shopping cart yet calling his shoppingCartID will return NULL.
             return $this->owner->shoppingCart();
         } else {
-            $cart = new ShoppingCart();
+            $cart = new SilvercartShoppingCart();
             $cart->write();
             $this->owner->shoppingCartID = $cart->ID;
             $this->owner->write();

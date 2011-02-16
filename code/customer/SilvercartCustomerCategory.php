@@ -7,14 +7,14 @@
  * @copyright Pixeltricks GmbH
  * @since 23.10.2010
  */
-class CustomerCategory extends DataObject {
+class SilvercartCustomerCategory extends DataObject {
     public static $singular_name = "customer category";
     public static $plural_name = "customer categories";
     public static $db = array(
         'Title' => 'VarChar'
     );
     public static $has_many = array(
-        'prices' => 'Price',
+        'prices' => 'SilvercartPrice',
         'customers' => 'Member'
     );
     public static $summary_fields = array(
@@ -36,7 +36,7 @@ class CustomerCategory extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        "Title" => _t('ArticleCategoryPage.COLUMN_TITLE')
+        "Title" => _t('SilvercartProductCategoryPage.COLUMN_TITLE')
     );
         parent::__construct($record, $isSingleton);
     }

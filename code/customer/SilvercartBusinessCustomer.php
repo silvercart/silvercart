@@ -9,7 +9,7 @@
  * @since 23.10.2010
  * @license BSD
  */
-class BusinessCustomer extends Member {
+class SilvercartBusinessCustomer extends Member {
 
     public static $db = array(
         'UmsatzsteuerID' => 'VarChar'
@@ -28,7 +28,7 @@ class BusinessCustomer extends Member {
         // Create an own group for this class. The group is identified by "Code", so its name can be changed via backend.
         if (!DataObject::get_one('Group', "\"Code\" = 'b2b'")) {
             $group = new Group();
-            $group->Title = _t('BusinessCustomer.BUSINESSCUSTOMER', 'business customer');
+            $group->Title = _t('SilvercartBusinessCustomer.BUSINESSCUSTOMER', 'business customer');
             $group->Code = "b2b";
             $group->write();
         }
