@@ -9,7 +9,7 @@
  * @since 22.11.2010
  * @license none
  */
-class OrderStatus extends DataObject {
+class SilvercartOrderStatus extends DataObject {
 
     /**
      * Singular-Beschreibung zur Darstellung im Backend.
@@ -56,7 +56,7 @@ class OrderStatus extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'orders' => 'Order'
+        'SilvercartOrders' => 'SilvercartOrder'
     );
 
     // -----------------------------------------------------------------------
@@ -93,8 +93,8 @@ class OrderStatus extends DataObject {
         if (!DataObject::get($className)) {
 
             $defaultStatusEntries = array(
-                'pending' => _t('OrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment', null, 'Auf Zahlungseingang wird gewartet'),
-                'payed' => _t('OrderStatus.PAYED', 'payed')
+                'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment', null, 'Auf Zahlungseingang wird gewartet'),
+                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
@@ -117,7 +117,7 @@ class OrderStatus extends DataObject {
      */
     public static function getStatusList() {
         $statusList = DataObject::get(
-                        'OrderStatus'
+                        'SilvercartOrderStatus'
         );
 
         return $statusList;

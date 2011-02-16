@@ -7,7 +7,7 @@
  * @license BSD
  * @since 20.10.2010
  */
-class OrderAddress extends Address {
+class SilvercartOrderAddress extends SilvercartAddress {
     public static $singular_name = "order address";
     public static $plural_name = "order addresses";
     

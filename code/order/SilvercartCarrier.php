@@ -7,7 +7,7 @@
  * @since 06.11.2010
  * @license none
  */
-class Carrier extends DataObject {
+class SilvercartCarrier extends DataObject {
 
     /**
      * Singular name
@@ -55,8 +55,8 @@ class Carrier extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'shippingMethods'   => 'ShippingMethod',
-        'zones'             => 'Zone'
+        'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
+        'SilvercartZones'             => 'SilvercartZone'
     );
 
     /**
@@ -115,10 +115,10 @@ class Carrier extends DataObject {
      */
     public static $searchable_fields = array(
         'Title',
-        'zones.ID' => array(
+        'SilvercartZones.ID' => array(
             'title' => 'Zugeordnete Zonen'
         ),
-        'shippingMethods.ID' => array(
+        'SilvercartShippingMethods.ID' => array(
             'title' => 'Zugeordnete Versandarten'
         )
     );
@@ -138,23 +138,23 @@ class Carrier extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'Title'                     => _t('ArticleCategoryPage.COLUMN_TITLE'),
-        'AttributedZones'           => _t('Country.ATTRIBUTED_ZONES'),
-        'AttributedShippingMethods' => _t('Carrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+        'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+        'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
     );
     self::$field_labels = array(
-        'Title'                     => _t('ArticleCategoryPage.COLUMN_TITLE'),
-        'FullTitle'                 => _t('Carrier.FULL_NAME', 'full name'),
-        'AttributedZones'           => _t('Country.ATTRIBUTED_ZONES'),
-        'AttributedShippingMethods' => _t('Carrier.ATTRIBUTED_SHIPPINGMETHODS')
+        'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+        'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
+        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+        'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
     );
     self::$searchable_fields = array(
         'Title',
-        'zones.ID' => array(
-            'title' => _t('Country.ATTRIBUTED_ZONES')
+        'SilvercartZones.ID' => array(
+            'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
         ),
-        'shippingMethods.ID' => array(
-            'title' => _t('Carrier.ATTRIBUTED_SHIPPINGMETHODS')
+        'SilvercartShippingMethods.ID' => array(
+            'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
         )
     );
         parent::__construct($record, $isSingleton);
@@ -170,26 +170,26 @@ class Carrier extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        if (!DataObject::get('Carrier')) {
+        if (!DataObject::get('SilvercartCarrier')) {
             $carrier = new Carrier();
             $carrier->Title = 'DHL';
             $carrier->FullTitle = 'DHL International GmbH';
             $carrier->write();
             //relate carrier to zones (if exists)
-            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
             if ($domestic) {
-                $domestic->carrierID = $carrier->ID;
+                $domestic->SilvercartCarrierID = $carrier->ID;
                 $domestic->write();
             }
-            $eu = DataObject::get_one("Zone", "`Title` = 'EU'");
+            $eu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
             if ($eu) {
-                $eu->carrierID = $carrier->ID;
+                $eu->SilvercartCarrierID = $carrier->ID;
                 $eu->write();
             }
             // relate ShippingMethod to Carrier (if exists)
-            $shippingMethod = DataObject::get_one("ShippingMethod", "`Title` = 'Paket'");
+            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", "`Title` = 'Paket'");
             if ($shippingMethod) {
-                $shippingMethod->carrierID = $carrier->ID;
+                $shippingMethod->SilvercartCarrierID = $carrier->ID;
                 $shippingMethod->write();
             }
         }
@@ -209,7 +209,7 @@ class Carrier extends DataObject {
         $attributedZones    = array();
         $maxLength          = 150;
 
-        foreach ($this->zones() as $zone) {
+        foreach ($this->SilvercartZones() as $zone) {
             $attributedZones[] = $zone->Title;
         }
 
@@ -238,7 +238,7 @@ class Carrier extends DataObject {
         $attributedShippingMethods    = array();
         $maxLength          = 150;
 
-        foreach ($this->shippingMethods() as $shippingMethod) {
+        foreach ($this->SilvercartShippingMethods() as $shippingMethod) {
             $attributedShippingMethods[] = $shippingMethod->Title;
         }
 

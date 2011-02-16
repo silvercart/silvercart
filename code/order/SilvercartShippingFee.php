@@ -8,7 +8,7 @@
  * @since 06.11.2010
  * @license none
  */
-class ShippingFee extends DataObject {
+class SilvercartShippingFee extends DataObject {
 
     /**
      * Singular name
@@ -19,7 +19,7 @@ class ShippingFee extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    static $singular_name = "Versandtarif";
+    static $singular_name = "shipping fee";
 
     /**
      * Plural name
@@ -30,7 +30,7 @@ class ShippingFee extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    static $plural_name = "Versandtarife";
+    static $plural_name = "shipping fees";
 
     /**
      * Attributes.
@@ -56,9 +56,9 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $has_one = array(
-        'zone'              => 'Zone',
-        'shippingMethod'    => 'ShippingMethod',
-        'Tax'               => 'Tax'
+        'SilvercartZone'              => 'SilvercartZone',
+        'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
+        'SilvercartTax'               => 'Tax'
     );
 
     /**
@@ -71,7 +71,7 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'orders' => 'Order'
+        'SilvercartOrders' => 'SilvercartOrder'
     );
 
     /**
@@ -84,7 +84,7 @@ class ShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $summary_fields = array(
-        'zone.Title'                => 'Für Zone',
+        'SilvercartZone.Title'                => 'Für Zone',
         'AttributedShippingMethods' => 'Zugeordnete Versandart',
         'MaximumWeight'             => 'Maximalgewicht (g)',
         'PriceFormatted'            => 'Kosten'
@@ -102,7 +102,7 @@ class ShippingFee extends DataObject {
     public static $field_labels = array(
         'MaximumWeight'             => 'Maximalgewicht (g)',
         'Price'                     => 'Kosten',
-        'zone.Title'                => 'Für Zone',
+        'SilvercartZone.Title'                => 'Für Zone',
         'AttributedShippingMethods' => 'Zugeordnete Versandart'
     );
 
@@ -117,10 +117,10 @@ class ShippingFee extends DataObject {
      */
     public static $searchable_fields = array(
         'MaximumWeight',
-        'zone.ID' => array(
+        'SilvercartZone.ID' => array(
             'title' => 'Für Zone'
         ),
-        'shippingMethod.ID' => array(
+        'SilvercartShippingMethod.ID' => array(
             'title' => 'Für Versandart'
         )
     );
@@ -154,24 +154,24 @@ class ShippingFee extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'zone.Title' => _t('ShippingMethod.FOR_ZONES'),
-            'AttributedShippingMethods' => _t('ShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
-            'MaximumWeight' => _t('ShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
-            'PriceFormatted' => _t('ShippingFee.COSTS', 'costs')
+            'SilvercartZone.Title' => _t('SilvercartShippingMethod.FOR_ZONES'),
+            'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
+            'MaximumWeight' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
+            'PriceFormatted' => _t('SilvercartShippingFee.COSTS', 'costs')
         );
         self::$field_labels = array(
-            'MaximumWeight' => _t('ShippingFee.MAXIMUM_WEIGHT'),
-            'Price' => _t('ShippingFee.COSTS'),
-            'zone.Title' => _t('ShippingMethod.FOR_ZONES'),
-            'AttributedShippingMethods' => _t('ShippingFee.ATTRIBUTED_SHIPPINGMETHOD')
+            'MaximumWeight' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
+            'Price' => _t('SilvercartShippingFee.COSTS'),
+            'SilvercartZone.Title' => _t('SilvercartShippingMethod.FOR_ZONES'),
+            'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD')
         );
         self::$searchable_fields = array(
             'MaximumWeight',
-            'zone.ID' => array(
-                'title' => _t('ShippingMethod.FOR_ZONES')
+            'SilvercartZone.ID' => array(
+                'title' => _t('SilvercartShippingMethod.FOR_ZONES')
             ),
-            'shippingMethod.ID' => array(
-                'title' => _t('ShippingFee.FOR_SHIPPINGMETHOD', 'for shipping method', null, 'Für Versandart')
+            'SilvercartShippingMethod.ID' => array(
+                'title' => _t('SilvercartShippingFee.FOR_SHIPPINGMETHOD', 'for shipping method', null, 'Für Versandart')
             )
         );
         parent::__construct($record, $isSingleton);
@@ -187,7 +187,7 @@ class ShippingFee extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-        if (!DataObject::get('ShippingFee')) {
+        if (!DataObject::get('SilvercartShippingFee')) {
             $shippingFee = new ShippingFee();
             $shippingFee->MaximumWeight = '1000';
             $shippingFee->Price = new Money();
@@ -195,17 +195,17 @@ class ShippingFee extends DataObject {
             $shippingFee->Price->setCurrency('EUR');
 
             // relate to Tax (if exists)
-            $tax = DataObject::get_one("Tax", "`Rate` = 19");
+            $tax = DataObject::get_one("SilvercartTax", "`Rate` = 19");
             if ($tax) {
                 $shippingFee->TaxID = $tax->ID;
             }
             // relate to ShippingMethod (if exists)
-            $shippingMethod = DataObject::get_one("ShippingMethod", "`Title` = 'Paket'");
+            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", "`Title` = 'Paket'");
             if ($shippingMethod) {
                 $shippingFee->shippingMethodID = $shippingMethod->ID;
             }
             // relate to Zone (if exists)
-            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
             if ($domestic) {
                 $shippingFee->zoneID = $domestic->ID;
             }
@@ -250,16 +250,16 @@ class ShippingFee extends DataObject {
        /**
         * only the carriers zones must be selectable
         */
-       $fields->removeByName('zone');
-       $filter  = sprintf("`carrierID` = %s", $this->shippingMethod()->carrier()->ID);
+       $fields->removeByName('Zone');
+       $filter  = sprintf("`SilvercartCarrierID` = %s", $this->SilvercartShippingMethod()->SilvercartCarrier()->ID);
        $zones   = DataObject::get('Zone', $filter);
        if ($zones) {
            $fields->addFieldToTab(
                 "Root.Main",
                 new DropdownField(
-                    'zoneID',
-                    _t('ShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                   $zones->toDropDownMap('ID', 'Title', _t('ShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
+                    'SilvercartZoneID',
+                    _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
+                   $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
                 )
            );
         }
@@ -294,7 +294,7 @@ class ShippingFee extends DataObject {
         $attributedShippingMethods    = array();
         $maxLength          = 150;
 
-        foreach ($this->shippingMethod() as $shippingMethod) {
+        foreach ($this->SilvercartShippingMethod() as $shippingMethod) {
             $attributedShippingMethods[] = $shippingMethod->Title;
         }
 

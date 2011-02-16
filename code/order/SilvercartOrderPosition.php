@@ -10,7 +10,7 @@
  * @since 22.11.2010
  * @license none
  */
-class OrderPosition extends DataObject {
+class SilvercartOrderPosition extends DataObject {
 
     /**
      * attributes
@@ -41,8 +41,8 @@ class OrderPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'order' => 'Order',
-        'article' => 'Article'
+        'SilvercartOrder' => 'SilvercartOrder',
+        'SilvercartProduct' => 'SilvercartProduct'
     );
     /**
      *
@@ -74,10 +74,10 @@ class OrderPosition extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('Page.ARTICLENAME'),
-            'ArticleDescription' => _t('Article.DESCRIPTION'),
-            'Price' => _t('Article.PRICE'),
-            'Quantity' => _t('Article.QUANTITY')
+            'Title' => _t('SilvercartPage.ARTICLENAME'),
+            'ArticleDescription' => _t('SilvercartArticle.DESCRIPTION'),
+            'Price' => _t('SilvercartArticle.PRICE'),
+            'Quantity' => _t('SilvercartArticle.QUANTITY')
         );
         parent::__construct($record, $isSingleton);
     }

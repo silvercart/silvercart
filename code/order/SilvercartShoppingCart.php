@@ -9,7 +9,7 @@
  * @since 22.11.2010
  * @license none
  */
-class ShoppingCart extends DataObject {
+class SilvercartShoppingCart extends DataObject {
 
     /**
      * Contains all registered modules that get called when the shoppingcart
@@ -52,7 +52,7 @@ class ShoppingCart extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'positions' => 'ShoppingCartPosition'
+        'positions' => 'SilvercartShoppingCartPosition'
     );
     /**
      * defines n:m relations
@@ -64,7 +64,7 @@ class ShoppingCart extends DataObject {
      * @since 16.12.10
      */
     public static $many_many = array(
-        'articles' => 'Article'
+        'SilvercartProducts' => 'SilvercartProduct'
     );
     /**
      * Contains the ID of the payment method the customer has chosen.
@@ -103,10 +103,12 @@ class ShoppingCart extends DataObject {
 
         // Initialize shopping cart position object, so that it can inject
         // its forms into the controller.
-        if ($this->positions()) {}
+        if ($this->SilvercartShoppingCartPositions()) {
+            
+        }
 
-        $this->shippingMethodID = 0;
-        $this->paymentMethodID  = 0;
+        $this->SilvercartShippingMethodID = 0;
+        $this->SilvercartPaymentMethodID  = 0;
 
         if (Member::currentUserID()) {
             $this->callMethodOnRegisteredModules(
@@ -127,7 +129,7 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * adds an article to the cart
+     * adds a product to the cart
      *
      * @param array $formData the sended form data
      *
@@ -137,10 +139,10 @@ class ShoppingCart extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 21.12.2010
      */
-    public static function addArticle($formData) {
+    public static function addProduct($formData) {
         $member = Member::currentUser();
         if ($member == false) {
-            $member = new AnonymousCustomer();
+            $member = new SilvercartAnonymousCustomer();
             $member->write();
             $member->logIn($remember = true);
         }
@@ -155,12 +157,12 @@ class ShoppingCart extends DataObject {
             return false;
         }
 
-        if ($formData['articleID'] && $formData['articleAmount']) {
-            $article = DataObject::get_by_id('Article', $formData['articleID'], 'Created');
+        if ($formData['ProductID'] && $formData['ProductAmount']) {
+            $product = DataObject::get_by_id('SilvercartProduct', $formData['ProductID'], 'Created');
 
-            if ($article) {
-                $quantity = (int) bcsqrt($formData['articleAmount'] * $formData['articleAmount'], 0); //make shure value is positiv
-                $article->addToCart($cart->ID, $quantity);
+            if ($product) {
+                $quantity = (int) bcsqrt($formData['ProductAmount'] * $formData['ProdctAmount'], 0); //make shure value is positiv
+                $product->addToCart($cart->ID, $quantity);
             }
         }
 
@@ -185,22 +187,22 @@ class ShoppingCart extends DataObject {
     }
 
     /**
-     * returns quantity of all articles in the cart
+     * returns quantity of all products in the cart
      *
-     * @param int $articleId if set only article quantity of this article is returned
+     * @param int $productId if set only product quantity of this product is returned
      *
      * @return int
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.10
      */
-    public function getQuantity($articleId = null) {
+    public function getQuantity($productId = null) {
         $positions = $this->positions();
         $quantity = 0;
 
         foreach ($positions as $position) {
-            if ($articleId === null ||
-                    $position->article()->ID === $articleId) {
+            if ($productId === null ||
+                    $position->SilvercartProduct()->ID === $productId) {
 
                 $quantity += $position->Quantity;
             }
@@ -220,8 +222,8 @@ class ShoppingCart extends DataObject {
      */
     public function getTaxableAmountGrossWithFees() {
         $member = Member::currentUser();
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
-        $paymentMethod = DataObject::get_by_id('PaymentMethod', $this->paymentMethodID);
+        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
         $amountTotal = $this->getTaxableAmountGrossWithoutFees()->getAmount();
 
         if ($shippingMethod) {
@@ -272,9 +274,9 @@ class ShoppingCart extends DataObject {
                         $excludeModules
         );
 
-        // Articles
+        // products
         foreach ($this->positions() as $position) {
-            $amount += (float) $position->article()->Price->getAmount() * $position->Quantity;
+            $amount += (float) $position->SilvercartProduct()->Price->getAmount() * $position->Quantity;
         }
 
         // Registered Modules
@@ -340,8 +342,8 @@ class ShoppingCart extends DataObject {
     public function HandlingCostPayment() {
         $handlingCostPayment = 0;
         $paymentMethodObj = DataObject::get_by_id(
-                        'PaymentMethod',
-                        $this->paymentMethodID
+                        'SilvercartPaymentMethod',
+                        $this->SilvercartPaymentMethodID
         );
 
         if ($paymentMethodObj) {
@@ -366,8 +368,8 @@ class ShoppingCart extends DataObject {
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
         $selectedShippingMethod = DataObject::get_by_id(
-                        'ShippingMethod',
-                        $this->shippingMethodID
+                        'SilvercartShippingMethod',
+                        $this->SilvercartShippingMethodID
         );
 
         if ($selectedShippingMethod) {
@@ -392,8 +394,8 @@ class ShoppingCart extends DataObject {
     public function CarrierAndShippingMethodTitle() {
         $title = '';
         $selectedShippingMethod = DataObject::get_by_id(
-                        'ShippingMethod',
-                        $this->shippingMethodID
+                        'SilvercartShippingMethod',
+                        $this->SilvercartShippingMethodID
         );
 
         if ($selectedShippingMethod) {
@@ -414,8 +416,8 @@ class ShoppingCart extends DataObject {
      */
     public function getPayment() {
         $paymentMethodObj = DataObject::get_by_id(
-                        'PaymentMethod',
-                        $this->paymentMethodID
+                        'SilvercartPaymentMethod',
+                        $this->SilvercartPaymentMethodID
         );
 
         return $paymentMethodObj;
@@ -460,15 +462,15 @@ class ShoppingCart extends DataObject {
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions',
                         array(
-                            Member::currentUser()->shoppingCart(),
+                            Member::currentUser()->ShoppingCart(),
                             Member::currentUser(),
                             true
                         )
         );
 
-        // Articles
+        // products
         foreach ($positions as $position) {
-            $taxRate = $position->article()->tax()->Rate;
+            $taxRate = $position->SilvercartProduct()->SilvercartTax()->Rate;
 
             if (!$taxes->find('Rate', $taxRate)) {
                 $taxes->push(
@@ -481,7 +483,7 @@ class ShoppingCart extends DataObject {
                 );
             }
             $taxSection = $taxes->find('Rate', $taxRate);
-            $taxSection->AmountRaw += $position->article()->getTaxAmount() * $position->Quantity;
+            $taxSection->AmountRaw += $position->SilvercartProduct()->getTaxAmount() * $position->Quantity;
         }
 
         // Registered Modules
@@ -525,15 +527,15 @@ class ShoppingCart extends DataObject {
      */
     public function getTaxRatesWithFees() {
         $taxes = $this->getTaxRatesWithoutFees();
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
-        $paymentMethod = DataObject::get_by_id('PaymentMethod', $this->paymentMethodID);
+        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
 
             if ($shippingFee) {
-                if ($shippingFee->Tax()) {
-                    $taxRate = $shippingFee->Tax()->Rate;
+                if ($shippingFee->SilvercartTax()) {
+                    $taxRate = $shippingFee->SilvercartTax()->Rate;
 
                     if ($taxRate &&
                             !$taxes->find('Rate', $taxRate)) {
@@ -554,11 +556,11 @@ class ShoppingCart extends DataObject {
         }
 
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->HandlingCost();
+            $paymentFee = $paymentMethod->SilvercartHandlingCost();
 
             if ($paymentFee) {
-                if ($paymentFee->Tax()) {
-                    $taxRate = $paymentFee->Tax()->Rate;
+                if ($paymentFee->SilvercartTax()) {
+                    $taxRate = $paymentFee->SilvercartTax()->Rate;
 
                     if ($taxRate &&
                             !$taxes->find('Rate', $taxRate)) {
@@ -597,11 +599,11 @@ class ShoppingCart extends DataObject {
      * @return integer|boolean the cart´s weight in gramm
      */
     public function getWeightTotal() {
-        $positions = $this->positions();
+        $positions = $this->SilvercartPositions();
         $totalWeight = (int) 0;
         if ($positions) {
             foreach ($positions as $position) {
-                $totalWeight +=$position->article()->Weight * $position->Quantity;
+                $totalWeight +=$position->SilvercartProduct()->Weight * $position->Quantity;
             }
             return $totalWeight;
         } else {
@@ -621,8 +623,8 @@ class ShoppingCart extends DataObject {
     public function getShowFees() {
         $showFees = false;
 
-        if ($this->shippingMethodID > 0 &&
-                $this->paymentMethodID > 0) {
+        if ($this->SilvercartShippingMethodID > 0 &&
+                $this->SilvercartPaymentMethodID > 0) {
             $showFees = true;
         }
 
@@ -639,8 +641,8 @@ class ShoppingCart extends DataObject {
     public function onBeforeDelete() {
         parent::onBeforeDelete();
 
-        $filter = sprintf("\"shoppingCartID\" = '%s'", $this->ID);
-        $shoppingCartPositions = DataObject::get('ShoppingCartPosition', $filter);
+        $filter = sprintf("\"SilvercartShoppingCartID\" = '%s'", $this->ID);
+        $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
 
         if ($shoppingCartPositions) {
             foreach ($shoppingCartPositions as $obj) {
@@ -788,7 +790,7 @@ class ShoppingCart extends DataObject {
      * @since 07.02.2011
      */
     public function setShippingMethodID($shippingMethodId) {
-        $this->shippingMethodID = $shippingMethodId;
+        $this->SilvercartShippingMethodID = $shippingMethodId;
     }
 
     /**
@@ -803,7 +805,7 @@ class ShoppingCart extends DataObject {
      * @since 07.02.2011
      */
     public function setPaymentMethodID($paymentMethodId) {
-        $this->paymentMethodID = $paymentMethodId;
+        $this->SilvercartPaymentMethodID = $paymentMethodId;
     }
 
 }

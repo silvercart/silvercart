@@ -8,7 +8,7 @@
  * @since 22.11.2010
  * @license none
  */
-class Order extends DataObject {
+class SilvercartOrder extends DataObject {
 
     /**
      * Singular-Beschreibung zur Darstellung im Backend.
@@ -107,10 +107,10 @@ class Order extends DataObject {
         'ShippingRate'      => 'Versandkosten',
         'Note'              => 'Kundenbemerkungen',
         'isConfirmed'       => 'bestätigt?',
-        'customer'          => 'Kunde',
-        'shippingAddress'   => 'Versandadresse',
-        'invoiceAddress'    => 'Rechnungsadresse',
-        'status'            => 'Bestellstatus'
+        'Member'          => 'Kunde',
+        'SilvercartShippingAddress'   => 'Versandadresse',
+        'SilvercartInvoiceAddress'    => 'Rechnungsadresse',
+        'SilvercartOrderStatus'            => 'Bestellstatus'
     );
 
     /**
@@ -150,13 +150,13 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'shippingAddress'   => 'OrderShippingAddress',
-        'invoiceAddress'    => 'OrderInvoiceAddress',
-        'payment'           => 'PaymentMethod',
-        'shippingMethod'    => 'ShippingMethod',
-        'status'            => 'OrderStatus',
-        'customer'          => 'Member',
-        'shippingFee'       => 'ShippingFee'
+        'SilvercartShippingAddress'   => 'SilvercartOrderShippingAddress',
+        'SilvercartInvoiceAddress'    => 'SilvercartOrderInvoiceAddress',
+        'SilvercartPaymentMethod'           => 'SilvercartPaymentMethod',
+        'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
+        'SilvercartOrderStatus'            => 'SilvercartOrderStatus',
+        'Member'          => 'Member',
+        'SilvercartShippingFee'       => 'SilvercartShippingFee'
     );
 
     /**
@@ -169,7 +169,7 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'orderPositions' => 'OrderPosition'
+        'SilvercartOrderPositions' => 'SilvercartOrderPosition'
     );
 
     /**
@@ -182,7 +182,7 @@ class Order extends DataObject {
      * @since 02.02.2011
      */
     public static $many_many = array(
-        'articles' => 'Article'
+        'SilvercartProducts' => 'SilvercartProduct'
     );
 
     /**
@@ -213,22 +213,22 @@ class Order extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'CreatedNice'               => _t('Page.ORDER_DATE'),
-        'ID'                        => _t('Order.ORDER_ID', 'order id'),
-        'ShippingAddressSummary'    => _t('ShippingAddress.SINGULARNAME'),
-        'InvoiceAddressSummary'     => _t('InvoiceAddress.SINGULARNAME'),
-        'AmountGrossTotalNice'      => _t('Order.ORDER_VALUE', 'order value'),
+        'CreatedNice'               => _t('SilvercartPage.ORDER_DATE'),
+        'ID'                        => _t('SilvercartOrder.ORDER_ID', 'order id'),
+        'ShippingAddressSummary'    => _t('SilvercartShippingAddress.SINGULARNAME'),
+        'InvoiceAddressSummary'     => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+        'AmountGrossTotalNice'      => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
     );
     self::$field_labels = array(
-        'ID'                => _t('Order.ORDER_ID'),
-        'Created'           => _t('Page.ORDER_DATE'),
-        'ShippingRate'      => _t('Order.SHIPPINGRATE', 'shipping costs'),
-        'Note'              => _t('Page.REMARKS'),
-        'isConfirmed'       => _t('Order.CONFIRMED', 'confirmed?'),
-        'customer'          => _t('Order.CUSTOMER', 'customer'),
-        'shippingAddress'   => _t('ShippingAddress.SINGULARNAME'),
-        'invoiceAddress'    => _t('InvoiceAddress.SINGULARNAME'),
-        'status'            => _t('Order.STATUS', 'order status')
+        'ID'                => _t('SilvercartOrder.ORDER_ID'),
+        'Created'           => _t('SilvercartPage.ORDER_DATE'),
+        'ShippingRate'      => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+        'Note'              => _t('SilvercartPage.REMARKS'),
+        'isConfirmed'       => _t('SilvercartOrder.CONFIRMED', 'confirmed?'),
+        'customer'          => _t('SilvercartOrder.CUSTOMER', 'customer'),
+        'shippingAddress'   => _t('SilvercartShippingAddress.SINGULARNAME'),
+        'invoiceAddress'    => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+        'status'            => _t('SilvercartOrder.STATUS', 'order status')
     );
         parent::__construct($record, $isSingleton);
     }
@@ -249,10 +249,10 @@ class Order extends DataObject {
      */
     public function getShippingAddressSummary() {
         $shippingAddressSummary = '';
-        $shippingAddressSummary .= $this->shippingAddress()->FirstName . ' ' . $this->shippingAddress()->Surname . "\n";
-        $shippingAddressSummary .= $this->shippingAddress()->Street . ' ' . $this->shippingAddress()->StreetNumber . "\n";
-        $shippingAddressSummary .= $this->shippingAddress()->Addition == '' ? '' : $this->shippingAddress()->Addition . "\n";
-        $shippingAddressSummary .= strtoupper($this->shippingAddress()->country()->ISO2) . '-' . $this->shippingAddress()->Postcode . ' ' . $this->shippingAddress()->City . "\n";
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname . "\n";
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . "\n";
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . "\n";
+        $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . "\n";
         return $shippingAddressSummary;
     }
 
@@ -263,10 +263,10 @@ class Order extends DataObject {
      */
     public function getInvoiceAddressSummary() {
         $invoiceAddressSummary = '';
-        $invoiceAddressSummary .= $this->invoiceAddress()->FirstName . ' ' . $this->invoiceAddress()->Surname . "\n";
-        $invoiceAddressSummary .= $this->invoiceAddress()->Street . ' ' . $this->invoiceAddress()->StreetNumber . "\n";
-        $invoiceAddressSummary .= $this->invoiceAddress()->Addition == '' ? '' : $this->invoiceAddress()->Addition . "\n";
-        $invoiceAddressSummary .= strtoupper($this->invoiceAddress()->country()->ISO2) . '-' . $this->invoiceAddress()->Postcode . ' ' . $this->invoiceAddress()->City . "\n";
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname . "\n";
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . "\n";
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . "\n";
+        $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . "\n";
         return $invoiceAddressSummary;
     }
 
@@ -291,7 +291,7 @@ class Order extends DataObject {
     public function  requireDefaultRecords() {
         parent::requireDefaultRecords();
         $checkOrderMail = DataObject::get_one(
-            'ShopEmail',
+            'SilvercartShopEmail',
             "`Identifier` = 'MailOrderConfirmation'"
         );
         if (!$checkOrderMail) {
@@ -299,7 +299,7 @@ class Order extends DataObject {
             $orderMail->setField('Identifier',   'MailOrderConfirmation');
             $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderConfirmation.ss';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
             if (is_file($defaultTemplateFile)) {
                 $defaultTemplate = file_get_contents($defaultTemplateFile);
             } else {
@@ -309,7 +309,7 @@ class Order extends DataObject {
             $orderMail->write();
         }
         $checkOrderMail = DataObject::get_one(
-            'ShopEmail',
+            'SilvercartShopEmail',
             "`Identifier` = 'MailOrderNotification'"
         );
         if (!$checkOrderMail) {
@@ -317,7 +317,7 @@ class Order extends DataObject {
             $orderMail->setField('Identifier',   'MailOrderNotification');
             $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/MailOrderNotification.ss';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
             if (is_file($defaultTemplateFile)) {
                 $defaultTemplate = file_get_contents($defaultTemplateFile);
             } else {
@@ -340,17 +340,17 @@ class Order extends DataObject {
         $fields->removeByName('Versandadresse');
         $fields->removeByName('Rechnungsadresse');
 
-        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Name', 'Name', $this->shippingAddress()->FirstName . ' ' . $this->shippingAddress()->Surname));
-        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Street', 'Straße', $this->shippingAddress()->Street . ' ' . $this->shippingAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Addition', 'Zusatz', $this->shippingAddress()->Addition));
-        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_City', 'PLZ/Ort', strtoupper($this->shippingAddress()->country()->ISO2) . '-' . $this->shippingAddress()->Postcode . ' ' . $this->shippingAddress()->City));
-        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Phone', 'Telefon', $this->shippingAddress()->PhoneAreaCode . '/' . $this->shippingAddress()->Phone));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Name', 'Name', $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Street', 'Straße', $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Addition', 'Zusatz', $this->SilvercartShippingAddress()->Addition));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_City', 'PLZ/Ort', strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
+        $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Phone', 'Telefon', $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
 
-        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Name', 'Name', $this->invoiceAddress()->FirstName . ' ' . $this->invoiceAddress()->Surname));
-        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Street', 'Straße', $this->invoiceAddress()->Street . ' ' . $this->invoiceAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Addition', 'Zusatz', $this->invoiceAddress()->Addition));
-        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->invoiceAddress()->country()->ISO2) . '-' . $this->invoiceAddress()->Postcode . ' ' . $this->invoiceAddress()->City));
-        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Phone', 'Telefon', $this->invoiceAddress()->PhoneAreaCode . '/' . $this->invoiceAddress()->Phone));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Name', 'Name', $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Street', 'Straße', $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Addition', 'Zusatz', $this->SilvercartInvoiceAddress()->Addition));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
+        $fields->addFieldToTab('Root.Rechnungsadresse', new ReadonlyField('ia_Phone', 'Telefon', $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
 
         return $fields;
     }
@@ -366,29 +366,29 @@ class Order extends DataObject {
      */
     public function createInvoiceAddress($registrationData = "") {
         $member = Member::currentUser();
-        $orderInvoiceAddress = new OrderInvoiceAddress();
-        if ($member->ClassName != "AnonymousCustomer") {//for registered users
+        $orderInvoiceAddress = new SilvercartOrderInvoiceAddress();
+        if ($member->ClassName != "SilvercartAnonymousCustomer") {//for registered users
 
             /*
              * a member might not have an invoice address Surname/FirstName
              */
-            if ($member->invoiceAddress()->Surname) {
-                $orderInvoiceAddress->Surname = $member->invoiceAddress()->Surname;
+            if ($member->SilvercartInvoiceAddress()->Surname) {
+                $orderInvoiceAddress->Surname = $member->SilvercartInvoiceAddress()->Surname;
             } else {
                 $orderInvoiceAddress->Surname = $member->Surname;
             }
-            if ($member->invoiceAddress()->FirstName) {
-                $orderInvoiceAddress->FirstName = $member->invoiceAddress()->FirstName;
+            if ($member->SilvercartInvoiceAddress()->FirstName) {
+                $orderInvoiceAddress->FirstName = $member->SilvercartInvoiceAddress()->FirstName;
             } else {
                 $orderInvoiceAddress->FirstName = $member->FirstName;
             }
-            $orderInvoiceAddress->Street = $member->invoiceAddress()->Street;
-            $orderInvoiceAddress->StreetNumber = $member->invoiceAddress()->StreetNumber;
-            $orderInvoiceAddress->Postcode = $member->invoiceAddress()->Postcode;
-            $orderInvoiceAddress->City = $member->invoiceAddress()->City;
-            $orderInvoiceAddress->PhoneAreaCode = $member->invoiceAddress()->PhoneAreaCode;
-            $orderInvoiceAddress->Phone = $member->invoiceAddress()->Phone;
-            $orderInvoiceAddress->countryID = $member->invoiceAddress()->countryID;
+            $orderInvoiceAddress->Street = $member->SilvercartInvoiceAddress()->Street;
+            $orderInvoiceAddress->StreetNumber = $member->SilvercartInvoiceAddress()->StreetNumber;
+            $orderInvoiceAddress->Postcode = $member->SilvercartInvoiceAddress()->Postcode;
+            $orderInvoiceAddress->City = $member->SilvercartInvoiceAddress()->City;
+            $orderInvoiceAddress->PhoneAreaCode = $member->SilvercartInvoiceAddress()->PhoneAreaCode;
+            $orderInvoiceAddress->Phone = $member->SilvercartInvoiceAddress()->Phone;
+            $orderInvoiceAddress->countryID = $member->SilvercartInvoiceAddress()->countryID;
             $orderInvoiceAddress->write();
             $this->invoiceAddressID = $orderInvoiceAddress->ID;
         } else { //for anonymous customers
@@ -412,29 +412,29 @@ class Order extends DataObject {
      */
     public function createShippingAddress($registrationData = "") {
         $member = Member::currentUser();
-        $orderShippingAddress = new OrderShippingAddress();
-        if ($member->ClassName != "AnonymousCustomer") {// for registered customers
+        $orderShippingAddress = new SilvercartOrderShippingAddress();
+        if ($member->ClassName != "SilvercartAnonymousCustomer") {// for registered customers
 
             /*
              * get Surname and FirstName from the address, if not available from the member
              */
-            if ($member->shippingAddress()->Surname) {
-                $orderShippingAddress->Surname = $member->shippingAddress()->Surname;
+            if ($member->SilvercartShippingAddress()->Surname) {
+                $orderShippingAddress->Surname = $member->SilvercartShippingAddress()->Surname;
             } else {
                 $orderShippingAddress->Surname = $member->Surname;
             }
-            if ($member->shippingAddress()->FirstName) {
-                $orderShippingAddress->FirstName = $member->shippingAddress()->FirstName;
+            if ($member->SilvercartShippingAddress()->FirstName) {
+                $orderShippingAddress->FirstName = $member->SilvercartShippingAddress()->FirstName;
             } else {
                 $orderShippingAddress->FirstName = $member->FirstName;
             }
-            $orderShippingAddress->Street = $member->shippingAddress()->Street;
-            $orderShippingAddress->StreetNumber = $member->shippingAddress()->StreetNumber;
-            $orderShippingAddress->Postcode = $member->shippingAddress()->Postcode;
-            $orderShippingAddress->City = $member->shippingAddress()->City;
-            $orderShippingAddress->PhoneAreaCode = $member->shippingAddress()->PhoneAreaCode;
-            $orderShippingAddress->Phone = $member->shippingAddress()->Phone;
-            $orderShippingAddress->countryID = $member->shippingAddress()->countryID;
+            $orderShippingAddress->Street = $member->SilvercartShippingAddress()->Street;
+            $orderShippingAddress->StreetNumber = $member->SilvercartShippingAddress()->StreetNumber;
+            $orderShippingAddress->Postcode = $member->SilvercartShippingAddress()->Postcode;
+            $orderShippingAddress->City = $member->SilvercartShippingAddress()->City;
+            $orderShippingAddress->PhoneAreaCode = $member->SilvercartShippingAddress()->PhoneAreaCode;
+            $orderShippingAddress->Phone = $member->SilvercartShippingAddress()->Phone;
+            $orderShippingAddress->countryID = $member->SilvercartShippingAddress()->countryID;
             $orderShippingAddress->write(); //write here to have an object ID
             $this->shippingAddressID = $orderShippingAddress->ID;
         } else { //for anonymous customers
@@ -460,32 +460,32 @@ class Order extends DataObject {
         $this->customerID = $member->ID;
 
         // VAT tax for shipping and payment fees
-        $shippingMethod = DataObject::get_by_id('ShippingMethod', $this->shippingMethodID);
+        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
         if ($shippingMethod) {
             $shippingFee  = $shippingMethod->getShippingFee();
 
             if ($shippingFee) {
                 if ($shippingFee->Tax()) {
-                    $this->TaxRateShipment   = $shippingFee->Tax()->Rate;
+                    $this->TaxRateShipment   = $shippingFee->SilvercartTax()->Rate;
                     $this->TaxAmountShipment = $shippingFee->getTaxAmount();
                 }
             }
         }
 
-        $paymentMethod = DataObject::get_by_id('PaymentMethod', $this->paymentID);
+        $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
         if ($paymentMethod) {
             $paymentFee = $paymentMethod->HandlingCost();
 
             if ($paymentFee) {
-                if ($paymentFee->Tax()) {
-                    $this->TaxRatePayment   = $paymentFee->Tax()->Rate;
+                if ($paymentFee->SilvercartTax()) {
+                    $this->TaxRatePayment   = $paymentFee->SilvercartTax()->Rate;
                     $this->TaxAmountPayment = $paymentFee->getTaxAmount();
                 }
             }
         }
 
         // price sum of all positions
-        $this->AmountTotal->setAmount($member->shoppingCart()->getAmountTotal()->getAmount());
+        $this->AmountTotal->setAmount($member->SilvercartShoppingCart()->getAmountTotal()->getAmount());
         $this->AmountTotal->setCurrency('EUR');
 
         // amount of all positions + handling fee of the payment method + shipping fee
@@ -501,11 +501,11 @@ class Order extends DataObject {
 
         // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
-            'PaymentMethod',
+            'SilvercartPaymentMethod',
             $this->paymentID
         );
         $orderStatus = DataObject::get_one(
-            'OrderStatus',
+            'SilvercartOrderStatus',
             sprintf(
                 "\"Code\" = '%s'",
                 $paymentObj->getDefaultOrderStatus()
@@ -532,31 +532,31 @@ class Order extends DataObject {
      */
     protected function convertShoppingCartPositionsToOrderPositions() {
         $member = Member::currentUser();
-        $filter = sprintf("\"shoppingCartID\" = '%s'", $member->shoppingCartID);
-        $shoppingCartPositions = DataObject::get('ShoppingCartPosition', $filter);
+        $filter = sprintf("\"shoppingCartID\" = '%s'", $member->SilvercartShoppingCartID);
+        $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
 
         if ($shoppingCartPositions) {
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                $article = $shoppingCartPosition->article();
+                $product = $shoppingCartPosition->SilvercartProduct();
 
-                if ($article) {
-                    $orderPosition = new OrderPosition();
-                    $orderPosition->Price->setAmount($article->Price->getAmount());
-                    $orderPosition->Price->setCurrency($article->Price->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($article->Price->getAmount() * $shoppingCartPosition->Quantity);
-                    $orderPosition->PriceTotal->setCurrency($article->Price->getCurrency());
-                    $orderPosition->Tax                 = $article->getTaxAmount();
-                    $orderPosition->TaxTotal            = $article->getTaxAmount() * $shoppingCartPosition->Quantity;
-                    $orderPosition->TaxRate             = $article->tax()->Rate;
-                    $orderPosition->ArticleDescription  = $article->LongDescription;
+                if ($product) {
+                    $orderPosition = new SilvercartOrderPosition();
+                    $orderPosition->Price->setAmount($product->Price->getAmount());
+                    $orderPosition->Price->setCurrency($product->Price->getCurrency());
+                    $orderPosition->PriceTotal->setAmount($product->Price->getAmount() * $shoppingCartPosition->Quantity);
+                    $orderPosition->PriceTotal->setCurrency($product->Price->getCurrency());
+                    $orderPosition->Tax                 = $product->getTaxAmount();
+                    $orderPosition->TaxTotal            = $product->getTaxAmount() * $shoppingCartPosition->Quantity;
+                    $orderPosition->TaxRate             = $product->tax()->Rate;
+                    $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
-                    $orderPosition->Title               = $article->Title;
+                    $orderPosition->Title               = $product->Title;
                     $orderPosition->orderID             = $this->ID;
-                    $orderPosition->articleID           = $article->ID;
+                    $orderPosition->ProductID           = $product->ID;
 
-                    // Call hook method on article if available
-                    if ($article->hasMethod('ShoppingCartConvert')) {
-                        $article->ShoppingCartConvert($this, $orderPosition);
+                    // Call hook method on product if available
+                    if ($product->hasMethod('ShoppingCartConvert')) {
+                        $product->ShoppingCartConvert($this, $orderPosition);
                     }
 
                     $orderPosition->write();
@@ -565,10 +565,10 @@ class Order extends DataObject {
             }
 
             // Get taxable positions from registered modules
-            $registeredModules = $member->shoppingCart()->callMethodOnRegisteredModules(
+            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
                 array(
-                    $member->shoppingCart(),
+                    $member->SilvercartShoppingCart(),
                     $member,
                     true
                 )
@@ -576,7 +576,7 @@ class Order extends DataObject {
 
             foreach ($registeredModules as $moduleName => $moduleOutput) {
                 foreach ($moduleOutput as $modulePosition) {
-                    $orderPosition = new OrderPosition();
+                    $orderPosition = new SilvercartOrderPosition();
                     $orderPosition->Price->setAmount($modulePosition->Price);
                     $orderPosition->Price->setCurrency($modulePosition->Currency);
                     $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
@@ -584,7 +584,7 @@ class Order extends DataObject {
                     $orderPosition->Tax                 = 0;
                     $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
                     $orderPosition->TaxRate             = $modulePosition->TaxRate;
-                    $orderPosition->ArticleDescription  = $modulePosition->LongDescription;
+                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
                     $orderPosition->Quantity            = $modulePosition->Quantity;
                     $orderPosition->Title               = $modulePosition->Name;
                     $orderPosition->orderID             = $this->ID;
@@ -594,10 +594,10 @@ class Order extends DataObject {
             }
 
             // Get nontaxable positions from registered modules
-            $registeredModules = $member->shoppingCart()->callMethodOnRegisteredModules(
+            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
                 array(
-                    $member->shoppingCart(),
+                    $member->SilvercartShoppingCart(),
                     $member,
                     false
                 )
@@ -605,7 +605,7 @@ class Order extends DataObject {
 
             foreach ($registeredModules as $moduleName => $moduleOutput) {
                 foreach ($moduleOutput as $modulePosition) {
-                    $orderPosition = new OrderPosition();
+                    $orderPosition = new SilvercartOrderPosition();
                     $orderPosition->Price->setAmount($modulePosition->Price);
                     $orderPosition->Price->setCurrency($modulePosition->Currency);
                     $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
@@ -613,7 +613,7 @@ class Order extends DataObject {
                     $orderPosition->Tax                 = 0;
                     $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
                     $orderPosition->TaxRate             = $modulePosition->TaxRate;
-                    $orderPosition->ArticleDescription  = $modulePosition->LongDescription;
+                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
                     $orderPosition->Quantity            = $modulePosition->Quantity;
                     $orderPosition->Title               = $modulePosition->Name;
                     $orderPosition->orderID             = $this->ID;
@@ -623,10 +623,10 @@ class Order extends DataObject {
             }
 
             // Convert positions of registered modules
-            $member->currentUser()->shoppingCart()->callMethodOnRegisteredModules(
+            $member->currentUser()->SilvercartShoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartConvert',
                 array(
-                    Member::currentUser()->shoppingCart(),
+                    Member::currentUser()->SilvercartShoppingCart(),
                     Member::currentUser()
                 )
             );
@@ -664,12 +664,12 @@ class Order extends DataObject {
      */
     public function setPaymentMethod($paymentMethodID) {
         $paymentMethodObj = DataObject::get_by_id(
-                        'PaymentMethod',
+                        'SilvercartPaymentMethod',
                         $paymentMethodID
         );
 
         if ($paymentMethodObj) {
-            $this->paymentID = $paymentMethodObj->ID;
+            $this->SilvercartPaymentID = $paymentMethodObj->ID;
             $this->PaymentMethodTitle = $paymentMethodObj->Name;
             $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->getAmount());
             $this->HandlingCostPayment->setCurrency('EUR');
@@ -691,7 +691,7 @@ class Order extends DataObject {
         $orderStatusSet = false;
 
         if ($orderStatus && $orderStatus->exists()) {
-            $this->statusID = $orderStatus->ID;
+            $this->SilvercartStatusID = $orderStatus->ID;
             $this->write();
             $orderStatusSet = true;
         }
@@ -744,8 +744,8 @@ class Order extends DataObject {
      */
     public function setWeight() {
         $member = Member::currentUser();
-        if ($member->shoppingCart()->getWeightTotal()) {
-            $this->WeightTotal = $member->shoppingCart()->getWeightTotal();
+        if ($member->SilvercartShoppingCart()->getWeightTotal()) {
+            $this->WeightTotal = $member->SilvercartShoppingCart()->getWeightTotal();
         }
     }
 
@@ -761,8 +761,8 @@ class Order extends DataObject {
     public function setAmountTotal() {
         $member = Member::currentUser();
 
-        if ($member && $member->shoppingCart()) {
-            $this->AmountTotal = $member->shoppingCart()->getAmountTotal();
+        if ($member && $member->SilvercartShoppingCart()) {
+            $this->AmountTotal = $member->SilvercartShoppingCart()->getAmountTotal();
         }
     }
 
@@ -804,7 +804,7 @@ class Order extends DataObject {
 
         if ($selectedShippingMethod) {
             $this->shippingMethodID              = $selectedShippingMethod->ID;
-            $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
+            $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
             $this->shippingFeeID                 = $selectedShippingMethod->getShippingFee()->ID;
             $this->HandlingCostShipment->setCurrency('EUR');
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->Price->getAmount());
@@ -823,7 +823,7 @@ class Order extends DataObject {
     public function getTax() {
         $tax = 0.0;
 
-        foreach ($this->orderPositions() as $orderPosition) {
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             $tax += $orderPosition->TaxTotal;
         }
 
@@ -920,7 +920,7 @@ class Order extends DataObject {
         $priceGross = new Money();
         $priceGross->setAmount(0);
 
-        foreach ($this->orderPositions() as $position) {
+        foreach ($this->SilvercartOrderPositions() as $position) {
             if ($position->TaxRate > 0) {
                 $priceGross->setAmount(
                     $priceGross->getAmount() + $position->PriceTotal->getAmount()
@@ -945,7 +945,7 @@ class Order extends DataObject {
         $priceGross = new Money();
         $priceGross->setAmount(0);
 
-        foreach ($this->orderPositions() as $position) {
+        foreach ($this->SilvercartOrderPositions() as $position) {
             if ($position->TaxRate > 0) {
                 $priceGross->setAmount(
                     $priceGross->getAmount() + $position->PriceTotal->getAmount()
@@ -967,7 +967,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Returns the sum of tax amounts grouped by tax rates for the articles
+     * Returns the sum of tax amounts grouped by tax rates for the products
      * of the order.
      *
      * @return DataObjectSet
@@ -979,7 +979,7 @@ class Order extends DataObject {
     public function getTaxRatesWithoutFees() {
         $taxes = new DataObjectSet;
 
-        foreach ($this->orderPositions() as $orderPosition) {
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             $taxRate = $orderPosition->TaxRate;
             if ($taxRate > 0 &&
                 !$taxes->find('Rate', $taxRate)) {
@@ -1008,7 +1008,7 @@ class Order extends DataObject {
     }
 
     /**
-     * Returns the sum of tax amounts grouped by tax rates for the articles
+     * Returns the sum of tax amounts grouped by tax rates for the products
      * and all fees of the order.
      *
      * @return DataObjectSet
@@ -1065,22 +1065,22 @@ class Order extends DataObject {
     }
 
     /**
-     * returns quantity of all articles of the order
+     * returns quantity of all products of the order
      *
-     * @param int $articleId if set only article quantity of this article is returned
+     * @param int $productId if set only product quantity of this product is returned
      *
      * @return int
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 29.11.10
      */
-    public function getQuantity($articleId = null) {
-        $positions = $this->orderPositions();
+    public function getQuantity($productId = null) {
+        $positions = $this->SilvercartOrderPositions();
         $quantity = 0;
 
         foreach ($positions as $position) {
-            if ($articleId === null ||
-                    $position->article()->ID === $articleId) {
+            if ($productId === null ||
+                    $position->SilvercartProduct()->ID === $productId) {
 
                 $quantity += $position->Quantity;
             }
@@ -1101,7 +1101,7 @@ class Order extends DataObject {
     public function getHandlingCostPayment() {
         $handlingCosts = 0.0;
         $paymentObj = DataObject::get_by_id(
-            'PaymentMethod',
+            'SilvercartPaymentMethod',
             $this->paymentID
         );
 
@@ -1158,7 +1158,7 @@ class Order extends DataObject {
     public function sendConfirmationMail() {
         $member = Member::currentUser();
         if ($member) {
-            ShopEmail::send(
+            SilvercartShopEmail::send(
                 'MailOrderConfirmation',
                 $this->CustomersEmail,
                 array(
@@ -1168,8 +1168,8 @@ class Order extends DataObject {
                     'Order'         => $this
                 )
             );
-            ShopEmail::send(
-                'MailOrderNotification',
+            SilvercartShopEmail::send(
+                'SilvercartMailOrderNotification',
                 Email::getAdminEmail(),
                 array(
                     'FirstName'     => $member->FirstName,
