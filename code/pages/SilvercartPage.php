@@ -20,7 +20,7 @@ class SilvercartPage extends SiteTree {
     public function extraStatics() {
         return array(
             'db' => array(
-                'headerPicture' => 'Image'
+                'HeaderPicture' => 'Image'
             )
         );
     }
@@ -35,7 +35,7 @@ class SilvercartPage extends SiteTree {
      * @since 15.10.2010
      */
     public function updateCMSFields(FieldSet $fields) {
-        $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('headerPicture', _t('Page.HEADERPICTURE', 'header picture')));
+        $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('HeaderPicture', _t('SilvercartPage.HEADERPICTURE', 'header picture')));
     }
 
 }
@@ -61,16 +61,16 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function init() {
         Requirements::themedCSS('layout');
-        Requirements::themedCSS('ProductGroupHolder');
-        Requirements::themedCSS('ProductGroupPage');
-        Requirements::themedCSS('ProductPage');
-        Requirements::themedCSS('SideBarCart');
+        Requirements::themedCSS('SilvercartProductGroupHolder');
+        Requirements::themedCSS('SilvercartProductGroupPage');
+        Requirements::themedCSS('SilvercartProductPage');
+        Requirements::themedCSS('SilvercartSideBarCart');
         Requirements::javascript("pixeltricks_module/script/jquery.js");
-        Requirements::javascript("silvercart/js/startupScripts.js");
-        Requirements::javascript("silvercart/js/jquery.pixeltricks.tools.js");
+        Requirements::javascript("silvercart/script/document.ready_scripts.js");
+        Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
 
-        $this->registerCustomHtmlForm('QuickSearch', new QuickSearchForm($this));
-        $this->registerCustomHtmlForm('QuickLogin', new QuickLoginForm($this));
+        $this->registerCustomHtmlForm('SilvercartQuickSearch', new SilvercartQuickSearchForm($this));
+        $this->registerCustomHtmlForm('SilvercartQuickLogin', new SilvercartQuickLoginForm($this));
 
         parent::init();
     }
@@ -190,7 +190,7 @@ class SilvercartPage_Controller extends ContentController {
     public function CurrentRegisteredCustomer() {
         $member = Member::currentUser();
         if ($member) {
-            if ($member->ClassName != "AnonymousCustomer") {
+            if ($member->ClassName != "SilvercartAnonymousCustomer") {
                 return $member;
             }
         } else {
@@ -210,7 +210,7 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function MemberInformation() {
 
-        if (Member::currentUser() && Member::currentUser()->ClassName != 'AnonymousCustomer') {
+        if (Member::currentUser() && Member::currentUser()->ClassName != 'SilvercartAnonymousCustomer') {
             return true;
         } else {
             return false;
@@ -244,7 +244,7 @@ class SilvercartPage_Controller extends ContentController {
         $memberID = Member::currentUserID();
         $member = DataObject::get_by_id("Member", $memberID);
         if ($member) {
-            $shoppingCartPositions = DataObject::get("ShoppingCartPosition", "\"shoppingCartID\" = '$member->shoppingCartID'");
+            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`shoppingCartID` = '%s'",$member->SilvercartShoppingCartID));
             return Count($shoppingCartPositions);
         }
     }
@@ -259,7 +259,7 @@ class SilvercartPage_Controller extends ContentController {
     public function isFilledCart() {
         $customer = Member::currentUser();
 
-        if ($customer && $customer->hasMethod('shoppingCart') && $customer->shoppingCart()->positions()->Count() > 0) {
+        if ($customer && $customer->hasMethod('SilvercartShoppingCart') && $customer->SilvercartShoppingCart()->SilvercartShoppingCartPosition()->Count() > 0) {
             return true;
         } else {
             return false;
