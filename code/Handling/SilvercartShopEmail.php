@@ -1,5 +1,4 @@
 <?php
-
 /**
  * base class for emails
  *
@@ -9,7 +8,7 @@
  * @since 03.12.2010
  * @license none
  */
-class ShopEmail extends DataObject {
+class SilvercartShopEmail extends DataObject {
 
     /**
      * classes attributes
@@ -85,7 +84,7 @@ class ShopEmail extends DataObject {
      */
     public static function send($identifier, $to, $variables = array()) {
         $mailObj = DataObject::get_one(
-            'ShopEmail',
+            'SilvercartShopEmail',
             sprintf(
                     "\"Identifier\" = '%s'",
                     $identifier
@@ -110,10 +109,10 @@ class ShopEmail extends DataObject {
             $mailObj->EmailText
         );
 
-        $email->setTemplate('ShopEmail');
+        $email->setTemplate('SilvercartShopEmail');
         $email->populateTemplate(
             array(
-                'ShopEmailMessage' => $emailText
+                'SilvercartShopEmailMessage' => $emailText
             )
         );
 

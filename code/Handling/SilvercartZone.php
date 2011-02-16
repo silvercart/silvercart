@@ -1,5 +1,4 @@
 <?php
-
 /**
  * abstract for a shipping zone; makes it easier to calculate shipping rates
  * Every carrier might have it´s own zones. That´s why zones:countries is n:m
@@ -9,7 +8,7 @@
  * @since 23.10.2010
  * @license none
  */
-class Zone extends DataObject {
+class SilvercartZone extends DataObject {
 
     /**
      * Singular name
@@ -48,20 +47,20 @@ class Zone extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         self::$field_labels = array(
             'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
-            'carrier.Title' => _t('Carrier.SINGULARNAME'),
-            'AttributedCountries' => _t('Zone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
-            'AttributedShippingMethods' => _t('Zone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
+            'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
+            'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
         );
         self::$searchable_fields = array(
             'Title',
-            'carrier.ID' => array(
-                'title' => _t('Carrier.SINGULARNAME')
+            'SilvercartCarrier.ID' => array(
+                'title' => _t('SilvercartCarrier.SINGULARNAME')
             ),
-            'countries.ID' => array(
-                'title' => _t('Zone.FOR_COUNTRIES', 'for countries')
+            'SilvercartCountries.ID' => array(
+                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries')
             ),
-            'shippingMethods.ID' => array(
-                'title' => _t('Zone.ATTRIBUTED_SHIPPINGMETHODS')
+            'SilvercartShippingMethods.ID' => array(
+                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS')
             )
         );
         parent::__construct($record, $isSingleton);
@@ -89,7 +88,7 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $has_one = array(
-        'carrier' => 'Carrier'
+        'SilvercartCarrier' => 'SilvercartCarrier'
     );
     /**
      * Has-many relationship.
@@ -101,7 +100,7 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'shippingFees' => 'ShippingFee'
+        'SilvercartShippingFees' => 'SilvercartShippingFee'
     );
     /**
      * Many-many relationships.
@@ -113,7 +112,7 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $many_many = array(
-        'countries' => 'Country'
+        'SilvercartCountries' => 'SilvercartCountry'
     );
     /**
      * Belongs-many-many relationships.
@@ -125,7 +124,7 @@ class Zone extends DataObject {
      * @since 31.01.2011
      */
     public static $belongs_many_many = array(
-        'shippingMethods' => 'ShippingMethod'
+        'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
     /**
      * Summaryfields for display in tables.
@@ -138,7 +137,7 @@ class Zone extends DataObject {
      */
     public static $summary_fields = array(
         'Title',
-        'carrier.Title',
+        'SilvercartCarrier.Title',
         'AttributedCountries',
         'AttributedShippingMethods'
     );
@@ -153,7 +152,7 @@ class Zone extends DataObject {
      */
     public static $field_labels = array(
         'Title' => 'Name',
-        'carrier.Title' => 'Frachtführer',
+        'SilvercartCarrier.Title' => 'Frachtführer',
         'AttributedCountries' => 'Für Länder',
         'AttributedShippingMethods' => 'Zugeordnete Versandarten'
     );
@@ -181,13 +180,13 @@ class Zone extends DataObject {
      */
     public static $searchable_fields = array(
         'Title',
-        'carrier.ID' => array(
+        'SilvercartCarrier.ID' => array(
             'title' => 'Frachtführer'
         ),
-        'countries.ID' => array(
+        'SilvercartCountries.ID' => array(
             'title' => 'Für Länder'
         ),
-        'shippingMethods.ID' => array(
+        'SilvercartShippingMethods.ID' => array(
             'title' => 'Zugeordnete Versandarten'
         )
     );
@@ -204,32 +203,32 @@ class Zone extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        if (!DataObject::get_one('Zone')) {
-            $standardZone = new Zone();
-            $standardZone->Title = 'EU';
-            $standardZone->write();
+        if (!DataObject::get_one('SilvercartZone')) {
+            $silvercartStandardZone = new SilvercartZone();
+            $silvercartStandardZone->Title = 'EU';
+            $silvercartStandardZone->write();
 
-            $domestic = new Zone();
-            $domestic->Title = _t('Zone.DOMESTIC', 'domestic');
-            $domestic->write();
+            $silvercartDomestic = new SilvercartZone();
+            $silvercartDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
+            $silvercartDomestic->write();
 
             //relate country to zones
-            if (DataObject::get_one('Country')) {
-                $domestic->countries()->add(DataObject::get_one('Country'));
+            if (DataObject::get_one('SilvercartCountry')) {
+                $silvercartDomestic->SilvercartCountries()->add(DataObject::get_one('SilvercartCountry'));
             }
             // relate carrier to zones
-            if (DataObject::get('Carrier')) {
-                $carrier = DataObject::get('Carrier');
-                $domestic->carrierID = $carrier->ID;
-                $domestic->write();
-                $standardZone->carrierID = $carrier->ID;
-                $standardZone->write();
+            if (DataObject::get('SilvercartCarrier')) {
+                $silvercartCarrier = DataObject::get('SilvercartCarrier');
+                $silvercartDomestic->SilvercartCarrierID = $silvercartCarrier->ID;
+                $silvercartDomestic->write();
+                $silvercartStandardZone->SilvercartCarrierID = $silvercartCarrier->ID;
+                $silvercartStandardZone->write();
             }
             // relate to ShippingFee (if exists)
-            $shippingFee = DataObject::get_one("ShippingFee");
-            if ($shippingFee) {
-                $shippingFee->zoneID = $domestic->ID;
-                $shippingFee->write();
+            $silvercartShippingFee = DataObject::get_one("SilvercartShippingFee");
+            if ($silvercartShippingFee) {
+                $silvercartShippingFee->zoneID = $silvercartDomestic->ID;
+                $silvercartShippingFee->write();
             }
         }
     }
@@ -243,15 +242,15 @@ class Zone extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('countries');
+        $fields->removeByName('SilvercartCountries');
         $countriesTable = new ManyManyComplexTableField(
-                        $this,
-                        'countries',
-                        'Country',
-                        array('Title' => _t('Country.SINGULARNAME')),
-                        'getCMSFields_forPopup'
+            $this,
+            'SilvercartCountries',
+            'SilvercartCountry',
+            array('Title' => _t('SilvercartCountry.SINGULARNAME')),
+            'getCMSFields_forPopup'
         );
-        $tabParam = "Root." . _t('Zone.COUNTRIES', 'countries');
+        $tabParam = "Root." . _t('SilvercartZone.COUNTRIES', 'countries');
         $fields->addFieldToTab($tabParam, $countriesTable);
         return $fields;
     }
@@ -270,8 +269,8 @@ class Zone extends DataObject {
         $attributedCountries = array();
         $maxLength = 150;
 
-        foreach ($this->countries() as $country) {
-            $attributedCountries[] = $country->Title;
+        foreach ($this->SilvercartCountries() as $silvercartCountry) {
+            $attributedCountries[] = $silvercartCountry->Title;
         }
 
         if (!empty($attributedCountries)) {
@@ -299,8 +298,8 @@ class Zone extends DataObject {
         $attributedShippingMethods = array();
         $maxLength = 150;
 
-        foreach ($this->shippingMethods() as $shippingMethod) {
-            $attributedShippingMethods[] = $shippingMethod->Title;
+        foreach ($this->SilvercartShippingMethods() as $silvercartShippingMethod) {
+            $attributedShippingMethods[] = $silvercartShippingMethod->Title;
         }
 
         if (!empty($attributedShippingMethods)) {

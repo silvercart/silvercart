@@ -7,7 +7,7 @@
  * @since 22.11.2010
  * @license none
  */
-class Article extends DataObject {
+class SilvercartArticle extends DataObject {
 
     /**
      * singular name for backend
@@ -68,8 +68,8 @@ class Article extends DataObject {
      * @since 02.02.2011
      */
     public static $summary_fields = array(
-        'Title'                     => 'Artikel',
-        'manufacturer.Title'        => 'Hersteller'
+        'Title'                         => 'Artikel',
+        'SilvercartManufacturer.Title'  => 'Hersteller'
     );
 
     /**
@@ -85,7 +85,7 @@ class Article extends DataObject {
         'Title',
         'ShortDescription',
         'LongDescription',
-        'manufacturer.Title',
+        'SilvercartManufacturer.Title',
         'isFreeOfCharge'
     );
 
@@ -99,12 +99,12 @@ class Article extends DataObject {
      * @since 02.02.2011
      */
     public static $field_labels = array(
-        'Title'                     => 'Bezeichnung',
-        'LongDescription'           => 'Artikelbeschreibung',
-        'manufacturer.Title'        => 'Hersteller',
-        'isFreeOfCharge'            => 'kostenlos',
-        'PurchasePrice'             => 'Einkaufspreis',
-        'MSRPrice'                  => 'UVP'
+        'Title'                         => 'Bezeichnung',
+        'LongDescription'               => 'Artikelbeschreibung',
+        'SilvercartManufacturer.Title'  => 'Hersteller',
+        'isFreeOfCharge'                => 'kostenlos',
+        'PurchasePrice'                 => 'Einkaufspreis',
+        'MSRPrice'                      => 'UVP'
     );
 
     /**
@@ -128,11 +128,11 @@ class Article extends DataObject {
      * @since 24.11.2010
      */
     public static $has_one = array(
-        'tax'                   => 'Tax',
-        'manufacturer'          => 'Manufacturer',
-        'articleGroup'          => 'ArticleGroupPage',
-        'masterArticle'         => 'Article',
-        'image'                 => 'Image'
+        'SilvercartTax'             => 'SilvercartTax',
+        'SilvercartManufacturer'    => 'SilvercartManufacturer',
+        'SilvercartArticleGroup'    => 'SilvercartArticleGroupPage',
+        'SilvercartMasterArticle'   => 'SilvercartArticle',
+        'image'                     => 'Image'
     );
 
     /**
@@ -145,7 +145,7 @@ class Article extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'shoppingCartPositions' => 'ShoppingCartPosition'
+        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition'
     );
 
     /**
@@ -158,9 +158,9 @@ class Article extends DataObject {
      * @since 22.11.2010
      */
     public static $belongs_many_many = array(
-        'shoppingCarts'         => 'ShoppingCart',
-        'orders'                => 'Order',
-        'categories'            => 'ArticleCategoryPage'
+        'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
+        'SilvercartOrders'                => 'SilvercartOrder',
+        'SilvercartCategories'            => 'SilvercartArticleCategoryPage'
     );
 
     // -----------------------------------------------------------------------
@@ -182,17 +182,17 @@ class Article extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'Title'                     => _t('Article.SINGULARNAME'),
-        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME')
-    );
+            'Title'                         => _t('SilvercartArticle.SINGULARNAME'),
+            'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
+        );
         self::$field_labels = array(
-        'Title'                     => _t('ArticleCategoryPage.COLUMN_TITLE'),
-        'LongDescription'           => _t('Article.DESCRIPTION'),
-        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME'),
-        'isFreeOfCharge'            => _t('Article.FREE_OF_CHARGE', 'free of charge'),
-        'PurchasePrice'             => _t('Article.PURCHASEPRICE', 'purchase price'),
-        'MSRPrice'                  => _t('Article.MSRP', 'MSR price')
-    );
+            'Title'                     => _t('SilvercartArticleCategoryPage.COLUMN_TITLE'),
+            'LongDescription'           => _t('SilvercartArticle.DESCRIPTION'),
+            'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
+            'isFreeOfCharge'            => _t('SilvercartArticle.FREE_OF_CHARGE', 'free of charge'),
+            'PurchasePrice'             => _t('SilvercartArticle.PURCHASEPRICE', 'purchase price'),
+            'MSRPrice'                  => _t('SilvercartArticle.MSRP', 'MSR price')
+        );
         parent::__construct($record, $isSingleton);
     }
 
@@ -229,7 +229,7 @@ class Article extends DataObject {
         } else {
             $filter = $whereClause;
         }
-        $articles = DataObject::get('Article', $filter, $sort, $join, $limit);
+        $articles = DataObject::get('SilvercartArticle', $filter, $sort, $join, $limit);
         if ($articles) {
             return $articles;
         } else {
@@ -246,11 +246,18 @@ class Article extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
-        $fields->removeByName('masterArticleID'); //remove the dropdown for the relation masterArticle
+        $fields->removeByName('SilvercartMasterArticleID'); //remove the dropdown for the relation masterArticle
         //Get all articles that have no master
-        $var = sprintf("\"masterArticleID\" = '%s'", "0");
-        $masterArticles = DataObject::get("Article", $var);
-        $dropdownField = new DropdownField('masterArticleID', _t('Article.MASTERARTICLE', 'master article'), $masterArticles->toDropDownMap(), null, null, _t('Article.CHOOSE_MASTER', '-- choose master --'));
+        $var = sprintf("\"SilvercartMasterArticleID\" = '%s'", "0");
+        $silvercartMasterArticles = DataObject::get("SilvercartArticle", $var);
+        $dropdownField = new DropdownField(
+            'SilvercartMasterArticleID',
+            _t('SilvercartArticle.MASTERARTICLE', 'master article'),
+            $silvercartMasterArticles->toDropDownMap(),
+            null,
+            null,
+            _t('SilvercartArticle.CHOOSE_MASTER', '-- choose master --')
+        );
         $fields->push($dropdownField);
         return $fields;
     }
@@ -264,13 +271,18 @@ class Article extends DataObject {
      */
     public function getCustomSearchContext() {
         $fields = $this->scaffoldSearchFields(
-                        array('restrictFields' => array('Title', 'LongDescription', 'manufacturer.Title')
-                        )
+            array(
+                'restrictFields' => array(
+                    'Title',
+                    'LongDescription',
+                    'SilvercartManufacturer.Title'
+                )
+            )
         );
         $filters = array(
             'Title' => new PartialMatchFilter('Title'),
             'LongDescription' => new ExactMatchFilter('LongDescription'),
-            'manufacturer.Title' => new PartialMatchFilter('manufacturer.Title')
+            'SilvercartManufacturer.Title' => new PartialMatchFilter('SilvercartManufacturer.Title')
         );
         return new SearchContext($this->class, $fields, $filters);
     }
@@ -288,9 +300,9 @@ class Article extends DataObject {
      */
     public static function getRandomArticles($amount = 4, $masterArticle = true) {
         if ($masterArticle) {
-            return DataObject::get("Article", "\"masterArticleID\" = '0'", "RAND()", null, $amount);
+            return DataObject::get("SilvercartArticle", "\"SilvercartMasterArticleID\" = '0'", "RAND()", null, $amount);
         } else {
-            return DataObject::get("Article", null, "RAND()", null, $amount);
+            return DataObject::get("SilvercartArticle", null, "RAND()", null, $amount);
         }
     }
 
@@ -350,20 +362,20 @@ class Article extends DataObject {
             return false;
         }
 
-        $filter           = sprintf("\"articleID\" = '%s' AND shoppingCartID = '%s'", $this->ID, $cartID);
-        $existingPosition = DataObject::get_one('ShoppingCartPosition', $filter);
+        $filter           = sprintf("\"SilvercartArticleID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
+        $existingPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if ($existingPosition) {
             $existingPosition->Quantity += $quantity;
             $existingPosition->write();
         } else {
-            $shoppingCartPosition                 = new ShoppingCartPosition();
-            $shoppingCartPosition->shoppingCartID = $cartID;
-            $shoppingCartPosition->articleID      = $this->ID;
-            $shoppingCartPosition->Quantity       = $quantity;
+            $shoppingCartPosition                           = new SilvercartShoppingCartPosition();
+            $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
+            $shoppingCartPosition->SilvercartArticleID      = $this->ID;
+            $shoppingCartPosition->Quantity                 = $quantity;
             $shoppingCartPosition->write();
 
-            $cart = DataObject::get_by_id('ShoppingCart', $cartID);
+            $cart = DataObject::get_by_id('SilvercartShoppingCart', $cartID);
         }
 
         return true;
@@ -391,10 +403,10 @@ class Article extends DataObject {
      */
     public function addToCartForm() {
         $fields = new FieldSet();
-        $fields->push(new HiddenField('articleID', 'articleID', $this->ID));
-        $fields->push(new NumericField('articleAmount', _t('Article.QUANTITY', 'quantity'), $value = 1));
+        $fields->push(new HiddenField('SilvercartArticleID', 'SilvercartArticleID', $this->ID));
+        $fields->push(new NumericField('SilvercartArticleAmount', _t('SilvercartArticle.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', _t('Article.ADD_TO_CART', 'add to cart')));
+        $actions->push(new FormAction('doAddToCart', _t('SilvercartArticle.ADD_TO_CART', 'add to cart')));
         $form = new Form(Controller::curr(), 'doAddToCart', $fields, $actions);
         return $form;
     }
@@ -409,7 +421,7 @@ class Article extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->Tax()->Rate) * 100);
+        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
 
         return $taxRate;
     }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Theses are the shipping methods the shop offers
  *
@@ -8,7 +7,7 @@
  * @since 20.10.2010
  * @license none
  */
-class ShippingMethod extends DataObject {
+class SilvercartShippingMethod extends DataObject {
 
     /**
      * Singular name
@@ -53,7 +52,7 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $has_one = array(
-        'carrier'   => 'Carrier'
+        'SilvercartCarrier'   => 'SilvercartCarrier'
     );
     /**
      * Has-many relationship.
@@ -65,9 +64,9 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'orders' => 'Order',
-        'translations' => 'ShippingMethodTexts',
-        'shippingFees' => 'ShippingFee'
+        'SilvercartOrders' => 'SilvercartOrder',
+        'SilvercartTranslations' => 'SilvercartShippingMethodTexts',
+        'SilvercartShippingFees' => 'SilvercartShippingFee'
     );
     /**
      * Many-many relationships.
@@ -79,7 +78,7 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $many_many = array(
-        'zones' => 'Zone'
+        'SilvercartZones' => 'SilvercartZone'
     );
     /**
      * Belongs-many-many relationships.
@@ -91,7 +90,7 @@ class ShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $belongs_many_many = array(
-        'PaymentMethods' => 'PaymentMethod'
+        'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
     );
     /**
      * Summaryfields for display in tables.
@@ -106,7 +105,7 @@ class ShippingMethod extends DataObject {
         'Title' => 'Bezeichnung',
         'activatedStatus' => 'Aktiviert',
         'AttributedZones' => 'Für Zonen',
-        'carrier.Title' => 'Frachtführer',
+        'SilvercartCarrier.Title' => 'Frachtführer',
         'AttributedPaymentMethods' => 'Für Bezahlarten'
     );
     /**
@@ -150,13 +149,13 @@ class ShippingMethod extends DataObject {
     public static $searchable_fields = array(
         'Title',
         'isActive',
-        'carrier.ID' => array(
+        'SilvercartCarrier.ID' => array(
             'title' => 'Frachtführer'
         ),
-        'zones.ID' => array(
+        'SilvercartZones.ID' => array(
             'title' => 'Für Zonen'
         ),
-        'paymentMethods.ID' => array(
+        'SilvercartPaymentMethods.ID' => array(
             'title' => 'Für Bezahlarten'
         )
     );
@@ -176,29 +175,29 @@ class ShippingMethod extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
-            'activatedStatus' => _t('ShopAdmin.PAYMENT_ISACTIVE'),
-            'AttributedZones' => _t('ShippingMethod.FOR_ZONES', 'for zones'),
-            'carrier.Title' => _t('Carrier.SINGULARNAME'),
-            'AttributedPaymentMethods' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            'Title' => _t('SilvercartArticleCategoryPage.COLUMN_TITLE'),
+            'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
+            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
         );
         self::$field_labels = array(
-            'Title' => _t('ArticleCategoryPage.COLUMN_TITLE'),
-            'activatedStatus' => _t('ShopAdmin.PAYMENT_ISACTIVE'),
-            'AttributedZones' => _t('ShippingMethod.FOR_ZONES', 'for zones'),
-            'AttributedPaymentMethods' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            'Title' => _t('SilvercartArticleCategoryPage.COLUMN_TITLE'),
+            'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
         );
         self::$searchable_fields = array(
             'Title',
             'isActive',
-            'carrier.ID' => array(
-                'title' => _t('Carrier.SINGULARNAME')
+            'SilvercartCarrier.ID' => array(
+                'title' => _t('SilvercartCarrier.SINGULARNAME')
             ),
-            'zones.ID' => array(
-                'title' => _t('ShippingMethod.FOR_ZONES', 'for zones')
+            'SilvercartZones.ID' => array(
+                'title' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones')
             ),
-            'paymentMethods.ID' => array(
-                'title' => _t('ShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            'SilvercartPaymentMethods.ID' => array(
+                'title' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
             )
         );
         parent::__construct($record, $isSingleton);
@@ -215,15 +214,15 @@ class ShippingMethod extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-        if (!DataObject::get('ShippingMethod')) {
-            $shippingMethod = new ShippingMethod();
-            $shippingMethod->Title = 'Paket';
+        if (!DataObject::get('SilvercartShippingMethod')) {
+            $SilvercartShippingMethod = new SilvercartShippingMethod();
+            $SilvercartShippingMethod->Title = 'Paket';
             // relate to carrier (if exists)
-            $carrier = DataObject::get_one("Carrier", "`Title` = 'DHL'");
-            if ($carrier) {
-                $shippingMethod->carrierID = $carrier->ID;
+            $SilvercartCarrier = DataObject::get_one("SilvercartCarrier", "`Title` = 'DHL'");
+            if ($SilvercartCarrier) {
+                $SilvercartShippingMethod->SilvercartCarrierID = $SilvercartCarrier->ID;
             }
-            $shippingMethod->write();
+            $SilvercartShippingMethod->write();
         }
     }
 
@@ -239,19 +238,19 @@ class ShippingMethod extends DataObject {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $fields->removeByName('countries');
-        $fields->removeByName('PaymentMethods');
-        $fields->removeByName('orders');
-        $fields->removeByName('zones');
+        $fields->removeByName('SilvercartCountries');
+        $fields->removeByName('SilvercartPaymentMethods');
+        $fields->removeByName('SilvercartOrders');
+        $fields->removeByName('SilvercartZones');
 
         $zonesTable = new ManyManyComplexTableField(
-                        $this,
-                        'zones',
-                        'Zone',
-                        null,
-                        'getCMSFields_forPopup'
+            $this,
+            'SilvercartZones',
+            'SilvercartZone',
+            null,
+            'getCMSFields_forPopup'
         );
-        $fields->addFieldToTab('Root.Zone', $zonesTable);
+        $fields->addFieldToTab('Root.SilvercartZone', $zonesTable);
 
         return $fields;
     }
@@ -266,16 +265,16 @@ class ShippingMethod extends DataObject {
      * @since 9.11.2010
      */
     public function getShippingFee() {
-        $cartWeightTotal = Member::currentUser()->shoppingCart()->getWeightTotal();
+        $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
 
         if ($cartWeightTotal) {
             $fees = DataObject::get(
-                            'ShippingFee',
-                            sprintf(
-                                    "`shippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
-                                    $this->ID,
-                                    $cartWeightTotal
-                            )
+                'SilvercartShippingFee',
+                sprintf(
+                    "`SilvercartShippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
+                    $this->ID,
+                    $cartWeightTotal
+                )
             );
 
             if ($fees) {
@@ -303,10 +302,10 @@ class ShippingMethod extends DataObject {
     public function getTitleWithCarrierAndFee() {
         if ($this->getShippingFee()) {
             $titleWithCarrierAndFee = $this->carrier()->Title . "-" .
-                    $this->Title . " (+" .
-                    number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .
-                    $this->getShippingFee()->Price->getSymbol() .
-                    ")";
+                $this->Title . " (+" .
+                number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .
+                $this->getShippingFee()->Price->getSymbol() .
+                ")";
 
             return $titleWithCarrierAndFee;
         }
@@ -326,8 +325,8 @@ class ShippingMethod extends DataObject {
         $attributedZones = array();
         $maxLength = 150;
 
-        foreach ($this->zones() as $zone) {
-            $attributedZones[] = $zone->Title;
+        foreach ($this->SilvercartZones() as $SilvercartZone) {
+            $attributedZones[] = $SilvercartZone->Title;
         }
 
         if (!empty($attributedZones)) {
@@ -355,8 +354,8 @@ class ShippingMethod extends DataObject {
         $attributedPaymentMethods = array();
         $maxLength = 150;
 
-        foreach ($this->paymentMethods() as $paymentMethod) {
-            $attributedPaymentMethods[] = $paymentMethod->Title;
+        foreach ($this->SilvercartPaymentMethods() as $SilvercartPaymentMethod) {
+            $attributedPaymentMethods[] = $SilvercartPaymentMethod->Title;
         }
 
         if (!empty($attributedPaymentMethods)) {

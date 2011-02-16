@@ -7,7 +7,7 @@
  * @since 23.10.2010
  * @license none
  */
-class ArticleAdmin extends ModelAdmin {
+class SilvercartArticleAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -19,9 +19,9 @@ class ArticleAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public static $managed_models = array(
-        'Article',
-        'Manufacturer',
-        'ArticleImageGallery'
+        'SilvercartArticle',
+        'SilvercartManufacturer',
+        'SilvercartArticleImageGallery'
     );
 
     /**
@@ -54,7 +54,7 @@ class ArticleAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function  __construct() {
-        self::$menu_title = _t('Article.SINGULARNAME');
+        self::$menu_title = _t('SilvercartArticle.SINGULARNAME');
 
         parent::__construct();
     }

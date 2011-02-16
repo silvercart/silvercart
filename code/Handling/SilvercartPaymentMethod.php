@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Die Payment Basisklasse.
  *
@@ -11,7 +10,7 @@
  * @since 07.11.2010
  * @license none
  */
-class PaymentMethod extends DataObject {
+class SilvercartPaymentMethod extends DataObject {
     // ------------------------------------------------------------------------
     // Klassenvariablen
     // ------------------------------------------------------------------------
@@ -113,8 +112,8 @@ class PaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $has_one = array(
-        'HandlingCost'              => 'HandlingCost',
-        'Zone'                      => 'Zone'
+        'SilvercartHandlingCost'              => 'SilvercartHandlingCost',
+        'SilvercartZone'                      => 'SilvercartZone'
     );
     /**
      * Defines 1:n relations
@@ -126,7 +125,7 @@ class PaymentMethod extends DataObject {
      * @since 16.12.10
      */
     public static $has_many = array(
-        'orders' => 'Order'
+        'SilvercartOrders' => 'SilvercartOrder'
     );
     /**
      * Definiert die n:m Beziehungen der Klasse.
@@ -138,7 +137,7 @@ class PaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $many_many = array(
-        'ShippingMethods' => 'ShippingMethod'
+        'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
     /**
      * Defines m:n relations
@@ -150,7 +149,7 @@ class PaymentMethod extends DataObject {
      * @since 16.12.10
      */
     public static $belongs_many_many = array(
-        'countries' => 'Country'
+        'SilvercartCountries' => 'SilvercartCountry'
     );
     /**
      * define colums to be shown in a table
@@ -218,10 +217,10 @@ class PaymentMethod extends DataObject {
         ),
         'minAmountForActivation',
         'maxAmountForActivation',
-        'Zone.ID' => array(
+        'SilvercartZone.ID' => array(
             'title' => 'Zugeordnete Zone'
         ),
-        'countries.ID' => array(
+        'SilvercartCountries.ID' => array(
             'title' => 'Zugeordnete Länder'
         )
     );
@@ -239,46 +238,46 @@ class PaymentMethod extends DataObject {
         'customer' => array(
             'details' => array(
                 'Salutation' => '',
-                'FirstName' => '',
-                'SurName' => '',
-                'Email' => '',
-                'Phone' => ''
+                'FirstName'  => '',
+                'SurName'    => '',
+                'Email'      => '',
+                'Phone'      => ''
             ),
             'deliveryAddress' => array(
-                'Salutation' => '',
-                'FirstName' => '',
-                'SurName' => '',
-                'Street' => '',
+                'Salutation'   => '',
+                'FirstName'    => '',
+                'SurName'      => '',
+                'Street'       => '',
                 'StreetNumber' => '',
-                'PostCode' => '',
-                'City' => '',
-                'State' => '',
-                'Country' => ''
+                'PostCode'     => '',
+                'City'         => '',
+                'State'        => '',
+                'Country'      => ''
             ),
             'shippingAddress' => array(
-                'Salutation' => '',
-                'FirstName' => '',
-                'SurName' => '',
-                'Street' => '',
+                'Salutation'   => '',
+                'FirstName'    => '',
+                'SurName'      => '',
+                'Street'       => '',
                 'StreetNumber' => '',
-                'PostCode' => '',
-                'City' => '',
-                'State' => '',
-                'Country' => ''
+                'PostCode'     => '',
+                'City'         => '',
+                'State'        => '',
+                'Country'      => ''
             )
         ),
         'order' => array(
-            'amount_net' => 0.0,
+            'amount_net'   => 0.0,
             'amount_gross' => 0.0,
-            'tax_rates' => array(),
-            'positions' => array()
+            'tax_rates'    => array(),
+            'positions'    => array()
         ),
         'handlingCosts' => array(
-            'amount_net' => 0.0,
-            'amount_gross' => 0.0,
-            'tax_amount_net' => 0.0,
+            'amount_net'       => 0.0,
+            'amount_gross'     => 0.0,
+            'tax_amount_net'   => 0.0,
             'tax_amount_gross' => 0.0,
-            'tax_rate' => 0.0,
+            'tax_rate'         => 0.0,
         ),
         'shippingCosts' => array(
             'amount' => 0.0
@@ -327,24 +326,24 @@ class PaymentMethod extends DataObject {
         self::$searchable_fields = array(
         'Name',
         'isActive' => array(
-            'title' => _t('ShopAdmin.PAYMENT_ISACTIVE')
+            'title' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE')
         ),
         'minAmountForActivation',
         'maxAmountForActivation',
-        'Zone.ID' => array(
-            'title' => _t('Country.ATTRIBUTED_ZONES')
+        'SilvercartZone.ID' => array(
+            'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
         ),
-        'countries.ID' => array(
-            'title' => _t('PaymentMethod.ATTRIBUTED_COUNTRIES', 'attributed countries')
+        'SilvercartCountries.ID' => array(
+            'title' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES', 'attributed countries')
         )
     );
     self::$field_labels = array(
         'Name'                      => 'Name',
-        'activatedStatus'           => _t('ShopAdmin.PAYMENT_ISACTIVE'),
-        'AttributedZones'           => _t('Country.ATTRIBUTED_ZONES'),
-        'AttributedCountries'       => _t('PaymentMethod.ATTRIBUTED_COUNTRIES'),
-        'minAmountForActivation'    => _t('PaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-        'maxAmountForActivation'    => _t('PaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
+        'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+        'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+        'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+        'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
     );
         parent::__construct($record, $isSingleton);
     }
@@ -680,22 +679,22 @@ class PaymentMethod extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('ShippingMethods'); //not needed because relations can not be set this way
-        $fields->removeByName('countries');
-        $fields->removeByName('orders');
+        $fields->removeByName('SilvercartShippingMethods'); //not needed because relations can not be set this way
+        $fields->removeByName('SilvercartCountries');
+        $fields->removeByName('SilvercartOrders');
 
         /*
          * add ability to set the relation to ShippingMethod with checkboxes
          */
         $shippingMethodsTable = new ManyManyComplexTableField(
             $this,
-            'ShippingMethods',
-            'ShippingMethod',
+            'SilvercartShippingMethods',
+            'SilvercartShippingMethod',
             array('Title' => 'Title'),
             'getCMSFields_forPopup'
         );
-        $shippingMethodsTable->setAddTitle(_t('PaymentMethod.SHIPPINGMETHOD', 'shipping method'));
-        $tabParam = "Root."._t('PaymentMethod.SHIPPINGMETHOD', 'shipping method');
+        $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
+        $tabParam = "Root."._t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
         $fields->addFieldToTab($tabParam, $shippingMethodsTable);
         return $fields;
     }
@@ -714,17 +713,22 @@ class PaymentMethod extends DataObject {
     public function getCmsFields_forPopup($params = null) {
 
         $tabset = new TabSet('Sections');
-        $tabBasic = new Tab('Basic', _t('PaymentMethod.BASIC_SETTINGS', 'basic settings'));
+        $tabBasic = new Tab('Basic', _t('SilvercartPaymentMethod.BASIC_SETTINGS', 'basic settings'));
         $tabset->push($tabBasic);
 
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $tabBasic->setChildren(
             new FieldSet(
-                new CheckboxField('isActive', _t('ShopAdmin.PAYMENT_ISACTIVE', 'activated')),
+                new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
                 new DropdownField('mode', 'Modus', array('Live' => 'Live', 'Dev' => 'Entwicklung'), $this->mode),
-                new TextField('minAmountForActivation', _t('ShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                new TextField('maxAmountForActivation', _t('ShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
-                new DropdownField('orderStatus', _t('PaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'), OrderStatus::getStatusList()->map('Code', 'Title'))
+                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
+                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
+                new DropdownField(
+                    'orderStatus',
+                    _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',
+                    'standard order status for this payment method'),
+                    OrderStatus::getStatusList()->map('SilvercartCode', 'Title')
+                )
             )
         );
 
@@ -852,7 +856,7 @@ class PaymentMethod extends DataObject {
         $attributedCountries    = array();
         $maxLength          = 150;
 
-        foreach ($this->countries() as $country) {
+        foreach ($this->SilvercartCountries() as $country) {
             $attributedCountries[] = $country->Title;
         }
 
@@ -881,7 +885,7 @@ class PaymentMethod extends DataObject {
         $attributedZones    = array();
         $maxLength          = 150;
 
-        foreach ($this->Zone() as $zone) {
+        foreach ($this->SilvercartZone() as $zone) {
             $attributedZones[] = $zone->Title;
         }
 

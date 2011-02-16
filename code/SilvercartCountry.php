@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Abstract for a country
  *
@@ -8,7 +7,7 @@
  * @license BSD
  * @since 20.10.2010
  */
-class Country extends DataObject {
+class SilvercartCountry extends DataObject {
 
     /**
      * Singular name
@@ -54,7 +53,7 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $many_many = array(
-        'paymentMethods' => 'PaymentMethod'
+        'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
     );
     /**
      * Belongs-many-many relationships.
@@ -66,7 +65,7 @@ class Country extends DataObject {
      * @since 31.01.2011
      */
     public static $belongs_many_many = array(
-        'zones' => 'Zone'
+        'SilvercartZones' => 'SilvercartZone'
     );
     /**
      * Summaryfields for display in tables.
@@ -113,10 +112,10 @@ class Country extends DataObject {
         'Title',
         'ISO2',
         'ISO3',
-        'zones.ID' => array(
+        'SilvercartZones.ID' => array(
             'title' => 'Zugeordnete Zonen'
         ),
-        'paymentMethods.ID' => array(
+        'SilvercartPaymentMethods.ID' => array(
             'title' => 'Zugeordnete Bezahlarten'
         )
     );
@@ -157,10 +156,10 @@ class Country extends DataObject {
             'Title',
             'ISO2',
             'ISO3',
-            'zones.ID' => array(
+            'SilvercartZones.ID' => array(
                 'title' => _t('Country.ATTRIBUTED_ZONES')
             ),
-            'paymentMethods.ID' => array(
+            'SilvercartPaymentMethods.ID' => array(
                 'title' => _t('Country.ATTRIBUTED_PAYMENTMETHOD')
             )
         );
@@ -178,14 +177,14 @@ class Country extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-        if (!DataObject::get_one('Country')) {
-            $standardCountry = new Country();
+        if (!DataObject::get_one('SilvercartCountry')) {
+            $standardCountry = new SilvercartCountry();
             $standardCountry->Title = 'Deutschland';
             $standardCountry->ISO2 = 'de';
             $standardCountry->ISO3 = 'deu';
             $standardCountry->write();
             //relate country to zones
-            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
             if ($domestic) {
                 $domestic->countries()->add($standardCountry);
             }
@@ -203,18 +202,18 @@ class Country extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('paymentMethods');
-        $fields->removeByName('zones');
+        $fields->removeByName('SilvercartPaymentMethods');
+        $fields->removeByName('SilvercartZones');
 
         $paymentMethodsTable = new ManyManyComplexTableField(
                         $this,
-                        'paymentMethods',
-                        'PaymentMethod',
+                        'SilvercartPaymentMethods',
+                        'SilvercartPaymentMethod',
                         null,
                         'getCmsFields_forPopup'
         );
-        $paymentMethodsTable->setAddTitle(_t('PaymentMethod.TITLE', 'payment method'));
-        $tabParam = "Root." . _t('PaymentMethod.TITLE');
+        $paymentMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.TITLE', 'payment method'));
+        $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
 
         return $fields;
@@ -263,7 +262,7 @@ class Country extends DataObject {
         $attributedPaymentMethods = array();
         $maxLength = 150;
 
-        foreach ($this->paymentMethods() as $paymentMethod) {
+        foreach ($this->SilvercartPaymentMethods() as $paymentMethod) {
             $attributedPaymentMethods[] = $paymentMethod->Name;
         }
 

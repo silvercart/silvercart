@@ -8,11 +8,11 @@
  * @since 23.10.2010
  * @copyright Pixeltricks GmbH
  */
-class Attribute extends DataObject {
+class SilvercartAttribute extends DataObject {
     public static $db = array(
         'Title' => 'VarChar'
     );
     public static $belongs_many_many = array(
-        'articleGroups' => 'ArticleGroupPage'
+        'SilvercartArticleGroups' => 'SilvercartArticleGroupPage'
     );
 }

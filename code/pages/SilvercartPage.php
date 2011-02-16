@@ -66,8 +66,8 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('ProductPage');
         Requirements::themedCSS('SideBarCart');
         Requirements::javascript("pixeltricks_module/script/jquery.js");
-        Requirements::javascript("silvercart/js/startupScripts.js");
-        Requirements::javascript("silvercart/js/jquery.pixeltricks.tools.js");
+        Requirements::javascript("silvercart/script/document.ready_scripts.js");
+        Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
 
         $this->registerCustomHtmlForm('QuickSearch', new QuickSearchForm($this));
         $this->registerCustomHtmlForm('QuickLogin', new QuickLoginForm($this));

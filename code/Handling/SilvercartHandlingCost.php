@@ -8,7 +8,7 @@
  * @since 09.11.2010
  * @license none
  */
-class HandlingCost extends DataObject {
+class SilvercartHandlingCost extends DataObject {
 
     /**
      * Singular name
@@ -55,7 +55,7 @@ class HandlingCost extends DataObject {
      * @since 07.02.2011
      */
     public static $has_one = array(
-        'Tax' => 'Tax'
+        'SilvercartTax' => 'SilvercartTax'
     );
 
     /**
@@ -94,7 +94,7 @@ class HandlingCost extends DataObject {
      * @since 07.02.2011
      */
     public function getTaxAmount() {
-        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->Tax()->Rate) * 100);
+        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
 
         return $taxRate;
     }

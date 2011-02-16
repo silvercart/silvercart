@@ -7,7 +7,7 @@
  * @copyright 2010 pixeltricks GmbH
  * @license none
  */
-class OrderAdmin extends ModelAdmin {
+class SilvercartOrderAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -19,7 +19,7 @@ class OrderAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $managed_models = array(
-        'Order'
+        'SilvercartOrder'
     );
 
     /**
@@ -52,7 +52,7 @@ class OrderAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function  __construct() {
-        self::$menu_title = _t('Order.PLURALNAME');
+        self::$menu_title = _t('SilvercartOrder.PLURALNAME');
         parent::__construct();
     }
 }
