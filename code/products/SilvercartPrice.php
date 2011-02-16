@@ -1,82 +1,68 @@
 <?php
 /**
- * abstract for a manufacturer
+ * abstract for a price
  *
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 23.10.2010
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
- * @license BSD
+ * @since 22.11.2010
+ * @license none
  */
-class SilvercartManufacturer extends DataObject {
+class SilvercartPrice extends DataObject {
 
     /**
-     * Singular name for backend
+     * singular name for backend
      *
      * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     * @since 22.11.2010
      */
-    static $singular_name = "manufacturer";
+    static $singular_name = "price";
+
     /**
-     * Plural name for backend
+     * plural name for backend
      *
      * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     * @since 22.11.2010
      */
-    static $plural_name = "manufacturers";
+    static $plural_name = "prices";
+
     /**
-     * Attributes
+     * attributes
      *
      * @var array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     * @since 22.11.2010
      */
     public static $db = array(
-        'Title' => 'VarChar',
-        'URL' => 'VarChar'
+        'Value' => 'Currency',
+        'Amount' => 'Int'
     );
+
     /**
-     * Has-one relationships.
+     * 1:1 relations
      *
      * @var array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     * @since 22.11.2010
      */
     public static $has_one = array(
-        'logo' => 'Image'
+        'SilvercartCustomerCategory' => 'SilvercartCustomerCategory',
+        'owner'                      => 'SilvercartProduct'
     );
-    /**
-     * Has-many relationships.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $has_many = array(
-        'SilvercartArticles' => 'SilvercartArticle'
-    );
-    /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
+    
     public static $summary_fields = array(
-        'Title' => 'Name'
+        'SilvercartCustomerCategory.Title' => 'Kundengruppe',
+        'Value'                            => 'Einzelpreis',
+        'Amount'                           => 'Mindestanzahl'
     );
 
     /**
@@ -90,13 +76,14 @@ class SilvercartManufacturer extends DataObject {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 24.01.2011
+     * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('SilvercartPage.NAME', 'name')
+            'SilvercartCustomerCategory.Title' => _t('SilvercartCustomerCategory.SINGULARNAME'),
+            'Value'                            => _t('SilvercartProduct.PRICE_SINGLE'),
+            'Amount'                           => _t('SilvercartPrice.MINIMUM_QUANTITY')
         );
         parent::__construct($record, $isSingleton);
     }
-
 }

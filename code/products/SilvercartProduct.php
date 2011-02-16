@@ -1,13 +1,13 @@
 <?php
 /**
- * abstract for an article, you might call this a "product" as well
+ * abstract for a product
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010
  * @license none
  */
-class SilvercartArticle extends DataObject {
+class SilvercartProduct extends DataObject {
 
     /**
      * singular name for backend
@@ -18,7 +18,7 @@ class SilvercartArticle extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "article";
+    public static $singular_name = "product";
 
     /**
      * plural name for backend
@@ -29,7 +29,7 @@ class SilvercartArticle extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "articles";
+    public static $plural_name = "products";
 
     /**
      * attributes
@@ -52,9 +52,9 @@ class SilvercartArticle extends DataObject {
         'Quantity'                  => 'Int', //Quantity Pieces (Pack)
         'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
         'MetaKeywords'              => 'VarChar',
-        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing articles without price to go into the frontend
-        'ArticleNumberShop'         => 'VarChar(50)',
-        'ArticleNumberManufacturer' => 'VarChar(50)',
+        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
+        'ProductNumberShop'         => 'VarChar(50)',
+        'ProductNumberManufacturer' => 'VarChar(50)',
         'EANCode'                   => 'VarChar(13)'
     );
 
@@ -108,7 +108,7 @@ class SilvercartArticle extends DataObject {
     );
 
     /**
-     * Array of all attributes that must be set to show an article in the frontend and enter it via backend.
+     * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
      *
@@ -130,8 +130,8 @@ class SilvercartArticle extends DataObject {
     public static $has_one = array(
         'SilvercartTax'             => 'SilvercartTax',
         'SilvercartManufacturer'    => 'SilvercartManufacturer',
-        'SilvercartArticleGroup'    => 'SilvercartArticleGroupPage',
-        'SilvercartMasterArticle'   => 'SilvercartArticle',
+        'SilvercartProductGroup'    => 'SilvercartProductGroupPage',
+        'SilvercartMasterProduct'   => 'SilvercartProduct',
         'image'                     => 'Image'
     );
 
@@ -160,7 +160,7 @@ class SilvercartArticle extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
         'SilvercartOrders'                => 'SilvercartOrder',
-        'SilvercartCategories'            => 'SilvercartArticleCategoryPage'
+        'SilvercartCategories'            => 'SilvercartProductCategoryPage'
     );
 
     // -----------------------------------------------------------------------
@@ -182,30 +182,30 @@ class SilvercartArticle extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title'                         => _t('SilvercartArticle.SINGULARNAME'),
+            'Title'                         => _t('SilvercartProduct.SINGULARNAME'),
             'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
         );
         self::$field_labels = array(
-            'Title'                     => _t('SilvercartArticleCategoryPage.COLUMN_TITLE'),
-            'LongDescription'           => _t('SilvercartArticle.DESCRIPTION'),
+            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
             'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
-            'isFreeOfCharge'            => _t('SilvercartArticle.FREE_OF_CHARGE', 'free of charge'),
-            'PurchasePrice'             => _t('SilvercartArticle.PURCHASEPRICE', 'purchase price'),
-            'MSRPrice'                  => _t('SilvercartArticle.MSRP', 'MSR price')
+            'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
+            'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+            'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price')
         );
         parent::__construct($record, $isSingleton);
     }
 
     /**
-     * Getter similar to DataObject::get(); returns a DataObectSet of articles filtered by the requirements in self::getRequiredAttributes();
-     * If an article is free of charge, it can have no price. This is for giveaways and gifts.
+     * Getter similar to DataObject::get(); returns a DataObectSet of products filtered by the requirements in self::getRequiredAttributes();
+     * If an product is free of charge, it can have no price. This is for giveaways and gifts.
      *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
      * @param string  $join        string for a join
      * @param integer $limit       DataObject limit
      *
-     * @return DataObjectSet DataObjectSet of articles or false
+     * @return DataObjectSet DataObjectSet of products or false
      * @author Roland Lehmann
      * @since 23.10.2010
      */
@@ -229,16 +229,16 @@ class SilvercartArticle extends DataObject {
         } else {
             $filter = $whereClause;
         }
-        $articles = DataObject::get('SilvercartArticle', $filter, $sort, $join, $limit);
-        if ($articles) {
-            return $articles;
+        $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        if ($products) {
+            return $products;
         } else {
             return false;
         }
     }
 
     /**
-     * Customizes the backend popup for Articles.
+     * Customizes the backend popup for Products.
      *
      * @return FieldSet the editible fields
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -246,17 +246,17 @@ class SilvercartArticle extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
-        $fields->removeByName('SilvercartMasterArticleID'); //remove the dropdown for the relation masterArticle
-        //Get all articles that have no master
-        $var = sprintf("\"SilvercartMasterArticleID\" = '%s'", "0");
-        $silvercartMasterArticles = DataObject::get("SilvercartArticle", $var);
+        $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
+        //Get all products that have no master
+        $var = sprintf("\"SilvercartMasterProduct\" = '%s'", "0");
+        $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
         $dropdownField = new DropdownField(
-            'SilvercartMasterArticleID',
-            _t('SilvercartArticle.MASTERARTICLE', 'master article'),
-            $silvercartMasterArticles->toDropDownMap(),
+            'SilvercartMasterProductID',
+            _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
+            $silvercartMasterProducts->toDropDownMap(),
             null,
             null,
-            _t('SilvercartArticle.CHOOSE_MASTER', '-- choose master --')
+            _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
         $fields->push($dropdownField);
         return $fields;
@@ -288,28 +288,28 @@ class SilvercartArticle extends DataObject {
     }
 
     /**
-     * get some random articles to fill a controller every now and then
+     * get some random products to fill a controller every now and then
      *
-     * @param integer $amount        How many articles should be returned?
-     * @param boolean $masterArticle Should only master articles be returned?
+     * @param integer $amount        How many products should be returned?
+     * @param boolean $masterProduct Should only master products be returned?
      *
-     * @return array DataObjectSet of random articles
-     * @author Roland Lehmann
+     * @return array DataObjectSet of random products
+	 * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
      * @since 23.10.2010
      */
-    public static function getRandomArticles($amount = 4, $masterArticle = true) {
-        if ($masterArticle) {
-            return DataObject::get("SilvercartArticle", "\"SilvercartMasterArticleID\" = '0'", "RAND()", null, $amount);
+    public static function getRandomProducts($amount = 4, $masterProduct = true) {
+        if ($masterProduct) {
+            return DataObject::get("SilvercartProduct", "\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
         } else {
-            return DataObject::get("SilvercartArticle", null, "RAND()", null, $amount);
+            return DataObject::get("SilvercartProduct", null, "RAND()", null, $amount);
         }
     }
 
     /**
      * get all required attributes as an array.
      *
-     * @return array the attributes required to display an article in the frontend
+     * @return array the attributes required to display an product in the frontend
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -318,7 +318,7 @@ class SilvercartArticle extends DataObject {
     }
 
     /**
-     * define all attributes that must be filled out to show articles in the frontend.
+     * define all attributes that must be filled out to show products in the frontend.
      *
      * @param string $concatinatedAttributesString a string with all attribute names, seperated by comma, with or without whitespaces
      *
@@ -335,7 +335,7 @@ class SilvercartArticle extends DataObject {
     /**
      * Remove chars from the title that are not appropriate for an url
      *
-     * @return string sanitized article title
+     * @return string sanitized product title
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -347,10 +347,10 @@ class SilvercartArticle extends DataObject {
     }
 
     /**
-     * adds an article to the cart or increases its amount
+     * adds an product to the cart or increases its amount
      *
      * @param int $cartID   ID of the users shopping cart
-     * @param int $quantity Amount of articles to be added
+     * @param int $quantity Amount of products to be added
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.2010
@@ -362,7 +362,7 @@ class SilvercartArticle extends DataObject {
             return false;
         }
 
-        $filter           = sprintf("\"SilvercartArticleID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
+        $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
         $existingPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if ($existingPosition) {
@@ -371,7 +371,7 @@ class SilvercartArticle extends DataObject {
         } else {
             $shoppingCartPosition                           = new SilvercartShoppingCartPosition();
             $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
-            $shoppingCartPosition->SilvercartArticleID      = $this->ID;
+            $shoppingCartPosition->SilvercartProductID      = $this->ID;
             $shoppingCartPosition->Quantity                 = $quantity;
             $shoppingCartPosition->write();
 
@@ -382,8 +382,8 @@ class SilvercartArticle extends DataObject {
     }
 
     /**
-     * Link to the controller, that shows this article
-     * An article has a unique URL
+     * Link to the controller, that shows this product
+     * An product has a unique URL
      *
      * @return string URL of $this
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -395,18 +395,18 @@ class SilvercartArticle extends DataObject {
     }
 
     /**
-     * Form for adding an article to a cart
+     * Form for adding an product to a cart
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
-     * @return Form add an article to the cart
+     * @return Form add an product to the cart
      */
     public function addToCartForm() {
         $fields = new FieldSet();
-        $fields->push(new HiddenField('SilvercartArticleID', 'SilvercartArticleID', $this->ID));
-        $fields->push(new NumericField('SilvercartArticleAmount', _t('SilvercartArticle.QUANTITY', 'quantity'), $value = 1));
+        $fields->push(new HiddenField('SilvercartProductID', 'SilvercartProductID', $this->ID));
+        $fields->push(new NumericField('SilvercartProductAmount', _t('SilvercartProduct.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', _t('SilvercartArticle.ADD_TO_CART', 'add to cart')));
+        $actions->push(new FormAction('doAddToCart', _t('SilvercartProduct.ADD_TO_CART', 'add to cart')));
         $form = new Form(Controller::curr(), 'doAddToCart', $fields, $actions);
         return $form;
     }

@@ -20,6 +20,7 @@ class SilvercartTax extends DataObject {
      * @since 24.11.2010
      */
     static $singular_name = "rate";
+
     /**
      * plural name for backend
      *
@@ -30,6 +31,7 @@ class SilvercartTax extends DataObject {
      * @since 24.11.2010
      */
     static $plural_name = "rates";
+
     /**
      * attributes
      *
@@ -43,6 +45,7 @@ class SilvercartTax extends DataObject {
         'Title' => 'VarChar',
         'Rate'  => 'Int'
     );
+
     /**
      * n:m relations
      *
@@ -53,8 +56,9 @@ class SilvercartTax extends DataObject {
      * @since 24.11.2010
      */
     public static $has_many = array(
-        'SilvercartArticles' => 'SilvercartArticle'
+        'SilvercartProducts' => 'SilvercartProduct'
     );
+
     /**
      * Summaryfields for display in tables.
      *
@@ -68,6 +72,7 @@ class SilvercartTax extends DataObject {
         'Title' => 'Label',
         'Rate'  => 'Steuersatz in %'
     );
+
     /**
      * Column labels for display in tables.
      *
@@ -81,6 +86,7 @@ class SilvercartTax extends DataObject {
         'Title' => 'Label',
         'Rate'  => 'Steuersatz in %'
     );
+
     /**
      * List of searchable fields for the model admin
      *

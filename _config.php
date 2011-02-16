@@ -2,13 +2,13 @@
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
-SilvercartArticle::setRequiredAttributes("Price");
+SilvercartProduct::setRequiredAttributes("Price");
 
 // ----------------------------------------------------------------------------
 // Rewrite Rules Definitions
 // ----------------------------------------------------------------------------
 Director::addRules(100, array(
-    'artikelansicht/$ID/$Name'                       => 'SilvercartArticlePage_Controller',
+    'artikelansicht/$ID/$Name'                       => 'SilvercartProductPage_Controller',
     'my-account/address-overview/$URLSegment!/$ID'   => 'SilvercartAddressPage_Controller',
     'my-account/my-orders/$URLSegment!/$ID'          => 'SilvercartOrderDetailPage_Controller'
 ));
@@ -73,5 +73,5 @@ SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
 // ----------------------------------------------------------------------------
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 
-DataObject::add_extension('SilvercartArticleGroupHolder_Controller', 'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartArticleGroupPage_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');

@@ -7,7 +7,7 @@
  * @since 23.10.2010
  * @license none
  */
-class SilvercartArticleAdmin extends ModelAdmin {
+class SilvercartProductAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -19,9 +19,9 @@ class SilvercartArticleAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public static $managed_models = array(
-        'SilvercartArticle',
+        'SilvercartProduct',
         'SilvercartManufacturer',
-        'SilvercartArticleImageGallery'
+        'SilvercartProductImageGallery'
     );
 
     /**
@@ -33,7 +33,7 @@ class SilvercartArticleAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    public static $url_segment = 'articles';
+    public static $url_segment = 'products';
 
     /**
      * The menu title
@@ -44,7 +44,7 @@ class SilvercartArticleAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    public static $menu_title = 'Artikel';
+    public static $menu_title = 'Produkte';
 
     /**
      * constructor
@@ -54,7 +54,7 @@ class SilvercartArticleAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function  __construct() {
-        self::$menu_title = _t('SilvercartArticle.SINGULARNAME');
+        self::$menu_title = _t('SilvercartProduct.SINGULARNAME');
 
         parent::__construct();
     }
