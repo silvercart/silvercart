@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Defines Taxrates.
  *
@@ -9,7 +8,7 @@
  * @since 24.11.2010
  * @license none
  */
-class Tax extends DataObject {
+class SilvercartTax extends DataObject {
 
     /**
      * singular name for backend
@@ -21,6 +20,7 @@ class Tax extends DataObject {
      * @since 24.11.2010
      */
     static $singular_name = "rate";
+
     /**
      * plural name for backend
      *
@@ -31,6 +31,7 @@ class Tax extends DataObject {
      * @since 24.11.2010
      */
     static $plural_name = "rates";
+
     /**
      * attributes
      *
@@ -42,8 +43,9 @@ class Tax extends DataObject {
      */
     public static $db = array(
         'Title' => 'VarChar',
-        'Rate' => 'Int'
+        'Rate'  => 'Int'
     );
+
     /**
      * n:m relations
      *
@@ -54,8 +56,9 @@ class Tax extends DataObject {
      * @since 24.11.2010
      */
     public static $has_many = array(
-        'articles' => 'Article'
+        'SilvercartProducts' => 'SilvercartProduct'
     );
+
     /**
      * Summaryfields for display in tables.
      *
@@ -67,8 +70,9 @@ class Tax extends DataObject {
      */
     public static $summary_fields = array(
         'Title' => 'Label',
-        'Rate' => 'Steuersatz in %'
+        'Rate'  => 'Steuersatz in %'
     );
+
     /**
      * Column labels for display in tables.
      *
@@ -80,8 +84,9 @@ class Tax extends DataObject {
      */
     public static $field_labels = array(
         'Title' => 'Label',
-        'Rate' => 'Steuersatz in %'
+        'Rate'  => 'Steuersatz in %'
     );
+
     /**
      * List of searchable fields for the model admin
      *
@@ -110,13 +115,13 @@ class Tax extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('Tax.LABEL', 'label'),
-            'Rate' => _t('Tax.RATE_IN_PERCENT', 'rate in %%')
+            'Title' => _t('SilvercartTax.LABEL', 'label'),
+            'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT', 'rate in %%')
         );
         self::$field_labels = array(
-        'Title' => _t('Tax.LABEL'),
-        'Rate' => _t('Tax.RATE_IN_PERCENT')
-        );
+            'Title' => _t('SilvercartTax.LABEL'),
+            'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT')
+            );
         parent::__construct($record, $isSingleton);
     }
 
@@ -133,35 +138,33 @@ class Tax extends DataObject {
         parent::requireDefaultRecords();
 
         $lowerTaxRate = DataObject::get_one(
-                        'Tax',
-                        "Rate = 7"
+            'SilvercartTax',
+            "Rate = 7"
         );
 
         if (!$lowerTaxRate) {
-            $lowerTaxRate = new Tax();
-            $lowerTaxRate->setField('Rate', 7);
+            $lowerTaxRate = new SilvercartTax();
+            $lowerTaxRate->setField('Rate',  7);
             $lowerTaxRate->setField('Title', '7%');
             $lowerTaxRate->write();
         }
 
         $higherTaxRate = DataObject::get_one(
-                        'Tax',
-                        "Rate = 19"
+            'SilvercartTax',
+            "Rate = 19"
         );
 
         if (!$higherTaxRate) {
-            $higherTaxRate = new Tax();
-            $higherTaxRate->setField('Rate', 19);
+            $higherTaxRate = new SilvercartTax();
+            $higherTaxRate->setField('Rate',  19);
             $higherTaxRate->setField('Title', '19%');
             $higherTaxRate->write();
             // relate to ShippingFee (if exists)
-            $shippingFee = DataObject::get_one("ShippingFee");
-            if ($shippingFee) {
-                $shippingFee->TaxID = $higherTaxRate->ID;
-                $shippingFee->write();
+            $silvercartShippingFee = DataObject::get_one("SilvercartShippingFee");
+            if ($silvercartShippingFee) {
+                $silvercartShippingFee->SilvercartTaxID = $higherTaxRate->ID;
+                $silvercartShippingFee->write();
             }
         }
     }
-
 }
-

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * admin backend for customers; CRUD for the defined classes
  *
@@ -8,13 +7,13 @@
  * @license BSD
  * @since 22.10.2010
  */
-class CustomerAdmin extends ModelAdmin {
+class SilvercartCustomerAdmin extends ModelAdmin {
 
     public static $managed_models = array(
-        'RegularCustomer',
-        'AnonymousCustomer',
-        'Member',
-        'BusinessCustomer'
+        'SilvercartRegularCustomer',
+        'SilvercartAnonymousCustomer',
+        'SilvercartMember',
+        'SilvercartBusinessCustomer'
     );
     public static $url_segment = 'customers';
     public static $menu_title = 'customers';
@@ -27,7 +26,7 @@ class CustomerAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function  __construct() {
-        self::$menu_title = _t('CustomerAdmin.customers', 'customers');
+        self::$menu_title = _t('SilvercartCustomerAdmin.customers', 'customers');
         parent::__construct();
     }
 

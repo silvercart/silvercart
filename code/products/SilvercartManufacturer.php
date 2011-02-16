@@ -1,5 +1,4 @@
 <?php
-
 /**
  * abstract for a manufacturer
  *
@@ -8,7 +7,7 @@
  * @copyright 2010 pixeltricks GmbH
  * @license BSD
  */
-class Manufacturer extends DataObject {
+class SilvercartManufacturer extends DataObject {
 
     /**
      * Singular name for backend
@@ -41,7 +40,7 @@ class Manufacturer extends DataObject {
      */
     public static $db = array(
         'Title' => 'VarChar',
-        'URL' => 'VarChar'
+        'URL'   => 'VarChar'
     );
     /**
      * Has-one relationships.
@@ -65,7 +64,7 @@ class Manufacturer extends DataObject {
      * @since 02.02.2011
      */
     public static $has_many = array(
-        'articles' => 'Article'
+        'SilvercartProducts' => 'SilvercartProduct'
     );
     /**
      * Summaryfields for display in tables.
@@ -95,9 +94,8 @@ class Manufacturer extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('Page.NAME', 'name')
+            'Title' => _t('SilvercartPage.NAME', 'name')
         );
         parent::__construct($record, $isSingleton);
     }
-
 }

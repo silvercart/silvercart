@@ -56,7 +56,7 @@ function doesEmailExistAlready(form, fieldName)
  * Land verfuegbar sind. Nicht verfuegbare Werte werden entfernt.
  */
 function checkShippingMethodOptions(parameters) {
-    var countryFieldId  = parameters.data.formName + parameters.data.nameSeparator + 'Country';
+    var countryFieldId  = parameters.data.formName + parameters.data.nameSeparator + 'SilvercartCountry';
     var countryValue    = $('#' + countryFieldId).val();
     var checkParameters = parameters.data.parameters[countryValue];
     var idx;

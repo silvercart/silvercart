@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The Silvercart configuration backend.
  *
@@ -9,7 +8,7 @@
  * @since 31.01.2011
  * @license none
  */
-class ShopConfigurationAdmin extends ModelAdmin {
+class SilvercartShopConfigurationAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -21,14 +20,14 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $managed_models = array(
-        'Country',
-        'Zone',
-        'PaymentMethod',
-        'ShippingMethod',
-        'Carrier',
-        'Tax',
-        'OrderStatus',
-        'ShopEmail'
+        'SilvercartCountry',
+        'SilvercartZone',
+        'SilvercartPaymentMethod',
+        'SilvercartShippingMethod',
+        'SilvercartCarrier',
+        'SilvercartTax',
+        'SilvercartOrderStatus',
+        'SilvercartShopEmail'
     );
     /**
      * The URL segment
@@ -59,7 +58,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $collection_controller_class = 'ShopConfigurationAdmin_CollectionController';
+    public static $collection_controller_class = 'SilvercartShopConfigurationAdmin_CollectionController';
 
     /**
      * constructor
@@ -69,7 +68,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function __construct() {
-        self::$menu_title = _t('ShopConfigurationAdmin.SILVERCART_CONFIG', 'Silvercart Konfiguration');
+        self::$menu_title = _t('SilvercartShopConfigurationAdmin.SILVERCART_CONFIG', 'Silvercart Konfiguration');
         parent::__construct();
     }
 
@@ -84,7 +83,7 @@ class ShopConfigurationAdmin extends ModelAdmin {
  * @since 31.01.2011
  * @license none
  */
-class ShopConfigurationAdmin_CollectionController extends ModelAdmin_CollectionController {
+class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_CollectionController {
 
     /**
      * Return a modified search form.

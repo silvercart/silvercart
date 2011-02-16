@@ -1,13 +1,13 @@
 <?php
 /**
  * backend interface to CRUD the defined classes
- *
+ * 
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @copyright Pixeltricks GmbH
  * @since 23.10.2010
- * @copyright 2010 pixeltricks GmbH
  * @license none
  */
-class OrderAdmin extends ModelAdmin {
+class SilvercartProductAdmin extends ModelAdmin {
 
     /**
      * Managed models
@@ -16,10 +16,12 @@ class OrderAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @since 02.02.2011
      */
     public static $managed_models = array(
-        'Order'
+        'SilvercartProduct',
+        'SilvercartManufacturer',
+        'SilvercartProductImageGallery'
     );
 
     /**
@@ -29,9 +31,9 @@ class OrderAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @since 02.02.2011
      */
-    public static $url_segment = 'orders';
+    public static $url_segment = 'products';
 
     /**
      * The menu title
@@ -40,9 +42,9 @@ class OrderAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @since 02.02.2011
      */
-    public static $menu_title = 'orders';
+    public static $menu_title = 'Produkte';
 
     /**
      * constructor
@@ -52,7 +54,8 @@ class OrderAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function  __construct() {
-        self::$menu_title = _t('Order.PLURALNAME');
+        self::$menu_title = _t('SilvercartProduct.SINGULARNAME');
+
         parent::__construct();
     }
 }

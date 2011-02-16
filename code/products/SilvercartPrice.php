@@ -1,5 +1,4 @@
 <?php
-
 /**
  * abstract for a price
  *
@@ -8,7 +7,7 @@
  * @since 22.11.2010
  * @license none
  */
-class Price extends DataObject {
+class SilvercartPrice extends DataObject {
 
     /**
      * singular name for backend
@@ -56,14 +55,14 @@ class Price extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'customerCategory' => 'CustomerCategory',
-        'owner' => 'Article'
+        'SilvercartCustomerCategory' => 'SilvercartCustomerCategory',
+        'owner'                      => 'SilvercartProduct'
     );
     
     public static $summary_fields = array(
-        'customerCategory.Title' => 'Kundengruppe',
-        'Value' => 'Einzelpreis',
-        'Amount' => 'Mindestanzahl'
+        'SilvercartCustomerCategory.Title' => 'Kundengruppe',
+        'Value'                            => 'Einzelpreis',
+        'Amount'                           => 'Mindestanzahl'
     );
 
     /**
@@ -81,10 +80,10 @@ class Price extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'customerCategory.Title' => _t('CustomerCategory.SINGULARNAME'),
-        'Value' => _t('Article.PRICE_SINGLE'),
-        'Amount' => _t('Price.MINIMUM_QUANTITY')
-    );
+            'SilvercartCustomerCategory.Title' => _t('SilvercartCustomerCategory.SINGULARNAME'),
+            'Value'                            => _t('SilvercartProduct.PRICE_SINGLE'),
+            'Amount'                           => _t('SilvercartPrice.MINIMUM_QUANTITY')
+        );
         parent::__construct($record, $isSingleton);
     }
 }

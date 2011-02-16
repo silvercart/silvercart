@@ -1,13 +1,13 @@
 <?php
 /**
- * abstract for an article, you might call this a "product" as well
+ * abstract for a product
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010
  * @license none
  */
-class Article extends DataObject {
+class SilvercartProduct extends DataObject {
 
     /**
      * singular name for backend
@@ -18,7 +18,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $singular_name = "article";
+    public static $singular_name = "product";
 
     /**
      * plural name for backend
@@ -29,7 +29,7 @@ class Article extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    public static $plural_name = "articles";
+    public static $plural_name = "products";
 
     /**
      * attributes
@@ -52,9 +52,9 @@ class Article extends DataObject {
         'Quantity'                  => 'Int', //Quantity Pieces (Pack)
         'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
         'MetaKeywords'              => 'VarChar',
-        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing articles without price to go into the frontend
-        'ArticleNumberShop'         => 'VarChar(50)',
-        'ArticleNumberManufacturer' => 'VarChar(50)',
+        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
+        'ProductNumberShop'         => 'VarChar(50)',
+        'ProductNumberManufacturer' => 'VarChar(50)',
         'EANCode'                   => 'VarChar(13)'
     );
 
@@ -68,8 +68,8 @@ class Article extends DataObject {
      * @since 02.02.2011
      */
     public static $summary_fields = array(
-        'Title'                     => 'Artikel',
-        'manufacturer.Title'        => 'Hersteller'
+        'Title'                         => 'Artikel',
+        'SilvercartManufacturer.Title'  => 'Hersteller'
     );
 
     /**
@@ -85,7 +85,7 @@ class Article extends DataObject {
         'Title',
         'ShortDescription',
         'LongDescription',
-        'manufacturer.Title',
+        'SilvercartManufacturer.Title',
         'isFreeOfCharge'
     );
 
@@ -99,16 +99,16 @@ class Article extends DataObject {
      * @since 02.02.2011
      */
     public static $field_labels = array(
-        'Title'                     => 'Bezeichnung',
-        'LongDescription'           => 'Artikelbeschreibung',
-        'manufacturer.Title'        => 'Hersteller',
-        'isFreeOfCharge'            => 'kostenlos',
-        'PurchasePrice'             => 'Einkaufspreis',
-        'MSRPrice'                  => 'UVP'
+        'Title'                         => 'Bezeichnung',
+        'LongDescription'               => 'Artikelbeschreibung',
+        'SilvercartManufacturer.Title'  => 'Hersteller',
+        'isFreeOfCharge'                => 'kostenlos',
+        'PurchasePrice'                 => 'Einkaufspreis',
+        'MSRPrice'                      => 'UVP'
     );
 
     /**
-     * Array of all attributes that must be set to show an article in the frontend and enter it via backend.
+     * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
      *
@@ -128,11 +128,11 @@ class Article extends DataObject {
      * @since 24.11.2010
      */
     public static $has_one = array(
-        'tax'                   => 'Tax',
-        'manufacturer'          => 'Manufacturer',
-        'articleGroup'          => 'ArticleGroupPage',
-        'masterArticle'         => 'Article',
-        'image'                 => 'Image'
+        'SilvercartTax'             => 'SilvercartTax',
+        'SilvercartManufacturer'    => 'SilvercartManufacturer',
+        'SilvercartProductGroup'    => 'SilvercartProductGroupPage',
+        'SilvercartMasterProduct'   => 'SilvercartProduct',
+        'image'                     => 'Image'
     );
 
     /**
@@ -145,7 +145,7 @@ class Article extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'shoppingCartPositions' => 'ShoppingCartPosition'
+        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition'
     );
 
     /**
@@ -158,9 +158,9 @@ class Article extends DataObject {
      * @since 22.11.2010
      */
     public static $belongs_many_many = array(
-        'shoppingCarts'         => 'ShoppingCart',
-        'orders'                => 'Order',
-        'categories'            => 'ArticleCategoryPage'
+        'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
+        'SilvercartOrders'                => 'SilvercartOrder',
+        'SilvercartCategories'            => 'SilvercartProductCategoryPage'
     );
 
     // -----------------------------------------------------------------------
@@ -182,30 +182,30 @@ class Article extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'Title'                     => _t('Article.SINGULARNAME'),
-        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME')
-    );
+            'Title'                         => _t('SilvercartProduct.SINGULARNAME'),
+            'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
+        );
         self::$field_labels = array(
-        'Title'                     => _t('ArticleCategoryPage.COLUMN_TITLE'),
-        'LongDescription'           => _t('Article.DESCRIPTION'),
-        'manufacturer.Title'        => _t('Manufacturer.SINGULARNAME'),
-        'isFreeOfCharge'            => _t('Article.FREE_OF_CHARGE', 'free of charge'),
-        'PurchasePrice'             => _t('Article.PURCHASEPRICE', 'purchase price'),
-        'MSRPrice'                  => _t('Article.MSRP', 'MSR price')
-    );
+            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
+            'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
+            'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
+            'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+            'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price')
+        );
         parent::__construct($record, $isSingleton);
     }
 
     /**
-     * Getter similar to DataObject::get(); returns a DataObectSet of articles filtered by the requirements in self::getRequiredAttributes();
-     * If an article is free of charge, it can have no price. This is for giveaways and gifts.
+     * Getter similar to DataObject::get(); returns a DataObectSet of products filtered by the requirements in self::getRequiredAttributes();
+     * If an product is free of charge, it can have no price. This is for giveaways and gifts.
      *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
      * @param string  $join        string for a join
      * @param integer $limit       DataObject limit
      *
-     * @return DataObjectSet DataObjectSet of articles or false
+     * @return DataObjectSet DataObjectSet of products or false
      * @author Roland Lehmann
      * @since 23.10.2010
      */
@@ -229,16 +229,16 @@ class Article extends DataObject {
         } else {
             $filter = $whereClause;
         }
-        $articles = DataObject::get('Article', $filter, $sort, $join, $limit);
-        if ($articles) {
-            return $articles;
+        $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        if ($products) {
+            return $products;
         } else {
             return false;
         }
     }
 
     /**
-     * Customizes the backend popup for Articles.
+     * Customizes the backend popup for Products.
      *
      * @return FieldSet the editible fields
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -246,11 +246,18 @@ class Article extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
-        $fields->removeByName('masterArticleID'); //remove the dropdown for the relation masterArticle
-        //Get all articles that have no master
-        $var = sprintf("\"masterArticleID\" = '%s'", "0");
-        $masterArticles = DataObject::get("Article", $var);
-        $dropdownField = new DropdownField('masterArticleID', _t('Article.MASTERARTICLE', 'master article'), $masterArticles->toDropDownMap(), null, null, _t('Article.CHOOSE_MASTER', '-- choose master --'));
+        $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
+        //Get all products that have no master
+        $var = sprintf("\"SilvercartMasterProduct\" = '%s'", "0");
+        $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
+        $dropdownField = new DropdownField(
+            'SilvercartMasterProductID',
+            _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
+            $silvercartMasterProducts->toDropDownMap(),
+            null,
+            null,
+            _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
+        );
         $fields->push($dropdownField);
         return $fields;
     }
@@ -264,40 +271,45 @@ class Article extends DataObject {
      */
     public function getCustomSearchContext() {
         $fields = $this->scaffoldSearchFields(
-                        array('restrictFields' => array('Title', 'LongDescription', 'manufacturer.Title')
-                        )
+            array(
+                'restrictFields' => array(
+                    'Title',
+                    'LongDescription',
+                    'SilvercartManufacturer.Title'
+                )
+            )
         );
         $filters = array(
             'Title' => new PartialMatchFilter('Title'),
             'LongDescription' => new ExactMatchFilter('LongDescription'),
-            'manufacturer.Title' => new PartialMatchFilter('manufacturer.Title')
+            'SilvercartManufacturer.Title' => new PartialMatchFilter('SilvercartManufacturer.Title')
         );
         return new SearchContext($this->class, $fields, $filters);
     }
 
     /**
-     * get some random articles to fill a controller every now and then
+     * get some random products to fill a controller every now and then
      *
-     * @param integer $amount        How many articles should be returned?
-     * @param boolean $masterArticle Should only master articles be returned?
+     * @param integer $amount        How many products should be returned?
+     * @param boolean $masterProduct Should only master products be returned?
      *
-     * @return array DataObjectSet of random articles
-     * @author Roland Lehmann
+     * @return array DataObjectSet of random products
+	 * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
      * @since 23.10.2010
      */
-    public static function getRandomArticles($amount = 4, $masterArticle = true) {
-        if ($masterArticle) {
-            return DataObject::get("Article", "\"masterArticleID\" = '0'", "RAND()", null, $amount);
+    public static function getRandomProducts($amount = 4, $masterProduct = true) {
+        if ($masterProduct) {
+            return DataObject::get("SilvercartProduct", "\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
         } else {
-            return DataObject::get("Article", null, "RAND()", null, $amount);
+            return DataObject::get("SilvercartProduct", null, "RAND()", null, $amount);
         }
     }
 
     /**
      * get all required attributes as an array.
      *
-     * @return array the attributes required to display an article in the frontend
+     * @return array the attributes required to display an product in the frontend
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -306,7 +318,7 @@ class Article extends DataObject {
     }
 
     /**
-     * define all attributes that must be filled out to show articles in the frontend.
+     * define all attributes that must be filled out to show products in the frontend.
      *
      * @param string $concatinatedAttributesString a string with all attribute names, seperated by comma, with or without whitespaces
      *
@@ -323,7 +335,7 @@ class Article extends DataObject {
     /**
      * Remove chars from the title that are not appropriate for an url
      *
-     * @return string sanitized article title
+     * @return string sanitized product title
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -335,10 +347,10 @@ class Article extends DataObject {
     }
 
     /**
-     * adds an article to the cart or increases its amount
+     * adds an product to the cart or increases its amount
      *
      * @param int $cartID   ID of the users shopping cart
-     * @param int $quantity Amount of articles to be added
+     * @param int $quantity Amount of products to be added
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.2010
@@ -350,28 +362,28 @@ class Article extends DataObject {
             return false;
         }
 
-        $filter           = sprintf("\"articleID\" = '%s' AND shoppingCartID = '%s'", $this->ID, $cartID);
-        $existingPosition = DataObject::get_one('ShoppingCartPosition', $filter);
+        $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
+        $existingPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if ($existingPosition) {
             $existingPosition->Quantity += $quantity;
             $existingPosition->write();
         } else {
-            $shoppingCartPosition                 = new ShoppingCartPosition();
-            $shoppingCartPosition->shoppingCartID = $cartID;
-            $shoppingCartPosition->articleID      = $this->ID;
-            $shoppingCartPosition->Quantity       = $quantity;
+            $shoppingCartPosition                           = new SilvercartShoppingCartPosition();
+            $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
+            $shoppingCartPosition->SilvercartProductID      = $this->ID;
+            $shoppingCartPosition->Quantity                 = $quantity;
             $shoppingCartPosition->write();
 
-            $cart = DataObject::get_by_id('ShoppingCart', $cartID);
+            $cart = DataObject::get_by_id('SilvercartShoppingCart', $cartID);
         }
 
         return true;
     }
 
     /**
-     * Link to the controller, that shows this article
-     * An article has a unique URL
+     * Link to the controller, that shows this product
+     * An product has a unique URL
      *
      * @return string URL of $this
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -383,18 +395,18 @@ class Article extends DataObject {
     }
 
     /**
-     * Form for adding an article to a cart
+     * Form for adding an product to a cart
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
-     * @return Form add an article to the cart
+     * @return Form add an product to the cart
      */
     public function addToCartForm() {
         $fields = new FieldSet();
-        $fields->push(new HiddenField('articleID', 'articleID', $this->ID));
-        $fields->push(new NumericField('articleAmount', _t('Article.QUANTITY', 'quantity'), $value = 1));
+        $fields->push(new HiddenField('SilvercartProductID', 'SilvercartProductID', $this->ID));
+        $fields->push(new NumericField('SilvercartProductAmount', _t('SilvercartProduct.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', _t('Article.ADD_TO_CART', 'add to cart')));
+        $actions->push(new FormAction('doAddToCart', _t('SilvercartProduct.ADD_TO_CART', 'add to cart')));
         $form = new Form(Controller::curr(), 'doAddToCart', $fields, $actions);
         return $form;
     }
@@ -409,7 +421,7 @@ class Article extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->Tax()->Rate) * 100);
+        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
 
         return $taxRate;
     }

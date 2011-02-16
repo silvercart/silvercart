@@ -2,15 +2,15 @@
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
-Article::setRequiredAttributes("Price");
+SilvercartProduct::setRequiredAttributes("Price");
 
 // ----------------------------------------------------------------------------
 // Rewrite Rules Definitions
 // ----------------------------------------------------------------------------
 Director::addRules(100, array(
-    'artikelansicht/$ID/$Name'                      => 'ArticlePage_Controller',
-    'my-account/address-overview/$URLSegment!/$ID'   => 'AddressPage_Controller',
-    'my-account/my-orders/$URLSegment!/$ID'  => 'OrderDetailPage_Controller'
+    'artikelansicht/$ID/$Name'                       => 'SilvercartProductPage_Controller',
+    'my-account/address-overview/$URLSegment!/$ID'   => 'SilvercartAddressPage_Controller',
+    'my-account/my-orders/$URLSegment!/$ID'          => 'SilvercartOrderDetailPage_Controller'
 ));
 
 // ----------------------------------------------------------------------------
@@ -28,11 +28,9 @@ i18n::set_default_locale('de_DE');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-Object::add_extension('SiteTree', 'Translatable');
+Object::add_extension('SiteTree',   'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
-Object::add_extension('Member', 'CustomerRole');
-//Object::add_extension('Page', 'PageDecorator');
-//Object::add_extension('Page_Controller', 'Page_ControllerDecorator');
+Object::add_extension('Member',     'SilvercartCustomerRole');
 
 // ----------------------------------------------------------------------------
 // Define path constants
@@ -75,5 +73,5 @@ SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
 // ----------------------------------------------------------------------------
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 
-DataObject::add_extension('ArticleGroupHolder_Controller', 'SilvercartGroupViewDecorator');
-DataObject::add_extension('ArticleGroupPage_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
