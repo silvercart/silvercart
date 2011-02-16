@@ -76,29 +76,21 @@ class ArticleGroupHolder_Controller extends Page_Controller {
         $templateArticleList = new DataObjectSet();
         $articleIdx = 0;
         if ($this->groupArticles) {
+            $productAddCartForm = $this->getCartFormName();
             foreach ($this->groupArticles as $article) {
-                $this->registerCustomHtmlForm('ArticlePreviewForm' . $articleIdx, new ArticlePreviewForm($this, array('articleID' => $article->ID)));
+                $this->registerCustomHtmlForm('ProductAddCartForm' . $articleIdx, new $productAddCartForm($this, array('articleID' => $article->ID)));
+                $article->setField('Link', $article->Link());
+                $article->productAddCartForm = $this->InsertCustomHtmlForm(
+                                'ProductAddCartForm' . $articleIdx,
+                                array(
+                                    $article
+                                )
+                );
                 $articleIdx++;
             }
         }
 
         parent::init();
-
-        $articleIdx = 0;
-        if ($this->groupArticles) {
-            foreach ($this->groupArticles as $article) {
-
-                $article->setField('Link', $article->Link());
-                $article->articlePreviewForm = $this->InsertCustomHtmlForm(
-                                'ArticlePreviewForm' . $articleIdx,
-                                array(
-                                    $article
-                                )
-                );
-
-                $articleIdx++;
-            }
-        }
     }
 
     /**

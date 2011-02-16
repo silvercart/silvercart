@@ -65,3 +65,15 @@ if (class_exists('Page_Controller')) {
         throw new Exception('Klasse "Page_Controller" muss von "SilvercartPage_Controller" erben.');
     }
 }
+// ----------------------------------------------------------------------------
+// add possible group views
+// ----------------------------------------------------------------------------
+SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewList');
+SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
+// ----------------------------------------------------------------------------
+// set default group view if not existant
+// ----------------------------------------------------------------------------
+SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
+
+DataObject::add_extension('ArticleGroupHolder_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('ArticleGroupPage_Controller', 'SilvercartGroupViewDecorator');

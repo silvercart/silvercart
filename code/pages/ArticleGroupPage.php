@@ -26,6 +26,23 @@ class ArticleGroupPage extends Page {
     );
 
     /**
+     * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
+     * name of the productgroup.
+     *
+     * @param array $record      Array of field values. Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param bool  $isSingleton This this to true if this is a singleton() object, a stub for calling methods. Singletons don't have their defaults set.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.02.2011
+     */
+    public function  __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        $this->groupPicture()->Title = $this->Title;
+    }
+
+    /**
      * Return all fields of the backend
      *
      * @return FieldSet Fields of the CMS
@@ -80,6 +97,23 @@ class ArticleGroupPage extends Page {
         return false;
     }
 
+    /**
+     * Returns true, when the articles count is equal $count
+     *
+     * @param int $count expected count of articles
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
+     */
+    public function hasProductCount($count) {
+        if ($this->articles()->Count() == $count) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 /**
@@ -98,52 +132,39 @@ class ArticleGroupPage_Controller extends Page_Controller {
      * execute these statements on object call
      *
      * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.02.2011
      */
     public function init() {
-
-
         // Get Articles for this category
         if (!isset($_GET['start']) ||
             !is_numeric($_GET['start']) ||
             (int)$_GET['start'] < 1) {
-            $_GET['start'] = 0;
+            $SQL_start = 0;
+        } else {
+            $SQL_start = (int) $_GET['start'];
         }
 
-        $SQL_start = (int)$_GET['start'];
-        
-        $this->groupArticles = Article::get("\"articleGroupID\" = {$this->ID}", null, null, $limit = "{$SQL_start},15");
+        $this->groupArticles = Article::get(sprintf("`articleGroupID` = '%s'",$this->ID), null, null, sprintf("%s,15",$SQL_start));
 
         // Initialise formobjects
-
         $articleIdx = 0;
         if ($this->groupArticles) {
+            $productAddCartForm = $this->getCartFormName();
             foreach ($this->groupArticles as $article) {
-                $this->registerCustomHtmlForm('ArticlePreviewForm'.$articleIdx, new ArticlePreviewForm($this, array('articleID' => $article->ID)));
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$articleIdx, new $productAddCartForm($this, array('articleID' => $article->ID)));
+                $article->setField('Thumbnail', $article->image()->SetWidth(150));
+                $article->productAddCartForm = $this->InsertCustomHtmlForm(
+                    'ProductAddCartForm'.$articleIdx,
+                    array(
+                        $article
+                    )
+                );
                 $articleIdx++;
             }
         }
 
         parent::init();
-
-        $articleIdx = 0;
-        if ($this->groupArticles) {
-            foreach ($this->groupArticles as $article) {
-
-                $article->setField('Link', $article->Link());
-                $article->setField('Thumbnail', $article->image()->SetWidth(150));
-
-                $article->articlePreviewForm = $this->InsertCustomHtmlForm(
-                    'ArticlePreviewForm'.$articleIdx,
-                    array(
-                        $article
-                    )
-                );
-
-                $articleIdx++;
-            }
-        }
     }
 
     /**

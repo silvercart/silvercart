@@ -74,8 +74,8 @@ class ArticlePage_Controller extends Page_Controller {
             $backLink = $this->Link();
         }
 
-        $this->registerCustomHtmlForm('ArticleAddCartForm', new ArticleAddCartForm($this, array('articleID' => Session::get('articleID'), 'backLink' => $backLink)));
-        $this->articleAddCartForm = $this->InsertCustomHtmlForm('ArticleAddCartForm');
+        $this->registerCustomHtmlForm('ProductAddCartForm', new ProductAddCartFormDetail($this, array('articleID' => Session::get('articleID'), 'backLink' => $backLink)));
+        $this->articleAddCartForm = $this->InsertCustomHtmlForm('ProductAddCartForm');
     }
 
     /**

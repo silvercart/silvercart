@@ -1,0 +1,27 @@
+
+.side-bar-cart {}
+.side-bar-cart_content {}
+.side-bar-cart h3 {}
+
+.side-bar-cart table {
+    width: auto;
+    border-collapse: collapse;
+    border: 0px;
+    margin-bottom: 0.5em;
+}
+.side-bar-cart thead th {
+    color: #fff;
+    border: 0px;
+}
+.side-bar-cart tbody th[scope="row"],
+.side-bar-cart tbody th.sub,
+.side-bar-cart tbody tr:hover th[scope="row"],
+.side-bar-cart tbody tr:hover tbody th.sub,
+.side-bar-cart tbody tr:hover td {
+    background: transparent;
+}
+.side-bar-cart thead th,
+.side-bar-cart tbody td,
+.side-bar-cart tfoot td {
+    border-bottom: 1px solid #eee;
+}

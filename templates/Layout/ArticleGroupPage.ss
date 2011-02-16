@@ -5,39 +5,30 @@
                 <% include BreadCrumbs %>
             </div>
             <div class="c50r">
-                <% if getArticles %>
-                    <% include ArticlePagination %>
-                <% end_if %>
+                <% include ArticlePagination %>
             </div>
         </div>
         
         $Content
         $Form
         $PageComments
-        <% if Children %>
-        <div class="subcolumns">
-            <% control Children %>
-                <div <% if MultipleOf(3) %>class="c33r"<% else %>class="c33l"<% end_if %>>
-                    <% if groupPicture %>
-                        <a href="$Link">
-                            $groupPicture.SetWidth(200)
-                        </a>
-                    <% end_if %>
-                        <h3><a href="$Link">$Title</a></h3>
-                </div>
-                <% if MultipleOf(3) %>
-        </div>
-        <div style="clear:both; height:1em;"></div>
-        <div class="subcolums">
+
+        <div class="article-group-holder-toolbar clearfix">
+        <% if hasMoreGroupViewsThan(1) %>
+            <ul>
+            <% control GroupViews %>
+                <% if isActive %>
+                <li class="active"><img src="$Image" alt="$Label" title="$Label" /></li>
+                <% else %>
+                <li><a href="{$Top.Link}switchGroupView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
                 <% end_if %>
             <% end_control %>
-        </div>
-        <% else_if getArticles %>
-            <% control getArticles %>
-                <% include ArticlePreview %>
-            <% end_control %>
-                <% include ArticlePagination %>
+            </ul>
         <% end_if %>
+        </div>
+        $RenderProductGroupHolderGroupView
+        $RenderProductGroupPageGroupView
+        <% include ArticlePagination %>
     </div>
 </div>
 <div id="col3">
