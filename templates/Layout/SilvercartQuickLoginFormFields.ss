@@ -1,7 +1,6 @@
 <div class="type-text">
-$FieldTag
+	$FieldTag
 </div>
 
 <div id="{$FormName}_{$FieldName}_Box" class="type-text">
-       
 </div>

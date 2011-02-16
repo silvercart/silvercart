@@ -1,11 +1,9 @@
-<% if IncludeFormTag %>
 <form class="yform" $FormAttributes >
-      <% end_if %>
 
-      $CustomHtmlFormMetadata
+	$CustomHtmlFormMetadata
 
-      <fieldset>
-            <legend><% _t('Page.ADDRESS', 'address') %></legend>
+	<fieldset>
+		<legend><% _t('SilvercartPage.ADDRESS', 'address') %></legend>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -66,13 +64,10 @@
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>
-            $Field
+				$Field
             <% end_control %>
         </div>
     </div>
 
     $dataFieldByName(SecurityID)
-
-<% if IncludeFormTag %>
 </form>
-<% end_if %>

@@ -1,10 +1,10 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <% include BreadCrumbs %>
+        <% include SilvercartBreadCrumbs %>
         <h2>$Title</h2>
         $Content
         <% control doConfirmation %>
-        <p>$message</p>
+			<p>$message</p>
         <% end_control %>
 
         $SearchResults
@@ -14,7 +14,7 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include ThirdLevelNavigation %>
+        <% include SilvercartThirdLevelNavigation %>
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>

@@ -150,13 +150,13 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'SilvercartShippingAddress'   => 'SilvercartOrderShippingAddress',
-        'SilvercartInvoiceAddress'    => 'SilvercartOrderInvoiceAddress',
-        'SilvercartPaymentMethod'           => 'SilvercartPaymentMethod',
-        'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
-        'SilvercartOrderStatus'            => 'SilvercartOrderStatus',
-        'Member'          => 'Member',
-        'SilvercartShippingFee'       => 'SilvercartShippingFee'
+        'SilvercartShippingAddress' => 'SilvercartOrderShippingAddress',
+        'SilvercartInvoiceAddress'  => 'SilvercartOrderInvoiceAddress',
+        'SilvercartPaymentMethod'   => 'SilvercartPaymentMethod',
+        'SilvercartShippingMethod'  => 'SilvercartShippingMethod',
+        'SilvercartOrderStatus'     => 'SilvercartOrderStatus',
+        'Member'                    => 'Member',
+        'SilvercartShippingFee'     => 'SilvercartShippingFee'
     );
 
     /**
@@ -295,7 +295,7 @@ class SilvercartOrder extends DataObject {
             "`Identifier` = 'MailOrderConfirmation'"
         );
         if (!$checkOrderMail) {
-            $orderMail = new ShopEmail();
+            $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderConfirmation');
             $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
@@ -313,7 +313,7 @@ class SilvercartOrder extends DataObject {
             "`Identifier` = 'MailOrderNotification'"
         );
         if (!$checkOrderMail) {
-            $orderMail = new ShopEmail();
+            $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderNotification');
             $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");

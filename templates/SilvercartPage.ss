@@ -14,12 +14,12 @@
                         <div class="c50l">
                             <div class="subcolumns">
                                 <div class="c33l">
-                                    <% include MetaNavigation %>
+                                    <% include SilvercartMetaNavigation %>
                                 </div>
                                 <div class="c66r">
                                     <div class="subcolumns">
                                         <div class="c33l">
-                                            <div class="subcr"><% _t('Page.FIND', 'find:') %></div>
+                                            <div class="subcr"><% _t('SilvercartPage.FIND', 'find:') %></div>
                                             
                                         </div>
                                         <div class="c66r">
@@ -33,19 +33,19 @@
                             <div class="subcolumns">
                                 <div class="c50l" id="Customer">
                                     <% if CurrentRegisteredCustomer %>
-                                    <a class="button" id="myaccount" href="/my-account/"><% _t('Page.MYACCOUNT', 'my account') %></a>
-                                    <a class="button" id="logout" href="/home/logout/">Logout</a>
+										<a class="button" id="myaccount" href="/my-account/"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
+										<a class="button" id="logout" href="/home/logout/">Logout</a>
                                     <% else %>
-                                    <% include LoginPopup %>
+										<% include SilvercartLoginPopup %>
                                     <% end_if %>
                                 </div>
                                 <div class="c50r" id="Shopping_Checkout">
                                     <div class="subcolumns">
                                         <div class="c50l">
-                                            <a class="button" id="scart" href="$PageByClassName(CartPage).Link"><% _t('Page.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
+                                            <a class="button" id="scart" href="$PageByClassName(SilvercartCartPage).Link"><% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
                                         </div>
                                         <div class="c50r">
-                                            <a class="button" href="$PageByClassName(CheckoutStep).Link"><% _t('Page.CHECKOUT', 'checkout') %></a>
+                                            <a class="button" href="$PageByClassName(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                 <ul class="translations">
                                     <% control Translations %>
                                     <li class="$Locale.RFC1766">
-                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('Page.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
+                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SilvercartPage.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
                                     </li>
                                     <% end_control %>
                                 </ul>
@@ -79,7 +79,7 @@
                     <% if Menu(1) %>
                     <div id="nav">
                         <a id="navigation" name="navigation"></a>
-                        <% include Navigation %>
+                        <% include SilvercartNavigation %>
                     </div>
                     <% end_if %>
                 </div>
@@ -91,14 +91,14 @@
         </div>
         <p/>
         <div id="CompanyInformations">
-            <% control Page(metanavigation) %>
-            <% control Children %>
-            <% if Last %>
-            <a href="$Link" title="<% sprintf(_t('Page.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
-            <% else %>
-            <a href="$Link" title="<% sprintf(_t('Page.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
-            <% end_if %>
-            <% end_control %>
+            <% control Page(SilvercartMetanavigation) %>
+				<% control Children %>
+					<% if Last %>
+						<a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
+					<% else %>
+						<a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
+					<% end_if %>
+				<% end_control %>
             <% end_control %>
         </div>
         <p/>

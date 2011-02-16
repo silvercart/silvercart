@@ -16,9 +16,9 @@
                     <% if hasProductCount(0) %>
                     <% else %>
                         <% if hasProductCount(1) %>
-                            <a href="$Link" title="$articles.Count <% _t('Article.SINGULARNAME','article') %>">$articles.Count <% _t('Article.SINGULARNAME','article') %> &gt;&gt;</a>
+                            <a href="$Link" title="$articles.Count <% _t('SilvercartArticle.SINGULARNAME','article') %>">$SilvercartArticles.Count <% _t('SilvercartArticle.SINGULARNAME','article') %> &gt;&gt;</a>
                         <% else %>
-                            <a href="$Link" title="$articles.Count <% _t('Article.PLURALNAME','article') %>">$articles.Count <% _t('Article.PLURALNAME','article') %> &gt;&gt;</a>
+                            <a href="$Link" title="$articles.Count <% _t('SilvercartArticle.PLURALNAME','article') %>">$SilvercartArticles.Count <% _t('SilvercartArticle.PLURALNAME','article') %> &gt;&gt;</a>
                         <% end_if %>
                     <% end_if %>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="c33r article-group-holder-entry-image">
                             <div class="subcr">
                                 <% if groupPicture %>
-                                <a href="$Link">$groupPicture.SetRatioSize(90,90)</a>
+									<a href="$Link">$groupPicture.SetRatioSize(90,90)</a>
                                 <% end_if %>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
-
 <form class="yform" $FormAttributes>
-$CustomHtmlFormMetadata
+	$CustomHtmlFormMetadata
+
     <fieldset>
         <legend></legend>
         $CustomHtmlFormFieldByName(articleAmount,ProductAddCartFormField)

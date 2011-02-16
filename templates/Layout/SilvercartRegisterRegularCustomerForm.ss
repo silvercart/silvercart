@@ -1,11 +1,9 @@
-<% if IncludeFormTag %>
-    <form class="yform full" $FormAttributes >
-<% end_if %>
+<form class="yform full" $FormAttributes >
 
     $CustomHtmlFormMetadata
 
     <fieldset>
-        <legend><% _t('Page.ADDRESS_DATA') %></legend>
+        <legend><% _t('SilvercartPage.ADDRESS_DATA') %></legend>
         
         $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
 
@@ -71,7 +69,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><% _t('Page.BIRTHDAY') %>:</legend>
+        <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
 
         <div class="subcolumns">
             <div class="c33l">
@@ -94,7 +92,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><% _t('Page.PASSWORD') %></legend>
+        <legend><% _t('SilvercartPage.PASSWORD') %></legend>
 
         <div class="subcolumns">
             <div class="c50l">
@@ -112,7 +110,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><% _t('Page.TERMSOFSERVICE_PRIVACY') %></legend>
+        <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
 
         $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,HasAcceptedTermsAndConditionsFieldCheck)
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,HasAcceptedRevocationInstructionFieldCheck)
@@ -130,6 +128,4 @@
 
     $dataFieldByName(SecurityID)
 
-<% if IncludeFormTag %>
-    </form>
-<% end_if %>
+</form>
