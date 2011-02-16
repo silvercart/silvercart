@@ -90,6 +90,10 @@ class ShoppingCart extends DataObject {
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
 
+        // Initialize shopping cart position object, so that it can inject
+        // its forms into the controller.
+        if ($this->positions()) {}
+
         $this->shippingMethodID = 0;
         $this->paymentMethodID  = 0;
 

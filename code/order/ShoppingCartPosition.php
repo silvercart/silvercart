@@ -72,7 +72,7 @@ class ShoppingCartPosition extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
 
-        $controller     = Controller::curr();
+        $controller = Controller::curr();
 
         if ($controller->hasMethod('getRegisteredCustomHtmlForm')) {
             $positionForms  = array(
