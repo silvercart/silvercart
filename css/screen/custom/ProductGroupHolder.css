@@ -1,0 +1,46 @@
+
+.article-group-holder-toolbar {}
+.article-group-holder-toolbar ul {
+    float: right;
+}
+.article-group-holder-toolbar ul li {
+    list-style: none;
+    float: left;
+}
+
+.article-group-holder-entry {}
+.article-group-holder-entry_content { padding: 15px; }
+.article-group-holder-entry.even {}
+.article-group-holder-entry.odd {}
+.article-group-holder-entry.odd:hover,
+.article-group-holder-entry.even:hover {
+    background: #eee;
+}
+.article-group-holder-entry h3 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c9c9c9;
+}
+.article-group-holder-entry-image img {
+    float: none;
+    display: block;
+    margin: auto;
+}
+.article-group-holder-entry-foot {
+    text-align: right;
+}
+
+/* styles for tile view */
+.article-group-holder-entry.tile {
+    position: relative;
+}
+.article-group-holder-entry.tile h3 {
+    padding-bottom: 5px;
+    border-bottom: 0px;
+}
+.article-group-holder-entry.tile .article-group-holder-entry-link {
+    text-align: right;
+    vertical-align: middle;
+}
+.article-group-holder-entry.tile .article-group-holder-entry-foot {
+    padding: 0 15px 15px 0;
+}

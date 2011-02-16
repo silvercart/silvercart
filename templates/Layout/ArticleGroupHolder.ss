@@ -5,25 +5,27 @@
         $Content
         $Form
         $PageComments
-        <% control Children %>
-        <h3><a href="$Link">$Title</a></h3>
-        <% if groupPicture %>
-        <a href="$Link"><img src="$groupPicture.Link" alt="$Title" width="150"/></a>
-        <% end_if %>
-        <% end_control %>
-        <% if randomArticles %>
-        <ul>
-            <% control randomArticles %>
-            $articlePreviewForm
+        <div class="article-group-holder-toolbar clearfix">
+        <% if hasMoreGroupViewsThan(1) %>
+            <ul>
+            <% control GroupViews %>
+                <% if isActive %>
+                <li class="active"><img src="$Image" alt="$Label" title="$Label" /></li>
+                <% else %>
+                <li><a href="{$Top.Link}switchGroupView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
+                <% end_if %>
             <% end_control %>
-        </ul>
+            </ul>
         <% end_if %>
+        </div>
+        $RenderProductGroupHolderGroupView
     </div>
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         <% include SideBarCart %>
         <% include ThirdLevelNavigation %>
+        <% include Infobox %>
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>
