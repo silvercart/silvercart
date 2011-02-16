@@ -2,7 +2,6 @@
     <div id="col1_content" class="clearfix">
         <h2>$Title</h2>
         $Content
-        $InsertCustomHtmlForm
         $Process
 
         <% if CustomHtmlFormStepLinkCancel %>

@@ -1,15 +1,10 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <div id="Breadcrumbs">
-            <p>$getBreadcrumbs</p>
-        </div>
-
-        <h2>$Title</h2>
-
+        <% include SilvercartBreadCrumbs %>
+        <h1>$Title</h1>
         $Content
-        $SearchResults
         $Form
-        $InsertCustomHtmlForm(SilvercartEditAddressForm)
+        $InsertCustomHtmlForm(SilvercartEditProfileForm)
         $PageComments
     </div>
 </div>
