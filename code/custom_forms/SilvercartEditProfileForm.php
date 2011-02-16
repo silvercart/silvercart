@@ -8,7 +8,7 @@
  * @copyright Pixeltricks GmbH
  * @since 23.10.2010
  */
-class EditProfileForm extends CustomHtmlForm {
+class SilvercartEditProfileForm extends CustomHtmlForm {
 
     protected $formFields = array
         (
@@ -137,24 +137,24 @@ class EditProfileForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
-        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
-        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
-        $this->formFields['Surname']['title'] = _t('Address.SURNAME', 'surname');
-        $this->formFields['Phone']['title'] = _t('Address.PHONE', 'phone');
-        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
-        $this->formFields['Email']['title'] = _t('Address.EMAIL');
-        $this->formFields['Phone']['title'] = _t('Address.PHONE');
-        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
-        $this->formFields['BirthdayDay']['title'] = _t('Page.DAY', 'day');
-        $this->formFields['BirthdayDay']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '20' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
-        $this->formFields['BirthdayMonth']['title'] = _t('Page.MONTH', 'month');
-        $this->formFields['BirthdayMonth']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => _t('Page.JANUARY', 'january'), '2' => _t('Page.FEBRUARY', 'february'), '3' => _t('Page.MARCH', 'march'), '4' => _t('Page.APRIL', 'april'), '5' => _t('Page.MAY', 'may'), '6' => _t('Page.JUNE', 'june'), '7' => _t('Page.JULY', 'july'), '8' => _t('Page.AUGUST', 'august'), '9' => _t('Page.SEPTEMBER', 'september'), '10' => _t('Page.OCTOBER', 'october'), '11' => _t('Page.NOVEMBER', 'november'), '12' => _t('Page.DECEMBER', 'december'));
-        $this->formFields['BirthdayYear']['title'] = _t('Page.YEAR', 'year');
-        $this->formFields['Password']['title'] = _t('Page.PASSWORD');
-        $this->formFields['PasswordCheck']['title'] = _t('Page.PASSWORD_CHECK', 'password check');
-        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
-        $this->preferences['submitButtonTitle'] = _t('Page.SAVE');
+        $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
+        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
+        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE', 'phone');
+        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
+        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL');
+        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE');
+        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
+        $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY', 'day');
+        $this->formFields['BirthdayDay']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '20' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
+        $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH', 'month');
+        $this->formFields['BirthdayMonth']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => _t('SilvercartPage.JANUARY', 'january'), '2' => _t('SilvercartPage.FEBRUARY', 'february'), '3' => _t('SilvercartPage.MARCH', 'march'), '4' => _t('SilvercartPage.APRIL', 'april'), '5' => _t('SilvercartPage.MAY', 'may'), '6' => _t('SilvercartPage.JUNE', 'june'), '7' => _t('SilvercartPage.JULY', 'july'), '8' => _t('SilvercartPage.AUGUST', 'august'), '9' => _t('SilvercartPage.SEPTEMBER', 'september'), '10' => _t('SilvercartPage.OCTOBER', 'october'), '11' => _t('SilvercartPage.NOVEMBER', 'november'), '12' => _t('SilvercartPage.DECEMBER', 'december'));
+        $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR', 'year');
+        $this->formFields['Password']['title'] = _t('SilvercartPage.PASSWORD');
+        $this->formFields['PasswordCheck']['title'] = _t('SilvercartPage.PASSWORD_CHECK', 'password check');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE');
 
         $member = Member::currentUser();
         #var_dump(date('d', strtotime($member->Birthday)));die();

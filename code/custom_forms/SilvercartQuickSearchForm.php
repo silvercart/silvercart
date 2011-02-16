@@ -8,7 +8,7 @@
  * @license BSD
  * @since 23.10.2010
  */
-class QuickSearchForm extends CustomHtmlForm {
+class SilvercartQuickSearchForm extends CustomHtmlForm {
 
     /**
      * form field definition
@@ -54,7 +54,7 @@ class QuickSearchForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         Session::set("searchQuery", $formData['quickSearchQuery']);
-        Director::redirect(sprintf("/%s", _t('SearchResultsPage.URL_SEGMENT')));
+        Director::redirect(sprintf("/%s", _t('SilvercartSearchResultsPage.URL_SEGMENT')));
 
     }
 }

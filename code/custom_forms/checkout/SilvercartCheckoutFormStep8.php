@@ -8,7 +8,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep8 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep8 extends CustomHtmlForm {
 
     /**
      * processor method
@@ -28,13 +28,13 @@ class CheckoutFormStep8 extends CustomHtmlForm {
             // postprocessing of payment method
             if (!$this->controller->paymentMethodObj) {
                 $this->controller->paymentMethodObj = DataObject::get_by_id(
-                                'PaymentMethod',
+                                'SilvercartPaymentMethod',
                                 $checkoutData['PaymentMethod']
                 );
             }
 
             $orderObj = DataObject::get_by_id(
-                            'Order',
+                            'SilvercartOrder',
                             $checkoutData['orderId']
             );
 

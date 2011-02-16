@@ -9,7 +9,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep6 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
 
     /**
      * constructor
@@ -52,7 +52,7 @@ class CheckoutFormStep6 extends CustomHtmlForm {
 
         if (!$this->paymentMethodObj) {
             $this->paymentMethodObj = DataObject::get_by_id(
-                            'PaymentMethod',
+                            'SilvercartPaymentMethod',
                             $checkoutData['PaymentMethod']
             );
         }

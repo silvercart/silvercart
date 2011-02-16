@@ -7,7 +7,7 @@
  * @license BSD
  * @since 23.10.2010
  */
-class ArticlePreviewForm extends CustomHtmlForm {
+class SilvercartProductPreviewForm extends CustomHtmlForm {
     /**
      * field configuration
      *
@@ -15,7 +15,7 @@ class ArticlePreviewForm extends CustomHtmlForm {
      */
     protected $formFields = array
     (
-        'articleAmount' => array(
+        'productAmount' => array(
             'type'              => 'TextField',
             'title'             => 'Anzahl',
             'value'             => '1',
@@ -48,8 +48,8 @@ class ArticlePreviewForm extends CustomHtmlForm {
      * @since 23.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['articleAmount']['title'] = _t('Article.QUANTITY');
-        $this->preferences['submitButtonTitle'] = _t('Article.ADD_TO_CART');
+        $this->formFields['productAmount']['title'] = _t('SilvercartProduct.QUANTITY');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
 
     }
 
@@ -72,7 +72,7 @@ class ArticlePreviewForm extends CustomHtmlForm {
             $backLink = $formData['backLink'];
         }
 
-        if (ShoppingCart::addArticle($formData)) {
+        if (ShoppingCart::addProduct($formData)) {
             Director::redirect($backLink,302);
         } else {
             Director::redirect($backLink,302);

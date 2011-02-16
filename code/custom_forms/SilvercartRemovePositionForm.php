@@ -9,7 +9,7 @@
  * @since 09.02.2011
  * @license BSD
  */
-class DecrementPositionQuantityForm extends CustomHtmlForm {
+class SilvercartRemovePositionForm extends CustomHtmlForm {
 
     /**
      * form settings, mainly submit button´s name
@@ -21,9 +21,20 @@ class DecrementPositionQuantityForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle' => '-',
+        'submitButtonTitle' => 'remove',
         'doJsValidationScrolling' => false
     );
+
+    /**
+     * Fill the form with default values
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.2.11
+     * @return void
+     */
+    protected function fillInFieldValues() {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.REMOVE_FROM_CART');
+    }
 
     /**
      * executed if there are no valdation errors on submit
@@ -43,14 +54,9 @@ class DecrementPositionQuantityForm extends CustomHtmlForm {
 
             //check if the position belongs to this user. Malicious people could manipulate it.
             $member = Member::currentUser();
-            $position = DataObject::get_by_id('ShoppingCartPosition', $formData['positionID']);
-            if ($position && ($member->shoppingCart()->ID == $position->shoppingCartID)) {
-                if ($position->Quantity == 1) {
-                    $position->delete();
-                } else {
-                    $position->Quantity--;
-                    $position->write();
-                }
+            $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
+            if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
+                $position->delete();
                 Director::redirect($this->controller->Link());
             }
         }

@@ -11,7 +11,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep5 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep5 extends CustomHtmlForm {
 
     /**
      * constructor
@@ -55,15 +55,15 @@ class CheckoutFormStep5 extends CustomHtmlForm {
 
         if (!$this->paymentMethodObj) {
             $this->paymentMethodObj = DataObject::get_by_id(
-                'PaymentMethod',
+                'SilvercartPaymentMethod',
                 $checkoutData['PaymentMethod']
             );
         }
 
         if ($this->paymentMethodObj) {
             $this->paymentMethodObj->setController($this->controller);
-            $orderAmount = $member->ShoppingCart()->getAmountTotal();
-            $taxes       = $member->ShoppingCart()->getTaxRatesWithoutFees();
+            $orderAmount = $member->SilvercartShoppingCart()->getAmountTotal();
+            $taxes       = $member->SilvercartShoppingCart()->getTaxRatesWithoutFees();
             $taxRates    = array();
             $this->paymentMethodObj->setData('order', 'taxes', array());
 

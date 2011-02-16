@@ -10,6 +10,6 @@
  * @since 14.02.2011
  * @license BSD
  */
-class ProductAddCartFormDetail extends ArticleAddCartForm {
+class SilvercartProductAddCartFormDetail extends SilvercartArticleAddCartForm {
 
 }

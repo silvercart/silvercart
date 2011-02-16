@@ -8,7 +8,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep2 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
 
     protected $formFields = array(
         'PaymentMethod' => array(
@@ -69,15 +69,15 @@ class CheckoutFormStep2 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['PaymentMethod']['title'] = _t('PaymentMethod.SINGULARNAME');
+        $this->formFields['PaymentMethod']['title'] = _t('SilvercartPaymentMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
         if ($stepData['Shipping_Country'] != "") {
-            $shippingCountry = DataObject::get_by_id('Country', $stepData['Shipping_Country']);
+            $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
             if ($shippingCountry) {
-                $allowedPaymentMethods = $shippingCountry->paymentMethods();
+                $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods();
                 if ($allowedPaymentMethods) {
-                    $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('CheckoutFormStep2.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
+                    $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
                 }
             }
         }

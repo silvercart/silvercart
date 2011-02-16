@@ -7,7 +7,7 @@
  * @since 03.01.2011
  * @license none
  */
-class CheckoutFormStep7 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep7 extends CustomHtmlForm {
 
     /**
      * constructor
@@ -64,7 +64,7 @@ class CheckoutFormStep7 extends CustomHtmlForm {
         $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
         $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
-        $order = new Order();
+        $order = new SilvercartOrder();
         $order->setCustomerEmail($customerEmail);
         $order->setShippingMethod($checkoutData['ShippingMethod']);
         $order->setPaymentMethod($checkoutData['PaymentMethod']);

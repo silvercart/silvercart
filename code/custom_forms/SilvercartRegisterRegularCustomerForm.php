@@ -8,7 +8,7 @@
  * @license BSD
  * @since 21.10.2010
  */
-class RegisterRegularCustomerForm extends CustomHtmlForm {
+class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
 
     /**
      * define form fields
@@ -176,33 +176,33 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
-        $this->formFields['BirthdayDay']['title'] = _t('Page.DAY');
-        $this->formFields['BirthdayMonth']['title'] = _t('Page.MONTH');
-        $this->formFields['BirthdayYear']['title'] = _t('Page.YEAR');
-        $this->formFields['Password']['title'] = _t('Page.PASSWORD');
-        $this->formFields['PasswordCheck']['title'] = _t('Page.PASSWORD_CHECK');
-        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('CheckoutFormStep.I_ACCEPT_TERMS');
-        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('CheckoutFormStep.I_ACCEPT_REVOCATION');
-        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
+        $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
+        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY');
+        $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH');
+        $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR');
+        $this->formFields['Password']['title'] = _t('SilvercartPage.PASSWORD');
+        $this->formFields['PasswordCheck']['title'] = _t('SilvercartPage.PASSWORD_CHECK');
+        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS');
+        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
         $birthdayDays = array(
-            '' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+            '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
         );
         $birthdayMonths = array(
-            '' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            '1' => _t('Page.JANUARY'),
-            '2' => _t('Page.FEBRUARY'),
-            '3' => _t('Page.MARCH'),
-            '4' => _t('Page.APRIL'),
-            '5' => _t('Page.MAY'),
-            '6' => _t('Page.JUNE'),
-            '7' => _t('Page.JULY'),
-            '8' => _t('Page.AUGUST'),
-            '9' => _t('Page.SEPTEMBER'),
-            '10' => _t('Page.OCTOBER'),
-            '11' => _t('Page.NOVEMBER'),
-            '12' => _t('Page.DECEMBER')
+            '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            '1' => _t('SilvercartPage.JANUARY'),
+            '2' => _t('SilvercartPage.FEBRUARY'),
+            '3' => _t('SilvercartPage.MARCH'),
+            '4' => _t('SilvercartPage.APRIL'),
+            '5' => _t('SilvercartPage.MAY'),
+            '6' => _t('SilvercartPage.JUNE'),
+            '7' => _t('SilvercartPage.JULY'),
+            '8' => _t('SilvercartPage.AUGUST'),
+            '9' => _t('SilvercartPage.SEPTEMBER'),
+            '10' => _t('SilvercartPage.OCTOBER'),
+            '11' => _t('SilvercartPage.NOVEMBER'),
+            '12' => _t('SilvercartPage.DECEMBER')
         );
 
         for ($idx = 1; $idx < 32; $idx++) {
@@ -238,7 +238,7 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
 
         return array(
             'success' => !$emailExistsAlready,
-            'errorMessage' => _t('Page.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
+            'errorMessage' => _t('SilvercartPage.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
         );
     }
 
@@ -282,7 +282,7 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
                                           $formData['BirthdayDay'];
 
         // Create new regular customer and perform a log in
-        $customer = new RegularCustomer();
+        $customer = new SilvercartRegularCustomer();
         $customer->castedUpdate($formData);
         $customer->write();
         $customer->logIn();
@@ -298,38 +298,38 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
         }
 
         // Create ShippingAddress for customer and populate it with registration data
-        $shippingAddress = new ShippingAddress();
+        $shippingAddress = new SilvercartShippingAddress();
         $shippingAddress->castedUpdate($formData);
 
         $country = DataObject::get_one(
-            'Country',
+            'SilvercartCountry',
             sprintf(
                 "`Title` = '%s'",
                 $formData['Country']
             )
         );
         if ($country) {
-            $shippingAddress->countryID = $country->ID;
+            $shippingAddress->SilvercartCountryID = $country->ID;
         }
         $shippingAddress->write();
 
         // Create InvoiceAddress for customer and populate it with registration data
-        $invoiceAddress = new InvoiceAddress();
+        $invoiceAddress = new SilvercartInvoiceAddress();
         $invoiceAddress->castedUpdate($formData);
         if ($country) {
-            $invoiceAddress->countryID = $country->ID;
+            $invoiceAddress->SilvercartCountryID = $country->ID;
         }
         $invoiceAddress->write();
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
-        $customer->shippingAddressID = $shippingAddress->ID;
-        $customer->invoiceAddressID  = $invoiceAddress->ID;
+        $customer->SilvercartShippingAddressID = $shippingAddress->ID;
+        $customer->SilvercartInvoiceAddressID  = $invoiceAddress->ID;
         $customer->write();
 
         $this->sendOptInMail($formData);
 
         // Redirect to welcome page
-        $param = _t('RegistrationPage.URL_SEGMENT')."/"._t('Page.WELCOME_PAGE_URL_SEGMENT');
+        $param = _t('SilvercartRegistrationPage.URL_SEGMENT')."/"._t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
         Director::redirect($param);
     }
 
@@ -346,13 +346,13 @@ class RegisterRegularCustomerForm extends CustomHtmlForm {
      */
     protected function sendOptInMail($formData) {
         ShopEmail::send(
-            'RegistrationOptIn',
+            'SilvercartRegistrationOptIn',
             $formData['Email'],
             array(
                 'FirstName'         => $formData['FirstName'],
                 'Surname'           => $formData['Surname'],
                 'Email'             => $formData['Email'],
-                'ConfirmationLink'  => Director::absoluteURL(sprintf("/%s/%s", _t('RegistrationPage.URL_SEGMENT'), _t('RegisterConfirmationPage.URL_SEGMENT'))).'/?h='.urlencode($formData['ConfirmationHash'])
+                'ConfirmationLink'  => Director::absoluteURL(sprintf("/%s/%s", _t('SilvercartRegistrationPage.URL_SEGMENT'), _t('SilvercartRegisterConfirmationPage.URL_SEGMENT'))).'/?h='.urlencode($formData['ConfirmationHash'])
             )
         );
     }

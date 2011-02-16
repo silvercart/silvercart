@@ -8,7 +8,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep1 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
 
     protected $formFields = array(
         /**
@@ -215,65 +215,65 @@ class CheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-        $this->formFields['Invoice_Salutation']['title'] = _t('Address.SALUTATION', 'salutation');
-        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS', 'misses'), "Herr" => _t('Address.MISTER', 'mister'));
-        $this->formFields['Invoice_FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
-        $this->formFields['Invoice_Surname']['title'] = _t('Address.SURNAME', 'surname');
-        $this->formFields['Invoice_Addition']['title'] = _t('Address.ADDITION', 'addition');
-        $this->formFields['Invoice_Street']['title'] = _t('Address.STREET', 'street');
-        $this->formFields['Invoice_StreetNumber']['title'] = _t('Address.STREETNUMBER', 'streetnumber');
-        $this->formFields['Invoice_Postcode']['title'] = _t('Address.POSTCODE', 'postcode');
-        $this->formFields['Invoice_City']['title'] = _t('Address.CITY', 'city');
-        $this->formFields['Invoice_Phone']['title'] = _t('Address.PHONE', 'phone');
-        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE', 'phone area code');
-        $this->formFields['Invoice_Country']['title'] = _t('Country.SINGULARNAME');
+        $this->formFields['Invoice_Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
+        $this->formFields['Invoice_Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS', 'misses'), "Herr" => _t('SilvercartAddress.MISTER', 'mister'));
+        $this->formFields['Invoice_FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
+        $this->formFields['Invoice_Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
+        $this->formFields['Invoice_Addition']['title'] = _t('SilvercartAddress.ADDITION', 'addition');
+        $this->formFields['Invoice_Street']['title'] = _t('SilvercartAddress.STREET', 'street');
+        $this->formFields['Invoice_StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
+        $this->formFields['Invoice_Postcode']['title'] = _t('SilvercartAddress.POSTCODE', 'postcode');
+        $this->formFields['Invoice_City']['title'] = _t('SilvercartAddress.CITY', 'city');
+        $this->formFields['Invoice_Phone']['title'] = _t('SilvercartAddress.PHONE', 'phone');
+        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
+        $this->formFields['Invoice_Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
 
-        $this->formFields['Shipping_Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Shipping_Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
-        $this->formFields['Shipping_FirstName']['title'] = _t('Address.FIRSTNAME');
-        $this->formFields['Shipping_Surname']['title'] = _t('Address.SURNAME');
-        $this->formFields['Shipping_Addition']['title'] = _t('Address.ADDITION');
-        $this->formFields['Shipping_Street']['title'] = _t('Address.STREET');
-        $this->formFields['Shipping_StreetNumber']['title'] = _t('Address.STREETNUMBER');
-        $this->formFields['Shipping_Postcode']['title'] = _t('Address.POSTCODE');
-        $this->formFields['Shipping_City']['title'] = _t('Address.CITY');
-        $this->formFields['Shipping_Phone']['title'] = _t('Address.PHONE');
-        $this->formFields['Shipping_PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
-        $this->formFields['Shipping_Country']['title'] = _t('Country.SINGULARNAME');
+        $this->formFields['Shipping_Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
+        $this->formFields['Shipping_Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['Shipping_FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME');
+        $this->formFields['Shipping_Surname']['title'] = _t('SilvercartAddress.SURNAME');
+        $this->formFields['Shipping_Addition']['title'] = _t('SilvercartAddress.ADDITION');
+        $this->formFields['Shipping_Street']['title'] = _t('SilvercartAddress.STREET');
+        $this->formFields['Shipping_StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER');
+        $this->formFields['Shipping_Postcode']['title'] = _t('SilvercartAddress.POSTCODE');
+        $this->formFields['Shipping_City']['title'] = _t('SilvercartAddress.CITY');
+        $this->formFields['Shipping_Phone']['title'] = _t('SilvercartAddress.PHONE');
+        $this->formFields['Shipping_PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
+        $this->formFields['Shipping_Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
 
-        $countries = DataObject::get('Country');
+        $countries = DataObject::get('SilvercartCountry');
         if ($countries) {
-            $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('CheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
-            $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('CheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+            $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+            $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
         }
-        $member = CustomerRole::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
+        $member = SilvercartCustomerRole::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
         if ($member) {
             $this->formFields['Email']['value'] = $member->Email;
-            if ($member->invoiceAddress()) {
+            if ($member->SilvercartInvoiceAddress()) {
                 $this->formFields['Invoice_FirstName']['value'] = $member->FirstName;
                 $this->formFields['Invoice_Surname']['value'] = $member->Surname;
                 $this->formFields['Invoice_Salutation']['selectedValue'] = $member->Salutation;
-                $this->formFields['Invoice_Addition']['value'] = $member->invoiceAddress()->Addition;
-                $this->formFields['Invoice_Street']['value'] = $member->invoiceAddress()->Street;
-                $this->formFields['Invoice_StreetNumber']['value'] = $member->invoiceAddress()->StreetNumber;
-                $this->formFields['Invoice_Postcode']['value'] = $member->invoiceAddress()->Postcode;
-                $this->formFields['Invoice_City']['value'] = $member->invoiceAddress()->City;
-                $this->formFields['Invoice_PhoneAreaCode']['value'] = $member->invoiceAddress()->PhoneAreaCode;
-                $this->formFields['Invoice_Phone']['value'] = $member->invoiceAddress()->Phone;
-                $this->formFields['Invoice_Country']['selectedValue'] = $member->invoiceAddress()->country()->ID;
+                $this->formFields['Invoice_Addition']['value'] = $member->SilvercartInvoiceAddress()->Addition;
+                $this->formFields['Invoice_Street']['value'] = $member->SilvercartInvoiceAddress()->Street;
+                $this->formFields['Invoice_StreetNumber']['value'] = $member->SilvercartInvoiceAddress()->StreetNumber;
+                $this->formFields['Invoice_Postcode']['value'] = $member->SilvercartInvoiceAddress()->Postcode;
+                $this->formFields['Invoice_City']['value'] = $member->SilvercartInvoiceAddress()->City;
+                $this->formFields['Invoice_PhoneAreaCode']['value'] = $member->SilvercartInvoiceAddress()->PhoneAreaCode;
+                $this->formFields['Invoice_Phone']['value'] = $member->SilvercartInvoiceAddress()->Phone;
+                $this->formFields['Invoice_Country']['selectedValue'] = $member->SilvercartInvoiceAddress()->SilvercartCountry()->ID;
             }
-            if ($member->shippingAddress()) {
+            if ($member->SilvercartShippingAddress()) {
                 $this->formFields['Shipping_FirstName']['value'] = $member->FirstName;
                 $this->formFields['Shipping_Surname']['value'] = $member->Surname;
                 $this->formFields['Shipping_Salutation']['selectedValue'] = $member->Salutation;
-                $this->formFields['Shipping_Addition']['value'] = $member->shippingAddress()->Addition;
-                $this->formFields['Shipping_Street']['value'] = $member->shippingAddress()->Street;
-                $this->formFields['Shipping_StreetNumber']['value'] = $member->shippingAddress()->StreetNumber;
-                $this->formFields['Shipping_Postcode']['value'] = $member->shippingAddress()->Postcode;
-                $this->formFields['Shipping_City']['value'] = $member->shippingAddress()->City;
-                $this->formFields['Shipping_PhoneAreaCode']['value'] = $member->shippingAddress()->PhoneAreaCode;
-                $this->formFields['Shipping_Phone']['value'] = $member->shippingAddress()->Phone;
-                $this->formFields['Shipping_Country']['selectedValue'] = $member->shippingAddress()->country()->ID;
+                $this->formFields['Shipping_Addition']['value'] = $member->SilvercartShippingAddress()->Addition;
+                $this->formFields['Shipping_Street']['value'] = $member->SilvercartShippingAddress()->Street;
+                $this->formFields['Shipping_StreetNumber']['value'] = $member->SilvercartShippingAddress()->StreetNumber;
+                $this->formFields['Shipping_Postcode']['value'] = $member->SilvercartShippingAddress()->Postcode;
+                $this->formFields['Shipping_City']['value'] = $member->SilvercartShippingAddress()->City;
+                $this->formFields['Shipping_PhoneAreaCode']['value'] = $member->SilvercartShippingAddress()->PhoneAreaCode;
+                $this->formFields['Shipping_Phone']['value'] = $member->SilvercartShippingAddress()->Phone;
+                $this->formFields['Shipping_Country']['selectedValue'] = $member->SilvercartShippingAddress()->SilvercartCountry()->ID;
             }
         }
     }

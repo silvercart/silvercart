@@ -8,7 +8,7 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep4 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
     protected $formFields = array(
         'ChosenShippingMethod' => array(
@@ -92,23 +92,23 @@ class CheckoutFormStep4 extends CustomHtmlForm {
      * @since 09.11.2010
      */
     protected function fillInFieldValues() {
-        $this->preferences['submitButtonTitle'] = _t('CheckoutFormStep.ORDER', 'order');
-        $this->preferences['stepTitle'] = _t('CheckoutFormStep.OVERVIEW', 'overview');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.ORDER', 'order');
+        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep.OVERVIEW', 'overview');
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['ChosenShippingMethod']['title'] = _t('CheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
-        $this->formFields['ChosenPaymentMethod']['title'] = _t('CheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
-        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('CheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
-        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('CheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
-        $this->formFields['SubscribedToNewsletter']['title'] = _t('CheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
+        $this->formFields['ChosenShippingMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
+        $this->formFields['ChosenPaymentMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
+        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
+        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
+        $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
 
         $stepData = $this->controller->getCombinedStepData();
 
-        $chosenShippingMethod = DataObject::get_by_id('ShippingMethod', $stepData['ShippingMethod']);
+        $chosenShippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $stepData['ShippingMethod']);
         if ($chosenShippingMethod) {
             $this->formFields['ChosenShippingMethod']['value'] = $chosenShippingMethod->Title;
         }
 
-        $chosenPaymentMethod = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);
+        $chosenPaymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
         if ($chosenPaymentMethod) {
             $this->formFields['ChosenPaymentMethod']['value'] = $chosenPaymentMethod->Name;
         }
@@ -129,7 +129,7 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
         $shippingCountry = DataObject::get_by_id(
-                        'Country',
+                        'SilvercartCountry',
                         $shippingAddress['CountryID']
         );
 
@@ -138,7 +138,7 @@ class CheckoutFormStep4 extends CustomHtmlForm {
         }
 
         $invoiceCountry = DataObject::get_by_id(
-                        'Country',
+                        'SilvercartCountry',
                         $invoiceAddress['CountryID']
         );
 

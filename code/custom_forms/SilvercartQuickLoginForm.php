@@ -8,7 +8,7 @@
  * @license BSD
  * @since 23.10.2010
  */
-class QuickLoginForm extends CustomHtmlForm {
+class SilvercartQuickLoginForm extends CustomHtmlForm {
 
     /**
      * defines form fields

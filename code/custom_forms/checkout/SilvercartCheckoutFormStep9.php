@@ -9,6 +9,6 @@
  * @since 03.01.2011
  * @license BSD
  */
-class CheckoutFormStep9 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep9 extends CustomHtmlForm {
 
 }

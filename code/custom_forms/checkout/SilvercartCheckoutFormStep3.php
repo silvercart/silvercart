@@ -7,7 +7,7 @@
  * @since 03.01.2011
  * @license none
  */
-class CheckoutFormStep3 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
 
     protected $formFields = array(
         'ShippingMethod' => array(
@@ -66,13 +66,13 @@ class CheckoutFormStep3 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['ShippingMethod']['title'] = _t('ShippingMethod.SINGULARNAME');
+        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
 
         $stepData       = $this->controller->getCombinedStepData();
-        $paymentMethod  = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);
+        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
         
         if ($paymentMethod) {
-            $shippingMethods = $paymentMethod->shippingMethods();
+            $shippingMethods = $paymentMethod->SilvercartShippingMethods();
             if ($shippingMethods) {
                 //allow only activated shipping methods
                 $activatedShippingMethods = new DataObjectSet();
@@ -81,7 +81,7 @@ class CheckoutFormStep3 extends CustomHtmlForm {
                         $activatedShippingMethods->push($shippingMethod);
                     }
                 }
-                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('CheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
+                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
         }
     }

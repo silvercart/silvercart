@@ -8,7 +8,7 @@
  * @since 19.10.2010
  * @license BSD
  */
-class EditAddressForm extends CustomHtmlForm {
+class SilvercartEditAddressForm extends CustomHtmlForm {
 
     protected $formFields = array(
         'FirstName' => array(
@@ -82,25 +82,25 @@ class EditAddressForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME');
-        $this->formFields['Surname']['title'] = _t('Address.SURNAME');
-        $this->formFields['Addition']['title'] = _t('Address.ADDITION');
-        $this->formFields['Street']['title'] = _t('Address.STREET');
-        $this->formFields['StreetNumber']['title'] = _t('Address.STREETNUMBER');
-        $this->formFields['Postcode']['title'] = _t('Address.POSTCODE');
-        $this->formFields['City']['title'] = _t('Address.CITY');
-        $this->formFields['Phone']['title'] = _t('Address.PHONE');
-        $this->formFields['PhoneAreaCode']['title'] = _t('Address.PHONEAREACODE');
-        $this->formFields['Country']['title'] = _t('Country.SINGULARNAME');
+        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME');
+        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME');
+        $this->formFields['Addition']['title'] = _t('SilvercartAddress.ADDITION');
+        $this->formFields['Street']['title'] = _t('SilvercartAddress.STREET');
+        $this->formFields['StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER');
+        $this->formFields['Postcode']['title'] = _t('SilvercartAddress.POSTCODE');
+        $this->formFields['City']['title'] = _t('SilvercartAddress.CITY');
+        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE');
+        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
+        $this->formFields['Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
         
-        $this->preferences['submitButtonTitle'] = _t('Page.SAVE', 'save');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE', 'save');
 
         $member = Member::currentUser();
         $id = Controller::curr()->urlParams['ID'];
 
         if ($member && $id) {
             $filter = sprintf("\"ownerID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
-            $address = DataObject::get_one('Address', $filter);
+            $address = DataObject::get_one('SilvercartAddress', $filter);
             if ($address) {
                 $this->formFields['FirstName']['value'] = $member->FirstName;
                 $this->formFields['Surname']['value'] = $member->Surname;
@@ -111,8 +111,8 @@ class EditAddressForm extends CustomHtmlForm {
                 $this->formFields['City']['value'] = $address->City;
                 $this->formFields['PhoneAreaCode']['value'] = $address->PhoneAreaCode;
                 $this->formFields['Phone']['value'] = $address->Phone;
-                $this->formFields['Country']['value'] = DataObject::get('Country')->toDropdownMap('Title', 'Title', _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
-                $this->formFields['Country']['selectedValue'] = $address->country()->Title;
+                $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+                $this->formFields['Country']['selectedValue'] = $address->SilvercartCountry()->Title;
             }
         }
     }
@@ -141,12 +141,12 @@ class EditAddressForm extends CustomHtmlForm {
         $id = Session::get('addressID');
         if ($member && $id) {
             $filter = sprintf("\"ownerID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
-            $address = DataObject::get_one('Address', $filter);
+            $address = DataObject::get_one('SilvercartAddress', $filter);
             $address->castedUpdate($registrationData);
             $filter = sprintf("`Title` = '%s'", $registrationData['Country']);
-            $country = DataObject::get_one('Country', $filter);
+            $country = DataObject::get_one('SilvercartCountry', $filter);
             if ($country) {
-                $address->countryID = $country->ID;
+                $address->SilvercartCountryID = $country->ID;
             }
             $address->write();
             if (Session::get("redirect")) {

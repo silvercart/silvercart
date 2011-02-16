@@ -8,7 +8,7 @@
  * @since 23.10.2010
  * @license BSD
  */
-class ArticleAddCartForm extends CustomHtmlForm {
+class ProductAddCartForm extends CustomHtmlForm {
 
     /**
      * field configuration
@@ -16,7 +16,7 @@ class ArticleAddCartForm extends CustomHtmlForm {
      * @var array
      */
     protected $formFields = array(
-        'articleAmount' => array(
+        'productAmount' => array(
             'type' => 'TextField',
             'title' => 'Anzahl',
             'value' => '1',
@@ -47,8 +47,8 @@ class ArticleAddCartForm extends CustomHtmlForm {
      * @since 02.02.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['articleAmount']['title'] = _t('Article.QUANTITY');
-        $this->preferences['submitButtonTitle'] = _t('Article.ADD_TO_CART');
+        $this->formFields['productAmount']['title'] = _t('Product.QUANTITY');
+        $this->preferences['submitButtonTitle'] = _t('Product.ADD_TO_CART');
     }
 
     /**
@@ -70,7 +70,7 @@ class ArticleAddCartForm extends CustomHtmlForm {
             $backLink = $formData['backLink'];
         }
 
-        if (ShoppingCart::addArticle($formData)) {
+        if (ShoppingCart::addProduct($formData)) {
             Director::redirect($backLink, 302);
         } else {
             Director::redirect($backLink, 302);

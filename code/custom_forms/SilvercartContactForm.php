@@ -8,7 +8,7 @@
  * @since 21.10.2010
  * @license BSD
  */
-class ContactForm extends CustomHtmlForm {
+class SilvercartContactForm extends CustomHtmlForm {
 
     /**
      * definition of the form fields
@@ -83,13 +83,13 @@ class ContactForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['Salutation']['title'] = _t('Address.SALUTATION');
-        $this->formFields['Salutation']['value'] = array('' => _t('EditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('Address.MISSIS'), "Herr" => _t('Address.MISTER'));
-        $this->formFields['FirstName']['title'] = _t('Address.FIRSTNAME', 'firstname');
-        $this->formFields['Surname']['title'] = _t('Address.SURNAME');
-        $this->formFields['Email']['title'] = _t('Address.EMAIL', 'email address');
-        $this->formFields['Message']['title'] = _t('Page.MESSAGE', 'message');
-        $this->preferences['submitButtonTitle'] = _t('Page.SUBMIT_MESSAGE', 'submit message');
+        $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
+        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME');
+        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'email address');
+        $this->formFields['Message']['title'] = _t('SilvercartPage.MESSAGE', 'message');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message');
 
         $member = Member::currentUser();
         if ($member) {
@@ -135,7 +135,7 @@ class ContactForm extends CustomHtmlForm {
         /*
          * redirect a user to the page type for the response or to the root
          */
-        $contactFormResponsePage = DataObject::get_one('ContactFormResponsePage');
+        $contactFormResponsePage = DataObject::get_one('SilvercartContactFormResponsePage');
         if ($contactFormResponsePage) {
             $urlSegment = sprintf("/%s/", $contactFormResponsePage->URLSegment);
             Director::redirect($urlSegment);
