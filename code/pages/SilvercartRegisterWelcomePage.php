@@ -8,7 +8,7 @@
  * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  */
-class RegisterWelcomePage extends Page {
+class SilvercartRegisterWelcomePage extends Page {
 
     public static $singular_name = "";
     public static $allowed_children = array(
@@ -25,6 +25,6 @@ class RegisterWelcomePage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */
-class RegisterWelcomePage_Controller extends Page_Controller {
+class SilvercartRegisterWelcomePage_Controller extends Page_Controller {
 
 }

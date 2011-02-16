@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Shows a single article
+ * Shows a single product
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class ArticlePage extends Page {
+class SilvercartProductPage extends Page {
 
-    public static $singular_name = "article details page";
+    public static $singular_name = "product details page";
     public static $allowed_children = array(
         'none'
     );
@@ -25,11 +25,11 @@ class ArticlePage extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartProductPage');
         if (!$records) {
-            $page = new $this->ClassName();
-            $page->Title = _t('ArticlePage.SINGULARNAME', 'article details');
-            $page->URLSegment = _t('ArticlePage.URL_SEGMENT', 'articledetails');
+            $page = new SilvercartProductPage();
+            $page->Title = _t('SilvercartProductPage.SINGULARNAME', 'product details');
+            $page->URLSegment = _t('SilvercartProductPage.URL_SEGMENT', 'productdetails');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = true;
@@ -48,7 +48,7 @@ class ArticlePage extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class ArticlePage_Controller extends Page_Controller {
+class SilvercartProductPage_Controller extends Page_Controller {
 
     /**
      * statements called on object instanziation
@@ -60,10 +60,10 @@ class ArticlePage_Controller extends Page_Controller {
     public function init() {
         parent::init();
         /**
-         * save article ID in session if its in the url to work with in forms
+         * save product ID in session if its in the url to work with in forms
          */
         if ($this->urlParams['ID'] > 0) {
-            Session::set('articleID', (int) $this->urlParams['ID']);
+            Session::set('productID', (int) $this->urlParams['ID']);
         }
 
         if (isset($this->urlParams['ID']) &&
@@ -74,51 +74,51 @@ class ArticlePage_Controller extends Page_Controller {
             $backLink = $this->Link();
         }
 
-        $this->registerCustomHtmlForm('ProductAddCartForm', new ProductAddCartFormDetail($this, array('articleID' => Session::get('articleID'), 'backLink' => $backLink)));
-        $this->articleAddCartForm = $this->InsertCustomHtmlForm('ProductAddCartForm');
+        $this->registerCustomHtmlForm('ProductAddCartForm', new ProductAddCartFormDetail($this, array('productID' => Session::get('productID'), 'backLink' => $backLink)));
+        $this->productAddCartForm = $this->InsertCustomHtmlForm('ProductAddCartForm');
     }
 
     /**
-     * Returns one Article by ID
+     * Returns one SilvercartProduct by ID
      *
-     * @return Article returns an article identified via URL parameter ID or false
+     * @return SilvercartProduct returns an product identified via URL parameter ID or false
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
-    public function getArticle() {
+    public function getProduct() {
         $id = (int) $this->urlParams['ID'];
         if ($id) {
-            $article = Article::get("`Article`.`ID` = $id");
-        } elseif (Session::get('articleID') > 0) {
-            $id = Session::get('articleID');
-            $article = Article::get("`Article`.`ID` = $id");
+            $product = SilvercartProduct::get(sprintf("`SilvercartProduct`.`ID` = '%s'", $id));
+        } elseif (Session::get('productID') > 0) {
+            $id = Session::get('productID');
+            $product = SilvercartProduct::get(sprintf("`SilvercartProduct`.`ID` = '%s'", $id));
         }
-        if ($article == "") {
+        if ($product == "") {
             Director::redirectBack();
         } else {
-            return $article;
+            return $product;
         }
     }
 
     /**
-     * Form for adding an article to a cart
+     * Form for adding an product to a cart
      *
-     * @return Form add an article to a cart
+     * @return Form add an product to a cart
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
     public function addToCartForm() {
         $fields = new FieldSet();
-        $fields->push(new NumericField('articleAmount', _t('ArticlePage.QUANTITY', 'quantity'), $value = 1));
+        $fields->push(new NumericField('productAmount', _t('SilvercartProductPage.QUANTITY', 'quantity'), $value = 1));
         $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', _t('ArticlePage.ADD_TO_CART', 'add to cart')));
+        $actions->push(new FormAction('doAddToCart', _t('SilvercartProductPage.ADD_TO_CART', 'add to cart')));
         $form = new Form($this, 'addToCartForm', $fields, $actions);
         return $form;
     }
 
     /**
      * Because of a url rule defined for this page type in the _config.php, the function MetaTags does not work anymore.
-     * This function overloads it and parses the meta data attributes of Article
+     * This function overloads it and parses the meta data attributes of SilvercartProduct
      *
      * @param boolean $includeTitle should the title tag be parsed?
      *
@@ -137,29 +137,29 @@ class ArticlePage_Controller extends Page_Controller {
         $charset = ContentNegotiator::get_encoding();
         $tags .= "<meta http-equiv=\"Content-type\" content=\"text/html; charset=$charset\" />\n";
         if ($this->urlParams['ID'] > 0) {
-            $article = DataObject::get_by_id('Article', $this->urlParams['ID']);
-            if ($article->MetaKeywords) {
-                $tags .= "<meta name=\"keywords\" content=\"" . Convert::raw2att($article->MetaKeywords) . "\" />\n";
+            $product = DataObject::get_by_id('SilvercartProduct', $this->urlParams['ID']);
+            if ($product->MetaKeywords) {
+                $tags .= "<meta name=\"keywords\" content=\"" . Convert::raw2att($product->MetaKeywords) . "\" />\n";
             }
-            if ($article->MetaDescription) {
-                $tags .= "<meta name=\"description\" content=\"" . Convert::raw2att($article->MetaDescription) . "\" />\n";
+            if ($product->MetaDescription) {
+                $tags .= "<meta name=\"description\" content=\"" . Convert::raw2att($product->MetaDescription) . "\" />\n";
             }
         }
         return $tags;
     }
 
     /**
-     * for SEO reasons this pages attribute MetaTitle gets overwritten with the articles MetaTitle
+     * for SEO reasons this pages attribute MetaTitle gets overwritten with the products MetaTitle
      * Remember: search engines evaluate 64 characters of the MetaTitle only
      *
-     * @return string|false the articles MetaTitle
+     * @return string|false the products MetaTitle
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.11.10
      */
     public function getMetaTitle() {
-        $article = DataObject::get_by_id('Article', (int) $this->urlParams['ID']);
-        if ($article && $article->MetaTitle) {
-            return $article->MetaTitle ."/". $article->manufacturer()->Title;
+        $product = DataObject::get_by_id('SilvercartProduct', (int) $this->urlParams['ID']);
+        if ($product && $product->MetaTitle) {
+            return $product->MetaTitle ."/". $product->manufacturer()->Title;
         } else {
             return false;
         }

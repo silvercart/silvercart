@@ -8,7 +8,7 @@
  * @license BSD
  * @since 23.10.2010
  */
-class CartPage extends Page {
+class SilvercartCartPage extends Page {
 
     public static $singular_name = "cart page";
 
@@ -22,11 +22,11 @@ class CartPage extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartCartPage');
         if (!$records) {
-            $cartPage = new CartPage();
-            $cartPage->Title = _t('Page.CART');
-            $cartPage->URLSegment = _t('CartPage.URL_SEGMENT', 'cart');
+            $cartPage = new SilvercartCartPage();
+            $cartPage->Title = _t('SilvercartPage.CART');
+            $cartPage->URLSegment = _t('SilvercartCartPage.URL_SEGMENT', 'cart');
             $cartPage->Status = "Published";
             $cartPage->ShowInMenus = true;
             $cartPage->ShowInSearch = false;
@@ -45,7 +45,7 @@ class CartPage extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class CartPage_Controller extends Page_Controller {
+class SilvercartCartPage_Controller extends Page_Controller {
 
     /**
      * Initialise the shopping cart.
@@ -58,9 +58,9 @@ class CartPage_Controller extends Page_Controller {
      */
     public function init() {
         if (Member::currentUser() &&
-            Member::currentUser()->shoppingCart()) {
+            Member::currentUser()->SilvercartShoppingCart()) {
 
-            Member::currentUser()->shoppingCart();
+            Member::currentUser()->SilvercartShoppingCart();
         }
         parent::init();
     }

@@ -8,7 +8,7 @@
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class TermsAndConditionsPage extends Page {
+class SilvercartTermsAndConditionsPage extends Page {
 
     public static $singular_name = "terms and conditions page";
     public static $allowed_children = array(
@@ -25,6 +25,6 @@ class TermsAndConditionsPage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */
-class TermsAndConditionsPage_Controller extends Page_Controller {
+class SilvercartTermsAndConditionsPage_Controller extends Page_Controller {
 
 }

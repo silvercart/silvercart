@@ -8,11 +8,11 @@
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class ContactFormPage extends Page {
+class SilvercartContactFormPage extends Page {
 
     public static $singular_name = "contact form page";
     public static $allowed_children = array(
-        'ContactFormResponsePage'
+        'SilvercartContactFormResponsePage'
     );
 
 }
@@ -25,7 +25,7 @@ class ContactFormPage extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class ContactFormPage_Controller extends Page_Controller {
+class SilvercartContactFormPage_Controller extends Page_Controller {
 
     /**
      * initialisation of the form object
@@ -35,7 +35,7 @@ class ContactFormPage_Controller extends Page_Controller {
      * @return void
      */
     public function init() {
-        $this->registerCustomHtmlForm('ContactForm', new ContactForm($this));
+        $this->registerCustomHtmlForm('SilvercartContactForm', new SilvercartContactForm($this));
         parent::init();
     }
 }

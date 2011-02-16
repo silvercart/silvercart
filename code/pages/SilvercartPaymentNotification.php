@@ -8,7 +8,7 @@
  * @since 23.11.2010
  * @license none
  */
-class PaymentNotification extends Page {
+class SilvercartPaymentNotification extends Page {
 
     /**
      * create a default record
@@ -22,7 +22,7 @@ class PaymentNotification extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        if (!SiteTree::get_by_link(_t('PaymentNotification.URL_SEGMENT', 'payment-notification'))) {
+        if (!SiteTree::get_by_link(_t('SilvercartPaymentNotification.URL_SEGMENT', 'payment-notification'))) {
 
             $checkPage = DataObject::get_one(
                 'Page',
@@ -36,9 +36,9 @@ class PaymentNotification extends Page {
                 $sort = 1;
             }
 
-            $page               = new PaymentNotification();
-            $page->URLSegment   = _t('PaymentNotification.URL_SEGMENT');
-            $page->Title        = _t('PaymentNotification.TITLE', 'payment notification');
+            $page               = new SilvercartPaymentNotification();
+            $page->URLSegment   = _t('SilvercartPaymentNotification.URL_SEGMENT');
+            $page->Title        = _t('SilvercartPaymentNotification.TITLE', 'payment notification');
             $page->Status       = 'Published';
             $page->Sort         = $sort;
             $page->ShowInMenus  = 0;
@@ -46,7 +46,7 @@ class PaymentNotification extends Page {
             $page->write();
             $page->publish('Stage', 'Live');
             $page->flushCache();
-            DB::alteration_message('PaymentNotification Page created', 'created');
+            DB::alteration_message('SilvercartPaymentNotification Page created', 'created');
         }
     }
 }
@@ -60,7 +60,7 @@ class PaymentNotification extends Page {
  * @since 23.11.2010
  * @license LGPL
  */
-class PaymentNotification_Controller extends Page_Controller {
+class SilvercartPaymentNotification_Controller extends Page_Controller {
     
     /**
      * Initialisierung
@@ -86,7 +86,7 @@ class PaymentNotification_Controller extends Page_Controller {
      * @since 23.11.2010
      */
     public function process() {
-        $paymentNotificationClassName = 'Payment'.$this->urlParams['ID'].'Notification';
+        $paymentNotificationClassName = 'SilvercartPayment'.$this->urlParams['ID'].'Notification';
 
         if (class_exists($paymentNotificationClassName)) {
             $paymentNotificationClass = new $paymentNotificationClassName();

@@ -8,7 +8,7 @@
  * @license LGPL
  * @copyright 2010 pixeltricks GmbH
  */
-class SearchResultsPage extends Page {
+class SilvercartSearchResultsPage extends Page {
 
     public static $singular_name = "";
     public static $allowed_children = array(
@@ -24,11 +24,11 @@ class SearchResultsPage extends Page {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartSearchResultsPage');
         if (!$records) {
-            $page = new SearchResultsPage();
-            $page->Title = _t('SearchResultsPage.TITLE', 'search results');
-            $page->URLSegment = _t('SearchResultsPage.URL_SEGMENT', 'search-results');
+            $page = new SilvercartSearchResultsPage();
+            $page->Title = _t('SilvercartSearchResultsPage.TITLE', 'search results');
+            $page->URLSegment = _t('SilvercartSearchResultsPage.URL_SEGMENT', 'search-results');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = false;
@@ -46,9 +46,9 @@ class SearchResultsPage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class SearchResultsPage_Controller extends Page_Controller {
+class SilvercartSearchResultsPage_Controller extends Page_Controller {
 
-    protected $searchResultArticles;
+    protected $searchResultProducts;
 
     /**
      * Diese Funktion wird beim Initialisieren ausgeführt
@@ -61,46 +61,38 @@ class SearchResultsPage_Controller extends Page_Controller {
     public function init() {
         parent::init();
         $var = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
-        $whereClause = "\"Title\" LIKE '%$var%'
-        OR \"ShortDescription\" LIKE '%$var%'
-        OR \"LongDescription\" LIKE '%$var%'
-        OR \"MetaKeywords\" LIKE '%$var%'
-            ";
+        $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%'", $var,$var,$var,$var);
         if (!isset($_GET['start']) || !is_numeric($_GET['start']) || (int) $_GET['start'] < 1) {
             $_GET['start'] = 0;
         }
         $SQL_start = (int) $_GET['start'];
-        $this->searchResultArticles = Article::get( $whereClause, null, null, $limit = "{$SQL_start},15");
+        $this->searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%s,15", $SQL_start));
 
-        $articleIdx = 0;
-        if ($this->searchResultArticles) {
-            foreach ($this->searchResultArticles as $article) {
-
-                $article->setField('Link', $article->Link());
-                $article->setField('Thumbnail', $article->image()->SetWidth(150));
-
-                $this->registerCustomHtmlForm('ArticlePreviewForm'.$articleIdx, new ArticlePreviewForm($this, array('articleID' => $article->ID)));
-
-                $article->articlePreviewForm = $this->InsertCustomHtmlForm(
-                    'ArticlePreviewForm'.$articleIdx,
+        $productIdx = 0;
+        if ($this->searchResultProducts) {
+            foreach ($this->searchResultProducts as $product) {
+                $product->setField('Thumbnail', $product->image()->SetWidth(150));
+                $this->registerCustomHtmlForm('SilvercartProductPreviewForm'.$productIdx, new SilvercartProductPreviewForm($this, array('productID' => $product->ID)));
+                $product->productPreviewForm = $this->InsertCustomHtmlForm(
+                    'SilvercartProductPreviewForm'.$productIdx,
                     array(
-                        $article
+                        $product
                     )
                 );
-                $articleIdx++;
+                $productIdx++;
             }
         }
     }
 
     /**
-     * Returns the articles that match the search result in any kind
+     * Returns the products that match the search result in any kind
      *
-     * @return DataObjectSet|false the resulting articles of the search query
+     * @return DataObjectSet|false the resulting products of the search query
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.11.10
      */
-    public function getArticles() {
-        return $this->searchResultArticles;
+    public function getProducts() {
+        return $this->searchResultProducts;
     }
 
     /**

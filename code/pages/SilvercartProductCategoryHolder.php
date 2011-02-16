@@ -1,18 +1,18 @@
 <?php
 
 /**
- * gathers all article categories
+ * gathers all product categories
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class ArticleCategoryHolder extends Page {
+class SilvercartProductCategoryHolder extends Page {
 
     public static $singular_name = "";
     public static $allowed_children = array(
-        'ArticleCategoryPage'
+        'SilvercartProductCategoryPage'
     );
 
     /**
@@ -25,11 +25,11 @@ class ArticleCategoryHolder extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartProductCategoryHolder');
         if (!$records) {
-            $page = new $this->ClassName();
-            $page->Title = _t('ArticleCategoryHolder.TITLE', 'category overview');
-            $page->URLSegment = _t('ArticleCategoryHolder.URL_SEGMENT', 'categoryoverview');
+            $page = new SilvercartProductCategoryHolder();
+            $page->Title = _t('SilvercartProductCategoryHolder.TITLE', 'category overview');
+            $page->URLSegment = _t('SilvercartProductCategoryHolder.URL_SEGMENT', 'categoryoverview');
             $page->Status = "Published";
             $page->ShowInMenus = true;
             $page->ShowInSearch = true;
@@ -48,6 +48,6 @@ class ArticleCategoryHolder extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class ArticleCategoryHolder_Controller extends Page_Controller {
+class SilvercartProductCategoryHolder_Controller extends Page_Controller {
 
 }

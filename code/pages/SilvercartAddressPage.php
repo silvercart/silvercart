@@ -5,10 +5,10 @@
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license BSD
- * @since 18.10.2010
+ * @since 16.02.2011
  * @copyright 2010 pixeltricks GmbH
  */
-class AddressPage extends Page {
+class SilvercartAddressPage extends Page {
 
     public static $singular_name = "";
     public static $can_be_root = false;
@@ -22,7 +22,7 @@ class AddressPage extends Page {
      * @since 3.11.2010
      */
     public function getSection() {
-        return 'Address';
+        return 'SilvercartAddress';
     }
 }
 
@@ -34,7 +34,7 @@ class AddressPage extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class AddressPage_Controller extends Page_Controller {
+class SilvercartAddressPage_Controller extends Page_Controller {
 
     /**
      * statements to be called on instanciation
@@ -47,7 +47,7 @@ class AddressPage_Controller extends Page_Controller {
         if ($this->urlParams['ID']) {
             Session::set('addressID', $this->urlParams['ID']); //ID is saved to the session because otherwise it will be lost on form submit
         }
-        $this->registerCustomHtmlForm('EditAddressForm', new EditAddressForm($this));
+        $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this));
         parent::init();
     }
 }

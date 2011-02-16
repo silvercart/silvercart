@@ -8,7 +8,7 @@
  * @since 18.11.2010
  * @license BSD
  */
-class OrderConfirmationPage extends Page {
+class SilvercartOrderConfirmationPage extends Page {
 
     public static $singular_name = "";
     public static $allowed_children = array(
@@ -25,11 +25,11 @@ class OrderConfirmationPage extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartOrderConfirmationPage');
         if (!$records) {
-            $page = new $this->ClassName();
-            $page->Title = _t('OrderConfirmationPage.SINGULARNAME', 'order conirmation page');
-            $page->URLSegment = _t('OrderConfirmationPage.URL_SEGMENT', 'order-conirmation');
+            $page = new SilvercartOrderConfirmationPage();
+            $page->Title = _t('SilvercartOrderConfirmationPage.SINGULARNAME', 'order conirmation page');
+            $page->URLSegment = _t('SilvercartOrderConfirmationPage.URL_SEGMENT', 'order-conirmation');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = false;
@@ -48,7 +48,7 @@ class OrderConfirmationPage extends Page {
  * @since 18.11.2010
  * @license BSD
  */
-class OrderConfirmationPage_Controller extends Page_Controller {
+class SilvercartOrderConfirmationPage_Controller extends Page_Controller {
 
     /**
      * returns an order identified by session id
@@ -62,7 +62,7 @@ class OrderConfirmationPage_Controller extends Page_Controller {
         $memberID = Member::currentUserID();
         if ($id && $memberID) {
             $filter = sprintf("`ID`= '%s' AND `customerID` = '%s'", $id, $memberID);
-            $order = DataObject::get_one('Order', $filter);
+            $order = DataObject::get_one('SilvercartOrder', $filter);
             return $order;
         }
     }

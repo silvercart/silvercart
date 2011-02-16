@@ -9,7 +9,7 @@
  * @since 09.11.2010
  * @license none
  */
-class CheckoutStep extends CustomHtmlFormStepPage {
+class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
     /**
      * Creates a default checkout page if non exists.
@@ -23,25 +23,25 @@ class CheckoutStep extends CustomHtmlFormStepPage {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
         $shoppingCartPageID = 1;
-        $records            = DataObject::get_one($this->ClassName);
+        $records            = DataObject::get_one('SilvercartCheckoutStep');
         if (!$records) {
 
             // Set the ShoppingCartPage ID if available
             $shoppingCartPage = DataObject::get_one(
-                'CartPage'
+                'SilvercartCartPage'
             );
 
             if ($shoppingCartPage) {
                 $shoppingCartPageID = $shoppingCartPage->ID;
             }
 
-            $page                   = new $this->ClassName();
-            $page->Title            = _t('Page.CHECKOUT');
-            $page->URLSegment       = _t('CheckoutStep.URL_SEGMENT', 'checkout');
+            $page                   = new SilvercartCheckoutStep();
+            $page->Title            = _t('SilvercartPage.CHECKOUT');
+            $page->URLSegment       = _t('SilvercartCheckoutStep.URL_SEGMENT', 'checkout');
             $page->Status           = "Published";
             $page->ShowInMenus      = true;
             $page->ShowInSearch     = true;
-            $page->basename         = 'CheckoutFormStep';
+            $page->basename         = 'SilvercartCheckoutFormStep';
             $page->showCancelLink   = true;
             $page->cancelPageID     = $shoppingCartPageID;
             $page->write();
@@ -59,7 +59,7 @@ class CheckoutStep extends CustomHtmlFormStepPage {
  * @since 09.11.2010
  * @license none
  */
-class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
+class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
 
     /**
      * Legt Voreinstellungen fest.
@@ -101,7 +101,7 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         
         if ($member) {
             $stepData       = $this->getCombinedStepData();
-            $shoppingCart   = $member->shoppingCart();
+            $shoppingCart   = $member->SilvercartShoppingCart();
 
             if (isset($stepData['ShippingMethod'])) {
                 $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);
@@ -156,8 +156,8 @@ class CheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
         $member = Member::currentUser();
 
         if ($includeShoppingCart && $member) {
-            if ($member->shoppingCartID != 0) {
-                $shoppingCart = $member->ShoppingCart();
+            if ($member->SilvercartShoppingCartID != 0) {
+                $shoppingCart = $member->SilvercartShoppingCart();
                 $shoppingCart->delete();
             }
         }

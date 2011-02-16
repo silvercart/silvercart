@@ -1,19 +1,19 @@
 <?php
 
 /**
- * to display a group of articles
+ * to display a group of products
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @license BSD
  * @since 23.10.2010
  */
-class ArticleGroupHolder extends Page {
+class SilvercartProductGroupHolder extends Page {
 
     public static $singular_name = "";
     public static $plural_name = "";
     public static $allowed_children = array(
-        'ArticleGroupPage'
+        'SilvercartProductGroupPage'
     );
 
     /**
@@ -26,11 +26,11 @@ class ArticleGroupHolder extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartProductGroupHolder');
         if (!$records) {
-            $page = new $this->ClassName();
-            $page->Title = _t('ArticleGroupHolder.PLURALNAME', 'article groups');
-            $page->URLSegment = _t('ArticleGroupHolder.URL_SEGMENT', 'articlegroups');
+            $page = new SilvercartProductGroupHolder();
+            $page->Title = _t('SilvercartProductGroupHolder.PLURALNAME', 'product groups');
+            $page->URLSegment = _t('SilvercartProductGroupHolder.URL_SEGMENT', 'productgroups');
             $page->Status = "Published";
             $page->write();
             $page->publish("Stage", "Live");
@@ -47,9 +47,9 @@ class ArticleGroupHolder extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class ArticleGroupHolder_Controller extends Page_Controller {
+class SilvercartProductGroupHolder_Controller extends Page_Controller {
 
-    protected $groupArticles;
+    protected $groupProducts;
 
     /**
      * statements to be called on oject instantiation
@@ -61,7 +61,7 @@ class ArticleGroupHolder_Controller extends Page_Controller {
     public function init() {
 
 
-        // Get Articles for this category
+        // Get Products for this category
         if (!isset($_GET['start']) ||
                 !is_numeric($_GET['start']) ||
                 (int) $_GET['start'] < 1) {
@@ -70,23 +70,23 @@ class ArticleGroupHolder_Controller extends Page_Controller {
 
         $SQL_start = (int) $_GET['start'];
 
-        $this->groupArticles = Article::getRandomArticles(5);
+        $this->groupProducts = SilvercartProduct::getRandomProducts(5);
 
         // Initialise formobjects
-        $templateArticleList = new DataObjectSet();
-        $articleIdx = 0;
-        if ($this->groupArticles) {
+        $templateProductList = new DataObjectSet();
+        $productIdx = 0;
+        if ($this->groupProducts) {
             $productAddCartForm = $this->getCartFormName();
-            foreach ($this->groupArticles as $article) {
-                $this->registerCustomHtmlForm('ProductAddCartForm' . $articleIdx, new $productAddCartForm($this, array('articleID' => $article->ID)));
-                $article->setField('Link', $article->Link());
-                $article->productAddCartForm = $this->InsertCustomHtmlForm(
-                                'ProductAddCartForm' . $articleIdx,
+            foreach ($this->groupProducts as $product) {
+                $this->registerCustomHtmlForm('ProductAddCartForm' . $productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                $product->setField('Link', $product->Link());
+                $product->productAddCartForm = $this->InsertCustomHtmlForm(
+                                'ProductAddCartForm' . $productIdx,
                                 array(
-                                    $article
+                                    $product
                                 )
                 );
-                $articleIdx++;
+                $productIdx++;
             }
         }
 
@@ -97,11 +97,11 @@ class ArticleGroupHolder_Controller extends Page_Controller {
      * to be called on a template
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @return DataObjectSet set of randomly choosen article objects
+     * @return DataObjectSet set of randomly choosen product objects
      * @since 23.10.2010
      */
-    public function randomArticles() {
-        return $this->groupArticles;
+    public function randomProducts() {
+        return $this->groupProducts;
     }
 
 }

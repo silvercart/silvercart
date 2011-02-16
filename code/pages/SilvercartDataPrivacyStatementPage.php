@@ -8,7 +8,7 @@
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class DataPrivacyStatementPage extends Page {
+class SilvercartDataPrivacyStatementPage extends Page {
 
     public static $singular_name = "privacy policy page";
     public static $allowed_children = array(
@@ -25,6 +25,6 @@ class DataPrivacyStatementPage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */
-class DataPrivacyStatementPage_Controller extends Page_Controller {
+class SilvercartDataPrivacyStatementPage_Controller extends Page_Controller {
 
 }

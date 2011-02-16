@@ -9,7 +9,7 @@
  * @since 20.10.2010
  * @license LGPL
  */
-class RegistrationPage extends Page {
+class SilvercartRegistrationPage extends Page {
 
     public static $singular_name = "";
     public static $db = array(
@@ -32,8 +32,8 @@ class RegistrationPage extends Page {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$defaults = array(
-            'ActivationMailSubject' => _t('RegistrationPage.YOUR_REGISTRATION', 'your registration'),
-            'ActivationMailMessage' => _t('RegistrationPage.CUSTOMER_SALUTATION', 'Dear customer\,')
+            'ActivationMailSubject' => _t('SilvercartRegistrationPage.YOUR_REGISTRATION', 'your registration'),
+            'ActivationMailMessage' => _t('SilvercartRegistrationPage.CUSTOMER_SALUTATION', 'Dear customer\,')
         );
         parent::__construct($record, $isSingleton);
     }
@@ -48,9 +48,9 @@ class RegistrationPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $activationMailSubjectField = new TextField('ActivationMailSubject', _t('RegistrationPage.ACTIVATION_MAIL_SUBJECT', 'activation mail subject'));
-        $activationMailTextField = new HtmlEditorField('ActivationMailMessage', _t('RegistrationPage.ACTIVATION_MAIL_TEXT', 'activation mail text'), 20);
-        $tabParam = "Root.Content." . _t('RegistrationPage.ACTIVATION_MAIL', 'activation mail');
+        $activationMailSubjectField = new TextField('ActivationMailSubject', _t('SilvercartRegistrationPage.ACTIVATION_MAIL_SUBJECT', 'activation mail subject'));
+        $activationMailTextField = new HtmlEditorField('ActivationMailMessage', _t('SilvercartRegistrationPage.ACTIVATION_MAIL_TEXT', 'activation mail text'), 20);
+        $tabParam = "Root.Content." . _t('SilvercartRegistrationPage.ACTIVATION_MAIL', 'activation mail');
         $fields->addFieldToTab($tabParam, $activationMailSubjectField);
         $fields->addFieldToTab($tabParam, $activationMailTextField);
 
@@ -69,22 +69,22 @@ class RegistrationPage extends Page {
         parent::requireDefaultRecords();
         $page = '';
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartRegistrationPage');
         if (!$records) {
-            $page = new RegistrationPage();
-            $page->Title = _t('RegistrationPage.TITLE', 'registration page');
-            $page->URLSegment = _t('RegistrationPage.URL_SEGMENT', 'registration');
+            $page = new SilvercartRegistrationPage();
+            $page->Title = _t('SilvercartRegistrationPage.TITLE', 'registration page');
+            $page->URLSegment = _t('SilvercartRegistrationPage.URL_SEGMENT', 'registration');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = true;
             $page->write();
             $page->publish("Stage", "Live");
         }
-        $confirmationPage = DataObject::get_one('RegisterConfirmationPage');
+        $confirmationPage = DataObject::get_one('SilvercartRegisterConfirmationPage');
         if (!$confirmationPage) {
-            $confirmationPage = new RegisterConfirmationPage();
-            $confirmationPage->Title = _t('RegisterConfirmationPage.TITLE', 'register confirmation page');
-            $confirmationPage->URLSegment = _t('RegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
+            $confirmationPage = new SilvercartRegisterConfirmationPage();
+            $confirmationPage->Title = _t('SilvercartRegisterConfirmationPage.TITLE', 'register confirmation page');
+            $confirmationPage->URLSegment = _t('SilvercartRegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
             $confirmationPage->Status = "Published";
             if ($page instanceof RegistrationPage) {
                 $confirmationPage->ParentID = $page->ID;
@@ -95,14 +95,14 @@ class RegistrationPage extends Page {
             $confirmationPage->publish("Stage", "Live");
         }
 
-        $whereClause = "\"URLSegment\" = '" . _t('Page.WELCOME_PAGE_URL_SEGMENT', 'welcome') . "'";
+        $whereClause = sprintf("`URLSegment` = '%s'", _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT', 'welcome'));
         $welcomePage = DataObject::get_one('Page', $whereClause);
         if (!$welcomePage) {
             $welcomePage = new Page();
-            $welcomePage->Title = _t('Page.WELCOME_PAGE_TITLE', 'welcome');
-            $welcomePage->URLSegment = _t('Page.WELCOME_PAGE_URL_SEGMENT');
+            $welcomePage->Title = _t('SilvercartPage.WELCOME_PAGE_TITLE', 'welcome');
+            $welcomePage->URLSegment = _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
             $welcomePage->Status = "Published";
-            if ($page instanceof RegistrationPage) {
+            if ($page instanceof SilvercartRegistrationPage) {
                 $welcomePage->ParentID = $page->ID;
             }
             $welcomePage->ShowInMenus = false;
@@ -111,25 +111,25 @@ class RegistrationPage extends Page {
             $welcomePage->publish("Stage", "Live");
         }
         $shopEmailRegistrationOptIn = DataObject::get_one(
-                        'ShopEmail',
+                        'SilvercartShopEmail',
                         "Identifier = 'RegistrationOptIn'"
         );
         if (!$shopEmailRegistrationOptIn) {
-            $shopEmailRegistrationOptIn = new ShopEmail();
+            $shopEmailRegistrationOptIn = new SilvercartShopEmail();
             $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
-            $shopEmailRegistrationOptIn->setField('Subject', _t('RegistrationPage.PLEASE_COFIRM', 'please confirm Your registration'));
-            $shopEmailRegistrationOptIn->setField('EmailText', _t('RegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
+            $shopEmailRegistrationOptIn->setField('Subject', _t('SilvercartRegistrationPage.PLEASE_COFIRM', 'please confirm Your registration'));
+            $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
             $shopEmailRegistrationOptIn->write();
         }
         $shopEmailRegistrationConfirmation = DataObject::get_one(
-                        'ShopEmail',
+                        'SilvercartShopEmail',
                         "Identifier = 'RegistrationConfirmation'"
         );
         if (!$shopEmailRegistrationConfirmation) {
-            $shopEmailRegistrationConfirmation = new ShopEmail();
+            $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
             $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
-            $shopEmailRegistrationConfirmation->setField('Subject', _t('RegistrationPage.THANKS', 'Many thanks for Your registration'));
-            $shopEmailRegistrationConfirmation->setField('EmailText', _t('RegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
+            $shopEmailRegistrationConfirmation->setField('Subject', _t('SilvercartRegistrationPage.THANKS', 'Many thanks for Your registration'));
+            $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
             $shopEmailRegistrationConfirmation->write();
         }
     }
@@ -144,7 +144,7 @@ class RegistrationPage extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class RegistrationPage_Controller extends Page_Controller {
+class SilvercartRegistrationPage_Controller extends Page_Controller {
 
     /**
      * initialisation of the form object
@@ -159,7 +159,7 @@ class RegistrationPage_Controller extends Page_Controller {
         if ($member) {
             $member->logOut();
         }
-        $this->registerCustomHtmlForm('RegisterRegularCustomerForm', new RegisterRegularCustomerForm($this));
+        $this->registerCustomHtmlForm('SilvercartRegisterRegularCustomerForm', new SilvercartRegisterRegularCustomerForm($this));
         parent::init();
     }
 

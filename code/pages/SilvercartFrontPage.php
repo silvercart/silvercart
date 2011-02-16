@@ -8,7 +8,7 @@
  * @license BSD
  * @since 23.10.2010
  */
-class FrontPage extends Page {
+class SilvercartFrontPage extends Page {
 
     public static $singular_name = "front page";
 
@@ -25,12 +25,12 @@ class FrontPage extends Page {
         if (SiteTree::get_by_link('home')) {
             return;
         }
-        $frontPage = new FrontPage();
+        $frontPage = new SilvercartFrontPage();
         $frontPage->URLSegment = 'home';
         $frontPage->ShowInMenue = true;
         $frontPage->ShowInSearch = true;
         $frontPage->Title = 'Start';
-        $frontPage->Content = _t('FrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
+        $frontPage->Content = _t('SilvercartFrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
         $frontPage->write();
         $frontPage->publish("Stage", "Live");
     }
@@ -44,6 +44,6 @@ class FrontPage extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class FrontPage_Controller extends Page_Controller {
+class SilvercartFrontPage_Controller extends Page_Controller {
 
 }

@@ -8,13 +8,13 @@
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class MyAccountHolder extends Page {
+class SilvercartMyAccountHolder extends Page {
 
     public static $singular_name = "Account holder";
     public static $allowed_children = array(
-        "DataPage",
-        "OrderHolder",
-        "AddressHolder"
+        "SilvercartDataPage",
+        "SilvercartOrderHolder",
+        "SilvercartAddressHolder"
     );
 
     /**
@@ -27,13 +27,13 @@ class MyAccountHolder extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartMyAccountHolder');
         if (!$records) {
 
             //create or load b2b group for pages access rights
             if (!DataObject::get_one('Group', "\"Code\" = 'b2b'")) {
                 $b2b_group = new Group();
-                $b2b_group->Title = _t('BusinessCustomer.BUSINESSCUSTOMER', 'business customer');
+                $b2b_group->Title = _t('SilvercartBusinessCustomer.BUSINESSCUSTOMER', 'business customer');
                 $b2b_group->Code = "b2b";
                 $b2b_group->write();
             } else {
@@ -43,15 +43,15 @@ class MyAccountHolder extends Page {
             //create or load b2c group for pages access rights
             if (!DataObject::get_one('Group', "\"Code\" = 'b2c'")) {
                 $b2c_group = new Group();
-                $b2c_group->Title = _t('RegularCustomer.REGULARCUSTOMER', 'regular customer');
+                $b2c_group->Title = _t('SilvercartRegularCustomer.REGULARCUSTOMER', 'regular customer');
                 $b2c_group->Code = "b2c";
                 $b2c_group->write();
             } else {
                 $b2c_group = DataObject::get_one('Group', "\"Code\" = 'b2c'");
             }
 
-            $page = new $this->ClassName();
-            $page->Title = _t('MyAccountHolder.TITLE', 'my account');
+            $page = new SilvercartMyAccountHolder();
+            $page->Title = _t('SilvercartMyAccountHolder.TITLE', 'my account');
             $page->URLSegment = 'my-account';
             $page->Status = "Published";
             $page->ShowInMenus = false;
@@ -65,9 +65,9 @@ class MyAccountHolder extends Page {
             /**
              * Create a DataPage as child of $this
              */
-            $dataPage = new DataPage();
-            $dataPage->Title = _t('DataPage.TITLE', 'my data');
-            $dataPage->URLSegment = _t('DataPage.URL_SEGMENT', 'my-data');
+            $dataPage = new SilvercartDataPage();
+            $dataPage->Title = _t('SilvercartDataPage.TITLE', 'my data');
+            $dataPage->URLSegment = _t('SilvercartDataPage.URL_SEGMENT', 'my-data');
             $dataPage->Status = "Published";
             $dataPage->ShowInMenus = true;
             $dataPage->ShowInSearch = false;
@@ -79,8 +79,8 @@ class MyAccountHolder extends Page {
             /*
              * Create a OrderHolder as child of $this
              */
-            $orderHolder = new OrderHolder();
-            $orderHolder->Title = _t('OrderHolder.TITLE', 'my oders');
+            $orderHolder = new SilvercartOrderHolder();
+            $orderHolder->Title = _t('SilvercartOrderHolder.TITLE', 'my oders');
             $orderHolder->URLSegment = 'my-oders';
             $orderHolder->Status = "Published";
             $orderHolder->ShowInMenus = true;
@@ -93,8 +93,8 @@ class MyAccountHolder extends Page {
             /**
              * Create a OrderDetailPage as child of OrderHolder
              */
-            $orderDetailPage = new OrderDetailPage();
-            $orderDetailPage->Title = _t('OrderDetailPage.TITLE', 'order details');
+            $orderDetailPage = new SilvercartOrderDetailPage();
+            $orderDetailPage->Title = _t('SilvercartOrderDetailPage.TITLE', 'order details');
             $orderDetailPage->URLSegment = 'order-details';
             $orderDetailPage->Status = "Published";
             $orderDetailPage->ShowInMenus = false;
@@ -107,8 +107,8 @@ class MyAccountHolder extends Page {
             /**
              * Create a AddressHolder as child of $this
              */
-            $addressHolder = new AddressHolder();
-            $addressHolder->Title = _t('AddressHolder.TITLE', 'address overview');
+            $addressHolder = new SilvercartAddressHolder();
+            $addressHolder->Title = _t('SilvercartAddressHolder.TITLE', 'address overview');
             $addressHolder->URLSegment = 'address-overview';
             $addressHolder->Status = "Published";
             $addressHolder->ShowInMenus = true;
@@ -121,8 +121,8 @@ class MyAccountHolder extends Page {
             /**
              * Create a AddressPage as a child of AddressHolder
              */
-            $addressPage = new AddressPage();
-            $addressPage->Title = _t('AddressPage.TITLE', 'address details');
+            $addressPage = new SilvercartAddressPage();
+            $addressPage->Title = _t('SilvercartAddressPage.TITLE', 'address details');
             $addressPage->URLSegment = 'address-details';
             $addressPage->Status = "Published";
             $addressPage->ShowInMenus = false;
@@ -144,7 +144,7 @@ class MyAccountHolder extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class MyAccountHolder_Controller extends Page_Controller {
+class SilvercartMyAccountHolder_Controller extends Page_Controller {
 
     /**
      * statements to be called on object initialisation

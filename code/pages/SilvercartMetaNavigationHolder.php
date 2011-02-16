@@ -10,7 +10,7 @@
  * @since 23.10.2010
  * @license BSD
  */
-class MetaNavigationHolder extends Page {
+class SilvercartMetaNavigationHolder extends Page {
 
     public static $singular_name = "Metanavigation";
 
@@ -24,20 +24,20 @@ class MetaNavigationHolder extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $record = DataObject::get_one($this->ClassName);
+        $record = DataObject::get_one('SilvercartMetaNavigationHolder');
         if (!$record) {
-            $page = new $this->ClassName();
-            $page->Title = _t('MetaNavigationHolder.SINGULARNAME');
-            $page->URLSegment = _t('MetaNavigationHolder.URL_SEGMENT', 'metanavigation');
+            $page = new SilvercartMetaNavigationHolder();
+            $page->Title = _t('SilvercartMetaNavigationHolder.SINGULARNAME');
+            $page->URLSegment = _t('SilvercartMetaNavigationHolder.URL_SEGMENT', 'metanavigation');
             $page->Status = "Published";
             $page->ShowInMenus = 0;
             $page->write();
             $page->publish("Stage", "Live");
 
             //The page "metanavigation" has also three children.
-            $contactPage = new ContactFormPage();
-            $contactPage->Title = _t('ContactFormPage.TITLE', 'contact');
-            $contactPage->URLSegment = _t('ContactFormPage.URL_SEGMENT', 'contact');
+            $contactPage = new SilvercartContactFormPage();
+            $contactPage->Title = _t('SilvercartContactFormPage.TITLE', 'contact');
+            $contactPage->URLSegment = _t('SilvercartContactFormPage.URL_SEGMENT', 'contact');
             $contactPage->Status = "Published";
             $contactPage->ShowInMenus = 1;
             $contactPage->ParentID = $page->ID;
@@ -45,8 +45,8 @@ class MetaNavigationHolder extends Page {
             $contactPage->publish("Stage", "Live");
 
             $termsOfServicePage = new Page();
-            $termsOfServicePage->Title = _t('Page.TITLE_TERMS', 'terms of service');
-            $termsOfServicePage->URLSegment = _t('Page.URL_SEGMENT_TERMS', 'terms-of-service');
+            $termsOfServicePage->Title = _t('SilvercartPage.TITLE_TERMS', 'terms of service');
+            $termsOfServicePage->URLSegment = _t('SilvercartPage.URL_SEGMENT_TERMS', 'terms-of-service');
             $termsOfServicePage->Status = "Published";
             $termsOfServicePage->ShowInMenus = 1;
             $termsOfServicePage->ParentID = $page->ID;
@@ -54,26 +54,26 @@ class MetaNavigationHolder extends Page {
             $termsOfServicePage->publish("Stage", "Live");
 
             $imprintPage = new Page();
-            $imprintPage->Title = _t('Page.TITLE_IMPRINT', 'imprint');
-            $imprintPage->URLSegment = _t('Page.URL_SEGMENT_IMPRINT', 'imprint');
+            $imprintPage->Title = _t('SilvercartPage.TITLE_IMPRINT', 'imprint');
+            $imprintPage->URLSegment = _t('SilvercartPage.URL_SEGMENT_IMPRINT', 'imprint');
             $imprintPage->Status = "Published";
             $imprintPage->ShowInMenus = 1;
             $imprintPage->ParentID = $page->ID;
             $imprintPage->write();
             $imprintPage->publish("Stage", "Live");
 
-            $dataPrivacyStatementPage = new DataPrivacyStatementPage();
-            $dataPrivacyStatementPage->Title = _t('DataPrivacyStatementPage.TITLE', 'data privacy statement');
-            $dataPrivacyStatementPage->URLSegment = _t('DataPrivacyStatementPage.URL_SEGMENT','data-privacy-statement');
+            $dataPrivacyStatementPage = new SilvercartDataPrivacyStatementPage();
+            $dataPrivacyStatementPage->Title = _t('SilvercartDataPrivacyStatementPage.TITLE', 'data privacy statement');
+            $dataPrivacyStatementPage->URLSegment = _t('SilvercartDataPrivacyStatementPage.URL_SEGMENT','data-privacy-statement');
             $dataPrivacyStatementPage->Status = "Published";
             $dataPrivacyStatementPage->ShowInMenus = 1;
             $dataPrivacyStatementPage->ParentID = $page->ID;
             $dataPrivacyStatementPage->write();
             $dataPrivacyStatementPage->publish("Stage", "Live");
 
-            $shippingFeesPage = new ShippingFeesPage();
-            $shippingFeesPage->Title = _t('ShippingFeesPage.TITLE', 'shipping fees');
-            $shippingFeesPage->URLSegment = _t('ShippingFeesPage.URL_SEGMENT', 'shipping-fees');
+            $shippingFeesPage = new SilvercartShippingFeesPage();
+            $shippingFeesPage->Title = _t('SilvercartShippingFeesPage.TITLE', 'shipping fees');
+            $shippingFeesPage->URLSegment = _t('SilvercartShippingFeesPage.URL_SEGMENT', 'shipping-fees');
             $shippingFeesPage->Status = "Published";
             $shippingFeesPage->ShowInMenus = 1;
             $shippingFeesPage->ParentID = $page->ID;
@@ -91,6 +91,6 @@ class MetaNavigationHolder extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class MetaNavigationHolder_Controller extends Page_Controller {
+class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
     
 }

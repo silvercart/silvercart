@@ -8,7 +8,7 @@
  * @since 20.10.2010
  * @license BSD
  */
-class FooterNavigationHolder extends Page {
+class SilvercartFooterNavigationHolder extends Page {
 
     public static $singular_name = "";
 
@@ -23,11 +23,11 @@ class FooterNavigationHolder extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $record = DataObject::get_one($this->ClassName);
+        $record = DataObject::get_one('SilvercartFooterNavigationHolder');
         if (!$record) {
-            $page = new $this->ClassName();
-            $page->Title = _t('FooterNavigationHolder.SINGULARNAME');
-            $page->URLSegment = _t('FooterNavigationHolder.URL_SEGMENT', 'footernavigation');
+            $page = new SilvercartFooterNavigationHolder();
+            $page->Title = _t('SilvercartFooterNavigationHolder.SINGULARNAME');
+            $page->URLSegment = _t('SilvercartFooterNavigationHolder.URL_SEGMENT', 'footernavigation');
             $page->Status = "Published";
             $page->ShowInMenus = 0;
             $page->write();
@@ -37,8 +37,8 @@ class FooterNavigationHolder extends Page {
              * This page type has default children
              */
             $aboutPage = new Page();
-            $aboutPage->Title = _t('Page.ABOUT_US', 'about us');
-            $aboutPage->URLSegment = _t('Page.ABOUT_US_URL_SEGMENT', 'about-us');
+            $aboutPage->Title = _t('SilvercartPage.ABOUT_US', 'about us');
+            $aboutPage->URLSegment = _t('SilvercartPage.ABOUT_US_URL_SEGMENT', 'about-us');
             $aboutPage->Status = "Published";
             $aboutPage->ShowInMenus = 1;
             $aboutPage->ParentID = $page->ID;
@@ -56,6 +56,6 @@ class FooterNavigationHolder extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class FooterNavigationHolder_Controller extends Page_Controller {
+class SilvercartFooterNavigationHolder_Controller extends Page_Controller {
 
 }

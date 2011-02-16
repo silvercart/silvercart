@@ -8,7 +8,7 @@
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class DataPage extends Page {
+class SilvercartDataPage extends Page {
 
     public static $singular_name = "";
     public static $can_be_root = false;
@@ -22,7 +22,7 @@ class DataPage extends Page {
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class DataPage_Controller extends Page_Controller {
+class SilvercartDataPage_Controller extends Page_Controller {
 
     /**
      * Initialisiert das Formularobjekt.
@@ -32,7 +32,7 @@ class DataPage_Controller extends Page_Controller {
      * @return void
      */
     public function init() {
-        $this->registerCustomHtmlForm('EditProfileForm', new EditProfileForm($this));
+        $this->registerCustomHtmlForm('SilvercartEditProfileForm', new SilvercartEditProfileForm($this));
         parent::init();
     }
 }

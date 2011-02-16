@@ -5,15 +5,15 @@
  *
  * @copyright 2010 pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 18.10.2010
+ * @since 16.02.2011
  * @license BSD
  */
-class AddressHolder extends Page {
+class SilvercartAddressHolder extends Page {
 
     public static $singular_name = "";
     public static $can_be_root = false;
     public static $allowed_children = array(
-        "AddressPage"
+        "SilvercartAddressPage"
     );
 
     /**
@@ -32,11 +32,11 @@ class AddressHolder extends Page {
  * Controller Class
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 18.10.2010
+ * @since 16.02.2011
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class AddressHolder_Controller extends Page_Controller {
+class SilvercartAddressHolder_Controller extends Page_Controller {
 
     /**
      * execute these statements on object call

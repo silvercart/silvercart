@@ -9,7 +9,7 @@
  * @license LGPL
  * @since 20.10.2010
  */
-class RegisterConfirmationPage extends Page {
+class SilvercartRegisterConfirmationPage extends Page {
 
     public static $singular_name = "register confirmation page";
     public static $db = array(
@@ -30,16 +30,16 @@ class RegisterConfirmationPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $confirmationMailSubjectField = new TextField('ConfirmationMailSubject', _t('RegisterConfirmationPage.CONFIRMATIONMAIL_SUBJECT', 'confirmation mail: subject'));
-        $confirmationMailTextField = new HtmlEditorField('ConfirmationMailMessage', _t('RegisterConfirmationPage.CONFIRMATIONMAIL_TEXT', 'confirmation mail: text'), 20);
-        $confirmationFailureMessageTextField = new HtmlEditorField('ConfirmationFailureMessage', _t('RegisterConfirmationPage.FAILURE_MESSAGE_TEXT', 'failure message'), 20);
-        $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', _t('RegisterConfirmationPage.SUCCESS_MESSAGE_TEXT', 'success message'), 20);
-        $alreadyConfirmedMessageTextField = new HtmlEditorField('AlreadyConfirmedMessage', _t('RegisterConfirmationPage.ALREADY_REGISTERES_MESSAGE_TEXT', 'message: user already registered'), 20);
+        $confirmationMailSubjectField = new TextField('ConfirmationMailSubject', _t('SilvercartRegisterConfirmationPage.CONFIRMATIONMAIL_SUBJECT', 'confirmation mail: subject'));
+        $confirmationMailTextField = new HtmlEditorField('ConfirmationMailMessage', _t('SilvercartRegisterConfirmationPage.CONFIRMATIONMAIL_TEXT', 'confirmation mail: text'), 20);
+        $confirmationFailureMessageTextField = new HtmlEditorField('ConfirmationFailureMessage', _t('SilvercartRegisterConfirmationPage.FAILURE_MESSAGE_TEXT', 'failure message'), 20);
+        $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', _t('SilvercartRegisterConfirmationPage.SUCCESS_MESSAGE_TEXT', 'success message'), 20);
+        $alreadyConfirmedMessageTextField = new HtmlEditorField('AlreadyConfirmedMessage', _t('SilvercartRegisterConfirmationPage.ALREADY_REGISTERES_MESSAGE_TEXT', 'message: user already registered'), 20);
 
         $fields->addFieldToTab('Root.Content.Main', $confirmationFailureMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $confirmationSuccessMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $alreadyConfirmedMessageTextField);
-        $tabParam = "Root.Content."._t('RegisterConfirmationPage.CONFIRMATION_MAIL', 'confirmation mail');
+        $tabParam = "Root.Content."._t('SilvercartRegisterConfirmationPage.CONFIRMATION_MAIL', 'confirmation mail');
         $fields->addFieldToTab($tabParam, $confirmationMailSubjectField);
         $fields->addFieldToTab($tabParam, $confirmationMailTextField);
 
@@ -55,7 +55,7 @@ class RegisterConfirmationPage extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class RegisterConfirmationPage_Controller extends Page_Controller {
+class SilvercartRegisterConfirmationPage_Controller extends Page_Controller {
 
     /**
      * statments to be  executed on initialisation

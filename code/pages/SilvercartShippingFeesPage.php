@@ -8,7 +8,7 @@
  * @since 18.11.2010
  * @license LGPL
  */
-class ShippingFeesPage extends Page {
+class SilvercartShippingFeesPage extends Page {
     public static $singular_name = "";
     public static $allowed_children = array(
         'none'
@@ -23,7 +23,7 @@ class ShippingFeesPage extends Page {
  * @since 18.11.2010
  * @license BSD
  */
-class ShippingFeesPage_Controller extends Page_Controller {
+class SilvercartShippingFeesPage_Controller extends Page_Controller {
 
     /**
      * get all carriers; for the frontend
@@ -33,7 +33,7 @@ class ShippingFeesPage_Controller extends Page_Controller {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function Carriers() {
-        $carriers = DataObject::get('Carrier');
+        $carriers = DataObject::get('SilvercartCarrier');
         return $carriers;
     }
 }

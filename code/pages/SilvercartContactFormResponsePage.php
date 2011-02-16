@@ -8,7 +8,7 @@
  * @license BSD
  * @copyright 2010 pixeltricks GmbH
  */
-class ContactFormResponsePage extends Page {
+class SilvercartContactFormResponsePage extends Page {
 
     public static $singular_name = "contact form response page";
     public static $allowed_children = array(
@@ -25,11 +25,11 @@ class ContactFormResponsePage extends Page {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $records = DataObject::get_one($this->ClassName);
+        $records = DataObject::get_one('SilvercartContactFormResponsePage');
         if (!$records) {
-            $page = new $this->ClassName();
-            $page->Title = _t('ContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
-            $page->URLSegment = _t('ContactFormResponsePage.URL_SEGMENT', 'contactconfirmation');
+            $page = new SilvercartContactFormResponsePage();
+            $page->Title = _t('SilvercartContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
+            $page->URLSegment = _t('SilvercartContactFormResponsePage.URL_SEGMENT', 'contactconfirmation');
             $page->Status = "Published";
             $page->ShowInMenus = false;
             $page->ShowInSearch = false;
@@ -48,6 +48,6 @@ class ContactFormResponsePage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 21.10.2010
  */
-class ContactFormResponsePage_Controller extends Page_Controller {
+class SilvercartContactFormResponsePage_Controller extends Page_Controller {
 
 }

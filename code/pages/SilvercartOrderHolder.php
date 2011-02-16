@@ -8,12 +8,12 @@
  * @since 20.10.2010
  * @license BSD
  */
-class OrderHolder extends Page {
+class SilvercartOrderHolder extends Page {
 
     public static $singular_name = "";
     public static $can_be_root = false;
     public static $allowed_children = array(
-        "OrderDetailPage"
+        "SilvercartOrderDetailPage"
     );
 
 }
@@ -26,7 +26,7 @@ class OrderHolder extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class OrderHolder_Controller extends Page_Controller {
+class SilvercartOrderHolder_Controller extends Page_Controller {
 
     /**
      * template function: returns customers orders
@@ -38,8 +38,8 @@ class OrderHolder_Controller extends Page_Controller {
     public function CurrentMembersOrders() {
         $memberID = Member::currentUserID();
         if ($memberID) {
-            $filter = sprintf("`customerID` = '%s'", $memberID);
-            $orders = DataObject::get('Order', $filter);
+            $filter = sprintf("`SilvercartCustomerID` = '%s'", $memberID);
+            $orders = DataObject::get('SilvercartOrder', $filter);
             return $orders;
         }
     }
