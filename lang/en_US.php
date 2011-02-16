@@ -200,6 +200,7 @@ $lang['en_US']['Carrier']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['CartPage']['CART_EMPTY'] = 'Your cart is empty.';
 $lang['en_US']['CartPage']['PLURALNAME'] = array(
     'Cart pags',
     50,
