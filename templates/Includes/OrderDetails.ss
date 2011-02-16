@@ -5,7 +5,7 @@
             <td>Bestelldatum</td><td>$Created.Nice</td>
         </tr>
         <tr>
-            <td>Versandkosten</td><td>$ShippingFeeTotal.Nice</td>
+            <td>Versandkosten</td><td>$HandlingCostShipment.Nice</td>
         </tr>
         <tr>
             <td>Bestellwert</td><td>$AmountTotal.Nice</td>

@@ -42,8 +42,8 @@ class Order extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'AmountTotal'                   => 'Money', // Wert aller Artikel
-        'AmountGrossTotal'              => 'Money', // Wert aller Artikel + Transaktionskosten
+        'AmountTotal'                   => 'Money', // value of all products
+        'AmountGrossTotal'              => 'Money', // value of all products + transaction fee
         'HandlingCostPayment'           => 'Money',
         'HandlingCostShipment'          => 'Money',
         'TaxRatePayment'                => 'Int',
