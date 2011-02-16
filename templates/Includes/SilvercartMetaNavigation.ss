@@ -9,7 +9,7 @@
         </div>
 
         <div class="c20l">
-            <a href="$PageByClassName(ContactFormPage).Link"><img id="img" class="emailIcon" src="/silvercart/images/mail_dark.png" alt="<% _t(ContactFormPage.TITLE) %>" /></a>
+            <a href="$PageByClassName(SilvercartContactFormPage).Link"><img id="img" class="emailIcon" src="/silvercart/images/mail_dark.png" alt="<% _t(SilvercartContactFormPage.TITLE) %>" /></a>
         </div>
 
         <div class="c60r">

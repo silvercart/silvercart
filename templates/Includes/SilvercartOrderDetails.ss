@@ -5,7 +5,7 @@
             <td>Bestelldatum</td><td>$Created.Nice</td>
         </tr>
         <tr>
-            <td>Versandkosten</td><td>$ShippingFeeTotal.Nice</td>
+            <td>Versandkosten</td><td>$SilvercartShippingFeeTotal.Nice</td>
         </tr>
         <tr>
             <td>Bestellwert</td><td>$AmountTotal.Nice</td>
@@ -22,14 +22,14 @@
 <div class="subcolumns">
     <div class="c50l">
         <h3>Lieferadresse</h3>
-        <% control shippingAddress %>
-        <% include AddressTable %>
+        <% control SilvercartShippingAddress %>
+			<% include AddressTable %>
         <% end_control %>
     </div>
     <div class="c50r">
         <h3>Rechnungsadresse</h3>
-        <% control invoiceAddress %>
-        <% include AddressTable %>
+        <% control SilvercartInvoiceAddress %>
+			<% include AddressTable %>
         <% end_control %>
     </div>
 </div>
@@ -42,7 +42,7 @@
             <th>Anzahl</th>
             <th>Summe</th>
         </tr>
-        <% control orderPositions %>
+        <% control SilvercartOrderPositions %>
         <tr>
             <td>$Title</td>
             <td>$ArticleDescription</td>
@@ -54,9 +54,9 @@
         <tr>
             <td></td>
             <td>Versandkosten</td>
-            <td>$ShippingFeeTotal.Nice</td>
+            <td>$SilvercartShippingFeeTotal.Nice</td>
             <td></td>
-            <td>$ShippingFeeTotal.Nice</td>
+            <td>$SilvercartShippingFeeTotal.Nice</td>
         </tr>
     </table>
 <% end_control %>

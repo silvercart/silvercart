@@ -9,7 +9,7 @@
                                 <a class="active" href="$Link"  title="$Title.XML">$MenuTitle.XML</a>
                                 <ul>
                                     <% control Children %>
-                                            <li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
+										<li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
                                     <% end_control %>
                                 </ul>
                             </li>

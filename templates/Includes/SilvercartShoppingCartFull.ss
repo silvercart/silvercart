@@ -1,16 +1,16 @@
 <% if isFilledCart %>
     <% control CurrentMember %>
-        <% control shoppingCart %>
+        <% control SilvercartShoppingCart %>
             <fieldset>
-                <legend><% _t('Article.TITLE') %></legend>
+                <legend><% _t('SilvercartArticle.TITLE') %></legend>
                 <table class="cartSummary">
                     <thead>
                         <tr>
-                            <th><% _t('Page.ARTICLENAME','article name') %></th>
-                            <th><% _t('Article.PRICE_SINGLE', 'price single') %></th>
-                            <th><% _t('Article.VAT','VAT') %></th>
-                            <th class="right"><% _t('ArticlePage.QUANTITY') %></th>
-                            <th class="right"><% _t('Article.PRICE') %></th>
+                            <th><% _t('SilvercartPage.ARTICLENAME','article name') %></th>
+                            <th><% _t('SilvercartArticle.PRICE_SINGLE', 'price single') %></th>
+                            <th><% _t('SilvercartArticle.VAT','VAT') %></th>
+                            <th class="right"><% _t('SilvercartArticlePage.QUANTITY') %></th>
+                            <th class="right"><% _t('SilvercartArticle.PRICE') %></th>
 
                             <% if Top.EditableShoppingCart %>
                                 <th></th>
@@ -23,8 +23,8 @@
                         <% control positions %>
                             <tr<% if Last %> class="separator"<% end_if %>>
                                 <td>$article.Title</td>
-                                <td class="right">$article.Price.Nice</td>
-                                <td class="right">{$article.tax.Rate}%</td>
+                                <td class="right">$SilvercartArticle.Price.Nice</td>
+                                <td class="right">{$SilvercartArticle.SilvercartTax.Rate}%</td>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
 
@@ -41,7 +41,7 @@
                                     <tr>
                                         <td>$Name</td>
                                         <td class="right">$PriceFormatted</td>
-                                        <td class="right">$Tax.Title</td>
+                                        <td class="right">$SilvercartTax.Title</td>
                                         <td class="right">$Quantity</td>
                                         <td class="right">$PriceTotalFormatted</td>
 
@@ -58,7 +58,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><strong><% _t('Page.SUBTOTAL','subtotal') %></strong></td>
+                            <td><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
                             <td class="right" id="Sum"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
 
                             <% if Top.EditableShoppingCart %>
@@ -73,7 +73,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><% _t('Page.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                                <td><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                                 <td class="right">$Amount.Nice</td>
 
                                 <% if Top.EditableShoppingCart %>
@@ -86,7 +86,7 @@
 
                         <% if ShowFees %>
                             <tr>
-                                <td><% _t('PaymentMethod.SHIPPINGMETHOD') %>: $CarrierAndShippingMethodTitle</td>
+                                <td><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>: $CarrierAndShippingMethodTitle</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -98,7 +98,7 @@
                                 <% end_if %>
                             </tr>
                             <tr>
-                                <td><% _t('PaymentMethod.SHIPPINGMETHOD') %>: $payment.Title</td>
+                                <td><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>: $payment.Title</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -113,7 +113,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><strong><% _t('Page.SUBTOTAL') %></strong></td>
+                                <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
                                 <td class="right" id="Sum"><strong>$TaxableAmountGrossWithFees.Nice</strong></td>
 
                                 <% if Top.EditableShoppingCart %>
@@ -128,7 +128,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td><% _t('Page.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                                    <td><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                                     <td class="right">$Amount.Nice</td>
 
                                     <% if Top.EditableShoppingCart %>
@@ -161,7 +161,7 @@
                         <% end_control %>
 
                         <tr>
-                            <td><strong><% _t('Page.TOTAL','total') %></strong></td>
+                            <td><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -179,5 +179,5 @@
         <% end_control %>
     <% end_control %>
 <% else %>
-    <p><% _t('CartPage.CART_EMPTY', 'Your cart is empty') %></p>
+    <p><% _t('SilvercartCartPage.CART_EMPTY', 'Your cart is empty') %></p>
 <% end_if %>

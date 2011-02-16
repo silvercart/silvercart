@@ -10,13 +10,13 @@ $(document).ready(function() {
 });
 </script>
      
-  <a class="button" id="register" href="$PageByClassName(RegistrationPage).Link">Registrieren</a>
+  <a class="button" id="register" href="$PageByClassName(SilvercartRegistrationPage).Link">Registrieren</a>
   <a class="button" id="login">Login</a>
 
 <div id="modalLogin">
     <div class="hBox">
         <div class="LoginPopup">
-            <div id="Search_Login">$InsertCustomHtmlForm(QuickLogin)</div>
+            <div id="Search_Login">$InsertCustomHtmlForm(SilvercartQuickLogin)</div>
         </div>
     </div>
 </div>
