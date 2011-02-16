@@ -1,9 +1,6 @@
-<% if IncludeFormTag %>
 <form class="yform" $FormAttributes>
-<% end_if %>
-
-      <% if messages %>
-      <div class="error">
+    <% if messages %>
+    <div class="error">
         <% control messages %>
         <p>$message</p>
         <% end_control %>
@@ -12,7 +9,7 @@
 
     <% if errorMessages %>
     <div class="error">
-        <p><strong><% _t('Page.CHECK_FIELDS_CALL','Please check Your input on the following fields:') %></strong></p>
+        <p><strong><% _t('SilvercartPage.CHECK_FIELDS_CALL','Please check Your input on the following fields:') %></strong></p>
         <ul>
             <% control errorMessages %>
             <li>$fieldname</li>
@@ -23,7 +20,7 @@
 
     <fieldset>
         <legend>Login</legend>
-        <p><strong><% _t('Page.ACCESS_CREDENTIALS_CALL','Please fill in Your access credentials:') %></strong></p>
+        <p><strong><% _t('SilvercartPage.ACCESS_CREDENTIALS_CALL','Please fill in Your access credentials:') %></strong></p>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -50,7 +47,7 @@
                         </strong>
                         <% end_if %>
                         <% end_control %>
-                        <label for="{$FormName}_Password">* <% _t('Page.PASSWORD','Password:') %> </label>
+                        <label for="{$FormName}_Password">* <% _t('SilvercartPage.PASSWORD','Password:') %> </label>
                         $dataFieldByName(Password)
                     </div>
                 </div>
@@ -65,7 +62,4 @@
     </div>
 
     $dataFieldByName(SecurityID)
-
-<% if IncludeFormTag %>
 </form>
-<% end_if %>

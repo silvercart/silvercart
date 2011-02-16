@@ -1,16 +1,16 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <% include BreadCrumbs %>
+        <% include SilvercartBreadCrumbs %>
         <h2>$Title</h2>
-            $Content
-            $Form
-            $InsertCustomHtmlForm(ContactForm)
-            $PageComments
+		$Content
+		$Form
+		$PageComments
     </div>
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include SecondLevelNavigation %>
+        <% include SilvercartSideBarCart %>
+        <% include SilvercartThirdLevelNavigation %>
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>

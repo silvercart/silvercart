@@ -1,18 +1,15 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-
-		<h2>$Title</h2>
-
-		$Content
+        <h2>$Title</h2>
+        $Content
         $InsertCustomHtmlForm
         $Process
 
         <% if CustomHtmlFormStepLinkCancel %>
-            <a href="$CustomHtmlFormStepLinkCancel"><% _t('Page.CANCEL') %></a>
+            <a href="$CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
         <% end_if %>
 
         $PageComments
-
     </div>
 </div>
 
@@ -21,7 +18,7 @@
 
         <div class="sidebarBox">
             <div class="sidebarBox_content">
-                <strong><% _t('Page.STEPS','steps') %></strong>
+                <strong><% _t('SilvercartPage.STEPS','steps') %></strong>
 
                 <ul>
             <% control StepList %>

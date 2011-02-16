@@ -3,16 +3,16 @@
     <fieldset>
         <legend>
             <% if controller.getErrorOccured %>
-                <% _t('Page.ERROR_OCCURED') %>
+                <% _t('SilvercartPage.ERROR_OCCURED','An error has occured.') %>
             <% else %>
-                <% _t('Page.PAYMENT_NOT_WORKING') %>
+                <% _t('SilvercartPage.PAYMENT_NOT_WORKING','The choosen payment module does not work.') %>
             <% end_if %>
         </legend>
 
         <% if controller.getErrorOccured %>
 
             <p>
-                <% _t('Page.ERROR_LISTING') %>
+                <% _t('SilvercartPage.ERROR_LISTING','The following errors have occured:') %>
             </p>
 
             <div class="error">
@@ -28,7 +28,7 @@
         <% end_if %>
 
         <p>
-            <% _t('Page.CHANGE_PAYMENTMETHOD_CALL') %>
+            <% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_CALL','Please choose another payment method or contact the shop owner.') %>
         </p>
         <div class="subcolumns">
             <div class="c50l">
@@ -36,7 +36,7 @@
                     <a href="{$controller.Link}Cancel" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><%_t('Page.CHANGE_PAYMENTMETHOD_LINK') %></span>
+                                <span class="button_type1_panel_content"><%_t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
                             </span>
                         </span>
                     </a>
@@ -44,10 +44,10 @@
             </div>
             <div class="c50r">
                 <div class="subcr">
-                    <a href="$PageByClassName(ContactFormPage).Link" class="button_type1">
+                    <a href="$PageByClassName(SilvercartContactFormPage).Link" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><% _t('Page.GOTO_CONTACT_LINK') %></span>
+                                <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK','go to contact page') %></span>
                             </span>
                         </span>
                     </a>

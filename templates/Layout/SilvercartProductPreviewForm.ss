@@ -1,10 +1,8 @@
-<% if IncludeFormTag %>
 <form class="yform" $FormAttributes >
-<% end_if %>
       $CustomHtmlFormMetadata
       <div class="subcolumns">
         <div class="c33l">
-            $CustomHtmlFormFieldByName(articleAmount,ArticlePreviewFormField)
+            $CustomHtmlFormFieldByName(articleAmount,SilvercartProductPreviewFormField)
         </div>
         <div class="c66r">
             <% control Actions %>
@@ -14,7 +12,4 @@
             <% end_control %>
         </div>
     </div>
-
-<% if IncludeFormTag %>
 </form>
-<% end_if %>

@@ -1,10 +1,10 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <% include Breadcrumbs %>
+        <% include SilvercartBreadcrumbs %>
         $Content
         $Form
         $PageComments
-        <% control getArticle %>
+        <% control getProduct %>
         <div class="article-page clearfix">
             <div class="article-page_content">
                 <h1>$Title</h1>
@@ -16,15 +16,15 @@
                         <p>$ShortDescription</p>
                         <div class="article-page-details">
                             <p><strong class="price">$Price.Nice</strong><br/>
-                                <% sprintf(_t('Page.TAX', 'incl. %s%% VAT'),$tax.Rate) %><br />
-                                <% _t('Page.PLUS_SHIPPING','plus shipping') %><br/>
+                                <% sprintf(_t('SilvercartPage.TAX', 'incl. %s%% VAT'),$tax.Rate) %><br />
+                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                             </p>
                         </div>
-                        $Top.articleAddCartForm
+                        $Top.productAddCartForm
                     </div>
                 </div>
                 <div class="article-page-description">
-                    <h3><% _t('Article.DESCRIPTION','article description') %>:</h3>
+                    <h3><% _t('SilvercartProduct.DESCRIPTION','product description') %>:</h3>
                     <p>$LongDescription</p>
                 </div>
             </div>
@@ -34,8 +34,8 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include SideBarCart %>
-        <% include ThirdLevelNavigation %>
+        <% include SilvercartSideBarCart %>
+        <% include SilvercartThirdLevelNavigation %>
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>

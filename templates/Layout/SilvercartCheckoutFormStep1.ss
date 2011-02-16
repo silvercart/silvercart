@@ -1,16 +1,15 @@
 <form class="yform" $FormAttributes >
-
-      $CustomHtmlFormMetadata
-      $CustomHtmlFormErrorMessages
-      <fieldset>
-          <legend><% _t('Page.EMAIL_ADDRESS','email address') %></legend>
-          <div class="subcolumns">
-              $CustomHtmlFormFieldByName(Email)
-          </div>
+    $CustomHtmlFormMetadata
+    $CustomHtmlFormErrorMessages
+    <fieldset>
+        <legend><% _t('SilvercartPage.EMAIL_ADDRESS','email address') %></legend>
+        <div class="subcolumns">
+            $CustomHtmlFormFieldByName(Email)
+        </div>
     </fieldset>
 
-      <fieldset>
-        <legend><% _t('Page.BILLING_ADDRESS','billing address') %></legend>
+    <fieldset>
+        <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
@@ -76,7 +75,7 @@
         </div>
     </fieldset>
     <fieldset>
-        <legend><% _t('Page.SHIPPING_ADDRESS','shipping address') %></legend>
+        <legend><% _t('SilvercartPage.SHIPPING_ADDRESS','shipping address') %></legend>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">

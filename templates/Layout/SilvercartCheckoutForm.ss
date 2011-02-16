@@ -1,12 +1,7 @@
-<% if IncludeFormTag %>
 <form class="yform" $FormAttributes >
-      <% end_if %>
-
       $CustomHtmlFormMetadata
-
       <fieldset>
-        <legend><% _t('PaymentMethod.SHIPPINGMETHOD') %></legend>
-        
+        <legend><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></legend>
         <div class="subcolumns" >
             <div class="c50l">
                 <div class="subcl">
@@ -16,16 +11,14 @@
             <div class="c50r">
                 <div class="subcr">
                     <div id="ShippingMethod">
-                    $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldSelect)
+                        $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldSelect)
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
-      
       </fieldset>
-
       <fieldset>
-          <legend><% _t('Page.REMARKS') %></legend>
+          <legend><% _t('SilvercartPage.REMARKS') %></legend>
           $CustomHtmlFormFieldByName(Note)
       </fieldset>
     <div class="actionRow">
@@ -35,9 +28,5 @@
             <% end_control %>
         </div>
     </div>
-
     $dataFieldByName(SecurityID)
-
-<% if IncludeFormTag %>
 </form>
-<% end_if %>

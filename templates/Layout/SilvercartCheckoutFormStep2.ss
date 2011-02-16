@@ -1,14 +1,12 @@
 <form class="yform" $FormAttributes >
-
       $CustomHtmlFormMetadata
       $CustomHtmlFormErrorMessages
       <fieldset>
-          <legend><% _t('PaymentMethod.TITLE') %></legend>
+          <legend><% _t('SilvercartPaymentMethod.TITLE') %></legend>
           <div class="subcolumns">
               $CustomHtmlFormFieldByName(PaymentMethod,CustomHtmlFormFieldSelect)
           </div>
     </fieldset>
-
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>
@@ -16,6 +14,5 @@
             <% end_control %>
         </div>
     </div>
-
     $dataFieldByName(SecurityID)
 </form>
