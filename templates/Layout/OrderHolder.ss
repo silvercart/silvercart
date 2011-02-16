@@ -19,7 +19,7 @@
             <tr>
                 <% control CurrentMembersOrders %>
                 <td>
-                    <a href="bestelluebersicht/bestellansicht/$ID">$Created.Nice</a>
+                    <a href="/my-account/my-orders/order-details/$ID">$Created.Nice</a>
                 </td>
                 <td>
                     <% control orderPositions %>

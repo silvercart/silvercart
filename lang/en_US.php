@@ -850,6 +850,7 @@ $lang['en_US']['TermsAndConditionsPage']['SINGULARNAME'] = array(
 $lang['en_US']['Zone']['ATTRIBUTED_COUNTRIES'] = 'attributed countries';
 $lang['en_US']['Zone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'attributed shipping methods';
 $lang['en_US']['Zone']['COUNTRIES'] = 'countries';
+$lang['en_US']['Zone']['DOMESTIC'] = 'domestic';
 $lang['en_US']['Zone']['FOR_COUNTRIES'] = 'for countries';
 $lang['en_US']['Zone']['PLURALNAME'] = array(
     'zones',

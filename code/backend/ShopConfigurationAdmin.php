@@ -25,7 +25,6 @@ class ShopConfigurationAdmin extends ModelAdmin {
         'Zone',
         'PaymentMethod',
         'ShippingMethod',
-        'ShippingFee',
         'Carrier',
         'Tax',
         'OrderStatus',

@@ -10,7 +10,7 @@
             <% _t('Page.ORDER_THANKS','Many thanks for Your oder.') %>
         </p>
         <p>
-            <% _t('Page.VIEW_ORDERS_TEXT','You can check the status of Your order any time in the') %> <a href="/meinkonto/bestelluebersicht"><% _t('OrderHolder.SINGULARNAME') %></a>
+            <% _t('Page.VIEW_ORDERS_TEXT','You can check the status of Your order any time in the') %> <a href="$PageByClassName(OrderHolder).Link"><% _t('OrderHolder.SINGULARNAME') %></a>
         </p>
 
         $PaymentConfirmationText

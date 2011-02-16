@@ -87,6 +87,17 @@ class ShoppingCart extends DataObject {
      */
     protected $shippingMethodID;
 
+    /**
+     * default constructor
+     *
+     * @param array $record      array of field values
+     * @param bool  $isSingleton true if this is a singleton() object
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.02.2011
+     */
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
 
@@ -97,20 +108,22 @@ class ShoppingCart extends DataObject {
         $this->shippingMethodID = 0;
         $this->paymentMethodID  = 0;
 
-        $this->callMethodOnRegisteredModules(
-            'performShoppingCartConditionsCheck',
-            array(
-                $this,
-                Member::currentUser()
-            )
-        );
-        $this->callMethodOnRegisteredModules(
-            'ShoppingCartInit',
-            array(
-                $this,
-                Member::currentUser()
-            )
-        );
+        if (Member::currentUserID()) {
+            $this->callMethodOnRegisteredModules(
+                'performShoppingCartConditionsCheck',
+                array(
+                    $this,
+                    Member::currentUser()
+                )
+            );
+            $this->callMethodOnRegisteredModules(
+                'ShoppingCartInit',
+                array(
+                    $this,
+                    Member::currentUser()
+                )
+            );
+        }
     }
 
     /**

@@ -72,9 +72,16 @@ class CheckoutFormStep3 extends CustomHtmlForm {
         $paymentMethod  = DataObject::get_by_id('PaymentMethod', $stepData['PaymentMethod']);
         
         if ($paymentMethod) {
-            $allowedShippingMethods = $paymentMethod->shippingMethods();
-            if ($allowedShippingMethods) {
-                $this->formFields['ShippingMethod']['value'] = $allowedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('CheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
+            $shippingMethods = $paymentMethod->shippingMethods();
+            if ($shippingMethods) {
+                //allow only activated shipping methods
+                $activatedShippingMethods = new DataObjectSet();
+                foreach ($shippingMethods as $shippingMethod) {
+                    if ($shippingMethod->isActive == true) {
+                        $activatedShippingMethods->push($shippingMethod);
+                    }
+                }
+                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('CheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
         }
     }

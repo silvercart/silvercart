@@ -80,7 +80,7 @@ class QuickLoginForm extends CustomHtmlForm {
             if ($customer) {
                 $customer->logIn();
                 $customer->write();
-                Director::redirect("/meinkonto/");
+                Director::redirect("/my-account/");
             } else {
 
                 $this->messages = array(

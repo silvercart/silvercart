@@ -204,14 +204,33 @@ class Zone extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        $standardZone = DataObject::get_one(
-                        'Zone'
-        );
+        if (!DataObject::get_one('Zone')) {
+            $standardZone = new Zone();
+            $standardZone->Title = 'EU';
+            $standardZone->write();
 
-        if (!$standardZone) {
-            $obj = new Zone();
-            $obj->Title = 'EU';
-            $obj->write();
+            $domestic = new Zone();
+            $domestic->Title = _t('Zone.DOMESTIC', 'domestic');
+            $domestic->write();
+
+            //relate country to zones
+            if (DataObject::get_one('Country')) {
+                $domestic->countries()->add(DataObject::get_one('Country'));
+            }
+            // relate carrier to zones
+            if (DataObject::get('Carrier')) {
+                $carrier = DataObject::get('Carrier');
+                $domestic->carrierID = $carrier->ID;
+                $domestic->write();
+                $standardZone->carrierID = $carrier->ID;
+                $standardZone->write();
+            }
+            // relate to ShippingFee (if exists)
+            $shippingFee = DataObject::get_one("ShippingFee");
+            if ($shippingFee) {
+                $shippingFee->zoneID = $domestic->ID;
+                $shippingFee->write();
+            }
         }
     }
 

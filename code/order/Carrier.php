@@ -175,12 +175,20 @@ class Carrier extends DataObject {
             $carrier->Title = 'DHL';
             $carrier->FullTitle = 'DHL International GmbH';
             $carrier->write();
-
-            // the carrier DHL has at least one shipping method
-            if (!DataObject::get('ShippingMethod')) {
-                $shippingMethod = new ShippingMethod();
-                $shippingMethod->Title = 'Paket';
-                $shippingMethod->write();
+            //relate carrier to zones (if exists)
+            $domestic = DataObject::get_one("Zone", sprintf("`Title` = '%s'", _t('Zone.DOMESTIC', 'domestic')));
+            if ($domestic) {
+                $domestic->carrierID = $carrier->ID;
+                $domestic->write();
+            }
+            $eu = DataObject::get_one("Zone", "`Title` = 'EU'");
+            if ($eu) {
+                $eu->carrierID = $carrier->ID;
+                $eu->write();
+            }
+            // relate ShippingMethod to Carrier (if exists)
+            $shippingMethod = DataObject::get_one("ShippingMethod", "`Title` = 'Paket'");
+            if ($shippingMethod) {
                 $shippingMethod->carrierID = $carrier->ID;
                 $shippingMethod->write();
             }

@@ -127,7 +127,7 @@ class SilvercartPage_Controller extends ContentController {
 
         // Get address type
         $address = DataObject::get_by_id($context->getSection(), $this->urlParams['ID']);
-        $parts[] = $address->singular_name();
+        $parts[] = $address->i18n_singular_name();
 
         $i = 0;
         while (
@@ -257,6 +257,25 @@ class SilvercartPage_Controller extends ContentController {
 
         if ($customer && $customer->hasMethod('shoppingCart') && $customer->shoppingCart()->positions()->Count() > 0) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * returns a single page by its class name
+     * used to retrieve links dynamically
+     *
+     * @param string $className the classes name
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.2.11
+     * @return DataObject | false a single object of the site tree
+     */
+    public function PageByClassName($className) {
+        $page = DataObject::get_one($className, "`Status` = 'Published'");
+        if ($page) {
+            return $page;
         } else {
             return false;
         }

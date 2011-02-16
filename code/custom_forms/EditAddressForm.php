@@ -153,7 +153,7 @@ class EditAddressForm extends CustomHtmlForm {
                 Director::redirect(Session::get("redirect"));
                 Session::clear("redirect");
             } else {
-                Director::redirect('/meinkonto/adressuebersicht/');
+                Director::redirect('/my-account/address-overview/');
             }
         }
     }
