@@ -9,7 +9,7 @@
     }
     
 </style>
-<h1>PourLaTable Newsletter</h1>
+<h1>SilverCart Newsletter</h1>
 <p>
     Hallo $Subscriber.Salutation $Subscriber.Surname,
     <br />
