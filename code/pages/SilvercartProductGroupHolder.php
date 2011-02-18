@@ -16,27 +16,6 @@ class SilvercartProductGroupHolder extends Page {
         'SilvercartProductGroupPage'
     );
 
-    /**
-     * default instances related to $this
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
-     * @return void
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $records = DataObject::get_one('SilvercartProductGroupHolder');
-        if (!$records) {
-            $page = new SilvercartProductGroupHolder();
-            $page->Title = _t('SilvercartProductGroupHolder.PLURALNAME', 'product groups');
-            $page->URLSegment = _t('SilvercartProductGroupHolder.URL_SEGMENT', 'productgroups');
-            $page->Status = "Published";
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
-
 }
 
 /**

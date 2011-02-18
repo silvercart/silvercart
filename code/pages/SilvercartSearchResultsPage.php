@@ -14,28 +14,6 @@ class SilvercartSearchResultsPage extends Page {
     public static $allowed_children = array(
         'none'
     );
-
-    /** 
-     * default instances related to $this
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
-     * @return void
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $records = DataObject::get_one('SilvercartSearchResultsPage');
-        if (!$records) {
-            $page = new SilvercartSearchResultsPage();
-            $page->Title = _t('SilvercartSearchResultsPage.TITLE', 'search results');
-            $page->URLSegment = _t('SilvercartSearchResultsPage.URL_SEGMENT', 'search-results');
-            $page->Status = "Published";
-            $page->ShowInMenus = false;
-            $page->ShowInSearch = false;
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
 }
 
 /**

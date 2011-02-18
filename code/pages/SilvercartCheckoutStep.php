@@ -11,43 +11,6 @@
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
-    /**
-     * Creates a default checkout page if non exists.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $shoppingCartPageID = 1;
-        $records            = DataObject::get_one('SilvercartCheckoutStep');
-        if (!$records) {
-
-            // Set the ShoppingCartPage ID if available
-            $shoppingCartPage = DataObject::get_one(
-                'SilvercartCartPage'
-            );
-
-            if ($shoppingCartPage) {
-                $shoppingCartPageID = $shoppingCartPage->ID;
-            }
-
-            $page                   = new SilvercartCheckoutStep();
-            $page->Title            = _t('SilvercartPage.CHECKOUT');
-            $page->URLSegment       = _t('SilvercartCheckoutStep.URL_SEGMENT', 'checkout');
-            $page->Status           = "Published";
-            $page->ShowInMenus      = true;
-            $page->ShowInSearch     = true;
-            $page->basename         = 'SilvercartCheckoutFormStep';
-            $page->showCancelLink   = true;
-            $page->cancelPageID     = $shoppingCartPageID;
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
 }
 
 /**

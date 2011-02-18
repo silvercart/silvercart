@@ -128,46 +128,4 @@ class SilvercartTax extends DataObject {
         parent::__construct($record, $isSingleton);
     }
 
-    /**
-     * Inserts the two german standard tax rates into the database.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $lowerTaxRate = DataObject::get_one(
-            'SilvercartTax',
-            "Rate = 7"
-        );
-
-        if (!$lowerTaxRate) {
-            $lowerTaxRate = new SilvercartTax();
-            $lowerTaxRate->setField('Rate',  7);
-            $lowerTaxRate->setField('Title', '7%');
-            $lowerTaxRate->write();
-        }
-
-        $higherTaxRate = DataObject::get_one(
-            'SilvercartTax',
-            "Rate = 19"
-        );
-
-        if (!$higherTaxRate) {
-            $higherTaxRate = new SilvercartTax();
-            $higherTaxRate->setField('Rate',  19);
-            $higherTaxRate->setField('Title', '19%');
-            $higherTaxRate->write();
-            // relate to ShippingFee (if exists)
-            $silvercartShippingFee = DataObject::get_one("SilvercartShippingFee");
-            if ($silvercartShippingFee) {
-                $silvercartShippingFee->SilvercartTaxID = $higherTaxRate->ID;
-                $silvercartShippingFee->write();
-            }
-        }
-    }
 }

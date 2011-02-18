@@ -211,29 +211,6 @@ class SilvercartShippingMethod extends DataObject {
     }
 
     /**
-     * default instances will be created if no instance exists at all
-     *
-     * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 20.10.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        if (!DataObject::get('SilvercartShippingMethod')) {
-            $SilvercartShippingMethod = new SilvercartShippingMethod();
-            $SilvercartShippingMethod->Title = 'Paket';
-            // relate to carrier (if exists)
-            $SilvercartCarrier = DataObject::get_one("SilvercartCarrier", "`Title` = 'DHL'");
-            if ($SilvercartCarrier) {
-                $SilvercartShippingMethod->SilvercartCarrierID = $SilvercartCarrier->ID;
-            }
-            $SilvercartShippingMethod->write();
-        }
-    }
-
-    /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldSet the fields for the backend

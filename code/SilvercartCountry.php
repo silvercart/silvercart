@@ -167,31 +167,6 @@ class SilvercartCountry extends DataObject {
     }
 
     /**
-     * Default database records
-     *
-     * @return void
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 20.10.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        if (!DataObject::get_one('SilvercartCountry')) {
-            $standardCountry = new SilvercartCountry();
-            $standardCountry->Title = 'Deutschland';
-            $standardCountry->ISO2 = 'de';
-            $standardCountry->ISO3 = 'deu';
-            $standardCountry->write();
-            //relate country to zones
-            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
-            if ($domestic) {
-                $domestic->countries()->add($standardCountry);
-            }
-        }
-    }
-
-    /**
      * customizes the backends fields, mainly for ModelAdmin
      * 
      * @return FieldSet the fields for the backend

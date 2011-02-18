@@ -195,25 +195,6 @@ class SilvercartZone extends DataObject {
     }
 
     /**
-     * Default database records.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-            // relate to ShippingFee (if exists)
-            $silvercartShippingFee = DataObject::get_one("SilvercartShippingFee");
-            if ($silvercartShippingFee) {
-                $silvercartShippingFee->zoneID = $silvercartDomestic->ID;
-                $silvercartShippingFee->write();
-            }
-    }
-
-    /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldSet the fields for the backend

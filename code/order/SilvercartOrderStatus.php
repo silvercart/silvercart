@@ -129,36 +129,6 @@ class SilvercartOrderStatus extends DataObject {
     }
 
     /**
-     * create default entries
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $className = $this->ClassName;
-
-        if (!DataObject::get($className)) {
-
-            $defaultStatusEntries = array(
-                'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment', null, 'Auf Zahlungseingang wird gewartet'),
-                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
-            );
-
-            foreach ($defaultStatusEntries as $code => $title) {
-                $obj = new $className();
-                $obj->Title = $title;
-                $obj->Code = $code;
-                $obj->write();
-            }
-        }
-    }
-
-    /**
      * returns array with StatusCode => StatusText
      *
      * @return DataObjectSet

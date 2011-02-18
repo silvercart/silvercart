@@ -14,30 +14,6 @@ class SilvercartOrderConfirmationPage extends Page {
     public static $allowed_children = array(
         'none'
     );
-
-    /**
-     * default instances related to $this
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return void
-     * @since 18.11.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $records = DataObject::get_one('SilvercartOrderConfirmationPage');
-        if (!$records) {
-            $page = new SilvercartOrderConfirmationPage();
-            $page->Title = _t('SilvercartOrderConfirmationPage.SINGULARNAME', 'order conirmation page');
-            $page->URLSegment = _t('SilvercartOrderConfirmationPage.URL_SEGMENT', 'order-conirmation');
-            $page->Status = "Published";
-            $page->ShowInMenus = false;
-            $page->ShowInSearch = false;
-            $page->CanViewType = "LoggedInUsers";
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
 }
 
 /**

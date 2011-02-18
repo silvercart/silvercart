@@ -165,41 +165,6 @@ class SilvercartCarrier extends DataObject {
     }
 
     /**
-     * default instances will be created if no instance exists at all
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 7.11.2010
-     * @return void
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        if (!DataObject::get('SilvercartCarrier')) {
-            $carrier = new SilvercartCarrier();
-            $carrier->Title = 'DHL';
-            $carrier->FullTitle = 'DHL International GmbH';
-            $carrier->write();
-            //relate carrier to zones (if exists)
-            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
-            if ($domestic) {
-                $domestic->SilvercartCarrierID = $carrier->ID;
-                $domestic->write();
-            }
-            $eu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
-            if ($eu) {
-                $eu->SilvercartCarrierID = $carrier->ID;
-                $eu->write();
-            }
-            // relate ShippingMethod to Carrier (if exists)
-            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", "`Title` = 'Paket'");
-            if ($shippingMethod) {
-                $shippingMethod->SilvercartCarrierID = $carrier->ID;
-                $shippingMethod->write();
-            }
-        }
-    }
-
-    /**
      * Returns the attributed zones as string (limited to 150 chars).
      *
      * @return string

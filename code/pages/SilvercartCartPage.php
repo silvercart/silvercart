@@ -12,29 +12,6 @@ class SilvercartCartPage extends Page {
 
     public static $singular_name = "cart page";
 
-    /**
-     * default instances related to $this
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return void
-     * @since 23.10.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $records = DataObject::get_one('SilvercartCartPage');
-        if (!$records) {
-            $cartPage = new SilvercartCartPage();
-            $cartPage->Title = _t('SilvercartPage.CART');
-            $cartPage->URLSegment = _t('SilvercartCartPage.URL_SEGMENT', 'cart');
-            $cartPage->Status = "Published";
-            $cartPage->ShowInMenus = true;
-            $cartPage->ShowInSearch = false;
-            $cartPage->write();
-            $cartPage->publish("Stage", "Live");
-        }
-    }
-
 }
 
 /**

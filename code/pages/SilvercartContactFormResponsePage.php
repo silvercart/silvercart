@@ -15,29 +15,6 @@ class SilvercartContactFormResponsePage extends Page {
         'none'
     );
 
-    /**
-     * default instance of this page type; You may change the URLSegment without any cause.
-     *
-     * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $records = DataObject::get_one('SilvercartContactFormResponsePage');
-        if (!$records) {
-            $page = new SilvercartContactFormResponsePage();
-            $page->Title = _t('SilvercartContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
-            $page->URLSegment = _t('SilvercartContactFormResponsePage.URL_SEGMENT', 'contactconfirmation');
-            $page->Status = "Published";
-            $page->ShowInMenus = false;
-            $page->ShowInSearch = false;
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
-
 }
 
 /**

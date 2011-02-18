@@ -801,6 +801,7 @@ $lang['en_US']['SilvercartShippingFeesPage']['TITLE'] = 'shipping fees';
 $lang['en_US']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
 $lang['en_US']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'for payment methods';
 $lang['en_US']['SilvercartShippingMethod']['FOR_ZONES'] = 'for zones';
+$lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'package';
 $lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = array(
     'shipping methods',
     50,
