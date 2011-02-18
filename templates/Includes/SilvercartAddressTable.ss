@@ -32,6 +32,6 @@
         </td>
     </tr>
     <tr>
-        <td>Land</td><td>$country.Title</td>
+        <td>Land</td><td>$SilvercartCountry.Title</td>
     </tr>
 </table>

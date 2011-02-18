@@ -7,7 +7,7 @@
 				<div class="Head_line">
 					<% _t('SilvercartPage.EMAIL_ADDRESS') %>
 				</div>
-					$CustomHtmlFormFieldByName(emailaddress,QuickLoginFormFields)
+					$CustomHtmlFormFieldByName(emailaddress,SilvercartQuickLoginFormFields)
 			</div>
 		</div>
 
@@ -16,7 +16,7 @@
 				<div class="Head_line">
 					<% _t('SilvercartPage.PASSWORD','password') %>:
 				</div>
-					$CustomHtmlFormFieldByName(password,QuickLoginFormFields)
+					$CustomHtmlFormFieldByName(password,SilvercartQuickLoginFormFields)
 			</div>
 		</div>
 

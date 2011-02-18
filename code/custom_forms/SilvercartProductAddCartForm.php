@@ -8,7 +8,7 @@
  * @since 23.10.2010
  * @license BSD
  */
-class ProductAddCartForm extends CustomHtmlForm {
+class SilvercartProductAddCartForm extends CustomHtmlForm {
 
     /**
      * field configuration
@@ -47,8 +47,8 @@ class ProductAddCartForm extends CustomHtmlForm {
      * @since 02.02.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['productAmount']['title'] = _t('Product.QUANTITY');
-        $this->preferences['submitButtonTitle'] = _t('Product.ADD_TO_CART');
+        $this->formFields['productAmount']['title'] = _t('SilvercartProduct.QUANTITY');
+        $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
     }
 
     /**
@@ -69,12 +69,11 @@ class ProductAddCartForm extends CustomHtmlForm {
         if (isset($formData['backLink'])) {
             $backLink = $formData['backLink'];
         }
-
-        if (ShoppingCart::addProduct($formData)) {
+        
+        if (SilvercartShoppingCart::addProduct($formData)) {
             Director::redirect($backLink, 302);
         } else {
             Director::redirect($backLink, 302);
-            exit();
         }
     }
 

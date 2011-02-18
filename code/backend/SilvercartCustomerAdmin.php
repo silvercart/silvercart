@@ -12,7 +12,7 @@ class SilvercartCustomerAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartRegularCustomer',
         'SilvercartAnonymousCustomer',
-        'SilvercartMember',
+        'Member',
         'SilvercartBusinessCustomer'
     );
     public static $url_segment = 'customers';

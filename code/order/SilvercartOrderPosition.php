@@ -27,7 +27,7 @@ class SilvercartOrderPosition extends DataObject {
         'Tax' => 'Float',
         'TaxTotal' => 'Float',
         'TaxRate' => 'Float',
-        'ArticleDescription' => 'Text',
+        'ProductDescription' => 'Text',
         'Quantity' => 'Int',
         'Title' => 'VarChar'
     );
@@ -54,7 +54,7 @@ class SilvercartOrderPosition extends DataObject {
      */
     public static $summary_fields = array(
         'Title' => 'Artikelbezeichnung',
-        'ArticleDescription' => 'Artikelbeschreibung',
+        'ProductDescription' => 'Artikelbeschreibung',
         'Price' => 'Preis',
         'Quantity' => 'Anzahl'
     );
@@ -74,10 +74,10 @@ class SilvercartOrderPosition extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('SilvercartPage.ARTICLENAME'),
-            'ArticleDescription' => _t('SilvercartArticle.DESCRIPTION'),
-            'Price' => _t('SilvercartArticle.PRICE'),
-            'Quantity' => _t('SilvercartArticle.QUANTITY')
+            'Title' => _t('SilvercartPage.PRODUCTNAME'),
+            'ProductDescription' => _t('SilvercartProduct.DESCRIPTION'),
+            'Price' => _t('SilvercartProduct.PRICE'),
+            'Quantity' => _t('SilvercartProduct.QUANTITY')
         );
         parent::__construct($record, $isSingleton);
     }

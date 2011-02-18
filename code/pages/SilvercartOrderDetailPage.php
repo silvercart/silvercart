@@ -51,7 +51,7 @@ class SilvercartOrderDetailPage_Controller extends Page_Controller {
             $order = DataObject::get_one(
                 'SilvercartOrder',
                 sprintf(
-                    "`ID`= '%s' AND `CustomerID` = '%s'",
+                    "`ID`= '%s' AND `MemberID` = '%s'",
                     $id,
                     $memberID
                 )

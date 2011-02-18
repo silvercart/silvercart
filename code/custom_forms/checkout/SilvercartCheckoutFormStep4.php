@@ -76,7 +76,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
             /*
              * redirect a user if his cart is empty
              */
-            if (!$this->controller->isFilledCart()) {
+            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
                 Director::redirect("/home/");
             }
         }
@@ -148,8 +148,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
         $addressData = new ArrayData(
                         array(
-                            'shippingAddress' => $shippingAddress,
-                            'invoiceAddress' => $invoiceAddress
+                            'SilvercartShippingAddress' => $shippingAddress,
+                            'SilvercartInvoiceAddress' => $invoiceAddress
                         )
         );
         return $addressData;

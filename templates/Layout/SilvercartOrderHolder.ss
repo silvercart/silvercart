@@ -9,34 +9,34 @@
         $Form
         $PageComments
         <% if CurrentMembersOrders %>
-			<table>
-				<tr>
-					<th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
-					<th><%_t('SilvercartPage.ORDERD_ARTICLES','ordered articles') %></th>
-					<th><%_t('SilvercartOrderStatus.SINGULARNAME') %></th>
-					<th><% _t('SilvercartPage.REMARKS') %></th>
-				</tr>
-				<tr>
-					<% control CurrentMembersOrders %>
-						<td>
-							<a href="/my-account/my-orders/order-details/$ID">$Created.Nice</a>
-						</td>
-						<td>
-							<% control SilvercartOrderPositions %>
+        <table>
+            <tr>
+                <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
+                <th><% _t('SilvercartPage.ORDERD_PRODUCTS','ordered products') %></th>
+                <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
+                <th><% _t('SilvercartPage.REMARKS') %></th>
+            </tr>
+            <tr>
+                <% control CurrentMembersOrders %>
+                <td>
+                    <a href="/my-account/my-orders/order-details/$ID">$Created.Nice</a>
+                </td>
+                <td>
+                    <% control SilvercartOrderPositions %>
 								$Title <% if Last %><% else %> | <% end_if %>
-							<% end_control %>
-						</td>
-						<td>
-							<% control status %>
+                    <% end_control %>
+                </td>
+                <td>
+                    <% control status %>
 								$Title
-							<% end_control %>
-						</td>
-						<td>
+                    <% end_control %>
+                </td>
+                <td>
 							$FormattedNote
-						</td>
-					</tr>
-				<% end_control %>
-			</table>
+                </td>
+            </tr>
+            <% end_control %>
+        </table>
         <% else %>
         <p><% _t('SilvercartPage.NO_ORDERS','You do not have any orders yet') %></p>
         <% end_if %>

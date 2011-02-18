@@ -32,41 +32,6 @@ class SilvercartZone extends DataObject {
     public static $plural_name = "zones";
 
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.01.2011
-     */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$field_labels = array(
-            'Title'                     => _t('ProductCategoryPage.COLUMN_TITLE'),
-            'SilvercartCarrier.Title'   => _t('SilvercartCarrier.SINGULARNAME'),
-            'AttributedCountries'       => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
-            'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
-        );
-        self::$searchable_fields = array(
-            'Title',
-            'SilvercartCarrier.ID' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME')
-            ),
-            'SilvercartCountries.ID' => array(
-                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries')
-            ),
-            'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS')
-            )
-        );
-        parent::__construct($record, $isSingleton);
-    }
-
-    /**
      * Attributes.
      *
      * @var array
@@ -190,6 +155,44 @@ class SilvercartZone extends DataObject {
             'title' => 'Zugeordnete Versandarten'
         )
     );
+
+    /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.01.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$field_labels = array(
+            'Title'                     => _t('SilvercartPage.TITLE', 'title'),
+            'SilvercartCarrier'         => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+            'SilvercartCarrier.Title'   => _t('SilvercartCarrier.SINGULARNAME'),
+            'AttributedCountries'       => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
+            'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+        );
+        self::$searchable_fields = array(
+            'Title',
+            'SilvercartCarrier.ID' => array(
+                'title' => _t('SilvercartCarrier.SINGULARNAME')
+            ),
+            'SilvercartCountries.ID' => array(
+                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries')
+            ),
+            'SilvercartShippingMethods.ID' => array(
+                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS')
+            )
+        );
+        self::$singular_name = _t('SilvercartZone.SINGULARNAME', 'zone');
+        self::$plural_name = _t('SilvercartZone.PLURALNAME', 'zones');
+        parent::__construct($record, $isSingleton);
+    }
 
     /**
      * Default database records.

@@ -6,10 +6,10 @@
 				<p>Suchergebnisse f&uuml;r den Begriff <b>&rdquo;$SearchQuery&rdquo;</b>:
             <% end_if %>
 
-            <% if getSilvercartArticles %>
-                <% include SilvercartArticlePagination %>
-                <% control getSilvercartArticles %>
-                    <% include SilvercartArticlePreview %>
+            <% if getSilvercartProducts %>
+                <% include SilvercartProductPagination %>
+                <% control getSilvercartProducts %>
+                    <% include SilvercartProductPreview %>
                 <% end_control %>
             <% else %>
                 <p>
@@ -18,7 +18,7 @@
 					<% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>.
 				</p>
             <% end_if %>
-            <% include SilvercartArticlePagination %>
+            <% include SilvercartProductPagination %>
         </div>
     </div>
 </div>

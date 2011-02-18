@@ -130,12 +130,12 @@
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_PhoneAreaCode)
+                    $CustomHtmlFormFieldByName(Shipping_PhoneAreaCode)
                 </div>
             </div>
             <div class="c33l">
                 <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_Phone)
+                    $CustomHtmlFormFieldByName(Shipping_Phone)
                 </div>
             </div>
         </div>

@@ -246,7 +246,7 @@
 
     /* ARTIKELHOLDER + WARENGRUPPEN -> ARTIKEL PREVIEW LIST STYLES
    ------------------------------------------------ */
-    #articles li { padding:  20px 0 20px 0 }
+    #products li { padding:  20px 0 20px 0 }
 
     /* CARTFORM PREVIEW FORM STYLES
     -------------------------------------------------*/
@@ -347,7 +347,7 @@
                                       color:#FFFFFF;
     }
 
-    .articlePreviewBox {
+    .productPreviewBox {
         margin-bottom: 4em;
 }
 .acticlePreviewPrice {
@@ -581,7 +581,7 @@
         text-align: left;
 }
 
-    .articlePreviewArticleTitle {
+    .productPreviewProductTitle {
         padding-bottom: 5px;
         border-bottom: 1px solid #c9c9c9;
     }

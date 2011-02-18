@@ -1,7 +1,7 @@
 <?php
 
 /**
- * All article properties that need a translation end up here.
+ * All product properties that need a translation end up here.
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
@@ -10,8 +10,8 @@
  */
 class SilvercartProductTexts extends DataObject {
 
-    static $singular_name = "article translation text";
-    static $plural_name = "article translation texts";
+    static $singular_name = "product translation text";
+    static $plural_name = "product translation texts";
     public static $db = array(
         'Title' => 'VarChar',
         'LongDescription' => 'Text',

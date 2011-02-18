@@ -197,7 +197,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
             $prefix.'_Country'          => 'CountryID'
         );
-
+        
         if (is_array($data)) {
             foreach ($shippingDataFields as $shippingFieldName => $dataFieldName) {
                 if (isset($data[$shippingFieldName])) {

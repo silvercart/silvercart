@@ -38,7 +38,7 @@ class SilvercartOrderHolder_Controller extends Page_Controller {
     public function CurrentMembersOrders() {
         $memberID = Member::currentUserID();
         if ($memberID) {
-            $filter = sprintf("`SilvercartCustomerID` = '%s'", $memberID);
+            $filter = sprintf("`MemberID` = '%s'", $memberID);
             $orders = DataObject::get('SilvercartOrder', $filter);
             return $orders;
         }

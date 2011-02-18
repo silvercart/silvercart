@@ -243,25 +243,8 @@ class SilvercartPage_Controller extends ContentController {
         $memberID = Member::currentUserID();
         $member = DataObject::get_by_id("Member", $memberID);
         if ($member) {
-            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`shoppingCartID` = '%s'",$member->SilvercartShoppingCartID));
+            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`SilvercartShoppingCartID` = '%s'",$member->SilvercartShoppingCartID));
             return Count($shoppingCartPositions);
-        }
-    }
-
-    /**
-     * determin weather a cart is filled or empty; usefull for template conditional
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.11.2010
-     * @return boolean is cart filled?
-     */
-    public function isFilledCart() {
-        $customer = Member::currentUser();
-
-        if ($customer && $customer->hasMethod('SilvercartShoppingCart') && $customer->SilvercartShoppingCart()->SilvercartShoppingCartPosition()->Count() > 0) {
-            return true;
-        } else {
-            return false;
         }
     }
 

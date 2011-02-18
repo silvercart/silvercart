@@ -17,7 +17,7 @@
                             <a href="$Link" title="Details zu $Title"><% _t('SilvercartPage.DETAILS','details') %></a>
                         </p>
                     </div>
-                    $articlePreviewForm
+                    $productPreviewForm
                 </div>
             </div>
         </div>

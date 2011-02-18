@@ -13,8 +13,6 @@ class SilvercartRegisterConfirmationPage extends Page {
 
     public static $singular_name = "register confirmation page";
     public static $db = array(
-        'ConfirmationMailSubject' => 'Varchar(255)',
-        'ConfirmationMailMessage' => 'HTMLText',
         'ConfirmationFailureMessage' => 'HTMLText',
         'ConfirmationSuccessMessage' => 'HTMLText',
         'AlreadyConfirmedMessage' => 'HTMLText'
@@ -30,8 +28,6 @@ class SilvercartRegisterConfirmationPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $confirmationMailSubjectField = new TextField('ConfirmationMailSubject', _t('SilvercartRegisterConfirmationPage.CONFIRMATIONMAIL_SUBJECT', 'confirmation mail: subject'));
-        $confirmationMailTextField = new HtmlEditorField('ConfirmationMailMessage', _t('SilvercartRegisterConfirmationPage.CONFIRMATIONMAIL_TEXT', 'confirmation mail: text'), 20);
         $confirmationFailureMessageTextField = new HtmlEditorField('ConfirmationFailureMessage', _t('SilvercartRegisterConfirmationPage.FAILURE_MESSAGE_TEXT', 'failure message'), 20);
         $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', _t('SilvercartRegisterConfirmationPage.SUCCESS_MESSAGE_TEXT', 'success message'), 20);
         $alreadyConfirmedMessageTextField = new HtmlEditorField('AlreadyConfirmedMessage', _t('SilvercartRegisterConfirmationPage.ALREADY_REGISTERES_MESSAGE_TEXT', 'message: user already registered'), 20);
@@ -39,9 +35,6 @@ class SilvercartRegisterConfirmationPage extends Page {
         $fields->addFieldToTab('Root.Content.Main', $confirmationFailureMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $confirmationSuccessMessageTextField);
         $fields->addFieldToTab('Root.Content.Main', $alreadyConfirmedMessageTextField);
-        $tabParam = "Root.Content."._t('SilvercartRegisterConfirmationPage.CONFIRMATION_MAIL', 'confirmation mail');
-        $fields->addFieldToTab($tabParam, $confirmationMailSubjectField);
-        $fields->addFieldToTab($tabParam, $confirmationMailTextField);
 
         return $fields;
     }
@@ -135,7 +128,7 @@ class SilvercartRegisterConfirmationPage_Controller extends Page_Controller {
      * @since 25.10.2010
      */
     public function sendConfirmationMail($customer) {
-        ShopEmail::send(
+        SilvercartShopEmail::send(
             'RegistrationConfirmation',
             $customer->Email,
             array(

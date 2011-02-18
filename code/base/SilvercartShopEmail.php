@@ -27,32 +27,53 @@ class SilvercartShopEmail extends DataObject {
     );
 
     /**
-     * Summaryfields for display in tables.
+     * Get any user defined searchable fields labels that
+     * exist. Allows overriding of default field names in the form
+     * interface actually presented to the user.
      *
-     * @var array
+     * The reason for keeping this separate from searchable_fields,
+     * which would be a logical place for this functionality, is to
+     * avoid bloating and complicating the configuration array. Currently
+     * much of this system is based on sensible defaults, and this property
+     * would generally only be set in the case of more complex relationships
+     * between data object being required in the search interface.
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.02.2011
+     * Generates labels based on name of the field itself, if no static property
+     * {@link self::field_labels} exists.
+     *
+     * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array|string Array of all element labels if no argument given, otherwise the label of the field
+     *
+     * @uses $field_labels
+     * @uses FormField::name_to_label()
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.02.2011
      */
-    public static $summary_fields = array(
-        'Identifier'                => 'Bezeichner',
-        'Subject'                   => 'Betreff'
-    );
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels['Identifier']  = _t('SilvercartShopEmail.IDENTIFIER', 'identifier');
+        $fieldLabels['Subject']     = _t('SilvercartShopEmail.SUBJECT', 'subject');
+        $fieldLabels['EmailText']   = _t('SilvercartShopEmail.EMAILTEXT', 'message');
+        $fieldLabels['Variables']   = _t('SilvercartShopEmail.VARIABLES', 'variables');
+        return $fieldLabels;
+    }
 
     /**
-     * Field labels for display in tables.
+     * Get the default summary fields for this object.
      *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.02.2011
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.02.2011
      */
-    public static $field_labels = array(
-        'Identifier'                => 'Bezeichner',
-        'Subject'                   => 'Betreff'
-    );
+    public function  summaryFields() {
+        $summaryFields = parent::summaryFields();
+        $summaryFields['Identifier'] = _t('SilvercartShopEmail.IDENTIFIER', 'identifier');
+        $summaryFields['Subject']    = _t('SilvercartShopEmail.SUBJECT', 'subject');
+        return $summaryFields;
+    }
 
     /**
      * input fields for backend manipulation
@@ -112,7 +133,8 @@ class SilvercartShopEmail extends DataObject {
         $email->setTemplate('SilvercartShopEmail');
         $email->populateTemplate(
             array(
-                'SilvercartShopEmailMessage' => $emailText
+                'ShopEmailSubject' => $mailObj->Subject,
+                'ShopEmailMessage' => $emailText,
             )
         );
 

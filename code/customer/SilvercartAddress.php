@@ -25,8 +25,8 @@ class SilvercartAddress extends DataObject {
         'Phone' => 'VarChar(50)'
     );
     public static $has_one = array(
-        'owner' => 'Member',
-        'country' => 'SilvercartCountry'
+        'Member' => 'Member',
+        'SilvercartCountry' => 'SilvercartCountry'
     );
     public static $summary_fields = array(
         'Street' => 'Strasse',
@@ -39,7 +39,7 @@ class SilvercartAddress extends DataObject {
         'City' => 'Ort',
         'PhoneAreaCode' => 'Vorwahl',
         'Phone' => 'Telefonnummer',
-        'country' => 'Land',
+        'SilvercartCountry' => 'Land',
         'Addition' => 'Adresszusatz',
         'FirstName' => 'Vorname',
         'Surname' => 'Nachname'
@@ -70,7 +70,7 @@ class SilvercartAddress extends DataObject {
             'City' => _t('SilvercartAddress.CITY'),
             'PhoneAreaCode' => _t('SilvercartAddress.PHONEAREACODE'),
             'Phone' => _t('SilvercartAddress.PHONE'),
-            'country' => _t('SilvercartCountry.SINGULARNAME'),
+            'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
             'Addition' => _t('SilvercartAddress.ADDITION'),
             'FirstName' => _t('SilvercartAddress.FIRSTNAME'),
             'Surname' => _t('SilvercartAddress.SURNAME')

@@ -52,7 +52,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'positions' => 'SilvercartShoppingCartPosition'
+        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition'
     );
     /**
      * defines n:m relations
@@ -103,9 +103,7 @@ class SilvercartShoppingCart extends DataObject {
 
         // Initialize shopping cart position object, so that it can inject
         // its forms into the controller.
-        if ($this->SilvercartShoppingCartPositions()) {
-            
-        }
+        $this->SilvercartShoppingCartPositions();
 
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID  = 0;
@@ -144,7 +142,7 @@ class SilvercartShoppingCart extends DataObject {
         if ($member == false) {
             $member = new SilvercartAnonymousCustomer();
             $member->write();
-            $member->logIn($remember = true);
+            $member->logIn(true);
         }
 
         if (!$member) {
@@ -157,16 +155,17 @@ class SilvercartShoppingCart extends DataObject {
             return false;
         }
 
-        if ($formData['ProductID'] && $formData['ProductAmount']) {
-            $product = DataObject::get_by_id('SilvercartProduct', $formData['ProductID'], 'Created');
+        if ($formData['productID'] && $formData['productAmount']) {
+            $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
 
             if ($product) {
-                $quantity = (int) bcsqrt($formData['ProductAmount'] * $formData['ProdctAmount'], 0); //make shure value is positiv
+                $quantity = (int) bcsqrt($formData['productAmount'] * $formData['productAmount'], 0); //make shure value is positiv
                 $product->addToCart($cart->ID, $quantity);
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -179,7 +178,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 22.11.2010
      */
     public function delete() {
-        $positions = $this->positions();
+        $positions = $this->SilvercartShoppingCartPositions();
 
         foreach ($positions as $position) {
             $position->delete();
@@ -197,7 +196,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 22.11.10
      */
     public function getQuantity($productId = null) {
-        $positions = $this->positions();
+        $positions = $this->SilvercartShoppingCartPositions();
         $quantity = 0;
 
         foreach ($positions as $position) {
@@ -236,7 +235,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->HandlingCost();
+            $paymentFee = $paymentMethod->SilvercartHandlingCost();
 
             if ($paymentFee) {
                 $paymentFeeAmount = $paymentFee->amount->getAmount();
@@ -275,7 +274,7 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         // products
-        foreach ($this->positions() as $position) {
+        foreach ($this->SilvercartShoppingCartPositions() as $position) {
             $amount += (float) $position->SilvercartProduct()->Price->getAmount() * $position->Quantity;
         }
 
@@ -399,7 +398,7 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->carrier()->Title . "-" . $selectedShippingMethod->Title;
+            $title = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
         }
 
         return $title;
@@ -457,12 +456,12 @@ class SilvercartShoppingCart extends DataObject {
      * @since 01.02.2011
      */
     public function getTaxRatesWithoutFees() {
-        $positions = $this->positions();
+        $positions = $this->SilvercartShoppingCartPositions();
         $taxes = new DataObjectSet;
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions',
                         array(
-                            Member::currentUser()->ShoppingCart(),
+                            Member::currentUser()->SilvercartShoppingCart(),
                             Member::currentUser(),
                             true
                         )
@@ -599,11 +598,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return integer|boolean the cart´s weight in gramm
      */
     public function getWeightTotal() {
-        $positions = $this->SilvercartPositions();
+        $positions = $this->SilvercartShoppingCartPositions();
         $totalWeight = (int) 0;
         if ($positions) {
             foreach ($positions as $position) {
-                $totalWeight +=$position->SilvercartProduct()->Weight * $position->Quantity;
+                $totalWeight += $position->SilvercartProduct()->Weight * $position->Quantity;
             }
             return $totalWeight;
         } else {
@@ -641,7 +640,7 @@ class SilvercartShoppingCart extends DataObject {
     public function onBeforeDelete() {
         parent::onBeforeDelete();
 
-        $filter = sprintf("\"SilvercartShoppingCartID\" = '%s'", $this->ID);
+        $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $this->ID);
         $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
 
         if ($shoppingCartPositions) {
@@ -806,6 +805,22 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function setPaymentMethodID($paymentMethodId) {
         $this->SilvercartPaymentMethodID = $paymentMethodId;
+    }
+
+    /**
+     * determin weather a cart is filled or empty; usefull for template conditional
+     *
+     * @return bool
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function isFilled() {
+        if ($this->SilvercartShoppingCartPositions()->Count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

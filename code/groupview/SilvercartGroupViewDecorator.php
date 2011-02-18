@@ -67,16 +67,6 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     }
 
     /**
-     * returns the required CartFormName required by the decorators owner in
-     * dependence on the active group view.
-     *
-     * @return string
-     */
-    public function getCartFormName() {
-        return 'ProductAddCartForm' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
-    }
-
-    /**
      * returns the code of the active group view
      *
      * @return string
@@ -97,7 +87,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     public function RenderProductGroupHolderGroupView() {
         $items = array();
         foreach ($this->owner->Children() as $child) {
-            if ($child->hasArticlesOrChildren()) {
+            if ($child->hasProductsOrChildren()) {
                 $items[] = $child;
             }
         }
@@ -123,7 +113,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      */
     public function RenderProductGroupPageGroupView() {
         $elements = array(
-            'Elements' => $this->owner->getArticles(),
+            'Elements' => $this->owner->getProducts(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(
@@ -140,7 +130,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupHolderTemplateName() {
-        return 'ProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        return 'SilvercartProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
     }
 
     /**
@@ -150,6 +140,16 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupPageTemplateName() {
-        return 'ProductGroupPage' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        return 'SilvercartProductGroupPage' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+    }
+
+    /**
+     * returns the required CartFormName required by the decorators owner in
+     * dependence on the active group view.
+     *
+     * @return string
+     */
+    public function getCartFormName() {
+        return 'SilvercartProductAddCartForm' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
     }
 }

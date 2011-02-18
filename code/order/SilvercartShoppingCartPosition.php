@@ -53,8 +53,8 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'article' => 'SilvercartProduct',
-        'shoppingCart' => 'SilvercartShoppingCart'
+        'SilvercartProduct' => 'SilvercartProduct',
+        'SilvercartShoppingCart' => 'SilvercartShoppingCart'
     );
 
     /**

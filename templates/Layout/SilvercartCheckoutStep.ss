@@ -3,7 +3,7 @@
         <h2>$Title</h2>
         $Content
         $Process
-
+        $insertCustomHtmlForm
         <% if CustomHtmlFormStepLinkCancel %>
             <a href="$CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
         <% end_if %>

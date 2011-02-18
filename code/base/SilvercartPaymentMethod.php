@@ -516,6 +516,25 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
+     * returns allowed shipping methods.
+     * - shipping methods which are related directly to the payment methed
+     * - shipping methods which are NOT related to any payment method
+     *
+     * @return DataObjectSet
+     */
+    public function getAllowedShippingMethods() {
+        $allowedShippingMethodsArray = array();
+        foreach (DataObject::get('SilvercartShippingMethod') as $shippingMethod) {
+            if ($shippingMethod->SilvercartPaymentMethods()->Count() == 0) {
+                $allowedShippingMethodsArray[] = $shippingMethod;
+            }
+        }
+        $allowedShippingMethods = new DataObjectSet($allowedShippingMethodsArray);
+        $allowedShippingMethods->merge($this->SilvercartShippingMethods());
+        return $allowedShippingMethods;
+    }
+
+    /**
      * Returns weather this payment method is available for a zone specified by id or not
      *
      * @param int $zoneId Zone id to be checked
@@ -727,7 +746,7 @@ class SilvercartPaymentMethod extends DataObject {
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',
                     'standard order status for this payment method'),
-                    OrderStatus::getStatusList()->map('SilvercartCode', 'Title')
+                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
                 )
             )
         );

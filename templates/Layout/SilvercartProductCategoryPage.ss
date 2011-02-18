@@ -6,7 +6,7 @@
 		$Form
 		$PageComments
         <% if CategoriesProducts %>
-        <ul id="articles">
+        <ul id="products">
             <% control CategoriesProducts %>
             $productPreviewForm
             <% end_control %>

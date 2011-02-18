@@ -32,7 +32,7 @@ class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
             /*
              * redirect a user if his cart is empty
              */
-            if (!$this->controller->isFilledCart()) {
+            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
                 Director::redirect("/home/");
             }
         }

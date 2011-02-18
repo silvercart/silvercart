@@ -49,7 +49,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
 
         if (!$barebone) {
             // redirect a user if his cart is empty
-            if (!$this->controller->isFilledCart()) {
+            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
                 Director::redirect("/home/");
             }
         }
@@ -72,7 +72,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
         
         if ($paymentMethod) {
-            $shippingMethods = $paymentMethod->SilvercartShippingMethods();
+            $shippingMethods = $paymentMethod->getAllowedShippingMethods();
             if ($shippingMethods) {
                 //allow only activated shipping methods
                 $activatedShippingMethods = new DataObjectSet();

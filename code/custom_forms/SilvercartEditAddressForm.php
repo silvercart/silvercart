@@ -97,9 +97,9 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
 
         $member = Member::currentUser();
         $id = Controller::curr()->urlParams['ID'];
-
+        
         if ($member && $id) {
-            $filter = sprintf("\"ownerID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
+            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $address = DataObject::get_one('SilvercartAddress', $filter);
             if ($address) {
                 $this->formFields['FirstName']['value'] = $member->FirstName;
@@ -140,7 +140,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         $member = Member::currentUser();
         $id = Session::get('addressID');
         if ($member && $id) {
-            $filter = sprintf("\"ownerID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
+            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $address = DataObject::get_one('SilvercartAddress', $filter);
             $address->castedUpdate($registrationData);
             $filter = sprintf("`Title` = '%s'", $registrationData['Country']);

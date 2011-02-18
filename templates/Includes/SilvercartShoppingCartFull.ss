@@ -1,16 +1,16 @@
-<% if isFilledCart %>
+<% if CurrentMember.SilvercartShoppingCart.isFilled %>
     <% control CurrentMember %>
         <% control SilvercartShoppingCart %>
             <fieldset>
-                <legend><% _t('SilvercartArticle.TITLE') %></legend>
+                <legend><% _t('SilvercartProduct.TITLE') %></legend>
                 <table class="cartSummary">
                     <thead>
                         <tr>
-                            <th><% _t('SilvercartPage.ARTICLENAME','article name') %></th>
-                            <th><% _t('SilvercartArticle.PRICE_SINGLE', 'price single') %></th>
-                            <th><% _t('SilvercartArticle.VAT','VAT') %></th>
-                            <th class="right"><% _t('SilvercartArticlePage.QUANTITY') %></th>
-                            <th class="right"><% _t('SilvercartArticle.PRICE') %></th>
+                            <th><% _t('SilvercartPage.PRODUCTNAME','product name') %></th>
+                            <th><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
+                            <th><% _t('SilvercartProduct.VAT','VAT') %></th>
+                            <th class="right"><% _t('SilvercartProductPage.QUANTITY') %></th>
+                            <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
 
                             <% if Top.EditableShoppingCart %>
                                 <th></th>
@@ -20,11 +20,11 @@
                     </thead>
 
                     <tbody>
-                        <% control positions %>
+                        <% control SilvercartShoppingCartPositions %>
                             <tr<% if Last %> class="separator"<% end_if %>>
-                                <td>$article.Title</td>
-                                <td class="right">$SilvercartArticle.Price.Nice</td>
-                                <td class="right">{$SilvercartArticle.SilvercartTax.Rate}%</td>
+                                <td>$SilvercartProduct.Title</td>
+                                <td class="right">$SilvercartProduct.Price.Nice</td>
+                                <td class="right">{$SilvercartProduct.SilvercartTax.Rate}%</td>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
 

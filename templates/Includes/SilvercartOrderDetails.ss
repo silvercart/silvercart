@@ -5,13 +5,13 @@
             <td>Bestelldatum</td><td>$Created.Nice</td>
         </tr>
         <tr>
-            <td>Versandkosten</td><td>$SilvercartShippingFeeTotal.Nice</td>
+            <td>Versandkosten</td><td>$HandlingCostShipment.Nice</td>
         </tr>
         <tr>
             <td>Bestellwert</td><td>$AmountTotal.Nice</td>
         </tr>
         <tr>
-            <td>Bestellstatus</td><td>$status.Title</td>
+            <td>Bestellstatus</td><td>$SilvercartOrderStatus.Title</td>
         </tr>
         <% if Note %>
         <tr>
@@ -23,13 +23,13 @@
     <div class="c50l">
         <h3>Lieferadresse</h3>
         <% control SilvercartShippingAddress %>
-			<% include AddressTable %>
+            <% include SilvercartAddressTable %>
         <% end_control %>
     </div>
     <div class="c50r">
         <h3>Rechnungsadresse</h3>
         <% control SilvercartInvoiceAddress %>
-			<% include AddressTable %>
+            <% include SilvercartAddressTable %>
         <% end_control %>
     </div>
 </div>
@@ -45,18 +45,11 @@
         <% control SilvercartOrderPositions %>
         <tr>
             <td>$Title</td>
-            <td>$ArticleDescription</td>
+            <td>$ProductDescription.LimitWordCount(12)</td>
             <td>$Price.Nice</td>
-            <td>$Amount</td>
+            <td>$Quantity</td>
             <td>$PriceTotal.Nice</td>
         </tr>
         <% end_control %>
-        <tr>
-            <td></td>
-            <td>Versandkosten</td>
-            <td>$SilvercartShippingFeeTotal.Nice</td>
-            <td></td>
-            <td>$SilvercartShippingFeeTotal.Nice</td>
-        </tr>
     </table>
 <% end_control %>

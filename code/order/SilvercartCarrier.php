@@ -138,25 +138,29 @@ class SilvercartCarrier extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
-        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-        'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
-    );
-    self::$field_labels = array(
-        'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
-        'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
-        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-        'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
-    );
-    self::$searchable_fields = array(
-        'Title',
-        'SilvercartZones.ID' => array(
-            'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
-        ),
-        'SilvercartShippingMethods.ID' => array(
-            'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
-        )
-    );
+            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+            'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+        );
+        self::$field_labels = array(
+            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
+            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+            'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+            'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
+            'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones')
+        );
+        self::$searchable_fields = array(
+            'Title',
+            'SilvercartZones.ID' => array(
+                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
+            ),
+            'SilvercartShippingMethods.ID' => array(
+                'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
+            )
+        );
+        self::$singular_name = _t('SilvercartCarrier.SINGULARNAME', 'carrier');
+        self::$plural_name = _t('SilvercartCarrier.PLURALNAME', 'carriers');
         parent::__construct($record, $isSingleton);
     }
 
@@ -171,7 +175,7 @@ class SilvercartCarrier extends DataObject {
         parent::requireDefaultRecords();
 
         if (!DataObject::get('SilvercartCarrier')) {
-            $carrier = new Carrier();
+            $carrier = new SilvercartCarrier();
             $carrier->Title = 'DHL';
             $carrier->FullTitle = 'DHL International GmbH';
             $carrier->write();

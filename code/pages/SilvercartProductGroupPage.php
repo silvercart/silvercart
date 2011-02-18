@@ -117,7 +117,9 @@ class SilvercartProductGroupPage extends Page {
 }
 
 /**
- * Controller Class
+ * Controller Class.
+ * This controller handles the actions for product group views and product detail
+ * views.
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 18.10.2010
@@ -128,6 +130,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     protected $groupProducts;
 
+    protected $detailViewProduct = null;
+
     /**
      * execute these statements on object call
      *
@@ -136,35 +140,119 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 15.02.2011
      */
     public function init() {
-        // Get Products for this category
-        if (!isset($_GET['start']) ||
-            !is_numeric($_GET['start']) ||
-            (int)$_GET['start'] < 1) {
-            $SQL_start = 0;
+        // there must be two way to initialize this controller:
+        if ($this->isProductDetailView()) {
+            // a product detail view is requested
+            $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
-            $SQL_start = (int) $_GET['start'];
-        }
+            // a product group view is requested
+            // Get Products for this category
+            if (!isset($_GET['start']) ||
+                !is_numeric($_GET['start']) ||
+                (int)$_GET['start'] < 1) {
+                $SQL_start = 0;
+            } else {
+                $SQL_start = (int) $_GET['start'];
+            }
 
-        $this->groupProducts = SilvercartProduct::get(sprintf("`SilvercartProductGroupID` = '%s'",$this->ID), null, null, sprintf("%s,15",$SQL_start));
+            $this->groupProducts = SilvercartProduct::get(sprintf("`SilvercartProductGroupID` = '%s'",$this->ID), null, null, sprintf("%s,15",$SQL_start));
 
-        // Initialise formobjects
-        $productIdx = 0;
-        if ($this->groupProducts) {
-            $productAddCartForm = $this->getCartFormName();
-            foreach ($this->groupProducts as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
-                $product->setField('Thumbnail', $product->image()->SetWidth(150));
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                    'ProductAddCartForm'.$productIdx,
-                    array(
-                        $product
-                    )
-                );
-                $productIdx++;
+            // Initialise formobjects
+            $productIdx = 0;
+            if ($this->groupProducts) {
+                $productAddCartForm = $this->getCartFormName();
+                foreach ($this->groupProducts as $product) {
+                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                    $product->setField('Thumbnail', $product->image()->SetWidth(150));
+                    $product->productAddCartForm = $this->InsertCustomHtmlForm(
+                        'ProductAddCartForm'.$productIdx,
+                        array(
+                            $product
+                        )
+                    );
+                    $productIdx++;
+                }
             }
         }
 
         parent::init();
+    }
+
+    /**
+     * builds the ProductPages link according to its custom URL rewriting rule
+     *
+     * @param string $action is ignored
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function Link($action = null) {
+        if ($this->isProductDetailView()) {
+            return parent::Link($action) . $this->urlParams['Action'] . '/' . $this->urlParams['ID'];
+        }
+        return parent::Link($action);
+    }
+
+    /**
+     * returns the original page link. This is needed by the breadcrumbs. When
+     * a product detail view is requested, the default method self::Link() will
+     * return a modified link to the products detail view. This controller handles
+     * both (product group views and product detail views), so a product detail
+     * view won't have a related parent to show in breadcrumbs. The controller
+     * itself will be the parent, so there must be two different links for one
+     * controller.
+     *
+     * @return string
+     * @see self::Link()
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function OriginalLink() {
+        return parent::Link(null);
+    }
+
+    /**
+     * manipulates the defaul logic of building the pages breadcrumbs if a
+     * product detail view is requested.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        if ($this->isProductDetailView()) {
+            $page = $this;
+            $parts = array();
+            $parts[] = $this->getDetailViewProduct()->Title;
+            $i = 0;
+            while ($page
+             && (!$maxDepth || sizeof($parts) < $maxDepth)
+             && (!$stopAtPageType || $page->ClassName != $stopAtPageType)) {
+                if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
+                    if ($page->URLSegment == 'home') {
+                        $hasHome = true;
+                    }
+                    if ($page->ID == $this->ID) {
+                        $link = $page->OriginalLink();
+                    } else {
+                        $link = $page->Link();
+                    }
+                    $parts[] = ("<a href=\"" . $link . "\">" . Convert::raw2xml($page->Title) . "</a>");
+                }
+                $page = $page->Parent;
+            }
+            return implode(Page::$breadcrumbs_delimiter, array_reverse($parts));
+        }
+        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
 
     /**
@@ -189,4 +277,149 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         return SilvercartProduct::image();
     }
+
+    /**
+     * handles the requested action.
+     * If a product detail view is requested, the detail view template will be
+     * rendered an displayed.
+     *
+     * @param array $request request data
+     *
+     * @return mixed
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function handleAction($request) {
+        if ($this->isProductDetailView()) {
+            $this->urlParams['Action'] = (int) $this->urlParams['Action'];
+
+            if (!empty($this->urlParams['OtherID']) &&
+                    $this->hasMethod($this->urlParams['OtherID'])) {
+
+                $methodName = $this->urlParams['OtherID'];
+
+                return $this->$methodName($request);
+            }
+
+            $view = $this->ProductDetailView(
+                    $this->urlParams['ID']
+            );
+            if ($view !== false) {
+                return $view;
+            }
+        }
+        return parent::handleAction($request);
+    }
+
+    /**
+     * renders a product detail view template (if requested)
+     *
+     * @param string $urlEncodedProductName the url encoded product name
+     *
+     * @return string the redered template
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    protected function ProductDetailView($urlEncodedProductName) {
+        if ($this->isProductDetailView()) {
+            $product = $this->getDetailViewProduct();
+            $product->productAddCartForm = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
+            $viewParams = array(
+                'getProduct' => $product,
+                'MetaTitle' => $this->DetailViewProductMetaTitle(),
+                'MetaTags' => $this->DetailViewProductMetaTags(false),
+            );
+            return $this->customise($viewParams)->renderWith(array('SilvercartProductPage','Page'));
+        }
+        return false;
+    }
+
+    /**
+     * checks whether the requested view is an product detail view or a product
+     * group view.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    protected function isProductDetailView() {
+        if (empty($this->urlParams['Action'])) {
+            return false;
+        }
+        if ($this->hasMethod($this->urlParams['Action'])) {
+            return false;
+        }
+        if (!is_null($this->getDetailViewProduct())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * returns the chosen product when requesting a product detail view.
+     *
+     * @return SilvercartProduct
+     */
+    public function getDetailViewProduct() {
+        if (is_null($this->detailViewProduct)) {
+            $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
+        }
+        return $this->detailViewProduct;
+    }
+
+    /**
+     * Because of a url rule defined for this page type in the _config.php, the function MetaTags does not work anymore.
+     * This function overloads it and parses the meta data attributes of SilvercartProduct
+     *
+     * @param boolean $includeTitle should the title tag be parsed?
+     *
+     * @return string with all meta tags
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 23.10.2010
+     */
+    protected function DetailViewProductMetaTags($includeTitle = false) {
+        $tags = "";
+        if ($includeTitle === true || $includeTitle == 'true') {
+            $tags .= "<title>" . Convert::raw2xml(($this->MetaTitle) ? $this->MetaTitle : $this->Title) . "</title>\n";
+        }
+
+        $tags .= "<meta name=\"generator\" content=\"SilverStripe - http://silverstripe.org\" />\n";
+
+        $charset = ContentNegotiator::get_encoding();
+        $tags .= "<meta http-equiv=\"Content-type\" content=\"text/html; charset=$charset\" />\n";
+        if ($this->urlParams['ID'] > 0) {
+            $product = $this->getDetailViewProduct();
+            if ($product->MetaKeywords) {
+                $tags .= "<meta name=\"keywords\" content=\"" . Convert::raw2att($product->MetaKeywords) . "\" />\n";
+            }
+            if ($product->MetaDescription) {
+                $tags .= "<meta name=\"description\" content=\"" . Convert::raw2att($product->MetaDescription) . "\" />\n";
+            }
+        }
+        return $tags;
+    }
+
+    /**
+     * for SEO reasons this pages attribute MetaTitle gets overwritten with the products MetaTitle
+     * Remember: search engines evaluate 64 characters of the MetaTitle only
+     *
+     * @return string|false the products MetaTitle
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.11.10
+     */
+    protected function DetailViewProductMetaTitle() {
+        $product = $this->getDetailViewProduct();
+        if ($product && $product->MetaTitle) {
+            if ($product->SilvercartManufacturer()->ID > 0) {
+                return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+            }
+            return $product->MetaTitle;
+        } else {
+            return false;
+        }
+    }
+
 }

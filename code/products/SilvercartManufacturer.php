@@ -93,9 +93,57 @@ class SilvercartManufacturer extends DataObject {
      * @since 24.01.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Title' => _t('SilvercartPage.NAME', 'name')
-        );
+        self::$singular_name = _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer');
+        self::$plural_name = _t('SilvercartManufacturer.PLURALNAME', 'manufacturers');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * Get any user defined searchable fields labels that
+     * exist. Allows overriding of default field names in the form
+     * interface actually presented to the user.
+     *
+     * The reason for keeping this separate from searchable_fields,
+     * which would be a logical place for this functionality, is to
+     * avoid bloating and complicating the configuration array. Currently
+     * much of this system is based on sensible defaults, and this property
+     * would generally only be set in the case of more complex relationships
+     * between data object being required in the search interface.
+     *
+     * Generates labels based on name of the field itself, if no static property
+     * {@link self::field_labels} exists.
+     *
+     * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array|string Array of all element labels if no argument given, otherwise the label of the field
+     *
+     * @uses $field_labels
+     * @uses FormField::name_to_label()
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.02.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
+        $fieldLabels['URL']                 = _t('SilvercartPage.URL', 'URL');
+        $fieldLabels['logo']                = _t('SilvercartPage.LOGO', 'logo');
+        $fieldLabels['SilvercartProducts']  = _t('SilvercartProducts.PLURALNAME', 'products');
+        return $fieldLabels;
+    }
+
+    /**
+     * Get the default summary fields for this object.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.02.2011
+     */
+    public function  summaryFields() {
+        $summaryFields = parent::summaryFields();
+        $summaryFields['Title'] = _t('SilvercartPage.TITLE', 'title');
+        $summaryFields['URL']   = _t('SilvercartPage.URL', 'URL');
+        return $summaryFields;
     }
 }

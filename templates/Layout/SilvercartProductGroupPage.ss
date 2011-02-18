@@ -13,7 +13,7 @@
         $Form
         $PageComments
 
-        <div class="article-group-holder-toolbar clearfix">
+        <div class="product-group-holder-toolbar clearfix">
         <% if hasMoreGroupViewsThan(1) %>
             <ul>
             <% control GroupViews %>

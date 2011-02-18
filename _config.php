@@ -8,7 +8,6 @@ SilvercartProduct::setRequiredAttributes("Price");
 // Rewrite Rules Definitions
 // ----------------------------------------------------------------------------
 Director::addRules(100, array(
-    'artikelansicht/$ID/$Name'                       => 'SilvercartProductPage_Controller',
     'my-account/address-overview/$URLSegment!/$ID'   => 'SilvercartAddressPage_Controller',
     'my-account/my-orders/$URLSegment!/$ID'          => 'SilvercartOrderDetailPage_Controller'
 ));

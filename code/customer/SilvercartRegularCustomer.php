@@ -53,10 +53,10 @@ class SilvercartRegularCustomer extends Member {
     public function onAfterWrite() {
         parent::onAfterWrite();
         //create a cart for every user
-        if ($this->shoppingCartID == null) {
+        if ($this->SilvercartShoppingCartID == null) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
-            $this->shoppingCartID = $cart->ID;
+            $this->SilvercartShoppingCartID = $cart->ID;
             $this->write();
         }
     }
@@ -71,8 +71,8 @@ class SilvercartRegularCustomer extends Member {
      */
     public function onAfterDelete() {
         parent::onAfterDelete();
-        if ($this->shoppingCartID) {
-            $cart = DataObject::get_by_id('SilvercartShoppingCart', $this->shoppingCartID);
+        if ($this->SilvercartShoppingCartID) {
+            $cart = DataObject::get_by_id('SilvercartShoppingCart', $this->SilvercartShoppingCartID);
             if ($cart) {
                 $cart->delete();
             }

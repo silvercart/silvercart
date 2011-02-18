@@ -233,7 +233,7 @@ class SilvercartCountry extends DataObject {
         $attributedZones = array();
         $maxLength = 150;
 
-        foreach ($this->zones() as $zone) {
+        foreach ($this->SilvercartZones() as $zone) {
             $attributedZones[] = $zone->Title;
         }
 

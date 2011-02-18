@@ -119,9 +119,12 @@ class SilvercartTax extends DataObject {
             'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT', 'rate in %%')
         );
         self::$field_labels = array(
-            'Title' => _t('SilvercartTax.LABEL'),
-            'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT')
-            );
+            'Title'                 => _t('SilvercartTax.LABEL'),
+            'Rate'                  => _t('SilvercartTax.RATE_IN_PERCENT'),
+            'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME')
+        );
+        self::$singular_name = _t('SilvercartTax.SINGULARNAME', 'tax');
+        self::$plural_name = _t('SilvercartTax.PLURALNAME', 'taxes');
         parent::__construct($record, $isSingleton);
     }
 

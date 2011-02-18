@@ -185,7 +185,12 @@ class SilvercartShippingMethod extends DataObject {
             'Title' => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
             'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods'),
+            'isActive' => _t('SilvercartPage.ISACTIVE', 'active'),
+            'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+            'SilvercartTranslations' => _t('SilvercartShippingMethodTexts.PLURALNAME', 'shipping method translations'),
+            'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
+            'SilvercartZones' => _t('SilvercartZone.PLURALNAME', 'zones')
         );
         self::$searchable_fields = array(
             'Title',
@@ -200,6 +205,8 @@ class SilvercartShippingMethod extends DataObject {
                 'title' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
             )
         );
+        self::$singular_name = _t('SilvercartShippingMethod.SINGULARNAME', 'shipping method');
+        self::$plural_name = _t('SilvercartShippingMethod.PLURALNAME', 'shipping methods');
         parent::__construct($record, $isSingleton);
     }
 
@@ -250,7 +257,7 @@ class SilvercartShippingMethod extends DataObject {
             null,
             'getCMSFields_forPopup'
         );
-        $fields->addFieldToTab('Root.SilvercartZone', $zonesTable);
+        $fields->addFieldToTab('Root.' . _t('SilvercartZone.PLURALNAME', 'zones'), $zonesTable);
 
         return $fields;
     }
@@ -301,7 +308,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getTitleWithCarrierAndFee() {
         if ($this->getShippingFee()) {
-            $titleWithCarrierAndFee = $this->carrier()->Title . "-" .
+            $titleWithCarrierAndFee = $this->SilvercartCarrier()->Title . "-" .
                 $this->Title . " (+" .
                 number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .
                 $this->getShippingFee()->Price->getSymbol() .

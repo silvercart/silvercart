@@ -23,7 +23,7 @@
                                             
                                         </div>
                                         <div class="c66r">
-                                            <div id="SearchForm_SearchForm">$InsertCustomHtmlForm(QuickSearch)</div>
+                                            <div id="SearchForm_SearchForm">$InsertCustomHtmlForm(SilvercartQuickSearch)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -33,10 +33,10 @@
                             <div class="subcolumns">
                                 <div class="c50l" id="Customer">
                                     <% if CurrentRegisteredCustomer %>
-										<a class="button" id="myaccount" href="/my-account/"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
-										<a class="button" id="logout" href="/home/logout/">Logout</a>
+                                        <a class="button" id="myaccount" href="/my-account/"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
+                                        <a class="button" id="logout" href="/home/logout/">Logout</a>
                                     <% else %>
-										<% include SilvercartLoginPopup %>
+                                        <% include SilvercartLoginPopup %>
                                     <% end_if %>
                                 </div>
                                 <div class="c50r" id="Shopping_Checkout">

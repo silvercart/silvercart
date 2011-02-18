@@ -85,8 +85,12 @@ class SilvercartRegistrationPage extends Page {
             $confirmationPage = new SilvercartRegisterConfirmationPage();
             $confirmationPage->Title = _t('SilvercartRegisterConfirmationPage.TITLE', 'register confirmation page');
             $confirmationPage->URLSegment = _t('SilvercartRegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
+            $confirmationPage->Content = _t('SilvercartRegisterConfirmationPage.CONTENT');
+            $confirmationPage->ConfirmationFailureMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
+            $confirmationPage->ConfirmationSuccessMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
+            $confirmationPage->AlreadyConfirmedMessage = _t('SilvercartRegisterConfirmationPage.ALREADYCONFIRMEDMESSAGE');
             $confirmationPage->Status = "Published";
-            if ($page instanceof RegistrationPage) {
+            if ($page instanceof SilvercartRegistrationPage) {
                 $confirmationPage->ParentID = $page->ID;
             }
             $confirmationPage->ShowInMenus = false;
@@ -101,6 +105,7 @@ class SilvercartRegistrationPage extends Page {
             $welcomePage = new Page();
             $welcomePage->Title = _t('SilvercartPage.WELCOME_PAGE_TITLE', 'welcome');
             $welcomePage->URLSegment = _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
+            $welcomePage->Content = _t('SilvercartRegisterWelcomePage.CONTENT');
             $welcomePage->Status = "Published";
             if ($page instanceof SilvercartRegistrationPage) {
                 $welcomePage->ParentID = $page->ID;

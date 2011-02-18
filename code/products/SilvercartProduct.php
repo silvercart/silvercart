@@ -132,7 +132,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartManufacturer'    => 'SilvercartManufacturer',
         'SilvercartProductGroup'    => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'   => 'SilvercartProduct',
-        'image'                     => 'Image'
+        'Image'                     => 'Image'
     );
 
     /**
@@ -188,11 +188,28 @@ class SilvercartProduct extends DataObject {
         self::$field_labels = array(
             'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
             'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
+            'ShortDescription'          => _t('SilvercartProduct.SHORTDESCRIPTION'),
             'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
             'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
             'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
-            'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price')
+            'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price'),
+            'Price'                     => _t('SilvercartProduct.PRICE', 'price'),
+            'MetaDescription'           => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
+            'Weight'                    => _t('SilvercartProduct.WEIGHT', 'weight'),
+            'Quantity'                  => _t('SilvercartProduct.QUANTITY', 'quantity'),
+            'MetaTitle'                 => _t('SilvercartProduct.METATITLE', 'meta title'),
+            'MetaKeywords'              => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
+            'ProductNumberShop'         => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
+            'ProductNumberManufacturer' => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
+            'EANCode'                   => _t('SilvercartProduct.EAN', 'EAN'),
+            'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
+            'SilvercartManufacturer'    => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+            'SilvercartProductGroup'    => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
+            'SilvercartMasterProduct'   => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
+            'Image'                     => _t('SilvercartProduct.IMAGE', 'product image'),
         );
+        self::$singular_name = _t('SilvercartProduct.SINGULARNAME', 'product');
+        self::$plural_name = _t('SilvercartProduct.PLURALNAME', 'products');
         parent::__construct($record, $isSingleton);
     }
 
@@ -390,7 +407,7 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     public function Link() {
-        $Link = Director::absoluteBaseURL() . 'artikelansicht/' . $this->ID . '/' . $this->title2urlSegment();
+        $Link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
         return $Link;
     }
 

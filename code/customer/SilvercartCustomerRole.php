@@ -30,14 +30,14 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'Birthday' => 'Date'
             ),
             'has_one' => array(
-                'customerCategory' => 'SilvercartCustomerCategory',
-                'shoppingCart' => 'SilvercartShoppingCart',
-                'invoiceAddress' => 'SilvercartInvoiceAddress',
-                'shippingAddress' => 'SilvercartShippingAddress'
+                'SilvercartCustomerCategory' => 'SilvercartCustomerCategory',
+                'SilvercartShoppingCart' => 'SilvercartShoppingCart',
+                'SilvercartInvoiceAddress' => 'SilvercartInvoiceAddress',
+                'SilvercartShippingAddress' => 'SilvercartShippingAddress'
             ),
             'has_many' => array(
-                'addresses' => 'SilvercartAddress',
-                'orders' => 'SilvercartOrder'
+                'SilvercartAddress' => 'SilvercartAddress',
+                'SilvercartOrder' => 'SilvercartOrder'
             ),
             'summary_fields' => array(
                 'FirstName',
@@ -51,7 +51,24 @@ class SilvercartCustomerRole extends DataObjectDecorator {
             ),
             'searchable_fields' => array(
                 'FirstName'
-            )
+            ),
+            'field_labels' => array(
+                'Salutation'                        => _t('SilvercartCustomerRole.SALUTATION', 'salutation'),
+                'SubscribedToNewsletter'            => _t('SilvercartCustomerRole.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
+                'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomerRole.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
+                'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomerRole.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
+                'ConfirmationDate'                  => _t('SilvercartCustomerRole.CONFIRMATIONDATE', 'confirmation date'),
+                'ConfirmationHash'                  => _t('SilvercartCustomerRole.CONFIRMATIONHASH', 'confirmation code'),
+                'OptInStatus'                       => _t('SilvercartCustomerRole.OPTINSTATUS', 'opt-in status'),
+                'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
+                'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
+                'SilvercartCustomerCategory'        => _t('SilvercartCustomerCategory.SINGULARNAME', 'customer category'),
+                'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
+                'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
+                'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
+                'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
+                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
+            ),
         );
     }
 
@@ -85,50 +102,27 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      */
     public function getDefaultShippingAddress() {
         if ($customer = Member::currentUser()) {
-            $filter = sprintf("\"ownerID\" = '%s' AND \"isDefaultForShipping\" = '1'", $customer->ID);
+            $filter = sprintf("\"MemberID\" = '%s' AND \"isDefaultForShipping\" = '1'", $customer->ID);
             $shippingAddress = DataObject::get_one('SilvercartAddress', $filter);
             return $shippingAddress;
         }
     }
 
     /**
-     * Transfer a shopping cart from a cutomer to another user and kill the victim.
-     *
-     * @param Member $victim Member that must be deleted
-     * 
-     * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
-     */
-    public function lootShoppingCartAndKillVictim(Member $victim) {
-        $filter = sprintf("\"ID\" = '%s'", $this->owner->shoppingCartID);
-        $customersOldCart = DataObject::get_one('SilvercartShoppingCart', $filter);
-        if ($victim->shoppingCartID) {
-            $this->owner->shoppingCartID = $victim->shoppingCartID;
-            $this->owner->write();
-        }
-        $customersOldCart->delete();
-        $victim->delete();
-    }
-
-    /**
      * Get the customers shopping cart or create one if it doesn´t exist yet. "Get me a cart, I don´t care how!"
      * 
-     * @return <type> DataObject ShoppingCart
+     * @return SilvercartShoppingCart
+     *
      * @author Roland Lehmann
      */
     public function getCart() {
-
-        $cartID = $this->owner->shoppingCartID;
-        if ($cartID != null) { //If a user has no shopping cart yet calling his shoppingCartID will return NULL.
-            return $this->owner->shoppingCart();
-        } else {
+        if (is_null($this->owner->SilvercartShoppingCartID)) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
-            $this->owner->shoppingCartID = $cart->ID;
+            $this->owner->SilvercartShoppingCartID = $cart->ID;
             $this->owner->write();
-            return $this->owner->shoppingCart();
         }
+        return $this->owner->SilvercartShoppingCart();
     }
 
     /**

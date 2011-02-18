@@ -212,7 +212,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('Country')->toDropdownMap('Title', 'Title', '-bitte wählen-');
+        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', '-bitte wählen-');
     }
 
     /**
@@ -273,7 +273,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         );
 
         // Aggregate Data and set defaults
-        $formData['ownerID']            = Member::currentUserID();
+        $formData['MemberID']           = Member::currentUserID();
         $formData['ConfirmationHash']   = $confirmationHash;
         $formData['Locale']             = 'de_DE';
         $formData['OptInStatus']        = 0;
@@ -329,7 +329,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->sendOptInMail($formData);
 
         // Redirect to welcome page
-        $param = _t('SilvercartRegistrationPage.URL_SEGMENT')."/"._t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
+        $param = "registrieren/willkommen";
         Director::redirect($param);
     }
 
@@ -345,8 +345,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 25.10.2010
      */
     protected function sendOptInMail($formData) {
-        ShopEmail::send(
-            'SilvercartRegistrationOptIn',
+        SilvercartShopEmail::send(
+            'RegistrationOptIn',
             $formData['Email'],
             array(
                 'FirstName'         => $formData['FirstName'],

@@ -177,7 +177,8 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      */
     protected $preferences = array(
         'submitButtonTitle'         => 'weiter',
-        'stepTitle' => 'Adressen'
+        'stepTitle' => 'Adressen',
+        'fillInRequestValues' => true,
     );
 
     /**
@@ -201,7 +202,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
             /*
              * redirect a user if his cart is empty
              */
-            if (!$this->controller->isFilledCart()) {
+            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
                 Director::redirect("/home/");
             }
         }
@@ -276,6 +277,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
                 $this->formFields['Shipping_Country']['selectedValue'] = $member->SilvercartShippingAddress()->SilvercartCountry()->ID;
             }
         }
+        $this->controller->fillFormFields($this->formFields);
     }
 
     /**

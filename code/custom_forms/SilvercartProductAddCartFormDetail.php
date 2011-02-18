@@ -1,8 +1,8 @@
 <?php
 
 /**
- * dummy form definition for ArticleAddCartForm. It is used to register with
- * ArticlePage (only) to provide a seperate template for all different article
+ * dummy form definition for ProductAddCartForm. It is used to register with
+ * ProductPage (only) to provide a seperate template for all different product
  * views (detail, list, tile).
  *
  * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -10,6 +10,6 @@
  * @since 14.02.2011
  * @license BSD
  */
-class SilvercartProductAddCartFormDetail extends SilvercartArticleAddCartForm {
+class SilvercartProductAddCartFormDetail extends SilvercartProductAddCartForm {
 
 }
