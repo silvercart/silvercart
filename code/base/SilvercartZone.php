@@ -205,35 +205,12 @@ class SilvercartZone extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
-
-        if (!DataObject::get_one('SilvercartZone')) {
-            $silvercartStandardZone = new SilvercartZone();
-            $silvercartStandardZone->Title = 'EU';
-            $silvercartStandardZone->write();
-
-            $silvercartDomestic = new SilvercartZone();
-            $silvercartDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
-            $silvercartDomestic->write();
-
-            //relate country to zones
-            if (DataObject::get_one('SilvercartCountry')) {
-                $silvercartDomestic->SilvercartCountries()->add(DataObject::get_one('SilvercartCountry'));
-            }
-            // relate carrier to zones
-            if (DataObject::get('SilvercartCarrier')) {
-                $silvercartCarrier = DataObject::get('SilvercartCarrier');
-                $silvercartDomestic->SilvercartCarrierID = $silvercartCarrier->ID;
-                $silvercartDomestic->write();
-                $silvercartStandardZone->SilvercartCarrierID = $silvercartCarrier->ID;
-                $silvercartStandardZone->write();
-            }
             // relate to ShippingFee (if exists)
             $silvercartShippingFee = DataObject::get_one("SilvercartShippingFee");
             if ($silvercartShippingFee) {
                 $silvercartShippingFee->zoneID = $silvercartDomestic->ID;
                 $silvercartShippingFee->write();
             }
-        }
     }
 
     /**

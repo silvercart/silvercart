@@ -11,26 +11,6 @@
  */
 class SilvercartAnonymousCustomer extends Member {
 
-    /**
-     * default instances related to $this
-     *
-     * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        // Create an own group for this class. The group is identified by "Code", so its name can be changed via backend.
-        $group = DataObject::get_one('Group', "\"Code\" = 'anonymous'");
-        
-        if (!$group) {
-            $group = new Group();
-            $group->Title = _t('SilvercartAnonymousCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
-            $group->Code = "anonymous";
-            $group->write();
-        }
-    }
 
     /**
      * distinguish customer classes
