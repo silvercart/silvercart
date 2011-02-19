@@ -33,8 +33,8 @@
                             <div class="subcolumns">
                                 <div class="c50l" id="Customer">
                                     <% if CurrentRegisteredCustomer %>
-                                        <a class="button" id="myaccount" href="/my-account/"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
-                                        <a class="button" id="logout" href="/home/logout/">Logout</a>
+                                        <a class="button" id="myaccount" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
+                                        <a class="button" id="logout" href="{$PageByIdentifierCode(SilvercartFrontPage).Link}logout/">Logout</a>
                                     <% else %>
                                         <% include SilvercartLoginPopup %>
                                     <% end_if %>
@@ -42,10 +42,10 @@
                                 <div class="c50r" id="Shopping_Checkout">
                                     <div class="subcolumns">
                                         <div class="c50l">
-                                            <a class="button" id="scart" href="$PageByClassName(SilvercartCartPage).Link"><% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
+                                            <a class="button" id="scart" href="$PageByIdentifierCode(SilvercartCartPage).Link"><% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
                                         </div>
                                         <div class="c50r">
-                                            <a class="button" href="$PageByClassName(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></a>
+                                            <a class="button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></a>
                                         </div>
                                     </div>
                                 </div>

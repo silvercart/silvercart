@@ -1,6 +1,6 @@
 <div class="hlist">
     <ul class="Menu">
-<% control PageByClassName(SilvercartProductGroupHolder) %>
+<% control PageByIdentifierCode(SilvercartProductGroupHolder) %>
     <% control Children %>
         <% if hasProductsOrChildren %>
         <li <% if LinkingMode = current %> class="active" <% else %> class="$LinkingMode"<% end_if %> >

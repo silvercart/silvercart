@@ -44,7 +44,7 @@
             </div>
             <div class="c50r">
                 <div class="subcr">
-                    <a href="$PageByClassName(SilvercartContactFormPage).Link" class="button_type1">
+                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
                                 <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK') %></span>

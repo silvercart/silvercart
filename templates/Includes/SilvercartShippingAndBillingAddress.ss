@@ -5,7 +5,7 @@
         <% if CurrentMember.SilvercartShippingAddress %>
             <% control CurrentMember.SilvercartShippingAddress %>
                 <% include SilvercartAddressTable %>
-                <a href="/my-account/address-overview/address-details/{$ID}"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
+                <a href="{$PageByIdentifierCode(SilvercartAddressPage).Link}$ID"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
             <% end_control %>
         <% else %>
             <p>
@@ -20,7 +20,7 @@
             <% if CurrentMember.SilvercartInvoiceAddress %>
                 <% control CurrentMember.SilvercartInvoiceAddress %>
                     <% include SilvercartAddressTable %>
-                        <a href="/my-account/address-overview/address-details/{$ID}"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
+                        <a href="{$PageByIdentifierCode(SilvercartAddressPage).Link}$ID"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
                     <% end_control %>
             <% else %>
                 <p>
