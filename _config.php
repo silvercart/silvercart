@@ -74,3 +74,4 @@ SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 
 DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
+Object::add_extension('Member', 'SilvercartCustomerRole');
