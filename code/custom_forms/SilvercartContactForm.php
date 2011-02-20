@@ -114,9 +114,9 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         $email = new Email(
-                        'info@pourlatable.de',
-                        'rlehmann@pixeltricks.de',
-                        'Kontaktformular Anfrage PourLaTable',
+                        Email::getAdminEmail(),
+                        $formData['Email'],
+                        _t('SilvercartContactFormPage.REQUEST', 'request via contact form'),
                         ''
         );
 

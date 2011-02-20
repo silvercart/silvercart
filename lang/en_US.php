@@ -246,6 +246,7 @@ $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'request via contact form';
 $lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = array(
     'contact form page',
     50,
@@ -254,6 +255,7 @@ $lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = array(
 $lang['en_US']['SilvercartContactFormPage']['TITLE'] = 'contact';
 $lang['en_US']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'contact confirmation';
+$lang['en_US']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks for Your message. Your request will be answered as soon as possible.';
 $lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = array(
     'Contact form response pags',
     50,

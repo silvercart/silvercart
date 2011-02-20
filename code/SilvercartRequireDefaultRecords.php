@@ -220,6 +220,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactFormResponsePage->ShowInSearch = false;
             $contactFormResponsePage->IdentifierCode = "SilvercartContactFormResponsePage";
             $contactFormResponsePage->ParentID = $rootPage->ID;
+            $contactFormResponsePage->Content = _t('SilvercartContactFormResponsePage.CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
             $contactFormResponsePage->write();
             $contactFormResponsePage->publish("Stage", "Live");
 

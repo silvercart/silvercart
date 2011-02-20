@@ -260,6 +260,7 @@ $lang['de_DE']['SilvercartContactFormPage']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kontaktformular';
 $lang['de_DE']['SilvercartContactFormPage']['SINGULARNAME'] = array(
     'Kontaktformularseite',
     50,
@@ -268,6 +269,7 @@ $lang['de_DE']['SilvercartContactFormPage']['SINGULARNAME'] = array(
 $lang['de_DE']['SilvercartContactFormPage']['TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['URL_SEGMENT'] = 'kontakt';
 $lang['de_DE']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Kontaktbestätigung';
+$lang['de_DE']['SilvercartContactFormResponsePage']['CONTENT'] = 'Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten.';
 $lang['de_DE']['SilvercartContactFormResponsePage']['PLURALNAME'] = array(
     'Kontaktformularantwortseiten',
     50,
