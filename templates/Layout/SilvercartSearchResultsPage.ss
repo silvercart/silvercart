@@ -15,7 +15,7 @@
                 <p>
 					<% _t('SilvercartPage.THE_QUERY', 'The query') %>
 					<b>$SearchQuery</b>
-					<% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>.
+					<% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
 				</p>
             <% end_if %>
             <% include SilvercartProductPagination %>
