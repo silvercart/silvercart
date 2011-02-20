@@ -352,7 +352,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 'FirstName'         => $formData['FirstName'],
                 'Surname'           => $formData['Surname'],
                 'Email'             => $formData['Email'],
-                'ConfirmationLink'  => Director::absoluteURL(sprintf("/%s/%s", _t('SilvercartRegistrationPage.URL_SEGMENT'), _t('SilvercartRegisterConfirmationPage.URL_SEGMENT'))).'/?h='.urlencode($formData['ConfirmationHash'])
+                'ConfirmationLink'  => SilvercartPage_Controller::PageByIdentifierCode("SilvercartRegisterConfirmationPage")->getAbsoluteLiveLink(false).'/?h='.urlencode($formData['ConfirmationHash'])
             )
         );
     }

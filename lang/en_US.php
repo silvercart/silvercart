@@ -683,7 +683,7 @@ $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'con
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONTENT'] = '<p>Dear customer,</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONFAILUREMESSAGE'] = '<p>Your account could not be activated.</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE'] = '<p>Your registration was successfully completed! For your comfort you are already logged in.</p><p>have fun!</p>';
-$lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADYCONFIRMEDMESSAGE'] = '<p>Dear customer,</p><p>Your account is already activated.</p>';
+$lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADYCONFIRMEDMESSAGE'] = '<p>Your account is already activated.</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'failure message';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = array(
     'register confirmation pages',
@@ -736,6 +736,7 @@ $lang['en_US']['SilvercartRegularCustomer']['PLURALNAME'] = array(
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER'] = 'regular customer';
+$lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER_OPTIN'] = 'regular customer unconfirmed';
 $lang['en_US']['SilvercartRegularCustomer']['SINGULARNAME'] = array(
     'Regular Customer',
     50,

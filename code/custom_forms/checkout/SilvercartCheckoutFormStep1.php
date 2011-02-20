@@ -203,7 +203,8 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
              * redirect a user if his cart is empty
              */
             if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
-                Director::redirect("/home/");
+                $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
+                Director::redirect($frontPage->RelativeLink());
             }
         }
     }

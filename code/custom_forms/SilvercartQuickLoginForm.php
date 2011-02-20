@@ -80,7 +80,8 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
             if ($customer) {
                 $customer->logIn();
                 $customer->write();
-                Director::redirect("/my-account/");
+                $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
+                Director::redirect($myAccountHolder->RelativeLink());
             } else {
 
                 $this->messages = array(

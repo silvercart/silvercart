@@ -41,13 +41,24 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
 
         //create a group for b2c customers
-        $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2b'");
+        $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2c'");
         if (!$B2Cgroup) {
             $B2Cgroup = new Group();
             $B2Cgroup->Title = _t('SilvercartRegularCustomer.REGULARCUSTOMER', 'regular customer');
-            $B2Cgroup->Code = "b2b";
+            $B2Cgroup->Code = "b2c";
             $B2Cgroup->write();
         }
+
+        //create a group for b2c optin
+        $B2C_optinGroup = DataObject::get_one('Group', "`Code` = 'b2c-optin'");
+        if (!$B2C_optinGroup) {
+            $B2C_optinGroup = new Group();
+            $B2C_optinGroup->Title = _t("SilvercartRegularCustomer.REGULARCUSTOMER_OPTIN", "regular customer unconfirmed");
+            $B2C_optinGroup->Code = "b2c-optin";
+            $B2C_optinGroup->write();
+        }
+
+
 
         //create a carrier and an associated zone and shipping method
         $carrier = DataObject::get_one('SilvercartCarrier');
@@ -293,7 +304,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             //create a my account holder page as child of the silvercart root
             $myAccountHolder = new SilvercartMyAccountHolder();
             $myAccountHolder->Title = _t('SilvercartMyAccountHolder.TITLE', 'my account');
-            $myAccountHolder->URLSegment = 'my-account';
+            $myAccountHolder->URLSegment = _t('SilvercartMyAccountHolder.URL_SEGMENT', 'my-account');
             $myAccountHolder->Status = "Published";
             $myAccountHolder->ShowInMenus = false;
             $myAccountHolder->ShowInSearch = false;

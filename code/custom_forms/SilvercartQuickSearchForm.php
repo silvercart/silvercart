@@ -25,7 +25,6 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             )
         )
     );
-
     /**
      * form settings, mainly submit button´s name
      *
@@ -54,7 +53,8 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         Session::set("searchQuery", $formData['quickSearchQuery']);
-        Director::redirect(sprintf("/%s", _t('SilvercartSearchResultsPage.URL_SEGMENT')));
-
+        $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
+        Director::redirect($searchResultsPage->RelativeLink());
     }
+
 }

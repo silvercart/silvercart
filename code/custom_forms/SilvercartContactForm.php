@@ -61,7 +61,6 @@ class SilvercartContactForm extends CustomHtmlForm {
             )
         )
     );
-
     /**
      * form settings, mainly submit button´s name
      *
@@ -72,7 +71,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle'         => 'Nachricht senden'
+        'submitButtonTitle' => 'Nachricht senden'
     );
 
     /**
@@ -115,33 +114,28 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         $email = new Email(
-            'info@pourlatable.de',
-            'rlehmann@pixeltricks.de',
-            'Kontaktformular Anfrage PourLaTable',
-            ''
+                        'info@pourlatable.de',
+                        'rlehmann@pixeltricks.de',
+                        'Kontaktformular Anfrage PourLaTable',
+                        ''
         );
 
-        $email->setTemplate('MailContact');
+        $email->setTemplate('SilvercartMailContact');
         $email->populateTemplate(
-            array(
-                'FirstName' => $formData['FirstName'],
-                'Surname'   => $formData['Surname'],
-                'Email'     => $formData['Email'],
-                'Message'   => str_replace('\r\n', '<br>', nl2br($formData['Message']))
-            )
+                array(
+                    'FirstName' => $formData['FirstName'],
+                    'Surname' => $formData['Surname'],
+                    'Email' => $formData['Email'],
+                    'Message' => str_replace('\r\n', '<br>', nl2br($formData['Message']))
+                )
         );
 
         $email->send();
         /*
          * redirect a user to the page type for the response or to the root
          */
-        $contactFormResponsePage = DataObject::get_one('SilvercartContactFormResponsePage');
-        if ($contactFormResponsePage) {
-            $urlSegment = sprintf("/%s/", $contactFormResponsePage->URLSegment);
-            Director::redirect($urlSegment);
-        } else {
-            Director::redirect('/');
-        }
+        $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
+        Director::redirect($contactFormResponsePage->RelativeLink());
     }
 
 }

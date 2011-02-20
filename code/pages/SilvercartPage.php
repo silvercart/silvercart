@@ -20,7 +20,6 @@ class SilvercartPage extends SiteTree {
     public static $db = array(
         'IdentifierCode' => 'VarChar(50)'
     );
-    
     public static $has_one = array(
         'HeaderPicture' => 'Image'
     );
@@ -228,7 +227,8 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function logOut() {
         Security::logout(false);
-        Director::redirect("home/");
+        $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
+        Director::redirect($frontPage->RelativeLink());
     }
 
     /**
@@ -257,9 +257,9 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.2.11
-     * @return DataObject | false a single object of the site tree
+     * @return DataObject | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      */
-    public function PageByIdentifierCode($identifierCode) {
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
         $whereClause = sprintf("`IdentifierCode` = '%s'", $identifierCode);
         $page = DataObject::get_one("SiteTree", $whereClause);
         if ($page) {

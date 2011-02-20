@@ -153,7 +153,8 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
                 Director::redirect(Session::get("redirect"));
                 Session::clear("redirect");
             } else {
-                Director::redirect('/my-account/address-overview/');
+                $addressHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartAddressHolder");
+                Director::redirect($addressHolder->RelativeLink());
             }
         }
     }
