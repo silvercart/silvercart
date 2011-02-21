@@ -43,6 +43,44 @@ class SilvercartProductGroupPage extends Page {
     public static $many_many = array(
         'SilvercartAttributes' => 'SilvercartAttribute'
     );
+    
+    /**
+     * used to determine weather default dummy product groups and products
+     * should be created on a dev/build or not
+     *
+     * @var bool
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     */
+    private static $create_default_entries = false;
+
+    /**
+     * getter needed for requireDefaultRecords();
+     * should default groups and products be created?
+     * usefull to understand how silvercart copes with products and product groups in the frontend
+     *
+     * @return bool used for configuration
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 21.2.2011
+     *
+     */
+    public static function get_create_default_entries() {
+        return self::$create_default_entries;
+    }
+
+    /**
+     * Setter for a configuration option
+     * enable the build of test product groups an test products
+     * call this method in a config.php
+     *
+     * @param bool $option configuration option
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 21.02.2011
+     * @return void
+     */
+    public static function set_create_default_entries($option = true) {
+        self::$create_default_entries = $option;
+    }
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the

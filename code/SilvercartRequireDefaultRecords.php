@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -445,8 +446,47 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupHolder->Status = "Published";
             $productGroupHolder->ParentID = $rootPage->ID;
             $productGroupHolder->IdentifierCode = "SilvercartProductGroupHolder";
+            $productGroupHolder->ShowInMenus = true;
+            $productGroupHolder->ShowInSearch = true;
             $productGroupHolder->write();
             $productGroupHolder->publish("Stage", "Live");
+
+            //create test product groups and test articles if configured via config.php
+            if (SilvercartProductGroupPage::get_create_default_entries()) {
+                //create a manufacturer
+                $manufacturer = new SilvercartManufacturer();
+                $manufacturer->Title = 'Testmanufacturer';
+                $manufacturer->write();
+                //create product groups
+                for ($i = 1; $i <= 4; $i++) {
+                    $productGroup = new SilvercartProductGroupPage();
+                    $productGroup->Title = 'TestProductGroup' . $i;
+                    $productGroup->Status = "Published";
+                    $productGroup->ParentID = $productGroupHolder->ID;
+                    $productGroup->ShowInMenus = true;
+                    $productGroup->ShowInSearch = true;
+                    $productGroup->write();
+                    $productGroup->publish("Stage", "Live");
+                    //create products
+                    for ($idx = 1; $idx <= 50; $idx++) {
+                        $product = new SilvercartProduct();
+                        //relate product to tax
+                        $product->SilvercartTaxID = $higherTaxRate->ID;
+                        $product->SilvercartManufacturerID = $manufacturer->ID;
+                        $product->Title = 'Testproduct' . $idx;
+                        $product->Price->setAmount($idx * 9 + 0.99);
+                        $product->Price->setCurrency('EUR');
+                        $product->ShortDescription = "This is short description of product $idx";
+                        $product->LongDescription = "This is the long description of product $idx. It is in fact not very long, because I do not know what to write. Perhaps I should copy some lorem ipsum?";
+                        $product->Weight = 500;
+                        $product->Quantity = 1;
+                        $product->ProductNumberShop = "1000" . $idx;
+                        $product->ProductNumberManufacturer = "123000" . $idx;
+                        $product->SilvercartProductGroupID = $productGroup->ID;
+                        $product->write();
+                    }
+                }
+            }
 
             //create a silvercart registration page as a child of silvercart root
             $registrationPage = new SilvercartRegistrationPage();

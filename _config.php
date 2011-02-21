@@ -1,4 +1,5 @@
 <?php
+
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
@@ -8,14 +9,24 @@ SilvercartProduct::setRequiredAttributes("Price");
 // Rewrite Rules Definitions
 // ----------------------------------------------------------------------------
 Director::addRules(100, array(
-    'my-account/address-overview/$URLSegment!/$ID'   => 'SilvercartAddressPage_Controller',
-    'my-account/my-orders/$URLSegment!/$ID'          => 'SilvercartOrderDetailPage_Controller'
-));
+            'my-account/address-overview/$URLSegment!/$ID' => 'SilvercartAddressPage_Controller',
+            'my-account/my-orders/$URLSegment!/$ID' => 'SilvercartOrderDetailPage_Controller'
+        ));
 
 // ----------------------------------------------------------------------------
 // disable default pages for SiteTree
 // ----------------------------------------------------------------------------
 SiteTree::set_create_default_pages(false);
+
+/*
+ * enable build of test products and test categories
+ * switch this off on a live system
+ * only possible on a system in dev mode
+ */
+if (Director::isDev()) {
+    SilvercartProductGroupPage::set_create_default_entries(true);
+}
+
 
 // ----------------------------------------------------------------------------
 // Set default language
@@ -27,14 +38,14 @@ i18n::set_default_locale('de_DE');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-Object::add_extension('SiteTree',   'Translatable');
+Object::add_extension('SiteTree', 'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
-Object::add_extension('Member',     'SilvercartCustomerRole');
+Object::add_extension('Member', 'SilvercartCustomerRole');
 
 // ----------------------------------------------------------------------------
 // Define path constants
 // ----------------------------------------------------------------------------
-$path    = dirname(__FILE__).'/';
+$path = dirname(__FILE__) . '/';
 $relPath = substr(Director::makeRelative($path), 1);
 
 define('PIXELTRICKS_CHECKOUT_BASE_PATH', $path);
@@ -43,7 +54,7 @@ define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
 // ----------------------------------------------------------------------------
 // Register at required modules
 // ----------------------------------------------------------------------------
-CustomHtmlForm::registerModule('silvercart',49);
+CustomHtmlForm::registerModule('silvercart', 49);
 
 // ----------------------------------------------------------------------------
 // Check if the page.php descends from the SilvercartPage
