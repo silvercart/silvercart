@@ -132,6 +132,7 @@ $lang['de_DE']['SilvercartProductCategoryPage']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupHolder']['PLURALNAME'] = array(
     'Artikelgruppenübersichten',
     50,
@@ -144,7 +145,7 @@ $lang['de_DE']['SilvercartProductGroupHolder']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'artikelgruppen';
+$lang['de_DE']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'warengruppen';
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['PLURALNAME'] = array(

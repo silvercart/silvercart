@@ -440,7 +440,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             //create a silvercart product group holder as a child af the silvercart root
             $productGroupHolder = new SilvercartProductGroupHolder();
-            $productGroupHolder->Title = _t('SilvercartProductGroupHolder.PLURALNAME', 'product groups');
+            $productGroupHolder->Title = _t('SilvercartProductGroupHolder.PAGE_TITLE', 'product groups');
             $productGroupHolder->URLSegment = _t('SilvercartProductGroupHolder.URL_SEGMENT', 'productgroups');
             $productGroupHolder->Status = "Published";
             $productGroupHolder->ParentID = $rootPage->ID;
