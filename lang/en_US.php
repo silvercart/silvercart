@@ -85,6 +85,7 @@ $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'product number';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'product number (manufacturer)';
 $lang['en_US']['SilvercartProduct']['PURCHASEPRICE'] = 'purchase price';
 $lang['en_US']['SilvercartProduct']['QUANTITY'] = 'quantity';
+$lang['en_US']['SilvercartProduct']['QUANTITY_SHORT'] = 'qty.';
 $lang['en_US']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listdescription';
 $lang['en_US']['SilvercartProduct']['SINGULARNAME'] = array(
     'product',

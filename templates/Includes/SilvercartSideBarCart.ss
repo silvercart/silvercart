@@ -6,32 +6,34 @@
             <thead>
                 <tr>
                     <th><% _t('SilvercartProduct.TITLE') %></th>
-                    <th class="Amount"><% _t('SilvercartProductPage.QUANTITY') %></th>
-                    <th class="pricewidth"><% _t('SilvercartProduct.PRICE') %></th>
+                    <th class="side-bar-cart-amount"><% _t('SilvercartProduct.QUANTITY_SHORT') %></th>
+                    <th class="side-bar-cart-price"><% _t('SilvercartProduct.PRICE') %></th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td><% _t('SilvercartPage.SUM','sum') %></td>
-                    <td class="pricewidth">$Price.Nice</td>
-                </tr>
-            </tfoot>
             <% control CurrentMember %>
             <% control SilvercartShoppingCart %>
+            <tfoot>
+                <tr>
+                    <td class="side-bar-cart-price" colspan="2"><strong><% _t('SilvercartPage.SUM','sum') %></strong></td>
+                    <td class="side-bar-cart-price">$AmountTotal.Nice</td>
+                </tr>
+            </tfoot>
             <tbody>
                 <% control SilvercartShoppingCartPositions %>
                 <tr>
                     <td><a href="$SilvercartProduct.Link">$SilvercartProduct.Title</a></td>
-                    <td class="Amount">$Quantity</td>
-                    <td class="pricewidth">$Price.Nice</td>
+                    <td class="side-bar-cart-amount">$Quantity</td>
+                    <td class="side-bar-cart-price">$Price.Nice</td>
                 </tr>
                 <% end_control %>
             </tbody>
             <% end_control %>
             <% end_control %>
         </table>
-        <a href="{$baseHref}warenkorb"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
+        <div class="subcolumns">
+            <a href="$PageByClassName(SilvercartCartPage).Link" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
+            <a href="$PageByClassName(SilvercartCheckoutStep).Link" style="float:right;"><strong class="ShoppingCart"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></strong></a>
+        </div>
     </div>
 </div>
 <% end_if %>
