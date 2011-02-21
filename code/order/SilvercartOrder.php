@@ -395,7 +395,7 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         } else { //for anonymous customers
             $orderInvoiceAddress->castedUpdate($registrationData);
-            $orderInvoiceAddress->SilvercartCountryID = $registrationData['Country'];
+            $orderInvoiceAddress->SilvercartCountryID = $registrationData['Invoice_Country'];
             $orderInvoiceAddress->write();
             $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         }
@@ -441,7 +441,8 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
         } else { //for anonymous customers
             $orderShippingAddress->castedUpdate($registrationData);
-            $orderShippingAddress->SilvercartCountryID = $registrationData['country'];
+            #var_dump(serialize($registrationData)); exit();
+            $orderShippingAddress->SilvercartCountryID = $registrationData['Shipping_Country'];
             $orderShippingAddress->write(); //write here to have an object ID
             $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
         }

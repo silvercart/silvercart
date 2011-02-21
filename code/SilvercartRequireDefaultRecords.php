@@ -503,7 +503,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $checkoutStep->showCancelLink = true;
             $checkoutStep->cancelPageID = $shoppingCartPageID;
             $checkoutStep->ParentID = $rootPage->ID;
-            $checkoutStep->IdentifierCode = "CheckoutPage";
+            $checkoutStep->IdentifierCode = "SilvercartCheckoutStep";
             $checkoutStep->write();
             $checkoutStep->publish("Stage", "Live");
 
