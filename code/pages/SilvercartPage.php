@@ -45,13 +45,11 @@ class SilvercartPage extends SiteTree {
     /**
      * is the centerpiece of every data administration interface in Silverstripe
      *
-     * @param FieldSet $fields cms fields fieldset
-     *
      * @return FieldSet all related CMS fields
      * @author Jiri Ripa <jripa@pixeltricks.de>
      * @since 15.10.2010
      */
-    public function getCMSFields(FieldSet $fields) {
+    public function getCMSFields() {
         $fields = parent::getCMSFields();
 
         $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));

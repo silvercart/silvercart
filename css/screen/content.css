@@ -569,10 +569,6 @@
         padding: 10px;
     }
 
-    .Amount{
-        text-align: center;
-    }
-
     .ShoppingCart{
         color: #429bb9;
     }
@@ -588,11 +584,6 @@
 
     .emailIcon{
         padding-top: 0.5px;
-    }
-
-    .pricewidth{
-        width: 60px;
-        text-align: center;
     }
 
     #Shipping_Cost{

@@ -10,8 +10,9 @@
     margin-bottom: 0.5em;
 }
 .side-bar-cart thead th {
-    color: #fff;
+    color: #999;
     border: 0px;
+    background: #eee;
 }
 .side-bar-cart tbody th[scope="row"],
 .side-bar-cart tbody th.sub,
@@ -24,4 +25,17 @@
 .side-bar-cart tbody td,
 .side-bar-cart tfoot td {
     border-bottom: 1px solid #eee;
+}
+
+.side-bar-cart thead th.side-bar-cart-price,
+.side-bar-cart tbody th.side-bar-cart-price,
+.side-bar-cart tbody td.side-bar-cart-price,
+.side-bar-cart tfoot td.side-bar-cart-price {
+    text-align: right;
+}
+
+.side-bar-cart thead th.side-bar-cart-amount,
+.side-bar-cart tbody th.side-bar-cart-amount,
+.side-bar-cart tbody td.side-bar-cart-amount {
+    text-align: center;
 }

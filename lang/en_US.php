@@ -85,6 +85,7 @@ $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'product number';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'product number (manufacturer)';
 $lang['en_US']['SilvercartProduct']['PURCHASEPRICE'] = 'purchase price';
 $lang['en_US']['SilvercartProduct']['QUANTITY'] = 'quantity';
+$lang['en_US']['SilvercartProduct']['QUANTITY_SHORT'] = 'qty.';
 $lang['en_US']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listdescription';
 $lang['en_US']['SilvercartProduct']['SINGULARNAME'] = array(
     'product',
@@ -119,6 +120,7 @@ $lang['en_US']['SilvercartProductCategoryPage']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroups';
 $lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = array(
     'Product Group Holders',
     50,
