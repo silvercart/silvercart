@@ -51,10 +51,14 @@ class SilvercartPage extends SiteTree {
      * @author Jiri Ripa <jripa@pixeltricks.de>
      * @since 15.10.2010
      */
-    public function updateCMSFields(FieldSet $fields) {
-        $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('HeaderPicture', _t('SilvercartPage.HEADERPICTURE', 'header picture')));
-    }
+    public function getCMSFields(FieldSet $fields) {
+        $fields = parent::getCMSFields();
 
+        $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
+        $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', "Bitte nicht ändern."));
+
+        return $fields;
+    }
 }
 
 /**
@@ -277,13 +281,18 @@ class SilvercartPage_Controller extends ContentController {
      * @return DataObject | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $whereClause = sprintf("`IdentifierCode` = '%s'", $identifierCode);
-        $page = DataObject::get_one("SiteTree", $whereClause);
+        $page = DataObject::get_one(
+            "SiteTree",
+            sprintf(
+                "`IdentifierCode` = '%s'",
+                $identifierCode
+            )
+        );
+
         if ($page) {
             return $page;
         } else {
             return false;
         }
     }
-
 }
