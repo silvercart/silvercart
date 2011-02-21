@@ -10,7 +10,7 @@ $(document).ready(function() {
 });
 </script>
      
-  <a class="button" id="register" href="$PageByClassName(SilvercartRegistrationPage).Link">Registrieren</a>
+  <a class="button" id="register" href="$PageByIdentifierCode(SilvercartRegistrationPage).Link">Registrieren</a>
   <a class="button" id="login">Login</a>
 
 <div id="modalLogin">

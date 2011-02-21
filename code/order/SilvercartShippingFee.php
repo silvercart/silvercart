@@ -1,4 +1,23 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * A carrier has many shipping fees.
  * They mainly depend on the freights weight.
@@ -6,7 +25,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 06.11.2010
- * @license none
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShippingFee extends DataObject {
 
@@ -180,41 +199,6 @@ class SilvercartShippingFee extends DataObject {
         parent::__construct($record, $isSingleton);
     }
 
-    /**
-     * default instances will be created if no instance exists at all
-     *
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.02.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        if (!DataObject::get('SilvercartShippingFee')) {
-            $shippingFee = new SilvercartShippingFee();
-            $shippingFee->MaximumWeight = '1000';
-            $shippingFee->Price = new Money();
-            $shippingFee->Price->setAmount('3.9');
-            $shippingFee->Price->setCurrency('EUR');
-
-            // relate to Tax (if exists)
-            $tax = DataObject::get_one("SilvercartTax", "`Rate` = 19");
-            if ($tax) {
-                $shippingFee->SilvercartTaxID = $tax->ID;
-            }
-            // relate to ShippingMethod (if exists)
-            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", "`Title` = 'Paket'");
-            if ($shippingMethod) {
-                $shippingFee->shippingMethodID = $shippingMethod->ID;
-            }
-            // relate to Zone (if exists)
-            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
-            if ($domestic) {
-                $shippingFee->zoneID = $domestic->ID;
-            }
-            $shippingFee->write();
-        }
-    }
     
     /**
      * Set a custom search context for fields like "greater than", "less than",

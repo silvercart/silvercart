@@ -1,4 +1,22 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * shows and processes a registration form;
@@ -7,7 +25,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 20.10.2010
- * @license LGPL
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartRegistrationPage extends Page {
 
@@ -57,95 +75,13 @@ class SilvercartRegistrationPage extends Page {
         return $fields;
     }
 
-    /**
-     * Default entries for a fresh installation
-     * Child pages are also created
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
-     * @return void
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $page = '';
-
-        $records = DataObject::get_one('SilvercartRegistrationPage');
-        if (!$records) {
-            $page = new SilvercartRegistrationPage();
-            $page->Title = _t('SilvercartRegistrationPage.TITLE', 'registration page');
-            $page->URLSegment = _t('SilvercartRegistrationPage.URL_SEGMENT', 'registration');
-            $page->Status = "Published";
-            $page->ShowInMenus = false;
-            $page->ShowInSearch = true;
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-        $confirmationPage = DataObject::get_one('SilvercartRegisterConfirmationPage');
-        if (!$confirmationPage) {
-            $confirmationPage = new SilvercartRegisterConfirmationPage();
-            $confirmationPage->Title = _t('SilvercartRegisterConfirmationPage.TITLE', 'register confirmation page');
-            $confirmationPage->URLSegment = _t('SilvercartRegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
-            $confirmationPage->Content = _t('SilvercartRegisterConfirmationPage.CONTENT');
-            $confirmationPage->ConfirmationFailureMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
-            $confirmationPage->ConfirmationSuccessMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
-            $confirmationPage->AlreadyConfirmedMessage = _t('SilvercartRegisterConfirmationPage.ALREADYCONFIRMEDMESSAGE');
-            $confirmationPage->Status = "Published";
-            if ($page instanceof SilvercartRegistrationPage) {
-                $confirmationPage->ParentID = $page->ID;
-            }
-            $confirmationPage->ShowInMenus = false;
-            $confirmationPage->ShowInSearch = false;
-            $confirmationPage->write();
-            $confirmationPage->publish("Stage", "Live");
-        }
-
-        $whereClause = sprintf("`URLSegment` = '%s'", _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT', 'welcome'));
-        $welcomePage = DataObject::get_one('Page', $whereClause);
-        if (!$welcomePage) {
-            $welcomePage = new Page();
-            $welcomePage->Title = _t('SilvercartPage.WELCOME_PAGE_TITLE', 'welcome');
-            $welcomePage->URLSegment = _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
-            $welcomePage->Content = _t('SilvercartRegisterWelcomePage.CONTENT');
-            $welcomePage->Status = "Published";
-            if ($page instanceof SilvercartRegistrationPage) {
-                $welcomePage->ParentID = $page->ID;
-            }
-            $welcomePage->ShowInMenus = false;
-            $welcomePage->ShowInSearch = false;
-            $welcomePage->write();
-            $welcomePage->publish("Stage", "Live");
-        }
-        $shopEmailRegistrationOptIn = DataObject::get_one(
-                        'SilvercartShopEmail',
-                        "Identifier = 'RegistrationOptIn'"
-        );
-        if (!$shopEmailRegistrationOptIn) {
-            $shopEmailRegistrationOptIn = new SilvercartShopEmail();
-            $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
-            $shopEmailRegistrationOptIn->setField('Subject', _t('SilvercartRegistrationPage.PLEASE_COFIRM', 'please confirm Your registration'));
-            $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
-            $shopEmailRegistrationOptIn->write();
-        }
-        $shopEmailRegistrationConfirmation = DataObject::get_one(
-                        'SilvercartShopEmail',
-                        "Identifier = 'RegistrationConfirmation'"
-        );
-        if (!$shopEmailRegistrationConfirmation) {
-            $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
-            $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
-            $shopEmailRegistrationConfirmation->setField('Subject', _t('SilvercartRegistrationPage.THANKS', 'Many thanks for Your registration'));
-            $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
-            $shopEmailRegistrationConfirmation->write();
-        }
-    }
-
 }
 
 /**
  * Controller of this page type
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license LGPL
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */

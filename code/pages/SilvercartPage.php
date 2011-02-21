@@ -1,11 +1,30 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * Standard Controller
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH
- * @license BSD
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage extends SiteTree {
 
@@ -16,14 +35,12 @@ class SilvercartPage extends SiteTree {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 08.02.11
      */
-    public function extraStatics() {
-        return array(
-            'db' => array(
-                'HeaderPicture'  => 'Image',
-                'IdentifierCode' => 'VarChar(50)'
-            ),
-        );
-    }
+    public static $db = array(
+        'IdentifierCode' => 'VarChar(50)'
+    );
+    public static $has_one = array(
+        'HeaderPicture' => 'Image'
+    );
 
     /**
      * is the centerpiece of every data administration interface in Silverstripe
@@ -37,6 +54,7 @@ class SilvercartPage extends SiteTree {
     public function updateCMSFields(FieldSet $fields) {
         $fields->addFieldToTab('Root.Content.Main', new FileIFrameField('HeaderPicture', _t('SilvercartPage.HEADERPICTURE', 'header picture')));
     }
+
 }
 
 /**
@@ -45,7 +63,7 @@ class SilvercartPage extends SiteTree {
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH
- * @license BSD
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage_Controller extends ContentController {
 
@@ -54,7 +72,7 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 08.02.2011
-     * @license LGPL
+     * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
      * @return void
      * @copyright 2010 pixeltricks GmbH
      */
@@ -101,11 +119,11 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function getBreadcrumbs() {
         $page = DataObject::get_one(
-            'Page',
-            sprintf(
-                '"URLSegment" LIKE \'%s\'',
-                $this->urlParams['URLSegment']
-            )
+                        'Page',
+                        sprintf(
+                                '"URLSegment" LIKE \'%s\'',
+                                $this->urlParams['URLSegment']
+                        )
         );
 
         return $this->ContextBreadcrumbs($page);
@@ -167,13 +185,13 @@ class SilvercartPage_Controller extends ContentController {
             $email = $member->Email;
 
             $this->Content = str_replace(
-                array(
-                    '__EMAIL__'
-                ),
-                array(
-                    $email
-                ),
-                $this->Content
+                            array(
+                                '__EMAIL__'
+                            ),
+                            array(
+                                $email
+                            ),
+                            $this->Content
             );
         }
     }
@@ -205,7 +223,6 @@ class SilvercartPage_Controller extends ContentController {
      * @author Oliver Scheer <oscheer@pixeltricks.de>
      * @since 01.12.2010
      * @copyright 2010 pixeltricks GmbH
-     * @license BSD
      */
     public function MemberInformation() {
 
@@ -227,7 +244,8 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function logOut() {
         Security::logout(false);
-        Director::redirect("home/");
+        $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
+        Director::redirect($frontPage->RelativeLink());
     }
 
     /**
@@ -243,23 +261,24 @@ class SilvercartPage_Controller extends ContentController {
         $memberID = Member::currentUserID();
         $member = DataObject::get_by_id("Member", $memberID);
         if ($member) {
-            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`SilvercartShoppingCartID` = '%s'",$member->SilvercartShoppingCartID));
+            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID));
             return Count($shoppingCartPositions);
         }
     }
 
     /**
-     * returns a single page by its class name
+     * returns a single page by IdentifierCode
      * used to retrieve links dynamically
      *
-     * @param string $className the classes name
+     * @param string $identifierCode the classes name
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.2.11
-     * @return DataObject | false a single object of the site tree
+     * @return DataObject | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      */
-    public function PageByClassName($className) {
-        $page = DataObject::get_one($className, "`Status` = 'Published'");
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
+        $whereClause = sprintf("`IdentifierCode` = '%s'", $identifierCode);
+        $page = DataObject::get_one("SiteTree", $whereClause);
         if ($page) {
             return $page;
         } else {

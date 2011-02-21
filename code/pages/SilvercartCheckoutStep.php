@@ -1,4 +1,22 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * Seite fuer den Checkoutprozess.
@@ -7,47 +25,10 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010
- * @license none
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
-    /**
-     * Creates a default checkout page if non exists.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $shoppingCartPageID = 1;
-        $records            = DataObject::get_one('SilvercartCheckoutStep');
-        if (!$records) {
-
-            // Set the ShoppingCartPage ID if available
-            $shoppingCartPage = DataObject::get_one(
-                'SilvercartCartPage'
-            );
-
-            if ($shoppingCartPage) {
-                $shoppingCartPageID = $shoppingCartPage->ID;
-            }
-
-            $page                   = new SilvercartCheckoutStep();
-            $page->Title            = _t('SilvercartPage.CHECKOUT');
-            $page->URLSegment       = _t('SilvercartCheckoutStep.URL_SEGMENT', 'checkout');
-            $page->Status           = "Published";
-            $page->ShowInMenus      = true;
-            $page->ShowInSearch     = true;
-            $page->basename         = 'SilvercartCheckoutFormStep';
-            $page->showCancelLink   = true;
-            $page->cancelPageID     = $shoppingCartPageID;
-            $page->write();
-            $page->publish("Stage", "Live");
-        }
-    }
 }
 
 /**
@@ -57,7 +38,7 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010
- * @license none
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
 

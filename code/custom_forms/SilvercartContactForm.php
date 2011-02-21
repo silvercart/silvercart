@@ -1,4 +1,22 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * a contact form of the CustomHTMLForms modul
@@ -6,7 +24,7 @@
  * @copyright pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 21.10.2010
- * @license BSD
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartContactForm extends CustomHtmlForm {
 
@@ -61,7 +79,6 @@ class SilvercartContactForm extends CustomHtmlForm {
             )
         )
     );
-
     /**
      * form settings, mainly submit button´s name
      *
@@ -72,7 +89,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle'         => 'Nachricht senden'
+        'submitButtonTitle' => 'Nachricht senden'
     );
 
     /**
@@ -115,33 +132,28 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
 
         $email = new Email(
-            'info@pourlatable.de',
-            'rlehmann@pixeltricks.de',
-            'Kontaktformular Anfrage PourLaTable',
-            ''
+                        Email::getAdminEmail(),
+                        $formData['Email'],
+                        _t('SilvercartContactFormPage.REQUEST', 'request via contact form'),
+                        ''
         );
 
-        $email->setTemplate('MailContact');
+        $email->setTemplate('SilvercartMailContact');
         $email->populateTemplate(
-            array(
-                'FirstName' => $formData['FirstName'],
-                'Surname'   => $formData['Surname'],
-                'Email'     => $formData['Email'],
-                'Message'   => str_replace('\r\n', '<br>', nl2br($formData['Message']))
-            )
+                array(
+                    'FirstName' => $formData['FirstName'],
+                    'Surname' => $formData['Surname'],
+                    'Email' => $formData['Email'],
+                    'Message' => str_replace('\r\n', '<br>', nl2br($formData['Message']))
+                )
         );
 
         $email->send();
         /*
          * redirect a user to the page type for the response or to the root
          */
-        $contactFormResponsePage = DataObject::get_one('SilvercartContactFormResponsePage');
-        if ($contactFormResponsePage) {
-            $urlSegment = sprintf("/%s/", $contactFormResponsePage->URLSegment);
-            Director::redirect($urlSegment);
-        } else {
-            Director::redirect('/');
-        }
+        $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
+        Director::redirect($contactFormResponsePage->RelativeLink());
     }
 
 }

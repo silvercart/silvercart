@@ -31,8 +31,8 @@
             <% end_control %>
         </table>
         <div class="subcolumns">
-            <a href="$PageByClassName(SilvercartCartPage).Link" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
-            <a href="$PageByClassName(SilvercartCheckoutStep).Link" style="float:right;"><strong class="ShoppingCart"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></strong></a>
+            <a href="$PageByIdentifierCode(SilvercartCartPage).Link" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
+            <a href="$PageByIdentifierCode(SilvercartCheckoutStep).Link" style="float:right;"><strong class="ShoppingCart"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></strong></a>
         </div>
     </div>
 </div>

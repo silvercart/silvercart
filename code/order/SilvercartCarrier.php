@@ -1,11 +1,30 @@
 <?php
+/*
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * abstract for a shipping carrier
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 06.11.2010
- * @license none
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCarrier extends DataObject {
 
@@ -162,41 +181,6 @@ class SilvercartCarrier extends DataObject {
         self::$singular_name = _t('SilvercartCarrier.SINGULARNAME', 'carrier');
         self::$plural_name = _t('SilvercartCarrier.PLURALNAME', 'carriers');
         parent::__construct($record, $isSingleton);
-    }
-
-    /**
-     * default instances will be created if no instance exists at all
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 7.11.2010
-     * @return void
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        if (!DataObject::get('SilvercartCarrier')) {
-            $carrier = new SilvercartCarrier();
-            $carrier->Title = 'DHL';
-            $carrier->FullTitle = 'DHL International GmbH';
-            $carrier->write();
-            //relate carrier to zones (if exists)
-            $domestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
-            if ($domestic) {
-                $domestic->SilvercartCarrierID = $carrier->ID;
-                $domestic->write();
-            }
-            $eu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
-            if ($eu) {
-                $eu->SilvercartCarrierID = $carrier->ID;
-                $eu->write();
-            }
-            // relate ShippingMethod to Carrier (if exists)
-            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", "`Title` = 'Paket'");
-            if ($shippingMethod) {
-                $shippingMethod->SilvercartCarrierID = $carrier->ID;
-                $shippingMethod->write();
-            }
-        }
     }
 
     /**

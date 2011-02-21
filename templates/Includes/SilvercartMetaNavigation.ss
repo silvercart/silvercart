@@ -5,11 +5,11 @@
 
     <div class="MetaNavigation">
         <div class="c20l">
-            <a href="/home"><img id="img" src="/silvercart/images/home_new.png" alt="home"/></a>
+            <a href="$PageByIdentifierCode(SilvercartFrontPage).Link"><img id="img" src="/silvercart/images/home_new.png" alt="home"/></a>
         </div>
 
         <div class="c20l">
-            <a href="$PageByClassName(SilvercartContactFormPage).Link"><img id="img" class="emailIcon" src="/silvercart/images/mail_dark.png" alt="<% _t(SilvercartContactFormPage.TITLE) %>" /></a>
+            <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link"><img id="img" class="emailIcon" src="/silvercart/images/mail_dark.png" alt="<% _t(SilvercartContactFormPage.TITLE) %>" /></a>
         </div>
 
         <div class="c60r">

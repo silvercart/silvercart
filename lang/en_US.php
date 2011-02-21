@@ -247,6 +247,7 @@ $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
+$lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'request via contact form';
 $lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = array(
     'contact form page',
     50,
@@ -255,6 +256,7 @@ $lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = array(
 $lang['en_US']['SilvercartContactFormPage']['TITLE'] = 'contact';
 $lang['en_US']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'contact confirmation';
+$lang['en_US']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks for Your message. Your request will be answered as soon as possible.';
 $lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = array(
     'Contact form response pags',
     50,
@@ -684,7 +686,7 @@ $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'con
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONTENT'] = '<p>Dear customer,</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONFAILUREMESSAGE'] = '<p>Your account could not be activated.</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE'] = '<p>Your registration was successfully completed! For your comfort you are already logged in.</p><p>have fun!</p>';
-$lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADYCONFIRMEDMESSAGE'] = '<p>Dear customer,</p><p>Your account is already activated.</p>';
+$lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADYCONFIRMEDMESSAGE'] = '<p>Your account is already activated.</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'failure message';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = array(
     'register confirmation pages',
@@ -737,6 +739,7 @@ $lang['en_US']['SilvercartRegularCustomer']['PLURALNAME'] = array(
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
 $lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER'] = 'regular customer';
+$lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER_OPTIN'] = 'regular customer unconfirmed';
 $lang['en_US']['SilvercartRegularCustomer']['SINGULARNAME'] = array(
     'Regular Customer',
     50,
@@ -802,6 +805,7 @@ $lang['en_US']['SilvercartShippingFeesPage']['TITLE'] = 'shipping fees';
 $lang['en_US']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
 $lang['en_US']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'for payment methods';
 $lang['en_US']['SilvercartShippingMethod']['FOR_ZONES'] = 'for zones';
+$lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'package';
 $lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = array(
     'shipping methods',
     50,

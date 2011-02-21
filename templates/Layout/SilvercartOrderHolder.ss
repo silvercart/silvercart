@@ -19,7 +19,7 @@
             <tr>
                 <% control CurrentMembersOrders %>
                 <td>
-                    <a href="/my-account/my-orders/order-details/$ID">$Created.Nice</a>
+                    <a href="{$PageByIdentifierCode(SilvercartOrderDetailPage).Link}$ID">$Created.Nice</a>
                 </td>
                 <td>
                     <% control SilvercartOrderPositions %>
