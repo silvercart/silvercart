@@ -76,12 +76,10 @@
                             </div>
                         </div>
                     </div>
-                    <% if Menu(1) %>
                     <div id="nav">
                         <a id="navigation" name="navigation"></a>
                         <% include SilvercartNavigation %>
                     </div>
-                    <% end_if %>
                 </div>
                 <div id="main">
                     $Layout
