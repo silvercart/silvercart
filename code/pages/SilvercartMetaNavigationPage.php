@@ -26,7 +26,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartDataPrivacyStatementPage extends Page {
+class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
 
     public static $singular_name = "privacy policy page";
     public static $allowed_children = array(
@@ -43,6 +43,6 @@ class SilvercartDataPrivacyStatementPage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */
-class SilvercartDataPrivacyStatementPage_Controller extends Page_Controller {
+class SilvercartMetaNavigationPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
 }

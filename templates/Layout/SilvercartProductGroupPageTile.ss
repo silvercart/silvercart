@@ -1,10 +1,11 @@
-<% control Elements %>
-<% if MultipleOf(2) %>
+<% if Elements %>
+    <% control Elements %>
+        <% if MultipleOf(2) %>
 <div class="c50r product-group-page tile $EvenOdd">
-    <% else %>
+        <% else %>
     <div class="subcolumns equalize clearfix">
         <div class="c50l product-group-page tile $EvenOdd">
-            <% end_if %>
+        <% end_if %>
 
             <div class="product-group-page_content">
                 <h3><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h3>
@@ -32,7 +33,8 @@
         </div>
         <% if MultipleOf(2) %>
     </div>
-    <% else_if Last %>
+        <% else_if Last %>
 </div>
+        <% end_if %>
+    <% end_control %>
 <% end_if %>
-<% end_control %>

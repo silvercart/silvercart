@@ -36,9 +36,8 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      */
     public static $allowed_actions = array(
         'switchGroupView',
+        'switchGroupHolderView',
     );
-
-    protected $groupViewObject = null;
 
     /**
      * returns all group views
@@ -54,17 +53,44 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     }
 
     /**
+     * returns all group views
+     *
+     * @return DataObjectSet
+     */
+    public function getGroupHolderViews() {
+        $groupViewArray = array();
+        foreach (SilvercartGroupViewHandler::getGroupHolderViews() as $code => $groupView) {
+            $groupViewArray[] = new $groupView();
+        }
+        return new DataObjectSet($groupViewArray);
+    }
+
+    /**
      * checkes, whether more than $count group views are existant.
      *
      * @param int $count count
      *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.02.2011
      */
     public function hasMoreGroupViewsThan($count) {
         return count(SilvercartGroupViewHandler::getGroupViews()) > $count;
+    }
+
+    /**
+     * checkes, whether more than $count group views are existant.
+     *
+     * @param int $count count
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.02.2011
+     */
+    public function hasMoreGroupHolderViewsThan($count) {
+        return count(SilvercartGroupViewHandler::getGroupHolderViews()) > $count;
     }
 
     /**
@@ -80,6 +106,23 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     public function switchGroupView() {
         if (array_key_exists('ID', $this->owner->urlParams)) {
             SilvercartGroupViewHandler::setGroupView($this->owner->urlParams['ID']);
+        }
+        Director::redirect('/' . $this->owner->URLSegment);
+    }
+
+    /**
+     * switches the group view to the via URL parameter 'ID' given type (if
+     * existant)
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.02.2011
+     * @see self::$productGroupHolderViews
+     */
+    public function switchGroupHolderView() {
+        if (array_key_exists('ID', $this->owner->urlParams)) {
+            SilvercartGroupViewHandler::setGroupHolderView($this->owner->urlParams['ID']);
         }
         Director::redirect('/' . $this->owner->URLSegment);
     }
@@ -148,7 +191,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupHolderTemplateName() {
-        return 'SilvercartProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        return 'SilvercartProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupHolderViewAsUpperCamelCase();
     }
 
     /**

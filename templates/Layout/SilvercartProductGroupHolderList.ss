@@ -1,4 +1,5 @@
-<% control Elements %>
+<% if Elements %>
+    <% control Elements %>
 <div class="product-group-holder-entry clearfix $EvenOdd">
     <div class="product-group-holder-entry_content">
         <h3><a href="$Link">$Title</a></h3>
@@ -28,4 +29,5 @@
         </div>
     </div>
 </div>
-<% end_control %>
+    <% end_control %>
+<% end_if %>

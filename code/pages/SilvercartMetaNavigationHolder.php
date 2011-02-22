@@ -42,5 +42,22 @@ class SilvercartMetaNavigationHolder extends Page {
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
-    
+
+    /**
+     * Uses the children of SilvercartMetaNavigationHolder to render a subnavigation
+     * with the SilvercartSubNavigation.ss template.
+     *
+     * @return string
+     */
+    public function getSubNavigation() {
+        $elements = array(
+            'SubElements' => $this->PageByIdentifierCode('SilvercartMetaNavigationHolder')->Children(),
+        );
+        $output = $this->customise($elements)->renderWith(
+            array(
+                'SilvercartSubNavigation',
+            )
+        );
+        return $output;
+    }
 }

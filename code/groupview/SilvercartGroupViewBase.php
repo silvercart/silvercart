@@ -33,6 +33,7 @@ class SilvercartGroupViewBase extends DataObject {
     protected $Label;
 
     protected $active = null;
+    protected $activeHolder = null;
     protected $defaultPreferences = array(
         'code' => '',
         'image' => '',
@@ -173,12 +174,47 @@ class SilvercartGroupViewBase extends DataObject {
      * returns, wether the group view is active or not
      *
      * @return bool
-     * 
+     */
+    public function getActiveHolder() {
+        if (is_null($this->activeHolder)) {
+            $this->setActiveHolder($this->Code == SilvercartGroupViewHandler::getActiveGroupHolderView());
+        }
+        return $this->activeHolder;
+    }
+
+    /**
+     * sets, wether the group view is active or not
+     *
+     * @param bool $activeHolder activity of the group view
+     *
+     * @return void
+     */
+    public function setActiveHolder($activeHolder) {
+        $this->activeHolder = $activeHolder;
+    }
+
+    /**
+     * returns, wether the group view is active or not
+     *
+     * @return bool
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
     public function isActive() {
         return $this->getActive();
+    }
+
+    /**
+     * returns, wether the group view is active or not
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
+     */
+    public function isActiveHolder() {
+        return $this->getActiveHolder();
     }
 
 }

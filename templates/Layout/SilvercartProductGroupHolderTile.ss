@@ -1,10 +1,11 @@
-<% control Elements %>
-    <% if MultipleOf(2) %>
+<% if Elements %>
+    <% control Elements %>
+        <% if MultipleOf(2) %>
             <div class="c50r product-group-holder-entry tile $EvenOdd">
-    <% else %>
+        <% else %>
         <div class="subcolumns equalize clearfix">
             <div class="c50l product-group-holder-entry tile $EvenOdd">
-    <% end_if %>
+        <% end_if %>
                 <div class="product-group-holder-entry_content">
                     <div class="subcolumns equalize">
                         <div class="c50l">
@@ -39,9 +40,10 @@
                     </div>
                 </div>
             </div>
-    <% if MultipleOf(2) %>
+        <% if MultipleOf(2) %>
         </div>
-    <% else_if Last %>
+        <% else_if Last %>
         </div>
-    <% end_if %>
-<% end_control %>
+        <% end_if %>
+    <% end_control %>
+<% end_if %>

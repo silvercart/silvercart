@@ -26,7 +26,7 @@
  * @since 18.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShippingFeesPage extends Page {
+class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
     public static $singular_name = "";
     public static $allowed_children = array(
         'none'
@@ -41,7 +41,7 @@ class SilvercartShippingFeesPage extends Page {
  * @since 18.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShippingFeesPage_Controller extends Page_Controller {
+class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
      * get all carriers; for the frontend

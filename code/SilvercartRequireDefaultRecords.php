@@ -356,7 +356,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactPage->publish("Stage", "Live");
 
             //create a terms of service page as a child of the meta navigation holder
-            $termsOfServicePage = new Page();
+            $termsOfServicePage = new SilvercartMetaNavigationPage();
             $termsOfServicePage->Title = _t('SilvercartPage.TITLE_TERMS', 'terms of service');
             $termsOfServicePage->URLSegment = _t('SilvercartPage.URL_SEGMENT_TERMS', 'terms-of-service');
             $termsOfServicePage->Status = "Published";
@@ -367,7 +367,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $termsOfServicePage->publish("Stage", "Live");
 
             //create an imprint page as a child of the meta navigation holder
-            $imprintPage = new Page();
+            $imprintPage = new SilvercartMetaNavigationPage();
             $imprintPage->Title = _t('SilvercartPage.TITLE_IMPRINT', 'imprint');
             $imprintPage->URLSegment = _t('SilvercartPage.URL_SEGMENT_IMPRINT', 'imprint');
             $imprintPage->Status = "Published";
@@ -378,7 +378,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $imprintPage->publish("Stage", "Live");
 
             //create a data privacy statement page as a child of the meta navigation holder
-            $dataPrivacyStatementPage = new SilvercartDataPrivacyStatementPage();
+            $dataPrivacyStatementPage = new SilvercartMetaNavigationPage();
             $dataPrivacyStatementPage->Title = _t('SilvercartDataPrivacyStatementPage.TITLE', 'data privacy statement');
             $dataPrivacyStatementPage->URLSegment = _t('SilvercartDataPrivacyStatementPage.URL_SEGMENT', 'data-privacy-statement');
             $dataPrivacyStatementPage->Status = "Published";

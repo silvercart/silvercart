@@ -26,7 +26,7 @@
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartContactFormPage extends Page {
+class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
 
     public static $singular_name = "contact form page";
     public static $allowed_children = array(
@@ -43,7 +43,7 @@ class SilvercartContactFormPage extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartContactFormPage_Controller extends Page_Controller {
+class SilvercartContactFormPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
      * initialisation of the form object

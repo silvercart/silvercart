@@ -3,21 +3,21 @@
         <% include SilvercartBreadCrumbs %>
         <h2>$Title</h2>
         $Content
-        $Form
-        $PageComments
+        <% if Children %>
         <div class="product-group-holder-toolbar clearfix">
-        <% if hasMoreGroupViewsThan(1) %>
+        <% if hasMoreGroupHolderViewsThan(1) %>
             <ul>
-            <% control GroupViews %>
-                <% if isActive %>
+            <% control GroupHolderViews %>
+                <% if isActiveHolder %>
                 <li class="active"><img src="$Image" alt="$Label" title="$Label" /></li>
                 <% else %>
-                <li><a href="{$Top.Link}switchGroupView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
+                <li><a href="{$Top.Link}switchGroupHolderView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
                 <% end_if %>
             <% end_control %>
             </ul>
         <% end_if %>
         </div>
+        <% end_if %>
         $RenderProductGroupHolderGroupView
     </div>
 </div>

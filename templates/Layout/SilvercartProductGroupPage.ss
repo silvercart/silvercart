@@ -10,9 +10,24 @@
         </div>
         
         $Content
-        $Form
-        $PageComments
 
+        <% if Children %>
+        <div class="product-group-holder-toolbar clearfix">
+        <% if hasMoreGroupHolderViewsThan(1) %>
+            <ul>
+            <% control GroupHolderViews %>
+                <% if isActiveHolder %>
+                <li class="active"><img src="$Image" alt="$Label" title="$Label" /></li>
+                <% else %>
+                <li><a href="{$Top.Link}switchGroupHolderView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
+                <% end_if %>
+            <% end_control %>
+            </ul>
+        <% end_if %>
+        </div>
+        <% end_if %>
+        $RenderProductGroupHolderGroupView
+        <% if SilvercartProducts %>
         <div class="product-group-holder-toolbar clearfix">
         <% if hasMoreGroupViewsThan(1) %>
             <ul>
@@ -26,7 +41,7 @@
             </ul>
         <% end_if %>
         </div>
-        $RenderProductGroupHolderGroupView
+        <% end_if %>
         $RenderProductGroupPageGroupView
         <% include SilvercartProductPagination %>
     </div>

@@ -36,6 +36,13 @@ class SilvercartGroupViewHandler {
     protected static $groupViews = array();
 
     /**
+     * a list of possible group view types
+     *
+     * @var array
+     */
+    protected static $groupHolderViews = array();
+
+    /**
      * a list of removed group view types. It is implemented to provide the
      * configuration example in _config.php of silvercart.
      *
@@ -44,11 +51,26 @@ class SilvercartGroupViewHandler {
     protected static $removedGroupViews = array();
 
     /**
+     * a list of removed group view types. It is implemented to provide the
+     * configuration example in _config.php of silvercart.
+     *
+     * @var array
+     */
+    protected static $removedGroupHolderViews = array();
+
+    /**
      * the code of the group view which is choosen by default
      *
      * @var string
      */
     protected static $defaultGroupView = null;
+
+    /**
+     * the code of the group view which is choosen by default
+     *
+     * @var string
+     */
+    protected static $defaultGroupHolderView = null;
 
     /**
      * adds a new group view type to the handler.
@@ -67,6 +89,26 @@ class SilvercartGroupViewHandler {
         if (class_exists($groupView)) {
             $gv = new $groupView();
             self::$groupViews[$gv->getCode()] = $groupView;
+        }
+    }
+
+    /**
+     * adds a new group view type to the handler.
+     *
+     * @param string $groupHolderView the class name of the group view to add
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
+     */
+    public static function addGroupHolderView($groupHolderView) {
+        if (in_array($groupHolderView, self::$removedGroupHolderViews)) {
+            return;
+        }
+        if (class_exists($groupHolderView)) {
+            $gv = new $groupHolderView();
+            self::$groupHolderViews[$gv->getCode()] = $groupHolderView;
         }
     }
 
@@ -95,6 +137,30 @@ class SilvercartGroupViewHandler {
     }
 
     /**
+     * removes a group view from the handler
+     *
+     * @param string $groupHolderView the class name of the group view to remove
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
+     */
+    public static function removeGroupHolderView($groupHolderView) {
+        if (in_array($groupHolderView, self::$removedGroupHolderViews)) {
+            return;
+        }
+        self::$removedGroupHolderViews[] = $groupHolderView;
+        if (in_array($groupHolderView, self::$groupHolderViews)) {
+            foreach (self::$groupHolderViews as $index => $value) {
+                if ($groupHolderView == $value) {
+                    unset (self::$groupHolderViews[$index]);
+                }
+            }
+        }
+    }
+
+    /**
      * set the group view to use by default
      *
      * @param string $defaultGroupView the class name of the group view to use by default
@@ -114,12 +180,40 @@ class SilvercartGroupViewHandler {
     }
 
     /**
+     * set the group view to use by default
+     *
+     * @param string $defaultGroupHolderView the class name of the group view to use by default
+     *
+     * @return void
+     */
+    public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
+        if (is_null($defaultGroupHolderView)
+         || !in_array($defaultGroupHolderView, self::$groupHolderViews)) {
+            foreach (self::$groupHolderViews as $code => $groupHolderView) {
+                self::$defaultGroupHolderView = $code;
+                return;
+            }
+        }
+        $tmp = array_flip(self::$groupHolderViews);
+        self::$defaultGroupHolderView = $tmp[$defaultGroupHolderView];
+    }
+
+    /**
      * returns the class name of the default group view
      *
      * @return string
      */
     public static function getDefaultGroupView() {
         return self::$defaultGroupView;
+    }
+
+    /**
+     * returns the class name of the default group view
+     *
+     * @return string
+     */
+    public static function getDefaultGroupHolderView() {
+        return self::$defaultGroupHolderView;
     }
 
     /**
@@ -141,12 +235,39 @@ class SilvercartGroupViewHandler {
     }
 
     /**
+     * sets the group view to the given type
+     *
+     * @param string $groupHolderView the code of the group view to set
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.02.2011
+     * @see self::$groupHolderViews
+     */
+    public static function setGroupHolderView($groupHolderView) {
+        if (array_key_exists($groupHolderView, self::$groupHolderViews)) {
+            Session::set('SilvercartGroupHolderView', $groupHolderView);
+            Session::save();
+        }
+    }
+
+    /**
      * returns all group views
      *
      * @return string
      */
     public static function getGroupViews() {
         return self::$groupViews;
+    }
+
+    /**
+     * returns all group views
+     *
+     * @return string
+     */
+    public static function getGroupHolderViews() {
+        return self::$groupHolderViews;
     }
 
     /**
@@ -159,6 +280,20 @@ class SilvercartGroupViewHandler {
     public static function getGroupView($code) {
         if (array_key_exists($code, self::$groupViews)) {
             return self::$groupViews[$code];
+        }
+        return false;
+    }
+
+    /**
+     * returns the class name of a group view by its code
+     *
+     * @param string $code the code of the group view
+     *
+     * @return string
+     */
+    public static function getGroupHolderView($code) {
+        if (array_key_exists($code, self::$groupHolderViews)) {
+            return self::$groupHolderViews[$code];
         }
         return false;
     }
@@ -179,11 +314,35 @@ class SilvercartGroupViewHandler {
     }
 
     /**
+     * return the actual group view
+     *
+     * @return string
+     */
+    public static function getActiveGroupHolderView() {
+        if (is_null(Session::get('SilvercartGroupHolderView'))) {
+            if (is_null(self::getDefaultGroupHolderView())) {
+                self::setDefaultGroupHolderView();
+            }
+            self::setGroupHolderView(self::getDefaultGroupHolderView());
+        }
+        return Session::get('SilvercartGroupHolderView');
+    }
+
+    /**
      * returns the actual group view type as UpperCamelCase
      *
      * @return string
      */
     public static function getActiveGroupViewAsUpperCamelCase() {
         return strtoupper(substr(self::getActiveGroupView(), 0, 1)) . strtolower(substr(self::getActiveGroupView(), 1));
+    }
+
+    /**
+     * returns the actual group view type as UpperCamelCase
+     *
+     * @return string
+     */
+    public static function getActiveGroupHolderViewAsUpperCamelCase() {
+        return strtoupper(substr(self::getActiveGroupHolderView(), 0, 1)) . strtolower(substr(self::getActiveGroupHolderView(), 1));
     }
 }

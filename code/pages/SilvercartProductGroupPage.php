@@ -198,6 +198,38 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * Uses the children of SilvercartMyAccountHolder to render a subnavigation
+     * with the SilvercartSubNavigation.ss template.
+     *
+     * @return string
+     */
+    public function getSubNavigation() {
+        $elements = array(
+            'SubElements' => $this->getTopProductGroup($this)->Children(),
+        );
+        $output = $this->customise($elements)->renderWith(
+            array(
+                'SilvercartSubNavigation',
+            )
+        );
+        return $output;
+    }
+
+    /**
+     * returns the top product group (first product group under SilvercartProductGroupHolder)
+     *
+     * @param SilvercartProductGroupPage $productGroup product group
+     *
+     * @return SilvercartProductGroupPage
+     */
+    public function getTopProductGroup($productGroup) {
+        if ($productGroup->Parent()->ClassName == 'SilvercartProductGroupHolder') {
+            return $productGroup;
+        }
+        return $this->getTopProductGroup($productGroup->Parent());
+    }
+
+    /**
      * builds the ProductPages link according to its custom URL rewriting rule
      *
      * @param string $action is ignored

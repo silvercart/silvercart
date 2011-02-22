@@ -1,4 +1,5 @@
-<% control Elements %>
+<% if Elements %>
+    <% control Elements %>
 <div class="product-group-page clearfix $EvenOdd">
     <div class="product-group-page_content">
         <h3><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h3>
@@ -24,4 +25,5 @@
         </div>
     </div>
 </div>
-<% end_control %>
+    <% end_control %>
+<% end_if %>

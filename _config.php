@@ -61,10 +61,13 @@ if (class_exists('Page_Controller')) {
 // ----------------------------------------------------------------------------
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
+SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewList');
+SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 // ----------------------------------------------------------------------------
 // set default group view if not existant
 // ----------------------------------------------------------------------------
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
+SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 
 DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
