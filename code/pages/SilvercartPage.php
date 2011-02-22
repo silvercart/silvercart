@@ -80,6 +80,9 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function init() {
         Requirements::themedCSS('layout');
+        Requirements::insertHeadTags('<!--[if lte IE 7]>');
+        Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
+        Requirements::insertHeadTags('<![endif]-->');
         Requirements::themedCSS('SilvercartProductGroupHolder');
         Requirements::themedCSS('SilvercartProductGroupPage');
         Requirements::themedCSS('SilvercartProductPage');
