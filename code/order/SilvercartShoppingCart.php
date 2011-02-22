@@ -137,12 +137,9 @@ class SilvercartShoppingCart extends DataObject {
                     Member::currentUser()
                 )
             );
+
             $this->callMethodOnRegisteredModules(
-                'ShoppingCartInit',
-                array(
-                    $this,
-                    Member::currentUser()
-                )
+                'ShoppingCartInit'
             );
         }
     }
@@ -711,7 +708,7 @@ class SilvercartShoppingCart extends DataObject {
             'NonTaxableShoppingCartPositions',
             'TaxableShoppingCartPositions',
             'ShoppingCartActions',
-            'ShoppingCartTotal'
+            'ShoppingCartTotal',
         );
 
         foreach ($registeredModules as $registeredModule) {

@@ -1,4 +1,5 @@
 <?php
+
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
@@ -8,6 +9,7 @@ SilvercartProduct::setRequiredAttributes("Price");
 // disable default pages for SiteTree
 // ----------------------------------------------------------------------------
 SiteTree::set_create_default_pages(false);
+
 
 // ----------------------------------------------------------------------------
 // Set default language
@@ -19,14 +21,14 @@ i18n::set_default_locale('de_DE');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-Object::add_extension('SiteTree',   'Translatable');
+Object::add_extension('SiteTree', 'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
-Object::add_extension('Member',     'SilvercartCustomerRole');
+Object::add_extension('Member', 'SilvercartCustomerRole');
 
 // ----------------------------------------------------------------------------
 // Define path constants
 // ----------------------------------------------------------------------------
-$path    = dirname(__FILE__).'/';
+$path = dirname(__FILE__) . '/';
 $relPath = substr(Director::makeRelative($path), 1);
 
 define('PIXELTRICKS_CHECKOUT_BASE_PATH', $path);
@@ -35,7 +37,7 @@ define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
 // ----------------------------------------------------------------------------
 // Register at required modules
 // ----------------------------------------------------------------------------
-CustomHtmlForm::registerModule('silvercart',49);
+CustomHtmlForm::registerModule('silvercart', 49);
 
 // ----------------------------------------------------------------------------
 // Check if the page.php descends from the SilvercartPage

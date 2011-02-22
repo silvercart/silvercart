@@ -175,6 +175,18 @@
                     </tbody>
 
                 </table>
+
+                <div class="shoppingCartActions">
+                    <% if registeredModules %>
+                        <% control registeredModules %>
+                            <% if ShoppingCartActions %>
+                                <% control ShoppingCartActions %>
+                                    $moduleOutput
+                                <% end_control %>
+                            <% end_if %>
+                        <% end_control %>
+                    <% end_if %>
+                </div>
             </fieldset>
         <% end_control %>
     <% end_control %>
