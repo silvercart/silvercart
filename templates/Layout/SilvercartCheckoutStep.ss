@@ -15,8 +15,8 @@
 <div id="col3">
     <div id="col3_content" class="clearfix">
 
-        <div class="sidebarBox">
-            <div class="sidebarBox_content">
+        <div class="widget">
+            <div class="widget_content">
                 <strong><% _t('SilvercartPage.STEPS','steps') %></strong>
 
                 <ul>

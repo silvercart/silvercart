@@ -1,10 +1,12 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
-        <h1>$Title</h1>
+
+        <h2>$Title</h2>
+
         $Content
+        $SearchResults
         $Form
-        $InsertCustomHtmlForm(SilvercartEditProfileForm)
         $PageComments
     </div>
 </div>

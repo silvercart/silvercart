@@ -393,16 +393,9 @@ class SilvercartOrder extends DataObject {
             /*
              * a member might not have an invoice address Surname/FirstName
              */
-            if ($member->SilvercartInvoiceAddress()->Surname) {
-                $orderInvoiceAddress->Surname = $member->SilvercartInvoiceAddress()->Surname;
-            } else {
-                $orderInvoiceAddress->Surname = $member->Surname;
-            }
-            if ($member->SilvercartInvoiceAddress()->FirstName) {
-                $orderInvoiceAddress->FirstName = $member->SilvercartInvoiceAddress()->FirstName;
-            } else {
-                $orderInvoiceAddress->FirstName = $member->FirstName;
-            }
+            $orderInvoiceAddress->Salutation = $member->SilvercartInvoiceAddress()->Salutation;
+            $orderInvoiceAddress->Surname = $member->SilvercartInvoiceAddress()->Surname;
+            $orderInvoiceAddress->FirstName = $member->SilvercartInvoiceAddress()->FirstName;
             $orderInvoiceAddress->Street = $member->SilvercartInvoiceAddress()->Street;
             $orderInvoiceAddress->StreetNumber = $member->SilvercartInvoiceAddress()->StreetNumber;
             $orderInvoiceAddress->Postcode = $member->SilvercartInvoiceAddress()->Postcode;
@@ -414,7 +407,7 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         } else { //for anonymous customers
             $orderInvoiceAddress->castedUpdate($registrationData);
-            $orderInvoiceAddress->SilvercartCountryID = $registrationData['Invoice_Country'];
+            $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
             $orderInvoiceAddress->write();
             $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         }
@@ -439,16 +432,9 @@ class SilvercartOrder extends DataObject {
             /*
              * get Surname and FirstName from the address, if not available from the member
              */
-            if ($member->SilvercartShippingAddress()->Surname) {
-                $orderShippingAddress->Surname = $member->SilvercartShippingAddress()->Surname;
-            } else {
-                $orderShippingAddress->Surname = $member->Surname;
-            }
-            if ($member->SilvercartShippingAddress()->FirstName) {
-                $orderShippingAddress->FirstName = $member->SilvercartShippingAddress()->FirstName;
-            } else {
-                $orderShippingAddress->FirstName = $member->FirstName;
-            }
+            $orderShippingAddress->Salutation = $member->SilvercartShippingAddress()->Salutation;
+            $orderShippingAddress->Surname = $member->SilvercartShippingAddress()->Surname;
+            $orderShippingAddress->FirstName = $member->SilvercartShippingAddress()->FirstName;
             $orderShippingAddress->Street = $member->SilvercartShippingAddress()->Street;
             $orderShippingAddress->StreetNumber = $member->SilvercartShippingAddress()->StreetNumber;
             $orderShippingAddress->Postcode = $member->SilvercartShippingAddress()->Postcode;
@@ -460,8 +446,7 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
         } else { //for anonymous customers
             $orderShippingAddress->castedUpdate($registrationData);
-            #var_dump(serialize($registrationData)); exit();
-            $orderShippingAddress->SilvercartCountryID = $registrationData['Shipping_Country'];
+            $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
             $orderShippingAddress->write(); //write here to have an object ID
             $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
         }
@@ -1178,29 +1163,26 @@ class SilvercartOrder extends DataObject {
      * @return void
      */
     public function sendConfirmationMail() {
-        $member = Member::currentUser();
-        if ($member) {
-            SilvercartShopEmail::send(
-                'MailOrderConfirmation',
-                $this->CustomersEmail,
-                array(
-                    'FirstName'     => $member->FirstName,
-                    'Surname'       => $member->Surname,
-                    'Salutation'    => $member->Salutation,
-                    'SilvercartOrder'         => $this
-                )
-            );
-            SilvercartShopEmail::send(
-                'MailOrderNotification',
-                Email::getAdminEmail(),
-                array(
-                    'FirstName'     => $member->FirstName,
-                    'Surname'       => $member->Surname,
-                    'Salutation'    => $member->Salutation,
-                    'SilvercartOrder'         => $this
-                )
-            );
-        }
+        SilvercartShopEmail::send(
+            'MailOrderConfirmation',
+            $this->CustomersEmail,
+            array(
+                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                'SilvercartOrder'   => $this
+            )
+        );
+        SilvercartShopEmail::send(
+            'MailOrderNotification',
+            Email::getAdminEmail(),
+            array(
+                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                'SilvercartOrder'   => $this
+            )
+        );
     }
 
     /**

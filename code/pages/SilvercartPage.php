@@ -293,4 +293,29 @@ class SilvercartPage_Controller extends ContentController {
             return false;
         }
     }
+
+    /**
+     * Uses the children of SilvercartProductGroupHolder to render a subnavigation
+     * with the SilvercartSubNavigation.ss template. This is the default sub-
+     * navigation.
+     *
+     * @return string
+     */
+    public function getSubNavigation() {
+        $items = array();
+        foreach ($this->PageByIdentifierCode('SilvercartProductGroupHolder')->Children() as $child) {
+            if ($child->hasProductsOrChildren()) {
+                $items[] = $child;
+            }
+        }
+        $elements = array(
+            'SubElements' => new DataObjectSet($items),
+        );
+        $output = $this->customise($elements)->renderWith(
+            array(
+                'SilvercartSubNavigation',
+            )
+        );
+        return $output;
+    }
 }

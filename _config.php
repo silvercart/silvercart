@@ -5,14 +5,6 @@
 SilvercartProduct::setRequiredAttributes("Price");
 
 // ----------------------------------------------------------------------------
-// Rewrite Rules Definitions
-// ----------------------------------------------------------------------------
-Director::addRules(100, array(
-    'my-account/address-overview/$URLSegment!/$ID'   => 'SilvercartAddressPage_Controller',
-    'my-account/my-orders/$URLSegment!/$ID'          => 'SilvercartOrderDetailPage_Controller'
-));
-
-// ----------------------------------------------------------------------------
 // disable default pages for SiteTree
 // ----------------------------------------------------------------------------
 SiteTree::set_create_default_pages(false);

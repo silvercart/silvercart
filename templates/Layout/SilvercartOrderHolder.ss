@@ -9,30 +9,38 @@
         $Form
         $PageComments
         <% if CurrentMembersOrders %>
-        <table>
+        <table class="full">
             <tr>
                 <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
                 <th><% _t('SilvercartPage.ORDERD_PRODUCTS','ordered products') %></th>
                 <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
                 <th><% _t('SilvercartPage.REMARKS') %></th>
+                <th>&nbsp;</th>
             </tr>
+            <% control CurrentMembersOrders %>
             <tr>
-                <% control CurrentMembersOrders %>
                 <td>
-                    <a href="{$PageByIdentifierCode(SilvercartOrderDetailPage).Link}$ID">$Created.Nice</a>
+                    <a href="{$Top.OrderDetailLink}$ID">$Created.Nice</a>
                 </td>
                 <td>
+                    <a href="{$Top.OrderDetailLink}$ID">
                     <% control SilvercartOrderPositions %>
-								$Title <% if Last %><% else %> | <% end_if %>
+                        $Title <% if Last %><% else %> | <% end_if %>
                     <% end_control %>
+                    </a>
                 </td>
                 <td>
+                    <a href="{$Top.OrderDetailLink}$ID">
                     <% control status %>
-								$Title
+                        $Title
                     <% end_control %>
+                    </a>
                 </td>
                 <td>
-							$FormattedNote
+                    $FormattedNote
+                </td>
+                <td>
+                    <a href="{$Top.OrderDetailLink}$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                 </td>
             </tr>
             <% end_control %>
@@ -44,7 +52,7 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include SilvercartSecondLevelNavigation %>
+        $SubNavigation
         <% include SilvercartSideBarCart %>
     </div>
     <div id="ie_clearing"> &#160; </div>

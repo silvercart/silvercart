@@ -342,6 +342,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         //connect the ShippingAddress and the InvoiceAddress to the customer
         $customer->SilvercartShippingAddressID = $shippingAddress->ID;
         $customer->SilvercartInvoiceAddressID  = $invoiceAddress->ID;
+        $customer->SilvercartAddress()->add($shippingAddress);
+        $customer->SilvercartAddress()->add($invoiceAddress);
         $customer->write();
 
         $this->sendOptInMail($formData);

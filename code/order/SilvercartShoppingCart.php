@@ -118,6 +118,9 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
+        if (stripos($_REQUEST['url'], '/dev/build') === 0) {
+            return;
+        }
 
         // Initialize shopping cart position object, so that it can inject
         // its forms into the controller.

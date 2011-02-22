@@ -154,6 +154,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
         if ($shippingCountry) {
             $shippingAddress['country'] = $shippingCountry;
+            $shippingAddress['SilvercartCountry'] = $shippingCountry;
         }
 
         $invoiceCountry = DataObject::get_by_id(
@@ -163,6 +164,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
         if ($invoiceCountry) {
             $invoiceAddress['country'] = $invoiceCountry;
+            $invoiceAddress['SilvercartCountry'] = $invoiceCountry;
         }
 
         $addressData = new ArrayData(

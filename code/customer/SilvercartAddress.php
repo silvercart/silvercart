@@ -32,6 +32,7 @@ class SilvercartAddress extends DataObject {
     public static $singular_name = 'address';
     public static $plural_name = 'addresses';
     public static $db = array(
+        'Salutation' => 'Enum("Herr,Frau","Herr")',
         'FirstName' => 'VarChar(50)',
         'Surname' => 'VarChar(50)',
         'Addition' => 'VarChar(255)',

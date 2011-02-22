@@ -26,10 +26,11 @@
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class SilvercartDataPage extends Page {
+class SilvercartDataPage extends SilvercartMyAccountHolder {
 
     public static $singular_name = "";
     public static $can_be_root = false;
+    public static $allowed_children = array();
 }
 
 /**
@@ -40,7 +41,7 @@ class SilvercartDataPage extends Page {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartDataPage_Controller extends Page_Controller {
+class SilvercartDataPage_Controller extends SilvercartMyAccountHolder_Controller {
 
     /**
      * Initialisiert das Formularobjekt.

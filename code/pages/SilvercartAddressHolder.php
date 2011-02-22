@@ -26,7 +26,7 @@
  * @since 16.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartAddressHolder extends Page {
+class SilvercartAddressHolder extends SilvercartMyAccountHolder {
 
     public static $singular_name = "";
     public static $can_be_root = false;
@@ -44,6 +44,18 @@ class SilvercartAddressHolder extends Page {
         return $fields;
     }
 
+    /**
+     * configure the class name of the DataObjects to be shown on this page
+     * this is needed to show correct breadcrumbs
+     *
+     * @return string class name of the DataObject to be shown on this page
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 3.11.2010
+     */
+    public function getSection() {
+        return 'SilvercartAddress';
+    }
+
 }
 
 /**
@@ -54,7 +66,7 @@ class SilvercartAddressHolder extends Page {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartAddressHolder_Controller extends Page_Controller {
+class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Controller {
 
     /**
      * execute these statements on object call

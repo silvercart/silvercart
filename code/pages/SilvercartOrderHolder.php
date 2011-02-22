@@ -26,7 +26,7 @@
  * @since 20.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartOrderHolder extends Page {
+class SilvercartOrderHolder extends SilvercartMyAccountHolder {
 
     public static $singular_name = "";
     public static $can_be_root = false;
@@ -44,7 +44,7 @@ class SilvercartOrderHolder extends Page {
  * @since 19.10.2010
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartOrderHolder_Controller extends Page_Controller {
+class SilvercartOrderHolder_Controller extends SilvercartMyAccountHolder_Controller {
 
     /**
      * template function: returns customers orders
@@ -60,5 +60,17 @@ class SilvercartOrderHolder_Controller extends Page_Controller {
             $orders = DataObject::get('SilvercartOrder', $filter);
             return $orders;
         }
+    }
+
+    /**
+     * returns the link to the order detail page (without orderID)
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.02.2011
+     */
+    public function OrderDetailLink() {
+        return $this->PageByIdentifierCode('SilvercartOrderDetailPage')->Link();
     }
 }

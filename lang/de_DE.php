@@ -916,3 +916,140 @@ $lang['de_DE']['SilvercartZone']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+
+/**
+ * put translations for test content here
+ */
+$lang['de_DE']['TestGroup1']['TITLE'] = 'Testgruppe 1';
+$lang['de_DE']['TestGroup1']['URL_SEGMENT'] = 'testgruppe1';
+$lang['de_DE']['TestGroup1']['CONTENT'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>';
+
+$lang['de_DE']['TestGroup2']['TITLE'] = 'Testgruppe 2';
+$lang['de_DE']['TestGroup2']['URL_SEGMENT'] = 'testgruppe2';
+$lang['de_DE']['TestGroup2']['CONTENT'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>';
+
+$lang['de_DE']['TestGroup3']['TITLE'] = 'Testgruppe 3';
+$lang['de_DE']['TestGroup3']['URL_SEGMENT'] = 'testgruppe3';
+$lang['de_DE']['TestGroup3']['CONTENT'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>';
+
+$lang['de_DE']['TestGroup4']['TITLE'] = 'Testgruppe 4';
+$lang['de_DE']['TestGroup4']['URL_SEGMENT'] = 'testgruppe4';
+$lang['de_DE']['TestGroup4']['CONTENT'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>';
+
+$lang['de_DE']['TestManufacturer1']['TITLE'] = 'SilverCart';
+$lang['de_DE']['TestManufacturer1']['URL'] = 'http://www.silvercart.org/';
+
+$lang['de_DE']['TestManufacturer2']['TITLE'] = 'pixeltricks';
+$lang['de_DE']['TestManufacturer2']['URL'] = 'http://www.silvercart.org/';
+
+$lang['de_DE']['TestProduct1']['TITLE'] = 'Test Artikel 1';
+$lang['de_DE']['TestProduct1']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct1']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct1']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct1']['METATITLE'] = 'Test Artikel 1';
+$lang['de_DE']['TestProduct1']['METAKEYWORDS'] = 'Test Artikel 1';
+
+$lang['de_DE']['TestProduct2']['TITLE'] = 'Test Artikel 2';
+$lang['de_DE']['TestProduct2']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct2']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct2']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct2']['METATITLE'] = 'Test Artikel 2';
+$lang['de_DE']['TestProduct2']['METAKEYWORDS'] = 'Test Artikel 2';
+
+$lang['de_DE']['TestProduct3']['TITLE'] = 'Test Artikel 3';
+$lang['de_DE']['TestProduct3']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct3']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct3']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct3']['METATITLE'] = 'Test Artikel 3';
+$lang['de_DE']['TestProduct3']['METAKEYWORDS'] = 'Test Artikel 3';
+
+$lang['de_DE']['TestProduct4']['TITLE'] = 'Test Artikel 4';
+$lang['de_DE']['TestProduct4']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct4']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct4']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct4']['METATITLE'] = 'Test Artikel 4';
+$lang['de_DE']['TestProduct4']['METAKEYWORDS'] = 'Test Artikel 4';
+
+$lang['de_DE']['TestProduct5']['TITLE'] = 'Test Artikel 5';
+$lang['de_DE']['TestProduct5']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct5']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct5']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct5']['METATITLE'] = 'Test Artikel 5';
+$lang['de_DE']['TestProduct5']['METAKEYWORDS'] = 'Test Artikel 5';
+
+$lang['de_DE']['TestProduct6']['TITLE'] = 'Test Artikel 6';
+$lang['de_DE']['TestProduct6']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct6']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct6']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct6']['METATITLE'] = 'Test Artikel 6';
+$lang['de_DE']['TestProduct6']['METAKEYWORDS'] = 'Test Artikel 6';
+
+$lang['de_DE']['TestProduct7']['TITLE'] = 'Test Artikel 7';
+$lang['de_DE']['TestProduct7']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct7']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct7']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct7']['METATITLE'] = 'Test Artikel 7';
+$lang['de_DE']['TestProduct7']['METAKEYWORDS'] = 'Test Artikel 7';
+
+$lang['de_DE']['TestProduct8']['TITLE'] = 'Test Artikel 8';
+$lang['de_DE']['TestProduct8']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct8']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct8']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct8']['METATITLE'] = 'Test Artikel 8';
+$lang['de_DE']['TestProduct8']['METAKEYWORDS'] = 'Test Artikel 8';
+
+$lang['de_DE']['TestProduct9']['TITLE'] = 'Test Artikel 9';
+$lang['de_DE']['TestProduct9']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct9']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct9']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct9']['METATITLE'] = 'Test Artikel 9';
+$lang['de_DE']['TestProduct9']['METAKEYWORDS'] = 'Test Artikel 9';
+
+$lang['de_DE']['TestProduct10']['TITLE'] = 'Test Artikel 10';
+$lang['de_DE']['TestProduct10']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct10']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct10']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct10']['METATITLE'] = 'Test Artikel 10';
+$lang['de_DE']['TestProduct10']['METAKEYWORDS'] = 'Test Artikel 10';
+
+$lang['de_DE']['TestProduct11']['TITLE'] = 'Test Artikel 11';
+$lang['de_DE']['TestProduct11']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct11']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct11']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct11']['METATITLE'] = 'Test Artikel 11';
+$lang['de_DE']['TestProduct11']['METAKEYWORDS'] = 'Test Artikel 11';
+
+$lang['de_DE']['TestProduct12']['TITLE'] = 'Test Artikel 12';
+$lang['de_DE']['TestProduct12']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct12']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct12']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct12']['METATITLE'] = 'Test Artikel 12';
+$lang['de_DE']['TestProduct12']['METAKEYWORDS'] = 'Test Artikel 12';
+
+$lang['de_DE']['TestProduct13']['TITLE'] = 'Test Artikel 13';
+$lang['de_DE']['TestProduct13']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct13']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct13']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct13']['METATITLE'] = 'Test Artikel 13';
+$lang['de_DE']['TestProduct13']['METAKEYWORDS'] = 'Test Artikel 13';
+
+$lang['de_DE']['TestProduct14']['TITLE'] = 'Test Artikel 14';
+$lang['de_DE']['TestProduct14']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct14']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct14']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct14']['METATITLE'] = 'Test Artikel 14';
+$lang['de_DE']['TestProduct14']['METAKEYWORDS'] = 'Test Artikel 14';
+
+$lang['de_DE']['TestProduct15']['TITLE'] = 'Test Artikel 15';
+$lang['de_DE']['TestProduct15']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct15']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct15']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct15']['METATITLE'] = 'Test Artikel 15';
+$lang['de_DE']['TestProduct15']['METAKEYWORDS'] = 'Test Artikel 15';
+
+$lang['de_DE']['TestProduct16']['TITLE'] = 'Test Artikel 16';
+$lang['de_DE']['TestProduct16']['SHORTDESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct16']['LONGDESCRIPTION'] = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p><p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.</p>';
+$lang['de_DE']['TestProduct16']['METADESCRIPTION'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.';
+$lang['de_DE']['TestProduct16']['METATITLE'] = 'Test Artikel 16';
+$lang['de_DE']['TestProduct16']['METAKEYWORDS'] = 'Test Artikel 16';

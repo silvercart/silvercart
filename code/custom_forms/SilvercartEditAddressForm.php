@@ -114,7 +114,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE', 'save');
 
         $member = Member::currentUser();
-        $id = Controller::curr()->urlParams['ID'];
+        $id = $this->controller->getAddressID();
         
         if ($member && $id) {
             $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
@@ -156,7 +156,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
      */
     protected function submitSuccess($data, $form, $registrationData) {
         $member = Member::currentUser();
-        $id = Session::get('addressID');
+        $id = $registrationData['addressID'];
         if ($member && $id) {
             $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $address = DataObject::get_one('SilvercartAddress', $filter);

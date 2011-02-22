@@ -15,10 +15,6 @@
             tbody td { border-bottom:1px solid #eee; }
             tbody tr.new.block td {  }
 
-            tbody tr:hover th[scope="row"],
-            tbody tr:hover tbody th.sub {  }
-            tbody tr:hover td { border-top:1px #999 solid; }
-
             tfoot td {border-top: 1px #666 solid; }
 
             .right { text-align: right; }
