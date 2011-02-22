@@ -5,6 +5,11 @@
         <title>$ShopEmailSubject</title>
     </head>
     <body>
+        <style type="text/css">
+            body { font-family: Verdana; font-size:70.00%; color:#666; }
+
+            .right { text-align: right; }
+        </style>
 $ShopEmailMessage
     </body>
 </html>

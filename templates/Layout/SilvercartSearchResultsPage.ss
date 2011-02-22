@@ -6,9 +6,9 @@
 				<p>Suchergebnisse f&uuml;r den Begriff <b>&rdquo;$SearchQuery&rdquo;</b>:
             <% end_if %>
 
-            <% if getSilvercartProducts %>
+            <% if getProducts %>
                 <% include SilvercartProductPagination %>
-                <% control getSilvercartProducts %>
+                <% control getProducts %>
                     <% include SilvercartProductPreview %>
                 <% end_control %>
             <% else %>

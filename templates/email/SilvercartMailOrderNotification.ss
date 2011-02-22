@@ -1,6 +1,4 @@
         <style type="text/css">
-            body { font-family: Verdana; font-size:70.00%; color:#666; }
-
             table { width:auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
             table caption { font-variant:small-caps; }
             table.full { width:100%; }
@@ -16,8 +14,6 @@
             tbody tr.new.block td {  }
 
             tfoot td {border-top: 1px #666 solid; }
-
-            .right { text-align: right; }
         </style>
         <h1>Bestellbest&auml;tigung</h1>
 

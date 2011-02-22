@@ -8,6 +8,6 @@
             <% end_control %>
         </div>
     <% end_if %>
-    <label for="{$FormName}_{$FieldName}"><% _t('SilvercartPage.I_HAVE_READ','I have read the') %> <a href="$PageByIdentifierCode(SilvercartDataPrivacyStatementPage).Link"><% _t('SilvercartPage.REVOCATION','revocation instructions') %>:</a></label>
     $FieldTag
+    <label for="{$FormName}_{$FieldName}"><% _t('SilvercartPage.I_HAVE_READ','I have read the') %> <a href="$PageByIdentifierCode(SilvercartDataPrivacyStatementPage).Link"><% _t('SilvercartPage.REVOCATION','revocation instructions') %></a></label>
 </div>

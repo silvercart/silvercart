@@ -23,7 +23,7 @@
                 </div>
                 <div class="product-group-page-details">
                     <p><strong class="price">$Price.Nice</strong><br/>
-                        <% sprintf(_t('SilvercartPage.TAX', 'incl. %s%% VAT'),$tax.Rate) %><br />
+                        <% sprintf(_t('SilvercartPage.TAX', 'incl. %s%% VAT'),$SilvercartTax.Rate) %><br />
                         <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                     </p>
