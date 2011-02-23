@@ -99,6 +99,6 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @since 13.11.10
      */
     public function getSearchQuery() {
-        return Session::get('searchQuery');
+        return stripslashes(Session::get('searchQuery'));
     }
 }

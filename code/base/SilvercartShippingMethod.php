@@ -194,14 +194,14 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title' => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
             'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
             'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
             'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
         );
         self::$field_labels = array(
-            'Title' => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
             'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
             'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods'),

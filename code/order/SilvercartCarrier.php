@@ -157,12 +157,12 @@ class SilvercartCarrier extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
             'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
             'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
         );
         self::$field_labels = array(
-            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
             'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
             'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
             'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),

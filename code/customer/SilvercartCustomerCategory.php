@@ -55,7 +55,7 @@ class SilvercartCustomerCategory extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         self::$summary_fields = array(
-        "Title" => _t('SilvercartProductCategoryPage.COLUMN_TITLE')
+        "Title" => _t('SilvercartProduct.COLUMN_TITLE')
     );
         parent::__construct($record, $isSingleton);
     }
