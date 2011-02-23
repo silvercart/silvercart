@@ -58,7 +58,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
     public function init() {
 
 
-        // Get Products for this category
+        // Get Products for this group
         if (!isset($_GET['start']) ||
                 !is_numeric($_GET['start']) ||
                 (int) $_GET['start'] < 1) {

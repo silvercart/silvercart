@@ -178,8 +178,7 @@ class SilvercartProduct extends DataObject {
      */
     public static $belongs_many_many = array(
         'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
-        'SilvercartOrders'                => 'SilvercartOrder',
-        'SilvercartCategories'            => 'SilvercartProductCategoryPage'
+        'SilvercartOrders'                => 'SilvercartOrder'
     );
 
     // -----------------------------------------------------------------------
@@ -205,7 +204,7 @@ class SilvercartProduct extends DataObject {
             'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
         );
         self::$field_labels = array(
-            'Title'                     => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
             'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
             'ShortDescription'          => _t('SilvercartProduct.SHORTDESCRIPTION'),
             'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),

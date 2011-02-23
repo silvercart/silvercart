@@ -65,6 +65,7 @@ $lang['en_US']['SilvercartAnonymousCustomer']['SINGULARNAME'] = array(
 );
 $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'add to cart';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
+$lang['en_US']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['en_US']['SilvercartProduct']['DESCRIPTION'] = 'product description';
 $lang['en_US']['SilvercartProduct']['EAN'] = 'EAN';
 $lang['en_US']['SilvercartProduct']['FREE_OF_CHARGE'] = 'free of charge';

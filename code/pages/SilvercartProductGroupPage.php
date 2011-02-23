@@ -74,7 +74,7 @@ class SilvercartProductGroupPage extends Page {
                         'SilvercartProducts',
                         'SilvercartProduct',
                         array(
-                            'Title' => _t('SilvercartProductCategoryPage.COLUMN_TITLE'),
+                            'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
                             'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
                             'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
                         ),
@@ -89,7 +89,7 @@ class SilvercartProductGroupPage extends Page {
                         'SilvercartAttributes',
                         'SilvercartAttribute',
                         array(
-                            'Title' => _t('SilvercartProductCategoryPage.COLUMN_TITLE')
+                            'Title' => _t('SilvercartProduct.COLUMN_TITLE')
                         )
         );
         $tabPARAM2 = "Root.Content." . _t('SilvercartProductGroupPage.ATTRIBUTES', 'attributes');
@@ -165,7 +165,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested
-            // Get Products for this category
+            // Get Products for this group
             if (!isset($_GET['start']) ||
                 !is_numeric($_GET['start']) ||
                 (int)$_GET['start'] < 1) {
