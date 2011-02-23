@@ -1,5 +1,10 @@
 <?php
 
+// requirenments for PHP 5.3
+if (strpos(phpversion(), '5.3') === 0) {
+    date_default_timezone_set('Europe/Berlin');
+}
+
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
@@ -71,6 +76,7 @@ SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList')
 
 DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
 Object::add_extension('Member', 'SilvercartCustomerRole');
 
 if (Director::isDev()) {

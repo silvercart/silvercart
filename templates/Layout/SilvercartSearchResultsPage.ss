@@ -3,22 +3,20 @@
         <div class="typography">
             <h1>Suchergebnisse</h1>
             <% if SearchQuery %>
-				<p>Suchergebnisse f&uuml;r den Begriff <b>&rdquo;$SearchQuery&rdquo;</b>:
+                <p>Suchergebnisse f&uuml;r den Begriff <b>&rdquo;$SearchQuery&rdquo;</b> ($Products.Count <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):
             <% end_if %>
 
             <% if getProducts %>
                 <% include SilvercartProductPagination %>
-                <% control getProducts %>
-                    <% include SilvercartProductPreview %>
-                <% end_control %>
+                $RenderProductGroupPageGroupView
+                <% include SilvercartProductPagination %>
             <% else %>
                 <p>
-					<% _t('SilvercartPage.THE_QUERY', 'The query') %>
-					<b>$SearchQuery</b>
-					<% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
-				</p>
+                    <% _t('SilvercartPage.THE_QUERY', 'The query') %>
+                    <b>$SearchQuery</b>
+                    <% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
+                </p>
             <% end_if %>
-            <% include SilvercartProductPagination %>
         </div>
     </div>
 </div>

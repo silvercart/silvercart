@@ -425,8 +425,7 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     public function Link() {
-        $Link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
-        return $Link;
+        return $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
     }
 
     /**
