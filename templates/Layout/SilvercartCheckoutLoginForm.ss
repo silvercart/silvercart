@@ -60,6 +60,4 @@
        <div class="type-button">$Field</div>
         <% end_control %>
     </div>
-
-    $dataFieldByName(SecurityID)
 </form>

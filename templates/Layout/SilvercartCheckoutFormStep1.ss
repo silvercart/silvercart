@@ -148,6 +148,4 @@
             <% end_control %>
         </div>
     </div>
-
-    $dataFieldByName(SecurityID)
 </form>

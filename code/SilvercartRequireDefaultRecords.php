@@ -204,18 +204,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $rootPage->write();
             $rootPage->publish("Stage", "Live");
 
-            //create a silvercart product category holder as a child of silvercart root
-            $productCategoryHolder = new SilvercartProductCategoryHolder();
-            $productCategoryHolder->Title = _t('SilvercartProductCategoryHolder.TITLE', 'category overview');
-            $productCategoryHolder->URLSegment = _t('SilvercartProductCategoryHolder.URL_SEGMENT', 'categoryoverview');
-            $productCategoryHolder->Status = "Published";
-            $productCategoryHolder->ShowInMenus = true;
-            $productCategoryHolder->ShowInSearch = true;
-            $productCategoryHolder->IdentifierCode = "SilvercartProductCategoryHolder";
-            $productCategoryHolder->ParentID = $rootPage->ID;
-            $productCategoryHolder->write();
-            $productCategoryHolder->publish("Stage", "Live");
-
             //create a silvercart product group holder as a child af the silvercart root
             $productGroupHolder = new SilvercartProductGroupHolder();
             $productGroupHolder->Title = _t('SilvercartProductGroupHolder.PAGE_TITLE', 'product groups');

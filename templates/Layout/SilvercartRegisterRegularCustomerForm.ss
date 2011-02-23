@@ -126,6 +126,4 @@
         </div>
     </div>
 
-    $dataFieldByName(SecurityID)
-
 </form>

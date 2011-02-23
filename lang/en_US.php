@@ -95,31 +95,6 @@ $lang['en_US']['SilvercartProduct']['SINGULARNAME'] = array(
 $lang['en_US']['SilvercartProduct']['TITLE'] = 'product';
 $lang['en_US']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'weight';
-$lang['en_US']['SilvercartProductCategoryHolder']['PLURALNAME'] = array(
-    'Product Category Holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductCategoryHolder']['SINGULARNAME'] = array(
-    'Product Category Holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartProductCategoryHolder']['TITLE'] = 'category overview';
-$lang['en_US']['SilvercartProductCategoryHolder']['URL_SEGMENT'] = 'categoryoverview';
-$lang['en_US']['SilvercartProductCategoryPage']['PRODUCTS'] = 'products';
-$lang['en_US']['SilvercartProductCategoryPage']['CATEGORY_PICTURE'] = 'category picture';
-$lang['en_US']['SilvercartProductCategoryPage']['COLUMN_TITLE'] = 'title';
-$lang['en_US']['SilvercartProductCategoryPage']['PLURALNAME'] = array(
-    'Product Category Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductCategoryPage']['SINGULARNAME'] = array(
-    'Product Category Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
 $lang['en_US']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroups';
 $lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = array(
     'Product Group Holders',
