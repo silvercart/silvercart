@@ -79,7 +79,12 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $B2C_optinGroup->write();
         }
 
-
+        // create a SilvercartConfig if not exist
+        if (!DataObject::get_one('SilvercartConfig')) {
+            $silvercartConfig = new SilvercartConfig();
+            $silvercartConfig->DefaultCurrency = 'EUR';
+            $silvercartConfig->write();
+        }
 
         //create a carrier and an associated zone and shipping method
         $carrier = DataObject::get_one('SilvercartCarrier');
@@ -184,7 +189,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
          * and now the whole site tree
          */
 
-        $rootPage = DataObject::get_one('Page', "Title = 'Silvercart'");
+        $rootPage = DataObject::get_one('SilvercartPage');
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage = new SilvercartFrontPage();
@@ -543,7 +548,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
     }
 
     /**
-     * disables the creation of test data on /dev/build
+     * disables the creation of test data on /dev/build. This is set by default,
+     * so you do not have to disable creation of test data if it was not enabled
+     * before.
      *
      * @return void
      *
@@ -551,7 +558,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 21.02.2011
      */
     public static function disableTestData() {
-        self::$enableTestData= false;
+        self::$enableTestData = false;
     }
 
     /**

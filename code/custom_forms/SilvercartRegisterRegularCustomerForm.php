@@ -187,6 +187,35 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
     );
 
     /**
+     * preferences
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 26.1.2011
+     */
+    protected $preferences = array(
+        'submitButtonTitle' => 'Abschicken',
+    );
+
+    /**
+     * init
+     *
+     * @param Controller $controller  the controller object
+     * @param array      $params      additional parameters
+     * @param array      $preferences array with preferences
+     * @param bool       $barebone    is the form initialized completely?
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.01.2011
+     */
+    public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SUBMIT', 'Send');
+        parent::__construct($controller, $params, $preferences, $barebone);
+    }
+
+    /**
      * Set initial values in form fields
      *
      * @return void
@@ -196,6 +225,16 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
+        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'Email address');
+        $this->formFields['Street']['title'] = _t('SilvercartAddress.STREET', 'street');
+        $this->formFields['StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
+        $this->formFields['Postcode']['title'] = _t('SilvercartAddress.POSTCODE', 'postcode');
+        $this->formFields['City']['title'] = _t('SilvercartAddress.CITY', 'city');
+        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE', 'phone');
+        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
+        $this->formFields['Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
         $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY');
         $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH');
         $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR');
@@ -230,7 +269,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', '-bitte wählen-');
+        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
     }
 
     /**
@@ -349,8 +388,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->sendOptInMail($formData);
 
         // Redirect to welcome page
-        $param = "registrieren/willkommen";
-        Director::redirect($param);
+        Director::redirect($this->controller->PageByIdentifierCode('RegistrationWelcomePage')->Link());
     }
 
     /**

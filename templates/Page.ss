@@ -89,14 +89,14 @@
         </div>
         <p/>
         <div id="CompanyInformations">
-            <% control Page(SilvercartMetanavigation) %>
-				<% control Children %>
-					<% if Last %>
-						<a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
-					<% else %>
-						<a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
-					<% end_if %>
-				<% end_control %>
+            <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
+                <% control Children %>
+                    <% if Last %>
+                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
+                    <% else %>
+                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
+                    <% end_if %>
+                <% end_control %>
             <% end_control %>
         </div>
         <p/>

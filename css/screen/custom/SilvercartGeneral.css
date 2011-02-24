@@ -1,0 +1,70 @@
+
+form.yform .type-cart label,
+form.yform .type-cart input {
+    float: left;
+    margin: 0 5px;
+    font-family:  Arial, Helvetica, sans-serif;
+    padding: 0.3em 0.3em;
+}
+form.yform .type-cart input.text {
+    border: 1px solid #ddd;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    width: 20px;
+}
+form.yform .type-cart.error {
+    border:0px;
+    background:transparent;
+}
+form.yform .type-cart.error input.text {
+    border:1px #a66 solid;
+    background:#faf4f4;
+}
+form.yform .type-cart input[type=submit],
+form.yform .type-cart input.submit,
+a.checkout-button,
+a.silvercart-button,
+a.silvercart-cancel-button {
+    border-color:#DDDDDD #444444 #444444 #DDDDDD;
+    border-style:solid;
+    border-width:1px;
+    color: #330;
+    background:url(../images/button_gray.png) repeat-x scroll left top #454545;
+}
+a.checkout-button,
+a.silvercart-button,
+a.silvercart-cancel-button  {
+    padding: 4px 35px 4px 35px;
+    line-height: 25px;
+    font-weight: normal;
+}
+a.silvercart-cancel-button  {
+    background:url(../images/button_red.png) repeat-x scroll left top #AA5555;
+}
+form.yform .type-cart input[type=submit]:hover,
+form.yform .type-cart input.submit:hover,
+a.checkout-button:hover,
+a.silvercart-button:hover,
+a.silvercart-cancel-button:hover {
+    background:none repeat scroll 0 0 #555555;
+    border-color:#444444 #DDDDDD #DDDDDD #444444;
+    border-style:solid;
+    border-width:1px;
+    color:#FFFFFF;
+    text-decoration: none;
+}
+a.silvercart-cancel-button:hover {
+    background:none repeat scroll 0 0 #AA5555;
+}
+
+.price {
+    color: #000;
+    font-size: 1.8em;
+    vertical-align: middle;
+    text-align: right;
+    padding: 30px 1px 20px 20px;
+    color: #666666;
+    font-weight: normal;
+}

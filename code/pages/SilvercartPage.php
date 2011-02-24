@@ -79,20 +79,29 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
-        Requirements::themedCSS('layout');
-        Requirements::insertHeadTags('<!--[if lte IE 7]>');
-        Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
-        Requirements::insertHeadTags('<![endif]-->');
+        if (SilvercartConfig::DefaultLayoutEnabled()) {
+            // Require the default layout and its patches only if it is enabled
+            Requirements::themedCSS('layout');
+            Requirements::insertHeadTags('<!--[if lte IE 7]>');
+            Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
+            Requirements::insertHeadTags('<![endif]-->');
+        }
+        Requirements::themedCSS('SilvercartGeneral');
         Requirements::themedCSS('SilvercartProductGroupHolder');
         Requirements::themedCSS('SilvercartProductGroupPage');
         Requirements::themedCSS('SilvercartProductPage');
+        Requirements::themedCSS('SilvercartProductPagination');
         Requirements::themedCSS('SilvercartSideBarCart');
+        Requirements::themedCSS('SilvercartShoppingCartFull');
         Requirements::javascript("pixeltricks_module/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
 
         $this->registerCustomHtmlForm('SilvercartQuickSearch', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLogin', new SilvercartQuickLoginForm($this));
+
+        // check the SilverCart configuration
+        SilvercartConfig::Check();
 
         parent::init();
     }
@@ -295,6 +304,24 @@ class SilvercartPage_Controller extends ContentController {
         } else {
             return false;
         }
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.02.2011
+     */
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
+        $page = self::PageByIdentifierCode($identifierCode);
+        if ($page === false) {
+            return '';
+        }
+        return $page->Link();
     }
 
     /**

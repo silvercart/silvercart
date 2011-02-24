@@ -493,7 +493,7 @@ class SilvercartOrder extends DataObject {
 
         // price sum of all positions
         $this->AmountTotal->setAmount($member->SilvercartShoppingCart()->getAmountTotal()->getAmount());
-        $this->AmountTotal->setCurrency('EUR');
+        $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // amount of all positions + handling fee of the payment method + shipping fee
         $totalAmount = 
@@ -679,7 +679,7 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartPaymentMethodID = $paymentMethodObj->ID;
             $this->PaymentMethodTitle = $paymentMethodObj->Name;
             $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->getAmount());
-            $this->HandlingCostPayment->setCurrency('EUR');
+            $this->HandlingCostPayment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
     }
 
@@ -813,8 +813,8 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartShippingMethodID    = $selectedShippingMethod->ID;
             $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
             $this->SilvercartShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
-            $this->HandlingCostShipment->setCurrency('EUR');
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->Price->getAmount());
+            $this->HandlingCostShipment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
     }
 
@@ -836,6 +836,7 @@ class SilvercartOrder extends DataObject {
 
         $taxObj = new Money('Tax');
         $taxObj->setAmount($tax);
+        $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $taxObj;
     }
@@ -853,6 +854,7 @@ class SilvercartOrder extends DataObject {
         $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
         $amountNetObj = new Money();
         $amountNetObj->setAmount($amountNet);
+        $amountNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountNetObj;
     }
@@ -896,6 +898,7 @@ class SilvercartOrder extends DataObject {
         $priceNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
+        $priceNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $priceNetObj;
     }
@@ -926,6 +929,7 @@ class SilvercartOrder extends DataObject {
     public function getTaxableAmountGross() {
         $priceGross = new Money();
         $priceGross->setAmount(0);
+        $priceGross->setCurrency(SilvercartConfig::DefaultCurrency());
 
         foreach ($this->SilvercartOrderPositions() as $position) {
             if ($position->TaxRate > 0) {
@@ -951,6 +955,7 @@ class SilvercartOrder extends DataObject {
     public function getTaxableAmountGrossWithFees() {
         $priceGross = new Money();
         $priceGross->setAmount(0);
+        $priceGross->setCurrency(SilvercartConfig::DefaultCurrency());
 
         foreach ($this->SilvercartOrderPositions() as $position) {
             if ($position->TaxRate > 0) {
@@ -1007,6 +1012,7 @@ class SilvercartOrder extends DataObject {
         foreach ($taxes as $tax) {
             $taxObj = new Money;
             $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
             $tax->Amount = $taxObj;
         }
@@ -1064,6 +1070,7 @@ class SilvercartOrder extends DataObject {
         foreach ($taxes as $tax) {
             $taxObj = new Money;
             $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
             $tax->Amount = $taxObj;
         }
@@ -1118,6 +1125,7 @@ class SilvercartOrder extends DataObject {
         }
         $handlingCostsObj = new Money('paymentHandlingCosts');
         $handlingCostsObj->setAmount($handlingCosts);
+        $handlingCostsObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCostsObj;
     }
@@ -1197,7 +1205,7 @@ class SilvercartOrder extends DataObject {
         if ($this->AmountGrossTotal->hasAmount() === false) {
             $price = $this->AmountTotal->getAmount() + $this->HandlingCostShipment->getAmount();
             $this->AmountGrossTotal->setAmount($price);
-            $this->AmountGrossTotal->setCurrency('EUR');
+            $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
             $this->write();
         }
     }

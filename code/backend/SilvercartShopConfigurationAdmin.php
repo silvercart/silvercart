@@ -46,7 +46,8 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartCarrier',
         'SilvercartTax',
         'SilvercartOrderStatus',
-        'SilvercartShopEmail'
+        'SilvercartShopEmail',
+        'SilvercartConfig',
     );
     /**
      * The URL segment

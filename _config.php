@@ -79,7 +79,8 @@ DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGr
 DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
 Object::add_extension('Member', 'SilvercartCustomerRole');
 
-if (Director::isDev()) {
-    SilvercartRequireDefaultRecords::enableTestData();
-}
+/*
+ * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
+ * THIS SHOULD BE PROJECT SPECIFIC.
+ */
 

@@ -481,6 +481,7 @@ class SilvercartPaymentMethod extends DataObject {
     public function getHandlingCost() {
         $handlingCosts = new Money;
         $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCosts;
     }
@@ -701,8 +702,8 @@ class SilvercartPaymentMethod extends DataObject {
 
             if (!$checkObj) {
                 $this->setField('isActive', 0);
-                $this->setField('Name', $this->moduleName);
-                $this->setField('Title', $this->moduleName);
+                $this->setField('Name', _t($this->ClassName . '.NAME', $this->moduleName));
+                $this->setField('Title', _t($this->ClassName . '.TITLE', $this->moduleName));
                 $this->write();
             }
         }

@@ -244,59 +244,14 @@
   ------------------------------------------------ */
     #header .c50r  {text-align: right;}
 
-    /* ARTIKELHOLDER + WARENGRUPPEN -> ARTIKEL PREVIEW LIST STYLES
-   ------------------------------------------------ */
-    #products li { padding:  20px 0 20px 0 }
-
     /* CARTFORM PREVIEW FORM STYLES
     -------------------------------------------------*/
-    .price {
-        color: #000;
-        font-size: 1.8em;
-        vertical-align: middle;
-        text-align: right;
-        padding: 30px 1px 20px 20px;
-        color: #666666;
-        font-weight: normal;
-    }
-    .price small { font-size:60%; color: #666}
-    .artikelpreview .headline {border-bottom:1px #ccc solid;}
-    .artikelpreview .subcolumns .c33l .subcl {padding: 5px;}
-    .artikelpreview .subcolumns .c50r {vertical-align: middle; text-align: center;}
-
-    .pagination_content {padding:0 10px 10px 10px; font-size: 80%; font-weight: bold; text-align: right;}
-    .pagination_content strong {font-size: 150%; color: #429bb9; }
-
-    .addcartform { padding: 0; vertical-align: bottom;}
-    .addcartform .yform {background: transparent; padding: 0; margin: 0;  border: none; }
-    .addcartform .type-text .text {width: 30px; }
-    .addcartform .action  {min-width: 110px; border: 1px #888 solid; padding: 4px 20px 4px 20px; line-height: 25px;}
-
-    .addcartform .detailButton  { background:url("images/button_gray.png") repeat-x scroll left top #454545;
-                                       border-color:#DDDDDD #444444 #444444 #DDDDDD;
-                                       border-style:solid;
-                                       border-width:1px;
-                                       color:#000000;
-                                       padding: 4px 39px 4px 39px;
-                                       line-height: 25px;
-    }
-
-     .addcartform .detailButton:hover , .addcartform .detailButton:active, .yform .type-button input[type="submit"]:hover.action {
-                                      background:none repeat scroll 0 0 #555555;
-                                      border-color:#444444 #DDDDDD #DDDDDD #444444;
-                                      border-style:solid;
-                                      border-width:1px;
-                                      color:#FFFFFF;
-                                      text-decoration: none;
-    }
 
     .yform .type-button input[type="submit"].action {
         background:url("images/button_gray.png") repeat-x scroll left top #454545;
         margin: 0 0 0 0;
 }
 
-    #shoppingCart table {width: 100%}
-    #shoppingCart .Actions  input { display: block;}
 
    #Form_decrementAmountForm_action_doDecrementAmount {
       background:url(images/button_remove.png) no-repeat center center;
@@ -325,34 +280,6 @@
       height: 30px;
       border: none;
    }
-
-    .amount { width: 20px;}
-
-    .alignright {text-align: right; }
-
-    #shoppingCart .detailButton  { background:url("images/button_gray.png") repeat-x scroll left top #454545;
-                                       border-color:#DDDDDD #444444 #444444 #DDDDDD;
-                                       border-style:solid;
-                                       border-width:1px;
-                                       color:#000000;
-                                       padding: 4px 35px 4px 35px;
-                                       line-height: 25px;
-    }
-
- #shoppingCart .detailButton:hover , .addcartform .detailButton:active {
-                                      background:none repeat scroll 0 0 #555555;
-                                      border-color:#444444 #DDDDDD #DDDDDD #444444;
-                                      border-style:solid;
-                                      border-width:1px;
-                                      color:#FFFFFF;
-    }
-
-    .productPreviewBox {
-        margin-bottom: 4em;
-}
-.acticlePreviewPrice {
-    text-align: right;
-}
 
     /* SEARCH RESULTS STYLES
   ------------------------------------------------ */
@@ -390,10 +317,9 @@
 
     #SendAction {Border: none;}
 
-    /* BUTTON STYLES
+    /* WIDGET STYLES
        ------------------------------------------------ */
 
-    #quickCartBox { position: absolute;  z-index: 999; background: #fff; visibility: hidden;}
     .widget {width:100%; margin-bottom: 35px; color: #000;}
     .widget_content {padding: 5px;}
     .widget span {font-size: 100%}
@@ -565,33 +491,12 @@
         padding-left: 10px;
     }
 
-    .ShoppingCartPage{
-        padding: 10px;
-    }
-
-    .ShoppingCart{
-        color: #429bb9;
-    }
-
     .subcolumns label {
         text-align: left;
-}
-
-    .productPreviewProductTitle {
-        padding-bottom: 5px;
-        border-bottom: 1px solid #c9c9c9;
     }
 
     .emailIcon{
         padding-top: 0.5px;
-    }
-
-    #Shipping_Cost{
-        font-family: Verdana;
-        border: none;
-        color: #666;
-        padding-left: 6px;
-        text-align: center;
     }
 
     #ShippingInfos{
@@ -602,38 +507,5 @@
 
     #InvoiceInfos{
         padding-right: 33%;
-    }
-
-    #Sum_Price{
-        font-family: Verdana;
-        border: none;
-        font-weight: bold;
-        color: #666;
-        padding-left: 6px;
-        text-align: center;
-    }
-
-    #MWST{
-        font-family: Verdana;
-        border: none;
-        color: #666;
-        padding-left: 6px;
-        text-align: center;
-    }
-
-    .cartSummary {
-        width: 100%;
-    }
-    .cartSummary th td {
-        border-bottom: 1px #aaa solid;
-    }
-    .cartSummary .separator td {
-        border-bottom: 1px #aaa solid;
-    }
-    .cartSummary .separatorTop td {
-        border-top: 1px #aaa solid;
-    }
-    .cartSummary .right {
-        text-align: right;
     }
 }

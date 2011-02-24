@@ -66,7 +66,7 @@
 	<fieldset>
         <legend><% _t('SilvercartPage.NEWSLETTER','newsletter') %></legend>
 
-        $CustomHtmlFormFieldByName(SubscribedToNewsletter,CustomHtmlFormFieldCheck)
+        $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
     </fieldset>
 
     <div class="actionRow">

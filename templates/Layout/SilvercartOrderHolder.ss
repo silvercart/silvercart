@@ -31,9 +31,7 @@
                 </td>
                 <td>
                     <a href="{$Top.OrderDetailLink}$ID">
-                    <% control status %>
-                        $Title
-                    <% end_control %>
+                        $SilvercartOrderStatus.Title
                     </a>
                 </td>
                 <td>

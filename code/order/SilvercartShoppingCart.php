@@ -118,8 +118,10 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        if (stripos($_REQUEST['url'], '/dev/build') === 0) {
-            return;
+        if (array_key_exists('url', $_REQUEST)) {
+            if (stripos($_REQUEST['url'], '/dev/build') === 0) {
+                return;
+            }
         }
 
         // Initialize shopping cart position object, so that it can inject
@@ -263,6 +265,7 @@ class SilvercartShoppingCart extends DataObject {
 
         $amountTotalObj = new Money;
         $amountTotalObj->setAmount($amountTotal);
+        $amountTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountTotalObj;
     }
@@ -305,6 +308,7 @@ class SilvercartShoppingCart extends DataObject {
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountObj;
     }
@@ -343,6 +347,7 @@ class SilvercartShoppingCart extends DataObject {
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountObj;
     }
@@ -368,6 +373,7 @@ class SilvercartShoppingCart extends DataObject {
         } else {
             $handlingCostPaymentObj = new Money();
             $handlingCostPaymentObj->setAmount(0);
+            $handlingCostPaymentObj->setCurrency(SilvercartConfig::DefaultCurrency());
         }
 
         return $handlingCostPaymentObj;
@@ -394,6 +400,7 @@ class SilvercartShoppingCart extends DataObject {
         } else {
             $handlingCostShipmentObj = new Money();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
+            $handlingCostShipmentObj->setCurrency(SilvercartConfig::DefaultCurrency());
         }
 
         return $handlingCostShipmentObj;
@@ -459,6 +466,7 @@ class SilvercartShoppingCart extends DataObject {
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountObj;
     }
@@ -525,6 +533,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($taxes as $tax) {
             $taxObj = new Money;
             $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
             $tax->Amount = $taxObj;
         }
@@ -600,6 +609,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($taxes as $tax) {
             $taxObj = new Money;
             $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
             $tax->Amount = $taxObj;
         }

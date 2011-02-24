@@ -143,7 +143,7 @@ class SilvercartShopEmail extends DataObject {
         $emailTextTemplate = new SSViewer_FromString($mailObj->EmailText);
         $emailText = HTTP::absoluteURLs($emailTextTemplate->process($templateVariables));
         $email = new Email(
-            Email::getAdminEmail(),
+            SilvercartConfig::EmailSender(),
             $to,
             $mailObj->Subject,
             $mailObj->EmailText
@@ -158,6 +158,24 @@ class SilvercartShopEmail extends DataObject {
         );
 
         $email->send();
+        if (SilvercartConfig::GlobalEmailRecipient() != '') {
+            $email = new Email(
+                SilvercartConfig::EmailSender(),
+                SilvercartConfig::GlobalEmailRecipient(),
+                $mailObj->Subject,
+                $mailObj->EmailText
+            );
+
+            $email->setTemplate('SilvercartShopEmail');
+            $email->populateTemplate(
+                array(
+                    'ShopEmailSubject' => $mailObj->Subject,
+                    'ShopEmailMessage' => $emailText,
+                )
+            );
+
+            $email->send();
+        }
     }
 
     /**

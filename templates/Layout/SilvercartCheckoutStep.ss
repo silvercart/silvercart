@@ -4,9 +4,11 @@
         $Content
         $Process
         $insertCustomHtmlForm
-        <% if CustomHtmlFormStepLinkCancel %>
-            <a href="$CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
-        <% end_if %>
+<% if ShowCustomHtmlFormStepNavigation %>
+    <% if CustomHtmlFormStepLinkCancel %>
+        <a class="silvercart-cancel-button" href="$CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
+    <% end_if %>
+<% end_if %>
 
         $PageComments
     </div>
@@ -17,8 +19,8 @@
 
         <div class="widget">
             <div class="widget_content">
+        <% if ShowCustomHtmlFormStepNavigation %>
                 <strong><% _t('SilvercartPage.STEPS','steps') %></strong>
-
                 <ul>
             <% control StepList %>
                 <% control step %>
@@ -38,6 +40,7 @@
                 <% end_control %>
             <% end_control %>
                 </ul>
+        <% end_if %>
 
             </div>
         </div>

@@ -3,7 +3,7 @@
 <div class="pagination">
     <div class="pagination_content">
         <% if Products.PrevLink %>
-            <a href="$Products.PrevLink">&lt;&lt; Zur&uuml;ck</a> |
+            <a href="$Products.PrevLink">&lt;&lt; <% _t('SilvercartPage.PREV', 'Prev') %></a> |
         <% end_if %>
         <% control Products.Pages %>
             <% if CurrentBool %>
@@ -13,7 +13,7 @@
             <% end_if %>
         <% end_control %>
         <% if Products.NextLink %>
-        | <a href="$Products.NextLink">Vor &gt;&gt;</a>
+        | <a href="$Products.NextLink"><% _t('SilvercartPage.NEXT', 'Next') %> &gt;&gt;</a>
         <% end_if %>
     </div>
 </div>

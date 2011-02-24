@@ -10,8 +10,8 @@ $(document).ready(function() {
 });
 </script>
      
-  <a class="button" id="register" href="$PageByIdentifierCode(SilvercartRegistrationPage).Link">Registrieren</a>
-  <a class="button" id="login">Login</a>
+  <a class="button" id="register" href="$PageByIdentifierCode(SilvercartRegistrationPage).Link"><% _t('SilvercartPage.REGISTER', 'Register') %></a>
+  <a class="button" id="login"><% _t('SilvercartPage.LOGIN', 'Login') %></a>
 
 <div id="modalLogin">
     <div class="hBox">

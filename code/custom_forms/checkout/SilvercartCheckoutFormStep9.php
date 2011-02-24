@@ -30,4 +30,7 @@
  */
 class SilvercartCheckoutFormStep9 extends CustomHtmlForm {
 
+    protected $preferences = array(
+        'ShowCustomHtmlFormStepNavigation' => false,
+    );
 }

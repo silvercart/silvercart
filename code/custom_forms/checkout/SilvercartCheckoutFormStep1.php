@@ -214,6 +214,8 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
+        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep1.TITLE', 'Addresses');
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
