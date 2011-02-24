@@ -101,7 +101,15 @@ class SilvercartPage_Controller extends ContentController {
         $this->registerCustomHtmlForm('SilvercartQuickLogin', new SilvercartQuickLoginForm($this));
 
         // check the SilverCart configuration
-        SilvercartConfig::Check();
+        $checkConfiguration = true;
+        if (array_key_exists('url', $_REQUEST)) {
+            if ($_REQUEST['url'] == '/Security/login') {
+                $checkConfiguration = false;
+            }
+        }
+        if ($checkConfiguration) {
+            SilvercartConfig::Check();
+        }
 
         parent::init();
     }
