@@ -4,8 +4,14 @@
 
     <fieldset>
         <legend><% _t('SilvercartPage.ADDRESS_DATA') %></legend>
-        
-        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+        </div>
 
         <div class="subcolumns">
             <div class="c50l">
@@ -50,8 +56,19 @@
                 </div>
             </div>
         </div>
-        
-        $CustomHtmlFormFieldByName(Email)
+
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Email)
+                </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(EmailCheck)
+                </div>
+            </div>
+        </div>
 
         <div class="subcolumns">
             <div class="c50l">

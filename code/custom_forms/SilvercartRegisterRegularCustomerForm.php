@@ -108,6 +108,13 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 'callBack'      => 'doesEmailExistAlready'
             )
         ),
+        'EmailCheck' => array(
+            'type' => 'TextField',
+            'title' => 'E-Mail-Adresse Gegenprüfung',
+            'checkRequirements' => array(
+               'mustEqual' => 'Email',
+            )
+        ),
         'PhoneAreaCode' => array(
             'type' => 'TextField',
             'title' => 'Telefon Vorwahl',
@@ -156,7 +163,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'checkRequirements' => array(
                 'isFilledIn' => true,
                 'hasMinLength' => 6,
-                'mustNotEqual' => 'FirstName'
+                'mustNotEqual' => 'FirstName',
+                'mustNotEqual' => 'Surname'
             )
         ),
         'PasswordCheck' => array(
@@ -227,7 +235,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
-        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'Email address');
+        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'email address');
+        $this->formFields['EmailCheck']['title'] = _t('SilvercartAddress.EMAIL_CHECK', 'email address check');
         $this->formFields['Street']['title'] = _t('SilvercartAddress.STREET', 'street');
         $this->formFields['StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
         $this->formFields['Postcode']['title'] = _t('SilvercartAddress.POSTCODE', 'postcode');

@@ -5,6 +5,7 @@ global $lang;
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
 $lang['en_US']['SilvercartAddress']['CITY'] = 'City';
 $lang['en_US']['SilvercartAddress']['EMAIL'] = 'Email address';
+$lang['de_DE']['SilvercartAddress']['EMAIL_CHECK'] = 'Email adress check';
 $lang['en_US']['SilvercartAddress']['FIRSTNAME'] = 'Firstname';
 $lang['en_US']['SilvercartAddress']['MISSIS'] = 'Misses';
 $lang['en_US']['SilvercartAddress']['MISTER'] = 'Mister';
