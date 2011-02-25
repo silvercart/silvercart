@@ -44,6 +44,21 @@ class SilvercartProductAdmin extends ModelAdmin {
     );
 
     /**
+     * Definition of the Importers for the managed model.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.02.2011
+     */
+    public static $model_importers = array(
+        'SilvercartProduct'             => 'CsvBulkLoader',
+        'SilvercartManufacturer'        => 'CsvBulkLoader',
+        'SilvercartProductImageGallery' => 'CsvBulkLoader'
+    );
+
+    /**
      * The URL segment
      *
      * @var string
@@ -63,7 +78,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    public static $menu_title = 'Produkte';
+    public static $menu_title = 'Artikel';
 
     /**
      * constructor
