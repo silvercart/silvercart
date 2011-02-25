@@ -29,6 +29,10 @@ i18n::set_default_locale('de_DE');
 Object::add_extension('SiteTree', 'Translatable');
 Object::add_extension('SiteConfig', 'Translatable');
 Object::add_extension('Member', 'SilvercartCustomerRole');
+Object::add_extension('ModelAdmin', 'SilvercartModelAdminDecorator');
+DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
 
 // ----------------------------------------------------------------------------
 // Define path constants
@@ -73,11 +77,6 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 // ----------------------------------------------------------------------------
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
-
-DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
-Object::add_extension('Member', 'SilvercartCustomerRole');
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
