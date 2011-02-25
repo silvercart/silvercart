@@ -164,7 +164,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 'isFilledIn' => true,
                 'hasMinLength' => 6,
                 'mustNotEqual' => 'FirstName',
-                'mustNotEqual' => 'Surname'
             )
         ),
         'PasswordCheck' => array(
