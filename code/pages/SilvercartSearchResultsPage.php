@@ -66,11 +66,11 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
 
         $productIdx = 0;
         if ($this->searchResultProducts) {
+            $productAddCartForm = $this->getCartFormName();
             foreach ($this->searchResultProducts as $product) {
-                $product->setField('Thumbnail', $product->image()->SetWidth(150));
-                $this->registerCustomHtmlForm('SilvercartProductPreviewForm'.$productIdx, new SilvercartProductPreviewForm($this, array('productID' => $product->ID)));
-                $product->productPreviewForm = $this->InsertCustomHtmlForm(
-                    'SilvercartProductPreviewForm'.$productIdx,
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                $product->productAddCartForm = $this->InsertCustomHtmlForm(
+                    'ProductAddCartForm' . $productIdx,
                     array(
                         $product
                     )

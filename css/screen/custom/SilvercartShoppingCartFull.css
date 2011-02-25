@@ -1,0 +1,36 @@
+
+
+.shopping-cart-page {
+    padding: 10px;
+}
+
+.shopping-cart-page-footer-bar {
+    float: right;
+}
+
+.shopping-cart-full {
+    width: 100%;
+}
+.shopping-cart-full th td {
+    border-bottom: 1px #aaa solid;
+}
+.shopping-cart-full .separator td {
+    border-bottom: 1px #aaa solid;
+}
+.shopping-cart-full .separatorTop td {
+    border-top: 1px #aaa solid;
+}
+.shopping-cart-full .right {
+    text-align: right;
+}
+
+.shopping-cart-full form.yform {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shopping-cart-full form.yform .type-button input {
+    min-width: 38px;
+}

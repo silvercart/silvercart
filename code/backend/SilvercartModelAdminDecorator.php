@@ -19,18 +19,25 @@
  */
 
 /**
- * CheckoutShowConfirmation
+ * Decorates the default ModelAdmin to inject some custom javascript.
  *
- * shows order confirmation
- *
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 03.01.2011
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2010 pixeltricks GmbH
+ * @since 24.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep9 extends CustomHtmlForm {
+class SilvercartModelAdminDecorator extends DataObjectDecorator {
 
-    protected $preferences = array(
-        'ShowCustomHtmlFormStepNavigation' => false,
-    );
+    /**
+     * Injects some custom javascript to provide instant loading of DataObject
+     * tables.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2011
+     */
+    public function onAfterInit() {
+        Requirements::javascript('silvercart/script/SilvercartModelAdminDecorator.js');
+    }
 }

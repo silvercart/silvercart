@@ -1,29 +1,29 @@
 <table>
     <tr>
-        <td>Vorname</td><td>$FirstName</td>
+        <td><% _t('SilvercartAddress.FIRSTNAME','Firstname') %></td><td>$FirstName</td>
     </tr>
     <tr>
-        <td>Nachname</td><td>$Surname</td>
+        <td><% _t('SilvercartAddress.SURNAME','Surname') %></td><td>$Surname</td>
     </tr>
     <% if Addition %>
     <tr>
-        <td>Adresszusatz</td><td>$Addition</td>
+        <td><% _t('SilvercartAddress.ADDITION','Addition') %></td><td>$Addition</td>
     </tr>
     <% end_if %>
     <tr>
-        <td>Stra&szlig;e</td><td>$Street</td>
+        <td><% _t('SilvercartAddress.STREET','Street') %></td><td>$Street</td>
     </tr>
     <tr>
-        <td>Hausnummer</td><td>$StreetNumber</td>
+        <td><% _t('SilvercartAddress.STREETNUMBER','Streetnumber') %></td><td>$StreetNumber</td>
     </tr>
     <tr>
-        <td>PLZ</td><td>$Postcode</td>
+        <td><% _t('SilvercartAddress.POSTCODE','Postcode') %></td><td>$Postcode</td>
     </tr>
     <tr>
-        <td>Stadt</td><td>$City</td>
+        <td><% _t('SilvercartAddress.CITY','City') %></td><td>$City</td>
     </tr>
     <tr>
-        <td>Telefonnummer</td><td>
+        <td><% _t('SilvercartAddress.PHONE','Phone') %></td><td>
             <% if Phone %>
                 {$PhoneAreaCode}/{$Phone}
             <% else %>
@@ -32,6 +32,6 @@
         </td>
     </tr>
     <tr>
-        <td>Land</td><td>$SilvercartCountry.Title</td>
+        <td><% _t('SilvercartCountry.SINGULARNAME','Country') %></td><td>$SilvercartCountry.Title</td>
     </tr>
 </table>

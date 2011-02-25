@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td>Bestellstatus</td>
-                <td>$status.Title</td>
+                <td>$SilvercartOrderStatus.Title</td>
             </tr>
             <% if Note %>
             <tr>

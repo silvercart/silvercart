@@ -73,7 +73,7 @@ class SilvercartGroupViewHandler {
     protected static $defaultGroupHolderView = null;
 
     /**
-     * adds a new group view type to the handler.
+     * adds a new group view type for product lists to the handler.
      *
      * @param string $groupView the class name of the group view to add
      *
@@ -93,7 +93,7 @@ class SilvercartGroupViewHandler {
     }
 
     /**
-     * adds a new group view type to the handler.
+     * adds a new group view type for product group lists to the handler.
      *
      * @param string $groupHolderView the class name of the group view to add
      *
@@ -113,7 +113,7 @@ class SilvercartGroupViewHandler {
     }
 
     /**
-     * removes a group view from the handler
+     * removes a group view for product lists from the handler
      *
      * @param string $groupView the class name of the group view to remove
      *
@@ -137,7 +137,7 @@ class SilvercartGroupViewHandler {
     }
 
     /**
-     * removes a group view from the handler
+     * removes a group view for product group lists from the handler
      *
      * @param string $groupHolderView the class name of the group view to remove
      *
@@ -161,7 +161,7 @@ class SilvercartGroupViewHandler {
     }
 
     /**
-     * set the group view to use by default
+     * set the group view to use by default for product lists
      *
      * @param string $defaultGroupView the class name of the group view to use by default
      *
@@ -180,7 +180,7 @@ class SilvercartGroupViewHandler {
     }
 
     /**
-     * set the group view to use by default
+     * set the group view to use by default for product group lists
      *
      * @param string $defaultGroupHolderView the class name of the group view to use by default
      *

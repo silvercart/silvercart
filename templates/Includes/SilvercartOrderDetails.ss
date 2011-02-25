@@ -2,45 +2,45 @@
 <h3>Bestelldetails</h3>
     <table>
         <tr>
-            <td>Bestelldatum</td><td>$Created.Nice</td>
+            <td><% _t('SilvercartPage.ORDER_DATE','Order date') %></td><td>$Created.Nice</td>
         </tr>
         <tr>
-            <td>Versandkosten</td><td>$HandlingCostShipment.Nice</td>
+            <td><% _t('SilvercartOrder.SHIPPINGRATE','Shipping rate') %></td><td>$HandlingCostShipment.Nice</td>
         </tr>
         <tr>
-            <td>Bestellwert</td><td>$AmountTotal.Nice</td>
+            <td><% _t('SilvercartOrder.ORDER_VALUE','Orderamount') %></td><td>$AmountTotal.Nice</td>
         </tr>
         <tr>
-            <td>Bestellstatus</td><td>$SilvercartOrderStatus.Title</td>
+            <td><% _t('SilvercartOrder.STATUS','Order status') %></td><td>$SilvercartOrderStatus.Title</td>
         </tr>
         <% if Note %>
         <tr>
-            <td>Ihre Bemerkung</td><td>$Note</td>
+            <td><% _t('SilvercartOrder.YOUR_REMARK','Your remark') %></td><td>$Note</td>
         </tr>
         <% end_if %>
     </table>
 <div class="subcolumns">
     <div class="c50l">
-        <h3>Lieferadresse</h3>
+        <h3><% _t('SilvercartOrderShippingAddress.SINGULARNAME','Order shipping address') %></h3>
         <% control SilvercartShippingAddress %>
             <% include SilvercartAddressTable %>
         <% end_control %>
     </div>
     <div class="c50r">
-        <h3>Rechnungsadresse</h3>
+        <h3><% _t('SilvercartOrderInvoiceAddress.SINGULARNAME','Order invoice address') %></h3>
         <% control SilvercartInvoiceAddress %>
             <% include SilvercartAddressTable %>
         <% end_control %>
     </div>
 </div>
-<h3>Positionen</h3>
+<h3><% _t('SilvercartOrderPosition.PLURALNAME','Order positions') %></h3>
     <table>
         <tr>
-            <th>Produkttitel</th>
-            <th>Produktbeschreibung</th>
-            <th>Einzelpreis</th>
-            <th>Anzahl</th>
-            <th>Summe</th>
+            <th><% _t('SilvercartPage.PRODUCTNAME','Product name') %></th>
+            <th><% _t('SilvercartProduct.DESCRIPTION','Product description') %></th>
+            <th><% _t('SilvercartProduct.PRICE_SINGLE','Price single') %></th>
+            <th><% _t('SilvercartProduct.QUANTITY_SHORT','Qty.') %></th>
+            <th><% _t('SilvercartPage.SUM','Sum') %></th>
         </tr>
         <% control SilvercartOrderPositions %>
         <tr>

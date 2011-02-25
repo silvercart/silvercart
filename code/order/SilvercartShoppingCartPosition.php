@@ -136,6 +136,7 @@ class SilvercartShoppingCartPosition extends DataObject {
 
         $priceObj = new Money();
         $priceObj->setAmount($price);
+        $priceObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $priceObj;
     }
