@@ -189,7 +189,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
          * and now the whole site tree
          */
 
-        $rootPage = DataObject::get_one('SilvercartPage');
+        $rootPage = DataObject::get_one('SilvercartPage',"`IdentifierCode` = 'SilvercartCartPage'");
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage = new SilvercartFrontPage();
