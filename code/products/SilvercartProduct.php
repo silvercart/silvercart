@@ -74,7 +74,8 @@ class SilvercartProduct extends DataObject {
         'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
         'ProductNumberShop'         => 'VarChar(50)',
         'ProductNumberManufacturer' => 'VarChar(50)',
-        'EANCode'                   => 'VarChar(13)'
+        'EANCode'                   => 'VarChar(13)',
+        'isActive'                  => 'Boolean(1)'
     );
 
     /**
@@ -264,6 +265,12 @@ class SilvercartProduct extends DataObject {
         } else {
             $filter = $whereClause;
         }
+
+        if (!empty($filter)) {
+            $filter .= ' AND ';
+        }
+        $filter .= 'isActive = 1';
+
         $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         if ($products) {
             return $products;
@@ -335,9 +342,9 @@ class SilvercartProduct extends DataObject {
      */
     public static function getRandomProducts($amount = 4, $masterProduct = true) {
         if ($masterProduct) {
-            return DataObject::get("SilvercartProduct", "\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
+            return self::get("`SilvercartMasterProductID` = '0'", "RAND()", null, $amount);
         } else {
-            return DataObject::get("SilvercartProduct", null, "RAND()", null, $amount);
+            return self::get(null, "RAND()", null, $amount);
         }
     }
 

@@ -109,7 +109,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 01.02.2011
      */
     public function hasProductsOrChildren() {
-        if ($this->SilvercartProducts()->Count() > 0
+        if ($this->ActiveSilvercartProducts()->Count() > 0
          || count($this->Children()) > 0) {
             return true;
         }
@@ -127,12 +127,32 @@ class SilvercartProductGroupPage extends Page {
      * @since 14.02.2011
      */
     public function hasProductCount($count) {
-        if ($this->SilvercartProducts()->Count() == $count) {
+        if ($this->ActiveSilvercartProducts()->Count() == $count) {
             return true;
         }
         return false;
     }
 
+    /**
+     * Returns the active products for this page.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 25.02.2011
+     */
+    public function ActiveSilvercartProducts() {
+        $activeProducts = array();
+
+        foreach ($this->SilvercartProducts() as $product) {
+            if ($product->isActive) {
+                $activeProducts[] = $product;
+            }
+        }
+
+        return new DataObjectSet($activeProducts);
+    }
 }
 
 /**
@@ -162,6 +182,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         // there must be two way to initialize this controller:
         if ($this->isProductDetailView()) {
             // a product detail view is requested
+            if (!$this->getDetailViewProduct()->isActive) {
+                Director::redirect($this->PageByIdentifierCodeLink());
+            }
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested

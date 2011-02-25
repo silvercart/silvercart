@@ -27,7 +27,7 @@
         </div>
         <% end_if %>
         $RenderProductGroupHolderGroupView
-        <% if SilvercartProducts %>
+        <% if ActiveSilvercartProducts %>
         <div class="product-group-holder-toolbar clearfix">
         <% if hasMoreGroupViewsThan(1) %>
             <ul>
