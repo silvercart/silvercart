@@ -655,6 +655,7 @@ $lang['de_DE']['SilvercartPage']['YEAR'] = 'Jahr';
 $lang['de_DE']['SilvercartPaymentMethod']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
 $lang['de_DE']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Grundeinstellungen';
 $lang['de_DE']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'ab Warenwert';
+$lang['de_DE']['SilvercartPaymentMethod']['MODE'] = 'Modus';
 $lang['de_DE']['SilvercartPaymentMethod']['PLURALNAME'] = array(
     'Bezahlarten',
     50,

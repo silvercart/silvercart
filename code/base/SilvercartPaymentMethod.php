@@ -367,7 +367,25 @@ class SilvercartPaymentMethod extends DataObject {
         parent::__construct($record, $isSingleton);
     }
 
-        /**
+    /**
+     * i18n for summary fields
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     * @return array
+     */
+    public function  summaryFields() {
+        $fields = parent::summaryFields();
+        $fields['activatedStatus'] = _t('SilvercartShopAdmin.PAYMENT_ISACTIVE');
+        $fields['AttributedZones'] = _t('SilvercartCountry.ATTRIBUTED_ZONES');
+        $fields['AttributedCountries'] = _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES');
+        $fields['minAmountForActivation'] = _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE');
+        $fields['maxAmountForActivation'] = _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE');
+        return $fields;
+    }
+
+    /**
      * Set a custom search context for fields like "greater than", "less than",
      * etc.
      * 
@@ -537,7 +555,7 @@ class SilvercartPaymentMethod extends DataObject {
 
     /**
      * returns allowed shipping methods.
-     * - shipping methods which are related directly to the payment methed
+     * - shipping methods which are related directly to the payment method
      * - shipping methods which are NOT related to any payment method
      *
      * @return DataObjectSet
@@ -759,7 +777,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasic->setChildren(
             new FieldSet(
                 new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField('mode', 'Modus', array('Live' => 'Live', 'Dev' => 'Entwicklung'), $this->mode),
+                new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'), array('Live' => 'Live', 'Dev' => 'Dev'), $this->mode),
                 new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
                 new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
                 new DropdownField(

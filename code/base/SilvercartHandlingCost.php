@@ -38,7 +38,7 @@ class SilvercartHandlingCost extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 07.02.2011
      */
-    public static $singular_name = "Gebühr";
+    public static $singular_name = "handling cost";
 
     /**
      * Plural name
@@ -49,7 +49,7 @@ class SilvercartHandlingCost extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 07.02.2011
      */
-    public static $plural_name = "Gebühren";
+    public static $plural_name = "handling costs";
 
     /**
      * Attributes.

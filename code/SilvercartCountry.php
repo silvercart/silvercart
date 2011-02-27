@@ -165,7 +165,6 @@ class SilvercartCountry extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         self::$field_labels = array(
-            'Title' => _t('Country.SINGULARNAME'),
             'ISO2' => 'ISO2 Code',
             'ISO3' => 'ISO3 Code',
             'AttributedZones' => _t('Country.ATTRIBUTED_ZONES', 'attributed zones'),
@@ -183,6 +182,21 @@ class SilvercartCountry extends DataObject {
             )
         );
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * i18n for field labels
+     *
+     * @param <type> $includerelations a boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.02.2011
+     * @copyright 2010 pixeltricks GmbH
+     */
+    public function fieldLabels($includerelations = true) {
+        $fields = parent::fieldLabels($includerelations);
+        $fields['Title'] = _t('SilvercartCountry.SINGULARNAME');
     }
 
     /**
