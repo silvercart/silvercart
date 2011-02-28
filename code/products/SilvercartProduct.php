@@ -290,7 +290,7 @@ class SilvercartProduct extends DataObject {
         $fields = $this->getCMSFields();
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         //Get all products that have no master
-        $var = sprintf("\"SilvercartMasterProduct\" = '%s'", "0");
+        $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
         $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
         $dropdownField = new DropdownField(
             'SilvercartMasterProductID',
