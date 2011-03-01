@@ -338,7 +338,7 @@ class SilvercartProduct extends DataObject {
      * @param boolean $masterProduct Should only master products be returned?
      *
      * @return array DataObjectSet of random products
-	 * @author Roland Lehmann
+     * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
      * @since 23.10.2010
      */
@@ -467,5 +467,37 @@ class SilvercartProduct extends DataObject {
         $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
 
         return $taxRate;
+    }
+}
+
+/**
+ * Handles a managed model class and provides default collection filtering behavior.
+ *
+ * @package Silvercart
+ * @subpackage Products
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 01.03.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
+
+    /**
+     * Generate a CSV import form for a single {@link DataObject} subclass.
+     *
+     * We extend this form so that you can alter it in your own descendants.
+     *
+     * @return Form
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.03.2011
+     */
+    public function ImportForm() {
+        $form = parent::ImportForm();
+
+        $this->extend('updateImportForm', $form);
+
+        return $form;
     }
 }
