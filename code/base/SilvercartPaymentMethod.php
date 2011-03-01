@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
@@ -16,6 +16,9 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Base
  */
 
 /**
@@ -342,29 +345,29 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 2.02.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
+    public function __construct($record = null, $isSingleton = false) {
         self::$searchable_fields = array(
-        'Name',
-        'isActive' => array(
-            'title' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE')
-        ),
-        'minAmountForActivation',
-        'maxAmountForActivation',
-        'SilvercartZone.ID' => array(
-            'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
-        ),
-        'SilvercartCountries.ID' => array(
-            'title' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES', 'attributed countries')
-        )
-    );
-    self::$field_labels = array(
-        'Name'                      => 'Name',
-        'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-        'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-        'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
-        'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-        'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
-    );
+            'Name',
+            'isActive' => array(
+                'title' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE')
+            ),
+            'minAmountForActivation',
+            'maxAmountForActivation',
+            'SilvercartZone.ID' => array(
+                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
+            ),
+            'SilvercartCountries.ID' => array(
+                'title' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES', 'attributed countries')
+            )
+        );
+        self::$field_labels = array(
+            'Name'                      => 'Name',
+            'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+            'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+            'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+            'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
+        );
         parent::__construct($record, $isSingleton);
     }
 
@@ -376,7 +379,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @return array
      */
-    public function  summaryFields() {
+    public function summaryFields() {
         $fields = parent::summaryFields();
         $fields['activatedStatus'] = _t('SilvercartShopAdmin.PAYMENT_ISACTIVE');
         $fields['AttributedZones'] = _t('SilvercartCountry.ATTRIBUTED_ZONES');
