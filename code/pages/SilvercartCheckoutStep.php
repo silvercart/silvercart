@@ -21,7 +21,9 @@
 /**
  * Seite fuer den Checkoutprozess.
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Pages
+ * @subpackage Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010
@@ -34,7 +36,9 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 /**
  * Seite fuer den Checkoutprozess.
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Pages
+ * @subpackage Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010

@@ -21,6 +21,8 @@
 /**
  * Displays products with similar attributes
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 20.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -160,6 +162,8 @@ class SilvercartProductGroupPage extends Page {
  * This controller handles the actions for product group views and product detail
  * views.
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 18.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

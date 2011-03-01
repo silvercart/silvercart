@@ -21,7 +21,8 @@
 /**
  * abstract for an order
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Order
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010

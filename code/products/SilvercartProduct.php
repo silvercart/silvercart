@@ -21,6 +21,8 @@
 /**
  * abstract for a product
  *
+ * @package Silvercart
+ * @subpackage Products
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010

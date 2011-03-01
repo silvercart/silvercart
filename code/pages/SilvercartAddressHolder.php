@@ -21,6 +21,8 @@
 /**
  * Child of customer area; overview of all addresses;
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @copyright 2010 pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 16.02.2011
@@ -61,6 +63,8 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
 /**
  * Controller Class
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 16.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

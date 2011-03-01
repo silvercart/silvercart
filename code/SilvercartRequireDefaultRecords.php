@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -23,6 +22,7 @@
  * collects all default records to avoid redundant code when it comes to relations
  * you do not need to search for other default records, they are all here
  *
+ * @package Silvercart
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 16.02.2011

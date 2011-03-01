@@ -21,6 +21,8 @@
 /**
  * abstract for a manufacturer
  *
+ * @package Silvercart
+ * @subpackage Products
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
  * @copyright 2010 pixeltricks GmbH

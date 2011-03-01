@@ -22,6 +22,8 @@
  * The class SilvercartConfig is the Handler for central configurations of
  * SilverCart.
  *
+ * @package Silvercart
+ * @subpackage Config
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 23.02.2011

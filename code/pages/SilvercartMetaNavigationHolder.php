@@ -23,6 +23,8 @@
  * Its purpose is to gather the meta navigation sites in the backend for better usability.
  * Now a shop admin has a correspondence between front end site order and backend tree structure.
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
@@ -36,6 +38,8 @@ class SilvercartMetaNavigationHolder extends Page {
 /**
  * correlating controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

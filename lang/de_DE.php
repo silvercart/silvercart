@@ -667,7 +667,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'standart Bestellstatus für diese Zahlart';
+$lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard Bestellstatus für diese Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
 $lang['de_DE']['SilvercartPaymentMethodTexts']['PLURALNAME'] = array(

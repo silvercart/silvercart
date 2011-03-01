@@ -21,6 +21,8 @@
 /**
  * page type display of terms and conditions
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 15.11.10
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -38,6 +40,8 @@ class SilvercartRegisterWelcomePage extends Page {
 /**
  * controller peer
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH

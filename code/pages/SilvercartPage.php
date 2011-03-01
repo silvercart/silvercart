@@ -21,6 +21,8 @@
 /**
  * Standard Controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH
@@ -62,6 +64,8 @@ class SilvercartPage extends SiteTree {
 /**
  * Standard Controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH

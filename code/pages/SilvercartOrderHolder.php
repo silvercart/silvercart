@@ -21,6 +21,8 @@
 /**
  * shows an overview of a customers orders
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 20.10.2010
@@ -39,6 +41,8 @@ class SilvercartOrderHolder extends SilvercartMyAccountHolder {
 /**
  * Controller of this page type
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 19.10.2010

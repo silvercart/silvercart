@@ -21,7 +21,8 @@
 /**
  * Defines Taxrates.
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Products
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 24.11.2010

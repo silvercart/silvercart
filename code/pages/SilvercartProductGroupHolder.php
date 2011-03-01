@@ -21,6 +21,8 @@
 /**
  * to display a group of products
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -39,6 +41,8 @@ class SilvercartProductGroupHolder extends Page {
 /**
  * correlating controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

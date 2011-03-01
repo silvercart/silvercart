@@ -21,6 +21,8 @@
 /**
  * Displays the order details after order submission. The order will be identified via session ID
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010
@@ -37,6 +39,8 @@ class SilvercartOrderConfirmationPage extends Page {
 /**
  * corresponding controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010

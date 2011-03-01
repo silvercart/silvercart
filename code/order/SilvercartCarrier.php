@@ -21,6 +21,8 @@
 /**
  * abstract for a shipping carrier
  *
+ * @package Silvercart
+ * @subpackage Order
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 06.11.2010

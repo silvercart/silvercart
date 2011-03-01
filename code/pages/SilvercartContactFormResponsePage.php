@@ -21,6 +21,8 @@
 /**
  * page type for a contact form response
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 21.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -38,6 +40,8 @@ class SilvercartContactFormResponsePage extends Page {
 /**
  * controller peer
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH

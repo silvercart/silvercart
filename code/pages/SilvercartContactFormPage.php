@@ -21,6 +21,8 @@
 /**
  * show an process a contact form
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 19.10.2010
@@ -38,6 +40,8 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
 /**
  * Controller of this page type
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 19.10.2010

@@ -22,6 +22,8 @@
  * abstract for a products attributes
  * Products of the same group share the same attibutes
  *
+ * @package Silvercart
+ * @subpackage Products
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 23.10.2010

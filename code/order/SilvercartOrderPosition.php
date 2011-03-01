@@ -22,7 +22,8 @@
  * abstract for a single position of an order
  * they are not changeable after creation and serve as a history
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Order
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010

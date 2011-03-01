@@ -21,6 +21,8 @@
 /**
  * represents a shopping cart. Every customer has one initially.
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -35,6 +37,8 @@ class SilvercartCartPage extends Page {
 /**
  * related controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

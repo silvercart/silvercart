@@ -21,6 +21,8 @@
 /**
  * Child of AddressHolder, CRUD a single address
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 16.02.2011
@@ -47,6 +49,8 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
 /**
  * Controller of this page type
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 19.10.2010

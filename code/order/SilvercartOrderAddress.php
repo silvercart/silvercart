@@ -21,6 +21,8 @@
 /**
  * abstract for an order address
  * 
+ * @package Silvercart
+ * @subpackage Order
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

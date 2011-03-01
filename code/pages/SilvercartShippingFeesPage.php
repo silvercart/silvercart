@@ -21,6 +21,8 @@
 /**
  * show the shipping fee matrix
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010
@@ -36,6 +38,8 @@ class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
 /**
  * corresponding controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010

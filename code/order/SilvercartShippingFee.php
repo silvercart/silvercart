@@ -22,6 +22,8 @@
  * A carrier has many shipping fees.
  * They mainly depend on the freights weight.
  *
+ * @package Silvercart
+ * @subpackage Order
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 06.11.2010

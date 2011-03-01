@@ -21,6 +21,8 @@
 /**
  * feddback from payment providers
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
@@ -34,6 +36,8 @@ class SilvercartPaymentNotification extends Page {
 /**
  * Script fuer Rueckmeldungen von Zahlungsprovidern.
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
