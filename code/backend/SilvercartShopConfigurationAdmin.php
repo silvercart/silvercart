@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
@@ -16,6 +16,9 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Backend
  */
 
 /**
@@ -98,7 +101,8 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
 /**
  * Modifies the model admin search panel.
  *
- * @package silvercart
+ * @package Silvercart
+ * @subpackage Backend
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 31.01.2011

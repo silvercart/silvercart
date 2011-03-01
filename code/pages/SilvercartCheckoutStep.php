@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
@@ -16,14 +16,16 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Pages Checkout
  */
 
 /**
  * Seite fuer den Checkoutprozess.
  *
  * @package Silvercart
- * @subpackage Pages
- * @subpackage Checkout
+ * @subpackage Pages Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010
@@ -37,8 +39,7 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
  * Seite fuer den Checkoutprozess.
  *
  * @package Silvercart
- * @subpackage Pages
- * @subpackage Checkout
+ * @subpackage Pages Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010

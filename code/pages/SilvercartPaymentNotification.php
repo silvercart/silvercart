@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
@@ -16,6 +16,9 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Pages
  */
 
 /**
@@ -23,7 +26,6 @@
  *
  * @package Silvercart
  * @subpackage Pages
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 23.11.2010
@@ -38,7 +40,6 @@ class SilvercartPaymentNotification extends Page {
  *
  * @package Silvercart
  * @subpackage Pages
- * @package fashionbids
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 23.11.2010

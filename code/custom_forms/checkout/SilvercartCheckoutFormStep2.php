@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
@@ -16,14 +16,16 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Forms Checkout
  */
 
 /**
  * checkout step for payment method
  *
  * @package Silvercart
- * @subpackage Forms
- * @subpackage Checkout
+ * @subpackage Forms Checkout
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 03.01.2011
