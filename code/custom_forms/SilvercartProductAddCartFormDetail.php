@@ -23,6 +23,8 @@
  * ProductPage (only) to provide a seperate template for all different product
  * views (detail, list, tile).
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 14.02.2011

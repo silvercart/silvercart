@@ -21,6 +21,8 @@
 /**
  * translation texts
  *
+ * @package Silvercart
+ * @subpackage i18n
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright pixeltricks GmbH
  * @since 02.02.2011

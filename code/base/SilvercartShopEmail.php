@@ -21,7 +21,8 @@
 /**
  * base class for emails
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 03.12.2010

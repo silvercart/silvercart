@@ -21,6 +21,8 @@
 /**
  * All product properties that need a translation end up here.
  *
+ * @package Silvercart
+ * @subpackage i18n
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 02.02.2011

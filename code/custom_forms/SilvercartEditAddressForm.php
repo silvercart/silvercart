@@ -21,6 +21,8 @@
 /**
  * Customer form for editing an address.
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 19.10.2010

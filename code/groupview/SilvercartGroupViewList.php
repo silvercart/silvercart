@@ -21,6 +21,8 @@
 /**
  * Provides a listed group view for products and productgroups.
  *
+ * @package Silvercart
+ * @subpackage Groupview
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 14.02.2011

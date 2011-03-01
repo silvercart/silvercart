@@ -22,6 +22,8 @@
  * abstract for a customer that did not log in himself;
  * His cart is stored in the session.
  *
+ * @package Silvercart
+ * @subpackage Customer
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 23.10.2010

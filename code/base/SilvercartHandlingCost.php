@@ -21,7 +21,8 @@
 /**
  * Class for processing transaction costs etc.
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 09.11.2010

@@ -21,6 +21,8 @@
 /**
  * Each Customer gets one invoice address
  *
+ * @package Silvercart
+ * @subpackage Customer
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.10.2010

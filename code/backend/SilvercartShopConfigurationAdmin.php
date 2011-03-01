@@ -21,7 +21,8 @@
 /**
  * The Silvercart configuration backend.
  *
- * @package silvercart
+ * @package Silvercart
+ * @subpackage Backend
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 31.01.2011

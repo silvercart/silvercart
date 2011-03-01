@@ -21,6 +21,8 @@
 /**
  * A form to manipulate a customers profile
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 22.11.2010

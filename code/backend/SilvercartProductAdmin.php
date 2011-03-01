@@ -20,7 +20,9 @@
 
 /**
  * backend interface to CRUD the defined classes
- * 
+ *
+ * @package Silvercart
+ * @subpackage Backend
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 23.10.2010

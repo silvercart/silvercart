@@ -21,6 +21,8 @@
 /**
  * Decorates the default ModelAdmin to inject some custom javascript.
  *
+ * @package Silvercart
+ * @subpackage Backend
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 24.02.2011

@@ -227,15 +227,20 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      */
     public function getSubNavigation() {
-        $elements = array(
-            'SubElements' => $this->getTopProductGroup($this)->Children(),
-        );
-        $output = $this->customise($elements)->renderWith(
-            array(
-                'SilvercartSubNavigation',
-            )
-        );
-        return $output;
+        $extendetOutput = $this->extend('getSubNavigation');
+        if (empty ($extendetOutput)) {
+            $elements = array(
+                'SubElements' => $this->getTopProductGroup($this)->Children(),
+            );
+            $output = $this->customise($elements)->renderWith(
+                array(
+                    'SilvercartSubNavigation',
+                )
+            );
+            return $output;
+        } else {
+            return $extendetOutput[0];
+        }
     }
 
     /**

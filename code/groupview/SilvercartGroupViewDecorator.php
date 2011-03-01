@@ -22,6 +22,8 @@
  * Decorator for PageTypes which have grouped views. Provides a group view
  * specific functionality to its decorated owner.
  *
+ * @package Silvercart
+ * @subpackage Groupview
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 14.02.2011

@@ -20,7 +20,9 @@
 
 /**
  * abstract for a regular customer
- * 
+ *
+ * @package Silvercart
+ * @subpackage Customer
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

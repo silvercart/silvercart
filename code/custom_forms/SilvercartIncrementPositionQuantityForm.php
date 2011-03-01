@@ -22,6 +22,8 @@
  * Increment a cart positions quantity;
  * only a button
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 09.02.2011

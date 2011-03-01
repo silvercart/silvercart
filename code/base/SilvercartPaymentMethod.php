@@ -23,7 +23,8 @@
  *
  * Every payment module must extend this class
  *
- * @package fashionbids
+ * @package Silvercart
+ * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 07.11.2010

@@ -21,6 +21,8 @@
 /**
  * form definition
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 23.10.2010

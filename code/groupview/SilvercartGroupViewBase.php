@@ -21,6 +21,8 @@
 /**
  * provides the base logic for a group view type.
  *
+ * @package Silvercart
+ * @subpackage Groupview
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 14.11.2002

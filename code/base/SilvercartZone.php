@@ -22,6 +22,8 @@
  * abstract for a shipping zone; makes it easier to calculate shipping rates
  * Every carrier might have it´s own zones. That´s why zones:countries is n:m
  *
+ * @package Silvercart
+ * @subpackage Base
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 23.10.2010

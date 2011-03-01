@@ -21,6 +21,8 @@
 /**
  * Theses are the shipping methods the shop offers
  *
+ * @package Silvercart
+ * @subpackage Base
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 20.10.2010

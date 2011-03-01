@@ -21,6 +21,9 @@
 /**
  * checkout step for shipping method
  *
+ * @package Silvercart
+ * @subpackage Forms
+ * @subpackage Checkout
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 03.01.2011

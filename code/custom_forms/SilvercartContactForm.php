@@ -21,6 +21,8 @@
 /**
  * a contact form of the CustomHTMLForms modul
  *
+ * @package Silvercart
+ * @subpackage Forms
  * @copyright pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 21.10.2010
