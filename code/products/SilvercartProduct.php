@@ -310,6 +310,20 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
+     *
+     * @param array $params See {@link scaffoldFormFields()}
+     *
+     * @return FieldSet
+     */
+    public function  getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        $fields->removeByName('SilvercartProductGroupID');
+        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+        return $fields;
+    }
+
+    /**
      * define the searchable fields and search methods for the frontend
      *
      * @return SearchContext ???
