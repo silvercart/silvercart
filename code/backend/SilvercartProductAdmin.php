@@ -99,4 +99,19 @@ class SilvercartProductAdmin extends ModelAdmin {
 
         parent::__construct();
     }
+
+    /**
+     * Provides hook for decorators, so that they can overwrite css
+     * and other definitions.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.03.2011
+     */
+    public function init() {
+        parent::init();
+        $this->extend('updateInit');
+    }
 }
