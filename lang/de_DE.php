@@ -141,6 +141,7 @@ $lang['de_DE']['SilvercartProductGroupHolder']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['de_DE']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Untergruppen von ';
 $lang['de_DE']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'warengruppen';
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
@@ -344,7 +345,7 @@ $lang['de_DE']['SilvercartDataPage']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SilvercartDataPage']['TITLE'] = 'meine Daten';
+$lang['de_DE']['SilvercartDataPage']['TITLE'] = 'Meine Daten';
 $lang['de_DE']['SilvercartDataPage']['URL_SEGMENT'] = 'meine-daten';
 $lang['de_DE']['SilvercartDataPrivacyStatementPage']['PLURALNAME'] = array(
     'Datenschutzseiten',
@@ -442,7 +443,7 @@ $lang['de_DE']['SilvercartMyAccountHolder']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SilvercartMyAccountHolder']['TITLE'] = 'mein Konto';
+$lang['de_DE']['SilvercartMyAccountHolder']['TITLE'] = 'Mein Konto';
 $lang['de_DE']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'mein-konto';
 $lang['de_DE']['SilvercartOrder']['CONFIRMED'] = 'bestätigt?';
 $lang['de_DE']['SilvercartOrder']['CUSTOMER'] = 'Kunde';
@@ -504,7 +505,7 @@ $lang['de_DE']['SilvercartOrderHolder']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
-$lang['de_DE']['SilvercartOrderHolder']['TITLE'] = 'meine Bestellungen';
+$lang['de_DE']['SilvercartOrderHolder']['TITLE'] = 'Meine Bestellungen';
 $lang['de_DE']['SilvercartOrderHolder']['URL_SEGMENT'] = 'meine-bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = array(
     'Rechnungsadressen der Bestellungen',
@@ -618,7 +619,7 @@ $lang['de_DE']['SilvercartPage']['MARCH'] = 'März';
 $lang['de_DE']['SilvercartPage']['MAY'] = 'Mai';
 $lang['de_DE']['SilvercartPage']['MESSAGE'] = 'Nachricht';
 $lang['de_DE']['SilvercartPage']['MONTH'] = 'Monat';
-$lang['de_DE']['SilvercartPage']['MYACCOUNT'] = 'mein Konto';
+$lang['de_DE']['SilvercartPage']['MYACCOUNT'] = 'Mein Konto';
 $lang['de_DE']['SilvercartPage']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartPage']['NEWSLETTER'] = 'Newsletter';
 $lang['de_DE']['SilvercartPage']['NEXT'] = 'Vor';

@@ -132,6 +132,7 @@ $lang['en_US']['SilvercartProductGroupHolder']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroups of ';
 $lang['en_US']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroups';
 $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
