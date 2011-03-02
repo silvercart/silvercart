@@ -110,8 +110,9 @@ class SilvercartProduct extends DataObject {
         'Title',
         'ShortDescription',
         'LongDescription',
-        'SilvercartManufacturer.Title',
-        'isFreeOfCharge'
+        'SilvercartManufacturer.Title'      => array('title' => 'Hersteller'),
+        'isFreeOfCharge',
+        'isActive'                          => array('title' => 'Aktiv')
     );
 
     /**
@@ -129,7 +130,8 @@ class SilvercartProduct extends DataObject {
         'SilvercartManufacturer.Title'  => 'Hersteller',
         'isFreeOfCharge'                => 'kostenlos',
         'PurchasePrice'                 => 'Einkaufspreis',
-        'MSRPrice'                      => 'UVP'
+        'MSRPrice'                      => 'UVP',
+        'isActive'                      => 'Aktiv'
     );
 
     /**
@@ -306,6 +308,8 @@ class SilvercartProduct extends DataObject {
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
         $fields->push($dropdownField);
+
+        $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
     }
 
@@ -316,10 +320,12 @@ class SilvercartProduct extends DataObject {
      *
      * @return FieldSet
      */
-    public function  getCMSFields($params = null) {
+    public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
         $fields->removeByName('SilvercartProductGroupID');
         $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+
+        $this->extend('updateCMSFields', $fields);
         return $fields;
     }
 
@@ -514,6 +520,41 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $form = parent::ImportForm();
 
         $this->extend('updateImportForm', $form);
+
+        return $form;
+    }
+
+    /**
+     * Extends the search form.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.03.2011
+     */
+    public function SearchForm() {
+        $form = parent::SearchForm();
+        /*
+        $form->Fields()->replaceField(
+            'isActive',
+            new CheckboxField(
+                'isActive',
+                'Aktiv'
+            )
+        );
+        */
+        /*
+        $form->Fields()->replaceField(
+            'isFreeOfCharge',
+            new CheckboxField(
+                'isFreeOfCharge',
+                'Versandkostenfrei'
+            )
+        );
+        */
+
+        $this->extend('updateSearchForm', $form);
 
         return $form;
     }
