@@ -58,6 +58,8 @@ $lang['de_DE']['SilvercartAddress']['STREET'] = 'Straße';
 $lang['de_DE']['SilvercartAddress']['STREETNUMBER'] = 'Hausnummer';
 $lang['de_DE']['SilvercartAddress']['SURNAME'] = 'Nachname';
 $lang['de_DE']['SilvercartAddressHolder']['EDIT'] = 'Bearbeiten';
+$lang['de_DE']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Entschuldigen Sie, aber Sie haben noch keine Rechnungsadresse angelegt.';
+$lang['de_DE']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Entschuldigen Sie, aber Sie haben noch keine Lieferadresse angelegt.';
 $lang['de_DE']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Rechnungsadresse';
 $lang['de_DE']['SilvercartAddressHolder']['PLURALNAME'] = array(
     'Adressübersichtseiten',
