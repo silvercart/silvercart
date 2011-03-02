@@ -9,7 +9,7 @@
                 <a class="silvercart-button" href="{$PageByIdentifierCode(SilvercartAddressPage).Link}$CurrentMember.SilvercartShippingAddress.ID"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
         <% else %>
             <p>
-                <% sprintf(t_('SilvercartAddressHolder.EXCUSE_SHIPPINGADDRESS', 'Excuse us %s, but You have not added a delivery address yet.'), "$CurrentMember.FirstName $CurrentMember.Surname") %>
+                <% sprintf(t_('SilvercartAddressHolder.EXCUSE_SHIPPINGADDRESS', 'Excuse us %s, but You have not added a delivery address yet.'), '$CurrentMember.FirstName $CurrentMember.Surname') %>
             </p>
         <% end_if %>
         </div>
@@ -24,7 +24,7 @@
                 <a class="silvercart-button" href="{$PageByIdentifierCode(SilvercartAddressPage).Link}$CurrentMember.SilvercartInvoiceAddress.ID"><% _t('SilvercartAddressHolder.EDIT','edit') %></a>
         <% else %>
             <p>
-                <% sprintf(t_('SilvercartAddressHolder.EXCUSE_INVOICEADDRESS', 'Excuse us %s, but You have not added an invoice address yet.'), "$CurrentMember.FirstName $CurrentMember.Surname") %>
+                <% sprintf(t_('SilvercartAddressHolder.EXCUSE_INVOICEADDRESS', 'Excuse us %s, but You have not added an invoice address yet.'), '$CurrentMember.FirstName $CurrentMember.Surname') %>
             </p>
         <% end_if %>
         </div>
