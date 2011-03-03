@@ -98,6 +98,9 @@
                     <% end_if %>
                 <% end_control %>
             <% end_control %>
+            <br/>
+            <br/>
+            Layout based on <a href="http://www.yaml.de" target="_blank">YAML</a>
         </div>
         <p/>
     </body>
