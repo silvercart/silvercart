@@ -906,7 +906,7 @@ $lang['en_US']['SilvercartTax']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %%';
+$lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
 $lang['en_US']['SilvercartTax']['SINGULARNAME'] = array(
     'Rate',
     50,

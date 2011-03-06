@@ -120,8 +120,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     /**
      * Returns customers shipping address by attribute isDefaultForShipping
      *
-     * @return Address Wird Address nicht gefunden, wird bool false zurückgegeben
-     * @author Roland Lehmann
+     * @return Address|false if no address is found false will be treturned
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function getDefaultShippingAddress() {
         if ($customer = Member::currentUser()) {
@@ -136,10 +136,10 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * 
      * @return SilvercartShoppingCart
      *
-     * @author Roland Lehmann
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function getCart() {
-        if (is_null($this->owner->SilvercartShoppingCartID)) {
+        if ($this->owner->SilvercartShoppingCartID == 0) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
             $this->owner->SilvercartShoppingCartID = $cart->ID;
