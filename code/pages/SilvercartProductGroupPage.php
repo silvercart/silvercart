@@ -75,33 +75,34 @@ class SilvercartProductGroupPage extends Page {
         $fields = parent::getCMSFields();
 
         $productsTableField = new HasManyDataObjectManager(
-                        $this,
-                        'SilvercartProducts',
-                        'SilvercartProduct',
-                        array(
-                            'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                            'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
-                            'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
-                        ),
-                        'getCMSFields',
-                        "`SilvercartProductGroupID` = $this->ID"
+            $this,
+            'SilvercartProducts',
+            'SilvercartProduct',
+            array(
+                'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
+                'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
+            ),
+            'getCMSFields',
+            "`SilvercartProductGroupID` = $this->ID"
         );
         $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
         $fields->addFieldToTab($tabPARAM, $productsTableField);
         
         $attributeTableField = new ManyManyDataObjectManager(
-                        $this,
-                        'SilvercartAttributes',
-                        'SilvercartAttribute',
-                        array(
-                            'Title' => _t('SilvercartProduct.COLUMN_TITLE')
-                        )
+            $this,
+            'SilvercartAttributes',
+            'SilvercartAttribute',
+            array(
+                'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+            )
         );
         $tabPARAM2 = "Root.Content." . _t('SilvercartProductGroupPage.ATTRIBUTES', 'attributes');
         $fields->addFieldToTab($tabPARAM2, $attributeTableField);
         $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
         $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         
+        $this->extend('extendCMSFields', $fields);
         return $fields;
     }
 
