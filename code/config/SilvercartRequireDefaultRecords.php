@@ -87,6 +87,11 @@ class SilvercartRequireDefaultRecords extends DataObject {
         if (!DataObject::get_one('SilvercartConfig')) {
             $silvercartConfig = new SilvercartConfig();
             $silvercartConfig->DefaultCurrency = 'EUR';
+            $email = Email::getAdminEmail();
+            if ($email != '') {
+                $silvercartConfig->EmailSender = $email;
+                $silvercartConfig->GlobalEmailRecipient = $email;
+            }
             $silvercartConfig->write();
         }
 
