@@ -51,6 +51,8 @@ $lang['en_US']['SilvercartAddress']['STREET'] = 'Street';
 $lang['en_US']['SilvercartAddress']['STREETNUMBER'] = 'Streetnumber';
 $lang['en_US']['SilvercartAddress']['SURNAME'] = 'Surname';
 $lang['en_US']['SilvercartAddressHolder']['EDIT'] = 'Edit';
+$lang['en_US']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Excuse us, but You have not added an invoice address yet.';
+$lang['en_US']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Excuse us, but You have not added a delivery address yet.';
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Invoice address';
 $lang['en_US']['SilvercartAddressHolder']['PLURALNAME'] = array(
     'Address Holders',
@@ -904,7 +906,7 @@ $lang['en_US']['SilvercartTax']['PLURALNAME'] = array(
     50,
     'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 );
-$lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %%';
+$lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
 $lang['en_US']['SilvercartTax']['SINGULARNAME'] = array(
     'Rate',
     50,

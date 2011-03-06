@@ -717,9 +717,10 @@ class SilvercartPaymentMethod extends DataObject {
         parent::requireDefaultRecords();
 
         // Es handelt sich nicht um die Basisklasse
+        // not a base class
         if ($this->moduleName !== '') {
 
-            // Eintrag existiert noch nicht
+            // entry does not exist yet
             $checkObj = DataObject::get_one($this->ClassName);
 
             if (!$checkObj) {
