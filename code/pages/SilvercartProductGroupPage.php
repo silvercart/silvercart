@@ -63,6 +63,7 @@ class SilvercartProductGroupPage extends Page {
      */
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
+        $this->drawCMSFields = true;
         $this->GroupPicture()->Title = $this->Title;
     }
 
@@ -74,36 +75,57 @@ class SilvercartProductGroupPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $productsTableField = new HasManyDataObjectManager(
-            $this,
-            'SilvercartProducts',
-            'SilvercartProduct',
-            array(
-                'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
-                'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
-            ),
-            'getCMSFields',
-            "`SilvercartProductGroupID` = $this->ID"
-        );
-        $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
-        $fields->addFieldToTab($tabPARAM, $productsTableField);
-        
-        $attributeTableField = new ManyManyDataObjectManager(
-            $this,
-            'SilvercartAttributes',
-            'SilvercartAttribute',
-            array(
-                'Title' => _t('SilvercartProduct.COLUMN_TITLE')
-            )
-        );
-        $tabPARAM2 = "Root.Content." . _t('SilvercartProductGroupPage.ATTRIBUTES', 'attributes');
-        $fields->addFieldToTab($tabPARAM2, $attributeTableField);
-        $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
-        $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
-        
+        if ($this->drawCMSFields()) {
+            $productsTableField = new HasManyDataObjectManager(
+                $this,
+                'SilvercartProducts',
+                'SilvercartProduct',
+                array(
+                    'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
+                    'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
+                ),
+                'getCMSFields',
+                "`SilvercartProductGroupID` = $this->ID"
+            );
+            $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
+            $fields->addFieldToTab($tabPARAM, $productsTableField);
+
+            $attributeTableField = new ManyManyDataObjectManager(
+                $this,
+                'SilvercartAttributes',
+                'SilvercartAttribute',
+                array(
+                    'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+                )
+            );
+            $tabPARAM2 = "Root.Content." . _t('SilvercartProductGroupPage.ATTRIBUTES', 'attributes');
+            $fields->addFieldToTab($tabPARAM2, $attributeTableField);
+            $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
+            $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
+        }
         $this->extend('extendCMSFields', $fields);
         return $fields;
+    }
+
+    /**
+     * Indicates wether the CMS Fields should be drawn.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.03.2011
+     */
+    public function drawCMSFields() {
+        $drawCMSFields   = true;
+        $updateCMSFields = $this->extend('updateDrawCMSFields', $drawCMSFields);
+
+        if (is_array($updateCMSFields)) {
+            $drawCMSFields = $updateCMSFields[0];
+        }
+
+        return $drawCMSFields;
     }
 
     /**
