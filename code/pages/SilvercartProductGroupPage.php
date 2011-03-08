@@ -280,7 +280,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @return SilvercartProductGroupPage
      */
-    public function getTopProductGroup($productGroup) {
+    public function getTopProductGroup($productGroup = false) {
+        if (!$productGroup) {
+            $productGroup = $this;
+        }
         if ($productGroup->Parent()->ClassName == 'SilvercartProductGroupHolder') {
             return $productGroup;
         }
