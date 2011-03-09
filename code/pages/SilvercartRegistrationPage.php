@@ -103,10 +103,6 @@ class SilvercartRegistrationPage_Controller extends Page_Controller {
      * @return void
      */
     public function init() {
-        $member = Member::currentUser();
-        if ($member) {
-            $member->logOut();
-        }
         $this->registerCustomHtmlForm('SilvercartRegisterRegularCustomerForm', new SilvercartRegisterRegularCustomerForm($this));
         parent::init();
     }
