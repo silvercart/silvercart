@@ -5,7 +5,7 @@
         $Content
         $Form
         $PageComments
-        <% if CurrentMember %>
+        <% if CurrentRegisteredCustomer %>
 			<p>
 				<% sprintf(_t('SilvercartPage.ALREADY_REGISTERED','Hello %s, You have already registered.'),$CurrentMember.FirstName) %>
 			</p>
