@@ -138,6 +138,7 @@ $lang['en_US']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroups of '
 $lang['en_US']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroups';
 $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
+$lang['en_US']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
 $lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = array(
     'Product groups',
     50,

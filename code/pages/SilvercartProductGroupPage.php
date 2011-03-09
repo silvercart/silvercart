@@ -49,6 +49,8 @@ class SilvercartProductGroupPage extends Page {
         'SilvercartAttributes' => 'SilvercartAttribute'
     );
 
+    protected $manufacturers = null;
+
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
      * name of the productgroup.
@@ -181,6 +183,44 @@ class SilvercartProductGroupPage extends Page {
 
         return new DataObjectSet($activeProducts);
     }
+
+    /**
+     * Returns all Manufacturers of the groups products.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2011
+     */
+    public function getManufacturers() {
+        if (is_null($this->manufacturers)) {
+            $registeredManufacturers = array();
+            $manufacturers = array();
+
+            foreach ($this->SilvercartProducts() as $product) {
+                if ($product->SilvercartManufacturer()) {
+                    if (in_array($product->SilvercartManufacturer()->Title, $registeredManufacturers) == false) {
+                        $registeredManufacturers[] = $product->SilvercartManufacturer()->Title;
+                        $manufacturers[] = $product->SilvercartManufacturer();
+                    }
+                }
+            }
+            $this->manufacturers = new DataObjectSet($manufacturers);
+        }
+        return $this->manufacturers;
+    }
+
+    /**
+     * Returns whether the actual view is filtered by this manufacturer or not.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2011
+     */
+    public function isActive() {
+        return Controller::curr()->Link() == $this->Link();
+    }
 }
 
 /**
@@ -197,9 +237,11 @@ class SilvercartProductGroupPage extends Page {
  */
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
-    protected $groupProducts;
+    protected $groupProducts = null;
 
     protected $detailViewProduct = null;
+
+    protected $listFilters = array();
 
     /**
      * execute these statements on object call
@@ -218,22 +260,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested
-            // Get Products for this group
-            if (!isset($_GET['start']) ||
-                !is_numeric($_GET['start']) ||
-                (int)$_GET['start'] < 1) {
-                $SQL_start = 0;
-            } else {
-                $SQL_start = (int) $_GET['start'];
-            }
-
-            $this->groupProducts = SilvercartProduct::get(sprintf("`SilvercartProductGroupID` = '%s'",$this->ID), null, null, sprintf("%s,15",$SQL_start));
-
+            $products = $this->getProducts();
             // Initialise formobjects
             $productIdx = 0;
-            if ($this->groupProducts) {
+            if ($products) {
                 $productAddCartForm = $this->getCartFormName();
-                foreach ($this->groupProducts as $product) {
+                foreach ($products as $product) {
                     $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
                     $product->setField('Thumbnail', $product->image()->SetWidth(150));
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
@@ -375,6 +407,27 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.10.2010
      */
     public function getProducts() {
+        if (is_null($this->groupProducts)) {
+            // Get Products for this group
+            if (!isset($_GET['start']) ||
+                !is_numeric($_GET['start']) ||
+                (int)$_GET['start'] < 1) {
+                $SQL_start = 0;
+            } else {
+                $SQL_start = (int) $_GET['start'];
+            }
+            if ($this->isFilteredByManufacturer()) {
+                $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
+                $this->addListFilter('SilvercartManufacturerID', $manufacturer->ID);
+            }
+
+            $filter = sprintf("`SilvercartProductGroupID` = '%s'",$this->ID);
+
+            foreach ($this->listFilters as $listFilter) {
+                $filter .= ' ' . $listFilter;
+            }
+            $this->groupProducts = SilvercartProduct::get($filter, null, null, sprintf("%s,15",$SQL_start));
+        }
        return $this->groupProducts;
     }
 
@@ -386,7 +439,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.10.2010
      */
     public function getProductImage() {
-
         return SilvercartProduct::image();
     }
 
@@ -395,7 +447,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * If a product detail view is requested, the detail view template will be
      * rendered an displayed.
      *
-     * @param array $request request data
+     * @param SS_HTTPRequest $request request data
      *
      * @return mixed
      * 
@@ -420,6 +472,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             if ($view !== false) {
                 return $view;
             }
+        } elseif ($this->isFilteredByManufacturer()) {
+            $url = str_replace($this->urlParams['Action'] . '/' . $this->urlParams['ID'], '', $_REQUEST['url']);
+            $this->urlParams['Action'] = '';
+            $this->urlParams['ID'] = '';
+            $customRequest = new SS_HTTPRequest('GET', $url, array(), array(), null);
+            return parent::handleAction($customRequest);
+            exit();
         }
         return parent::handleAction($request);
     }
@@ -476,6 +535,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return SilvercartProduct
      */
     public function getDetailViewProduct() {
+        if (is_numeric($this->urlParams['Action']) == false) {
+            return null;
+        }
         if (is_null($this->detailViewProduct)) {
             $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
         }
@@ -531,6 +593,46 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             return $product->MetaTitle;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Checks whether the product list should be filtered by manufacturer.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2011
+     */
+    protected function isFilteredByManufacturer() {
+        if ($this->urlParams['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($this->urlParams['ID'])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a filter to filter the groups product list.
+     *
+     * @param string $property   The property to filter
+     * @param string $value      The value of the property
+     * @param string $comparison The comparison operator (default: '=')
+     * @param string $operator   The logical operator (default: 'AND')
+     *
+     * @return void
+     *
+     * @example $productGroup->addListFilter('SilvercartManufacturerID','5');
+     *          Will add the following filter: "AND `SilvercartManufacturerID` = '5'"
+     * @example $productGroup->addListFilter('SilvercartManufacturerID','(5,6,7)','IN','OR');
+     *          Will add the following filter: "OR `SilvercartManufacturerID` IN (5,6,7)"
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2011
+     */
+    public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') {
+        if ($comparison == 'IN') {
+            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
+        } else {
+            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
         }
     }
 

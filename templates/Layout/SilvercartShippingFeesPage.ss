@@ -16,7 +16,7 @@
                 <h4>$Title</h4>
             </div>
             <div class="c80r">
-                <table>
+                <table class="full">
                     <tr>
                         <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
