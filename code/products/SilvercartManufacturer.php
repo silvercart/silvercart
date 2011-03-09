@@ -170,4 +170,47 @@ class SilvercartManufacturer extends DataObject {
         $summaryFields['URL']   = _t('SilvercartPage.URL', 'URL');
         return $summaryFields;
     }
+
+    /**
+     * Returns the link to the manufacturer filtered product list in dependence
+     * on the product group.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2011
+     */
+    public function Link() {
+        return Controller::curr()->Link() . _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') . '/' . strtolower(urlencode($this->Title));
+    }
+
+    /**
+     * Returns 'current' or 'link' to use as CSS class in dependence of the current
+     * view.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.03.2011
+     */
+    public function LinkingMode() {
+        if ($_SERVER['REQUEST_URI'] == $this->Link()) {
+            return 'current';
+        }
+        return 'link';
+    }
+
+    /**
+     * Returns the manufacturer by its URL segment.
+     *
+     * @param string $urlSegment the manufacturers URL segment
+     *
+     * @return SilvercartManufacturer
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2011
+     */
+    public static function getByUrlSegment($urlSegment) {
+        return DataObject::get_one('SilvercartManufacturer', sprintf("LOWER(`Title`) = '%s'",  urldecode($urlSegment)));
+    }
 }
