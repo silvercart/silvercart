@@ -325,11 +325,13 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @return void
      */
     protected function submitSuccess($data, $form, $formData) {
+        $anonymousCustomer = false;
+
         /*
-         * Logout any user before registration, which should not happen, because the form is not shown if logged in
-         * This is just double precaution
+         * Logout anonymous users and save their shoppingcart temporarily.
          */
         if (Member::currentUser()) {
+            $anonymousCustomer = Member::currentUser();
             Member::currentUser()->logOut();
         }
 
@@ -353,6 +355,22 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
 
         // Create new regular customer and perform a log in
         $customer = new SilvercartRegularCustomer();
+
+        // Pass shoppingcart to registered customer and delete the anonymous
+        // customer.
+        if ($anonymousCustomer) {
+            $newShoppingCart = $anonymousCustomer->SilvercartShoppingCart()->duplicate(true);
+
+            foreach ($anonymousCustomer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $shoppingCartPosition) {
+                $newShoppingCartPosition = $shoppingCartPosition->duplicate(false);
+                $newShoppingCartPosition->SilvercartShoppingCartID = $newShoppingCart->ID;
+                $newShoppingCartPosition->write();
+            }
+
+            $customer->SilvercartShoppingCartID = $newShoppingCart->ID;
+            $anonymousCustomer->delete();
+        }
+
         $customer->castedUpdate($formData);
         $customer->write();
         $customer->logIn();
