@@ -110,7 +110,7 @@ class SilvercartPage_Controller extends ContentController {
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
-            if ($_REQUEST['url'] == '/Security/login') {
+            if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false) {
                 $checkConfiguration = false;
             }
         }

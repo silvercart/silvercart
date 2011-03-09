@@ -169,6 +169,9 @@ class SilvercartConfig extends DataObject {
         if (is_array(self::$required_configuration_fields)) {
             $config = DataObject::get_one('SilvercartConfig');
             foreach (self::$required_configuration_fields as $requiredField) {
+                if (empty ($requiredField) || is_null($requiredField)) {
+                    continue;
+                }
                 if (empty ($config->$requiredField)) {
                     $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField)));
                     $elements = array(
