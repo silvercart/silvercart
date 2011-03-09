@@ -473,9 +473,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 return $view;
             }
         } elseif ($this->isFilteredByManufacturer()) {
+            $url = str_replace($this->urlParams['Action'] . '/' . $this->urlParams['ID'], '', $_REQUEST['url']);
             $this->urlParams['Action'] = '';
             $this->urlParams['ID'] = '';
-            $customRequest = new SS_HTTPRequest('GET', 'webshop/warengruppen/wechselrichter', array(), array(), null);
+            $customRequest = new SS_HTTPRequest('GET', $url, array(), array(), null);
             return parent::handleAction($customRequest);
             exit();
         }
