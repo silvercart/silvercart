@@ -90,6 +90,7 @@ $lang['en_US']['SilvercartAnonymousCustomer']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['SilvercartProduct']['IS_ACTIVE'] = 'is active';
 $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'Add to cart';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
 $lang['en_US']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';

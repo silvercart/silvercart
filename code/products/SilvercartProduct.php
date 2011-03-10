@@ -84,57 +84,6 @@ class SilvercartProduct extends DataObject {
     );
 
     /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $summary_fields = array(
-        'Title'                         => 'Artikel',
-        'SilvercartManufacturer.Title'  => 'Hersteller'
-    );
-
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $searchable_fields = array(
-        'Title',
-        'ShortDescription',
-        'LongDescription',
-        'SilvercartManufacturer.Title'      => array('title' => 'Hersteller'),
-        'isFreeOfCharge',
-        'isActive'                          => array('title' => 'Aktiv')
-    );
-
-    /**
-     * Field labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $field_labels = array(
-        'Title'                         => 'Bezeichnung',
-        'LongDescription'               => 'Artikelbeschreibung',
-        'SilvercartManufacturer.Title'  => 'Hersteller',
-        'isFreeOfCharge'                => 'kostenlos',
-        'PurchasePrice'                 => 'Einkaufspreis',
-        'MSRPrice'                      => 'UVP',
-        'isActive'                      => 'Aktiv'
-    );
-
-    /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
@@ -207,36 +156,119 @@ class SilvercartProduct extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Title'                         => _t('SilvercartProduct.SINGULARNAME'),
-            'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
-        );
-        self::$field_labels = array(
-            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-            'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
-            'ShortDescription'          => _t('SilvercartProduct.SHORTDESCRIPTION'),
-            'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
-            'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
-            'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
-            'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price'),
-            'Price'                     => _t('SilvercartProduct.PRICE', 'price'),
-            'MetaDescription'           => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
-            'Weight'                    => _t('SilvercartProduct.WEIGHT', 'weight'),
-            'Quantity'                  => _t('SilvercartProduct.QUANTITY', 'quantity'),
-            'MetaTitle'                 => _t('SilvercartProduct.METATITLE', 'meta title'),
-            'MetaKeywords'              => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
-            'ProductNumberShop'         => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
-            'ProductNumberManufacturer' => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
-            'EANCode'                   => _t('SilvercartProduct.EAN', 'EAN'),
-            'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
-            'SilvercartManufacturer'    => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
-            'SilvercartProductGroup'    => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
-            'SilvercartMasterProduct'   => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-            'Image'                     => _t('SilvercartProduct.IMAGE', 'product image'),
-        );
         self::$singular_name = _t('SilvercartProduct.SINGULARNAME', 'product');
         self::$plural_name = _t('SilvercartProduct.PLURALNAME', 'products');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+            parent::summaryFields(),
+            array(
+                'Title'                         => _t('SilvercartProduct.SINGULARNAME'),
+                'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
+            )
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
+
+    /**
+     * Searchable fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'Title' => array(
+                'title'     => _t('SilvercartProduct.COLUMN_TITLE'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'ShortDescription' => array(
+                'title'     => _t('SilvercartProduct.SHORTDESCRIPTION'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'LongDescription' => array(
+                'title'     => _t('SilvercartProduct.DESCRIPTION'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartManufacturer.Title' => array(
+                'title'     => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+                'filter'    => 'PartialMatchFilter'
+             ),
+            'isFreeOfCharge' => array(
+                'title'     => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'isActive' => array(
+                'title'     => _t('SilvercartProduct.IS_ACTIVE', 'is active'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartProductGroup.ID' => array(
+                'title'     => _t('SilvercartProductGroupPage.SINGULARNAME'),
+                'filter'    => 'ExactMatchFilter'
+            )
+        );
+
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
+    }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
+                'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
+                'ShortDescription'          => _t('SilvercartProduct.SHORTDESCRIPTION'),
+                'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
+                'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
+                'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+                'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price'),
+                'Price'                     => _t('SilvercartProduct.PRICE', 'price'),
+                'MetaDescription'           => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
+                'Weight'                    => _t('SilvercartProduct.WEIGHT', 'weight'),
+                'Quantity'                  => _t('SilvercartProduct.QUANTITY', 'quantity'),
+                'MetaTitle'                 => _t('SilvercartProduct.METATITLE', 'meta title'),
+                'MetaKeywords'              => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
+                'ProductNumberShop'         => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
+                'ProductNumberManufacturer' => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
+                'EANCode'                   => _t('SilvercartProduct.EAN', 'EAN'),
+                'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
+                'SilvercartManufacturer'    => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+                'SilvercartProductGroup'    => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
+                'SilvercartMasterProduct'   => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
+                'Image'                     => _t('SilvercartProduct.IMAGE', 'product image'),
+            )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
 
     /**
@@ -535,24 +567,15 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function SearchForm() {
         $form = parent::SearchForm();
-        /*
+
         $form->Fields()->replaceField(
-            'isActive',
-            new CheckboxField(
-                'isActive',
-                'Aktiv'
+            'SilvercartProductGroup__ID',
+            new GroupedDropdownField(
+                'SilvercartProductGroup__ID',
+                _t('SilvercartProductGroupPage.SINGULARNAME'),
+                SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()
             )
         );
-        */
-        /*
-        $form->Fields()->replaceField(
-            'isFreeOfCharge',
-            new CheckboxField(
-                'isFreeOfCharge',
-                'Versandkostenfrei'
-            )
-        );
-        */
 
         $this->extend('updateSearchForm', $form);
 
