@@ -1206,3 +1206,48 @@ class SilvercartOrder extends DataObject {
         }
     }
 }
+
+/**
+ * Used to redefine some form fields in the search box.
+ *
+ * @package Silvercart
+ * @subpackage Order
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 10.03.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartOrder_CollectionController extends ModelAdmin_CollectionController {
+    
+    /**
+     * Replace the OrderStatus textfield with a dropdown field.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function SearchForm() {
+        $orderStatusSet = DataObject::get('SilvercartOrderStatus');
+        $searchForm     = parent::SearchForm();
+
+        if ($orderStatusSet) {
+            $searchForm->Fields()->removeByName('SilvercartOrderStatus__Title');
+
+            $dropdownField = new DropdownField(
+                'SilvercartOrderStatus__Title',
+                _t('SilvercartOrder.STATUS', 'order status'),
+                $orderStatusSet->map(
+                    'ID',
+                    'Title',
+                    _t('SilvercartOrderSearchForm.PLEASECHOOSE')
+                )
+            );
+
+            $searchForm->Fields()->insertAfter($dropdownField, 'Member__Surname');
+        }
+
+        return $searchForm;
+    }
+}

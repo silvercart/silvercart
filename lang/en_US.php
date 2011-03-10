@@ -531,6 +531,7 @@ $lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = array(
     50,
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
+$lang['en_US']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
 $lang['en_US']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_US']['SilvercartOrderStatus']['PAYED'] = 'Payed';
 $lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = array(
