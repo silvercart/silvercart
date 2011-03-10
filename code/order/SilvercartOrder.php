@@ -34,28 +34,6 @@
 class SilvercartOrder extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $singular_name = "order";
-
-    /**
-     * Plural-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $plural_name = "orders";
-
-    /**
      * attributes
      *
      * @var array
@@ -79,88 +57,6 @@ class SilvercartOrder extends DataObject {
         'CarrierAndShippingMethodTitle' => 'VarChar(100)',
         'PaymentMethodTitle'            => 'VarChar(100)',
         'CustomersEmail'                => 'VarChar(60)'
-    );
-
-    /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $summary_fields = array(
-        'CreatedNice'               => 'Datum',
-        'ID'                        => 'Bestellnummer',
-        'ShippingAddressSummary'    => 'Lieferadresse',
-        'InvoiceAddressSummary'     => 'Rechnungsadresse',
-        'AmountGrossTotalNice'      => 'Bestellwert',
-    );
-
-    /**
-     * Casting.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $casting = array(
-        'Created'                   => 'Date',
-        'CreatedNice'               => 'VarChar',
-        'ShippingAddressSummary'    => 'VarChar',
-        'InvoiceAddressSummary'     => 'VarChar',
-        'AmountGrossTotalNice'      => 'VarChar',
-    );
-
-    /**
-     * Field labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $field_labels = array(
-        'ID'                        => 'Bestellnummer',
-        'Created'                   => 'Datum',
-        'SilvercartShippingFee'     => 'Versandkosten',
-        'Note'                      => 'Kundenbemerkungen',
-        'isConfirmed'               => 'bestätigt?',
-        'Member'                    => 'Kunde',
-        'SilvercartShippingAddress' => 'Versandadresse',
-        'SilvercartInvoiceAddress'  => 'Rechnungsadresse',
-        'SilvercartOrderStatus'     => 'Bestellstatus'
-    );
-
-    /**
-     * Default sort direction in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $default_sort = "Created DESC";
-
-    /**
-     * Searchable fields
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $searchable_fields = array(
-        'Created',
-        'Member.FirstName',
-        'Member.Surname',
-
     );
 
     /**
@@ -209,6 +105,34 @@ class SilvercartOrder extends DataObject {
     );
 
     /**
+     * Casting.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public static $casting = array(
+        'Created'                   => 'Date',
+        'CreatedNice'               => 'VarChar',
+        'ShippingAddressSummary'    => 'VarChar',
+        'InvoiceAddressSummary'     => 'VarChar',
+        'AmountGrossTotalNice'      => 'VarChar',
+    );
+
+    /**
+     * Default sort direction in tables.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.02.2011
+     */
+    public static $default_sort = "Created DESC";
+
+    /**
      * register extensions
      *
      * @var array
@@ -235,27 +159,95 @@ class SilvercartOrder extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'CreatedNice'               => _t('SilvercartPage.ORDER_DATE'),
-            'ID'                        => _t('SilvercartOrder.ORDER_ID', 'order id'),
-            'ShippingAddressSummary'    => _t('SilvercartShippingAddress.SINGULARNAME'),
-            'InvoiceAddressSummary'     => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-            'AmountGrossTotalNice'      => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
-        );
-        self::$field_labels = array(
-            'ID'                        => _t('SilvercartOrder.ORDER_ID'),
-            'Created'                   => _t('SilvercartPage.ORDER_DATE'),
-            'SilvercartShippingFee'     => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-            'Note'                      => _t('SilvercartPage.REMARKS'),
-            'isConfirmed'               => _t('SilvercartOrder.CONFIRMED', 'confirmed?'),
-            'Member'                    => _t('SilvercartOrder.CUSTOMER', 'customer'),
-            'SilvercartShippingAddress' => _t('SilvercartShippingAddress.SINGULARNAME'),
-            'SilvercartInvoiceAddress'  => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-            'SilvercartOrderStatus'     => _t('SilvercartOrder.STATUS', 'order status')
-        );
-        self::$singular_name = _t('SilvercartOrder.SINGULARNAME', 'order');
-        self::$plural_name = _t('SilvercartOrder.PLURALNAME', 'orders');
+        self::$singular_name    = _t('SilvercartOrder.SINGULARNAME', 'order');
+        self::$plural_name      = _t('SilvercartOrder.PLURALNAME', 'orders');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+            parent::summaryFields(),
+            array(
+                'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
+                'ID'                            => _t('SilvercartOrder.ORDER_ID', 'order id'),
+                'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
+                'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
+            )
+        );
+
+        return $summaryFields;
+    }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'ID'                        => _t('SilvercartOrder.ORDER_ID'),
+                'Created'                   => _t('SilvercartPage.ORDER_DATE'),
+                'SilvercartShippingFee'     => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+                'Note'                      => _t('SilvercartPage.REMARKS'),
+                'isConfirmed'               => _t('SilvercartOrder.CONFIRMED', 'confirmed?'),
+                'Member'                    => _t('SilvercartOrder.CUSTOMER', 'customer'),
+                'SilvercartShippingAddress' => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'SilvercartInvoiceAddress'  => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'SilvercartOrderStatus'     => _t('SilvercartOrder.STATUS', 'order status')
+            )
+        );
+        return $fieldLabels;
+    }
+
+    /**
+     * Searchable fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 10.03.2011
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'Created' => array(
+                'title'     => _t('SilvercartPage.ORDER_DATE'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Member.FirstName' => array(
+                'title'     => _t('SilvercartAddress.FIRSTNAME'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Member.Surname' => array(
+                'title'     => _t('SilvercartAddress.SURNAME'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartOrderStatus.Title' => array(
+                'title'     => _t('SilvercartOrder.STATUS', 'order status'),
+                'filter'    => 'ExactMatchFilter'
+            )
+        );
+
+        return $searchableFields;
     }
 
     /**
@@ -313,7 +305,7 @@ class SilvercartOrder extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.01.2011
      */
-    public function  requireDefaultRecords() {
+    public function requireDefaultRecords() {
         parent::requireDefaultRecords();
         $checkOrderMail = DataObject::get_one(
             'SilvercartShopEmail',
