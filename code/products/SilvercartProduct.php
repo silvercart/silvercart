@@ -538,9 +538,27 @@ class SilvercartProduct extends DataObject {
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
 
     /**
+	 * We extend the sidebar template renderer so that you can alter it in your
+     * decorators.
+	 *
+	 * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 11.03.2011
+	 */
+	public function getModelSidebar() {
+        $sidebarHtml = parent::getModelSidebar();
+
+        $this->extend('getUpdatedModelSidebar', $sidebarHtml);
+
+		return $sidebarHtml;
+	}
+
+    /**
      * Generate a CSV import form for a single {@link DataObject} subclass.
      *
-     * We extend this form so that you can alter it in your own descendants.
+     * We extend this form so that you can alter it in your decorators.
      *
      * @return Form
      * 
