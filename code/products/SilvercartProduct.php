@@ -599,4 +599,42 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
 
         return $form;
     }
+
+    /**
+	 * Create a custom form so that we can extend it.
+	 *
+	 * @return Form
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 11.03.2011
+	 */
+    public function CustomForm($formIdentifier) {
+        $form = '';
+
+        $this->extend('updateCustomForm', $form, $formIdentifier);
+        
+        return $form;
+    }
+
+    /**
+	 * Custom form action so that we can decorate it.
+     *
+     * @param array           $data    The sent data
+     * @param Form            $form    The connected form
+     * @param SS_HTTP_Request $request The request object
+     *
+	 * @return mixed|void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 11.03.2011
+	 */
+    public function customFormAction($data, $form = null, $request = null) {
+        $output = '';
+
+        $this->extend('updateCustomFormAction', $data, $form, $request, $output);
+
+        return $output;
+    }
 }
