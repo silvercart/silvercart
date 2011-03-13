@@ -89,3 +89,76 @@ function checkShippingMethodOptions(parameters) {
         }
     );
 }
+
+/**
+ * Toggle the check and visibility status of the shipping address fields.
+ *
+ * @param Event definition The jQuery event object
+ *
+ * @return void
+ *
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 13.03.2011
+ */
+function toggleShippingAddressSection(definition) {
+   var shippingAddressFieldContainer = $('#ShippingAddressFields');
+
+   if (shippingAddressFieldContainer.css('display') != 'none') {
+       deactivateShippingAddressValidation();
+       shippingAddressFieldContainer.css('display', 'none');
+   } else {
+       activateShippingAddressValidation();
+       shippingAddressFieldContainer.css('display', 'block');
+   }
+}
+
+/**
+ * Disable validation of the shipping address fields.
+ *
+ * @return void
+ *
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 13.03.2011
+ */
+function deactivateShippingAddressValidation() {
+    with(SilvercartCheckoutFormStep1_customHtmlFormSubmit_1) {
+        deactivateValidationFor('Shipping_Salutation');
+        deactivateValidationFor('Shipping_FirstName');
+        deactivateValidationFor('Shipping_Surname');
+        deactivateValidationFor('Shipping_Addition');
+        deactivateValidationFor('Shipping_Street');
+        deactivateValidationFor('Shipping_StreetNumber');
+        deactivateValidationFor('Shipping_Postcode');
+        deactivateValidationFor('Shipping_City');
+        deactivateValidationFor('Shipping_PhoneAreaCode');
+        deactivateValidationFor('Shipping_Phone');
+        deactivateValidationFor('Shipping_Country');
+    }
+}
+
+/**
+ * Enable validation of the shipping address fields.
+ *
+ * @return void
+ *
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 13.03.2011
+ */
+function activateShippingAddressValidation() {
+    with(SilvercartCheckoutFormStep1_customHtmlFormSubmit_1) {
+        activateValidationFor('Shipping_Salutation');
+        activateValidationFor('Shipping_FirstName');
+        activateValidationFor('Shipping_Surname');
+        activateValidationFor('Shipping_Addition');
+        activateValidationFor('Shipping_Street');
+        activateValidationFor('Shipping_StreetNumber');
+        activateValidationFor('Shipping_Postcode');
+        activateValidationFor('Shipping_City');
+        activateValidationFor('Shipping_PhoneAreaCode');
+        activateValidationFor('Shipping_Phone');
+        activateValidationFor('Shipping_Country');
+    }
+}

@@ -34,6 +34,17 @@
 class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
 
     protected $formFields = array(
+        'InvoiceAddressAsShippingAddress' => array(
+            'type'      => 'CheckboxField',
+            'title'     => 'Rechnungsadresse als Versandadresse nutzen',
+            'value'     => '0',
+            'jsEvents'  => array(
+              'setEventHandler' => array(
+                'type'          => 'click',
+                'callFunction'  => 'toggleShippingAddressSection'
+              )
+            )
+        ),
         /**
          * fields for billing address
          */
@@ -199,9 +210,9 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 26.1.2011
      */
     protected $preferences = array(
-        'submitButtonTitle'         => 'weiter',
-        'stepTitle' => 'Adressen',
-        'fillInRequestValues' => true,
+        'submitButtonTitle'     => 'weiter',
+        'stepTitle'             => 'Adressen',
+        'fillInRequestValues'   => true,
     );
 
     /**
@@ -242,6 +253,8 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
+        $this->formFields['InvoiceAddressAsShippingAddress']['title'] = _t('SilvercartAddress.InvoiceAddressAsShippingAddress');
+
         $this->formFields['Invoice_Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
         $this->formFields['Invoice_Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS', 'misses'), "Herr" => _t('SilvercartAddress.MISTER', 'mister'));
         $this->formFields['Invoice_FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
@@ -304,6 +317,46 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
             }
         }
         $this->controller->fillFormFields($this->formFields);
+
+        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
+            $this->controller->addJavascriptOnloadSnippet('
+                $(\'#ShippingAddressFields\').css(\'display\', \'none\');
+            ');
+        }
+    }
+
+    /**
+     * We intercept the submit handler since we have to alter some field
+     * checks depending on the status of the field "InvoiceAddressAsShippingAddress".
+     *
+     * @param SS_HTTPRequest $data submit data
+     * @param Form           $form form object
+     *
+     * @return ViewableData
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pxieltricks GmbH
+     * @since 13.03.2011
+     */
+    public function submit($data, $form) {
+
+        // Disable the check instructions if the shipping address shall be
+        // the same as the invoice address.
+        if ($data['InvoiceAddressAsShippingAddress'] == '1'){
+            $this->deactivateValidationFor('Shipping_Salutation');
+            $this->deactivateValidationFor('Shipping_FirstName');
+            $this->deactivateValidationFor('Shipping_Surname');
+            $this->deactivateValidationFor('Shipping_Addition');
+            $this->deactivateValidationFor('Shipping_Street');
+            $this->deactivateValidationFor('Shipping_StreetNumber');
+            $this->deactivateValidationFor('Shipping_Postcode');
+            $this->deactivateValidationFor('Shipping_City');
+            $this->deactivateValidationFor('Shipping_PhoneAreaCode');
+            $this->deactivateValidationFor('Shipping_Phone');
+            $this->deactivateValidationFor('Shipping_Country');
+        }
+
+        parent::submit($data, $form);
     }
 
     /**
@@ -321,6 +374,22 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 09.11.2010
      */
     public function submitSuccess($data, $form, $formData) {
+
+        // Set invoice address as shipping address if desired
+        if ($data['InvoiceAddressAsShippingAddress'] == '1'){
+            $formData['Shipping_Salutation']       = $formData['Invoice_Salutation'];
+            $formData['Shipping_FirstName']        = $formData['Invoice_FirstName'];
+            $formData['Shipping_Surname']          = $formData['Invoice_Surname'];
+            $formData['Shipping_Addition']         = $formData['Invoice_Addition'];
+            $formData['Shipping_Street']           = $formData['Invoice_Street'];
+            $formData['Shipping_StreetNumber']     = $formData['Invoice_StreetNumber'];
+            $formData['Shipping_Postcode']         = $formData['Invoice_Postcode'];
+            $formData['Shipping_City']             = $formData['Invoice_City'];
+            $formData['Shipping_PhoneAreaCode']    = $formData['Invoice_PhoneAreaCode'];
+            $formData['Shipping_Phone']            = $formData['Invoice_Phone'];
+            $formData['Shipping_Country']          = $formData['Invoice_Country'];
+        }
+
         $this->controller->setStepData($formData);
         $this->controller->addCompletedStep();
         $this->controller->NextStep();

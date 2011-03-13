@@ -33,6 +33,7 @@ if (array_key_exists('de_DE', $lang) && is_array($lang['de_DE'])) {
     $lang['de_DE'] = $lang['en_US'];
 }
 
+$lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Versandadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Addresszusatz';
 $lang['de_DE']['SilvercartAddress']['CITY'] = 'Ort';
 $lang['de_DE']['SilvercartAddress']['EMAIL'] = 'E-Mail-Adresse';

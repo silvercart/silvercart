@@ -26,6 +26,7 @@
 
 global $lang;
 
+$lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
 $lang['en_US']['SilvercartAddress']['CITY'] = 'City';
 $lang['en_US']['SilvercartAddress']['EMAIL'] = 'Email address';
