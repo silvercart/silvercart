@@ -104,13 +104,15 @@ function checkShippingMethodOptions(parameters) {
 function toggleShippingAddressSection(definition) {
    var shippingAddressFieldContainer = $('#ShippingAddressFields');
 
-   if (shippingAddressFieldContainer.css('display') != 'none') {
-       deactivateShippingAddressValidation();
-       shippingAddressFieldContainer.slideToggle();
-   } else {
-       activateShippingAddressValidation();
-       shippingAddressFieldContainer.slideToggle();
-   }
+    if (shippingAddressFieldContainer) {
+        if (shippingAddressFieldContainer.css('display') != 'none') {
+            deactivateShippingAddressValidation();
+            shippingAddressFieldContainer.slideToggle();
+        } else {
+            activateShippingAddressValidation();
+            shippingAddressFieldContainer.slideToggle();
+        }
+    }
 }
 
 /**
