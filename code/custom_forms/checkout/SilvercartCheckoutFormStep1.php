@@ -235,16 +235,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
 
         parent::__construct($controller, $params, $preferences, $barebone);
 
-        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
-            $this->controller->addJavascriptOnloadSnippet(
-                array(
-                    'deactivateShippingAddressValidation();
-                    $(\'#ShippingAddressFields\').css(\'display\', \'none\');',
-                    'loadInTheEnd'
-                )
-            );
-        }
-
         if (!$barebone) {
             /*
              * redirect a user if his cart is empty
@@ -328,6 +318,16 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
             }
         }
         $this->controller->fillFormFields($this->formFields);
+
+        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
+            $this->controller->addJavascriptOnloadSnippet(
+                array(
+                    'deactivateShippingAddressValidation();
+                    $(\'#ShippingAddressFields\').css(\'display\', \'none\');',
+                    'loadInTheEnd'
+                )
+            );
+        }
     }
 
     /**
