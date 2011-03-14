@@ -106,10 +106,10 @@ function toggleShippingAddressSection(definition) {
 
    if (shippingAddressFieldContainer.css('display') != 'none') {
        deactivateShippingAddressValidation();
-       shippingAddressFieldContainer.css('display', 'none');
+       shippingAddressFieldContainer.slideToggle();
    } else {
        activateShippingAddressValidation();
-       shippingAddressFieldContainer.css('display', 'block');
+       shippingAddressFieldContainer.slideToggle();
    }
 }
 

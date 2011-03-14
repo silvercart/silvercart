@@ -37,7 +37,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
         'InvoiceAddressAsShippingAddress' => array(
             'type'      => 'CheckboxField',
             'title'     => 'Rechnungsadresse als Versandadresse nutzen',
-            'value'     => '0',
+            'value'     => '1',
             'jsEvents'  => array(
               'setEventHandler' => array(
                 'type'          => 'click',
@@ -232,7 +232,18 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep1.TITLE', 'Addresses');
+
         parent::__construct($controller, $params, $preferences, $barebone);
+
+        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
+            $this->controller->addJavascriptOnloadSnippet(
+                array(
+                    'deactivateShippingAddressValidation();
+                    $(\'#ShippingAddressFields\').css(\'display\', \'none\');',
+                    'loadInTheEnd'
+                )
+            );
+        }
 
         if (!$barebone) {
             /*
@@ -317,12 +328,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
             }
         }
         $this->controller->fillFormFields($this->formFields);
-
-        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
-            $this->controller->addJavascriptOnloadSnippet('
-                $(\'#ShippingAddressFields\').css(\'display\', \'none\');
-            ');
-        }
     }
 
     /**
@@ -342,7 +347,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
 
         // Disable the check instructions if the shipping address shall be
         // the same as the invoice address.
-        if ($data['InvoiceAddressAsShippingAddress'] == '1'){
+        if ($data['InvoiceAddressAsShippingAddress'] == '1') {
             $this->deactivateValidationFor('Shipping_Salutation');
             $this->deactivateValidationFor('Shipping_FirstName');
             $this->deactivateValidationFor('Shipping_Surname');
@@ -376,7 +381,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
     public function submitSuccess($data, $form, $formData) {
 
         // Set invoice address as shipping address if desired
-        if ($data['InvoiceAddressAsShippingAddress'] == '1'){
+        if ($data['InvoiceAddressAsShippingAddress'] == '1') {
             $formData['Shipping_Salutation']       = $formData['Invoice_Salutation'];
             $formData['Shipping_FirstName']        = $formData['Invoice_FirstName'];
             $formData['Shipping_Surname']          = $formData['Invoice_Surname'];
