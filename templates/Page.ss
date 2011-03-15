@@ -34,7 +34,7 @@
                                 <div class="c50l" id="Customer">
                                     <% if CurrentRegisteredCustomer %>
                                         <a class="button" id="myaccount" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
-                                        <a class="button" id="logout" href="{$PageByIdentifierCode(SilvercartFrontPage).Link}logout/">Logout</a>
+                                        <a class="button" id="logout" href="{$PageByIdentifierCode(SilvercartFrontPage).Link}Security/logout/">Logout</a>
                                     <% else %>
                                         <% include SilvercartLoginPopup %>
                                     <% end_if %>

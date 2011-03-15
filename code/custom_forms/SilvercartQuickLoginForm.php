@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -56,7 +57,6 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
             )
         )
     );
-
     /**
      * form preferences
      *
@@ -94,13 +94,33 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(
-                 array(
-                       'Email' => $emailAddress,
-                       'Password' => $password
-                      )
-                );
+                            array(
+                                'Email' => $emailAddress,
+                                'Password' => $password
+                            )
+            );
 
             if ($customer) {
+                //transfer cart positions from an anonymous user to the one logging in
+                $anonymousCustomer = SilvercartAnonymousCustomer::currentAnonymousCustomer();
+                if ($anonymousCustomer) {
+                    if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->Count() > 0) {
+                        //delete registered customers cart positions
+                        if ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()) {
+                            foreach ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
+                                $position->delete();
+                            }
+                        }
+                        //add anonymous positions to the registered user
+
+                        foreach ($anonymousCustomer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
+                            $customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()->add($position);
+                        }
+                    }
+                    $anonymousCustomer->logOut();
+                    $anonymousCustomer->delete();
+                }
+
                 $customer->logIn();
                 $customer->write();
                 $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
@@ -109,10 +129,10 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
                 $this->messages = array(
                     'Authentication' => array(
-                    'message' => _t('Page.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
-                )
+                        'message' => _t('Page.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
+                    )
                 );
-                
+
                 return $this->submitFailure(
                         $data,
                         $form
@@ -120,16 +140,17 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
             }
         } else {
             $this->messages = array(
-                   'Authentication' => array(
-                   'message' => _t('Page.USER_NOT_EXISTING', 'This user does not exist.')
-            )
+                'Authentication' => array(
+                    'message' => _t('Page.USER_NOT_EXISTING', 'This user does not exist.')
+                )
             );
 
             return $this->messages = array(
-                   'Authentication' => array(
-                   'message' => _t('Page.CREDENTIALS_WRONG')
-            )
+        'Authentication' => array(
+            'message' => _t('Page.CREDENTIALS_WRONG')
+        )
             );
         }
     }
+
 }
