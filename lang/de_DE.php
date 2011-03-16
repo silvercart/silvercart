@@ -265,6 +265,8 @@ $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = array(
     'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 );
 $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
+
+$lang['de_DE']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Gewicht des Warenkorbs darf null sein.';
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER_INFO'] = 'Der E-Mail Absender wird als Absenderadresse aller E-Mails verwendet, die von SilverCart gesendet werden.';

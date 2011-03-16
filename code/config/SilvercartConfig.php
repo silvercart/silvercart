@@ -63,19 +63,6 @@ class SilvercartConfig extends DataObject {
     public static $globalEmailRecipient = null;
 
     /**
-     * Set if the shoppingcart weight may be zero on checkout.
-     *
-     * If set to false and the shoppingcart weight is zero you don't get a
-     * ShippingMethod in the checkout process.
-     *
-     * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.03.2011
-     */
-    public static $defaultAllowCartWeightToBeZero = null;
-
-    /**
      * Constructor. We localize the static variables here.
      *
      * @param array|null $record      This will be null for a new database record.
@@ -127,6 +114,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $fieldLabels['allowCartWeightToBeZero'] = _t('SilvercartConfig.ALLOW_CART_WEIGHT_TO_BE_ZERO', 'Allow cart weight to be zero');
         return $fieldLabels;
     }
 
@@ -261,10 +249,13 @@ class SilvercartConfig extends DataObject {
      * @since 16.03.2011
      */
     public static function getAllowCartWeightToBeZero() {
-        if (is_null(self::$defaultAllowCartWeightToBeZero)) {
-            self::$defaultAllowCartWeightToBeZero = true;
+        $silvercartConfig = DataObject::get_one('SilvercartConfig');
+
+        if ($silvercartConfig->hasField('allowCartWeightToBeZero')) {
+            return $silvercartConfig->getField('allowCartWeightToBeZero');
+        } else {
+            return false;
         }
-        return self::$defaultAllowCartWeightToBeZero;
     }
     
     // Put foreign configurations here
