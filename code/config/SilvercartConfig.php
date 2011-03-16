@@ -41,6 +41,7 @@ class SilvercartConfig extends DataObject {
         'DefaultCurrency' => 'VarChar(16)',
         'EmailSender' => 'VarChar(255)',
         'GlobalEmailRecipient' => 'VarChar(255)',
+        'allowCartWeightToBeZero' => 'Boolean(0)'
     );
 
     /**
@@ -60,6 +61,19 @@ class SilvercartConfig extends DataObject {
     public static $emailSender = null;
 
     public static $globalEmailRecipient = null;
+
+    /**
+     * Set if the shoppingcart weight may be zero on checkout.
+     *
+     * If set to false and the shoppingcart weight is zero you don't get a
+     * ShippingMethod in the checkout process.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.03.2011
+     */
+    public static $defaultAllowCartWeightToBeZero = null;
 
     /**
      * Constructor. We localize the static variables here.
@@ -234,6 +248,23 @@ class SilvercartConfig extends DataObject {
             self::$globalEmailRecipient = DataObject::get_one('SilvercartConfig')->GlobalEmailRecipient;
         }
         return self::$globalEmailRecipient;
+    }
+
+    /**
+     * Returns the configured default setting that determines if the cartweight
+     * on checkout may be zero.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.03.2011
+     */
+    public static function getAllowCartWeightToBeZero() {
+        if (is_null(self::$defaultAllowCartWeightToBeZero)) {
+            self::$defaultAllowCartWeightToBeZero = true;
+        }
+        return self::$defaultAllowCartWeightToBeZero;
     }
     
     // Put foreign configurations here
