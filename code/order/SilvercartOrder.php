@@ -52,7 +52,6 @@ class SilvercartOrder extends DataObject {
         'TaxAmountPayment'              => 'Float',
         'TaxAmountShipment'             => 'Float',
         'Note'                          => 'Text',
-        'isConfirmed'                   => 'Boolean',
         'WeightTotal'                   => 'Int', //unit is gramm
         'CarrierAndShippingMethodTitle' => 'VarChar(100)',
         'PaymentMethodTitle'            => 'VarChar(100)',
@@ -204,15 +203,27 @@ class SilvercartOrder extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ID'                        => _t('SilvercartOrder.ORDER_ID'),
-                'Created'                   => _t('SilvercartPage.ORDER_DATE'),
-                'SilvercartShippingFee'     => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                      => _t('SilvercartPage.REMARKS'),
-                'isConfirmed'               => _t('SilvercartOrder.CONFIRMED', 'confirmed?'),
-                'Member'                    => _t('SilvercartOrder.CUSTOMER', 'customer'),
-                'SilvercartShippingAddress' => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'SilvercartInvoiceAddress'  => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'SilvercartOrderStatus'     => _t('SilvercartOrder.STATUS', 'order status')
+                'ID'                            => _t('SilvercartOrder.ORDER_ID'),
+                'Created'                       => _t('SilvercartPage.ORDER_DATE'),
+                'SilvercartShippingFee'         => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+                'Note'                          => _t('SilvercartPage.REMARKS'),
+                'Member'                        => _t('SilvercartOrder.CUSTOMER', 'customer'),
+                'SilvercartShippingAddress'     => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'SilvercartInvoiceAddress'      => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'SilvercartOrderStatus'         => _t('SilvercartOrder.STATUS', 'order status'),
+                'AmountTotal'                   => _t('SilvercartOrder.AMOUNTTOTAL'),
+                'AmountGrossTotal'              => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCostPayment'           => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
+                'HandlingCostShipment'          => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
+                'TaxRatePayment'                => _t('SilvercartOrder.TAXRATEPAYMENT'),
+                'TaxRateShipment'               => _t('SilvercartOrder.TAXRATESHIPMENT'),
+                'TaxAmountPayment'              => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
+                'TaxAmountShipment'             => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
+                'Note'                          => _t('SilvercartOrder.NOTE'),
+                'WeightTotal'                   => _t('SilvercartOrder.WEIGHTTOTAL'),
+                'CarrierAndShippingMethodTitle' => _t('SilvercartOrder.CARRIERANDSHIPPINGMETHODTITLE'),
+                'PaymentMethodTitle'            => _t('SilvercartOrder.PAYMENTMETHODTITLE'),
+                'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL')
             )
         );
         return $fieldLabels;
@@ -356,6 +367,10 @@ class SilvercartOrder extends DataObject {
         $fields = parent::getCMSFields();
         $fields->removeByName('Versandadresse');
         $fields->removeByName('Rechnungsadresse');
+        $fields->removeByName('Versionen');
+        $fields->removeByName('Silvercart Products');
+
+        $fields->fieldByName('Root.SilvercartOrderPositions')->Title = _t('SilvercartOrderPosition.PLURALNAME');
 
         $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Name', 'Name', $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
         $fields->addFieldToTab('Root.Versandadresse', new ReadonlyField('sa_Street', 'Straße', $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));

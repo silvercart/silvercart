@@ -36,61 +36,33 @@ $lang['en_US']['SilvercartAddress']['MISSIS'] = 'Misses';
 $lang['en_US']['SilvercartAddress']['MISTER'] = 'Mister';
 $lang['en_US']['SilvercartAddress']['PHONE'] = 'Phone';
 $lang['en_US']['SilvercartAddress']['PHONEAREACODE'] = 'Phone area code';
-$lang['en_US']['SilvercartAddress']['PLURALNAME'] = array(
-    'Addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartAddress']['PLURALNAME'] = 'Addresses';
 $lang['en_US']['SilvercartAddress']['POSTCODE'] = 'Postcode';
 $lang['en_US']['SilvercartAddress']['SALUTATION'] = 'Salutation';
-$lang['en_US']['SilvercartAddress']['SINGULARNAME'] = array(
-    'address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartAddress']['SINGULARNAME'] = 'address';
 $lang['en_US']['SilvercartAddress']['STREET'] = 'Street';
 $lang['en_US']['SilvercartAddress']['STREETNUMBER'] = 'Streetnumber';
 $lang['en_US']['SilvercartAddress']['SURNAME'] = 'Surname';
+
 $lang['en_US']['SilvercartAddressHolder']['EDIT'] = 'Edit';
 $lang['en_US']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Excuse us, but You have not added an invoice address yet.';
 $lang['en_US']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Excuse us, but You have not added a delivery address yet.';
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Invoice address';
-$lang['en_US']['SilvercartAddressHolder']['PLURALNAME'] = array(
-    'Address Holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartAddressHolder']['PLURALNAME'] = 'Address Holders';
 $lang['en_US']['SilvercartAddressHolder']['SHIPPINGADDRESS'] = 'Shipping address';
-$lang['en_US']['SilvercartAddressHolder']['SINGULARNAME'] = array(
-    'Address Holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartAddressHolder']['SINGULARNAME'] = 'Address Holder';
 $lang['en_US']['SilvercartAddressHolder']['TITLE'] = 'Address overview';
 $lang['en_US']['SilvercartAddressHolder']['URL_SEGMENT'] = 'address-overview';
-$lang['en_US']['SilvercartAddressPage']['PLURALNAME'] = array(
-    'Address Pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartAddressPage']['SINGULARNAME'] = array(
-    'Address Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartAddressPage']['PLURALNAME'] = 'Address Pages';
+$lang['en_US']['SilvercartAddressPage']['SINGULARNAME'] = 'Address Page';
 $lang['en_US']['SilvercartAddressPage']['TITLE'] = 'Address details';
 $lang['en_US']['SilvercartAddressPage']['URL_SEGMENT'] = 'address-details';
+
 $lang['en_US']['SilvercartAnonymousCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymous customer';
-$lang['en_US']['SilvercartAnonymousCustomer']['PLURALNAME'] = array(
-    'Anonymous Customers',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartAnonymousCustomer']['SINGULARNAME'] = array(
-    'Anonymous Customer',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartAnonymousCustomer']['PLURALNAME'] = 'Anonymous Customers';
+$lang['en_US']['SilvercartAnonymousCustomer']['SINGULARNAME'] = 'Anonymous Customer';
+
 $lang['en_US']['SilvercartProduct']['IS_ACTIVE'] = 'is active';
 $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'Add to cart';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
@@ -104,11 +76,7 @@ $lang['en_US']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for s
 $lang['en_US']['SilvercartProduct']['METAKEYWORDS'] = 'Meta keywords for search engines';
 $lang['en_US']['SilvercartProduct']['METATITLE'] = 'Meta title for search engines';
 $lang['en_US']['SilvercartProduct']['MSRP'] = 'MSR price';
-$lang['en_US']['SilvercartProduct']['PLURALNAME'] = array(
-    'Products',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartProduct']['PLURALNAME'] = 'Products';
 $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
 $lang['en_US']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'Product number';
@@ -117,118 +85,52 @@ $lang['en_US']['SilvercartProduct']['PURCHASEPRICE'] = 'Purchase price';
 $lang['en_US']['SilvercartProduct']['QUANTITY'] = 'Quantity';
 $lang['en_US']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
 $lang['en_US']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listdescription';
-$lang['en_US']['SilvercartProduct']['SINGULARNAME'] = array(
-    'Product',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartProduct']['SINGULARNAME'] = 'Product';
 $lang['en_US']['SilvercartProduct']['TITLE'] = 'Product';
 $lang['en_US']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
+
 $lang['en_US']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroups';
-$lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = array(
-    'Product Group Holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductGroupHolder']['SINGULARNAME'] = array(
-    'Product Group Holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Product Group Holders';
+$lang['en_US']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Product Group Holder';
 $lang['en_US']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroups of ';
 $lang['en_US']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroups';
+
 $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
 $lang['en_US']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
-$lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = array(
-    'Product groups',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductGroupPage']['SINGULARNAME'] = array(
-    'Product group',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartProductImageGallery']['PLURALNAME'] = array(
-    'Galleries',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductImageGallery']['SINGULARNAME'] = array(
-    'Gallery',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
+$lang['en_US']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
+
+$lang['en_US']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
+$lang['en_US']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
+
 $lang['en_US']['SilvercartProductPage']['ADD_TO_CART'] = 'Add to cart';
-$lang['en_US']['SilvercartProductPage']['PLURALNAME'] = array(
-    'Product details pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartProductPage']['PLURALNAME'] = 'Product details pages';
 $lang['en_US']['SilvercartProductPage']['QUANTITY'] = 'Quantity';
-$lang['en_US']['SilvercartProductPage']['SINGULARNAME'] = array(
-    'Product details page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartProductPage']['SINGULARNAME'] = 'Product details page';
 $lang['en_US']['SilvercartProductPage']['URL_SEGMENT'] = 'Productdetails';
-$lang['en_US']['SilvercartProductTexts']['PLURALNAME'] = array(
-    'Product translation texts',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartProductTexts']['SINGULARNAME'] = array(
-    'Product translation text',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartAttribute']['PLURALNAME'] = array(
-    'Attributs',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartAttribute']['SINGULARNAME'] = array(
-    'Attribute',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartProductTexts']['PLURALNAME'] = 'Product translation texts';
+$lang['en_US']['SilvercartProductTexts']['SINGULARNAME'] = 'Product translation text';
+
+$lang['en_US']['SilvercartAttribute']['PLURALNAME'] = 'Attributs';
+$lang['en_US']['SilvercartAttribute']['SINGULARNAME'] = 'Attribute';
+
 $lang['en_US']['SilvercartBusinessCustomer']['BUSINESSCUSTOMER'] = 'Business customer';
-$lang['en_US']['SilvercartBusinessCustomer']['PLURALNAME'] = array(
-    'Business Customers',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartBusinessCustomer']['SINGULARNAME'] = array(
-    'Business Customer',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartBusinessCustomer']['PLURALNAME'] = 'Business Customers';
+$lang['en_US']['SilvercartBusinessCustomer']['SINGULARNAME'] = 'Business Customer';
+
 $lang['en_US']['SilvercartCarrier']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_US']['SilvercartCarrier']['FULL_NAME'] = 'Full name';
-$lang['en_US']['SilvercartCarrier']['PLURALNAME'] = array(
-    'Carriers',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartCarrier']['SINGULARNAME'] = array(
-    'Carrier',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartCarrier']['PLURALNAME'] = 'Carriers';
+$lang['en_US']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
+
 $lang['en_US']['SilvercartCartPage']['CART_EMPTY'] = 'Your cart is empty.';
-$lang['en_US']['SilvercartCartPage']['PLURALNAME'] = array(
-    'Cart pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartCartPage']['SINGULARNAME'] = array(
-    'Cart page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartCartPage']['PLURALNAME'] = 'Cart pages';
+$lang['en_US']['SilvercartCartPage']['SINGULARNAME'] = 'Cart page';
 $lang['en_US']['SilvercartCartPage']['URL_SEGMENT'] = 'cart';
+
 $lang['en_US']['SilvercartCheckoutFormStep']['CHOOSEN_PAYMENT'] = 'Choosen payment method';
 $lang['en_US']['SilvercartCheckoutFormStep']['CHOOSEN_SHIPPING'] = 'Choosen shipping method';
 $lang['en_US']['SilvercartCheckoutFormStep']['FORWARD'] = 'Next';
@@ -245,17 +147,10 @@ $lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Payment';
 $lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
 $lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Shipment';
 $lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Overview';
-$lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = array(
-    'Checkout Steps',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartCheckoutStep']['SINGULARNAME'] = array(
-    'Checkout Step',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
+$lang['en_US']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_US']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
+
 $lang['en_US']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart weight to be zero.';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
@@ -264,65 +159,29 @@ $lang['en_US']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
 $lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.';
-$lang['en_US']['SilvercartConfig']['PLURALNAME'] = array(
-    'General configurations',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartConfig']['SINGULARNAME'] = array(
-    'General configuration',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = array(
-    'Contact form pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartConfig']['PLURALNAME'] = 'General configurations';
+$lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
+
+$lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
-$lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = array(
-    'Contact form page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = 'Contact form page';
 $lang['en_US']['SilvercartContactFormPage']['TITLE'] = 'Contact';
 $lang['en_US']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
+
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Contact confirmation';
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks for Your message. Your request will be answered as soon as possible.';
-$lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = array(
-    'Contact form response pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartContactFormResponsePage']['SINGULARNAME'] = array(
-    'Contact form response page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact form response pags';
+$lang['en_US']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Contact form response page';
 $lang['en_US']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
+
 $lang['en_US']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'Attributed payment method';
 $lang['en_US']['SilvercartCountry']['ATTRIBUTED_ZONES'] = 'Attributed zones';
-$lang['en_US']['SilvercartCountry']['PLURALNAME'] = array(
-    'Countries',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartCountry']['SINGULARNAME'] = array(
-    'Country',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartCountry']['PLURALNAME'] = 'Countries';
+$lang['en_US']['SilvercartCountry']['SINGULARNAME'] = 'Country';
+
 $lang['en_US']['SilvercartCustomerAdmin']['customers'] = 'Customers';
-$lang['en_US']['SilvercartCustomerCategory']['PLURALNAME'] = array(
-    'Customer categories',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartCustomerCategory']['SINGULARNAME'] = array(
-    'Customer category',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartCustomerCategory']['PLURALNAME'] = 'Customer categories';
+$lang['en_US']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Customer category';
 $lang['en_US']['SilvercartCustomerRole']['SALUTATION'] = 'Salutation';
 $lang['en_US']['SilvercartCustomerRole']['SUBSCRIBEDTONEWSLETTER'] = 'Subscribed to newsletter';
 $lang['en_US']['SilvercartCustomerRole']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Has accepted terms and conditions';
@@ -332,236 +191,106 @@ $lang['en_US']['SilvercartCustomerRole']['CONFIRMATIONHASH'] = 'Confirmation cod
 $lang['en_US']['SilvercartCustomerRole']['OPTINSTATUS'] = 'Opt-in status';
 $lang['en_US']['SilvercartCustomerRole']['BIRTHDAY'] = 'Birthday';
 $lang['en_US']['SilvercartCustomerRole']['TYPE'] = 'Type';
-$lang['en_US']['SilvercartDataPage']['PLURALNAME'] = array(
-    'Data Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartDataPage']['SINGULARNAME'] = array(
-    'Data Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartDataPage']['PLURALNAME'] = 'Data Pags';
+$lang['en_US']['SilvercartDataPage']['SINGULARNAME'] = 'Data Page';
 $lang['en_US']['SilvercartDataPage']['TITLE'] = 'My data';
 $lang['en_US']['SilvercartDataPage']['URL_SEGMENT'] = 'my-data';
-$lang['en_US']['SilvercartDataPrivacyStatementPage']['PLURALNAME'] = array(
-    'Privacy policy pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartDataPrivacyStatementPage']['SINGULARNAME'] = array(
-    'Privacy policy page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartDataPrivacyStatementPage']['PLURALNAME'] = 'Privacy policy pags';
+$lang['en_US']['SilvercartDataPrivacyStatementPage']['SINGULARNAME'] = 'Privacy policy page';
 $lang['en_US']['SilvercartDataPrivacyStatementPage']['TITLE'] = 'Data privacy statement';
 $lang['en_US']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'] = 'data-privacy-statement';
+
 $lang['en_US']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
-$lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = array(
-    'Email templates',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartEmailTemplates']['SINGULARNAME'] = array(
-    'Email template',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartFooterNavigationHolder']['PLURALNAME'] = array(
-    'Footer Navigation Holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = array(
-    'Footer Navigation Holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';
+$lang['en_US']['SilvercartEmailTemplates']['SINGULARNAME'] = 'Email template';
+
+$lang['en_US']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footer Navigation Holders';
+$lang['en_US']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footer Navigation Holder';
 $lang['en_US']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
+
 $lang['en_US']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
-$lang['en_US']['SilvercartFrontPage']['PLURALNAME'] = array(
-    'Front pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartFrontPage']['SINGULARNAME'] = array(
-    'Front page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartHandlingCost']['PLURALNAME'] = array(
-    'Handling Costs',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartHandlingCost']['SINGULARNAME'] = array(
-    'Handling Cost',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartInvoiceAddress']['PLURALNAME'] = array(
-    'Invoice addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartInvoiceAddress']['SINGULARNAME'] = array(
-    'Invoice address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartManufacturer']['PLURALNAME'] = array(
-    'Manufacturers',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartManufacturer']['SINGULARNAME'] = array(
-    'Manufacturer',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartMetaNavigationHolder']['PLURALNAME'] = array(
-    'Metanavigations',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = array(
-    'Metanavigation',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartFrontPage']['PLURALNAME'] = 'Front pages';
+$lang['en_US']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
+
+$lang['en_US']['SilvercartHandlingCost']['PLURALNAME'] = 'Handling Costs';
+$lang['en_US']['SilvercartHandlingCost']['SINGULARNAME'] = 'Handling Cost';
+
+$lang['en_US']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Invoice addresses';
+$lang['en_US']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
+
+$lang['en_US']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
+$lang['en_US']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
+
+$lang['en_US']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigations';
+$lang['en_US']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Metanavigation';
 $lang['en_US']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
-$lang['en_US']['SilvercartMyAccountHolder']['PLURALNAME'] = array(
-    'Account holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartMyAccountHolder']['SINGULARNAME'] = array(
-    'Account holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartMyAccountHolder']['PLURALNAME'] = 'Account holders';
+$lang['en_US']['SilvercartMyAccountHolder']['SINGULARNAME'] = 'Account holder';
 $lang['en_US']['SilvercartMyAccountHolder']['TITLE'] = 'My account';
 $lang['en_US']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'my-account';
-$lang['en_US']['SilvercartOrder']['CONFIRMED'] = 'Confirmed?';
+
+$lang['en_US']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Amount total gross';
+$lang['en_US']['SilvercartOrder']['AMOUNTTOTAL'] = 'Amount total';
+$lang['en_US']['SilvercartOrder']['CARRIERANDSHIPPINGMETHODTITLE'] = 'Shippingmethod';
 $lang['en_US']['SilvercartOrder']['CUSTOMER'] = 'Customer';
+$lang['en_US']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
+$lang['en_US']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Payment handling costs';
+$lang['en_US']['SilvercartOrder']['HANDLINGCOSTSHIPMENT'] = 'Shipping handling costs';
+$lang['en_US']['SilvercartOrder']['NOTE'] = 'Note';
 $lang['en_US']['SilvercartOrder']['ORDER_ID'] = 'Ordernumber';
 $lang['en_US']['SilvercartOrder']['ORDER_VALUE'] = 'Orderamount';
-$lang['en_US']['SilvercartOrder']['PLURALNAME'] = array(
-    'Orders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Paymentmethod';
+$lang['en_US']['SilvercartOrder']['PLURALNAME'] = 'Orders';
 $lang['en_US']['SilvercartOrder']['SHIPPINGRATE'] = 'Shipping rate';
-$lang['en_US']['SilvercartOrder']['SINGULARNAME'] = array(
-    'Order',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartOrder']['SINGULARNAME'] = 'Order';
 $lang['en_US']['SilvercartOrder']['STATUS'] = 'Order status';
+$lang['en_US']['SilvercartOrder']['TAXAMOUNTPAYMENT'] = 'Pamyent tax amount';
+$lang['en_US']['SilvercartOrder']['TAXAMOUNTSHIPMENT'] = 'Shipping tax amount';
+$lang['en_US']['SilvercartOrder']['TAXRATEPAYMENT'] = 'Payment tax rate';
+$lang['en_US']['SilvercartOrder']['TAXRATESHIPMENT'] = 'Shipping tax rate';
+$lang['en_US']['SilvercartOrder']['WEIGHTTOTAL'] = 'Total weight';
 $lang['en_US']['SilvercartOrder']['YOUR_REMARK'] = 'Your remark';
-$lang['en_US']['SilvercartOrderAddress']['PLURALNAME'] = array(
-    'Order addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderAddress']['SINGULARNAME'] = array(
-    'Order address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartOrderConfirmationPage']['PLURALNAME'] = array(
-    'Order Confirmation Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = array(
-    'Order Confirmation Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartOrderAddress']['PLURALNAME'] = 'Order addresses';
+$lang['en_US']['SilvercartOrderAddress']['SINGULARNAME'] = 'Order address';
+
+$lang['en_US']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Order Confirmation Pags';
+$lang['en_US']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Order Confirmation Page';
 $lang['en_US']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
-$lang['en_US']['SilvercartOrderDetailPage']['PLURALNAME'] = array(
-    'Order Detail Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderDetailPage']['SINGULARNAME'] = array(
-    'Order Detail Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Order Detail Pags';
+$lang['en_US']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page';
 $lang['en_US']['SilvercartOrderDetailPage']['TITLE'] = 'Order details';
 $lang['en_US']['SilvercartOrderDetailPage']['URL_SEGMENT'] = 'order-details';
-$lang['en_US']['SilvercartOrderHolder']['PLURALNAME'] = array(
-    'Order Holders',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderHolder']['SINGULARNAME'] = array(
-    'Order Holder',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartOrderHolder']['PLURALNAME'] = 'Order Holders';
+$lang['en_US']['SilvercartOrderHolder']['SINGULARNAME'] = 'Order Holder';
 $lang['en_US']['SilvercartOrderHolder']['TITLE'] = 'My oders';
 $lang['en_US']['SilvercartOrderHolder']['URL_SEGMENT'] = 'my-oders';
-$lang['en_US']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = array(
-    'Order invoice addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = array(
-    'Order invoice address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartOrderPosition']['PLURALNAME'] = array(
-    'Order positions',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderPosition']['SINGULARNAME'] = array(
-    'Order Position',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartOrderShippingAddress']['PLURALNAME'] = array(
-    'Order shipping addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = array(
-    'Order shipping address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Order invoice addresses';
+$lang['en_US']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Order invoice address';
+
+$lang['en_US']['SilvercartOrderPosition']['PLURALNAME'] = 'Order positions';
+$lang['en_US']['SilvercartOrderPosition']['SINGULARNAME'] = 'Order Position';
+
+$lang['en_US']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Order shipping addresses';
+$lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Order shipping address';
+
 $lang['en_US']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
+
 $lang['en_US']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_US']['SilvercartOrderStatus']['PAYED'] = 'Payed';
-$lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = array(
-    'Order status',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderStatus']['SINGULARNAME'] = array(
-    'Order status',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = array(
-    'Waiting for payment',
-    null,
-    'Auf Zahlungseingang wird gewartet'
-);
-$lang['en_US']['SilvercartOrderStatusTexts']['PLURALNAME'] = array(
-    'Order Status Texts',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartOrderStatusTexts']['SINGULARNAME'] = array(
-    'Order Status Text',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = 'Order status';
+$lang['en_US']['SilvercartOrderStatus']['SINGULARNAME'] = 'Order status';
+$lang['en_US']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Waiting for payment';
+$lang['en_US']['SilvercartOrderStatusTexts']['PLURALNAME'] = 'Order Status Texts';
+$lang['en_US']['SilvercartOrderStatusTexts']['SINGULARNAME'] = 'Order Status Text';
+
 $lang['en_US']['SilvercartPage']['ABOUT_US'] = 'About us';
 $lang['en_US']['SilvercartPage']['ABOUT_US_URL_SEGMENT'] = 'about-us';
 $lang['en_US']['SilvercartPage']['ACCESS_CREDENTIALS_CALL'] = 'Please fill in Your access credentials:';
@@ -670,56 +399,28 @@ $lang['en_US']['SilvercartPage']['VIEW_ORDERS_TEXT'] = 'You can check the status
 $lang['en_US']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_US']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_US']['SilvercartPage']['YEAR'] = 'Year';
+
 $lang['en_US']['SilvercartPaymentMethod']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_US']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Basic settings';
 $lang['en_US']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'From purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['MODE'] = 'mode';
-$lang['en_US']['SilvercartPaymentMethod']['PLURALNAME'] = array(
-    'Payment methods',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartPaymentMethod']['PLURALNAME'] = 'Payment methods';
 $lang['en_US']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Shipping method';
-$lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = array(
-    'Payment method',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
 $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard order status for this payment method';
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
-$lang['en_US']['SilvercartPaymentMethodTexts']['PLURALNAME'] = array(
-    'Payment translations',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = array(
-    'Payment translation',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartPaymentNotification']['PLURALNAME'] = array(
-    'Payment Notifications',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartPaymentNotification']['SINGULARNAME'] = array(
-    'Payment Notification',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Payment translations';
+$lang['en_US']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Payment translation';
+
+$lang['en_US']['SilvercartPaymentNotification']['PLURALNAME'] = 'Payment Notifications';
+$lang['en_US']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Payment Notification';
 $lang['en_US']['SilvercartPaymentNotification']['TITLE'] = 'Payment notification';
 $lang['en_US']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'payment-notification';
-$lang['en_US']['SilvercartPrice']['PLURALNAME'] = array(
-    'Prices',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartPrice']['SINGULARNAME'] = array(
-    'Price',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartPrice']['PLURALNAME'] = 'Prices';
+$lang['en_US']['SilvercartPrice']['SINGULARNAME'] = 'Price';
+
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';
@@ -729,216 +430,94 @@ $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONFAILUREMESSAGE
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE'] = '<p>Your registration was successfully completed! For your comfort you are already logged in.</p><p>have fun!</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADYCONFIRMEDMESSAGE'] = '<p>Your account is already activated.</p>';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'Failure message';
-$lang['en_US']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = array(
-    'Register confirmation pages',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartRegisterConfirmationPage']['SINGULARNAME'] = array(
-    'Register confirmation page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = 'Register confirmation pages';
+$lang['en_US']['SilvercartRegisterConfirmationPage']['SINGULARNAME'] = 'Register confirmation page';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['SUCCESS_MESSAGE_TEXT'] = 'Success message';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['TITLE'] = 'Register confirmation page';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['URL_SEGMENT'] = 'register-confirmation';
+
 $lang['en_US']['SilvercartRegisterWelcomePage']['CONTENT'] = '<p>Thank you for registering at our webshop. We sent you an email with directions to activate your account. Pleas check your inbox.</p><p>Thank you!</p>';
-$lang['en_US']['SilvercartRegisterWelcomePage']['PLURALNAME'] = array(
-    'Register Welcome Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartRegisterWelcomePage']['SINGULARNAME'] = array(
-    'Register Welcome Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartRegisterWelcomePage']['PLURALNAME'] = 'Register Welcome Pags';
+$lang['en_US']['SilvercartRegisterWelcomePage']['SINGULARNAME'] = 'Register Welcome Page';
+
 $lang['en_US']['SilvercartRegistrationPage']['ACTIVATION_MAIL'] = 'Activation mail';
 $lang['en_US']['SilvercartRegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'Activation mail subject';
 $lang['en_US']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Activation mail text';
 $lang['en_US']['SilvercartRegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>';
 $lang['en_US']['SilvercartRegistrationPage']['CUSTOMER_SALUTATION'] = 'Dear customer\,';
 $lang['en_US']['SilvercartRegistrationPage']['PLEASE_COFIRM'] = 'Please confirm Your registration';
-$lang['en_US']['SilvercartRegistrationPage']['PLURALNAME'] = array(
-    'Registration Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartRegistrationPage']['SINGULARNAME'] = array(
-    'Registration Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartRegistrationPage']['PLURALNAME'] = 'Registration Pags';
+$lang['en_US']['SilvercartRegistrationPage']['SINGULARNAME'] = 'Registration Page';
 $lang['en_US']['SilvercartRegistrationPage']['SUCCESS_TEXT'] = '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>';
 $lang['en_US']['SilvercartRegistrationPage']['THANKS'] = 'Many thanks for Your registration';
 $lang['en_US']['SilvercartRegistrationPage']['TITLE'] = 'Registration page';
 $lang['en_US']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'registration';
 $lang['en_US']['SilvercartRegistrationPage']['YOUR_REGISTRATION'] = 'Your registration';
-$lang['en_US']['SilvercartRegularCustomer']['PLURALNAME'] = array(
-    'Regular Customers',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+
+$lang['en_US']['SilvercartRegularCustomer']['PLURALNAME'] = 'Regular Customers';
 $lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER'] = 'Regular customer';
 $lang['en_US']['SilvercartRegularCustomer']['REGULARCUSTOMER_OPTIN'] = 'Regular customer unconfirmed';
-$lang['en_US']['SilvercartRegularCustomer']['SINGULARNAME'] = array(
-    'Regular Customer',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartSearchResultsPage']['PLURALNAME'] = array(
-    'Search Results Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartSearchResultsPage']['SINGULARNAME'] = array(
-    'Search Results Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartRegularCustomer']['SINGULARNAME'] = 'Regular Customer';
+
+$lang['en_US']['SilvercartSearchResultsPage']['PLURALNAME'] = 'Search Results Pags';
+$lang['en_US']['SilvercartSearchResultsPage']['SINGULARNAME'] = 'Search Results Page';
 $lang['en_US']['SilvercartSearchResultsPage']['TITLE'] = 'Search results';
 $lang['en_US']['SilvercartSearchResultsPage']['URL_SEGMENT'] = 'search-results';
-$lang['en_US']['SilvercartShippingAddress']['PLURALNAME'] = array(
-    'Shipping addresses',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShippingAddress']['SINGULARNAME'] = array(
-    'Shipping address',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartShippingAddress']['PLURALNAME'] = 'Shipping addresses';
+$lang['en_US']['SilvercartShippingAddress']['SINGULARNAME'] = 'Shipping address';
+
 $lang['en_US']['SilvercartShippingFee']['ATTRIBUTED_SHIPPINGMETHOD'] = 'Attributed shipping method';
 $lang['en_US']['SilvercartShippingFee']['COSTS'] = 'Costs';
 $lang['en_US']['SilvercartShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zone--';
-$lang['en_US']['SilvercartShippingFee']['FOR_SHIPPINGMETHOD'] = array(
-    'For shipping method',
-    null,
-    'Für Versandart'
-);
-$lang['en_US']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = array(
-    'Maximum weight (g)',
-    null,
-    'Maximalgewicht (g)'
-);
-$lang['en_US']['SilvercartShippingFee']['PLURALNAME'] = array(
-    'Shipping fees',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShippingFee']['SINGULARNAME'] = array(
-    'Shipping fee',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartShippingFee']['FOR_SHIPPINGMETHOD'] = 'For shipping method';
+$lang['en_US']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximum weight (g)';
+$lang['en_US']['SilvercartShippingFee']['PLURALNAME'] = 'Shipping fees';
+$lang['en_US']['SilvercartShippingFee']['SINGULARNAME'] = 'Shipping fee';
 $lang['en_US']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only carrier\'s zones available)';
-$lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = array(
-    'Shipping Fees Pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShippingFeesPage']['SINGULARNAME'] = array(
-    'Shipping Fees Page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees Pags';
+$lang['en_US']['SilvercartShippingFeesPage']['SINGULARNAME'] = 'Shipping Fees Page';
 $lang['en_US']['SilvercartShippingFeesPage']['TITLE'] = 'Shipping fees';
 $lang['en_US']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
+
 $lang['en_US']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'For payment methods';
 $lang['en_US']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
-$lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = array(
-    'Shipping methods',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = array(
-    'Shipping method',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = array(
-    'Shipping method translations',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = array(
-    'Shipping method translation',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
+$lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
+$lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
+$lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
+
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'Activated';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Maximum amount';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Minimum amount';
+
 $lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
+
 $lang['en_US']['SilvercartShopEmail']['EMAILTEXT'] = 'Message';
 $lang['en_US']['SilvercartShopEmail']['IDENTIFIER'] = 'Identifier';
-$lang['en_US']['SilvercartShopEmail']['PLURALNAME'] = array(
-    'Shop Emails',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShopEmail']['SINGULARNAME'] = array(
-    'Shop Email',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartShopEmail']['PLURALNAME'] = 'Shop Emails';
+$lang['en_US']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop Email';
 $lang['en_US']['SilvercartShopEmail']['SUBJECT'] = 'Subject';
 $lang['en_US']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
-$lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = array(
-    'Carts',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShoppingCart']['SINGULARNAME'] = array(
-    'Cart',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartShoppingCartPosition']['PLURALNAME'] = array(
-    'Cart positions',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartShoppingCartPosition']['SINGULARNAME'] = array(
-    'Cart position',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+
+$lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
+$lang['en_US']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
+$lang['en_US']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Cart positions';
+$lang['en_US']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Cart position';
+
 $lang['en_US']['SilvercartTax']['LABEL'] = 'label';
-$lang['en_US']['SilvercartTax']['PLURALNAME'] = array(
-    'Rates',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
+$lang['en_US']['SilvercartTax']['PLURALNAME'] = 'Rates';
 $lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
-$lang['en_US']['SilvercartTax']['SINGULARNAME'] = array(
-    'Rate',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
-$lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = array(
-    'Terms and conditions pags',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = array(
-    'Terms and conditions page',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartTax']['SINGULARNAME'] = 'Rate';
+
+$lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pags';
+$lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
+
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_US']['SilvercartZone']['COUNTRIES'] = 'Countries';
 $lang['en_US']['SilvercartZone']['DOMESTIC'] = 'Domestic';
 $lang['en_US']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
-$lang['en_US']['SilvercartZone']['PLURALNAME'] = array(
-    'Zones',
-    50,
-    'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
-);
-$lang['en_US']['SilvercartZone']['SINGULARNAME'] = array(
-    'Zone',
-    50,
-    'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
-);
+$lang['en_US']['SilvercartZone']['PLURALNAME'] = 'Zones';
+$lang['en_US']['SilvercartZone']['SINGULARNAME'] = 'Zone';
