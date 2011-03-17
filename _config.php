@@ -92,6 +92,10 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 
+SortableDataObject::add_sortable_classes(array(
+    "SilvercartProduct",
+));
+
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

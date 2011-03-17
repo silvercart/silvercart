@@ -310,6 +310,8 @@ class SilvercartProduct extends DataObject {
         }
         $filter .= 'isActive = 1';
 
+        $sort = 'SortOrder';
+
         $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         if ($products) {
             return $products;
@@ -546,14 +548,12 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 11.03.2011
-	 */
-	public function getModelSidebar() {
+     */
+    public function getModelSidebar() {
         $sidebarHtml = parent::getModelSidebar();
-
         $this->extend('getUpdatedModelSidebar', $sidebarHtml);
-
-		return $sidebarHtml;
-	}
+        return $sidebarHtml;
+    }
 
     /**
      * Generate a CSV import form for a single {@link DataObject} subclass.
@@ -601,9 +601,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     }
 
     /**
-	 * Create a custom form so that we can extend it.
-	 *
-	 * @return Form
+     * Create a custom form so that we can extend it.
+     *
+     * @param string $formIdentifier Identifier of the form to extend
+     *
+     * @return Form
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
