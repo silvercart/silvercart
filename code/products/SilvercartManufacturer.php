@@ -64,7 +64,8 @@ class SilvercartManufacturer extends DataObject {
      */
     public static $db = array(
         'Title' => 'VarChar',
-        'URL'   => 'VarChar'
+        'URL'   => 'VarChar',
+        'URLSegment'   => 'VarChar'
     );
     /**
      * Has-one relationships.
@@ -172,6 +173,19 @@ class SilvercartManufacturer extends DataObject {
     }
 
     /**
+     * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
+     *
+     * @param array $params See {@link scaffoldFormFields()}
+     *
+     * @return FieldSet
+     */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        $fields->removeByName('URLSegment');
+        return $fields;
+    }
+
+    /**
      * Returns the link to the manufacturer filtered product list in dependence
      * on the product group.
      *
@@ -181,7 +195,7 @@ class SilvercartManufacturer extends DataObject {
      * @since 07.03.2011
      */
     public function Link() {
-        return Controller::curr()->Link() . _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') . '/' . strtolower(urlencode($this->Title));
+        return Controller::curr()->Link() . _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') . '/' . $this->URLSegment;
     }
 
     /**
@@ -211,6 +225,37 @@ class SilvercartManufacturer extends DataObject {
      * @since 07.03.2011
      */
     public static function getByUrlSegment($urlSegment) {
-        return DataObject::get_one('SilvercartManufacturer', sprintf("LOWER(`Title`) = '%s'",  urldecode($urlSegment)));
+        return DataObject::get_one('SilvercartManufacturer', sprintf("`URLSegment` = '%s'", Convert::raw2sql($urlSegment)));
+    }
+
+    /**
+     * Manipulates the object before writing.
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.03.2011
+     */
+    public function  onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (empty ($this->Title)) {
+            return;
+        }
+        $this->URLSegment = $this->title2urlSegment();
+    }
+
+    /**
+     * Remove chars from the title that are not appropriate for an url
+     *
+     * @return string sanitized manufacturer title
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.03.2011
+     */
+    public function title2urlSegment() {
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '');
+        $string = str_replace($remove, $replace, $this->Title);
+        return $string;
     }
 }

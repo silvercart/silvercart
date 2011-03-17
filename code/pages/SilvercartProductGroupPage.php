@@ -123,7 +123,7 @@ class SilvercartProductGroupPage extends Page {
         $drawCMSFields   = true;
         $updateCMSFields = $this->extend('updateDrawCMSFields', $drawCMSFields);
 
-        if (is_array($updateCMSFields)) {
+        if (!empty($updateCMSFields)) {
             $drawCMSFields = $updateCMSFields[0];
         }
 
@@ -418,7 +418,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
             if ($this->isFilteredByManufacturer()) {
                 $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
-                $this->addListFilter('SilvercartManufacturerID', $manufacturer->ID);
+                if ($manufacturer) {
+                    $this->addListFilter('SilvercartManufacturerID', $manufacturer->ID);
+                }
             }
 
             $filter = sprintf("`SilvercartProductGroupID` = '%s'",$this->ID);
