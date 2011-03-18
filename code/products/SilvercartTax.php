@@ -66,7 +66,8 @@ class SilvercartTax extends DataObject {
      */
     public static $db = array(
         'Title' => 'VarChar',
-        'Rate'  => 'Int'
+        'Rate'  => 'Float',
+        'Identifier' => 'VarChar(30)'
     );
 
     /**
@@ -149,6 +150,20 @@ class SilvercartTax extends DataObject {
         self::$singular_name = _t('SilvercartTax.SINGULARNAME', 'tax');
         self::$plural_name = _t('SilvercartTax.PLURALNAME', 'taxes');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * determine the tax rate. This method can be extended via DataObjectDecorator to implement own behaviour.
+     *
+     * @return float the tax rate in percent
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.3.2011
+     */
+    public function getTaxRate() {
+        $overwritten = $this->extend('getTaxRate');
+        if (empty ($overwritten)) {
+            return $this->Rate;
+        }
     }
 
 }

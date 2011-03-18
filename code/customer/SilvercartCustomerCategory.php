@@ -22,7 +22,7 @@
  */
 
 /**
- * abstract for destinguishing customers that may have special prices
+ * abstract for destinguishing customers that may have special prices or vouchers
  *
  * @package Silvercart
  * @subpackage Customer
@@ -35,7 +35,8 @@ class SilvercartCustomerCategory extends DataObject {
     public static $singular_name = "customer category";
     public static $plural_name = "customer categories";
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title' => 'VarChar',
+        'Code' => 'VarChar'
     );
     public static $has_many = array(
         'prices' => 'SilvercartPrice',
@@ -63,5 +64,20 @@ class SilvercartCustomerCategory extends DataObject {
         "Title" => _t('SilvercartProduct.COLUMN_TITLE')
     );
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * configure backend fields
+     *
+     * @param mixed $params ???
+     * 
+     * @return FieldSet all backend fields
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.3.2011
+     */
+    public function  getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        $fields->removeByName('Code');
+        return $fields;
     }
 }

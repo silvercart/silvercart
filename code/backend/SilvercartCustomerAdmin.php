@@ -37,7 +37,8 @@ class SilvercartCustomerAdmin extends ModelAdmin {
         'SilvercartRegularCustomer',
         'SilvercartAnonymousCustomer',
         'Member',
-        'SilvercartBusinessCustomer'
+        'SilvercartBusinessCustomer',
+        'SilvercartCustomerCategory'
     );
     public static $url_segment = 'customers';
     public static $menu_title = 'customers';

@@ -184,9 +184,13 @@ $lang['de_DE']['SilvercartCountry']['SINGULARNAME'] = 'Land';
 
 $lang['de_DE']['SilvercartCustomerAdmin']['customers'] = 'Kunden';
 
+$lang['de_DE']['SilvercartCustomerCategory']['EXISTING_CUSTOMER'] = 'Bestandskunde';
+$lang['de_DE']['SilvercartCustomerCategory']['NEW_CUSTOMER'] = 'Neukunde';
 $lang['de_DE']['SilvercartCustomerCategory']['PLURALNAME'] = 'Kundengruppen';
 $lang['de_DE']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Kundengruppe';
-
+$lang['de_DE']['SilvercartCustomerRole']['GROSS'] = 'Brutto';
+$lang['de_DE']['SilvercartCustomerRole']['NET'] = 'Netto';
+$lang['de_DE']['SilvercartCustomerRole']['PRICING'] = 'Preisangabe';
 $lang['de_DE']['SilvercartCustomerRole']['SALUTATION'] = 'Anrede';
 $lang['de_DE']['SilvercartCustomerRole']['SUBSCRIBEDTONEWSLETTER'] = 'Hat Newsletter aboniert';
 $lang['de_DE']['SilvercartCustomerRole']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Hat die AGB akzeptiert';

@@ -180,8 +180,13 @@ $lang['en_US']['SilvercartCountry']['PLURALNAME'] = 'Countries';
 $lang['en_US']['SilvercartCountry']['SINGULARNAME'] = 'Country';
 
 $lang['en_US']['SilvercartCustomerAdmin']['customers'] = 'Customers';
+$lang['en_US']['SilvercartCustomerCategory']['EXISTING_CUSTOMER'] = 'existing customer';
+$lang['en_US']['SilvercartCustomerCategory']['NEW_CUSTOMER'] = 'new customer';
 $lang['en_US']['SilvercartCustomerCategory']['PLURALNAME'] = 'Customer categories';
 $lang['en_US']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Customer category';
+$lang['en_US']['SilvercartCustomerRole']['GROSS'] = 'gross';
+$lang['en_US']['SilvercartCustomerRole']['NET'] = 'net';
+$lang['en_US']['SilvercartCustomerRole']['PRICING'] = 'Pricing';
 $lang['en_US']['SilvercartCustomerRole']['SALUTATION'] = 'Salutation';
 $lang['en_US']['SilvercartCustomerRole']['SUBSCRIBEDTONEWSLETTER'] = 'Subscribed to newsletter';
 $lang['en_US']['SilvercartCustomerRole']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Has accepted terms and conditions';

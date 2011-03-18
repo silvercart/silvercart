@@ -90,9 +90,30 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
                 'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
-                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
+                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders')
             ),
         );
+    }
+
+    /**
+     * manipulate the cms fields of the decorated class
+     *
+     * @param FieldSet &$fields the field set of cms fields
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.3.2011
+     * @return void
+     */
+    public function updateCMSFields(FieldSet &$fields) {
+        parent::updateCMSFields($fields);
+        //i18n for enum values of Salutation
+        $fields->removeByName('Salutation');
+        $values = array(
+            'Herr' => _t('SilvercartAddress.MISTER'),
+            'Frau' => _t('SilvercartAddress.MISSIS')
+        );
+        $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomerRole.SALUTATION'), $values);
+        $fields->insertBefore($salutationDropdown, 'FirstName');
     }
 
     /**
