@@ -26,7 +26,7 @@
  *
  * @package Silvercart
  * @subpackage Products
- * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -80,7 +80,10 @@ class SilvercartProduct extends DataObject {
         'ProductNumberShop'         => 'VarChar(50)',
         'ProductNumberManufacturer' => 'VarChar(50)',
         'EANCode'                   => 'VarChar(13)',
-        'isActive'                  => 'Boolean(1)'
+        'isActive'                  => 'Boolean(1)',
+        'PurchaseMinDuration'       => 'Int',
+        'PurchaseMaxDuration'       => 'Int',
+        'PurchaseTimeUnit'          => 'Enum(",Days,Weeks,Months","")',
     );
 
     /**
@@ -108,6 +111,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartManufacturer'    => 'SilvercartManufacturer',
         'SilvercartProductGroup'    => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'   => 'SilvercartProduct',
+        'SilvercartAvailabilityStatus' => 'SilvercartAvailabilityStatus',
         'Image'                     => 'Image'
     );
 
@@ -264,6 +268,10 @@ class SilvercartProduct extends DataObject {
                 'SilvercartProductGroup'    => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
                 'SilvercartMasterProduct'   => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
                 'Image'                     => _t('SilvercartProduct.IMAGE', 'product image'),
+                'SilvercartAvailabilityStatus'  => _t('SilvercartAvailabilityStatus.SINGULARNAME', 'Availability Status'),
+                'PurchaseMinDuration'       => _t('SilvercartProduct.PURCHASE_MIN_DURATION', 'Min. purchase duration'),
+                'PurchaseMaxDuration'       => _t('SilvercartProduct.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
+                'PurchaseTimeUnit'          => _t('SilvercartProduct.PURCHASE_TIME_UNIT', 'Purchase time unit'),
             )
         );
 
@@ -358,6 +366,25 @@ class SilvercartProduct extends DataObject {
         $fields = parent::getCMSFields($params);
         $fields->removeByName('SilvercartProductGroupID');
         $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+
+        $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
+        $fields->removeByName('PurchaseMinDuration');
+        $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
+        $fields->removeByName('PurchaseMaxDuration');
+        $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
+        $source = $purchaseTimeUnitField->getSource();
+        $source['Days'] = _t('Silvercart.DAYS','Days');
+        $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
+        $source['Months'] = _t('Silvercart.MONTHS','Months');
+        $purchaseTimeUnitField->setSource($source);
+        $fields->removeByName('PurchaseTimeUnit');
+        $availabilityStatusField    = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
+        $fields->removeByName('SilvercartAvailabilityStatusID');
+
+        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'Image');
+        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'Image');
+        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'Image');
+        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'Image');
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
@@ -524,6 +551,36 @@ class SilvercartProduct extends DataObject {
         $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
 
         return $taxRate;
+    }
+
+    /**
+     * Returns a HTML snippet to display the availability of the product.
+     *
+     * @return string
+     */
+    public function getAvailability() {
+        if ($this->SilvercartAvailabilityStatus()) {
+            if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
+             && !empty($this->PurchaseTimeUnit)
+             && (!empty($this->PurchaseMinDuration)
+              || !empty($this->PurchaseMaxDuration))) {
+                $class = 'available-in';
+                if (empty($this->PurchaseMinDuration)) {
+                    $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
+                } elseif (empty($this->PurchaseMinDuration)) {
+                    $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
+                } else {
+                    $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN_MIN_MAX'), $this->PurchaseMinDuration, $this->PurchaseMaxDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
+                }
+            } else {
+                $class = $this->SilvercartAvailabilityStatus()->Code;
+                $title = $this->SilvercartAvailabilityStatus()->Title;
+            }
+            $html = '<span class="' . $class . '">' . $title . '</span>';
+        } else {
+            $html = '';
+        }
+        return $html;
     }
 }
 

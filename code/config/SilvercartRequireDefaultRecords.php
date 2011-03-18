@@ -182,12 +182,28 @@ class SilvercartRequireDefaultRecords extends DataObject {
         if (!DataObject::get_one('SilvercartOrderStatus')) {
 
             $defaultStatusEntries = array(
-                'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment', null, 'Auf Zahlungseingang wird gewartet'),
+                'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment'),
                 'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
                 $obj = new SilvercartOrderStatus();
+                $obj->Title = $title;
+                $obj->Code = $code;
+                $obj->write();
+            }
+        }
+
+        // create availability status
+        if (!DataObject::get_one('SilvercartAvailabilityStatus')) {
+
+            $defaultStatusEntries = array(
+                'available'     => _t('SilvercartAvailabilityStatus.STATUS_AVAILABLE', 'available'),
+                'not-available' => _t('SilvercartAvailabilityStatus.STATUS_NOT_AVAILABLE', 'not available')
+            );
+
+            foreach ($defaultStatusEntries as $code => $title) {
+                $obj = new SilvercartAvailabilityStatus();
                 $obj->Title = $title;
                 $obj->Code = $code;
                 $obj->write();
