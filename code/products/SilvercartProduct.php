@@ -67,7 +67,8 @@ class SilvercartProduct extends DataObject {
     public static $db = array(
         'Title'                     => 'VarChar(255)',
         'PurchasePrice'             => 'Money',
-        'Price'                     => 'Money', //if no price object exists this attribute is choosen
+        'PriceGross'                => 'Money', //price taxes including
+        'PriceNet'                  => 'Money', //price taxes excluded
         'ShortDescription'          => 'VarChar(255)',
         'LongDescription'           => 'Text',
         'MSRPrice'                  => 'Money',
@@ -286,11 +287,16 @@ class SilvercartProduct extends DataObject {
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
+        $pricetype = SilvercartConfig::getPricetype();
         if (!empty($requiredAttributes)) {
             $filter = "";
             foreach ($requiredAttributes as $requiredAttribute) {
                 if ($requiredAttribute == "Price") {
-                    $filter .= sprintf("(`PriceAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                    if ($pricetype == "gross") {
+                        $filter .= sprintf("(`PriceGrossAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                    } elseif ($pricetype == "net") {
+                        $filter .= sprintf("(`PriceNetAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                    }
                 } else {
                     $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
                 }
@@ -361,6 +367,23 @@ class SilvercartProduct extends DataObject {
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
+    }
+
+    /**
+     * Getter for aricles price
+     *
+     * @return Money price dependent on customer class and configuration
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.3.2011
+     */
+    public function getPrice() {
+        $pricetype = SilvercartConfig::getPricetype();
+        if ($pricetype =="net") {
+            $price = $this->PriceNet;
+        } elseif ($pricetype == "gross") {
+            $price = $this->PriceGross;
+        }
+        return $price;
     }
 
     /**

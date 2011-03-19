@@ -8,7 +8,9 @@
                         <tr>
                             <th><% _t('SilvercartPage.PRODUCTNAME','product name') %></th>
                             <th><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
+                            <% if Top.showPricesGross %>
                             <th><% _t('SilvercartProduct.VAT','VAT') %></th>
+                            <% end_if %>
                             <th class="right"><% _t('SilvercartProductPage.QUANTITY') %></th>
                             <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
 
@@ -24,7 +26,9 @@
                             <tr<% if Last %> class="separator"<% end_if %>>
                                 <td>$SilvercartProduct.Title</td>
                                 <td class="right">$SilvercartProduct.Price.Nice</td>
+                                <% if Top.showPricesGross %>
                                 <td class="right">{$SilvercartProduct.SilvercartTax.Rate}%</td>
+                                <% end_if %>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
 
@@ -67,21 +71,23 @@
                             <% end_if %>
                         </tr>
 
-                        <% if TaxRatesWithoutFees %>
-                            <% control TaxRatesWithoutFees %>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
-                                <td class="right">$Amount.Nice</td>
+                        <% if Top.showPricesGross %>
+                            <% if TaxRatesWithoutFees %>
+                                <% control TaxRatesWithoutFees %>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                                    <td class="right">$Amount.Nice</td>
 
-                                <% if Top.EditableShoppingCart %>
-                                    <td></td>
-                                    <td></td>
-                                <% end_if %>
-                            </tr>
-                            <% end_control %>
+                                    <% if Top.EditableShoppingCart %>
+                                        <td></td>
+                                        <td></td>
+                                    <% end_if %>
+                                </tr>
+                                <% end_control %>
+                            <% end_if %>
                         <% end_if %>
 
                         <% if ShowFees %>

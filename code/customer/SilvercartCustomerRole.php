@@ -91,7 +91,7 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
                 'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
                 'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders')
-            ),
+            )
         );
     }
 

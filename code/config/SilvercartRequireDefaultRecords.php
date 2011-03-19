@@ -627,8 +627,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->SilvercartTaxID = $taxRateID;
                     $product->SilvercartManufacturerID = $manufacturer->ID;
                     $product->Title = 'Testproduct' . $idx;
-                    $product->Price->setAmount($idx * 9 + 0.99);
-                    $product->Price->setCurrency('EUR');
+                    $product->PriceGross->setAmount($idx * 9 + 0.99);
+                    $product->PriceGross->setCurrency('EUR');
+                    $product->PriceNet->setAmount($idx * 9 + 0.94);
+                    $product->PriceNet->setCurrency('EUR');
                     $product->MSRPrice->setAmount($idx * 9 + 0.99);
                     $product->MSRPrice->setCurrency('EUR');
                     $product->PurchasePrice->setAmount($idx * 9 + 0.99);

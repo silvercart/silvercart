@@ -363,4 +363,36 @@ class SilvercartPage_Controller extends ContentController {
         );
         return $output;
     }
+
+    /**
+     * used to determine weather something should be shown on a template or not
+     *
+     * @return bool
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.3.2011
+     */
+    public function showPricesGross() {
+        $pricetype = SilvercartConfig::getPricetype();
+        if ($pricetype == "gross") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * used to determine weather something should be shown on a template or not
+     *
+     * @return bool
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.3.2011
+     */
+    public function showPricesNet() {
+        $pricetype = SilvercartConfig::getPricetype();
+        if ($pricetype == "net") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

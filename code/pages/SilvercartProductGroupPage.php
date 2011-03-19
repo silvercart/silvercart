@@ -84,7 +84,6 @@ class SilvercartProductGroupPage extends Page {
                 'SilvercartProduct',
                 array(
                     'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                    'PriceAmount' => _t('SilvercartProduct.PRICE', 'price'),
                     'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
                 ),
                 'getCMSFields',

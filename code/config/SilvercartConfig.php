@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -36,14 +37,22 @@ class SilvercartConfig extends DataObject {
 
     public static $singular_name = "General configuration";
     public static $plural_name = "General configurations";
-
     public static $db = array(
         'DefaultCurrency' => 'VarChar(16)',
         'EmailSender' => 'VarChar(255)',
         'GlobalEmailRecipient' => 'VarChar(255)',
-        'allowCartWeightToBeZero' => 'Boolean(0)'
+        'allowCartWeightToBeZero' => 'Boolean(0)',
+        'PricetypeAnonymousCustomers' => 'VarChar(6)',
+        'PricetypeRegularCustomers' => 'VarChar(6)',
+        'PricetypeBusinessCustomers' => 'VarChar(6)',
+        'PricetypeAdmins' => 'VarChar(6)'
     );
-
+    public static $defaults = array(
+        'PricetypeAnonymousCustomers' => 'gross',
+        'PricetypeRegularCustomers' => 'gross',
+        'PricetypeBusinessCustomers' => 'net',
+        'PricetypeAdmins' => 'net'
+    );
     /**
      * Define all required configuration fields in this array. The given fields
      * will be handled in self::Check().
@@ -53,13 +62,9 @@ class SilvercartConfig extends DataObject {
     public static $required_configuration_fields = array(
         'EmailSender'
     );
-
     public static $defaultLayoutEnabled = true;
-
     public static $defaultCurrency = null;
-
     public static $emailSender = null;
-
     public static $globalEmailRecipient = null;
 
     /**
@@ -74,7 +79,7 @@ class SilvercartConfig extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
+    public function __construct($record = null, $isSingleton = false) {
         self::$singular_name = _t('SilvercartConfig.SINGULARNAME', 'General configuration');
         self::$plural_name = _t('SilvercartConfig.PLURALNAME', 'General configurations');
         parent::__construct($record, $isSingleton);
@@ -93,8 +98,27 @@ class SilvercartConfig extends DataObject {
     public function getCMSFields($params = null) {
         $CMSFields = parent::getCMSFields($params);
 
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForEmailSender',  _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
+        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
         $CMSFields->addFieldToTab('Root.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')));
+
+        /*
+         * configure the fields for pricetype configuration
+         */
+        $pricetypes = array(
+            'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
+            'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
+            'PricetypeBusinessCustomers' => _t('SilvercartConfig.PRICETYPE_BUSINESS', 'Pricetype business customers'),
+            'PricetypeAdmins' => _t('SilvercartConfig.PRICETYPE_ADMINS', 'Pricetype administrators')
+        );
+        $pricetypeDropdownValues = array(
+            'gross' => _t('SilvercartCustomerRole.GROSS'),
+            'net' => _t('SilvercartCustomerRole.NET')
+        );
+        foreach ($pricetypes as $name => $title) {
+            $CMSFields->removeByName($name);
+            $dropdownField = new DropdownField($name, $title, $pricetypeDropdownValues);
+            $CMSFields->push($dropdownField);
+        }
 
         return $CMSFields;
     }
@@ -109,7 +133,7 @@ class SilvercartConfig extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public function  fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
         $fieldLabels['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
@@ -126,7 +150,7 @@ class SilvercartConfig extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public function  summaryFields() {
+    public function summaryFields() {
         $summaryFields = parent::summaryFields();
         $summaryFields['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $summaryFields['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
@@ -165,25 +189,25 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$required_configuration_fields)) {
             return true;
         }
-        if (empty (self::$required_configuration_fields)) {
+        if (empty(self::$required_configuration_fields)) {
             return true;
         }
         if (is_array(self::$required_configuration_fields)) {
             $config = DataObject::get_one('SilvercartConfig');
             foreach (self::$required_configuration_fields as $requiredField) {
-                if (empty ($requiredField) || is_null($requiredField)) {
+                if (empty($requiredField) || is_null($requiredField)) {
                     continue;
                 }
-                if (empty ($config->$requiredField)) {
+                if (empty($config->$requiredField)) {
                     $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField)));
                     $elements = array(
                         'ErrorMessage' => $errorMessage,
                     );
                     $output = Controller::curr()->customise($elements)->renderWith(
-                        array(
-                            'SilvercartErrorPage',
-                            'Page'
-                        )
+                                    array(
+                                        'SilvercartErrorPage',
+                                        'Page'
+                                    )
                     );
                     print $output;
                     exit();
@@ -257,9 +281,9 @@ class SilvercartConfig extends DataObject {
             return false;
         }
     }
-    
+
     // Put foreign configurations here
-    
+
     /**
      * Disables the base layout of SilverCart. This is important if the layout
      * stands in conflict with your projects default layout.
@@ -388,4 +412,38 @@ class SilvercartConfig extends DataObject {
     public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
         SilvercartGroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
     }
+
+    /**
+     * determins weather a customer gets prices shown gross or net dependent on customer's class
+     *
+     * @return string returns "gross" or "net"
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.3.2011
+     */
+    public static function getPricetype() {
+        $member = Member::currentUser();
+        $configObject = DataObject::get_one('SilvercartConfig');
+        if ($configObject) {
+            if ($member) {
+                switch ($member->ClassName) {
+                    case "SilvercartAnonymousCustomer":
+                        $pricetype = $configObject->PricetypeAnonymousCustomers;
+                        break;
+                    case "SilvercartRegularCustomer":
+                        $pricetype = $configObject->PricetypeRegularCustomers;
+                        break;
+                    case "SilvercartBusinessCustomer":
+                        $pricetype = $configObject->PricetypeBusinessCustomers;
+                        break;
+                    case "Member":
+                        $pricetype = $configObject->PricetypeAdmins;
+                        break;
+                }
+            } else {
+                $pricetype = $configObject->PricetypeAnonymousCustomers;
+            }
+            return $pricetype;
+        }
+    }
+
 }
