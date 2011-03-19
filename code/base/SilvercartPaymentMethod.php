@@ -724,7 +724,11 @@ class SilvercartPaymentMethod extends DataObject {
             $checkObj = DataObject::get_one($this->ClassName);
 
             if (!$checkObj) {
-                $this->setField('isActive', 0);
+                if ($this->moduleName == "Vorkasse") {
+                    $this->setField('isActive', 1);
+                } else {
+                   $this->setField('isActive', 0);
+                }
                 $this->setField('Name', _t($this->ClassName . '.NAME', $this->moduleName));
                 $this->setField('Title', _t($this->ClassName . '.TITLE', $this->moduleName));
                 $this->write();

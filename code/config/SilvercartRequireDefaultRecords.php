@@ -152,6 +152,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $shippingMethod->Title = _t('SilvercartShippingMethod.PACKAGE', 'package');
                 //relate shipping method to carrier
                 $shippingMethod->SilvercartCarrierID = $carrier->ID;
+                $shippingMethod->isActive = 1;
                 $shippingMethod->write();
             }
 
