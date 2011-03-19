@@ -45,3 +45,17 @@
 .product-page form.yform legend {
     display: none;
 }
+
+.product-status {
+    font-weight: bold;
+    text-align: right;
+}
+.product-status .available {
+    color: #009900;
+}
+.product-status .not-available {
+    color: #bb0000;
+}
+.product-status .available-in {
+    color: #CCAA00;
+}

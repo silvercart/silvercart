@@ -11,8 +11,8 @@
                     </div>
                     <div class="c50r">
                         <p>$ShortDescription</p>
-                        <div class="product-page-details">
-                            <p><strong class="price">$Price.Nice</strong><br/>
+                        <div class="subcolumns">
+                            <p class="product-page-details"><strong class="price">$Price.Nice</strong><br/>
                                 <% if showPricesGross %>
                             <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$SilvercartTax.Rate) %><br />
                             <% else %>
@@ -21,7 +21,18 @@
                                 <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                             </p>
                         </div>
-                        $productAddCartForm
+                    </div>
+                </div>
+                <div class="subcolumns clearfix">
+                    <div class="c50l">
+                        <div class="subcl product-status">
+                            $Availability
+                        </div>
+                    </div>
+                    <div class="c50r">
+                        <div class="subcr">
+                            $productAddCartForm
+                        </div>
                     </div>
                 </div>
                 <div class="product-page-description">

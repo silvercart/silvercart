@@ -33,6 +33,13 @@ if (array_key_exists('de_DE', $lang) && is_array($lang['de_DE'])) {
     $lang['de_DE'] = $lang['en_US'];
 }
 
+$lang['de_DE']['Silvercart']['DAY'] = 'Tag';
+$lang['de_DE']['Silvercart']['DAYS'] = 'Tage';
+$lang['de_DE']['Silvercart']['WEEK'] = 'Woche';
+$lang['de_DE']['Silvercart']['WEEKS'] = 'Wochen';
+$lang['de_DE']['Silvercart']['MONTH'] = 'Monat';
+$lang['de_DE']['Silvercart']['MONTHS'] = 'Monate';
+
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Versandadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Addresszusatz';
 $lang['de_DE']['SilvercartAddress']['CITY'] = 'Ort';
@@ -70,6 +77,14 @@ $lang['de_DE']['SilvercartAnonymousCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymer K
 $lang['de_DE']['SilvercartAnonymousCustomer']['PLURALNAME'] = 'Anonyme Kunden';
 $lang['de_DE']['SilvercartAnonymousCustomer']['SINGULARNAME'] = 'Anonymer Kunde';
 
+$lang['de_DE']['SilvercartAvailabilityStatus']['PLURALNAME'] = 'Verfügbarkeiten';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SINGULARNAME'] = 'Verfügbarkeit';
+$lang['de_DE']['SilvercartAvailabilityStatus']['TITLE'] = 'Bezeichnung';
+$lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE'] = 'verfügbar';
+$lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'nicht verfügbar';
+$lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'verfügbar in %s %s';
+$lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'verfügbar in %s bis %s %s';
+
 $lang['de_DE']['SilvercartProduct']['IS_ACTIVE'] = 'ist aktiv';
 $lang['de_DE']['SilvercartProduct']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['SilvercartProduct']['CHOOSE_MASTER'] = '-- Master wählen --';
@@ -89,6 +104,9 @@ $lang['de_DE']['SilvercartProduct']['PRICE_SINGLE'] = 'Einzelpreis';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER'] = 'Artikelnummer';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Artikelnummer (Hersteller)';
 $lang['de_DE']['SilvercartProduct']['PURCHASEPRICE'] = 'Einkaufspreis';
+$lang['de_DE']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. Bezugsdauer';
+$lang['de_DE']['SilvercartProduct']['PURCHASE_MAX_DURATION'] = 'Max. Bezugsdauer';
+$lang['de_DE']['SilvercartProduct']['PURCHASE_TIME_UNIT'] = 'Einheit (WBZ)';
 $lang['de_DE']['SilvercartProduct']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';

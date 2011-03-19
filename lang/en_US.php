@@ -18,13 +18,20 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * English (US) language pack
- * 
+ *
  * @package Silvercart
  * @subpackage i18n
  * @ignore
  */
 
 global $lang;
+
+$lang['en_US']['Silvercart']['DAY'] = 'day';
+$lang['en_US']['Silvercart']['DAYS'] = 'days';
+$lang['en_US']['Silvercart']['WEEK'] = 'week';
+$lang['en_US']['Silvercart']['WEEKS'] = 'weeks';
+$lang['en_US']['Silvercart']['MONTH'] = 'month';
+$lang['en_US']['Silvercart']['MONTHS'] = 'months';
 
 $lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -63,6 +70,14 @@ $lang['en_US']['SilvercartAnonymousCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymous 
 $lang['en_US']['SilvercartAnonymousCustomer']['PLURALNAME'] = 'Anonymous Customers';
 $lang['en_US']['SilvercartAnonymousCustomer']['SINGULARNAME'] = 'Anonymous Customer';
 
+$lang['en_US']['SilvercartAvailabilityStatus']['PLURALNAME'] = 'Availabilities';
+$lang['en_US']['SilvercartAvailabilityStatus']['SINGULARNAME'] = 'Availability';
+$lang['en_US']['SilvercartAvailabilityStatus']['TITLE'] = 'Title';
+$lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE'] = 'available';
+$lang['en_US']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not available';
+$lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
+$lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
+
 $lang['en_US']['SilvercartProduct']['IS_ACTIVE'] = 'is active';
 $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'Add to cart';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
@@ -82,6 +97,9 @@ $lang['en_US']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'Product number';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Product number (manufacturer)';
 $lang['en_US']['SilvercartProduct']['PURCHASEPRICE'] = 'Purchase price';
+$lang['en_US']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. purchase duration';
+$lang['en_US']['SilvercartProduct']['PURCHASE_MAX_DURATION'] = 'Max. purchase duration';
+$lang['en_US']['SilvercartProduct']['PURCHASE_TIME_UNIT'] = 'Purchase time unit';
 $lang['en_US']['SilvercartProduct']['QUANTITY'] = 'Quantity';
 $lang['en_US']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
 $lang['en_US']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listdescription';
