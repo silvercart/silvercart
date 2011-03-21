@@ -93,6 +93,8 @@ $lang['en_US']['SilvercartProduct']['METATITLE'] = 'Meta title for search engine
 $lang['en_US']['SilvercartProduct']['MSRP'] = 'MSR price';
 $lang['en_US']['SilvercartProduct']['PLURALNAME'] = 'Products';
 $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
+$lang['en_US']['SilvercartProduct']['PRICE_GROSS'] = 'Price (gross)';
+$lang['en_US']['SilvercartProduct']['PRICE_NET'] = 'Price (net)';
 $lang['en_US']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'Product number';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Product number (manufacturer)';
@@ -110,6 +112,8 @@ $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 
 $lang['en_US']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroups';
 $lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Product Group Holders';
+$lang['en_US']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = 'Show %s products';
+$lang['en_US']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_SINGULAR'] = 'Show %s product';
 $lang['en_US']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Product Group Holder';
 $lang['en_US']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroups of ';
 $lang['en_US']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroups';
@@ -158,6 +162,7 @@ $lang['en_US']['SilvercartCheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'I subs
 $lang['en_US']['SilvercartCheckoutFormStep']['ORDER'] = 'Order';
 $lang['en_US']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Order now';
 $lang['en_US']['SilvercartCheckoutFormStep']['OVERVIEW'] = 'Overview';
+
 $lang['en_US']['SilvercartCheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--country--';
 $lang['en_US']['SilvercartCheckoutFormStep1']['TITLE'] = 'Addresses';
 $lang['en_US']['SilvercartCheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
@@ -165,6 +170,7 @@ $lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Payment';
 $lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
 $lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Shipment';
 $lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Overview';
+
 $lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_US']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_US']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
@@ -202,10 +208,12 @@ $lang['en_US']['SilvercartCountry']['PLURALNAME'] = 'Countries';
 $lang['en_US']['SilvercartCountry']['SINGULARNAME'] = 'Country';
 
 $lang['en_US']['SilvercartCustomerAdmin']['customers'] = 'Customers';
+
 $lang['en_US']['SilvercartCustomerCategory']['EXISTING_CUSTOMER'] = 'existing customer';
 $lang['en_US']['SilvercartCustomerCategory']['NEW_CUSTOMER'] = 'new customer';
 $lang['en_US']['SilvercartCustomerCategory']['PLURALNAME'] = 'Customer categories';
 $lang['en_US']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Customer category';
+
 $lang['en_US']['SilvercartCustomerRole']['GROSS'] = 'gross';
 $lang['en_US']['SilvercartCustomerRole']['NET'] = 'net';
 $lang['en_US']['SilvercartCustomerRole']['PRICING'] = 'Pricing';
@@ -233,6 +241,11 @@ $lang['en_US']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--ple
 
 $lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';
 $lang['en_US']['SilvercartEmailTemplates']['SINGULARNAME'] = 'Email template';
+
+$lang['en_US']['SilvercartFile']['DESCRIPTION'] = 'Description';
+$lang['en_US']['SilvercartFile']['PLURALNAME'] = 'Files';
+$lang['en_US']['SilvercartFile']['SINGULARNAME'] = 'File';
+$lang['en_US']['SilvercartFile']['TITLE'] = 'Display name';
 
 $lang['en_US']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footer Navigation Holders';
 $lang['en_US']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footer Navigation Holder';
@@ -305,16 +318,17 @@ $lang['en_US']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Order invoice
 $lang['en_US']['SilvercartOrderPosition']['PLURALNAME'] = 'Order positions';
 $lang['en_US']['SilvercartOrderPosition']['SINGULARNAME'] = 'Order Position';
 
+$lang['en_US']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
+
 $lang['en_US']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Order shipping addresses';
 $lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Order shipping address';
-
-$lang['en_US']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
 
 $lang['en_US']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_US']['SilvercartOrderStatus']['PAYED'] = 'Payed';
 $lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = 'Order status';
 $lang['en_US']['SilvercartOrderStatus']['SINGULARNAME'] = 'Order status';
 $lang['en_US']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Waiting for payment';
+
 $lang['en_US']['SilvercartOrderStatusTexts']['PLURALNAME'] = 'Order Status Texts';
 $lang['en_US']['SilvercartOrderStatusTexts']['SINGULARNAME'] = 'Order Status Text';
 
@@ -438,6 +452,7 @@ $lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
 $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard order status for this payment method';
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
+
 $lang['en_US']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Payment translations';
 $lang['en_US']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Payment translation';
 
@@ -503,6 +518,7 @@ $lang['en_US']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximum weight (g)'
 $lang['en_US']['SilvercartShippingFee']['PLURALNAME'] = 'Shipping fees';
 $lang['en_US']['SilvercartShippingFee']['SINGULARNAME'] = 'Shipping fee';
 $lang['en_US']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only carrier\'s zones available)';
+
 $lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees Pags';
 $lang['en_US']['SilvercartShippingFeesPage']['SINGULARNAME'] = 'Shipping Fees Page';
 $lang['en_US']['SilvercartShippingFeesPage']['TITLE'] = 'Shipping fees';
@@ -513,6 +529,7 @@ $lang['en_US']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
+
 $lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
 $lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
 
@@ -531,6 +548,7 @@ $lang['en_US']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
 
 $lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
 $lang['en_US']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
+
 $lang['en_US']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Cart positions';
 $lang['en_US']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Cart position';
 

@@ -20,13 +20,28 @@
 .product-page-details {
     text-align: right;
 }
-.product-page-description {
+.product-page-description,
+.product-page-downloads {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #c9c9c9;
 }
-.product-page-description h3 {
+.product-page-description h3,
+.product-page-downloads h3 {
     font-weight: bold;
+}
+
+.product-page-downloads-entry {
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.product-page-downloads-entry .file-icon {
+    float: left;
+}
+
+.product-page-downloads-entry .file-description {
+    float: left;
+    padding: 8px;
 }
 
 /* cart form */

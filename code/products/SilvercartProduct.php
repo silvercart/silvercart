@@ -66,20 +66,20 @@ class SilvercartProduct extends DataObject {
      */
     public static $db = array(
         'Title'                     => 'VarChar(255)',
-        'PurchasePrice'             => 'Money',
-        'PriceGross'                => 'Money', //price taxes including
-        'PriceNet'                  => 'Money', //price taxes excluded
         'ShortDescription'          => 'VarChar(255)',
         'LongDescription'           => 'HTMLText',
-        'MSRPrice'                  => 'Money',
         'MetaDescription'           => 'VarChar(255)',
-        'Weight'                    => 'Int', //unit is gramm
-        'Quantity'                  => 'Int', //Quantity Pieces (Pack)
         'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
         'MetaKeywords'              => 'VarChar',
-        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
         'ProductNumberShop'         => 'VarChar(50)',
         'ProductNumberManufacturer' => 'VarChar(50)',
+        'PurchasePrice'             => 'Money',
+        'MSRPrice'                  => 'Money',
+        'PriceGross'                => 'Money', //price taxes including
+        'PriceNet'                  => 'Money', //price taxes excluded
+        'Weight'                    => 'Int', //unit is gramm
+        'Quantity'                  => 'Int', //Quantity Pieces (Pack)
+        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
         'EANCode'                   => 'VarChar(13)',
         'isActive'                  => 'Boolean(1)',
         'PurchaseMinDuration'       => 'Int',
@@ -126,7 +126,8 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition'
+        'SilvercartFiles' => 'SilvercartFile',
+        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition',
     );
 
     /**
@@ -248,31 +249,36 @@ class SilvercartProduct extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-                'LongDescription'           => _t('SilvercartProduct.DESCRIPTION'),
-                'ShortDescription'          => _t('SilvercartProduct.SHORTDESCRIPTION'),
-                'manufacturer.Title'        => _t('SilvercartManufacturer.SINGULARNAME'),
-                'isFreeOfCharge'            => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
-                'PurchasePrice'             => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
-                'MSRPrice'                  => _t('SilvercartProduct.MSRP', 'MSR price'),
-                'Price'                     => _t('SilvercartProduct.PRICE', 'price'),
-                'MetaDescription'           => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
-                'Weight'                    => _t('SilvercartProduct.WEIGHT', 'weight'),
-                'Quantity'                  => _t('SilvercartProduct.QUANTITY', 'quantity'),
-                'MetaTitle'                 => _t('SilvercartProduct.METATITLE', 'meta title'),
-                'MetaKeywords'              => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
-                'ProductNumberShop'         => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
-                'ProductNumberManufacturer' => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
-                'EANCode'                   => _t('SilvercartProduct.EAN', 'EAN'),
-                'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
-                'SilvercartManufacturer'    => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
-                'SilvercartProductGroup'    => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
-                'SilvercartMasterProduct'   => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-                'Image'                     => _t('SilvercartProduct.IMAGE', 'product image'),
-                'SilvercartAvailabilityStatus'  => _t('SilvercartAvailabilityStatus.SINGULARNAME', 'Availability Status'),
-                'PurchaseMinDuration'       => _t('SilvercartProduct.PURCHASE_MIN_DURATION', 'Min. purchase duration'),
-                'PurchaseMaxDuration'       => _t('SilvercartProduct.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
-                'PurchaseTimeUnit'          => _t('SilvercartProduct.PURCHASE_TIME_UNIT', 'Purchase time unit'),
+                'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
+                'LongDescription'                   => _t('SilvercartProduct.DESCRIPTION'),
+                'ShortDescription'                  => _t('SilvercartProduct.SHORTDESCRIPTION'),
+                'manufacturer.Title'                => _t('SilvercartManufacturer.SINGULARNAME'),
+                'isFreeOfCharge'                    => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
+                'PurchasePrice'                     => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+                'MSRPrice'                          => _t('SilvercartProduct.MSRP', 'MSR price'),
+                'PriceGross'                        => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
+                'PriceNet'                          => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
+                'MetaDescription'                   => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
+                'Weight'                            => _t('SilvercartProduct.WEIGHT', 'weight'),
+                'Quantity'                          => _t('SilvercartProduct.QUANTITY', 'quantity'),
+                'MetaTitle'                         => _t('SilvercartProduct.METATITLE', 'meta title'),
+                'MetaKeywords'                      => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
+                'ProductNumberShop'                 => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
+                'ProductNumberManufacturer'         => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
+                'EANCode'                           => _t('SilvercartProduct.EAN', 'EAN'),
+                'SilvercartTax'                     => _t('SilvercartTax.SINGULARNAME', 'tax'),
+                'SilvercartManufacturer'            => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+                'SilvercartProductGroup'            => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
+                'SilvercartMasterProduct'           => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
+                'Image'                             => _t('SilvercartProduct.IMAGE', 'product image'),
+                'SilvercartAvailabilityStatus'      => _t('SilvercartAvailabilityStatus.SINGULARNAME', 'Availability Status'),
+                'PurchaseMinDuration'               => _t('SilvercartProduct.PURCHASE_MIN_DURATION', 'Min. purchase duration'),
+                'PurchaseMaxDuration'               => _t('SilvercartProduct.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
+                'PurchaseTimeUnit'                  => _t('SilvercartProduct.PURCHASE_TIME_UNIT', 'Purchase time unit'),
+                'SilvercartFiles'                   => _t('SilvercartFile.PLURALNAME', 'Files'),
+                'SilvercartShoppingCartPositions'   => _t('SilvercartShoppingCartPosition.PLURALNAME', 'Cart positions'),
+                'SilvercartShoppingCarts'           => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
+                'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
             )
         );
 
@@ -370,6 +376,7 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
+        $fields->removeByName('SortOrder');
         $fields->removeByName('SilvercartProductGroupID');
         $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
 

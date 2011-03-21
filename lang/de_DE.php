@@ -100,6 +100,8 @@ $lang['de_DE']['SilvercartProduct']['METATITLE'] = 'Meta Titel für Suchmaschine
 $lang['de_DE']['SilvercartProduct']['MSRP'] = 'UVP';
 $lang['de_DE']['SilvercartProduct']['PLURALNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['PRICE'] = 'Preis';
+$lang['de_DE']['SilvercartProduct']['PRICE_GROSS'] = 'Preis (Brutto)';
+$lang['de_DE']['SilvercartProduct']['PRICE_NET'] = 'Preis (Netto)';
 $lang['de_DE']['SilvercartProduct']['PRICE_SINGLE'] = 'Einzelpreis';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER'] = 'Artikelnummer';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Artikelnummer (Hersteller)';
@@ -114,6 +116,7 @@ $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
+
 $lang['de_DE']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Artikelgruppenübersichten';
 $lang['de_DE']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = '%s Artikel anzeigen';
@@ -121,18 +124,22 @@ $lang['de_DE']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_SINGULA
 $lang['de_DE']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Artikelgruppenübersicht';
 $lang['de_DE']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Untergruppen von ';
 $lang['de_DE']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'warengruppen';
+
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'hersteller';
 $lang['de_DE']['SilvercartProductGroupPage']['PLURALNAME'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Warengruppe';
+
 $lang['de_DE']['SilvercartProductImageGallery']['PLURALNAME'] = 'Gallerien';
 $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';
+
 $lang['de_DE']['SilvercartProductPage']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['SilvercartProductPage']['PLURALNAME'] = 'Artikeldetailseiten';
 $lang['de_DE']['SilvercartProductPage']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProductPage']['SINGULARNAME'] = 'Artikeldetailseite';
 $lang['de_DE']['SilvercartProductPage']['URL_SEGMENT'] = 'artikeldetails';
+
 $lang['de_DE']['SilvercartProductTexts']['PLURALNAME'] = 'Artikelübersetzungstexte';
 $lang['de_DE']['SilvercartProductTexts']['SINGULARNAME'] = 'Artikelübersetzungstext';
 
@@ -162,6 +169,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'Ich m�
 $lang['de_DE']['SilvercartCheckoutFormStep']['ORDER'] = 'Bestellung';
 $lang['de_DE']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Bestellen';
 $lang['de_DE']['SilvercartCheckoutFormStep']['OVERVIEW'] = 'Übersicht';
+
 $lang['de_DE']['SilvercartCheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--Land--';
 $lang['de_DE']['SilvercartCheckoutFormStep1']['TITLE'] = 'Adressen';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
@@ -169,6 +177,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Zahlart';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Versandart';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Übersicht';
+
 $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
 $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Schritt';
 $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
@@ -193,6 +202,7 @@ $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kont
 $lang['de_DE']['SilvercartContactFormPage']['SINGULARNAME'] = 'Kontaktformularseite';
 $lang['de_DE']['SilvercartContactFormPage']['TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['URL_SEGMENT'] = 'kontakt';
+
 $lang['de_DE']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Kontaktbestätigung';
 $lang['de_DE']['SilvercartContactFormResponsePage']['CONTENT'] = 'Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten.';
 $lang['de_DE']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Kontaktformularantwortseiten';
@@ -210,6 +220,7 @@ $lang['de_DE']['SilvercartCustomerCategory']['EXISTING_CUSTOMER'] = 'Bestandskun
 $lang['de_DE']['SilvercartCustomerCategory']['NEW_CUSTOMER'] = 'Neukunde';
 $lang['de_DE']['SilvercartCustomerCategory']['PLURALNAME'] = 'Kundengruppen';
 $lang['de_DE']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Kundengruppe';
+
 $lang['de_DE']['SilvercartCustomerRole']['GROSS'] = 'Brutto';
 $lang['de_DE']['SilvercartCustomerRole']['NET'] = 'Netto';
 $lang['de_DE']['SilvercartCustomerRole']['PRICING'] = 'Preisangabe';
@@ -237,6 +248,11 @@ $lang['de_DE']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--bit
 
 $lang['de_DE']['SilvercartEmailTemplates']['PLURALNAME'] = 'E-Mail Vorlagen';
 $lang['de_DE']['SilvercartEmailTemplates']['SINGULARNAME'] = 'E-Mail Vorlage';
+
+$lang['de_DE']['SilvercartFile']['DESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartFile']['PLURALNAME'] = 'Dateien';
+$lang['de_DE']['SilvercartFile']['SINGULARNAME'] = 'Datei';
+$lang['de_DE']['SilvercartFile']['TITLE'] = 'Anzeigename';
 
 $lang['de_DE']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footernavigationsübersichten';
 $lang['de_DE']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footernavigationsübersichten';
@@ -285,31 +301,41 @@ $lang['de_DE']['SilvercartOrder']['TAXRATEPAYMENT'] = 'Steuersatz der Bezahlart'
 $lang['de_DE']['SilvercartOrder']['TAXRATESHIPMENT'] = 'Steuersatz der Versandart';
 $lang['de_DE']['SilvercartOrder']['WEIGHTTOTAL'] = 'Gesamtgewicht';
 $lang['de_DE']['SilvercartOrder']['YOUR_REMARK'] = 'Ihre Bemerkung';
+
 $lang['de_DE']['SilvercartOrderAddress']['PLURALNAME'] = 'Bestelladressen';
 $lang['de_DE']['SilvercartOrderAddress']['SINGULARNAME'] = 'Bestelladresse';
+
 $lang['de_DE']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Bestellbestätigungsseiten';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Bestellbestätigungsseite';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'bestellbestaetigung';
+
 $lang['de_DE']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Bestelldetailsseiten';
 $lang['de_DE']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Bestelldetailsseite';
 $lang['de_DE']['SilvercartOrderDetailPage']['TITLE'] = 'Bestelldetails';
 $lang['de_DE']['SilvercartOrderDetailPage']['URL_SEGMENT'] = 'bestelldetails';
+
 $lang['de_DE']['SilvercartOrderHolder']['PLURALNAME'] = 'Bestellübersichten';
 $lang['de_DE']['SilvercartOrderHolder']['SINGULARNAME'] = 'Bestellübersicht';
 $lang['de_DE']['SilvercartOrderHolder']['TITLE'] = 'Meine Bestellungen';
 $lang['de_DE']['SilvercartOrderHolder']['URL_SEGMENT'] = 'meine-bestellungen';
+
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen der Bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse der Bestellung';
+
 $lang['de_DE']['SilvercartOrderPosition']['PLURALNAME'] = 'Bestellpositionen';
 $lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME'] = 'Bestellposition';
+
 $lang['de_DE']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Bitte wählen';
+
 $lang['de_DE']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Versandadressen der Bestellung';
 $lang['de_DE']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Versandadresse der Bestellung';
+
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'payed';
 $lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstati';
 $lang['de_DE']['SilvercartOrderStatus']['SINGULARNAME'] = 'Bestellstatus';
 $lang['de_DE']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Auf Zahlungseingang wird gewartet';
+
 $lang['de_DE']['SilvercartOrderStatusTexts']['PLURALNAME'] = 'Bestellstatustexte';
 $lang['de_DE']['SilvercartOrderStatusTexts']['SINGULARNAME'] = 'Bestellstatustext';
 
@@ -433,6 +459,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard Bestellstatus für diese Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
+
 $lang['de_DE']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Bezahlartübersetzungen';
 $lang['de_DE']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Bezahlartübersetzung';
 
@@ -509,6 +536,7 @@ $lang['de_DE']['SilvercartShippingMethod']['FOR_ZONES'] = 'für Zonen';
 $lang['de_DE']['SilvercartShippingMethod']['PACKAGE'] = 'Paket';
 $lang['de_DE']['SilvercartShippingMethod']['PLURALNAME'] = 'Versandarten';
 $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
+
 $lang['de_DE']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Versandartübersetzungen';
 $lang['de_DE']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Versandartübersetzung';
 
@@ -525,8 +553,9 @@ $lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop E-Mail';
 $lang['de_DE']['SilvercartShopEmail']['SUBJECT'] = 'Betreff';
 $lang['de_DE']['SilvercartShopEmail']['VARIABLES'] = 'Variablen';
 
-$lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'carts';
+$lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
+
 $lang['de_DE']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Warenkorbpositionen';
 $lang['de_DE']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Warenkorbposition';
 

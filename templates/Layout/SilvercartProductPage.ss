@@ -39,6 +39,21 @@
                     <h3><% _t('SilvercartProduct.DESCRIPTION','product description') %>:</h3>
                     <p>$LongDescription</p>
                 </div>
+                <% if SilvercartFiles %>
+                <div class="product-page-downloads">
+                    <h3><% _t('SilvercartProduct.DOWNLOADS','Downloads') %>:</h3>
+                    <% control SilvercartFiles %>
+                    <div class="product-page-downloads-entry clearfix">
+                        <div class="file-icon">
+                            <a href="$File.Link">$FileIcon</a>
+                        </div>
+                        <div class="file-description">
+                            <a href="$File.Link">$Title ($File.Size)</a>
+                        </div>
+                    </div>
+                    <% end_control %>
+                </div>
+                <% end_if %>
             </div>
         </div>
         <% end_control %>
