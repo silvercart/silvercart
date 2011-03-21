@@ -70,7 +70,7 @@ class SilvercartProduct extends DataObject {
         'PriceGross'                => 'Money', //price taxes including
         'PriceNet'                  => 'Money', //price taxes excluded
         'ShortDescription'          => 'VarChar(255)',
-        'LongDescription'           => 'Text',
+        'LongDescription'           => 'HTMLText',
         'MSRPrice'                  => 'Money',
         'MetaDescription'           => 'VarChar(255)',
         'Weight'                    => 'Int', //unit is gramm
