@@ -301,43 +301,37 @@ class SilvercartProduct extends DataObject {
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
-        $pricetype = SilvercartConfig::getPricetype();
+        $pricetype          = SilvercartConfig::getPricetype();
+        $filter             = "";
+
         if (!empty($requiredAttributes)) {
-            $filter = "";
             foreach ($requiredAttributes as $requiredAttribute) {
                 if ($requiredAttribute == "Price") {
-                    if ($pricetype == "gross") {
-                        $filter .= sprintf("(`PriceGrossAmount` !='' OR `isFreeOfCharge` = '1') AND ");
-                    } elseif ($pricetype == "net") {
+                    // Gross price as default if not defined
+                    if ($pricetype == "net") {
                         $filter .= sprintf("(`PriceNetAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                    } else {
+                        $filter .= sprintf("(`PriceGrossAmount` !='' OR `isFreeOfCharge` = '1') AND ");
                     }
                 } else {
                     $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
                 }
             }
-            //The where clause must not end with "AND"
-            $filter = substr($filter, 0, -5);
-            if ($whereClause != "") {
-                $filter = $filter . " AND " . $whereClause;
-            }
-            //
-        } else {
-            $filter = $whereClause;
         }
 
-        if (!empty($filter)) {
-            $filter .= ' AND ';
+        if ($whereClause != "") {
+            $filter = $filter . $whereClause . ' AND ';
         }
+
         $filter .= 'isActive = 1';
-
-        $sort = 'SortOrder';
+        $sort    = 'SortOrder';
 
         $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         if ($products) {
             return $products;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     /**
@@ -415,6 +409,8 @@ class SilvercartProduct extends DataObject {
         if ($pricetype =="net") {
             $price = $this->PriceNet;
         } elseif ($pricetype == "gross") {
+            $price = $this->PriceGross;
+        } else {
             $price = $this->PriceGross;
         }
         return $price;
