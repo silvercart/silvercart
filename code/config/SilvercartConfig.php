@@ -99,7 +99,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields = parent::getCMSFields($params);
 
         $CMSFields->addFieldToTab('Root.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')));
+        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
 
         /*
          * configure the fields for pricetype configuration
@@ -116,8 +116,7 @@ class SilvercartConfig extends DataObject {
         );
         foreach ($pricetypes as $name => $title) {
             $CMSFields->removeByName($name);
-            $dropdownField = new DropdownField($name, $title, $pricetypeDropdownValues);
-            $CMSFields->push($dropdownField);
+            $CMSFields->addFieldToTab('Root.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
 
         return $CMSFields;
