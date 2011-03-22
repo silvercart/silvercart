@@ -301,7 +301,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
-        $pricetype          = SilvercartConfig::getPricetype();
+        $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
 
         if (!empty($requiredAttributes)) {
@@ -405,7 +405,7 @@ class SilvercartProduct extends DataObject {
      * @since 18.3.2011
      */
     public function getPrice() {
-        $pricetype = SilvercartConfig::getPricetype();
+        $pricetype = SilvercartConfig::Pricetype();
         if ($pricetype =="net") {
             $price = $this->PriceNet;
         } elseif ($pricetype == "gross") {

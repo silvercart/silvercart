@@ -274,7 +274,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getShippingFee() {
         $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        if ($cartWeightTotal || SilvercartConfig::getAllowCartweightToBeZero()) {
+        if ($cartWeightTotal || SilvercartConfig::AllowCartWeightToBeZero()) {
             $fees = DataObject::get(
                 'SilvercartShippingFee',
                 sprintf(
