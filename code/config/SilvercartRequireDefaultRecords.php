@@ -22,8 +22,8 @@
  */
 
 /**
- * collects all default records to avoid redundant code when it comes to relations
- * you do not need to search for other default records, they are all here
+ * Collects all default records to avoid redundant code when it comes to relations.
+ * You do not need to search for other default records, they are all here.
  *
  * @package Silvercart
  * @subpackage Config
@@ -34,6 +34,14 @@
  */
 class SilvercartRequireDefaultRecords extends DataObject {
 
+    /**
+     * If set to true the next /dev/build/ will add test data to the database.
+     *
+     * @var boolean
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.02.2011
+     */
     protected static $enableTestData = false;
 
     /**
@@ -42,6 +50,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 16.02.2011
      */
     public function requireDefaultRecords() {
@@ -547,6 +556,29 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $searchResultsPage->write();
             $searchResultsPage->publish("Stage", "Live");
 
+            // Create a SilvercartNewsletterPage as a child of the Silvercart root node.
+            $newsletterPage                 = new SilvercartNewsletterPage();
+            $newsletterPage->Title          = _t('SilvercartNewsletterPage.TITLE', 'Newsletter');
+            $newsletterPage->URLSegment     = _t('SilvercartNewsletterPage.URL_SEGMENT', 'newsletter');
+            $newsletterPage->Status         = "Published";
+            $newsletterPage->ShowInMenus    = false;
+            $newsletterPage->ShowInSearch   = false;
+            $newsletterPage->ParentID       = $rootPage->ID;
+            $newsletterPage->IdentifierCode = "SilvercartNewsletterPage";
+            $newsletterPage->write();
+            $newsletterPage->publish("Stage", "Live");
+
+            // Create a SilvercartNewsletterResponsePage as a child of the SilvercartNewsletterPage node.
+            $newsletterResponsePage                 = new SilvercartNewsletterResponsePage();
+            $newsletterResponsePage->Title          = _t('SilvercartNewsletterResponsePage.TITLE', 'Newsletter Status');
+            $newsletterResponsePage->URLSegment     = _t('SilvercartNewsletterResponsePage.URL_SEGMENT', 'newsletter_status');
+            $newsletterResponsePage->Status         = "Published";
+            $newsletterResponsePage->ShowInMenus    = false;
+            $newsletterResponsePage->ShowInSearch   = false;
+            $newsletterResponsePage->ParentID       = $newsletterResponsePage->ID;
+            $newsletterResponsePage->IdentifierCode = "SilvercartNewsletterResponsePage";
+            $newsletterResponsePage->write();
+            $newsletterResponsePage->publish("Stage", "Live");
 
             /*
              * create shop emails
@@ -583,6 +615,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 21.02.2011
      */
     public static function enableTestData() {
@@ -597,6 +630,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 21.02.2011
      */
     public static function disableTestData() {
@@ -609,6 +643,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 21.02.2011
      */
     public static function createTestData() {
@@ -667,5 +702,4 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
         }
     }
-
 }

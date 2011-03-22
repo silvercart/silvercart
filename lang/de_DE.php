@@ -85,6 +85,22 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'nicht 
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'verfügbar in %s %s';
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'verfügbar in %s bis %s %s';
 
+$lang['de_DE']['SilvercartNewsletter']['SUBSCRIBED']                        = 'Sie haben den Newsletter abonniert';
+$lang['de_DE']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'Sie haben den Newsletter nicht abonniert';
+$lang['de_DE']['SilvercartNewsletterPage']['TITLE']                         = 'Newsletter';
+$lang['de_DE']['SilvercartNewsletterPage']['URL_SEGMENT']                   = 'newsletter';
+$lang['de_DE']['SilvercartNewsletterResponsePage']['TITLE']                 = 'Newsletter Status';
+$lang['de_DE']['SilvercartNewsletterResponsePage']['URL_SEGMENT']           = 'newsletter_status';
+$lang['de_DE']['SilvercartNewsletterResponsePage']['STATUS_TITLE']          = 'Ihre Newslettereinstellungen';
+$lang['de_DE']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']             = 'Was wollen Sie tun?';
+$lang['de_DE']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']         = 'Ich möchte den Newsletter abonnieren';
+$lang['de_DE']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']       = 'Ich möchte den Newsletter abbestellen';
+$lang['de_DE']['SilvercartNewsletterStatus']['ALREADY_SUBSCRIBED']          = 'Die Emailadresse "%s" ist schon für den Newsletterempfang registriert.';
+$lang['de_DE']['SilvercartNewsletterStatus']['REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS'] = 'Es ist schon ein Kunde mit der Emailadresse "%s" registriert. Bitte loggen Sie sich zuerst ein und nehmen Sie dann die Einstellungen für den Newsletterempfang vor: <a href="%s">Zum Login</a>.';
+$lang['de_DE']['SilvercartNewsletterStatus']['NO_EMAIL_FOUND']              = 'Die Emailadresse "%s" konnte nicht gefunden werden.';
+$lang['de_DE']['SilvercartNewsletterStatus']['UNSUBSCRIBED_SUCCESSFULLY']   = 'Die Emailadresse "%s" wurde von der Liste der Newsletterempfänger entfernt.';
+$lang['de_DE']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY']     = 'Die Emailadresse "%s" wurde zu der Liste der Newsletterempfänger hinzugefügt.';
+
 $lang['de_DE']['SilvercartProduct']['IS_ACTIVE'] = 'ist aktiv';
 $lang['de_DE']['SilvercartProduct']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['SilvercartProduct']['CHOOSE_MASTER'] = '-- Master wählen --';

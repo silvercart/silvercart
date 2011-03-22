@@ -418,6 +418,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
 
         $this->sendOptInMail($formData);
 
+        // Remove from the anonymous newsletter recipients list
+        SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($customer->Email);
+
         // Redirect to welcome page
         Director::redirect($this->controller->PageByIdentifierCode('RegistrationWelcomePage')->Link());
     }
