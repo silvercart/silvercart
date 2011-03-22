@@ -372,7 +372,7 @@ class SilvercartPage_Controller extends ContentController {
      * @since 19.3.2011
      */
     public function showPricesGross() {
-        $pricetype = SilvercartConfig::getPricetype();
+        $pricetype = SilvercartConfig::Pricetype();
         if ($pricetype == "gross") {
             return true;
         } else {
@@ -388,7 +388,7 @@ class SilvercartPage_Controller extends ContentController {
      * @since 19.3.2011
      */
     public function showPricesNet() {
-        $pricetype = SilvercartConfig::getPricetype();
+        $pricetype = SilvercartConfig::Pricetype();
         if ($pricetype == "net") {
             return true;
         } else {

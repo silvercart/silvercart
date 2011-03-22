@@ -250,6 +250,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 15.02.2011
      */
     public function init() {
+        parent::init();
         // there must be two way to initialize this controller:
         if ($this->isProductDetailView()) {
             // a product detail view is requested
@@ -277,8 +278,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 }
             }
         }
-
-        parent::init();
     }
 
     /**
