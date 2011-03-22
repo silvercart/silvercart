@@ -417,6 +417,7 @@ $lang['de_DE']['SilvercartPage']['MONTH'] = 'Monat';
 $lang['de_DE']['SilvercartPage']['MYACCOUNT'] = 'Mein Konto';
 $lang['de_DE']['SilvercartPage']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartPage']['NEWSLETTER'] = 'Newsletter';
+$lang['de_DE']['SilvercartPage']['NEWSLETTER_FORM'] = 'Newsletter Einstellungen';
 $lang['de_DE']['SilvercartPage']['NEXT'] = 'Vor';
 $lang['de_DE']['SilvercartPage']['NOVEMBER'] = 'November';
 $lang['de_DE']['SilvercartPage']['NO_ORDERS'] = 'Sie haben noch keine Bestellungen abgeschlossen.';

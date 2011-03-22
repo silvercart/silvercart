@@ -410,6 +410,7 @@ $lang['en_US']['SilvercartPage']['MONTH'] = 'Month';
 $lang['en_US']['SilvercartPage']['MYACCOUNT'] = 'My account';
 $lang['en_US']['SilvercartPage']['NAME'] = 'Name';
 $lang['en_US']['SilvercartPage']['NEWSLETTER'] = 'Newsletter';
+$lang['en_US']['SilvercartPage']['NEWSLETTER_FORM'] = 'Newsletter settings';
 $lang['en_US']['SilvercartPage']['NEXT'] = 'Next';
 $lang['en_US']['SilvercartPage']['NOVEMBER'] = 'November';
 $lang['en_US']['SilvercartPage']['NO_ORDERS'] = 'You do not have any orders yet';
