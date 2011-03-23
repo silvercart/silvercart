@@ -484,7 +484,7 @@ class SilvercartOrder extends DataObject {
 
             if ($shippingFee) {
                 if ($shippingFee->SilvercartTax()) {
-                    $this->TaxRateShipment   = $shippingFee->SilvercartTax()->Rate;
+                    $this->TaxRateShipment   = $shippingFee->SilvercartTax()->getTaxRate();
                     $this->TaxAmountShipment = $shippingFee->getTaxAmount();
                 }
             }
@@ -496,7 +496,7 @@ class SilvercartOrder extends DataObject {
 
             if ($paymentFee) {
                 if ($paymentFee->SilvercartTax()) {
-                    $this->TaxRatePayment   = $paymentFee->SilvercartTax()->Rate;
+                    $this->TaxRatePayment   = $paymentFee->SilvercartTax()->getTaxRate();
                     $this->TaxAmountPayment = $paymentFee->getTaxAmount();
                 }
             }
@@ -565,7 +565,7 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->PriceTotal->setCurrency($product->Price->getCurrency());
                     $orderPosition->Tax                 = $product->getTaxAmount();
                     $orderPosition->TaxTotal            = $product->getTaxAmount() * $shoppingCartPosition->Quantity;
-                    $orderPosition->TaxRate             = $product->SilvercartTax()->Rate;
+                    $orderPosition->TaxRate             = $product->getTaxRate();
                     $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
                     $orderPosition->Title               = $product->Title;
@@ -1149,29 +1149,19 @@ class SilvercartOrder extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 17.11.2010
      */
     public function Log($context, $text) {
-        if ($this->mode == 'Live') {
-            $path = PIX_LOGFILE;
-        } else {
-            $path = PIX_LOGFILE;
-        }
-
-        if ($fp = fopen($path, 'a+')) {
-            $text = sprintf(
-                "%s | Module: \"%s\" | Method: \"%s\"\n%s\n--------------------------------------------------------------------------------\n",
-                date('d.m.Y H:i:s'),
-                $this->ClassName,
-                $context,
-                $text
-            );
-
-            fwrite($fp, $text);
-            fclose($fp);
-        }
+        $path = Director::baseFolder() . '/silvercart/log/' . $this->ClassName . '.log';
+        $text = sprintf(
+            "%s - Method: '%s' - %s\n",
+            date('Y-m-d H:i:s'),
+            $context,
+            $text
+        );
+        file_put_contents($path, $text, FILE_APPEND);
     }
 
     /**

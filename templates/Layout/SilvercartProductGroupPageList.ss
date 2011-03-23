@@ -15,7 +15,7 @@
                     <div class="product-page-details">
                         <p><strong class="price">$Price.Nice</strong><br/>
                             <% if showPricesGross %>
-                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$SilvercartTax.Rate) %><br />
+                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
                             <% else_if showPricesNet %>
                             <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                             <% end_if %>

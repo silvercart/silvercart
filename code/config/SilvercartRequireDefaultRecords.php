@@ -606,6 +606,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $shopEmailRegistrationConfirmation->write();
             }
         }
+
+        $this->extend('updateDefaultRecords', $rootPage);
+
         self::createTestData();
     }
 

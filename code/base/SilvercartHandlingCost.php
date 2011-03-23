@@ -117,7 +117,7 @@ class SilvercartHandlingCost extends DataObject {
      * @since 07.02.2011
      */
     public function getTaxAmount() {
-        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
+        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->SilvercartTax()->getTaxRate()) * 100);
 
         return $taxRate;
     }
