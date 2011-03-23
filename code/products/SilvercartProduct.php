@@ -574,7 +574,7 @@ class SilvercartProduct extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->Rate) * 100);
+        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100);
 
         return $taxRate;
     }
@@ -607,6 +607,36 @@ class SilvercartProduct extends DataObject {
             $html = '';
         }
         return $html;
+    }
+
+    /**
+     * used to determine weather something should be shown on a template or not
+     *
+     * @return bool
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.3.2011
+     */
+    public function showPricesGross() {
+        $pricetype = SilvercartConfig::Pricetype();
+        if ($pricetype == "gross") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the tax rate in percent. The attribute 'Rate' of the relation
+     * 'SilvercartTax' is not used to handle with complex tax systems without
+     * clearly defined product taxes.
+     *
+     * @return float the tax rate in percent
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.03.2011
+     */
+    public function getTaxRate() {
+        return $this->SilvercartTax()->getTaxRate();
     }
 }
 

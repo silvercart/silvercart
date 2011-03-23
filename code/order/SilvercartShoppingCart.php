@@ -499,7 +499,7 @@ class SilvercartShoppingCart extends DataObject {
 
         // products
         foreach ($positions as $position) {
-            $taxRate = $position->SilvercartProduct()->SilvercartTax()->Rate;
+            $taxRate = $position->SilvercartProduct()->getTaxRate();
 
             if (!$taxes->find('Rate', $taxRate)) {
                 $taxes->push(
@@ -565,7 +565,7 @@ class SilvercartShoppingCart extends DataObject {
 
             if ($shippingFee) {
                 if ($shippingFee->SilvercartTax()) {
-                    $taxRate = $shippingFee->SilvercartTax()->Rate;
+                    $taxRate = $shippingFee->SilvercartTax()->getTaxRate();
 
                     if ($taxRate &&
                             !$taxes->find('Rate', $taxRate)) {
@@ -590,7 +590,7 @@ class SilvercartShoppingCart extends DataObject {
 
             if ($paymentFee) {
                 if ($paymentFee->SilvercartTax()) {
-                    $taxRate = $paymentFee->SilvercartTax()->Rate;
+                    $taxRate = $paymentFee->SilvercartTax()->getTaxRate();
 
                     if ($taxRate &&
                             !$taxes->find('Rate', $taxRate)) {

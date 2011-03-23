@@ -164,6 +164,7 @@ class SilvercartTax extends DataObject {
         if (empty ($overwritten)) {
             return $this->Rate;
         }
+        return $overwritten[0];
     }
 
 }

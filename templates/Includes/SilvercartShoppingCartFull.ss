@@ -27,7 +27,7 @@
                                 <td>$SilvercartProduct.Title</td>
                                 <td class="right">$SilvercartProduct.Price.Nice</td>
                                 <% if Top.showPricesGross %>
-                                <td class="right">{$SilvercartProduct.SilvercartTax.Rate}%</td>
+                                <td class="right">{$SilvercartProduct.TaxRate}%</td>
                                 <% end_if %>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
