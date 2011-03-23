@@ -389,6 +389,7 @@ $lang['de_DE']['SilvercartPage']['DECEMBER'] = 'Dezember';
 $lang['de_DE']['SilvercartPage']['DETAILS'] = 'Details';
 $lang['de_DE']['SilvercartPage']['DETAILS_FOR'] = 'Details zu %s';
 $lang['de_DE']['SilvercartPage']['DIDNOT_RETURN_RESULTS'] = 'hat in unserem Shop keine Ergebnisse geliefert.';
+$lang['de_DE']['SilvercartPage']['DO_NOT_EDIT'] = 'Bitte nicht ändern!';
 $lang['de_DE']['SilvercartPage']['EMAIL_ADDRESS'] = 'E-Mail-Adresse';
 $lang['de_DE']['SilvercartPage']['EMAIL_ALREADY_REGISTERED'] = 'Ein Nutzer hat sich bereits mit dieser E-Mail-Adresse registriert.';
 $lang['de_DE']['SilvercartPage']['EMPTY_CART'] = 'leeren';

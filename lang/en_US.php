@@ -382,6 +382,7 @@ $lang['en_US']['SilvercartPage']['DECEMBER'] = 'December';
 $lang['en_US']['SilvercartPage']['DETAILS'] = 'Details';
 $lang['en_US']['SilvercartPage']['DETAILS_FOR'] = 'Details for %s';
 $lang['en_US']['SilvercartPage']['DIDNOT_RETURN_RESULTS'] = 'did not return any results in our shop.';
+$lang['en_US']['SilvercartPage']['DO_NOT_EDIT'] = 'Do not edit this field unless you know exectly what you are doing!';
 $lang['en_US']['SilvercartPage']['EMAIL_ADDRESS'] = 'Email address';
 $lang['en_US']['SilvercartPage']['EMAIL_ALREADY_REGISTERED'] = 'This Email address is already registered';
 $lang['en_US']['SilvercartPage']['EMPTY_CART'] = 'Empty';

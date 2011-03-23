@@ -289,5 +289,4 @@ class SilvercartCountry extends DataObject {
 
         return $attributedPaymentMethodsStr;
     }
-
 }
