@@ -257,8 +257,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                             )
                         );
                     } else {
-                        $this->addToAnonymousRecipients($formData);
-                        SilvercartAnonymousNewsletterRecipient::add($formData['Surname'], $formData['FirstName'], $formData['Surname'], $formData['Email']);
+                        SilvercartAnonymousNewsletterRecipient::add($formData['Salutation'], $formData['FirstName'], $formData['Surname'], $formData['Email']);
                         $this->setSessionMessage(
                             sprintf(
                                 _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY'),
@@ -273,7 +272,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                     // accordingly.
                     // --------------------------------------------------------
                     if ($checkForAnonymousRecipient) {
-                        $this->removeFromAnonymousRecipients($formData);
                         SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($formData['Email']);
                         $this->setSessionMessage(
                             sprintf(
