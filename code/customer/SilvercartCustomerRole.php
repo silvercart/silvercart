@@ -139,20 +139,6 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
-     * Returns customers shipping address by attribute isDefaultForShipping
-     *
-     * @return Address|false if no address is found false will be treturned
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     */
-    public function getDefaultShippingAddress() {
-        if ($customer = Member::currentUser()) {
-            $filter = sprintf("\"MemberID\" = '%s' AND \"isDefaultForShipping\" = '1'", $customer->ID);
-            $shippingAddress = DataObject::get_one('SilvercartAddress', $filter);
-            return $shippingAddress;
-        }
-    }
-
-    /**
      * Get the customers shopping cart or create one if it doesn´t exist yet. "Get me a cart, I don´t care how!"
      * 
      * @return SilvercartShoppingCart
