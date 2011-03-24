@@ -58,7 +58,7 @@ class SilvercartPage extends SiteTree {
         $fields = parent::getCMSFields();
 
         $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-        $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', "Bitte nicht ändern."));
+        $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
 
         return $fields;
     }
