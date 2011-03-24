@@ -485,6 +485,8 @@ $lang['en_US']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'payment-notifi
 $lang['en_US']['SilvercartPrice']['PLURALNAME'] = 'Prices';
 $lang['en_US']['SilvercartPrice']['SINGULARNAME'] = 'Price';
 
+$lang['en_US']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
+
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';
