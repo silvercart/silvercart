@@ -33,22 +33,114 @@
  */
 class SilvercartProductGroupPage extends Page {
 
+    /**
+     * Singular name.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $singular_name = "product group";
+
+    /**
+     * Plural name.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $plural_name = "product groups";
+
+    /**
+     * Set allowed childrens for this page.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $allowed_children = array('SilvercartProductGroupPage');
+
+    /**
+     * ???.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $can_be_root = false;
+
+    /**
+     * Attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $db = array(
     );
+
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $has_one = array(
         'GroupPicture' => 'Image'
     );
+
+    /**
+     * Has-many relationships.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $has_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
+
+    /**
+     * Many-many relationships.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     public static $many_many = array(
-        'SilvercartAttributes' => 'SilvercartAttribute'
+        'SilvercartAttributes'      => 'SilvercartAttribute',
     );
 
+    /**
+     * Belongs-many-many relationships.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
+    public static $belongs_many_many = array(
+        'SilvercartMirrorProducts'  => 'SilvercartProduct'
+    );
+
+    /**
+     * Contains all manufacturers of the products contained in this product
+     * group page.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.03.2011
+     */
     protected $manufacturers = null;
 
     /**
@@ -61,6 +153,7 @@ class SilvercartProductGroupPage extends Page {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
      * @since 10.02.2011
      */
     public function  __construct($record = null, $isSingleton = false) {
@@ -70,14 +163,44 @@ class SilvercartProductGroupPage extends Page {
     }
 
     /**
-     * Return all fields of the backend
+     * Return all fields of the backend.
      *
      * @return FieldSet Fields of the CMS
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        if ($this->drawCMSFields()) {
+        $mirroredProductIdList  = '';
+        $mirroredProductIDs     = $this->getMirroredProductIDs();
+
+        foreach ($mirroredProductIDs as $mirroredProductID) {
+            $mirroredProductIdList .= sprintf(
+                "'%s',",
+                $mirroredProductID
+            );
+        }
+
+        if (!empty($mirroredProductIdList)) {
+            $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
+
+            $filter = sprintf(
+                "`SilvercartProductGroupID` = %d OR
+                 `SilvercartProduct`.`ID` IN (%s)",
+                $this->ID,
+                $mirroredProductIdList
+            );
+        } else {
+            $filter = sprintf(
+                "`SilvercartProductGroupID` = %d",
+                $this->ID
+            );
+        }
+        
+        //if ($this->drawCMSFields()) {
             $productsTableField = new HasManyDataObjectManager(
                 $this,
                 'SilvercartProducts',
@@ -87,7 +210,7 @@ class SilvercartProductGroupPage extends Page {
                     'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
                 ),
                 'getCMSFields',
-                "`SilvercartProductGroupID` = $this->ID"
+                $filter
             );
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
             $fields->addFieldToTab($tabPARAM, $productsTableField);
@@ -104,9 +227,44 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM2, $attributeTableField);
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
-        }
+        //}
         $this->extend('extendCMSFields', $fields);
         return $fields;
+    }
+
+    /**
+     * Returns all SilvercartProductIDs that have this group set as mirror
+     * group.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function getMirroredProductIDs() {
+        $mirroredProductIDs = array();
+
+        $sqlQuery = new SQLQuery();
+        $sqlQuery->select = array(
+            'SP_SPGMP.SilvercartProductID'
+        );
+        $sqlQuery->from = array(
+            'SilvercartProduct_SilvercartProductGroupMirrorPages SP_SPGMP'
+        );
+        $sqlQuery->where = array(
+            sprintf(
+                "SP_SPGMP.SilvercartProductGroupPageID = %d",
+                $this->ID
+            )
+        );
+        $result = $sqlQuery->execute();
+
+        foreach ($result as $row) {
+            $mirroredProductIDs[] = $row['SilvercartProductID'];
+        }
+
+        return $mirroredProductIDs;
     }
 
     /**
@@ -406,7 +564,26 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function getProducts() {
         if (is_null($this->groupProducts)) {
-            // Get Products for this group
+            // ----------------------------------------------------------------
+            // Get products that have this group set as mirror group
+            // ----------------------------------------------------------------
+            $mirroredProductIdList  = '';
+            $mirroredProductIDs     = $this->getMirroredProductIDs();
+
+            foreach ($mirroredProductIDs as $mirroredProductID) {
+                $mirroredProductIdList .= sprintf(
+                    "'%s',",
+                    $mirroredProductID
+                );
+            }
+
+            if (!empty($mirroredProductIdList)) {
+                $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
+            }
+
+            // ----------------------------------------------------------------
+            // Get products that have this group set as main group
+            // ----------------------------------------------------------------
             if (!isset($_GET['start']) ||
                 !is_numeric($_GET['start']) ||
                 (int)$_GET['start'] < 1) {
@@ -421,12 +598,34 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 }
             }
 
-            $filter = sprintf("`SilvercartProductGroupID` = '%s'",$this->ID);
+            if (empty($mirroredProductIdList)) {
+                $filter = sprintf(
+                    "`SilvercartProductGroupID` = '%s'",
+                    $this->ID
+                );
+            } else {
+                $filter = sprintf(
+                    "(`SilvercartProductGroupID` = '%s' OR
+                      `SilvercartProduct`.`ID` IN (%s))",
+                    $this->ID,
+                    $mirroredProductIdList
+                );
+            }
 
             foreach ($this->listFilters as $listFilter) {
                 $filter .= ' ' . $listFilter;
             }
-            $this->groupProducts = SilvercartProduct::get($filter, null, null, sprintf("%s,15",$SQL_start));
+
+            $sort = 'SPGMSO.SortOrder ASC, SilvercartProduct.SortOrder ASC';
+
+            $join = sprintf(
+                "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
+                $this->ID
+            );
+
+            $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%s,15",$SQL_start));
+
+            
         }
        return $this->groupProducts;
     }

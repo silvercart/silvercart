@@ -141,6 +141,9 @@ $lang['de_DE']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Artikelgruppen
 $lang['de_DE']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Untergruppen von ';
 $lang['de_DE']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'warengruppen';
 
+$lang['de_DE']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Spiegel-Warengruppe';
+$lang['de_DE']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Spiegel-Warengruppen';
+
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'hersteller';

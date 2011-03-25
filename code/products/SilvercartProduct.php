@@ -108,12 +108,12 @@ class SilvercartProduct extends DataObject {
      * @since 24.11.2010
      */
     public static $has_one = array(
-        'SilvercartTax'             => 'SilvercartTax',
-        'SilvercartManufacturer'    => 'SilvercartManufacturer',
-        'SilvercartProductGroup'    => 'SilvercartProductGroupPage',
-        'SilvercartMasterProduct'   => 'SilvercartProduct',
-        'SilvercartAvailabilityStatus' => 'SilvercartAvailabilityStatus',
-        'Image'                     => 'Image'
+        'SilvercartTax'                 => 'SilvercartTax',
+        'SilvercartManufacturer'        => 'SilvercartManufacturer',
+        'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
+        'SilvercartMasterProduct'       => 'SilvercartProduct',
+        'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
+        'Image'                         => 'Image'
     );
 
     /**
@@ -126,8 +126,21 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'SilvercartFiles' => 'SilvercartFile',
-        'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition',
+        'SilvercartFiles'                   => 'SilvercartFile',
+        'SilvercartShoppingCartPositions'   => 'SilvercartShoppingCartPosition',
+    );
+
+    /**
+     * Belongs-many-many relations.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public static $many_many = array(
+        'SilvercartProductGroupMirrorPages' => 'SilvercartProductGroupPage'
     );
 
     /**
@@ -227,6 +240,10 @@ class SilvercartProduct extends DataObject {
             'SilvercartProductGroup.ID' => array(
                 'title'     => _t('SilvercartProductGroupPage.SINGULARNAME'),
                 'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartProductGroupMirrorPages.ID' => array(
+                'title'     => _t('SilvercartProductGroupMirrorPage.SINGULARNAME'),
+                'filter'    => 'ExactMatchFilter'
             )
         );
 
@@ -279,6 +296,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartShoppingCartPositions'   => _t('SilvercartShoppingCartPosition.PLURALNAME', 'Cart positions'),
                 'SilvercartShoppingCarts'           => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
                 'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
+                'SilvercartProductGroupMirrorPages' => _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'),
             )
         );
 
@@ -324,7 +342,10 @@ class SilvercartProduct extends DataObject {
         }
 
         $filter .= 'isActive = 1';
-        $sort    = 'SortOrder';
+
+        if (!$sort) {
+            $sort = 'SilvercartProduct.SortOrder ASC';
+        }
 
         $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         if ($products) {
@@ -343,6 +364,7 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
+        
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         //Get all products that have no master
         $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
@@ -392,6 +414,21 @@ class SilvercartProduct extends DataObject {
         $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'Image');
         $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'Image');
         $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'Image');
+
+        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
+            $this,
+            'SilvercartProductGroupMirrorPages',
+            'SilvercartProductGroupPage',
+            array(
+                'Breadcrumbs'   => 'Breadcrumbs'
+            ),
+            null,
+            null,
+            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+        );
+        $productGroupMirrorPagesTable->pageSize = 1000;
+
+        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
@@ -637,6 +674,100 @@ class SilvercartProduct extends DataObject {
      */
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
+    }
+
+    /**
+     * We check if the SortOrder field has changed. If the change originated
+     * from a sort action of the dataobjectmanager and is not related to the
+     * main productgroup of the product we reset it to the old value.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+
+        // We want to prevent that sorting with the dataobjectmanager module
+        // for mirrored products saves the false SortOrder value.
+        $request                      = Controller::curr()->request;
+        $silvercartProductGroupPageID = $request->getVar('controllerID');
+
+        if ($silvercartProductGroupPageID) {
+            if ($this->SilvercartProductGroup()->ID != $silvercartProductGroupPageID) {
+                $sortOrder = $this->record['SortOrder'];
+
+                // Reset SortOrder to old value
+                $this->record['SortOrder'] = $this->original['SortOrder'];
+
+                // Set the sort order for the relation
+                $productGroupMirrorSortOrder = DataObject::get_one(
+                    'SilvercartProductGroupMirrorSortOrder',
+                    sprintf(
+                        "SilvercartProductGroupPageID = %d AND SilvercartProductID = %d",
+                        $silvercartProductGroupPageID,
+                        $this->ID
+                    )
+                );
+                if ($productGroupMirrorSortOrder) {
+                    $productGroupMirrorSortOrder->setField('SortOrder', $sortOrder);
+                    $productGroupMirrorSortOrder->write();
+                }
+            }
+        }
+    }
+
+    /**
+     * We have to adjust the SilvercartProductGroupMirrorSortOrder table.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+
+        // Update relations if necessary
+        $mirrorPageIDs                          = array();
+        $silvercartProductGroupSortOrderPageIDs = array();
+
+        foreach ($this->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
+            $mirrorPageIDs[] = $silvercartProductGroupMirrorPage->ID;
+        }
+
+        $silvercartProductGroupSortOrderPages = DataObject::get(
+            'SilvercartProductGroupMirrorSortOrder',
+            sprintf(
+                "SilvercartProductID = %d",
+                $this->ID
+            )
+        );
+
+        // delete old records
+        if ($silvercartProductGroupSortOrderPages) {
+            foreach ($silvercartProductGroupSortOrderPages as $silvercartProductGroupSortOrderPage) {
+                if (!in_array($silvercartProductGroupSortOrderPage->SilvercartProductGroupPageID, $mirrorPageIDs)) {
+                    $silvercartProductGroupSortOrderPage->delete();
+                } else {
+                    $silvercartProductGroupSortOrderPageIDs[] = $silvercartProductGroupSortOrderPage->SilvercartProductGroupPageID;
+                }
+            }
+        }
+
+        // insert new records
+        foreach ($mirrorPageIDs as $mirrorPageID) {
+            if (!in_array($mirrorPageID, $silvercartProductGroupSortOrderPageIDs)) {
+                $newProductGroupMirrorSortOrder = new SilvercartProductGroupMirrorSortOrder();
+                $newProductGroupMirrorSortOrder->setField('SilvercartProductID', $this->ID);
+                $newProductGroupMirrorSortOrder->setField('SilvercartProductGroupPageID', $mirrorPageID);
+                $newProductGroupMirrorSortOrder->setField('SortOrder', $this->original['SortOrder'] ? $this->original['SortOrder'] : $this->record['SortOrder']);
+                $newProductGroupMirrorSortOrder->write();
+            }
+        }
     }
 }
 
