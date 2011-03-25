@@ -48,6 +48,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             )
         )
     );
+    
     /**
      * form settings, mainly submit button´s name
      *
@@ -58,7 +59,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle' => ''
+        'submitButtonTitle' => 'Search'
     );
 
     /**
@@ -74,10 +75,22 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @since 23.10.2010
      */
     protected function submitSuccess($data, $form, $formData) {
-
         Session::set("searchQuery", $formData['quickSearchQuery']);
         $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
         Director::redirect($searchResultsPage->RelativeLink());
     }
 
+    /**
+     * Set texts for preferences with i18n methods.
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 23.02.2011
+     * @return void
+     */
+    public function  preferences() {
+        parent::preferences();
+
+        $this->preferences['submitButtonTitle'] = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
+    }
 }

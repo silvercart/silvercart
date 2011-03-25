@@ -626,6 +626,21 @@ class SilvercartRequireDefaultRecords extends DataObject {
     }
 
     /**
+     * determine weather test data is enabled or not
+     *
+     * @return bool is test data enabled?
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 23.3.2011
+     */
+    public static function isEnabledTestData() {
+        if (self::$enableTestData === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * disables the creation of test data on /dev/build. This is set by default,
      * so you do not have to disable creation of test data if it was not enabled
      * before.
