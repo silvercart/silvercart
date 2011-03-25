@@ -346,7 +346,6 @@ class SilvercartProduct extends DataObject {
         if (!$sort) {
             $sort = 'SilvercartProduct.SortOrder ASC';
         }
-
         $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         if ($products) {
             return $products;

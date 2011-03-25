@@ -616,7 +616,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $filter .= ' ' . $listFilter;
             }
 
-            $sort = 'SPGMSO.SortOrder ASC, SilvercartProduct.SortOrder ASC';
+            $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
 
             $join = sprintf(
                 "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
