@@ -121,9 +121,25 @@ class SilvercartOrder extends DataObject {
     );
 
     /**
-     * Default sort direction in tables.
+     * Searchable fields.
      *
      * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.03.2011
+     */
+    public static $searchable_fields = array(
+        'Created',
+        'Member.FirstName',
+        'Member.Surame',
+        'SilvercartOrderStatus.ID'
+    );
+
+    /**
+     * Default sort direction in tables.
+     *
+     * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -140,7 +156,7 @@ class SilvercartOrder extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $extensions = array(
+    public static $extensions = array(
         "Versioned('Live')",
     );
 
@@ -184,6 +200,7 @@ class SilvercartOrder extends DataObject {
                 'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
             )
         );
+        $this->extend('updateSummaryFields', $summaryFields);
 
         return $summaryFields;
     }
@@ -226,6 +243,8 @@ class SilvercartOrder extends DataObject {
                 'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL')
             )
         );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        
         return $fieldLabels;
     }
 
@@ -257,6 +276,7 @@ class SilvercartOrder extends DataObject {
                 'filter'    => 'ExactMatchFilter'
             )
         );
+        $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
     }
@@ -1253,6 +1273,27 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $searchForm->Fields()->insertAfter($dropdownField, 'Member__Surname');
         }
 
+        $this->extend('updateSearchForm', $searchForm);
+        
         return $searchForm;
+    }
+
+    /**
+     * Extend the getResultsTable method in DataObjectDecorators.
+     *
+     * @param array $searchCriteria The search criteria
+     *
+     * @return TableListField
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.03.2011
+     */
+    public function getResultsTable($searchCriteria) {
+        $tableField = parent::getResultsTable($searchCriteria);
+
+        $this->extend('getResultsTable', $tableField, $searchCriteria);
+        
+        return $tableField;
     }
 }
