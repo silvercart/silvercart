@@ -61,8 +61,6 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
  */
 class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Controller {
 
-    protected $addressID;
-
     /**
      * statements to be called on instanciation
      *
@@ -72,15 +70,25 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @since 22.02.2011
      */
     public function init() {
-        $this->setAddressID($this->urlParams['Action']);
-        $this->setBreadcrumbElementID($this->urlParams['Action']);
+        $addressId = false;
+        
+        if (isset($_POST['addressID'])) {
+            $addressId = Convert::raw2sql($_POST['addressID']);
+        } else {
+            $addressId = $this->urlParams['Action'];
+        }
+
+        $this->setBreadcrumbElementID($addressId);
+
         // get the address to check whether it is related to the actual customer or not.
-        $address = DataObject::get_by_id('SilvercartAddress', $this->getAddressID());
+        $address = DataObject::get_by_id('SilvercartAddress', $addressId);
         if ($address->Member()->ID != Member::currentUserID()) {
             // the address is not related to the customer, redirect elsewhere...
             Director::redirect($this->PageByIdentifierCode()->Link());
         }
-        $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $this->getAddressID())));
+
+        $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressId)));
+        
         parent::init();
     }
 
@@ -101,27 +109,8 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
                 return $this->getViewer('index')->process($this);
             }
         }
+        
         return parent::handleAction($request);
-    }
-
-    /**
-     * returns the id of the address requested by the Action.
-     *
-     * @return int
-     */
-    public function getAddressID() {
-        return $this->addressID;
-    }
-
-    /**
-     * sets the id of the address requested by the Action.
-     *
-     * @param int $addressID addressID
-     *
-     * @return void
-     */
-    public function setAddressID($addressID) {
-        $this->addressID = $addressID;
     }
 
 }

@@ -105,37 +105,37 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME');
-        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME');
-        $this->formFields['Addition']['title'] = _t('SilvercartAddress.ADDITION');
-        $this->formFields['Street']['title'] = _t('SilvercartAddress.STREET');
-        $this->formFields['StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER');
-        $this->formFields['Postcode']['title'] = _t('SilvercartAddress.POSTCODE');
-        $this->formFields['City']['title'] = _t('SilvercartAddress.CITY');
-        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE');
+        $this->formFields['FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME');
+        $this->formFields['Surname']['title']       = _t('SilvercartAddress.SURNAME');
+        $this->formFields['Addition']['title']      = _t('SilvercartAddress.ADDITION');
+        $this->formFields['Street']['title']        = _t('SilvercartAddress.STREET');
+        $this->formFields['StreetNumber']['title']  = _t('SilvercartAddress.STREETNUMBER');
+        $this->formFields['Postcode']['title']      = _t('SilvercartAddress.POSTCODE');
+        $this->formFields['City']['title']          = _t('SilvercartAddress.CITY');
+        $this->formFields['Phone']['title']         = _t('SilvercartAddress.PHONE');
         $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
-        $this->formFields['Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
+        $this->formFields['Country']['title']       = _t('SilvercartCountry.SINGULARNAME');
         
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE', 'save');
 
         $member = Member::currentUser();
-        $id = $this->controller->getAddressID();
+        $id     = $this->customParameters['addressID'];
         
         if ($member && $id) {
             $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $address = DataObject::get_one('SilvercartAddress', $filter);
             if ($address) {
-                $this->formFields['FirstName']['value'] = $member->FirstName;
-                $this->formFields['Surname']['value'] = $member->Surname;
-                $this->formFields['Addition']['value'] = $address->Addition;
-                $this->formFields['Street']['value'] = $address->Street;
-                $this->formFields['StreetNumber']['value'] = $address->StreetNumber;
-                $this->formFields['Postcode']['value'] = $address->Postcode;
-                $this->formFields['City']['value'] = $address->City;
-                $this->formFields['PhoneAreaCode']['value'] = $address->PhoneAreaCode;
-                $this->formFields['Phone']['value'] = $address->Phone;
-                $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
-                $this->formFields['Country']['selectedValue'] = $address->SilvercartCountry()->Title;
+                $this->formFields['FirstName']['value']         = $address->FirstName;
+                $this->formFields['Surname']['value']           = $address->Surname;
+                $this->formFields['Addition']['value']          = $address->Addition;
+                $this->formFields['Street']['value']            = $address->Street;
+                $this->formFields['StreetNumber']['value']      = $address->StreetNumber;
+                $this->formFields['Postcode']['value']          = $address->Postcode;
+                $this->formFields['City']['value']              = $address->City;
+                $this->formFields['PhoneAreaCode']['value']     = $address->PhoneAreaCode;
+                $this->formFields['Phone']['value']             = $address->Phone;
+                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+                $this->formFields['Country']['selectedValue']   = $address->SilvercartCountry()->Title;
             }
         }
     }
