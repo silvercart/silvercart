@@ -435,6 +435,7 @@ $lang['en_US']['SilvercartPage']['REGISTER'] = 'Register';
 $lang['en_US']['SilvercartPage']['REMARKS'] = 'Remarks';
 $lang['en_US']['SilvercartPage']['REMOVE_FROM_CART'] = 'Remove';
 $lang['en_US']['SilvercartPage']['REVOCATION'] = 'revocation instructions';
+$lang['en_US']['SilvercartPage']['REVOCATIONREAD'] = 'revocation instructions';
 $lang['en_US']['SilvercartPage']['SAVE'] = 'Save';
 $lang['en_US']['SilvercartPage']['SEARCH_RESULTS'] = 'results';
 $lang['en_US']['SilvercartPage']['SEPTEMBER'] = 'September';
