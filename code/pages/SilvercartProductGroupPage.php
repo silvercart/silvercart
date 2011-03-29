@@ -200,7 +200,7 @@ class SilvercartProductGroupPage extends Page {
             );
         }
         
-        //if ($this->drawCMSFields()) {
+        if ($this->drawCMSFields()) {
             $productsTableField = new HasManyDataObjectManager(
                 $this,
                 'SilvercartProducts',
@@ -227,7 +227,7 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM2, $attributeTableField);
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
-        //}
+        }
         $this->extend('extendCMSFields', $fields);
         return $fields;
     }

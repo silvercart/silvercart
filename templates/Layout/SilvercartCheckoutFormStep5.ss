@@ -36,7 +36,7 @@
                     <a href="{$controller.Link}Cancel" class="button_type1">
                         <span class="button_type1_content">
                             <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><%_t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
+                                <span class="button_type1_panel_content"><% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
                             </span>
                         </span>
                     </a>

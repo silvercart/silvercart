@@ -108,7 +108,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @since 18.11.2010
      */
     public function getErrorOccured() {
-        return $this->paymentMethodObj->getErrorOccured();
+        if ($this->paymentMethodObj) {
+            return $this->paymentMethodObj->getErrorOccured();
+        }
+
+        return false;
     }
 
     /**
@@ -121,7 +125,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @since 18.11.2010
      */
     public function getErrorList() {
-        return $this->paymentMethodObj->getErrorList();
+        if ($this->paymentMethodObj) {
+            return $this->paymentMethodObj->getErrorList();
+        }
+
+        return false;
     }
 
     /**
