@@ -395,4 +395,61 @@ class SilvercartPage_Controller extends ContentController {
             return false;
         }
     }
+
+    /**
+     * Return the given number of topseller products as DataObjectSet.
+     * 
+     * We use caching here, so check the cache first if you don't get the
+     * desired results.
+     *
+     * @param int $nrOfProducts The number of products to return
+     *
+     * @return mixed DataObjectSet|Boolean false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 29.03.2011
+     */
+    public function getTopsellerProducts($nrOfProducts = 5) {
+        $cachekey = 'TopsellerProducts'.$nrOfProducts;
+        $cache    = SS_Cache::factory($cachekey);
+        $result   = $cache->load($cachekey);
+
+        if ($result) {
+            $result = unserialize($result);
+        } else {
+            $products   = array();
+            $sqlQuery   = new SQLQuery();
+
+            $sqlQuery->select = array(
+                'SOP.SilvercartProductID',
+                'SUM(SOP.Quantity) AS Quantity'
+            );
+            $sqlQuery->from = array(
+                'SilvercartOrderPosition SOP',
+                'LEFT JOIN SilvercartProduct SP on SP.ID = SOP.SilvercartProductID'
+            );
+            $sqlQuery->where = array(
+                'SP.isActive = 1'
+            );
+            $sqlQuery->groupby = array(
+                'SOP.SilvercartProductID'
+            );
+            $sqlQuery->orderby  = 'Quantity DESC';
+            $sqlQuery->limit    = $nrOfProducts;
+
+            $result = $sqlQuery->execute();
+
+            foreach ($result as $row) {
+                $products[] = DataObject::get_by_id(
+                    'SilvercartProduct',
+                    $row['SilvercartProductID']
+                );
+            }
+            
+            $result = new DataObjectSet($products);
+        }
+
+        return $result;
+    }
 }
