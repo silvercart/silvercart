@@ -454,6 +454,7 @@ $lang['en_US']['SilvercartPage']['SUBTOTAL'] = 'Subtotal';
 $lang['en_US']['SilvercartPage']['SUM'] = 'Sum';
 $lang['en_US']['SilvercartPage']['INCLUDING_TAX'] = 'incl. %s%% VAT';
 $lang['en_US']['SilvercartPage']['EXCLUDING_TAX'] = 'plus VAT';
+$lang['en_US']['SilvercartPage']['TAX'] = 'incl. %d%% VAT';
 $lang['en_US']['SilvercartPage']['TERMSOFSERVICE_PRIVACY'] = 'Terms of service and privacy statement';
 $lang['en_US']['SilvercartPage']['THE_QUERY'] = 'The query';
 $lang['en_US']['SilvercartPage']['TITLE'] = 'Title';

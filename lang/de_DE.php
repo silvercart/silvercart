@@ -461,6 +461,7 @@ $lang['de_DE']['SilvercartPage']['SUBTOTAL'] = 'Zwischensumme';
 $lang['de_DE']['SilvercartPage']['SUM'] = 'Summe';
 $lang['de_DE']['SilvercartPage']['INCLUDING_TAX'] = 'inkl. %s%% MwSt.';
 $lang['de_DE']['SilvercartPage']['EXCLUDING_TAX'] = 'exkl. MwSt.';
+$lang['de_DE']['SilvercartPage']['TAX'] = 'inkl. %d%% MwSt.';
 $lang['de_DE']['SilvercartPage']['TERMSOFSERVICE_PRIVACY'] = 'Allgemeine Geschäftsbedingungen und Datenschutz';
 $lang['de_DE']['SilvercartPage']['THE_QUERY'] = 'Der Begriff';
 $lang['de_DE']['SilvercartPage']['TITLE'] = 'Titel';
