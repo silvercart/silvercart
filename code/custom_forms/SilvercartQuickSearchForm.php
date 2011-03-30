@@ -59,7 +59,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle' => 'Search'
+        'submitButtonTitle' => ''
     );
 
     /**
@@ -90,7 +90,5 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      */
     public function  preferences() {
         parent::preferences();
-
-        $this->preferences['submitButtonTitle'] = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
     }
 }

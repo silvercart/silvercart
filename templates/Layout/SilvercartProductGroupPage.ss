@@ -33,9 +33,9 @@
             <ul>
             <% control GroupViews %>
                 <% if isActive %>
-                <li class="active"><img src="$Image" alt="$Label" title="$Label" /></li>
+                <li class="active"><img src="{$BaseHref}$Image" alt="$Label" title="$Label" /></li>
                 <% else %>
-                <li><a href="{$Top.Link}switchGroupView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
+                <li><a href="{$Top.Link}switchGroupView/$Code" title="$Label"><img src="{$BaseHref}$Image" alt="$Label" title="$Label" /></a></li>
                 <% end_if %>
             <% end_control %>
             </ul>
