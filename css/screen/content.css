@@ -304,11 +304,11 @@
     #SearchForm_SearchForm .type-text .text { width: 160px;}
 
     /*#SearchForm_SearchForm #quickSearchQuery .clear {clear: none}*/
-    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(images/searchbutton_bg.png) no-repeat;}
+    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(images/icon_search.png) no-repeat;}
 
     #Search_Login {background: #3a3436; border: none; margin-top: 0; padding: 0; width: 300px;}
 
-    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(images/searchbutton_bg.png) no-repeat;}
+    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(images/icon_search.png) no-repeat;}
 
     #Search_Login .yform {background: transparent; border: none; padding: 5px 0 0 0; margin: 0;}
 
