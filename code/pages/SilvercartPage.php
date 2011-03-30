@@ -452,4 +452,80 @@ class SilvercartPage_Controller extends ContentController {
 
         return $result;
     }
+
+    /**
+     * We load the special offers productgroup page here.
+     *
+     * @param int $nrOfProducts The number of products to return
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function getProductGroupItems($groupIdentifier = 'SilvercartOffers', $nrOfProducts = 4) {
+        $products = array();
+
+        $records = DB::query(
+            sprintf(
+                "
+                SELECT
+                    SilvercartProductID
+                FROM
+                    (
+                        SELECT
+                            SilvercartProduct.ID AS SilvercartProductID
+                        FROM
+                            SilvercartProduct
+                        LEFT JOIN
+                            SilvercartPage
+                        ON
+                            SilvercartPage.ID = SilvercartProduct.SilvercartProductGroupID
+                        WHERE
+                            SilvercartPage.IdentifierCode = '%s'
+                    ) AS DirectRelations
+                UNION SELECT
+                    SilvercartProductID
+                FROM
+                    (
+                        SELECT
+                            SP_SPGMP.SilvercartProductID AS SilvercartProductID
+                        FROM
+                            SilvercartProduct_SilvercartProductGroupMirrorPages AS SP_SPGMP
+                        LEFT JOIN
+                            SilvercartPage
+                        ON
+                            SilvercartPage.ID = SP_SPGMP.SilvercartProductGroupPageID
+                        WHERE
+                            SilvercartPage.IdentifierCode = '%s'
+                    ) AS MirrorRelations
+                GROUP BY
+                    SilvercartProductID
+                ORDER BY
+                    RAND()
+                LIMIT
+                    %d
+                ",
+                $groupIdentifier,
+                $groupIdentifier,
+                $nrOfProducts
+            )
+        );
+
+        foreach ($records as $record) {
+            $product = DataObject::get_by_id(
+                'SilvercartProduct',
+                $record['SilvercartProductID']
+            );
+
+            if ($product) {
+                $products[] = $product;
+            }
+        }
+
+        $result = new DataObjectSet($products);
+
+        return $result;
+    }
 }
