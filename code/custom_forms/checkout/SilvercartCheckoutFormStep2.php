@@ -33,25 +33,22 @@
  */
 class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
 
+    /**
+     * The form field definitions.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.03.2011
+     */
     protected $formFields = array(
         'PaymentMethod' => array(
-            'type' => 'DropdownField',
-            'title' => 'Bezahlart',
+            'type'              => 'DropdownField',
+            'title'             => 'Bezahlart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         )
-    );
-
-    /**
-     * preferences
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
-     */
-    protected $preferences = array(
-        'submitButtonTitle'         => 'Weiter',
-        'stepTitle' => 'Zahlart'
     );
 
     /**
@@ -69,8 +66,6 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
-        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep2.TITLE', 'Payment');
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
@@ -82,6 +77,24 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
                 Director::redirect($frontPage->RelativeLink());
             }
         }
+    }
+
+    /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function preferences() {
+        $this->preferences['stepIsVisible']         = true;
+        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep2.TITLE', 'Payment');
+        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
+        $this->preferences['fillInRequestValues']   = true;
+
+        parent::preferences();
     }
 
     /**
@@ -128,6 +141,5 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
     }
-
 }
 

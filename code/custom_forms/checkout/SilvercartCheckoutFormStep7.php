@@ -62,6 +62,21 @@ class SilvercartCheckoutFormStep7 extends CustomHtmlForm {
     }
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible'] = false;
+
+        parent::preferences();
+    }
+
+    /**
      * processor method
      *
      * @return void

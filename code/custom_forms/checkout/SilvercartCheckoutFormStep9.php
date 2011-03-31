@@ -35,7 +35,19 @@
  */
 class SilvercartCheckoutFormStep9 extends CustomHtmlForm {
 
-    protected $preferences = array(
-        'ShowCustomHtmlFormStepNavigation' => false,
-    );
+    /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible']                    = false;
+        $this->preferences['ShowCustomHtmlFormStepNavigation'] = false;
+
+        parent::preferences();
+    }
 }

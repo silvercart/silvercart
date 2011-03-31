@@ -33,49 +33,44 @@
  */
 class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
+    /**
+     * The form field definitions.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.03.2011
+     */
     protected $formFields = array(
         'ChosenShippingMethod' => array(
-            'type' => 'ReadonlyField',
+            'type'  => 'ReadonlyField',
             'title' => 'gewählte Versandart'
         ),
         'ChosenPaymentMethod' => array(
-            'type' => 'ReadonlyField',
+            'type'  => 'ReadonlyField',
             'title' => 'gewählte Bezahlart'
         ),
         'Note' => array(
             'type' => 'TextareaField'
         ),
-        /**
-         * leagal fields
-         */
         'HasAcceptedTermsAndConditions' => array(
-            'type' => 'CheckboxField',
-            'title' => 'Ich akzeptiere die allgemeinen Geschäftsbedingungen',
+            'type'              => 'CheckboxField',
+            'title'             => 'Ich akzeptiere die allgemeinen Geschäftsbedingungen',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'HasAcceptedRevocationInstruction' => array(
-            'type' => 'CheckboxField',
-            'title' => 'Ich habe die Widerrufsbelehrung gelesen',
+            'type'              => 'CheckboxField',
+            'title'             => 'Ich habe die Widerrufsbelehrung gelesen',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'SubscribedToNewsletter' => array(
-            'type' => 'CheckboxField',
+            'type'  => 'CheckboxField',
             'title' => 'Ich möchte den Newsletter abonnieren'
         )
-    );
-    /**
-     * preferences
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
-     */
-    protected $preferences = array(
-        'submitButtonTitle' => 'Bestellen',
-        'stepTitle' => 'Übersicht'
     );
 
     /**
@@ -93,8 +88,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
-        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep4.TITLE', 'Overview');
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
@@ -109,6 +102,24 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     }
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function preferences() {
+        $this->preferences['stepIsVisible']         = true;
+        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep4.TITLE', 'Overview');
+        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
+        $this->preferences['fillInRequestValues']   = true;
+
+        parent::preferences();
+    }
+
+    /**
      * Set initial form values
      *
      * @return void
@@ -118,8 +129,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 09.11.2010
      */
     protected function fillInFieldValues() {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.ORDER', 'order');
-        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep.OVERVIEW', 'overview');
         $this->controller->fillFormFields(&$this->formFields);
         $this->formFields['ChosenShippingMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
         $this->formFields['ChosenPaymentMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
@@ -150,13 +159,13 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function AddressData() {
-        $checkoutData = $this->controller->getCombinedStepData();
+        $checkoutData    = $this->controller->getCombinedStepData();
         $shippingAddress = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+        $invoiceAddress  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
         $shippingCountry = DataObject::get_by_id(
-                        'SilvercartCountry',
-                        $shippingAddress['CountryID']
+            'SilvercartCountry',
+            $shippingAddress['CountryID']
         );
 
         if ($shippingCountry) {
@@ -165,8 +174,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         }
 
         $invoiceCountry = DataObject::get_by_id(
-                        'SilvercartCountry',
-                        $invoiceAddress['CountryID']
+            'SilvercartCountry',
+            $invoiceAddress['CountryID']
         );
 
         if ($invoiceCountry) {
@@ -175,10 +184,10 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         }
 
         $addressData = new ArrayData(
-                        array(
-                            'SilvercartShippingAddress' => $shippingAddress,
-                            'SilvercartInvoiceAddress' => $invoiceAddress
-                        )
+            array(
+                'SilvercartShippingAddress' => $shippingAddress,
+                'SilvercartInvoiceAddress' => $invoiceAddress
+            )
         );
         return $addressData;
     }
