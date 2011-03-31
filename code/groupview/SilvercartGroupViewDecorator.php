@@ -112,7 +112,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
         if (array_key_exists('ID', $this->owner->urlParams)) {
             SilvercartGroupViewHandler::setGroupView($this->owner->urlParams['ID']);
         }
-        Director::redirect('/' . $this->owner->URLSegment);
+        Director::redirect($this->owner->Link());
     }
 
     /**
@@ -129,7 +129,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
         if (array_key_exists('ID', $this->owner->urlParams)) {
             SilvercartGroupViewHandler::setGroupHolderView($this->owner->urlParams['ID']);
         }
-        Director::redirect('/' . $this->owner->URLSegment);
+        Director::redirect($this->owner->Link());
     }
 
     /**
