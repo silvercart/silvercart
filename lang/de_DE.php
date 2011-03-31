@@ -190,12 +190,12 @@ $lang['de_DE']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Bestellen';
 $lang['de_DE']['SilvercartCheckoutFormStep']['OVERVIEW'] = 'Übersicht';
 
 $lang['de_DE']['SilvercartCheckoutFormStep1']['EMPTYSTRING_COUNTRY'] = '--Land--';
-$lang['de_DE']['SilvercartCheckoutFormStep1']['TITLE'] = 'Adressen';
+$lang['de_DE']['SilvercartCheckoutFormStep1']['TITLE'] = 'Liefer- & Rechnungsdaten';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
-$lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Zahlart';
+$lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Zahlungsinformationen';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Versandart';
-$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Übersicht';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Bestellung überprüfen';
 
 $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
 $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Schritt';
