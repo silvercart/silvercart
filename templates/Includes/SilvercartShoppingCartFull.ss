@@ -10,6 +10,8 @@
                             <th><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
                             <% if Top.showPricesGross %>
                             <th><% _t('SilvercartProduct.VAT','VAT') %></th>
+                            <% else %>
+                            <th>&nbsp;</th>
                             <% end_if %>
                             <th class="right"><% _t('SilvercartProductPage.QUANTITY') %></th>
                             <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
@@ -28,6 +30,8 @@
                                 <td class="right">$SilvercartProduct.Price.Nice</td>
                                 <% if Top.showPricesGross %>
                                 <td class="right">{$SilvercartProduct.TaxRate}%</td>
+                                <% else %>
+                                <td>&nbsp;</td>
                                 <% end_if %>
                                 <td class="right">$Quantity</td>
                                 <td class="right">$Price.Nice</td>
@@ -45,7 +49,11 @@
                                     <tr>
                                         <td>$Name</td>
                                         <td class="right">$PriceFormatted</td>
+                                        <% if Top.showPricesGross %>
                                         <td class="right">$SilvercartTax.Title</td>
+                                        <% else %>
+                                        <td>&nbsp;</td>
+                                        <% end_if %>
                                         <td class="right">$Quantity</td>
                                         <td class="right">$PriceTotalFormatted</td>
 
@@ -102,7 +110,7 @@
                                 <% end_if %>
                             </tr>
                             <tr>
-                                <td><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>:</td>
+                                <td><% _t('SilvercartPaymentMethod.SINGULARNAME') %>:</td>
                                 <td colspan="3"><strong>$payment.Title</strong></td>
                                 <td class="right">$HandlingCostPayment.Nice</td>
 

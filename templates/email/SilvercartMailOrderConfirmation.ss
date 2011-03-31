@@ -183,7 +183,7 @@
                     <td class="right">$HandlingCostShipment.Nice</td>
                 </tr>
                 <tr>
-                    <td>Bezahlart $PaymentMethodTitle</td>
+                    <td>Bezahlart</td>
                     <td colspan="3"><strong>$PaymentMethodTitle</strong></td>
                     <td class="right">$HandlingCostPayment.Nice</td>
                 </tr>
