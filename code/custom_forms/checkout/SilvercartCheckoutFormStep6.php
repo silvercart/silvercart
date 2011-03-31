@@ -63,6 +63,21 @@ class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
     }
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible'] = false;
+
+        parent::preferences();
+    }
+
+    /**
      * processor method
      *
      * @return void
@@ -76,8 +91,8 @@ class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
 
         if (!$this->paymentMethodObj) {
             $this->paymentMethodObj = DataObject::get_by_id(
-                            'SilvercartPaymentMethod',
-                            $checkoutData['PaymentMethod']
+                'SilvercartPaymentMethod',
+                $checkoutData['PaymentMethod']
             );
         }
 

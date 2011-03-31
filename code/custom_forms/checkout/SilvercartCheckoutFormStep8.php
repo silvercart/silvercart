@@ -34,6 +34,21 @@
 class SilvercartCheckoutFormStep8 extends CustomHtmlForm {
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible'] = false;
+
+        parent::preferences();
+    }
+    
+    /**
      * processor method
      *
      * @return void
@@ -51,18 +66,18 @@ class SilvercartCheckoutFormStep8 extends CustomHtmlForm {
             // postprocessing of payment method
             if (!$this->controller->paymentMethodObj) {
                 $this->controller->paymentMethodObj = DataObject::get_by_id(
-                                'SilvercartPaymentMethod',
-                                $checkoutData['PaymentMethod']
+                    'SilvercartPaymentMethod',
+                    $checkoutData['PaymentMethod']
                 );
             }
 
             $orderObj = DataObject::get_by_id(
-                            'SilvercartOrder',
-                            $checkoutData['orderId']
+                'SilvercartOrder',
+                $checkoutData['orderId']
             );
 
             if ($this->controller->paymentMethodObj &&
-                    $orderObj) {
+                $orderObj) {
 
                 $this->controller->paymentMethodObj->setController($this->controller);
                 $paymentSuccessful = $this->controller->paymentMethodObj->processPaymentAfterOrder($orderObj);
