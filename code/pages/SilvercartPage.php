@@ -344,11 +344,17 @@ class SilvercartPage_Controller extends ContentController {
      * with the SilvercartSubNavigation.ss template. This is the default sub-
      * navigation.
      *
+     * @param string $identifierCode The code of the parent page.
+     *
      * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
      */
-    public function getSubNavigation() {
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
         $items = array();
-        foreach ($this->PageByIdentifierCode('SilvercartProductGroupHolder')->Children() as $child) {
+        foreach ($this->PageByIdentifierCode($identifierCode)->Children() as $child) {
             if ($child->hasProductsOrChildren()) {
                 $items[] = $child;
             }
