@@ -138,14 +138,18 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
         $stepData = $this->controller->getCombinedStepData();
 
-        $chosenShippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $stepData['ShippingMethod']);
-        if ($chosenShippingMethod) {
-            $this->formFields['ChosenShippingMethod']['value'] = $chosenShippingMethod->Title;
-        }
+        if ($stepData &&
+            isset($stepData['ShippingMethod']) &&
+            isset($stepData['PaymentMethod'])) {
+            $chosenShippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $stepData['ShippingMethod']);
+            if ($chosenShippingMethod) {
+                $this->formFields['ChosenShippingMethod']['value'] = $chosenShippingMethod->Title;
+            }
 
-        $chosenPaymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
-        if ($chosenPaymentMethod) {
-            $this->formFields['ChosenPaymentMethod']['value'] = $chosenPaymentMethod->Name;
+            $chosenPaymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+            if ($chosenPaymentMethod) {
+                $this->formFields['ChosenPaymentMethod']['value'] = $chosenPaymentMethod->Name;
+            }
         }
     }
 

@@ -111,12 +111,15 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartPaymentMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
-        if ($stepData['Shipping_Country'] != "") {
-            $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
-            if ($shippingCountry) {
-                $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods();
-                if ($allowedPaymentMethods) {
-                    $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
+        
+        if ($stepData) {
+            if ($stepData['Shipping_Country'] != "") {
+                $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                if ($shippingCountry) {
+                    $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods();
+                    if ($allowedPaymentMethods) {
+                        $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
+                    }
                 }
             }
         }

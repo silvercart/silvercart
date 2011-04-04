@@ -108,10 +108,15 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->controller->fillFormFields(&$this->formFields);
         $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
 
-        $stepData       = $this->controller->getCombinedStepData();
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        $stepData = $this->controller->getCombinedStepData();
         
-        if ($paymentMethod) {
+        if ($stepData &&
+            isset($stepData['PaymentMethod'])) {
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        }
+        
+        if (isset($paymentMethod) &&
+            $paymentMethod) {
             $shippingMethods = $paymentMethod->getAllowedShippingMethods();
             if ($shippingMethods) {
                 //allow only activated shipping methods
