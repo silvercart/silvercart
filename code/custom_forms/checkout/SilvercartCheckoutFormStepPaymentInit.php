@@ -55,12 +55,6 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
 
-        $checkoutData = $this->controller->getCombinedStepData();
-        $this->paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
-
         if (!$barebone) {
             /*
              * redirect a user if his cart is empty
@@ -95,12 +89,16 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 16.11.2010
-     * @deprecated setData is deprecated and should be removed (@see SilvercartPaymentMethod.php).
      */
     public function process() {
         $member = Member::currentUser();
         $checkoutData = $this->controller->getCombinedStepData();
-        
+
+        $this->paymentMethodObj = DataObject::get_by_id(
+            'SilvercartPaymentMethod',
+            $checkoutData['PaymentMethod']
+        );
+
         if ($this->paymentMethodObj) {
             $this->paymentMethodObj->setController($this->controller);
 
@@ -111,10 +109,24 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
             $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
             $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
             $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
+
+            return true;
         } else {
-            Director::redirect($this->controller->Link() . '/Cancel');
+            return false;
         }
     }
 
+    /**
+     * Render the error template.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.04.2011
+     */
+    public function renderError() {
+        return $this->renderWith('SilvercartCheckoutFormStepPaymentError');
+    }
 }
 
