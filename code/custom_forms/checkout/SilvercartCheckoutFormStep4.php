@@ -212,5 +212,17 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         $this->controller->NextStep();
     }
 
+    /**
+     * Wrapper for the pages method to deside to display prices gross or net.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.03.2011
+     */
+    public function showPricesGross() {
+        return $this->controller->showPricesGross();
+    }
+
 }
 
