@@ -236,6 +236,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
         }
 
+        // create countries
+        $this->requireOrUpdateCountries();
+
         /*
          * and now the whole site tree
          */
@@ -610,6 +613,24 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $this->extend('updateDefaultRecords', $rootPage);
 
         self::createTestData();
+    }
+
+    /**
+     * Requires all default countries or syncs them if GeoNames is activated.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2011
+     */
+    public function requireOrUpdateCountries() {
+        $config = SilvercartConfig::getConfig();
+        if ($config->GeoNamesActive) {
+            $geoNames = new SilvercartGeoNames($config->GeoNamesUserName, $config->GeoNamesAPI);
+            $geoNames->countryInfo();
+        } elseif (!DataObject::get('SilvercartCountry')) {
+            require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');
+        }
     }
 
     /**

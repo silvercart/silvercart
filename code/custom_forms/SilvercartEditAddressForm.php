@@ -134,7 +134,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
                 $this->formFields['City']['value']              = $address->City;
                 $this->formFields['PhoneAreaCode']['value']     = $address->PhoneAreaCode;
                 $this->formFields['Phone']['value']             = $address->Phone;
-                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
                 $this->formFields['Country']['selectedValue']   = $address->SilvercartCountry()->Title;
             }
         }

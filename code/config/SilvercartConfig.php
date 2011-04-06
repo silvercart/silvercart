@@ -51,13 +51,20 @@ class SilvercartConfig extends DataObject {
         'PricetypeAnonymousCustomers' => 'VarChar(6)',
         'PricetypeRegularCustomers' => 'VarChar(6)',
         'PricetypeBusinessCustomers' => 'VarChar(6)',
-        'PricetypeAdmins' => 'VarChar(6)'
+        'PricetypeAdmins' => 'VarChar(6)',
+        // Put DB definitions for interfaces here
+        // Definitions for GeoNames
+        'GeoNamesActive' => 'Boolean',
+        'GeoNamesUserName' => 'VarChar(128)',
+        'GeoNamesAPI' => 'VarChar(255)',
     );
     public static $defaults = array(
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',
-        'PricetypeAdmins' => 'net'
+        'PricetypeAdmins' => 'net',
+        'GeoNamesActive' => false,
+        'GeoNamesAPI' => 'http://api.geonames.org/',
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -116,14 +123,32 @@ class SilvercartConfig extends DataObject {
      * @since 24.02.2011
      */
     public function getCMSFields($params = null) {
-        $CMSFields = parent::getCMSFields($params);
+        $defaultCMSFields = parent::getCMSFields($params);
 
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
+        // Building the general tab structure
+        $CMSFields = new FieldSet(
+            $rootTab = new TabSet(
+                'Root',
+                $generalTab = new TabSet(
+                    'General',
+                    $tabGeneralMain = new Tab('Main')
+                ),
+                $interfacesTab = new TabSet(
+                    'Interfaces',
+                    $tabInterfacesGeoNames  = new Tab('GeoNames')
+                )
+            )
+        );
 
-        /*
-         * configure the fields for pricetype configuration
-         */
+        // General Form Fields right here
+        $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
+        // General Main
+        $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
+
+        $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
+        $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
+        $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
+        // configure the fields for pricetype configuration
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
             'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
@@ -136,8 +161,25 @@ class SilvercartConfig extends DataObject {
         );
         foreach ($pricetypes as $name => $title) {
             $CMSFields->removeByName($name);
-            $CMSFields->addFieldToTab('Root.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
+            $CMSFields->addFieldToTab('Root.General.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
+
+        // FormFields for Interfaces right here
+        $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
+        // GeoNames
+        $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
+
+        $geoNamesDescriptionValue = '';
+        $geoNamesDescriptionValue .= '<h3>Description</h3>';
+        $geoNamesDescriptionValue .= '<p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/>';
+        $geoNamesDescriptionValue .= 'To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/>';
+        $geoNamesDescriptionValue .= 'Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/>';
+        $geoNamesDescriptionValue .= 'After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+        $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $geoNamesDescription);
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesActive'));
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesUserName'));
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesAPI'));
 
         return $CMSFields;
     }
