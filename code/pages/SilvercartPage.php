@@ -86,6 +86,9 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        $config = SilvercartConfig::getConfig();
+            $geoNames = new SilvercartGeoNames($config->GeoNamesUserName, $config->GeoNamesAPI);
+            $geoNames->writeCountryCreator();
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             // Require the default layout and its patches only if it is enabled
             Requirements::themedCSS('layout');
@@ -462,7 +465,8 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * We load the special offers productgroup page here.
      *
-     * @param int $nrOfProducts The number of products to return
+     * @param string $groupIdentifier Identifier of the product group
+     * @param int    $nrOfProducts    The number of products to return
      *
      * @return void
      *
