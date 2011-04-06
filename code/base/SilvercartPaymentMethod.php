@@ -309,6 +309,12 @@ class SilvercartPaymentMethod extends DataObject {
      * @var SilvercartShoppingCart
      */
     protected $shoppingCart = null;
+    /**
+     * Order
+     *
+     * @var SilvercartOrder
+     */
+    protected $order = null;
 
     // ------------------------------------------------------------------------
     // Methods
@@ -343,15 +349,15 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function  fieldLabels($includerelations = true) {
         return array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'Name'                      => 'Name',
-                    'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                    'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                    'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
-                    'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-                    'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
-                )
+            parent::fieldLabels($includerelations),
+            array(
+                'Name'                      => 'Name',
+                'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+                'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+                'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
+            )
         );
     }
 
@@ -1031,6 +1037,17 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
+     * Sets the order object
+     *
+     * @param SilvercartOrder $order The order object
+     *
+     * @return void
+     */
+    public function setOrder(SilvercartOrder $order) {
+        $this->order = $Order;
+    }
+
+    /**
      * Returns the customers details
      *
      * @return Member
@@ -1067,6 +1084,37 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
+     * Returns the step configuration.
+     *
+     * Implement in descendants.
+     *
+     * Should return an array with the following structure:
+     * array(
+     *     '{insert module-filesystem-name}/templates/checkout/' => array(
+     *         'prefix' => 'SilvercartPayment{insert module-class-name}CheckoutFormStep'
+     *     )
+     * )
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 06.04.2011
+     */
+    public function getStepConfiguration() {
+        // Implement in descendants
+    }
+
+    /**
+     * Returns the order
+     *
+     * @return SilvercartOrder
+     */
+    public function getOrder() {
+        return $this->order;
+    }
+
+    /**
      * Sets the customers details by checkout data
      *
      * @param array $checkoutData Checkout data
@@ -1075,10 +1123,10 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setCustomerDetailsByCheckoutData($checkoutData) {
         $customerDetails = new Member();
-        $customerDetails->Email         = $checkoutData['Email'];
-        $customerDetails->Salutation    = $checkoutData['Invoice_Salutation'];
-        $customerDetails->FirstName     = $checkoutData['Invoice_FirstName'];
-        $customerDetails->Surname       = $checkoutData['Invoice_Surname'];
+        $customerDetails->Email         = isset($checkoutData['Email'])                 ? $checkoutData['Email']                : '';
+        $customerDetails->Salutation    = isset($checkoutData['Invoice_Salutation'])    ? $checkoutData['Invoice_Salutation']   : '';
+        $customerDetails->FirstName     = isset($checkoutData['Invoice_FirstName'])     ? $checkoutData['Invoice_FirstName']    : '';
+        $customerDetails->Surname       = isset($checkoutData['Invoice_Surname'])       ? $checkoutData['Invoice_Surname']      : '';
         $this->setCustomerDetails($customerDetails);
     }
 
@@ -1091,16 +1139,20 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setInvoiceAddressByCheckoutData($checkoutData) {
         $invoiceAddress = new SilvercartAddress();
-        $invoiceAddress->Salutation     = $checkoutData['Invoice_Salutation'];
-        $invoiceAddress->FirstName      = $checkoutData['Invoice_FirstName'];
-        $invoiceAddress->Surname        = $checkoutData['Invoice_Surname'];
-        $invoiceAddress->Street         = $checkoutData['Invoice_Street'];
-        $invoiceAddress->StreetNumber   = $checkoutData['Invoice_StreetNumber'];
-        $invoiceAddress->Postcode       = $checkoutData['Invoice_Postcode'];
-        $invoiceAddress->City           = $checkoutData['Invoice_City'];
-        $invoiceAddress->CountryID      = $checkoutData['Invoice_Country'];
-        $invoiceAddress->PhoneAreaCode  = $checkoutData['Invoice_PhoneAreaCode'];
-        $invoiceAddress->Phone          = $checkoutData['Invoice_Phone'];
+        $invoiceAddress->Salutation     = isset($checkoutData['Invoice_Salutation'])    ? $checkoutData['Invoice_Salutation']       : '';
+        $invoiceAddress->FirstName      = isset($checkoutData['Invoice_FirstName'])     ? $checkoutData['Invoice_FirstName']        : '';
+        $invoiceAddress->Surname        = isset($checkoutData['Invoice_Surname'])       ? $checkoutData['Invoice_Surname']          : '';
+        $invoiceAddress->Street         = isset($checkoutData['Invoice_Street'])        ? $checkoutData['Invoice_Street']           : '';
+        $invoiceAddress->StreetNumber   = isset($checkoutData['Invoice_StreetNumber'])  ? $checkoutData['Invoice_StreetNumber']     : '';
+        $invoiceAddress->Postcode       = isset($checkoutData['Invoice_Postcode'])      ? $checkoutData['Invoice_Postcode']         : '';
+        $invoiceAddress->City           = isset($checkoutData['Invoice_City'])          ? $checkoutData['Invoice_City']             : '';
+        $invoiceAddress->CountryID      = isset($checkoutData['Invoice_Country'])       ? $checkoutData['Invoice_Country']          : '';
+        $invoiceAddress->PhoneAreaCode  = isset($checkoutData['Invoice_PhoneAreaCode']) ? $checkoutData['Invoice_PhoneAreaCode']    : '';
+        $invoiceAddress->Phone          = isset($checkoutData['Invoice_Phone'])         ? $checkoutData['Invoice_Phone']            : '';
+
+        // Insert SilvercartCountry object
+        $invoiceAddress->Country = DataObject::get_by_id('SilvercartCountry', $invoiceAddress->CountryID);
+
         $this->setInvoiceAddress($invoiceAddress);
     }
 
@@ -1113,16 +1165,20 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setShippingAddressByCheckoutData($checkoutData) {
         $shippingAddress = new SilvercartAddress();
-        $shippingAddress->Salutation     = $checkoutData['Shipping_Salutation'];
-        $shippingAddress->FirstName      = $checkoutData['Shipping_FirstName'];
-        $shippingAddress->Surname        = $checkoutData['Shipping_Surname'];
-        $shippingAddress->Street         = $checkoutData['Shipping_Street'];
-        $shippingAddress->StreetNumber   = $checkoutData['Shipping_StreetNumber'];
-        $shippingAddress->Postcode       = $checkoutData['Shipping_Postcode'];
-        $shippingAddress->City           = $checkoutData['Shipping_City'];
-        $shippingAddress->CountryID      = $checkoutData['Shipping_Country'];
-        $shippingAddress->PhoneAreaCode  = $checkoutData['Shipping_PhoneAreaCode'];
-        $shippingAddress->Phone          = $checkoutData['Shipping_Phone'];
+        $shippingAddress->Salutation     = isset($checkoutData['Shipping_Salutation'])      ? $checkoutData['Shipping_Salutation']      : '';
+        $shippingAddress->FirstName      = isset($checkoutData['Shipping_FirstName'])       ? $checkoutData['Shipping_FirstName']       : '';
+        $shippingAddress->Surname        = isset($checkoutData['Shipping_Surname'])         ? $checkoutData['Shipping_Surname']         : '';
+        $shippingAddress->Street         = isset($checkoutData['Shipping_Street'])          ? $checkoutData['Shipping_Street']          : '';
+        $shippingAddress->StreetNumber   = isset($checkoutData['Shipping_StreetNumber'])    ? $checkoutData['Shipping_StreetNumber']    : '';
+        $shippingAddress->Postcode       = isset($checkoutData['Shipping_Postcode'])        ? $checkoutData['Shipping_Postcode']        : '';
+        $shippingAddress->City           = isset($checkoutData['Shipping_City'])            ? $checkoutData['Shipping_City']            : '';
+        $shippingAddress->CountryID      = isset($checkoutData['Shipping_Country'])         ? $checkoutData['Shipping_Country']         : '';
+        $shippingAddress->PhoneAreaCode  = isset($checkoutData['Shipping_PhoneAreaCode'])   ? $checkoutData['Shipping_PhoneAreaCode']   : '';
+        $shippingAddress->Phone          = isset($checkoutData['Shipping_Phone'])           ? $checkoutData['Shipping_Phone']           : '';
+
+        // Insert SilvercartCountry object
+        $shippingAddress->Country = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
+
         $this->setShippingAddress($shippingAddress);
     }
 

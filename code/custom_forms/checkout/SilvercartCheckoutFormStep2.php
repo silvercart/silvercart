@@ -141,19 +141,31 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
      */
     public function submitSuccess($data, $form, $formData) {
         $this->controller->setStepData($formData);
-        $this->controller->addCompletedStep();
+        
+
 
         // TODO: Abfrage auf Zahlungsmodul einbauen
-        $this->controller->registerStepDirectory(
-            array(
-                'silvercart_payment_prepayment/templates/checkout/' => array(
-                    'prefix' => 'SilvercartPaymentPrepaymentCheckoutFormStep'
-                )
-            )
-        );
-        $this->controller->resetStepMapping();
-        $this->controller->generateStepMapping();
-        $this->controller->NextStep();
+        $stepData = $this->controller->getCombinedStepData();
+
+        if ($stepData &&
+            isset($stepData['PaymentMethod'])) {
+
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        }
+
+        if ($paymentMethod) {
+            $this->controller->registerStepDirectory(
+                $paymentMethod->getStepConfiguration()
+            );
+
+            $this->controller->resetStepMapping();
+            $this->controller->generateStepMapping();
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        } else {
+            // TODO: set error message
+            Director::redirect($this->controller->Link());
+        }
     }
 }
 

@@ -125,6 +125,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         );
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
+
+        return false;
     }
 
 }
