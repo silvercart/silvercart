@@ -86,9 +86,6 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
-        $config = SilvercartConfig::getConfig();
-            $geoNames = new SilvercartGeoNames($config->GeoNamesUserName, $config->GeoNamesAPI);
-            $geoNames->writeCountryCreator();
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             // Require the default layout and its patches only if it is enabled
             Requirements::themedCSS('layout');
