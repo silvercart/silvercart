@@ -238,6 +238,7 @@ $lang['de_DE']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Kontaktform
 $lang['de_DE']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Kontaktformularantwortseite';
 $lang['de_DE']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'kontaktbestaetigung';
 
+$lang['de_DE']['SilvercartCountry']['ACTIVE'] = 'Aktiv';
 $lang['de_DE']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'zugeordnete Bezahlart';
 $lang['de_DE']['SilvercartCountry']['ATTRIBUTED_ZONES'] = 'zugeordnete Zonen';
 $lang['de_DE']['SilvercartCountry']['CONTINENT'] = 'Kontinent';

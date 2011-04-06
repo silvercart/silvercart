@@ -66,6 +66,7 @@ class SilvercartUpdate0_9__2 extends SilvercartUpdate {
             $country->ISO2 = strtoupper($country->ISO2);
             $country->ISO3 = strtoupper($country->ISO3);
             $country->Locale = Translatable::get_current_locale();
+            $country->Active = true;
             $country->write();
         }
         require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');

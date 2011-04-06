@@ -183,6 +183,7 @@ class SilvercartCountry extends DataObject {
                 'Active'                    => _t('SilvercartCountry.ACTIVE', 'Active'),
                 'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
                 'AttributedPaymentMethods'  => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
+                'ActivityText'              => _t('SilvercartCountry.ACTIVE', 'Active'),
             )
         );
     }
