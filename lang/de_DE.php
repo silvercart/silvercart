@@ -861,6 +861,22 @@ $lang['de_DE']['SilvercartTax']['SINGULARNAME'] = 'Steuersatz';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'AGB Seiten';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'AGB Seite';
 
+$lang['de_DE']['SilvercartUpdate']['DESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';
+$lang['de_DE']['SilvercartUpdate']['SILVERCARTUPDATEVERSION'] = 'Update';
+$lang['de_DE']['SilvercartUpdate']['STATUS'] = 'Status';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE'] = 'Statusmeldung';
+$lang['de_DE']['SilvercartUpdate']['STATUS_DONE'] = 'Durchgeführt';
+$lang['de_DE']['SilvercartUpdate']['STATUS_REMAINING'] = 'Ausstehend';
+$lang['de_DE']['SilvercartUpdate']['STATUS_SKIPPED'] = 'Übersprungen';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_DONE'] = 'Dieses Update wurde erfolgreich durchgeführt.';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_REMAINING'] = 'Dieses Update ist noch ausstehend.';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'Dieses Update ist bereits integriert.';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manuelle Änderungen wurden gefunden. Dieses Update wurde übersprungen, um Schäden an der Datenhaltung zu vermeiden.';
+$lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'Es ist ein unbekannter Fehler aufgetreten.';
+
+$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+
 $lang['de_DE']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
 $lang['de_DE']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'zugeordnete Versandart';
 $lang['de_DE']['SilvercartZone']['COUNTRIES'] = 'Länder';

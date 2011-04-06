@@ -44,6 +44,8 @@ class SilvercartConfig extends DataObject {
     public static $singular_name = "General configuration";
     public static $plural_name = "General configurations";
     public static $db = array(
+        'SilvercartVersion' => 'VarChar(16)',
+        'SilvercartUpdateVersion' => 'VarChar(16)',
         'DefaultCurrency' => 'VarChar(16)',
         'EmailSender' => 'VarChar(255)',
         'GlobalEmailRecipient' => 'VarChar(255)',
@@ -59,6 +61,8 @@ class SilvercartConfig extends DataObject {
         'GeoNamesAPI' => 'VarChar(255)',
     );
     public static $defaults = array(
+        'SilvercartVersion' => '0.9',
+        'SilvercartUpdateVersion' => '2',
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',
@@ -124,6 +128,9 @@ class SilvercartConfig extends DataObject {
      */
     public function getCMSFields($params = null) {
         $defaultCMSFields = parent::getCMSFields($params);
+        // Remove not required fields
+        $defaultCMSFields->removeByName('SilvercartVersion');
+        $defaultCMSFields->removeByName('SilvercartUpdateVersion');
 
         // Building the general tab structure
         $CMSFields = new FieldSet(

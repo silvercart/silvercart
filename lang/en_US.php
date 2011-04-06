@@ -861,6 +861,22 @@ $lang['en_US']['SilvercartTax']['SINGULARNAME'] = 'Rate';
 $lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pags';
 $lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
+$lang['en_US']['SilvercartUpdate']['DESCRIPTION'] = 'Description';
+$lang['en_US']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';
+$lang['en_US']['SilvercartUpdate']['SILVERCARTUPDATEVERSION'] = 'Update';
+$lang['en_US']['SilvercartUpdate']['STATUS'] = 'Status';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE'] = 'Statusmessage';
+$lang['en_US']['SilvercartUpdate']['STATUS_DONE'] = 'Completed';
+$lang['en_US']['SilvercartUpdate']['STATUS_REMAINING'] = 'Remaining';
+$lang['en_US']['SilvercartUpdate']['STATUS_SKIPPED'] = 'Skipped';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_DONE'] = 'This update was successfully completed.';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_REMAINING'] = 'This update is remaining.';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is already integrated.';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage on existing data.';
+$lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
+
+$lang['en_US']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_US']['SilvercartZone']['COUNTRIES'] = 'Countries';
