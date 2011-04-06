@@ -50,7 +50,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'ConfirmationDate' => 'SS_DateTime',
                 'ConfirmationHash' => 'VarChar(100)',
                 'OptInStatus' => 'Boolean',
-                'Birthday' => 'Date'
+                'Birthday' => 'Date',
+                'CustomerNumber' => 'VarChar(128)',
             ),
             'has_one' => array(
                 'SilvercartCustomerCategory' => 'SilvercartCustomerCategory',
@@ -63,9 +64,10 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SilvercartOrder' => 'SilvercartOrder'
             ),
             'summary_fields' => array(
+                'CustomerNumber',
                 'FirstName',
                 'Surname',
-                'ClassName'
+                'ClassName',
             ),
             'api_access' => array(
                 'view' => array(
@@ -85,12 +87,13 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'OptInStatus'                       => _t('SilvercartCustomerRole.OPTINSTATUS', 'opt-in status'),
                 'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
                 'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
+                'CustomerNumber'                    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
                 'SilvercartCustomerCategory'        => _t('SilvercartCustomerCategory.SINGULARNAME', 'customer category'),
                 'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
                 'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
-                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders')
+                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
             )
         );
     }
@@ -114,6 +117,25 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         );
         $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomerRole.SALUTATION'), $values);
         $fields->insertBefore($salutationDropdown, 'FirstName');
+    }
+
+    /**
+     * overwrite the summary fields
+     *
+     * @param array &$fields db fields to summarize the DataObject
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function  updateSummaryFields(&$fields) {
+        $fields = array(
+            'CustomerNumber'    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
+            'FirstName'         => _t('Member.FIRSTNAME'),
+            'Surname'           => _t('Member.SURNAME'),
+            'ClassName'         => _t('SilvercartCustomerRole.TYPE', 'type'),
+        );
     }
 
     /**

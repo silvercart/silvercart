@@ -111,27 +111,28 @@ class SilvercartUpdate extends DataObject {
      * @param array $record      Array of field values.
      * @param bool  $isSingleton This this to true if this is a singleton() object.
      */
-    public function __construct($record = null, $isSingleton = false) {
+    public function __construct($record = false, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        if ($this->ClassName == 'SilvercartUpdate' || $this->isInDB()) {
+        $className = $this->ClassName;
+        if ($className == 'SilvercartUpdate' || $this->isInDB()) {
             $error = '';
         } elseif (!method_exists($this, 'executeUpdate')) {
             // method executeUpdate does not exist, trigger error
-            $error = 'Method executeUpdate not found in class ' . $this->ClassName;
-        } elseif (!is_null($record)) {
-            if (!DataObject::get_one($this->ClassName)) {
-                $updateDefaults = self::$defaults;
+            $error = 'Method executeUpdate not found in class ' . $className;
+        } elseif ($record === false) {
+            if (!DataObject::get_one($className)) {
+                $updateDefaults = $className::$defaults;
                 if (!array_key_exists('SilvercartVersion', $updateDefaults)
                  || empty ($updateDefaults['SilvercartVersion'])) {
                     // default value for SilvercartVersion is not set, trigger error
-                    $error = 'Default value for SilvercartVersion not set in class ' . $this->ClassName;
+                    $error = 'Default value for SilvercartVersion not set in class ' . $className;
                 } elseif (!array_key_exists('SilvercartUpdateVersion', $updateDefaults)
                  || empty ($updateDefaults['SilvercartUpdateVersion'])) {
                     // default value for SilvercartUpdateVersion is not set, trigger error
-                    $error = 'Default value for SilvercartUpdateVersion not set in class ' . $this->ClassName;
+                    $error = 'Default value for SilvercartUpdateVersion not set in class ' . $className;
                 } elseif (DataObject::get_one('SilvercartUpdate', sprintf("`SilvercartVersion`='%s' AND `SilvercartUpdateVersion`='%s'", $updateDefaults['SilvercartVersion'], $updateDefaults['SilvercartUpdateVersion']))) {
                     // update already exists, trigger error
-                    $error = 'SilvercartUpdateVersion ' . $updateDefaults['SilvercartUpdateVersion'] . ' already exists for SilvercartVersion ' . $updateDefaults['SilvercartVersion'] . ' (defined in class ' . $this->ClassName . ')';
+                    $error = 'SilvercartUpdateVersion ' . $updateDefaults['SilvercartUpdateVersion'] . ' already exists for SilvercartVersion ' . $updateDefaults['SilvercartVersion'] . ' (defined in class ' . $className . ')';
                 }
             }
         }

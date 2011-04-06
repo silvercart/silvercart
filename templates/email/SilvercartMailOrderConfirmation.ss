@@ -27,6 +27,10 @@
                 <td>$Created.Nice</td>
             </tr>
             <tr>
+                <td>Bestellnummer</td>
+                <td>$OrderNumber</td>
+            </tr>
+            <tr>
                 <td>Bestellstatus</td>
                 <td>$SilvercartOrderStatus.Title</td>
             </tr>

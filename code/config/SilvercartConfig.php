@@ -62,7 +62,7 @@ class SilvercartConfig extends DataObject {
     );
     public static $defaults = array(
         'SilvercartVersion' => '0.9',
-        'SilvercartUpdateVersion' => '2',
+        'SilvercartUpdateVersion' => '3',
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',
@@ -224,6 +224,32 @@ class SilvercartConfig extends DataObject {
         $summaryFields['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $summaryFields['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         return $summaryFields;
+    }
+
+    /**
+     * disable all search fields.
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function searchableFields() {
+        return array();
+    }
+
+    /**
+     * Remove permission to delete for all members.
+     *
+     * @param Member $member Member
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function canDelete($member = null) {
+        return false;
     }
 
     /**

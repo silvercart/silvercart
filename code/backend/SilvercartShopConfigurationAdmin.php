@@ -52,6 +52,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartOrderStatus',
         'SilvercartShopEmail',
         'SilvercartAvailabilityStatus',
+        'SilvercartNumberRange',
         'SilvercartConfig',
     );
     /**
@@ -124,39 +125,33 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
         $form = parent::SearchForm();
 
         switch ($this->getModelClass()) {
-            case 'Country':
+            case 'SilvercartConfig':
+                $form->setFields(new FieldSet());
+                $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
+                $form->Actions()->removeByName('action_clearsearch');
                 break;
-            case 'Zone':
-                break;
-            case 'PaymentMethod':
-                $form = $this->adjustSearchFormForPaymentMethod($form);
-                break;
-            case 'ShippingMethod':
-                break;
-            case 'ShippingFee':
-                break;
-            case 'Carrier':
-                break;
-            case 'OrderStatus':
-                break;
+            default:
         }
-
         return $form;
     }
 
     /**
-     * Adjust the search form for the PaymentMethod model.
+     * Disable the creation of SilvercartUpdate DataObjects.
      *
-     * @param Form $form the searchform object
+     * @return bool
      *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2011
      */
-    protected function adjustSearchFormForPaymentMethod(Form $form) {
-        return $form;
+    public function alternatePermissionCheck() {
+        switch ($this->getModelClass()) {
+            case 'SilvercartConfig':
+                $this->showImportForm = false;
+                return false;
+                break;
+            default:
+                return true;
+        }
     }
 
 }

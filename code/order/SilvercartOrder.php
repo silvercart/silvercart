@@ -55,7 +55,8 @@ class SilvercartOrder extends DataObject {
         'WeightTotal'                   => 'Int', //unit is gramm
         'CarrierAndShippingMethodTitle' => 'VarChar(100)',
         'PaymentMethodTitle'            => 'VarChar(100)',
-        'CustomersEmail'                => 'VarChar(60)'
+        'CustomersEmail'                => 'VarChar(60)',
+        'OrderNumber'                   => 'VarChar(128)',
     );
 
     /**
@@ -189,16 +190,13 @@ class SilvercartOrder extends DataObject {
      * @since 10.03.2011
      */
     public function summaryFields() {
-        $summaryFields = array_merge(
-            parent::summaryFields(),
-            array(
-                'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
-                'ID'                            => _t('SilvercartOrder.ORDER_ID', 'order id'),
-                'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
-                'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
-            )
+        $summaryFields = array(
+            'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
+            'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+            'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
+            'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+            'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
+            'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
         );
         $this->extend('updateSummaryFields', $summaryFields);
 
@@ -1212,6 +1210,21 @@ class SilvercartOrder extends DataObject {
                 'SilvercartOrder'   => $this
             )
         );
+    }
+
+    /**
+     * Set a new/reserved ordernumber before writing
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    protected function  onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (empty ($this->OrderNumber)) {
+            $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
+        }
     }
 
     /**

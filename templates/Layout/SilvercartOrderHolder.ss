@@ -12,6 +12,7 @@
         <table class="full">
             <tr>
                 <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
+                <th><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></th>
                 <th><% _t('SilvercartPage.ORDERD_PRODUCTS','ordered products') %></th>
                 <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
                 <th><% _t('SilvercartPage.REMARKS') %></th>
@@ -21,6 +22,9 @@
             <tr>
                 <td>
                     <a href="{$Top.OrderDetailLink}$ID">$Created.Nice</a>
+                </td>
+                <td>
+                    <a href="{$Top.OrderDetailLink}$ID">$OrderNumber</a>
                 </td>
                 <td>
                     <a href="{$Top.OrderDetailLink}$ID">

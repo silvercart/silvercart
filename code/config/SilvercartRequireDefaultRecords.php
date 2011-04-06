@@ -239,6 +239,22 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // create countries
         $this->requireOrUpdateCountries();
 
+        // create number ranges
+        $orderNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='OrderNumber'");
+        if (!$orderNumbers) {
+            $orderNumbers = new SilvercartNumberRange();
+            $orderNumbers->Identifier = 'OrderNumber';
+            $orderNumbers->Title = _t('SilvercartNumberRange.ORDERNUMBER', 'Ordernumber');
+            $orderNumbers->write();
+        }
+        $customerNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='CustomerNumber'");
+        if (!$customerNumbers) {
+            $customerNumbers = new SilvercartNumberRange();
+            $customerNumbers->Identifier = 'CustomerNumber';
+            $customerNumbers->Title = _t('SilvercartNumberRange.CUSTOMERNUMBER', 'Customernumber');
+            $customerNumbers->write();
+        }
+
         /*
          * and now the whole site tree
          */
