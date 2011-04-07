@@ -4,10 +4,10 @@
 
         <h2>$Title</h2>
 
-        $Content
-        $SearchResults
-        $Form
-        $PageComments
+        <% if isRegisteredCustomer %>
+            $Content
+        <% else %>
+        <% end_if %>
     </div>
 </div>
 <div id="col3">

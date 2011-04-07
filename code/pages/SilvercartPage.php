@@ -202,30 +202,6 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * replace Page contentwith Array values
-     *
-     * @return bool
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since  01.10.2010
-     */
-    protected function replaceContent() {
-        $member = Member::currentUser();
-        if ($member) {
-            $email = $member->Email;
-
-            $this->Content = str_replace(
-                            array(
-                                '__EMAIL__'
-                            ),
-                            array(
-                                $email
-                            ),
-                            $this->Content
-            );
-        }
-    }
-
-    /**
      * a template method
      * Function similar to Member::currentUser(); Determins if we deal with a registered customer
      *
@@ -275,24 +251,6 @@ class SilvercartPage_Controller extends ContentController {
         Security::logout(false);
         $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
         Director::redirect($frontPage->RelativeLink());
-    }
-
-    /**
-     * This function is used to return the current count of shopping Cart positions
-     *
-     * @return Integer $shoppingCartPositions Anzahl der Positionen im Warenkorb
-     *
-     * @author Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 02.12.2010
-     */
-    public function getCount() {
-
-        $memberID = Member::currentUserID();
-        $member = DataObject::get_by_id("Member", $memberID);
-        if ($member) {
-            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID));
-            return Count($shoppingCartPositions);
-        }
     }
 
     /**
