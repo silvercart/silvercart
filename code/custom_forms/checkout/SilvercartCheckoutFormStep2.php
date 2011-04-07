@@ -154,11 +154,12 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         }
 
         if ($paymentMethod) {
+            $this->controller->resetStepMapping();
+
             $this->controller->registerStepDirectory(
                 $paymentMethod->getStepConfiguration()
             );
-
-            $this->controller->resetStepMapping();
+            
             $this->controller->generateStepMapping();
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
