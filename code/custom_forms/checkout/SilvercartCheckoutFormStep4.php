@@ -111,6 +111,8 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 31.03.2011
      */
     public function preferences() {
+        parent::preferences();
+
         $this->preferences['stepIsVisible']         = true;
         $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep4.TITLE', 'Overview');
         $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
@@ -127,8 +129,6 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
             $this->paymentMethodObj->hasMethod('getOrderConfirmationSubmitButtonTitle')) {
             $this->preferences['submitButtonTitle'] = $this->paymentMethodObj->getOrderConfirmationSubmitButtonTitle();
         }
-
-        parent::preferences();
     }
 
     /**
