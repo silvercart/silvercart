@@ -221,6 +221,7 @@ $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
 $lang['de_DE']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Gewicht des Warenkorbs darf null sein.';
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
+$lang['de_DE']['SilvercartConfig']['ENABLESSL'] = 'SSL verwenden';
 $lang['de_DE']['SilvercartConfig']['GENERAL'] = 'Allgemein';
 $lang['de_DE']['SilvercartConfig']['GENERAL_MAIN'] = 'Hauptteil';
 $lang['de_DE']['SilvercartConfig']['INTERFACES'] = 'Schnittstellen';

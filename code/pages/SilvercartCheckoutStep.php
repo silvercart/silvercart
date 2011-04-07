@@ -79,7 +79,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
-
+        if (SilvercartConfig::EnableSSL()) {
+            Director::forceSSL();
+        }
         parent::init();
 
         // Inject payment and shippingmethods to shoppingcart, if available
