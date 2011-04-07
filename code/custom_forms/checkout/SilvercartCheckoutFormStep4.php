@@ -120,14 +120,16 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
 
         $checkoutData = $this->controller->getCombinedStepData();
 
-        $this->paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
+        if (isset($checkoutData['PaymentMethod'])) {
+            $this->paymentMethodObj = DataObject::get_by_id(
+                'SilvercartPaymentMethod',
+                $checkoutData['PaymentMethod']
+            );
 
-        if ($this->paymentMethodObj &&
-            $this->paymentMethodObj->hasMethod('getOrderConfirmationSubmitButtonTitle')) {
-            $this->preferences['submitButtonTitle'] = $this->paymentMethodObj->getOrderConfirmationSubmitButtonTitle();
+            if ($this->paymentMethodObj &&
+                $this->paymentMethodObj->hasMethod('getOrderConfirmationSubmitButtonTitle')) {
+                $this->preferences['submitButtonTitle'] = $this->paymentMethodObj->getOrderConfirmationSubmitButtonTitle();
+            }
         }
     }
 
