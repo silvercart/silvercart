@@ -89,6 +89,8 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @return void
      */
     public function  preferences() {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
+
         parent::preferences();
     }
 }
