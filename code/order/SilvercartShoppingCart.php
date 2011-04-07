@@ -280,7 +280,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array $excludeModules An array of registered modules that shall not
      *      be taken into account.
      *
-     * @return string a price amount
+     * @return Money a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -315,6 +315,25 @@ class SilvercartShoppingCart extends DataObject {
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountObj;
+    }
+
+    /**
+     * Returns the total amount of all taxes.
+     *
+     * @return Money a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.04.2011
+     */
+    public function getTaxTotal() {
+        $taxTotal = $this->getTaxableAmountGrossWithFees()->getAmount() - $this->getTaxableAmountGrossWithoutFees()->getAmount();
+
+        $taxTotalObj = new Money;
+        $taxTotalObj->setAmount($taxTotal);
+        $taxTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        return $taxTotalObj;
     }
 
     /**

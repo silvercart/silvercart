@@ -59,6 +59,7 @@ class SilvercartConfig extends DataObject {
         'GeoNamesActive' => 'Boolean',
         'GeoNamesUserName' => 'VarChar(128)',
         'GeoNamesAPI' => 'VarChar(255)',
+        'enableSSL' => 'Boolean(0)',
     );
     public static $defaults = array(
         'SilvercartVersion' => '0.9',
@@ -97,6 +98,7 @@ class SilvercartConfig extends DataObject {
     public static $globalEmailRecipient = null;
     public static $priceType = null;
     public static $config = null;
+    public static $enableSSL = null;
 
     /**
      * Constructor. We localize the static variables here.
@@ -207,6 +209,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         $fieldLabels['allowCartWeightToBeZero'] = _t('SilvercartConfig.ALLOW_CART_WEIGHT_TO_BE_ZERO', 'Allow cart weight to be zero');
+        $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
         return $fieldLabels;
     }
 
@@ -329,6 +332,22 @@ class SilvercartConfig extends DataObject {
             self::$emailSender = self::getConfig()->EmailSender;
         }
         return self::$emailSender;
+    }
+
+    /**
+     * Returns if SSL should be used.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.04.2011
+     */
+    public static function EnableSSL() {
+        if (is_null(self::$enableSSL)) {
+            self::$enableSSL = self::getConfig()->enableSSL;
+        }
+        return self::$enableSSL;
     }
 
     /**

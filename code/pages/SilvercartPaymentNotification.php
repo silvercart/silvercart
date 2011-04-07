@@ -57,7 +57,9 @@ class SilvercartPaymentNotification_Controller extends Page_Controller {
      * @since 02.12.2010
      */
     public function init() {
-        Director::forceSSL();
+        if (SilvercartConfig::EnableSSL()) {
+            Director::forceSSL();
+        }
         parent::init();
     }
     /**

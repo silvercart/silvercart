@@ -31,7 +31,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit {
 
     /**
      * The form field definitions.
@@ -111,12 +111,26 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
+        parent::preferences();
+
         $this->preferences['stepIsVisible']         = true;
         $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep4.TITLE', 'Overview');
         $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
         $this->preferences['fillInRequestValues']   = true;
 
-        parent::preferences();
+        $checkoutData = $this->controller->getCombinedStepData();
+
+        if (isset($checkoutData['PaymentMethod'])) {
+            $this->paymentMethodObj = DataObject::get_by_id(
+                'SilvercartPaymentMethod',
+                $checkoutData['PaymentMethod']
+            );
+
+            if ($this->paymentMethodObj &&
+                $this->paymentMethodObj->hasMethod('getOrderConfirmationSubmitButtonTitle')) {
+                $this->preferences['submitButtonTitle'] = $this->paymentMethodObj->getOrderConfirmationSubmitButtonTitle();
+            }
+        }
     }
 
     /**
