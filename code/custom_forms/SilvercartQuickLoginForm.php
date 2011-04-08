@@ -88,16 +88,16 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
         // get customers data
         $user = DataObject::get_one(
-                        'Member',
-                        'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
+            'Member',
+            'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
         );
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(
-                            array(
-                                'Email' => $emailAddress,
-                                'Password' => $password
-                            )
+                array(
+                    'Email' => $emailAddress,
+                    'Password' => $password
+                )
             );
 
             if ($customer) {
@@ -129,7 +129,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
                 $this->messages = array(
                     'Authentication' => array(
-                        'message' => _t('Page.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
                     )
                 );
 
@@ -141,13 +141,13 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
         } else {
             $this->messages = array(
                 'Authentication' => array(
-                    'message' => _t('Page.USER_NOT_EXISTING', 'This user does not exist.')
+                    'message' => _t('SilvercartPage.EMAIL_NOT_FOUND', 'This Email address could not be found.')
                 )
             );
 
             return $this->messages = array(
         'Authentication' => array(
-            'message' => _t('Page.CREDENTIALS_WRONG')
+            'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
         )
             );
         }

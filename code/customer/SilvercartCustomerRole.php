@@ -43,25 +43,28 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     public function extraStatics() {
         return array(
             'db' => array(
-                'Salutation' => "Enum('Herr,Frau', 'Herr')",
-                'SubscribedToNewsletter' => 'Boolean',
-                'HasAcceptedTermsAndConditions' => 'Boolean',
-                'HasAcceptedRevocationInstruction' => 'Boolean',
-                'ConfirmationDate' => 'SS_DateTime',
-                'ConfirmationHash' => 'VarChar(100)',
-                'OptInStatus' => 'Boolean',
-                'Birthday' => 'Date',
-                'CustomerNumber' => 'VarChar(128)',
+                'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
+                'SubscribedToNewsletter'            => 'Boolean',
+                'HasAcceptedTermsAndConditions'     => 'Boolean',
+                'HasAcceptedRevocationInstruction'  => 'Boolean',
+                'ConfirmationDate'                  => 'SS_DateTime',
+                'ConfirmationHash'                  => 'VarChar(100)',
+                'ConfirmationBacklink'              => 'VarChar(255)',
+                'ConfirmationBacklinkText'          => 'VarChar(255)',
+                'OptInStatus'                       => 'Boolean',
+                'OptInTempText'                     => 'Text',
+                'Birthday'                          => 'Date',
+                'CustomerNumber'                    => 'VarChar(128)',
             ),
             'has_one' => array(
-                'SilvercartCustomerCategory' => 'SilvercartCustomerCategory',
-                'SilvercartShoppingCart' => 'SilvercartShoppingCart',
-                'SilvercartInvoiceAddress' => 'SilvercartInvoiceAddress',
-                'SilvercartShippingAddress' => 'SilvercartShippingAddress'
+                'SilvercartCustomerCategory'    => 'SilvercartCustomerCategory',
+                'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
+                'SilvercartInvoiceAddress'      => 'SilvercartInvoiceAddress',
+                'SilvercartShippingAddress'     => 'SilvercartShippingAddress'
             ),
             'has_many' => array(
                 'SilvercartAddress' => 'SilvercartAddress',
-                'SilvercartOrder' => 'SilvercartOrder'
+                'SilvercartOrder'   => 'SilvercartOrder'
             ),
             'summary_fields' => array(
                 'CustomerNumber',
@@ -197,11 +200,11 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      */
     public static function getRestfulSearchContext() {
         $fields = new FieldSet(
-                        array(
-                            new TextField(
-                                    'Email'
-                            )
-                        )
+            array(
+                new TextField(
+                    'Email'
+                )
+            )
         );
 
         $filters = array(
@@ -209,9 +212,9 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         );
 
         return new SearchContext(
-                'Member',
-                $fields,
-                $filters
+            'Member',
+            $fields,
+            $filters
         );
     }
 }

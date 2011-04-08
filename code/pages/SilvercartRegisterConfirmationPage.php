@@ -106,7 +106,7 @@ class SilvercartRegisterConfirmationPage_Controller extends Page_Controller {
 
                 // Dem Kunde wird eine endgueltige Bestaetigungsmail geschickt.
                 if ($customer) {
-                    if ($customer->OptInStatus == 1) {
+                    if ($customer->OptInStatus == 10) {
                         $statusMessage = $this->AlreadyConfirmedMessage;
                     } else {
                         $customer->setField('ConfirmationDate', date('Y-m-d H:i:s', mktime()));
@@ -130,6 +130,16 @@ class SilvercartRegisterConfirmationPage_Controller extends Page_Controller {
 
                         $this->sendConfirmationMail($customer);
                         $statusMessage = $this->ConfirmationSuccessMessage;
+
+                        if ($customer->ConfirmationBacklink != '') {
+                            $statusMessage .= sprintf(
+                                '<p>
+                                    <a href="%s">%s</a>
+                                </p>',
+                                Director::absoluteURL($customer->ConfirmationBacklink),
+                                $customer->ConfirmationBacklinkText
+                            );
+                        }
                     }
                 }
             }

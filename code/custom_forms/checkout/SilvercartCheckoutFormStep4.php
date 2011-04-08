@@ -22,7 +22,7 @@
  */
 
 /**
- * checkout step for order confirmation
+ * checkout step for shipping method
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -31,7 +31,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit {
+class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
     /**
      * The form field definitions.
@@ -42,34 +42,12 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 31.03.2011
      */
     protected $formFields = array(
-        'ChosenShippingMethod' => array(
-            'type'  => 'ReadonlyField',
-            'title' => 'gewählte Versandart'
-        ),
-        'ChosenPaymentMethod' => array(
-            'type'  => 'ReadonlyField',
-            'title' => 'gewählte Bezahlart'
-        ),
-        'Note' => array(
-            'type' => 'TextareaField'
-        ),
-        'HasAcceptedTermsAndConditions' => array(
-            'type'              => 'CheckboxField',
-            'title'             => 'Ich akzeptiere die allgemeinen Geschäftsbedingungen',
+        'ShippingMethod' => array(
+            'type'              => 'DropdownField',
+            'title'             => 'Versandart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
-        ),
-        'HasAcceptedRevocationInstruction' => array(
-            'type'              => 'CheckboxField',
-            'title'             => 'Ich habe die Widerrufsbelehrung gelesen',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'SubscribedToNewsletter' => array(
-            'type'  => 'CheckboxField',
-            'title' => 'Ich möchte den Newsletter abonnieren'
         )
     );
 
@@ -91,9 +69,7 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
-            /*
-             * redirect a user if his cart is empty
-             */
+            // redirect a user if his cart is empty
             if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
@@ -111,26 +87,12 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 31.03.2011
      */
     public function preferences() {
-        parent::preferences();
-
         $this->preferences['stepIsVisible']         = true;
-        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep4.TITLE', 'Overview');
-        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
+        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep4.TITLE', 'Shipment');
+        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']   = true;
 
-        $checkoutData = $this->controller->getCombinedStepData();
-
-        if (isset($checkoutData['PaymentMethod'])) {
-            $this->paymentMethodObj = DataObject::get_by_id(
-                'SilvercartPaymentMethod',
-                $checkoutData['PaymentMethod']
-            );
-
-            if ($this->paymentMethodObj &&
-                $this->paymentMethodObj->hasMethod('getOrderConfirmationSubmitButtonTitle')) {
-                $this->preferences['submitButtonTitle'] = $this->paymentMethodObj->getOrderConfirmationSubmitButtonTitle();
-            }
-        }
+        parent::preferences();
     }
 
     /**
@@ -138,76 +100,35 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 09.11.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 3.1.2011
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['ChosenShippingMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
-        $this->formFields['ChosenPaymentMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
-        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
-        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
-        $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
+        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
-
+        
         if ($stepData &&
-            isset($stepData['ShippingMethod']) &&
             isset($stepData['PaymentMethod'])) {
-            $chosenShippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $stepData['ShippingMethod']);
-            if ($chosenShippingMethod) {
-                $this->formFields['ChosenShippingMethod']['value'] = $chosenShippingMethod->Title;
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        }
+        
+        if (isset($paymentMethod) &&
+            $paymentMethod) {
+            $shippingMethods = $paymentMethod->getAllowedShippingMethods();
+            if ($shippingMethods) {
+                //allow only activated shipping methods
+                $activatedShippingMethods = new DataObjectSet();
+                foreach ($shippingMethods as $shippingMethod) {
+                    if ($shippingMethod->isActive == true) {
+                        $activatedShippingMethods->push($shippingMethod);
+                    }
+                }
+                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep4.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
-
-            $chosenPaymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
-            if ($chosenPaymentMethod) {
-                $this->formFields['ChosenPaymentMethod']['value'] = $chosenPaymentMethod->Name;
-            }
         }
-    }
-
-    /**
-     * returns address data as ArrayData
-     *
-     * @return ArrayData
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.01.2011
-     */
-    public function AddressData() {
-        $checkoutData    = $this->controller->getCombinedStepData();
-        $shippingAddress = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceAddress  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
-
-        $shippingCountry = DataObject::get_by_id(
-            'SilvercartCountry',
-            $shippingAddress['CountryID']
-        );
-
-        if ($shippingCountry) {
-            $shippingAddress['country'] = $shippingCountry;
-            $shippingAddress['SilvercartCountry'] = $shippingCountry;
-        }
-
-        $invoiceCountry = DataObject::get_by_id(
-            'SilvercartCountry',
-            $invoiceAddress['CountryID']
-        );
-
-        if ($invoiceCountry) {
-            $invoiceAddress['country'] = $invoiceCountry;
-            $invoiceAddress['SilvercartCountry'] = $invoiceCountry;
-        }
-
-        $addressData = new ArrayData(
-            array(
-                'SilvercartShippingAddress' => $shippingAddress,
-                'SilvercartInvoiceAddress' => $invoiceAddress
-            )
-        );
-        return $addressData;
     }
 
     /**
@@ -229,18 +150,5 @@ class SilvercartCheckoutFormStep4 extends SilvercartCheckoutFormStepPaymentInit 
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
     }
-
-    /**
-     * Wrapper for the pages method to deside to display prices gross or net.
-     *
-     * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.03.2011
-     */
-    public function showPricesGross() {
-        return $this->controller->showPricesGross();
-    }
-
 }
 

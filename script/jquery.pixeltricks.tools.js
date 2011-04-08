@@ -125,7 +125,7 @@ function toggleShippingAddressSection(definition) {
  * @since 13.03.2011
  */
 function deactivateShippingAddressValidation() {
-    with(SilvercartCheckoutFormStep1_customHtmlFormSubmit_1) {
+    with(SilvercartCheckoutFormStep2_customHtmlFormSubmit_1) {
         deactivateValidationFor('Shipping_Salutation');
         deactivateValidationFor('Shipping_FirstName');
         deactivateValidationFor('Shipping_Surname');
@@ -150,7 +150,7 @@ function deactivateShippingAddressValidation() {
  * @since 13.03.2011
  */
 function activateShippingAddressValidation() {
-    with(SilvercartCheckoutFormStep1_customHtmlFormSubmit_1) {
+    with(SilvercartCheckoutFormStep2_customHtmlFormSubmit_1) {
         activateValidationFor('Shipping_Salutation');
         activateValidationFor('Shipping_FirstName');
         activateValidationFor('Shipping_Surname');

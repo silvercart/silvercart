@@ -51,5 +51,26 @@ class SilvercartRegisterWelcomePage extends Page {
  * @since 15.11.2010
  */
 class SilvercartRegisterWelcomePage_Controller extends Page_Controller {
+    
+    /**
+     * Provide additional information if availabel
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 08.04.2011
+     */
+    public function AdditionalInformation() {
+        $member = Member::currentUser();
+        $text   = '';
 
+        if ($member) {
+            if (!empty($member->OptInTempText)) {
+                $text = $member->OptInTempText;
+            }
+        }
+
+        return $text;
+    }
 }
