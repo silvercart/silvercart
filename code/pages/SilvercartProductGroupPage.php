@@ -715,7 +715,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
-    protected function isProductDetailView() {
+    public function isProductDetailView() {
         if (empty($this->urlParams['Action'])) {
             return false;
         }
