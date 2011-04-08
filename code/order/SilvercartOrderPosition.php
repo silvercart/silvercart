@@ -67,6 +67,10 @@ class SilvercartOrderPosition extends DataObject {
         'SilvercartOrder' => 'SilvercartOrder',
         'SilvercartProduct' => 'SilvercartProduct'
     );
+    public static $casting = array(
+        'PriceNice' => 'VarChar(255)',
+        'PriceTotalNice' => 'VarChar(255)',
+    );
 
     /**
      * Constructor. We localize the static variables here.
@@ -96,16 +100,31 @@ class SilvercartOrderPosition extends DataObject {
      * @since 08.04.2011
      */
     public function summaryFields() {
-        return array_merge(
-                parent::summaryFields(),
-                array(
-                    'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER_SHORT'),
-                    'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
-                    'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
-                    'Price'                 => _t('SilvercartProduct.PRICE'),
-                    'Quantity'              => _t('SilvercartProduct.QUANTITY')
-                )
+        return array(
+            'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER'),
+            'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
+            'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
+            'PriceNice'             => _t('SilvercartProduct.PRICE'),
+            'Quantity'              => _t('SilvercartProduct.QUANTITY'),
         );
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getPriceNice() {
+        return str_replace('.', ',', number_format($this->PriceAmount, 2)) . ' ' . $this->PriceCurrency;
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getPriceTotalNice() {
+        return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
     }
 
 }
