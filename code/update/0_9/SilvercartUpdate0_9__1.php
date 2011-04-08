@@ -60,10 +60,10 @@ class SilvercartUpdate0_9__1 extends SilvercartUpdate {
         // Get Products to check for changes
         $existingProducts = DataObject::get('SilvercartProduct');
         foreach ($existingProducts as $product) {
-            if (is_null($product->PriceNetCurrency)
-             && is_null($product->PriceNetAmount)
-             && is_null($product->PriceGrossCurrency)
-             && is_null($product->PriceGrossAmount)) {
+            if ((is_null($product->PriceNetCurrency) || empty ($product->PriceNetCurrency))
+             && (is_null($product->PriceNetAmount) || empty ($product->PriceNetAmount) || $product->PriceNetAmount == 0)
+             && (is_null($product->PriceGrossCurrency) || empty ($product->PriceGrossCurrency))
+             && (is_null($product->PriceGrossAmount) || empty ($product->PriceGrossAmount) || $product->PriceGrossAmount == 0)) {
                 continue;
             }
             // Changes detected, skip this update

@@ -11,6 +11,7 @@
             </div>
             <div class="c66r">
                 <div class="subcr">
+                    <strong><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</strong>
                     <p>$ShortDescription</p>
                     <div class="product-page-details">
                         <p><strong class="price">$Price.Nice</strong><br/>

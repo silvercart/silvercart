@@ -325,55 +325,6 @@ class SilvercartOrder extends DataObject {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
     }
 
-    /**
-     * Creates default records, if not exitstent:
-     * order email templates
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderConfirmation'"
-        );
-        if (!$checkOrderMail) {
-            $orderMail = new SilvercartShopEmail();
-            $orderMail->setField('Identifier',   'MailOrderConfirmation');
-            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
-            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
-            if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-            } else {
-                $defaultTemplate = '';
-            }
-            $orderMail->setField('EmailText',    $defaultTemplate);
-            $orderMail->write();
-        }
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderNotification'"
-        );
-        if (!$checkOrderMail) {
-            $orderMail = new SilvercartShopEmail();
-            $orderMail->setField('Identifier',   'MailOrderNotification');
-            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
-            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
-            if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-            } else {
-                $defaultTemplate = '';
-            }
-            $orderMail->setField('EmailText',    $defaultTemplate);
-            $orderMail->write();
-        }
-    }
-
         /**
      * customize backend fields
      *
@@ -586,6 +537,7 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->TaxRate             = $product->getTaxRate();
                     $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
+                    $orderPosition->ProductNumber       = $product->ProductNumberShop;
                     $orderPosition->Title               = $product->Title;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;

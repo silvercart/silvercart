@@ -10,6 +10,7 @@
                         $image.SetRatioSize(230,190)
                     </div>
                     <div class="c50r">
+                        <strong><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</strong>
                         <p>$ShortDescription</p>
                         <div class="subcolumns">
                             <p class="product-page-details"><strong class="price">$Price.Nice</strong><br/>

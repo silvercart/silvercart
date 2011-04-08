@@ -51,7 +51,8 @@ class SilvercartOrderPosition extends DataObject {
         'TaxRate' => 'Float',
         'ProductDescription' => 'Text',
         'Quantity' => 'Int',
-        'Title' => 'VarChar'
+        'Title' => 'VarChar',
+        'ProductNumber' => 'VarChar',
     );
     /**
      * 1:n relations
@@ -65,20 +66,6 @@ class SilvercartOrderPosition extends DataObject {
     public static $has_one = array(
         'SilvercartOrder' => 'SilvercartOrder',
         'SilvercartProduct' => 'SilvercartProduct'
-    );
-    /**
-     *
-     * @var array configuration for attributes=>label
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
-     */
-    public static $summary_fields = array(
-        'Title' => 'Artikelbezeichnung',
-        'ProductDescription' => 'Artikelbeschreibung',
-        'Price' => 'Preis',
-        'Quantity' => 'Anzahl'
     );
 
     /**
@@ -95,13 +82,30 @@ class SilvercartOrderPosition extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Title' => _t('SilvercartPage.PRODUCTNAME'),
-            'ProductDescription' => _t('SilvercartProduct.DESCRIPTION'),
-            'Price' => _t('SilvercartProduct.PRICE'),
-            'Quantity' => _t('SilvercartProduct.QUANTITY')
-        );
+        self::$singular_name = _t('SilvercartOrderPosition.SINGULARNAME');
+        self::$plural_name = _t('SilvercartOrderPosition.PLURALNAME');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2011
+     */
+    public function summaryFields() {
+        return array_merge(
+                parent::summaryFields(),
+                array(
+                    'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER_SHORT'),
+                    'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
+                    'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
+                    'Price'                 => _t('SilvercartProduct.PRICE'),
+                    'Quantity'              => _t('SilvercartProduct.QUANTITY')
+                )
+        );
     }
 
 }

@@ -143,6 +143,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Art.-Nr.</th>
                     <th>Artikelname</th>
                     <th class="right">Einzelpreis</th>
                     <th class="right">MwSt.</th>
@@ -153,6 +154,7 @@
             <tbody>
                 <% control SilvercartOrderPositions(TaxRate > 0) %>
                 <tr class="$EvenOrOdd">
+                    <td>$ProductNumber</td>
                     <td>$Title</td>
                     <td class="right">$Price.Nice</td>
                     <td class="right">{$TaxRate}%</td>
@@ -162,6 +164,7 @@
                 <% end_control %>
 
                 <tr class="new-block">
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -175,6 +178,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td>Darin enthaltene Mehrwertsteuer ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
                 </tr>
@@ -182,17 +186,18 @@
                 <% end_if %>
 
                 <tr>
-                    <td>Versandart</td>
+                    <td colspan="2">Versandart</td>
                     <td colspan="3"><strong>$CarrierAndShippingMethodTitle</strong></td>
                     <td class="right">$HandlingCostShipment.Nice</td>
                 </tr>
                 <tr>
-                    <td>Bezahlart</td>
+                    <td colspan="2">Bezahlart</td>
                     <td colspan="3"><strong>$PaymentMethodTitle</strong></td>
                     <td class="right">$HandlingCostPayment.Nice</td>
                 </tr>
 
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -206,6 +211,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td>Darin enthaltene Mehrwertsteuer ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
                 </tr>
@@ -214,6 +220,7 @@
 
                 <% control SilvercartOrderPositions(TaxRate = 0) %>
                 <tr>
+                    <td></td>
                     <td>$Title</td>
                     <td class="right">$Price.Nice</td>
                     <td class="right"></td>
@@ -223,6 +230,7 @@
                 <% end_control %>
 
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

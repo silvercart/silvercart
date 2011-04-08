@@ -598,32 +598,80 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterResponsePage->IdentifierCode = "SilvercartNewsletterResponsePage";
             $newsletterResponsePage->write();
             $newsletterResponsePage->publish("Stage", "Live");
+        }
 
-            /*
-             * create shop emails
-             */
-            $shopEmailRegistrationOptIn = DataObject::get_one(
-                            'SilvercartShopEmail',
-                            "Identifier = 'RegistrationOptIn'"
-            );
-            if (!$shopEmailRegistrationOptIn) {
-                $shopEmailRegistrationOptIn = new SilvercartShopEmail();
-                $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
-                $shopEmailRegistrationOptIn->setField('Subject', _t('SilvercartRegistrationPage.PLEASE_COFIRM', 'please confirm Your registration'));
-                $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
-                $shopEmailRegistrationOptIn->write();
+        /*
+         * create shop emails
+         */
+        $shopEmailRegistrationOptIn = DataObject::get_one(
+                        'SilvercartShopEmail',
+                        "Identifier = 'RegistrationOptIn'"
+        );
+        if (!$shopEmailRegistrationOptIn) {
+            $shopEmailRegistrationOptIn = new SilvercartShopEmail();
+            $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
+            $shopEmailRegistrationOptIn->setField('Subject', _t('SilvercartRegistrationPage.PLEASE_COFIRM', 'please confirm Your registration'));
+            $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
+            $shopEmailRegistrationOptIn->write();
+        }
+        $shopEmailRegistrationConfirmation = DataObject::get_one(
+                        'SilvercartShopEmail',
+                        "Identifier = 'RegistrationConfirmation'"
+        );
+        if (!$shopEmailRegistrationConfirmation) {
+            $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
+            $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
+            $shopEmailRegistrationConfirmation->setField('Subject', _t('SilvercartRegistrationPage.THANKS', 'Many thanks for Your registration'));
+            $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
+            $shopEmailRegistrationConfirmation->write();
+        }
+        $checkOrderMail = DataObject::get_one(
+            'SilvercartShopEmail',
+            "`Identifier` = 'MailOrderConfirmation'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new SilvercartShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderConfirmation');
+            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
             }
-            $shopEmailRegistrationConfirmation = DataObject::get_one(
-                            'SilvercartShopEmail',
-                            "Identifier = 'RegistrationConfirmation'"
-            );
-            if (!$shopEmailRegistrationConfirmation) {
-                $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
-                $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
-                $shopEmailRegistrationConfirmation->setField('Subject', _t('SilvercartRegistrationPage.THANKS', 'Many thanks for Your registration'));
-                $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
-                $shopEmailRegistrationConfirmation->write();
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+        $checkOrderMail = DataObject::get_one(
+            'SilvercartShopEmail',
+            "`Identifier` = 'MailOrderNotification'"
+        );
+        if (!$checkOrderMail) {
+            $orderMail = new SilvercartShopEmail();
+            $orderMail->setField('Identifier',   'MailOrderNotification');
+            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
+            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+            } else {
+                $defaultTemplate = '';
             }
+            $orderMail->setField('EmailText',    $defaultTemplate);
+            $orderMail->write();
+        }
+        $contactEmail = DataObject::get_one(
+            'SilvercartShopEmail',
+            "`Identifier` = 'ContactMessage'"
+        );
+        if (!$contactEmail) {
+            $contactEmail = new SilvercartShopEmail();
+            $contactEmail->setField('Identifier',   'ContactMessage');
+            $contactEmail->setField('Subject',      _t('SilvercartContactFormPage.REQUEST', 'request via contact form'));
+            $contactEmail->setField('Variables',    "\$FirstName\n\$Surname\n\$Email\n\$Message");
+            $contactEmail->setField('EmailText',    _t('SilvercartContactMessage.TEXT'));
+            $contactEmail->write();
         }
 
         $this->extend('updateDefaultRecords', $rootPage);

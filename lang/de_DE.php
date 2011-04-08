@@ -33,6 +33,7 @@ if (array_key_exists('de_DE', $lang) && is_array($lang['de_DE'])) {
     $lang['de_DE'] = $lang['en_US'];
 }
 
+$lang['de_DE']['Silvercart']['DATE'] = 'Datum';
 $lang['de_DE']['Silvercart']['DAY'] = 'Tag';
 $lang['de_DE']['Silvercart']['DAYS'] = 'Tage';
 $lang['de_DE']['Silvercart']['WEEK'] = 'Woche';
@@ -137,6 +138,7 @@ $lang['de_DE']['SilvercartProduct']['PRICE_GROSS'] = 'Preis (Brutto)';
 $lang['de_DE']['SilvercartProduct']['PRICE_NET'] = 'Preis (Netto)';
 $lang['de_DE']['SilvercartProduct']['PRICE_SINGLE'] = 'Einzelpreis';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER'] = 'Artikelnummer';
+$lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Art.-Nr.';
 $lang['de_DE']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Artikelnummer (Hersteller)';
 $lang['de_DE']['SilvercartProduct']['PURCHASEPRICE'] = 'Einkaufspreis';
 $lang['de_DE']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. Bezugsdauer';
@@ -254,6 +256,12 @@ $lang['de_DE']['SilvercartContactFormResponsePage']['CONTENT'] = 'Vielen Dank f�
 $lang['de_DE']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Kontaktformularantwortseiten';
 $lang['de_DE']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Kontaktformularantwortseite';
 $lang['de_DE']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'kontaktbestaetigung';
+
+$lang['de_DE']['SilvercartContactMessage']['PLURALNAME'] = 'Kontaktanfragen';
+$lang['de_DE']['SilvercartContactMessage']['SINGULARNAME'] = 'Kontaktanfrage';
+$lang['de_DE']['SilvercartContactMessage']['TEXT'] = "<h1>Anfrage über Kontaktformular</h1>\n<h2>Hallo,</h2>\n<p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />\nDer Kunde <strong>\"\$FirstName \$Surname\"</strong> hat die Email Adresse <strong>\"\$Email\"</strong> für Rückantworten angegeben.</p>\n<h2>Die Nachricht</h2>\n<p>\$Message</p>\n";
+
+$lang['de_DE']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Kontaktanfragen';
 
 $lang['de_DE']['SilvercartCountry']['ACTIVE'] = 'Aktiv';
 $lang['de_DE']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'zugeordnete Bezahlart';
@@ -858,7 +866,7 @@ $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'aktiviert';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
 
-$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'Silvercart Konfiguration';
+$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Konfiguration';
 
 $lang['de_DE']['SilvercartShopEmail']['EMAILTEXT'] = 'Nachricht';
 $lang['de_DE']['SilvercartShopEmail']['IDENTIFIER'] = 'Bezeichner';

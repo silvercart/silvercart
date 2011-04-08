@@ -33,6 +33,7 @@ global $lang;
 
 
 
+$lang['en_US']['Silvercart']['DATE'] = 'Date';
 $lang['en_US']['Silvercart']['DAY'] = 'day';
 $lang['en_US']['Silvercart']['DAYS'] = 'days';
 $lang['en_US']['Silvercart']['WEEK'] = 'week';
@@ -136,7 +137,8 @@ $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
 $lang['en_US']['SilvercartProduct']['PRICE_GROSS'] = 'Price (gross)';
 $lang['en_US']['SilvercartProduct']['PRICE_NET'] = 'Price (net)';
 $lang['en_US']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
-$lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'Product number';
+$lang['en_US']['SilvercartProduct']['PRODUCTNUMBER'] = 'Item number';
+$lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Item number';
 $lang['en_US']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Product number (manufacturer)';
 $lang['en_US']['SilvercartProduct']['PURCHASEPRICE'] = 'Purchase price';
 $lang['en_US']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. purchase duration';
@@ -254,6 +256,12 @@ $lang['en_US']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks fo
 $lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact form response pags';
 $lang['en_US']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Contact form response page';
 $lang['en_US']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
+
+$lang['en_US']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
+$lang['en_US']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
+$lang['en_US']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:<br/>\n\n\$Message</p>\n";
+
+$lang['en_US']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contactmessages';
 
 $lang['en_US']['SilvercartCountry']['ACTIVE'] = 'Active';
 $lang['en_US']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'Attributed payment method';

@@ -86,6 +86,8 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      */
     public static $collection_controller_class = 'SilvercartShopConfigurationAdmin_CollectionController';
 
+    public static $menu_priority = -1;
+
     /**
      * constructor
      *
@@ -94,7 +96,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @since 02.02.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartShopConfigurationAdmin.SILVERCART_CONFIG', 'Silvercart Konfiguration');
+        self::$menu_title = _t('SilvercartShopConfigurationAdmin.SILVERCART_CONFIG', 'SilverCart Konfiguration');
         parent::__construct();
     }
 

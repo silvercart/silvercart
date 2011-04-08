@@ -139,24 +139,13 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @return void
      */
     protected function submitSuccess($data, $form, $formData) {
-        $email = new Email(
-            Email::getAdminEmail(),
-            Email::getAdminEmail(),
-            _t('SilvercartContactFormPage.REQUEST', 'request via contact form'),
-            ''
-        );
 
-        $email->setTemplate('SilvercartMailContact');
-        $email->populateTemplate(
-            array(
-                'FirstName' => $formData['FirstName'],
-                'Surname'   => $formData['Surname'],
-                'Email'     => $formData['Email'],
-                'Message'   => str_replace('\r\n', '<br>', nl2br($formData['Message']))
-            )
-        );
+        $formData['Message'] = str_replace('\r\n', "\n", $formData['Message']);
 
-        $email->send();
+        $contactMessage = new SilvercartContactMessage();
+        $contactMessage->update($formData);
+        $contactMessage->write();
+        $contactMessage->send();
         /*
          * redirect a user to the page type for the response or to the root
          */

@@ -74,6 +74,8 @@ class SilvercartUpdateAdmin extends ModelAdmin {
     
     protected $resultsTableClassName = 'SilvercartUpdateTableListField';
 
+    public static $menu_priority = -1;
+
     /**
      * constructor
      *
