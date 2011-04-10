@@ -94,7 +94,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             /*
              * redirect a user if his cart is empty
              */
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
@@ -234,7 +236,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * Wrapper for the pages method to deside to display prices gross or net.
      *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.03.2011
      */

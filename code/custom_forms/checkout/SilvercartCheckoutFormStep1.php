@@ -55,6 +55,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
             // Redirect a user if his cart is empty
             if (!Member::currentUser() ||
                 !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }

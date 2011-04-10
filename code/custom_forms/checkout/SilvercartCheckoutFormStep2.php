@@ -234,6 +234,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
              */
             if (!Member::currentUser() ||
                 !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }

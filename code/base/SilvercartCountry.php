@@ -76,7 +76,7 @@ class SilvercartCountry extends DataObject {
      * Default values
      *
      * @var array
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.03.2011
      * @copyright 2011 pixeltricks GmbH
@@ -192,7 +192,7 @@ class SilvercartCountry extends DataObject {
      * Searchable fields of SIlvercartCountry.
      *
      * @return array
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.03.2011
      */
@@ -239,7 +239,7 @@ class SilvercartCountry extends DataObject {
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
-     * 
+     *
      * @return FieldSet the fields for the backend
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>

@@ -70,7 +70,9 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
         if (!$barebone) {
             // redirect a user if his cart is empty
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
@@ -109,12 +111,12 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
-        
+
         if ($stepData &&
             isset($stepData['PaymentMethod'])) {
             $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
         }
-        
+
         if (isset($paymentMethod) &&
             $paymentMethod) {
             $shippingMethods = $paymentMethod->getAllowedShippingMethods();

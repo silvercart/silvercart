@@ -72,7 +72,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             /*
              * redirect a user if his cart is empty
              */
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
@@ -111,7 +113,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartPaymentMethod.SINGULARNAME');
 
         $stepData = $this->controller->getCombinedStepData();
-        
+
         if ($stepData) {
             if ($stepData['Shipping_Country'] != "") {
                 $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
@@ -141,7 +143,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     public function submitSuccess($data, $form, $formData) {
         $this->controller->setStepData($formData);
-        
+
 
 
         // TODO: Abfrage auf Zahlungsmodul einbauen
@@ -159,7 +161,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             $this->controller->registerStepDirectory(
                 $paymentMethod->getStepConfiguration()
             );
-            
+
             $this->controller->generateStepMapping();
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
