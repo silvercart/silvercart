@@ -227,6 +227,7 @@ class SilvercartNumberRange extends DataObject {
     public function useReservedNumber() {
         $reservedNumber = $this->reserveNewNumber();
         Session::clear('Reserved' . $this->Identifier);
+        Session::save();
         return $reservedNumber;
     }
 
