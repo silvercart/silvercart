@@ -346,8 +346,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             //create a silvercart order holder as a child of silvercart my account holder
             $orderHolder = new SilvercartOrderHolder();
-            $orderHolder->Title = _t('SilvercartOrderHolder.TITLE', 'my oders');
-            $orderHolder->URLSegment = 'my-oders';
+            $orderHolder->Title = _t('SilvercartOrderHolder.TITLE', 'my orders');
+            $orderHolder->URLSegment = 'my-orders';
             $orderHolder->Status = "Published";
             $orderHolder->ShowInMenus = true;
             $orderHolder->ShowInSearch = false;
