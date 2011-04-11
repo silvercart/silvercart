@@ -323,13 +323,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $myAccountHolder->Status = "Published";
             $myAccountHolder->ShowInMenus = false;
             $myAccountHolder->ShowInSearch = false;
-            $myAccountHolder->CanViewType = "OnlyTheseUsers";
             $myAccountHolder->ParentID = $rootPage->ID;
             $myAccountHolder->IdentifierCode = "SilvercartMyAccountHolder";
             $myAccountHolder->write();
             $myAccountHolder->publish("Stage", "Live");
-            $myAccountHolder->ViewerGroups()->add($B2Bgroup);
-            $myAccountHolder->ViewerGroups()->add($B2Cgroup);
 
             //create a silvercart data page as a child of silvercart my account holder
             $dataPage = new SilvercartDataPage();

@@ -57,17 +57,19 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
             )
         )
     );
+
     /**
-     * form preferences
+     * Set texts for preferences with i18n methods.
      *
-     * @var array
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.11.2010
+     * @copyright pixeltricks GmbH
+     * @since 11.04.2011
      */
-    protected $preferences = array(
-        'submitButtonTitle' => ''
-    );
+    public function preferences() {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.LOGIN');
+    }
 
     /**
      * executed if there are no valdation errors on submit

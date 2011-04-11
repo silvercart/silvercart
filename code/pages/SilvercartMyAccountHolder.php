@@ -83,6 +83,8 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
     public function init() {
         Session::clear("redirect"); //if customer has been to the checkout yet this is set to direct him back to the checkout after address editing
         parent::init();
+
+        $this->registerCustomHtmlForm('SilvercartLoginForm', new SilvercartQuickLoginForm($this));
     }
 
     /**
@@ -101,6 +103,26 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
             )
         );
         return $output;
+    }
+
+    /**
+     * Returns the link to the registration page.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 11.04.2011
+     */
+    public function getRegistrationLink() {
+        $link             = '/';
+        $registrationPage = $this->PageByIdentifierCode('SilvercartRegistrationPage');
+
+        if ($registrationPage) {
+            $link = $registrationPage->Link();
+        }
+
+        return $link;
     }
 
     /**
