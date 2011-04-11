@@ -34,6 +34,14 @@
 class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
 
     /**
+     * Set this option to false in a payment module to prevent sending the order
+     * confimation before finishing payment module dependent order manupulations
+     *
+     * @var bool
+     */
+    protected $sendConfirmationMail = true;
+
+    /**
      * constructor
      *
      * @param Controller $controller  the controller object
@@ -118,7 +126,9 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         $order->createInvoiceAddress($invoiceData);
 
         // send order confirmation mail
-        $order->sendConfirmationMail();
+        if ($this->sendConfirmationMail) {
+            $order->sendConfirmationMail();
+        }
 
         $this->controller->setStepData(
             array(

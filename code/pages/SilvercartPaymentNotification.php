@@ -68,16 +68,19 @@ class SilvercartPaymentNotification_Controller extends Page_Controller {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 23.11.2010
+     * @since 07.04.2011
      */
     public function process() {
         $paymentNotificationClassName = 'SilvercartPayment'.$this->urlParams['ID'].'Notification';
-
+        $paymentChannel = '';
+        if (array_key_exists('OtherID', $this->urlParams)) {
+            $paymentChannel = $this->urlParams['OtherID'];
+        }
         if (class_exists($paymentNotificationClassName)) {
             $paymentNotificationClass = new $paymentNotificationClassName();
-            return $paymentNotificationClass->process();
+            return $paymentNotificationClass->process($paymentChannel);
         }
     }
 }
