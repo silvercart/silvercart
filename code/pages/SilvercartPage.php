@@ -329,20 +329,25 @@ class SilvercartPage_Controller extends ContentController {
      * @since 31.03.2011
      */
     public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
-        $items = array();
-        foreach ($this->PageByIdentifierCode($identifierCode)->Children() as $child) {
-            if ($child->hasProductsOrChildren()) {
-                $items[] = $child;
+        $items              = array();
+        $output             = '';
+        $productGroupPage   = $this->PageByIdentifierCode($identifierCode);
+
+        if ($productGroupPage) {
+            foreach ($productGroupPage->Children() as $child) {
+                if ($child->hasProductsOrChildren()) {
+                    $items[] = $child;
+                }
             }
+            $elements = array(
+                'SubElements' => new DataObjectSet($items),
+            );
+            $output = $this->customise($elements)->renderWith(
+                array(
+                    'SilvercartSubNavigation',
+                )
+            );
         }
-        $elements = array(
-            'SubElements' => new DataObjectSet($items),
-        );
-        $output = $this->customise($elements)->renderWith(
-            array(
-                'SilvercartSubNavigation',
-            )
-        );
         return $output;
     }
 

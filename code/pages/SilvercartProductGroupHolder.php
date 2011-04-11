@@ -121,11 +121,13 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
             $productGroups[''] = '';
             $parent = self::PageByIdentifierCode('SilvercartProductGroupHolder');
         }
-        foreach ($parent->Children() as $child) {
-            $productGroups[$child->ID] = $child->Title;
-            $subs = self::getRecursiveProductGroupsForGroupedDropdownAsArray($child);
-            if (!empty ($subs)) {
-                $productGroups[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $subs;
+        if ($parent) {
+            foreach ($parent->Children() as $child) {
+                $productGroups[$child->ID] = $child->Title;
+                $subs = self::getRecursiveProductGroupsForGroupedDropdownAsArray($child);
+                if (!empty ($subs)) {
+                    $productGroups[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $subs;
+                }
             }
         }
         return $productGroups;
