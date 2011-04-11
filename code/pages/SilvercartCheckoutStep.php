@@ -86,7 +86,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
 
         // Inject payment and shippingmethods to shoppingcart, if available
         $member = Member::currentUser();
-        
+
         if ($member) {
             $stepData       = $this->getCombinedStepData();
             $shoppingCart   = $member->SilvercartShoppingCart();

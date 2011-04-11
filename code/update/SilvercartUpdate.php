@@ -189,6 +189,14 @@ class SilvercartUpdate extends DataObject {
         $requiredUpdate = new $this->ClassName();
         $requiredUpdate->StatusMessage = _t('SilvercartUpdate.STATUSMESSAGE_REMAINING');
         $requiredUpdate->write();
+        $config = SilvercartConfig::getConfig();
+        $config->SilvercartVersion;
+        $config->SilvercartUpdateVersion;
+        if (version_compare($config->SilvercartVersion, $requiredUpdate->SilvercartVersion, '>')
+         || (version_compare($config->SilvercartVersion, $requiredUpdate->SilvercartVersion, '==')
+          && $config->SilvercartUpdateVersion >= $requiredUpdate->SilvercartUpdateVersion)) {
+            $requiredUpdate->skip();
+        }
     }
 
     /**

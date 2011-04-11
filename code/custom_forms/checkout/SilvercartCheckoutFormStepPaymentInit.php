@@ -53,6 +53,25 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        $member = Member::currentUser();
+        $checkoutData = $controller->getCombinedStepData();
+        if (array_key_exists('PaymentMethod', $checkoutData)) {
+            $this->paymentMethodObj = DataObject::get_by_id(
+                'SilvercartPaymentMethod',
+                $checkoutData['PaymentMethod']
+            );
+            if ($this->paymentMethodObj) {
+                $this->paymentMethodObj->setController($controller);
+
+                $this->paymentMethodObj->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
+                $this->paymentMethodObj->setReturnLink(Director::absoluteURL($controller->Link()));
+
+                $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
+            }
+        }
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
@@ -93,25 +112,7 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @since 16.11.2010
      */
     public function process() {
-        $member = Member::currentUser();
-        $checkoutData = $this->controller->getCombinedStepData();
-
-        $this->paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $checkoutData['PaymentMethod']
-        );
-
         if ($this->paymentMethodObj) {
-            $this->paymentMethodObj->setController($this->controller);
-
-            $this->paymentMethodObj->setCancelLink(Director::absoluteURL($this->controller->Link()) . 'GotoStep/2');
-            $this->paymentMethodObj->setReturnLink(Director::absoluteURL($this->controller->Link()));
-
-            $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
-            $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
-            $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
-            $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
-
             return true;
         } else {
             return false;

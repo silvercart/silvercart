@@ -124,7 +124,7 @@ class SilvercartPaymentMethod extends DataObject {
     public static $plural_name = "payment methods";
 
     /**
-     * Definiert die Attribute der Klasse.
+     * Defines the attributes of the class
      *
      * @var array
      *
@@ -142,7 +142,7 @@ class SilvercartPaymentMethod extends DataObject {
         'orderStatus'               => "Varchar(50)"
     );
     /**
-     * Definiert die 1:1 Beziehungen der Klasse.
+     * Defines 1:1 relations
      *
      * @var array
      *
@@ -167,7 +167,7 @@ class SilvercartPaymentMethod extends DataObject {
         'SilvercartOrders' => 'SilvercartOrder'
     );
     /**
-     * Definiert die n:m Beziehungen der Klasse.
+     * Defines n:m relations
      *
      * @var array
      *
@@ -413,7 +413,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public function getTitle() {
-        return $this->moduleName;
+        return $this->Name;
     }
 
     /**
@@ -710,12 +710,23 @@ class SilvercartPaymentMethod extends DataObject {
         // not a base class
         if ($this->moduleName !== '') {
 
-            // entry does not exist yet
-            $checkObj = DataObject::get_one($this->ClassName);
-
-            if (!$checkObj) {
+            $className = $this->ClassName;
+            
+            if ($className::$has_multiple_payment_channels) {
+                $paymentModule = new $className();
+                foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
+                    if (!DataObject::get_one($className, sprintf("`PaymentChannel`='%s'", $channel))) {
+                        $paymentMethod = new $className();
+                        $paymentMethod->isActive = 0;
+                        $paymentMethod->Name = $name;
+                        $paymentMethod->PaymentChannel = $channel;
+                        $paymentMethod->write();
+                    }
+                }
+            } elseif (!DataObject::get_one($className)) {
+                // entry does not exist yet
                 //prepayment's default record gets activated if test data is enabled
-                if ($this->moduleName == "Vorkasse" && SilvercartRequireDefaultRecords::isEnabledTestData()) {
+                if ($this->moduleName == "Prepayment" && SilvercartRequireDefaultRecords::isEnabledTestData()) {
                     $this->setField('isActive', 1);
                     //As we do not know if the country is instanciated yet we do write this relation in the country class too.
                     $germany = DataObject::get_one('SilvercartCountry', "`ISO2` = 'DE'");
@@ -725,8 +736,8 @@ class SilvercartPaymentMethod extends DataObject {
                 } else {
                    $this->setField('isActive', 0);
                 }
-                $this->setField('Name', _t($this->ClassName . '.NAME', $this->moduleName));
-                $this->setField('Title', _t($this->ClassName . '.TITLE', $this->moduleName));
+                $this->setField('Name', _t($className . '.NAME', $this->moduleName));
+                $this->setField('Title', _t($className . '.TITLE', $this->moduleName));
                 $this->write();
             }
         }
@@ -1086,8 +1097,6 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * Returns the step configuration.
      *
-     * Implement in descendants.
-     *
      * Should return an array with the following structure:
      * array(
      *     '{insert module-filesystem-name}/templates/checkout/' => array(
@@ -1097,12 +1106,27 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 06.04.2011
+     * @since 07.04.2011
      */
     public function getStepConfiguration() {
-        // Implement in descendants
+        $directory  = 'silvercart_payment_' . strtolower($this->moduleName) . '/templates/checkout/';
+        $method = $this->ClassName;
+        if ($method::$has_multiple_payment_channels
+         && !empty ($this->PaymentChannel)
+         && is_string($this->PaymentChannel)) {
+            $directory .= $this->PaymentChannel . '/';
+            $stepModule = $this->moduleName . ucfirst($this->PaymentChannel);
+        } else {
+            $stepModule = $this->moduleName;
+        }
+        $prefix     = 'SilvercartPayment' . $stepModule . 'CheckoutFormStep';
+        return array(
+            $directory => array(
+                'prefix' => $prefix,
+            ),
+        );
     }
 
     /**
@@ -1193,10 +1217,25 @@ class SilvercartPaymentMethod extends DataObject {
     public function getPossiblePaymentChannels() {
         $possiblePaymentChannels = array();
         $className = $this->ClassName;
+        if ($className::$has_multiple_payment_channels == false
+         || count($className::$possible_payment_channels) == 0) {
+            return array();
+        }
         foreach ($className::$possible_payment_channels as $key => $value) {
             $possiblePaymentChannels[$key] = _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($key), $value);
         }
         return $possiblePaymentChannels;
+    }
+
+    /**
+     * Returns the i18n title for a payment channel.
+     *
+     * @param string $paymentChannel The payment channel
+     *
+     * @return string
+     */
+    public function getPaymentChannelName($paymentChannel) {
+        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel));
     }
 
 }

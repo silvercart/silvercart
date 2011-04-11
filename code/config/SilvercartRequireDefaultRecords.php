@@ -120,6 +120,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $silvercartConfig->write();
         }
 
+        // create countries
+        $this->requireOrUpdateCountries();
+
         //create a carrier and an associated zone and shipping method
         $carrier = DataObject::get_one('SilvercartCarrier');
         if (!$carrier) {
@@ -148,8 +151,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             if (!$country) {
                 $country = new SilvercartCountry();
                 $country->Title = 'Deutschland';
-                $country->ISO2 = 'de';
-                $country->ISO3 = 'deu';
+                $country->ISO2 = 'DE';
+                $country->ISO3 = 'DEU';
                 $country->write();
                 $zoneDomestic->SilvercartCountries()->add($country);
             }
@@ -236,9 +239,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
         }
 
-        // create countries
-        $this->requireOrUpdateCountries();
-
         // create number ranges
         $orderNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='OrderNumber'");
         if (!$orderNumbers) {
@@ -323,13 +323,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $myAccountHolder->Status = "Published";
             $myAccountHolder->ShowInMenus = false;
             $myAccountHolder->ShowInSearch = false;
-            $myAccountHolder->CanViewType = "OnlyTheseUsers";
             $myAccountHolder->ParentID = $rootPage->ID;
             $myAccountHolder->IdentifierCode = "SilvercartMyAccountHolder";
             $myAccountHolder->write();
             $myAccountHolder->publish("Stage", "Live");
-            $myAccountHolder->ViewerGroups()->add($B2Bgroup);
-            $myAccountHolder->ViewerGroups()->add($B2Cgroup);
 
             //create a silvercart data page as a child of silvercart my account holder
             $dataPage = new SilvercartDataPage();

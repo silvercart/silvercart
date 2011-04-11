@@ -688,6 +688,28 @@ class SilvercartOrder extends DataObject {
     }
 
     /**
+     * set status of $this
+     *
+     * @param int $orderStatusID the order status ID
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.04.2011
+     */
+    public function setOrderStatusByID($orderStatusID) {
+        $orderStatusSet = false;
+
+        if (DataObject::get_by_id('SilvercartOrderStatus', $orderStatusID)) {
+            $this->SilvercartOrderStatusID = $orderStatusID;
+            $this->write();
+            $orderStatusSet = true;
+        }
+
+        return $orderStatusSet;
+    }
+
+    /**
      * Save the note from the form if there is one
      *
      * @param string $note the customers notice
