@@ -307,7 +307,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         $this->formFields['Shipping_PhoneAreaCode']['title']    = _t('SilvercartAddress.PHONEAREACODE');
         $this->formFields['Shipping_Country']['title']          = _t('SilvercartCountry.SINGULARNAME');
 
-        $countries = DataObject::get('SilvercartCountry');
+        $countries = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1");
         if ($countries) {
             $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
             $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
