@@ -51,7 +51,8 @@ class SilvercartOrderPosition extends DataObject {
         'TaxRate' => 'Float',
         'ProductDescription' => 'Text',
         'Quantity' => 'Int',
-        'Title' => 'VarChar'
+        'Title' => 'VarChar',
+        'ProductNumber' => 'VarChar',
     );
     /**
      * 1:n relations
@@ -66,19 +67,9 @@ class SilvercartOrderPosition extends DataObject {
         'SilvercartOrder' => 'SilvercartOrder',
         'SilvercartProduct' => 'SilvercartProduct'
     );
-    /**
-     *
-     * @var array configuration for attributes=>label
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
-     */
-    public static $summary_fields = array(
-        'Title' => 'Artikelbezeichnung',
-        'ProductDescription' => 'Artikelbeschreibung',
-        'Price' => 'Preis',
-        'Quantity' => 'Anzahl'
+    public static $casting = array(
+        'PriceNice' => 'VarChar(255)',
+        'PriceTotalNice' => 'VarChar(255)',
     );
 
     /**
@@ -95,13 +86,45 @@ class SilvercartOrderPosition extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Title' => _t('SilvercartPage.PRODUCTNAME'),
-            'ProductDescription' => _t('SilvercartProduct.DESCRIPTION'),
-            'Price' => _t('SilvercartProduct.PRICE'),
-            'Quantity' => _t('SilvercartProduct.QUANTITY')
-        );
+        self::$singular_name = _t('SilvercartOrderPosition.SINGULARNAME');
+        self::$plural_name = _t('SilvercartOrderPosition.PLURALNAME');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2011
+     */
+    public function summaryFields() {
+        return array(
+            'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER'),
+            'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
+            'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
+            'PriceNice'             => _t('SilvercartProduct.PRICE'),
+            'Quantity'              => _t('SilvercartProduct.QUANTITY'),
+        );
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getPriceNice() {
+        return str_replace('.', ',', number_format($this->PriceAmount, 2)) . ' ' . $this->PriceCurrency;
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getPriceTotalNice() {
+        return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
     }
 
 }

@@ -34,7 +34,7 @@
                                 <div class="c50l" id="Customer">
                                     <% if CurrentRegisteredCustomer %>
                                         <a class="button" id="myaccount" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
-                                        <a class="button" id="logout" href="{$PageByIdentifierCode(SilvercartFrontPage).Link}Security/logout/">Logout</a>
+                                        <a class="button" id="logout" href="{$baseHref}Security/logout/">Logout</a>
                                     <% else %>
                                         <% include SilvercartLoginPopup %>
                                     <% end_if %>
@@ -60,7 +60,7 @@
                 <div id="header">
                     <div class="subcolumns">
                         <div class="c50l">
-                            <a href="/?locale=$Locale"><img src="/silvercart/images/logo.jpg" alt="logo Pour La Table" /></a>
+                            <a href="/?locale=$Locale"><img src="{$BaseHref}silvercart/images/logo.jpg" alt="site logo" /></a>
                         </div>
                         <div class="c50r">
                             <div class="subcr">
@@ -68,7 +68,7 @@
                                 <ul class="translations">
                                     <% control Translations %>
                                     <li class="$Locale.RFC1766">
-                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SilvercartPage.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="/silvercart/images/icons/flags/{$Locale}.png" /></a>
+                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SilvercartPage.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="{$BaseHref}silvercart/images/icons/flags/{$Locale}.png" /></a>
                                     </li>
                                     <% end_control %>
                                 </ul>

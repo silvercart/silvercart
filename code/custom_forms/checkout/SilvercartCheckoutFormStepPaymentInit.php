@@ -22,7 +22,10 @@
  */
 
 /**
- * CheckoutProcessOrder
+ * CheckoutProcessPaymentBeforeOrder
+ *
+ * Ruft die Methode "processPaymentBeforeOrder" im gewaehlten Zahlungsmodul
+ * auf.
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -31,7 +34,9 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep7 extends CustomHtmlForm {
+class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
+
+    protected $paymentMethodObj = null;
 
     /**
      * constructor
@@ -48,17 +53,53 @@ class SilvercartCheckoutFormStep7 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        $member = Member::currentUser();
+        $checkoutData = $controller->getCombinedStepData();
+        if (array_key_exists('PaymentMethod', $checkoutData)) {
+            $this->paymentMethodObj = DataObject::get_by_id(
+                'SilvercartPaymentMethod',
+                $checkoutData['PaymentMethod']
+            );
+            if ($this->paymentMethodObj) {
+                $this->paymentMethodObj->setController($controller);
+
+                $this->paymentMethodObj->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
+                $this->paymentMethodObj->setReturnLink(Director::absoluteURL($controller->Link()));
+
+                $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
+                $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
+            }
+        }
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
             /*
              * redirect a user if his cart is empty
              */
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
         }
+    }
+
+    /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible'] = false;
+
+        parent::preferences();
     }
 
     /**
@@ -71,45 +112,24 @@ class SilvercartCheckoutFormStep7 extends CustomHtmlForm {
      * @since 16.11.2010
      */
     public function process() {
-        $checkoutData = $this->controller->getCombinedStepData();
-
-        // Vorbereitung der Parameter zur Erzeugung der Bestellung
-        if (isset($checkoutData['Email'])) {
-            $customerEmail = $checkoutData['Email'];
+        if ($this->paymentMethodObj) {
+            return true;
         } else {
-            $customerEmail = '';
+            return false;
         }
-
-        if (isset($checkoutData['Note'])) {
-            $customerNote = $checkoutData['Note'];
-        } else {
-            $customerNote = '';
-        }
-
-        $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
-
-        $order = new SilvercartOrder();
-        $order->setCustomerEmail($customerEmail);
-        $order->setShippingMethod($checkoutData['ShippingMethod']);
-        $order->setPaymentMethod($checkoutData['PaymentMethod']);
-        $order->setNote($customerNote);
-        $order->setWeight();
-        $order->createFromShoppingCart();
-
-        $order->createShippingAddress($shippingData);
-        $order->createInvoiceAddress($invoiceData);
-
-        // send order confirmation mail
-        $order->sendConfirmationMail();
-
-        $this->controller->setStepData(
-            array(
-                'orderId' => $order->ID
-            )
-        );
-        $this->controller->addCompletedStep();
-        $this->controller->NextStep();
     }
 
+    /**
+     * Render the error template.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.04.2011
+     */
+    public function renderError() {
+        return $this->renderWith('SilvercartCheckoutFormStepPaymentError');
+    }
 }
+

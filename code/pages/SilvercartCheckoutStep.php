@@ -79,12 +79,14 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
-
+        if (SilvercartConfig::EnableSSL()) {
+            Director::forceSSL();
+        }
         parent::init();
 
         // Inject payment and shippingmethods to shoppingcart, if available
         $member = Member::currentUser();
-        
+
         if ($member) {
             $stepData       = $this->getCombinedStepData();
             $shoppingCart   = $member->SilvercartShoppingCart();
@@ -108,7 +110,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @since 18.11.2010
      */
     public function getErrorOccured() {
-        return $this->paymentMethodObj->getErrorOccured();
+        if ($this->paymentMethodObj) {
+            return $this->paymentMethodObj->getErrorOccured();
+        }
+
+        return false;
     }
 
     /**
@@ -121,7 +127,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @since 18.11.2010
      */
     public function getErrorList() {
-        return $this->paymentMethodObj->getErrorList();
+        if ($this->paymentMethodObj) {
+            return $this->paymentMethodObj->getErrorList();
+        }
+
+        return false;
     }
 
     /**

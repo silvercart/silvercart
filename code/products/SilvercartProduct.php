@@ -352,7 +352,7 @@ class SilvercartProduct extends DataObject {
         if ($products) {
             return $products;
         }
-        
+
         return false;
     }
 
@@ -365,7 +365,7 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
-        
+
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         //Get all products that have no master
         $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
@@ -789,10 +789,10 @@ class SilvercartProduct extends DataObject {
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
 
     /**
-	 * We extend the sidebar template renderer so that you can alter it in your
+     * We extend the sidebar template renderer so that you can alter it in your
      * decorators.
-	 *
-	 * @return string
+     *
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -810,7 +810,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * We extend this form so that you can alter it in your decorators.
      *
      * @return Form
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 01.03.2011
@@ -825,7 +825,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
 
     /**
      * Extends the search form.
-     * 
+     *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -859,28 +859,28 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 11.03.2011
-	 */
+     */
     public function CustomForm($formIdentifier) {
         $form = '';
 
         $this->extend('updateCustomForm', $form, $formIdentifier);
-        
+
         return $form;
     }
 
     /**
-	 * Custom form action so that we can decorate it.
+     * Custom form action so that we can decorate it.
      *
      * @param array           $data    The sent data
      * @param Form            $form    The connected form
      * @param SS_HTTP_Request $request The request object
      *
-	 * @return mixed|void
+     * @return mixed|void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 11.03.2011
-	 */
+     */
     public function customFormAction($data, $form = null, $request = null) {
         $output = '';
 

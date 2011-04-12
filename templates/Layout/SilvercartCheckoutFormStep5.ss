@@ -1,59 +1,51 @@
-<form class="yform" $FormAttributes>
+<form class="yform full" $FormAttributes >
+    <% include SilvercartShoppingCartFull %>
 
-    <fieldset>
-        <legend>
-            <% if controller.getErrorOccured %>
-                <% _t('SilvercartPage.ERROR_OCCURED','An error has occured.') %>
-            <% else %>
-                <% _t('SilvercartPage.PAYMENT_NOT_WORKING','The choosen payment module does not work.') %>
-            <% end_if %>
-        </legend>
+    $CustomHtmlFormMetadata
+    $CustomHtmlFormErrorMessages
 
-        <% if controller.getErrorOccured %>
-
-            <p>
-                <% _t('SilvercartPage.ERROR_LISTING','The following errors have occured:') %>
-            </p>
-
-            <div class="error">
-                <ul class="message">
-                    <% control controller.getErrorList %>
-                        <li>
-                            $error
-                        </li>
+    <div class="subcolumns">
+        <div class="c50l">
+            <div class="subcl">
+                <fieldset>
+                    <legend><% _t('SilvercartAddressHolder.SHIPPINGADDRESS') %></legend>
+                    <% control AddressData %>
+                        <% control SilvercartShippingAddress %>
+                            <% include SilvercartAddressTable %>
+                        <% end_control %>
                     <% end_control %>
-                </ul
-            </div>
-            <br />
-        <% end_if %>
-
-        <p>
-            <% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_CALL','Please choose another payment method or contact the shop owner.') %>
-        </p>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    <a href="{$controller.Link}Cancel" class="button_type1">
-                        <span class="button_type1_content">
-                            <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><%_t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="button_type1">
-                        <span class="button_type1_content">
-                            <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK','go to contact page') %></span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
+                </fieldset>
             </div>
         </div>
-    </fieldset>
 
+        <div class="c50r">
+            <div class="subcr">
+                <fieldset>
+                    <legend><% _t('SilvercartAddressHolder.INVOICEADDRESS') %></legend>
+                    <% control AddressData %>
+                        <% control SilvercartInvoiceAddress %>
+                            <% include SilvercartAddressTable %>
+                        <% end_control %>
+                    <% end_control %>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <fieldset>
+          <legend><% _t('SilvercartPage.REMARKS') %></legend>
+          $CustomHtmlFormFieldByName(Note)
+    </fieldset>
+    <fieldset>
+        <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
+        $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
+        $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
+        $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
+    </fieldset>
+    <div class="actionRow">
+        <div class="type-button">
+            <% control Actions %>
+            $Field
+            <% end_control %>
+        </div>
+    </div>
 </form>

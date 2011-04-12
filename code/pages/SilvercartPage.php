@@ -202,30 +202,6 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * replace Page contentwith Array values
-     *
-     * @return bool
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since  01.10.2010
-     */
-    protected function replaceContent() {
-        $member = Member::currentUser();
-        if ($member) {
-            $email = $member->Email;
-
-            $this->Content = str_replace(
-                            array(
-                                '__EMAIL__'
-                            ),
-                            array(
-                                $email
-                            ),
-                            $this->Content
-            );
-        }
-    }
-
-    /**
      * a template method
      * Function similar to Member::currentUser(); Determins if we deal with a registered customer
      *
@@ -344,23 +320,34 @@ class SilvercartPage_Controller extends ContentController {
      * with the SilvercartSubNavigation.ss template. This is the default sub-
      * navigation.
      *
+     * @param string $identifierCode The code of the parent page.
+     *
      * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
      */
-    public function getSubNavigation() {
-        $items = array();
-        foreach ($this->PageByIdentifierCode('SilvercartProductGroupHolder')->Children() as $child) {
-            if ($child->hasProductsOrChildren()) {
-                $items[] = $child;
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
+        $items              = array();
+        $output             = '';
+        $productGroupPage   = $this->PageByIdentifierCode($identifierCode);
+
+        if ($productGroupPage) {
+            foreach ($productGroupPage->Children() as $child) {
+                if ($child->hasProductsOrChildren()) {
+                    $items[] = $child;
+                }
             }
+            $elements = array(
+                'SubElements' => new DataObjectSet($items),
+            );
+            $output = $this->customise($elements)->renderWith(
+                array(
+                    'SilvercartSubNavigation',
+                )
+            );
         }
-        $elements = array(
-            'SubElements' => new DataObjectSet($items),
-        );
-        $output = $this->customise($elements)->renderWith(
-            array(
-                'SilvercartSubNavigation',
-            )
-        );
         return $output;
     }
 
@@ -394,5 +381,139 @@ class SilvercartPage_Controller extends ContentController {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Return the given number of topseller products as DataObjectSet.
+     * 
+     * We use caching here, so check the cache first if you don't get the
+     * desired results.
+     *
+     * @param int $nrOfProducts The number of products to return
+     *
+     * @return mixed DataObjectSet|Boolean false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 29.03.2011
+     */
+    public function getTopsellerProducts($nrOfProducts = 5) {
+        $cachekey = 'TopsellerProducts'.$nrOfProducts;
+        $cache    = SS_Cache::factory($cachekey);
+        $result   = $cache->load($cachekey);
+
+        if ($result) {
+            $result = unserialize($result);
+        } else {
+            $products   = array();
+            $sqlQuery   = new SQLQuery();
+
+            $sqlQuery->select = array(
+                'SOP.SilvercartProductID',
+                'SUM(SOP.Quantity) AS Quantity'
+            );
+            $sqlQuery->from = array(
+                'SilvercartOrderPosition SOP',
+                'LEFT JOIN SilvercartProduct SP on SP.ID = SOP.SilvercartProductID'
+            );
+            $sqlQuery->where = array(
+                'SP.isActive = 1'
+            );
+            $sqlQuery->groupby = array(
+                'SOP.SilvercartProductID'
+            );
+            $sqlQuery->orderby  = 'Quantity DESC';
+            $sqlQuery->limit    = $nrOfProducts;
+
+            $result = $sqlQuery->execute();
+
+            foreach ($result as $row) {
+                $products[] = DataObject::get_by_id(
+                    'SilvercartProduct',
+                    $row['SilvercartProductID']
+                );
+            }
+            
+            $result = new DataObjectSet($products);
+        }
+
+        return $result;
+    }
+
+    /**
+     * We load the special offers productgroup page here.
+     *
+     * @param string $groupIdentifier Identifier of the product group
+     * @param int    $nrOfProducts    The number of products to return
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function getProductGroupItems($groupIdentifier = 'SilvercartOffers', $nrOfProducts = 4) {
+        $products = array();
+
+        $records = DB::query(
+            sprintf(
+                "
+                SELECT
+                    SilvercartProductID
+                FROM
+                    (
+                        SELECT
+                            SilvercartProduct.ID AS SilvercartProductID
+                        FROM
+                            SilvercartProduct
+                        LEFT JOIN
+                            SilvercartPage
+                        ON
+                            SilvercartPage.ID = SilvercartProduct.SilvercartProductGroupID
+                        WHERE
+                            SilvercartPage.IdentifierCode = '%s'
+                    ) AS DirectRelations
+                UNION SELECT
+                    SilvercartProductID
+                FROM
+                    (
+                        SELECT
+                            SP_SPGMP.SilvercartProductID AS SilvercartProductID
+                        FROM
+                            SilvercartProduct_SilvercartProductGroupMirrorPages AS SP_SPGMP
+                        LEFT JOIN
+                            SilvercartPage
+                        ON
+                            SilvercartPage.ID = SP_SPGMP.SilvercartProductGroupPageID
+                        WHERE
+                            SilvercartPage.IdentifierCode = '%s'
+                    ) AS MirrorRelations
+                GROUP BY
+                    SilvercartProductID
+                ORDER BY
+                    RAND()
+                LIMIT
+                    %d
+                ",
+                $groupIdentifier,
+                $groupIdentifier,
+                $nrOfProducts
+            )
+        );
+
+        foreach ($records as $record) {
+            $product = DataObject::get_by_id(
+                'SilvercartProduct',
+                $record['SilvercartProductID']
+            );
+
+            if ($product) {
+                $products[] = $product;
+            }
+        }
+
+        $result = new DataObjectSet($products);
+
+        return $result;
     }
 }

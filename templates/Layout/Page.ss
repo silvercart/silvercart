@@ -17,9 +17,3 @@
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>
-
-
-
-
-
-

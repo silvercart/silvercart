@@ -1,0 +1,22 @@
+
+.TableListField table.data tbody tr.remaining.over,
+.TableListField table.data tbody tr.done.over,
+.TableListField table.data tbody tr.skipped.over {
+    background-color: transparent;
+}
+
+.TableListField table.data tbody tr.remaining td,
+.TableListField table.data tbody tr.remaining.over td,
+.TableListField table.data tbody tr.remaining td:hover {
+    background-color: #FFBBBB;
+}
+.TableListField table.data tbody tr.done td,
+.TableListField table.data tbody tr.done.over td,
+.TableListField table.data tbody tr.done td:hover {
+    background-color: #BBFFBB;
+}
+.TableListField table.data tbody tr.skipped td,
+.TableListField table.data tbody tr.skipped.over td,
+.TableListField table.data tbody tr.skipped td:hover {
+    background-color: #FFFFBB;
+}

@@ -48,6 +48,7 @@ Object::add_extension('CMSMain', 'SilvercartMain');
 DataObject::add_extension('SilvercartProductGroupHolder_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartCountry', 'Translatable');
 
 // ----------------------------------------------------------------------------
 // Define path constants
@@ -101,4 +102,5 @@ SortableDataObject::add_sortable_classes(array(
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.
  */
+
 

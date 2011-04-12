@@ -22,8 +22,7 @@
  */
 
 /**
- * CheckoutReturnFromPaymentProviderPage
- * This step creates the order
+ * CheckoutProcessOrder
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -32,7 +31,15 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
+class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
+
+    /**
+     * Set this option to false in a payment module to prevent sending the order
+     * confimation before finishing payment module dependent order manupulations
+     *
+     * @var bool
+     */
+    protected $sendConfirmationMail = true;
 
     /**
      * constructor
@@ -55,11 +62,28 @@ class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
             /*
              * redirect a user if his cart is empty
              */
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
         }
+    }
+
+    /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function  preferences() {
+        $this->preferences['stepIsVisible'] = false;
+
+        parent::preferences();
     }
 
     /**
@@ -74,20 +98,47 @@ class SilvercartCheckoutFormStep6 extends CustomHtmlForm {
     public function process() {
         $checkoutData = $this->controller->getCombinedStepData();
 
-        if (!$this->paymentMethodObj) {
-            $this->paymentMethodObj = DataObject::get_by_id(
-                            'SilvercartPaymentMethod',
-                            $checkoutData['PaymentMethod']
-            );
+        // Vorbereitung der Parameter zur Erzeugung der Bestellung
+        if (isset($checkoutData['Email'])) {
+            $customerEmail = $checkoutData['Email'];
+        } else {
+            $customerEmail = '';
         }
 
-        if ($this->paymentMethodObj) {
-            $this->paymentMethodObj->setController($this->controller);
-            $this->paymentMethodObj->processReturnJumpFromPaymentProvider();
+        if (isset($checkoutData['Note'])) {
+            $customerNote = $checkoutData['Note'];
         } else {
-            Director::redirect($this->controller->Link() . '/Cancel');
+            $customerNote = '';
         }
+
+        $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
+        $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+
+        $order = new SilvercartOrder();
+        $order->setCustomerEmail($customerEmail);
+        $order->setShippingMethod($checkoutData['ShippingMethod']);
+        $order->setPaymentMethod($checkoutData['PaymentMethod']);
+        $order->setNote($customerNote);
+        $order->setWeight();
+        $order->createFromShoppingCart();
+
+        $order->createShippingAddress($shippingData);
+        $order->createInvoiceAddress($invoiceData);
+
+        // send order confirmation mail
+        if ($this->sendConfirmationMail) {
+            $order->sendConfirmationMail();
+        }
+
+        $this->controller->setStepData(
+            array(
+                'orderId' => $order->ID
+            )
+        );
+        $this->controller->addCompletedStep();
+        $this->controller->NextStep();
+
+        return false;
     }
 
 }
-

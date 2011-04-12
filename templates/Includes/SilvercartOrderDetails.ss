@@ -11,6 +11,9 @@
             <td><% _t('SilvercartOrder.ORDER_VALUE','Orderamount') %></td><td>$AmountTotal.Nice</td>
         </tr>
         <tr>
+            <td><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></td><td>$OrderNumber</td>
+        </tr>
+        <tr>
             <td><% _t('SilvercartOrder.STATUS','Order status') %></td><td>$SilvercartOrderStatus.Title</td>
         </tr>
         <% if Note %>

@@ -195,6 +195,18 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         'SubscribedToNewsletter' => array(
             'type' => 'CheckboxField',
             'title' => 'Ich möchte den Newsletter abonnieren'
+        ),
+        'backlink' => array(
+            'type' => 'HiddenField',
+            'value' => ''
+        ),
+        'backlinkText' => array(
+            'type' => 'HiddenField',
+            'value' => ''
+        ),
+        'optInTempText' => array(
+            'type' => 'HiddenField',
+            'value' => ''
         )
     );
 
@@ -282,7 +294,17 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry')->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+
+        if (isset($_GET['backlink'])) {
+            $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);
+        }
+        if (isset($_GET['backlinkText'])) {
+            $this->formFields['backlinkText']['value'] = Convert::raw2sql($_GET['backlinkText']);
+        }
+        if (isset($_GET['optInTempText'])) {
+            $this->formFields['optInTempText']['value'] = Convert::raw2sql($_GET['optInTempText']);
+        }
     }
 
     /**
@@ -298,8 +320,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $emailExistsAlready = false;
 
         $results = DataObject::get_one(
-                        'Member',
-                        "Email = '" . $value . "'"
+            'Member',
+            "Email = '" . $value . "'"
         );
 
         if ($results) {
@@ -337,11 +359,11 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
 
         // Create Confirmation hash for opt-in confirmation mail
         $confirmationHash = md5(
-                        $formData['Email'] .
-                        $formData['FirstName'] .
-                        $formData['Surname'] .
-                        mktime() .
-                        rand()
+            $formData['Email'] .
+            $formData['FirstName'] .
+            $formData['Surname'] .
+            mktime() .
+            rand()
         );
 
         // Aggregate Data and set defaults
@@ -372,6 +394,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         }
 
         $customer->castedUpdate($formData);
+        $customer->setField('ConfirmationBacklink',     $formData['backlink']);
+        $customer->setField('ConfirmationBacklinkText', $formData['backlinkText']);
+        $customer->setField('OptInTempText',            $formData['optInTempText']);
         $customer->write();
         $customer->logIn();
         $customer->changePassword($formData['Password']);

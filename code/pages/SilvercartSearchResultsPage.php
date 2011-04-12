@@ -64,7 +64,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     public function init() {
         parent::init();
         $var = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
-        $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%'", $var,$var,$var,$var);
+        $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
         if (!isset($_GET['start']) || !is_numeric($_GET['start']) || (int) $_GET['start'] < 1) {
             $_GET['start'] = 0;
         }

@@ -4,7 +4,12 @@
     <fieldset>
         <legend><% _t('SilvercartPage.ADDRESS_DATA','address data') %></legend>
 
-		$CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+        <div class="type-text">
+            <label>Ihre Kundennummer:</label>
+            <strong>$CurrentMember.CustomerNumber</strong>
+        </div>
+
+        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
 
         <div class="subcolumns">
             <div class="c50l">

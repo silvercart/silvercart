@@ -57,17 +57,19 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
             )
         )
     );
+
     /**
-     * form preferences
+     * Set texts for preferences with i18n methods.
      *
-     * @var array
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.11.2010
+     * @copyright pixeltricks GmbH
+     * @since 11.04.2011
      */
-    protected $preferences = array(
-        'submitButtonTitle' => ''
-    );
+    public function preferences() {
+        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.LOGIN');
+    }
 
     /**
      * executed if there are no valdation errors on submit
@@ -88,16 +90,16 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
         // get customers data
         $user = DataObject::get_one(
-                        'Member',
-                        'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
+            'Member',
+            'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
         );
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(
-                            array(
-                                'Email' => $emailAddress,
-                                'Password' => $password
-                            )
+                array(
+                    'Email' => $emailAddress,
+                    'Password' => $password
+                )
             );
 
             if ($customer) {
@@ -129,7 +131,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
                 $this->messages = array(
                     'Authentication' => array(
-                        'message' => _t('Page.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
                     )
                 );
 
@@ -141,13 +143,13 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
         } else {
             $this->messages = array(
                 'Authentication' => array(
-                    'message' => _t('Page.USER_NOT_EXISTING', 'This user does not exist.')
+                    'message' => _t('SilvercartPage.EMAIL_NOT_FOUND', 'This Email address could not be found.')
                 )
             );
 
             return $this->messages = array(
         'Authentication' => array(
-            'message' => _t('Page.CREDENTIALS_WRONG')
+            'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
         )
             );
         }

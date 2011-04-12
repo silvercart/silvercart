@@ -13,7 +13,7 @@
 		<% if CustomersOrder %>
 			<% include SilvercartOrderDetails %>
 		<% else %>
-			<p><%_t('SilvercartPage.SESSION_EXPIRED','Your session has expired.') %></p>
+			<p><% _t('SilvercartPage.SESSION_EXPIRED','Your session has expired.') %></p>
 		<% end_if %>
     </div>
 </div>

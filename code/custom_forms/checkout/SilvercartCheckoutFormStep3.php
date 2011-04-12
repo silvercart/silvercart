@@ -22,7 +22,7 @@
  */
 
 /**
- * checkout step for shipping method
+ * checkout step for payment method
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -33,25 +33,22 @@
  */
 class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
 
+    /**
+     * The form field definitions.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.03.2011
+     */
     protected $formFields = array(
-        'ShippingMethod' => array(
+        'PaymentMethod' => array(
             'type'              => 'DropdownField',
-            'title'             => 'Versandart',
+            'title'             => 'Bezahlart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         )
-    );
-
-    /**
-     * preferences
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
-     */
-    protected $preferences = array(
-        'submitButtonTitle'     => 'Weiter',
-        'stepTitle'             => 'Versandart'
     );
 
     /**
@@ -69,13 +66,15 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
-        $this->preferences['stepTitle'] = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
-            // redirect a user if his cart is empty
-            if (!Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+            /*
+             * redirect a user if his cart is empty
+             */
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
@@ -83,32 +82,47 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
     }
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.03.2011
+     */
+    public function preferences() {
+        $this->preferences['stepIsVisible']         = true;
+        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep3.TITLE', 'Payment');
+        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
+        $this->preferences['fillInRequestValues']   = true;
+
+        parent::preferences();
+    }
+
+    /**
      * Set initial form values
      *
      * @return void
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 3.1.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 09.11.2010
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
+        $this->formFields['PaymentMethod']['title'] = _t('SilvercartPaymentMethod.SINGULARNAME');
 
-        $stepData       = $this->controller->getCombinedStepData();
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
-        
-        if ($paymentMethod) {
-            $shippingMethods = $paymentMethod->getAllowedShippingMethods();
-            if ($shippingMethods) {
-                //allow only activated shipping methods
-                $activatedShippingMethods = new DataObjectSet();
-                foreach ($shippingMethods as $shippingMethod) {
-                    if ($shippingMethod->isActive == true) {
-                        $activatedShippingMethods->push($shippingMethod);
+        $stepData = $this->controller->getCombinedStepData();
+
+        if ($stepData) {
+            if ($stepData['Shipping_Country'] != "") {
+                $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                if ($shippingCountry) {
+                    $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods();
+                    if ($allowedPaymentMethods) {
+                        $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
                     }
                 }
-                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
         }
     }
@@ -125,12 +139,34 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 4.1.2011
+     * @since 09.11.2010
      */
     public function submitSuccess($data, $form, $formData) {
         $this->controller->setStepData($formData);
-        $this->controller->addCompletedStep();
-        $this->controller->NextStep();
+
+
+
+        $stepData = $this->controller->getCombinedStepData();
+
+        if ($stepData &&
+            isset($stepData['PaymentMethod'])) {
+
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        }
+
+        if ($paymentMethod) {
+            $this->controller->resetStepMapping();
+
+            $this->controller->registerStepDirectory(
+                $paymentMethod->getStepConfiguration()
+            );
+
+            $this->controller->generateStepMapping();
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        } else {
+            Director::redirect($this->controller->Link());
+        }
     }
 }
 

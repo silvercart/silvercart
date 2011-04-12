@@ -34,6 +34,21 @@
 class SilvercartRegularCustomer extends Member {
 
     /**
+     * Set a new/reserved customernumber before writing
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (empty ($this->CustomerNumber)) {
+            $this->CustomerNumber = SilvercartNumberRange::useReservedNumberByIdentifier('CustomerNumber');
+        }
+    }
+
+    /**
      * hook
      * every $this gets a shopping cart
      *

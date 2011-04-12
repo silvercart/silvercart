@@ -44,6 +44,8 @@ class SilvercartConfig extends DataObject {
     public static $singular_name = "General configuration";
     public static $plural_name = "General configurations";
     public static $db = array(
+        'SilvercartVersion' => 'VarChar(16)',
+        'SilvercartUpdateVersion' => 'VarChar(16)',
         'DefaultCurrency' => 'VarChar(16)',
         'EmailSender' => 'VarChar(255)',
         'GlobalEmailRecipient' => 'VarChar(255)',
@@ -51,13 +53,23 @@ class SilvercartConfig extends DataObject {
         'PricetypeAnonymousCustomers' => 'VarChar(6)',
         'PricetypeRegularCustomers' => 'VarChar(6)',
         'PricetypeBusinessCustomers' => 'VarChar(6)',
-        'PricetypeAdmins' => 'VarChar(6)'
+        'PricetypeAdmins' => 'VarChar(6)',
+        // Put DB definitions for interfaces here
+        // Definitions for GeoNames
+        'GeoNamesActive' => 'Boolean',
+        'GeoNamesUserName' => 'VarChar(128)',
+        'GeoNamesAPI' => 'VarChar(255)',
+        'enableSSL' => 'Boolean(0)',
     );
     public static $defaults = array(
+        'SilvercartVersion' => '0.9',
+        'SilvercartUpdateVersion' => '3',
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',
-        'PricetypeAdmins' => 'net'
+        'PricetypeAdmins' => 'net',
+        'GeoNamesActive' => false,
+        'GeoNamesAPI' => 'http://api.geonames.org/',
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -86,6 +98,7 @@ class SilvercartConfig extends DataObject {
     public static $globalEmailRecipient = null;
     public static $priceType = null;
     public static $config = null;
+    public static $enableSSL = null;
 
     /**
      * Constructor. We localize the static variables here.
@@ -116,14 +129,35 @@ class SilvercartConfig extends DataObject {
      * @since 24.02.2011
      */
     public function getCMSFields($params = null) {
-        $CMSFields = parent::getCMSFields($params);
+        $defaultCMSFields = parent::getCMSFields($params);
+        // Remove not required fields
+        $defaultCMSFields->removeByName('SilvercartVersion');
+        $defaultCMSFields->removeByName('SilvercartUpdateVersion');
 
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
-        $CMSFields->addFieldToTab('Root.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
+        // Building the general tab structure
+        $CMSFields = new FieldSet(
+            $rootTab = new TabSet(
+                'Root',
+                $generalTab = new TabSet(
+                    'General',
+                    $tabGeneralMain = new Tab('Main')
+                ),
+                $interfacesTab = new TabSet(
+                    'Interfaces',
+                    $tabInterfacesGeoNames  = new Tab('GeoNames')
+                )
+            )
+        );
 
-        /*
-         * configure the fields for pricetype configuration
-         */
+        // General Form Fields right here
+        $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
+        // General Main
+        $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
+
+        $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
+        $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
+        $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
+        // configure the fields for pricetype configuration
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
             'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
@@ -136,8 +170,25 @@ class SilvercartConfig extends DataObject {
         );
         foreach ($pricetypes as $name => $title) {
             $CMSFields->removeByName($name);
-            $CMSFields->addFieldToTab('Root.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
+            $CMSFields->addFieldToTab('Root.General.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
+
+        // FormFields for Interfaces right here
+        $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
+        // GeoNames
+        $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
+
+        $geoNamesDescriptionValue = '';
+        $geoNamesDescriptionValue .= '<h3>Description</h3>';
+        $geoNamesDescriptionValue .= '<p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/>';
+        $geoNamesDescriptionValue .= 'To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/>';
+        $geoNamesDescriptionValue .= 'Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/>';
+        $geoNamesDescriptionValue .= 'After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+        $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $geoNamesDescription);
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesActive'));
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesUserName'));
+        $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesAPI'));
 
         return $CMSFields;
     }
@@ -158,6 +209,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         $fieldLabels['allowCartWeightToBeZero'] = _t('SilvercartConfig.ALLOW_CART_WEIGHT_TO_BE_ZERO', 'Allow cart weight to be zero');
+        $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
         return $fieldLabels;
     }
 
@@ -175,6 +227,32 @@ class SilvercartConfig extends DataObject {
         $summaryFields['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $summaryFields['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         return $summaryFields;
+    }
+
+    /**
+     * disable all search fields.
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function searchableFields() {
+        return array();
+    }
+
+    /**
+     * Remove permission to delete for all members.
+     *
+     * @param Member $member Member
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    public function canDelete($member = null) {
+        return false;
     }
 
     /**
@@ -254,6 +332,22 @@ class SilvercartConfig extends DataObject {
             self::$emailSender = self::getConfig()->EmailSender;
         }
         return self::$emailSender;
+    }
+
+    /**
+     * Returns if SSL should be used.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.04.2011
+     */
+    public static function EnableSSL() {
+        if (is_null(self::$enableSSL)) {
+            self::$enableSSL = self::getConfig()->enableSSL;
+        }
+        return self::$enableSSL;
     }
 
     /**

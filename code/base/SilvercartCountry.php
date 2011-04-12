@@ -65,7 +65,24 @@ class SilvercartCountry extends DataObject {
     public static $db = array(
         'Title' => 'VarChar',
         'ISO2' => 'VarChar',
-        'ISO3' => 'VarChar'
+        'ISO3' => 'VarChar',
+        'ISON' => 'Int',
+        'FIPS' => 'VarChar',
+        'Continent' => 'VarChar',
+        'Currency' => 'VarChar',
+        'Active' => 'Boolean',
+    );
+    /**
+     * Default values
+     *
+     * @var array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.03.2011
+     * @copyright 2011 pixeltricks GmbH
+     */
+    public static $defaults = array(
+        'Active' => false,
     );
     /**
      * Many-many relationships.
@@ -104,44 +121,11 @@ class SilvercartCountry extends DataObject {
         'Title',
         'ISO2',
         'ISO3',
+        'Continent',
+        'Currency',
         'AttributedZones',
-        'AttributedPaymentMethods'
-    );
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $field_labels = array(
-        'Title' => 'Land',
-        'ISO2' => 'ISO2 Code',
-        'ISO3' => 'ISO3 Code',
-        'AttributedZones' => 'Zugeordnete Zonen',
-        'AttributedPaymentMethods' => 'Zugeordnete Bezahlarten'
-    );
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $searchable_fields = array(
-        'Title',
-        'ISO2',
-        'ISO3',
-        'SilvercartZones.ID' => array(
-            'title' => 'Zugeordnete Zonen'
-        ),
-        'SilvercartPaymentMethods.ID' => array(
-            'title' => 'Zugeordnete Bezahlarten'
-        )
+        'AttributedPaymentMethods',
+        'ActivityText',
     );
     /**
      * Virtual database columns.
@@ -154,7 +138,8 @@ class SilvercartCountry extends DataObject {
      */
     public static $casting = array(
         'AttributedZones' => 'Varchar(255)',
-        'AttributedPaymentMethods' => 'Varchar(255)'
+        'AttributedPaymentMethods' => 'Varchar(255)',
+        'ActivityText' => 'VarChar'
     );
 
     /**
@@ -169,44 +154,92 @@ class SilvercartCountry extends DataObject {
      * @since 2.2.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$field_labels = array(
-            'ISO2' => 'ISO2 Code',
-            'ISO3' => 'ISO3 Code',
-            'AttributedZones' => _t('Country.ATTRIBUTED_ZONES', 'attributed zones'),
-            'AttributedPaymentMethods' => _t('Country.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method')
-        );
-        self::$searchable_fields = array(
-            'Title',
-            'ISO2',
-            'ISO3',
-            'SilvercartZones.ID' => array(
-                'title' => _t('Country.ATTRIBUTED_ZONES')
-            ),
-            'SilvercartPaymentMethods.ID' => array(
-                'title' => _t('Country.ATTRIBUTED_PAYMENTMETHOD')
-            )
-        );
+        self::$singular_name = _t('SilvercartCountry.SINGULARNAME');
+        self::$plural_name = _t('SilvercartCountry.PLURALNAME');
         parent::__construct($record, $isSingleton);
     }
 
     /**
      * i18n for field labels
      *
-     * @param <type> $includerelations a boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Seabstian Diel <sdiel@pixeltricks.de>
      * @since 27.02.2011
      * @copyright 2010 pixeltricks GmbH
      */
     public function fieldLabels($includerelations = true) {
-        $fields = parent::fieldLabels($includerelations);
-        $fields['Title'] = _t('SilvercartCountry.SINGULARNAME');
+        return array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'Title'                     => _t('SilvercartCountry.SINGULARNAME'),
+                'ISO2'                      => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
+                'ISO3'                      => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
+                'ISON'                      => _t('SilvercartCountry.ISON', 'ISO numeric'),
+                'FIPS'                      => _t('SilvercartCountry.FIPS', 'FIPS code'),
+                'Continent'                 => _t('SilvercartCountry.CONTINENT', 'Continent'),
+                'Currency'                  => _t('SilvercartCountry.CURRENCY', 'Currency'),
+                'Active'                    => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
+                'AttributedPaymentMethods'  => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
+                'ActivityText'              => _t('SilvercartCountry.ACTIVE', 'Active'),
+            )
+        );
+    }
+
+    /**
+     * Searchable fields of SIlvercartCountry.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.03.2011
+     */
+    public function  searchableFields() {
+        return array(
+            'Title'                     => array(
+                'title'     => _t('SilvercartCountry.SINGULARNAME'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'ISO2'                      => array(
+                'title'     => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'ISO3'                      => array(
+                'title'     => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'ISON'                      => array(
+                'title'     => _t('SilvercartCountry.ISON', 'ISO numeric'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'FIPS'                      => array(
+                'title'     => _t('SilvercartCountry.FIPS', 'FIPS code'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'Continent'                 => array(
+                'title'     => _t('SilvercartCountry.CONTINENT', 'Continent'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'Currency'                  => array(
+                'title'     => _t('SilvercartCountry.CURRENCY', 'Currency'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'SilvercartZones.ID' => array(
+                'title' => _t('Country.ATTRIBUTED_ZONES'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'SilvercartPaymentMethods.ID' => array(
+                'title' => _t('Country.ATTRIBUTED_PAYMENTMETHOD'),
+                'filter'    => 'PartialMatchFilter',
+            )
+        );
     }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
-     * 
+     *
      * @return FieldSet the fields for the backend
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -230,6 +263,18 @@ class SilvercartCountry extends DataObject {
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
 
         return $fields;
+    }
+
+    /**
+     * Returns the text label for a countries activity.
+     *
+     * @return string
+     */
+    public function getActivityText() {
+        if ($this->Active) {
+            return _t('Silvercart.YES');
+        }
+        return _t('Silvercart.NO');
     }
 
     /**

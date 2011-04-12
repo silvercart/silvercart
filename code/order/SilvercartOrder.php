@@ -55,7 +55,8 @@ class SilvercartOrder extends DataObject {
         'WeightTotal'                   => 'Int', //unit is gramm
         'CarrierAndShippingMethodTitle' => 'VarChar(100)',
         'PaymentMethodTitle'            => 'VarChar(100)',
-        'CustomersEmail'                => 'VarChar(60)'
+        'CustomersEmail'                => 'VarChar(60)',
+        'OrderNumber'                   => 'VarChar(128)',
     );
 
     /**
@@ -121,9 +122,25 @@ class SilvercartOrder extends DataObject {
     );
 
     /**
-     * Default sort direction in tables.
+     * Searchable fields.
      *
      * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.03.2011
+     */
+    public static $searchable_fields = array(
+        'Created',
+        'Member.FirstName',
+        'Member.Surame',
+        'SilvercartOrderStatus.ID'
+    );
+
+    /**
+     * Default sort direction in tables.
+     *
+     * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -140,7 +157,7 @@ class SilvercartOrder extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
-    static $extensions = array(
+    public static $extensions = array(
         "Versioned('Live')",
     );
 
@@ -173,17 +190,15 @@ class SilvercartOrder extends DataObject {
      * @since 10.03.2011
      */
     public function summaryFields() {
-        $summaryFields = array_merge(
-            parent::summaryFields(),
-            array(
-                'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
-                'ID'                            => _t('SilvercartOrder.ORDER_ID', 'order id'),
-                'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
-                'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
-            )
+        $summaryFields = array(
+            'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
+            'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+            'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
+            'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+            'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
+            'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
         );
+        $this->extend('updateSummaryFields', $summaryFields);
 
         return $summaryFields;
     }
@@ -226,6 +241,8 @@ class SilvercartOrder extends DataObject {
                 'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL')
             )
         );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        
         return $fieldLabels;
     }
 
@@ -257,6 +274,7 @@ class SilvercartOrder extends DataObject {
                 'filter'    => 'ExactMatchFilter'
             )
         );
+        $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
     }
@@ -305,55 +323,6 @@ class SilvercartOrder extends DataObject {
      */
     public function getAmountGrossTotalNice() {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
-    }
-
-    /**
-     * Creates default records, if not exitstent:
-     * order email templates
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.01.2011
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderConfirmation'"
-        );
-        if (!$checkOrderMail) {
-            $orderMail = new SilvercartShopEmail();
-            $orderMail->setField('Identifier',   'MailOrderConfirmation');
-            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
-            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
-            if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-            } else {
-                $defaultTemplate = '';
-            }
-            $orderMail->setField('EmailText',    $defaultTemplate);
-            $orderMail->write();
-        }
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderNotification'"
-        );
-        if (!$checkOrderMail) {
-            $orderMail = new SilvercartShopEmail();
-            $orderMail->setField('Identifier',   'MailOrderNotification');
-            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
-            $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
-            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
-            if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-            } else {
-                $defaultTemplate = '';
-            }
-            $orderMail->setField('EmailText',    $defaultTemplate);
-            $orderMail->write();
-        }
     }
 
         /**
@@ -568,6 +537,7 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->TaxRate             = $product->getTaxRate();
                     $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
+                    $orderPosition->ProductNumber       = $product->ProductNumberShop;
                     $orderPosition->Title               = $product->Title;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
@@ -710,6 +680,28 @@ class SilvercartOrder extends DataObject {
 
         if ($orderStatus && $orderStatus->exists()) {
             $this->SilvercartOrderStatusID = $orderStatus->ID;
+            $this->write();
+            $orderStatusSet = true;
+        }
+
+        return $orderStatusSet;
+    }
+
+    /**
+     * set status of $this
+     *
+     * @param int $orderStatusID the order status ID
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.04.2011
+     */
+    public function setOrderStatusByID($orderStatusID) {
+        $orderStatusSet = false;
+
+        if (DataObject::get_by_id('SilvercartOrderStatus', $orderStatusID)) {
+            $this->SilvercartOrderStatusID = $orderStatusID;
             $this->write();
             $orderStatusSet = true;
         }
@@ -1195,6 +1187,21 @@ class SilvercartOrder extends DataObject {
     }
 
     /**
+     * Set a new/reserved ordernumber before writing
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.04.2011
+     */
+    protected function  onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (empty ($this->OrderNumber)) {
+            $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
+        }
+    }
+
+    /**
      * hook triggered after write
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -1253,6 +1260,27 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $searchForm->Fields()->insertAfter($dropdownField, 'Member__Surname');
         }
 
+        $this->extend('updateSearchForm', $searchForm);
+        
         return $searchForm;
+    }
+
+    /**
+     * Extend the getResultsTable method in DataObjectDecorators.
+     *
+     * @param array $searchCriteria The search criteria
+     *
+     * @return TableListField
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.03.2011
+     */
+    public function getResultsTable($searchCriteria) {
+        $tableField = parent::getResultsTable($searchCriteria);
+
+        $this->extend('getResultsTable', $tableField, $searchCriteria);
+        
+        return $tableField;
     }
 }
