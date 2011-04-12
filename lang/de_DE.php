@@ -123,6 +123,7 @@ $lang['de_DE']['SilvercartNumberRange']['TITLE'] = 'Titel';
 
 $lang['de_DE']['SilvercartProduct']['IS_ACTIVE'] = 'ist aktiv';
 $lang['de_DE']['SilvercartProduct']['ADD_TO_CART'] = 'in den Warenkorb';
+$lang['de_DE']['SilvercartProduct']['AMOUNT_UNIT'] = 'Verkaufsmengeneinheit';
 $lang['de_DE']['SilvercartProduct']['CHOOSE_MASTER'] = '-- Master wählen --';
 $lang['de_DE']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['de_DE']['SilvercartProduct']['DESCRIPTION'] = 'Artikelbeschreibung';
@@ -134,6 +135,7 @@ $lang['de_DE']['SilvercartProduct']['METADESCRIPTION'] = 'Meta Beschreibung für
 $lang['de_DE']['SilvercartProduct']['METAKEYWORDS'] = 'Meta Schlagworte für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['METATITLE'] = 'Meta Titel für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['MSRP'] = 'UVP';
+$lang['de_DE']['SilvercartProduct']['PACKAGING_UNIT'] = 'Verpackungseinheit';
 $lang['de_DE']['SilvercartProduct']['PLURALNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['PRICE'] = 'Preis';
 $lang['de_DE']['SilvercartProduct']['PRICE_GROSS'] = 'Preis (Brutto)';
@@ -924,3 +926,8 @@ $lang['de_DE']['SilvercartZone']['DOMESTIC'] = 'Inland';
 $lang['de_DE']['SilvercartZone']['FOR_COUNTRIES'] = 'für Länder';
 $lang['de_DE']['SilvercartZone']['PLURALNAME'] = 'Zonen';
 $lang['de_DE']['SilvercartZone']['SINGULARNAME'] = 'Zone';
+
+$lang['de_DE']['SilvercartAmountUnit']['NAME'] = 'Name';
+$lang['de_DE']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abkürzung';
+$lang['de_DE']['SilvercartAmountUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
+$lang['de_DE']['SilvercartAmountUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';

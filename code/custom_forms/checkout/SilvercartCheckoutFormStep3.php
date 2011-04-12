@@ -146,7 +146,6 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
 
 
 
-        // TODO: Abfrage auf Zahlungsmodul einbauen
         $stepData = $this->controller->getCombinedStepData();
 
         if ($stepData &&
@@ -166,7 +165,6 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
         } else {
-            // TODO: set error message
             Director::redirect($this->controller->Link());
         }
     }
