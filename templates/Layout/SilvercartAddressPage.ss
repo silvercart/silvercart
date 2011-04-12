@@ -8,10 +8,12 @@
             <h2>$Title</h2>
 
             $Content
-            $SearchResults
             $Form
             $InsertCustomHtmlForm(SilvercartEditAddressForm)
-            $PageComments
+
+            <div>
+                <a href="$CancelLink"><% _t('SilvercartPage.CANCEL') %></a>
+            </div>
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>

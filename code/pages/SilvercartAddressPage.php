@@ -113,4 +113,16 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
         return parent::handleAction($request);
     }
 
+    /**
+     * Returns the cancel link.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.04.2011
+     */
+    public function CancelLink() {
+        return $this->Parent()->Link();
+    }
 }
