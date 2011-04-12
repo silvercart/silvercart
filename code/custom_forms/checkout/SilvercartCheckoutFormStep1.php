@@ -116,16 +116,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 08.04.2011
      */
     public function submitSuccess($data, $form, $formData) {
-        print "Do Login<br />";
-        print_r($formData);
-        exit();
-    }
-
-    public function submitFailure($data, $form) {
-        print "FEHLER";
-        print_r($data);
-        print_r($form);
-        exit();
     }
 }
 
