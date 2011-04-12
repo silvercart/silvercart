@@ -3,7 +3,7 @@
 	$CustomHtmlFormMetadata
 
 	<fieldset>
-		<legend><% _t('SilvercartPage.ADDRESS', 'address') %></legend>
+		<legend>$AddressFormTitle</legend>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
