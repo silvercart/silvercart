@@ -63,18 +63,30 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
-        $var = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
-        $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
-        if (!isset($_GET['start']) || !is_numeric($_GET['start']) || (int) $_GET['start'] < 1) {
+        $var                    = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
+        $searchResultProducts   = $this->searchResultProducts;
+
+        if (!isset($_GET['start']) ||
+            !is_numeric($_GET['start']) ||
+            (int) $_GET['start'] < 1) {
+
             $_GET['start'] = 0;
         }
-        $SQL_start = (int) $_GET['start'];
-        $this->searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%s,15", $SQL_start));
 
-        $productIdx = 0;
-        if ($this->searchResultProducts) {
+        $offset = (int) $_GET['start'];
+
+        $this->extend('updateSearchResult', $searchResultProducts, $var, $offset);
+        
+        if (!$searchResultProducts) {
+            $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
+            $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%s,15", $offset));
+        }
+
+        $this->searchResultProducts = $searchResultProducts;
+        $productIdx                 = 0;
+        if ($searchResultProducts) {
             $productAddCartForm = $this->getCartFormName();
-            foreach ($this->searchResultProducts as $product) {
+            foreach ($searchResultProducts as $product) {
                 $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
                 $product->productAddCartForm = $this->InsertCustomHtmlForm(
                     'ProductAddCartForm' . $productIdx,
