@@ -113,7 +113,8 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'       => 'SilvercartProduct',
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
-        'Image'                         => 'Image'
+        'Image'                         => 'Image',
+        'PackagingType'                 => 'SilvercartAmountUnit',
     );
 
     /**
@@ -297,6 +298,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartShoppingCarts'           => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
                 'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
                 'SilvercartProductGroupMirrorPages' => _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'),
+                'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
             )
         );
 
@@ -413,6 +415,10 @@ class SilvercartProduct extends DataObject {
         $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'Image');
         $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'Image');
         $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'Image');
+
+        $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
+        $fields->removeByName('PackagingTypeID');
+        $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
 
         $productGroupMirrorPagesTable = new ManyManyComplexTableField(
             $this,

@@ -26,6 +26,13 @@
 
 global $lang;
 
+
+
+
+
+
+
+
 $lang['en_US']['Silvercart']['DAY'] = 'day';
 $lang['en_US']['Silvercart']['DAYS'] = 'days';
 $lang['en_US']['Silvercart']['WEEK'] = 'week';
@@ -96,6 +103,7 @@ $lang['en_US']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY']     = 'T
 
 $lang['en_US']['SilvercartProduct']['IS_ACTIVE'] = 'is active';
 $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'Add to cart';
+$lang['en_US']['SilvercartProduct']['AMOUNT_UNIT'] = 'purchase unit';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
 $lang['en_US']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['en_US']['SilvercartProduct']['DESCRIPTION'] = 'Product description';
@@ -107,6 +115,7 @@ $lang['en_US']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for s
 $lang['en_US']['SilvercartProduct']['METAKEYWORDS'] = 'Meta keywords for search engines';
 $lang['en_US']['SilvercartProduct']['METATITLE'] = 'Meta title for search engines';
 $lang['en_US']['SilvercartProduct']['MSRP'] = 'MSR price';
+$lang['en_US']['SilvercartProduct']['PACKAGING_UNIT'] = 'packaging unit';
 $lang['en_US']['SilvercartProduct']['PLURALNAME'] = 'Products';
 $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
 $lang['en_US']['SilvercartProduct']['PRICE_GROSS'] = 'Price (gross)';
@@ -594,3 +603,8 @@ $lang['en_US']['SilvercartZone']['DOMESTIC'] = 'Domestic';
 $lang['en_US']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
 $lang['en_US']['SilvercartZone']['PLURALNAME'] = 'Zones';
 $lang['en_US']['SilvercartZone']['SINGULARNAME'] = 'Zone';
+
+$lang['en_US']['SilvercartAmountUnit']['NAME'] = 'Name';
+$lang['en_US']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abbreviation';
+$lang['en_US']['SilvercartAmountUnit']['SINGULARNAME'] = 'amount unit';
+$lang['en_US']['SilvercartAmountUnit']['PLURALNAME'] = 'amount units';
