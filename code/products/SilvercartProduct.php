@@ -774,6 +774,40 @@ class SilvercartProduct extends DataObject {
             }
         }
     }
+
+    /**
+     * Returns the url to a placeholder image.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.04.2011
+     */
+    public function NoImage() {
+        $image = '';
+
+        $this->extend('updateNoImage', $image);
+
+        return $image;
+    }
+
+    /**
+     * Returns the url to a placeholder thumbnail image.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.04.2011
+     */
+    public function NoImageSmall() {
+        $image = '';
+
+        $this->extend('updateNoImageSmall', $image);
+
+        return $image;
+    }
 }
 
 /**
