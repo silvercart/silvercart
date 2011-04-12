@@ -212,27 +212,10 @@ class SilvercartPage_Controller extends ContentController {
     public function CurrentRegisteredCustomer() {
         $member = Member::currentUser();
         if ($member) {
-            if ($member->ClassName != "SilvercartAnonymousCustomer") {
+            if ($member->ClassName == "SilvercartRegularCustomer" &&
+                $member->OptInStatus === '1') {
                 return $member;
             }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Liefert true oder false, abhängig vom eingeloggten Benutzer
-     *
-     * @return Boolean true/false Je nach aktuellem Benutzer
-     *
-     * @author Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 01.12.2010
-     * @copyright 2010 pixeltricks GmbH
-     */
-    public function MemberInformation() {
-
-        if (Member::currentUser() && Member::currentUser()->ClassName != 'SilvercartAnonymousCustomer') {
-            return true;
         } else {
             return false;
         }
