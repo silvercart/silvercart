@@ -127,4 +127,22 @@ class SilvercartOrderPosition extends DataObject {
         return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
     }
 
+    /**
+     * Returns true if this position has a quantity of more than 1.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 13.04.2011
+     */
+    public function MoreThanOneProduct() {
+        $moreThanOneProduct = false;
+
+        if ($this->Quantity > 1) {
+            $moreThanOneProduct = true;
+        }
+
+        return $moreThanOneProduct;
+    }
 }
