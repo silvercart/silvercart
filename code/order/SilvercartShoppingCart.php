@@ -136,6 +136,7 @@ class SilvercartShoppingCart extends DataObject {
         $this->SilvercartPaymentMethodID  = 0;
 
         if (Member::currentUserID()) {
+            
             $this->callMethodOnRegisteredModules(
                 'performShoppingCartConditionsCheck',
                 array(
@@ -237,17 +238,19 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the price of the cart positions + fees, including taxes.
      *
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     *
      * @return string a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getTaxableAmountGrossWithFees() {
+    public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false) {
         $member = Member::currentUser();
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
         $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
-        $amountTotal = $this->getTaxableAmountGrossWithoutFees()->getAmount();
+        $amountTotal = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions)->getAmount();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
@@ -278,7 +281,8 @@ class SilvercartShoppingCart extends DataObject {
      * Returns the price of the cart positions, including taxes.
      *
      * @param array $excludeModules An array of registered modules that shall not
-     *      be taken into account.
+     *              be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
      *
      * @return Money a price amount
      *
@@ -286,14 +290,15 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getTaxableAmountGrossWithoutFees($excludeModules = array()) {
+    public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions',
                         array(
                             $this,
                             Member::currentUser(),
-                            true
+                            true,
+                            $excludeShoppingCartPosition
                         ),
                         $excludeModules
         );
@@ -341,7 +346,8 @@ class SilvercartShoppingCart extends DataObject {
      * Those can originate from registered modules only.
      *
      * @param array $excludeModules An array of registered modules that shall not
-     *      be taken into account.
+     *              be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
      *
      * @return Money
      *
@@ -349,14 +355,15 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getNonTaxableAmount($excludeModules = array()) {
+    public function getNonTaxableAmount($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions',
                         array(
                             $this,
                             Member::currentUser(),
-                            false
+                            false,
+                            $excludeShoppingCartPosition
                         ),
                         $excludeModules
         );
@@ -475,7 +482,8 @@ class SilvercartShoppingCart extends DataObject {
      * positions + fees).
      *
      * @param array $excludeModules An array of registered modules that shall not
-     *      be taken into account.
+     *              be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
      * 
      * @return string a price amount
      *
@@ -483,9 +491,9 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getAmountTotal($excludeModules = array()) {
-        $amount = $this->getTaxableAmountGrossWithFees()->getAmount();
-        $amount += $this->getNonTaxableAmount($excludeModules)->getAmount();
+    public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false) {
+        $amount = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
+        $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
@@ -772,10 +780,11 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Calls a method on all registered modules and returns its output.
      *
-     * @param string $methodName     The name of the method to call
-     * @param array  $parameters     Additional parameters for the method call
-     * @param array  $excludeModules An array of registered modules that shall not
-     *                               be taken into account.
+     * @param string $methodName                   The name of the method to call
+     * @param array  $parameters                   Additional parameters for the method call
+     * @param array  $excludeModules               An array of registered modules that shall not
+     *                                             be taken into account.
+     * @param array  $excludeShoppingCartPositions Positions that shall not be counted
      *
      * @return array Associative array:
      *      'ModuleName' => DataObjectSet (ModulePositions)
@@ -784,7 +793,7 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 24.01.2011
      */
-    public function callMethodOnRegisteredModules($methodName, $parameters = array(), $excludeModules = array()) {
+    public function callMethodOnRegisteredModules($methodName, $parameters = array(), $excludeModules = array(), $excludeShoppingCartPositions = false) {
         $registeredModules = self::$registeredModules;
         $outputOfModules = array();
 
@@ -813,6 +822,8 @@ class SilvercartShoppingCart extends DataObject {
                     if (!is_array($parameters)) {
                         $parameters = array($parameters);
                     }
+
+                    $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
 
                     $outputOfModules[$registeredModule] = call_user_func_array(
                         array(

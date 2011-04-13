@@ -202,23 +202,19 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * a template method
-     * Function similar to Member::currentUser(); Determins if we deal with a registered customer
+     * Function similar to Member::currentUser(); Determins if we deal with a
+     * registered customer who has opted in. Returns the member object or
+     * false.
      *
-     * @return Member|false Costomer-Object or false
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 9.11.10
+     * @return mixed Member|boolean(false)
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.11.2010
+     * @since 13.05.2011 - replaced logic with call to the appropriate method
+     *                     in the SilvercartCustomerRole object (SK).
      */
     public function CurrentRegisteredCustomer() {
-        $member = Member::currentUser();
-        if ($member) {
-            if ($member->ClassName == "SilvercartRegularCustomer" &&
-                $member->OptInStatus === '1') {
-                return $member;
-            }
-        } else {
-            return false;
-        }
+        return SilvercartCustomerRole::currentRegisteredCustomer();
     }
 
     /**

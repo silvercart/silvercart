@@ -132,7 +132,7 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.04.2011
      */
-    public function  updateSummaryFields(&$fields) {
+    public function updateSummaryFields(&$fields) {
         $fields = array(
             'CustomerNumber'    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
             'FirstName'         => _t('Member.FIRSTNAME'),
@@ -142,21 +142,23 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
-     * Function similar to Member::currentUser(); Determins if we deal with a registered customer
+     * Function similar to Member::currentUser(); Determins if we deal with a
+     * registered customer who has opted in. Returns the member object or
+     * false.
      *
-     * @return Member Customer-Object or false
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @return mixed Member|boolean(false)
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.10.2010
      */
     public static function currentRegisteredCustomer() {
-        $id = Member::currentUserID();
-        if ($id) {
-            $member = DataObject::get_by_id("Member", $id);
-            $memberClass = $member->ClassName;
-            if (($memberClass == "SilvercartBusinessCustomer") OR ($memberClass == "SilvercartRegularCustomer")) {
+        $member = Member::currentUser();
+        if ($member) {
+            if (($member->ClassName == "SilvercartRegularCustomer" ||
+                 $member->ClassName == 'SilvercartBusinessCustomer') &&
+                $member->OptInStatus === '1') {
+
                 return $member;
-            } else {
-                return false;
             }
         } else {
             return false;
