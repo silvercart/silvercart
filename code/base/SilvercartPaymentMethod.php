@@ -139,7 +139,7 @@ class SilvercartPaymentMethod extends DataObject {
         'Name'                      => 'Varchar(150)',
         'Description'               => 'Text',
         'mode'                      => "Enum('Live,Dev','Dev')",
-        'orderStatus'               => "Varchar(50)"
+        'orderStatus'               => 'Varchar(50)'
     );
     /**
      * Defines 1:1 relations
@@ -711,8 +711,14 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->moduleName !== '') {
 
             $className = $this->ClassName;
+            /**
+             * original expression
+             * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+             * was replaced with eval call to provide compatibility to PHP 5.2
+             */
+            $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
             
-            if ($className::$has_multiple_payment_channels) {
+            if ($has_multiple_payment_channels) {
                 $paymentModule = new $className();
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
                     if (!DataObject::get_one($className, sprintf("`PaymentChannel`='%s'", $channel))) {
@@ -1112,8 +1118,14 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getStepConfiguration() {
         $directory  = 'silvercart_payment_' . strtolower($this->moduleName) . '/templates/checkout/';
-        $method = $this->ClassName;
-        if ($method::$has_multiple_payment_channels
+        $className = $this->ClassName;
+        /**
+         * original expression
+         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+         * was replaced with eval call to provide compatibility to PHP 5.2
+         */
+        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
+        if ($has_multiple_payment_channels
          && !empty ($this->PaymentChannel)
          && is_string($this->PaymentChannel)) {
             $directory .= $this->PaymentChannel . '/';
@@ -1217,11 +1229,18 @@ class SilvercartPaymentMethod extends DataObject {
     public function getPossiblePaymentChannels() {
         $possiblePaymentChannels = array();
         $className = $this->ClassName;
-        if ($className::$has_multiple_payment_channels == false
-         || count($className::$possible_payment_channels) == 0) {
+        /**
+         * original expression
+         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+         * was replaced with eval call to provide compatibility to PHP 5.2
+         */
+        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
+        $possible_payment_channels = eval('return ' . $className . '::$possible_payment_channels;');
+        if ($has_multiple_payment_channels == false
+         || count($possible_payment_channels) == 0) {
             return array();
         }
-        foreach ($className::$possible_payment_channels as $key => $value) {
+        foreach ($possible_payment_channels as $key => $value) {
             $possiblePaymentChannels[$key] = _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($key), $value);
         }
         return $possiblePaymentChannels;

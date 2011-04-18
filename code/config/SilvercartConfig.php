@@ -83,6 +83,7 @@ class SilvercartConfig extends DataObject {
         'PricetypeRegularCustomers',
         'PricetypeBusinessCustomers',
         'PricetypeAdmins',
+        'ActiveCountries',
     );
 
     /**
@@ -295,8 +296,15 @@ class SilvercartConfig extends DataObject {
                 if (empty($requiredField) || is_null($requiredField)) {
                     continue;
                 }
-                if (empty($config->$requiredField)) {
-                    $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField), $requiredField));
+                if (method_exists('SilvercartConfig', 'check' . $requiredField)) {
+                    $method = 'check' . $requiredField;
+                    $result = $config->$method();
+                    if ($result['status'] === false) {
+                        $errorMessage = $result['message'];
+                        self::triggerError($errorMessage);
+                    }
+                } elseif (empty($config->$requiredField)) {
+                    $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField), $requiredField), Director::baseURL());
                     self::triggerError($errorMessage);
                 }
             }
@@ -456,6 +464,27 @@ class SilvercartConfig extends DataObject {
         );
         print $output;
         exit();
+    }
+    
+    // Put SilvercartConfiguration::Check() Methods here
+    
+    /**
+     * Checks, whether an activated country exists or not.
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.04.2011
+     */
+    public function checkActiveCountries() {
+        $hasActiveCountries = false;
+        if (DataObject::get_one('SilvercartCountry', "`Active`=1")) {
+            $hasActiveCountries = true;
+        }
+        return array(
+            'status'    => $hasActiveCountries,
+            'message'   => sprintf(_t('SilvercartConfig.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY', 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.'), Director::baseURL())
+        );
     }
 
     // Put foreign configurations here

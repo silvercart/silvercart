@@ -122,6 +122,13 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
         // create countries
         $this->requireOrUpdateCountries();
+        if (!DataObject::get_one('SilvercartCountry', "`Active`=1")) {
+            $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2`='%s'", substr(i18n::get_locale(), 3)));
+            if ($country) {
+                $country->Active = true;
+                $country->write();
+            }
+        }
 
         //create a carrier and an associated zone and shipping method
         $carrier = DataObject::get_one('SilvercartCarrier');

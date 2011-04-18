@@ -246,7 +246,8 @@ $lang['en_US']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Pricetype bu
 $lang['en_US']['SilvercartConfig']['PRICETYPEADMINS'] = 'Pricetype administrators';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER_INFO'] = 'The email sender will be the sender address of all emails sent by SilverCart.';
 $lang['en_US']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
-$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
+$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
+$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.';
 $lang['en_US']['SilvercartConfig']['PLURALNAME'] = 'General configurations';

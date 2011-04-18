@@ -246,7 +246,8 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Preistyp fü
 $lang['de_DE']['SilvercartConfig']['PRICETYPEADMINS'] = 'Preistyp für Administratoren';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER_INFO'] = 'Der E-Mail Absender wird als Absenderadresse aller E-Mails verwendet, die von SilverCart gesendet werden.';
 $lang['de_DE']['SilvercartConfig']['ERROR_TITLE'] = 'Es ist ein Fehler aufgetreten!';
-$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="/admin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Allgemeine Konfiguration".';
+$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Allgemeine Konfiguration".';
+$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Länder".';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Globaler E-Mail Empfänger';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Bestellbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.';
 $lang['de_DE']['SilvercartConfig']['PLURALNAME'] = 'Allgemeine Konfigurationen';

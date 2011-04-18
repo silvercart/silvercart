@@ -114,6 +114,12 @@ class SilvercartUpdate extends DataObject {
     public function __construct($record = false, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         $className = $this->ClassName;
+        /**
+         * original expression
+         * $classDefaults = $className::$defaults;
+         * was replaced with eval call to provide compatibility to PHP 5.2
+         */
+        $classDefaults = eval('return ' . $className . '::$defaults;');
         if ($className == 'SilvercartUpdate' || $this->isInDB()) {
             $error = '';
         } elseif (!method_exists($this, 'executeUpdate')) {
@@ -121,7 +127,7 @@ class SilvercartUpdate extends DataObject {
             $error = 'Method executeUpdate not found in class ' . $className;
         } elseif ($record === false) {
             if (!DataObject::get_one($className)) {
-                $updateDefaults = $className::$defaults;
+                $updateDefaults = $classDefaults;
                 if (!array_key_exists('SilvercartVersion', $updateDefaults)
                  || empty ($updateDefaults['SilvercartVersion'])) {
                     // default value for SilvercartVersion is not set, trigger error
