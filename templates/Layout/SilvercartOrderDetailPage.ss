@@ -21,7 +21,6 @@
     <div id="col3_content" class="clearfix">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
-            $SubNavigation
             <% include SilvercartSideBarCart %>
         <% end_if %>
     </div>
