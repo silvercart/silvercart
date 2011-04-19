@@ -50,4 +50,17 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm 
 
         parent::preferences();
     }
+
+    /**
+     * Renders the default order confirmation template.
+     * Can be called in the last step template of a payment module.
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2011
+     */
+    public function defaultOrderConfirmation() {
+        return $this->renderWith('SilvercartCheckoutFormStepDefaultOrderConfirmation');
+    }
 }

@@ -69,9 +69,13 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
-            // redirect a user if his cart is empty
+            /*
+             * redirect a user if his cart is empty and no order exists
+             */
+            $checkoutData = $this->controller->getCombinedStepData();
             if (!Member::currentUser() ||
-                !Member::currentUser()->SilvercartShoppingCart()->isFilled()) {
+                (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
+                 !array_key_exists('orderId', $checkoutData))) {
 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());

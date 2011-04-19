@@ -1061,7 +1061,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      */
     public function setOrder(SilvercartOrder $order) {
-        $this->order = $Order;
+        $this->order = $order;
     }
 
     /**
