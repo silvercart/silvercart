@@ -317,6 +317,11 @@
 
     #SendAction {Border: none;}
 
+    input[value]#SilvercartQuickLoginForm_customHtmlFormSubmit_1_action_customHtmlFormSubmit,
+    input[value]#SilvercartQuickSearchForm_customHtmlFormSubmit_1_action_customHtmlFormSubmit {
+        color: transparent;
+    }
+
     /* WIDGET STYLES
        ------------------------------------------------ */
 
