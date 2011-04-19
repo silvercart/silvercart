@@ -1,0 +1,74 @@
+SilvercartProduct:
+    ProductFreeOfChargeWithoutPrice:
+        isFreeOfCharge: 1
+        Title: free Product
+        ShortDescription: This is the short description of the free product
+        LongDescription: This is the long description of the free product
+        isActive: 1
+    ProductFreeOfChargeWithPrice:
+        isFreeOfCharge: 1
+        Title: Product with price free of charge
+        ShortDescription: This is the short description of the product with price free of charge
+        LongDescription: This is the long description of the product with price free of charge
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+    ProductWithPrice:
+        isFreeOfCharge: 0
+        Title: Product with price
+        ShortDescription: This is the short description of the product with price
+        LongDescription: This is the long description of the product with price
+        isActive: 1
+        PriceNetAmount: 90.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 99.99
+        PriceGrossCurrency: EUR
+    ProductWithoutPrice:
+        isFreeOfCharge: 0
+        Title: priceless Product
+        ShortDescription: This is the short description of the priceless product
+        LongDescription: This is the long description of the priceless product
+        isActive: 1
+    ProductInactive:
+        isFreeOfCharge: 0
+        Title: inactive product
+        ShortDescription: This is the short description of the inactive product
+        LongDescription: This is the long description of the inactive product
+        isActive: 0
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+    ProductWithPriceWithoutShortDescription:
+        isFreeOfCharge: 0
+        Title: Product with price without short description
+        ShortDescription: 
+        LongDescription: This is the long description of the product with price without short description
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+    ProductWithPriceWithoutLongDescription:
+        isFreeOfCharge: 0
+        Title: Product with price without short description
+        ShortDescription: This is the short description of the product with price without long description
+        LongDescription: 
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+        
+SilvercartConfig:
+    SilvercartConfig:
+        DefaultCurrency: EUR
+        EmailSender: test@silvercart.org
+        GlobalEmailRecipient: test@silvercart.org
+        allowCartWeightToBeZero: 1
+        PricetypeAnonymousCustomers: gross
+        PricetypeRegularCustomers: gross
+        PricetypeBusinessCustomers: net
+        PricetypeAdmins: net
