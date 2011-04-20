@@ -37,6 +37,59 @@ class SilvercartSearchResultsPage extends Page {
     public static $allowed_children = array(
         'none'
     );
+
+    /**
+     * Attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.04.2011
+     */
+    public static $db = array(
+        'productsPerPage' => 'Int'
+    );
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 20.04.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'productsPerPage' => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+            )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+
+    /**
+     * Return all fields of the backend.
+     *
+     * @return FieldSet Fields of the CMS
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 20.04.2011
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+
+        $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
+        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
+
+        return $fields;
+    }
 }
 
 /**
@@ -66,20 +119,47 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         $var                    = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
         $searchResultProducts   = $this->searchResultProducts;
 
+        if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+
         if (!isset($_GET['start']) ||
             !is_numeric($_GET['start']) ||
             (int) $_GET['start'] < 1) {
 
-            $_GET['start'] = 0;
+            if (isset($_GET['offset'])) {
+                // --------------------------------------------------------
+                // Use offset for getting the current item rage
+                // --------------------------------------------------------
+                $offset = (int) $_GET['offset'];
+
+                if ($offset > 0) {
+                    $offset -= 1;
+                }
+
+                // Prevent too high values
+                if ($offset > 999999) {
+                    $offset = 0;
+                }
+
+                $SQL_start = $offset * $productsPerPage;
+            } else {
+                // --------------------------------------------------------
+                // Use item number for getting the current item range
+                // --------------------------------------------------------
+                $SQL_start = 0;
+            }
+        } else {
+            $SQL_start = (int) $_GET['start'];
         }
 
-        $offset = (int) $_GET['start'];
-
-        $this->extend('updateSearchResult', $searchResultProducts, $var, $offset);
+        $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
         
         if (!$searchResultProducts) {
             $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
-            $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%s,15", $offset));
+            $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
         }
 
         $this->searchResultProducts = $searchResultProducts;
@@ -108,6 +188,29 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      */
     public function getProducts() {
         return $this->searchResultProducts;
+    }
+
+    /**
+     * Indicates wether the resultset of the product query returns more items
+     * than the number given (defaults to 10).
+     *
+     * @param int $maxResults The number of results to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 20.04.2011
+     */
+    public function HasMorePagesThan($maxResults = 10) {
+        $items = $this->getProducts()->Pages()->TotalItems();
+        $hasMoreResults = false;
+
+        if ($items > $maxResults) {
+            $hasMoreResults = true;
+        }
+
+        return $hasMoreResults;
     }
 
     /**
