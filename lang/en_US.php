@@ -171,6 +171,7 @@ $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
 $lang['en_US']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
 $lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page (overrides global setting)';
 $lang['en_US']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 
 $lang['en_US']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
@@ -255,6 +256,7 @@ $lang['en_US']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Pricetype anonymous
 $lang['en_US']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Pricetype regular customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Pricetype business customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Pricetype administrators';
+$lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_US']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
 

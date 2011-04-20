@@ -60,6 +60,7 @@ class SilvercartConfig extends DataObject {
         'GeoNamesUserName' => 'VarChar(128)',
         'GeoNamesAPI' => 'VarChar(255)',
         'enableSSL' => 'Boolean(0)',
+        'productsPerPage' => 'Int',
     );
     public static $defaults = array(
         'SilvercartVersion' => '0.9',
@@ -70,6 +71,7 @@ class SilvercartConfig extends DataObject {
         'PricetypeAdmins' => 'net',
         'GeoNamesActive' => false,
         'GeoNamesAPI' => 'http://api.geonames.org/',
+        'productsPerPage' => 15,
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -100,6 +102,7 @@ class SilvercartConfig extends DataObject {
     public static $priceType = null;
     public static $config = null;
     public static $enableSSL = null;
+    public static $productsPerPage = null;
 
     /**
      * Constructor. We localize the static variables here.
@@ -173,6 +176,7 @@ class SilvercartConfig extends DataObject {
             $CMSFields->removeByName($name);
             $CMSFields->addFieldToTab('Root.General.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
+        $CMSFields->addFieldToTab('Root.General.Main', $CMSFields->dataFieldByName('productsPerPage'));
 
         // FormFields for Interfaces right here
         $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
@@ -211,6 +215,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         $fieldLabels['allowCartWeightToBeZero'] = _t('SilvercartConfig.ALLOW_CART_WEIGHT_TO_BE_ZERO', 'Allow cart weight to be zero');
         $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
+        $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         return $fieldLabels;
     }
 
@@ -388,6 +393,26 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('allowCartWeightToBeZero')) {
             return $silvercartConfig->getField('allowCartWeightToBeZero');
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the configured default setting that determines if the cartweight
+     * on checkout may be zero.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.03.2011
+     */
+    public static function ProductsPerPage() {
+        $silvercartConfig = self::getConfig();
+
+        if ($silvercartConfig->hasField('productsPerPage')) {
+            return $silvercartConfig->getField('productsPerPage');
         } else {
             return false;
         }

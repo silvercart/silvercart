@@ -82,6 +82,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public static $db = array(
+        'productsPerPage' => 'Int'
     );
 
     /**
@@ -163,6 +164,29 @@ class SilvercartProductGroupPage extends Page {
     }
 
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 20.04.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'productsPerPage' => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+            )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+
+    /**
      * Return all fields of the backend.
      *
      * @return FieldSet Fields of the CMS
@@ -228,6 +252,10 @@ class SilvercartProductGroupPage extends Page {
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
+
+        $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
+        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
+
         $this->extend('extendCMSFields', $fields);
         return $fields;
     }
@@ -567,6 +595,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
+            if ($this->productsPerPage) {
+                $productsPerPage = $this->productsPerPage;
+            } else {
+                $productsPerPage = SilvercartConfig::ProductsPerPage();
+            }
             $mirroredProductIdList  = '';
             $mirroredProductIDs     = $this->getMirroredProductIDs();
 
@@ -587,7 +620,30 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             if (!isset($_GET['start']) ||
                 !is_numeric($_GET['start']) ||
                 (int)$_GET['start'] < 1) {
-                $SQL_start = 0;
+
+
+                if (isset($_GET['offset'])) {
+                    // --------------------------------------------------------
+                    // Use offset for getting the current item rage
+                    // --------------------------------------------------------
+                    $offset = (int) $_GET['offset'];
+
+                    if ($offset > 0) {
+                        $offset -= 1;
+                    }
+
+                    // Prevent too high values
+                    if ($offset > 999999) {
+                        $offset = 0;
+                    }
+
+                    $SQL_start = $offset * $productsPerPage;
+                } else {
+                    // --------------------------------------------------------
+                    // Use item number for getting the current item range
+                    // --------------------------------------------------------
+                    $SQL_start = 0;
+                }
             } else {
                 $SQL_start = (int) $_GET['start'];
             }
@@ -623,11 +679,36 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->ID
             );
 
-            $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%s,15",$SQL_start));
+            $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
 
-            
+            // Inject additional methods into the DataObjectSet
+            $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
         }
-       return $this->groupProducts;
+
+        return $this->groupProducts;
+    }
+
+    /**
+     * Indicates wether the resultset of the product query returns more items
+     * than the number given (defaults to 10).
+     *
+     * @param int $maxResults The number of results to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 20.04.2011
+     */
+    public function HasMorePagesThan($maxResults = 10) {
+        $items = $this->getProducts()->Pages()->TotalItems();
+        $hasMoreResults = false;
+
+        if ($items > $maxResults) {
+            $hasMoreResults = true;
+        }
+
+        return $hasMoreResults;
     }
 
     /**
