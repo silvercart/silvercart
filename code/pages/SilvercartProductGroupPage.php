@@ -533,8 +533,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * controller.
      *
      * @return string
-     * @see self::Link()
      * 
+     * @see self::Link()
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
@@ -587,6 +587,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * All products of this group
      * 
      * @return DataObjectSet all products of this group or FALSE
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
@@ -686,7 +687,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
             }
         }
-
+        
         return $this->groupProducts;
     }
 

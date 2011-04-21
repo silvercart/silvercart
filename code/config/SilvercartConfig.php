@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -63,8 +62,8 @@ class SilvercartConfig extends DataObject {
         'productsPerPage' => 'Int',
     );
     public static $defaults = array(
-        'SilvercartVersion' => '0.9',
-        'SilvercartUpdateVersion' => '3',
+        'SilvercartVersion' => '1.0',
+        'SilvercartUpdateVersion' => '1',
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',

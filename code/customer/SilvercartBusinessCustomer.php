@@ -39,6 +39,26 @@ class SilvercartBusinessCustomer extends Member {
     );
 
     /**
+     * Add CustomerNumber to searchable fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.04.2011
+     */
+    public function searchableFields() {
+        return array_merge(
+                parent::searchableFields(),
+                array(
+                    'CustomerNumber' => array(
+                        'title'     => _t('SilvercartCustomerRole.CUSTOMERNUMBER'),
+                        'filter'    => 'PartialMatchFilter'
+                    ),
+                )
+        );
+    }
+
+    /**
      * Set a new/reserved customernumber before writing
      *
      * @return void

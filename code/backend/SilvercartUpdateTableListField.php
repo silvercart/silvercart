@@ -169,7 +169,13 @@ class SilvercartUpdateTableListField_ItemRequest extends TableListField_ItemRequ
             return false;
         }
         $this->dataObj()->doUpdate();
-
-        return $this->ctf;
+        
+        if (Director::is_ajax()) {
+            $collectionController = new SilvercartUpdateAdmin_CollectionController(new SilvercartUpdateAdmin(), 'SilvercartUpdate');
+            $ResultsForm = $collectionController->ResultsForm(array());
+            return $ResultsForm->forAjaxTemplate();
+        } else {
+            Director::redirect($this->owner->Link());
+        }
     }
 }

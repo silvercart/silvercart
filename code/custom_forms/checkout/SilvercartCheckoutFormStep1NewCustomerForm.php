@@ -60,7 +60,6 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.04.2011
-     * @return void
      */
     protected function fillInFieldValues() {
         $this->formFields['AnonymousOptions']['value']['1'] = _t('SilvercartCheckoutFormStep1.PROCEED_WITH_REGISTRATION');
