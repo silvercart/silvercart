@@ -122,22 +122,6 @@ class SilvercartOrder extends DataObject {
     );
 
     /**
-     * Searchable fields.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.03.2011
-     */
-    public static $searchable_fields = array(
-        'Created',
-        'Member.FirstName',
-        'Member.Surame',
-        'SilvercartOrderStatus.ID'
-    );
-
-    /**
      * Default sort direction in tables.
      *
      * @var string
@@ -220,6 +204,7 @@ class SilvercartOrder extends DataObject {
             array(
                 'ID'                            => _t('SilvercartOrder.ORDER_ID'),
                 'Created'                       => _t('SilvercartPage.ORDER_DATE'),
+                'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
                 'SilvercartShippingFee'         => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
                 'Note'                          => _t('SilvercartPage.REMARKS'),
                 'Member'                        => _t('SilvercartOrder.CUSTOMER', 'customer'),
@@ -261,6 +246,10 @@ class SilvercartOrder extends DataObject {
                 'title'     => _t('SilvercartPage.ORDER_DATE'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            'OrderNumber' => array(
+                'title'     => _t('SilvercartOrder.ORDERNUMBER'),
+                'filter'    => 'PartialMatchFilter'
+            ),
             'Member.FirstName' => array(
                 'title'     => _t('SilvercartAddress.FIRSTNAME'),
                 'filter'    => 'PartialMatchFilter'
@@ -272,7 +261,7 @@ class SilvercartOrder extends DataObject {
             'SilvercartOrderStatus.Title' => array(
                 'title'     => _t('SilvercartOrder.STATUS', 'order status'),
                 'filter'    => 'ExactMatchFilter'
-            )
+            ),
         );
         $this->extend('updateSearchableFields', $searchableFields);
 
