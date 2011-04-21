@@ -663,7 +663,7 @@ $lang['de_DE']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Versandadresse
 $lang['de_DE']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Versandadresse der Bestellung';
 
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
-$lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'payed';
+$lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'Bezahlt';
 $lang['de_DE']['SilvercartOrderStatus']['PAYPAL_REFUNDING'] = 'Paypal Rückerstattung';
 $lang['de_DE']['SilvercartOrderStatus']['PAYPAL_PENDING'] = 'Paypal in Bearbeitung';
 $lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstati';
