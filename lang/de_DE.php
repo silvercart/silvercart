@@ -227,6 +227,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--Land--
 $lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Liefer- & Rechnungsdaten';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Zahlungsinformationen';
+$lang['de_DE']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Versandart';
 $lang['de_DE']['SilvercartCheckoutFormStep5']['TITLE'] = 'Bestellung überprüfen';

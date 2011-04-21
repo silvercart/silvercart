@@ -43,7 +43,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     protected $formFields = array(
         'PaymentMethod' => array(
-            'type'              => 'DropdownField',
+            'type'              => 'SilvercartCheckoutOptionsetField',
             'title'             => 'Bezahlart',
             'checkRequirements' => array(
                 'isFilledIn' => true
@@ -112,7 +112,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['PaymentMethod']['title'] = _t('SilvercartPaymentMethod.SINGULARNAME');
+        $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep3.FIELDLABEL');
 
         $stepData = $this->controller->getCombinedStepData();
 
@@ -122,9 +122,17 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
                 if ($shippingCountry) {
                     $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods();
                     if ($allowedPaymentMethods) {
-                        $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_PAYMENTMETHOD', '--choose payment method--'));
+                        $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name');
                     }
                 }
+            }
+        }
+
+        if (isset($stepData['PaymentMethod'])) {
+            $this->formFields['PaymentMethod']['selectedValue'] = $stepData['PaymentMethod'];
+        } else {
+            if ($allowedPaymentMethods) {
+                $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
             }
         }
     }

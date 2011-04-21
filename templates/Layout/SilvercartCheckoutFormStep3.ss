@@ -4,7 +4,7 @@
       <fieldset>
           <legend><% _t('SilvercartPaymentMethod.TITLE') %></legend>
           <div class="subcolumns">
-              $CustomHtmlFormFieldByName(PaymentMethod,CustomHtmlFormFieldSelect)
+              $CustomHtmlFormFieldByName(PaymentMethod,SilvercartCustomHtmlFormFieldPaymentMethod)
           </div>
     </fieldset>
     <div class="actionRow">

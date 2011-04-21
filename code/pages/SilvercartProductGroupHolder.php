@@ -36,7 +36,8 @@ class SilvercartProductGroupHolder extends Page {
     public static $singular_name = "";
     public static $plural_name = "";
     public static $allowed_children = array(
-        'SilvercartProductGroupPage'
+        'SilvercartProductGroupPage',
+        'RedirectorPage'
     );
 
 }

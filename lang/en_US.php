@@ -226,6 +226,7 @@ $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Continu
 $lang['en_US']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--country--';
 $lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
 $lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
+$lang['en_US']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Please choose your prefered payment method:';
 $lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Payment';
 $lang['en_US']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
 $lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Shipment';
