@@ -68,6 +68,21 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
     }
 
     /**
+     * Here we set some preferences.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.04.2011
+     */
+    public function  preferences() {
+        parent::preferences();
+
+        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
+    }
+
+    /**
      * executed if there are no valdation errors on submit
      * Form data is saved in session
      *

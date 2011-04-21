@@ -682,7 +682,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
 
             // Inject additional methods into the DataObjectSet
-            $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
+            if ($this->groupProducts) {
+                $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
+            }
         }
 
         return $this->groupProducts;
