@@ -425,7 +425,6 @@ class SilvercartConfig extends DataObject {
      * @since 18.3.2011
      */
     public static function Pricetype() {
-        if (is_null(self::$priceType)) {
             $member = Member::currentUser();
             $configObject = self::getConfig();
             if ($member) {
@@ -446,7 +445,6 @@ class SilvercartConfig extends DataObject {
             } else {
                 self::$priceType = $configObject->PricetypeAnonymousCustomers;
             }
-        }
         return self::$priceType;
     }
 

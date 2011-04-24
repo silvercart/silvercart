@@ -548,13 +548,13 @@ class SilvercartProduct extends DataObject {
      * @param int $cartID   ID of the users shopping cart
      * @param int $quantity Amount of products to be added
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 22.11.2010
      *
      * @return bool
      */
     public function addToCart($cartID, $quantity = 1) {
-        if ($quantity == 0) {
+        if ($quantity == 0 || $cartID == 0) {
             return false;
         }
 
@@ -570,8 +570,6 @@ class SilvercartProduct extends DataObject {
             $shoppingCartPosition->SilvercartProductID      = $this->ID;
             $shoppingCartPosition->Quantity                 = $quantity;
             $shoppingCartPosition->write();
-
-            $cart = DataObject::get_by_id('SilvercartShoppingCart', $cartID);
         }
 
         return true;
@@ -587,23 +585,6 @@ class SilvercartProduct extends DataObject {
      */
     public function Link() {
         return $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
-    }
-
-    /**
-     * Form for adding an product to a cart
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
-     * @return Form add an product to the cart
-     */
-    public function addToCartForm() {
-        $fields = new FieldSet();
-        $fields->push(new HiddenField('SilvercartProductID', 'SilvercartProductID', $this->ID));
-        $fields->push(new NumericField('SilvercartProductAmount', _t('SilvercartProduct.QUANTITY', 'quantity'), $value = 1));
-        $actions = new FieldSet();
-        $actions->push(new FormAction('doAddToCart', _t('SilvercartProduct.ADD_TO_CART', 'add to cart')));
-        $form = new Form(Controller::curr(), 'doAddToCart', $fields, $actions);
-        return $form;
     }
 
     /**

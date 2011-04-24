@@ -1,3 +1,8 @@
+SilvercartTax:
+    VAT19:
+        Title: 19%
+        Rate: 19
+        
 SilvercartProduct:
     ProductFreeOfChargeWithoutPrice:
         isFreeOfCharge: 1
@@ -25,6 +30,7 @@ SilvercartProduct:
         PriceNetCurrency: EUR
         PriceGrossAmount: 99.99
         PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
     ProductWithoutPrice:
         isFreeOfCharge: 0
         Title: priceless Product
@@ -51,6 +57,7 @@ SilvercartProduct:
         PriceNetCurrency: EUR
         PriceGrossAmount: 9.99
         PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
     ProductWithPriceWithoutLongDescription:
         isFreeOfCharge: 0
         Title: Product with price without short description
@@ -61,6 +68,7 @@ SilvercartProduct:
         PriceNetCurrency: EUR
         PriceGrossAmount: 9.99
         PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
         
 SilvercartConfig:
     SilvercartConfig:
@@ -72,3 +80,26 @@ SilvercartConfig:
         PricetypeRegularCustomers: gross
         PricetypeBusinessCustomers: net
         PricetypeAdmins: net
+        
+SilvercartBusinessCustomer:
+    BusinessCustomer:
+        FirstName: John
+        Surname: Doe
+        Email: john@doe.org
+        
+SilvercartRegularCustomer:
+    RegularCustomer:
+        FirstName: Jonny
+        Surname: Depp
+        Email: jonny@depp.org
+        
+SilvercartShoppingCart:
+    ShoppingCart:
+        
+SilvercartShoppingCartPosition:
+    ShoppingCartPosition:
+        Quantity: 1
+        SilvercartProduct: =>SilvercartProduct.ProductWithPrice
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        
+        

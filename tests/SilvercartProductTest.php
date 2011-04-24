@@ -62,7 +62,111 @@ class SilvercartProductTest extends SapphireTest {
      * @return void
      */
     public function testGetPrice() {
+        $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
         
+        //check price for admins
+        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount());
+        
+        //check for anonymous users, test runner makes an auto login, so we have to log out first
+        $member = Member::currentUser();
+        if ($member) {
+            $member->logOut();
+        }
+        $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
+        
+        //check price for business customers
+        $businessCustomer = $this->objFromFixture("SilvercartBusinessCustomer", "BusinessCustomer");
+        $businessCustomer->logIn();
+        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount(), "business customers price is not correct.");
+        $businessCustomer->logOut();
+        
+        //check price for regular customers
+        $regularCustomer = $this->objFromFixture("SilvercartRegularCustomer", "RegularCustomer");
+        $regularCustomer->logIn();
+        $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
+        $regularCustomer->logOut();
+        
+        //log in admin again
+        $member->logIn();
+    }
+    
+    /**
+     * add a new product to a cart
+     * increase existing shopping cart positions amount
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testAddToCart() {
+        $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
+        $cartPosition = $this->objFromFixture("SilvercartShoppingCartPosition", "ShoppingCartPosition");
+        $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
+        
+        //existing position
+        $this->assertTrue($productWithPrice->addToCart($cart->ID, 2), "The return value of addToCart() is not correct if an existing position is overwritten.");
+        $position = DataObject::get_by_id("SilvercartShoppingCartPosition", $cartPosition->ID);
+        $this->assertEquals(3, $position->Quantity, "The quantity of the overwritten shopping cart position is incorrect.");
+        
+        //new position
+        $productWithPriceWithoutLongDescription = $this->objFromFixture("SilvercartProduct", "ProductWithPriceWithoutLongDescription");
+        $this->assertTrue($productWithPriceWithoutLongDescription->addToCart($cart->ID), "The return value of addToCart() is not correct if a new position is created.");
+        $position = DataObject::get_one("SilvercartShoppingCartPosition", "`SilvercartProductID` = $productWithPriceWithoutLongDescription->ID");
+        $this->assertEquals(1, $position->Quantity, "The quantity of the newly created shopping cart position is incorrect.");
+        
+    }
+    
+    /**
+     * tests the reqired attributes system for products
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testRequiredAttributes() {
+        
+        //two attributes
+        SilvercartProduct::setRequiredAttributes("Price, Weight");
+        $attributes = SilvercartProduct::getRequiredAttributes();
+        $this->assertEquals(array("Price", "Weight"), $attributes, "Something went wrong setting two required attributes.");
+        
+        //four attributes
+        SilvercartProduct::setRequiredAttributes("Price, Weight, ShortDescription, LongDescription");
+        $attributes = SilvercartProduct::getRequiredAttributes();
+        $this->assertEquals(array("Price", "Weight", "ShortDescription", "LongDescription"), $attributes, "Something went wrong setting four required attributes.");
+    }
+    
+    /**
+     * Is tax rate returned correctly?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 24.4.2011
+     * @return void
+     */
+    public function testGetTaxRate() {
+        $productWithTax = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
+        $taxRate = $productWithTax->getTaxRate();
+        $this->assertEquals(19, $taxRate, "The tax rate is not correct.");
+    }
+    
+    /**
+     * Does the method return the correct boolean answer?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 24.4.2011
+     * @return void
+     */
+    public function testShowPricesGross() {
+        $product = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
+        
+        //admin is logged in
+        $admin = Member::currentUser();
+        $this->assertEquals("Member", $admin->ClassName);
+        $this->assertTrue(false === $product->showPricesGross(), "Admins get prices shown net.");
+        
+        //admin logged out
+        $admin->logOut();
+        $this->assertTrue($product->showPricesGross(), "Inspite nobody is logged in prices are shown net.");
     }
 }
 
