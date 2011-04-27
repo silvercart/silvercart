@@ -55,21 +55,23 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         $member = Member::currentUser();
         $checkoutData = $controller->getCombinedStepData();
-        if (array_key_exists('PaymentMethod', $checkoutData)) {
-            $this->paymentMethodObj = DataObject::get_by_id(
-                'SilvercartPaymentMethod',
-                $checkoutData['PaymentMethod']
-            );
-            if ($this->paymentMethodObj) {
-                $this->paymentMethodObj->setController($controller);
+        if ($member) {
+            if (array_key_exists('PaymentMethod', $checkoutData)) {
+                $this->paymentMethodObj = DataObject::get_by_id(
+                    'SilvercartPaymentMethod',
+                    $checkoutData['PaymentMethod']
+                );
+                if ($this->paymentMethodObj) {
+                    $this->paymentMethodObj->setController($controller);
 
-                $this->paymentMethodObj->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
-                $this->paymentMethodObj->setReturnLink(Director::absoluteURL($controller->Link()));
+                    $this->paymentMethodObj->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
+                    $this->paymentMethodObj->setReturnLink(Director::absoluteURL($controller->Link()));
 
-                $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
-                $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
-                $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
-                $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
+                    $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
+                    $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
+                    $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
+                    $this->paymentMethodObj->setShoppingCart($member->SilvercartShoppingCart());
+                }
             }
         }
         parent::__construct($controller, $params, $preferences, $barebone);
