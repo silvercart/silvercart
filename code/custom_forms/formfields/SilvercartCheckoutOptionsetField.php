@@ -40,7 +40,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
 	 *
 	 * @todo Should use CheckboxField FieldHolder rather than constructing own markup.
 	 */
-	function Field() {
+	public function Field() {
 		$odd            = 0;
         $itemIdx        = 0;
 		$source         = $this->getSource();
@@ -53,27 +53,36 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
 
 		foreach($source as $key => $value) {
 
-            $odd        = ($odd + 1) % 2;
-            $extraClass = $odd ? "odd" : "even";
+            // get payment method
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $key);
+            
+            if ($paymentMethod) {
+                $odd        = ($odd + 1) % 2;
+                $extraClass = $odd ? "odd" : "even";
 
-            $items['item_'.$itemIdx] = array(
-                'ID'        => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                'checked'   => ($key == $this->value),
-                'odd'       => $odd,
-                'even'      => !$odd,
-                'disabled'  => ($this->disabled || in_array($key, $this->disabledItems)),
-                'value'     => $key,
-                'label'     => $value,
-                'name'      => $this->name
-            );
+                $items['item_'.$itemIdx] = new ArrayData(array(
+                    'ID'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'checked'       => ($key == $this->value),
+                    'odd'           => $odd,
+                    'even'          => !$odd,
+                    'disabled'      => ($this->disabled || in_array($key, $this->disabledItems)),
+                    'value'         => $key,
+                    'label'         => $value,
+                    'name'          => $this->name,
+                    'htmlId'        => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'description'   => $paymentMethod->getPaymentDescription()
+                ));
+            }
             
             $itemIdx++;
 		}
 
-        $templateVars['items'] = $items;
+        $templateVars['items'] = new DataObjectSet($items);
 
 		$output = $this->customise($templateVars)->renderWith('SilvercartCheckoutOptionsetField');
         
 		return $output;
 	}
+    
+    
 }

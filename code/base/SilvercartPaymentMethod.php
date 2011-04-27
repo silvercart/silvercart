@@ -137,7 +137,7 @@ class SilvercartPaymentMethod extends DataObject {
         'minAmountForActivation'    => 'Float',
         'maxAmountForActivation'    => 'Float',
         'Name'                      => 'Varchar(150)',
-        'Description'               => 'Text',
+        'paymentDescription'        => 'Text',
         'mode'                      => "Enum('Live,Dev','Dev')",
         'orderStatus'               => 'Varchar(50)'
     );
@@ -438,8 +438,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
-    public function getDescription() {
-
+    public function getPaymentDescription() {
+        return $this->getField('paymentDescription');
     }
 
     /**
@@ -800,9 +800,22 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasic->setChildren(
             new FieldSet(
                 new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'), array('Live' => 'Live', 'Dev' => 'Dev'), $this->mode),
+                new DropdownField(
+                    'mode',
+                    _t('SilvercartPaymentMethod.MODE',
+                        'mode',
+                        null,
+                        'Modus'
+                    ),
+                    array(
+                        'Live'  => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
+                        'Dev'   => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
+                    ),
+                    $this->mode
+                ),
                 new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
                 new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
+                new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
                 new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',
@@ -829,9 +842,22 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasic->setChildren(
             new FieldSet(
                 new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'), array('Live' => 'Live', 'Dev' => 'Dev'), $this->mode),
-                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
+                new DropdownField(
+                    'mode',
+                    _t('SilvercartPaymentMethod.MODE',
+                        'mode',
+                        null,
+                        'Modus'
+                    ),
+                    array(
+                        'Live'  => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
+                        'Dev'   => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
+                    ),
+                    $this->mode
+                ),
+                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')),
+                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')),
+                new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
                 new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',

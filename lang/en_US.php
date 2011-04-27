@@ -884,9 +884,12 @@ $lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
 $lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
 $lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
 
+$lang['en_US']['SilvercartShopAdmin']['PAYMENT_DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'Activated';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Maximum amount';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Minimum amount';
+$lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
+$lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 
 $lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
 
