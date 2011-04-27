@@ -597,6 +597,11 @@ $lang['en_US']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
 $lang['en_US']['SilvercartHandlingCost']['PLURALNAME'] = 'Handling Costs';
 $lang['en_US']['SilvercartHandlingCost']['SINGULARNAME'] = 'Handling Cost';
 
+$lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description';
+$lang['en_US']['SilvercartImage']['PLURALNAME'] = 'Images';
+$lang['en_US']['SilvercartImage']['SINGULARNAME'] = 'Image';
+$lang['en_US']['SilvercartImage']['TITLE'] = 'Display name';
+
 $lang['en_US']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Invoice addresses';
 $lang['en_US']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
 
@@ -795,6 +800,7 @@ $lang['en_US']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Basic settings';
 $lang['en_US']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'From purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['MODE'] = 'mode';
 $lang['en_US']['SilvercartPaymentMethod']['NAME'] = 'Name';
+$lang['en_US']['SilvercartPaymentMethod']['PAYMENT_LOGOS'] = 'Logos';
 $lang['en_US']['SilvercartPaymentMethod']['PLURALNAME'] = 'Payment methods';
 $lang['en_US']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Shipping method';
 $lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
