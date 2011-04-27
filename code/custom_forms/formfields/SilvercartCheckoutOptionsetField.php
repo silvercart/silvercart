@@ -70,16 +70,18 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
                 }
 
                 $items['item_'.$itemIdx] = new ArrayData(array(
-                    'ID'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'checked'       => $checked,
-                    'odd'           => $odd,
-                    'even'          => !$odd,
-                    'disabled'      => ($this->disabled || in_array($key, $this->disabledItems)),
-                    'value'         => $key,
-                    'label'         => $value,
-                    'name'          => $this->name,
-                    'htmlId'        => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'description'   => $paymentMethod->getPaymentDescription()
+                    'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'checked'           => $checked,
+                    'odd'               => $odd,
+                    'even'              => !$odd,
+                    'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
+                    'value'             => $key,
+                    'label'             => $value,
+                    'name'              => $this->name,
+                    'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'description'       => $paymentMethod->getPaymentDescription(),
+                    'showPaymentLogos'  => $paymentMethod->showPaymentLogos,
+                    'PaymentLogos'      => $paymentMethod->PaymentLogos()
                 ));
             }
 

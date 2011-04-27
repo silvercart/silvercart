@@ -133,5 +133,14 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
     public function renderError() {
         return $this->renderWith('SilvercartCheckoutFormStepPaymentError');
     }
+    
+    /**
+     * Returns the PaymentMethod to use in template
+     *
+     * @return SilvercartPaymentMethod
+     */
+    public function getPaymentMethod() {
+        return $this->paymentMethodObj;
+    }
 }
 

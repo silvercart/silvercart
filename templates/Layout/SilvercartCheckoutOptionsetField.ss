@@ -10,10 +10,12 @@
                 <span class="silvercart-checkout-payment-additionalInfo">
                     <label for="$htmlId">$label</label>
                     <span class="silvercart-checkout-payment-additionalInfo-logos">
-                    <% if PaymentLogos %>
-                        <% control PaymentLogos %>
-                            $Image
-                        <% end_control %>
+                    <% if showPaymentLogos %>
+                        <% if PaymentLogos %>
+                            <% control PaymentLogos %>
+                                $Image
+                            <% end_control %>
+                        <% end_if %>
                     <% end_if %>
                     </span>
                     <span class="silvercart-checkout-payment-additionalInfo-description">

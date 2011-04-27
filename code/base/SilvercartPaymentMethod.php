@@ -139,7 +139,8 @@ class SilvercartPaymentMethod extends DataObject {
         'Name'                      => 'Varchar(150)',
         'paymentDescription'        => 'Text',
         'mode'                      => "Enum('Live,Dev','Dev')",
-        'orderStatus'               => 'Varchar(50)'
+        'orderStatus'               => 'Varchar(50)',
+        'showPaymentLogos'          => 'Boolean',
     );
     /**
      * Defines 1:1 relations
@@ -205,6 +206,15 @@ class SilvercartPaymentMethod extends DataObject {
         'AttributedCountries'       => 'Varchar(255)',
         'AttributedZones'           => 'Varchar(255)',
         'activatedStatus'           => 'Varchar(255)'
+    );
+    
+    /**
+     * Default values for new PaymentMethods
+     *
+     * @var array
+     */
+    public static $defaults = array(
+        'showPaymentLogos' => true,
     );
 
     /**
@@ -809,6 +819,7 @@ class SilvercartPaymentMethod extends DataObject {
         
         $tabLogos->setChildren(
             new FieldSet(
+                new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
                 new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID))
             )
         );
