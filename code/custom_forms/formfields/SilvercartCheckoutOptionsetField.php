@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 pixeltricks GmbH
  *
@@ -34,55 +35,58 @@
  */
 class SilvercartCheckoutOptionsetField extends OptionsetField {
 
-	/**
-	 * Create a UL tag containing sets of radio buttons and labels.  The IDs are set to
-	 * FieldID_ItemKey, where ItemKey is the key with all non-alphanumerics removed.
-	 *
-	 * @todo Should use CheckboxField FieldHolder rather than constructing own markup.
-	 */
-	public function Field() {
-		$odd            = 0;
-        $itemIdx        = 0;
-		$source         = $this->getSource();
-        $items          = array();
-        $templateVars   = array(
-            'ID'            => $this->id(),
-            'extraClass'    => $this->extraClass(),
-            'items'         => array()
+    /**
+     * Create a UL tag containing sets of radio buttons and labels.  The IDs are set to
+     * FieldID_ItemKey, where ItemKey is the key with all non-alphanumerics removed.
+     *
+     * @return string
+     *
+     * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.04.2011
+     */
+    public function Field() {
+        $odd = 0;
+        $itemIdx = 0;
+        $source = $this->getSource();
+        $items = array();
+        $templateVars = array(
+            'ID' => $this->id(),
+            'extraClass' => $this->extraClass(),
+            'items' => array()
         );
 
-		foreach($source as $key => $value) {
+        foreach ($source as $key => $value) {
 
             // get payment method
             $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $key);
-            
+
             if ($paymentMethod) {
-                $odd        = ($odd + 1) % 2;
+                $odd = ($odd + 1) % 2;
                 $extraClass = $odd ? "odd" : "even";
 
-                $items['item_'.$itemIdx] = new ArrayData(array(
-                    'ID'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'checked'       => ($key == $this->value),
-                    'odd'           => $odd,
-                    'even'          => !$odd,
-                    'disabled'      => ($this->disabled || in_array($key, $this->disabledItems)),
-                    'value'         => $key,
-                    'label'         => $value,
-                    'name'          => $this->name,
-                    'htmlId'        => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'description'   => $paymentMethod->getPaymentDescription()
-                ));
+                $items['item_' . $itemIdx] = new ArrayData(array(
+                            'ID' => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+', '', $key),
+                            'checked' => ($key == $this->value),
+                            'odd' => $odd,
+                            'even' => !$odd,
+                            'disabled' => ($this->disabled || in_array($key, $this->disabledItems)),
+                            'value' => $key,
+                            'label' => $value,
+                            'name' => $this->name,
+                            'htmlId' => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+', '', $key),
+                            'description' => $paymentMethod->getPaymentDescription(),
+                            'PaymentLogos' => $paymentMethod->PaymentLogos(),
+                        ));
             }
-            
+
             $itemIdx++;
-		}
+        }
 
         $templateVars['items'] = new DataObjectSet($items);
 
-		$output = $this->customise($templateVars)->renderWith('SilvercartCheckoutOptionsetField');
-        
-		return $output;
-	}
-    
-    
+        $output = $this->customise($templateVars)->renderWith('SilvercartCheckoutOptionsetField');
+
+        return $output;
+    }
+
 }

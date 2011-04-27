@@ -100,6 +100,7 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartProductPagination');
         Requirements::themedCSS('SilvercartSideBarCart');
         Requirements::themedCSS('SilvercartShoppingCartFull');
+        Requirements::themedCSS('SilvercartCheckout');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");

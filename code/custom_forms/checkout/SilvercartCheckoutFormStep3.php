@@ -111,6 +111,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 09.11.2010
      */
     protected function fillInFieldValues() {
+        $allowedPaymentMethods = false;
+        
         $this->controller->fillFormFields(&$this->formFields);
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep3.FIELDLABEL');
 
