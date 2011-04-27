@@ -79,7 +79,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
                     'label'             => $value,
                     'name'              => $this->name,
                     'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'description'       => $paymentMethod->getPaymentDescription(),
+                    'description'       => Convert::raw2xml($paymentMethod->getPaymentDescription()),
                     'showPaymentLogos'  => $paymentMethod->showPaymentLogos,
                     'PaymentLogos'      => $paymentMethod->PaymentLogos()
                 ));
