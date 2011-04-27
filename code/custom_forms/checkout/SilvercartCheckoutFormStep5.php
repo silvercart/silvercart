@@ -117,10 +117,11 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
     public function preferences() {
         parent::preferences();
 
-        $this->preferences['stepIsVisible']         = true;
-        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep5.TITLE', 'Overview');
-        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
-        $this->preferences['fillInRequestValues']   = true;
+        $this->preferences['stepIsVisible']             = true;
+        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep5.TITLE', 'Overview');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
+        $this->preferences['fillInRequestValues']       = true;
+        $this->preferences['createShoppingcartForms']   = false;
 
         $checkoutData = $this->controller->getCombinedStepData();
 

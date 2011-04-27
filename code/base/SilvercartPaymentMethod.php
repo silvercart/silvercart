@@ -137,9 +137,10 @@ class SilvercartPaymentMethod extends DataObject {
         'minAmountForActivation'    => 'Float',
         'maxAmountForActivation'    => 'Float',
         'Name'                      => 'Varchar(150)',
-        'Description'               => 'Text',
+        'paymentDescription'        => 'Text',
         'mode'                      => "Enum('Live,Dev','Dev')",
-        'orderStatus'               => 'Varchar(50)'
+        'orderStatus'               => 'Varchar(50)',
+        'showPaymentLogos'          => 'Boolean',
     );
     /**
      * Defines 1:1 relations
@@ -164,7 +165,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 16.12.10
      */
     public static $has_many = array(
-        'SilvercartOrders' => 'SilvercartOrder'
+        'SilvercartOrders' => 'SilvercartOrder',
+        'PaymentLogos'     => 'SilvercartImage',
     );
     /**
      * Defines n:m relations
@@ -190,40 +192,6 @@ class SilvercartPaymentMethod extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartCountries' => 'SilvercartCountry'
     );
-    /**
-     * define colums to be shown in a table
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 08.11.2010
-     */
-    public static $summary_fields = array(
-        'Name'                      => 'Bezeichnung',
-        'activatedStatus'           => 'aktiviert?',
-        'AttributedZones'           => 'Zugeordnete Zone',
-        'AttributedCountries'       => 'Zugeordnete Länder',
-        'minAmountForActivation'    => 'Mindestbetrag',
-        'maxAmountForActivation'    => 'Hoechstbetrag'
-    );
-    /**
-     * define field labels
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 08.11.2010
-     */
-    public static $field_labels = array(
-        'Name'                      => 'Name',
-        'activatedStatus'           => 'Aktiviert',
-        'AttributedZones'           => 'Zugeordnete Zone',
-        'AttributedCountries'       => 'Zugeordnete Länder',
-        'minAmountForActivation'    => 'Ab Einkaufswert',
-        'maxAmountForActivation'    => 'Bis Einkaufswert'
-    );
 
     /**
      * Virtual database columns.
@@ -238,6 +206,15 @@ class SilvercartPaymentMethod extends DataObject {
         'AttributedCountries'       => 'Varchar(255)',
         'AttributedZones'           => 'Varchar(255)',
         'activatedStatus'           => 'Varchar(255)'
+    );
+    
+    /**
+     * Default values for new PaymentMethods
+     *
+     * @var array
+     */
+    public static $defaults = array(
+        'showPaymentLogos' => true,
     );
 
     /**
@@ -370,13 +347,14 @@ class SilvercartPaymentMethod extends DataObject {
      * @return array
      */
     public function summaryFields() {
-        $fields = parent::summaryFields();
-        $fields['activatedStatus'] = _t('SilvercartShopAdmin.PAYMENT_ISACTIVE');
-        $fields['AttributedZones'] = _t('SilvercartCountry.ATTRIBUTED_ZONES');
-        $fields['AttributedCountries'] = _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES');
-        $fields['minAmountForActivation'] = _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE');
-        $fields['maxAmountForActivation'] = _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE');
-        return $fields;
+        return array(
+            'Name'                      => _t('SilvercartPaymentMethod.NAME'),
+            'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+            'AttributedCountries'       => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+            'minAmountForActivation'    => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE'),
+            'maxAmountForActivation'    => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE'),
+        );
     }
 
     /**
@@ -438,8 +416,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
-    public function getDescription() {
-
+    public function getPaymentDescription() {
+        return $this->getField('paymentDescription');
     }
 
     /**
@@ -791,28 +769,9 @@ class SilvercartPaymentMethod extends DataObject {
      * @deprecated This method should be replaced with getCMSFieldsForModules
      */
     public function getCmsFields_forPopup($params = null) {
-
-        $tabset = new TabSet('Sections');
-        $tabBasic = new Tab('Basic', _t('SilvercartPaymentMethod.BASIC_SETTINGS', 'basic settings'));
-        $tabset->push($tabBasic);
-
-        // Popupfelder fuers Bearbeiten der Zahlungsart
-        $tabBasic->setChildren(
-            new FieldSet(
-                new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'), array('Live' => 'Live', 'Dev' => 'Dev'), $this->mode),
-                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
-                new DropdownField(
-                    'orderStatus',
-                    _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',
-                    'standard order status for this payment method'),
-                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
-                )
-            )
-        );
-
-        return new FieldSet($tabset);
+        $fields = $this->getCMSFields();
+        $fields->removeByName('Logos');
+        return $fields;
     }
 
     /**
@@ -828,16 +787,40 @@ class SilvercartPaymentMethod extends DataObject {
         // Popupfelder fuers Bearbeiten der Zahlungsart
         $tabBasic->setChildren(
             new FieldSet(
+                new TextField('Name', _t('SilvercartPaymentMethod.NAME')),
+                new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
                 new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'), array('Live' => 'Live', 'Dev' => 'Dev'), $this->mode),
-                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION', 'Mindestbetrag für Modul')),
-                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION', 'Höchstbetrag für Modul')),
+                new DropdownField(
+                    'mode',
+                    _t('SilvercartPaymentMethod.MODE',
+                        'mode',
+                        null,
+                        'Modus'
+                    ),
+                    array(
+                        'Live'  => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
+                        'Dev'   => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
+                    ),
+                    $this->mode
+                ),
+                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')),
+                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')),
                 new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS',
                     'standard order status for this payment method'),
                     SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
                 )
+            )
+        );
+        
+        $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
+        $tabset->push($tabLogos);
+        
+        $tabLogos->setChildren(
+            new FieldSet(
+                new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
+                new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID))
             )
         );
 

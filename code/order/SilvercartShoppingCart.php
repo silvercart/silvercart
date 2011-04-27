@@ -88,6 +88,27 @@ class SilvercartShoppingCart extends DataObject {
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
+    
+    /**
+     * Indicates wether the registered modules should be loaded.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.04.2011
+     */
+    public static $loadModules = true;
+    
+    /**
+     * Indicates wether the registered modules should be loaded.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.04.2011
+     */
+    public static $createForms = true;
+    
     /**
      * Contains the ID of the payment method the customer has chosen.
      *
@@ -130,12 +151,16 @@ class SilvercartShoppingCart extends DataObject {
 
         // Initialize shopping cart position object, so that it can inject
         // its forms into the controller.
+        if (!self::$loadModules) {
+            SilvercartShoppingCartPosition::setCreateForms(false);
+        }
         $this->SilvercartShoppingCartPositions();
 
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID  = 0;
 
-        if (Member::currentUserID()) {
+        if (Member::currentUserID() &&
+            self::$loadModules) {
             
             $this->callMethodOnRegisteredModules(
                 'performShoppingCartConditionsCheck',
@@ -149,6 +174,36 @@ class SilvercartShoppingCart extends DataObject {
                 'ShoppingCartInit'
             );
         }
+    }
+    
+    /**
+     * Set wether the registered modules should be loaded and handled.
+     *
+     * @param boolean $doLoad set wether to load the modules or not
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.04.2011
+     */
+    public static function setLoadShoppingCartModules($doLoad) {
+        self::$loadModules = $doLoad;
+    }
+    
+    /**
+     * Set wether the shopping cart forms should be drawn.
+     *
+     * @param boolean $doLoad set wether to create the forms or not
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.04.2011
+     */
+    public static function setCreateShoppingCartForms($doCreate) {
+        self::$createForms = $doCreate;
     }
 
     /**
@@ -293,14 +348,15 @@ class SilvercartShoppingCart extends DataObject {
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions',
-                        array(
-                            $this,
-                            Member::currentUser(),
-                            true,
-                            $excludeShoppingCartPosition
-                        ),
-                        $excludeModules
+            'ShoppingCartPositions',
+            array(
+                $this,
+                Member::currentUser(),
+                true,
+                $excludeShoppingCartPosition,
+                false
+            ),
+            $excludeModules
         );
 
         // products

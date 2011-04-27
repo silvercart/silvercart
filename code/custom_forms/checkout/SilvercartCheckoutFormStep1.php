@@ -96,11 +96,13 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 08.04.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']         = true;
-        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep1.TITLE');
-        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.FORWARD');
-        $this->preferences['fillInRequestValues']   = true;
-        $this->preferences['isConditionalStep']     = true;
+        $this->preferences['stepIsVisible']             = true;
+        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep1.TITLE');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD');
+        $this->preferences['fillInRequestValues']       = true;
+        $this->preferences['isConditionalStep']         = true;
+        $this->preferences['loadModules']               = false;
+        $this->preferences['createShoppingcartForms']   = false;
 
         parent::preferences();
     }

@@ -597,6 +597,11 @@ $lang['de_DE']['SilvercartFrontPage']['SINGULARNAME'] = 'Frontseite';
 $lang['de_DE']['SilvercartHandlingCost']['PLURALNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['SINGULARNAME'] = 'Bearbeitungskosten';
 
+$lang['de_DE']['SilvercartImage']['DESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
+$lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';
+$lang['de_DE']['SilvercartImage']['TITLE'] = 'Anzeigename';
+
 $lang['de_DE']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen';
 $lang['de_DE']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse';
 
@@ -795,6 +800,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Grundeinstellunge
 $lang['de_DE']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'ab Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['MODE'] = 'Modus';
 $lang['de_DE']['SilvercartPaymentMethod']['NAME'] = 'Name';
+$lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_LOGOS'] = 'Logos';
 $lang['de_DE']['SilvercartPaymentMethod']['PLURALNAME'] = 'Bezahlarten';
 $lang['de_DE']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Versandart';
 $lang['de_DE']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Zahlart';
@@ -884,9 +890,13 @@ $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
 $lang['de_DE']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Versandartübersetzungen';
 $lang['de_DE']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Versandartübersetzung';
 
+$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'aktiviert';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
+$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
+$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
+$lang['de_DE']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Logos anzeigen';
 
 $lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Konfiguration';
 

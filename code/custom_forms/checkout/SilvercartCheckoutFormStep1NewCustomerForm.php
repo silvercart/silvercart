@@ -78,7 +78,9 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
     public function  preferences() {
         parent::preferences();
 
-        $this->preferences['submitButtonTitle'] = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
+        $this->preferences['loadShoppingcartModules']   = false;
+        $this->preferences['createShoppingcartForms']   = false;
     }
 
     /**

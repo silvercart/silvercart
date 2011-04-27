@@ -78,6 +78,32 @@ class SilvercartShoppingCartPosition extends DataObject {
         'SilvercartProduct' => 'SilvercartProduct',
         'SilvercartShoppingCart' => 'SilvercartShoppingCart'
     );
+    
+    /**
+     * Indicates wether the forms should be loaded.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.04.2011
+     */
+    public static $doCreateForms = true;
+    
+    /**
+     * Sets wether the form objects should be created.
+     *
+     * @param boolean $doCreateForms Indicates wether the forms should be loaded.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.04.2011
+     */
+    public static function setCreateForms($doCreateForms = true) {
+        self::$doCreateForms = $doCreateForms;
+    }
 
     /**
      * Registers the edit-forms for this position.
@@ -98,7 +124,8 @@ class SilvercartShoppingCartPosition extends DataObject {
 
         $controller = Controller::curr();
 
-        if ($controller->hasMethod('getRegisteredCustomHtmlForm')) {
+        if ($controller->hasMethod('getRegisteredCustomHtmlForm') &&
+            self::$doCreateForms) {
             $positionForms = array(
                 'SilvercartIncrementPositionQuantityForm',
                 'SilvercartDecrementPositionQuantityForm',
