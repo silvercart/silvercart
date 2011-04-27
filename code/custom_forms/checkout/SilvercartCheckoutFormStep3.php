@@ -93,10 +93,12 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']         = true;
-        $this->preferences['stepTitle']             = _t('SilvercartCheckoutFormStep3.TITLE', 'Payment');
-        $this->preferences['submitButtonTitle']     = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
-        $this->preferences['fillInRequestValues']   = true;
+        $this->preferences['stepIsVisible']             = true;
+        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Payment');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
+        $this->preferences['fillInRequestValues']       = true;
+        $this->preferences['loadShoppingcartModules']   = false;
+        $this->preferences['createShoppingcartForms']   = false;
 
         parent::preferences();
     }
@@ -157,13 +159,11 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
     public function submitSuccess($data, $form, $formData) {
         $this->controller->setStepData($formData);
 
-
-
         $stepData = $this->controller->getCombinedStepData();
 
         if ($stepData &&
             isset($stepData['PaymentMethod'])) {
-
+            
             $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
         }
 

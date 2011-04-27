@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2011 pixeltricks GmbH
  *
@@ -45,14 +44,14 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
      * @since 27.04.2011
      */
     public function Field() {
-        $odd = 0;
-        $itemIdx = 0;
-        $source = $this->getSource();
-        $items = array();
-        $templateVars = array(
-            'ID' => $this->id(),
-            'extraClass' => $this->extraClass(),
-            'items' => array()
+        $odd            = 0;
+        $itemIdx        = 0;
+        $source         = $this->getSource();
+        $items          = array();
+        $templateVars   = array(
+            'ID'            => $this->id(),
+            'extraClass'    => $this->extraClass(),
+            'items'         => array()
         );
 
         foreach ($source as $key => $value) {
@@ -61,22 +60,21 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
             $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $key);
 
             if ($paymentMethod) {
-                $odd = ($odd + 1) % 2;
+                $odd        = ($odd + 1) % 2;
                 $extraClass = $odd ? "odd" : "even";
 
-                $items['item_' . $itemIdx] = new ArrayData(array(
-                            'ID' => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+', '', $key),
-                            'checked' => ($key == $this->value),
-                            'odd' => $odd,
-                            'even' => !$odd,
-                            'disabled' => ($this->disabled || in_array($key, $this->disabledItems)),
-                            'value' => $key,
-                            'label' => $value,
-                            'name' => $this->name,
-                            'htmlId' => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+', '', $key),
-                            'description' => $paymentMethod->getPaymentDescription(),
-                            'PaymentLogos' => $paymentMethod->PaymentLogos(),
-                        ));
+                $items['item_'.$itemIdx] = new ArrayData(array(
+                    'ID'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'checked'       => ($key == $this->value),
+                    'odd'           => $odd,
+                    'even'          => !$odd,
+                    'disabled'      => ($this->disabled || in_array($key, $this->disabledItems)),
+                    'value'         => $key,
+                    'label'         => $value,
+                    'name'          => $this->name,
+                    'htmlId'        => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'description'   => $paymentMethod->getPaymentDescription()
+                ));
             }
 
             $itemIdx++;
@@ -88,5 +86,4 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
 
         return $output;
     }
-
 }

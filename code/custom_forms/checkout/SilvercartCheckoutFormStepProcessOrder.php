@@ -83,7 +83,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function  preferences() {
-        $this->preferences['stepIsVisible'] = false;
+        $this->preferences['stepIsVisible']             = false;
+        $this->preferences['createShoppingcartForms']   = false;
 
         parent::preferences();
     }
