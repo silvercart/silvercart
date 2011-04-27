@@ -1,0 +1,25 @@
+SilvercartShoppingCart:
+    ShoppingCart:
+        
+SilvercartShoppingCartPosition:
+    CartPosition1:
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    CartPosition2:
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    CartPosition3:
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    CartPosition4:
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        
+SilvercartConfig:
+    SilvercartConfig:
+        DefaultCurrency: EUR
+        EmailSender: test@silvercart.org
+        GlobalEmailRecipient: test@silvercart.org
+        allowCartWeightToBeZero: 1
+        PricetypeAnonymousCustomers: gross
+        PricetypeRegularCustomers: gross
+        PricetypeBusinessCustomers: net
+        PricetypeAdmins: net
+    
+        
