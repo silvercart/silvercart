@@ -2,7 +2,7 @@
       $CustomHtmlFormMetadata
       <div class="subcolumns">
         <div class="c33l">
-            $CustomHtmlFormFieldByName(productAmount,SilvercartProductPreviewFormField)
+            $CustomHtmlFormFieldByName(productQuantity,SilvercartProductPreviewFormField)
         </div>
         <div class="c66r">
             <% control Actions %>

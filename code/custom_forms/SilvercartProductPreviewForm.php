@@ -39,7 +39,7 @@ class SilvercartProductPreviewForm extends CustomHtmlForm {
      */
     protected $formFields = array
     (
-        'productAmount' => array(
+        'productQuantity' => array(
             'type'              => 'TextField',
             'title'             => 'Anzahl',
             'value'             => '1',
