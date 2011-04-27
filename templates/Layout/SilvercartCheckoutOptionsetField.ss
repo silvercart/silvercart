@@ -5,7 +5,7 @@
         <% control items %>
             <li>
                 <span class="silvercart-checkout-payment-radiofield">
-                    <input type="radio" name="$name" value="$value" id="$htmlId" />
+                    <input type="radio" name="$name" value="$value" id="$htmlId"<% if checked %> checked="checked"<% end_if %> />
                 </span>
                 <span class="silvercart-checkout-payment-additionalInfo">
                     <label for="$htmlId">$label</label>

@@ -62,10 +62,16 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
             if ($paymentMethod) {
                 $odd        = ($odd + 1) % 2;
                 $extraClass = $odd ? "odd" : "even";
+                $checked    = false;
+                
+                // check if field should be checked
+                if ($this->value == $key) {
+                    $checked = true;
+                }
 
                 $items['item_'.$itemIdx] = new ArrayData(array(
                     'ID'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'checked'       => ($key == $this->value),
+                    'checked'       => $checked,
                     'odd'           => $odd,
                     'even'          => !$odd,
                     'disabled'      => ($this->disabled || in_array($key, $this->disabledItems)),
