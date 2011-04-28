@@ -670,8 +670,6 @@ $lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Order shippi
 
 $lang['en_US']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_US']['SilvercartOrderStatus']['PAYED'] = 'Payed';
-$lang['en_US']['SilvercartOrderStatus']['PAYPAL_REFUNDING'] = 'Paypal refunding';
-$lang['en_US']['SilvercartOrderStatus']['PAYPAL_PENDING'] = 'Paypal pending';
 $lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = 'Order status';
 $lang['en_US']['SilvercartOrderStatus']['SINGULARNAME'] = 'Order status';
 $lang['en_US']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Waiting for payment';

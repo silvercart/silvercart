@@ -129,8 +129,7 @@ class SilvercartShippingMethod extends DataObject {
         'Title' => 'Bezeichnung',
         'activatedStatus' => 'Aktiviert',
         'AttributedZones' => 'Für Zonen',
-        'SilvercartCarrier.Title' => 'Frachtführer',
-        'AttributedPaymentMethods' => 'Für Bezahlarten'
+        'SilvercartCarrier.Title' => 'Frachtführer'
     );
     /**
      * Column labels for display in tables.
@@ -144,8 +143,7 @@ class SilvercartShippingMethod extends DataObject {
     public static $field_labels = array(
         'Title' => 'Bezeichnung',
         'activatedStatus' => 'Aktiviert',
-        'AttributedZones' => 'Für Zonen',
-        'AttributedPaymentMethods' => 'Für Bezahlarten'
+        'AttributedZones' => 'Für Zonen'
     );
     /**
      * Virtual database columns.
@@ -158,7 +156,6 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $casting = array(
         'AttributedCountries' => 'Varchar(255)',
-        'AttributedPaymentMethods' => 'Varchar(255)',
         'activatedStatus' => 'Varchar(255)'
     );
     /**
@@ -178,9 +175,6 @@ class SilvercartShippingMethod extends DataObject {
         ),
         'SilvercartZones.ID' => array(
             'title' => 'Für Zonen'
-        ),
-        'SilvercartPaymentMethods.ID' => array(
-            'title' => 'Für Bezahlarten'
         )
     );
 
@@ -202,14 +196,12 @@ class SilvercartShippingMethod extends DataObject {
             'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
             'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
-            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
+            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME')
         );
         self::$field_labels = array(
             'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
             'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-            'AttributedPaymentMethods' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods'),
             'isActive' => _t('SilvercartPage.ISACTIVE', 'active'),
             'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
             'SilvercartTranslations' => _t('SilvercartShippingMethodTexts.PLURALNAME', 'shipping method translations'),
@@ -224,9 +216,6 @@ class SilvercartShippingMethod extends DataObject {
             ),
             'SilvercartZones.ID' => array(
                 'title' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones')
-            ),
-            'SilvercartPaymentMethods.ID' => array(
-                'title' => _t('SilvercartShippingMethod.FOR_PAYMENTMETHODS', 'for payment methods')
             )
         );
         self::$singular_name = _t('SilvercartShippingMethod.SINGULARNAME', 'shipping method');
