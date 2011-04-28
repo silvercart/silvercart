@@ -315,7 +315,8 @@ class SilvercartPage_Controller extends ContentController {
 
         if ($productGroupPage) {
             foreach ($productGroupPage->Children() as $child) {
-                if ($child->hasProductsOrChildren()) {
+                if ($child->hasmethod('hasProductsOrChildren') &&
+                    $child->hasProductsOrChildren()) {
                     $items[] = $child;
                 }
             }

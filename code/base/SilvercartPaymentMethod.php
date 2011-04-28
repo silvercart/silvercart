@@ -535,7 +535,8 @@ class SilvercartPaymentMethod extends DataObject {
     public function getAllowedShippingMethods() {
         $allowedShippingMethodsArray = array();
         foreach (DataObject::get('SilvercartShippingMethod') as $shippingMethod) {
-            if ($shippingMethod->SilvercartPaymentMethods()->Count() == 0) {
+            if ($shippingMethod->SilvercartPaymentMethods()->Count() == 0
+             && $shippingMethod->getShippingFee() !== false) {
                 $allowedShippingMethodsArray[] = $shippingMethod;
             }
         }

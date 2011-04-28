@@ -22,10 +22,10 @@
                     </tr>
                     <% control SilvercartShippingFees %>
                     <tr>
-                        <td>$MaximumWeight</td>
+                        <td><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
                         <td>
                             <% control SilvercartZone %>
-                                $Title ( <% control SilvercartCountries %>$Title<% end_control %> )
+                                $Title ( <% control SilvercartCountries %><% if First %><% else %>, <% end_if %>$Title<% end_control %> )
                             <% end_control %>
                         </td>
                         <td>$Price.Nice</td>

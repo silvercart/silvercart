@@ -294,7 +294,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep1.EMPTYSTRING_COUNTRY', '--country--'));
+        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
 
         if (isset($_GET['backlink'])) {
             $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);

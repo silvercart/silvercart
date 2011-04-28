@@ -66,8 +66,9 @@ class SilvercartShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'MaximumWeight' => 'Int',   //gramms
-        'Price'         => 'Money'
+        'MaximumWeight'     => 'Int',   //gramms
+        'UnlimitedWeight'  => 'Boolean',
+        'Price'             => 'Money',
     );
 
     /**
@@ -99,57 +100,6 @@ class SilvercartShippingFee extends DataObject {
     );
 
     /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $summary_fields = array(
-        'SilvercartZone.Title'                => 'Für Zone',
-        'AttributedShippingMethods' => 'Zugeordnete Versandart',
-        'MaximumWeight'             => 'Maximalgewicht (g)',
-        'PriceFormatted'            => 'Kosten'
-    );
-
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $field_labels = array(
-        'MaximumWeight'             => 'Maximalgewicht (g)',
-        'Price'                     => 'Kosten',
-        'SilvercartZone.Title'                => 'Für Zone',
-        'AttributedShippingMethods' => 'Zugeordnete Versandart'
-    );
-
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $searchable_fields = array(
-        'MaximumWeight',
-        'SilvercartZone.ID' => array(
-            'title' => 'Für Zone'
-        ),
-        'SilvercartShippingMethod.ID' => array(
-            'title' => 'Für Versandart'
-        )
-    );
-
-    /**
      * Virtual database fields.
      *
      * @var array
@@ -159,8 +109,9 @@ class SilvercartShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'PriceFormatted'            => 'Varchar(20)',
-        'AttributedShippingMethods' => 'Varchar(255)'
+        'PriceFormatted'                => 'Varchar(20)',
+        'AttributedShippingMethods'     => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'    => 'Varchar(255)',
     );
 
     /**
@@ -177,19 +128,6 @@ class SilvercartShippingFee extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'SilvercartZone.Title' => _t('SilvercartShippingMethod.FOR_ZONES'),
-            'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
-            'MaximumWeight' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
-            'PriceFormatted' => _t('SilvercartShippingFee.COSTS', 'costs')
-        );
-        self::$field_labels = array(
-            'MaximumWeight' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
-            'Price' => _t('SilvercartShippingFee.COSTS'),
-            'SilvercartZone.Title' => _t('SilvercartShippingMethod.FOR_ZONES'),
-            'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
-            'SilvercartTax' => _t('SilvercartTax.SINGULARNAME', 'tax'),
-        );
         self::$searchable_fields = array(
             'MaximumWeight',
             'SilvercartZone.ID' => array(
@@ -202,6 +140,63 @@ class SilvercartShippingFee extends DataObject {
         self::$singular_name = _t('SilvercartShippingFee.SINGULARNAME', 'shipping fee');
         self::$plural_name = _t('SilvercartShippingFee.PLURALNAME', 'shipping fees');
         parent::__construct($record, $isSingleton);
+    }
+
+    /**
+     * i18n for summary fields
+     *
+     * @return array
+     * 
+     * @author Seabstian Diel <sdiel@pixeltricks.de>
+     * @since 28.04.2011
+     */
+    public function summaryFields() {
+        return array_merge(
+                parent::summaryFields(),
+                array(
+                    'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
+                    'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
+                    'MaximumWeightLimitedOrNot' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
+                    'PriceFormatted'            => _t('SilvercartShippingFee.COSTS', 'costs')
+                )
+        );
+    }
+
+    /**
+     * i18n for field labels
+     *
+     * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     * 
+     * @author Seabstian Diel <sdiel@pixeltricks.de>
+     * @since 28.04.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'MaximumWeight'             => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
+                    'UnlimitedWeight'           => _t('SilvercartShippingFee.UNLIMITED_WEIGHT_LABEL'),
+                    'Price'                     => _t('SilvercartShippingFee.COSTS'),
+                    'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
+                    'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
+                    'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
+                )
+        );
+    }
+    
+    /**
+     * Returns the maximum weight or a hint, that this fee is unlimited.
+     *
+     * @return string
+     */
+    public function getMaximumWeightLimitedOrNot() {
+        $maximumWeightLimitedOrNot = $this->MaximumWeight;
+        if ($this->UnlimitedWeight) {
+            $maximumWeightLimitedOrNot = _t('SilvercartShippingFee.UNLIMITED_WEIGHT');
+        }
+        return $maximumWeightLimitedOrNot;
     }
 
     

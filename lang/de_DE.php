@@ -670,8 +670,6 @@ $lang['de_DE']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Versandadres
 
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'Bezahlt';
-$lang['de_DE']['SilvercartOrderStatus']['PAYPAL_REFUNDING'] = 'Paypal Rückerstattung';
-$lang['de_DE']['SilvercartOrderStatus']['PAYPAL_PENDING'] = 'Paypal in Bearbeitung';
 $lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstati';
 $lang['de_DE']['SilvercartOrderStatus']['SINGULARNAME'] = 'Bestellstatus';
 $lang['de_DE']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Auf Zahlungseingang wird gewartet';
@@ -874,6 +872,8 @@ $lang['de_DE']['SilvercartShippingFee']['FOR_SHIPPINGMETHOD'] = 'für Versandart
 $lang['de_DE']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximalgewicht (g)';
 $lang['de_DE']['SilvercartShippingFee']['PLURALNAME'] = 'Versandgebühren';
 $lang['de_DE']['SilvercartShippingFee']['SINGULARNAME'] = 'Versandgebühr';
+$lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unbegrenzt';
+$lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unbegrenztes Maximalgewicht';
 $lang['de_DE']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (nur Zonen des Frachtführers verfügbar)';
 
 $lang['de_DE']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Versandgebührenseiten';
