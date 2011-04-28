@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -88,7 +89,6 @@ class SilvercartShoppingCart extends DataObject {
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
-    
     /**
      * Indicates wether the registered modules should be loaded.
      *
@@ -98,7 +98,6 @@ class SilvercartShoppingCart extends DataObject {
      * @since 27.04.2011
      */
     public static $loadModules = true;
-    
     /**
      * Indicates wether the registered modules should be loaded.
      *
@@ -108,7 +107,6 @@ class SilvercartShoppingCart extends DataObject {
      * @since 27.04.2011
      */
     public static $createForms = true;
-    
     /**
      * Contains the ID of the payment method the customer has chosen.
      *
@@ -141,7 +139,7 @@ class SilvercartShoppingCart extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.02.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
+    public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         if (array_key_exists('url', $_REQUEST)) {
             if (stripos($_REQUEST['url'], '/dev/build') === 0) {
@@ -157,25 +155,24 @@ class SilvercartShoppingCart extends DataObject {
         $this->SilvercartShoppingCartPositions();
 
         $this->SilvercartShippingMethodID = 0;
-        $this->SilvercartPaymentMethodID  = 0;
+        $this->SilvercartPaymentMethodID = 0;
 
         if (Member::currentUserID() &&
-            self::$loadModules) {
-            
+                self::$loadModules) {
+
             $this->callMethodOnRegisteredModules(
-                'performShoppingCartConditionsCheck',
-                array(
-                    $this,
-                    Member::currentUser()
-                )
+                    'performShoppingCartConditionsCheck', array(
+                $this,
+                Member::currentUser()
+                    )
             );
 
             $this->callMethodOnRegisteredModules(
-                'ShoppingCartInit'
+                    'ShoppingCartInit'
             );
         }
     }
-    
+
     /**
      * Set wether the registered modules should be loaded and handled.
      *
@@ -190,7 +187,7 @@ class SilvercartShoppingCart extends DataObject {
     public static function setLoadShoppingCartModules($doLoad) {
         self::$loadModules = $doLoad;
     }
-    
+
     /**
      * Set wether the shopping cart forms should be drawn.
      *
@@ -222,6 +219,13 @@ class SilvercartShoppingCart extends DataObject {
         if ($member == false) {
             $member = new SilvercartAnonymousCustomer();
             $member->write();
+            // Add customer to intermediate group
+            $customerGroup = DataObject::get_one(
+                            'Group', "`Code` = 'anonymous'"
+            );
+            if ($customerGroup) {
+                $member->Groups()->add($customerGroup);
+            }
             $member->logIn(true);
         }
 
@@ -348,15 +352,13 @@ class SilvercartShoppingCart extends DataObject {
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions',
-            array(
-                $this,
-                Member::currentUser(),
-                true,
-                $excludeShoppingCartPosition,
-                false
-            ),
-            $excludeModules
+                        'ShoppingCartPositions', array(
+                    $this,
+                    Member::currentUser(),
+                    true,
+                    $excludeShoppingCartPosition,
+                    false
+                        ), $excludeModules
         );
 
         // products
@@ -414,14 +416,12 @@ class SilvercartShoppingCart extends DataObject {
     public function getNonTaxableAmount($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions',
-                        array(
-                            $this,
-                            Member::currentUser(),
-                            false,
-                            $excludeShoppingCartPosition
-                        ),
-                        $excludeModules
+                        'ShoppingCartPositions', array(
+                    $this,
+                    Member::currentUser(),
+                    false,
+                    $excludeShoppingCartPosition
+                        ), $excludeModules
         );
 
         // Registered Modules
@@ -450,8 +450,7 @@ class SilvercartShoppingCart extends DataObject {
     public function HandlingCostPayment() {
         $handlingCostPayment = 0;
         $paymentMethodObj = DataObject::get_by_id(
-                        'SilvercartPaymentMethod',
-                        $this->SilvercartPaymentMethodID
+                        'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
         );
 
         if ($paymentMethodObj) {
@@ -477,8 +476,7 @@ class SilvercartShoppingCart extends DataObject {
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
         $selectedShippingMethod = DataObject::get_by_id(
-                        'SilvercartShippingMethod',
-                        $this->SilvercartShippingMethodID
+                        'SilvercartShippingMethod', $this->SilvercartShippingMethodID
         );
 
         if ($selectedShippingMethod) {
@@ -504,8 +502,7 @@ class SilvercartShoppingCart extends DataObject {
     public function CarrierAndShippingMethodTitle() {
         $title = '';
         $selectedShippingMethod = DataObject::get_by_id(
-                        'SilvercartShippingMethod',
-                        $this->SilvercartShippingMethodID
+                        'SilvercartShippingMethod', $this->SilvercartShippingMethodID
         );
 
         if ($selectedShippingMethod) {
@@ -526,8 +523,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getPayment() {
         $paymentMethodObj = DataObject::get_by_id(
-                        'SilvercartPaymentMethod',
-                        $this->SilvercartPaymentMethodID
+                        'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
         );
 
         return $paymentMethodObj;
@@ -572,11 +568,10 @@ class SilvercartShoppingCart extends DataObject {
         $positions = $this->SilvercartShoppingCartPositions();
         $taxes = new DataObjectSet;
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions',
-                        array(
-                            Member::currentUser()->SilvercartShoppingCart(),
-                            Member::currentUser(),
-                            true
+                        'ShoppingCartPositions', array(
+                    Member::currentUser()->SilvercartShoppingCart(),
+                    Member::currentUser(),
+                    true
                         )
         );
 
@@ -779,8 +774,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public static function registerModule($module) {
         array_push(
-            self::$registeredModules,
-            $module
+                self::$registeredModules, $module
         );
     }
 
@@ -882,11 +876,10 @@ class SilvercartShoppingCart extends DataObject {
                     $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
 
                     $outputOfModules[$registeredModule] = call_user_func_array(
-                        array(
-                            $registeredModuleObj,
-                            $methodName
-                        ),
-                        $parameters
+                            array(
+                        $registeredModuleObj,
+                        $methodName
+                            ), $parameters
                     );
                 }
             }
