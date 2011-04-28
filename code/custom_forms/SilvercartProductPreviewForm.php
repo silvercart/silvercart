@@ -72,7 +72,7 @@ class SilvercartProductPreviewForm extends CustomHtmlForm {
      * @since 23.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['productAmount']['title'] = _t('SilvercartProduct.QUANTITY');
+        $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
         $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
 
     }

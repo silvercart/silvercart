@@ -50,7 +50,23 @@ class SilvercartShoppingCartTest extends SapphireTest {
             $member->logOut();
         }
         $this->assertTrue(SilvercartShoppingCart::addProduct($formData), "adding a product to an anonymous users cart failed!");
+        
+        //log admin in again or session gets messed up and the test will not work on reload
         $member->logIn();
+    }
+    
+    /**
+     * test for getQuantity function
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testGetQuantity() {
+        $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
+        $this->assertEquals(12, $cart->getQuantity());
+
+        
     }
     
     
