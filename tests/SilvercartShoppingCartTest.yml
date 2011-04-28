@@ -1,14 +1,23 @@
+SilvercartProduct:
+    product:
+    product2:
+    product3:
+
 SilvercartShoppingCart:
     ShoppingCart:
         
 SilvercartShoppingCartPosition:
     CartPosition1:
+        Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
     CartPosition2:
+        Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
     CartPosition3:
+        Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
     CartPosition4:
+        Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
         
 SilvercartConfig:

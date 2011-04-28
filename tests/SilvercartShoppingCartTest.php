@@ -29,6 +29,46 @@ class SilvercartShoppingCartTest extends SapphireTest {
         $this->assertEquals(0, $cart->SilvercartShoppingCartPositions()->Count());
     }
     
+    /**
+     * tests addProduct function with admins and anonymous users
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testAddProduct() {
+        //add product to admins cart
+        $product = $this->objFromFixture("SilvercartProduct", "product");
+        $formData = array();
+        $formData['productID'] = $product->ID;
+        $formData['productQuantity'] = 10;
+        $this->assertTrue(SilvercartShoppingCart::addProduct($formData));
+        
+        //add product to anonymous cart
+        $member = Member::currentUser();
+        if ($member) {
+            $member->logOut();
+        }
+        $this->assertTrue(SilvercartShoppingCart::addProduct($formData), "adding a product to an anonymous users cart failed!");
+        
+        //log admin in again or session gets messed up and the test will not work on reload
+        $member->logIn();
+    }
+    
+    /**
+     * test for getQuantity function
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testGetQuantity() {
+        $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
+        $this->assertEquals(12, $cart->getQuantity());
+
+        
+    }
+    
     
 
 }

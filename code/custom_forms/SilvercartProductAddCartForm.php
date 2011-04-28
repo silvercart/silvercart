@@ -39,7 +39,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * @var array
      */
     protected $formFields = array(
-        'productAmount' => array(
+        'productQuantity' => array(
             'type' => 'TextField',
             'title' => 'Anzahl',
             'value' => '1',
@@ -70,7 +70,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * @since 02.02.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['productAmount']['title'] = _t('SilvercartProduct.QUANTITY');
+        $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
         $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
     }
 

@@ -194,7 +194,7 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Set wether the shopping cart forms should be drawn.
      *
-     * @param boolean $doLoad set wether to create the forms or not
+     * @param boolean $doCreate set wether to create the forms or not
      *
      * @return void
      *
@@ -235,11 +235,11 @@ class SilvercartShoppingCart extends DataObject {
             return false;
         }
 
-        if ($formData['productID'] && $formData['productAmount']) {
+        if ($formData['productID'] && $formData['productQuantity']) {
             $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
 
             if ($product) {
-                $quantity = (int) bcsqrt($formData['productAmount'] * $formData['productAmount'], 0); //make shure value is positiv
+                $quantity = (int) bcsqrt($formData['productQuantity'] * $formData['productQuantity'], 0); //make shure value is positiv
                 $product->addToCart($cart->ID, $quantity);
                 return true;
             }
@@ -335,9 +335,9 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the price of the cart positions, including taxes.
      *
-     * @param array $excludeModules An array of registered modules that shall not
-     *              be taken into account.
-     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param array $excludeModules              An array of registered modules that shall not
+     *                                           be taken into account.
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted
      *
      * @return Money a price amount
      *
@@ -401,9 +401,9 @@ class SilvercartShoppingCart extends DataObject {
      * Returns the non taxable amount of positions in the shopping cart.
      * Those can originate from registered modules only.
      *
-     * @param array $excludeModules An array of registered modules that shall not
-     *              be taken into account.
-     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param array $excludeModules              An array of registered modules that shall not
+     *                                           be taken into account.
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted
      *
      * @return Money
      *
@@ -537,8 +537,8 @@ class SilvercartShoppingCart extends DataObject {
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees).
      *
-     * @param array $excludeModules An array of registered modules that shall not
-     *              be taken into account.
+     * @param array $excludeModules               An array of registered modules that shall not
+     *                                            be taken into account.
      * @param array $excludeShoppingCartPositions Positions that shall not be counted
      * 
      * @return string a price amount
