@@ -267,7 +267,7 @@ class SilvercartShippingMethod extends DataObject {
             $fees = DataObject::get(
                 'SilvercartShippingFee',
                 sprintf(
-                    "`SilvercartShippingMethodID` = '%s' AND `MaximumWeight` >= '%s'",
+                    "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= '%s' OR `UnlimitedWeight`=1)",
                     $this->ID,
                     $cartWeightTotal
                 )
