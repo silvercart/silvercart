@@ -157,6 +157,10 @@ class SilvercartProduct extends DataObject {
         'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
         'SilvercartOrders'                => 'SilvercartOrder'
     );
+    
+    public static $casting = array(
+        'isActiveString' => 'VarChar(8)',
+    );
 
     // -----------------------------------------------------------------------
     // Methods
@@ -191,12 +195,13 @@ class SilvercartProduct extends DataObject {
      * @since 10.03.2011
      */
     public function summaryFields() {
-        $summaryFields = array_merge(
-            parent::summaryFields(),
-            array(
-                'Title'                         => _t('SilvercartProduct.SINGULARNAME'),
-                'SilvercartManufacturer.Title'  => _t('SilvercartManufacturer.SINGULARNAME')
-            )
+        $summaryFields = array(
+            'ProductNumberShop'                     => _t('SilvercartProduct.PRODUCTNUMBER'),
+            'Title'                                 => _t('SilvercartProduct.SINGULARNAME'),
+            'SilvercartProductGroup.Title'          => _t('SilvercartProductGroupPage.SINGULARNAME'),
+            'SilvercartManufacturer.Title'          => _t('SilvercartManufacturer.SINGULARNAME'),
+            'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
         );
 
         $this->extend('updateSummaryFields', $summaryFields);
@@ -214,6 +219,10 @@ class SilvercartProduct extends DataObject {
      */
     public function searchableFields() {
         $searchableFields = array(
+            'ProductNumberShop' => array(
+                'title'     => _t('SilvercartProduct.PRODUCTNUMBER'),
+                'filter'    => 'PartialMatchFilter'
+            ),
             'Title' => array(
                 'title'     => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter'    => 'PartialMatchFilter'
@@ -244,6 +253,10 @@ class SilvercartProduct extends DataObject {
             ),
             'SilvercartProductGroupMirrorPages.ID' => array(
                 'title'     => _t('SilvercartProductGroupMirrorPage.SINGULARNAME'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartAvailabilityStatus.ID' => array(
+                'title'     => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
                 'filter'    => 'ExactMatchFilter'
             )
         );
@@ -299,11 +312,26 @@ class SilvercartProduct extends DataObject {
                 'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
                 'SilvercartProductGroupMirrorPages' => _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'),
                 'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
+                'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
             )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Returns YES when isActive is true, else it will return NO
+     * (dependant on chosen language)
+     *
+     * @return string
+     */
+    public function getisActiveString() {
+        $isActiveString = _('Silvercart.NO');
+        if ($this->isActive) {
+            $isActiveString = _t('Silvercart.YES');
+        }
+        return $isActiveString;
     }
 
     /**
