@@ -28,6 +28,6 @@
         <% end_control %>
     </ul>
     <% else %>
-    <p>Keine Zahlarten verfügbar</p>
+    <p><% _t('SilvercartPaymentMethod.NO_PAYMENT_METHOD_AVAILABLE') %></p>
     <% end_if %>
 </div>

@@ -89,7 +89,6 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder',
-        'SilvercartTranslations' => 'SilvercartShippingMethodTexts',
         'SilvercartShippingFees' => 'SilvercartShippingFee'
     );
     /**
@@ -204,7 +203,6 @@ class SilvercartShippingMethod extends DataObject {
             'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
             'isActive' => _t('SilvercartPage.ISACTIVE', 'active'),
             'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-            'SilvercartTranslations' => _t('SilvercartShippingMethodTexts.PLURALNAME', 'shipping method translations'),
             'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
             'SilvercartZones' => _t('SilvercartZone.PLURALNAME', 'zones')
         );
