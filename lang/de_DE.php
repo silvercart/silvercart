@@ -798,6 +798,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Grundeinstellunge
 $lang['de_DE']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'ab Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['MODE'] = 'Modus';
 $lang['de_DE']['SilvercartPaymentMethod']['NAME'] = 'Name';
+$lang['de_DE']['SilvercartPaymentMethod']['NO_PAYMENT_METHOD_AVAILABLE'] = 'Keine Zahlarten verfügbar';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_LOGOS'] = 'Logos';
 $lang['de_DE']['SilvercartPaymentMethod']['PLURALNAME'] = 'Bezahlarten';
 $lang['de_DE']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Versandart';
