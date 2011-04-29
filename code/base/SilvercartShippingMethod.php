@@ -302,6 +302,8 @@ class SilvercartShippingMethod extends DataObject {
                 ")";
 
             return $titleWithCarrierAndFee;
+        } else {
+            return false;
         }
     }
 
