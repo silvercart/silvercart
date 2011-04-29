@@ -65,8 +65,18 @@ class SilvercartShoppingCartTest extends SapphireTest {
     public function testGetQuantity() {
         $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
         $this->assertEquals(12, $cart->getQuantity());
-
-        
+    }
+    
+    /**
+     * test for isFilled function
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.4.2011
+     * @return void
+     */
+    public function testIsFilled() {
+        $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
+        $this->assertTrue($cart->isFilled());
     }
     
     

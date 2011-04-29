@@ -97,6 +97,25 @@ class SilvercartShopEmail extends DataObject {
         $summaryFields['Subject']    = _t('SilvercartShopEmail.SUBJECT', 'subject');
         return $summaryFields;
     }
+    
+    /**
+     * input fields for backend manipulation
+     *
+     * @return FieldSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 28.04.2011
+     */
+    public function getCMSFields() {
+        $fields         = parent::getCMSFields();
+        $emailTextField = new TextareaField('EmailText', _t('SilvercartShopEmail.EMAILTEXT', 'message'), 30);
+        
+        $fields->removeByName('EmailText');
+        $fields->insertAfter($emailTextField, 'Subject');
+        
+        return $fields;
+    }
 
     /**
      * input fields for backend manipulation

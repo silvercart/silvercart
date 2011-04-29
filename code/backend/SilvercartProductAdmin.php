@@ -46,8 +46,7 @@ class SilvercartProductAdmin extends ModelAdmin {
         'SilvercartProduct' => array(
             'collection_controller' => 'SilvercartProduct_CollectionController'
         ),
-        'SilvercartManufacturer',
-        'SilvercartProductImageGallery'
+        'SilvercartManufacturer'
     );
 
     /**
@@ -61,8 +60,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $model_importers = array(
         'SilvercartProduct'             => 'CsvBulkLoader',
-        'SilvercartManufacturer'        => 'CsvBulkLoader',
-        'SilvercartProductImageGallery' => 'CsvBulkLoader'
+        'SilvercartManufacturer'        => 'CsvBulkLoader'
     );
 
     /**
