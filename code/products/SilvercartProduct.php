@@ -461,7 +461,7 @@ class SilvercartProduct extends DataObject {
         );
         $productGroupMirrorPagesTable->pageSize = 1000;
 
-        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
+        $fields->addFieldToTab('Root.'._t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'), $productGroupMirrorPagesTable);
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
