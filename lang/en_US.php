@@ -876,7 +876,7 @@ $lang['en_US']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximum weight (g)'
 $lang['en_US']['SilvercartShippingFee']['PLURALNAME'] = 'Shipping fees';
 $lang['en_US']['SilvercartShippingFee']['SINGULARNAME'] = 'Shipping fee';
 $lang['en_US']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unlimited';
-$lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unlimited Maximum Weight';
+$lang['en_US']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unlimited Maximum Weight';
 $lang['en_US']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only carrier\'s zones available)';
 
 $lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees Pags';
