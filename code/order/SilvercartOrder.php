@@ -330,17 +330,17 @@ class SilvercartOrder extends DataObject {
 
         $fields->fieldByName('Root.SilvercartOrderPositions')->Title = _t('SilvercartOrderPosition.PLURALNAME');
 
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS'), new ReadonlyField('sa_Name', 'Name', $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS'), new ReadonlyField('sa_Street', 'Straße', $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS'), new ReadonlyField('sa_Addition', 'Zusatz', $this->SilvercartShippingAddress()->Addition));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS'), new ReadonlyField('sa_City', 'PLZ/Ort', strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS'), new ReadonlyField('sa_Phone', 'Telefon', $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'), new ReadonlyField('sa_Name', 'Name', $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'), new ReadonlyField('sa_Street', 'Straße', $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'), new ReadonlyField('sa_Addition', 'Zusatz', $this->SilvercartShippingAddress()->Addition));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'), new ReadonlyField('sa_City', 'PLZ/Ort', strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'), new ReadonlyField('sa_Phone', 'Telefon', $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
 
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS'), new ReadonlyField('ia_Name', 'Name', $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS'), new ReadonlyField('ia_Street', 'Straße', $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS'), new ReadonlyField('ia_Addition', 'Zusatz', $this->SilvercartInvoiceAddress()->Addition));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS'), new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
-        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS'), new ReadonlyField('ia_Phone', 'Telefon', $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Name', 'Name', $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Street', 'Straße', $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Addition', 'Zusatz', $this->SilvercartInvoiceAddress()->Addition));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
+        $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Phone', 'Telefon', $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
 
         return $fields;
     }
