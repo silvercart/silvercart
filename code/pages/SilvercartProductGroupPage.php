@@ -82,7 +82,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public static $db = array(
-        'productsPerPage' => 'Int'
+        'productsPerPage'   => 'Int'
     );
 
     /**
@@ -255,6 +255,8 @@ class SilvercartProductGroupPage extends Page {
 
         $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
+        
+        
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
@@ -500,7 +502,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if (!$productGroup) {
             $productGroup = $this;
         }
-        if ($productGroup->Parent()->ClassName == 'SilvercartProductGroupHolder') {
+        if ($productGroup->Parent()->ClassName == 'SilvercartProductGroupHolder' ||
+            $productGroup->ParentID == 0) {
             return $productGroup;
         }
         return $this->getTopProductGroup($productGroup->Parent());
