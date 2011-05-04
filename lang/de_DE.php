@@ -132,6 +132,7 @@ $lang['de_DE']['SilvercartProduct']['DESCRIPTION'] = 'Artikelbeschreibung';
 $lang['de_DE']['SilvercartProduct']['EAN'] = 'EAN';
 $lang['de_DE']['SilvercartProduct']['FREE_OF_CHARGE'] = 'Versandkostenfrei';
 $lang['de_DE']['SilvercartProduct']['IMAGE'] = 'Artikelbild';
+$lang['de_DE']['SilvercartProduct']['IMAGE_NOT_AVAILABLE'] = 'Kein Artikelbild zugeordnet';
 $lang['de_DE']['SilvercartProduct']['MASTERPRODUCT'] = 'Basisartikel';
 $lang['de_DE']['SilvercartProduct']['METADESCRIPTION'] = 'Meta Beschreibung für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['METAKEYWORDS'] = 'Meta Schlagworte für Suchmaschinen';

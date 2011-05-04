@@ -445,12 +445,14 @@ class SilvercartProduct extends DataObject {
                 'PurchaseMinDuration',
                 'PurchaseMaxDuration',
                 'PurchaseTimeUnit',
-                
-                'SilvercartTax',
+                 'SilvercartTax',
                 'SilvercartManufacturer',
                 'SilvercartAvailabilityStatus',
-                'PackagingType'
-            )
+                'PackagingType',
+                'SilvercartFiles',
+                'SilvercartOrders'
+            ),
+            'includeRelations' => true
         );
         
         $this->extend('updateScaffoldFormFields', $params);
@@ -467,22 +469,29 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        /*
-        $fields = new FieldSet();
+
+        // When there are more than 500 images we want to display them as
+        // paginated table to save resources
+        $query = new SQLQuery(
+            array("COUNT(*) AS numberOfEntries"),
+            array("File"),
+            array("ClassName != 'Folder'")
+        );
         
-        $fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
-        $mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
-/*
-        // add database fields
-        foreach($this->db() as $fieldName => $fieldType) {
-            $fieldObject = $this->dbObject($fieldName)->scaffoldFormField(null, array());
-            $fieldObject->setTitle($this->fieldLabel($fieldName));
-            $fields->addFieldToTab("Root.Main", $fieldObject);
+        if ($query->execute()->value() > 500) {
+            $fields->removeByName('Root.Image');
+            $imageFieldTable = new HasOneComplexTableField($this, _t('SilvercartProduct.IMAGE'), 'Image');
+            $fields->addFieldToTab('Root.SilvercartImage', $imageFieldTable);
+            
+            $tab = $fields->findOrMakeTab('Root.SilvercartImage');
+            $tab->title = _t('SilvercartProduct.IMAGE');
+        } else {
+            $imageField = new ImageField('Image', _t('SilvercartProduct.IMAGE'));
+            $fields->addFieldToTab('Root.Main', $imageField);
         }
-        */
         
-        //$fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
-/*
+        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+
         $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
         $fields->removeByName('PurchaseMinDuration');
         $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
@@ -497,15 +506,15 @@ class SilvercartProduct extends DataObject {
         $availabilityStatusField    = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
         $fields->removeByName('SilvercartAvailabilityStatusID');
 
-        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'Image');
-        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'Image');
-        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'Image');
-        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'Image');
+        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
 
         $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
-*/
+        
         $productGroupMirrorPagesTable = new ManyManyComplexTableField(
             $this,
             'SilvercartProductGroupMirrorPages',
@@ -519,7 +528,7 @@ class SilvercartProduct extends DataObject {
         );
         $productGroupMirrorPagesTable->pageSize = 1000;
 
-        $fields->addFieldToTab('Root.'._t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'), $productGroupMirrorPagesTable);
+        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
 
         $this->extend('updateCMSFields', $fields);
         return $fields;
