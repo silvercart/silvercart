@@ -1,24 +1,52 @@
 SilvercartProduct:
     product:
+        PriceNetAmount: 5.99
+        PriceNetCurrency: EUR
     product2:
+        PriceNetAmount: 6.59
+        PriceNetCurrency: EUR
     product3:
+        PriceNetAmount: 499
+        PriceNetCurrency: EUR
+    product4:
+        PriceNetAmount: 199
+        PriceNetCurrency: EUR
+        Weight: 0
+
+SilvercartShippingMethod:
+    ShippingMethod:
+        
+SilvercartShippingFee:
+    ShippingFee:
+        PriceAmount: 3.99
+        PriceCurrency: EUR
+        SilvercartShippingMethod: =>SilvercartShippingMethod.ShippingMethod
 
 SilvercartShoppingCart:
     ShoppingCart:
+    ShoppingCartWithShippingCosts:
         
 SilvercartShoppingCartPosition:
     CartPosition1:
         Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        SilvercartProduct: =>SilvercartProduct.product
     CartPosition2:
         Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        SilvercartProduct: =>SilvercartProduct.product2
     CartPosition3:
         Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        SilvercartProduct: =>SilvercartProduct.product3
     CartPosition4:
         Quantity: 3
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+        SilvercartProduct: =>SilvercartProduct.product4
+    CartPosition5:
+        Quantity: 12
+        SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCartWithShippingCosts
+        SilvercartProduct: =>SilvercartProduct.product4
         
 SilvercartConfig:
     SilvercartConfig:
