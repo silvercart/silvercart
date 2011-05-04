@@ -130,7 +130,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 //allow only activated shipping methods
                 $activatedShippingMethods = new DataObjectSet();
                 foreach ($shippingMethods as $shippingMethod) {
-                    if (($shippingMethod->isActive == true) && ($shippingMethod->getTitleWithCarrierAndFee != false)) {
+                    if (($shippingMethod->isActive == true)) {
                         $activatedShippingMethods->push($shippingMethod);
                     }
                 }
