@@ -411,6 +411,52 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
     }
+    
+    /**
+     * Creates a whitelist with restricted fields for the FormScaffolder.
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright pixeltricks GmbH 2011
+     * @since 04.05.2011
+     */
+    public function scaffoldFormFields() {
+        $params = array(
+            'tabbed' => true,
+            'restrictFields' => array(
+                'Title',
+                'ShortDescription',
+                'LongDescription',
+                'MetaDescription',
+                'MetaTitle',
+                'MetaKeywords',
+                'ProductNumberShop'.
+                'ProductNumberManufacturer',
+                'PurchasePrice',
+                'MSRPrice',
+                'PriceGross',
+                'PriceNet',
+                'Weight',
+                'Quantity',
+                'isFreeOfCharge',
+                'EANCode',
+                'isActive',
+                'PurchaseMinDuration',
+                'PurchaseMaxDuration',
+                'PurchaseTimeUnit',
+                
+                'SilvercartTax',
+                'SilvercartManufacturer',
+                'SilvercartAvailabilityStatus',
+                'PackagingType'
+            )
+        );
+        
+        $this->extend('updateScaffoldFormFields', $params);
+        
+        return parent::scaffoldFormFields($params);
+    }
 
     /**
      * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
@@ -421,10 +467,22 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        $fields->removeByName('SortOrder');
-        $fields->removeByName('SilvercartProductGroupID');
-        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
-
+        /*
+        $fields = new FieldSet();
+        
+        $fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
+        $mainTab->setTitle(_t('SiteTree.TABMAIN', "Main"));
+/*
+        // add database fields
+        foreach($this->db() as $fieldName => $fieldType) {
+            $fieldObject = $this->dbObject($fieldName)->scaffoldFormField(null, array());
+            $fieldObject->setTitle($this->fieldLabel($fieldName));
+            $fields->addFieldToTab("Root.Main", $fieldObject);
+        }
+        */
+        
+        //$fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+/*
         $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
         $fields->removeByName('PurchaseMinDuration');
         $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
@@ -447,7 +505,7 @@ class SilvercartProduct extends DataObject {
         $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
-
+*/
         $productGroupMirrorPagesTable = new ManyManyComplexTableField(
             $this,
             'SilvercartProductGroupMirrorPages',
