@@ -173,12 +173,14 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function getCart() {
-        if ($this->owner->SilvercartShoppingCartID == 0) {
+        if ($this->owner->SilvercartShoppingCartID == 0 ||
+            !DataObject::get_by_id('SilvercartShoppingCart', $this->owner->SilvercartShoppingCartID)) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
             $this->owner->SilvercartShoppingCartID = $cart->ID;
             $this->owner->write();
         }
+        
         return $this->owner->SilvercartShoppingCart();
     }
 
