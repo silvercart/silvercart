@@ -175,30 +175,23 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $shippingMethod->write();
             }
 
-            // create two standard tax rates
-            $lowerTaxRate = DataObject::get_one(
-                            'SilvercartTax',
-                            "Rate = 7"
+            // create two standard german tax rates if no tax rate exists
+            $taxRate = DataObject::get_one(
+                            'SilvercartTax'
             );
 
-            if (!$lowerTaxRate) {
+            if (!$taxRate) {
                 $lowerTaxRate = new SilvercartTax();
                 $lowerTaxRate->setField('Rate', 7);
                 $lowerTaxRate->setField('Title', '7%');
                 $lowerTaxRate->write();
-            }
-
-            $higherTaxRate = DataObject::get_one(
-                            'SilvercartTax',
-                            "Rate = 19"
-            );
-
-            if (!$higherTaxRate) {
+                
                 $higherTaxRate = new SilvercartTax();
                 $higherTaxRate->setField('Rate', 19);
                 $higherTaxRate->setField('Title', '19%');
                 $higherTaxRate->write();
             }
+            
             // create a shipping fee and relate it to zone, tax and shipping method
             $shippingFee = DataObject::get_one('SilvercartShippingFee');
             if (!$shippingFee) {
