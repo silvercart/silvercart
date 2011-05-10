@@ -155,9 +155,9 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
             $SQL_start = (int) $_GET['start'];
         }
 
-        $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
+        $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
         
-        if (!$searchResultProducts) {
+        if (empty($useExtensionResults)) {
             $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
             $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
         }
