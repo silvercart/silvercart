@@ -470,6 +470,80 @@ class SilvercartProduct extends DataObject {
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
 
+        // --------------------------------------------------------------------
+        // Fields for the main tab
+        // --------------------------------------------------------------------
+        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+
+        $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
+        $fields->removeByName('PurchaseMinDuration');
+        $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
+        $fields->removeByName('PurchaseMaxDuration');
+        $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
+        $source = $purchaseTimeUnitField->getSource();
+        $source['Days'] = _t('Silvercart.DAYS','Days');
+        $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
+        $source['Months'] = _t('Silvercart.MONTHS','Months');
+        $purchaseTimeUnitField->setSource($source);
+        $fields->removeByName('PurchaseTimeUnit');
+        $availabilityStatusField = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
+        $fields->removeByName('SilvercartAvailabilityStatusID');
+
+        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
+        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
+
+        $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
+        $fields->removeByName('PackagingTypeID');
+        $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
+        
+        // --------------------------------------------------------------------
+        // Product group pages tab
+        // --------------------------------------------------------------------
+        $productGroupTable = new HasOneComplexTableField(
+            $this,
+            'SilvercartProductGroup',
+            'SilvercartProductGroupPage',
+            array(
+                'Breadcrumbs'   => 'Breadcrumbs'
+            ),
+            null,
+            null,
+            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+        );
+        
+        $fields->addFieldToTab('Root.SilvercartProductGroup', $productGroupTable);
+        
+        // set tab title
+        $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
+        $tab->title = _t('SilvercartProductGroupPage.SINGULARNAME', 'product group');
+
+        // --------------------------------------------------------------------
+        // Mirror product group pages tab
+        // --------------------------------------------------------------------
+        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
+            $this,
+            'SilvercartProductGroupMirrorPages',
+            'SilvercartProductGroupPage',
+            array(
+                'Breadcrumbs'   => 'Breadcrumbs'
+            ),
+            null,
+            sprintf(
+                "SiteTree.ID != %d",
+                $this->SilvercartProductGroup()->ID
+            ),
+            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+        );
+        $productGroupMirrorPagesTable->pageSize = 1000;
+
+        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
+        
+        // --------------------------------------------------------------------
+        // image field tab or main tab field
+        // --------------------------------------------------------------------
+        
         // When there are more than 500 images we want to display them as
         // paginated table to save resources
         $query = new SQLQuery(
@@ -490,46 +564,42 @@ class SilvercartProduct extends DataObject {
             $fields->addFieldToTab('Root.Main', $imageField);
         }
         
-        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
-
-        $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
-        $fields->removeByName('PurchaseMinDuration');
-        $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
-        $fields->removeByName('PurchaseMaxDuration');
-        $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
-        $source = $purchaseTimeUnitField->getSource();
-        $source['Days'] = _t('Silvercart.DAYS','Days');
-        $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
-        $source['Months'] = _t('Silvercart.MONTHS','Months');
-        $purchaseTimeUnitField->setSource($source);
-        $fields->removeByName('PurchaseTimeUnit');
-        $availabilityStatusField    = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
-        $fields->removeByName('SilvercartAvailabilityStatusID');
-
-        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
-
-        $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
-        $fields->removeByName('PackagingTypeID');
-        $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
+        // --------------------------------------------------------------------
+        // Reorder tabs
+        // --------------------------------------------------------------------
+        $tabset = false;
         
-        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
-            $this,
-            'SilvercartProductGroupMirrorPages',
-            'SilvercartProductGroupPage',
-            array(
-                'Breadcrumbs'   => 'Breadcrumbs'
-            ),
-            null,
-            null,
-            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
-        );
-        $productGroupMirrorPagesTable->pageSize = 1000;
+        foreach($fields as $i => $field) {
+			if(is_object($field) && $field instanceof TabSet) {
+                $tabset = $field;
+                break;
+			}
+		}
+        
+        if ($tabset) {
+            $tabs = array();
+            
+            foreach ($tabset->children as $child) {
+                $tabs[$child->name] = $child;
+                $tabset->removeByName($child->name);
+            }
+            
+            $tabset->push($tabs['Main']); // Main
+            $tabset->push($tabs['SilvercartProductGroup']); // Product groups
+            $tabset->push($tabs['SilvercartProductGroupMirrorPages']); // Mirror product groups
+            $tabset->push($tabs['SilvercartOrders']); // Orders
 
-        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
-
+            unset($tabs['Main']);
+            unset($tabs['SilvercartProductGroup']);
+            unset($tabs['SilvercartProductGroupMirrorPages']);
+            unset($tabs['SilvercartOrders']);
+            
+            foreach ($tabs as $tabName => $tab) {
+                $tabset->push($tab);
+            }
+        }
+        
+        
         $this->extend('updateCMSFields', $fields);
         return $fields;
     }
