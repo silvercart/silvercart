@@ -532,22 +532,45 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
-     * returns allowed shipping methods.
+     * Returns allowed shipping methods. Those are
+     * 
      * - shipping methods which are related directly to the payment method
      * - shipping methods which are NOT related to any payment method
      *
      * @return DataObjectSet
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 11.05.2011
      */
     public function getAllowedShippingMethods() {
-        $allowedShippingMethodsArray = array();
-        foreach (DataObject::get('SilvercartShippingMethod') as $shippingMethod) {
-            if ($shippingMethod->SilvercartPaymentMethods()->Count() == 0
-                    && $shippingMethod->getShippingFee() !== false) {
-                $allowedShippingMethodsArray[] = $shippingMethod;
+        $allowedShippingMethods = array();
+        $shippingMethods        = DataObject::get('SilvercartShippingMethod', 'isActive = 1');
+
+        if ($shippingMethods) {
+            foreach ($shippingMethods as $shippingMethod) {
+
+                // Find shippping methods that are directly related to
+                // payment methods....
+                if ($shippingMethod->SilvercartPaymentMethods()->Count() > 0) {
+                    
+                    // ... and exclude them, if the current payment method is
+                    // not related.
+                    if (!$shippingMethod->SilvercartPaymentMethods()->find('ID', $this->ID)) {
+                        continue;
+                    }
+                }
+                
+                // If there is no shipping fee defined for this shipping
+                // method we don't want to show it.
+                if ($shippingMethod->getShippingFee() !== false) {
+                    $allowedShippingMethods[] = $shippingMethod;
+                }
             }
         }
-        $allowedShippingMethods = new DataObjectSet($allowedShippingMethodsArray);
-        $allowedShippingMethods->merge($this->SilvercartShippingMethods());
+        
+        $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
+        
         return $allowedShippingMethods;
     }
 

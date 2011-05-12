@@ -23,6 +23,9 @@
 .shopping-cart-full .right {
     text-align: right;
 }
+.shopping-cart-full .left {
+    text-align: left;
+}
 
 .shopping-cart-full form.yform {
     background: none;

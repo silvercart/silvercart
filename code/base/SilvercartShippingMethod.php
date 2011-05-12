@@ -1,4 +1,4 @@
-<?php
+x<?php
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -260,28 +260,23 @@ class SilvercartShippingMethod extends DataObject {
      * @since 9.11.2010
      */
     public function getShippingFee() {
+        $fee             = false;
         $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        if ($cartWeightTotal || SilvercartConfig::AllowCartWeightToBeZero()) {
-            $fees = DataObject::get(
-                'SilvercartShippingFee',
-                sprintf(
-                    "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= '%s' OR `UnlimitedWeight`=1)",
-                    $this->ID,
-                    $cartWeightTotal
-                )
-            );
+        $fees            = DataObject::get(
+            'SilvercartShippingFee',
+            sprintf(
+                "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1)",
+                $this->ID,
+                $cartWeightTotal
+            )
+        );
 
-            if ($fees) {
-                $fees->sort('PriceAmount');
-                $fee = $fees->First();
-
-                return $fee;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if ($fees) {
+            $fees->sort('PriceAmount');
+            $fee = $fees->First();
         }
+        
+        return $fee;
     }
 
     /**

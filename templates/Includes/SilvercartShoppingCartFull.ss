@@ -6,8 +6,8 @@
                 <table class="shopping-cart-full">
                     <thead>
                         <tr>
-                            <th><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %></th>
-                            <th><% _t('SilvercartPage.PRODUCTNAME','product name') %></th>
+                            <th class="left"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %></th>
+                            <th class="left"><% _t('SilvercartPage.PRODUCTNAME','product name') %></th>
                             <th><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
                             <% if Top.showPricesGross %>
                             <th><% _t('SilvercartProduct.VAT','VAT') %></th>
@@ -195,17 +195,20 @@
 
                 </table>
 
-                <div class="shoppingCartActions">
-                    <% if registeredModules %>
-                        <% control registeredModules %>
-                            <% if ShoppingCartActions %>
-                                <% control ShoppingCartActions %>
-                                    $moduleOutput
-                                <% end_control %>
-                            <% end_if %>
-                        <% end_control %>
-                    <% end_if %>
-                </div>
+                <% if Top.EditableShoppingCart %>
+                    <div class="shoppingCartActions">
+                        <% if registeredModules %>
+                            <% control registeredModules %>
+                                <% if ShoppingCartActions %>
+                                    <% control ShoppingCartActions %>
+                                        $moduleOutput
+                                    <% end_control %>
+                                <% end_if %>
+                            <% end_control %>
+                        <% end_if %>
+                    </div>
+                <% end_if %>
+                
             </fieldset>
         <% end_control %>
     <% end_control %>

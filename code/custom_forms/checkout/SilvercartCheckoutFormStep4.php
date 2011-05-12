@@ -124,17 +124,12 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         }
 
         if (isset($paymentMethod) &&
-            $paymentMethod) {
+                  $paymentMethod) {
+            
             $shippingMethods = $paymentMethod->getAllowedShippingMethods();
+            
             if ($shippingMethods) {
-                //allow only activated shipping methods
-                $activatedShippingMethods = new DataObjectSet();
-                foreach ($shippingMethods as $shippingMethod) {
-                    if (($shippingMethod->isActive == true)) {
-                        $activatedShippingMethods->push($shippingMethod);
-                    }
-                }
-                $this->formFields['ShippingMethod']['value'] = $activatedShippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep4.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
+                $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep4.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
             }
         }
     }

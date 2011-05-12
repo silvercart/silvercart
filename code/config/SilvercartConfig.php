@@ -48,7 +48,6 @@ class SilvercartConfig extends DataObject {
         'DefaultCurrency' => 'VarChar(16)',
         'EmailSender' => 'VarChar(255)',
         'GlobalEmailRecipient' => 'VarChar(255)',
-        'allowCartWeightToBeZero' => 'Boolean(0)',
         'PricetypeAnonymousCustomers' => 'VarChar(6)',
         'PricetypeRegularCustomers' => 'VarChar(6)',
         'PricetypeBusinessCustomers' => 'VarChar(6)',
@@ -159,7 +158,6 @@ class SilvercartConfig extends DataObject {
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
-        $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForGlobalEmailRecipient', _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO')), 'allowCartWeightToBeZero');
         // configure the fields for pricetype configuration
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
@@ -212,7 +210,6 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
-        $fieldLabels['allowCartWeightToBeZero'] = _t('SilvercartConfig.ALLOW_CART_WEIGHT_TO_BE_ZERO', 'Allow cart weight to be zero');
         $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
         $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         return $fieldLabels;
@@ -375,26 +372,6 @@ class SilvercartConfig extends DataObject {
             self::$globalEmailRecipient = self::getConfig()->GlobalEmailRecipient;
         }
         return self::$globalEmailRecipient;
-    }
-
-    /**
-     * Returns the configured default setting that determines if the cartweight
-     * on checkout may be zero.
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.03.2011
-     */
-    public static function AllowCartWeightToBeZero() {
-        $silvercartConfig = self::getConfig();
-
-        if ($silvercartConfig->hasField('allowCartWeightToBeZero')) {
-            return $silvercartConfig->getField('allowCartWeightToBeZero');
-        } else {
-            return false;
-        }
     }
 
     /**
