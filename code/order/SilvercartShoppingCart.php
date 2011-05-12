@@ -351,6 +351,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
+        
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions', array(
                     $this,
