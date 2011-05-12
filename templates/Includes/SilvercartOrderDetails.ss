@@ -38,6 +38,13 @@
 </div>
 <h3><% _t('SilvercartOrderPosition.PLURALNAME','Order positions') %></h3>
     <table>
+        <colgroup>
+            <col width="20%"></col>
+            <col width="45%"></col>
+            <col width="15%"></col>
+            <col width="5%"></col>
+            <col width="15%"></col>
+        </colgroup>
         <tr>
             <th><% _t('SilvercartPage.PRODUCTNAME','Product name') %></th>
             <th><% _t('SilvercartProduct.DESCRIPTION','Product description') %></th>
@@ -49,9 +56,9 @@
         <tr>
             <td>$Title</td>
             <td>$ProductDescription.LimitWordCount(12)</td>
-            <td>$Price.Nice</td>
+            <td>$PriceNice</td>
             <td>$Quantity</td>
-            <td>$PriceTotal.Nice</td>
+            <td>$PriceTotalNice</td>
         </tr>
         <% if SilvercartVoucherCode %>
             <tr class="subrow">
