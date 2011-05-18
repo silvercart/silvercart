@@ -1,17 +1,40 @@
 <?php
 /**
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage BugfixTemplates
+ */
+
+/**
  * Bugfix for the Zend Locale Format class.
  *
  * Altered line 141: substr => iconv_substr
  * Altered line 153: and ($rest != '¤')
  *
- * @package teleapotheke
+ * @package Silvercart
+ * @subpackage BugfixTemplates
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 02.02.2011
- * @license none
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class PixeltricksZendLocaleFormatDecorator extends Zend_Locale_Format {
+class SilvercartZendLocaleFormatDecorator extends Zend_Locale_Format {
 
     /**
      * Contains the decorated class.
@@ -35,7 +58,7 @@ class PixeltricksZendLocaleFormatDecorator extends Zend_Locale_Format {
      * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
-    function __construct(Zend_Locale_Format $cZend_Locale_Format) {
+    public function __construct(Zend_Locale_Format $cZend_Locale_Format) {
         $this->cZend_Locale_Format = $cZend_Locale_Format;
     }
 
@@ -46,13 +69,17 @@ class PixeltricksZendLocaleFormatDecorator extends Zend_Locale_Format {
      * ##0.00 -> 12345.12345 -> 12345.12
      * ##,##0.00 -> 12345.12345 -> 12,345.12
      *
-     * @param   string  $input    Localized number string
-     * @param   array   $options  Options: number_format, locale, precision. See {@link setOptions()} for details.
-     * @return  string  locale formatted number
+     * @param string $value   Localized number string
+     * @param array  $options Options: number_format, locale, precision. See {@link setOptions()} for details.
+     * 
+     * @return string locale formatted number
+     * 
      * @throws Zend_Locale_Exception
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.02.2011
      */
-    public static function toNumber($value, array $options = array())
-    {
+    public static function toNumber($value, array $options = array()) {
         // load class within method for speed
         require_once 'Zend/Locale/Math.php';
 

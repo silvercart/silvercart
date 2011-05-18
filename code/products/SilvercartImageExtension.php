@@ -21,6 +21,16 @@
  * @subpackage Products
  */
 
+/**
+ * Global extension of Image that provides means managing huge numbers of images
+ * 
+ * @package Silvercart
+ * @subpackage Products
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 04.05.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
 class SilvercartImageExtension extends DataObjectDecorator {
     
     /**
@@ -71,11 +81,6 @@ class SilvercartImageExtension extends DataObjectDecorator {
      */
     public function ImageThumbnail() {
         $imageTag = $this->owner->SetRatioSize(50,50);
-        /*
-        if ($this->owner->ImageID > 0) {
-            $imageTag = $this->owner->Image()->SetRatioSize(100, 100);
-        }
-        */
         return $imageTag;
     }
 }

@@ -22,11 +22,8 @@
  */
 
 /**
- * Update 0.9 - 1
- * This update converts the Prices of existing SilverCart installations.
- * SilverCarts price handling changed because of changing the general tax
- * logic. The attribute 'Price' of SilvercartProduct was splitted into the
- * new attributes 'PriceNet' and 'PriceGross'. 'Price' is not used anymore.
+ * Update 1.0 - 1
+ * This update sets the new configuration attribute productsPerPage to the default value 15.
  *
  * @package Silvercart
  * @subpackage Update
