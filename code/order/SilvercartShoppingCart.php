@@ -157,8 +157,13 @@ class SilvercartShoppingCart extends DataObject {
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID = 0;
 
-        if (Member::currentUserID() &&
-                self::$loadModules) {
+        // Check if the installation is complete. If it's not complete we
+        // can't call the method "Member::currentUser()", since it tries to
+        // get the decorated fields from SilvercartCustomerRole that are not
+        // yet created in the database
+        if (SilvercartConfig::isInstallationCompleted() &&
+			Member::currentUserID() &&
+            self::$loadModules) {
 
             $this->callMethodOnRegisteredModules(
                     'performShoppingCartConditionsCheck', array(

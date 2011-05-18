@@ -617,4 +617,29 @@ class SilvercartConfig extends DataObject {
         SilvercartGroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
     }
 
+    /**
+     * Checks if the installation is complete. We assume a complete
+     * installation if the Member table has the field "SilvercartShoppingCartID"
+     * that is decorated via "SilvercartCustomerRole".
+     * 
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.05.2011
+     */
+    public static function isInstallationCompleted() {
+        $installationComplete   = false;
+        $memberFieldList        = array();
+		$queryRes               = DB::query("SHOW COLUMNS FROM Member");
+		
+		foreach ($queryRes as $key => $value) {
+			$memberFieldList[] = $value['Field'];
+		}
+		
+		if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+			$installationComplete = true;
+		}
+        
+        return $installationComplete;
+    }
 }
