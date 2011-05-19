@@ -587,12 +587,17 @@ class SilvercartProduct extends DataObject {
             $tabset->push($tabs['Main']); // Main
             $tabset->push($tabs['SilvercartProductGroup']); // Product groups
             $tabset->push($tabs['SilvercartProductGroupMirrorPages']); // Mirror product groups
-            $tabset->push($tabs['SilvercartOrders']); // Orders
+            if (array_key_exists('SilvercartOrders', $tabs)) {
+                $tabset->push($tabs['SilvercartOrders']); // Orders
+            }
 
             unset($tabs['Main']);
             unset($tabs['SilvercartProductGroup']);
             unset($tabs['SilvercartProductGroupMirrorPages']);
-            unset($tabs['SilvercartOrders']);
+            
+            if (array_key_exists('SilvercartOrders', $tabs)) {
+                unset($tabs['SilvercartOrders']);
+            }
             
             foreach ($tabs as $tabName => $tab) {
                 $tabset->push($tab);
