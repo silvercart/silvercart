@@ -60,7 +60,7 @@
                 <div id="header">
                     <div class="subcolumns">
                         <div class="c50l">
-                            <a href="/?locale=$Locale"><img src="{$BaseHref}silvercart/images/logo.jpg" alt="site logo" /></a>
+                            <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}"><img src="{$BaseHref}silvercart/images/logo.jpg" alt="site logo" /></a>
                         </div>
                         <div class="c50r">
                             <div class="subcr">
