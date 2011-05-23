@@ -1,5 +1,5 @@
 <% control CustomersOrder %>
-<h3>Bestelldetails</h3>
+<h3><% _t('SilvercartOrderDetailPage.TITLE') %></h3>
     <table>
         <tr>
             <td><% _t('SilvercartPage.ORDER_DATE','Order date') %></td><td>$Created.Nice</td>

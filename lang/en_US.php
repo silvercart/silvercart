@@ -655,10 +655,10 @@ $lang['en_US']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page
 $lang['en_US']['SilvercartOrderDetailPage']['TITLE'] = 'Order details';
 $lang['en_US']['SilvercartOrderDetailPage']['URL_SEGMENT'] = 'order-details';
 
-$lang['en_US']['SilvercartOrderHolder']['PLURALNAME'] = 'Order Holders';
-$lang['en_US']['SilvercartOrderHolder']['SINGULARNAME'] = 'Order Holder';
-$lang['en_US']['SilvercartOrderHolder']['TITLE'] = 'My oders';
-$lang['en_US']['SilvercartOrderHolder']['URL_SEGMENT'] = 'my-oders';
+$lang['en_US']['SilvercartOrderHolder']['PLURALNAME'] = 'Order overview';
+$lang['en_US']['SilvercartOrderHolder']['SINGULARNAME'] = 'Order overview';
+$lang['en_US']['SilvercartOrderHolder']['TITLE'] = 'My orders';
+$lang['en_US']['SilvercartOrderHolder']['URL_SEGMENT'] = 'my-orders';
 
 $lang['en_US']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Order invoice addresses';
 $lang['en_US']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Order invoice address';
@@ -750,9 +750,9 @@ $lang['en_US']['SilvercartPage']['ORDERD_PRODUCTS'] = 'Ordered products';
 $lang['en_US']['SilvercartPage']['ORDER_COMPLETED'] = 'Your order is completed';
 $lang['en_US']['SilvercartPage']['ORDER_DATE'] = 'Order date';
 $lang['en_US']['SilvercartPage']['ORDERS_EMAIL_INFORMATION_TEXT'] = 'Please check your email inbox for the order confirmation.';
-$lang['en_US']['SilvercartPage']['ORDER_THANKS'] = 'Many thanks for your oder.';
+$lang['en_US']['SilvercartPage']['ORDER_THANKS'] = 'Many thanks for your order.';
 $lang['en_US']['SilvercartPage']['PASSWORD'] = 'Password';
-$lang['en_US']['SilvercartPage']['PASSWORD_CASE_EMPTY'] = 'If You leave this field empty, Your password will not be changed.';
+$lang['en_US']['SilvercartPage']['PASSWORD_CASE_EMPTY'] = 'If you leave this field empty, your password will not be changed.';
 $lang['en_US']['SilvercartPage']['PASSWORD_CHECK'] = 'Password check';
 $lang['en_US']['SilvercartPage']['PASSWORD_WRONG'] = 'This password is wrong.';
 $lang['en_US']['SilvercartPage']['PAYMENT_NOT_WORKING'] = 'The choosen payment module does not work.';
