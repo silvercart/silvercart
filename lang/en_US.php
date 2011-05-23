@@ -838,7 +838,7 @@ $lang['en_US']['SilvercartRegisterConfirmationPage']['SUCCESS_MESSAGE_TEXT'] = '
 $lang['en_US']['SilvercartRegisterConfirmationPage']['TITLE'] = 'Register confirmation page';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['URL_SEGMENT'] = 'register-confirmation';
 
-$lang['en_US']['SilvercartRegisterWelcomePage']['CONTENT'] = '<p>Thank you for registering at our webshop. We sent you an email with directions to activate your account. Pleas check your inbox.</p><p>Thank you!</p>';
+$lang['en_US']['SilvercartRegisterWelcomePage']['CONTENT'] = '<p>Thank you for registering at our webshop. We sent you an email with directions to activate your account. Please check your inbox.</p><p>Thank you!</p>';
 $lang['en_US']['SilvercartRegisterWelcomePage']['PLURALNAME'] = 'Register Welcome Pags';
 $lang['en_US']['SilvercartRegisterWelcomePage']['SINGULARNAME'] = 'Register Welcome Page';
 
