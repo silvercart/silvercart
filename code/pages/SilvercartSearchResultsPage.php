@@ -161,6 +161,10 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
             $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
             $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
         }
+        
+        if (!$searchResultProducts) {
+            $searchResultProducts = new DataObjectSet();
+        }
 
         $this->searchResultProducts = $searchResultProducts;
         $productIdx                 = 0;

@@ -87,6 +87,10 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function init() {
         if (SilvercartConfig::DefaultLayoutEnabled()) {
+            Requirements::block('cms/css/layout.css');
+            Requirements::block('cms/css/typography.css');
+            Requirements::block('cms/css/form.css');
+            
             // Require the default layout and its patches only if it is enabled
             Requirements::themedCSS('layout');
             Requirements::insertHeadTags('<!--[if lte IE 7]>');

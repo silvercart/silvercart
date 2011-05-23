@@ -1,9 +1,9 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <div class="typography">
-            <h1>Suchergebnisse</h1>
+            <h1><% _t('SilvercartSearchResultsPage.TITLE','Suchergebnisse') %></h1>
             <% if SearchQuery %>
-                <p>Suchergebnisse f&uuml;r den Begriff <b>&rdquo;$SearchQuery&rdquo;</b> ($Products.Count <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):
+                <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$SearchQuery) %> ($Products.Count <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
             <% end_if %>
 
             <% if getProducts %>
@@ -13,7 +13,7 @@
             <% else %>
                 <p>
                     <% _t('SilvercartPage.THE_QUERY', 'The query') %>
-                    <b>$SearchQuery</b>
+                    <b>&rdquo;$SearchQuery&rdquo;</b>
                     <% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
                 </p>
             <% end_if %>

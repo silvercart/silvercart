@@ -865,6 +865,7 @@ $lang['en_US']['SilvercartSearchResultsPage']['PLURALNAME'] = 'Search Results Pa
 $lang['en_US']['SilvercartSearchResultsPage']['SINGULARNAME'] = 'Search Results Page';
 $lang['en_US']['SilvercartSearchResultsPage']['TITLE'] = 'Search results';
 $lang['en_US']['SilvercartSearchResultsPage']['URL_SEGMENT'] = 'search-results';
+$lang['en_US']['SilvercartSearchResultsPage']['RESULTTEXT'] = 'Search results for query <b>&rdquo;%s&rdquo;</b>';
 
 $lang['en_US']['SilvercartShippingAddress']['PLURALNAME'] = 'Shipping addresses';
 $lang['en_US']['SilvercartShippingAddress']['SINGULARNAME'] = 'Shipping address';
