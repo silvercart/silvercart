@@ -488,7 +488,9 @@ class SilvercartProduct extends DataObject {
         $fields->removeByName('PurchaseTimeUnit');
         $availabilityStatusField = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
         $fields->removeByName('SilvercartAvailabilityStatusID');
+        $productNumberField = new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER'));
 
+        $fields->addFieldToTab('Root.Main', $productNumberField, 'Title');
         $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
         $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
         $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
