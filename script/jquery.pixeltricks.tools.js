@@ -14,6 +14,7 @@ function doesEmailExistAlready(form, fieldName)
     var fieldValue      = $('#' + form.formName + form.nameSeparator + fieldName).val();
     var errorMessage    = '';
     var success         = false;
+    var uri             = document.baseURI ? document.baseURI : '/';
 
     if (fieldValue)
     {
@@ -21,7 +22,7 @@ function doesEmailExistAlready(form, fieldName)
         // Ergebnisfeld schreiben.
         var result = $.ajax(
             {
-                url:        '/api/v1/Member.json?Email=' + fieldValue,
+                url:        uri + 'api/v1/Member.json?Email=' + fieldValue,
                 dataType:   'json',
                 async:      false,
                 success:    function(data)
