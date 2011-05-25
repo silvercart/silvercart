@@ -357,29 +357,12 @@ class SilvercartOrder extends DataObject {
     public function createInvoiceAddress($registrationData = "") {
         $member = Member::currentUser();
         $orderInvoiceAddress = new SilvercartOrderInvoiceAddress();
-        if ($member->ClassName != "SilvercartAnonymousCustomer") {//for registered users
-
-            /*
-             * a member might not have an invoice address Surname/FirstName
-             */
-            $orderInvoiceAddress->Salutation = $member->SilvercartInvoiceAddress()->Salutation;
-            $orderInvoiceAddress->Surname = $member->SilvercartInvoiceAddress()->Surname;
-            $orderInvoiceAddress->FirstName = $member->SilvercartInvoiceAddress()->FirstName;
-            $orderInvoiceAddress->Street = $member->SilvercartInvoiceAddress()->Street;
-            $orderInvoiceAddress->StreetNumber = $member->SilvercartInvoiceAddress()->StreetNumber;
-            $orderInvoiceAddress->Postcode = $member->SilvercartInvoiceAddress()->Postcode;
-            $orderInvoiceAddress->City = $member->SilvercartInvoiceAddress()->City;
-            $orderInvoiceAddress->PhoneAreaCode = $member->SilvercartInvoiceAddress()->PhoneAreaCode;
-            $orderInvoiceAddress->Phone = $member->SilvercartInvoiceAddress()->Phone;
-            $orderInvoiceAddress->SilvercartCountryID = $member->SilvercartInvoiceAddress()->SilvercartCountryID;
-            $orderInvoiceAddress->write();
-            $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
-        } else { //for anonymous customers
-            $orderInvoiceAddress->castedUpdate($registrationData);
-            $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
-            $orderInvoiceAddress->write();
-            $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
-        }
+        
+        $orderInvoiceAddress->castedUpdate($registrationData);
+        $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
+        $orderInvoiceAddress->write();
+        $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
+        
         $this->write();
     }
 
@@ -396,29 +379,12 @@ class SilvercartOrder extends DataObject {
     public function createShippingAddress($registrationData = "") {
         $member = Member::currentUser();
         $orderShippingAddress = new SilvercartOrderShippingAddress();
-        if ($member->ClassName != "SilvercartAnonymousCustomer") {// for registered customers
-
-            /*
-             * get Surname and FirstName from the address, if not available from the member
-             */
-            $orderShippingAddress->Salutation = $member->SilvercartShippingAddress()->Salutation;
-            $orderShippingAddress->Surname = $member->SilvercartShippingAddress()->Surname;
-            $orderShippingAddress->FirstName = $member->SilvercartShippingAddress()->FirstName;
-            $orderShippingAddress->Street = $member->SilvercartShippingAddress()->Street;
-            $orderShippingAddress->StreetNumber = $member->SilvercartShippingAddress()->StreetNumber;
-            $orderShippingAddress->Postcode = $member->SilvercartShippingAddress()->Postcode;
-            $orderShippingAddress->City = $member->SilvercartShippingAddress()->City;
-            $orderShippingAddress->PhoneAreaCode = $member->SilvercartShippingAddress()->PhoneAreaCode;
-            $orderShippingAddress->Phone = $member->SilvercartShippingAddress()->Phone;
-            $orderShippingAddress->SilvercartCountryID = $member->SilvercartShippingAddress()->SilvercartCountryID;
-            $orderShippingAddress->write(); //write here to have an object ID
-            $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
-        } else { //for anonymous customers
-            $orderShippingAddress->castedUpdate($registrationData);
-            $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
-            $orderShippingAddress->write(); //write here to have an object ID
-            $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
-        }
+       
+        $orderShippingAddress->castedUpdate($registrationData);
+        $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
+        $orderShippingAddress->write(); //write here to have an object ID
+        $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
+       
         $this->write();
     }
 
