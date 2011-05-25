@@ -85,7 +85,7 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
 
         parent::init();
 
-        $this->registerCustomHtmlForm('SilvercartLoginForm', new SilvercartQuickLoginForm($this));
+        $this->registerCustomHtmlForm('SilvercartLoginForm', new SilvercartLoginForm($this));
     }
 
     /**

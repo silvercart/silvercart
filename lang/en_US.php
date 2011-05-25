@@ -615,10 +615,15 @@ $lang['en_US']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigation
 $lang['en_US']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Metanavigation';
 $lang['en_US']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
 
+$lang['en_US']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT'] = 'Do you already have an account?';
+$lang['en_US']['SilvercartMyAccountHolder']['GOTO_REGISTRATION'] = 'Go to the registration form';
 $lang['en_US']['SilvercartMyAccountHolder']['PLURALNAME'] = 'Account holders';
+$lang['en_US']['SilvercartMyAccountHolder']['REGISTER_ADVANTAGES_TEXT'] = 'By registering you can reuse your data like invoice or delivery addresses on your next purchase.';
 $lang['en_US']['SilvercartMyAccountHolder']['SINGULARNAME'] = 'Account holder';
 $lang['en_US']['SilvercartMyAccountHolder']['TITLE'] = 'My account';
 $lang['en_US']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'my-account';
+$lang['en_US']['SilvercartMyAccountHolder']['WANTTOREGISTER'] = 'Do you want to register?';
+$lang['en_US']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Your customer number';
 
 $lang['en_US']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Amount total gross';
 $lang['en_US']['SilvercartOrder']['AMOUNTTOTAL'] = 'Amount total';

@@ -5,7 +5,7 @@
         <legend><% _t('SilvercartPage.ADDRESS_DATA','address data') %></legend>
 
         <div class="type-text">
-            <label>Ihre Kundennummer:</label>
+            <label><% _t('SilvercartMyAccountHolder.YOUR_CUSTOMERNUMBER') %>:</label>
             <strong>$CurrentMember.CustomerNumber</strong>
         </div>
 

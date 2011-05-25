@@ -9,8 +9,8 @@
             </div>
         </div>
 
-        <div class="c50l">
-            <div class="subcl">
+        <div class="c50r">
+            <div class="subcr">
                 $CustomHtmlFormFieldByName(password)
             </div>
         </div>
