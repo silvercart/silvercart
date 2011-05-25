@@ -247,7 +247,7 @@ class SilvercartProduct extends DataObject {
                 'title'     => _t('SilvercartProduct.IS_ACTIVE', 'is active'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'SilvercartProductGroup.ID' => array(
+            'SilvercartProductGroupID' => array(
                 'title'     => _t('SilvercartProductGroupPage.SINGULARNAME'),
                 'filter'    => 'ExactMatchFilter'
             ),
@@ -1027,7 +1027,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $form->Fields()->replaceField(
             'SilvercartProductGroup__ID',
             new GroupedDropdownField(
-                'SilvercartProductGroup__ID',
+                'SilvercartProductGroupID',
                 _t('SilvercartProductGroupPage.SINGULARNAME'),
                 SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()
             )
