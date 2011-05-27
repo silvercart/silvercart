@@ -17,8 +17,8 @@
     <div id="col3_content" class="clearfix">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
-            <% include SilvercartSideBarCart %>
         <% end_if %>
+        $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>

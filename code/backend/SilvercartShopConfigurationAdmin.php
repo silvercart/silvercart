@@ -54,7 +54,8 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartAvailabilityStatus',
         'SilvercartNumberRange',
         'SilvercartConfig',
-        'SilvercartAmountUnit'
+        'SilvercartAmountUnit',
+        'SilvercartWidgetSet'
     );
     /**
      * The URL segment
@@ -101,6 +102,20 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         parent::__construct();
     }
 
+    /**
+     * We load some additional javascript and css files here.
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public function init() {
+        parent::init();
+        
+        Requirements::css(CMS_DIR . '/css/WidgetAreaEditor.css');
+		Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
+    }
 }
 
 /**

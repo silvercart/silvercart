@@ -7,7 +7,7 @@
 
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        &nbsp;
+        $InsertWidgetArea(Sidebar)
     </div>
 
      <!-- IE Column Clearing -->

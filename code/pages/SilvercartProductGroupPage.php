@@ -829,6 +829,44 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return $this->detailViewProduct;
     }
+    
+    /**
+     * Returns the HTML Code as string for all widgets in the given WidgetArea.
+     * 
+     * If thereÄs no WidgetArea for this page defined we try to get the
+     * definition from its parent page.
+     *
+     * @param int $number The number of the widget area to insert
+     * 
+     * @return string
+     * 
+     * @author Sascha koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public function InsertWidgetArea($identifier = 'Sidebar') {
+        $output         = '';
+        $controllerName = 'WidgetSet'.$identifier.'Controllers';
+        
+        if (!isset($this->$controllerName)) {
+            return $output;
+        }
+        
+        foreach ($this->$controllerName as $controller) {
+            $output .= $controller->WidgetHolder();
+        }
+        
+        if (empty($output)) {
+            $parentPage = $this->getParent();
+            
+            if ($parentPage) {
+                $parentPageController = ModelAsController::controller_for($parentPage);
+                $parentPageController->init();
+                $output               = $parentPageController->InsertWidgetArea($identifier);
+            }
+        }
+        
+        return $output;
+    }
 
     /**
      * Because of a url rule defined for this page type in the _config.php, the function MetaTags does not work anymore.

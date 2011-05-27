@@ -947,6 +947,9 @@ $lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error oc
 
 $lang['en_US']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
 
+$lang['en_US']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets for the content area';
+$lang['en_US']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets for the sidebar';
+
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_US']['SilvercartZone']['COUNTRIES'] = 'Countries';

@@ -11,13 +11,14 @@
  */
 
 /* import core styles | Basis-Stylesheets einbinden */
-@import url(../yaml/core/base.css);
+@import url(../../silvercart/yaml/core/base.css);
 
 /* import screen layout | Screen-Layout einbinden */
 @import url(navigation/nav_shinybuttons.css);
 @import url(navigation/nav_vlist.css);
 @import url(screen/basemod.css);
 @import url(screen/content.css);
+@import url(screen/pourlatable.css);
 @import url(screen/forms.css);
 
 /* import print layout | Druck-Layout einbinden */

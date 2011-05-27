@@ -38,20 +38,44 @@ class SilvercartPage extends SiteTree {
      *
      * @return array configuration array
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.02.11
+     * @since 08.02.2011
      */
     public static $db = array(
         'IdentifierCode' => 'VarChar(50)'
     );
+    
+    /**
+     * Has-one relationships.
+     * 
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.02.2011
+     */
     public static $has_one = array(
-        'HeaderPicture' => 'Image'
+        'HeaderPicture'     => 'Image'
+    );
+    
+    /**
+     * Has-many relationships.
+     * 
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public static $many_many = array(
+        'WidgetSetSidebar'  => 'SilvercartWidgetSet',
+        'WidgetSetContent'  => 'SilvercartWidgetSet'
     );
 
     /**
-     * is the centerpiece of every data administration interface in Silverstripe
+     * Define editing fields for the storeadmin.
      *
      * @return FieldSet all related CMS fields
+     * 
      * @author Jiri Ripa <jripa@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
      * @since 15.10.2010
      */
     public function getCMSFields() {
@@ -59,6 +83,16 @@ class SilvercartPage extends SiteTree {
 
         $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
         $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
+        
+        $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
+        $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
+        $widgetSetContentlabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
+        $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
+        
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarLabel);
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarField);
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentlabel);
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentField);
 
         return $fields;
     }
@@ -75,6 +109,26 @@ class SilvercartPage extends SiteTree {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage_Controller extends ContentController {
+    
+    /**
+     * Contains the controllers for the sidebar widgets
+     * 
+     * @var DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    protected $WidgetSetSidebarControllers;
+    
+    /**
+     * Contains the controllers for the content area widget
+     * 
+     * @var DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    protected $WidgetSetContentControllers;
 
     /**
      * standard page controller
@@ -86,6 +140,8 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        $this->loadWidgetControllers();
+        
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             Requirements::block('cms/css/layout.css');
             Requirements::block('cms/css/typography.css');
@@ -125,12 +181,38 @@ class SilvercartPage_Controller extends ContentController {
 
         parent::init();
     }
+    
+    /**
+     * Returns the HTML Code as string for all widgets in the given WidgetArea.
+     *
+     * @param int $number The number of the widget area to insert
+     * 
+     * @return string
+     * 
+     * @author Sascha koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function InsertWidgetArea($identifier = 'Sidebar') {
+        $output         = '';
+        $controllerName = 'WidgetSet'.$identifier.'Controllers';
+        
+        if (!isset($this->$controllerName)) {
+            return $output;
+        }
+        
+        foreach ($this->$controllerName as $controller) {
+            $output .= $controller->WidgetHolder();
+        }
+        
+        return $output;
+    }
 
     /**
      * Eigene Zugriffsberechtigungen definieren.
-     *
-     * @author Sascha koehler <skoehler@pixeltricks.de>
+     * 
      * @return array configuration of API permissions
+     * 
+     * @author Sascha koehler <skoehler@pixeltricks.de>
      * @since 12.10.2010
      */
     public function providePermissions() {
@@ -500,5 +582,36 @@ class SilvercartPage_Controller extends ContentController {
         $result = new DataObjectSet($products);
 
         return $result;
+    }
+    
+    /**
+     * Loads the widget controllers into class variables so that we can use
+     * them in method 'InsertWidgetArea'.
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    protected function loadWidgetControllers() {
+        $controllers = new DataObjectSet();
+        
+        foreach ($this->WidgetSetSidebar() as $widgetSet) {
+            $controllers->merge(
+                $widgetSet->WidgetArea()->WidgetControllers()
+            );
+        }
+        
+        $this->WidgetSetSidebarControllers = $controllers;
+        
+        $controllers = new DataObjectSet();
+        
+        foreach ($this->WidgetSetContent() as $widgetSet) {
+            $controllers->merge(
+                $widgetSet->WidgetArea()->WidgetControllers()
+            );
+        }
+        
+        $this->WidgetSetContentControllers = $controllers;
     }
 }

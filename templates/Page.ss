@@ -59,10 +59,10 @@
             <div class="page">
                 <div id="header">
                     <div class="subcolumns">
-                        <div class="c50l">
-                            <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}"><img src="{$BaseHref}silvercart/images/logo.jpg" alt="site logo" /></a>
+                        <div class="c40l">
+                            <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}"><img src="{$BaseHref}silvercart/images/logo.png" alt="site logo" /></a>
                         </div>
-                        <div class="c50r">
+                        <div class="c60r">
                             <div class="subcr">
                                 <% if Translations %>
                                 <ul class="translations">

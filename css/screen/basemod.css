@@ -29,13 +29,18 @@
   /* (de) Randbereiche & Seitenhintergrund */
   body { background: #fff url("images/bg.jpg") repeat-x top left fixed; padding: 0; }
 
-  #headerbar {height: 40px; width: 100%; background:#959697; position:fixed; left: 0; top:0; z-index: 100; font-size : 85%; border-bottom: 1px white solid;}
+  #headerbar {
+      background: url("images/bg_headerbar.png") repeat-x;
+      height: 44px;
+      width: 100%;
+      position:fixed; left: 0; top:0; z-index: 100;
+  }
 
   /* Layout Alignment | Layout-Ausrichtung */  /* Layout Properties | Layout-Eigenschaften */
-  .page_margins { width: 980px; margin: 42px auto 0; background: #fff; }
+  .page_margins { width: 980px; margin: 0 auto ; background: #fff; }
 
   .page { padding: 0; border: 1px black solid }
-  #header { padding: 0 ; color: #000; background: #e2e6e9; }
+  #header { padding: 0 ; color: #000; background: #e2e6e9 url("images/bg_header.png") repeat-x; height: 252px; width: 100%; margin-top: 40px; }
   #topnav { position:static; color: #aaa; background: transparent;  }
   #header #topnav { }
   #nav { overflow:hidden; }
@@ -45,7 +50,7 @@
   #footer {width:100%; text-align: center; background: transparent; }
 
   /* (en) navigation: horizontal adjustment | (de) horizontale Ausrichtung  */
-  #nav ul { margin-left: 20px; }
+  #nav ul { margin-left: 1px; }
 
   /*-------------------------------------------------------------------------*/
 
@@ -60,9 +65,10 @@
   #col1_content { padding: 20px 10px 0 20px }
   #col2 { display:none}
   #col3_content { padding: 20px 20px 0 10px }
-  /* use col4 for one-column-pages */
-  #col4 { float: left; width: 100%}
-  #col4_content { padding: 20px 20px 0 20px }
+  #col4 {float: left; width: 30%;}
+  #col4_content {padding: 20px 20px 0 10px }
+  #col5 {float: left; width: 70%; margin: 0;}
+  #col5_content {padding: 20px 20px 0 10px }
 
     /* SEARCH HEADERBAR LIST STYLES
   ------------------------------------------------ */
@@ -71,5 +77,5 @@
   #headerbar a {color:#ccc}
   #headerbar .subcr {text-align: right;}
   #headerbar .button {padding: 3px 10px 3px 10px; line-height: 15px; border: 1px #ccc solid; display: inline-block; text-align: center; cursor:pointer;}
- 
+
 }
