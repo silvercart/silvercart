@@ -13,7 +13,8 @@
 #silvercart-productgroup-navigation .hlist ul li a {
     font-size:                      13px;
     font-weight:                    normal;
-    color:                          #3a3637;
+    text-shadow:                    0px 2px 3px #e1dad4;
+    color:                          #4f4a4b;
     border-top-left-radius:         3px;
     border-top-right-radius:        3px;
     -moz--border-radius-topleft:    3px;

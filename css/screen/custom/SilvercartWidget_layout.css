@@ -25,3 +25,7 @@
 .silvercart-widget .vlist li.last span {
     border-bottom:                  none;
 }
+.silvercart-widget .vlist ul ul {
+    margin:                         0px 0px 0px 12px;
+    padding:                        0px 0px 0px 12px;
+}

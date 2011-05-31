@@ -9,6 +9,9 @@ h1, h2, h3, h4, h5, h6 {
     font-family:                    verdana, sans-serif;
 }
 
+a {
+    color:                          #0f517b;
+}
 a:focus {
     outline:                        0 none;
 }
@@ -29,7 +32,7 @@ h1 {
 #col1 h2,
 #col4 h2 {
     font-size:                      18px;
-    border-bottom:                  1px #333 solid;
+    border-bottom:                  2px #ddd dotted;
 }
 #col1 h3,
 #col4 h3 {

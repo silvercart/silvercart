@@ -36,3 +36,7 @@
     background:                     -moz-linear-gradient(top,  #d4e2e8,  #e6f2f7); /* for firefox 3.6+ */ 
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#e6f2f7'); /* for IE */
 }
+.silvercart-widget .vlist ul ul {
+    color:                          #0f517b;
+    list-style:                     disc;
+}

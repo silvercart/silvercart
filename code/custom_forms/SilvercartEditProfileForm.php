@@ -71,24 +71,6 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
                         'isFilledIn'        => true
                 )
         ),
-        'PhoneAreaCode' => array
-        (
-                'type' => 'TextField',
-                'title' => 'Telefon Vorwahl',
-                'checkRequirements' => array
-                (
-                        'isNumbersOnly' => true
-                )
-        ),
-        'Phone' => array
-        (
-                'type' => 'TextField',
-                'title' => 'Telefon Nummer.',
-                'checkRequirements' => array
-                (
-                        'isNumbersOnly' => true
-                )
-        ),
         'BirthdayDay' => array(
             'type' => 'DropdownField',
             'title' => 'Tag',
@@ -164,11 +146,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
-        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE', 'phone');
-        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
         $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL');
-        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE');
-        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
         $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY', 'day');
         $this->formFields['BirthdayDay']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '20' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
         $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH', 'month');
