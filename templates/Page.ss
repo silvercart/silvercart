@@ -7,49 +7,126 @@
 		$MetaTags(false)
     </head>
     <body>
-        <div id="headerbar">
-            <div class="headerbar_margins">
-                <div class="headerbar_content">
-                    <div class="subcolumns">
-                        <div class="c50l">
-                            <div class="subcolumns">
-                                <div class="c33l">
-                                    <% include SilvercartMetaNavigation %>
+        <div id="silvercart-headerbar">
+            <div id="silvercart-headerbar_content">
+                <div class="subcolumns">
+                    <div class="c40l">
+                        <div class="subcolumns">
+                            <div class="c25l">
+                                <div class="subcl">
+                                    <a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>
+                                    <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
+
+                                    <div class="silvercart-meta-navigation">
+                                        <div class="silvercart-button-plain">
+                                            <div class="silvercart-button-plain_content">
+                                                <a id="silvercart-headerbar-home-link" href="$PageByIdentifierCode(SilvercartFrontPage).Link">
+                                                    <img src="{$BaseHref}silvercart/images/icon_home.png" alt="home" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="silvercart-button-plain">
+                                            <div class="silvercart-button-plain_content">
+                                                <a id="silvercart-headerbar-contact-link" href="$PageByIdentifierCode(SilvercartContactFormPage).Link">
+                                                    <img src="{$BaseHref}silvercart/images/icon_contact.png" alt="<% _t('SilvercartContactFormPage.TITLE') %>" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="c66r">
-                                    <div class="subcolumns">
-                                        <div class="c33l">
-                                            <div class="subcr"><% _t('SilvercartPage.FIND', 'find:') %></div>
-                                            
-                                        </div>
-                                        <div class="c66r">
-                                            <div id="SearchForm_SearchForm">$InsertCustomHtmlForm(SilvercartQuickSearch)</div>
-                                        </div>
+                            </div>
+                            <div class="c75r">
+                                <div class="subcr">
+                                    <div id="silvercart-quicksearch-form">
+                                        $InsertCustomHtmlForm(SilvercartQuickSearchForm)
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="c50r">
+                    </div>
+                    <div class="c60r">
+                        <div class="subcr">
+                            
                             <div class="subcolumns">
-                                <div class="c50l" id="Customer">
-                                    <% if CurrentRegisteredCustomer %>
-                                        <a class="button" id="myaccount" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link"><% _t('SilvercartPage.MYACCOUNT', 'my account') %></a>
-                                        <a class="button" id="logout" href="{$baseHref}Security/logout/">Logout</a>
-                                    <% else %>
-                                        <% include SilvercartLoginPopup %>
-                                    <% end_if %>
+                                <div class="c66l">
+                                    <div class="subcl">
+                                        <% if CurrentRegisteredCustomer %>
+                                            <div class="silvercart-headerbar-actions right">
+                                                <div class="silvercart-button">
+                                                    <div class="silvercart-button_content">
+                                                        <a id="silvercart-myaccount-link" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link">
+                                                            <% _t('SilvercartPage.MYACCOUNT', 'my account') %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="silvercart-button">
+                                                    <div class="silvercart-button_content">
+                                                        <a id="silvercart-logout-link" href="{$baseHref}Security/logout/">
+                                                            Logout
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div id="silvercart-customer-name">
+                                                <div id="silvercart-customer-name_content">
+                                                    $CurrentMember.FirstName $CurrentMember.Surname
+                                                </div>
+                                            </div>
+                                        <% else %>
+                                            <div class="silvercart-headerbar-actions right">
+
+                                                <div class="silvercart-button">
+                                                    <div class="silvercart-button_content">
+                                                        <a id="silvercart-register-link" href="$PageByIdentifierCode(SilvercartRegistrationPage).Link">
+                                                            <% _t('SilvercartPage.REGISTER', 'Register') %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="silvercart-button">
+                                                    <div class="silvercart-button_content">
+                                                        <a id="silvercart-login-link" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link">
+                                                            <% _t('SilvercartPage.LOGIN', 'Login') %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        
+                                            <div id="silvercart-quicklogin-form">
+                                                <div id="silvercart-quicklogin-form_content">
+                                                    $InsertCustomHtmlForm(SilvercartQuickLoginForm)
+                                                </div>
+                                            </div>
+                                        <% end_if %>
+                                    </div>
                                 </div>
-                                <div class="c50r" id="Shopping_Checkout">
-                                    <div class="subcolumns">
-                                        <div class="c50l">
-                                            <a class="button" id="scart" href="$PageByIdentifierCode(SilvercartCartPage).Link"><% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %></a>
-                                        </div>
-                                        <div class="c50r">
-                                            <a class="button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></a>
+                                <div class="c33r">
+                                    <div class="subcr">
+                                        <div class="silvercart-headerbar-actions right">
+                                            <% if SilvercartShoppingCart %>
+                                                <% if SilvercartShoppingCart.isFilled %>
+                                                    <div class="silvercart-button">
+                                                        <div class="silvercart-button_content">
+                                                            <a id="silvercart-checkout-link" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link">
+                                                                <% _t('SilvercartPage.CHECKOUT', 'checkout') %>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                <% end_if %>
+                                            <% end_if %>
+                                            <div class="silvercart-button">
+                                                <div class="silvercart-button_content">
+                                                    <a id="silvercart-shoppingcart-link" href="$PageByIdentifierCode(SilvercartCartPage).Link">
+                                                        <% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -57,12 +134,25 @@
         </div>
         <div class="page_margins">
             <div class="page">
-                <div id="header">
+                <div id="silvercart-header">
                     <div class="subcolumns">
-                        <div class="c40l">
-                            <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}"><img src="{$BaseHref}silvercart/images/logo.png" alt="site logo" /></a>
+                        <div class="c80l">
+                            <div id="silvercart-shop-claim" class="clearfix">
+                                <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
+                                    <img src="{$BaseHref}silvercart/images/logo.png" alt="site logo" />
+                                </a>
+                                <div id="silvercart-shop-claim-text">
+                                    <h1>
+                                        <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
+                                            Welcome to the Silvercart Webshop
+                                        </a>
+                                    </h1>
+                                    <p>This a demo shop</p>
+                                </div>
+                            </div>
+                            
                         </div>
-                        <div class="c60r">
+                        <div class="c20r">
                             <div class="subcr">
                                 <% if Translations %>
                                 <ul class="translations">
@@ -76,19 +166,22 @@
                             </div>
                         </div>
                     </div>
-                    <div id="nav">
+                </div>
+                <div id="silvercart-productgroup-navigation">
+                    <div id="silvercart-productgroup-navigation_content" class="clearfix">
                         <a id="navigation" name="navigation"></a>
                         <% include SilvercartNavigation %>
                     </div>
                 </div>
                 <div id="main">
+                    <a id="content" name="content"></a>
                     $Layout
                 </div>
                 <div class="clearfix">&nbsp;</div>
             </div>
         </div>
         <p/>
-        <div id="CompanyInformations">
+        <div id="silvercart-footer">
             <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
                 <% control Children %>
                     <% if Last %>

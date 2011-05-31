@@ -35,12 +35,14 @@
 class SilvercartQuickLoginForm extends CustomHtmlForm {
 
     /**
-     * defines form fields
+     * Defines form fields
      *
      * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2011
      */
-    protected $formFields = array
-        (
+    protected $formFields = array(
         'emailaddress' => array(
             'type' => 'TextField',
             'title' => '',
@@ -69,6 +71,9 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      */
     public function preferences() {
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.LOGIN');
+        
+        $this->formFields['emailaddress']['title']  = _t('SilvercartPage.EMAIL_ADDRESS').':';
+        $this->formFields['password']['title']      = _t('SilvercartPage.PASSWORD').':';
     }
 
     /**

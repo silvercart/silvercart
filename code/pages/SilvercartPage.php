@@ -153,20 +153,25 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
             Requirements::insertHeadTags('<![endif]-->');
         }
-        Requirements::themedCSS('SilvercartGeneral');
-        Requirements::themedCSS('SilvercartProductGroupHolder');
-        Requirements::themedCSS('SilvercartProductGroupPage');
-        Requirements::themedCSS('SilvercartProductPage');
-        Requirements::themedCSS('SilvercartProductPagination');
-        Requirements::themedCSS('SilvercartSideBarCart');
-        Requirements::themedCSS('SilvercartShoppingCartFull');
-        Requirements::themedCSS('SilvercartCheckout');
+        Requirements::themedCSS('SilvercartGeneral_layout');
+        Requirements::themedCSS('SilvercartGeneral_content');
+        Requirements::themedCSS('SilvercartHeaderbar_layout');
+        Requirements::themedCSS('SilvercartHeaderbar_content');
+        Requirements::themedCSS('SilvercartForms_content');
+        Requirements::themedCSS('SilvercartForms_layout');
+        Requirements::themedCSS('SilvercartFooter_layout');
+        Requirements::themedCSS('SilvercartFooter_content');
+        Requirements::themedCSS('SilvercartWidget_layout');
+        Requirements::themedCSS('SilvercartWidget_content');
+        Requirements::themedCSS('SilvercartBreadcrumbs_layout');
+        Requirements::themedCSS('SilvercartBreadcrumbs_content');
+        Requirements::themedCSS('SilvercartProductGroupNavigation');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
 
-        $this->registerCustomHtmlForm('SilvercartQuickSearch', new SilvercartQuickSearchForm($this));
-        $this->registerCustomHtmlForm('SilvercartQuickLogin', new SilvercartQuickLoginForm($this));
+        $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
+        $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
 
         // check the SilverCart configuration
         $checkConfiguration = true;
@@ -582,6 +587,25 @@ class SilvercartPage_Controller extends ContentController {
         $result = new DataObjectSet($products);
 
         return $result;
+    }
+    
+    /**
+     * Returns the shoppingcart of the current user or false if there's no
+     * member object registered.
+     * 
+     * @return mixed false|SilvercartShoppingCart
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2011
+     */
+    public function SilvercartShoppingCart() {
+        $member = Member::currentUser();
+        
+        if (!$member) {
+            return false;
+        }
+        
+        return $member->SilvercartShoppingCart();
     }
     
     /**

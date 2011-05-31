@@ -10,10 +10,6 @@
             $Content
             $Form
             $InsertCustomHtmlForm(SilvercartEditAddressForm)
-
-            <div>
-                <a href="$CancelLink"><% _t('SilvercartPage.CANCEL') %></a>
-            </div>
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>

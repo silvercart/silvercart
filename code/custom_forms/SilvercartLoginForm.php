@@ -41,8 +41,7 @@ class SilvercartLoginForm extends CustomHtmlForm {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 11.04.2011
      */
-    protected $formFields = array
-        (
+    protected $formFields = array(
         'emailaddress' => array(
             'type' => 'TextField',
             'title' => '',

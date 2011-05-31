@@ -1,0 +1,38 @@
+.silvercart-widget {
+    font-size:                      12px;
+}
+.silvercart-widget_content {
+    background:                     #ffffff;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#3a3436), to(#252223)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #fafafa,  #ffffff); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3a3436', endColorstr='#252223'); /* for IE */
+    border:                         1px #e1e1e1 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-widget h2 {
+    font-size:                      14px;
+}
+.silvercart-widget h3 {
+    font-size:                      12px;
+}
+.silvercart-widget p {
+    font-size:                      11px;
+}
+
+/* YAML vlist -------------------------------------------------------------- */
+
+.silvercart-widget .vlist li a,
+.silvercart-widget .vlist li strong,
+.silvercart-widget .vlist li span {
+    color:                          #0f517b;
+    border-bottom:                  1px #eee dotted;
+}
+.silvercart-widget .vlist li a:hover {
+    text-decoration:                none;
+    background-color:               #e6f2f7;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#e6f2f7)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #d4e2e8,  #e6f2f7); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#e6f2f7'); /* for IE */
+}

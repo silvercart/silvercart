@@ -1,13 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <div class="subcolumns">
-            <div class="c50l">
-                <% include SilvercartBreadCrumbs %>
-            </div>
-            <div class="c50r">
-                <% include SilvercartProductPagination %>
-            </div>
-        </div>
+        <% include SilvercartBreadCrumbs %>
+        <% include SilvercartProductPagination %>
         
         $Content
 

@@ -1,4 +1,4 @@
-<form class="yform" $FormAttributes >
+<form class="yform full" $FormAttributes >
 
 	$CustomHtmlFormMetadata
 
@@ -17,7 +17,14 @@
             </div>
         </div>
         <div class="subcolumns">
-            $CustomHtmlFormFieldByName(Addition)
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Addition)
+                </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr"></div>
+            </div>
         </div>
         <div class="subcolumns">
             <div class="c50l">
@@ -61,11 +68,15 @@
             </div>
         </div>
     </fieldset>
-    <div class="actionRow">
-        <div class="type-button">
-            <% control Actions %>
-				$Field
-            <% end_control %>
-        </div>
+    
+    <div class="type-button clearfix">
+        <% control Actions %>
+            $Field
+            <div class="silvercart-button">
+                <div class="silvercart-button_content">
+                    <a id="silvercart-edit-address-form-cancel-id" href="$Top.CancelLink"><% _t('SilvercartPage.CANCEL') %></a>
+                </div>
+            </div>
+        <% end_control %>
     </div>
 </form>

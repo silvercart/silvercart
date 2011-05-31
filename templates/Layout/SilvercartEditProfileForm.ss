@@ -1,4 +1,4 @@
-<form class="yform" $FormAttributes >
+<form class="yform full" $FormAttributes >
     $CustomHtmlFormMetadata
 
     <fieldset>
@@ -9,15 +9,18 @@
             <strong>$CurrentMember.CustomerNumber</strong>
         </div>
 
-        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-
         <div class="subcolumns">
-            <div class="c50l">
+            <div class="c33l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+            <div class="c33l">
                 <div class="subcl">
                     $CustomHtmlFormFieldByName(FirstName)
                 </div>
             </div>
-            <div class="c50r">
+            <div class="c33r">
                 <div class="subcr">
                     $CustomHtmlFormFieldByName(Surname)
                 </div>

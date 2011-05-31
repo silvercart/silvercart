@@ -165,3 +165,27 @@ function activateShippingAddressValidation() {
         activateValidationFor('Shipping_Country');
     }
 }
+
+/**
+ * Toggles the visibility of the quick login box.
+ *
+ * @return void
+ *
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 28.05.2011
+ */
+function SilvercartToggleQuickLoginBox() {
+    
+    var loginFormContainer = $('#silvercart-quicklogin-form');
+    
+    if (silvercartQuickLoginBoxVisibility == 'hidden') {
+        loginFormContainer.slideDown('fast');
+        silvercartQuickLoginBoxVisibility = 'visible';
+    } else {
+        loginFormContainer.slideUp('fast');
+        silvercartQuickLoginBoxVisibility = 'hidden';
+    }
+    
+    return false;
+}

@@ -10,13 +10,12 @@
             $Form
             $PageComments
             <% if CurrentMembersOrders %>
-            <table class="full">
+            <table id="silvercart-order-holder-table-id" class="full">
                 <tr>
                     <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
                     <th><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></th>
                     <th><% _t('SilvercartPage.ORDERD_PRODUCTS','ordered products') %></th>
                     <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
-                    <th><% _t('SilvercartPage.REMARKS') %></th>
                     <th>&nbsp;</th>
                 </tr>
                 <% control CurrentMembersOrders %>
@@ -40,10 +39,11 @@
                         </a>
                     </td>
                     <td>
-                        $FormattedNote
-                    </td>
-                    <td>
-                        <a href="{$Top.OrderDetailLink}$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                        <div class="silvercart-button">
+                            <div class="silvercart-button_content">
+                                <a href="{$Top.OrderDetailLink}$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <% end_control %>

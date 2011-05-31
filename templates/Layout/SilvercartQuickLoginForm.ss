@@ -1,34 +1,22 @@
-<form name="QuickLogin" class="yform" $FormAttributes>
+<form name="QuickLogin" class="yform full" $FormAttributes>
     $CustomHtmlFormMetadata
 
 	<div class="subcolumns">
 		<div class="c50l">
-			<div class="subcl">
-				<div class="Head_line">
-					<% _t('SilvercartPage.EMAIL_ADDRESS') %>
-				</div>
-					$CustomHtmlFormFieldByName(emailaddress,SilvercartQuickLoginFormFields)
-			</div>
+            $CustomHtmlFormFieldByName(emailaddress)
 		</div>
 
-		<div class="c40l">
-			<div class="subcl">
-				<div class="Head_line">
-					<% _t('SilvercartPage.PASSWORD','password') %>:
-				</div>
-					$CustomHtmlFormFieldByName(password,SilvercartQuickLoginFormFields)
-			</div>
+		<div class="c50r">
+            $CustomHtmlFormFieldByName(password)
 		</div>
+    </div>
 
-		<div class="c10r">
-			<div class="subcr">
-					<% control Actions %>
-						<div id="SendAction">
-							$Field
-						</div>
-					<% end_control %>
-			</div>
-		</div>
-		$CustomHtmlFormErrorMessages
-	</div>
+    <div id="silvercart-quicklogin-form-actions">
+        <input type="reset" id="silvercart-quicklogin-form-cancel" value="<% _t('SilvercartPage.CANCEL') %>" />
+        <% control Actions %>
+            $Field
+        <% end_control %>
+    </div>
+    
+    $CustomHtmlFormErrorMessages
 </form>

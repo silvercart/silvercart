@@ -1,0 +1,89 @@
+/* General settings -------------------------------------------------------- */
+
+body {
+    font-family:                    verdana, sans-serif;
+    background:                     #ccc url("../images/bg_body.jpg") left top repeat-x;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family:                    verdana, sans-serif;
+}
+
+a:focus {
+    outline:                        0 none;
+}
+
+h1 {
+    font-family:                    georgia, serif;
+    font-size:                      28px;
+}
+
+.page {
+    background:                     #fff;
+    border:                         1px #5a554d solid;
+    border-top:                     none;
+}
+
+/* Headlines --------------------------------------------------------------- */
+
+#col1 h2,
+#col4 h2 {
+    font-size:                      18px;
+    border-bottom:                  1px #333 solid;
+}
+#col1 h3,
+#col4 h3 {
+    font-size:                      14px;
+}
+
+/* Tables ------------------------------------------------------------------ */
+
+table {
+    border:                         1px #eee solid;
+    border-collapse:                collapse;
+}
+table tr:hover td {
+    fonr-size:                      12px;
+    background:                     none;
+}
+
+/* Buttons ----------------------------------------------------------------- */
+
+.silvercart-button a {
+    line-height:                    100%;
+    font-size:                      12px;
+    color:                          #0f517b;
+    background:                     #d4e2e8;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#fff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #d4e2e8,  #fff); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#fff'); /* for IE */
+    border:                         1px #0f517b solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-button a:hover {
+    text-decoration:                none;
+    background-color:               #f0fafe;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#fff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #b7cdd7,  #f0fafe); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#fff'); /* for IE */
+}
+
+/* Silvercart header ------------------------------------------------------- */
+
+#silvercart-header {
+    background:                     #efefeb url("../images/bg_header.png") left bottom repeat-x;
+}
+
+#silvercart-shop-claim-text h1 {
+    line-height:                    100%;
+}
+#silvercart-shop-claim-text h1 a {
+    color:                          #0f517b;
+}
+#silvercart-shop-claim-text p {
+    font-family:                    georgia, serif;
+    font-size:                      14px;
+    color:                          #3a3436;
+}

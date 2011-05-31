@@ -1,0 +1,38 @@
+#silvercart-productgroup-navigation {
+    border-top:                     1px #b6b0ab solid;
+}
+#silvercart-productgroup-navigation .hlist {
+    border:                         none;
+    background-color:               #beb8b3;
+}
+#silvercart-productgroup-navigation .hlist ul {
+}
+#silvercart-productgroup-navigation .hlist ul li {
+    padding:                        0px 1px 0px 0px;
+}
+#silvercart-productgroup-navigation .hlist ul li a {
+    font-size:                      13px;
+    font-weight:                    normal;
+    color:                          #3a3637;
+    border-top-left-radius:         3px;
+    border-top-right-radius:        3px;
+    -moz--border-radius-topleft:    3px;
+    -moz--border-radius-topright:   3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius:  3px;
+    margin:                         0px;
+    padding:                        4px 10px;
+}
+#silvercart-productgroup-navigation .hlist ul li a:hover {
+    background-color:               #d8d4d0;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#beb8b3), to(#d8d1cb)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #e4e1dd,  #fff); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#beb8b3', endColorstr='#d8d1cb'); /* for IE */
+}
+#silvercart-productgroup-navigation .hlist ul li.active a {
+    color:                          #0f517b;
+    background-color:               #fff;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#fff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #d4e2e8,  #fff); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#fff'); /* for IE */
+}

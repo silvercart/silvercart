@@ -115,6 +115,8 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
+        $this->CancelLink = $this->controller->Parent()->Link();
+        
         $this->formFields['FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME');
         $this->formFields['Surname']['title']       = _t('SilvercartAddress.SURNAME');
         $this->formFields['Addition']['title']      = _t('SilvercartAddress.ADDITION');
@@ -213,4 +215,3 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         return $title;
     }
 }
-

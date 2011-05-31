@@ -1,19 +1,24 @@
-@charset "UTF-8";
 /**
- * "Yet Another Multicolumn Layout" - (X)HTML/CSS framework
- * (en) stylesheet for screen layout
- * (de) Stylesheet für das Bildschirm-Layout
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
  *
- * @creator       YAML Builder V1.2 (http://builder.yaml.de)
- * @file          basemod.css
- * @-yaml-minver  3.2
+ * (en) Template for designing a screen layout
+ * (de) Gestaltungsvorlage für die Erstellung eines Screenlayouts
+ *
+ * @copyright       Copyright 2005-2010, Dirk Jesse
+ * @license         CC-A 2.0 (http://creativecommons.org/licenses/by/2.0/),
+ *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
+ * @link            http://www.yaml.de
+ * @package         yaml
+ * @version         3.3
+ * @revision        $Revision:392 $
+ * @lastmodified    $Date:2009-07-05 12:18:40 +0200 (So, 05. Jul 2009) $
  */
 
 @media screen, projection
 {
-  /**
-   * (en) Forcing vertical scrollbars in IE8, Firefox, Webkit & Opera
-   * (de) Erzwingen vertikaler Scrollbalken in IE8, Firefox, Webkit & Opera
+  /** 
+   * (en) Forcing vertical scrollbars in IE8, Firefox, Webkit & Opera 
+   * (de) Erzwingen vertikaler Scrollbalken in IE8, Firefox, Webkit & Opera 
    *
    * @workaround
    * @affected IE8, FF, Webkit, Opera
@@ -21,61 +26,76 @@
    * @valid CSS3
    */
 
-  body { overflow-y: scroll; }
+  body { overflow-y:scroll; }
 
-  /*-------------------------------------------------------------------------*/
+ /*------------------------------------------------------------------------------------------------------*/
 
-  /* (en) Marginal areas & page background */
-  /* (de) Randbereiche & Seitenhintergrund */
-  body { background: #fff url("images/bg.jpg") repeat-x top left fixed; padding: 0; }
+ /**
+  * Design of the Basic Layout | Gestaltung des YAML Basis-Layouts
+  *
+  * @section layout-basics
+  */
 
-  #headerbar {
-      background: url("images/bg_headerbar.png") repeat-x;
-      height: 44px;
-      width: 100%;
-      position:fixed; left: 0; top:0; z-index: 100;
-  }
+  /* Page margins and background | Randbereiche & Seitenhintergrund */
+  body {  }
 
-  /* Layout Alignment | Layout-Ausrichtung */  /* Layout Properties | Layout-Eigenschaften */
-  .page_margins { width: 980px; margin: 0 auto ; background: #fff; }
+  /* Layout:Width, Background, Border | Layout:Breite, Hintergrund, Rahmen */
+  .page_margins {  }
+  .page{  }
 
-  .page { padding: 0; border: 1px black solid }
-  #header { padding: 0 ; color: #000; background: #e2e6e9 url("images/bg_header.png") repeat-x; height: 252px; width: 100%; margin-top: 40px; }
-  #topnav { position:static; color: #aaa; background: transparent;  }
-  #header #topnav { }
-  #nav { overflow:hidden; }
-  div.hlist {  }
-  #main { margin: 0; background: #fff; }
-  #teaser { clear:both; }
-  #footer {width:100%; text-align: center; background: transparent; }
+  /* Design of the Main Layout Elements | Gestaltung der Hauptelemente des Layouts */
+  #header {  }
+  #topnav {  }
 
-  /* (en) navigation: horizontal adjustment | (de) horizontale Ausrichtung  */
-  #nav ul { margin-left: 1px; }
+  #main {  }
 
-  /*-------------------------------------------------------------------------*/
+  #footer {  }
+
+ /*------------------------------------------------------------------------------------------------------*/
+
+ /**
+  * Formatting of the Content Area | Formatierung der Inhaltsbereichs
+  *
+  * @section layout-main
+  */
+
+  #col1 {  }
+  #col1_content {  }
+
+  #col2 {  }
+  #col2_content {  }
+
+  #col3 {  }
+  #col3_content {  }
 
 
-  #main { float: left; width: 100% }
-  #teaser { display: none; }
+ /*------------------------------------------------------------------------------------------------------*/
 
-
-  #col1 { float: left; width: 70%}
-  #col2 { display:none}
-  #col3 { width: auto; margin: 0 0 0 70%}
-  #col1_content { padding: 20px 10px 0 20px }
-  #col2 { display:none}
-  #col3_content { padding: 20px 20px 0 10px }
-  #col4 {float: left; width: 30%;}
-  #col4_content {padding: 20px 20px 0 10px }
-  #col5 {float: left; width: 70%; margin: 0;}
-  #col5_content {padding: 20px 20px 0 10px }
-
-    /* SEARCH HEADERBAR LIST STYLES
-  ------------------------------------------------ */
-  .headerbar_margins {margin: 0 auto; width:980px; }
-  .headerbar_content {padding: 10px 20px 10px 20px;}
-  #headerbar a {color:#ccc}
-  #headerbar .subcr {text-align: right;}
-  #headerbar .button {padding: 3px 10px 3px 10px; line-height: 15px; border: 1px #ccc solid; display: inline-block; text-align: center; cursor:pointer;}
-
+ /**
+  * Design of Additional Layout Elements | Gestaltung weiterer Layoutelemente
+  *
+  * @section layout-misc
+  */
+  
+  
+  
+ /**
+  * ------------------------------------------------------------------------------------------------- #
+  *
+  * Skiplinks 
+  *
+  * (en) Visual styling for skiplink navigation
+  * (de) Visuelle Gestaltung der Skiplink-Navigation
+  *
+  * @section content-skiplinks
+  */
+  
+  #skiplinks a.skip:focus,
+  #skiplinks a.skip:active { 
+	color:#fff; 
+	background:#333; 
+	border-bottom:1px #000 solid;
+	padding:10px 0;
+	text-decoration:none;
+  }  
 }

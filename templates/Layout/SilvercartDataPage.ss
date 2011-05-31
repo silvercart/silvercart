@@ -3,7 +3,7 @@
         <% include SilvercartBreadCrumbs %>
 
         <% if CurrentRegisteredCustomer %>
-            <h1>$Title</h1>
+            <h2>$Title</h2>
             $Content
             $Form
             $InsertCustomHtmlForm(SilvercartEditProfileForm)

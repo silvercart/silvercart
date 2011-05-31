@@ -1,0 +1,27 @@
+.silvercart-widget {
+    margin:                         0px 0px 12px 0px;
+}
+
+/* YAML vlist -------------------------------------------------------------- */
+
+.silvercart-widget .vlist {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget .vlist li {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget .vlist li a,
+.silvercart-widget .vlist li strong,
+.silvercart-widget .vlist li span {
+    display:                        block;
+    width:                          100%;
+    margin:                         0px;
+    padding:                        3px 5px;
+}
+.silvercart-widget .vlist li.last a,
+.silvercart-widget .vlist li.last strong,
+.silvercart-widget .vlist li.last span {
+    border-bottom:                  none;
+}

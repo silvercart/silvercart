@@ -112,7 +112,7 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
         
         return parent::handleAction($request);
     }
-
+    
     /**
      * Returns the cancel link.
      *
@@ -123,6 +123,7 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @since 12.04.2011
      */
     public function CancelLink() {
-        return $this->Parent()->Link();
+        return $this->controller->Parent()->Link();
     }
+    
 }

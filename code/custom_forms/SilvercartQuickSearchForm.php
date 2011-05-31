@@ -38,8 +38,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      *
      * @var array
      */
-    protected $formFields = array
-        (
+    protected $formFields = array(
         'quickSearchQuery' => array(
             'type' => 'TextField',
             'title' => '',
@@ -47,19 +46,6 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             'checkRequirements' => array(
             )
         )
-    );
-    
-    /**
-     * form settings, mainly submit button´s name
-     *
-     * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.11.2010
-     * @return void
-     */
-    protected $preferences = array(
-        'submitButtonTitle' => ''
     );
 
     /**
@@ -89,7 +75,8 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @return void
      */
     public function  preferences() {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
+        $this->formFields['quickSearchQuery']['value']  = _t('SilvercartQuickSearchForm.SEARCHBOXLABEL');
 
         parent::preferences();
     }
