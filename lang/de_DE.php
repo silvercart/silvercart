@@ -962,3 +962,38 @@ $lang['de_DE']['SilvercartAmountUnit']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abkürzung';
 $lang['de_DE']['SilvercartAmountUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
 $lang['de_DE']['SilvercartAmountUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';
+
+// Widgets ----------------------------------------------------------------- */
+
+$lang['de_DE']['SilvercartLoginWidget']['TITLE']                    = 'Anmeldung';
+$lang['de_DE']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'Mein Konto';
+$lang['de_DE']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Anmeldung';
+$lang['de_DE']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart Anmeldung';
+$lang['de_DE']['SilvercartLoginWidget']['DESCRIPTION']              = 'Dieses Widget zeigt ein Loginformular und Links zu der Registrierungsseite. Ist der Kunde eingeloggt, werden ihm stattdessen Links zu den Bereichen seines Kundenkontos angezeigt.';
+
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Warengruppen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart Warengruppenansicht';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'Dieses Widget zeigt Produkte aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Produkte angezeigt werden sollen.';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Anzahl der Produkte, die angezeigt werden sollen:';
+
+$lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';
+$lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart Suche';
+$lang['de_DE']['SilvercartSearchWidget']['DESCRIPTION']             = 'Dieses Widget zeigt ein Suchformular für die Produktsuche an.';
+
+$lang['de_DE']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Geben Sie bitte Ihren Suchbegriff ein:';
+$lang['de_DE']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Suchen';
+
+$lang['de_DE']['SilvercartShoppingcartWidget']['TITLE']                 = 'Warenkorb';
+$lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart Warenkorb';
+$lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Produkte im Warenkorb befinden) Checkoutseiten angezeigt';
+
+$lang['de_DE']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topseller';
+$lang['de_DE']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'Silvercart Topseller';
+$lang['de_DE']['SilvercartTopsellerProductsWidget']['DESCRIPTION']              = 'Dieses Widget zeigt eine konfigurierbare Anzahl der meistverkauften Produkte an.';
+$lang['de_DE']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    = 'Anzahl der Produkte, die angezeigt werden sollen:';
+
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Warengruppennavigation';
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'Silvercart Warengruppennavigation';
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll.';
+

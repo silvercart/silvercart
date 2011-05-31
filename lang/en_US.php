@@ -962,3 +962,38 @@ $lang['en_US']['SilvercartAmountUnit']['NAME'] = 'Name';
 $lang['en_US']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abbreviation';
 $lang['en_US']['SilvercartAmountUnit']['SINGULARNAME'] = 'amount unit';
 $lang['en_US']['SilvercartAmountUnit']['PLURALNAME'] = 'amount units';
+
+// Widgets ----------------------------------------------------------------- */
+
+$lang['en_US']['SilvercartLoginWidget']['TITLE']                    = 'Login';
+$lang['en_US']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'My account';
+$lang['en_US']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
+$lang['en_US']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart login';
+$lang['en_US']['SilvercartLoginWidget']['DESCRIPTION']              = 'This widget shows a login form and links to the registration page. If the customer is logged in already links to his/her my account sections are shown instead.';
+
+$lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Productgroup';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart productgroup items';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'This widget displays products of a definable productgroup. You can define how many products from which productgroup should be shown.';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Please choose the productgroup to display:';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Number of products to show:';
+
+$lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
+$lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';
+$lang['en_US']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widget shows a form for the product search.';
+
+$lang['en_US']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Enter your search term:';
+$lang['en_US']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
+
+$lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shoppingcart';
+$lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shoppingcart';
+$lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';
+
+$lang['en_US']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topsellers';
+$lang['en_US']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'Silvercart topseller products';
+$lang['en_US']['SilvercartTopsellerProductsWidget']['DESCRIPTION']              = 'This widget shows a configurable number of topseller products.';
+$lang['en_US']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    = 'Number of products to show:';
+
+$lang['en_US']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Productgroup navigation';
+$lang['en_US']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'Silvercart productgroup navigation';
+$lang['en_US']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for productgroups. You can define what productgroup should be used as root.';
+
