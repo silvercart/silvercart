@@ -619,6 +619,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
 
             if (isset($_GET['offset'])) {
+                if ($this->productsPerPage) {
+                    $productsPerPage = $this->productsPerPage;
+                } else {
+                    $productsPerPage = SilvercartConfig::ProductsPerPage();
+                }
+                
                 // --------------------------------------------------------
                 // Use offset for getting the current item rage
                 // --------------------------------------------------------
