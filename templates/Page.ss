@@ -144,10 +144,10 @@
                                 <div id="silvercart-shop-claim-text">
                                     <h1>
                                         <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
-                                            Welcome to the Silvercart Webshop
+                                            Silvercart
                                         </a>
                                     </h1>
-                                    <p>This a demo shop</p>
+                                    <p>Open Source E-Commerce</p>
                                 </div>
                             </div>
                             

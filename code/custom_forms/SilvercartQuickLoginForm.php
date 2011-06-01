@@ -70,7 +70,8 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      * @since 11.04.2011
      */
     public function preferences() {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.LOGIN');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartPage.LOGIN');
+        $this->preferences['doJsValidationScrolling']   = false;
         
         $this->formFields['emailaddress']['title']  = _t('SilvercartPage.EMAIL_ADDRESS').':';
         $this->formFields['password']['title']      = _t('SilvercartPage.PASSWORD').':';

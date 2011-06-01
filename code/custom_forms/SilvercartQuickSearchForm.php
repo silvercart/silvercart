@@ -76,6 +76,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      */
     public function  preferences() {
         $this->preferences['submitButtonTitle']         = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
+        $this->preferences['doJsValidationScrolling']   = false;
         $this->formFields['quickSearchQuery']['value']  = _t('SilvercartQuickSearchForm.SEARCHBOXLABEL');
 
         parent::preferences();

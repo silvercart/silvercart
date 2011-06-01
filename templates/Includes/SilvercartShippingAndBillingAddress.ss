@@ -4,7 +4,7 @@
             <h3><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></h3>
             <% if CurrentMember.SilvercartShippingAddress %>
                 <% control CurrentMember.SilvercartShippingAddress %>
-                    <% include SilvercartAddressTable %>
+                    <% include SilvercartShippingAddressTable %>
                 <% end_control %>
                 <div class="silvercart-button-row clearfix">
                     <div class="silvercart-button">
@@ -25,7 +25,7 @@
             <h3><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></h3>
             <% if CurrentMember.SilvercartInvoiceAddress %>
                 <% control CurrentMember.SilvercartInvoiceAddress %>
-                    <% include SilvercartAddressTable %>
+                    <% include SilvercartInvoiceAddressTable %>
                 <% end_control %>
                 <div class="silvercart-button-row clearfix">
                     <div class="silvercart-button">

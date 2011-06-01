@@ -11,7 +11,7 @@
                     <legend><% _t('SilvercartAddressHolder.SHIPPINGADDRESS') %></legend>
                     <% control AddressData %>
                         <% control SilvercartShippingAddress %>
-                            <% include SilvercartAddressTable %>
+                            <% include SilvercartShippingAddressTable %>
                         <% end_control %>
                     <% end_control %>
                 </fieldset>
@@ -24,7 +24,7 @@
                     <legend><% _t('SilvercartAddressHolder.INVOICEADDRESS') %></legend>
                     <% control AddressData %>
                         <% control SilvercartInvoiceAddress %>
-                            <% include SilvercartAddressTable %>
+                            <% include SilvercartInvoiceAddressTable %>
                         <% end_control %>
                     <% end_control %>
                 </fieldset>
