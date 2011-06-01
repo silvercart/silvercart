@@ -45,62 +45,68 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
 
     protected $formFields = array(
         'FirstName' => array(
-            'type' => 'TextField',
-            'title' => 'Vorname des Empfängers'
+            'type'      => 'TextField',
+            'title'     => 'Vorname des Empfängers',
+            'checkRequirements' => array(
+                'isFilledIn' => true
+            )
         ),
         'Surname' => array(
-            'type' => 'TextField',
-            'title' => 'Nachname des Empfängers'
+            'type'      => 'TextField',
+            'title'     => 'Nachname des Empfängers',
+            'checkRequirements' => array(
+                'isFilledIn' => true
+            )
         ),
         'Addition' => array(
-            'type' => 'TextField',
-            'title' => 'Adresszusatz'
+            'type'      => 'TextField',
+            'title'     => 'Adresszusatz'
         ),
         'Street' => array(
-            'type' => 'TextField',
-            'title' => 'Straße',
+            'type'      => 'TextField',
+            'title'     => 'Straße',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'StreetNumber' => array(
-            'type' => 'TextField',
-            'title' => 'Hausnummer',
+            'type'      => 'TextField',
+            'title'     => 'Hausnummer',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Postcode' => array(
-            'type' => 'TextField',
-            'title' => 'PLZ',
+            'type'      => 'TextField',
+            'title'     => 'PLZ',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'City' => array(
-            'type' => 'TextField',
-            'title' => 'Ort',
+            'type'      => 'TextField',
+            'title'     => 'Ort',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'PhoneAreaCode' => array(
-            'type' => 'TextField',
-            'title' => 'Vorwahl',
+            'type'      => 'TextField',
+            'title'     => 'Vorwahl',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Phone' => array(
-            'type' => 'TextField',
-            'title' => 'Telefonnummer',
+            'type'      => 'TextField',
+            'title'     => 'Telefonnummer',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Country' => array(
-            'type' => 'DropdownField',
-            'title' => 'Land',
+            'type'      => 'DropdownField',
+            'title'     => 'Land',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
