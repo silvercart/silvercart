@@ -585,6 +585,49 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
+    
+    /**
+     * Returns the offset of the current page for pagination.
+     * 
+     * @return int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.06.2011
+     */
+    public function CurrentOffset() {
+        if (!isset($_GET['start']) ||
+            !is_numeric($_GET['start']) ||
+            (int)$_GET['start'] < 1) {
+
+
+            if (isset($_GET['offset'])) {
+                // --------------------------------------------------------
+                // Use offset for getting the current item rage
+                // --------------------------------------------------------
+                $offset = (int) $_GET['offset'];
+
+                if ($offset > 0) {
+                    $offset -= 1;
+                }
+
+                // Prevent too high values
+                if ($offset > 999999) {
+                    $offset = 0;
+                }
+
+                $SQL_start = $offset * $productsPerPage;
+            } else {
+                // --------------------------------------------------------
+                // Use item number for getting the current item range
+                // --------------------------------------------------------
+                $SQL_start = 0;
+            }
+        } else {
+            $SQL_start = (int) $_GET['start'];
+        }
+        
+        return $SQL_start;
+    }
 
     /**
      * All products of this group
