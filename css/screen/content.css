@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
  *
@@ -9,215 +10,502 @@
  *                  YAML-C (http://www.yaml.de/en/license/license-conditions.html)
  * @link            http://www.yaml.de
  * @package         yaml
- * @version         3.3
+ * @version         3.2.1
  * @revision        $Revision:392 $
  * @lastmodified    $Date:2009-07-05 12:18:40 +0200 (So, 05. Jul 2009) $
  * @appdef yaml
- */
+*/
 
 @media all
 {
- /**
-  * Fonts
-  *
-  * (en) global settings of font-families and font-sizes
-  * (de) Globale Einstellungen für Zeichensatz und Schriftgrößen
-  *
-  * @section content-global-settings
-  */
+    /**
+     * Fonts
+     *
+     * (en) global settings of font-families and font-sizes
+     * (de) Globale Einstellungen für Zeichensatz und Schriftgrößen
+     *
+     * @section content-global-settings
+    */
 
-  /* (en) reset font size for all elements to standard (16 Pixel) */
-  /* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
-  html * { font-size:100.01%; }
+    /* (en) reset font size for all elements to standard (16 Pixel) */
+    /* (de) Alle Schriftgrößen auf Standardgröße (16 Pixel) zurücksetzen */
+    html * { font-size:100.01%; }
 
- /**
-  * (en) reset monospaced elements to font size 16px in all browsers
-  * (de) Schriftgröße von monospaced Elemente in allen Browsern auf 16 Pixel setzen
-  *
-  * @see: http://webkit.org/blog/67/strange-medium/
-  */
+    /**
+     * (en) reset monospaced elements to font size 16px in all browsers
+     * (de) Schriftgröße von monospaced Elemente in allen Browsern auf 16 Pixel setzen
+     *
+     * @see: http://webkit.org/blog/67/strange-medium/
+    */
 
-  textarea, pre, code, kbd, samp, var, tt {
-    font-family:Consolas, "Lucida Console", "Andale Mono", "Bitstream Vera Sans Mono", "Courier New", Courier;
-  }
+    textarea, pre, code, kbd, samp, var, tt {
+        font-family:Consolas, "Lucida Console", "Andale Mono", "Bitstream Vera Sans Mono", "Courier New", Courier;
+    }
 
-  /* (en) base layout gets standard font size 12px */
-  /* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
-  body {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:75.00%;
-    color:#444;
-  }
+    /* (en) base layout gets standard font size 12px */
+    /* (de) Basis-Layout erhält Standardschriftgröße von 12 Pixeln */
+    body {
+        font-family: Verdana;
+        font-size:70.00%;
+        color:#666;
+    }
 
-  /*--- Headings | Überschriften ------------------------------------------------------------------------*/
+    /*--- Headings | Überschriften ------------------------------------------------------------------------*/
 
-  h1,h2,h3,h4,h5,h6 {
-    font-family:"Times New Roman", Times, serif;
-    font-weight:normal;
-    color:#222;
-    margin:0 0 0.25em 0;
-  }
+    h1,h2,h3,h4,h5,h6 {
+        font-family: verdana;
+        font-weight:normal;
+        color:#333;
+        margin:0 0 0.5em 0;
+    }
 
-  h1 { font-size:250%; }                       /* 30px */
-  h2 { font-size:200%; }                       /* 24px */
-  h3 { font-size:150%; }                       /* 18px */
-  h4 { font-size:133.33%; }                    /* 16px */
-  h5 { font-size:116.67%; }                    /* 14px */
-  h6 { font-size:116.67%; }                    /* 14px */
+    h1 { font-size:170%; color:#429bb9 }                       /* 30px */
+    h2 { font-size:150%; color:#429bb9 }                       /* 24px */
+    h3 { font-size:135%; }                       /* 18px */
+    h4 { font-size:105.33%; }                    /* 16px */
+    h5 { font-size:116.67%; }                    /* 14px */
+    h6 { font-size:116.67%; }                    /* 14px */
 
-  /* --- Lists | Listen  -------------------------------------------------------------------------------- */
+    h3 a,  h3 a:visited { color:#429bb9 }
 
-  ul, ol, dl { line-height:1.5em; margin:0 0 1em 1em; }
-  ul { list-style-type:disc; }
-  ul ul { list-style-type:circle; margin-bottom:0; }
+    /* --- Lists | Listen  -------------------------------------------------------------------------------- */
 
-  ol { list-style-type:decimal; }
-  ol ol { list-style-type:lower-latin; margin-bottom:0; }
+    ul, ol, dl { line-height:1.5em; margin:0 0 1em 1em; }
+    ul { list-style-type:none; }
+    ul ul { list-style-type:circle; margin-bottom:0; }
 
-  li { margin-left:0.8em; line-height:1.5em; }
+    ol { list-style-type:decimal; }
+    ol ol { list-style-type:lower-latin; margin-bottom:0; }
 
-  dt { font-weight:bold; }
-  dd { margin:0 0 1em 0.8em; }
+    li { margin-left:0.8em; line-height:1.5em; }
 
-  /* --- general text formatting | Allgemeine Textauszeichnung ------------------------------------------ */
+    dt { font-weight:bold; }
+    dd { margin:0 0 1em 0.8em; }
 
-  p { line-height:1.5em; margin:0 0 1em 0; }
+    /* --- general text formatting | Allgemeine Textauszeichnung ------------------------------------------ */
 
-  blockquote, cite, q {
-    font-family:Georgia, "Times New Roman", Times, serif;
-    font-style:italic;
-  }
-  blockquote { margin:0 0 1em 1.6em; color:#666; }
+    p { line-height:1.5em; margin:0 0 1em 0; }
 
-  strong,b { font-weight:bold; }
-  em,i { font-style:italic; }
+    blockquote, cite, q {
+        font-family:Georgia, "Times New Roman", Times, serif;
+        font-style:italic;
+    }
+    blockquote { margin:0 0 1em 1.6em; color:#666; }
 
-  big { font-size:116.667%; }
-  small { font-size:91.667%; }
- 
-  pre { line-height:1.5em; margin:0 0 1em 0; }
-  pre, code, kbd, tt, samp, var { font-size:100%; }
-  pre, code { color:#800; }
-  kbd, samp, var, tt { color:#666; font-weight:bold; }
-  var, dfn { font-style:italic; }
+    strong,b { font-weight:bold; }
+    em,i { font-style:italic; }
 
-  acronym, abbr {
-    border-bottom:1px #aaa dotted;
-    font-variant:small-caps;
-    letter-spacing:.07em;
-    cursor:help;
-  }
-  
-  sub { vertical-align: sub; font-size: smaller; }
-  sup { vertical-align: super; font-size: smaller; }
+    big { font-size:116.667%; }
+    small { font-size:91.667%; }
 
-  hr {
-    color:#fff;
-    background:transparent;
-    margin:0 0 0.5em 0;
-    padding:0 0 0.5em 0;
-    border:0;
-    border-bottom:1px #eee solid;
-  }
+    pre { line-height:1.5em; margin:0 0 1em 0; }
+    pre, code, kbd, tt, samp, var { font-size:100%; }
+    pre, code { color:#429bb9; }
+    kbd, samp, var, tt { color:#666; font-weight:bold; }
+    var, dfn { font-style:italic; }
 
-  /*--- Links ----------------------------------------------------------------------------------------- */
+    acronym, abbr {
+        border-bottom:1px #aaa dotted;
+        font-variant:small-caps;
+        letter-spacing:.07em;
+        cursor:help;
+    }
 
-  a { color:#4D87C7; background:transparent; text-decoration:none; }
-  a:visited  { color:#036; }
+    sub, sup { font-size:91.6667%; line-height:0; }
 
-  /* (en) maximum constrast for tab focus - change with great care */
-  /* (en) Maximaler Kontrast für Tab Focus - Ändern Sie diese Regel mit Bedacht */
-  a:focus { text-decoration:underline; color:#000; background: #fff; outline: 3px #f93 solid; }
-  a:hover,
-  a:active { color:#182E7A; text-decoration:underline; outline: 0 none; }
+    hr {
+        color:#fff;
+        background:transparent;
+        margin:0 0 0.5em 0;
+        padding:0 0 0.5em 0;
+        border:0;
+        border-bottom:1px #eee solid;
+    }
 
-  /* --- images (with optional captions) | Bilder (mit optionaler Bildunterschrift) ------------------ */
+    /*--- Links ----------------------------------------------------------------------------------------- */
 
-  p.icaption_left { float:left; display:inline; margin:0 1em 0.15em 0; }
-  p.icaption_right { float:right; display:inline; margin:0 0 0.15em 1em; }
+    a { color:#3a3436; background:transparent; text-decoration:none; }
+    a:visited  { color:#3a3436; }
 
-  p.icaption_left img,
-  p.icaption_right img { padding:0; border:1px #888 solid; }
+    /* (en) maximum constrast for tab focus - change with great care */
+    /* (en) Maximaler Kontrast für Tab Focus - Ändern Sie diese Regel mit Bedacht */
+    a:focus { text-decoration:underline; color:#000; }
+    a:hover,
+    a:active { color:#429bb9; text-decoration:underline; outline: 0 none; }
 
-  p.icaption_left strong,
-  p.icaption_right strong { display:block; overflow:hidden; margin-top:2px; padding:0.3em 0.5em; background:#eee; font-weight:normal; font-size:91.667%; }
+    /* --- images (with optional captions) | Bilder (mit optionaler Bildunterschrift) ------------------ */
 
- /**
-  * ------------------------------------------------------------------------------------------------- #
-  *
-  * Generic Content Classes
-  *
-  * (en) standard classes for positioning and highlighting
-  * (de) Standardklassen zur Positionierung und Hervorhebung
-  *
-  * @section content-generic-classes
-  */
+    p.icaption_left { float:left; display:inline; margin:0 1em 0.15em 0; }
+    p.icaption_right { float:right; display:inline; margin:0 0 0.15em 1em; }
 
-  .highlight { color:#c30; }
-  .dimmed { color:#888; }
+    p.icaption_left img,
+    p.icaption_right img { padding:0; border:1px #888 solid; }
 
-  .info { background:#f8f8f8; color:#666; padding:10px; margin-bottom:0.5em; font-size:91.7%; }
+    p.icaption_left strong,
+    p.icaption_right strong { display:block; overflow:hidden; margin-top:2px; padding:0.3em 0.5em; background:#eee; font-weight:normal; font-size:91.667%; }
 
-  .note { background:#efe; color:#040; border:2px #484 solid; padding:10px; margin-bottom:1em; }
-  .important { background:#ffe; color:#440; border:2px #884 solid; padding:10px; margin-bottom:1em; }
-  .warning { background:#fee; color:#400; border:2px #844 solid; padding:10px; margin-bottom:1em; }
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Generic Content Classes
+     *
+     * (en) standard classes for positioning and highlighting
+     * (de) Standardklassen zur Positionierung und Hervorhebung
+     *
+     * @section content-generic-classes
+    */
 
-  .float_left { float:left; display:inline; margin-right:1em; margin-bottom:0.15em; }
-  .float_right { float:right; display:inline; margin-left:1em; margin-bottom:0.15em; }
-  .center { display:block; text-align:center; margin:0.5em auto; }
+    .highlight { color:#c30; }
+    .dimmed { color:#888; }
 
- /**
-  * ------------------------------------------------------------------------------------------------- #
-  *
-  * Tables | Tabellen
-  *
-  * (en) Generic classes for table-width and design definition
-  * (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
-  *
-  * @section content-tables
-  */
+    .info { background:#f8f8f8; color:#666; padding:10px; margin-bottom:0.5em; font-size:91.7%; }
 
-  table { width:auto; border-collapse:collapse; margin-bottom:0.5em; border-top:2px #888 solid; border-bottom:2px #888 solid; }
-  table caption { font-variant:small-caps; }
-  table.full { width:100%; }
-  table.fixed { table-layout:fixed; }
+    .note { background:#efe; color:#040; border:2px #484 solid; padding:10px; margin-bottom:1em; }
+    .important { background:#ffe; color:#440; border:2px #884 solid; padding:10px; margin-bottom:1em; }
+    .warning { background:#fee; color:#400; border:2px #844 solid; padding:10px; margin-bottom:1em; }
 
-  th,td { padding:0.5em; }
-  thead th { color:#000; border-bottom:2px #800 solid; }
-  tbody th { background:#e0e0e0; color:#333; }
-  tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }
+    .float_left { float:left; display:inline; margin-right:1em; margin-bottom:0.15em; }
+    .float_right { float:right; display:inline; margin-left:1em; margin-bottom:0.15em; }
+    .center { display:block; text-align:center; margin:0.5em auto; }
 
-  tbody th { border-bottom:1px solid #fff; text-align:left; }
-  tbody td { border-bottom:1px solid #eee; }
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Tables | Tabellen
+     *
+     * (en) Generic classes for table-width and design definition
+     * (de) Generische Klassen für die Tabellenbreite und Gestaltungsvorschriften für Tabellen
+     *
+     * @section content-tables
+    */
 
-  tbody tr:hover th[scope="row"],
-  tbody tr:hover tbody th.sub { background:#f0e8e8; }
-  tbody tr:hover td { background:#fff8f8; }
+    table { width:auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px #888 solid; border-bottom:0px #888 solid; }
+    table caption { font-variant:small-caps; }
+    table.full { width:100%; }
+    table.fixed { table-layout:fixed; }
 
- /**
-  * ------------------------------------------------------------------------------------------------- #
-  *
-  * Miscellaneous | Sonstiges
-  *
-  * @section content-misc
-  */
+    th,td { padding:0.5em; }
+    thead th { color:#000; border-bottom:1px #429bb9 solid; }
+    tbody th { background:#e0e0e0; color:#333; }
+    tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }
 
- /**
-  * (en) Emphasizing external Hyperlinks via CSS
-  * (de) Hervorhebung externer Hyperlinks mit CSS
-  *
-  * @section             content-external-links
-  * @app-yaml-default    disabled
-  */
+    tbody th { border-bottom:1px solid #fff; text-align:left; }
+    tbody td { border-bottom:1px solid #eee; }
 
-  /*
-  #main a[href^="http://www.my-domain.com"],
-  #main a[href^="https://www.my-domain.com"]
-  {
-    padding-left:12px;
-    background-image:url('your_image.gif');
-    background-repeat:no-repeat;
-    background-position:0 0.45em;
-  }
-  */
+    tbody tr:hover th[scope="row"],
+    tbody tr:hover tbody th.sub {  }
+    tbody tr:hover td {  }
+
+    tfoot td {border-top: 1px #429bb9 solid; }
+
+    /**
+     * ------------------------------------------------------------------------------------------------- #
+     *
+     * Miscellaneous | Sonstiges
+     *
+     * @section content-misc
+    */
+
+    /**
+     * (en) Emphasizing external Hyperlinks via CSS
+     * (de) Hervorhebung externer Hyperlinks mit CSS
+     *
+     * @section             content-external-links
+     * @app-yaml-default    disabled
+    */
+
+    /*
+    #main a[href^="http://www.my-domain.com"],
+    #main a[href^="https://www.my-domain.com"]
+    {
+      padding-left:12px;
+      background-image:url('your_image.gif');
+      background-repeat:no-repeat;
+      background-position:0 0.45em;
+    }
+    */
+
+    .content_greybox {padding: 10px; width:100%; background-color:#e1e5e8; color: #993333}
+
+    #footer a {color:#3a3436}
+    #footer p {margin: 0; color: #fff; padding-left: 5px; font-style: italic; }
+    .footer_content {text-align: center; padding: 10px; color:#3a3436;}
+    #linkfooter {background: #3a3436; width: 100%; }
+    #linkfooter a {color: #fff}
+    #footer_margins { margin: 0 auto; width:980px; }
+    #footer_content {color:#000; text-align: left; padding: 10px 20px; }
+    #footer_content small { font-size: 80%; line-height: 5px;}
+    #footer_bottom {padding: 10px 20px; border-top:2px #888 solid;}
+
+    .translations {font-size: 70%}
+    .translations img {width:40px;}
+
+    /* HEADER STYLES
+  ------------------------------------------------ */
+    #header .c50r  {text-align: right;}
+
+    /* CARTFORM PREVIEW FORM STYLES
+    -------------------------------------------------*/
+
+    .yform .type-button input[type="submit"].action {
+        background:url("images/button_gray.png") repeat-x scroll left top #454545;
+        margin: 0 0 0 0;
+}
+
+
+   #Form_decrementAmountForm_action_doDecrementAmount {
+      background:url(images/button_remove.png) no-repeat center center;
+      cursor:pointer;
+      width: 18px;
+      height: 18px;
+      border: none;
+      color: #fff;
+   }
+
+   #Form_incrementAmountForm_action_doIncrementAmount {
+      background:url(images/button_add.png) no-repeat center center;
+      cursor:pointer;
+      width: 18px;
+      height: 18px;
+      border: none;
+      color: #fff;
+   }
+
+     #Form_removeFromCartForm_action_doRemoveFromCart,
+     form .action-remove input {
+      background:url(images/button_delete.png) no-repeat top left;
+      padding-left: 20px;
+      cursor:pointer;
+      width: 100px;
+      height: 30px;
+      border: none;
+   }
+
+    /* SEARCH RESULTS STYLES
+  ------------------------------------------------ */
+
+    ul#SearchResults {
+        margin: 10px 0;
+    }
+    ul#SearchResults li {
+        list-style: none;
+        margin: 5px 0;
+        font-size: 1em;
+    }
+
+    /* SEARCH FORM
+    -----------------------------------------------*/
+
+    #SearchForm_SearchForm {background: transparent; border: none; margin: 0; padding: 0; width: 210px; }
+
+    #SearchForm_SearchForm .yform {background: transparent; border: none; padding: 0; margin: 0;}
+
+    #SearchForm_SearchForm .type-text {float: left; width: 180px; padding: 0; margin: 0; color: #3a3436; font-size: 120%}
+    #SearchForm_SearchForm .type-text .text { width: 160px;}
+
+    /*#SearchForm_SearchForm #quickSearchQuery .clear {clear: none}*/
+    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(images/icon_search.png) no-repeat; font-size: 0px; color: #959697; }
+
+    #Search_Login {background: #3a3436; border: none; margin-top: 0; padding: 0; width: 300px;}
+
+    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(images/icon_search.png) no-repeat;}
+
+    #Search_Login .yform {background: transparent; border: none; padding: 5px 0 0 0; margin: 0;}
+
+    #Search_Login .type-text {float: left; color: #3a3436; margin: 0;padding:0;}
+    #Search_Login .type-text .text { width: 90%; padding-top:5px; margin-left: 5px; margin-bottom: 5px;}
+
+    #SendAction {Border: none;}
+
+    /* WIDGET STYLES
+       ------------------------------------------------ */
+
+    .widget {width:100%; margin-bottom: 35px; color: #000;}
+    .widget_content {padding: 5px;}
+    .widget span {font-size: 100%}
+
+    /* ------ Everything about the Blog ------ */
+
+    #Sidebar{
+        padding: 10px;
+    }
+
+    .BlogSideBar h3{
+        color: #429bb9;
+        font-size:150%;
+    }
+
+    .blogSummary{
+        padding: 10px;
+    }
+
+    .blogEntry{
+        font-size:12px;
+        line-height:1.5em;
+        padding:10px;
+    }
+
+    .postTitle a{
+        color: #429bb9;
+        font-size:100%;
+    }
+
+    .BlogContent{
+        font-size: 110%;
+    }
+
+    .tagcloud a{
+        font-size: 120%;
+    }
+
+    .BlogPageComments{
+        padding: 10px;
+    }
+
+    .BlogPageComments h4{
+        color: #429bb9;
+        font-size: 150%;
+    }
+
+    .BlogPageComments .left {
+        font-size: 110%;
+        margin: 5px;
+    }
+
+    .BlogPageComments .Actions{
+        width: 50px;
+        margin: 5px;
+    }
+
+    .middleColumn .text, textarea{
+        width: 200px;
+        margin: 5px;
+    }
+
+    #PageNumbers {
+        padding-left: 10px;
+    }
+
+    #PageNumbers a{
+        color: #429bb9;
+        font-size: 100%;
+    }
+
+    #Search_Login div.error, .note{
+        background:none repeat scroll 0 0 #3A3436;
+        border:1px solid white;
+        color:white;
+        margin: 1px 10px 5px 5px;
+        padding: 10px 5px 0 1px;
+    }
+
+    #Search_Login div.error .message {
+        color: #ccc;
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+
+    .errorlist{
+        text-align: left;
+    }
+
+    .Footer_Blog{
+        padding-left: 6px;
+    }
+
+    .Footer_Links{
+        text-align: right;
+        padding-right: 6px;
+    }
+
+    #CustomerArea{
+        text-align: right;
+        padding-right: 3px;
+    }
+
+    #CompanyInformations{
+        text-align: center;
+    }
+
+    img.left{
+        float:left;
+        padding:5px;
+    }
+
+    img.right{
+        float:right;
+        padding:5px;
+    }
+
+    #Shopping_Checkout{
+        text-align: right;
+    }
+
+    #Customer{
+        text-align: center;
+    }
+
+    .hBox{
+        display: none;
+    }
+
+    .Head_line{
+        text-align: left;
+        padding-left: 5px;
+        color: #ccc;
+    }
+
+    .LoginPopup{
+        border: 1px solid #ccc;
+    }
+
+    #modalLogin{
+       margin-top: 5px;
+       min-width: 302px;
+    }
+
+    .note ul, li {
+       text-align: left;
+    }
+
+    .MemberName{
+       margin-top: 1px;
+    }
+
+    .MetaNavigation{
+       margin-top: 3px;
+       padding-top: 1px;
+    }
+
+    .Katalog {
+        padding-left: 10px;
+        padding-bottom: 10px;
+        text-align: center
+    }
+
+    .items{
+        text-align: center
+    }
+
+    .Sitemap{
+        padding-left: 10px;
+    }
+
+    .subcolumns label {
+        text-align: left;
+    }
+
+    .emailIcon{
+        padding-top: 0.5px;
+    }
+
+    #ShippingInfos{
+        text-align: left;
+        padding-left: 33%;
+        padding-bottom: 10px;
+    }
+
+    #InvoiceInfos{
+        padding-right: 33%;
+    }
 }

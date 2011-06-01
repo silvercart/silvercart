@@ -710,8 +710,8 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     private function title2urlSegment() {
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '');
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ', '%');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '',  '');
         $string = str_replace($remove, $replace, $this->Title);
         return $string;
     }

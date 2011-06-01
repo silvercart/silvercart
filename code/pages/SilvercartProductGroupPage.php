@@ -408,6 +408,22 @@ class SilvercartProductGroupPage extends Page {
     public function isActive() {
         return Controller::curr()->Link() == $this->Link();
     }
+    
+    /**
+     * Returns a sorted list of children of this node.
+     *
+     * @param string $sortField The field used for sorting
+     * @param string $sortDir   The sort direction ('ASC' or 'DESC')
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.05.2011
+     */
+    public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
+        $children = $this->Children();
+        $children->sort($sortField, $sortDir);
+        
+        return $children;
+    }
 }
 
 /**
@@ -475,10 +491,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      */
     public function getSubNavigation() {
-        $extendetOutput = $this->extend('getSubNavigation');
-        if (empty ($extendetOutput)) {
+        $menuElements = $this->getTopProductGroup($this)->Children();
+        $extendedOutput = $this->extend('getSubNavigation', $menuElements);
+        
+        if (empty ($extendedOutput)) {
             $elements = array(
-                'SubElements' => $this->getTopProductGroup($this)->Children(),
+                'SubElements' => $menuElements,
             );
             $output = $this->customise($elements)->renderWith(
                 array(
@@ -487,7 +505,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             );
             return $output;
         } else {
-            return $extendetOutput[0];
+            return $extendedOutput[0];
         }
     }
 
