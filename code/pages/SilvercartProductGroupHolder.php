@@ -118,19 +118,23 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      */
     public static function getRecursiveProductGroupsForGroupedDropdownAsArray($parent = null) {
         $productGroups = array();
+        
         if (is_null($parent)) {
-            $productGroups[''] = '';
-            $parent = self::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $productGroups['']  = '';
+            $parent             = self::PageByIdentifierCode('SilvercartProductGroupHolder');
         }
+        
         if ($parent) {
             foreach ($parent->Children() as $child) {
                 $productGroups[$child->ID] = $child->Title;
-                $subs = self::getRecursiveProductGroupsForGroupedDropdownAsArray($child);
+                $subs                      = self::getRecursiveProductGroupsForGroupedDropdownAsArray($child);
+                
                 if (!empty ($subs)) {
                     $productGroups[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $subs;
                 }
             }
         }
+        
         return $productGroups;
     }
 

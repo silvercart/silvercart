@@ -69,7 +69,7 @@ class SilvercartProductGroupItemsWidget extends Widget {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $productGroupField = new GroupedDropdownField(
+        $productGroupField = new SilvercartGroupedDropdownField(
             'SilvercartProductGroupPageID',
             _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(),
