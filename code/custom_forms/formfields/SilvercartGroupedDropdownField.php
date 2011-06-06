@@ -1,41 +1,35 @@
 <?php
 /**
- * Grouped dropdown, using <optgroup> tags.
- * 
- * $source parameter (from DropdownField) must be a two dimensional array.
- * The first level of the array is used for the <optgroup>, and the second
- * level are the <options> for each group.
- * 
- * Returns a <select> tag containing all the appropriate <option> tags, with
- * <optgroup> tags around the <option> tags as required.
- * 
- * <b>Usage</b>
- * 
- * <code>
- * new GroupedDropdownField(
- *    $name = "dropdown",
- *    $title = "Simple Grouped Dropdown",
- *    $source = array(
- *       "numbers" => array(
- *       		"1" => "1",
- *       		"2" => "2",
- *       		"3" => "3",
- *       		"4" => "4"
- *    		),
- *       "letters" => array(
- *       		"1" => "A",
- *       		"2" => "B",
- *       		"3" => "C",
- *       		"4" => "D",
- *       		"5" => "E",
- *       		"6" => "F"
- *    		)
- *    )
- * )
- * </code>
- * 
- * @package forms
- * @subpackage fields-basic
+ * Copyright 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage FormFields
+ */
+
+/**
+ * A grouped dropdown formfield that can display an unlimited depth of entries.
+ *
+ * @package Silvercart
+ * @subpackage Forms
+ * @copyright pixeltricks GmbH
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 03.06.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartGroupedDropdownField extends DropdownField {
 
@@ -50,11 +44,8 @@ class SilvercartGroupedDropdownField extends DropdownField {
 		
 		foreach($this->getSource() as $value => $title) {
 			if(is_array($title)) {
-				$options .= "<optgroup label=\"$value\">";
-				foreach($title as $value2 => $title2) {
-					$selected = $value2 == $this->value ? " selected=\"selected\"" : "";
-					$options .= "<option$selected value=\"$value2\">$title2</option>";
-				}
+                $options .= "<optgroup label=\"$value\">";
+                $options .= $this->buildOptionSet($title);
 				$options .= "</optgroup>";
 			} else { // Fall back to the standard dropdown field
 				$selected = $value == $this->value ? " selected=\"selected\"" : "";
@@ -75,7 +66,26 @@ class SilvercartGroupedDropdownField extends DropdownField {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 03.06.2011
      */
-    protected function buildOptionSet() {
+    protected function buildOptionSet($definition) {
+        $options = '';
         
+        foreach($definition as $key => $value) {
+            
+            if (is_array($value)) {
+                $options .= "<optgroup label=\"$key\">";
+                $options .= $this->buildOptionSet($value);
+				$options .= "</optgroup>";
+            } else {
+                $selected = '';
+
+                if ($key == $this->value) {
+                    $selected = " selected=\"selected\"";
+                }
+
+                $options .= "<option$selected value=\"$key\">$value</option>";
+            }
+        }
+        
+        return $options;
     }
 }
