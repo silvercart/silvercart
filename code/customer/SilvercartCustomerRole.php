@@ -152,10 +152,19 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * @since 18.10.2010
      */
     public static function currentRegisteredCustomer() {
-        $member = Member::currentUser();
+        $member             = Member::currentUser();
+        $isInCustomerGroup  = false;
+        
         if ($member) {
+            
+            if ($member->Groups()->find('Code', 'b2c') ||
+                $member->Groups()->find('Code', 'b2b')) {
+                $isInCustomerGroup = true;
+            }
+            
             if (($member->ClassName == "SilvercartRegularCustomer" ||
-                 $member->ClassName == 'SilvercartBusinessCustomer') &&
+                 $member->ClassName == 'SilvercartBusinessCustomer' ||
+                 $isInCustomerGroup) &&
                 $member->OptInStatus === '1') {
 
                 return $member;
