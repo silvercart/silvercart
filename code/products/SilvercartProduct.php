@@ -197,7 +197,7 @@ class SilvercartProduct extends DataObject {
      */
     public function canView($member = null) {
         parent::canView($member);
-        $publishedProduct = SilvercartProduct::get("`ID` = $this->ID");
+        $publishedProduct = SilvercartProduct::get("`SilvercartProduct`.`ID` = $this->ID");
         if ($publishedProduct) {
             return true;
         } else {
