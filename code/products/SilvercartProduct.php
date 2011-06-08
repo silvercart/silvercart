@@ -184,6 +184,26 @@ class SilvercartProduct extends DataObject {
         self::$plural_name = _t('SilvercartProduct.PLURALNAME', 'products');
         parent::__construct($record, $isSingleton);
     }
+    
+    /**
+     * Is this product viewable in the frontend?
+     * 
+     * @param Member $member the current member
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 6.6.2011
+     * @return bool 
+     */
+    public function canView($member = null) {
+        parent::canView($member);
+        $publishedProduct = SilvercartProduct::get("`ID` = $this->ID");
+        if ($publishedProduct) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Summaryfields for display in tables.
@@ -470,6 +490,9 @@ class SilvercartProduct extends DataObject {
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
 
+        // remove GoogleSitemap Priority
+        $fields->removeByName('Priority');
+        $fields->removeByName('GoogleSitemapIntro');
         // --------------------------------------------------------------------
         // Fields for the main tab
         // --------------------------------------------------------------------
@@ -501,6 +524,14 @@ class SilvercartProduct extends DataObject {
         $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
+        
+        // --------------------------------------------------------------------
+        // SEO tab
+        // --------------------------------------------------------------------
+        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
+        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
+        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
+        
         
         // --------------------------------------------------------------------
         // Product group pages tab
@@ -571,15 +602,15 @@ class SilvercartProduct extends DataObject {
         // --------------------------------------------------------------------
         // Reorder tabs
         // --------------------------------------------------------------------
-        $tabset = false;
-        
-        foreach($fields as $i => $field) {
-			if(is_object($field) && $field instanceof TabSet) {
+            $tabset = false;
+
+        foreach ($fields as $i => $field) {
+            if (is_object($field) && $field instanceof TabSet) {
                 $tabset = $field;
                 break;
-			}
-		}
-        
+            }
+        }
+
         if ($tabset) {
             $tabs = array();
             
@@ -610,6 +641,13 @@ class SilvercartProduct extends DataObject {
         
         
         $this->extend('updateCMSFields', $fields);
+        // remove GoogleSitemap Priority again
+        $priority = clone $fields->dataFieldByName('Priority');
+        //$googleSitemapIntro = clone $fields->fieldByName('GoogleSitemapIntro');
+        $fields->removeByName('Priority');
+        $fields->removeByName('GoogleSitemapIntro');
+        $fields->removeByName('Content');
+        $fields->addFieldToTab('Root.SEO', $priority);
         return $fields;
     }
 
@@ -759,6 +797,17 @@ class SilvercartProduct extends DataObject {
      */
     public function Link() {
         return $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+    }
+    
+    /**
+     * Returns the link to this product with protocol and domain
+     * 
+     * @return string the absolute link to this product
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 6.6.2011 
+     */
+    public function AbsoluteLink() {
+        return Director::absoluteURL($this->Link());
     }
 
     /**
