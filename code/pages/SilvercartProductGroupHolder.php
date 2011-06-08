@@ -74,7 +74,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         }
 
         $SQL_start = (int) $_GET['start'];
-
+/*
         $this->groupProducts = SilvercartProduct::getRandomProducts(5);
 
         // Initialise formobjects
@@ -94,7 +94,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
                 $productIdx++;
             }
         }
-
+*/
         parent::init();
     }
 
@@ -106,7 +106,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * @since 23.10.2010
      */
     public function randomProducts() {
-        return $this->groupProducts;
+        //return $this->groupProducts;
     }
 
     /**
