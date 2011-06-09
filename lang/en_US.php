@@ -257,6 +257,7 @@ $lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration fo
 $lang['en_US']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.';
+$lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum  order value';
 $lang['en_US']['SilvercartConfig']['PLURALNAME'] = 'General configurations';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Pricetype anonymous customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Pricetype regular customers';
@@ -265,6 +266,7 @@ $lang['en_US']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Pricetype administrato
 $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_US']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
+$lang['en_US']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum  order value';
 
 $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
@@ -917,6 +919,7 @@ $lang['en_US']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop Email';
 $lang['en_US']['SilvercartShopEmail']['SUBJECT'] = 'Subject';
 $lang['en_US']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
 
+$lang['en_US']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
 $lang['en_US']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
 

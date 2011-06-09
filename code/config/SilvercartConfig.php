@@ -59,6 +59,8 @@ class SilvercartConfig extends DataObject {
         'GeoNamesAPI' => 'VarChar(255)',
         'enableSSL' => 'Boolean(0)',
         'productsPerPage' => 'Int',
+        'minimumOrderValue' => 'Money',
+        'useMinimumOrderValue' => 'Boolean(0)'
     );
     public static $defaults = array(
         'SilvercartVersion' => '1.0',
@@ -100,6 +102,8 @@ class SilvercartConfig extends DataObject {
     public static $priceType = null;
     public static $config = null;
     public static $enableSSL = null;
+    public static $minimumOrderValue = null;
+    public static $useMinimumOrderValue = null;
     public static $productsPerPage = null;
 
     /**
@@ -211,6 +215,8 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
         $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
+        $fieldLabels['minimumOrderValue'] = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
+        $fieldLabels['useMinimumOrderValue'] = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
         $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         return $fieldLabels;
     }
@@ -357,6 +363,38 @@ class SilvercartConfig extends DataObject {
             self::$enableSSL = self::getConfig()->enableSSL;
         }
         return self::$enableSSL;
+    }
+    
+    /**
+     * Returns the minimum order value if specified
+     *
+     * @return mixed float|bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 09.06.2011
+     */
+    public static function MinimumOrderValue() {
+        if (is_null(self::$minimumOrderValue)) {
+            self::$minimumOrderValue = self::getConfig()->minimumOrderValue;
+        }
+        return self::$minimumOrderValue;
+    }
+    
+    /**
+     * Returns if the minimum order value shall be used.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 09.06.2011
+     */
+    public static function UseMinimumOrderValue() {
+        if (is_null(self::$useMinimumOrderValue)) {
+            self::$useMinimumOrderValue = self::getConfig()->useMinimumOrderValue;
+        }
+        return self::$useMinimumOrderValue;
     }
 
     /**

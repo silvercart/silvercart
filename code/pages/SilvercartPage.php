@@ -140,6 +140,13 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        if (!isset($_SESSION['Silvercart'])) {
+            $_SESSION['Silvercart'] = array();
+        }
+        if (!isset($_SESSION['Silvercart']['errors'])) {
+            $_SESSION['Silvercart']['errors'] = array();
+        }
+        
         $this->loadWidgetControllers();
         
         if (SilvercartConfig::DefaultLayoutEnabled()) {
@@ -185,6 +192,28 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         parent::init();
+    }
+    
+    /**
+     * Returns the HTML Code of Silvercart errors and clears the error list.
+     *
+     * @return string
+     * 
+     * @author Sascha koehler <skoehler@pixeltricks.de>
+     * @since 09.06.2011
+     */
+    public function SilvercartErrors() {
+        $errorStr = '';
+        
+        if (!empty($_SESSION['Silvercart']['errors'])) {
+            foreach ($_SESSION['Silvercart']['errors'] as $error) {
+                $errorStr .= '<p>'.$error.'</p>';
+            }
+        }
+        
+        $_SESSION['Silvercart']['errors'] = array();
+        
+        return $errorStr;
     }
     
     /**

@@ -83,13 +83,28 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             Director::forceSSL();
         }
         parent::init();
-
+        
         // Inject payment and shippingmethods to shoppingcart, if available
         $member = Member::currentUser();
 
         if ($member) {
             $stepData       = $this->getCombinedStepData();
             $shoppingCart   = $member->SilvercartShoppingCart();
+            
+            // If minimum order value is set and shoppingcart value is below we
+            // have to redirect the customer to the shoppingcart page and set
+            // an appropriate error message.
+            if (SilvercartConfig::UseMinimumOrderValue() &&
+                SilvercartConfig::MinimumOrderValue() &&
+                SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
+                
+                $_SESSION['Silvercart']['errors'][] = sprintf(
+                    _t('SilvercartShoppingCart.ERROR_MINIMUMORDERVALUE_NOT_REACHED'),
+                    SilvercartConfig::MinimumOrderValue()->Nice()
+                );
+                
+                Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
+            }
 
             if (isset($stepData['ShippingMethod'])) {
                 $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);

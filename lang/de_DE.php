@@ -257,6 +257,7 @@ $lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde 
 $lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Länder".';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Globaler E-Mail Empfänger';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Bestellbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.';
+$lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Mindestbestellwert';
 $lang['de_DE']['SilvercartConfig']['PLURALNAME'] = 'Allgemeine Konfigurationen';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Preistyp für anonyme Kunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Preistyp für Endkunden';
@@ -265,6 +266,7 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Preistyp für Administ
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Produkte pro Seite';
 $lang['de_DE']['SilvercartConfig']['SINGULARNAME'] = 'Allgemeine Konfiguration';
 $lang['de_DE']['SilvercartConfig']['SHOW_CONFIG'] = 'Konfiguration anzeigen';
+$lang['de_DE']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Mindestbestellwert aktivieren';
 
 $lang['de_DE']['SilvercartContactFormPage']['PLURALNAME'] = 'Kontaktformularseiten';
 $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kontaktformular';
@@ -917,6 +919,7 @@ $lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop E-Mail';
 $lang['de_DE']['SilvercartShopEmail']['SUBJECT'] = 'Betreff';
 $lang['de_DE']['SilvercartShopEmail']['VARIABLES'] = 'Variablen';
 
+$lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
 $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
 

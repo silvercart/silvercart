@@ -1,3 +1,11 @@
+<% if SilvercartErrors %>
+    <div class="silvercart-error-list">
+        <div class="silvercart-error-list_content">
+            $SilvercartErrors
+        </div>
+    </div>
+<% end_if %>
+
 <% if CurrentMember.SilvercartShoppingCart.isFilled %>
     <% control CurrentMember %>
         <% control SilvercartShoppingCart %>

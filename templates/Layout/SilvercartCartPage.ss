@@ -5,9 +5,13 @@
     <% include SilvercartShoppingCartFull %>
 
     <% if CurrentMember.SilvercartShoppingCart.isFilled %>
-        <div class="shopping-cart-page-footer-bar">
-            <a class="checkout-button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>
-        </div>
+        <% if CurrentMember.SilvercartShoppingCart.IsMinimumOrderValueReached %>
+            <div class="shopping-cart-page-footer-bar">
+                <a class="checkout-button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>
+            </div>
+        <% else %>
+            <p>Der Mindestbestellwert beträgt ...</p>
+        <% end_if %>
     <% end_if %>
     $Form
     $PageComments

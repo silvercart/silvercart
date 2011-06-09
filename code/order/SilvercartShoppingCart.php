@@ -534,6 +534,48 @@ class SilvercartShoppingCart extends DataObject {
 
         return $paymentMethodObj;
     }
+    
+    /**
+     * Returns the minimum order value.
+     *
+     * @return mixed Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 09.06.2011
+     */
+    public function MinimumOrderValue() {
+        $minimumOrderValue = new Money();
+        
+        if (SilvercartConfig::UseMinimumOrderValue() &&
+            SilvercartConfig::MinimumOrderValue()) {
+            
+            $minimumOrderValue->setAmount(SilvercartConfig::MinimumOrderValue()->getAmount());
+            $minimumOrderValue->setCurrency(SilvercartConfig::MinimumOrderValue()->getCurrency());
+        }
+
+        return $minimumOrderValue->Nice();
+    }
+    
+    /**
+     * Indicates wether the minimum order value is reached.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 09.06.2011
+     */
+    public function IsMinimumOrderValueReached() {
+        if (SilvercartConfig::UseMinimumOrderValue() &&
+            SilvercartConfig::MinimumOrderValue() &&
+            SilvercartConfig::MinimumOrderValue()->getAmount() > $this->getAmountTotalWithoutFees()->getAmount()) {
+            
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable
