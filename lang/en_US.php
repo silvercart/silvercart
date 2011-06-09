@@ -988,6 +988,10 @@ $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopp
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shoppingcart';
 $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';
 
+$lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
+$lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';
+$lang['en_US']['SilvercartText']['FREETEXTFIELD_LABEL'] = 'Your text:';
+
 $lang['en_US']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topsellers';
 $lang['en_US']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'Silvercart topseller products';
 $lang['en_US']['SilvercartTopsellerProductsWidget']['DESCRIPTION']              = 'This widget shows a configurable number of topseller products.';
