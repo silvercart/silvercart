@@ -639,15 +639,18 @@ class SilvercartProduct extends DataObject {
             }
         }
         
-        
         $this->extend('updateCMSFields', $fields);
+        
         // remove GoogleSitemap Priority again
-        $priority = clone $fields->dataFieldByName('Priority');
-        //$googleSitemapIntro = clone $fields->fieldByName('GoogleSitemapIntro');
-        $fields->removeByName('Priority');
-        $fields->removeByName('GoogleSitemapIntro');
-        $fields->removeByName('Content');
-        $fields->addFieldToTab('Root.SEO', $priority);
+        if ($fields->dataFieldByName('Priority')) {
+            $priority = clone $fields->dataFieldByName('Priority');
+        
+            //$googleSitemapIntro = clone $fields->fieldByName('GoogleSitemapIntro');
+            $fields->removeByName('Priority');
+            $fields->removeByName('GoogleSitemapIntro');
+            $fields->removeByName('Content');
+            $fields->addFieldToTab('Root.SEO', $priority);
+        }
         return $fields;
     }
 
