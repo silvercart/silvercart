@@ -424,6 +424,22 @@ class SilvercartProductGroupPage extends Page {
         
         return $children;
     }
+    
+    /**
+     * All products of this group
+     * 
+     * @param int|bool $numberOfProducts The number of products to return
+     * 
+     * @return DataObjectSet all products of this group or FALSE
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.10.2010
+     */
+    public function getProducts($numberOfProducts = false) {
+        $controller = new SilvercartProductGroupPage_Controller($this);
+        
+        return $controller->getProducts($numberOfProducts);
+    }
 }
 
 /**
@@ -656,12 +672,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
+     * @param int|bool $numberOfProducts The number of products to return
+     * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts() {
+    public function getProducts($numberOfProducts = false) {
         if (is_null($this->groupProducts)) {
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
@@ -671,6 +689,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             } else {
                 $productsPerPage = SilvercartConfig::ProductsPerPage();
             }
+            
+            if ($numberOfProducts !== false) {
+                $productsPerPage = (int) $numberOfProducts;
+            }
+            
             $mirroredProductIdList  = '';
             $mirroredProductIDs     = $this->getMirroredProductIDs();
 
