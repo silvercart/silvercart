@@ -98,8 +98,8 @@ SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList')
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
 ));
-if (method_exists('GoogleSitemap', 'registerDataObject')) {
-    GoogleSitemap::registerDataObject('SilvercartProduct');
+if (method_exists('GoogleSitemap', 'register_dataobject')) {
+    GoogleSitemap::register_dataobject('SilvercartProduct');
 }
 
 /*
