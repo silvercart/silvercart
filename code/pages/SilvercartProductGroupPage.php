@@ -417,6 +417,8 @@ class SilvercartProductGroupPage extends Page {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 31.05.2011
+     * 
+     * @return Page child pages
      */
     public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
         $children = $this->Children();
@@ -507,22 +509,34 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      */
     public function getSubNavigation() {
-        $menuElements = $this->getTopProductGroup($this)->Children();
-        $extendedOutput = $this->extend('getSubNavigation', $menuElements);
-        
-        if (empty ($extendedOutput)) {
-            $elements = array(
-                'SubElements' => $menuElements,
-            );
-            $output = $this->customise($elements)->renderWith(
-                array(
-                    'SilvercartSubNavigation',
-                )
-            );
-            return $output;
+        $cachekey = 'SilvercartSubNavigation'.$this->ID;
+        $cache    = SS_Cache::factory($cachekey);
+        $result   = $cache->load($cachekey);
+
+        if ($result) {
+            $output = unserialize($result);
         } else {
-            return $extendedOutput[0];
+            $menuElements = $this->getTopProductGroup($this)->Children();
+            
+            $extendedOutput = $this->extend('getSubNavigation', $menuElements);
+        
+            if (empty ($extendedOutput)) {
+                $elements = array(
+                    'SubElements' => $menuElements,
+                );
+                $output = $this->customise($elements)->renderWith(
+                    array(
+                        'SilvercartSubNavigation',
+                    )
+                );
+            } else {
+                $output = $extendedOutput[0];
+            }
+            
+            $cache->save(serialize($output));
         }
+        
+        return $output;
     }
 
     /**
@@ -681,6 +695,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function getProducts($numberOfProducts = false) {
         if (is_null($this->groupProducts)) {
+            $SQL_start = $this->getSqlOffset();
+            
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
@@ -689,11 +705,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             } else {
                 $productsPerPage = SilvercartConfig::ProductsPerPage();
             }
-            
+
             if ($numberOfProducts !== false) {
                 $productsPerPage = (int) $numberOfProducts;
             }
-            
+
             $mirroredProductIdList  = '';
             $mirroredProductIDs     = $this->getMirroredProductIDs();
 
@@ -711,36 +727,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             // ----------------------------------------------------------------
             // Get products that have this group set as main group
             // ----------------------------------------------------------------
-            if (!isset($_GET['start']) ||
-                !is_numeric($_GET['start']) ||
-                (int)$_GET['start'] < 1) {
-
-
-                if (isset($_GET['offset'])) {
-                    // --------------------------------------------------------
-                    // Use offset for getting the current item rage
-                    // --------------------------------------------------------
-                    $offset = (int) $_GET['offset'];
-
-                    if ($offset > 0) {
-                        $offset -= 1;
-                    }
-
-                    // Prevent too high values
-                    if ($offset > 999999) {
-                        $offset = 0;
-                    }
-
-                    $SQL_start = $offset * $productsPerPage;
-                } else {
-                    // --------------------------------------------------------
-                    // Use item number for getting the current item range
-                    // --------------------------------------------------------
-                    $SQL_start = 0;
-                }
-            } else {
-                $SQL_start = (int) $_GET['start'];
-            }
             if ($this->isFilteredByManufacturer()) {
                 $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
                 if ($manufacturer) {
@@ -782,6 +768,50 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         return $this->groupProducts;
+    }
+    
+    /**
+     * Return the start value for the limit part of the sql query that
+     * retrieves the product list for the current product group page.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.06.2011
+     */
+    public function getSqlOffset() {
+        if (!isset($_GET['start']) ||
+            !is_numeric($_GET['start']) ||
+            (int)$_GET['start'] < 1) {
+
+            if (isset($_GET['offset'])) {
+                // --------------------------------------------------------
+                // Use offset for getting the current item rage
+                // --------------------------------------------------------
+                $offset = (int) $_GET['offset'];
+
+                if ($offset > 0) {
+                    $offset -= 1;
+                }
+
+                // Prevent too high values
+                if ($offset > 999999) {
+                    $offset = 0;
+                }
+
+                $SQL_start = $offset * $productsPerPage;
+            } else {
+                // --------------------------------------------------------
+                // Use item number for getting the current item range
+                // --------------------------------------------------------
+                $SQL_start = 0;
+            }
+        } else {
+            $SQL_start = (int) $_GET['start'];
+        }
+        
+        return $SQL_start;
     }
 
     /**
@@ -926,7 +956,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * If thereÄs no WidgetArea for this page defined we try to get the
      * definition from its parent page.
      *
-     * @param int $number The number of the widget area to insert
+     * @param int $identifier target area
      * 
      * @return string
      * 

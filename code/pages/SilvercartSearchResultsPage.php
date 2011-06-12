@@ -116,7 +116,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
-        $var                    = Convert::raw2sql(Session::get('searchQuery')); // input data must be secured
+        $var                    = Convert::raw2sql($this->getSearchQuery());
         $searchResultProducts   = $this->searchResultProducts;
 
         if ($this->productsPerPage) {
@@ -125,9 +125,66 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
             $productsPerPage = SilvercartConfig::ProductsPerPage();
         }
 
+        $SQL_start = $this->getSqlOffset();
+
+        $cachekey = 'SilvercartSearchResultsPage'.$var.'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
+        $cache    = SS_Cache::factory($cachekey);
+        $result   = $cache->load($cachekey);
+        
+        if ($result) {
+            $searchResultProducts= unserialize($result);
+        } else {
+            $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
+
+            if (empty($useExtensionResults)) {
+                $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
+                $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
+            }
+
+            if (!$searchResultProducts) {
+                $searchResultProducts = new DataObjectSet();
+            }
+            
+            $cache->save(serialize($searchResultProducts));
+        }
+
+        $this->searchResultProducts = $searchResultProducts;
+        $productIdx                 = 0;
+        if ($searchResultProducts) {
+            $productAddCartForm = $this->getCartFormName();
+            foreach ($searchResultProducts as $product) {
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                $product->productAddCartForm = $this->InsertCustomHtmlForm(
+                    'ProductAddCartForm' . $productIdx,
+                    array(
+                        $product
+                    )
+                );
+                $productIdx++;
+            }
+        }
+    }
+    
+    /**
+     * Return the start value for the limit part of the sql query that
+     * retrieves the product list for the current product group page.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.06.2011
+     */
+    public function getSqlOffset() {
+        if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+        
         if (!isset($_GET['start']) ||
             !is_numeric($_GET['start']) ||
-            (int) $_GET['start'] < 1) {
+            (int)$_GET['start'] < 1) {
 
             if (isset($_GET['offset'])) {
                 // --------------------------------------------------------
@@ -154,33 +211,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         } else {
             $SQL_start = (int) $_GET['start'];
         }
-
-        $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
         
-        if (empty($useExtensionResults)) {
-            $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
-            $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
-        }
-        
-        if (!$searchResultProducts) {
-            $searchResultProducts = new DataObjectSet();
-        }
-
-        $this->searchResultProducts = $searchResultProducts;
-        $productIdx                 = 0;
-        if ($searchResultProducts) {
-            $productAddCartForm = $this->getCartFormName();
-            foreach ($searchResultProducts as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                    'ProductAddCartForm' . $productIdx,
-                    array(
-                        $product
-                    )
-                );
-                $productIdx++;
-            }
-        }
+        return $SQL_start;
     }
 
     /**
