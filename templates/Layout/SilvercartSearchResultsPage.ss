@@ -3,7 +3,7 @@
         <div class="typography">
             <h1><% _t('SilvercartSearchResultsPage.TITLE','Suchergebnisse') %></h1>
             <% if SearchQuery %>
-                <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$SearchQuery) %> ($Products.Count <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
+                <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$SearchQuery) %> ($TotalSearchResults <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
             <% end_if %>
 
             <% if getProducts %>
