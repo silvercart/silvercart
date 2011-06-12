@@ -227,4 +227,23 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     public function getSearchQuery() {
         return stripslashes(Session::get('searchQuery'));
     }
+    
+    /**
+     * Returns the total number of search results.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 12.06.2011
+     */
+    public function TotalSearchResults() {
+        if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+        
+        return $this->getProducts()->Pages()->TotalItems() * $productsPerPage;
+    }
 }
