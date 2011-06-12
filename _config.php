@@ -99,7 +99,7 @@ SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
 ));
 if (method_exists('GoogleSitemap', 'register_dataobject')) {
-    GoogleSitemap::register_dataobject('SilvercartProduct');
+    GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }
 
 /*
