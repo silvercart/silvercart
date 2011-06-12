@@ -178,23 +178,14 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @since 15.02.2011
      */
     public function RenderProductGroupPageGroupView() {
-        $cachekey = 'RenderProductGroupPageGroupView'.$this->owner->ID.'_'.$this->owner->getSqlOffset().'_'.SilvercartGroupViewHandler::getActiveGroupView();
-        $cache    = SS_Cache::factory($cachekey);
-        $result   = $cache->load($cachekey);
-        
-        if ($result) {
-            $output = unserialize($result);
-        } else {
-            $elements = array(
-                'Elements' => $this->owner->getProducts(),
-            );
-            $output = $this->owner->customise($elements)->renderWith(
-                array(
-                    $this->getProductGroupPageTemplateName(),
-                )
-            );
-            $cache->save(serialize($output));
-        }
+        $elements = array(
+            'Elements' => $this->owner->getProducts(),
+        );
+        $output = $this->owner->customise($elements)->renderWith(
+            array(
+                $this->getProductGroupPageTemplateName(),
+            )
+        );
         return $output;
     }
 

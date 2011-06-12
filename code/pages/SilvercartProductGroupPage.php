@@ -693,6 +693,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function getProducts($numberOfProducts = false) {
         if (is_null($this->groupProducts)) {
+            $SQL_start = $this->getSqlOffset();
+            
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
@@ -701,11 +703,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             } else {
                 $productsPerPage = SilvercartConfig::ProductsPerPage();
             }
-            
+
             if ($numberOfProducts !== false) {
                 $productsPerPage = (int) $numberOfProducts;
             }
-            
+
             $mirroredProductIdList  = '';
             $mirroredProductIDs     = $this->getMirroredProductIDs();
 
@@ -723,8 +725,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             // ----------------------------------------------------------------
             // Get products that have this group set as main group
             // ----------------------------------------------------------------
-            $SQL_start = $this->getSqlOffset();
-            
             if ($this->isFilteredByManufacturer()) {
                 $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
                 if ($manufacturer) {
