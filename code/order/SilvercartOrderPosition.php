@@ -100,13 +100,15 @@ class SilvercartOrderPosition extends DataObject {
      * @since 08.04.2011
      */
     public function summaryFields() {
-        return array(
+        $summaryFields = array(
             'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER'),
             'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
             'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
             'PriceNice'             => _t('SilvercartProduct.PRICE'),
             'Quantity'              => _t('SilvercartProduct.QUANTITY'),
         );
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 
     /**

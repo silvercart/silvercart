@@ -418,7 +418,7 @@ class SilvercartProductGroupPage extends Page {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 31.05.2011
      * 
-     * @return Page child pages
+     * @return DataObjectSet child pages
      */
     public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
         $children = $this->Children();
