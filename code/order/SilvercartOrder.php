@@ -327,6 +327,9 @@ class SilvercartOrder extends DataObject {
         $fields->removeByName(_t('SilvercartAddressHolder.INVOICEADDRESS'));
         $fields->removeByName(_t('Versioned.has_many_Versions'));
         $fields->removeByName('Silvercart Products');
+        $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
+        $fields->makeFieldReadonly('OrderNumber');
+        $fields->makeFieldReadonly('Version');
 
         $fields->fieldByName('Root.SilvercartOrderPositions')->Title = _t('SilvercartOrderPosition.PLURALNAME');
 
