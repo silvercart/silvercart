@@ -69,4 +69,28 @@ class SilvercartShoppingcartWidget extends Widget {
     public function Description() {
         return _t('SilvercartShoppingcartWidget.DESCRIPTION');
     }
+    
+    /**
+     * Returns the link to the checkout (for template rendering)
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
+     */
+    public function CheckOutLink() {
+        return Controller::curr()->PageByIdentifierCodeLink('SilvercartCheckoutStep');
+    }
+    
+    /**
+     * Returns the link to the cart (for template rendering)
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
+     */
+    public function CartLink() {
+        return Controller::curr()->PageByIdentifierCodeLink('SilvercartCartpage');
+    }
 }
