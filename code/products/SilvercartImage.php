@@ -98,4 +98,17 @@ class SilvercartImage extends DataObject {
     public function getFileIcon() {
         return '<img src="' . $this->Image()->Icon() . '" alt="' . $this->Image()->FileType . '" title="' . $this->Image()->Title . '" />';
     }
+    
+    /**
+     * Returns the products link
+     *
+     * @return string
+     */
+    public function getProductLink() {
+        $link = "";
+        if ($this->SilvercartProductID) {
+            $link = $this->SilvercartProduct()->Link();
+        }
+        return $link;
+    }
 }

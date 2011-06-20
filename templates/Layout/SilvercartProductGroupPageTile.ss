@@ -13,7 +13,13 @@
                     <div class="subcolumns clearfix equalize product-group-page-info">
                         <div class="c33l product-group-page-image">
                             <div class="subcl">
-                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$image.SetRatioSize(90,90)</a>
+                            <% if SilvercartImages %>
+                                <% control SilvercartImages.First %>
+                                <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(90,90)</a>
+                                <% end_control %>
+                            <% else %>
+
+                            <% end_if %>
                             </div>
                         </div>
                         <div class="c66r">
