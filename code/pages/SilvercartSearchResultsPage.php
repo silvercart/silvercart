@@ -109,10 +109,10 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     /**
      * Diese Funktion wird beim Initialisieren ausgeführt
      *
-     * @return <type>
+     * @return void
      *
-     * @author Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 11.11.2010
+     * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
      */
     public function init() {
         parent::init();
@@ -127,7 +127,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
 
         $SQL_start = $this->getSqlOffset();
 
-        $cachekey = 'SilvercartSearchResultsPage'.$var.'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
+        $cachekey = 'SilvercartSearchResultsPage'.sha1($var).'_'.md5($var).'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
         $cache    = SS_Cache::factory($cachekey);
         $result   = $cache->load($cachekey);
         
