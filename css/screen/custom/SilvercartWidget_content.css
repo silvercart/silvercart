@@ -3,9 +3,9 @@
 }
 .silvercart-widget_content {
     background:                     #ffffff;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#3a3436), to(#252223)); /* for webkit browsers */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #fafafa,  #ffffff); /* for firefox 3.6+ */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3a3436', endColorstr='#252223'); /* for IE */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
     border:                         1px #e1e1e1 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
