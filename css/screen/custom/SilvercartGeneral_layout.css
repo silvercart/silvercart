@@ -70,12 +70,33 @@ table td {
     float:                          right;
     height:                         25px;
 }
-.silvercart-button_content {
-    padding:                        0px 0px 0px 4px;
+.silvercart-button.left {
+    float:                          left;
+}
+.silvercart-button.left .silvercart-button_content {
+    padding:                        0px 4px 0px 0px;
 }
 .silvercart-button a {
     display:                        block;
     padding:                        4px 10px 3px 10px;
+}
+
+.silvercart-button-small {
+    float:                          right;
+    height:                         21px;
+}
+.silvercart-button-small.left {
+    float:                          left;
+}
+.silvercart-button-small_content {
+    padding:                        0px 0px 0px 4px;
+}
+.silvercart-button-small.left .silvercart-button-small_content {
+    padding:                        0px 4px 0px 0px;
+}
+.silvercart-button-small a {
+    display:                        block;
+    padding:                        3px 8px 2px 8px;
 }
 
 /* Silvercart header ------------------------------------------------------- */

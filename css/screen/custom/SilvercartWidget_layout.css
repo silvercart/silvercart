@@ -1,6 +1,10 @@
 .silvercart-widget {
     margin:                         0px 0px 12px 0px;
 }
+.silvercart-widget h2 {
+    margin:                         0px;
+    padding:                        4px 4px 4px 4px;
+}
 
 /* YAML vlist -------------------------------------------------------------- */
 
@@ -28,4 +32,13 @@
 .silvercart-widget .vlist ul ul {
     margin:                         0px 0px 0px 12px;
     padding:                        0px 0px 0px 12px;
+}
+
+/* Product boxes ----------------------------------------------------------- */
+
+.silvercart-product-box_content {
+    padding:                        8px 4px 6px 4px;
+}
+.silvercart-product-box p.silvercart-price {
+    margin:                         0px 0px 3px 0px;
 }

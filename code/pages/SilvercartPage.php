@@ -172,7 +172,13 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartWidget_content');
         Requirements::themedCSS('SilvercartBreadcrumbs_layout');
         Requirements::themedCSS('SilvercartBreadcrumbs_content');
+        Requirements::themedCSS('SilvercartPagination_layout');
+        Requirements::themedCSS('SilvercartPagination_content');
         Requirements::themedCSS('SilvercartProductGroupNavigation');
+        Requirements::themedCSS('SilvercartProductGroupPageList_layout');
+        Requirements::themedCSS('SilvercartProductGroupPageList_content');
+        Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
+        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");

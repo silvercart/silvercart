@@ -1,21 +1,53 @@
 <% if Products %>
     <% if Products.MoreThanOnePage %>
-<div class="pagination">
-    <div class="pagination_content">
-        <% if Products.PrevLink %>
-            <a href="$Products.PrevLink">&lt;&lt; <% _t('SilvercartPage.PREV', 'Prev') %></a> |
-        <% end_if %>
-        <% control Products.Pages %>
-            <% if CurrentBool %>
-                <strong>$PageNum</strong>
-            <% else %>
-                <a href="$Link" title="Go to page $PageNum">$PageNum</a>
-            <% end_if %>
-        <% end_control %>
-        <% if Products.NextLink %>
-        | <a href="$Products.NextLink"><% _t('SilvercartPage.NEXT', 'Next') %> &gt;&gt;</a>
-        <% end_if %>
-    </div>
-</div>
+        <div class="silvercart-pagination">
+            <div class="silvercart-pagination_content clearfix">
+                <% if Products.PrevLink %>
+                    <div class="silvercart-pagination-link">
+                        <div class="silvercart-pagination-link_content">
+                            <a href="$Products.PrevLink" title="<% _t('SilvercartPage.PREV', 'Prev') %>">
+                                <span>
+                                    &lt;
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                <% end_if %>
+                <% control Products.Pages %>
+                    <% if CurrentBool %>
+                        <div class="silvercart-pagination-marker">
+                            <div class="silvercart-pagination-marker_content">
+                                <strong>
+                                    <span>
+                                        $PageNum
+                                    </span>
+                                </strong>
+                            </div>
+                        </div>
+                    <% else %>
+                        <div class="silvercart-pagination-link">
+                            <div class="silvercart-pagination-link_content">
+                                <a href="$Link" title="Go to page $PageNum">
+                                    <span>
+                                        $PageNum
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    <% end_if %>
+                <% end_control %>
+                <% if Products.NextLink %>
+                    <div class="silvercart-pagination-link">
+                        <div class="silvercart-pagination-link_content">
+                            <a href="$Products.NextLink" title="<% _t('SilvercartPage.NEXT', 'Next') %>">
+                                <span>
+                                    &gt;
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                <% end_if %>
+            </div>
+        </div>
     <% end_if %>
 <% end_if %>
