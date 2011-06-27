@@ -23,8 +23,6 @@
  * @subpackage i18n
  * @ignore
  */
-
-
 i18n::include_locale_file('silvercart', 'en_US');
 
 global $lang;
@@ -34,7 +32,6 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 } else {
     $lang['en_GB'] = $lang['en_US'];
 }
-
 
 $lang['en_GB']['Silvercart']['DATE'] = 'Date';
 $lang['en_GB']['Silvercart']['DAY'] = 'day';
@@ -54,9 +51,10 @@ $lang['en_GB']['SilvercartAddress']['EDITSHIPPINGADDRESS'] = 'Edit shippping add
 $lang['en_GB']['SilvercartAddress']['EMAIL'] = 'Email address';
 $lang['en_GB']['SilvercartAddress']['EMAIL_CHECK'] = 'Email adress check';
 $lang['en_GB']['SilvercartAddress']['FIRSTNAME'] = 'Firstname';
-$lang['en_GB']['SilvercartAddress']['MISSIS'] = 'Misses';
+$lang['en_GB']['SilvercartAddress']['MISSES'] = 'Misses';
 $lang['en_GB']['SilvercartAddress']['MISTER'] = 'Mister';
 $lang['en_GB']['SilvercartAddress']['PHONE'] = 'Phone';
+$lang['en_GB']['SilvercartAddress']['PHONE_SHORT'] = 'Phone';
 $lang['en_GB']['SilvercartAddress']['PHONEAREACODE'] = 'Phone area code';
 $lang['en_GB']['SilvercartAddress']['PLURALNAME'] = 'Addresses';
 $lang['en_GB']['SilvercartAddress']['POSTCODE'] = 'Postcode';
@@ -66,16 +64,32 @@ $lang['en_GB']['SilvercartAddress']['STREET'] = 'Street';
 $lang['en_GB']['SilvercartAddress']['STREETNUMBER'] = 'Streetnumber';
 $lang['en_GB']['SilvercartAddress']['SURNAME'] = 'Surname';
 
+$lang['en_GB']['SilvercartAddressHolder']['ADD'] = 'Add new address';
+$lang['en_GB']['SilvercartAddressHolder']['ADDED_ADDRESS_SUCCESS'] = 'Your address was successfully saved.';
+$lang['en_GB']['SilvercartAddressHolder']['ADDED_ADDRESS_FAILURE'] = 'Your address could not be saved.';
+$lang['en_GB']['SilvercartAddressHolder']['ADDITIONALADDRESS'] = 'Additional address';
+$lang['en_GB']['SilvercartAddressHolder']['ADDITIONALADDRESSES'] = 'Additional addresses';
+$lang['en_GB']['SilvercartAddressHolder']['ADDRESS_CANT_BE_DELETED'] = "Sorry, but you can't delete your only address.";
+$lang['en_GB']['SilvercartAddressHolder']['ADDRESS_NOT_FOUND'] = 'Sorry, but the given address was not found.';
+$lang['en_GB']['SilvercartAddressHolder']['ADDRESS_SUCCESSFULLY_DELETED'] = 'Your address was successfully deleted.';
+$lang['en_GB']['SilvercartAddressHolder']['CURRENT_DEFAULT_ADDRESSES'] = 'Your default invoice and shipping addresses';
+$lang['en_GB']['SilvercartAddressHolder']['DEFAULT_INVOICE'] = 'This is your invoice address';
+$lang['en_GB']['SilvercartAddressHolder']['DEFAULT_SHIPPING'] = 'This is your shipping address';
+$lang['en_GB']['SilvercartAddressHolder']['DELETE'] = 'Delete';
 $lang['en_GB']['SilvercartAddressHolder']['EDIT'] = 'Edit';
 $lang['en_GB']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Excuse us, but You have not added an invoice address yet.';
 $lang['en_GB']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Excuse us, but You have not added a delivery address yet.';
 $lang['en_GB']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Invoice address';
 $lang['en_GB']['SilvercartAddressHolder']['INVOICEADDRESS_TAB'] = 'Invoiceaddress';
 $lang['en_GB']['SilvercartAddressHolder']['PLURALNAME'] = 'Address Holders';
+$lang['en_GB']['SilvercartAddressHolder']['SET_DEFAULT_INVOICE'] = 'Set as invoice address';
+$lang['en_GB']['SilvercartAddressHolder']['SET_DEFAULT_SHIPPING'] = 'Set as shipping address';
 $lang['en_GB']['SilvercartAddressHolder']['SHIPPINGADDRESS'] = 'Shipping address';
 $lang['en_GB']['SilvercartAddressHolder']['SHIPPINGADDRESS_TAB'] = 'Shippingaddress';
 $lang['en_GB']['SilvercartAddressHolder']['SINGULARNAME'] = 'Address Holder';
 $lang['en_GB']['SilvercartAddressHolder']['TITLE'] = 'Address overview';
+$lang['en_GB']['SilvercartAddressHolder']['UPDATED_INVOICE_ADDRESS'] = 'Your invoice addres was successfully updated.';
+$lang['en_GB']['SilvercartAddressHolder']['UPDATED_SHIPPING_ADDRESS'] = 'Your shipping addres was successfully updated.';
 $lang['en_GB']['SilvercartAddressHolder']['URL_SEGMENT'] = 'address-overview';
 
 $lang['en_GB']['SilvercartAddressPage']['PLURALNAME'] = 'Address Pages';

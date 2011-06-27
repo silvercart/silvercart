@@ -1,0 +1,10 @@
+.silvercart-address {
+    margin: 1em 0 1em 1em;
+    padding: 0.5em;
+}
+.subcr .silvercart-address {
+    margin: 1em 1em 1em 0;
+}
+.silvercart-address-bottom {
+    margin-top: 10px;
+}

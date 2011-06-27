@@ -26,6 +26,10 @@ h1 {
     border:                         1px #5a554d solid;
     border-top:                     none;
 }
+    
+hr {
+    border-bottom: 2px dotted #DDDDDD;
+}
 
 /* Headlines --------------------------------------------------------------- */
 
@@ -48,6 +52,60 @@ table {
 table tr:hover td {
     fonr-size:                      12px;
     background:                     none;
+}
+
+/* Helper classes ---------------------------------------------------------- */
+
+.hidden-form {
+    display: none;
+}
+
+/* Highlighted messages ---------------------------------------------------- */
+
+p.silvercart-message {
+    
+}
+p.silvercart-message.info16 {
+    background: url(/silvercart/images/icons/16x16_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info16 {
+    background-color: #efefef;
+    line-height: 16px;
+}
+p.silvercart-message.info32 {
+    background: url(/silvercart/images/icons/32x32_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info32 {
+    background-color: #efefef;
+    line-height: 32px;
+}
+p.silvercart-message.info48 {
+    background: url(/silvercart/images/icons/48x48_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info48 {
+    background-color: #efefef;
+    line-height: 48px;
+}
+p.silvercart-message.error16 {
+    background: url(/silvercart/images/icons/16x16_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error16 {
+    background-color: #efefef;
+    line-height: 16px;
+}
+p.silvercart-message.error32 {
+    background: url(/silvercart/images/icons/32x32_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error32 {
+    background-color: #efefef;
+    line-height: 32px;
+}
+p.silvercart-message.error48 {
+    background: url(/silvercart/images/icons/48x48_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error48 {
+    background-color: #efefef;
+    line-height: 48px;
 }
 
 /* Buttons ----------------------------------------------------------------- */
@@ -78,6 +136,54 @@ table tr:hover td {
     background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
     border-color:                   #888;
+}
+
+/* Icon only buttons ------------------------------------------------------- */
+
+.silvercart-icon-button {
+    color: #000;
+    text-decoration: none;
+}
+.silvercart-icon-button:hover {
+    color: #000;
+    text-decoration: none;
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.silvercart-icon-button:visited {
+    color: #000;
+    text-decoration: none;
+}
+.silvercart-icon-button.edit32 {
+    background: url(/silvercart/images/icons/32x32_notepad.png) no-repeat center center;
+}
+.silvercart-icon-button.delete32 {
+    background: url(/silvercart/images/icons/32x32_recycle_bin_empty.png) no-repeat center center;
+}
+
+/* Icon with text buttons -------------------------------------------------- */
+
+.silvercart-icon-with-text-button {
+    
+}
+.silvercart-icon-with-text-button.big {
+    font-size: 1.5em;
+}
+.silvercart-icon-with-text-button.p {
+    line-height: 1.5em;
+}
+.silvercart-icon-with-text-button.add16 {
+    background: url(/silvercart/images/icons/16x16_add.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as16 {
+    background: url(/silvercart/images/icons/16x16_task.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as32 {
+    background: url(/silvercart/images/icons/32x32_task.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as48 {
+    background: url(/silvercart/images/icons/48x48_task.png) no-repeat left center;
 }
 
 /* Silvercart header ------------------------------------------------------- */

@@ -148,7 +148,7 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->loadWidgetControllers();
-        
+                
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             Requirements::block('cms/css/layout.css');
             Requirements::block('cms/css/typography.css');
@@ -160,6 +160,8 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
             Requirements::insertHeadTags('<![endif]-->');
         }
+        Requirements::themedCSS('SilvercartAddressHolder_layout');
+        Requirements::themedCSS('SilvercartAddressHolder_content');
         Requirements::themedCSS('SilvercartGeneral_layout');
         Requirements::themedCSS('SilvercartGeneral_content');
         Requirements::themedCSS('SilvercartHeaderbar_layout');
@@ -178,7 +180,7 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartProductGroupPageList_layout');
         Requirements::themedCSS('SilvercartProductGroupPageList_content');
         Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
+        Requirements::themedCSS('SilvercartProductGroupPageTile_content');        
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
@@ -225,7 +227,7 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      *
-     * @param int $number The number of the widget area to insert
+     * @param string $identifier The identifier of the widget area to insert
      * 
      * @return string
      * 

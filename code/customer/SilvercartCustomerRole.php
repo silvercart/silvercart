@@ -59,11 +59,11 @@ class SilvercartCustomerRole extends DataObjectDecorator {
             'has_one' => array(
                 'SilvercartCustomerCategory'    => 'SilvercartCustomerCategory',
                 'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
-                'SilvercartInvoiceAddress'      => 'SilvercartInvoiceAddress',
-                'SilvercartShippingAddress'     => 'SilvercartShippingAddress'
+                'SilvercartInvoiceAddress'      => 'SilvercartAddress',
+                'SilvercartShippingAddress'     => 'SilvercartAddress'
             ),
             'has_many' => array(
-                'SilvercartAddress' => 'SilvercartAddress',
+                'SilvercartAddresses' => 'SilvercartAddress',
                 'SilvercartOrder'   => 'SilvercartOrder'
             ),
             'summary_fields' => array(
@@ -116,7 +116,7 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         $fields->removeByName('Salutation');
         $values = array(
             'Herr' => _t('SilvercartAddress.MISTER'),
-            'Frau' => _t('SilvercartAddress.MISSIS')
+            'Frau' => _t('SilvercartAddress.MISSES')
         );
         $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomerRole.SALUTATION'), $values);
         $fields->insertBefore($salutationDropdown, 'FirstName');
@@ -175,7 +175,7 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
-     * Get the customers shopping cart or create one if it doesn´t exist yet. "Get me a cart, I don´t care how!"
+     * Get the customers shopping cart or create one if it doesn¬¥t exist yet. "Get me a cart, I don¬¥t care how!"
      * 
      * @return SilvercartShoppingCart
      *

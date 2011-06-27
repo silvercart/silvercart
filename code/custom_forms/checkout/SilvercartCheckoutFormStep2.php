@@ -280,7 +280,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         $this->formFields['Invoice_Salutation']['title']    = _t('SilvercartAddress.SALUTATION', 'salutation');
         $this->formFields['Invoice_Salutation']['value']    = array(
             ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSIS', 'misses'),
+            "Frau"  => _t('SilvercartAddress.MISSES', 'misses'),
             "Herr"  => _t('SilvercartAddress.MISTER', 'mister')
         );
         $this->formFields['Invoice_FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME', 'firstname');
@@ -297,7 +297,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
         $this->formFields['Shipping_Salutation']['title']       = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Shipping_Salutation']['value']       = array(
             ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSIS'),
+            "Frau"  => _t('SilvercartAddress.MISSES'),
             "Herr"  => _t('SilvercartAddress.MISTER')
         );
         $this->formFields['Shipping_FirstName']['title']        = _t('SilvercartAddress.FIRSTNAME');

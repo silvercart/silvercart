@@ -22,26 +22,16 @@
  */
 
 /**
- * Customer form for editing an address.
+ * Customer form for adding an address.
  *
  * @package Silvercart
  * @subpackage Forms
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright pixeltricks GmbH
  * @since 19.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartEditAddressForm extends CustomHtmlForm {
-
-    /**
-     * Contains the address object
-     *
-     * @var SilvercartAddress
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 11.04.2011
-     */
-    protected $address;
+class SilvercartAddAddressForm extends CustomHtmlForm {
 
     protected $formFields = array(
         'Salutation' => array(
@@ -58,67 +48,67 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         ),
         'FirstName' => array(
             'type'      => 'TextField',
-            'title'     => 'Vorname des Empfängers',
+            'title'     => 'Firstname',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Surname' => array(
             'type'      => 'TextField',
-            'title'     => 'Nachname des Empfängers',
+            'title'     => 'Surname',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Addition' => array(
             'type'      => 'TextField',
-            'title'     => 'Adresszusatz'
+            'title'     => 'Addition'
         ),
         'Street' => array(
             'type'      => 'TextField',
-            'title'     => 'Straße',
+            'title'     => 'Street',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'StreetNumber' => array(
             'type'      => 'TextField',
-            'title'     => 'Hausnummer',
+            'title'     => 'Streetnumber',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Postcode' => array(
             'type'      => 'TextField',
-            'title'     => 'PLZ',
+            'title'     => 'Postcode',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'City' => array(
             'type'      => 'TextField',
-            'title'     => 'Ort',
+            'title'     => 'City',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'PhoneAreaCode' => array(
             'type'      => 'TextField',
-            'title'     => 'Vorwahl',
+            'title'     => 'Phone area code',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Phone' => array(
             'type'      => 'TextField',
-            'title'     => 'Telefonnummer',
+            'title'     => 'Phone',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Country' => array(
             'type'      => 'DropdownField',
-            'title'     => 'Land',
+            'title'     => 'Country',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
@@ -126,15 +116,24 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
     );
 
     /**
+     * configure submit button
+     */
+    protected $preferences = array(
+        'submitButtonTitle' => 'Speichern'
+    );
+    
+    public $submitSuccess = false;
+
+    /**
      * Fill the form with default values
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.10.2010
+     * 
      * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
      */
     protected function fillInFieldValues() {
-        $this->CancelLink = $this->controller->Parent()->Link();
-        
+        $this->CancelLink = $this->controller->Link();
         $this->formFields['Salutation']['title']    = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value']    = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME');
@@ -147,64 +146,37 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         $this->formFields['Phone']['title']         = _t('SilvercartAddress.PHONE');
         $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
         $this->formFields['Country']['title']       = _t('SilvercartCountry.SINGULARNAME');
-        
-        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE', 'save');
-
-        $member = Member::currentUser();
-        $id     = $this->customParameters['addressID'];
-        
-        if ($member && $id) {
-            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
-            $this->address = DataObject::get_one('SilvercartAddress', $filter);
-            if ($this->address) {
-                $this->formFields['Salutation']['selectedValue']= $this->address->Salutation;
-                $this->formFields['FirstName']['value']         = $this->address->FirstName;
-                $this->formFields['Surname']['value']           = $this->address->Surname;
-                $this->formFields['Addition']['value']          = $this->address->Addition;
-                $this->formFields['Street']['value']            = $this->address->Street;
-                $this->formFields['StreetNumber']['value']      = $this->address->StreetNumber;
-                $this->formFields['Postcode']['value']          = $this->address->Postcode;
-                $this->formFields['City']['value']              = $this->address->City;
-                $this->formFields['PhoneAreaCode']['value']     = $this->address->PhoneAreaCode;
-                $this->formFields['Phone']['value']             = $this->address->Phone;
-                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
-                $this->formFields['Country']['selectedValue']   = $this->address->SilvercartCountry()->Title;
-            }
-        }
+        $this->formFields['Country']['value']       = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+        $this->preferences['submitButtonTitle']     = _t('SilvercartPage.SAVE', 'save');
     }
 
     /**
-     * configure submit button
-     */
-    protected $preferences = array(
-        'submitButtonTitle' => 'Speichern'
-    );
-
-    /**
-     * executed if there are no valdation errors on submit
-     * Form data is saved in session
+     * This method will be call if there are no validation error
      *
-     * @param SS_HTTPRequest $data             contains the frameworks form data
-     * @param Form           $form             not used
-     * @param array          $registrationData contains the modules form data
+     * @param SS_HTTPRequest $data     input data
+     * @param Form           $form     form object
+     * @param array          $formData secured form data
      *
      * @return void
-     * @since 19.10.2010
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
      */
-    protected function submitSuccess($data, $form, $registrationData) {
+    protected function submitSuccess($data, $form, $formData) {
         $member = Member::currentUser();
-        $id = $registrationData['addressID'];
-        if ($member && $id) {
-            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
-            $address = DataObject::get_one('SilvercartAddress', $filter);
-            $address->castedUpdate($registrationData);
-            $filter = sprintf("`Title` = '%s'", $registrationData['Country']);
+        if ($member) {            
+            $filter = sprintf("`Title` = '%s'", $formData['Country']);
             $country = DataObject::get_one('SilvercartCountry', $filter);
             if ($country) {
-                $address->SilvercartCountryID = $country->ID;
+                $formData['SilvercartCountryID'] = $country->ID;
             }
+            $formData['MemberID'] = $member->ID;
+            
+            $address = new SilvercartAddress();
             $address->write();
+            $address->update($formData);
+            $address->write();
+            $this->submitSuccess = true;
             if (Session::get("redirect")) {
                 Director::redirect(Session::get("redirect"));
                 Session::clear("redirect");
@@ -214,25 +186,5 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
             }
         }
     }
-
-    /**
-     * Returns the title of the current form.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 12.04.2011
-     */
-    public function getAddressFormTitle() {
-        $title = '';
-
-        if ($this->address->ClassName == 'SilvercartInvoiceAddress') {
-            $title = _t('SilvercartAddress.EDITINVOICEADDRESS');
-        } else {
-            $title = _t('SilvercartAddress.EDITSHIPPINGADDRESS');
-        }
-
-        return $title;
-    }
+    
 }

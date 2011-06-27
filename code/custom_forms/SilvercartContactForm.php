@@ -108,7 +108,7 @@ class SilvercartContactForm extends CustomHtmlForm {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value'] = array(
             ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSIS'),
+            "Frau"  => _t('SilvercartAddress.MISSES'),
             "Herr"  => _t('SilvercartAddress.MISTER')
         );
         $this->formFields['FirstName']['title']  = _t('SilvercartAddress.FIRSTNAME', 'firstname');
