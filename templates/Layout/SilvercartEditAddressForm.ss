@@ -1,9 +1,14 @@
 <form class="yform full" $FormAttributes >
-
-	$CustomHtmlFormMetadata
-
-	<fieldset>
-		<legend>$AddressFormTitle</legend>
+    $CustomHtmlFormMetadata
+    <fieldset>
+        <legend>$AddressFormTitle</legend>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+        </div>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -39,31 +44,31 @@
             </div>
         </div>
         <div class="subcolumns">
-            <div class="c50l">
+            <div class="c33l">
                 <div class="subcl">
                     $CustomHtmlFormFieldByName(Postcode)
-                </div>
+                 </div>
             </div>
-            <div class="c50r">
-                <div class="subcr">
+            <div class="c33l">
+                <div class="subcl">
                     $CustomHtmlFormFieldByName(City)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(PhoneAreaCode)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Phone)
                 </div>
             </div>
             <div class="c33r">
                 <div class="subcr">
                     $CustomHtmlFormFieldByName(Country,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+        </div>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(PhoneAreaCode)
+                 </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(Phone)
                 </div>
             </div>
         </div>

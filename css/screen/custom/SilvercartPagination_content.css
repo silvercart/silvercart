@@ -1,0 +1,44 @@
+.silvercart-pagination {
+    font-size:                      11px;
+    border-bottom:                  1px #ddd dotted;
+}
+
+/* Links to result pages --------------------------------------------------- */
+
+.silvercart-pagination-link a {
+    text-align:                     center;
+    color:                          #444;
+    background:                     #d9d9d9;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffffff,  #d9d9d9); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
+    border:                         1px #999 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-pagination-link a:hover {
+    text-decoration:                none;
+    color:                          #333;
+    background-color:               #cecece;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cecece)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
+    border-color:                   #888;
+}
+
+/* Marker for the current active page -------------------------------------- */
+
+.silvercart-pagination-marker strong {
+    font-weight:                    normal;
+    text-align:                     center;
+    color:                          #0f517b;
+    background-color:               #fff;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d4e2e8)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffffff,  #d4e2e8); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d4e2e8'); /* for IE */
+    border:                         1px #0f517b solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}

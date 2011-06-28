@@ -50,6 +50,10 @@ DataObject::add_extension('SilvercartProductGroupPage_Controller', 'SilvercartGr
 DataObject::add_extension('SilvercartSearchResultsPage_Controller', 'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartCountry', 'Translatable');
 DataObject::add_extension('Image', 'SilvercartImageExtension');
+SortableDataObject::add_sortable_classes(array(
+    "SilvercartProduct",
+    "SilvercartImage",
+));
 
 // ----------------------------------------------------------------------------
 // Define path constants
@@ -72,14 +76,14 @@ if (class_exists('Page')) {
     $ext = new ReflectionClass('Page');
 
     if ($ext->getParentClass()->getName() != 'SilvercartPage') {
-        throw new Exception('Klasse "Page" muss von "SilvercartPage" erben.');
+        throw new Exception('Class "Page" has to extend "SilvercartPage".');
     }
 }
 if (class_exists('Page_Controller')) {
     $ext = new ReflectionClass('Page_Controller');
 
     if ($ext->getParentClass()->getName() != 'SilvercartPage_Controller') {
-        throw new Exception('Klasse "Page_Controller" muss von "SilvercartPage_Controller" erben.');
+        throw new Exception('Class "Page_Controller" has to extend "SilvercartPage_Controller".');
     }
 }
 // ----------------------------------------------------------------------------
@@ -95,9 +99,6 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 
-SortableDataObject::add_sortable_classes(array(
-    "SilvercartProduct",
-));
 if (method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }

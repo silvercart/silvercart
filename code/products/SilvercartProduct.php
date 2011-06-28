@@ -113,6 +113,9 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'       => 'SilvercartProduct',
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
+        /**
+         * @deprecated HasOne relation Images is deprecated. HasMany relation SilvercartImages should be used instead.
+         */
         'Image'                         => 'Image',
         'PackagingType'                 => 'SilvercartAmountUnit',
     );
@@ -127,6 +130,7 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
+        'SilvercartImages'                  => 'SilvercartImage',
         'SilvercartFiles'                   => 'SilvercartFile',
         'SilvercartShoppingCartPositions'   => 'SilvercartShoppingCartPosition',
     );
@@ -327,6 +331,7 @@ class SilvercartProduct extends DataObject {
                 'PurchaseMaxDuration'               => _t('SilvercartProduct.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
                 'PurchaseTimeUnit'                  => _t('SilvercartProduct.PURCHASE_TIME_UNIT', 'Purchase time unit'),
                 'SilvercartFiles'                   => _t('SilvercartFile.PLURALNAME', 'Files'),
+                'SilvercartImages'                  => _t('SilvercartImage.PLURALNAME', 'Images'),
                 'SilvercartShoppingCartPositions'   => _t('SilvercartShoppingCartPosition.PLURALNAME', 'Cart positions'),
                 'SilvercartShoppingCarts'           => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
                 'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
@@ -465,7 +470,7 @@ class SilvercartProduct extends DataObject {
                 'PurchaseMinDuration',
                 'PurchaseMaxDuration',
                 'PurchaseTimeUnit',
-                 'SilvercartTax',
+                'SilvercartTax',
                 'SilvercartManufacturer',
                 'SilvercartAvailabilityStatus',
                 'PackagingType',
@@ -489,7 +494,19 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-
+        
+        /**
+        $newFields = new FieldSet(
+            $rootTab = new TabSet("Root",
+                $tabContent = new TabSet('Content',
+                    $tabMain = new Tab('Main',
+                        $fields->dataFieldByName($name)
+                    )
+                )
+            )
+        );
+        /**/
+        
         // remove GoogleSitemap Priority
         $fields->removeByName('Priority');
         $fields->removeByName('GoogleSitemapIntro');
@@ -524,6 +541,11 @@ class SilvercartProduct extends DataObject {
         $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
+        
+        $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
+        $tab->title = _t('SilvercartImage.SINGULARNAME', 'images');
+        $silvercartImagesTable = new HasManyFileDataObjectManager($this, 'SilvercartImage', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
+        $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
         
         // --------------------------------------------------------------------
         // SEO tab
@@ -1128,5 +1150,23 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
 
         return $output;
+    }
+    
+    /**
+     * Checks, whether the current product has more than $count images.
+     *
+     * @param int $count Count to check
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2011
+     */
+    public function hasMoreImagesThan($count) {
+        $hasMoreImagesThanCount = false;
+        if ($this->SilvercartImages()->Count() > $count) {
+            $hasMoreImagesThanCount = true;
+        }
+        return $hasMoreImagesThanCount;
     }
 }

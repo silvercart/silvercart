@@ -61,6 +61,48 @@ table td {
     margin:                         2px 0px 0px 0px;
 }
 
+/* Highlighted messages ---------------------------------------------------- */
+
+p.silvercart-message {
+    
+}
+p.silvercart-message.info16 {
+    padding: 0 0 0 20px;
+}
+p.silvercart-message.highlighted.info16 {
+    padding: 5px 5px 5px 20px;
+}
+p.silvercart-message.info32 {
+    padding: 0 0 0 40px;
+}
+p.silvercart-message.highlighted.info32 {
+    padding: 5px 5px 5px 40px;
+}
+p.silvercart-message.info48 {
+    padding: 0 0 0 60px;
+}
+p.silvercart-message.highlighted.info48 {
+    padding: 5px 5px 5px 60px;
+}
+p.silvercart-message.error16 {
+    padding: 0 0 0 20px;
+}
+p.silvercart-message.highlighted.error16 {
+    padding: 5px 5px 5px 20px;
+}
+p.silvercart-message.error32 {
+    padding: 0 0 0 40px;
+}
+p.silvercart-message.highlighted.error32 {
+    padding: 5px 5px 5px 40px;
+}
+p.silvercart-message.error48 {
+    padding: 0 0 0 60px;
+}
+p.silvercart-message.highlighted.error48 {
+    padding: 5px 5px 5px 60px;
+}
+
 /* Buttons ----------------------------------------------------------------- */
 
 .silvercart-button-row {
@@ -70,12 +112,68 @@ table td {
     float:                          right;
     height:                         25px;
 }
-.silvercart-button_content {
-    padding:                        0px 0px 0px 4px;
+.silvercart-button.left {
+    float:                          left;
+}
+.silvercart-button.left .silvercart-button_content {
+    padding:                        0px 4px 0px 0px;
 }
 .silvercart-button a {
     display:                        block;
     padding:                        4px 10px 3px 10px;
+}
+
+.silvercart-button-small {
+    float:                          right;
+    height:                         21px;
+}
+.silvercart-button-small.left {
+    float:                          left;
+}
+.silvercart-button-small_content {
+    padding:                        0px 0px 0px 4px;
+}
+.silvercart-button-small.left .silvercart-button-small_content {
+    padding:                        0px 4px 0px 0px;
+}
+.silvercart-button-small a {
+    display:                        block;
+    padding:                        3px 8px 2px 8px;
+}
+
+/* Icon only buttons ------------------------------------------------------- */
+
+.silvercart-icon-button {
+    padding: 3px;
+    margin: 3px 0 0 0;
+    display: inline-block;
+}
+.silvercart-icon-button.edit32 {
+    width: 32px;
+    height: 32px;
+}
+.silvercart-icon-button.delete32 {
+    width: 32px;
+    height: 32px;
+}
+
+/* Icon with text buttons -------------------------------------------------- */
+
+.silvercart-icon-with-text-button.p {
+    display: inline-block;
+    margin: 0 0 1em;
+}
+.silvercart-icon-with-text-button.add16 {
+    padding: 0 0 0 20px;
+}
+.silvercart-icon-with-text-button.set-as16 {
+    padding: 0 0 0 20px;
+}
+.silvercart-icon-with-text-button.set-as32 {
+    padding: 0 0 0 40px;
+}
+.silvercart-icon-with-text-button.set-as48 {
+    padding: 0 0 0 60px;
 }
 
 /* Silvercart header ------------------------------------------------------- */

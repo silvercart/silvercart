@@ -44,6 +44,18 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
     protected $address;
 
     protected $formFields = array(
+        'Salutation' => array(
+            'type' => 'DropdownField',
+            'title' => 'Anrede',
+            'value' => array(
+                '' => 'Bitte wählen',
+                'Frau' => 'Frau',
+                'Herr' => 'Herr'
+            ),
+            'checkRequirements' => array(
+                'isFilledIn' => true
+            )
+        ),
         'FirstName' => array(
             'type'      => 'TextField',
             'title'     => 'Vorname des Empfängers',
@@ -123,6 +135,8 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
     protected function fillInFieldValues() {
         $this->CancelLink = $this->controller->Parent()->Link();
         
+        $this->formFields['Salutation']['title']    = _t('SilvercartAddress.SALUTATION');
+        $this->formFields['Salutation']['value']    = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME');
         $this->formFields['Surname']['title']       = _t('SilvercartAddress.SURNAME');
         $this->formFields['Addition']['title']      = _t('SilvercartAddress.ADDITION');
@@ -143,6 +157,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
             $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $this->address = DataObject::get_one('SilvercartAddress', $filter);
             if ($this->address) {
+                $this->formFields['Salutation']['selectedValue']= $this->address->Salutation;
                 $this->formFields['FirstName']['value']         = $this->address->FirstName;
                 $this->formFields['Surname']['value']           = $this->address->Surname;
                 $this->formFields['Addition']['value']          = $this->address->Addition;

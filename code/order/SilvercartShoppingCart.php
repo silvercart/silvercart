@@ -1,37 +1,37 @@
 <?php
 
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
- *
- * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package Silvercart
- * @subpackage Order
- */
+* Copyright 2010, 2011 pixeltricks GmbH
+*
+* This file is part of SilverCart.
+*
+* SilverCart is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* SilverCart is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+*
+* @package Silvercart
+* @subpackage Order
+*/
 
 /**
- * abstract for shopping cart
- *
- * @package Silvercart
- * @subpackage Order
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
- * @since 22.11.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
+* abstract for shopping cart
+*
+* @package Silvercart
+* @subpackage Order
+* @author Sascha Koehler <skoehler@pixeltricks.de>
+* @copyright 2010 pixeltricks GmbH
+* @since 22.11.2010
+* @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+*/
 class SilvercartShoppingCart extends DataObject {
 
     /**
@@ -157,12 +157,15 @@ class SilvercartShoppingCart extends DataObject {
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID = 0;
 
+        // Check if unit test are performed: The call to Member:currentUserID()
+        // would fail
+        //  
         // Check if the installation is complete. If it's not complete we
         // can't call the method "Member::currentUser()", since it tries to
         // get the decorated fields from SilvercartCustomerRole that are not
         // yet created in the database
-        if (SilvercartConfig::isInstallationCompleted() &&
-			Member::currentUserID() &&
+        if (!SapphireTest::is_running_test() && SilvercartConfig::isInstallationCompleted() &&
+            Member::currentUserID() &&
             self::$loadModules) {
 
             $this->callMethodOnRegisteredModules(
@@ -356,7 +359,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
-        
+
         $registeredModules = $this->callMethodOnRegisteredModules(
                         'ShoppingCartPositions', array(
                     $this,
@@ -539,7 +542,7 @@ class SilvercartShoppingCart extends DataObject {
 
         return $paymentMethodObj;
     }
-    
+
     /**
      * Returns the minimum order value.
      *
@@ -551,17 +554,17 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function MinimumOrderValue() {
         $minimumOrderValue = new Money();
-        
+
         if (SilvercartConfig::UseMinimumOrderValue() &&
             SilvercartConfig::MinimumOrderValue()) {
-            
+
             $minimumOrderValue->setAmount(SilvercartConfig::MinimumOrderValue()->getAmount());
             $minimumOrderValue->setCurrency(SilvercartConfig::MinimumOrderValue()->getCurrency());
         }
 
         return $minimumOrderValue->Nice();
     }
-    
+
     /**
      * Indicates wether the minimum order value is reached.
      *
@@ -575,10 +578,10 @@ class SilvercartShoppingCart extends DataObject {
         if (SilvercartConfig::UseMinimumOrderValue() &&
             SilvercartConfig::MinimumOrderValue() &&
             SilvercartConfig::MinimumOrderValue()->getAmount() > $this->getAmountTotalWithoutFees()->getAmount()) {
-            
+
             return false;
         }
-        
+
         return true;
     }
 
@@ -606,7 +609,7 @@ class SilvercartShoppingCart extends DataObject {
 
         return $amountObj;
     }
-    
+
     /**
      * Returns the end sum of the cart without fees (taxable positions +
      * nontaxable positions).
@@ -812,7 +815,7 @@ class SilvercartShoppingCart extends DataObject {
 
         if ($this->SilvercartShippingMethodID > 0 &&
             $this->SilvercartPaymentMethodID > 0) {
-            
+
             $showFees = true;
         }
 

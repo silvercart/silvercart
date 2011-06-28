@@ -64,7 +64,7 @@ class SilvercartConfig extends DataObject {
     );
     public static $defaults = array(
         'SilvercartVersion' => '1.0',
-        'SilvercartUpdateVersion' => '1',
+        'SilvercartUpdateVersion' => '2',
         'PricetypeAnonymousCustomers' => 'gross',
         'PricetypeRegularCustomers' => 'gross',
         'PricetypeBusinessCustomers' => 'net',
@@ -668,15 +668,15 @@ class SilvercartConfig extends DataObject {
     public static function isInstallationCompleted() {
         $installationComplete   = false;
         $memberFieldList        = array();
-		$queryRes               = DB::query("SHOW COLUMNS FROM Member");
-		
-		foreach ($queryRes as $key => $value) {
-			$memberFieldList[] = $value['Field'];
-		}
-		
-		if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-			$installationComplete = true;
-		}
+        $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+
+        foreach ($queryRes as $key => $value) {
+            $memberFieldList[] = $value['Field'];
+        }
+
+        if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+            $installationComplete = true;
+        }
         
         return $installationComplete;
     }

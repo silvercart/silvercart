@@ -9,21 +9,31 @@
             </div>
             <div class="c66r">
                 <div class="subcr">
-                    <strong><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</strong>
+                    <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
                     <p>$ShortDescription</p>
+
+                    <div class="silvercart-product-price-details">
+                        <p class="silvercart-price">
+                            <strong>$Price.Nice</strong>
+                        </p>
+                        <p>
+                            <small>
+                                <% if showPricesGross %>
+                                    <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
+                                <% else %>
+                                    <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
+                                <% end_if %>
+                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                            </small>
+                        </p>
+                        <div class="silvercart-button-small left">
+                            <div class="silvercart-button-small_content">
+                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="product-group-page-details">
-            <p><strong class="price">$Price.Nice</strong><br/>
-                <% if showPricesGross %>
-                    <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                    <% else %>
-                    <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
-                    <% end_if %>
-                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
-                <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-            </p>
         </div>
     </div>
 </div>

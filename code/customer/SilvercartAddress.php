@@ -68,6 +68,9 @@ class SilvercartAddress extends DataObject {
         'FirstName' => 'Vorname',
         'Surname' => 'Nachname'
     );
+    public static $casting = array(
+        'SalutationText' => 'VarChar',
+    );
 
     /**
      * Constructor. We localize the static variables here.
@@ -83,23 +86,93 @@ class SilvercartAddress extends DataObject {
      * @since 02.02.2011
      */
     public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Street' => _t('SilvercartAddress.STREET'),
-            'City' => _t('SilvercartAddress.CITY')
-        );
-        self::$field_labels = array(
-            'Street' => _t('SilvercartAddress.STREET'),
-            'StreetNumber' => _t('SilvercartAddress.STREETNUMBER'),
-            'Postcode' => _t('SilvercartAddress.POSTCODE'),
-            'City' => _t('SilvercartAddress.CITY'),
-            'PhoneAreaCode' => _t('SilvercartAddress.PHONEAREACODE'),
-            'Phone' => _t('SilvercartAddress.PHONE'),
-            'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
-            'Addition' => _t('SilvercartAddress.ADDITION'),
-            'FirstName' => _t('SilvercartAddress.FIRSTNAME'),
-            'Surname' => _t('SilvercartAddress.SURNAME')
-        );
+        self::$singular_name = _t('SilvercartAddress.SINGULARNAME', 'Address');
+        self::$plural_name = _t('SilvercartAddress.PLURALNAME', 'Addresses');
         parent::__construct($record, $isSingleton);
+    }
+    
+    /**
+     * Sets the summary fields.
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.06.2011
+     */
+    public function summaryFields() {
+        return array_merge(
+            parent::summaryFields(),
+            array(
+                'Street' => _t('SilvercartAddress.STREET'),
+                'City' => _t('SilvercartAddress.CITY'),
+            )
+        );
+    }
+
+    /**
+     * Sets the field labels.
+     *
+     * @param bool $includerelations set to true to include the DataObjects relations
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.06.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'Street' => _t('SilvercartAddress.STREET'),
+                'StreetNumber' => _t('SilvercartAddress.STREETNUMBER'),
+                'Postcode' => _t('SilvercartAddress.POSTCODE'),
+                'City' => _t('SilvercartAddress.CITY'),
+                'PhoneAreaCode' => _t('SilvercartAddress.PHONEAREACODE'),
+                'Phone' => _t('SilvercartAddress.PHONE'),
+                'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
+                'Addition' => _t('SilvercartAddress.ADDITION'),
+                'FirstName' => _t('SilvercartAddress.FIRSTNAME'),
+                'Surname' => _t('SilvercartAddress.SURNAME'),
+            )
+        );
+    }
+
+    /**
+     * Returns the localized salutation string.
+     *
+     * @return string
+     */
+    public function getSalutaionText() {
+        if ($this->Salutation == 'Herr') {
+            $salutation = _t('SilvercartAddress.MISTER', 'Mister');
+        } else {
+            $salutation = _t('SilvercartAddress.MISSES', 'Misses');
+        }
+        return $salutation;
+    }
+
+    /**
+     * Checks, whether this is an invoice address.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public function isInvoiceAddress() {
+        return $this->ID == Member::currentUser()->SilvercartInvoiceAddressID;
+    }
+
+    /**
+     * Checks, whether this is an invoice address.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public function isShippingAddress() {
+        return $this->ID == Member::currentUser()->SilvercartShippingAddressID;
     }
 
 }

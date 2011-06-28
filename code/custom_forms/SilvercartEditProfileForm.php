@@ -143,7 +143,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
-        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
         $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL');

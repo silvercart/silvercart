@@ -9,41 +9,34 @@ var pixeltricks         = pixeltricks       ? pixeltricks       : [];
  * @param pixeltricks.form.validator form
  * @param string fieldName
  */
-function doesEmailExistAlready(form, fieldName)
-{
+function doesEmailExistAlready(form, fieldName) {
     var fieldValue      = $('#' + form.formName + form.nameSeparator + fieldName).val();
     var errorMessage    = '';
     var success         = false;
     var uri             = document.baseURI ? document.baseURI : '/';
 
-    if (fieldValue)
-    {
-        // Benutzername zur Pruefung an das Backend senden und Antwort ins
-        // Ergebnisfeld schreiben.
-        var result = $.ajax(
-            {
-                url:        uri + 'api/v1/Member.json?Email=' + fieldValue,
-                dataType:   'json',
-                async:      false,
-                success:    function(data)
-                {
-                    if (data.totalSize > 0)
-                    {
-                        // Email Adresse existiert schon
-                        success = false;
+    if (fieldValue) {
+        // send user name to the backend
+        var result = $.ajax({
+            url:        uri + 'api/v1/Member.json?Email=' + fieldValue,
+            dataType:   'json',
+            async:      false,
+            success:    function(data) {
+                if (data.totalSize > 0) {
+                    // email addresse exists
+                    success = false;
 
-                        if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
-                            errorMessage = 'Diese Email Adresse ist schon vergeben.';
-                        } else {
-                            errorMessage = ss.i18n._t('RegistrationForm.EMAIL_EXISTS_ALREADY', 'Diese Email Adresse ist schon vergeben.');
-                        }
+                    if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
+                        errorMessage = 'This email address already exists.';
                     } else {
-                        success         = true;
-                        errorMessage    = '';
+                        errorMessage = ss.i18n._t('SilvercartRegistrationPage.EMAIL_EXISTS_ALREADY', 'This email address already exists.');
                     }
+                } else {
+                    success         = true;
+                    errorMessage    = '';
                 }
             }
-        );
+        });
 
         return {
             success:        success,

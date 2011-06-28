@@ -7,7 +7,13 @@
                 <h1>$Title</h1>
                 <div class="subcolumns">
                     <div class="c50l">
-                        $image.SetRatioSize(230,190)
+                        <% if SilvercartImages %>
+                            <% control SilvercartImages.First %>
+                                $Image.SetRatioSize(230,190)
+                            <% end_control %>
+                        <% else %>
+
+                        <% end_if %>
                     </div>
                     <div class="c50r">
                         <strong><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</strong>

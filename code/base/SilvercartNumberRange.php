@@ -144,6 +144,7 @@ class SilvercartNumberRange extends DataObject {
         $fields = parent::getCMSFields($params);
         if (!empty($this->Identifier)) {
             $fields->removeByName('Identifier');
+            $fields->makeFieldReadonly('ActualCount');
         }
         return $fields;
     }

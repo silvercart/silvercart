@@ -248,7 +248,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
-        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSIS'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
         $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'email address');
@@ -437,8 +437,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         //connect the ShippingAddress and the InvoiceAddress to the customer
         $customer->SilvercartShippingAddressID = $shippingAddress->ID;
         $customer->SilvercartInvoiceAddressID  = $invoiceAddress->ID;
-        $customer->SilvercartAddress()->add($shippingAddress);
-        $customer->SilvercartAddress()->add($invoiceAddress);
+        $customer->SilvercartAddresses()->add($shippingAddress);
+        $customer->SilvercartAddresses()->add($invoiceAddress);
         $customer->write();
 
         $this->sendOptInMail($formData);
