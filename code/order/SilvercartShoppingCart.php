@@ -164,7 +164,8 @@ class SilvercartShoppingCart extends DataObject {
         // can't call the method "Member::currentUser()", since it tries to
         // get the decorated fields from SilvercartCustomerRole that are not
         // yet created in the database
-        if (!SapphireTest::is_running_test() && SilvercartConfig::isInstallationCompleted() &&
+        if (!SapphireTest::is_running_test() && 
+            SilvercartConfig::isInstallationCompleted() &&
             Member::currentUserID() &&
             self::$loadModules) {
 
