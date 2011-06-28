@@ -396,8 +396,13 @@ class SilvercartShoppingCart extends DataObject {
      * @since 07.04.2011
      */
     public function getTaxTotal() {
-        $taxTotal = $this->getTaxableAmountGrossWithFees()->getAmount() - $this->getTaxableAmountGrossWithoutFees()->getAmount();
-
+        $taxTotal = 0;
+        $taxRates = $this->getTaxRatesWithoutFees();
+        
+        foreach ($taxRates as $taxRate) {
+            $taxTotal += $taxRate->AmountRaw;
+        }
+        
         $taxTotalObj = new Money;
         $taxTotalObj->setAmount($taxTotal);
         $taxTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());

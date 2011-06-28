@@ -812,7 +812,7 @@ class SilvercartProduct extends DataObject {
     public function AbsoluteLink() {
         return Director::absoluteURL($this->Link());
     }
-
+    
     /**
      * returns the tax amount included in $this
      *
