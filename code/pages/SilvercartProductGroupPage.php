@@ -162,6 +162,33 @@ class SilvercartProductGroupPage extends Page {
         $this->drawCMSFields = true;
         $this->GroupPicture()->Title = $this->Title;
     }
+    
+    /**
+     * Overwrites the function LinkingMode in SiteTree
+     * Other than the default behavior current should be returned for the
+     * product category defined via session. This is neccessary for products
+     * that are mirrored into a category.
+     * If the product category is not set in the session the method behaves like
+     * the overwritten one.
+     * 
+     * @return string current, section or link; to be used in the template
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 29.6.2011
+     */
+    public function LinkingMode() {
+        if (Session::get("SilvercartProductGroupPageID")) {
+            if ($this->ID == Session::get("SilvercartProductGroupPageID")) {
+                return 'current';
+            }
+        } elseif ($this->isCurrent()) {
+            return "current";
+        } elseif ($this->isSection()) {
+            return 'section';
+        } else {
+            return 'link';
+        }
+    }
 
     /**
      * Field labels for display in tables.
@@ -223,7 +250,7 @@ class SilvercartProductGroupPage extends Page {
                 $this->ID
             );
         }
-        
+
         if ($this->drawCMSFields()) {
             $productsTableField = new HasManyDataObjectManager(
                 $this,
@@ -255,8 +282,8 @@ class SilvercartProductGroupPage extends Page {
 
         $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
-        
-        
+
+
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
@@ -408,7 +435,7 @@ class SilvercartProductGroupPage extends Page {
     public function isActive() {
         return Controller::curr()->Link() == $this->Link();
     }
-    
+
     /**
      * Returns a sorted list of children of this node.
      *
@@ -423,10 +450,10 @@ class SilvercartProductGroupPage extends Page {
     public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
         $children = $this->Children();
         $children->sort($sortField, $sortDir);
-        
+
         return $children;
     }
-    
+
     /**
      * All products of this group
      * 
@@ -439,7 +466,7 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getProducts($numberOfProducts = false) {
         $controller = new SilvercartProductGroupPage_Controller($this);
-        
+
         return $controller->getProducts($numberOfProducts);
     }
 }
@@ -483,6 +510,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             // a product group view is requested
             $products = $this->getProducts();
+            Session::set("SilvercartProductGroupPageID", $this->ID);
+            Session::save();
             // Initialise formobjects
             $productIdx = 0;
             if ($products) {
@@ -517,9 +546,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $output = unserialize($result);
         } else {
             $menuElements = $this->getTopProductGroup($this)->Children();
-            
+
             $extendedOutput = $this->extend('getSubNavigation', $menuElements);
-        
+
             if (empty ($extendedOutput)) {
                 $elements = array(
                     'SubElements' => $menuElements,
@@ -532,10 +561,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             } else {
                 $output = $extendedOutput[0];
             }
-            
+
             $cache->save(serialize($output));
         }
-        
+
         return $output;
     }
 
@@ -609,7 +638,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         if ($this->isProductDetailView()) {
-            $page = $this;
+            if (Session::get("SilvercartProductGroupPageID")) {
+                $dataRecord = DataObject::get_by_id("SilvercartProductGroupPage", Session::get("SilvercartProductGroupPageID"));
+                $page = new SilvercartProductGroupPage_Controller($dataRecord);
+            } else {
+                $page = $this;
+            }
             $parts = array();
             $parts[] = $this->getDetailViewProduct()->Title;
             $i = 0;
@@ -633,7 +667,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
-    
+
     /**
      * Returns the offset of the current page for pagination.
      * 
@@ -654,7 +688,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 } else {
                     $productsPerPage = SilvercartConfig::ProductsPerPage();
                 }
-                
+
                 // --------------------------------------------------------
                 // Use offset for getting the current item rage
                 // --------------------------------------------------------
@@ -679,7 +713,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             $SQL_start = (int) $_GET['start'];
         }
-        
+
         return $SQL_start;
     }
 
@@ -696,7 +730,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function getProducts($numberOfProducts = false) {
         if (is_null($this->groupProducts)) {
             $SQL_start = $this->getSqlOffset();
-            
+
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
@@ -766,10 +800,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
             }
         }
-        
+
         return $this->groupProducts;
     }
-    
+
     /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
@@ -810,7 +844,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             $SQL_start = (int) $_GET['start'];
         }
-        
+
         return $SQL_start;
     }
 
@@ -949,7 +983,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return $this->detailViewProduct;
     }
-    
+
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      * 
@@ -966,25 +1000,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function InsertWidgetArea($identifier = 'Sidebar') {
         $output         = '';
         $controllerName = 'WidgetSet'.$identifier.'Controllers';
-        
+
         if (!isset($this->$controllerName)) {
             return $output;
         }
-        
+
         foreach ($this->$controllerName as $controller) {
             $output .= $controller->WidgetHolder();
         }
-        
+
         if (empty($output)) {
             $parentPage = $this->getParent();
-            
+
             if ($parentPage) {
                 $parentPageController = ModelAsController::controller_for($parentPage);
                 $parentPageController->init();
                 $output               = $parentPageController->InsertWidgetArea($identifier);
             }
         }
-        
+
         return $output;
     }
 
