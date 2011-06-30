@@ -40,6 +40,7 @@ $lang['de_DE']['Silvercart']['WEEK'] = 'Woche';
 $lang['de_DE']['Silvercart']['WEEKS'] = 'Wochen';
 $lang['de_DE']['Silvercart']['MONTH'] = 'Monat';
 $lang['de_DE']['Silvercart']['MONTHS'] = 'Monate';
+$lang['de_DE']['Silvercart']['SEO'] = 'SEO';
 $lang['de_DE']['Silvercart']['YES'] = 'Ja';
 $lang['de_DE']['Silvercart']['NO'] = 'Nein';
 
