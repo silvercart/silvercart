@@ -352,7 +352,7 @@ class SilvercartProduct extends DataObject {
      * @return string
      */
     public function getisActiveString() {
-        $isActiveString = _('Silvercart.NO');
+        $isActiveString = _t('Silvercart.NO');
         if ($this->isActive) {
             $isActiveString = _t('Silvercart.YES');
         }
@@ -495,18 +495,6 @@ class SilvercartProduct extends DataObject {
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
         
-        /**
-        $newFields = new FieldSet(
-            $rootTab = new TabSet("Root",
-                $tabContent = new TabSet('Content',
-                    $tabMain = new Tab('Main',
-                        $fields->dataFieldByName($name)
-                    )
-                )
-            )
-        );
-        /**/
-        
         // remove GoogleSitemap Priority
         $fields->removeByName('Priority');
         $fields->removeByName('GoogleSitemapIntro');
@@ -542,14 +530,24 @@ class SilvercartProduct extends DataObject {
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
         
-        $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
-        $tab->title = _t('SilvercartImage.SINGULARNAME', 'images');
-        $silvercartImagesTable = new HasManyFileDataObjectManager($this, 'SilvercartImage', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
-        $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
+        // --------------------------------------------------------------------
+        // Image tab
+        // --------------------------------------------------------------------
+        $fields->findOrMakeTab('Root.SilvercartImages', _t('SilvercartImage.PLURALNAME', 'Images'));
+        if ($this->ID) {
+            $silvercartImagesTable = new ImageDataObjectManager($this, 'SilvercartImages', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
+            $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
+        } else {
+            $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
+                    _t('FileIFrameField.ATTACHONCESAVED'),
+                    _t('SilvercartImage.SINGULARNAME', 'Image')));
+            $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageInformation);
+        }
         
         // --------------------------------------------------------------------
         // SEO tab
         // --------------------------------------------------------------------
+        $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO', 'SEO'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
@@ -595,6 +593,7 @@ class SilvercartProduct extends DataObject {
         );
         $productGroupMirrorPagesTable->pageSize = 1000;
 
+        $fields->findOrMakeTab('Root.SilvercartProductGroupMirrorPages', _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'));
         $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
         
         // --------------------------------------------------------------------
