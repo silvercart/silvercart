@@ -435,7 +435,7 @@ class SilvercartProductGroupPage extends Page {
     public function isActive() {
         return Controller::curr()->Link() == $this->Link();
     }
-
+    
     /**
      * Returns a sorted list of children of this node.
      *
@@ -450,10 +450,10 @@ class SilvercartProductGroupPage extends Page {
     public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
         $children = $this->Children();
         $children->sort($sortField, $sortDir);
-
+        
         return $children;
     }
-
+    
     /**
      * All products of this group
      * 
@@ -466,7 +466,7 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getProducts($numberOfProducts = false) {
         $controller = new SilvercartProductGroupPage_Controller($this);
-
+        
         return $controller->getProducts($numberOfProducts);
     }
 }
@@ -546,9 +546,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $output = unserialize($result);
         } else {
             $menuElements = $this->getTopProductGroup($this)->Children();
-
+            
             $extendedOutput = $this->extend('getSubNavigation', $menuElements);
-
+        
             if (empty ($extendedOutput)) {
                 $elements = array(
                     'SubElements' => $menuElements,
@@ -561,10 +561,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             } else {
                 $output = $extendedOutput[0];
             }
-
+            
             $cache->save(serialize($output));
         }
-
+        
         return $output;
     }
 
@@ -667,7 +667,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
-
+    
     /**
      * Returns the offset of the current page for pagination.
      * 
@@ -688,7 +688,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 } else {
                     $productsPerPage = SilvercartConfig::ProductsPerPage();
                 }
-
+                
                 // --------------------------------------------------------
                 // Use offset for getting the current item rage
                 // --------------------------------------------------------
@@ -713,7 +713,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             $SQL_start = (int) $_GET['start'];
         }
-
+        
         return $SQL_start;
     }
 
@@ -729,8 +729,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function getProducts($numberOfProducts = false) {
         if (is_null($this->groupProducts)) {
-            $SQL_start = $this->getSqlOffset();
-
+            $SQL_start = $this->getSqlOffset($numberOfProducts);
+            
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
@@ -800,13 +800,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
             }
         }
-
+        
         return $this->groupProducts;
     }
-
+    
     /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
+     * 
+     * @param int|bool $numberOfProducts The number of products to return
      *
      * @return int
      *
@@ -814,7 +816,17 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @copyright 2011 pixeltricks GmbH
      * @since 12.06.2011
      */
-    public function getSqlOffset() {
+    public function getSqlOffset($numberOfProducts = false) {
+        if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+
+        if ($numberOfProducts !== false) {
+            $productsPerPage = (int) $numberOfProducts;
+        }
+            
         if (!isset($_GET['start']) ||
             !is_numeric($_GET['start']) ||
             (int)$_GET['start'] < 1) {
@@ -844,7 +856,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             $SQL_start = (int) $_GET['start'];
         }
-
+        
         return $SQL_start;
     }
 
@@ -983,7 +995,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return $this->detailViewProduct;
     }
-
+    
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      * 
@@ -1000,25 +1012,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function InsertWidgetArea($identifier = 'Sidebar') {
         $output         = '';
         $controllerName = 'WidgetSet'.$identifier.'Controllers';
-
+        
         if (!isset($this->$controllerName)) {
             return $output;
         }
-
+        
         foreach ($this->$controllerName as $controller) {
             $output .= $controller->WidgetHolder();
         }
-
+        
         if (empty($output)) {
             $parentPage = $this->getParent();
-
+            
             if ($parentPage) {
                 $parentPageController = ModelAsController::controller_for($parentPage);
                 $parentPageController->init();
                 $output               = $parentPageController->InsertWidgetArea($identifier);
             }
         }
-
+        
         return $output;
     }
 
