@@ -45,7 +45,7 @@ $lang['de_DE']['Silvercart']['YES'] = 'Ja';
 $lang['de_DE']['Silvercart']['NO'] = 'Nein';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
-$lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Addresszusatz';
+$lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
 $lang['de_DE']['SilvercartAddress']['CITY'] = 'Ort';
 $lang['de_DE']['SilvercartAddress']['EDITINVOICEADDRESS'] = 'Rechnungsadresse bearbeiten';
 $lang['de_DE']['SilvercartAddress']['EDITSHIPPINGADDRESS'] = 'Lieferadresse bearbeiten';
@@ -674,6 +674,7 @@ $lang['de_DE']['SilvercartOrderAddress']['SINGULARNAME'] = 'Bestelladresse';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Bestellbestätigungsseiten';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Bestellbestätigungsseite';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'bestellbestaetigung';
+$lang['de_DE']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'Bestellbestätigung';
 
 $lang['de_DE']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Bestelldetailsseiten';
 $lang['de_DE']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Bestelldetailsseite';
@@ -937,6 +938,10 @@ $lang['de_DE']['SilvercartShopEmail']['PLURALNAME'] = 'Shop E-Mails';
 $lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop E-Mail';
 $lang['de_DE']['SilvercartShopEmail']['SUBJECT'] = 'Betreff';
 $lang['de_DE']['SilvercartShopEmail']['VARIABLES'] = 'Variablen';
+$lang['de_DE']['SilvercartShopEmail']['REGARDS'] = 'Mit freundlichen Grüßen';
+$lang['de_DE']['SilvercartShopEmail']['YOUR_TEAM'] = 'Ihr SilverCart Webshop Team';
+$lang['de_DE']['SilvercartShopEmail']['HELLO'] = 'Hallo';
+$lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'Ihre Bestellung ist soeben bei uns eingegangen, vielen Dank.';
 
 $lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
 $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';

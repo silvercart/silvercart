@@ -674,6 +674,7 @@ $lang['en_GB']['SilvercartOrderAddress']['SINGULARNAME'] = 'Order address';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Order Confirmation pages';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Order Confirmation Page';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
+$lang['en_GB']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'order confirmation';
 
 $lang['en_GB']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Order Detail pages';
 $lang['en_GB']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page';
@@ -937,6 +938,10 @@ $lang['en_GB']['SilvercartShopEmail']['PLURALNAME'] = 'Shop Emails';
 $lang['en_GB']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop Email';
 $lang['en_GB']['SilvercartShopEmail']['SUBJECT'] = 'Subject';
 $lang['en_GB']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
+$lang['en_GB']['SilvercartShopEmail']['REGARDS'] = 'Best regards';
+$lang['en_GB']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce team';
+$lang['en_GB']['SilvercartShopEmail']['HELLO'] = 'Hello';
+$lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 
 $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';

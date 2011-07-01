@@ -263,5 +263,32 @@ class SilvercartShopEmail extends DataObject {
 
         return $text;
     }
+    
+    /**
+     * The given $content will be parsed with a reduced variant of the SilverStripe
+     * default template parsing engine to get localized email templates. Parsing 
+     * the template like that keeps other template mechanisms like <% if ... %>
+     * or <% control ... %> alive to be parsed on processing the real email 
+     * sending.
+     *
+     * @param string $content The content to parse
+     * 
+     * @return string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2011
+     */
+    public static function parse($content) {
+        // i18n _t(...)
+        $plainPattern = '<' . '% +_t\((\'([^\']*)\'|"([^"]*)")(([^)]|\)[^ ]|\) +[^% ])*)\) +%' . '>';
+        $pattern = '/' . $plainPattern . '/';
+        preg_match_all($pattern, $content, $matches);
+        if (is_array($matches[0])) {
+            foreach ($matches[0] as $index => $match) {
+                $content = str_replace($match, _t($matches[2][$index]), $content);
+            }
+        }        
+        return $content;
+    }
 
 }
