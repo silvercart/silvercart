@@ -131,14 +131,14 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $db = array(
-        'isActive' => 'Boolean',
-        'minAmountForActivation' => 'Float',
-        'maxAmountForActivation' => 'Float',
-        'Name' => 'Varchar(150)',
-        'paymentDescription' => 'Text',
-        'mode' => "Enum('Live,Dev','Dev')",
-        'orderStatus' => 'Varchar(50)',
-        'showPaymentLogos' => 'Boolean',
+        'isActive'                  => 'Boolean',
+        'minAmountForActivation'    => 'Float',
+        'maxAmountForActivation'    => 'Float',
+        'Name'                      => 'Varchar(150)',
+        'paymentDescription'        => 'Text',
+        'mode'                      => "Enum('Live,Dev','Dev')",
+        'orderStatus'               => 'Varchar(50)',
+        'showPaymentLogos'          => 'Boolean',
     );
     /**
      * Defines 1:1 relations
@@ -150,8 +150,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $has_one = array(
-        'SilvercartHandlingCost' => 'SilvercartHandlingCost',
-        'SilvercartZone' => 'SilvercartZone'
+        'SilvercartHandlingCost'    => 'SilvercartHandlingCost',
+        'SilvercartZone'            => 'SilvercartZone'
     );
     /**
      * Defines 1:n relations
@@ -163,8 +163,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 16.12.10
      */
     public static $has_many = array(
-        'SilvercartOrders' => 'SilvercartOrder',
-        'PaymentLogos' => 'SilvercartImage',
+        'SilvercartOrders'          => 'SilvercartOrder',
+        'PaymentLogos'              => 'SilvercartImage'
     );
     /**
      * Defines n:m relations
@@ -176,7 +176,11 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $many_many = array(
-        'SilvercartShippingMethods' => 'SilvercartShippingMethod'
+        'SilvercartShippingMethods' => 'SilvercartShippingMethod',
+        'ShowOnlyForGroups'         => 'Group',
+        'ShowNotForGroups'          => 'Group',
+        'ShowOnlyForUsers'          => 'Member',
+        'ShowNotForUsers'           => 'Member'
     );
     /**
      * Defines m:n relations
@@ -812,43 +816,99 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getCMSFieldsForModules() {
         $tabset = new TabSet('Sections');
+        
+        // --------------------------------------------------------------------
+        // Common GUI elements for all payment methods
+        // --------------------------------------------------------------------
         $tabBasic = new Tab('Basic', _t('SilvercartPaymentMethod.BASIC_SETTINGS', 'basic settings'));
         $tabset->push($tabBasic);
-
-        // Popupfelder fuers Bearbeiten der Zahlungsart
+        
         $tabBasic->setChildren(
-                new FieldSet(
-                        new TextField('Name', _t('SilvercartPaymentMethod.NAME')),
-                        new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
-                        new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                        new DropdownField(
-                                'mode',
-                                _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'
-                                ),
-                                array(
-                                    'Live' => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
-                                    'Dev' => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
-                                ),
-                                $this->mode
-                        ),
-                        new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')),
-                        new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')),
-                        new DropdownField(
-                                'orderStatus',
-                                _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
-                                SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
-                        )
+            new FieldSet(
+                new TextField('Name', _t('SilvercartPaymentMethod.NAME')),
+                new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
+                new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
+                new DropdownField(
+                    'mode',
+                    _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'
+                    ),
+                    array(
+                        'Live' => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
+                        'Dev' => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
+                    ),
+                    $this->mode
+                ),
+                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')),
+                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')),
+                new DropdownField(
+                    'orderStatus',
+                    _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
+                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
                 )
+            )
         );
 
+        // --------------------------------------------------------------------
+        // GUI for management of logo images
+        // --------------------------------------------------------------------
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
 
         $tabLogos->setChildren(
-                new FieldSet(
-                        new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
-                        new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID))
-                )
+            new FieldSet(
+                new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
+                new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID))
+            )
+        );
+        
+        // --------------------------------------------------------------------
+        // GUI for access management
+        // --------------------------------------------------------------------
+        $tabAccessManagement = new Tab('AccessManagement', _t('SilvercartPaymentMethod.ACCESS_SETTINGS', 'Access management'));
+        $tabset->push($tabAccessManagement);
+        
+        $showOnlyForGroupsTable = new ManyManyComplexTableField(
+            $this,
+            'ShowOnlyForGroups',
+            'Group'
+        );
+        $showOnlyForGroupsTable->setPermissions(array('show'));
+        $showNotForGroupsTable = new ManyManyComplexTableField(
+            $this,
+            'ShowNotForGroups',
+            'Group'
+        );
+        $showNotForGroupsTable->setPermissions(array('show'));
+        $showOnlyForUsersTable = new ManyManyComplexTableField(
+            $this,
+            'ShowOnlyForUsers',
+            'Member',
+            null,
+            null,
+            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+        );
+        $showOnlyForUsersTable->setPermissions(array('show'));
+        $showNotForUsersTable = new ManyManyComplexTableField(
+            $this,
+            'ShowNotForUsers',
+            'Member',
+            null,
+            null,
+            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+        );
+        $showNotForUsersTable->setPermissions(array('show'));
+        
+        $tabAccessManagement->setChildren(
+            new FieldSet(
+                new HeaderField('ShowOnlyForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_GROUPS_LABEL'), 2),
+                $showOnlyForGroupsTable,
+                new HeaderField('ShowNotForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_GROUPS_LABEL'), 2),
+                $showNotForGroupsTable,
+                new HeaderField('ShowOnlyForUsersLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_USERS_LABEL'), 2),
+                $showOnlyForUsersTable,
+                new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL'), 2),
+                $showNotForUsersTable
+            )
         );
 
         return new FieldSet($tabset);
@@ -1133,8 +1193,9 @@ class SilvercartPaymentMethod extends DataObject {
          */
         $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
         if ($has_multiple_payment_channels
-                && !empty($this->PaymentChannel)
-                && is_string($this->PaymentChannel)) {
+            && !empty($this->PaymentChannel)
+            && is_string($this->PaymentChannel)) {
+            
             $directory .= $this->PaymentChannel . '/';
             $stepModule = $this->moduleName . ucfirst($this->PaymentChannel);
         } else {

@@ -34,9 +34,10 @@
 class SilvercartCustomerRole extends DataObjectDecorator {
 
     /**
-     * defines relations, attributes and some settings this class.
+     * Defines relations, attributes and settings for the decorated class.
      *
-     * @return array for denfining and configuring the class via the framework
+     * @return for defining and configuring the decorated class.
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.10.2010
      */
@@ -65,6 +66,9 @@ class SilvercartCustomerRole extends DataObjectDecorator {
             'has_many' => array(
                 'SilvercartAddresses' => 'SilvercartAddress',
                 'SilvercartOrder'   => 'SilvercartOrder'
+            ),
+            'belongs_many_many' => array(
+                'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
             ),
             'summary_fields' => array(
                 'CustomerNumber',
