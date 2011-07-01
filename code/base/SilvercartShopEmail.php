@@ -32,6 +32,15 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShopEmail extends DataObject {
+    
+    /**
+     * n:m relations
+     * 
+     * @var type array
+     */
+    public static $many_many = array(
+        'AdditionalReceipients' => 'SilvercartEmailAddress'
+    );
 
     /**
      * classes attributes
@@ -199,6 +208,35 @@ class SilvercartShopEmail extends DataObject {
 
             $email->send();
         }
+        
+        //Send the email to additional standard receipients from the n:m
+        //relation AdditionalReceipients;
+        //Email address is validated.
+        if ($mailObj->AdditionalReceipients()->Count() > 0) {
+            foreach ($mailObj->AdditionalReceipients() as $additionalReceipient) {
+                if ($additionalReceipient->getEmailAddressWithName() && Email::validEmailAddress($additionalReceipient->Email)) {
+                    $to = $additionalReceipient->getEmailAddressWithName();
+                } elseif ($additionalReceipient->getEmailAddress() && Email::validEmailAddress($additionalReceipient->Email)) {
+                    $to = $additionalReceipient->getEmailAddress();
+                } else {
+                    continue;
+                }
+                $email = new Email(
+                        SilvercartConfig::EmailSender(),
+                        $to,
+                        $mailObj->Subject,
+                        $mailObj->EmailText
+                        );
+                $email->setTemplate('SilvercartShopEmail');
+                $email->populateTemplate(
+                array(
+                    'ShopEmailSubject' => $mailObj->Subject,
+                    'ShopEmailMessage' => $emailText,
+                    )
+                );
+                $email->send();
+            }
+        }
     }
 
     /**
@@ -224,6 +262,33 @@ class SilvercartShopEmail extends DataObject {
         }
 
         return $text;
+    }
+    
+    /**
+     * The given $content will be parsed with a reduced variant of the SilverStripe
+     * default template parsing engine to get localized email templates. Parsing 
+     * the template like that keeps other template mechanisms like <% if ... %>
+     * or <% control ... %> alive to be parsed on processing the real email 
+     * sending.
+     *
+     * @param string $content The content to parse
+     * 
+     * @return string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2011
+     */
+    public static function parse($content) {
+        // i18n _t(...)
+        $plainPattern = '<' . '% +_t\((\'([^\']*)\'|"([^"]*)")(([^)]|\)[^ ]|\) +[^% ])*)\) +%' . '>';
+        $pattern = '/' . $plainPattern . '/';
+        preg_match_all($pattern, $content, $matches);
+        if (is_array($matches[0])) {
+            foreach ($matches[0] as $index => $match) {
+                $content = str_replace($match, _t($matches[2][$index]), $content);
+            }
+        }        
+        return $content;
     }
 
 }

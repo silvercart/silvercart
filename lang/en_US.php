@@ -40,6 +40,7 @@ $lang['en_US']['Silvercart']['WEEK'] = 'week';
 $lang['en_US']['Silvercart']['WEEKS'] = 'weeks';
 $lang['en_US']['Silvercart']['MONTH'] = 'month';
 $lang['en_US']['Silvercart']['MONTHS'] = 'months';
+$lang['en_US']['Silvercart']['SEO'] = 'SEO';
 $lang['en_US']['Silvercart']['YES'] = 'Yes';
 $lang['en_US']['Silvercart']['NO'] = 'No';
 
@@ -673,6 +674,7 @@ $lang['en_US']['SilvercartOrderAddress']['SINGULARNAME'] = 'Order address';
 $lang['en_US']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Order Confirmation Pags';
 $lang['en_US']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Order Confirmation Page';
 $lang['en_US']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
+$lang['en_US']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'order confirmation';
 
 $lang['en_US']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Order Detail Pags';
 $lang['en_US']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page';
@@ -941,6 +943,10 @@ $lang['en_US']['SilvercartShopEmail']['PLURALNAME'] = 'Shop Emails';
 $lang['en_US']['SilvercartShopEmail']['SINGULARNAME'] = 'Shop Email';
 $lang['en_US']['SilvercartShopEmail']['SUBJECT'] = 'Subject';
 $lang['en_US']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
+$lang['en_US']['SilvercartShopEmail']['REGARDS'] = 'Best regards';
+$lang['en_US']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce team';
+$lang['en_US']['SilvercartShopEmail']['HELLO'] = 'Hello';
+$lang['en_US']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 
 $lang['en_US']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';

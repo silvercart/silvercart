@@ -177,7 +177,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 29.6.2011
      */
     public function LinkingMode() {
-        if (Session::get("SilvercartProductGroupPageID")) {
+        if (Session::get("SilvercartProductGroupPageID") && Controller::curr() instanceof SilvercartProductGroupPage_Controller) {
             if ($this->ID == Session::get("SilvercartProductGroupPageID")) {
                 return 'current';
             }

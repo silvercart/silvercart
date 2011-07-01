@@ -636,6 +636,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
             if (is_file($defaultTemplateFile)) {
                 $defaultTemplate = file_get_contents($defaultTemplateFile);
+                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
             } else {
                 $defaultTemplate = '';
             }
@@ -654,6 +655,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
             if (is_file($defaultTemplateFile)) {
                 $defaultTemplate = file_get_contents($defaultTemplateFile);
+                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
             } else {
                 $defaultTemplate = '';
             }
