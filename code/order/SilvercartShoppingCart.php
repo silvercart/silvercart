@@ -224,41 +224,37 @@ class SilvercartShoppingCart extends DataObject {
      * @since 21.12.2010
      */
     public static function addProduct($formData) {
-        $member = Member::currentUser();
-        if ($member == false) {
-            $member = new SilvercartAnonymousCustomer();
-            $member->write();
-            // Add customer to intermediate group
-            $customerGroup = DataObject::get_one(
-                            'Group', "`Code` = 'anonymous'"
-            );
-            if ($customerGroup) {
-                $member->Groups()->add($customerGroup);
-            }
-            $member->logIn(true);
-        }
-
-        if (!$member) {
-            return false;
-        }
-
-        $cart = $member->getCart(); //This must return a cart for getCart() always returns a cart.
-
-        if (!$cart) {
-            return false;
-        }
-
+        $error = true;
         if ($formData['productID'] && $formData['productQuantity']) {
-            $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
+            $member = Member::currentUser();
+            if ($member == false) {
+                $member = new SilvercartAnonymousCustomer();
+                $member->write();
+                // Add customer to intermediate group
+                $customerGroup = DataObject::get_one(
+                                'Group', "`Code` = 'anonymous'"
+                );
+                if ($customerGroup) {
+                    $member->Groups()->add($customerGroup);
+                }
+                $member->logIn(true);
+            }
 
-            if ($product) {
-                $quantity = (int) bcsqrt($formData['productQuantity'] * $formData['productQuantity'], 0); //make shure value is positiv
-                $product->addToCart($cart->ID, $quantity);
-                return true;
+            if ($member) {
+                $cart = $member->getCart();
+                if ($cart) {
+                    $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
+                    if ($product) {
+                        $quantity = (int) $formData['productQuantity'];
+                        if ($quantity > 0) {
+                            $product->addToCart($cart->ID, $quantity);
+                            $error = false;
+                        }
+                    }
+                }
             }
         }
-
-        return false;
+        return !$error;
     }
 
     /**
