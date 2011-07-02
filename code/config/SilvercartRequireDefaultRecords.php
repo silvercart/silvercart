@@ -130,83 +130,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
         }
 
-        //create a carrier and an associated zone and shipping method
-        $carrier = DataObject::get_one('SilvercartCarrier');
-        if (!$carrier) {
-            $carrier = new SilvercartCarrier();
-            $carrier->Title = 'DHL';
-            $carrier->FullTitle = 'DHL International GmbH';
-            $carrier->write();
-
-            //relate carrier to zones
-            $zoneDomestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
-            if (!$zoneDomestic) {
-                $zoneDomestic = new SilvercartZone();
-                $zoneDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
-            }
-            $zoneDomestic->SilvercartCarrierID = $carrier->ID;
-            $zoneDomestic->write();
-
-            $ZoneEu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
-            if (!$ZoneEu) {
-                $ZoneEu = new SilvercartZone();
-                $ZoneEu->Title = 'EU';
-                $ZoneEu->SilvercartCarrierID = $carrier->ID;
-                $ZoneEu->write();
-            }
-            $country = DataObject::get_one('SilvercartCountry');
-            if (!$country) {
-                $country = new SilvercartCountry();
-                $country->Title = 'Deutschland';
-                $country->ISO2 = 'DE';
-                $country->ISO3 = 'DEU';
-                $country->write();
-                $zoneDomestic->SilvercartCountries()->add($country);
-            }
-
-            // create a shipping method
-            $shippingMethod = DataObject::get_one("SilvercartShippingMethod", sprintf("`Title` = '%s'", _t('SilvercartShippingMethod.PACKAGE', 'package')));
-            if (!$shippingMethod) {
-                $shippingMethod = new SilvercartShippingMethod();
-                $shippingMethod->Title = _t('SilvercartShippingMethod.PACKAGE', 'package');
-                //relate shipping method to carrier
-                $shippingMethod->SilvercartCarrierID = $carrier->ID;
-                $shippingMethod->isActive = 1;
-                $shippingMethod->write();
-            }
-
-            // create two standard german tax rates if no tax rate exists
-            $taxRate = DataObject::get_one(
-                            'SilvercartTax'
-            );
-
-            if (!$taxRate) {
-                $lowerTaxRate = new SilvercartTax();
-                $lowerTaxRate->setField('Rate', 7);
-                $lowerTaxRate->setField('Title', '7%');
-                $lowerTaxRate->write();
-                
-                $higherTaxRate = new SilvercartTax();
-                $higherTaxRate->setField('Rate', 19);
-                $higherTaxRate->setField('Title', '19%');
-                $higherTaxRate->write();
-            }
-            
-            // create a shipping fee and relate it to zone, tax and shipping method
-            $shippingFee = DataObject::get_one('SilvercartShippingFee');
-            if (!$shippingFee) {
-                $shippingFee = new SilvercartShippingFee();
-                $shippingFee->MaximumWeight = '1000';
-                $shippingFee->Price = new Money();
-                $shippingFee->Price->setAmount('3.9');
-                $shippingFee->Price->setCurrency('EUR');
-                $shippingFee->SilvercartShippingMethodID = $shippingMethod->ID;
-                $shippingFee->SilvercartZoneID = $zoneDomestic->ID;
-                $shippingFee->SilvercartTaxID = $higherTaxRate->ID;
-                $shippingFee->write();
-            }
-        }
-
         //create order stati
         if (!DataObject::get_one('SilvercartOrderStatus')) {
 
@@ -677,6 +600,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
         $this->extend('updateDefaultRecords', $rootPage);
 
+        self::createTestConfiguration();
         self::createTestData();
     }
 
@@ -742,20 +666,20 @@ class SilvercartRequireDefaultRecords extends DataObject {
     }
 
     /**
-     * creates test data on /dev/build
+     * creates test data on /dev/build or by adding test data in ModelAdmin.
      *
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.02.2011
+     * @since 02.07.2011
      */
     public static function createTestData() {
         if (self::$enableTestData === true) {
             if (SiteTree::get_by_link('testgroup1')) {
                 // test data already created
-                return;
+                return false;
             }
+            self::createTestTaxRates();
             // get SilvercartProductGroupHolder and tax rate
             $silvercartProductGroupHolder = DataObject::get_one('SilvercartProductGroupHolder');
             $taxRateID = DataObject::get_one('SilvercartTax', "`Rate`='19'")->ID;
@@ -803,6 +727,127 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->SilvercartProductGroupID = $productGroup->ID;
                     $product->write();
                 }
+            }
+            return true;
+        }
+    }
+
+    /**
+     * creates test configuration data on /dev/build or by adding test
+     * configuration in ModelAdmin.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public static function createTestConfiguration() {
+        if (self::$enableTestData === true) {
+            //create a carrier and an associated zone and shipping method
+            $carrier = DataObject::get_one('SilvercartCarrier');
+            if (!$carrier) {
+                self::createTestTaxRates();
+                
+                $carrier = new SilvercartCarrier();
+                $carrier->Title = 'DHL';
+                $carrier->FullTitle = 'DHL International GmbH';
+                $carrier->write();
+
+                //relate carrier to zones
+                $zoneDomestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
+                if (!$zoneDomestic) {
+                    $zoneDomestic = new SilvercartZone();
+                    $zoneDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
+                }
+                $zoneDomestic->SilvercartCarrierID = $carrier->ID;
+                $zoneDomestic->write();
+
+                $ZoneEu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
+                if (!$ZoneEu) {
+                    $ZoneEu = new SilvercartZone();
+                    $ZoneEu->Title = 'EU';
+                }
+                $ZoneEu->SilvercartCarrierID = $carrier->ID;
+                $ZoneEu->write();
+
+                $country = DataObject::get_one('SilvercartCountry', "`ISO2` = 'DE'");
+                if (!$country) {
+                    $country = new SilvercartCountry();
+                    $country->Title = 'Deutschland';
+                    $country->ISO2 = 'DE';
+                    $country->ISO3 = 'DEU';
+                    $country->write();
+                }
+                $zoneDomestic->SilvercartCountries()->add($country);
+                
+                // create if not exists, activate and relate payment method
+                $paymentMethod = DataObject::get_one('SilvercartPaymentPrepayment');
+                if (!$paymentMethod) {
+                    $paymentMethod = new SilvercartPaymentPrepayment();
+                    $paymentMethod->Name = _t('SilvercartPaymentPrepayment.SINGULARNAME');
+                }
+                $paymentMethod->isActive = true;
+                $paymentMethod->write();
+                $country->SilvercartPaymentMethods()->add($paymentMethod);
+
+                // create a shipping method
+                $shippingMethod = DataObject::get_one("SilvercartShippingMethod", sprintf("`Title` = '%s'", _t('SilvercartShippingMethod.PACKAGE', 'package')));
+                if (!$shippingMethod) {
+                    $shippingMethod = new SilvercartShippingMethod();
+                    $shippingMethod->Title = _t('SilvercartShippingMethod.PACKAGE', 'package');
+                    //relate shipping method to carrier
+                    $shippingMethod->SilvercartCarrierID = $carrier->ID;
+                }
+                $shippingMethod->isActive = 1;
+                $shippingMethod->write();
+                $shippingMethod->SilvercartZones()->add($zoneDomestic);
+
+                // create a shipping fee and relate it to zone, tax and shipping method
+                $shippingFee = DataObject::get_one('SilvercartShippingFee');
+                if (!$shippingFee) {
+                    $shippingFee = new SilvercartShippingFee();
+                    $shippingFee->MaximumWeight = '1000';
+                    $shippingFee->Price = new Money();
+                    $shippingFee->Price->setAmount('3.9');
+                    $shippingFee->Price->setCurrency('EUR');
+                }
+                $shippingFee->SilvercartShippingMethodID = $shippingMethod->ID;
+                $shippingFee->SilvercartZoneID = $zoneDomestic->ID;
+                $higherTaxRate = DataObject::get_one('SilvercartTax', "`Rate` = 19");
+                $shippingFee->SilvercartTaxID = $higherTaxRate->ID;
+                $shippingFee->write();
+                
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * creates test tax rates on /dev/build or creating test data in ModelAdmin.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public static function createTestTaxRates() {
+        if (self::$enableTestData === true) {
+            // create two standard german tax rates if no tax rate exists
+            $taxRate = DataObject::get_one(
+                            'SilvercartTax'
+            );
+
+            if (!$taxRate) {
+                $lowerTaxRate = new SilvercartTax();
+                $lowerTaxRate->setField('Rate', 7);
+                $lowerTaxRate->setField('Title', '7%');
+                $lowerTaxRate->write();
+
+                $higherTaxRate = new SilvercartTax();
+                $higherTaxRate->setField('Rate', 19);
+                $higherTaxRate->setField('Title', '19%');
+                $higherTaxRate->write();
             }
         }
     }

@@ -44,5 +44,6 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
      */
     public function onAfterInit() {
         Requirements::javascript('silvercart/script/SilvercartModelAdminDecorator.js');
+        Requirements::add_i18n_javascript('silvercart/javascript/lang');
     }
 }

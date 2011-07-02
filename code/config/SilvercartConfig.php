@@ -146,7 +146,8 @@ class SilvercartConfig extends DataObject {
                 'Root',
                 $generalTab = new TabSet(
                     'General',
-                    $tabGeneralMain = new Tab('Main')
+                    $tabGeneralMain = new Tab('Main'),
+                    $tabGeneralTestData = new Tab('TestData')
                 ),
                 $interfacesTab = new TabSet(
                     'Interfaces',
@@ -179,6 +180,20 @@ class SilvercartConfig extends DataObject {
         }
         $CMSFields->addFieldToTab('Root.General.Main', $CMSFields->dataFieldByName('productsPerPage'));
 
+        // FormFields for Test Data right here
+        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
+        
+        $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
+        $addExampleData->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_DATA_DESCRIPTION'));
+        $CMSFields->addFieldToTab('Root.General.TestData', $addExampleData);
+        
+        $spacer = new LiteralField('Spacer', '<br/><hr/><br/>');
+        $CMSFields->addFieldToTab('Root.General.TestData', $spacer);
+        
+        $addExampleConfig = new FormAction('addExampleConfig', _t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION', 'Add Example Configuration'));
+        $addExampleConfig->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION_DESCRIPTION'));
+        $CMSFields->addFieldToTab('Root.General.TestData', $addExampleConfig);
+        
         // FormFields for Interfaces right here
         $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
         // GeoNames

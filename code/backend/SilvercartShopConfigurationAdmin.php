@@ -87,6 +87,15 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $collection_controller_class = 'SilvercartShopConfigurationAdmin_CollectionController';
+    /**
+     * The record controller class to use for the shop configuration.
+     *
+     * @var string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public static $record_controller_class = 'SilvercartShopConfigurationAdmin_RecordController';
 
     public static $menu_priority = -1;
 
@@ -114,7 +123,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         parent::init();
         
         Requirements::css(CMS_DIR . '/css/WidgetAreaEditor.css');
-		Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
+        Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
     }
 }
 
@@ -172,4 +181,119 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
         }
     }
 
+}
+
+/**
+ * Modifies the model admin action handling and adds additional model admin
+ * actions to create test data and configuration.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 02.07.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_RecordController {
+    
+    /**
+     * Adds the abillity to execute additional actions to the model admin's
+     * action handling.
+     *
+     * @param SS_HTTPRequest $request
+     * 
+     * @return mixed
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public function handleAction(SS_HTTPRequest $request) {
+        $vars = $request->getVars();
+        if (array_key_exists('addExampleData', $vars)) {
+            return $this->addExampleData();
+        } elseif (array_key_exists('addExampleConfig', $vars)) {
+            return $this->addExampleConfig();
+        } else {
+            return parent::handleAction($request);
+        }
+        
+    }
+    
+    /**
+     * Adds example data to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public function addExampleData() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestData();
+        if ($result) {
+            $extraClass = 'addedExampleData';
+        } else {
+            $extraClass = 'exampleDataAlreadyAdded';
+        }
+        if ($this->currentRecord) {
+            if(Director::is_ajax()) {
+                $form = $this->EditForm();
+                $form->addExtraClass($extraClass);
+                return new SS_HTTPResponse(
+                    $form->forAjaxTemplate(), 
+                    200, 
+                    _t('SilvercartConfig.ADDED_EXAMPLE_DATA', "Added Example Data")
+                );
+            } else {
+                // This is really quite ugly; to fix will require a change in the way that customise() works. :-(
+                return $this->parentController->parentController->customise(array(
+                        'Right' => $this->parentController->parentController->customise(array(
+                                'EditForm' => $this->EditForm()
+                        ))->renderWith('ModelAdmin_right')
+                ))->renderWith(array('ModelAdmin','LeftAndMain'));
+                return ;
+            }
+        } else {
+            return _t('ModelAdmin.ITEMNOTFOUND', "I can't find that item");
+        }
+    }
+    
+    /**
+     * Adds example configuration to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public function addExampleConfig() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestConfiguration();
+        if ($result) {
+            $extraClass = 'addedExampleConfig';
+        } else {
+            $extraClass = 'exampleConfigAlreadyAdded';
+        }
+        if ($this->currentRecord) {
+            if(Director::is_ajax()) {
+                $form = $this->EditForm();
+                $form->addExtraClass($extraClass);
+                return new SS_HTTPResponse(
+                    $form->forAjaxTemplate(), 
+                    200, 
+                    _t('SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION', "Added Example Configuration")
+                );
+            } else {
+                // This is really quite ugly; to fix will require a change in the way that customise() works. :-(
+                return $this->parentController->parentController->customise(array(
+                        'Right' => $this->parentController->parentController->customise(array(
+                                'EditForm' => $this->EditForm()
+                        ))->renderWith('ModelAdmin_right')
+                ))->renderWith(array('ModelAdmin','LeftAndMain'));
+                return ;
+            }
+        } else {
+            return _t('ModelAdmin.ITEMNOTFOUND', "I can't find that item");
+        }
+    }
 }
