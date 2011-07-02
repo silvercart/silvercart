@@ -136,7 +136,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             $this->formFields['PaymentMethod']['selectedValue'] = $stepData['PaymentMethod'];
         } else {
             if (isset($allowedPaymentMethods) &&
-                $allowedPaymentMethods) {
+                $allowedPaymentMethods &&
+                $allowedPaymentMethods->Count() > 0) {
                 $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
             }
         }
