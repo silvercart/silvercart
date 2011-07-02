@@ -982,6 +982,9 @@ $lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updat
 $lang['en_GB']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets for the content area';
 $lang['en_GB']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets for the sidebar';
 
+$lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
+$lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
+
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_GB']['SilvercartZone']['COUNTRIES'] = 'Countries';

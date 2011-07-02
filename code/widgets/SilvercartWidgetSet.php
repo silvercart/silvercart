@@ -90,6 +90,24 @@ class SilvercartWidgetSet extends DataObject {
     );
     
     /**
+     * Constructor. We localize the static variables here.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     *                                  Alternatively, you can pass an array of
+     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+     *                                  don't have their defaults set.
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.07.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        self::$singular_name = _t('SilvercartWidgetSet.SINGULARNAME', 'Widget Set');
+        self::$plural_name = _t('SilvercartWidgetSet.PLURALNAME', 'Widget Sets');
+        parent::__construct($record, $isSingleton);
+    }
+    
+    /**
      * Returns the GUI fields for the storeadmin.
      * 
      * @param array $params Additional parameters
