@@ -882,7 +882,7 @@ $lang['en_GB']['SilvercartRegisterWelcomePage']['CONTENT'] = '<p>Thank you for r
 $lang['en_GB']['SilvercartRegisterWelcomePage']['PLURALNAME'] = 'Register Welcome pages';
 $lang['en_GB']['SilvercartRegisterWelcomePage']['SINGULARNAME'] = 'Register Welcome Page';
 
-$lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL'] = 'Activation mail';
+$lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TAB'] = 'Activationmail';
 $lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'Activation mail subject';
 $lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Activation mail text';
 $lang['en_GB']['SilvercartRegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Complete registration</h1><p>Please confirm your activation or copy the link to your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>';
