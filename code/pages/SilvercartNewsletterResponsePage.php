@@ -32,6 +32,8 @@
  * @since 22.03.2011
  */
 class SilvercartNewsletterResponsePage extends Page {
+    
+    public static $icon = "silvercart/images/page_icons/newsletter_status";
 
     /**
      * Defines the allowed children of this page.

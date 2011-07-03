@@ -37,6 +37,8 @@ class SilvercartTermsAndConditionsPage extends Page {
     public static $allowed_children = array(
         'none'
     );
+    
+    public static $icon = "silvercart/images/page_icons/termsofservice";
 
 }
 

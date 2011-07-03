@@ -34,6 +34,8 @@
 class SilvercartFrontPage extends Page {
 
     public static $singular_name = "front page";
+    
+    public static $icon = "silvercart/images/page_icons/silvercartlogo";
 
 }
 /**

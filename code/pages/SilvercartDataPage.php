@@ -36,6 +36,8 @@ class SilvercartDataPage extends SilvercartMyAccountHolder {
     public static $singular_name = "";
     public static $can_be_root = false;
     public static $allowed_children = array();
+    
+    public static $icon = "silvercart/images/page_icons/mydata";
 }
 
 /**

@@ -36,6 +36,8 @@
 class SilvercartMetaNavigationHolder extends Page {
 
     public static $singular_name = "Metanavigation";
+    
+    public static $icon = "silvercart/images/page_icons/meta_navi";
 
 }
 /**

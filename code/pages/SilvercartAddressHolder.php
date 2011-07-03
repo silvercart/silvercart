@@ -38,6 +38,8 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
     public static $allowed_children = array(
         "SilvercartAddressPage"
     );
+    
+    public static $icon = "silvercart/images/page_icons/address_overview";
 
     /**
      * Return all fields of the backend

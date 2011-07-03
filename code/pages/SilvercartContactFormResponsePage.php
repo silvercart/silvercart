@@ -37,6 +37,8 @@ class SilvercartContactFormResponsePage extends Page {
     public static $allowed_children = array(
         'none'
     );
+    
+    public static $icon = "silvercart/images/page_icons/contact_confirmation";
 
 }
 

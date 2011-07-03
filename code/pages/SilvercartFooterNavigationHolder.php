@@ -34,6 +34,8 @@
 class SilvercartFooterNavigationHolder extends Page {
 
     public static $singular_name = "";
+    
+    public static $icon = "silvercart/images/page_icons/footer_navi";
 
 }
 

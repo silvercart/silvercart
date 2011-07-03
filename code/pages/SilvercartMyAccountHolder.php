@@ -39,6 +39,8 @@ class SilvercartMyAccountHolder extends Page {
         "SilvercartOrderHolder",
         "SilvercartAddressHolder"
     );
+    
+    public static $icon = "silvercart/images/page_icons/myaccount";
 
     /**
      * manipulates the Breadcrumbs

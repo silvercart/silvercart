@@ -37,6 +37,7 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
     public static $allowed_children = array(
         'SilvercartContactFormResponsePage'
     );
+    public static $icon = "silvercart/images/page_icons/contact";
 
 }
 

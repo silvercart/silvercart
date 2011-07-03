@@ -33,6 +33,8 @@
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
+    public static $icon = "silvercart/images/page_icons/checkout";
+    
 }
 
 /**

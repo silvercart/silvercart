@@ -44,6 +44,8 @@ class SilvercartNewsletterPage extends SilvercartMetaNavigationHolder {
     public static $allowed_children = array(
         'SilvercartNewsletterResponsePage'
     );
+    
+    public static $icon = "silvercart/images/page_icons/newsletter";
 }
 
 

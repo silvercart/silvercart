@@ -37,6 +37,8 @@ class SilvercartSearchResultsPage extends Page {
     public static $allowed_children = array(
         'none'
     );
+    
+    public static $icon = "silvercart/images/page_icons/search";
 
     /**
      * Attributes.
