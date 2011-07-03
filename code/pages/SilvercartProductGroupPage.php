@@ -72,6 +72,8 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public static $can_be_root = false;
+    
+    public static $icon = "silvercart/images/page_icons/product_group";
 
     /**
      * Attributes.

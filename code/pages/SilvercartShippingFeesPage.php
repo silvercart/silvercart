@@ -36,6 +36,8 @@ class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
     public static $allowed_children = array(
         'none'
     );
+    
+    public static $icon = "silvercart/images/page_icons/shipping_fees";
 }
 
 /**

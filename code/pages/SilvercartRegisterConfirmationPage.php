@@ -39,6 +39,8 @@ class SilvercartRegisterConfirmationPage extends Page {
         'ConfirmationSuccessMessage' => 'HTMLText',
         'AlreadyConfirmedMessage' => 'HTMLText'
     );
+    
+    public static $icon = "silvercart/images/page_icons/registration_confirmation";
 
     /**
      * Return all fields of the backend

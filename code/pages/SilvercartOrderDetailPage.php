@@ -35,6 +35,8 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
 
     public static $singular_name = "";
     public static $can_be_root = false;
+    
+    public static $icon = "silvercart/images/page_icons/order_details";
 
     /**
      * configure the class name of the DataObjects to be shown on this page

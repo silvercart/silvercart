@@ -32,6 +32,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPaymentNotification extends Page {
+    
+    public static $icon = "silvercart/images/page_icons/payment_notification";
 
 }
 

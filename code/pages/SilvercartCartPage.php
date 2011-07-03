@@ -34,6 +34,8 @@
 class SilvercartCartPage extends Page {
 
     public static $singular_name = "cart page";
+    
+    public static $icon = "silvercart/images/page_icons/cart";
 
 }
 

@@ -38,6 +38,8 @@ class SilvercartOrderHolder extends SilvercartMyAccountHolder {
     public static $allowed_children = array(
         "SilvercartOrderDetailPage"
     );
+    
+    public static $icon = "silvercart/images/page_icons/orders";
 
 }
 

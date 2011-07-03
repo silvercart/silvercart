@@ -41,6 +41,8 @@ class SilvercartRegistrationPage extends Page {
     );
     public static $defaults = array(
     );
+    
+    public static $icon = "silvercart/images/page_icons/registration";
 
     /**
      * Constructor
