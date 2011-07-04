@@ -131,14 +131,16 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public static $db = array(
-        'isActive'                  => 'Boolean',
-        'minAmountForActivation'    => 'Float',
-        'maxAmountForActivation'    => 'Float',
-        'Name'                      => 'Varchar(150)',
-        'paymentDescription'        => 'Text',
-        'mode'                      => "Enum('Live,Dev','Dev')",
-        'orderStatus'               => 'Varchar(50)',
-        'showPaymentLogos'          => 'Boolean',
+        'isActive'                              => 'Boolean',
+        'minAmountForActivation'                => 'Float',
+        'maxAmountForActivation'                => 'Float',
+        'Name'                                  => 'Varchar(150)',
+        'paymentDescription'                    => 'Text',
+        'mode'                                  => "Enum('Live,Dev','Dev')",
+        'orderStatus'                           => 'Varchar(50)',
+        'showPaymentLogos'                      => 'Boolean',
+        'orderRestrictionMinQuantity'           => 'Int',
+        'enableActivationByOrderRestrictions'   => 'Boolean'
     );
     /**
      * Defines 1:1 relations
@@ -180,7 +182,8 @@ class SilvercartPaymentMethod extends DataObject {
         'ShowOnlyForGroups'         => 'Group',
         'ShowNotForGroups'          => 'Group',
         'ShowOnlyForUsers'          => 'Member',
-        'ShowNotForUsers'           => 'Member'
+        'ShowNotForUsers'           => 'Member',
+        'OrderRestrictionStatus'    => 'SilvercartOrderStatus'
     );
     /**
      * Defines m:n relations
@@ -957,6 +960,16 @@ class SilvercartPaymentMethod extends DataObject {
         $tabAccessManagement = new Tab('AccessManagement', _t('SilvercartPaymentMethod.ACCESS_SETTINGS', 'Access management'));
         $tabset->push($tabAccessManagement);
         
+        $tabsetAccessManagement = new TabSet('AccessManagementSection');
+        $tabAccessManagement->push($tabsetAccessManagement);
+        
+        $tabAccessManagementBasic = new Tab('AccessManagementBasic', _t('SilvercartPaymentMethod.ACCESS_MANAGEMENT_BASIC_LABEL', 'General'));
+        $tabAccessManagementGroup = new Tab('AccessManagementGroup', _t('SilvercartPaymentMethod.ACCESS_MANAGEMENT_GROUP_LABEL', 'By group(s)'));
+        $tabAccessManagementUser  = new Tab('AccessManagementUser',  _t('SilvercartPaymentMethod.ACCESS_MANAGEMENT_USER_LABEL', 'By user(s)'));
+        $tabsetAccessManagement->push($tabAccessManagementBasic);
+        $tabsetAccessManagement->push($tabAccessManagementGroup);
+        $tabsetAccessManagement->push($tabAccessManagementUser);
+        
         $showOnlyForGroupsTable = new ManyManyComplexTableField(
             $this,
             'ShowOnlyForGroups',
@@ -988,19 +1001,55 @@ class SilvercartPaymentMethod extends DataObject {
         );
         $showNotForUsersTable->setPermissions(array('show'));
         
-        $tabAccessManagement->setChildren(
-            new FieldSet(
-                new HeaderField('ShowOnlyForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_GROUPS_LABEL'), 2),
-                $showOnlyForGroupsTable,
-                new HeaderField('ShowNotForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_GROUPS_LABEL'), 2),
-                $showNotForGroupsTable,
-                new HeaderField('ShowOnlyForUsersLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_USERS_LABEL'), 2),
-                $showOnlyForUsersTable,
-                new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL'), 2),
-                $showNotForUsersTable
+        $restrictionByOrderQuantityField = new TextField('orderRestrictionMinQuantity', '');
+        $restrictionByOrderStatusField   = new ManyManyComplexTableField(
+            $this,
+            'OrderRestrictionStatus',
+            'SilvercartOrderStatus'
+        );
+        
+        // Access management basic --------------------------------------------
+        $tabAccessManagementBasic->push(
+            new HeaderField('RestrictionLabel', _t('SilvercartPaymentMethod.RESTRICTION_LABEL').':', 2)
+        );
+        $tabAccessManagementBasic->push(new LiteralField('separatorForActivationByOrderRestrictions', '<hr />'));
+        $tabAccessManagementBasic->push(
+            new CheckboxField(
+                'enableActivationByOrderRestrictions',
+                _t('SilvercartPaymentMethod.ENABLE_RESTRICTION_BY_ORDER_LABEL')
             )
         );
-
+        $tabAccessManagementBasic->push(
+            new LiteralField('RestrictionByOrderQuantityLabel', '<p>'._t('SilvercartPaymentMethod.RESTRICT_BY_ORDER_QUANTITY').':</p>')
+        );
+        $tabAccessManagementBasic->push($restrictionByOrderQuantityField);
+        $tabAccessManagementBasic->push(
+            new LiteralField('RestrictionByOrderStatusLabel', '<p>'._t('SilvercartPaymentMethod.RESTRICT_BY_ORDER_STATUS').':</p>')
+        );
+        $tabAccessManagementBasic->push(
+            $restrictionByOrderStatusField
+        );
+        
+        // Access management for groups ---------------------------------------
+        $tabAccessManagementGroup->push(
+            new HeaderField('ShowOnlyForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_GROUPS_LABEL').':', 2)
+        );
+        $tabAccessManagementGroup->push($showOnlyForGroupsTable);
+        $tabAccessManagementGroup->push(
+            new HeaderField('ShowNotForGroupsLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_GROUPS_LABEL').':', 2)
+        );
+        $tabAccessManagementGroup->push($showNotForGroupsTable);
+        
+        // Access management for users ----------------------------------------
+        $tabAccessManagementUser->push(
+            new HeaderField('ShowOnlyForUsersLabel', _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_USERS_LABEL').':', 2)
+        );
+        $tabAccessManagementUser->push($showOnlyForUsersTable);
+        $tabAccessManagementUser->push(
+            new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL').':', 2)
+        );
+        $tabAccessManagementUser->push($showNotForUsersTable);
+        
         return new FieldSet($tabset);
     }
 

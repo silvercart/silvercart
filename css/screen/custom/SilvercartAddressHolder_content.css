@@ -1,6 +1,7 @@
 .silvercart-address {
-    background: #fafafa;
-    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background:                     #fafafa;
+    -moz-box-shadow:                0 0 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow:             0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow:                     0 0 5px rgba(0, 0, 0, 0.3);
+    border:                         1px #bbb solid;
 }
