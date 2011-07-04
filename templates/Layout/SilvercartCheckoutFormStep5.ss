@@ -7,27 +7,21 @@
     <div class="subcolumns">
         <div class="c50l">
             <div class="subcl">
-                <fieldset>
-                    <legend><% _t('SilvercartAddressHolder.SHIPPINGADDRESS') %></legend>
-                    <% control AddressData %>
-                        <% control SilvercartShippingAddress %>
-                            <% include SilvercartShippingAddressTable %>
-                        <% end_control %>
+                <% control AddressData %>
+                    <% control SilvercartShippingAddress %>
+                        <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
-                </fieldset>
+                <% end_control %>
             </div>
         </div>
 
         <div class="c50r">
             <div class="subcr">
-                <fieldset>
-                    <legend><% _t('SilvercartAddressHolder.INVOICEADDRESS') %></legend>
-                    <% control AddressData %>
-                        <% control SilvercartInvoiceAddress %>
-                            <% include SilvercartInvoiceAddressTable %>
-                        <% end_control %>
+                <% control AddressData %>
+                    <% control SilvercartInvoiceAddress %>
+                        <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
-                </fieldset>
+                <% end_control %>
             </div>
         </div>
     </div>

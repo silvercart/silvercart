@@ -10,7 +10,7 @@
             <td>$Created.Nice</td>
         </tr>
         <tr>
-            <td><strong><% _t('SilvercartOrder.PAYMENTMETHODTITLE','Payment method') %></strong></td>
+            <td><% _t('SilvercartOrder.PAYMENTMETHODTITLE','Payment method') %></td>
             <td>$PaymentMethodTitle</td>
         </tr>
         <tr>
@@ -38,16 +38,18 @@
     </table>
 <div class="subcolumns">
     <div class="c50l">
-        <h3><% _t('SilvercartOrderShippingAddress.SINGULARNAME','Order shipping address') %></h3>
-        <% control SilvercartShippingAddress %>
-            <% include SilvercartAddressTable %>
-        <% end_control %>
+        <div class="subcl">
+            <% control SilvercartInvoiceAddress %>
+                <% include SilvercartAddressDetailReadOnly %>
+            <% end_control %>
+        </div>
     </div>
     <div class="c50r">
-        <h3><% _t('SilvercartOrderInvoiceAddress.SINGULARNAME','Order invoice address') %></h3>
-        <% control SilvercartInvoiceAddress %>
-            <% include SilvercartAddressTable %>
-        <% end_control %>
+        <div class="subcr">
+            <% control SilvercartShippingAddress %>
+                <% include SilvercartAddressDetailReadOnly %>
+            <% end_control %>
+        </div>
     </div>
 </div>
 <h3><% _t('SilvercartOrderPosition.PLURALNAME','Order positions') %></h3>

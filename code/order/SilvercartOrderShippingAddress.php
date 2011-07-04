@@ -35,5 +35,16 @@
 class SilvercartOrderShippingAddress extends SilvercartOrderAddress {
     public static $singular_name = "order shipping address";
     public static $plural_name = "order shipping addresses";
+    
+    /**
+     * Indicates that this is the shipping address.
+     * 
+     * @return boolean
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     */
+    public function isShippingAddress() {
+        return true;
+    }
 }
 

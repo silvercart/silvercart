@@ -192,8 +192,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         );
 
         if ($shippingCountry) {
-            $shippingAddress['country'] = $shippingCountry;
-            $shippingAddress['SilvercartCountry'] = $shippingCountry;
+            $shippingAddress['country']             = $shippingCountry;
+            $shippingAddress['SilvercartCountry']   = $shippingCountry;
+            $shippingAddress['isShippingAddress']   = true;
         }
 
         $invoiceCountry = DataObject::get_by_id(
@@ -202,14 +203,15 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         );
 
         if ($invoiceCountry) {
-            $invoiceAddress['country'] = $invoiceCountry;
-            $invoiceAddress['SilvercartCountry'] = $invoiceCountry;
+            $invoiceAddress['country']              = $invoiceCountry;
+            $invoiceAddress['SilvercartCountry']    = $invoiceCountry;
+            $invoiceAddress['isInvoiceAddress']     = true;
         }
 
         $addressData = new ArrayData(
             array(
                 'SilvercartShippingAddress' => $shippingAddress,
-                'SilvercartInvoiceAddress' => $invoiceAddress
+                'SilvercartInvoiceAddress'  => $invoiceAddress
             )
         );
         return $addressData;

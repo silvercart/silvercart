@@ -184,6 +184,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
         $output = $this->owner->customise($elements)->renderWith(
             array(
                 $this->getProductGroupPageTemplateName(),
+                'Includes/'.$this->getProductGroupPageTemplateName()
             )
         );
         return $output;

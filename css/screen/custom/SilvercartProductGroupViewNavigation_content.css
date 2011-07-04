@@ -1,10 +1,10 @@
-.silvercart-pagination {
-    font-size:                      11px;
+.silvercart-product-group-holder-toolbar ul {
+    list-style:                     none;
 }
 
-/* Links to result pages --------------------------------------------------- */
+/* Links to group views ---------------------------------------------------- */
 
-.silvercart-pagination-link a {
+.silvercart-group-view-link a {
     text-align:                     center;
     color:                          #444;
     background:                     #d9d9d9;
@@ -16,7 +16,7 @@
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
-.silvercart-pagination-link a:hover {
+.silvercart-group-view-link a:hover {
     text-decoration:                none;
     color:                          #333;
     background-color:               #cecece;
@@ -26,9 +26,9 @@
     border-color:                   #888;
 }
 
-/* Marker for the current active page -------------------------------------- */
+/* Marker for the current active group view -------------------------------- */
 
-.silvercart-pagination-marker strong {
+.silvercart-group-view-marker strong {
     font-weight:                    normal;
     text-align:                     center;
     color:                          #0f517b;

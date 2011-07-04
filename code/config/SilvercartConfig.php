@@ -40,8 +40,34 @@
  */
 class SilvercartConfig extends DataObject {
 
+    /**
+     * Singular name for the backend..
+     *
+     * @var string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
     public static $singular_name = "General configuration";
+    
+    /**
+     * Plural name for the backend..
+     *
+     * @var string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
     public static $plural_name = "General configurations";
+    
+    /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
     public static $db = array(
         'SilvercartVersion' => 'VarChar(16)',
         'SilvercartUpdateVersion' => 'VarChar(16)',
@@ -62,6 +88,19 @@ class SilvercartConfig extends DataObject {
         'minimumOrderValue' => 'Money',
         'useMinimumOrderValue' => 'Boolean(0)'
     );
+    
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public static $has_one = array(
+        'SilvercartNoImage' => 'Image'
+    );
+    
     public static $defaults = array(
         'SilvercartVersion' => '1.0',
         'SilvercartUpdateVersion' => '2',
@@ -494,6 +533,20 @@ class SilvercartConfig extends DataObject {
         return self::$config;
     }
 
+    /**
+     * Returns the default no-image visualisation.
+     * 
+     * @return mixed Image|bool false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public static function getNoImage() {
+        $configObject = self::getConfig();
+        
+        return $configObject->SilvercartNoImage();
+    }
+    
     /**
      * Diplays an error rendered with Silvercart's error template.
      *

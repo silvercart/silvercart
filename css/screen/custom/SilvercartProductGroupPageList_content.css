@@ -1,0 +1,14 @@
+.silvercart-product-group-page-box {
+    border-bottom:                  1px #ddd solid;
+}
+.silvercart-product-group-page-box.last {
+    border-bottom:                  none;
+}
+.silvercart-product-group-page-box form.yform {
+    border:                         none;
+    background:                     none;
+}
+.silvercart-product-group-page-box form.yform fieldset {
+    border:                         none;
+    background:                     none;
+}

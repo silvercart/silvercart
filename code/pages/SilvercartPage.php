@@ -96,6 +96,25 @@ class SilvercartPage extends SiteTree {
 
         return $fields;
     }
+    
+    /**
+     * Returns the generic image for products without an own image. If none is
+     * defined, boolean false is returned.
+     *
+     * @return mixed Image|bool false
+     * 
+     * @author Sascha koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public function SilvercartNoImage() {
+        $noImageObj = SilvercartConfig::getNoImage();
+        
+        if ($noImageObj) {
+            return $noImageObj;
+        }
+        
+        return false;
+    }
 }
 
 /**
@@ -148,7 +167,7 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->loadWidgetControllers();
-                
+        
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             Requirements::block('cms/css/layout.css');
             Requirements::block('cms/css/typography.css');
@@ -180,7 +199,11 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartProductGroupPageList_layout');
         Requirements::themedCSS('SilvercartProductGroupPageList_content');
         Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_content');        
+        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
+        Requirements::themedCSS('SilvercartProductGroupViewNavigation_layout');
+        Requirements::themedCSS('SilvercartProductGroupViewNavigation_content');
+        Requirements::themedCSS('SilvercartProductGroupPageControls_layout');
+        Requirements::themedCSS('SilvercartProductGroupPageControls_content');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");

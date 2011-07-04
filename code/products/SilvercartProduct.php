@@ -162,8 +162,17 @@ class SilvercartProduct extends DataObject {
         'SilvercartOrders'                => 'SilvercartOrder'
     );
     
+    /**
+     * Casting.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.06.2011
+     */
     public static $casting = array(
-        'isActiveString' => 'VarChar(8)',
+        'isActiveString'        => 'VarChar(8)'
     );
 
     // -----------------------------------------------------------------------
@@ -1013,7 +1022,7 @@ class SilvercartProduct extends DataObject {
      * @since 12.04.2011
      */
     public function NoImage() {
-        $image = '';
+        $image = 'silvercart/images/noimage.png';
 
         $this->extend('updateNoImage', $image);
 
@@ -1030,11 +1039,49 @@ class SilvercartProduct extends DataObject {
      * @since 12.04.2011
      */
     public function NoImageSmall() {
-        $image = '';
+        $image = 'silvercart/images/noimage.png';
 
         $this->extend('updateNoImageSmall', $image);
 
         return $image;
+    }
+    
+    /**
+     * Returns a DataObjectSet of attributed images. If there are no images
+     * attributed the method checks if there's a standard no-image
+     * visualitation defined in SilvercartConfig and returns the defined image
+     * as DataObjectSet. As last resort boolean false is returned.
+     *
+     * @return mixed DataObjectSet|bool false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.06.2011
+     */
+    public function getSilvercartImages() {
+        $images = $this->SilvercartImages();
+        
+        if ($images->Count() > 0) {
+            return $images;
+        } else {
+            $noImageObj = Controller::curr()->SilvercartNoImage();
+            
+            if ($noImageObj) {
+                $noImageObj->setField('Title', 'No Image');
+                
+                $silvercartImageObj = new SilvercartImage();
+                $silvercartImageObj->setField('ProductLink', $this->Link());
+                $silvercartImageObj->Image = $noImageObj;
+                
+                return new DataObjectSet(
+                    array(
+                        'Images' => $silvercartImageObj
+                    )
+                );
+            }
+        }
+        
+        return false;
     }
 }
 

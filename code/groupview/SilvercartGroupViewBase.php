@@ -62,20 +62,10 @@ class SilvercartGroupViewBase extends DataObject {
      */
     public function  __construct($record = null, $isSingleton = null) {
         parent::__construct($record, $isSingleton);
-        global $project;
+        
         $this->preferences = $this->preferences();
-        if (!array_key_exists('image', $this->preferences)
-         || empty ($this->preferences['image'])) {
-            if (is_file(Director::baseFolder() . '/' . $project . '/images/icons/32x32_group_view_' . $this->preferences['code'] . '.png')) {
-                $this->preferences['image'] = '/' . $project . '/images/icons/32x32_group_view_' . $this->preferences['code'] . '.png';
-            } elseif (is_file(Director::baseFolder() . '/silvercart/images/icons/32x32_group_view_' . $this->preferences['code'] . '.png')) {
-                $this->preferences['image'] = '/silvercart/images/icons/32x32_group_view_' . $this->preferences['code'] . '.png';
-            } else {
-                $this->preferences['image'] = '';
-            }
-        }
+        
         $this->setCode($this->preferences['code']);
-        $this->setImage($this->preferences['image']);
         $this->setLabel($this->preferences['label']);
     }
 
@@ -117,7 +107,27 @@ class SilvercartGroupViewBase extends DataObject {
      *
      * @return string
      */
-    public function getImage() {
+    public function Image() {
+        global $project;
+
+        if (!$this->Image) {
+            if ($this->isActive()) {
+                $highlightStatus = 'active';
+            } else {
+                $highlightStatus = 'inactive';
+            }
+
+            if (is_file(Director::baseFolder() . '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
+                $this->preferences['image'] = '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+            } elseif (is_file(Director::baseFolder() . '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
+                $this->preferences['image'] = '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+            } else {
+                $this->preferences['image'] = '';
+            }
+
+            $this->setImage($this->preferences['image']);
+        }
+        
         return $this->Image;
     }
 

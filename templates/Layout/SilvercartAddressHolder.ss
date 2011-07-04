@@ -40,32 +40,14 @@
         <div class="c50l">
             <div class="subcl">
                     <% control SilvercartInvoiceAddress %>
-                <div class="silvercart-address">
-                    <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></strong><br/>
-                    $SalutaionText $FirstName $Surname<br/>
-                    $Street $StreetNumber<br/>
-                    $Postcode $City<br/>
-                    $SilvercartCountry.Title<br/>
-                    <% if Phone %>
-                    <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
-                    <% end_if %>
-                </div>
+                        <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
             </div>
         </div>
         <div class="c50r">
             <div class="subcr">
                     <% control SilvercartShippingAddress %>
-                <div class="silvercart-address">
-                    <strong><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong><br/>
-                    $SalutaionText $FirstName $Surname<br/>
-                    $Street $StreetNumber<br/>
-                    $Postcode $City<br/>
-                    $SilvercartCountry.Title<br/>
-                    <% if Phone %>
-                    <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
-                    <% end_if %>
-                </div>
+                        <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
             </div>
         </div>
