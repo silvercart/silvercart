@@ -534,6 +534,96 @@ class SilvercartPaymentMethod extends DataObject {
 
         return new DataObjectSet($errorList);
     }
+    
+    /**
+     * Returns allowed shipping methods.
+     * 
+     * @param string $shippingCountry The SilvercartCountry to check the
+     *                                payment methods for.
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.07.2011
+     */
+    public static function getAllowedPaymentMethodsFor($shippingCountry) {
+        $allowedPaymentMethods  = array();
+        
+        if (!$shippingCountry) {
+            return $allowedPaymentMethods;
+        }
+        
+        $paymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
+        $member         = Member::currentUser();
+        
+        if ($paymentMethods) {
+            foreach ($paymentMethods as $paymentMethod) {
+                $assumePaymentMethod    = true;
+                $containedInGroup       = false;
+                $containedInUsers       = false;
+                
+                // Check if access for groups or is set positively
+                if ($paymentMethod->ShowOnlyForGroups()->Count() > 0) {
+                    foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
+                        if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                            $containedInGroup = true;
+                            break;
+                        }
+                    }
+                    
+                    if ($containedInGroup) {
+                        $assumePaymentMethod = true;
+                    } else {
+                        $assumePaymentMethod = false;
+                    }
+                }
+                
+                // Check if access for users or is set positively
+                if ($paymentMethod->ShowOnlyForUsers()->Count() > 0) {
+                    if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
+                        $containedInUsers = true;
+                    }
+                    
+                    if ($containedInUsers) {
+                        $assumePaymentMethod = true;
+                    } else {
+                        if (!$containedInGroup) {
+                            $assumePaymentMethod = false;
+                        }
+                    }
+                }
+                
+                // Check if access for groups is set negatively
+                if ($paymentMethod->ShowNotForGroups()->Count() > 0) {
+                    foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
+                        if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                            if (!$containedInUsers) {
+                                $assumePaymentMethod = false;
+                            }
+                        }
+                    }
+                }
+                
+                // Check if access for users is set negatively
+                if ($paymentMethod->ShowNotForUsers()->Count() > 0) {
+                    if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
+                        if (!$containedInUsers) {
+                            $assumePaymentMethod = false;
+                        }
+                    }
+                }
+                
+                if ($assumePaymentMethod) {
+                    $allowedPaymentMethods[] = $paymentMethod;
+                }
+            }
+        }
+        
+        $allowedPaymentMethods = new DataObjectSet($allowedPaymentMethods);
+        
+        return $allowedPaymentMethods;
+    }
 
     /**
      * Returns allowed shipping methods. Those are

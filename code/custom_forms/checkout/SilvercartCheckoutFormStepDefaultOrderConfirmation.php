@@ -48,6 +48,7 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm 
         $this->preferences['stepIsVisible']                    = false;
         $this->preferences['ShowCustomHtmlFormStepNavigation'] = false;
         $this->preferences['createShoppingcartForms']          = false;
+        $this->preferences['doJsValidationScrolling']          = false;
 
         parent::preferences();
     }

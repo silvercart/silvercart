@@ -661,6 +661,7 @@ $lang['en_GB']['SilvercartOrder']['CUSTOMER'] = 'Customer';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
 $lang['en_GB']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Payment handling costs';
 $lang['en_GB']['SilvercartOrder']['HANDLINGCOSTSHIPMENT'] = 'Shipping handling costs';
+$lang['en_GB']['SilvercartOrder']['INCLUDED_SHIPPINGRATE'] = 'Included shipping rate';
 $lang['en_GB']['SilvercartOrder']['NOTE'] = 'Note';
 $lang['en_GB']['SilvercartOrder']['ORDER_ID'] = 'Order number';
 $lang['en_GB']['SilvercartOrder']['ORDERNUMBER'] = 'Order number';

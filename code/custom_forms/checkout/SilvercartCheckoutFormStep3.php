@@ -124,7 +124,10 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             if ($stepData['Shipping_Country'] != "") {
                 $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
                 if ($shippingCountry) {
-                    $allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
+                    //$allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
+                    
+                    $allowedPaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry);
+                    
                     if ($allowedPaymentMethods) {
                         $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name');
                     }

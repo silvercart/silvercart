@@ -252,11 +252,11 @@ class SilvercartCountry extends DataObject {
         $fields->removeByName('SilvercartZones');
 
         $paymentMethodsTable = new ManyManyComplexTableField(
-                        $this,
-                        'SilvercartPaymentMethods',
-                        'SilvercartPaymentMethod',
-                        null,
-                        'getCmsFields_forPopup'
+            $this,
+            'SilvercartPaymentMethods',
+            'SilvercartPaymentMethod',
+            null,
+            'getCmsFields_forPopup'
         );
         $paymentMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.TITLE', 'payment method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
