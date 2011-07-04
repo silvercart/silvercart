@@ -1,26 +1,4 @@
 
-<script language="javascript">
-    $(document).ready(function(){
-        $('#silvercart-add-address-link').click(function(event) {
-            toggleAddAddressForm(event);
-        });
-        $('#silvercart-add-address-form-cancel-id').click(function(event) {
-            toggleAddAddressForm(event);
-        });
-    });
-    
-    function toggleAddAddressForm(event) {
-        event.preventDefault();
-        $('#silvercart-add-address-form').slideToggle('slow', function() {
-            if ($(this).is(':visible')) {
-                $('#silvercart-add-address-link').fadeOut();
-            } else {
-                $('#silvercart-add-address-link').fadeIn();
-            }
-        });
-    }
-</script>
-
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
@@ -59,6 +37,7 @@
                 $insertCustomHtmlForm(SilvercartAddAddressForm)
             </div>
             <a href="{$Link}addNewAddress" class="silvercart-icon-with-text-button big add16" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+            <% require javascript(silvercart/script/SilvercartAddressHolder.js) %>
             
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>

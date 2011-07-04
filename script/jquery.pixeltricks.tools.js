@@ -119,18 +119,24 @@ function toggleShippingAddressSection(definition) {
  * @since 13.03.2011
  */
 function deactivateShippingAddressValidation() {
-    with(SilvercartCheckoutFormStep2_customHtmlFormSubmit_1) {
-        deactivateValidationFor('Shipping_Salutation');
-        deactivateValidationFor('Shipping_FirstName');
-        deactivateValidationFor('Shipping_Surname');
-        deactivateValidationFor('Shipping_Addition');
-        deactivateValidationFor('Shipping_Street');
-        deactivateValidationFor('Shipping_StreetNumber');
-        deactivateValidationFor('Shipping_Postcode');
-        deactivateValidationFor('Shipping_City');
-        deactivateValidationFor('Shipping_PhoneAreaCode');
-        deactivateValidationFor('Shipping_Phone');
-        deactivateValidationFor('Shipping_Country');
+    if (typeof(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) !== 'undefined') {
+        with(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) {
+            deactivateValidationFor('Shipping_Salutation');
+            deactivateValidationFor('Shipping_FirstName');
+            deactivateValidationFor('Shipping_Surname');
+            deactivateValidationFor('Shipping_Addition');
+            deactivateValidationFor('Shipping_Street');
+            deactivateValidationFor('Shipping_StreetNumber');
+            deactivateValidationFor('Shipping_Postcode');
+            deactivateValidationFor('Shipping_City');
+            deactivateValidationFor('Shipping_PhoneAreaCode');
+            deactivateValidationFor('Shipping_Phone');
+            deactivateValidationFor('Shipping_Country');
+        }
+    } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
+        with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
+            deactivateValidationFor('ShippingAddress');
+        }
     }
 }
 
@@ -144,18 +150,24 @@ function deactivateShippingAddressValidation() {
  * @since 13.03.2011
  */
 function activateShippingAddressValidation() {
-    with(SilvercartCheckoutFormStep2_customHtmlFormSubmit_1) {
-        activateValidationFor('Shipping_Salutation');
-        activateValidationFor('Shipping_FirstName');
-        activateValidationFor('Shipping_Surname');
-        activateValidationFor('Shipping_Addition');
-        activateValidationFor('Shipping_Street');
-        activateValidationFor('Shipping_StreetNumber');
-        activateValidationFor('Shipping_Postcode');
-        activateValidationFor('Shipping_City');
-        activateValidationFor('Shipping_PhoneAreaCode');
-        activateValidationFor('Shipping_Phone');
-        activateValidationFor('Shipping_Country');
+    if (typeof(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) !== 'undefined') {
+        with(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) {
+            activateValidationFor('Shipping_Salutation');
+            activateValidationFor('Shipping_FirstName');
+            activateValidationFor('Shipping_Surname');
+            activateValidationFor('Shipping_Addition');
+            activateValidationFor('Shipping_Street');
+            activateValidationFor('Shipping_StreetNumber');
+            activateValidationFor('Shipping_Postcode');
+            activateValidationFor('Shipping_City');
+            activateValidationFor('Shipping_PhoneAreaCode');
+            activateValidationFor('Shipping_Phone');
+            activateValidationFor('Shipping_Country');
+        }
+    } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
+        with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
+            activateValidationFor('ShippingAddress');
+        }
     }
 }
 

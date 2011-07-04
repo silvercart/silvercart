@@ -8,7 +8,7 @@
         <div class="c50l">
             <div class="subcl">
                 <% control AddressData %>
-                    <% control SilvercartShippingAddress %>
+                    <% control SilvercartInvoiceAddress %>
                         <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
                 <% end_control %>
@@ -18,7 +18,7 @@
         <div class="c50r">
             <div class="subcr">
                 <% control AddressData %>
-                    <% control SilvercartInvoiceAddress %>
+                    <% control SilvercartShippingAddress %>
                         <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
                 <% end_control %>

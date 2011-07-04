@@ -245,6 +245,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['CONTINUE_WITH_CHEC
 $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] = 'Nach der Aktivierung Ihres Benutzerkontos erhalten Sie einen Link, um mit Ihrem Einkauf fortzufahren.';
 $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Weiter';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--Land--';
+$lang['de_DE']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'Die von Ihnen gewählte Adresse konnte nicht gefunden werden.';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Liefer- & Rechnungsdaten';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Zahlungsinformationen';

@@ -247,6 +247,7 @@ $lang['en_GB']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Continu
 $lang['en_GB']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--country--';
 $lang['en_GB']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
 $lang['en_GB']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
+$lang['en_GB']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'The given address could not be found.';
 $lang['en_GB']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Please choose your prefered payment method:';
 $lang['en_GB']['SilvercartCheckoutFormStep3']['TITLE'] = 'Payment';
 $lang['en_GB']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';

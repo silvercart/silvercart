@@ -181,6 +181,8 @@ class SilvercartPage_Controller extends ContentController {
         }
         Requirements::themedCSS('SilvercartAddressHolder_layout');
         Requirements::themedCSS('SilvercartAddressHolder_content');
+        Requirements::themedCSS('SilvercartCheckout_layout');
+        Requirements::themedCSS('SilvercartCheckout_content');
         Requirements::themedCSS('SilvercartGeneral_layout');
         Requirements::themedCSS('SilvercartGeneral_content');
         Requirements::themedCSS('SilvercartHeaderbar_layout');

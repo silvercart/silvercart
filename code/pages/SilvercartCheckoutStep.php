@@ -185,16 +185,16 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Fügt den Versandadressdaten ein Präfix hinzu.
+     * Removes a prefix from a checkout address data array.
      *
-     * @param string $prefix Präfix
-     * @param array  $data   Extrahiert die Versandadressdaten aus den Checkout-daten.
+     * @param string $prefix Prefix
+     * @param array  $data   Checkout address data
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 05.01.2011
+     * @since 04.07.2011
      */
     public function extractAddressDataFrom($prefix, $data) {
         $addressData = array();
@@ -216,6 +216,45 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             foreach ($shippingDataFields as $shippingFieldName => $dataFieldName) {
                 if (isset($data[$shippingFieldName])) {
                     $addressData[$dataFieldName] = $data[$shippingFieldName];
+                }
+            }
+        }
+
+        return $addressData;
+    }
+
+    /**
+     * Adds a prefix to a plain address data array.
+     *
+     * @param string $prefix Prefix
+     * @param array  $data   Plain address data
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2011
+     */
+    public function joinAddressDataTo($prefix, $data) {
+        $addressData = array();
+        $checkoutDataFields = array(
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Country'          => 'CountryID',
+            $prefix.'_Country'          => 'SilvercartCountryID',
+        );
+        
+        if (is_array($data)) {
+            foreach ($checkoutDataFields as $checkoutFieldName => $dataFieldName) {
+                if (isset($data[$dataFieldName])) {
+                    $addressData[$checkoutFieldName] = $data[$dataFieldName];
                 }
             }
         }

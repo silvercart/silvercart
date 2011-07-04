@@ -1,0 +1,9 @@
+
+.equalize .silvercart-address-radiofield,
+.silvercart-address-radiofield {
+    text-align: right;
+    vertical-align: middle;
+}
+.silvercart-address-radiofield input {
+    float: right;
+}
