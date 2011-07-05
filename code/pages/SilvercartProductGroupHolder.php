@@ -39,7 +39,37 @@ class SilvercartProductGroupHolder extends Page {
         'SilvercartProductGroupPage',
         'RedirectorPage'
     );
+    
+    /**
+     * Attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    public static $db = array(
+        'productGroupsPerPage'  => 'Int'
+    );
+    
+    /**
+     * Return all fields of the backend.
+     *
+     * @return FieldSet Fields of the CMS
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
+        $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField, 'IdentifierCode');
 
+        $this->extend('extendCMSFields', $fields);
+        return $fields;
+    }
 }
 
 /**
@@ -74,27 +104,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         }
 
         $SQL_start = (int) $_GET['start'];
-/*
-        $this->groupProducts = SilvercartProduct::getRandomProducts(5);
-
-        // Initialise formobjects
-        $templateProductList = new DataObjectSet();
-        $productIdx = 0;
-        if ($this->groupProducts) {
-            $productAddCartForm = $this->getCartFormName();
-            foreach ($this->groupProducts as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm' . $productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
-                $product->setField('Link', $product->Link());
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                                'ProductAddCartForm' . $productIdx,
-                                array(
-                                    $product
-                                )
-                );
-                $productIdx++;
-            }
-        }
-*/
+        
         parent::init();
     }
 
@@ -138,4 +148,96 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         return $productGroups;
     }
 
+    /**
+     * All viewable product groups of this group.
+     *
+     * @param int $numberOfProductGroups Number of product groups to display
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2011
+     */
+    public function getViewableChildren($numberOfProductGroups = false) {
+        $viewableChildren = array();
+        foreach ($this->Children() as $child) {
+            if ($child->hasProductsOrChildren()) {
+                $viewableChildren[] = $child;
+            }
+        }
+        
+        if ($numberOfProductGroups == false) {
+            if ($this->productGroupsPerPage) {
+                $pageLength = $this->productGroupsPerPage;
+            } else {
+                $pageLength = SilvercartConfig::ProductGroupsPerPage();
+            }
+        } else {
+            $pageLength = $numberOfProductGroups;
+        }
+        
+        $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
+        
+        $viewableChildrenSet = new DataObjectSet($viewableChildren);
+        $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
+        $viewableChildrenPage->setPaginationGetVar('groupStart');
+        $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
+        
+        return $viewableChildrenPage;
+    }
+    
+    /**
+     * Return the start value for the limit part of the sql query that
+     * retrieves the product group list for the current product group page.
+     * 
+     * @param int|bool $numberOfProductGroups The number of product groups to return
+     *
+     * @return int
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2011
+     */
+    public function getSqlOffsetForProductGroups($numberOfProductGroups = false) {
+        if ($this->productGroupsPerPage) {
+            $productGroupsPerPage = $this->productGroupsPerPage;
+        } else {
+            $productGroupsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+
+        if ($numberOfProductGroups !== false) {
+            $productGroupsPerPage = (int) $numberOfProductGroups;
+        }
+            
+        if (!isset($_GET['groupStart']) ||
+            !is_numeric($_GET['groupStart']) ||
+            (int)$_GET['groupStart'] < 1) {
+
+            if (isset($_GET['groupOffset'])) {
+                // --------------------------------------------------------
+                // Use offset for getting the current item rage
+                // --------------------------------------------------------
+                $offset = (int) $_GET['groupOffset'];
+
+                if ($offset > 0) {
+                    $offset -= 1;
+                }
+
+                // Prevent too high values
+                if ($offset > 999999) {
+                    $offset = 0;
+                }
+
+                $SQL_start = $offset * $productGroupsPerPage;
+            } else {
+                // --------------------------------------------------------
+                // Use item number for getting the current item range
+                // --------------------------------------------------------
+                $SQL_start = 0;
+            }
+        } else {
+            $SQL_start = (int) $_GET['groupStart'];
+        }
+        
+        return $SQL_start;
+    }
 }

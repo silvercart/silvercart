@@ -5,3 +5,6 @@
     box-shadow:                     0 0 5px rgba(0, 0, 0, 0.3);
     border:                         1px #bbb solid;
 }
+.silvercart-address-bottom {
+    border-top:                     1px #bbb solid;
+}

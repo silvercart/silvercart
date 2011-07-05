@@ -133,7 +133,11 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-        $this->CancelLink = $this->controller->Parent()->Link();
+        if ($this->controller->class == 'SilvercartCheckoutStep_Controller') {
+            $this->CancelLink = $this->controller->Link();
+        } else {
+            $this->CancelLink = $this->controller->Parent()->Link();
+        }
         
         $this->formFields['Salutation']['title']    = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value']    = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
@@ -205,6 +209,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
                 $address->SilvercartCountryID = $country->ID;
             }
             $address->write();
+            $this->submitSuccess = true;
             if (Session::get("redirect")) {
                 Director::redirect(Session::get("redirect"));
                 Session::clear("redirect");

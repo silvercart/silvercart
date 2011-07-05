@@ -1,16 +1,18 @@
 <div class="silvercart-address">
-    <% if isInvoiceAddress %>
+    <div class="silvercart-address-field_content">
+        <% if isInvoiceAddress %>
             <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></strong>
-    <% end_if %>
-    <% if isShippingAddress %>
+        <% end_if %>
+        <% if isShippingAddress %>
             <strong><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
-    <% end_if %>
-    <br />
-    $SalutaionText $FirstName $Surname<br/>
-    $Street $StreetNumber<br/>
-    $Postcode $City<br/>
-    $SilvercartCountry.Title<br/>
-    <% if Phone %>
-    <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
-    <% end_if %>
+        <% end_if %>
+        <br />
+        $SalutaionText $FirstName $Surname<br/>
+        $Street $StreetNumber<br/>
+        $Postcode $City<br/>
+        $SilvercartCountry.Title<br/>
+        <% if Phone %>
+            <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
+        <% end_if %>
+    </div>
 </div>

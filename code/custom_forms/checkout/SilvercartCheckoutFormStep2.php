@@ -67,6 +67,8 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
             
             if ($this->isCustomerLoggedIn()) {
                 $this->registerCustomHtmlForm('SilvercartCheckoutFormStep2Regular', new SilvercartCheckoutFormStep2Regular($this->controller));
+                Session::set("redirect", $this->controller->Link());
+                $this->registerCustomHtmlForm('SilvercartAddAddressForm', new SilvercartAddAddressForm($this->controller));
             } else {
                 $this->registerCustomHtmlForm('SilvercartCheckoutFormStep2Anonymous', new SilvercartCheckoutFormStep2Anonymous($this->controller));
             }

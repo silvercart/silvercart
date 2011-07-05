@@ -115,6 +115,17 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             if (isset($stepData['PaymentMethod'])) {
                 $shoppingCart->setPaymentMethodID($stepData['PaymentMethod']);
             }
+            
+            $requestParams = $this->getRequest()->allParams();
+            if ($requestParams['Action'] == 'editAddress') {
+                $addressID = (int) $requestParams['ID'];
+                if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+                    Session::set("redirect", $this->Link());
+                    $preferences = array();
+                    $preferences['submitAction'] = 'editAddress/' . $addressID . '/customHtmlFormSubmit';
+                    $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressID), $preferences));
+                }
+            }
         }
     }
 
@@ -293,5 +304,46 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function deleteAddress(SS_HTTPRequest $request) {
         $silvercartAddressHolder = new SilvercartAddressHolder_Controller();
         $silvercartAddressHolder->deleteAddress($request);
+    }
+    
+    /**
+     * Renders a form to edit addresses and handles it's sumbit event.
+     *
+     * @param SS_HTTPRequest $request the given request
+     * 
+     * @return type 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    public function editAddress(SS_HTTPRequest $request) {
+        $rendered = '';
+        $params = $request->allParams();
+        if (array_key_exists('ID', $params)
+         && !empty ($params['ID'])) {
+            if (strtolower($params['OtherID']) == 'customhtmlformsubmit') {
+                $result = $this->CustomHtmlFormSubmit($request);
+                $form = $this->getRegisteredCustomHtmlForm('SilvercartEditAddressForm');
+                if ($form->submitSuccess) {
+                    $form->addMessage(_t('SilvercartAddressHolder.ADDED_ADDRESS_SUCCESS', 'Your address was successfully saved.'));
+                } else {
+                    $form->addMessage(_t('SilvercartAddressHolder.ADDED_ADDRESS_FAILURE', 'Your address could not be saved.'));
+                    $rendered = $this->renderWith(array('SilvercartCheckoutFormStep2RegularEditAddress','Page'));
+                }
+            } else {
+                $addressID = (int) $params['ID'];
+                if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+                    // Address contains to logged in user - render edit form
+                    $rendered = $this->renderWith(array('SilvercartCheckoutFormStep2RegularEditAddress','Page'));
+                } else {
+                    // possible break in attempt!
+                    $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
+                }
+            }
+        }
+        if ($rendered == '' && is_null(Director::redirected_to())) {
+            Director::redirectBack();
+        }
+        return $rendered;
     }
 }
