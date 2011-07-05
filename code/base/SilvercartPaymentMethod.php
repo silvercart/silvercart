@@ -565,54 +565,68 @@ class SilvercartPaymentMethod extends DataObject {
                 $assumePaymentMethod    = true;
                 $containedInGroup       = false;
                 $containedInUsers       = false;
+                $doAccessChecks         = true;
                 
-                // Check if access for groups or is set positively
-                if ($paymentMethod->ShowOnlyForGroups()->Count() > 0) {
-                    foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
-                        if ($member->Groups()->find('ID', $paymentGroup->ID)) {
-                            $containedInGroup = true;
-                            break;
-                        }
-                    }
-                    
-                    if ($containedInGroup) {
-                        $assumePaymentMethod = true;
-                    } else {
-                        $assumePaymentMethod = false;
-                    }
+                // ------------------------------------------------------------
+                // Basic checks
+                // ------------------------------------------------------------
+                if ($paymentMethod->enableActivationByOrderRestrictions) {
+                    $assumePaymentMethod = $paymentMethod->isActivationByOrderRestrictionsPossible($member);
                 }
                 
-                // Check if access for users or is set positively
-                if ($paymentMethod->ShowOnlyForUsers()->Count() > 0) {
-                    if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
-                        $containedInUsers = true;
-                    }
-                    
-                    if ($containedInUsers) {
-                        $assumePaymentMethod = true;
-                    } else {
-                        if (!$containedInGroup) {
+                // ------------------------------------------------------------
+                // Access checks
+                // ------------------------------------------------------------
+                
+                if ($doAccessChecks) {
+                    // Check if access for groups or is set positively
+                    if ($paymentMethod->ShowOnlyForGroups()->Count() > 0) {
+                        foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
+                            if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                                $containedInGroup = true;
+                                break;
+                            }
+                        }
+
+                        if ($containedInGroup) {
+                            $assumePaymentMethod = true;
+                        } else {
                             $assumePaymentMethod = false;
                         }
                     }
-                }
-                
-                // Check if access for groups is set negatively
-                if ($paymentMethod->ShowNotForGroups()->Count() > 0) {
-                    foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
-                        if ($member->Groups()->find('ID', $paymentGroup->ID)) {
-                            if (!$containedInUsers) {
+
+                    // Check if access for users or is set positively
+                    if ($paymentMethod->ShowOnlyForUsers()->Count() > 0) {
+                        if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
+                            $containedInUsers = true;
+                        }
+
+                        if ($containedInUsers) {
+                            $assumePaymentMethod = true;
+                        } else {
+                            if (!$containedInGroup) {
                                 $assumePaymentMethod = false;
                             }
                         }
                     }
-                }
-                
-                // Check if access for users is set negatively
-                if ($paymentMethod->ShowNotForUsers()->Count() > 0) {
-                    if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
-                        if (!$containedInUsers) {
-                            $assumePaymentMethod = false;
+
+                    // Check if access for groups is set negatively
+                    if ($paymentMethod->ShowNotForGroups()->Count() > 0) {
+                        foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
+                            if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                                if (!$containedInUsers) {
+                                    $assumePaymentMethod = false;
+                                }
+                            }
+                        }
+                    }
+
+                    // Check if access for users is set negatively
+                    if ($paymentMethod->ShowNotForUsers()->Count() > 0) {
+                        if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
+                            if (!$containedInUsers) {
+                                $assumePaymentMethod = false;
+                            }
                         }
                     }
                 }
@@ -626,6 +640,43 @@ class SilvercartPaymentMethod extends DataObject {
         $allowedPaymentMethods = new DataObjectSet($allowedPaymentMethods);
         
         return $allowedPaymentMethods;
+    }
+    
+    /**
+     * Checks if the given member has completed enough orders with a
+     * specified status.
+     * 
+     * @param Member $member The member object whose orders are checked
+     * 
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    protected function isActivationByOrderRestrictionsPossible(Member $member) {
+        $isActivationByOrderRestrictionsPossible = false;
+        $nrOfValidOrders                         = 0;
+        
+        if (!$member) {
+           return $isActivationByOrderRestrictionsPossible;
+        }
+        
+        if ($member->SilvercartOrder()) {
+            foreach ($member->SilvercartOrder() as $orderObj) {
+                if ($this->OrderRestrictionStatus()->find('ID', $orderObj->SilvercartOrderStatus()->ID)) {
+                    $nrOfValidOrders++;
+                }
+                if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+                    break;
+                }
+            }
+        }
+        
+        if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+            $isActivationByOrderRestrictionsPossible = true;
+        }
+        
+        return $isActivationByOrderRestrictionsPossible;
     }
 
     /**
