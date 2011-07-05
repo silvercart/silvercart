@@ -1,7 +1,7 @@
 <form class="yform full" $FormAttributes >
     $CustomHtmlFormMetadata
     <fieldset>
-        <legend>$AddressFormTitle</legend>
+        <legend><% _t('SilvercartAddressHolder.ADD') %></legend>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">

@@ -16,11 +16,15 @@
                                 <% if isInvoiceAddress && isShippingAddress %>
                                             <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %> &amp; <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
                                 <% else %>
-                                    <% if isInvoiceAddress %>
-                                            <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></strong>
+                                    <% if name = InvoiceAddress %>
+                                        <% if isInvoiceAddress %>
+                                                <strong><% _t('SilvercartAddressHolder.DEFAULT_INVOICEADDRESS','invoice address') %></strong>
+                                        <% end_if %>
                                     <% end_if %>
-                                    <% if isShippingAddress %>
-                                            <strong><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
+                                    <% if name = ShippingAddress %>
+                                        <% if isShippingAddress %>
+                                                <strong><% _t('SilvercartAddressHolder.DEFAULT_SHIPPINGADDRESS','shipping address') %></strong>
+                                        <% end_if %>
                                     <% end_if %>
                                 <% end_if %><br/>
                                 <div class="subcolumns">

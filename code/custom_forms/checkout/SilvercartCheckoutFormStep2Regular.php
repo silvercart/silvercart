@@ -98,8 +98,6 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
-            
-            $this->registerCustomHtmlForm('SilvercartAddAddressForm', new SilvercartAddAddressForm($this->controller));
         }
     }
 
