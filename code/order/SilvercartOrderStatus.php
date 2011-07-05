@@ -80,6 +80,19 @@ class SilvercartOrderStatus extends DataObject {
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder'
     );
+    
+    /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.07.2011
+     */
+    public static $belongs_many_many = array(
+        'SilvercartPaymentMethodRestrictions' => 'SilvercartPaymentMethod'
+    );
 
     // -----------------------------------------------------------------------
     // methods
