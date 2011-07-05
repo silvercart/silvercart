@@ -114,6 +114,7 @@ p.silvercart-message.highlighted.error48 {
 .silvercart-button-small a {
     line-height:                    100%;
     font-size:                      12px;
+    text-align:                     center;
     color:                          #444;
     background:                     #d9d9d9;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
@@ -141,25 +142,34 @@ p.silvercart-message.highlighted.error48 {
 /* Icon only buttons ------------------------------------------------------- */
 
 .silvercart-icon-button {
-    color: #000;
-    text-decoration: none;
+    color:                          #000;
+    background:                     #d9d9d9;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffffff,  #d9d9d9); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
+    text-decoration:                none;
+    border:                         1px #999 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
 }
 .silvercart-icon-button:hover {
-    color: #000;
-    text-decoration: none;
-    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    color:                          #000;
+    text-decoration:                none;
+    background-color:               #cecece;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cecece)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
 }
 .silvercart-icon-button:visited {
-    color: #000;
-    text-decoration: none;
+    color:                          #000;
+    text-decoration:                none;
 }
-.silvercart-icon-button.edit32 {
-    background: url(/silvercart/images/icons/32x32_notepad.png) no-repeat center center;
+.edit32 .silvercart-icon-button_content {
+    background:                     url(/silvercart/images/icons/32x32_notepad.png) no-repeat center center;
 }
-.silvercart-icon-button.delete32 {
-    background: url(/silvercart/images/icons/32x32_recycle_bin_empty.png) no-repeat center center;
+.delete32 .silvercart-icon-button_content {
+    background:                     url(/silvercart/images/icons/32x32_recycle_bin_empty.png) no-repeat center center;
 }
 
 /* Icon with text buttons -------------------------------------------------- */

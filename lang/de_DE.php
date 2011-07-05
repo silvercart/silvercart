@@ -87,6 +87,7 @@ $lang['de_DE']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Entschuld
 $lang['de_DE']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Rechnungsadresse';
 $lang['de_DE']['SilvercartAddressHolder']['INVOICEADDRESS_TAB'] = 'Rechnungsadresse';
 $lang['de_DE']['SilvercartAddressHolder']['PLURALNAME'] = 'Adressübersichtseiten';
+$lang['de_DE']['SilvercartAddressHolder']['SET_AS'] = 'Verwenden als';
 $lang['de_DE']['SilvercartAddressHolder']['SET_DEFAULT_INVOICE'] = 'Verwenden als Rechnungsadresse';
 $lang['de_DE']['SilvercartAddressHolder']['SET_DEFAULT_SHIPPING'] = 'Verwenden als Lieferadresse';
 $lang['de_DE']['SilvercartAddressHolder']['SHIPPINGADDRESS'] = 'Lieferadresse';

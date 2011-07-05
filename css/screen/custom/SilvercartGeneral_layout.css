@@ -28,6 +28,10 @@
     padding:                        20px 0px 10px 0px;
 }
 
+.align_right {
+    text-align:                     right;
+}
+
 /* Headlines --------------------------------------------------------------- */
 
 #col1 h2,
@@ -64,7 +68,7 @@ table td {
 /* Highlighted messages ---------------------------------------------------- */
 
 p.silvercart-message {
-    
+    margin:                         0px;
 }
 p.silvercart-message.info16 {
     padding: 0 0 0 20px;
@@ -73,7 +77,7 @@ p.silvercart-message.highlighted.info16 {
     padding: 5px 5px 5px 20px;
 }
 p.silvercart-message.info32 {
-    padding: 0 0 0 40px;
+    padding: 0 0 0 30px;
 }
 p.silvercart-message.highlighted.info32 {
     padding: 5px 5px 5px 40px;
@@ -108,9 +112,14 @@ p.silvercart-message.highlighted.error48 {
 .silvercart-button-row {
     padding:                        6px 0px;
 }
+.silvercart-button-row.left {
+    padding-left:                   4px;
+}
+.silvercart-button-row.right {
+    padding-right:                  4px;
+}
 .silvercart-button {
     float:                          right;
-    height:                         25px;
 }
 .silvercart-button.left {
     float:                          left;
@@ -125,7 +134,6 @@ p.silvercart-message.highlighted.error48 {
 
 .silvercart-button-small {
     float:                          right;
-    height:                         21px;
 }
 .silvercart-button-small.left {
     float:                          left;
@@ -138,23 +146,26 @@ p.silvercart-message.highlighted.error48 {
 }
 .silvercart-button-small a {
     display:                        block;
-    padding:                        3px 8px 2px 8px;
+    padding:                        3px 4px 2px 4px;
 }
 
 /* Icon only buttons ------------------------------------------------------- */
 
 .silvercart-icon-button {
-    padding: 3px;
-    margin: 3px 0 0 0;
-    display: inline-block;
+    margin:                         4px 4px 0 0;
+    display:                        inline-block;
 }
-.silvercart-icon-button.edit32 {
-    width: 32px;
-    height: 32px;
+.silvercart-icon-button_content {
+    display:                        inline-block;
+    padding:                        3px;
 }
-.silvercart-icon-button.delete32 {
-    width: 32px;
-    height: 32px;
+.edit32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+}
+.delete32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
 }
 
 /* Icon with text buttons -------------------------------------------------- */

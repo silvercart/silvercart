@@ -87,6 +87,7 @@ $lang['en_US']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Excuse us
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Invoice address';
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS_TAB'] = 'Invoiceaddress';
 $lang['en_US']['SilvercartAddressHolder']['PLURALNAME'] = 'Address Holders';
+$lang['en_US']['SilvercartAddressHolder']['SET_AS'] = 'Set as';
 $lang['en_US']['SilvercartAddressHolder']['SET_DEFAULT_INVOICE'] = 'Set as invoice address';
 $lang['en_US']['SilvercartAddressHolder']['SET_DEFAULT_SHIPPING'] = 'Set as shipping address';
 $lang['en_US']['SilvercartAddressHolder']['SHIPPINGADDRESS'] = 'Shipping address';
