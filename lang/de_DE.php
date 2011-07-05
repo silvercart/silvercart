@@ -707,8 +707,8 @@ $lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME'] = 'Bestellposition';
 
 $lang['de_DE']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Bitte wählen';
 
-$lang['de_DE']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Versandadressen der Bestellung';
-$lang['de_DE']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Versandadresse der Bestellung';
+$lang['de_DE']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Lieferadressen der Bestellung';
+$lang['de_DE']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Lieferadresse der Bestellung';
 
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'Bezahlt';
@@ -806,8 +806,8 @@ $lang['de_DE']['SilvercartPage']['SAVE'] = 'speichern';
 $lang['de_DE']['SilvercartPage']['SEARCH_RESULTS'] = 'Treffer';
 $lang['de_DE']['SilvercartPage']['SEPTEMBER'] = 'September';
 $lang['de_DE']['SilvercartPage']['SESSION_EXPIRED'] = 'Ihre Sitzung ist abgelaufen.';
-$lang['de_DE']['SilvercartPage']['SHIPPING_ADDRESS'] = 'Versandadresse';
-$lang['de_DE']['SilvercartPage']['SHIPPING_AND_BILLING'] = 'Versand- und Rechnungsadresse';
+$lang['de_DE']['SilvercartPage']['SHIPPING_ADDRESS'] = 'Lieferadresse';
+$lang['de_DE']['SilvercartPage']['SHIPPING_AND_BILLING'] = 'Liefer- und Rechnungsadresse';
 $lang['de_DE']['SilvercartPage']['SHOP_WITHOUT_REGISTRATION'] = 'Shop ohne Registrierung';
 $lang['de_DE']['SilvercartPage']['SHOW_DETAILS'] = 'Details anzeigen';
 $lang['de_DE']['SilvercartPage']['SHOW_DETAILS_FOR'] = 'Details zu %s anzeigen';
@@ -919,8 +919,8 @@ $lang['de_DE']['SilvercartSearchResultsPage']['TITLE'] = 'Suchergebnisse';
 $lang['de_DE']['SilvercartSearchResultsPage']['URL_SEGMENT'] = 'suchergebnisse';
 $lang['de_DE']['SilvercartSearchResultsPage']['RESULTTEXT'] = 'Suchergebnisse f&uuml;r den Begriff <b>&rdquo;%s&rdquo;</b>';
 
-$lang['de_DE']['SilvercartShippingAddress']['PLURALNAME'] = 'Versandadressen';
-$lang['de_DE']['SilvercartShippingAddress']['SINGULARNAME'] = 'Versandadresse';
+$lang['de_DE']['SilvercartShippingAddress']['PLURALNAME'] = 'Lieferadressen';
+$lang['de_DE']['SilvercartShippingAddress']['SINGULARNAME'] = 'Lieferadresse';
 
 $lang['de_DE']['SilvercartShippingFee']['ATTRIBUTED_SHIPPINGMETHOD'] = 'zugeordnete Versandarten';
 $lang['de_DE']['SilvercartShippingFee']['COSTS'] = 'Kosten';
