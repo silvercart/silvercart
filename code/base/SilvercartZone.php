@@ -179,43 +179,97 @@ class SilvercartZone extends DataObject {
             'title' => 'Zugeordnete Versandarten'
         )
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
+     * Searchable fields
      *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
+     * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 24.01.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$field_labels = array(
-            'Title' => _t('SilvercartPage.TITLE', 'title'),
-            'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
-            'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
-            'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
-        );
-        self::$searchable_fields = array(
-            'Title',
+    public function searchableFields() {
+        $searchableFields = array(
+            'Title' => array(
+                'title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'filter' => 'PartialMatchFilter'
+            ),
             'SilvercartCarrier.ID' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME')
+                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+                'filter' => 'ExactMatchFilter'
             ),
             'SilvercartCountries.ID' => array(
-                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries')
+                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries'),
+                'filter' => 'ExactMatchFilter'
             ),
             'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS')
+                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS'),
+                'filter' => 'ExactMatchFilter'
             )
         );
-        self::$singular_name = _t('SilvercartZone.SINGULARNAME', 'zone');
-        self::$plural_name = _t('SilvercartZone.PLURALNAME', 'zones');
-        parent::__construct($record, $isSingleton);
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 5.7.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                        'Title' => _t('SilvercartPage.TITLE', 'title'),
+                        'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+                        'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
+                        'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
+                        'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+                    )
+                );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function singular_name() {
+        if (_t('SilvercartZone.SINGULARNAME')) {
+            return _t('SilvercartZone.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartZone.PLURALNAME')) {
+            return _t('SilvercartZone.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**

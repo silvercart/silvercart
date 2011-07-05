@@ -174,28 +174,39 @@ class SilvercartProduct extends DataObject {
     public static $casting = array(
         'isActiveString'        => 'VarChar(8)'
     );
-
-    // -----------------------------------------------------------------------
-    // Methods
-    // -----------------------------------------------------------------------
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartProduct.SINGULARNAME', 'product');
-        self::$plural_name = _t('SilvercartProduct.PLURALNAME', 'products');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartProduct.SINGULARNAME')) {
+            return _t('SilvercartProduct.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartProduct.PLURALNAME')) {
+            return _t('SilvercartProduct.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
     
     /**
@@ -236,7 +247,6 @@ class SilvercartProduct extends DataObject {
             'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
             'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
         );
-
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -293,7 +303,6 @@ class SilvercartProduct extends DataObject {
                 'filter'    => 'ExactMatchFilter'
             )
         );
-
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }

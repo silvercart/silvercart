@@ -106,6 +106,25 @@ class SilvercartHandlingCost extends DataObject {
     public static $field_labels = array(
         'amount' => 'Betrag'
     );
+    
+    /**
+     * Sets the field labels.
+     *
+     * @param bool $includerelations set to true to include the DataObjects relations
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                   'amount' => _t('SilvercartHandlingCost.AMOUNT', 'amount') 
+                    )
+                );
+    }
 
     /**
      * returns the tax amount included in $this

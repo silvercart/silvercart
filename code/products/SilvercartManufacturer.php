@@ -105,24 +105,39 @@ class SilvercartManufacturer extends DataObject {
     );
 
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.01.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer');
-        self::$plural_name = _t('SilvercartManufacturer.PLURALNAME', 'manufacturers');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartManufacturer.SINGULARNAME')) {
+            return _t('SilvercartManufacturer.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
     }
-
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartManufacturer.PLURALNAME')) {
+            return _t('SilvercartManufacturer.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
+    }
+    
     /**
      * Get any user defined searchable fields labels that
      * exist. Allows overriding of default field names in the form

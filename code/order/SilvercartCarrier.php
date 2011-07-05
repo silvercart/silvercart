@@ -127,65 +127,109 @@ class SilvercartCarrier extends DataObject {
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)'
     );
-
+    
     /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $searchable_fields = array(
-        'Title',
-        'SilvercartZones.ID' => array(
-            'title' => 'Zugeordnete Zonen'
-        ),
-        'SilvercartShippingMethods.ID' => array(
-            'title' => 'Zugeordnete Versandarten'
-        )
-    );
-
-    /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
+     * Defines the form fields for the search in ModelAdmin
+     * 
+     * @return array seach fields definition
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 5.7.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-            'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
-        );
-        self::$field_labels = array(
-            'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-            'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
-            'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-            'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
-            'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
-            'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones')
-        );
-        self::$searchable_fields = array(
-            'Title',
+    public function searchableFields() {
+        $seachableFields = array(
+            'Title' => array(
+                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+                'filter' => 'PartialMatchFilter'
+            ),
             'SilvercartZones.ID' => array(
-                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES')
+                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'filter' => 'ExactMatchFilter'
             ),
             'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS')
+                'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+                'filter' => 'ExactMatchFilter'
             )
         );
-        self::$singular_name = _t('SilvercartCarrier.SINGULARNAME', 'carrier');
-        self::$plural_name = _t('SilvercartCarrier.PLURALNAME', 'carriers');
-        parent::__construct($record, $isSingleton);
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $seachableFields;
+    }
+
+    /**
+     * Returns the objects field labels
+     * 
+     * @param bool $includerelations configuration setting
+     * 
+     * @return array the translated field labels 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
+                    'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                    'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+                    'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
+                    'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones') 
+                )
+        );
+    }
+    
+    /**
+     * Sets the summary fields.
+     *
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function summaryFields() {
+        return array_merge(
+            parent::summaryFields(),
+            array(
+                'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
+                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+            )
+        );
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function singular_name() {
+        if (_t('SilvercartCarrier.SINGULARNAME')) {
+            return _t('SilvercartCarrier.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartCarrier.PLURALNAME')) {
+            return _t('SilvercartCarrier.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**

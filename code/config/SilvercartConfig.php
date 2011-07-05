@@ -146,23 +146,39 @@ class SilvercartConfig extends DataObject {
     public static $minimumOrderValue = null;
     public static $useMinimumOrderValue = null;
     public static $productsPerPage = null;
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartConfig.SINGULARNAME', 'General configuration');
-        self::$plural_name = _t('SilvercartConfig.PLURALNAME', 'General configurations');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartConfig.SINGULARNAME')) {
+            return _t('SilvercartConfig.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartConfig.PLURALNAME')) {
+            return _t('SilvercartConfig.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**

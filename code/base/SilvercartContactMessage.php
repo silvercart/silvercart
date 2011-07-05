@@ -47,20 +47,39 @@ class SilvercartContactMessage extends DataObject {
     );
 
     public static $default_sort = 'Created DESC';
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array $record      array of field values
-     * @param bool  $isSingleton true if this is a singleton() object
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartContactMessage.SINGULARNAME');
-        self::$plural_name = _t('SilvercartContactMessage.PLURALNAME');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartContactMessage.SINGULARNAME')) {
+            return _t('SilvercartContactMessage.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartContactMessage.PLURALNAME')) {
+            return _t('SilvercartContactMessage.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**

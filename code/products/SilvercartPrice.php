@@ -88,26 +88,23 @@ class SilvercartPrice extends DataObject {
         'Value'                            => 'Einzelpreis',
         'Amount'                           => 'Mindestanzahl'
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
+     * Summaryfields for display in tables.
      *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
+     * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
+    public function summaryFields() {
+        $summaryFields = array(
             'SilvercartCustomerCategory.Title' => _t('SilvercartCustomerCategory.SINGULARNAME'),
             'Value'                            => _t('SilvercartProduct.PRICE_SINGLE'),
             'Amount'                           => _t('SilvercartPrice.MINIMUM_QUANTITY')
         );
-        parent::__construct($record, $isSingleton);
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 }

@@ -296,36 +296,45 @@ class SilvercartPaymentMethod extends DataObject {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
-
+    
     /**
-     * Constructor. We localize the static variables here.
+     * Searchable fields
      *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
+     * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 2.02.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        parent::__construct($record, $isSingleton);
-        self::$searchable_fields = array(
-            'Name',
-            'isActive' => array(
-                'title' => _t("SilvercartShopAdmin.PAYMENT_ISACTIVE")
+    public function searchableFields() {
+        $searchableFields = array(
+            'Name' => array(
+                'title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'filter' => 'PartialMatchFilter'
             ),
-            'minAmountForActivation',
-            'maxAmountForActivation',
+            'isActive' => array(
+                'title' => _t("SilvercartShopAdmin.PAYMENT_ISACTIVE"),
+                'filter' => 'ExactMatchFilter'
+            ),
+            'minAmountForActivation' => array(
+                'title' => _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION'),
+                'filter' => 'GreaterThenFilter'
+            ),
+            'maxAmountForActivation' => array(
+                'title' => _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION'),
+                'filter' => 'LessThenFilter'
+            ),
             'SilvercartZone.ID' => array(
-                'title' => _t("SilvercartCountry.ATTRIBUTED_ZONES")
+                'title' => _t("SilvercartCountry.ATTRIBUTED_ZONES"),
+                'filter' => 'ExactMatchFilter'
             ),
             'SilvercartCountries.ID' => array(
-                'title' => _t("SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES")
+                'title' => _t("SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES"),
+                'filter' => 'ExactMatchFilter'
             )
         );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
     }
 
     /**

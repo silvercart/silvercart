@@ -45,25 +45,22 @@ class SilvercartCustomerCategory extends DataObject {
     public static $summary_fields = array(
         "Title" => 'Name'
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
+     * Defines the objects summary fields
+     * 
+     * @return array objects summery field definition
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 5.7.2011 
      */
-    public function  __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
-        "Title" => _t('SilvercartProduct.COLUMN_TITLE')
-    );
-        parent::__construct($record, $isSingleton);
+    public function summaryFields() {
+        return array_merge(
+                parent::summaryFields(),
+                array(
+                    "Title" => _t('SilvercartProduct.COLUMN_TITLE')
+                )
+        );
     }
 
     /**

@@ -631,6 +631,7 @@ $lang['en_US']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
 
 $lang['en_US']['SilvercartHandlingCost']['PLURALNAME'] = 'Handling Costs';
 $lang['en_US']['SilvercartHandlingCost']['SINGULARNAME'] = 'Handling Cost';
+$lang['en_US']['SilvercartHandlingCost']['AMOUNT'] = 'amount';
 
 $lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartImage']['PLURALNAME'] = 'Images';

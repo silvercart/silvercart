@@ -71,24 +71,39 @@ class SilvercartAddress extends DataObject {
     public static $casting = array(
         'SalutationText' => 'VarChar',
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartAddress.SINGULARNAME', 'Address');
-        self::$plural_name = _t('SilvercartAddress.PLURALNAME', 'Addresses');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartAddress.SINGULARNAME')) {
+            return _t('SilvercartAddress.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartAddress.PLURALNAME')) {
+            return _t('SilvercartAddress.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
     
     /**

@@ -216,9 +216,11 @@ class SilvercartPage_Controller extends ContentController {
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
-            if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false) {
+            if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
+        } elseif (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
+            $checkConfiguration = false;
         }
         if ($checkConfiguration) {
             SilvercartConfig::Check();

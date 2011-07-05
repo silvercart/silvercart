@@ -123,33 +123,79 @@ class SilvercartTax extends DataObject {
     public static $searchable_fields = array(
         'Rate'
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
+     * Field labels for display in tables.
      *
-     * @param array|null $record      This will be null for a new database record.
-     *                                  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 2.02.2011
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$summary_fields = array(
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                        'Title'                 => _t('SilvercartTax.LABEL'),
+                        'Rate'                  => _t('SilvercartTax.RATE_IN_PERCENT'),
+                        'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME')
+                    )
+                );
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 5.7.2011
+     */
+    public function summaryFields() {
+        $summaryFields = array(
             'Title' => _t('SilvercartTax.LABEL', 'label'),
             'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT', 'rate in %%')
         );
-        self::$field_labels = array(
-            'Title'                 => _t('SilvercartTax.LABEL'),
-            'Rate'                  => _t('SilvercartTax.RATE_IN_PERCENT'),
-            'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME')
-        );
-        self::$singular_name = _t('SilvercartTax.SINGULARNAME', 'tax');
-        self::$plural_name = _t('SilvercartTax.PLURALNAME', 'taxes');
-        parent::__construct($record, $isSingleton);
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
+     */
+    public function singular_name() {
+        if (_t('SilvercartTax.SINGULARNAME')) {
+            return _t('SilvercartTax.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartTax.PLURALNAME')) {
+            return _t('SilvercartTax.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**

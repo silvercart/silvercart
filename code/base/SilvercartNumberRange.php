@@ -69,20 +69,39 @@ class SilvercartNumberRange extends DataObject {
         'EndNumber' => 'VarChar(80)',
         'StartNumber' => 'VarChar(80)',
     );
-
+    
     /**
-     * Constructor. We localize the static variables here.
-     *
-     * @param array   $record      array of field values
-     * @param boolean $isSingleton true if this is a singleton() object
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2011
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011
      */
-    public function __construct($record = null, $isSingleton = false) {
-        self::$singular_name = _t('SilvercartNumberRange.SINGULARNAME', 'Number range');
-        self::$plural_name = _t('SilvercartNumberRange.PLURALNAME', 'Number ranges');
-        parent::__construct($record, $isSingleton);
+    public function singular_name() {
+        if (_t('SilvercartNumberRange.SINGULARNAME')) {
+            return _t('SilvercartNumberRange.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 5.7.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartNumberRange.PLURALNAME')) {
+            return _t('SilvercartNumberRange.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
     }
 
     /**
