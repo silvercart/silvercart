@@ -151,14 +151,8 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @since 15.02.2011
      */
     public function RenderProductGroupHolderGroupView() {
-        $items = array();
-        foreach ($this->owner->Children() as $child) {
-            if ($child->hasProductsOrChildren()) {
-                $items[] = $child;
-            }
-        }
         $elements = array(
-            'Elements' => new DataObjectSet($items),
+            'Elements' => $this->owner->getViewableChildren(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(

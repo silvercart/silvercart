@@ -8,7 +8,6 @@
                         <div class="subcl">
                             <% if getSilvercartImages %>
                                 <% control getSilvercartImages.First %>
-                                    TITEL: $Image.Title
                                     <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(90,90)</a>
                                 <% end_control %>
                             <% end_if %>

@@ -85,6 +85,7 @@ class SilvercartConfig extends DataObject {
         'GeoNamesAPI' => 'VarChar(255)',
         'enableSSL' => 'Boolean(0)',
         'productsPerPage' => 'Int',
+        'productGroupsPerPage' => 'Int',
         'minimumOrderValue' => 'Money',
         'useMinimumOrderValue' => 'Boolean(0)'
     );
@@ -111,6 +112,7 @@ class SilvercartConfig extends DataObject {
         'GeoNamesActive' => false,
         'GeoNamesAPI' => 'http://api.geonames.org/',
         'productsPerPage' => 15,
+        'productGroupsPerPage' => 15,
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -217,7 +219,6 @@ class SilvercartConfig extends DataObject {
             $CMSFields->removeByName($name);
             $CMSFields->addFieldToTab('Root.General.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
-        $CMSFields->addFieldToTab('Root.General.Main', $CMSFields->dataFieldByName('productsPerPage'));
 
         // FormFields for Test Data right here
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
@@ -272,6 +273,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['minimumOrderValue'] = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
         $fieldLabels['useMinimumOrderValue'] = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
         $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
+        $fieldLabels['productGroupsPerPage'] = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
         return $fieldLabels;
     }
 
@@ -467,10 +469,10 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
-     * Returns the configured default setting that determines if the cartweight
-     * on checkout may be zero.
+     * Returns the configured default setting that determines the default page
+     * size for products.
      *
-     * @return boolean
+     * @return int
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -481,6 +483,25 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('productsPerPage')) {
             return $silvercartConfig->getField('productsPerPage');
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns the configured default setting that determines the default page
+     * size for product groups.
+     *
+     * @return int
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2011
+     */
+    public static function ProductGroupsPerPage() {
+        $silvercartConfig = self::getConfig();
+
+        if ($silvercartConfig->hasField('productGroupsPerPage')) {
+            return $silvercartConfig->getField('productGroupsPerPage');
         } else {
             return false;
         }

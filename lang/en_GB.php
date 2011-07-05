@@ -193,6 +193,7 @@ $lang['en_GB']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
 $lang['en_GB']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
 $lang['en_GB']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page (overrides global setting)';
+$lang['en_GB']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page (overrides global setting)';
 $lang['en_GB']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 
 $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
@@ -292,6 +293,7 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Price type for regula
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Price type for business customers';
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Price type for administrators';
 $lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
+$lang['en_GB']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_GB']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_GB']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
 $lang['en_GB']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum order value';

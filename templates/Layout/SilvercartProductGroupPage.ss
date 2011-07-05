@@ -3,12 +3,18 @@
         <% include SilvercartBreadCrumbs %>
         
         <div class="silvercart-product-group-page-control-top">
+            <% include SilvercartProductGroupHolderControls %>
+        </div>
+
+        $RenderProductGroupHolderGroupView
+        
+        <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupPageControls %>
         </div>
         
         $Content
         $RenderProductGroupPageGroupView
-        
+	
         <div class="silvercart-product-group-page-control-bottom">
             <% include SilvercartProductGroupPageControls %>
         </div>
