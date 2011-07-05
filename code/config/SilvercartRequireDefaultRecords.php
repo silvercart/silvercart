@@ -770,15 +770,20 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $ZoneEu->SilvercartCarrierID = $carrier->ID;
                 $ZoneEu->write();
 
-                //Retrieve the country dynamically depending on the installation language
-                $installationLanguage = i18n::get_locale();
-                $ISO2 = substr($installationLanguage, -2);
-                $country = DataObject::get_one('SilvercartCountry', "`ISO2` = '$ISO2'");
+                //Retrieve the active country if exists
+                $country = DataObject::get_one('SilvercartCountry', "`Active` = 1");
                 if (!$country) {
-                    $country = new SilvercartCountry();
-                    $country->Title = 'Testcountry';
-                    $country->ISO2 = 'DE';
-                    $country->ISO3 = 'DEU';
+                    //Retrieve the country dynamically depending on the installation language
+                    $installationLanguage = i18n::get_locale();
+                    $ISO2 = substr($installationLanguage, -2);
+                    $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2` = '%s'", $ISO2));
+                    if (!$country) {
+                        $country = new SilvercartCountry();
+                        $country->Title = 'Testcountry';
+                        $country->ISO2 = $ISO2;
+                        $country->ISO3 = $ISO2;
+                    }
+                    $country->Active = true;
                     $country->write();
                 }
                 $zoneDomestic->SilvercartCountries()->add($country);
