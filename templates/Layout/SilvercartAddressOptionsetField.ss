@@ -37,7 +37,7 @@
                                         <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="$Top.PageByIdentifierCodeLink(SilvercartAddressPage)$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
                                             &nbsp;
                                         </a>
-                                        <a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$Top.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
+                                        <a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
                                             &nbsp;
                                         </a>
                                     </div>

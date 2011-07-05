@@ -278,4 +278,20 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function getEditableShoppingCart() {
         return false;
     }
+    
+    /**
+     * Action to delete an address. Checks, whether the given address is related
+     * to the logged in customer and deletes it.
+     *
+     * @param SS_HTTPRequest $request The given request
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    public function deleteAddress(SS_HTTPRequest $request) {
+        $silvercartAddressHolder = new SilvercartAddressHolder_Controller();
+        $silvercartAddressHolder->deleteAddress($request);
+    }
 }

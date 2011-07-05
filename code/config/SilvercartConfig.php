@@ -112,7 +112,7 @@ class SilvercartConfig extends DataObject {
         'GeoNamesActive' => false,
         'GeoNamesAPI' => 'http://api.geonames.org/',
         'productsPerPage' => 15,
-        'productGroupsPerPage' => 15,
+        'productGroupsPerPage' => 6,
     );
     /**
      * Define all required configuration fields in this array. The given fields
