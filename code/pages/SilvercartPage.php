@@ -115,6 +115,19 @@ class SilvercartPage extends SiteTree {
         
         return false;
     }
+
+    /**
+     * configure the class name of the DataObjects to be shown on this page
+     * this is needed to show correct breadcrumbs. This is used as fall back.
+     *
+     * @return string class name of the DataObject to be shown on this page
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    public function getSection() {
+        return 'SilvercartAddress';
+    }
 }
 
 /**

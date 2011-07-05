@@ -34,7 +34,7 @@
                                         <% end_if %>
                                     </div>
                                     <div class="c33r">
-                                        <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="$Top.PageByIdentifierCodeLink(SilvercartAddressPage)$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
+                                        <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.Link}editAddress/$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
                                             &nbsp;
                                         </a>
                                         <a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
@@ -52,6 +52,6 @@
         <% end_control %>
     </ul>
     <% else %>
-    <p><% _t('SilvercartPaymentMethod.NO_PAYMENT_METHOD_AVAILABLE') %></p>
+    <p><% _t('SilvercartAddress.NO_ADDRESS_AVAILABLE') %></p>
     <% end_if %>
 </div>
