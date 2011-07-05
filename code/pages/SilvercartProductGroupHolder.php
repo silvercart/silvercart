@@ -39,7 +39,37 @@ class SilvercartProductGroupHolder extends Page {
         'SilvercartProductGroupPage',
         'RedirectorPage'
     );
+    
+    /**
+     * Attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    public static $db = array(
+        'productGroupsPerPage'  => 'Int'
+    );
+    
+    /**
+     * Return all fields of the backend.
+     *
+     * @return FieldSet Fields of the CMS
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 24.03.2011
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
+        $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField, 'IdentifierCode');
 
+        $this->extend('extendCMSFields', $fields);
+        return $fields;
+    }
 }
 
 /**
@@ -74,27 +104,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         }
 
         $SQL_start = (int) $_GET['start'];
-/*
-        $this->groupProducts = SilvercartProduct::getRandomProducts(5);
-
-        // Initialise formobjects
-        $templateProductList = new DataObjectSet();
-        $productIdx = 0;
-        if ($this->groupProducts) {
-            $productAddCartForm = $this->getCartFormName();
-            foreach ($this->groupProducts as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm' . $productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
-                $product->setField('Link', $product->Link());
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                                'ProductAddCartForm' . $productIdx,
-                                array(
-                                    $product
-                                )
-                );
-                $productIdx++;
-            }
-        }
-*/
+        
         parent::init();
     }
 
