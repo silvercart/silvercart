@@ -4,7 +4,7 @@
     <div class="subcolumns">
         <div class="c45l">
             <p>
-                Nicht zugewiesene Felder:
+                <% _t('SilvercartProductExportAdmin.NOT_ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_available_items" class="silvercart-multiselectandorder-field-available-items" name="availableItems[]" multiple="multiple" size="20">
                 <% control available_items %>
@@ -19,17 +19,17 @@
         </div>
         <div class="c45r">
             <p>
-                Zugewiesene Felder:
+                <% _t('SilvercartProductExportAdmin.ATTRIBUTED_FIELDS') %>:
             </p>
-            <select id="{$ID}_selected_items" class="silvercart-multiselectandorder-field-selected-items" name="selectedItems[]" size="20">
+            <select id="{$ID}_selected_items" class="silvercart-multiselectandorder-field-selected-items" name="selectedItems[]" multiple="multiple" size="20">
                 <% control selected_items %>
                     <option value="$value">$label</option>
                 <% end_control %>
             </select>
             
             <div class="silvercart-multiselectandorder-field-action-row">
-                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="Nach oben schieben" />
-                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="Nach unten schieben" />
+                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="<% _t('SilvercartProductExportAdmin.MOVE_UP') %>" />
+                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="<% _t('SilvercartProductExportAdmin.MOVE_DOWN') %>" />
             </div>
         </div>
     </div>

@@ -44,7 +44,8 @@ class SilvercartProductExporterField extends DataObject {
      */
     public static $db = array(
         'name'                                  => 'VarChar(255)',
-        'headerTitle'                           => 'VarChar(255)'
+        'headerTitle'                           => 'VarChar(255)',
+        'sortOrder'                             => 'Int'
     );
     
     /**

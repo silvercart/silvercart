@@ -173,6 +173,7 @@ class SilvercartProductExporter extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
+            'name'                  => _t('SilvercartProductExport.FIELD_NAME'),
             'updateInterval'        => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_LABEL'),
             'updateIntervalPeriod'  => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_PERIOD_LABEL'),
             'pushEnabled'           => _t('SilvercartProductExportAdmin.PUSH_ENABLED_LABEL'),

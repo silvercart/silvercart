@@ -116,7 +116,10 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
         // --------------------------------------------------------------------
         // Fill selected field list
         // --------------------------------------------------------------------
-        foreach ($this->exporterObj->SilvercartProductExporterFields() as $exporterField) {
+        $selectedProductExporterFields = $this->exporterObj->SilvercartProductExporterFields();
+        $selectedProductExporterFields->sort('sortOrder', 'ASC');
+        
+        foreach ($selectedProductExporterFields as $exporterField) {
             $selectedItems['item_'.$selectedItemIdx] = new ArrayData(
                 array(
                     'value' => $exporterField->name,

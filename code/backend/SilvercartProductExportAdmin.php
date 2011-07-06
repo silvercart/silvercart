@@ -162,6 +162,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                             $silvercartProductExporterField = new SilvercartProductExporterField();
                             $silvercartProductExporterField->setField('name', $field);
                             $silvercartProductExporterField->setField('SilvercartProductExporterID', $exporterObj->ID);
+                            $silvercartProductExporterField->setField('sortOrder', $exporterObj->SilvercartProductExporterFields()->Count() + 1);
                             $silvercartProductExporterField->write();
                             
                             $exporterObj->SilvercartProductExporterFields()->push($silvercartProductExporterField);
@@ -192,6 +193,36 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @since 06.07.2011
      */
     public function doRemoveItems($vars) {
+        
+        if (isset($vars['ID'])) {
+            $exporterObj = DataObject::get_by_id(
+                'SilvercartProductExporter',
+                Convert::raw2sql($vars['ID'])
+            );
+            
+            if ($exporterObj) {
+                if (is_array($vars['selectedItems'])) {
+                    foreach ($vars['selectedItems'] as $field) {
+                        
+                        $itemToDelete = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
+                        
+                        if ($itemToDelete) {
+                            $removedSortOrder = $itemToDelete->sortOrder;
+                            
+                            foreach ($exporterObj->SilvercartProductExporterFields() as $productExporterField) {
+                                if ($productExporterField->sortOrder > $removedSortOrder) {
+                                    $productExporterField->setField('sortOrder', $productExporterField->sortOrder - 1);
+                                    $productExporterField->write();
+                                }
+                            }
+                            
+                            $itemToDelete->delete();
+                        }
+                    }
+                }
+            }
+        }
+        
         // Behaviour switched on ajax.
 		if(Director::is_ajax()) {
 			return $this->edit($request);
@@ -211,6 +242,32 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @since 06.07.2011
      */
     public function doMoveUpItems($vars) {
+        
+        if (isset($vars['ID'])) {
+            $exporterObj = DataObject::get_by_id(
+                'SilvercartProductExporter',
+                Convert::raw2sql($vars['ID'])
+            );
+            
+            if ($exporterObj) {
+                if (is_array($vars['selectedItems'])) {
+                    foreach ($vars['selectedItems'] as $field) {
+                        
+                        $itemToMove = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
+                        
+                        if ($itemToMove) {
+                            if ($itemToMove->sortOrder > 1) {
+                                $moveFromPosition = $itemToMove->sortOrder;
+                                $moveToPosition   = $moveFromPosition - 1;
+                                
+                                $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         // Behaviour switched on ajax.
 		if(Director::is_ajax()) {
 			return $this->edit($request);
@@ -230,11 +287,76 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @since 06.07.2011
      */
     public function doMoveDownItems($vars) {
+        
+        if (isset($vars['ID'])) {
+            $exporterObj = DataObject::get_by_id(
+                'SilvercartProductExporter',
+                Convert::raw2sql($vars['ID'])
+            );
+            
+            if ($exporterObj) {
+                if (is_array($vars['selectedItems'])) {
+                    foreach ($vars['selectedItems'] as $field) {
+                        
+                        $itemToMove = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
+                        
+                        if ($itemToMove) {
+                            if ($itemToMove->sortOrder < $exporterObj->SilvercartProductExporterFields()->Count()) {
+                                $moveFromPosition = $itemToMove->sortOrder;
+                                $moveToPosition   = $moveFromPosition + 1;
+                                
+                                $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         // Behaviour switched on ajax.
 		if(Director::is_ajax()) {
 			return $this->edit($request);
 		} else {
 			Director::redirectBack();
 		}
+    }
+    
+    /**
+     * Changes positions of two SilvercartProductExporterFields.
+     * 
+     * @param SilvercartProductExporter      $exporterObj      The exporter object to which the fields are connected
+     * @param SilvercartProductExporterField $itemToMove       The item to move
+     * @param int                            $moveFromPosition Position to move the field from
+     * @param int                            $moveToPosition   Position to move the field to
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.07.2011
+     */
+    protected function changePositions(SilvercartProductExporter $exporterObj, SilvercartProductExporterField $itemToMove, $moveFromPosition, $moveToPosition) {
+        
+        if (!$exporterObj ||
+            !$itemToMove) {
+            
+            return false;
+        }
+        
+        $changerObject = DataObject::get_one(
+            'SilvercartProductExporterField',
+            sprintf(
+                "SilvercartProductExporterID = %d AND sortOrder = %d",
+                $exporterObj->ID,
+                $moveToPosition
+            )
+        );
+
+        if ($changerObject) {
+            $changerObject->setField('sortOrder', $moveFromPosition);
+            $changerObject->write();
+            
+            $itemToMove->setField('sortOrder', $moveToPosition);
+            $itemToMove->write();
+        }
     }
 }
