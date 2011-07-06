@@ -182,6 +182,30 @@ $lang['en_US']['SilvercartProduct']['TITLE'] = 'Product';
 $lang['en_US']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 
+$lang['en_US']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Set export fields';
+$lang['en_US']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Attributed export fields';
+$lang['en_US']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Available export fields';
+$lang['en_US']['SilvercartProductExport']['FIELD_CSV_SEPARATOR']                            = 'CSV separator';
+$lang['en_US']['SilvercartProductExport']['FIELD_NAME']                                     = 'Name';
+$lang['en_US']['SilvercartProductExport']['FIELD_PUSH_ENABLED']                             = 'Activate push';
+$lang['en_US']['SilvercartProductExport']['FIELD_PUSH_TO_URL']                              = 'Push to URL';
+$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_HEADLINE']                     = 'Export only products that';
+$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP']           = 'are attributed to a product group';
+$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE']          = 'have a product image';
+$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER']   = 'are attributed to a manufacturer';
+$lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
+$lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
+
+$lang['en_US']['SilvercartProductExportAdmin']['CSV_SEPARATOR_LABEL']                   = 'CSV separator';
+$lang['en_US']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
+$lang['en_US']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
+$lang['en_US']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_PERIOD_LABEL']          = 'Update interval period';
+$lang['en_US']['SilvercartProductExportAdmin']['SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL'] = 'Silvercart product export';
+$lang['en_US']['SilvercartProductExportAdmin']['TAB_BASIC_SETTINGS']                    = 'Basic settings';
+$lang['en_US']['SilvercartProductExportAdmin']['TAB_PRODUCT_SELECTION']                 = 'Product selection';
+$lang['en_US']['SilvercartProductExportAdmin']['TAB_EXPORT_FIELD_DEFINITIONS']          = 'CSV field definitions';
+$lang['en_US']['SilvercartProductExportAdmin']['TAB_HEADER_CONFIGURATION']              = 'CSV headers';
+
 $lang['en_US']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroups';
 $lang['en_US']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Product Group Holders';
 $lang['en_US']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = 'Show %s products';

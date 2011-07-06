@@ -70,30 +70,29 @@ class SilvercartAddressOptionsetField extends OptionsetField {
                 }
 
                 $items['item_'.$itemIdx] = new ArrayData(
-                        array_merge(
-                                array(
-                                    'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                                    'checked'           => $checked,
-                                    'odd'               => $odd,
-                                    'even'              => !$odd,
-                                    'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
-                                    'value'             => $key,
-                                    'label'             => $value,
-                                    'name'              => $this->name,
-                                    'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                                    'isInvoiceAddress'  => $address->isInvoiceAddress(),
-                                    'isShippingAddress' => $address->isShippingAddress(),
-                                ),
-                                $address->toMap()
-                        )
+                    array_merge(
+                        array(
+                            'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                            'checked'           => $checked,
+                            'odd'               => $odd,
+                            'even'              => !$odd,
+                            'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
+                            'value'             => $key,
+                            'label'             => $value,
+                            'name'              => $this->name,
+                            'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                            'isInvoiceAddress'  => $address->isInvoiceAddress(),
+                            'isShippingAddress' => $address->isShippingAddress(),
+                        ),
+                        $address->toMap()
+                    )
                 );
             }
 
             $itemIdx++;
         }
         $templateVars['items'] = new DataObjectSet($items);
-
-        $output = $this->customise($templateVars)->renderWith('SilvercartAddressOptionsetField');
+        $output                = $this->customise($templateVars)->renderWith('SilvercartAddressOptionsetField');
 
         return $output;
     }

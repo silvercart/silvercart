@@ -182,6 +182,30 @@ $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 
+$lang['de_DE']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Exportfelder bestimmen';
+$lang['de_DE']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Zugeordnete Exportfelder';
+$lang['de_DE']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Verfügbare Exportfelder';
+$lang['de_DE']['SilvercartProductExport']['FIELD_CSV_SEPARATOR']                            = 'CSV Trennzeichen';
+$lang['de_DE']['SilvercartProductExport']['FIELD_NAME']                                     = 'Name';
+$lang['de_DE']['SilvercartProductExport']['FIELD_PUSH_ENABLED']                             = 'Push aktivieren';
+$lang['de_DE']['SilvercartProductExport']['FIELD_PUSH_TO_URL']                              = 'Pushen an URL';
+$lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_HEADLINE']                     = 'Exportiere folgende Produkte';
+$lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP']           = 'einer Warengruppe zugeordnet sind';
+$lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE']          = 'ein Produktbild besitzen';
+$lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER']   = 'einem Hersteller zugeordnet sind';
+$lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Aktualisierungsrhythmus';
+$lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
+
+$lang['de_DE']['SilvercartProductExportAdmin']['CSV_SEPARATOR_LABEL']                   = 'CSV Trennzeichen';
+$lang['de_DE']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Push aktivieren';
+$lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Aktualisierungsinterval';
+$lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_PERIOD_LABEL']          = 'Aktualisierungsinterval Periode';
+$lang['de_DE']['SilvercartProductExportAdmin']['SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL'] = 'Silvercart Produktexport';
+$lang['de_DE']['SilvercartProductExportAdmin']['TAB_BASIC_SETTINGS']                    = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartProductExportAdmin']['TAB_PRODUCT_SELECTION']                 = 'Produktauswahl';
+$lang['de_DE']['SilvercartProductExportAdmin']['TAB_EXPORT_FIELD_DEFINITIONS']          = 'CSV-Felddefinitionen';
+$lang['de_DE']['SilvercartProductExportAdmin']['TAB_HEADER_CONFIGURATION']              = 'CSV-Kopfbereich';
+
 $lang['de_DE']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Artikelgruppenübersichten';
 $lang['de_DE']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = '%s Artikel anzeigen';
