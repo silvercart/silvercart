@@ -266,37 +266,6 @@ class SilvercartProductExporter extends DataObject {
         );
         
         // --------------------------------------------------------------------
-        // Header configuration
-        // --------------------------------------------------------------------
-        $tabHeaderConfiguration = new Tab('HeaderConfiguration', _t('SilvercartProductExportAdmin.TAB_HEADER_CONFIGURATION', 'Header configuration'));
-        $tabset->push($tabHeaderConfiguration);
-        
-        $tabHeaderFieldSet = new FieldSet();
-        
-        $tabHeaderFieldSet->push(
-            $fields->dataFieldByName('activateCsvHeaders')
-        );
-        
-        // Create exporterField list
-        $exporterFields = $this->SilvercartProductExporterFields();
-        $exporterFields->sort('sortOrder', 'ASC');
-        
-        foreach($exporterFields as $exporterField) {
-            if (empty($exporterField->headerTitle)) {
-                $headerTitle = $exporterField->name;
-            } else {
-                $headerTitle = $exporterField->headerTitle;
-            }
-            
-            $mappingField = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $exporterField->name, $headerTitle);
-            $tabHeaderFieldSet->push($mappingField);
-        }
-        
-        $tabHeaderConfiguration->setChildren(
-            $tabHeaderFieldSet
-        );
-        
-        // --------------------------------------------------------------------
         // Export field definitions
         // --------------------------------------------------------------------
         $tabExportFieldDefinitions = new Tab('ExportFieldDefinitions', _t('SilvercartProductExportAdmin.TAB_EXPORT_FIELD_DEFINITIONS', 'Export field definitions'));
@@ -328,6 +297,37 @@ class SilvercartProductExporter extends DataObject {
                 ),
                 $multiSelect2SideField
             )
+        );
+        
+        // --------------------------------------------------------------------
+        // Header configuration
+        // --------------------------------------------------------------------
+        $tabHeaderConfiguration = new Tab('HeaderConfiguration', _t('SilvercartProductExportAdmin.TAB_HEADER_CONFIGURATION', 'Header configuration'));
+        $tabset->push($tabHeaderConfiguration);
+        
+        $tabHeaderFieldSet = new FieldSet();
+        
+        $tabHeaderFieldSet->push(
+            $fields->dataFieldByName('activateCsvHeaders')
+        );
+        
+        // Create exporterField list
+        $exporterFields = $this->SilvercartProductExporterFields();
+        $exporterFields->sort('sortOrder', 'ASC');
+        
+        foreach($exporterFields as $exporterField) {
+            if (empty($exporterField->headerTitle)) {
+                $headerTitle = $exporterField->name;
+            } else {
+                $headerTitle = $exporterField->headerTitle;
+            }
+            
+            $mappingField = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $exporterField->name, $headerTitle);
+            $tabHeaderFieldSet->push($mappingField);
+        }
+        
+        $tabHeaderConfiguration->setChildren(
+            $tabHeaderFieldSet
         );
         
         return new FieldSet($tabset);
