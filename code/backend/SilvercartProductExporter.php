@@ -407,14 +407,39 @@ class SilvercartProductExporter extends DataObject {
      * @since 07.07.2011
      */
     protected function getCsvRowFromProduct($productObj) {
-        $rowElements = array();
-        $row         = '';
+        $includeRow     = true;
+        $rowElements    = array();
+        $row            = '';
+        $callbackClass  = $this->class.'_'.$this->name;
+        
+        if (class_exists($callbackClass)) {
+            $callbackReflectionClass = new ReflectionClass($callbackClass);
+        }
         
         $exportFields = $this->SilvercartProductExporterFields();
         $exportFields->sort('sortOrder', 'ASC');
         
-        foreach ($exportFields as $exportField) {
-            $rowElements[] = $productObj->getField($exportField->name);
+        if (class_exists($callbackClass)) {
+            if ($callbackReflectionClass->hasMethod('includeRow')) {
+                $includeRow = $callbackClass::includeRow($productObj);
+            }
+        }
+        
+        if ($includeRow) {
+            foreach ($exportFields as $exportField) {
+                $fieldValue = $productObj->getField($exportField->name);
+
+                // If a callback class and method exist for this exporter and field
+                // we use it's return value as field value.
+                if (class_exists($callbackClass)) {
+                    $callbackMethod = $exportField->name;
+                    if ($callbackReflectionClass->hasMethod($callbackMethod)) {
+                        $fieldValue = $callbackClass::$callbackMethod($productObj, $fieldValue);
+                    }
+                }
+
+                $rowElements[]  = $fieldValue;
+            }
         }
         
         $row  = implode($this->getPreparedCsvSeparator(), $rowElements);
@@ -439,7 +464,12 @@ class SilvercartProductExporter extends DataObject {
         $exportFields->sort('sortOrder', 'ASC');
         
         foreach ($exportFields as $exportField) {
-            $rowElements[] = $exportField->headerTitle;
+            if (empty($exportField->headerTitle)) {
+                $headerTitle = $exportField->name;
+            } else {
+                $headerTitle = $exportField->headerTitle;
+            }
+            $rowElements[] = $headerTitle;
         }
         
         $row  = implode($this->getPreparedCsvSeparator(), $rowElements);
