@@ -78,11 +78,14 @@ class SilvercartProductExporter extends DataObject {
         'selectOnlyProductsWithProductGroup'    => 'Boolean',
         'selectOnlyProductsWithImage'           => 'Boolean',
         'selectOnlyProductsWithManufacturer'    => 'Boolean',
+        'selectOnlyProductsWithQuantity'        => 'Boolean',
+        'selectOnlyProductsQuantity'            => 'Int',
         'csvSeparator'                          => 'VarChar(10)',
         'updateInterval'                        => 'Int',
         'updateIntervalPeriod'                  => "Enum('Minutes,Hours,Days,Weeks,Months,Years','Hours')",
         'pushEnabled'                           => 'Boolean',
         'pushToUrl'                             => 'VarChar(255)',
+        'activateCsvHeaders'                    => 'Boolean'
     );
     
     /**
@@ -127,11 +130,14 @@ class SilvercartProductExporter extends DataObject {
                 'selectOnlyProductsWithProductGroup'    => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP'),
                 'selectOnlyProductsWithImage'           => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE'),
                 'selectOnlyProductsWithManufacturer'    => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER'),
+                'selectOnlyProductsWithQuantity'        => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY'),
+                'selectOnlyProductsQuantity'            => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_QUANTITY'),
                 'csvSeparator'                          => _t('SilvercartProductExport.FIELD_CSV_SEPARATOR'),
                 'updateInterval'                        => _t('SilvercartProductExport.FIELD_UPDATE_INTERVAL'),
                 'updateIntervalPeriod'                  => _t('SilvercartProductExport.FIELD_UPDATE_INTERVAL_PERIOD'),
                 'pushEnabled'                           => _t('SilvercartProductExport.FIELD_PUSH_ENABLED'),
-                'pushToUrl'                             => _t('SilvercartProductExport.FIELD_PUSH_TO_URL')
+                'pushToUrl'                             => _t('SilvercartProductExport.FIELD_PUSH_TO_URL'),
+                'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS')
             )
         );
         
@@ -195,8 +201,9 @@ class SilvercartProductExporter extends DataObject {
      * @since 06.07.2011
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
-        $tabset = new TabSet('Sections');
+        $fields     = parent::getCMSFields($params);
+        $tabset     = new TabSet('Sections');
+        $dbFields   = DataObject::database_fields('SilvercartProduct');
         
         // --------------------------------------------------------------------
         // Basic settings
@@ -226,7 +233,9 @@ class SilvercartProductExporter extends DataObject {
                 new HeaderField('selectOnlyHeadline', _t('SilvercartProductExport.FIELD_SELECT_ONLY_HEADLINE'), 2),
                 $fields->dataFieldByName('selectOnlyProductsWithProductGroup'),
                 $fields->dataFieldByName('selectOnlyProductsWithImage'),
-                $fields->dataFieldByName('selectOnlyProductsWithManufacturer')
+                $fields->dataFieldByName('selectOnlyProductsWithManufacturer'),
+                $fields->dataFieldByName('selectOnlyProductsWithQuantity'),
+                $fields->dataFieldByName('selectOnlyProductsQuantity')
             )
         );
         
@@ -236,9 +245,29 @@ class SilvercartProductExporter extends DataObject {
         $tabHeaderConfiguration = new Tab('HeaderConfiguration', _t('SilvercartProductExportAdmin.TAB_HEADER_CONFIGURATION', 'Header configuration'));
         $tabset->push($tabHeaderConfiguration);
         
+        $tabHeaderFieldSet = new FieldSet();
+        
+        $tabHeaderFieldSet->push(
+            $fields->dataFieldByName('activateCsvHeaders')
+        );
+        
+        // Create exporterField list
+        $exporterFields = $this->SilvercartProductExporterFields();
+        $exporterFields->sort('sortOrder', 'ASC');
+        
+        foreach($exporterFields as $exporterField) {
+            if (empty($exporterField->headerTitle)) {
+                $headerTitle = $exporterField->name;
+            } else {
+                $headerTitle = $exporterField->headerTitle;
+            }
+            
+            $mappingField = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $exporterField->name, $headerTitle);
+            $tabHeaderFieldSet->push($mappingField);
+        }
+        
         $tabHeaderConfiguration->setChildren(
-            new FieldSet(
-            )
+            $tabHeaderFieldSet
         );
         
         // --------------------------------------------------------------------
@@ -249,7 +278,6 @@ class SilvercartProductExporter extends DataObject {
         
         $attributedFields   = array();
         $availableFields    = array();
-        $dbFields           = DataObject::database_fields('SilvercartProduct');
         
         foreach($dbFields as $fieldName => $fieldType) {
             $availableFields[$fieldName] = $fieldName;

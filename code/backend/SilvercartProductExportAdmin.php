@@ -137,6 +137,50 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
     }
     
     /**
+	 * We save the CSV-Header definitions here.
+	 *
+	 * @param array          $data    The sent data
+	 * @param Form           $form    The current form object
+	 * @param SS_HTTPRequest $request The HTTP request
+     * 
+	 * @return mixed
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+	 */
+	function doSave($data, $form, $request) {
+        
+        $exporterObj = DataObject::get_by_id(
+            'SilvercartProductExporter',
+            Convert::raw2sql($data['ID'])
+        );
+        
+        if ($exporterObj) {
+            foreach ($data as $httpFieldName => $fieldValue) {
+                if (substr($httpFieldName, 0, 32) == 'SilvercartProductExporterFields_') {
+                    $fieldName = substr($httpFieldName, 32);
+                    
+                    $exporterFieldObj = DataObject::get_one(
+                        'SilvercartProductExporterField',
+                        sprintf(
+                            "SilvercartProductExporterID = %d AND name = '%s'",
+                            $exporterObj->ID,
+                            $fieldName
+                        )
+                    );
+                    
+                    if ($exporterFieldObj) {
+                        $exporterFieldObj->setField('headerTitle', Convert::raw2sql($fieldValue));
+                        $exporterFieldObj->write();
+                    }
+                }
+            }
+        }
+        
+        return parent::doSave($data, $form, $request);
+    }
+    
+    /**
      * Attributes fields to the exporter.
      * 
      * @param array $vars The request parameters as associative array
@@ -243,6 +287,8 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      */
     public function doMoveUpItems($vars) {
         
+        $itemsToMove = array();
+        
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
@@ -256,14 +302,20 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                         $itemToMove = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
                         
                         if ($itemToMove) {
-                            if ($itemToMove->sortOrder > 1) {
-                                $moveFromPosition = $itemToMove->sortOrder;
-                                $moveToPosition   = $moveFromPosition - 1;
-                                
-                                $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
+                            if ($itemToMove->sortOrder <= $exporterObj->SilvercartProductExporterFields()->Count()) {
+                                $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
                             }
                         }
                     }
+                }
+                
+                ksort($itemsToMove);
+                
+                foreach ($itemsToMove as $sortOrder => $itemToMove) {
+                    $moveFromPosition = $itemToMove->sortOrder;
+                    $moveToPosition   = $moveFromPosition - 1;
+
+                    $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
                 }
             }
         }
@@ -288,6 +340,8 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      */
     public function doMoveDownItems($vars) {
         
+        $itemsToMove = array();
+        
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
@@ -302,13 +356,19 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                         
                         if ($itemToMove) {
                             if ($itemToMove->sortOrder < $exporterObj->SilvercartProductExporterFields()->Count()) {
-                                $moveFromPosition = $itemToMove->sortOrder;
-                                $moveToPosition   = $moveFromPosition + 1;
-                                
-                                $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
+                                $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
                             }
                         }
                     }
+                }
+                
+                krsort($itemsToMove);
+                
+                foreach ($itemsToMove as $sortOrder => $itemToMove) {
+                    $moveFromPosition = $itemToMove->sortOrder;
+                    $moveToPosition   = $moveFromPosition + 1;
+
+                    $this->changePositions($exporterObj, $itemToMove, $moveFromPosition, $moveToPosition);
                 }
             }
         }
