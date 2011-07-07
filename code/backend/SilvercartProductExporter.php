@@ -427,7 +427,11 @@ class SilvercartProductExporter extends DataObject {
         
         if ($includeRow) {
             foreach ($exportFields as $exportField) {
-                $fieldValue = $productObj->getField($exportField->name);
+                if ($exportField->isCallbackField) {
+                    $fieldValue = '';
+                } else {
+                    $fieldValue = $productObj->getField($exportField->name);
+                }
 
                 // If a callback class and method exist for this exporter and field
                 // we use it's return value as field value.

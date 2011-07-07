@@ -130,6 +130,21 @@ class SilvercartProductExportAdmin extends ModelAdmin {
 class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_CollectionController {
 
     public $showImportForm = false;
+    
+    /**
+	 * Shows results from the "search" action in a TableListField. 
+	 *
+	 * @uses getResultsTable()
+	 *
+	 * @return Form
+	 */
+	function ResultsForm($searchCriteria) {
+		$form = parent::ResultsForm($searchCriteria);
+		
+        $form->setActions(new FieldSet());
+        
+		return $form;
+	}
 }
 
 /**
@@ -166,6 +181,8 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
             return $this->doMoveUpItems($vars);
         } elseif (array_key_exists('doMoveDownItems', $vars)) {
             return $this->doMoveDownItems($vars);
+        } elseif (array_key_exists('doAddCallbackField', $vars)) {
+            return $this->doAddCallbackField($vars);
         } else {
             return parent::handleAction($request);
         }
@@ -183,7 +200,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
 	 */
-	function doSave($data, $form, $request) {
+	public function doSave($data, $form, $request) {
         
         $exporterObj = DataObject::get_by_id(
             'SilvercartProductExporter',
@@ -213,6 +230,48 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
         }
         
         return parent::doSave($data, $form, $request);
+    }
+    
+    /**
+     * Attributes a callback field to the exporter.
+     * 
+     * @param array $vars The request parameters as associative array
+     * 
+     * @return html
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    public function doAddCallbackField($vars) {
+        if (isset($vars['ID'])) {
+            $exporterObj = DataObject::get_by_id(
+                'SilvercartProductExporter',
+                Convert::raw2sql($vars['ID'])
+            );
+            
+            if ($exporterObj) {
+                if (isset($vars['callbackField']) &&
+                    !empty($vars['callbackField'])) {
+                    
+                    $silvercartProductExporterField = new SilvercartProductExporterField();
+                    $silvercartProductExporterField->setField('name', Convert::raw2sql($vars['callbackField']));
+                    $silvercartProductExporterField->setField('SilvercartProductExporterID', $exporterObj->ID);
+                    $silvercartProductExporterField->setField('sortOrder', $exporterObj->SilvercartProductExporterFields()->Count() + 1);
+                    $silvercartProductExporterField->setField('isCallbackField', true);
+                    $silvercartProductExporterField->write();
+
+                    $exporterObj->SilvercartProductExporterFields()->push($silvercartProductExporterField);
+                    $exporterObj->write();
+                }
+            }
+        }
+        
+        // Behaviour switched on ajax.
+		if(Director::is_ajax()) {
+			return $this->edit($request);
+		} else {
+			Director::redirectBack();
+		}
     }
     
     /**

@@ -32,9 +32,15 @@
     border:                             1px #bbb solid;
     padding:                            4px;
 }
-.silvercart-multiselectandorder-field-middle-button {
+.silvercart-multiselectandorder-field-middle-button,
+.action_doAddCallbackField {
     width:                              95%;
     margin:                             0px 0px 4px 0px;
+    padding:                            4px 8px;
+}
+.action_doAddCallbackField {
+    width:                              98%;
+    margin:                             0px 0px 4px 4px;
     padding:                            4px 8px;
 }
 .silvercart-multiselectandorder-field-action-row {

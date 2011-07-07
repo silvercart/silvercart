@@ -201,6 +201,7 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANT
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Aktualisierungsrhythmus';
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 
+$lang['de_DE']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Zugewiesene Felder';
 $lang['de_DE']['SilvercartProductExportAdmin']['CSV_SEPARATOR_LABEL']                   = 'CSV Trennzeichen';
 $lang['de_DE']['SilvercartProductExportAdmin']['MOVE_DOWN']                             = 'Nach unten schieben';

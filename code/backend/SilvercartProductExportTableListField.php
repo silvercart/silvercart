@@ -139,19 +139,7 @@ class SilvercartProductExportTableListField_Item extends TableListField_Item {
      */
     public function Actions() {
         $allowedActions = parent::Actions();
-        //$allowedActions = new DataObjectSet();
-/*
-        $allowedActions->push(new ArrayData(array(
-                'Name'          => 'export',
-                'Link'          => 'javascript:;',
-                'Icon'          => 'cms/images/network-save.gif',
-                'IconDisabled'  => 'ccms/images/network-save-bw.gif',
-                'Label'         => 'Export',
-                'Class'         => '',
-                'Default'       => '',
-                'IsAllowed'     => false,
-        )));
-*/
+        
         return $allowedActions;
     }
 
