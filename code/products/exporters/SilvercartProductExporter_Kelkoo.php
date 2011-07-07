@@ -54,7 +54,7 @@ class SilvercartProductExporter_Kelkoo {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    public function includeRow($product) {
+    public static function includeRow($product) {
         return true;
     }
     
