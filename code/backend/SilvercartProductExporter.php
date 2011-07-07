@@ -46,6 +46,16 @@ class SilvercartProductExporter extends DataObject {
     protected $obj;
     
     /**
+     * Contains the path to the export directory.
+     * 
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected $exportDirectory;
+    
+    /**
      * singular name for backend
      *
      * @var string
@@ -85,7 +95,8 @@ class SilvercartProductExporter extends DataObject {
         'updateIntervalPeriod'                  => "Enum('Minutes,Hours,Days,Weeks,Months,Years','Hours')",
         'pushEnabled'                           => 'Boolean',
         'pushToUrl'                             => 'VarChar(255)',
-        'activateCsvHeaders'                    => 'Boolean'
+        'activateCsvHeaders'                    => 'Boolean',
+        'lastExportDateTime'                    => 'SS_Datetime'
     );
     
     /**
@@ -103,13 +114,21 @@ class SilvercartProductExporter extends DataObject {
     /**
      * We initialise the obj variable here.
      * 
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of field values.
+     *                                Normally this contructor is only used by the internal systems that get objects from the database.
+	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.
+     *                                Singletons don't have their defaults set.
+     * 
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function init() {
-        $this->obj = 'SilvercartProduct';
+    public function __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        
+        $this->obj              = 'SilvercartProduct';
+        $this->exportDirectory  = Director::baseFolder().'/silvercart/product_exports/';
     }
     
     /**
@@ -182,6 +201,7 @@ class SilvercartProductExporter extends DataObject {
             'name'                  => _t('SilvercartProductExport.FIELD_NAME'),
             'updateInterval'        => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_LABEL'),
             'updateIntervalPeriod'  => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_PERIOD_LABEL'),
+            'lastExportDateTime'    => _t('SilvercartProductExport.FIELD_LAST_EXPORT_DATE_TIME'),
             'pushEnabled'           => _t('SilvercartProductExportAdmin.PUSH_ENABLED_LABEL'),
             'csvSeparator'          => _t('SilvercartProductExportAdmin.CSV_SEPARATOR_LABEL')
         );
@@ -204,6 +224,11 @@ class SilvercartProductExporter extends DataObject {
         $fields     = parent::getCMSFields($params);
         $tabset     = new TabSet('Sections');
         $dbFields   = DataObject::database_fields('SilvercartProduct');
+        $lastExport = $this->lastExportDateTime;
+        
+        if (!$lastExport) {
+            $lastExport = '---';
+        }
         
         // --------------------------------------------------------------------
         // Basic settings
@@ -218,7 +243,8 @@ class SilvercartProductExporter extends DataObject {
                 $fields->dataFieldByName('updateInterval'),
                 $fields->dataFieldByName('updateIntervalPeriod'),
                 $fields->dataFieldByName('pushEnabled'),
-                $fields->dataFieldByName('pushToUrl')
+                $fields->dataFieldByName('pushToUrl'),
+                new LiteralField('lastExportDateTime', '<p>'._t('SilvercartProductExport.FIELD_LAST_EXPORT_DATE_TIME').': '.$lastExport.'</p>')
             )
         );
         
@@ -305,5 +331,138 @@ class SilvercartProductExporter extends DataObject {
         );
         
         return new FieldSet($tabset);
+    }
+    
+    /**
+     * Create an export file.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    public function doExport() {
+        $fileName = $this->name.'.csv';
+        $products = DataObject::get(
+            $this->obj,
+            $this->getSqlFilter()
+        );
+        
+        if ($fp = fopen($this->exportDirectory.$fileName, 'w')) {
+            
+            if ($this->activateCsvHeaders) {
+                fwrite($fp, $this->getHeaderRow());
+            }
+            
+            if ($products) {
+                foreach ($products as $product) {
+                    fwrite($fp, $this->getCsvRowFromProduct($product));
+                }
+            }
+            fclose($fp);
+        }
+        
+        $this->setField('lastExportDateTime', date('Y-m-d H:i:s'));
+        $this->write();
+    }
+    
+    /**
+     * Returns the filter for the SQL query as string.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected function getSqlFilter() {
+        $filter = "isActive = 1";
+        
+        if ($this->selectOnlyProductsWithProductGroup) {
+            $filter .= " AND SilvercartProductGroupID > 0";
+        }
+        if ($this->selectOnlyProductsWithImage) {
+            
+        }
+        if ($this->selectOnlyProductsWithManufacturer) {
+            $filter .= " AND SilvercartManufacturerID > 0";
+        }
+        if ($this->selectOnlyProductsWithQuantity) {
+            $filter .= sprintf(
+                " AND Quantity > %d",
+                $this->selectOnlyProductsQuantity
+            );
+        }
+        
+        return $filter;
+    }
+    
+    /**
+     * Returns a string in CSV format from the given product's data.
+     *
+     * @param SilvercartProduct $productObj The product to extract the data from
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected function getCsvRowFromProduct($productObj) {
+        $rowElements = array();
+        $row         = '';
+        
+        $exportFields = $this->SilvercartProductExporterFields();
+        $exportFields->sort('sortOrder', 'ASC');
+        
+        foreach ($exportFields as $exportField) {
+            $rowElements[] = $productObj->getField($exportField->name);
+        }
+        
+        $row  = implode($this->getPreparedCsvSeparator(), $rowElements);
+        $row .= "\n";
+        
+        return $row;
+    }
+    
+    /**
+     * Returns a string in CSV format that is used as header.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected function getHeaderRow() {
+        $rowElements = array();
+        $row         = '';
+        
+        $exportFields = $this->SilvercartProductExporterFields();
+        $exportFields->sort('sortOrder', 'ASC');
+        
+        foreach ($exportFields as $exportField) {
+            $rowElements[] = $exportField->headerTitle;
+        }
+        
+        $row  = implode($this->getPreparedCsvSeparator(), $rowElements);
+        $row .= "\n";
+        
+        return $row;
+    }
+    
+    /**
+     * Returns the separator for the CSV fields.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected function getPreparedCsvSeparator() {
+        $separator = $this->csvSeparator;
+        
+        if ($separator == '\t') {
+            $separator = "\t";
+        }
+        
+        return $separator;
     }
 }

@@ -46,6 +46,16 @@ class SilvercartProductExportAdmin extends ModelAdmin {
     );
     
     /**
+     * The collection controller class to use for the shop configuration.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.07.2011
+     */
+    public static $collection_controller_class = 'SilvercartProductExportAdmin_CollectionController';
+    
+    /**
      * We use our own RecordController class.
      * 
 	 * @param string
@@ -86,7 +96,17 @@ class SilvercartProductExportAdmin extends ModelAdmin {
     public static $menu_priority = -1;
 
     /**
-     * constructor
+     * Set the result table class.
+     * 
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected $resultsTableClassName = 'SilvercartProductExportTableListField';
+    
+    /**
+     * We set the menu title for the CMS here.
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.07.2011
@@ -95,6 +115,21 @@ class SilvercartProductExportAdmin extends ModelAdmin {
         self::$menu_title = _t('SilvercartProductExportAdmin.SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL', 'SilverCart product export');
         parent::__construct();
     }
+}
+
+/**
+ * Modifies the model admin search panel.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 07.07.2011
+ * @copyright 2011 pixeltricks GmbH
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_CollectionController {
+
+    public $showImportForm = false;
 }
 
 /**

@@ -187,6 +187,7 @@ $lang['de_DE']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']      
 $lang['de_DE']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Zugeordnete Exportfelder';
 $lang['de_DE']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Verfügbare Exportfelder';
 $lang['de_DE']['SilvercartProductExport']['FIELD_CSV_SEPARATOR']                            = 'CSV Trennzeichen';
+$lang['de_DE']['SilvercartProductExport']['FIELD_LAST_EXPORT_DATE_TIME']                    = 'Letzter Export';
 $lang['de_DE']['SilvercartProductExport']['FIELD_NAME']                                     = 'Name';
 $lang['de_DE']['SilvercartProductExport']['FIELD_PUSH_ENABLED']                             = 'Push aktivieren';
 $lang['de_DE']['SilvercartProductExport']['FIELD_PUSH_TO_URL']                              = 'Pushen an URL';
