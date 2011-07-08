@@ -174,15 +174,15 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
         $vars = $request->requestVars();
 
         if (array_key_exists('doAttributeItems', $vars)) {
-            return $this->doAttributeItems($vars);
+            return $this->doAttributeItems($vars, $request);
         } elseif (array_key_exists('doRemoveItems', $vars)) {
-            return $this->doRemoveItems($vars);
+            return $this->doRemoveItems($vars, $request);
         } elseif (array_key_exists('doMoveUpItems', $vars)) {
-            return $this->doMoveUpItems($vars);
+            return $this->doMoveUpItems($vars, $request);
         } elseif (array_key_exists('doMoveDownItems', $vars)) {
-            return $this->doMoveDownItems($vars);
+            return $this->doMoveDownItems($vars, $request);
         } elseif (array_key_exists('doAddCallbackField', $vars)) {
-            return $this->doAddCallbackField($vars);
+            return $this->doAddCallbackField($vars, $request);
         } else {
             return parent::handleAction($request);
         }
@@ -242,7 +242,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    public function doAddCallbackField($vars) {
+    public function doAddCallbackField($vars, $request) {
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
@@ -284,7 +284,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doAttributeItems($vars) {
+    public function doAttributeItems($vars, $request) {
         
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
@@ -330,7 +330,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doRemoveItems($vars) {
+    public function doRemoveItems($vars, $request) {
         
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
@@ -379,7 +379,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doMoveUpItems($vars) {
+    public function doMoveUpItems($vars, $request) {
         
         $itemsToMove = array();
         
@@ -432,7 +432,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doMoveDownItems($vars) {
+    public function doMoveDownItems($vars, $request) {
         
         $itemsToMove = array();
         

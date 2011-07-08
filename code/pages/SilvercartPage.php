@@ -232,7 +232,7 @@ class SilvercartPage_Controller extends ContentController {
             if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
-        } elseif (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
+        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
             $checkConfiguration = false;
         }
         if ($checkConfiguration) {

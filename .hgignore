@@ -8,4 +8,5 @@
 ^log/.*\.log$
 silverstripe-cache/.*
 nbproject/.*
+product_exports/.*
 
