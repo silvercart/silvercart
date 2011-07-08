@@ -42,7 +42,7 @@ class SilvercartTextWidget extends Widget {
      * @since 09.06.2011
      */
     public static $db = array(
-        'FreeText'  => 'Text'
+        'FreeText'  => 'HTMLText'
     );
     
     /**

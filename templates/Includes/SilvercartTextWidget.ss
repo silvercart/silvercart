@@ -1,1 +1,1 @@
-$FreeText
+$FreeText.Raw
