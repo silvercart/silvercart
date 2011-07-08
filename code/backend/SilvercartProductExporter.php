@@ -84,6 +84,7 @@ class SilvercartProductExporter extends DataObject {
      * @since 05.07.2011
      */
     public static $db = array(
+        'isActive'                              => 'Boolean(0)',
         'name'                                  => 'VarChar(255)',
         'selectOnlyProductsWithProductGroup'    => 'Boolean',
         'selectOnlyProductsWithImage'           => 'Boolean',
@@ -145,6 +146,7 @@ class SilvercartProductExporter extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
+                'isActive'                              => _t('SilvercartProductExport.IS_ACTIVE'),
                 'name'                                  => _t('SilvercartProductExport.FIELD_NAME'),
                 'selectOnlyProductsWithProductGroup'    => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP'),
                 'selectOnlyProductsWithImage'           => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE'),
@@ -198,6 +200,7 @@ class SilvercartProductExporter extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
+            'isActive'              => _t('SilvercartProductExport.IS_ACTIVE'),
             'name'                  => _t('SilvercartProductExport.FIELD_NAME'),
             'updateInterval'        => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_LABEL'),
             'updateIntervalPeriod'  => _t('SilvercartProductExportAdmin.UPDATE_INTERVAL_PERIOD_LABEL'),
@@ -238,6 +241,7 @@ class SilvercartProductExporter extends DataObject {
         
         $tabBasic->setChildren(
             new FieldSet(
+                $fields->dataFieldByName('isActive'),
                 $fields->dataFieldByName('name'),
                 $fields->dataFieldByName('csvSeparator'),
                 $fields->dataFieldByName('updateInterval'),
@@ -336,12 +340,15 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Create an export file.
      *
+     * @param Int $referenceCurrentTimeStamp The timestamp to use as last
+     *                                       export date.
+     * 
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    public function doExport() {
+    public function doExport($exportTimeStamp = null) {
         $fileName = $this->name.'.csv';
         $products = DataObject::get(
             $this->obj,
@@ -362,7 +369,10 @@ class SilvercartProductExporter extends DataObject {
             fclose($fp);
         }
         
-        $this->setField('lastExportDateTime', date('Y-m-d H:i:s'));
+        if (!$exportTimeStamp) {
+            $exportTimeStamp = time();
+        }
+        $this->setField('lastExportDateTime', date('Y-m-d H:i:s', $exportTimeStamp));
         $this->write();
     }
     
