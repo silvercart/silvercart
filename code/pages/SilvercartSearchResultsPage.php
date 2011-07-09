@@ -137,10 +137,30 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
             $searchResultProducts= unserialize($result);
         } else {
             $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
-
+            
             if (empty($useExtensionResults)) {
-                $whereClause = sprintf("`Title` LIKE '%%%s%%' OR `ShortDescription` LIKE '%%%s%%' OR `LongDescription` LIKE '%%%s%%' OR `MetaKeywords` LIKE '%%%s%%' OR `ProductNumberShop` LIKE '%%%s%%'", $var,$var,$var,$var,$var);
-                $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
+                $whereClause = sprintf("
+                    `SilvercartProductGroupID` IS NOT NULL AND
+                    `SilvercartProductGroupID` > 0 AND
+                    `isActive` = 1 AND (
+                        `Title` LIKE '%%%s%%' OR
+                        `ShortDescription` LIKE '%%%s%%' OR
+                        `LongDescription` LIKE '%%%s%%' OR
+                        `MetaKeywords` LIKE '%%%s%%' OR
+                        `ProductNumberShop` LIKE '%%%s%%' OR
+                        STRCMP(
+                            SOUNDEX(`Title`), SOUNDEX('%s')
+                        ) = 0
+                    )
+                    ",
+                    $var,// Title
+                    $var,// ShortDescription
+                    $var,// LongDescription
+                    $var,// MetaKeywords
+                    $var,// ProductNumberShop
+                    $var// Title SOUNDEX
+                );
+                $searchResultProducts = SilvercartProduct::get($whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
             }
 
             if (!$searchResultProducts) {
