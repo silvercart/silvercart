@@ -87,7 +87,8 @@ class SilvercartConfig extends DataObject {
         'productsPerPage' => 'Int',
         'productGroupsPerPage' => 'Int',
         'minimumOrderValue' => 'Money',
-        'useMinimumOrderValue' => 'Boolean(0)'
+        'useMinimumOrderValue' => 'Boolean(0)',
+        'useApacheSolrSearch' => 'Boolean(0)'
     );
     
     /**
@@ -137,15 +138,16 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $defaultCurrency = null;
-    public static $emailSender = null;
+    public static $defaultCurrency      = null;
+    public static $emailSender          = null;
     public static $globalEmailRecipient = null;
-    public static $priceType = null;
-    public static $config = null;
-    public static $enableSSL = null;
-    public static $minimumOrderValue = null;
+    public static $priceType            = null;
+    public static $config               = null;
+    public static $enableSSL            = null;
+    public static $minimumOrderValue    = null;
     public static $useMinimumOrderValue = null;
-    public static $productsPerPage = null;
+    public static $productsPerPage      = null;
+    public static $useApacheSolrSearch  = null;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -290,6 +292,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['useMinimumOrderValue'] = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
         $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         $fieldLabels['productGroupsPerPage'] = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
+        $fieldLabels['useApacheSolrSearch'] = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
         return $fieldLabels;
     }
 
@@ -736,6 +739,21 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupHolderView($groupHolderView) {
         SilvercartGroupViewHandler::removeGroupHolderView($groupHolderView);
+    }
+    
+    /**
+     * Returns whether the Apache Solr search should be used or not.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.07.2011
+     */
+    public static function UseApacheSolrSearch() {
+        if (is_null(self::$useApacheSolrSearch)) {
+            self::$useApacheSolrSearch = self::getConfig()->useApacheSolrSearch;
+        }
+        return self::$useApacheSolrSearch;
     }
 
     /**

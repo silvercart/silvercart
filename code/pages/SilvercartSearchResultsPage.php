@@ -118,7 +118,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
-        $var                    = Convert::raw2sql($this->getSearchQuery());
+        $searchQuery            = Convert::raw2sql($this->getSearchQuery());
         $searchResultProducts   = $this->searchResultProducts;
 
         if ($this->productsPerPage) {
@@ -129,38 +129,81 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
 
         $SQL_start = $this->getSqlOffset();
 
-        $cachekey = 'SilvercartSearchResultsPage'.sha1($var).'_'.md5($var).'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
+        $cachekey = 'SilvercartSearchResultsPage'.sha1($searchQuery).'_'.md5($searchQuery).'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
         $cache    = SS_Cache::factory($cachekey);
         $result   = $cache->load($cachekey);
         
         if ($result) {
             $searchResultProducts= unserialize($result);
         } else {
-            $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $var, $SQL_start);
+            $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
             
             if (empty($useExtensionResults)) {
-                $whereClause = sprintf("
-                    `SilvercartProductGroupID` IS NOT NULL AND
-                    `SilvercartProductGroupID` > 0 AND
-                    `isActive` = 1 AND (
-                        `Title` LIKE '%%%s%%' OR
-                        `ShortDescription` LIKE '%%%s%%' OR
-                        `LongDescription` LIKE '%%%s%%' OR
-                        `MetaKeywords` LIKE '%%%s%%' OR
-                        `ProductNumberShop` LIKE '%%%s%%' OR
-                        STRCMP(
-                            SOUNDEX(`Title`), SOUNDEX('%s')
-                        ) = 0
-                    )
-                    ",
-                    $var,// Title
-                    $var,// ShortDescription
-                    $var,// LongDescription
-                    $var,// MetaKeywords
-                    $var,// ProductNumberShop
-                    $var// Title SOUNDEX
-                );
-                $searchResultProducts = SilvercartProduct::get($whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
+                $solr = new Apache_Solr_Service( 'localhost', '8983', '/solr' );
+                
+                if (SilvercartConfig::UseApacheSolrSearch() &&
+                    $solr->ping()) {
+                    // --------------------------------------------------------
+                    // Apache Solr search
+                    // --------------------------------------------------------
+                    $searchResultProducts = array();
+                    $foundProductsTotal   = 0;
+                    $queries              = array(
+                        'Title: '.$searchQuery
+                    );
+
+                    foreach ($queries as $query) {
+                        $response = $solr->search($query, $SQL_start, $productsPerPage);
+                    }
+
+                    if ($response->getHttpStatus() == 200) {
+                        $foundProductsTotal = $response->response->numFound;
+                        
+                        if ($foundProductsTotal > 0) {
+                            foreach ($response->response->docs as $doc ) {
+                                $product = DataObject::get_by_id(
+                                    'SilvercartProduct',
+                                    $doc->ID
+                                );
+
+                                if ($product) {
+                                    $searchResultProducts[] = $product;
+                                }
+                            }
+                        }
+                    } else {
+                        // TODO: log solr error
+                        echo $response->getHttpStatusMessage();
+                    }
+                    $searchResultProducts = new DataObjectSet($searchResultProducts);
+                    $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);
+                } else {
+                    // --------------------------------------------------------
+                    // Regular search
+                    // --------------------------------------------------------
+                    $whereClause = sprintf("
+                        `SilvercartProductGroupID` IS NOT NULL AND
+                        `SilvercartProductGroupID` > 0 AND
+                        `isActive` = 1 AND (
+                            `Title` LIKE '%%%s%%' OR
+                            `ShortDescription` LIKE '%%%s%%' OR
+                            `LongDescription` LIKE '%%%s%%' OR
+                            `MetaKeywords` LIKE '%%%s%%' OR
+                            `ProductNumberShop` LIKE '%%%s%%' OR
+                            STRCMP(
+                                SOUNDEX(`Title`), SOUNDEX('%s')
+                            ) = 0
+                        )
+                        ",
+                        $searchQuery,// Title
+                        $searchQuery,// ShortDescription
+                        $searchQuery,// LongDescription
+                        $searchQuery,// MetaKeywords
+                        $searchQuery,// ProductNumberShop
+                        $searchQuery// Title SOUNDEX
+                    );
+                    $searchResultProducts = SilvercartProduct::get( $whereClause, null, null, sprintf("%d,%d", $SQL_start, $productsPerPage));
+                }
             }
 
             if (!$searchResultProducts) {
@@ -171,6 +214,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         }
 
         $this->searchResultProducts = $searchResultProducts;
+        
         $productIdx                 = 0;
         if ($searchResultProducts) {
             $productAddCartForm = $this->getCartFormName();
@@ -292,12 +336,12 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @since 12.06.2011
      */
     public function TotalSearchResults() {
-        if ($this->productsPerPage) {
-            $productsPerPage = $this->productsPerPage;
-        } else {
-            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        $totalItems = 0;
+        
+        if ($this->getProducts()) {
+            $totalItems = $this->getProducts()->TotalItems();
         }
         
-        return $this->getProducts()->Pages()->TotalItems() * $productsPerPage;
+        return $totalItems;
     }
 }

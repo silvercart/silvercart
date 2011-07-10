@@ -335,6 +335,7 @@ $lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_GB']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_GB']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_GB']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
+$lang['en_GB']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_GB']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum order value';
 
 $lang['en_GB']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
