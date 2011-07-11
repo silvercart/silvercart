@@ -139,7 +139,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
             $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
             
             if (empty($useExtensionResults)) {
-                $solr = new Apache_Solr_Service( 'localhost', '8983', '/solr' );
+                $solr = new Apache_Solr_Service('localhost', SilvercartConfig::apacheSolrPort(), SilvercartConfig::apacheSolrUrl());
                 
                 if (SilvercartConfig::UseApacheSolrSearch() &&
                     $solr->ping()) {
@@ -149,31 +149,34 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                     $searchResultProducts = array();
                     $foundProductsTotal   = 0;
                     $queries              = array(
-                        'Title: '.$searchQuery
+                        sprintf(
+                            "Title: %s",
+                            $searchQuery
+                        )
                     );
 
                     foreach ($queries as $query) {
                         $response = $solr->search($query, $SQL_start, $productsPerPage);
-                    }
 
-                    if ($response->getHttpStatus() == 200) {
-                        $foundProductsTotal = $response->response->numFound;
-                        
-                        if ($foundProductsTotal > 0) {
-                            foreach ($response->response->docs as $doc ) {
-                                $product = DataObject::get_by_id(
-                                    'SilvercartProduct',
-                                    $doc->ID
-                                );
+                        if ($response->getHttpStatus() == 200) {
+                            $foundProductsTotal += $response->response->numFound;
 
-                                if ($product) {
-                                    $searchResultProducts[] = $product;
+                            if ($foundProductsTotal > 0) {
+                                foreach ($response->response->docs as $doc ) {
+                                    $product = DataObject::get_by_id(
+                                        'SilvercartProduct',
+                                        $doc->ID
+                                    );
+
+                                    if ($product) {
+                                        $searchResultProducts[] = $product;
+                                    }
                                 }
                             }
+                        } else {
+                            // TODO: log solr error
+                            echo $response->getHttpStatusMessage();
                         }
-                    } else {
-                        // TODO: log solr error
-                        echo $response->getHttpStatusMessage();
                     }
                     $searchResultProducts = new DataObjectSet($searchResultProducts);
                     $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);

@@ -232,6 +232,28 @@
       </analyzer>
     </fieldType>
 
+    <fieldType name="text_de" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory" />
+            <filter class="solr.LengthFilterFactory" min="2" max="5000" />
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_de.txt" />
+            <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1" />
+            <filter class="solr.LowerCaseFilterFactory" />
+            <filter class="solr.DictionaryCompoundWordTokenFilterFactory" dictionary="my_dictionary.txt" />
+            <filter class="solr.SnowballPorterFilterFactory" language="German" />
+            <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms_de.txt" ignoreCase="true" expand="true"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory" />
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords_de.txt" />
+            <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1" />
+            <filter class="solr.LowerCaseFilterFactory" />
+            <filter class="solr.SnowballPorterFilterFactory" language="German" />
+            <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+        </analyzer>
+    </fieldType> 
+
     <!-- A text field with defaults appropriate for English: it
          tokenizes with StandardTokenizer, removes English stop words
          (stopwords_en.txt), down cases, protects words from protwords.txt, and
@@ -494,11 +516,11 @@
        when adding a document.
    -->
 
-    <field name="ShortDescription"          type="text_general" indexed="true" stored="true" required="false" />
-    <field name="LongDescription"           type="text_general" indexed="true" stored="true" required="false" />
-    <field name="MetaDescription"           type="text_general" indexed="true" stored="true" required="false" />
-    <field name="MetaTitle"                 type="text_general" indexed="true" stored="true" required="false" />
-    <field name="MetaKeywords"              type="text_general" indexed="true" stored="true" required="false" />
+    <field name="ShortDescription"          type="text_de" indexed="true" stored="true" required="false" />
+    <field name="LongDescription"           type="text_de" indexed="true" stored="true" required="false" />
+    <field name="MetaDescription"           type="text_de" indexed="true" stored="true" required="false" />
+    <field name="MetaTitle"                 type="text_de" indexed="true" stored="true" required="false" />
+    <field name="MetaKeywords"              type="text_de" indexed="true" stored="true" required="false" />
     <field name="ProductNumberShop"         type="string"       indexed="true" stored="true" required="false" />
     <field name="ProductNumberManufacturer" type="string"       indexed="true" stored="true" required="false" />
     <field name="PurchasePriceAmount"       type="float"        indexed="true" stored="true" required="false" />
@@ -542,7 +564,7 @@
      Some fields are multiValued only because Tika currently may return
      multiple values for them.
    -->
-   <field name="Title" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="Title" type="phonetic" indexed="true" stored="true" multiValued="true"/>
 
 
    <!-- catchall field, containing all other searchable text fields (implemented

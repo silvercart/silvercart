@@ -838,7 +838,13 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     public function Link() {
-        return $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+        $link = '';
+        
+        if ($this->SilvercartProductGroup()) {
+            $link = $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+        }
+        
+        return $link;
     }
     
     /**

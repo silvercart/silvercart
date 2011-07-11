@@ -69,26 +69,28 @@ class SilvercartConfig extends DataObject {
      * @since 27.06.2011
      */
     public static $db = array(
-        'SilvercartVersion' => 'VarChar(16)',
-        'SilvercartUpdateVersion' => 'VarChar(16)',
-        'DefaultCurrency' => 'VarChar(16)',
-        'EmailSender' => 'VarChar(255)',
-        'GlobalEmailRecipient' => 'VarChar(255)',
-        'PricetypeAnonymousCustomers' => 'VarChar(6)',
-        'PricetypeRegularCustomers' => 'VarChar(6)',
-        'PricetypeBusinessCustomers' => 'VarChar(6)',
-        'PricetypeAdmins' => 'VarChar(6)',
+        'SilvercartVersion'             => 'VarChar(16)',
+        'SilvercartUpdateVersion'       => 'VarChar(16)',
+        'DefaultCurrency'               => 'VarChar(16)',
+        'EmailSender'                   => 'VarChar(255)',
+        'GlobalEmailRecipient'          => 'VarChar(255)',
+        'PricetypeAnonymousCustomers'   => 'VarChar(6)',
+        'PricetypeRegularCustomers'     => 'VarChar(6)',
+        'PricetypeBusinessCustomers'    => 'VarChar(6)',
+        'PricetypeAdmins'               => 'VarChar(6)',
+        'enableSSL'                     => 'Boolean(0)',
+        'productsPerPage'               => 'Int',
+        'productGroupsPerPage'          => 'Int',
+        'minimumOrderValue'             => 'Money',
+        'useMinimumOrderValue'          => 'Boolean(0)',
+        'useApacheSolrSearch'           => 'Boolean(0)',
+        'apacheSolrUrl'                 => 'VarChar(255)',
+        'apacheSolrPort'                => 'Int',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
-        'GeoNamesActive' => 'Boolean',
-        'GeoNamesUserName' => 'VarChar(128)',
-        'GeoNamesAPI' => 'VarChar(255)',
-        'enableSSL' => 'Boolean(0)',
-        'productsPerPage' => 'Int',
-        'productGroupsPerPage' => 'Int',
-        'minimumOrderValue' => 'Money',
-        'useMinimumOrderValue' => 'Boolean(0)',
-        'useApacheSolrSearch' => 'Boolean(0)'
+        'GeoNamesActive'                => 'Boolean',
+        'GeoNamesUserName'              => 'VarChar(128)',
+        'GeoNamesAPI'                   => 'VarChar(255)',
     );
     
     /**
@@ -103,17 +105,27 @@ class SilvercartConfig extends DataObject {
         'SilvercartNoImage' => 'Image'
     );
     
+    /**
+     * Defaults for empty fields.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.07.2011
+     */
     public static $defaults = array(
-        'SilvercartVersion' => '1.0',
-        'SilvercartUpdateVersion' => '3',
-        'PricetypeAnonymousCustomers' => 'gross',
-        'PricetypeRegularCustomers' => 'gross',
-        'PricetypeBusinessCustomers' => 'net',
-        'PricetypeAdmins' => 'net',
-        'GeoNamesActive' => false,
-        'GeoNamesAPI' => 'http://api.geonames.org/',
-        'productsPerPage' => 15,
-        'productGroupsPerPage' => 6,
+        'SilvercartVersion'             => '1.0',
+        'SilvercartUpdateVersion'       => '3',
+        'PricetypeAnonymousCustomers'   => 'gross',
+        'PricetypeRegularCustomers'     => 'gross',
+        'PricetypeBusinessCustomers'    => 'net',
+        'PricetypeAdmins'               => 'net',
+        'GeoNamesActive'                => false,
+        'GeoNamesAPI'                   => 'http://api.geonames.org/',
+        'productsPerPage'               => 15,
+        'productGroupsPerPage'          => 6,
+        'apacheSolrUrl'                 => '/solr',
+        'apacheSolrPort'                => '8983',
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -138,6 +150,8 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
+    public static $apacheSolrPort       = null;
+    public static $apacheSolrUrl        = null;
     public static $defaultCurrency      = null;
     public static $emailSender          = null;
     public static $globalEmailRecipient = null;
@@ -284,15 +298,17 @@ class SilvercartConfig extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
-        $fieldLabels['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
-        $fieldLabels['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
-        $fieldLabels['enableSSL'] = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
-        $fieldLabels['minimumOrderValue'] = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
-        $fieldLabels['useMinimumOrderValue'] = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
-        $fieldLabels['productsPerPage'] = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
-        $fieldLabels['productGroupsPerPage'] = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
-        $fieldLabels['useApacheSolrSearch'] = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
+        $fieldLabels['DefaultCurrency']         = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
+        $fieldLabels['EmailSender']             = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
+        $fieldLabels['GlobalEmailRecipient']    = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $fieldLabels['enableSSL']               = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
+        $fieldLabels['minimumOrderValue']       = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
+        $fieldLabels['useMinimumOrderValue']    = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
+        $fieldLabels['productsPerPage']         = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
+        $fieldLabels['productGroupsPerPage']    = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
+        $fieldLabels['useApacheSolrSearch']     = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
+        $fieldLabels['apacheSolrPort']          = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
+        $fieldLabels['apacheSolrUrl']           = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
         return $fieldLabels;
     }
 
@@ -739,6 +755,36 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupHolderView($groupHolderView) {
         SilvercartGroupViewHandler::removeGroupHolderView($groupHolderView);
+    }
+    
+    /**
+     * Returns the Apache Solr url.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.07.2011
+     */
+    public static function apacheSolrUrl() {
+        if (is_null(self::$apacheSolrUrl)) {
+            self::$apacheSolrUrl = self::getConfig()->apacheSolrUrl;
+        }
+        return self::$apacheSolrUrl;
+    }
+    
+    /**
+     * Returns the Apache Solr port.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.07.2011
+     */
+    public static function apacheSolrPort() {
+        if (is_null(self::$apacheSolrPort)) {
+            self::$apacheSolrPort = self::getConfig()->apacheSolrPort;
+        }
+        return self::$apacheSolrPort;
     }
     
     /**
