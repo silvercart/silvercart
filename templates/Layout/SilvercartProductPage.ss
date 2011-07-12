@@ -7,8 +7,8 @@
                 <h1>$Title</h1>
                 <div class="subcolumns">
                     <div class="c50l">
-                        <% if SilvercartImages %>
-                            <% control SilvercartImages.First %>
+                        <% if getSilvercartImages %>
+                            <% control getSilvercartImages.First %>
                                 $Image.SetRatioSize(230,190)
                             <% end_control %>
                         <% else %>

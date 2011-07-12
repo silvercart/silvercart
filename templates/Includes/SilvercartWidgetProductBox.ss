@@ -4,12 +4,15 @@
         <div class="subcolumns clearfix equalize product-group-page-info">
             <div class="c33l product-group-page-image">
                 <div class="subcl">
-                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$image.SetRatioSize(90,90)</a>
+                    <% if getSilvercartImages %>
+                        <% control getSilvercartImages.First %>
+                            <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$image.SetRatioSize(60,60)</a>
+                        <% end_control %>
+                    <% end_if %>
                 </div>
             </div>
             <div class="c66r">
                 <div class="subcr">
-                    <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
                     <p>$ShortDescription</p>
 
                     <div class="silvercart-product-price-details">
@@ -25,6 +28,9 @@
                                 <% end_if %>
                                 <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                             </small>
+                        </p>
+                        <p>
+                            <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
                         </p>
                         <div class="silvercart-button-small left">
                             <div class="silvercart-button-small_content">

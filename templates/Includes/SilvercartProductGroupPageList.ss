@@ -2,7 +2,9 @@
     <% control Elements %>
         <div class="silvercart-product-group-page-box clearfix $EvenOdd $FirstLast">
             <div class="silvercart-product-group-page-box_content">
-                <h3><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h3>
+                <h3>
+                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
+                </h3>
                 <div class="subcolumns clearfix">
                     <div class="c25l silvercart-product-group-page-box-image">
                         <div class="subcl">
@@ -13,15 +15,26 @@
                             <% end_if %>
                         </div>
                     </div>
-                    <div class="c50l">
+                    <div class="c45l">
                         <div class="subcl">
-                            <p>
-                                <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
-                            </p>
-                            <p>$ShortDescription</p>
+                            <div class="silvercart-product-text-info">
+                                <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                <p>
+                                    <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
+                                </p>
+                            </div>
+                            <div class="silvercart-button left">
+                                <div class="silvercart-button_content">
+                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c30r">
+                        <div class="subcr">
                             <div class="silvercart-product-page-box-price">
                                 <p>
-                                    <strong class="price">$Price.Nice</strong>
+                                    <strong class="silvercart-price">$Price.Nice</strong>
                                 </p>
                                 <p>
                                     <small>
@@ -34,15 +47,12 @@
                                     </small>
                                 </p>
                             </div>
-                        </div>
-                    </div>
-                    <div class="c25r">
-                        <div class="subcr">
                             $Availability
-                            $productAddCartForm
-                            <p>
-                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-                            </p>
+                            <div class="silvercart-product-group-add-cart-form">
+                                <div class="silvercart-product-group-add-cart-form_content">
+                                    $productAddCartForm
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

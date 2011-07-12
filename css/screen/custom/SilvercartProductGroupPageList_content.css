@@ -1,5 +1,6 @@
 .silvercart-product-group-page-box {
-    border-bottom:                  1px #ddd solid;
+    color:                          #333;
+    border-bottom:                  1px #d1d1d1 dotted;
 }
 .silvercart-product-group-page-box.last {
     border-bottom:                  none;
@@ -11,4 +12,28 @@
 .silvercart-product-group-page-box form.yform fieldset {
     border:                         none;
     background:                     none;
+}
+.silvercart-product-group-page-box h3 a,
+.silvercart-product-group-page-box h3 a:visited {
+    font-size:                      14px;
+    font-weight:                    bold;
+    color:                          #333;
+    text-shadow:                    0px 1px 3px #eee;
+}
+
+.silvercart-product-group-add-cart-form_content {
+    text-align:                     right;
+}
+
+.silvercart-product-page-box-price {
+    font-size:                      13px;
+    text-align:                     right;
+}
+.silvercart-product-page-box-price small {
+    font-size:                      10px;
+    line-height:                    130%;
+}
+
+.silvercart-product-group-page-box .silvercart-product-group-page-box-image a {
+    text-align:                     center;
 }

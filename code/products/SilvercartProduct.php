@@ -66,7 +66,7 @@ class SilvercartProduct extends DataObject {
      */
     public static $db = array(
         'Title'                     => 'VarChar(255)',
-        'ShortDescription'          => 'VarChar(255)',
+        'ShortDescription'          => 'Text',
         'LongDescription'           => 'HTMLText',
         'MetaDescription'           => 'VarChar(255)',
         'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
@@ -1085,14 +1085,13 @@ class SilvercartProduct extends DataObject {
                 $noImageObj->setField('Title', 'No Image');
                 
                 $silvercartImageObj = new SilvercartImage();
-                $silvercartImageObj->setField('ProductLink', $this->Link());
-                $silvercartImageObj->Image = $noImageObj;
+                $silvercartImageObj->ImageID             = $noImageObj->ID;
+                $silvercartImageObj->SilvercartProductID = $this->ID;
                 
-                return new DataObjectSet(
-                    array(
-                        'Images' => $silvercartImageObj
-                    )
-                );
+                $images = new DataObjectSet();
+                $images->addWithoutWrite($silvercartImageObj);
+                
+                return $images;
             }
         }
         

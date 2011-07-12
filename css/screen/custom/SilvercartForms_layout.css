@@ -7,7 +7,13 @@ form.yform .type-button input[type="submit"] {
     height:                         25px;
     float:                          right;
     margin:                         0px 0px 0px 4px;
-    padding:                        0px 10px 0px 10px;
+    padding:                        0px 10px;
+}
+form.yform input[type="submit"] {
+    padding:                        1px 8px 2px 8px;
+}
+form.yform input[type="text"] {
+    padding:                        2px 4px 2px 4px;
 }
 form.yform .type-button .silvercart-button {
     margin:                         7px 0px 0px 0px;

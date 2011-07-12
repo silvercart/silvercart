@@ -1,3 +1,4 @@
+<h2>TEST</h2>
 <% if Products %>
     <% control Products %>
         <% include SilvercartWidgetProductBox %>

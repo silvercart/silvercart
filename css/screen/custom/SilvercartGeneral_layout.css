@@ -1,5 +1,19 @@
 /* General settings -------------------------------------------------------- */
 
+.c45l, .c30l {
+    float:                          left;
+}
+.c45r, .c30r {
+    float:                          right;
+    margin-left:                    -5px;
+}
+.c30l, .c30r {
+    width:                          30%;
+}
+.c45l, .c45r {
+    width:                          45%;
+}
+
 #col1 {
     float:                          left;
     width:                          70%
@@ -16,6 +30,14 @@
 }
 #col3_content {
     padding:                        0px 12px 0px 0px;
+}
+#col4 {
+    margin:                         0px;
+    padding:                        0px;
+}
+#col4_content {
+    margin:                         0px;
+    padding:                        0px 12px;
 }
 
 .page_margins {
@@ -129,7 +151,7 @@ p.silvercart-message.highlighted.error48 {
 }
 .silvercart-button a {
     display:                        block;
-    padding:                        4px 10px 3px 10px;
+    padding:                        3px 10px 5px 10px;
 }
 
 .silvercart-button-small {
@@ -146,7 +168,12 @@ p.silvercart-message.highlighted.error48 {
 }
 .silvercart-button-small a {
     display:                        block;
-    padding:                        3px 4px 2px 4px;
+    padding:                        2px 4px 4px 4px;
+}
+
+.silvercart-button.full,
+.silvercart-button-small.full {
+    width:                          100%;
 }
 
 /* Icon only buttons ------------------------------------------------------- */

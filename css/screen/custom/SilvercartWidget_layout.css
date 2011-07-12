@@ -1,3 +1,6 @@
+.widget {
+    margin:                         0px;
+}
 .silvercart-widget {
     margin:                         0px 0px 12px 0px;
 }
@@ -41,4 +44,12 @@
 }
 .silvercart-product-box p.silvercart-price {
     margin:                         0px 0px 3px 0px;
+}
+
+
+.silvercart-product-box .product-group-page-image a {
+    display:                        block;
+}
+.silvercart-product-box .product-group-page-image img {
+    display:                        inline-block;
 }

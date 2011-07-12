@@ -70,7 +70,7 @@ class SilvercartProductExporter_Kelkoo {
      * @since 07.07.2011
      */
     public static function Title($product, $fieldValue) {
-        $fieldValue = '* '.$fieldValue.' *';
+        $fieldValue = $fieldValue;
         
         return $fieldValue;
     }
@@ -86,22 +86,7 @@ class SilvercartProductExporter_Kelkoo {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    public static function CallbackField2($product, $fieldValue) {
-        return "Virtual callback field 'callbackField2'";
-    }
-    
-    /**
-     * Treats the callback field "MyTestField".
-     * 
-     * @param SilvercartProduct $product    The SilvercartProduct object. You can access every attribute and relation.
-     * @param mixed             $fieldValue The original value of the field.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
-     */
-    public static function MyTestField($product, $fieldValue) {
-        return "Virtual callback field 'MyTestField' for productID ".$product->ID;
+    public static function MyCustomPrice($product, $fieldValue) {
+        return $product->PurchasePrice->Nice();
     }
 }

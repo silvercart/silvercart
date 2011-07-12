@@ -45,6 +45,19 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     );
 
     /**
+     * Load the CSS definitions for the current active group view.
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.07.2011
+     */
+    public function onBeforeInit() {
+        Requirements::themedCSS('SilvercartProductGroupPage'.ucfirst($this->getActiveGroupView()).'_layout');
+        Requirements::themedCSS('SilvercartProductGroupPage'.ucfirst($this->getActiveGroupView()).'_content');
+    }
+
+    /**
      * returns all group views
      *
      * @return DataObjectSet
