@@ -2,9 +2,11 @@
     <% control Elements %>
         <div class="silvercart-product-group-page-box clearfix $EvenOdd $FirstLast">
             <div class="silvercart-product-group-page-box_content">
-                <h3>
-                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
-                </h3>
+                <div class="silvercart-product-title">
+                    <h3>
+                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
+                    </h3>
+                </div>
                 <div class="subcolumns clearfix">
                     <div class="c25l silvercart-product-group-page-box-image">
                         <div class="subcl">
@@ -19,6 +21,8 @@
                         <div class="subcl">
                             <div class="silvercart-product-text-info">
                                 <p>$ShortDescription.LimitWordCountXML(35)</p>
+                            </div>
+                            <div class="silvercart-product-meta-info">
                                 <p>
                                     <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
                                 </p>

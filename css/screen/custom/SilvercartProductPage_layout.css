@@ -1,0 +1,24 @@
+.silvercart-product-page .silvercart-product-group-page-box-image img {
+    display:                        inline-block;
+}
+
+.silvercart-product-page form.yform {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-product-page form.yform fieldset {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-product-group-add-cart-form input.text {
+    width:                          2em;
+}
+.silvercart-product-group-add-cart-form form.yform label {
+    display:                        none;
+}
+.silvercart-product-group-add-cart-form {
+    margin:                         0px 0px 8px 0px;
+}
+.silvercart-product-group-add-cart-form_content {
+    padding:                        4px;
+}

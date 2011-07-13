@@ -1,7 +1,6 @@
 <h2><% _t('SilvercartShoppingcartWidget.TITLE') %></h2>
 
 <% if CurrentMember.SilvercartShoppingCart.isFilled %>
-
     <table class="full">
         <thead>
             <tr>
@@ -34,11 +33,8 @@
         <a href="$CartLink" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
         <a href="$CheckOutLink" style="float:right;"><strong class="ShoppingCart"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></strong></a>
     </div>
-
 <% else %>
-
-<p>
-    <% _t('SilvercartCartPage.CART_EMPTY') %>
-</p>
-
+    <p>
+        <% _t('SilvercartCartPage.CART_EMPTY') %>
+    </p>
 <% end_if %>

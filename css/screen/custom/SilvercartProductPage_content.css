@@ -1,0 +1,24 @@
+.silvercart-product-title h2 {
+    
+}
+
+.silvercart-product-page .silvercart-product-page-box-price .silvercart-price {
+    font-size:                      18px;
+}
+.silvercart-product-page .silvercart-product-page-box-price small {
+    font-size:                      10px;
+    line-height:                    130%;
+}
+
+.silvercart-product-page .silvercart-product-group-page-box-image {
+    text-align:                     center;
+}
+
+.silvercart-product-page form.yform {
+    border:                         none;
+    background:                     none;
+}
+.silvercart-product-page form.yform fieldset {
+    border:                         none;
+    background:                     none;
+}

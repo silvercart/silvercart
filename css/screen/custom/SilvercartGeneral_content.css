@@ -36,11 +36,13 @@ hr {
 #col1 h2,
 #col4 h2 {
     font-size:                      18px;
+    color:                          #0f517b;
     border-bottom:                  2px #ddd dotted;
 }
 #col1 h3,
 #col4 h3 {
     font-size:                      14px;
+    color:                          #0f517b;
 }
 
 /* Tables ------------------------------------------------------------------ */
