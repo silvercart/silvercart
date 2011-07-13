@@ -1079,7 +1079,7 @@ class SilvercartProduct extends DataObject {
         if ($images->Count() > 0) {
             return $images;
         } else {
-            $noImageObj = Controller::curr()->SilvercartNoImage();
+            $noImageObj = SilvercartConfig::getNoImage();
             
             if ($noImageObj) {
                 $noImageObj->setField('Title', 'No Image');
