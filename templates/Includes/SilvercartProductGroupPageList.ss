@@ -47,7 +47,9 @@
                                     </small>
                                 </p>
                             </div>
-                            $Availability
+                            <div class="silvercart-product-availability">
+                                $Availability
+                            </div>
                             <div class="silvercart-product-group-add-cart-form">
                                 <div class="silvercart-product-group-add-cart-form_content">
                                     $productAddCartForm

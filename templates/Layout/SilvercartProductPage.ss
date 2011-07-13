@@ -2,8 +2,8 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         <% control getProduct %>
-        <div class="product-page clearfix">
-            <div class="product-page_content">
+        <div class="silvercart-product-page clearfix">
+            <div class="silvercart-product-page_content">
                 <h1>$Title</h1>
                 <div class="subcolumns">
                     <div class="c50l">
@@ -19,22 +19,30 @@
                         <strong><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</strong>
                         <p>$ShortDescription</p>
                         <div class="subcolumns">
-                            <p class="product-page-details"><strong class="price">$Price.Nice</strong><br/>
-                                <% if showPricesGross %>
-                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                            <% else %>
-                            <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
-                            <% end_if %>
-                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
-                            </p>
+                            <div class="silvercart-product-page-box-price">
+                                <p>
+                                    <strong class="silvercart-price">$Price.Nice</strong>
+                                </p>
+                                <p>
+                                    <small>
+                                        <% if showPricesGross %>
+                                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
+                                        <% else_if showPricesNet %>
+                                            <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
+                                        <% end_if %>
+                                        <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="silvercart-product-availability">
+                                $Availability
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="subcolumns clearfix">
                     <div class="c50l">
-                        <div class="subcl product-status">
-                            $Availability
-                        </div>
+                        
                     </div>
                     <div class="c50r">
                         <div class="subcr">
@@ -42,19 +50,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-page-description">
+                <div class="silvercart-product-page-description">
                     <h3><% _t('SilvercartProduct.DESCRIPTION','product description') %>:</h3>
                     <p>$LongDescription</p>
                 </div>
                 <% if SilvercartFiles %>
-                <div class="product-page-downloads">
+                <div class="silvercart-product-page-downloads">
                     <h3><% _t('SilvercartProduct.DOWNLOADS','Downloads') %>:</h3>
                     <% control SilvercartFiles %>
-                    <div class="product-page-downloads-entry clearfix">
-                        <div class="file-icon">
+                    <div class="silvercart-product-page-downloads-entry clearfix">
+                        <div class="silvercart-file-icon">
                             <a href="$File.Link">$FileIcon</a>
                         </div>
-                        <div class="file-description">
+                        <div class="silvercart-file-description">
                             <a href="$File.Link">$Title ($File.Size)</a>
                         </div>
                     </div>
