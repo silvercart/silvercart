@@ -198,7 +198,6 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP'
 $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE']          = 'ein Produktbild besitzen';
 $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER']   = 'einem Hersteller zugeordnet sind';
 $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'in einer Menge wie folgend angegeben verfügbar sind';
-
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Aktualisierungsrhythmus';
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 
@@ -675,7 +674,6 @@ $lang['de_DE']['SilvercartFrontPage']['SINGULARNAME'] = 'Frontseite';
 $lang['de_DE']['SilvercartHandlingCost']['PLURALNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['SINGULARNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['AMOUNT'] = 'Betrag';
-
 
 $lang['de_DE']['SilvercartImage']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';

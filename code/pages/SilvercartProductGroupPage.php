@@ -466,8 +466,6 @@ class SilvercartProductGroupPage extends Page {
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
-     * @deprecated 14.07.2011: Seems to be unused?
-     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
@@ -497,6 +495,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $detailViewProduct = null;
 
     protected $listFilters = array();
+    
+    /**
+     * Contains the output of all WidgetSets of the parent page
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    protected $widgetOutput = array();
 
     /**
      * execute these statements on object call
@@ -505,12 +513,24 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.02.2011
      */
-    public function init($registrationControllerObject = null) {
-        if (is_null($registrationControllerObject)) {
-            $registrationControllerObject = $this;
-        }
+    public function init() {
+        parent::init();
         
-        parent::init($registrationControllerObject);
+        $parentPage = $this->getParent();
+
+        if ($parentPage) {
+            if ($this->WidgetSetSidebar()->Count() == 0) {
+                $identifier           = 'Sidebar';
+                $parentPageController = ModelAsController::controller_for($parentPage);
+                $parentPageController->init();
+                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+            }
+            
+            if ($this->WidgetSetContent()->Count() == 0) {
+                $identifier           = 'Content';
+                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+            }
+        }
         
         // there must be two way to initialize this controller:
         if ($this->isProductDetailView()) {
@@ -677,7 +697,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
             return implode(Page::$breadcrumbs_delimiter, array_reverse($parts));
         }
-        
         return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
     
@@ -1038,7 +1057,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             return parent::handleAction($customRequest);
             exit();
         }
-        
         return parent::handleAction($request);
     }
 
@@ -1055,7 +1073,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected function ProductDetailView($urlEncodedProductName) {
         if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
-            
             $product->productAddCartForm = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
             $viewParams = array(
                 'getProduct' => $product,
@@ -1107,7 +1124,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      * 
-     * If there's no WidgetArea for this page defined we try to get the
+     * If thereÄs no WidgetArea for this page defined we try to get the
      * definition from its parent page.
      *
      * @param int $identifier target area
@@ -1130,12 +1147,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         if (empty($output)) {
-            $parentPage = $this->getParent();
-            
-            if ($parentPage) {
-                $parentPageController = ModelAsController::controller_for($parentPage);
-                $parentPageController->init($this);
-                $output               = $parentPageController->InsertWidgetArea($identifier);
+            if (isset($this->widgetOutput[$identifier])) {
+                $output = $this->widgetOutput[$identifier];
             }
         }
         

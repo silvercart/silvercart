@@ -97,16 +97,15 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function __construct($widget = null, $controllerObject = null) {
-        parent::__construct($widget, $controllerObject);
-
-
-        $this->PageControlObject()->registerCustomHtmlForm(
+    public function __construct($widget = null) {
+        parent::__construct($widget);
+        
+        Controller::curr()->registerCustomHtmlForm(
             'SilvercartLoginWidgetForm'.$this->classInstanceIdx,
             new SilvercartLoginWidgetForm(
-                $this->PageControlObject(),
+                Controller::curr(),
                 array(
-                    'redirect_to' => $this->PageControlObject()->Link()
+                    'redirect_to' => Controller::curr()->Link()
                 )
             )
         );
@@ -134,17 +133,5 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      */
     public function MyAccountPage() {
         return SilvercartPage_Controller::PageByIdentifierCode('SilvercartMyAccountHolder');
-    }
-    
-    /**
-     * Returns the link to the registration page.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
-     */
-    public function RegistrationLink() {
-        return SilvercartPage_Controller::PageByIdentifierCodeLink('SilvercartRegistrationPage');
     }
 }

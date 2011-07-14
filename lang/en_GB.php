@@ -197,9 +197,9 @@ $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_QUANTITY']
 $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP']           = 'are attributed to a product group';
 $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE']          = 'have a product image';
 $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER']   = 'are attributed to a manufacturer';
+$lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
-$lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Add callback field';
 $lang['en_GB']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Attributed fields';

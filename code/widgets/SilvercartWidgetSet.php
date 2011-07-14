@@ -74,7 +74,7 @@ class SilvercartWidgetSet extends DataObject {
      * @since 27.05.2011
      */
     public static $has_one = array(
-        'WidgetArea' => 'SilvercartWidgetArea'
+        'WidgetArea' => 'WidgetArea'
     );
     
     /**

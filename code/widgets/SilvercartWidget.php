@@ -106,14 +106,8 @@ class SilvercartWidget_Controller extends Widget_Controller {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function __construct($widget = null, $controllerObject = null) {
+    public function __construct($widget = null) {
         parent::__construct($widget);
-        
-        if (!is_null($controllerObject)) {
-            $controllerObject = ModelAsController::controller_for($controllerObject);
-        }
-        
-        $this->pageController = $controllerObject;
         
         // Initialize or increment the Counter for the form class
         if (!isset(self::$classInstanceCounter[$this->class])) {
@@ -123,17 +117,5 @@ class SilvercartWidget_Controller extends Widget_Controller {
         }
         
         $this->classInstanceIdx = self::$classInstanceCounter[$this->class];
-    }
-    
-    /**
-     * Returns the current page controller
-     *
-     * @return Controller|false
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
-     */
-    public function PageControlObject() {
-        return $this->pageController;
     }
 }

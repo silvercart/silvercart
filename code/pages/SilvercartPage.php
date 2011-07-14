@@ -173,7 +173,7 @@ class SilvercartPage_Controller extends ContentController {
      * @return void
      * @copyright 2010 pixeltricks GmbH
      */
-    public function init($registrationControllerObject = null) {
+    public function init() {
         if (!isset($_SESSION['Silvercart'])) {
             $_SESSION['Silvercart'] = array();
         }
@@ -181,13 +181,7 @@ class SilvercartPage_Controller extends ContentController {
             $_SESSION['Silvercart']['errors'] = array();
         }
         
-        if (is_null($registrationControllerObject)) {
-            $registrationControllerObject = $this;
-        }
-        
-        $this->registrationControllerObject = $registrationControllerObject;
-        
-        $this->loadWidgetControllers($registrationControllerObject);
+        $this->loadWidgetControllers();
         
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             Requirements::block('cms/css/layout.css');
@@ -291,7 +285,7 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         foreach ($this->$controllerName as $controller) {
-            $output .= $controller->WidgetHolder($this->registrationControllerObject);
+            $output .= $controller->WidgetHolder();
         }
         
         return $output;
@@ -702,16 +696,16 @@ class SilvercartPage_Controller extends ContentController {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.05.2011
      */
-    protected function loadWidgetControllers($registrationControllerObject) {
+    protected function loadWidgetControllers() {
         // Sidebar area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
         
         foreach ($this->WidgetSetSidebar() as $widgetSet) {
             $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers($registrationControllerObject)
+                $widgetSet->WidgetArea()->WidgetControllers()
             );
         }
-        
+
         $this->WidgetSetSidebarControllers = $controllers;
         $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
         
@@ -720,7 +714,7 @@ class SilvercartPage_Controller extends ContentController {
         
         foreach ($this->WidgetSetContent() as $widgetSet) {
             $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers($registrationControllerObject)
+                $widgetSet->WidgetArea()->WidgetControllers()
             );
         }
         
