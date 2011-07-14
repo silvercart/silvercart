@@ -1,4 +1,7 @@
 /* General settings -------------------------------------------------------- */
+body {
+    min-height:                     100%;
+}
 
 .c45l, .c30l {
     float:                          left;
@@ -145,6 +148,10 @@ p.silvercart-message.highlighted.error48 {
 }
 .silvercart-button.left {
     float:                          left;
+}
+.silvercart-button.inline {
+    float:                          none;
+    display:                        inline-block;
 }
 .silvercart-button.left .silvercart-button_content {
     padding:                        0px 4px 0px 0px;

@@ -1,4 +1,4 @@
-<h2>TEST</h2>
+<h2>$ProductGroupTitle</h2>
 <% if Products %>
     <% control Products %>
         <% include SilvercartWidgetProductBox %>

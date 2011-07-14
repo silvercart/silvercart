@@ -4,7 +4,8 @@ form.yform .type-button {
     text-align:                     right;
 }
 form.yform .type-button input[type="submit"],
-form.yform .type-button input.action[type="submit"] {
+form.yform .type-button input.action[type="submit"],
+form.yform .type-button input.submit[type="submit"] {
     float:                          right;
     margin:                         0px 0px 0px 4px;
     padding:                        3px 10px 4px 10px;

@@ -33,7 +33,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTopsellerProductsWidget extends Widget {
+class SilvercartTopsellerProductsWidget extends SilvercartWidget {
     
     /**
      * Indicates the number of products that shall be shown with this widget.

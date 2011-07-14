@@ -7,7 +7,9 @@ form.yform select {
 }
 
 form.yform input[type="submit"],
-form.yform .type-button input[type="submit"] {
+form.yform .type-button input[type="submit"],
+form.yform .type-button input.action[type="submit"],
+form.yform .type-button input.submit[type="submit"] {
     font-size:                      12px;
     color:                          #fff;
     background:                     #407e95;

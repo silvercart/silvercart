@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartShoppingcartWidget extends Widget {
+class SilvercartShoppingcartWidget extends SilvercartWidget {
     
     /**
      * Returns the title of this widget.

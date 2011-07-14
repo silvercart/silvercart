@@ -2,7 +2,11 @@
 
 body {
     font-family:                    verdana, sans-serif;
-    background:                     #ccc url("../images/bg_body.jpg") left top repeat-x;
+    color:                          #333;
+    background:                     #7a7268;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#7a7268), to(#f1f1f1)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for firefox 3.6+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7268', endColorstr='#ccc'); /* for IE */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,7 +27,7 @@ h1 {
 
 .page {
     background:                     #fff;
-    border:                         1px #5a554d solid;
+    border:                         1px #8d8981 solid;
     border-top:                     none;
 }
     
@@ -36,13 +40,13 @@ hr {
 #col1 h2,
 #col4 h2 {
     font-size:                      18px;
-    color:                          #0f517b;
+    color:                          #333;
     border-bottom:                  2px #ddd dotted;
 }
 #col1 h3,
 #col4 h3 {
     font-size:                      14px;
-    color:                          #0f517b;
+    color:                          #333;
 }
 
 /* Tables ------------------------------------------------------------------ */

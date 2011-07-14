@@ -1,3 +1,18 @@
+.silvercart-product-page .silvercart-product-title {
+    border-bottom:                  2px #ddd dotted;
+    margin:                         0px 0px 14px 0px;
+}
+.silvercart-product-page .silvercart-product-meta-info p {
+    margin:                         0px 0px 3px 0px;
+    padding:                        0px;
+}
+
+#col1 .silvercart-product-page .silvercart-product-title h2,
+#col4 .silvercart-product-page .silvercart-product-title h2 {
+    margin:                         26px 0px 2px 0px;
+    padding:                        0px;
+}
+
 .silvercart-product-page .silvercart-product-group-page-box-image img {
     display:                        inline-block;
 }
@@ -10,15 +25,52 @@
     margin:                         0px;
     padding:                        0px;
 }
-.silvercart-product-group-add-cart-form input.text {
+.silvercart-product-page .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
 }
-.silvercart-product-group-add-cart-form form.yform label {
+.silvercart-product-page .silvercart-product-group-add-cart-form form.yform label {
     display:                        none;
 }
-.silvercart-product-group-add-cart-form {
+.silvercart-product-page .silvercart-product-group-add-cart-form {
     margin:                         0px 0px 8px 0px;
 }
-.silvercart-product-group-add-cart-form_content {
+.silvercart-product-page .silvercart-product-group-add-cart-form_content {
     padding:                        4px;
+}
+
+.silvercart-product-page .silvercart-product-page-product-info {
+    margin:                         20px 0px 0px 0px;
+}
+
+/* Tabs ---------------------------------------------------------------- */
+
+ul.tabs {
+    margin:                     0;
+    padding:                    0;
+    float:                      left;
+    height:                     32px; /*--Set height of tabs--*/
+    width:                      100%;
+}
+ul.tabs li {
+    float:                      left;
+    margin:                     0;
+    padding:                    0;
+    height:                     31px; /*--Subtract 1px from the height of the unordered list--*/
+    margin-bottom:              -1px; /*--Pull the list item down 1px--*/
+    overflow:                   hidden;
+    position:                   relative;
+}
+ul.tabs li a {
+    display:                    block;
+    padding:                    0 10px;
+    outline:                    none;
+}
+
+.tab_container {
+    overflow:                   hidden;
+    clear:                      both;
+    float:                      left; width: 100%;
+}
+.tab_content {
+    padding:                    20px;
 }

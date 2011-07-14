@@ -8,11 +8,10 @@
                     
                     <div class="silvercart-product-title">
                         <h2>$Title</h2>
+                        <div class="silvercart-product-meta-info">
+                            <p><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</p>
+                        </div>
                     </div>
-                    <div class="silvercart-product-meta-info">
-                        <p><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</p>
-                    </div>
-                    
                     
                     <div class="subcolumns">
                         <div class="c33l silvercart-product-group-page-box-image">
@@ -59,25 +58,39 @@
                             </div>
                         </div>
                     </div>
-                    <div class="silvercart-product-page-description">
-                        <h3><% _t('SilvercartProduct.DESCRIPTION','product description') %>:</h3>
-                        <p>$LongDescription</p>
-                    </div>
-                    <% if SilvercartFiles %>
-                        <div class="silvercart-product-page-downloads">
-                            <h3><% _t('SilvercartProduct.DOWNLOADS','Downloads') %>:</h3>
-                            <% control SilvercartFiles %>
-                                <div class="silvercart-product-page-downloads-entry clearfix">
-                                    <div class="silvercart-file-icon">
-                                        <a href="$File.Link">$FileIcon</a>
-                                    </div>
-                                    <div class="silvercart-file-description">
-                                        <a href="$File.Link">$Title ($File.Size)</a>
-                                    </div>
+                    
+                    <div class="silvercart-product-page-product-info">
+                        <ul class="tabs">
+                            <li>
+                                <a href="#tab1"><% _t('SilvercartProduct.DESCRIPTION','product description') %></a>
+                            </li>
+                            <% if SilvercartFiles %>
+                                <li>
+                                    <a href="#tab2"><% _t('SilvercartProduct.DOWNLOADS','Downloads') %></a>
+                                </li>
+                            <% end_if %>
+                        </ul>
+                        <div class="tab_container">
+                            <div id="tab1" class="tab_content">
+                                $LongDescription
+                            </div>
+                            <% if SilvercartFiles %>
+                                <div id="tab2" class="tab_content">
+                                    <% control SilvercartFiles %>
+                                        <div class="silvercart-product-page-downloads-entry clearfix">
+                                            <div class="silvercart-file-icon">
+                                                <a href="$File.Link">$FileIcon</a>
+                                            </div>
+                                            <div class="silvercart-file-description">
+                                                <a href="$File.Link">$Title ($File.Size)</a>
+                                            </div>
+                                        </div>
+                                    <% end_control %>
                                 </div>
-                            <% end_control %>
+                            <% end_if %>
                         </div>
-                    <% end_if %>
+                    </div>
+                    
                 </div>
             </div>
         <% end_control %>

@@ -161,6 +161,8 @@ class SilvercartPage_Controller extends ContentController {
      * @since 26.05.2011
      */
     protected $WidgetSetContentControllers;
+    
+    protected $registrationControllerObject = null;
 
     /**
      * standard page controller
@@ -171,7 +173,7 @@ class SilvercartPage_Controller extends ContentController {
      * @return void
      * @copyright 2010 pixeltricks GmbH
      */
-    public function init() {
+    public function init($registrationControllerObject = null) {
         if (!isset($_SESSION['Silvercart'])) {
             $_SESSION['Silvercart'] = array();
         }
@@ -179,7 +181,13 @@ class SilvercartPage_Controller extends ContentController {
             $_SESSION['Silvercart']['errors'] = array();
         }
         
-        $this->loadWidgetControllers();
+        if (is_null($registrationControllerObject)) {
+            $registrationControllerObject = $this;
+        }
+        
+        $this->registrationControllerObject = $registrationControllerObject;
+        
+        $this->loadWidgetControllers($registrationControllerObject);
         
         if (SilvercartConfig::DefaultLayoutEnabled()) {
             Requirements::block('cms/css/layout.css');
@@ -225,7 +233,7 @@ class SilvercartPage_Controller extends ContentController {
 
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
-
+        
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
@@ -283,7 +291,7 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         foreach ($this->$controllerName as $controller) {
-            $output .= $controller->WidgetHolder();
+            $output .= $controller->WidgetHolder($this->registrationControllerObject);
         }
         
         return $output;
@@ -694,25 +702,29 @@ class SilvercartPage_Controller extends ContentController {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.05.2011
      */
-    protected function loadWidgetControllers() {
+    protected function loadWidgetControllers($registrationControllerObject) {
+        // Sidebar area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
         
         foreach ($this->WidgetSetSidebar() as $widgetSet) {
             $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
+                $widgetSet->WidgetArea()->WidgetControllers($registrationControllerObject)
             );
         }
         
         $this->WidgetSetSidebarControllers = $controllers;
+        $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
         
+        // Content area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
         
         foreach ($this->WidgetSetContent() as $widgetSet) {
             $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
+                $widgetSet->WidgetArea()->WidgetControllers($registrationControllerObject)
             );
         }
         
         $this->WidgetSetContentControllers = $controllers;
+        $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
     }
 }

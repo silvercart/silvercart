@@ -1044,6 +1044,8 @@ $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'Es ist ein unbekann
 
 $lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
 
+$lang['de_DE']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sortierung';
+
 $lang['de_DE']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets für den Inhaltsbereich';
 $lang['de_DE']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets für die Seitenleiste';
 

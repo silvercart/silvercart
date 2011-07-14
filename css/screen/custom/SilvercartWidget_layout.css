@@ -8,6 +8,9 @@
     margin:                         0px;
     padding:                        4px 4px 4px 4px;
 }
+.silvercart-widget-content_frame {
+    padding:                        4px;
+}
 
 /* YAML vlist -------------------------------------------------------------- */
 
@@ -19,6 +22,16 @@
     margin:                         0px;
     padding:                        0px;
 }
+.silvercart-widget .vlist li:first-child a,
+.silvercart-widget .vlist li:first-child strong,
+.silvercart-widget .vlist li:first-child span {
+    padding-top:                    2px;
+}
+.silvercart-widget .vlist li:last-child a,
+.silvercart-widget .vlist li:last-child strong,
+.silvercart-widget .vlist li:last-child span {
+    padding-bottom:                 2px;
+}
 .silvercart-widget .vlist li a,
 .silvercart-widget .vlist li strong,
 .silvercart-widget .vlist li span {
@@ -26,11 +39,6 @@
     width:                          100%;
     margin:                         0px;
     padding:                        3px 5px;
-}
-.silvercart-widget .vlist li.last a,
-.silvercart-widget .vlist li.last strong,
-.silvercart-widget .vlist li.last span {
-    border-bottom:                  none;
 }
 .silvercart-widget .vlist ul ul {
     margin:                         0px 0px 0px 12px;
@@ -52,4 +60,17 @@
 }
 .silvercart-product-box .product-group-page-image img {
     display:                        inline-block;
+}
+
+/* Login ------------------------------------------------------------------- */
+
+.silvercart-widget-login form.yform {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget-login form.yform div.type-text {
+    padding:                        0px 5px 0px 0px;
+}
+.silvercart-widget-login form.yform div.type-button {
+    padding:                        0px;
 }

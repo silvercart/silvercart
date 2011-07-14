@@ -34,7 +34,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartLoginWidget extends Widget {
+class SilvercartLoginWidget extends SilvercartWidget {
     
     /**
      * Returns the title of this widget.
@@ -97,15 +97,16 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function __construct($widget = null) {
-        parent::__construct($widget);
-        
-        Controller::curr()->registerCustomHtmlForm(
+    public function __construct($widget = null, $controllerObject = null) {
+        parent::__construct($widget, $controllerObject);
+
+
+        $this->PageControlObject()->registerCustomHtmlForm(
             'SilvercartLoginWidgetForm'.$this->classInstanceIdx,
             new SilvercartLoginWidgetForm(
-                Controller::curr(),
+                $this->PageControlObject(),
                 array(
-                    'redirect_to' => Controller::curr()->Link()
+                    'redirect_to' => $this->PageControlObject()->Link()
                 )
             )
         );
@@ -133,5 +134,17 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      */
     public function MyAccountPage() {
         return SilvercartPage_Controller::PageByIdentifierCode('SilvercartMyAccountHolder');
+    }
+    
+    /**
+     * Returns the link to the registration page.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    public function RegistrationLink() {
+        return SilvercartPage_Controller::PageByIdentifierCodeLink('SilvercartRegistrationPage');
     }
 }

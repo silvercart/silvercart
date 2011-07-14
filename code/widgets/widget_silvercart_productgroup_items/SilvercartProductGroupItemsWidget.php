@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupItemsWidget extends Widget {
+class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     
     /**
      * Attributes.
@@ -131,7 +131,7 @@ class SilvercartProductGroupItemsWidget extends Widget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupItemsWidget_Controller extends Widget_Controller {
+class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns a number of products from the chosen productgroup.
@@ -164,5 +164,26 @@ class SilvercartProductGroupItemsWidget_Controller extends Widget_Controller {
         $products                                  = $productgroupPageSiteTree->getProducts();
         
         return $products;
+    }
+    
+    public function ProductGroupTitle() {
+        $title = '';
+        
+        if (!$this->SilvercartProductGroupPageID) {
+            return $title;
+        }
+        
+        $productgroupPage = DataObject::get_by_id(
+            'SilvercartProductGroupPage',
+            $this->SilvercartProductGroupPageID
+        );
+        
+        if (!$productgroupPage) {
+            return $title;
+        }
+        
+        $title = $productgroupPage->MenuTitle;
+        
+        return $title;
     }
 }
