@@ -1,11 +1,11 @@
 <form class="yform" $FormAttributes >
-      $CustomHtmlFormMetadata
-      $CustomHtmlFormErrorMessages
-      <fieldset>
-          <legend><% _t('SilvercartPaymentMethod.TITLE') %></legend>
-          <div class="subcolumns">
-              $CustomHtmlFormFieldByName(PaymentMethod,SilvercartCustomHtmlFormFieldPaymentMethod)
-          </div>
+    $CustomHtmlFormMetadata
+    $CustomHtmlFormErrorMessages
+    <fieldset>
+        <legend><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></legend>
+        <div class="subcolumns">
+            $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldSelect)
+        </div>
     </fieldset>
     <div class="actionRow">
         <div class="type-button">

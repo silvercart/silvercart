@@ -287,11 +287,12 @@ $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Weiter'
 $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--Land--';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'Die von Ihnen gewählte Adresse konnte nicht gefunden werden.';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Liefer- & Rechnungsdaten';
-$lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
-$lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Zahlungsinformationen';
-$lang['de_DE']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:';
-$lang['de_DE']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
-$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Versandart';
+$lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
+$lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Versandart';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['CHOOSE_PAYMENT_METHOD'] = 'Ich möchte mit %s bezahlen';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Zahlungsinformationen';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:';
 $lang['de_DE']['SilvercartCheckoutFormStep5']['TITLE'] = 'Bestellung überprüfen';
 
 $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
@@ -899,6 +900,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_STATUS'] = 'deren B
 $lang['de_DE']['SilvercartPaymentMethod']['RESTRICTION_LABEL'] = 'Nur für Kunden anzeigen, die die folgenden Kriterien erfüllen';
 $lang['de_DE']['SilvercartPaymentMethod']['SHOW_NOT_FOR_USERS_LABEL'] = 'Für folgende Benutzer deaktivieren';
 $lang['de_DE']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_USERS_LABEL'] = 'Für folgende Benutzer aktivieren';
+$lang['de_DE']['SilvercartPaymentMethod']['SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'] = 'Eingabefelder bereits bei Zahlungs-Auswahl anzeigen';
 $lang['de_DE']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard Bestellstatus für diese Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
@@ -1070,7 +1072,6 @@ $lang['de_DE']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'Mein Kont
 $lang['de_DE']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Anmeldung';
 $lang['de_DE']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart Anmeldung';
 $lang['de_DE']['SilvercartLoginWidget']['DESCRIPTION']              = 'Dieses Widget zeigt ein Loginformular und Links zu der Registrierungsseite. Ist der Kunde eingeloggt, werden ihm stattdessen Links zu den Bereichen seines Kundenkontos angezeigt.';
-
 
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart Warengruppenansicht';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'Dieses Widget zeigt Produkte aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Produkte angezeigt werden sollen.';

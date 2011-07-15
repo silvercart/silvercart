@@ -443,4 +443,31 @@ class SilvercartShippingMethod extends DataObject {
         return $checkboxField;
     }
 
+    /**
+     * Returns allowed shipping methods. Those are active
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2011
+     */
+    public static function getAllowedShippingMethods() {
+        $allowedShippingMethods = array();
+        $shippingMethods        = DataObject::get('SilvercartShippingMethod', 'isActive = 1');
+
+        if ($shippingMethods) {
+            foreach ($shippingMethods as $shippingMethod) {                
+                // If there is no shipping fee defined for this shipping
+                // method we don't want to show it.
+                if ($shippingMethod->getShippingFee() !== false) {
+                    $allowedShippingMethods[] = $shippingMethod;
+                }
+            }
+        }
+        
+        $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
+        
+        return $allowedShippingMethods;
+    }
+
 }

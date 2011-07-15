@@ -22,7 +22,7 @@
  */
 
 /**
- * checkout step for shipping method
+ * checkout step for payment method
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -42,14 +42,21 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     protected $formFields = array(
-        'ShippingMethod' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Versandart',
+        'PaymentMethod' => array(
+            'type'              => 'SilvercartCheckoutOptionsetField',
+            'title'             => 'Bezahlart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         )
     );
+    
+    protected $allowedPaymentMethods = null;
+    /**
+     *
+     * @var DataObjectSet
+     */
+    protected $registeredNestedForms = null;
 
     /**
      * constructor
@@ -80,6 +87,33 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
+
+            $stepData = $this->controller->getCombinedStepData();
+
+            if ($stepData) {
+                if ($stepData['Shipping_Country'] != "") {
+                    $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                    if ($shippingCountry) {
+                        $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry));
+                        foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
+                            if ($paymentMethod->getNestedFormName()) {
+                                $formName = $paymentMethod->getNestedFormName();
+                            } else {
+                                $formName = "SilvercartCheckoutFormStep4DefaultPayment";
+                            }
+                            $params = array(
+                                'PaymentMethod'     => $paymentMethod->ID,
+                            );
+                            $preferences = array(
+                                'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
+                            );
+                            $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
+                            $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
+                            $this->addRegisteredNestedForm($registeredNestedForm);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -94,7 +128,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      */
     public function preferences() {
         $this->preferences['stepIsVisible']             = true;
-        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Shipment');
+        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Payment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
@@ -108,28 +142,51 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 3.1.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 09.11.2010
      */
     protected function fillInFieldValues() {
+        $allowedPaymentMethods = $this->getAllowedPaymentMethods();
+        
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
+        $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep4.FIELDLABEL');
 
         $stepData = $this->controller->getCombinedStepData();
 
-        if ($stepData &&
-            isset($stepData['PaymentMethod'])) {
-            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        if ($allowedPaymentMethods) {
+            $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name');
         }
 
-        if (isset($paymentMethod) &&
-                  $paymentMethod) {
-            
-            $shippingMethods = $paymentMethod->getAllowedShippingMethods();
-            
-            if ($shippingMethods) {
-                $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep4.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
+        if (isset($stepData['PaymentMethod'])) {
+            $this->formFields['PaymentMethod']['selectedValue'] = $stepData['PaymentMethod'];
+        } else {
+            if (isset($allowedPaymentMethods) &&
+                $allowedPaymentMethods &&
+                $allowedPaymentMethods->Count() > 0) {
+                $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
+            }
+        }
+    }
+
+    /**
+     * processor method
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.07.2011
+     */
+    public function process() {
+        foreach ($this->getRegisteredNestedForms() as $registeredNestedForm) {
+            if (method_exists($registeredNestedForm, 'process')) {
+                if ($registeredNestedForm->process()) {
+                    $this->controller->resetStepMapping();
+                    $this->controller->registerStepDirectory(
+                        $registeredNestedForm->getPaymentMethod()->getStepConfiguration()
+                    );
+                    $this->controller->generateStepMapping();
+                }
             }
         }
     }
@@ -146,12 +203,90 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 4.1.2011
+     * @since 09.11.2010
      */
     public function submitSuccess($data, $form, $formData) {
         $this->controller->setStepData($formData);
-        $this->controller->addCompletedStep();
-        $this->controller->NextStep();
+
+        $stepData = $this->controller->getCombinedStepData();
+
+        if ($stepData &&
+            isset($stepData['PaymentMethod'])) {
+            
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
+        }
+
+        if ($paymentMethod) {
+            $this->controller->resetStepMapping();
+
+            $this->controller->registerStepDirectory(
+                $paymentMethod->getStepConfiguration()
+            );
+
+            $this->controller->generateStepMapping();
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        } else {
+            Director::redirect($this->controller->Link());
+        }
     }
+    
+    /**
+     * Returns the allowed payment methods.
+     *
+     * @return DataObjectSet|Boolean
+     */
+    public function getAllowedPaymentMethods() {
+        return $this->allowedPaymentMethods;
+    }
+
+    /**
+     * Sets the allowed payment methods.
+     *
+     * @param DataObjectSet|Boolean $allowedPaymentMethods Allowed payment method
+     * 
+     * @return void
+     */
+    public function setAllowedPaymentMethods($allowedPaymentMethods) {
+        $this->allowedPaymentMethods = $allowedPaymentMethods;
+    }
+    
+    /**
+     * Returns all registered nested forms as a DataObjectSet
+     *
+     * @return DataObjectSet
+     */
+    public function getRegisteredNestedForms() {
+        return $this->registeredNestedForms;
+    }
+
+    /**
+     * Sets all registered nested forms as a DataObjectSet
+     *
+     * @param DataObjectSet $registeredNestedForms Registered nested forms
+     * 
+     * @return void
+     */
+    public function setRegisteredNestedForms(DataObjectSet $registeredNestedForms) {
+        $this->registeredNestedForms = $registeredNestedForms;
+    }
+    
+    /**
+     * Adds a registered nested form
+     *
+     * @param CustomHtmlForm $registeredNestedForm Registered newsted form
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.07.2011
+     */
+    public function addRegisteredNestedForm(CustomHtmlForm $registeredNestedForm) {
+        if (is_null($this->registeredNestedForms)) {
+            $this->registeredNestedForms = new DataObjectSet();
+        }
+        $this->registeredNestedForms->push($registeredNestedForm);
+    }
+
 }
 

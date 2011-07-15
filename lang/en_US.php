@@ -286,12 +286,13 @@ $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] 
 $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Continue';
 $lang['en_US']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--country--';
 $lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
-$lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
 $lang['en_US']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'The given address could not be found.';
-$lang['en_US']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Please choose your prefered payment method:';
-$lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Payment';
-$lang['en_US']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
-$lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Shipment';
+$lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
+$lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Shipment';
+$lang['en_US']['SilvercartCheckoutFormStep4']['CHOOSE_PAYMENT_METHOD'] = 'I want to pay with %s';
+$lang['en_US']['SilvercartCheckoutFormStep4']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
+$lang['en_US']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Please choose your prefered payment method:';
+$lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Payment';
 $lang['en_US']['SilvercartCheckoutFormStep5']['TITLE'] = 'Overview';
 
 $lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
@@ -899,6 +900,7 @@ $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_GROUPS_LABEL'] = 'Deacti
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_GROUPS_LABEL'] = 'Activate for the following groups';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_USERS_LABEL'] = 'Deactivate for the following users';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_USERS_LABEL'] = 'Activate for the following users';
+$lang['en_US']['SilvercartPaymentMethod']['SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'] = 'Show form fields on payment selection';
 $lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
 $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard order status for this payment method';
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';

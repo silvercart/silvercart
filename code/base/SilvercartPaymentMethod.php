@@ -140,7 +140,8 @@ class SilvercartPaymentMethod extends DataObject {
         'orderStatus'                           => 'Varchar(50)',
         'showPaymentLogos'                      => 'Boolean',
         'orderRestrictionMinQuantity'           => 'Int',
-        'enableActivationByOrderRestrictions'   => 'Boolean'
+        'enableActivationByOrderRestrictions'   => 'Boolean',
+        'ShowFormFieldsOnPaymentSelection' => 'Boolean',
     );
     /**
      * Defines 1:1 relations
@@ -218,6 +219,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public static $defaults = array(
         'showPaymentLogos' => true,
+        'ShowFormFieldsOnPaymentSelection' => false,
     );
     /**
      * List of searchable fields for the model admin
@@ -292,7 +294,13 @@ class SilvercartPaymentMethod extends DataObject {
      * @var SilvercartOrder
      */
     protected $order = null;
-
+    /**
+     * ID of the check out form to render additional form fields
+     *
+     * @var string
+     */
+    protected $formID = '';
+    
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
@@ -349,13 +357,15 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
-                parent::fieldLabels($includerelations), array(
-            'Name' => 'Name',
-            'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-            'AttributedZones' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-            'AttributedCountries' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
-            'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-            'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Name' => 'Name',
+                    'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                    'AttributedZones' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                    'AttributedCountries' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+                    'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+                    'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
+                    'ShowFormFieldsOnPaymentSelection'  => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
                 )
         );
     }
@@ -1271,7 +1281,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 18.11.2010
      */
-    protected function addError($errorText) {
+    public function addError($errorText) {
         array_push($this->errorList, $errorText);
     }
 
@@ -1400,6 +1410,9 @@ class SilvercartPaymentMethod extends DataObject {
         } else {
             $stepModule = $this->moduleName;
         }
+        if ($this->ShowFormFieldsOnPaymentSelection) {
+            $stepModule .= 'Preceded';
+        }
         $prefix = 'SilvercartPayment' . $stepModule . 'CheckoutFormStep';
         return array(
             $directory => array(
@@ -1522,6 +1535,15 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getPaymentChannelName($paymentChannel) {
         return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel));
+    }
+    
+    /**
+     * Returns an optional payment specific form name to insert into checkout step 3.
+     *
+     * @return string|boolean
+     */
+    public function getNestedFormName() {
+        return false;
     }
 
 }
