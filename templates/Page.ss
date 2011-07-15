@@ -138,10 +138,10 @@
                                 <div id="silvercart-shop-claim-text">
                                     <h1>
                                         <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
-                                            Silvercart
+                                            $SiteConfig.Title
                                         </a>
                                     </h1>
-                                    <p>Open Source E-Commerce</p>
+                                    <p>$SiteConfig.Tagline</p>
                                 </div>
                             </div>
                             
