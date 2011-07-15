@@ -53,7 +53,7 @@ form.yform .type-button .silvercart-button {
 
 #silvercart-quicklogin-form {
     display:                        none;
-    z-index:                        100;
+    z-index:                        99;
     width:                          320px;
     position:                       absolute;
     top:                            35px;

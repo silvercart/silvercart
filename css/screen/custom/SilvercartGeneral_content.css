@@ -3,11 +3,11 @@
 body {
     font-family:                    verdana, sans-serif;
     color:                          #333;
-    background:                     #c5beb6;
+    background:                     #f1f1f1;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#b5b0a8), to(#f1f1f1)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for firefox 3.6+ */
     background:                     -o-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for opera */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b0a8', endColorstr='#ccc'); /* for IE */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b0a8', endColorstr='#f1f1f1'); /* for IE */
 }
 
 h1, h2, h3, h4, h5, h6 {
