@@ -27,6 +27,9 @@
 .silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form_content {
     text-align:                     right;
 }
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form form.yform {
+    background:                     none;
+}
 
 .silvercart-product-group-page-box-list .silvercart-product-page-box-price {
     font-size:                      13px;
