@@ -1,59 +1,59 @@
-.silvercart-product-group-page-box {
+.silvercart-product-group-page-box-tile {
     color:                          #333;
 }
-.silvercart-product-group-page-box_frame {
+.silvercart-product-group-page-box-tile .silvercart-product-group-page-box-tile_frame {
     border:                         1px #e1e1e1 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
 
-.silvercart-product-group-page-box form.yform {
+.silvercart-product-group-page-box-tile form.yform {
     border:                         none;
     background:                     none;
 }
-.silvercart-product-group-page-box form.yform fieldset {
+.silvercart-product-group-page-box-tile form.yform fieldset {
     border:                         none;
     background:                     none;
 }
-.silvercart-product-group-add-cart-form {
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form {
     text-align:                     right;
 }
-.silvercart-product-group-add-cart-form input.text {
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form input.text {
     text-align:                     right;
 }
 
-.silvercart-product-group-page-box h3 a,
-.silvercart-product-group-page-box h3 a:visited {
+.silvercart-product-group-page-box-tile h3 a,
+.silvercart-product-group-page-box-tile h3 a:visited {
     font-size:                      14px;
     font-weight:                    bold;
     color:                          #333;
     text-shadow:                    0px 1px 3px #eee;
 }
 
-.silvercart-product-group-page-box .silvercart-product-text-info {
+.silvercart-product-group-page-box-tile .silvercart-product-text-info {
     overflow:                       hidden;
 }
-.silvercart-product-group-page-box .silvercart-product-meta-info {
+.silvercart-product-group-page-box-tile .silvercart-product-meta-info {
     text-align:                     right;
 }
 
-.silvercart-product-page-box-price {
+.silvercart-product-group-page-box-tile .silvercart-product-page-box-price {
     font-size:                      13px;
     text-align:                     right;
 }
-.silvercart-product-page-box-price small {
+.silvercart-product-group-page-box-tile .silvercart-product-page-box-price small {
     font-size:                      10px;
     line-height:                    130%;
 }
 
-.silvercart-product-group-page-box h3 a {
+.silvercart-product-group-page-box-tile h3 a {
     font-size:                      14px;
     font-weight:                    bold;
     color:                          #333;
     text-shadow:                    0px 1px 3px #eee;
 }
 
-.silvercart-product-group-page-box .silvercart-product-group-page-box-image a {
+.silvercart-product-group-page-box-tile .silvercart-product-group-page-box-image a {
     text-align:                     center;
 }

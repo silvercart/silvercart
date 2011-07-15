@@ -519,10 +519,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         $parentPage = $this->getParent();
 
         if ($parentPage) {
+            $parentPageController = ModelAsController::controller_for($parentPage);
+            $parentPageController->init();
+            
             if ($this->WidgetSetSidebar()->Count() == 0) {
                 $identifier           = 'Sidebar';
-                $parentPageController = ModelAsController::controller_for($parentPage);
-                $parentPageController->init();
                 $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
             }
             

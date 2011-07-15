@@ -1,37 +1,37 @@
-.silvercart-product-group-page-box.odd .silvercart-product-group-page-box_content{
+.silvercart-product-group-page-box-tile.odd .silvercart-product-group-page-box-tile_content{
     margin:                         0px 3px 6px 0px;
 }
-.silvercart-product-group-page-box.even .silvercart-product-group-page-box_content {
+.silvercart-product-group-page-box-tile.even .silvercart-product-group-page-box-tile_content {
     margin:                         0px 0px 6px 3px;
 }
-.silvercart-product-group-page-box_frame {
+.silvercart-product-group-page-box-tile .silvercart-product-group-page-box-tile_frame {
     padding:                        4px;
 }
 
-.silvercart-product-group-page-box p {
+.silvercart-product-group-page-box-tile p {
     margin:                         0px 0px 4px 0px;
 }
-.silvercart-product-group-page-box .silvercart-product-text-info {
+.silvercart-product-group-page-box-tile .silvercart-product-text-info {
     height:                         130px;
     padding:                        0px 0px 8px 0px;
 }
 
-.silvercart-product-group-add-cart-form input.text {
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
 }
 
-.silvercart-product-group-add-cart-form form.yform label {
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form form.yform label {
     display:                        none;
 }
-.silvercart-product-group-add-cart-form_content {
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form_content {
     padding:                        0px;
 }
 
-.silvercart-product-group-page-box form.yform {
+.silvercart-product-group-page-box-tile form.yform {
     margin:                         0px;
     padding:                        0px;
 }
-.silvercart-product-group-page-box form.yform fieldset {
+.silvercart-product-group-page-box-tile form.yform fieldset {
     margin:                         0px;
     padding:                        0px;
 }

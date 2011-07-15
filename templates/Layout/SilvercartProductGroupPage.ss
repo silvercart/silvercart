@@ -2,18 +2,24 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         
+        $Content
+        $InsertWidgetArea(Content)
+        
         <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupHolderControls %>
         </div>
 
-        $RenderProductGroupHolderGroupView
+        <div class="silvercart-product-group-page">
+            $RenderProductGroupHolderGroupView
+        </div>
         
         <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupPageControls %>
         </div>
         
-        $Content
-        $RenderProductGroupPageGroupView
+        <div class="silvercart-product-group-page">
+            $RenderProductGroupPageGroupView
+        </div>
 	
         <div class="silvercart-product-group-page-control-bottom">
             <% include SilvercartProductGroupPageControls %>
@@ -22,7 +28,6 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        $SubNavigation
         $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>

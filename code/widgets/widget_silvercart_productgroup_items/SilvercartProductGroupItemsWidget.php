@@ -43,7 +43,9 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      */
     public static $db = array(
         'numberOfProductsToShow'        => 'Int',
-        'SilvercartProductGroupPageID'  => 'Int'
+        'SilvercartProductGroupPageID'  => 'Int',
+        'useListView'                   => 'Boolean',
+        'isContentView'                  => 'Boolean'
     );
     
     /**
@@ -75,10 +77,14 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(),
             $this->SilvercartProductGroupPageID
         );
-        $numberOfProductsField = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));
+        $numberOfProductsField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));
+        $useListViewField       = new TextField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
+        $isContentView          = new TextField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
         
         $fields->push($productGroupField);
         $fields->push($numberOfProductsField);
+        $fields->push($useListViewField);
+        $fields->push($isContentView);
         
         return $fields;
     }
@@ -141,7 +147,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function Products() {
+    public function Elements() {
         
         if (!$this->SilvercartProductGroupPageID) {
             return false;
@@ -166,6 +172,16 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         return $products;
     }
     
+    /**
+     * Returns the title of the product group that items are shown.
+     *
+     * @return string
+     *
+     * @param 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.04.2011
+     */
     public function ProductGroupTitle() {
         $title = '';
         

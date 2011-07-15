@@ -1,7 +1,7 @@
 <% if Elements %>
     <% control Elements %>
-        <div class="silvercart-product-group-page-box clearfix $EvenOdd $FirstLast">
-            <div class="silvercart-product-group-page-box_content">
+        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast">
+            <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
                     <h3>
                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>

@@ -1,42 +1,42 @@
-.silvercart-product-group-page-box {
+.silvercart-product-group-page-box-list {
     padding:                        0px 0px 9px 0px;
 }
-.silvercart-product-group-page-box p {
+.silvercart-product-group-page-box-list p {
     margin:                         0px 0px 4px 0px;
 }
 
-.silvercart-product-group-page-box form.yform {
+.silvercart-product-group-page-box-list form.yform {
     margin:                         0px;
     padding:                        0px;
 }
-.silvercart-product-group-page-box form.yform fieldset {
+.silvercart-product-group-page-box-list form.yform fieldset {
     margin:                         0px;
     padding:                        0px;
 }
-.silvercart-product-group-add-cart-form input.text {
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
 }
-.silvercart-product-group-add-cart-form form.yform label {
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form form.yform label {
     display:                        none;
 }
-.silvercart-product-group-add-cart-form {
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form {
     margin:                         0px 0px 8px 0px;
 }
-.silvercart-product-group-add-cart-form_content {
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form_content {
     padding:                        4px;
 }
 
-.silvercart-product-group-page-box .silvercart-product-group-page-box-image a {
+.silvercart-product-group-page-box-list .silvercart-product-group-page-box-image a {
     display:                        block;
 }
-.silvercart-product-group-page-box .silvercart-product-group-page-box-image img {
+.silvercart-product-group-page-box-list .silvercart-product-group-page-box-image img {
     display:                        inline-block;
 }
 
-.silvercart-product-page-box-price {
+.silvercart-product-group-page-box-list .silvercart-product-page-box-price {
     padding:                        0px 6px 6px 0px;
 }
 
-.silvercart-product-text-info {
+.silvercart-product-group-page-box-list .silvercart-product-text-info {
     padding:                        0px 0px 8px 0px;
 }

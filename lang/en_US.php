@@ -1071,11 +1071,13 @@ $lang['en_US']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
 $lang['en_US']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart login';
 $lang['en_US']['SilvercartLoginWidget']['DESCRIPTION']              = 'This widget shows a login form and links to the registration page. If the customer is logged in already links to his/her my account sections are shown instead.';
 
-$lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Productgroup';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart productgroup items';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'This widget displays products of a definable productgroup. You can define how many products from which productgroup should be shown.';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']              = 'Use regular productview instead of widgetview';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Please choose the productgroup to display:';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Number of products to show:';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Productgroup';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                 = 'Use listview';
 
 $lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';

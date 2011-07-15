@@ -137,7 +137,7 @@ class SilvercartTopsellerProductsWidget_Controller extends SilvercartWidget_Cont
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function TopsellerProducts() {
+    public function Elements() {
         
         if (!$this->numberOfProductsToShow) {
             $this->numberOfProductsToShow = SilvercartTopsellerProductsWidget::$defaults['numberOfProductsToShow'];

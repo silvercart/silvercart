@@ -4,12 +4,24 @@
 .silvercart-widget {
     margin:                         0px 0px 12px 0px;
 }
-.silvercart-widget h2 {
+.silvercart-widget h2,
+#col1 .silvercart-widget h2,
+#col4 .silvercart-widget h2 {
     margin:                         0px;
     padding:                        4px 4px 4px 4px;
 }
+.silvercart-widget h3,
+#col1 .silvercart-widget h3,
+#col4 .silvercart-widget h3 {
+    margin:                         0px;
+    padding:                        0px 0px 6px 0px;
+}
 .silvercart-widget-content_frame {
     padding:                        4px;
+}
+
+.silvercart-widget-content-area {
+    margin:                         0px 0px 20px 0px;
 }
 
 /* YAML vlist -------------------------------------------------------------- */
