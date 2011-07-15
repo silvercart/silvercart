@@ -3,10 +3,11 @@
 body {
     font-family:                    verdana, sans-serif;
     color:                          #333;
-    background:                     #7a7268;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#7a7268), to(#f1f1f1)); /* for webkit browsers */
+    background:                     #c5beb6;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#b5b0a8), to(#f1f1f1)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for firefox 3.6+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#7a7268', endColorstr='#ccc'); /* for IE */
+    background:                     -o-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for opera */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b0a8', endColorstr='#ccc'); /* for IE */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -29,6 +30,7 @@ h1 {
     background:                     #fff;
     border:                         1px #8d8981 solid;
     border-top:                     none;
+    box-shadow:                     #aeaaa1 0px 0px 100px;
 }
     
 hr {
@@ -125,6 +127,7 @@ p.silvercart-message.highlighted.error48 {
     background:                     #555;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#777), to(#444)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #777,  #444); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #777,  #444); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#777', endColorstr='#444'); /* for IE */
     border:                         1px #444 solid;
     border-radius:                  3px;
@@ -141,6 +144,7 @@ p.silvercart-message.highlighted.error48 {
     background-color:               #444;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#666), to(#333)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #666,  #333); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #666,  #333); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#333'); /* for IE */
 }
 
@@ -151,6 +155,7 @@ p.silvercart-message.highlighted.error48 {
     background:                     #d9d9d9;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #ffffff,  #d9d9d9); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #ffffff,  #d9d9d9); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
     text-decoration:                none;
     border:                         1px #999 solid;
@@ -164,6 +169,7 @@ p.silvercart-message.highlighted.error48 {
     background-color:               #cecece;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cecece)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #eeeeee,  #cecece); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
 }
 .silvercart-icon-button:visited {

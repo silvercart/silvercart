@@ -15,6 +15,7 @@ form.yform .type-button input.submit[type="submit"] {
     background:                     #407e95;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #407e95,  #175072); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#407e95', endColorstr='#175072'); /* for IE */
     border:                         1px #444 solid;
     border-radius:                  3px;
@@ -25,6 +26,7 @@ form.yform input[type="submit"]:hover {
     background-color:               #f0fafe;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#34677a), to(#13415d)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #34677a,  #13415d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #34677a,  #13415d); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#34677a', endColorstr='#13415d'); /* for IE */
     cursor:                         pointer;
 }
@@ -58,6 +60,7 @@ form.yform input[type="submit"]:hover {
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #42403e,  #302e2d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #42403e,  #302e2d); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
     border:                         1px #676461 solid;
     border-radius:                  3px;
@@ -69,6 +72,7 @@ form.yform input[type="submit"]:hover {
     text-decoration:                none;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#5c5956), to(#464341)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #5c5956,  #464341); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #5c5956,  #464341); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c5956', endColorstr='#464341'); /* for IE */
     border:                         1px #87837f solid;
 }
@@ -88,7 +92,9 @@ form.yform input[type="submit"]:hover {
     background-color:               #252223;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#252223), to(#000000)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #252223,  #000000); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #252223,  #000000); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#252223', endColorstr='#000000'); /* for IE */
+    box-shadow:                     0px 0px 9px #252223;
 }
 #silvercart-quicklogin-form form.yform {
     background:                     none;
@@ -122,6 +128,7 @@ form.yform input[type="submit"]:hover {
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #42403e,  #302e2d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #42403e,  #302e2d); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
     border:                         1px #676461 solid;
     border-radius:                  3px;
@@ -133,6 +140,7 @@ form.yform input[type="submit"]:hover {
     text-decoration:                none;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #5c5956,  #464341); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #5c5956,  #464341); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
     border:                         1px #87837f solid;
 }
