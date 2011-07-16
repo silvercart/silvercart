@@ -32,7 +32,36 @@
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartWidget extends Widget {
+   
+    /**
+     * Attributes
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    public static $db = array(
+        'sortOrder' => 'Int'
+    );
     
+    /**
+     * Returns the input fields for this widget.
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $sortOrderField = new TextField('sortOrder', _t('SilvercartWidget.SORT_ORDER_LABEL'));
+        
+        $fields->push($sortOrderField);
+        
+        return $fields;
+    }
 }
 
 /**
@@ -67,6 +96,8 @@ class SilvercartWidget_Controller extends Widget_Controller {
      */
     protected $classInstanceIdx = 0;
     
+    protected $pageControler = null;
+    
     /**
      * We register the search form on the page controller here.
      * 
@@ -86,9 +117,5 @@ class SilvercartWidget_Controller extends Widget_Controller {
         }
         
         $this->classInstanceIdx = self::$classInstanceCounter[$this->class];
-    }
-    
-    public function PageController() {
-        return Controller::curr();
     }
 }

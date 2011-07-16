@@ -495,6 +495,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $detailViewProduct = null;
 
     protected $listFilters = array();
+    
+    /**
+     * Contains the output of all WidgetSets of the parent page
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    protected $widgetOutput = array();
 
     /**
      * execute these statements on object call
@@ -505,6 +515,24 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
+        
+        $parentPage = $this->getParent();
+
+        if ($parentPage) {
+            $parentPageController = ModelAsController::controller_for($parentPage);
+            $parentPageController->init();
+            
+            if ($this->WidgetSetSidebar()->Count() == 0) {
+                $identifier           = 'Sidebar';
+                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+            }
+            
+            if ($this->WidgetSetContent()->Count() == 0) {
+                $identifier           = 'Content';
+                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+            }
+        }
+        
         // there must be two way to initialize this controller:
         if ($this->isProductDetailView()) {
             // a product detail view is requested
@@ -1120,12 +1148,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         if (empty($output)) {
-            $parentPage = $this->getParent();
-            
-            if ($parentPage) {
-                $parentPageController = ModelAsController::controller_for($parentPage);
-                $parentPageController->init();
-                $output               = $parentPageController->InsertWidgetArea($identifier);
+            if (isset($this->widgetOutput[$identifier])) {
+                $output = $this->widgetOutput[$identifier];
             }
         }
         

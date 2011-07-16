@@ -1,0 +1,68 @@
+#col1 .silvercart-product-page .silvercart-product-title h2,
+#col4 .silvercart-product-page .silvercart-product-title h2 {
+    font-size:                      20px;
+    border:                         none;
+}
+
+.silvercart-product-page .silvercart-product-page-box-price .silvercart-price {
+    font-size:                      18px;
+}
+.silvercart-product-page .silvercart-product-page-box-price small {
+    font-size:                      10px;
+    line-height:                    130%;
+}
+
+.silvercart-product-page .silvercart-product-group-page-box-image {
+    text-align:                     center;
+}
+
+.silvercart-product-page form.yform {
+    border:                         none;
+    background:                     none;
+}
+.silvercart-product-page form.yform fieldset {
+    border:                         none;
+    background:                     none;
+}
+
+/* Tabs ---------------------------------------------------------------- */
+
+ul.tabs {
+    list-style:                 none;
+    border-bottom:              1px solid #ddd;
+    border-left:                1px solid #ddd;
+}
+ul.tabs li {
+    line-height:                31px; /*--Vertically aligns the text within the tab--*/
+    border:                     1px solid #ddd;
+    border-left:                none;
+    background:                 #eee; /* background color of inactive tabs */
+}
+ul.tabs li a {
+    text-decoration:            none;
+    color:                      #000;
+    font-size:                  12px;
+    border:                     1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+}
+ul.tabs li a:hover {
+    background:                 #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+    background:                 #fff;
+    border-bottom:              1px solid #fff; /*--Makes the active tab look like it's connected with its content--*/
+}
+
+.tab_container {
+    border:                     1px solid #ddd;
+    border-top:                 none;
+    border-bottom-left-radius:          3px;
+    -moz-border-radius-bottomleft:      3px;
+    -webkit-border-bottom-left-radius:  3px;
+    border-bottom-right-radius:         3px;
+    -moz-border-radius-bottomright:     3px;
+    -webkit-border-bottom-right-radius: 3px;
+    background:                 #fff;
+}
+.tab_content {
+    font-size:                  12px;
+}

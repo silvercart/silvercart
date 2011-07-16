@@ -161,6 +161,8 @@ class SilvercartPage_Controller extends ContentController {
      * @since 26.05.2011
      */
     protected $WidgetSetContentControllers;
+    
+    protected $registrationControllerObject = null;
 
     /**
      * standard page controller
@@ -211,28 +213,32 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartPagination_layout');
         Requirements::themedCSS('SilvercartPagination_content');
         Requirements::themedCSS('SilvercartProductGroupNavigation');
-        Requirements::themedCSS('SilvercartProductGroupPageList_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageList_content');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
         Requirements::themedCSS('SilvercartProductGroupViewNavigation_layout');
         Requirements::themedCSS('SilvercartProductGroupViewNavigation_content');
         Requirements::themedCSS('SilvercartProductGroupPageControls_layout');
         Requirements::themedCSS('SilvercartProductGroupPageControls_content');
+        Requirements::themedCSS('SilvercartShoppingCart_layout');
+        Requirements::themedCSS('SilvercartShoppingCart_content');
+        Requirements::themedCSS('SilvercartProductPage_layout');
+        Requirements::themedCSS('SilvercartProductPage_content');
+        Requirements::themedCSS('SilvercartProductGroupPageList_layout');
+        Requirements::themedCSS('SilvercartProductGroupPageList_content');
+        Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
+        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
 
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
-
+        
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
             if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
-        } elseif (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
+        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
             $checkConfiguration = false;
         }
         if ($checkConfiguration) {
@@ -695,6 +701,7 @@ class SilvercartPage_Controller extends ContentController {
      * @since 27.05.2011
      */
     protected function loadWidgetControllers() {
+        // Sidebar area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
         
         foreach ($this->WidgetSetSidebar() as $widgetSet) {
@@ -702,9 +709,11 @@ class SilvercartPage_Controller extends ContentController {
                 $widgetSet->WidgetArea()->WidgetControllers()
             );
         }
-        
+
         $this->WidgetSetSidebarControllers = $controllers;
+        $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
         
+        // Content area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
         
         foreach ($this->WidgetSetContent() as $widgetSet) {
@@ -714,5 +723,6 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->WidgetSetContentControllers = $controllers;
+        $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
     }
 }

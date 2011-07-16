@@ -1,0 +1,12 @@
+<dataConfig>
+    <dataSource type="JdbcDataSource"
+                driver="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://127.0.0.1/{INSERT_DB_NAME}"
+                user="{INSERT_YOUR_DB_USERNAME}" 
+                password="{INSERT_YOUR_DB_PASSWORD}" />
+    <document name="products">
+        <entity name="SilvercartProduct" query="SELECT * FROM SilvercartProduct WHERE isActive = 1 AND SilvercartProductGroupID > 0">
+            <field column="ID" name="ID" />
+        </entity>
+    </document>
+</dataConfig>

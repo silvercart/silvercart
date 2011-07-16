@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTextWidget extends Widget {
+class SilvercartTextWidget extends SilvercartWidget {
     
     /**
      * Attributes.
@@ -42,7 +42,7 @@ class SilvercartTextWidget extends Widget {
      * @since 09.06.2011
      */
     public static $db = array(
-        'FreeText'  => 'Text'
+        'FreeText'  => 'HTMLText'
     );
     
     /**

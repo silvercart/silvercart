@@ -48,7 +48,7 @@
                         <div class="subcr">
                             
                             <div class="subcolumns">
-                                <div class="c66l">
+                                <div class="c50l">
                                     <div class="subcl">
                                         <% if CurrentRegisteredCustomer %>
                                             <div class="silvercart-headerbar-actions right">
@@ -65,12 +65,6 @@
                                                             Logout
                                                         </a>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        
-                                            <div id="silvercart-customer-name">
-                                                <div id="silvercart-customer-name_content">
-                                                    $CurrentMember.FirstName $CurrentMember.Surname
                                                 </div>
                                             </div>
                                         <% else %>
@@ -101,7 +95,7 @@
                                         <% end_if %>
                                     </div>
                                 </div>
-                                <div class="c33r">
+                                <div class="c50r">
                                     <div class="subcr">
                                         <div class="silvercart-headerbar-actions right">
                                             <% if SilvercartShoppingCart %>
@@ -144,10 +138,10 @@
                                 <div id="silvercart-shop-claim-text">
                                     <h1>
                                         <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
-                                            Silvercart
+                                            $SiteConfig.Title
                                         </a>
                                     </h1>
-                                    <p>Open Source E-Commerce</p>
+                                    <p>$SiteConfig.Tagline</p>
                                 </div>
                             </div>
                             

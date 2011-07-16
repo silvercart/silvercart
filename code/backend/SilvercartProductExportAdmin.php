@@ -44,17 +44,27 @@ class SilvercartProductExportAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartProductExporter'
     );
-    
+
+    /**
+     * The collection controller class to use for the shop configuration.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.07.2011
+     */
+    public static $collection_controller_class = 'SilvercartProductExportAdmin_CollectionController';
+
     /**
      * We use our own RecordController class.
      * 
-	 * @param string
+         * @param string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
-	 */
-	public static $record_controller_class = "SilvercartProductExportAdmin_RecordController";
-    
+         */
+        public static $record_controller_class = "SilvercartProductExportAdmin_RecordController";
+
     /**
      * The URL segment
      *
@@ -64,7 +74,7 @@ class SilvercartProductExportAdmin extends ModelAdmin {
      * @since 05.07.2011
      */
     public static $url_segment = 'silvercart-product-export';
-    
+
     /**
      * The menu title
      *
@@ -86,7 +96,17 @@ class SilvercartProductExportAdmin extends ModelAdmin {
     public static $menu_priority = -1;
 
     /**
-     * constructor
+     * Set the result table class.
+     * 
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    protected $resultsTableClassName = 'SilvercartProductExportTableListField';
+
+    /**
+     * We set the menu title for the CMS here.
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.07.2011
@@ -95,6 +115,36 @@ class SilvercartProductExportAdmin extends ModelAdmin {
         self::$menu_title = _t('SilvercartProductExportAdmin.SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL', 'SilverCart product export');
         parent::__construct();
     }
+}
+
+/**
+ * Modifies the model admin search panel.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 07.07.2011
+ * @copyright 2011 pixeltricks GmbH
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_CollectionController {
+
+    public $showImportForm = false;
+
+    /**
+         * Shows results from the "search" action in a TableListField. 
+         *
+         * @uses getResultsTable()
+         *
+         * @return Form
+         */
+        function ResultsForm($searchCriteria) {
+                $form = parent::ResultsForm($searchCriteria);
+
+        $form->setActions(new FieldSet());
+
+                return $form;
+        }
 }
 
 /**
@@ -108,7 +158,7 @@ class SilvercartProductExportAdmin extends ModelAdmin {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordController {
-    
+
     /**
      * Adds the abillity to execute additional actions to the model admin's
      * action handling.
@@ -124,42 +174,44 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
         $vars = $request->requestVars();
 
         if (array_key_exists('doAttributeItems', $vars)) {
-            return $this->doAttributeItems($vars);
+            return $this->doAttributeItems($vars, $request);
         } elseif (array_key_exists('doRemoveItems', $vars)) {
-            return $this->doRemoveItems($vars);
+            return $this->doRemoveItems($vars, $request);
         } elseif (array_key_exists('doMoveUpItems', $vars)) {
-            return $this->doMoveUpItems($vars);
+            return $this->doMoveUpItems($vars, $request);
         } elseif (array_key_exists('doMoveDownItems', $vars)) {
-            return $this->doMoveDownItems($vars);
+            return $this->doMoveDownItems($vars, $request);
+        } elseif (array_key_exists('doAddCallbackField', $vars)) {
+            return $this->doAddCallbackField($vars, $request);
         } else {
             return parent::handleAction($request);
         }
     }
-    
+
     /**
-	 * We save the CSV-Header definitions here.
-	 *
-	 * @param array          $data    The sent data
-	 * @param Form           $form    The current form object
-	 * @param SS_HTTPRequest $request The HTTP request
+         * We save the CSV-Header definitions here.
+         *
+         * @param array          $data    The sent data
+         * @param Form           $form    The current form object
+         * @param SS_HTTPRequest $request The HTTP request
      * 
-	 * @return mixed
+         * @return mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
-	 */
-	function doSave($data, $form, $request) {
-        
+         */
+        public function doSave($data, $form, $request) {
+
         $exporterObj = DataObject::get_by_id(
             'SilvercartProductExporter',
             Convert::raw2sql($data['ID'])
         );
-        
+
         if ($exporterObj) {
             foreach ($data as $httpFieldName => $fieldValue) {
                 if (substr($httpFieldName, 0, 32) == 'SilvercartProductExporterFields_') {
                     $fieldName = substr($httpFieldName, 32);
-                    
+
                     $exporterFieldObj = DataObject::get_one(
                         'SilvercartProductExporterField',
                         sprintf(
@@ -168,7 +220,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                             $fieldName
                         )
                     );
-                    
+
                     if ($exporterFieldObj) {
                         $exporterFieldObj->setField('headerTitle', Convert::raw2sql($fieldValue));
                         $exporterFieldObj->write();
@@ -176,10 +228,52 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                 }
             }
         }
-        
+
         return parent::doSave($data, $form, $request);
     }
-    
+
+    /**
+     * Attributes a callback field to the exporter.
+     * 
+     * @param array $vars The request parameters as associative array
+     * 
+     * @return html
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    public function doAddCallbackField($vars, $request) {
+        if (isset($vars['ID'])) {
+            $exporterObj = DataObject::get_by_id(
+                'SilvercartProductExporter',
+                Convert::raw2sql($vars['ID'])
+            );
+
+            if ($exporterObj) {
+                if (isset($vars['callbackField']) &&
+                    !empty($vars['callbackField'])) {
+
+                    $silvercartProductExporterField = new SilvercartProductExporterField();
+                    $silvercartProductExporterField->setField('name', Convert::raw2sql($vars['callbackField']));
+                    $silvercartProductExporterField->setField('SilvercartProductExporterID', $exporterObj->ID);
+                    $silvercartProductExporterField->setField('sortOrder', $exporterObj->SilvercartProductExporterFields()->Count() + 1);
+                    $silvercartProductExporterField->setField('isCallbackField', true);
+                    $silvercartProductExporterField->write();
+
+                    $exporterObj->SilvercartProductExporterFields()->push($silvercartProductExporterField);
+                    $exporterObj->write();
+                }
+            }
+        }
+
+        // Behaviour switched on ajax.
+                if(Director::is_ajax()) {
+                        return $this->edit($request);
+                } else {
+                        Director::redirectBack();
+                }
+    }
+
     /**
      * Attributes fields to the exporter.
      * 
@@ -190,42 +284,42 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doAttributeItems($vars) {
-        
+    public function doAttributeItems($vars, $request) {
+
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
                 Convert::raw2sql($vars['ID'])
             );
-            
+
             if ($exporterObj) {
                 if (is_array($vars['availableItems'])) {
                     foreach ($vars['availableItems'] as $field) {
-                        
+
                         if (!$exporterObj->SilvercartProductExporterFields()->find('name', $field)) {
                             $silvercartProductExporterField = new SilvercartProductExporterField();
                             $silvercartProductExporterField->setField('name', $field);
                             $silvercartProductExporterField->setField('SilvercartProductExporterID', $exporterObj->ID);
                             $silvercartProductExporterField->setField('sortOrder', $exporterObj->SilvercartProductExporterFields()->Count() + 1);
                             $silvercartProductExporterField->write();
-                            
+
                             $exporterObj->SilvercartProductExporterFields()->push($silvercartProductExporterField);
                             $exporterObj->write();
                         }
-                        
+
                     }
                 }
             }
         }
-        
+
         // Behaviour switched on ajax.
-		if(Director::is_ajax()) {
-			return $this->edit($request);
-		} else {
-			Director::redirectBack();
-		}
+                if(Director::is_ajax()) {
+                        return $this->edit($request);
+                } else {
+                        Director::redirectBack();
+                }
     }
-    
+
     /**
      * Removes fields from the exporter.
      * 
@@ -236,45 +330,45 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doRemoveItems($vars) {
-        
+    public function doRemoveItems($vars, $request) {
+
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
                 Convert::raw2sql($vars['ID'])
             );
-            
+
             if ($exporterObj) {
                 if (is_array($vars['selectedItems'])) {
                     foreach ($vars['selectedItems'] as $field) {
-                        
+
                         $itemToDelete = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
-                        
+
                         if ($itemToDelete) {
                             $removedSortOrder = $itemToDelete->sortOrder;
-                            
+
                             foreach ($exporterObj->SilvercartProductExporterFields() as $productExporterField) {
                                 if ($productExporterField->sortOrder > $removedSortOrder) {
                                     $productExporterField->setField('sortOrder', $productExporterField->sortOrder - 1);
                                     $productExporterField->write();
                                 }
                             }
-                            
+
                             $itemToDelete->delete();
                         }
                     }
                 }
             }
         }
-        
+
         // Behaviour switched on ajax.
-		if(Director::is_ajax()) {
-			return $this->edit($request);
-		} else {
-			Director::redirectBack();
-		}
+                if(Director::is_ajax()) {
+                        return $this->edit($request);
+                } else {
+                        Director::redirectBack();
+                }
     }
-    
+
     /**
      * Moves a field up in the sort hierarchy.
      * 
@@ -285,22 +379,22 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doMoveUpItems($vars) {
-        
+    public function doMoveUpItems($vars, $request) {
+
         $itemsToMove = array();
-        
+
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
                 Convert::raw2sql($vars['ID'])
             );
-            
+
             if ($exporterObj) {
                 if (is_array($vars['selectedItems'])) {
                     foreach ($vars['selectedItems'] as $field) {
-                        
+
                         $itemToMove = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
-                        
+
                         if ($itemToMove) {
                             if ($itemToMove->sortOrder <= $exporterObj->SilvercartProductExporterFields()->Count()) {
                                 $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
@@ -308,9 +402,9 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                         }
                     }
                 }
-                
+
                 ksort($itemsToMove);
-                
+
                 foreach ($itemsToMove as $sortOrder => $itemToMove) {
                     $moveFromPosition = $itemToMove->sortOrder;
                     $moveToPosition   = $moveFromPosition - 1;
@@ -319,15 +413,15 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                 }
             }
         }
-        
+
         // Behaviour switched on ajax.
-		if(Director::is_ajax()) {
-			return $this->edit($request);
-		} else {
-			Director::redirectBack();
-		}
+                if(Director::is_ajax()) {
+                        return $this->edit($request);
+                } else {
+                        Director::redirectBack();
+                }
     }
-    
+
     /**
      * Moves a field down in the sort hierarchy.
      * 
@@ -338,22 +432,22 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function doMoveDownItems($vars) {
-        
+    public function doMoveDownItems($vars, $request) {
+
         $itemsToMove = array();
-        
+
         if (isset($vars['ID'])) {
             $exporterObj = DataObject::get_by_id(
                 'SilvercartProductExporter',
                 Convert::raw2sql($vars['ID'])
             );
-            
+
             if ($exporterObj) {
                 if (is_array($vars['selectedItems'])) {
                     foreach ($vars['selectedItems'] as $field) {
-                        
+
                         $itemToMove = $exporterObj->SilvercartProductExporterFields()->find('name', $field);
-                        
+
                         if ($itemToMove) {
                             if ($itemToMove->sortOrder < $exporterObj->SilvercartProductExporterFields()->Count()) {
                                 $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
@@ -361,9 +455,9 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                         }
                     }
                 }
-                
+
                 krsort($itemsToMove);
-                
+
                 foreach ($itemsToMove as $sortOrder => $itemToMove) {
                     $moveFromPosition = $itemToMove->sortOrder;
                     $moveToPosition   = $moveFromPosition + 1;
@@ -372,15 +466,15 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
                 }
             }
         }
-        
+
         // Behaviour switched on ajax.
-		if(Director::is_ajax()) {
-			return $this->edit($request);
-		} else {
-			Director::redirectBack();
-		}
+                if(Director::is_ajax()) {
+                        return $this->edit($request);
+                } else {
+                        Director::redirectBack();
+                }
     }
-    
+
     /**
      * Changes positions of two SilvercartProductExporterFields.
      * 
@@ -395,13 +489,13 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
      * @since 06.07.2011
      */
     protected function changePositions(SilvercartProductExporter $exporterObj, SilvercartProductExporterField $itemToMove, $moveFromPosition, $moveToPosition) {
-        
+
         if (!$exporterObj ||
             !$itemToMove) {
-            
+
             return false;
         }
-        
+
         $changerObject = DataObject::get_one(
             'SilvercartProductExporterField',
             sprintf(
@@ -414,7 +508,7 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
         if ($changerObject) {
             $changerObject->setField('sortOrder', $moveFromPosition);
             $changerObject->write();
-            
+
             $itemToMove->setField('sortOrder', $moveToPosition);
             $itemToMove->write();
         }

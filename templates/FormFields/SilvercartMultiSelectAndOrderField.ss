@@ -11,6 +11,17 @@
                     <option value="$value">$label</option>
                 <% end_control %>
             </select>
+            <br />
+            <p>
+                <% _t('SilvercartProductExportAdmin.ADD_CALLBACK_FIELD') %>:
+            </p>
+            <div id="callbackField" class="field text ">
+                <label class="left" for="{$ID}_callbackField">Field name:</label>
+                <div class="middleColumn">
+                    <input type="text" class="text" id="{$ID}_callbackField" name="callbackField" />
+                </div>
+            </div>
+            <input id="{$ID}_action_doAddCallbackField" class="action_doAddCallbackField" type="submit" name="action_doAddCallbackField" value="<% _t('SilvercartProductExportAdmin.ADD_CALLBACK_FIELD') %>" />
         </div>
         <div class="c10l">
             <p>&nbsp;</p>
@@ -38,7 +49,7 @@
 <script type="text/javascript">
     /* <![CDATA[ */
     (function($) {
-        $('#right input[name=action_doAttributeItems], #right input[name=action_doRemoveItems], #right input[name=action_doMoveUpItems], #right input[name=action_doMoveDownItems]').live('click', function(){
+        $('#right input[name=action_doAttributeItems], #right input[name=action_doRemoveItems], #right input[name=action_doMoveUpItems], #right input[name=action_doMoveDownItems], #right input[name=action_doAddCallbackField]').live('click', function(){
             $(this).addClass('loading')
             var silvercartMultiselectandorderFieldButtonAttributeItems = $(this);
             var form = $('#right form');

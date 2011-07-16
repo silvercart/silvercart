@@ -66,7 +66,7 @@ class SilvercartProduct extends DataObject {
      */
     public static $db = array(
         'Title'                     => 'VarChar(255)',
-        'ShortDescription'          => 'VarChar(255)',
+        'ShortDescription'          => 'Text',
         'LongDescription'           => 'HTMLText',
         'MetaDescription'           => 'VarChar(255)',
         'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
@@ -838,7 +838,13 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     public function Link() {
-        return $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+        $link = '';
+        
+        if ($this->SilvercartProductGroup()) {
+            $link = $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+        }
+        
+        return $link;
     }
     
     /**
@@ -1073,20 +1079,19 @@ class SilvercartProduct extends DataObject {
         if ($images->Count() > 0) {
             return $images;
         } else {
-            $noImageObj = Controller::curr()->SilvercartNoImage();
+            $noImageObj = SilvercartConfig::getNoImage();
             
             if ($noImageObj) {
                 $noImageObj->setField('Title', 'No Image');
                 
                 $silvercartImageObj = new SilvercartImage();
-                $silvercartImageObj->setField('ProductLink', $this->Link());
-                $silvercartImageObj->Image = $noImageObj;
+                $silvercartImageObj->ImageID             = $noImageObj->ID;
+                $silvercartImageObj->SilvercartProductID = $this->ID;
                 
-                return new DataObjectSet(
-                    array(
-                        'Images' => $silvercartImageObj
-                    )
-                );
+                $images = new DataObjectSet();
+                $images->addWithoutWrite($silvercartImageObj);
+                
+                return $images;
             }
         }
         

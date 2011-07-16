@@ -22,7 +22,7 @@
  */
 
 /**
- * checkout step for payment method
+ * checkout step for shipping method
  *
  * @package Silvercart
  * @subpackage Forms Checkout
@@ -42,9 +42,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     protected $formFields = array(
-        'PaymentMethod' => array(
-            'type'              => 'SilvercartCheckoutOptionsetField',
-            'title'             => 'Bezahlart',
+        'ShippingMethod' => array(
+            'type'              => 'DropdownField',
+            'title'             => 'Versandart',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
@@ -94,7 +94,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     public function preferences() {
         $this->preferences['stepIsVisible']             = true;
-        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Payment');
+        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
@@ -108,41 +108,17 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 09.11.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 3.1.2011
      */
     protected function fillInFieldValues() {
-        $allowedPaymentMethods = false;
-        
         $this->controller->fillFormFields(&$this->formFields);
-        $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep3.FIELDLABEL');
-
-        $stepData = $this->controller->getCombinedStepData();
-
-        if ($stepData) {
-            if ($stepData['Shipping_Country'] != "") {
-                $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
-                if ($shippingCountry) {
-                    //$allowedPaymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
+        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
                     
-                    $allowedPaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry);
-                    
-                    if ($allowedPaymentMethods) {
-                        $this->formFields['PaymentMethod']['value'] = $allowedPaymentMethods->toDropDownMap('ID', 'Name');
-                    }
-                }
-            }
-        }
-
-        if (isset($stepData['PaymentMethod'])) {
-            $this->formFields['PaymentMethod']['selectedValue'] = $stepData['PaymentMethod'];
-        } else {
-            if (isset($allowedPaymentMethods) &&
-                $allowedPaymentMethods &&
-                $allowedPaymentMethods->Count() > 0) {
-                $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
-            }
+        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods();
+        if ($shippingMethods) {
+            $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
         }
     }
 
@@ -158,32 +134,15 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 09.11.2010
+     * @since 4.1.2011
      */
     public function submitSuccess($data, $form, $formData) {
+        if ($this->controller->stepDataChanged($formData, 'ShippingMethod')) {
+            $this->controller->removeCompletedStep($this->controller->getCurrentStep() + 1,true);
+        }
         $this->controller->setStepData($formData);
-
-        $stepData = $this->controller->getCombinedStepData();
-
-        if ($stepData &&
-            isset($stepData['PaymentMethod'])) {
-            
-            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $stepData['PaymentMethod']);
-        }
-
-        if ($paymentMethod) {
-            $this->controller->resetStepMapping();
-
-            $this->controller->registerStepDirectory(
-                $paymentMethod->getStepConfiguration()
-            );
-
-            $this->controller->generateStepMapping();
-            $this->controller->addCompletedStep();
-            $this->controller->NextStep();
-        } else {
-            Director::redirect($this->controller->Link());
-        }
+        $this->controller->addCompletedStep();
+        $this->controller->NextStep();
     }
 }
 

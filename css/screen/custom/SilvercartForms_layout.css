@@ -3,11 +3,19 @@
 form.yform .type-button {
     text-align:                     right;
 }
-form.yform .type-button input[type="submit"] {
-    height:                         25px;
+form.yform .type-button input[type="submit"],
+form.yform .type-button input.action[type="submit"],
+form.yform .type-button input.submit {
     float:                          right;
     margin:                         0px 0px 0px 4px;
-    padding:                        0px 10px 0px 10px;
+    padding:                        3px 10px 4px 10px;
+}
+form.yform input[type="submit"] {
+    padding:                        1px 8px 2px 8px;
+}
+form.yform input[type="password"],
+form.yform input[type="text"] {
+    padding:                        2px 4px;
 }
 form.yform .type-button .silvercart-button {
     margin:                         7px 0px 0px 0px;
@@ -45,7 +53,7 @@ form.yform .type-button .silvercart-button {
 
 #silvercart-quicklogin-form {
     display:                        none;
-    z-index:                        100;
+    z-index:                        99;
     width:                          320px;
     position:                       absolute;
     top:                            35px;

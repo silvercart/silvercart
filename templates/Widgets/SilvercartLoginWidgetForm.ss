@@ -4,15 +4,11 @@
 
     <div class="subcolumns">
         <div class="c50l">
-            <div class="subcl">
-                $CustomHtmlFormFieldByName(emailaddress)
-            </div>
+            $CustomHtmlFormFieldByName(emailaddress)
         </div>
 
         <div class="c50r">
-            <div class="subcr">
-                $CustomHtmlFormFieldByName(password)
-            </div>
+            $CustomHtmlFormFieldByName(password)
         </div>
     </div>
 

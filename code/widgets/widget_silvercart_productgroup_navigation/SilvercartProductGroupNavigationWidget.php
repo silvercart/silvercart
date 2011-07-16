@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupNavigationWidget extends Widget {
+class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
     
     /**
      * Attributes.
@@ -116,7 +116,7 @@ class SilvercartProductGroupNavigationWidget extends Widget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupNavigationWidget_Controller extends Widget_Controller {
+class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns a page that acts as the root node for a navigation block.

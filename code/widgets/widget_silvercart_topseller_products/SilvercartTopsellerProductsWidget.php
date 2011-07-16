@@ -33,7 +33,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTopsellerProductsWidget extends Widget {
+class SilvercartTopsellerProductsWidget extends SilvercartWidget {
     
     /**
      * Indicates the number of products that shall be shown with this widget.
@@ -137,7 +137,7 @@ class SilvercartTopsellerProductsWidget_Controller extends SilvercartWidget_Cont
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function TopsellerProducts() {
+    public function Elements() {
         
         if (!$this->numberOfProductsToShow) {
             $this->numberOfProductsToShow = SilvercartTopsellerProductsWidget::$defaults['numberOfProductsToShow'];

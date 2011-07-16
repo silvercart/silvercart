@@ -187,6 +187,8 @@ $lang['en_US']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']      
 $lang['en_US']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Attributed export fields';
 $lang['en_US']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Available export fields';
 $lang['en_US']['SilvercartProductExport']['FIELD_CSV_SEPARATOR']                            = 'CSV separator';
+$lang['en_US']['SilvercartProductExport']['IS_ACTIVE']                                      = 'Is active';
+$lang['en_US']['SilvercartProductExport']['FIELD_LAST_EXPORT_DATE_TIME']                    = 'Last export';
 $lang['en_US']['SilvercartProductExport']['FIELD_NAME']                                     = 'Name';
 $lang['en_US']['SilvercartProductExport']['FIELD_PUSH_ENABLED']                             = 'Activate push';
 $lang['en_US']['SilvercartProductExport']['FIELD_PUSH_TO_URL']                              = 'Push to URL';
@@ -199,6 +201,7 @@ $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 
+$lang['en_US']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Add callback field';
 $lang['en_US']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Attributed fields';
 $lang['en_US']['SilvercartProductExportAdmin']['CSV_SEPARATOR_LABEL']                   = 'CSV separator';
 $lang['en_US']['SilvercartProductExportAdmin']['MOVE_DOWN']                             = 'Move down';
@@ -283,12 +286,13 @@ $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] 
 $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Continue';
 $lang['en_US']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--country--';
 $lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
-$lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
 $lang['en_US']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'The given address could not be found.';
-$lang['en_US']['SilvercartCheckoutFormStep3']['FIELDLABEL'] = 'Please choose your prefered payment method:';
-$lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Payment';
-$lang['en_US']['SilvercartCheckoutFormStep4']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
-$lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Shipment';
+$lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
+$lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Shipment';
+$lang['en_US']['SilvercartCheckoutFormStep4']['CHOOSE_PAYMENT_METHOD'] = 'I want to pay with %s';
+$lang['en_US']['SilvercartCheckoutFormStep4']['EMPTYSTRING_PAYMENTMETHOD'] = '--choose payment method--';
+$lang['en_US']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Please choose your prefered payment method:';
+$lang['en_US']['SilvercartCheckoutFormStep4']['TITLE'] = 'Payment';
 $lang['en_US']['SilvercartCheckoutFormStep5']['TITLE'] = 'Overview';
 
 $lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
@@ -301,6 +305,8 @@ $lang['en_US']['SilvercartConfig']['ADD_EXAMPLE_CONFIGURATION'] = 'Add Example C
 $lang['en_US']['SilvercartConfig']['ADD_EXAMPLE_CONFIGURATION_DESCRIPTION'] = 'The action "Add Example Configuration" will preconfigure SilverCart. After that, the checkout process can be completly executed. The data to be configured are: payment option, carrier, shipping option, shipping fee, activation of a country and its relation to a zone.<br/><strong>CAUTION: This action can take a few minutes!</strong>';
 $lang['en_US']['SilvercartConfig']['ADDED_EXAMPLE_DATA'] = 'Added Example Data';
 $lang['en_US']['SilvercartConfig']['ADDED_EXAMPLE_CONFIGURATION'] = 'Added Example Configuration';
+$lang['en_US']['SilvercartConfig']['APACHE_SOLR_PORT'] = 'Port for requests to Apache Solr';
+$lang['en_US']['SilvercartConfig']['APACHE_SOLR_URL'] = 'URL for requests to Apache Solr';
 $lang['en_US']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart weight to be zero.';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
@@ -332,6 +338,7 @@ $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_US']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_US']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
+$lang['en_US']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_US']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum  order value';
 
 $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
@@ -893,6 +900,7 @@ $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_GROUPS_LABEL'] = 'Deacti
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_GROUPS_LABEL'] = 'Activate for the following groups';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_USERS_LABEL'] = 'Deactivate for the following users';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_USERS_LABEL'] = 'Activate for the following users';
+$lang['en_US']['SilvercartPaymentMethod']['SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'] = 'Show form fields on payment selection';
 $lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
 $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard order status for this payment method';
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
@@ -1036,6 +1044,8 @@ $lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error oc
 
 $lang['en_US']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
 
+$lang['en_US']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
+
 $lang['en_US']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets for the content area';
 $lang['en_US']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets for the sidebar';
 
@@ -1063,11 +1073,13 @@ $lang['en_US']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
 $lang['en_US']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart login';
 $lang['en_US']['SilvercartLoginWidget']['DESCRIPTION']              = 'This widget shows a login form and links to the registration page. If the customer is logged in already links to his/her my account sections are shown instead.';
 
-$lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Productgroup';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart productgroup items';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'This widget displays products of a definable productgroup. You can define how many products from which productgroup should be shown.';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']              = 'Use regular productview instead of widgetview';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Please choose the productgroup to display:';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Number of products to show:';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Productgroup';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                 = 'Use listview';
 
 $lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';

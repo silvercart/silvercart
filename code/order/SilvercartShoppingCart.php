@@ -142,7 +142,7 @@ class SilvercartShoppingCart extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         if (array_key_exists('url', $_REQUEST)) {
-            if (stripos($_REQUEST['url'], '/dev/build') === 0) {
+            if (stripos($_REQUEST['url'], '/dev/build') !== false) {
                 return;
             }
         }
@@ -170,14 +170,15 @@ class SilvercartShoppingCart extends DataObject {
             self::$loadModules) {
 
             $this->callMethodOnRegisteredModules(
-                    'performShoppingCartConditionsCheck', array(
-                $this,
-                Member::currentUser()
-                    )
+                'performShoppingCartConditionsCheck',
+                array(
+                    $this,
+                    Member::currentUser()
+                )
             );
 
             $this->callMethodOnRegisteredModules(
-                    'ShoppingCartInit'
+                'ShoppingCartInit'
             );
         }
     }
