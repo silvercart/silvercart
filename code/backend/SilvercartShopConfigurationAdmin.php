@@ -200,7 +200,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
      * Adds the abillity to execute additional actions to the model admin's
      * action handling.
      *
-     * @param SS_HTTPRequest $request
+     * @param SS_HTTPRequest $request the request object
      * 
      * @return mixed
      * 
@@ -236,7 +236,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
             $extraClass = 'exampleDataAlreadyAdded';
         }
         if ($this->currentRecord) {
-            if(Director::is_ajax()) {
+            if (Director::is_ajax()) {
                 $form = $this->EditForm();
                 $form->addExtraClass($extraClass);
                 return new SS_HTTPResponse(
@@ -245,7 +245,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
                     _t('SilvercartConfig.ADDED_EXAMPLE_DATA', "Added Example Data")
                 );
             } else {
-                // This is really quite ugly; to fix will require a change in the way that customise() works. :-(
+                // This is really quite ugly; fixing it will require a change in the way that customise() works. :-(
                 return $this->parentController->parentController->customise(array(
                         'Right' => $this->parentController->parentController->customise(array(
                                 'EditForm' => $this->EditForm()
@@ -254,7 +254,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
                 return ;
             }
         } else {
-            return _t('ModelAdmin.ITEMNOTFOUND', "I can't find that item");
+            return _t('ModelAdmin.ITEMNOTFOUND');
         }
     }
     
@@ -275,7 +275,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
             $extraClass = 'exampleConfigAlreadyAdded';
         }
         if ($this->currentRecord) {
-            if(Director::is_ajax()) {
+            if (Director::is_ajax()) {
                 $form = $this->EditForm();
                 $form->addExtraClass($extraClass);
                 return new SS_HTTPResponse(

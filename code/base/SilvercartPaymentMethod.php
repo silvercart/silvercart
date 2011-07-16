@@ -99,7 +99,7 @@ class SilvercartPaymentMethod extends DataObject {
     public static $possible_payment_channels = array();
 
     // ------------------------------------------------------------------------
-    // Attribute und Beziehungen
+    // Attributes and Relations
     // ------------------------------------------------------------------------
     /**
      * Singular name
