@@ -413,8 +413,8 @@ class SilvercartProductExporter extends DataObject {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2011
      */
     protected function getCsvRowFromProduct($productObj) {
         $includeRow     = true;
@@ -431,7 +431,11 @@ class SilvercartProductExporter extends DataObject {
         
         if (class_exists($callbackClass)) {
             if ($callbackReflectionClass->hasMethod('includeRow')) {
-                $includeRow = $callbackClass::includeRow($productObj);
+                // use eval instead of generic static method call to keep
+                // compatible with PHP version < 5.3
+                // eval is dirty, but it works for older versions...
+                //$includeRow = $callbackClass::includeRow($productObj);
+                $includeRow = eval('return ' . $callbackClass . '::includeRow($productObj);');
             }
         }
         
@@ -448,7 +452,11 @@ class SilvercartProductExporter extends DataObject {
                 if (class_exists($callbackClass)) {
                     $callbackMethod = $exportField->name;
                     if ($callbackReflectionClass->hasMethod($callbackMethod)) {
-                        $fieldValue = $callbackClass::$callbackMethod($productObj, $fieldValue);
+                        // use eval instead of generic static method call to keep
+                        // compatible with PHP version < 5.3
+                        // eval is dirty, but it works for older versions...
+                        //$fieldValue = $callbackClass::$callbackMethod($productObj, $fieldValue);
+                        $fieldValue = eval('return ' . $callbackClass . '::' . $callbackMethod . '($productObj, $fieldValue);');
                     }
                 }
 
