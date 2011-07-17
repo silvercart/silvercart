@@ -346,4 +346,13 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         }
         return $rendered;
     }
+    
+    /**
+     * Checks whether the current step is the payment step
+     *
+     * @return bool
+     */
+    public function currentStepIsPaymentStep() {
+        return $this->stepMapping[$this->getCurrentStep()]['class'] == 'SilvercartCheckoutFormStep4';
+    }
 }
