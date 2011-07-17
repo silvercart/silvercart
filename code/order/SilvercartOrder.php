@@ -1172,6 +1172,11 @@ class SilvercartOrder extends DataObject {
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
+        if ($this->isChanged('SilvercartOrderStatusID')) {
+            if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
+                $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
+            }
+        }
     }
 
     /**
