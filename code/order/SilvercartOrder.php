@@ -88,7 +88,8 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'SilvercartOrderPositions' => 'SilvercartOrderPosition'
+        'SilvercartOrderPositions'  => 'SilvercartOrderPosition',
+        'SilvercartAddresses'       => 'SilvercartAddress'
     );
 
     /**
@@ -190,12 +191,14 @@ class SilvercartOrder extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'CreatedNice'                   => _t('SilvercartPage.ORDER_DATE'),
-            'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
-            'ShippingAddressSummary'        => _t('SilvercartShippingAddress.SINGULARNAME'),
-            'InvoiceAddressSummary'         => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-            'AmountGrossTotalNice'          => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
-            'SilvercartOrderStatus.Title'   => _t('SilvercartOrderStatus.SINGULARNAME', 'order status')
+            'CreatedNice'                       => _t('SilvercartPage.ORDER_DATE'),
+            'OrderNumber'                       => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+            'ShippingAddressSummary'            => _t('SilvercartShippingAddress.SINGULARNAME'),
+            'InvoiceAddressSummary'             => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+            'AmountGrossTotalNice'              => _t('SilvercartOrder.ORDER_VALUE', 'order value'),
+            'SilvercartPaymentMethod.Title'     => _t('SilvercartPaymentMethod.SINGULARNAME', 'Payment method'),
+            'SilvercartOrderStatus.Title'       => _t('SilvercartOrderStatus.SINGULARNAME', 'order status'),
+            'SilvercartShippingMethod.Title'    => _t('SilvercartShippingMethod.SINGULARNAME', 'Shipping method')
         );
         $this->extend('updateSummaryFields', $summaryFields);
 
@@ -265,16 +268,20 @@ class SilvercartOrder extends DataObject {
                 'title'     => _t('SilvercartOrder.ORDERNUMBER'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'Member.FirstName' => array(
+            'SilvercartAddresses.FirstName' => array(
                 'title'     => _t('SilvercartAddress.FIRSTNAME'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'Member.Surname' => array(
+            'SilvercartAddresses.Surname' => array(
                 'title'     => _t('SilvercartAddress.SURNAME'),
                 'filter'    => 'PartialMatchFilter'
             ),
             'SilvercartOrderStatus.Title' => array(
                 'title'     => _t('SilvercartOrder.STATUS', 'order status'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartPaymentMethod.ID' => array(
+                'title'     => _t('SilvercartPaymentMethod.SINGULARNAME', 'Payment method'),
                 'filter'    => 'ExactMatchFilter'
             ),
         );
@@ -1219,8 +1226,9 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      * @since 10.03.2011
      */
     public function SearchForm() {
-        $orderStatusSet = DataObject::get('SilvercartOrderStatus');
-        $searchForm     = parent::SearchForm();
+        $orderStatusSet     = DataObject::get('SilvercartOrderStatus');
+        $paymentMethodSet   = DataObject::get('SilvercartPaymentMethod');
+        $searchForm         = parent::SearchForm();
 
         if ($orderStatusSet) {
             $searchForm->Fields()->removeByName('SilvercartOrderStatus__Title');
@@ -1235,12 +1243,41 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                 )
             );
 
-            $searchForm->Fields()->insertAfter($dropdownField, 'Member__Surname');
+            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartAddresses__Surname');
+        }
+        
+        if ($paymentMethodSet) {
+            $searchForm->Fields()->removeByName('SilvercartPaymentMethod__ID');
+
+            $dropdownField = new DropdownField(
+                'SilvercartPaymentMethod__ID',
+                _t('SilvercartPaymentMethod.SINGULARNAME', 'Payment method'),
+                $paymentMethodSet->map(
+                    'ID',
+                    'Title',
+                    _t('SilvercartOrderSearchForm.PLEASECHOOSE')
+                )
+            );
+
+            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartOrderStatus__Title');
         }
 
         $this->extend('updateSearchForm', $searchForm);
         
         return $searchForm;
+    }
+    
+    /**
+	 * Gets the search query generated on the SearchContext from
+	 * {@link DataObject::getDefaultSearchContext()},
+	 * and the current GET parameters on the request.
+	 *
+	 * @return SQLQuery
+	 */
+    public function getSearchQuery($searchCriteria) {
+        $query = parent::getSearchQuery($searchCriteria )->leftJoin( 'SilvercartAddress', 'SilvercartAddress.ID = SilvercartOrder.SilvercartShippingAddressID OR SilvercartAddress.ID = SilvercartOrder.SilvercartInvoiceAddressID' );
+        
+        return $query;
     }
 
     /**
