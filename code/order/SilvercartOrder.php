@@ -88,8 +88,7 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'SilvercartOrderPositions'  => 'SilvercartOrderPosition',
-        'SilvercartAddresses'       => 'SilvercartAddress'
+        'SilvercartOrderPositions'  => 'SilvercartOrderPosition'
     );
 
     /**
@@ -102,7 +101,8 @@ class SilvercartOrder extends DataObject {
      * @since 02.02.2011
      */
     public static $many_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
+        'SilvercartProducts' => 'SilvercartProduct',
+        'SilvercartAddresses'       => 'SilvercartAddress'
     );
 
     /**
@@ -350,6 +350,7 @@ class SilvercartOrder extends DataObject {
         $fields->removeByName(_t('Versioned.has_many_Versions'));
         $fields->removeByName('Silvercart Products');
         $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
+        $fields->removeByName('SilvercartAddresses');
         $fields->makeFieldReadonly('OrderNumber');
         $fields->makeFieldReadonly('Version');
 
