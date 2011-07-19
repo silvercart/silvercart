@@ -210,5 +210,55 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function getRemovePositionForm() {
         return Controller::curr()->InsertCustomHtmlForm('SilvercartRemovePositionForm' . $this->ID);
     }
+    
+    /**
+     * Find out if the demanded quantity is in stock when stock management is enabled.
+     * If stock management is disabled true will be returned.
+     * 
+     * @return bool Can this position be bought?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011 
+     */
+    public function isQuantityIncrementable() {
+        if (SilvercartConfig::isEnabledStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+            if ($this->SilvercartProduct()->StockQuantity > $this->Quantity) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * Decrement the positions quantity if it is higher than the stock quantity.
+     * If this position has a quantity of 5 but the products stock quantity is
+     * only 3 the positions quantity would be set to 3.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function adjustQuantityToStockQuantity() {
+        if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
+            $this->Quantity = $this->SilvercartProduct()->StockQuantity;
+            $this->write();
+        }
+    }
+    
+    /**
+     *
+     * @return string 
+     */
+    public function getQuantityUnavailableText() {
+        $text = "";
+        $title = $this->SilvercartProduct()->Title;
+        $stockQuantity = $this->SilvercartProduct()->StockQuantity;
+        $text = sprintf(_t('SilvercartCartPage.QUANTITY_INAVAILABLE','Only %1$s piece(s) of "%2$s" are available.'), $stockQuantity, $title);
+        return $text;
+    }
 
 }

@@ -582,6 +582,31 @@ class SilvercartShoppingCart extends DataObject {
 
         return true;
     }
+    
+    /**
+     * In case stock management is enabled: Find out if all positions quantities
+     * are still in stock
+     * 
+     * @return bool Can this cart be checkt out?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function isAvailableInStock() {
+        $positions = $this->SilvercartShoppingCartPositions();
+        if ($positions) {
+            $isCheckoutable = true;
+            foreach ($positions as $position) {
+                if ($position->Quantity > $position->SilvercartProduct()->StockQuantity) {
+                    $isCheckoutable = false;
+                    break;
+                }
+            }
+            return $isCheckoutable;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable

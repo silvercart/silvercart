@@ -86,6 +86,8 @@ class SilvercartConfig extends DataObject {
         'useApacheSolrSearch'           => 'Boolean(0)',
         'apacheSolrUrl'                 => 'VarChar(255)',
         'apacheSolrPort'                => 'Int',
+        'enableStockManagement'         => 'Boolean(0)',
+        'isStockManagementOverbookable' => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -150,19 +152,21 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $apacheSolrPort       = null;
-    public static $apacheSolrUrl        = null;
-    public static $defaultCurrency      = null;
-    public static $emailSender          = null;
-    public static $globalEmailRecipient = null;
-    public static $priceType            = null;
-    public static $config               = null;
-    public static $enableSSL            = null;
-    public static $minimumOrderValue    = null;
-    public static $useMinimumOrderValue = null;
-    public static $productsPerPage      = null;
-    public static $useApacheSolrSearch  = null;
-    
+    public static $apacheSolrPort                = null;
+    public static $apacheSolrUrl                 = null;
+    public static $defaultCurrency               = null;
+    public static $emailSender                   = null;
+    public static $globalEmailRecipient          = null;
+    public static $priceType                     = null;
+    public static $config                        = null;
+    public static $enableSSL                     = null;
+    public static $minimumOrderValue             = null;
+    public static $useMinimumOrderValue          = null;
+    public static $productsPerPage               = null;
+    public static $useApacheSolrSearch           = null;
+    public static $enableStockManagement         = null;
+    public static $isStockManagementOverbookable = null;
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -298,17 +302,19 @@ class SilvercartConfig extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['DefaultCurrency']         = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
-        $fieldLabels['EmailSender']             = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
-        $fieldLabels['GlobalEmailRecipient']    = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
-        $fieldLabels['enableSSL']               = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
-        $fieldLabels['minimumOrderValue']       = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
-        $fieldLabels['useMinimumOrderValue']    = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
-        $fieldLabels['productsPerPage']         = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
-        $fieldLabels['productGroupsPerPage']    = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
-        $fieldLabels['useApacheSolrSearch']     = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
-        $fieldLabels['apacheSolrPort']          = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
-        $fieldLabels['apacheSolrUrl']           = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
+        $fieldLabels['DefaultCurrency']               = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
+        $fieldLabels['EmailSender']                   = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
+        $fieldLabels['GlobalEmailRecipient']          = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $fieldLabels['enableSSL']                     = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
+        $fieldLabels['enableStockManagement']         = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
+        $fieldLabels['minimumOrderValue']             = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
+        $fieldLabels['useMinimumOrderValue']          = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
+        $fieldLabels['productsPerPage']               = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
+        $fieldLabels['productGroupsPerPage']          = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
+        $fieldLabels['useApacheSolrSearch']           = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
+        $fieldLabels['apacheSolrPort']                = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
+        $fieldLabels['apacheSolrUrl']                 = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
+        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');     
         return $fieldLabels;
     }
 
@@ -456,6 +462,41 @@ class SilvercartConfig extends DataObject {
         return self::$enableSSL;
     }
     
+    /**
+     * Returns if stock management is enabled
+     * 
+     * @return bool is stock management enabled? 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 17.7.2011
+     */
+    public static function isEnabledStockManagement() {
+        if (is_null(self::$enableStockManagement)) {
+            self::$enableStockManagement = self::getConfig()->enableStockManagement;
+        }
+        return self::$enableStockManagement;
+    }
+    
+    
+    
+    /**
+     * May a products stock quantity be below zero?
+     * 
+     * @return bool is stock management overbookable?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 17.7.2011
+     */
+    public static function isStockManagementOverbookable() {
+        if (is_null(self::$isStockManagementOverbookable)) {
+            self::$isStockManagementOverbookable = self::getConfig()->isStockManagementOverbookable;
+        }
+        return self::$isStockManagementOverbookable;
+    }
+
+
     /**
      * Returns the minimum order value if specified
      *

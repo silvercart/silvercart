@@ -65,26 +65,28 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'Title'                     => 'VarChar(255)',
-        'ShortDescription'          => 'Text',
-        'LongDescription'           => 'HTMLText',
-        'MetaDescription'           => 'VarChar(255)',
-        'MetaTitle'                 => 'VarChar(64)', //search engines use only 64 chars
-        'MetaKeywords'              => 'VarChar',
-        'ProductNumberShop'         => 'VarChar(50)',
-        'ProductNumberManufacturer' => 'VarChar(50)',
-        'PurchasePrice'             => 'Money',
-        'MSRPrice'                  => 'Money',
-        'PriceGross'                => 'Money', //price taxes including
-        'PriceNet'                  => 'Money', //price taxes excluded
-        'Weight'                    => 'Int', //unit is gramm
-        'Quantity'                  => 'Int', //Quantity Pieces (Pack)
-        'isFreeOfCharge'            => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
-        'EANCode'                   => 'VarChar(13)',
-        'isActive'                  => 'Boolean(1)',
-        'PurchaseMinDuration'       => 'Int',
-        'PurchaseMaxDuration'       => 'Int',
-        'PurchaseTimeUnit'          => 'Enum(",Days,Weeks,Months","")',
+        'Title'                       => 'VarChar(255)',
+        'ShortDescription'            => 'Text',
+        'LongDescription'             => 'HTMLText',
+        'MetaDescription'             => 'VarChar(255)',
+        'MetaTitle'                   => 'VarChar(64)', //search engines use only 64 chars
+        'MetaKeywords'                => 'VarChar',
+        'ProductNumberShop'           => 'VarChar(50)',
+        'ProductNumberManufacturer'   => 'VarChar(50)',
+        'PurchasePrice'               => 'Money',
+        'MSRPrice'                    => 'Money',
+        'PriceGross'                  => 'Money', //price taxes including
+        'PriceNet'                    => 'Money', //price taxes excluded
+        'Weight'                      => 'Int', //unit is gramm
+        'Quantity'                    => 'Int', //Quantity Pieces (Pack)
+        'isFreeOfCharge'              => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
+        'EANCode'                     => 'VarChar(13)',
+        'isActive'                    => 'Boolean(1)',
+        'PurchaseMinDuration'         => 'Int',
+        'PurchaseMaxDuration'         => 'Int',
+        'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
+        'StockQuantity'               => 'Int',
+        'StockQuantityOverbookable'   => 'Boolean(0)'
     );
 
     /**
@@ -356,6 +358,8 @@ class SilvercartProduct extends DataObject {
                 'SilvercartProductGroupMirrorPages' => _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'),
                 'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
                 'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
+                'StockQuantity'                     => _t('SilvercartProduct.STOCKQUANTITY', 'stock quantity'),
+                'StockQuantityOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?')
             )
         );
 
@@ -493,7 +497,9 @@ class SilvercartProduct extends DataObject {
                 'SilvercartAvailabilityStatus',
                 'PackagingType',
                 'SilvercartFiles',
-                'SilvercartOrders'
+                'SilvercartOrders',
+                'StockQuantity',
+                'StockQuantityOverbookable'
             ),
             'includeRelations' => true
         );
@@ -798,6 +804,13 @@ class SilvercartProduct extends DataObject {
 
     /**
      * adds an product to the cart or increases its amount
+     * If stock managament is activated:
+     * -If the product's stock quantity is overbookable there are noc hanges in
+     *  behaviour.
+     * -If the stock quantity of a product is NOT overbookable and the $quantity
+     *  is larger than the stock quantity $quantity will be set to stock quantity.
+     * -If the stock quantity of a product is NOT overbookable and the products
+     *  stock quantity is less than zero false will be returned.
      *
      * @param int $cartID   ID of the users shopping cart
      * @param int $quantity Amount of products to be added
@@ -813,19 +826,15 @@ class SilvercartProduct extends DataObject {
         }
 
         $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
-        $existingPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
+        $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
-        if ($existingPosition) {
-            $existingPosition->Quantity += $quantity;
-            $existingPosition->write();
-        } else {
+        if (!$shoppingCartPosition) {
             $shoppingCartPosition                           = new SilvercartShoppingCartPosition();
             $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
             $shoppingCartPosition->SilvercartProductID      = $this->ID;
-            $shoppingCartPosition->Quantity                 = $quantity;
-            $shoppingCartPosition->write();
         }
-
+        $shoppingCartPosition->Quantity += $quantity;
+        $shoppingCartPosition->write();
         return true;
     }
 
@@ -1096,6 +1105,67 @@ class SilvercartProduct extends DataObject {
         }
         
         return false;
+    }
+    
+    /**
+     * decrements the products stock quantity of this product
+     * 
+     * @param integer $quantity the amount to subtract from the current stock quantity
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.7.2011
+     * 
+     * @return void 
+     */
+    public function decrementStockQuantity($quantity) {
+        $this->StockQuantity = $this->StockQuantity - $quantity;
+        $this->write();
+    }
+    
+    /**
+     * Is this products stock quantity overbookable?
+     * If this product does not have overbookablility set the general setting of
+     * the config object is choosen.
+     * If stock management is deactivated true will be returned.
+     * 
+     * @return boolean is the product overbookable?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function isStockQuantityOverbookable() {
+        $overbookable = true;
+        if (SilvercartConfig::isEnabledStockManagement()) {
+            if (SilvercartConfig::isStockManagementOverbookable() || $this->StockQuantityOverbookable) {
+                $overbookable = true;
+            } else {
+                $overbookable = false;
+            }
+        } else {
+            return true;
+        }
+        return $overbookable;
+    }
+    
+    /**
+     * Is this product buyable with the given stock management settings?
+     * If Stock management is deactivated true is returned.
+     * If stock management is activated but the quantity is overbookable true is
+     * returned.
+     * 
+     * @return boolean Can this product be bought due to stock managemnt settings?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function isBuyableDueToStockManagementSettings() {
+        if (SilvercartConfig::isEnabledStockManagement()
+                && !$this->isStockQuantityOverbookable() 
+                && $this->StockQuantity <= 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
