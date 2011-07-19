@@ -241,6 +241,7 @@ $lang['de_DE']['SilvercartProductImageGallery']['PLURALNAME'] = 'Gallerien';
 $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';
 
 $lang['de_DE']['SilvercartProductPage']['ADD_TO_CART'] = 'in den Warenkorb';
+$lang['de_DE']['SilvercartProductPage']['OUT_OF_STOCK'] = 'Dieser Artikel ist ausverkauft.';
 $lang['de_DE']['SilvercartProductPage']['PLURALNAME'] = 'Artikeldetailseiten';
 $lang['de_DE']['SilvercartProductPage']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProductPage']['SINGULARNAME'] = 'Artikeldetailseite';
@@ -1023,6 +1024,9 @@ $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
 
 $lang['de_DE']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Warenkorbpositionen';
+$lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'Der Artikel wurde in den Warenkorb gelegt.';
+$lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'Die Menge dieser Position wurde an den verfügbaren Lagerbestand angepasst.';
+$lang['de_DE']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'Da wir die angeforderte Menge nicht mehr auf lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt.';
 $lang['de_DE']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Warenkorbposition';
 
 $lang['de_DE']['SilvercartTax']['LABEL'] = 'Bezeichnung';

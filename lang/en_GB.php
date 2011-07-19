@@ -241,6 +241,7 @@ $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_GB']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
 
 $lang['en_GB']['SilvercartProductPage']['ADD_TO_CART'] = 'Add to cart';
+$lang['en_GB']['SilvercartProductPage']['OUT_OF_STOCK'] = 'This product is out of stock.';
 $lang['en_GB']['SilvercartProductPage']['PLURALNAME'] = 'Product details pages';
 $lang['en_GB']['SilvercartProductPage']['QUANTITY'] = 'Quantity';
 $lang['en_GB']['SilvercartProductPage']['SINGULARNAME'] = 'Product details page';
@@ -1023,6 +1024,9 @@ $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
 $lang['en_GB']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
 
 $lang['en_GB']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Cart positions';
+$lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'The product(s) were added to your cart.';
+$lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'The quantity of this position was adjusted to the currently available stock quantity.';
+$lang['en_GB']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.';
 $lang['en_GB']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Cart position';
 
 $lang['en_GB']['SilvercartTax']['LABEL'] = 'label';

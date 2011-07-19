@@ -359,7 +359,7 @@ class SilvercartProduct extends DataObject {
                 'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
                 'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
                 'StockQuantity'                     => _t('SilvercartProduct.STOCKQUANTITY', 'stock quantity'),
-                'StockQuantityOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?')
+                'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?')
             )
         );
 
@@ -833,7 +833,16 @@ class SilvercartProduct extends DataObject {
             $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
             $shoppingCartPosition->SilvercartProductID      = $this->ID;
         }
-        $shoppingCartPosition->Quantity += $quantity;
+        if ($shoppingCartPosition->isQuantityIncrementableBy($quantity)) {
+            $shoppingCartPosition->Quantity += $quantity;
+        } else {
+            if ($this->StockQuantity > 0) {
+                $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
+                $shoppingCartPosition->ShowRemainingQuantityAddedMessage = true;  
+            } else {
+                return false;
+            }
+        }
         $shoppingCartPosition->write();
         return true;
     }

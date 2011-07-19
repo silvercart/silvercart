@@ -71,14 +71,12 @@
                         <td class="right">
                             $Quantity
                         </td>
-                        <% if isQuantityIncrementable %>
+                        <% if isQuantityIncrementableBy %>
                             <% if Top.EditableShoppingCart %>
                                 <td>$IncrementPositionQuantityForm</td>
                             <% end_if %>
                         <% else %>
-                        <td>
-                            &nbsp;
-                        </td>
+                                <td>&nbsp;</td>
                         <% end_if %>
                        <td class="right">$Price.Nice</td>
 
@@ -87,12 +85,11 @@
                             <td>$RemovePositionForm</td>
                         <% end_if %>
                     </tr>
-                    <% if isQuantityIncrementable %>
-                    <% else %>
+                    <% if getShoppingCartPositionMessage %>
                     <tr>
                         <td colspan="<% if Top.EditableShoppingCart %>9<% else %>6<% end_if %>">
                             <p class="silvercart-message highlighted info16">
-                                $QuantityUnavailableText
+                                $getShoppingCartPositionMessage
                             </p>
                         </td>
                     </tr>
@@ -135,7 +132,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
+                        <td colspan="5" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
                         <td class="right" id="Sum"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
 
                         <% if Top.EditableShoppingCart %>
@@ -149,7 +146,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                        <td colspan="5" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                         <td class="right">$Amount.Nice</td>
 
                         <% if Top.EditableShoppingCart %>
@@ -239,7 +236,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                        <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
+                        <td colspan="5" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
                         <td class="right"><strong>$AmountTotal.Nice</strong></td>
 
                         <% if Top.EditableShoppingCart %>

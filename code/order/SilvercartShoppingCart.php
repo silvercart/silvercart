@@ -1038,5 +1038,42 @@ class SilvercartShoppingCart extends DataObject {
             return false;
         }
     }
+    
+    /**
+     * Decrement all position quantities is they are larger than the related
+     * products stock quantities.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function adjustPositionQuantitiesToStockQuantities() {
+        if (SilvercartConfig::isEnabledStockManagement() && !SilvercartConfig::isStockManagementOverbookable()) {
+            $positions = $this->SilvercartShoppingCartPositions();
+            if ($positions) {
+                foreach ($positions as $position) {
+                    $position->adjustQuantityToStockQuantity();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Reset all message tokens of the related cart positions.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function resetPositionMessages() {
+        $positions = $this->SilvercartShoppingCartPositions();
+        if ($positions) {
+            foreach ($positions as $position) {
+                $position->resetMessageTokens();
+            }
+        }
+    }
 
 }

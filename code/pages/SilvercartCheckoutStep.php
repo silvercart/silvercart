@@ -92,6 +92,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         if ($member) {
             $stepData       = $this->getCombinedStepData();
             $shoppingCart   = $member->SilvercartShoppingCart();
+            $shoppingCart->adjustPositionQuantitiesToStockQuantities();
             
             // If minimum order value is set and shoppingcart value is below we
             // have to redirect the customer to the shoppingcart page and set
@@ -107,6 +108,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 );
                 
                 Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
+            }
+            if ($this->getCurrentStep() != 5) {
+                $shoppingCart->resetPositionMessages();
             }
 
             if (isset($stepData['ShippingMethod'])) {
@@ -351,6 +355,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * Checks whether the current step is the payment step
      *
      * @return bool
+     * 
+     * @author Sascha Köhler <skoehler@pixeltricks.de>
+     * @since 19.7.2011
      */
     public function currentStepIsPaymentStep() {
         return $this->stepMapping[$this->getCurrentStep()]['class'] == 'SilvercartCheckoutFormStep4';
