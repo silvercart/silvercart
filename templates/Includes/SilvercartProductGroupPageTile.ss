@@ -36,7 +36,7 @@
                                         </small>
                                     </p>
                                 </div>
-                                <div class="silvercart-product-availability">
+                                <div class="silvercart-product-availability right">
                                     $Availability
                                 </div>
                             </div>

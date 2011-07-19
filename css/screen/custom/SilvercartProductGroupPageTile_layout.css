@@ -1,3 +1,7 @@
+#col1 .silvercart-product-group-page-box-tile h3,
+#col4 .silvercart-product-group-page-box-tile h3 {
+    margin:                         0px 0px 8px 0px;
+}
 .silvercart-product-group-page-box-tile.odd .silvercart-product-group-page-box-tile_content{
     margin:                         0px 3px 6px 0px;
 }

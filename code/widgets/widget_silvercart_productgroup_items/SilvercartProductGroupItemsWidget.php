@@ -74,7 +74,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         $productGroupField = new SilvercartGroupedDropdownField(
             'SilvercartProductGroupPageID',
             _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
-            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(),
+            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
         $numberOfProductsField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));

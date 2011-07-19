@@ -126,7 +126,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      *
      * @return array
      */
-    public static function getRecursiveProductGroupsForGroupedDropdownAsArray($parent = null) {
+    public static function getRecursiveProductGroupsForGroupedDropdownAsArray($parent = null, $allChildren = false) {
         $productGroups = array();
         
         if (is_null($parent)) {
@@ -135,7 +135,12 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         }
         
         if ($parent) {
-            foreach ($parent->Children() as $child) {
+            if ($allChildren) {
+                $children = $parent->AllChildren();
+            } else {
+                $children = $parent->Children();
+            }
+            foreach ($children as $child) {
                 $productGroups[$child->ID] = $child->Title;
                 $subs                      = self::getRecursiveProductGroupsForGroupedDropdownAsArray($child);
                 

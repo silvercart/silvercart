@@ -72,6 +72,10 @@ class SilvercartAddress extends DataObject {
         'SalutationText' => 'VarChar',
     );
     
+    public static $belongs_many_many = array(
+        'SilvercartOrders' => 'SilvercartOrder'
+    );
+    
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.

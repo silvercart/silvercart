@@ -133,7 +133,9 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         $cache    = SS_Cache::factory($cachekey);
         $result   = $cache->load($cachekey);
         
-        if ($result) {
+        
+        // Cache is deactivated because of form registration problems.
+        if (1 == 2 && $result) {
             $searchResultProducts= unserialize($result);
         } else {
             $useExtensionResults = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
