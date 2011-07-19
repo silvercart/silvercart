@@ -86,3 +86,16 @@
 .silvercart-widget-login form.yform div.type-button {
     padding:                        0px;
 }
+
+/* Search ------------------------------------------------------------------ */
+
+.silvercart-widget-search form.yform {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget-search form.yform div.type-text {
+    padding:                        0px 5px 0px 0px;
+}
+.silvercart-widget-search form.yform div.type-button {
+    padding:                        0px;
+}

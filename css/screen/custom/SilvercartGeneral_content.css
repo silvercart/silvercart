@@ -32,6 +32,12 @@ h1 {
     border-top:                     none;
     box-shadow:                     #aeaaa1 0px 0px 100px;
 }
+.right {
+    text-align:                     right;
+}
+.center {
+    text-align:                     center;
+}
     
 hr {
     border-bottom: 2px dotted #DDDDDD;
