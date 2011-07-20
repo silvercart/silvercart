@@ -154,6 +154,7 @@ $lang['en_GB']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
 $lang['en_GB']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['en_GB']['SilvercartProduct']['DESCRIPTION'] = 'Product description';
 $lang['en_GB']['SilvercartProduct']['EAN'] = 'EAN';
+$lang['en_GB']['SilvercartProduct']['STOCKQUANTITY'] = 'stock quantity';
 $lang['en_GB']['SilvercartProduct']['FREE_OF_CHARGE'] = 'Free of charge';
 $lang['en_GB']['SilvercartProduct']['IMAGE'] = 'Product image';
 $lang['en_GB']['SilvercartProduct']['IMAGE_NOT_AVAILABLE'] = 'Product image not available';
@@ -179,6 +180,7 @@ $lang['en_GB']['SilvercartProduct']['QUANTITY'] = 'Quantity';
 $lang['en_GB']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
 $lang['en_GB']['SilvercartProduct']['SHORTDESCRIPTION'] = 'List description';
 $lang['en_GB']['SilvercartProduct']['SINGULARNAME'] = 'Product';
+$lang['en_GB']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is the stock quantity of this product overbookable?';
 $lang['en_GB']['SilvercartProduct']['TITLE'] = 'Product';
 $lang['en_GB']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_GB']['SilvercartProduct']['WEIGHT'] = 'Weight';
@@ -240,6 +242,7 @@ $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_GB']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
 
 $lang['en_GB']['SilvercartProductPage']['ADD_TO_CART'] = 'Add to cart';
+$lang['en_GB']['SilvercartProductPage']['OUT_OF_STOCK'] = 'This product is out of stock.';
 $lang['en_GB']['SilvercartProductPage']['PLURALNAME'] = 'Product details pages';
 $lang['en_GB']['SilvercartProductPage']['QUANTITY'] = 'Quantity';
 $lang['en_GB']['SilvercartProductPage']['SINGULARNAME'] = 'Product details page';
@@ -262,6 +265,7 @@ $lang['en_GB']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
 
 $lang['en_GB']['SilvercartCartPage']['CART_EMPTY'] = 'Your cart is empty.';
 $lang['en_GB']['SilvercartCartPage']['PLURALNAME'] = 'Cart pages';
+$lang['en_GB']['SilvercartCartPage']['QUANTITY_INAVAILABLE'] = 'Only %1$s piece(s) of "%2$s" are available.';
 $lang['en_GB']['SilvercartCartPage']['SINGULARNAME'] = 'Cart page';
 $lang['en_GB']['SilvercartCartPage']['URL_SEGMENT'] = 'cart';
 
@@ -312,6 +316,7 @@ $lang['en_GB']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart
 $lang['en_GB']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_GB']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
 $lang['en_GB']['SilvercartConfig']['ENABLESSL'] = 'Enable SSL';
+$lang['en_GB']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Enable stock management';
 $lang['en_GB']['SilvercartConfig']['EXAMPLE_DATA_ALREADY_ADDED'] = 'Example Data already added';
 $lang['en_GB']['SilvercartConfig']['EXAMPLE_CONFIGURATION_ALREADY_ADDED'] = 'Example Configuration already added';
 $lang['en_GB']['SilvercartConfig']['GENERAL'] = 'General';
@@ -339,6 +344,7 @@ $lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_GB']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_GB']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_GB']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
+$lang['en_GB']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_GB']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_GB']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum order value';
 
@@ -1022,6 +1028,9 @@ $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
 $lang['en_GB']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
 
 $lang['en_GB']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Cart positions';
+$lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'The product(s) were added to your cart.';
+$lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'The quantity of this position was adjusted to the currently available stock quantity.';
+$lang['en_GB']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.';
 $lang['en_GB']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Cart position';
 
 $lang['en_GB']['SilvercartTax']['LABEL'] = 'label';

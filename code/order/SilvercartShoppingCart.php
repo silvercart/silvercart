@@ -582,6 +582,31 @@ class SilvercartShoppingCart extends DataObject {
 
         return true;
     }
+    
+    /**
+     * In case stock management is enabled: Find out if all positions quantities
+     * are still in stock
+     * 
+     * @return bool Can this cart be checkt out?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function isAvailableInStock() {
+        $positions = $this->SilvercartShoppingCartPositions();
+        if ($positions) {
+            $isCheckoutable = true;
+            foreach ($positions as $position) {
+                if ($position->Quantity > $position->SilvercartProduct()->StockQuantity) {
+                    $isCheckoutable = false;
+                    break;
+                }
+            }
+            return $isCheckoutable;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable
@@ -1011,6 +1036,43 @@ class SilvercartShoppingCart extends DataObject {
             return true;
         } else {
             return false;
+        }
+    }
+    
+    /**
+     * Decrement all position quantities is they are larger than the related
+     * products stock quantities.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function adjustPositionQuantitiesToStockQuantities() {
+        if (SilvercartConfig::isEnabledStockManagement() && !SilvercartConfig::isStockManagementOverbookable()) {
+            $positions = $this->SilvercartShoppingCartPositions();
+            if ($positions) {
+                foreach ($positions as $position) {
+                    $position->adjustQuantityToStockQuantity();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Reset all message tokens of the related cart positions.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function resetPositionMessages() {
+        $positions = $this->SilvercartShoppingCartPositions();
+        if ($positions) {
+            foreach ($positions as $position) {
+                $position->resetMessageTokens();
+            }
         }
     }
 

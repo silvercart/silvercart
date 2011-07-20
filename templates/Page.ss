@@ -112,7 +112,7 @@
                                             <div class="silvercart-button">
                                                 <div class="silvercart-button_content">
                                                     <a id="silvercart-shoppingcart-link" href="$PageByIdentifierCode(SilvercartCartPage).Link">
-                                                        <% _t('SilvercartPage.CART', 'cart') %><% if CurrentMember %> ($getCount) <% else %> (0) <% end_if %>
+                                                        <% _t('SilvercartPage.CART', 'cart') %> (<% if CurrentMember %><% control CurrentMember %>$SilvercartShoppingCart.getQuantity<% end_control %><% else %>0<% end_if %>)
                                                     </a>
                                                 </div>
                                             </div>

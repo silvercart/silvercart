@@ -52,7 +52,11 @@
                                 </div>
                                 <div class="silvercart-product-group-add-cart-form">
                                     <div class="silvercart-product-group-add-cart-form_content">
-                                        $productAddCartForm
+                                        <% if isBuyableDueToStockManagementSettings %>
+                                            $productAddCartForm
+                                        <% else %>
+                                            <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
+                                        <% end_if %>
                                     </div>
                                 </div>
                             </div>

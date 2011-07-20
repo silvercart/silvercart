@@ -527,7 +527,10 @@ class SilvercartOrder extends DataObject {
                     if ($product->hasMethod('ShoppingCartConvert')) {
                         $product->ShoppingCartConvert($this, $orderPosition);
                     }
-
+                    // decrement stock qunatity of the product
+                    if (SilvercartConfig::isEnabledStockManagement()) {
+                        $product->decrementStockQuantity($shoppingCartPosition->Quantity);
+                    }
                     $orderPosition->write();
                     unset($orderPosition);
                 }
@@ -648,7 +651,7 @@ class SilvercartOrder extends DataObject {
     /**
      * set status of $this
      *
-     * @param OrderStatus $orderStatus the order status object
+     * @param SilvercartOrderStatus $orderStatus the order status object
      *
      * @return bool
      *

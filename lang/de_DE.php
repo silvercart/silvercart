@@ -154,6 +154,7 @@ $lang['de_DE']['SilvercartProduct']['CHOOSE_MASTER'] = '-- Master wählen --';
 $lang['de_DE']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['de_DE']['SilvercartProduct']['DESCRIPTION'] = 'Artikelbeschreibung';
 $lang['de_DE']['SilvercartProduct']['EAN'] = 'EAN';
+$lang['de_DE']['SilvercartProduct']['STOCKQUANTITY'] = 'Lagerbestand';
 $lang['de_DE']['SilvercartProduct']['FREE_OF_CHARGE'] = 'Versandkostenfrei';
 $lang['de_DE']['SilvercartProduct']['IMAGE'] = 'Artikelbild';
 $lang['de_DE']['SilvercartProduct']['IMAGE_NOT_AVAILABLE'] = 'Kein Artikelbild zugeordnet';
@@ -179,6 +180,7 @@ $lang['de_DE']['SilvercartProduct']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';
 $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
+$lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand dieses Artikels überbuchbar?';
 $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
@@ -240,6 +242,7 @@ $lang['de_DE']['SilvercartProductImageGallery']['PLURALNAME'] = 'Gallerien';
 $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';
 
 $lang['de_DE']['SilvercartProductPage']['ADD_TO_CART'] = 'in den Warenkorb';
+$lang['de_DE']['SilvercartProductPage']['OUT_OF_STOCK'] = 'Dieser Artikel ist ausverkauft.';
 $lang['de_DE']['SilvercartProductPage']['PLURALNAME'] = 'Artikeldetailseiten';
 $lang['de_DE']['SilvercartProductPage']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProductPage']['SINGULARNAME'] = 'Artikeldetailseite';
@@ -262,6 +265,7 @@ $lang['de_DE']['SilvercartCarrier']['SINGULARNAME'] = 'Frachtführer';
 
 $lang['de_DE']['SilvercartCartPage']['CART_EMPTY'] = 'Der Warenkorb ist leer.';
 $lang['de_DE']['SilvercartCartPage']['PLURALNAME'] = 'Warenkorbseiten';
+$lang['de_DE']['SilvercartCartPage']['QUANTITY_INAVAILABLE'] = 'Von "%2$s" sind nur %1$s Stück verfügbar.';
 $lang['de_DE']['SilvercartCartPage']['SINGULARNAME'] = 'Warenkorbseiten';
 $lang['de_DE']['SilvercartCartPage']['URL_SEGMENT'] = 'warenkorb';
 
@@ -312,6 +316,7 @@ $lang['de_DE']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Gewicht de
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
 $lang['de_DE']['SilvercartConfig']['ENABLESSL'] = 'SSL verwenden';
+$lang['de_DE']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Lagerbestandsverwaltung aktivieren';
 $lang['de_DE']['SilvercartConfig']['EXAMPLE_DATA_ALREADY_ADDED'] = 'Beispieldaten wurden bereits hinzugefügt';
 $lang['de_DE']['SilvercartConfig']['EXAMPLE_CONFIGURATION_ALREADY_ADDED'] = 'Beispielkonfiguration wurde bereits angelegt';
 $lang['de_DE']['SilvercartConfig']['GENERAL'] = 'Allgemein';
@@ -339,6 +344,7 @@ $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Produkte pro Seite';
 $lang['de_DE']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Produktgruppen pro Seite';
 $lang['de_DE']['SilvercartConfig']['SINGULARNAME'] = 'Allgemeine Konfiguration';
 $lang['de_DE']['SilvercartConfig']['SHOW_CONFIG'] = 'Konfiguration anzeigen';
+$lang['de_DE']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Ist der Lagerbestand generell überbuchbar?';
 $lang['de_DE']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Apache Solr Suche benutzen';
 $lang['de_DE']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Mindestbestellwert aktivieren';
 
@@ -1022,6 +1028,9 @@ $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
 
 $lang['de_DE']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Warenkorbpositionen';
+$lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'Der Artikel wurde in den Warenkorb gelegt.';
+$lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'Die Menge dieser Position wurde an den verfügbaren Lagerbestand angepasst.';
+$lang['de_DE']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'Da wir die angeforderte Menge nicht mehr auf lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt.';
 $lang['de_DE']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Warenkorbposition';
 
 $lang['de_DE']['SilvercartTax']['LABEL'] = 'Bezeichnung';

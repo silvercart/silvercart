@@ -424,24 +424,6 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * This function is used to return the current count of shopping Cart positions
-     *
-     * @return Integer $shoppingCartPositions Anzahl der Positionen im Warenkorb
-     *
-     * @author Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 02.12.2010
-     */
-    public function getCount() {
-
-        $memberID = Member::currentUserID();
-        $member = DataObject::get_by_id("Member", $memberID);
-        if ($member) {
-            $shoppingCartPositions = DataObject::get("SilvercartShoppingCartPosition", sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID));
-            return Count($shoppingCartPositions);
-        }
-    }
-
-    /**
      * returns a single page by IdentifierCode
      * used to retrieve links dynamically
      *

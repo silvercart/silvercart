@@ -63,7 +63,10 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'Quantity' => 'Int'
+        'Quantity'                          => 'Int',
+        'ShowQuantityAdjustedMessage'       => 'Boolean(0)',
+        'ShowRemainingQuantityAddedMessage' => 'Boolean(0)'
+        
     );
     /**
      * n:m relations
@@ -75,7 +78,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $has_one = array(
-        'SilvercartProduct' => 'SilvercartProduct',
+        'SilvercartProduct'      => 'SilvercartProduct',
         'SilvercartShoppingCart' => 'SilvercartShoppingCart'
     );
     
@@ -209,6 +212,117 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function getRemovePositionForm() {
         return Controller::curr()->InsertCustomHtmlForm('SilvercartRemovePositionForm' . $this->ID);
+    }
+    
+    /**
+     * Find out if the demanded quantity is in stock when stock management is enabled.
+     * If stock management is disabled true will be returned.
+     * 
+     * @param integer $quantity The quantity of products
+     * 
+     * @return bool Can this position be incremented
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011 
+     */
+    public function isQuantityIncrementableBy($quantity = 1) {
+        if (SilvercartConfig::isEnabledStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+            if ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Has a positions quantity become unavailable?
+     * 
+     * @return bool Is the set quantity of $this unavailable?
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function showQuantityUnavailableText() {
+        if (SilvercartConfig::isEnabledStockManagement()
+            && !$this->SilvercartProduct()->isStockQuantityOverbookable()
+            && $this->SilvercartProduct()->StockQuantity > $this->Quantity) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Returns messages determined by tokens of $this.
+     * The messages are i18n.
+     * 
+     * @return string the messages determined by tokens
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function getShoppingCartPositionMessage() {
+        $text = "";
+        if ($this->ShowQuantityAdjustedMessage) {
+            $text .= _t('SilvercartShoppingCartPosition.QUANTITY_ADJUSTED_MESSAGE') . "<br />";
+        }
+        if ($this->ShowRemainingQuantityAddedMessage) {
+            $text .= _t('SilvercartShoppingCartPosition.REMAINING_QUANTITY_ADDED_MESSAGE') . "<br />";
+        }
+        
+        return $text;
+    }
+    
+    /**
+     * Decrement the positions quantity if it is higher than the stock quantity.
+     * If this position has a quantity of 5 but the products stock quantity is
+     * only 3 the positions quantity would be set to 3.
+     * This happens only if the product is not overbookable.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.7.2011
+     */
+    public function adjustQuantityToStockQuantity() {
+        if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
+            $this->Quantity = $this->SilvercartProduct()->StockQuantity;
+            $this->ShowQuantityAdjustedMessage = true;
+            $this->write();
+        }
+    }
+    
+    /**
+     * Feedback message for customer if he tries to put a larger quantity of a
+     * product in his cart than there is availible in stock.
+     * This does only make sense if stock management is activated.
+     * 
+     * @return mixed string|bool Message or false
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function getQuantityUnavailableText() {
+        $text = "";
+        $title = $this->SilvercartProduct()->Title;
+        $stockQuantity = $this->SilvercartProduct()->StockQuantity;
+        $text = sprintf(_t('SilvercartCartPage.QUANTITY_INAVAILABLE','Only %1$s piece(s) of "%2$s" are available.'), $stockQuantity, $title);
+        return $text;
+    }
+    
+    /**
+     * A position may have feedback messages to the customer which are determined
+     * by tokens.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function resetMessageTokens() {
+        $this->ShowQuantityAdjustedMessage = false;
+        $this->ShowRemainingQuantityAddedMessage = false;
+        $this->write();
     }
 
 }
