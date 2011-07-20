@@ -53,7 +53,6 @@
 
                 <tbody>
                 <% control SilvercartShoppingCartPositions %>
-                
                     <tr<% if Last %> class="separator"<% end_if %>>
                         <td><a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a></td>
                         <td><a href="$silvercartProduct.Link">$SilvercartProduct.Title</a></td>
@@ -85,6 +84,7 @@
                             <td>$RemovePositionForm</td>
                         <% end_if %>
                     </tr>
+                    
                     <% if hasMessage %>
                     <tr>
                         <td colspan="<% if Top.EditableShoppingCart %>9<% else %>6<% end_if %>">
@@ -260,7 +260,7 @@
                     <% end_if %>
                 </div>
             <% end_if %>
-                
+          
         <% end_control %>
     <% end_control %>
 <% else %>

@@ -1,5 +1,5 @@
 <form class="yform full" $FormAttributes >
-    <% include SilvercartShoppingCartFull %>
+    $Top.getSilvercartShoppingCartFull
 
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages

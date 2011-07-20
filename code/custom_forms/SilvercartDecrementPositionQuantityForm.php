@@ -71,7 +71,6 @@ class SilvercartDecrementPositionQuantityForm extends CustomHtmlForm {
                 if ($position->Quantity == 1) {
                     $position->delete();
                 } else {
-                    $position->resetMessageTokens();
                     $position->Quantity--;
                     $position->write();
                 }

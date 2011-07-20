@@ -341,7 +341,7 @@ class SilvercartShoppingCart extends DataObject {
 
         return $amountTotalObj;
     }
-
+    
     /**
      * Returns the price of the cart positions, including taxes.
      *
@@ -1075,5 +1075,5 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
     }
-
+    
 }

@@ -265,7 +265,6 @@ $lang['en_US']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
 
 $lang['en_US']['SilvercartCartPage']['CART_EMPTY'] = 'Your cart is empty.';
 $lang['en_US']['SilvercartCartPage']['PLURALNAME'] = 'Cart pages';
-$lang['en_US']['SilvercartCartPage']['QUANTITY_INAVAILABLE'] = 'Only %1$s piece(s) of "%2$s" are available.';
 $lang['en_US']['SilvercartCartPage']['SINGULARNAME'] = 'Cart page';
 $lang['en_US']['SilvercartCartPage']['URL_SEGMENT'] = 'cart';
 

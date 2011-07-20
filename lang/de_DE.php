@@ -265,7 +265,6 @@ $lang['de_DE']['SilvercartCarrier']['SINGULARNAME'] = 'Frachtführer';
 
 $lang['de_DE']['SilvercartCartPage']['CART_EMPTY'] = 'Der Warenkorb ist leer.';
 $lang['de_DE']['SilvercartCartPage']['PLURALNAME'] = 'Warenkorbseiten';
-$lang['de_DE']['SilvercartCartPage']['QUANTITY_INAVAILABLE'] = 'Von "%2$s" sind nur %1$s Stück verfügbar.';
 $lang['de_DE']['SilvercartCartPage']['SINGULARNAME'] = 'Warenkorbseiten';
 $lang['de_DE']['SilvercartCartPage']['URL_SEGMENT'] = 'warenkorb';
 

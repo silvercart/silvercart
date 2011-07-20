@@ -104,7 +104,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             }
         }
     }
-
+    
     /**
      * Here we set some preferences.
      *
@@ -249,5 +249,22 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         return $this->controller->showPricesGross();
     }
 
+    /**
+     * Due to a but we had to render the template here. If we would have included
+     * it in the *.ss file it would have been rendered twice and our logic would
+     * not work propery.
+     * 
+     * @return string Rendered html code 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Köher <skoehler@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function getSilvercartShoppingCartFull() {
+        $member = Member::currentUser();
+        
+        if ($member) {
+            return $this->customise($member->SilvercartShoppingCart())->renderWith('SilvercartShoppingCartFull');
+        }
+    }
 }
 

@@ -92,7 +92,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         if ($member) {
             $stepData       = $this->getCombinedStepData();
             $shoppingCart   = $member->SilvercartShoppingCart();
-            $shoppingCart->adjustPositionQuantitiesToStockQuantities();
             
             // If minimum order value is set and shoppingcart value is below we
             // have to redirect the customer to the shoppingcart page and set
