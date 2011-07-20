@@ -249,6 +249,7 @@ class SilvercartProduct extends DataObject {
             'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
             'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
         );
+        
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -1308,4 +1309,55 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         }
         return $hasMoreImagesThanCount;
     }
+    
+    /**
+	 * Return the columns available in the column selection field.
+	 * Overload this to make other columns available.
+     * 
+     * This is used for the CSV export, too.
+     * 
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.07.2011
+	 */
+	public function columnsAvailable() {
+		$columnsAvailable = array(
+            'ID'                                    => 'ID',
+            'Title'                                 => 'Title',
+            'ShortDescription'                      => 'ShortDescription',
+            'LongDescription'                       => 'LongDescription',
+            'MetaDescription'                       => 'MetaDescription',
+            'MetaTitle'                             => 'MetaTitle',
+            'MetaKeywords'                          => 'MetaKeywords',
+            'ProductNumberShop'                     => 'ProductNumberShop',
+            'ProductNumberManufacturer'             => 'ProductNumberManufacturer',
+            'PurchasePriceAmount'                   => 'PurchasePriceAmount',
+            'PurchasePriceCurrency'                 => 'PurchasePriceCurrency',
+            'MSRPriceAmount'                        => 'MSRPriceAmount',
+            'MSRPriceCurrency'                      => 'MSRPriceCurrency',
+            'PriceGrossAmount'                      => 'PriceGrossAmount',
+            'PriceGrossCurrency'                    => 'PriceGrossCurrency',
+            'PriceNetAmount'                        => 'PriceNetAmount',
+            'PriceNetCurrency'                      => 'PriceNetCurrency',
+            'Weight'                                => 'Weight',
+            'Quantity'                              => 'Quantity',
+            'isFreeOfCharge'                        => 'isFreeOfCharge',
+            'EANCode'                               => 'EANCode',
+            'isActive'                              => 'isActive',
+            'PurchaseMinDuration'                   => 'PurchaseMinDuration',
+            'PurchaseMaxDuration'                   => 'PurchaseMaxDuration',
+            'PurchaseTimeUnit'                      => 'PurchaseTimeUnit',
+            'StockQuantity'                         => 'StockQuantity',
+            'StockQuantityOverbookable'             => 'StockQuantityOverbookable',
+            'SilvercartProductGroup.Title'          => _t('SilvercartProductGroupPage.SINGULARNAME'),
+            'SilvercartManufacturer.Title'          => _t('SilvercartManufacturer.SINGULARNAME'),
+            'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
+        );
+        
+        $this->extend('updateColumnsAvailable', $columnsAvailable);
+        
+        return $columnsAvailable;
+	}
 }

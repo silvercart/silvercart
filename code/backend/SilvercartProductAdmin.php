@@ -59,7 +59,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @since 24.02.2011
      */
     public static $model_importers = array(
-        'SilvercartProduct'             => 'CsvBulkLoader',
+        'SilvercartProduct'             => 'SilvercartProductCsvBulkLoader',
         'SilvercartManufacturer'        => 'CsvBulkLoader'
     );
 
