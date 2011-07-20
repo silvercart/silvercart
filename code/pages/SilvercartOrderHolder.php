@@ -56,22 +56,6 @@ class SilvercartOrderHolder extends SilvercartMyAccountHolder {
 class SilvercartOrderHolder_Controller extends SilvercartMyAccountHolder_Controller {
 
     /**
-     * template function: returns customers orders
-     *
-     * @since 27.10.10
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return DataObjectSet DataObjectSet with order objects
-     */
-    public function CurrentMembersOrders() {
-        $memberID = Member::currentUserID();
-        if ($memberID) {
-            $filter = sprintf("`MemberID` = '%s'", $memberID);
-            $orders = DataObject::get('SilvercartOrder', $filter);
-            return $orders;
-        }
-    }
-
-    /**
      * returns the link to the order detail page (without orderID)
      *
      * @return string
