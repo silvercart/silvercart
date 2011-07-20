@@ -255,6 +255,7 @@ class SilvercartShoppingCartPosition extends DataObject {
     /**
      * Returns messages determined by tokens of $this.
      * The messages are i18n.
+     * The message gets only shown once because this getter resets the tokens.
      * 
      * @return string the messages determined by tokens
      * 
@@ -262,6 +263,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 19.7.2011
      */
     public function getShoppingCartPositionMessage() {
+        #echo "Methode getShoppingCartPositionMessage aufgerufen"; exit();
         $text = "";
         if ($this->ShowQuantityAdjustedMessage) {
             $text .= _t('SilvercartShoppingCartPosition.QUANTITY_ADJUSTED_MESSAGE') . "<br />";
@@ -269,6 +271,7 @@ class SilvercartShoppingCartPosition extends DataObject {
         if ($this->ShowRemainingQuantityAddedMessage) {
             $text .= _t('SilvercartShoppingCartPosition.REMAINING_QUANTITY_ADDED_MESSAGE') . "<br />";
         }
+        $this->resetMessageTokens();
         
         return $text;
     }
@@ -323,6 +326,21 @@ class SilvercartShoppingCartPosition extends DataObject {
         $this->ShowQuantityAdjustedMessage = false;
         $this->ShowRemainingQuantityAddedMessage = false;
         $this->write();
+    }
+    
+    /**
+     * Does this position have stock management message tokens set?
+     * 
+     * @return bool Are message tokens set? 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.7.2011
+     */
+    public function hasMessage() {
+        if ($this->ShowQuantityAdjustedMessage || $this->ShowRemainingQuantityAddedMessage) {
+            return true;
+        }
+        return false;
     }
 
 }

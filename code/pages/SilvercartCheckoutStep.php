@@ -109,9 +109,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 
                 Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
             }
-            if ($this->getCurrentStep() != 5) {
-                $shoppingCart->resetPositionMessages();
-            }
 
             if (isset($stepData['ShippingMethod'])) {
                 $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);
