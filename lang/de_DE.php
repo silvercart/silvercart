@@ -40,6 +40,7 @@ $lang['de_DE']['Silvercart']['WEEK'] = 'Woche';
 $lang['de_DE']['Silvercart']['WEEKS'] = 'Wochen';
 $lang['de_DE']['Silvercart']['MONTH'] = 'Monat';
 $lang['de_DE']['Silvercart']['MONTHS'] = 'Monate';
+$lang['de_DE']['Silvercart']['MORE'] = 'Mehr';
 $lang['de_DE']['Silvercart']['SEO'] = 'SEO';
 $lang['de_DE']['Silvercart']['YES'] = 'Ja';
 $lang['de_DE']['Silvercart']['NO'] = 'Nein';
@@ -706,6 +707,9 @@ $lang['de_DE']['SilvercartMyAccountHolder']['TITLE'] = 'Mein Konto';
 $lang['de_DE']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'mein-konto';
 $lang['de_DE']['SilvercartMyAccountHolder']['WANTTOREGISTER'] = 'Wollen Sie sich registrieren?';
 $lang['de_DE']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Ihre Kundennummer';
+$lang['de_DE']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES'] = 'Ihre aktuelle Rechnungs- und Lieferadresse';
+$lang['de_DE']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS'] = 'Ihre aktuellsten Bestellungen';
+$lang['de_DE']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Ihre persönlichen Daten';
 
 $lang['de_DE']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Gesamtbetrag brutto';
 $lang['de_DE']['SilvercartOrder']['AMOUNTTOTAL'] = 'Gesamtbetrag';

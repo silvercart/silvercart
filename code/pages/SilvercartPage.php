@@ -249,6 +249,22 @@ class SilvercartPage_Controller extends ContentController {
     }
     
     /**
+     * template function: returns customers orders
+     *
+     * @since 27.10.10
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @return DataObjectSet DataObjectSet with order objects
+     */
+    public function CurrentMembersOrders($limit = null) {
+        $memberID = Member::currentUserID();
+        if ($memberID) {
+            $filter = sprintf("`MemberID` = '%s'", $memberID);
+            $orders = DataObject::get('SilvercartOrder', $filter, null, null, $limit);
+            return $orders;
+        }
+    }
+    
+    /**
      * Returns the HTML Code of Silvercart errors and clears the error list.
      *
      * @return string

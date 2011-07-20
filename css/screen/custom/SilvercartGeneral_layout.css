@@ -245,3 +245,16 @@ p.silvercart-message.highlighted.error48 {
     margin:                         0px;
     padding:                        0px 0px 0px 8px;
 }
+
+/* Sections ---------------------------------------------------------------- */
+
+.silvercart-section {
+    margin:                         0px 0px 10px 0px;
+}
+.silvercart-section_content {
+    padding:                        4px;
+}
+#col1 .silvercart-section h3,
+#col4 .silvercart-section h3 {
+    margin:                         0px 0px 12px 0px;
+}
