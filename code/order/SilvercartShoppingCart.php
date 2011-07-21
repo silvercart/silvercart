@@ -1049,12 +1049,10 @@ class SilvercartShoppingCart extends DataObject {
      * @since 19.7.2011
      */
     public function adjustPositionQuantitiesToStockQuantities() {
-        if (SilvercartConfig::isEnabledStockManagement() && !SilvercartConfig::isStockManagementOverbookable()) {
-            $positions = $this->SilvercartShoppingCartPositions();
-            if ($positions) {
-                foreach ($positions as $position) {
-                    $position->adjustQuantityToStockQuantity();
-                }
+        $positions = $this->SilvercartShoppingCartPositions();
+        if ($positions) {
+            foreach ($positions as $position) {
+                $position->adjustQuantityToStockQuantity();
             }
         }
     }

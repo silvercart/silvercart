@@ -273,10 +273,12 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 18.7.2011
      */
     public function adjustQuantityToStockQuantity() {
-        if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
-            $this->Quantity = $this->SilvercartProduct()->StockQuantity;
-            $this->ShowQuantityAdjustedMessage = true;
-            $this->write();
+        if (SilvercartConfig::isEnabledStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+            if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
+                $this->Quantity = $this->SilvercartProduct()->StockQuantity;
+                $this->ShowQuantityAdjustedMessage = true;
+                $this->write();
+            }
         }
     }
     

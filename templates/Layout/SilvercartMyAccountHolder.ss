@@ -46,7 +46,7 @@
                                         <td>
                                             <div class="silvercart-button">
                                                 <div class="silvercart-button_content">
-                                                    <a href="{$Top.OrderDetailLink}$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                                                    <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                                                 </div>
                                             </div>
                                         </td>
