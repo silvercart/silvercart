@@ -1145,7 +1145,7 @@ class SilvercartProduct extends DataObject {
      */
     public function isStockQuantityOverbookable() {
         $overbookable = true;
-        if (SilvercartConfig::isEnabledStockManagement()) {
+        if (SilvercartConfig::EnableStockManagement()) {
             if (SilvercartConfig::isStockManagementOverbookable() || $this->StockQuantityOverbookable) {
                 $overbookable = true;
             } else {
@@ -1169,7 +1169,7 @@ class SilvercartProduct extends DataObject {
      * @since 18.7.2011
      */
     public function isBuyableDueToStockManagementSettings() {
-        if (SilvercartConfig::isEnabledStockManagement()
+        if (SilvercartConfig::EnableStockManagement()
                 && !$this->isStockQuantityOverbookable() 
                 && $this->StockQuantity <= 0) {
             return false;

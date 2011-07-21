@@ -471,7 +471,7 @@ class SilvercartConfig extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 17.7.2011
      */
-    public static function isEnabledStockManagement() {
+    public static function EnableStockManagement() {
         if (is_null(self::$enableStockManagement)) {
             self::$enableStockManagement = self::getConfig()->enableStockManagement;
         }

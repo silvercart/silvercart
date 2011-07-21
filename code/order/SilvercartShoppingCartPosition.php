@@ -227,7 +227,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 18.7.2011 
      */
     public function isQuantityIncrementableBy($quantity = 1) {
-        if (SilvercartConfig::isEnabledStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+        if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
             if ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
                 return true;
             }
@@ -273,11 +273,15 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 18.7.2011
      */
     public function adjustQuantityToStockQuantity() {
-        if (SilvercartConfig::isEnabledStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
-            if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
-                $this->Quantity = $this->SilvercartProduct()->StockQuantity;
-                $this->ShowQuantityAdjustedMessage = true;
-                $this->write();
+        if (array_key_exists('url', $_REQUEST)) {
+            if (strpos($_REQUEST['url'], 'dev/build') === false) {
+                if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+                    if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
+                        $this->Quantity = $this->SilvercartProduct()->StockQuantity;
+                        $this->ShowQuantityAdjustedMessage = true;
+                        $this->write();
+                    }
+                }
             }
         }
     }
