@@ -150,26 +150,37 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 22.07.2011
      */
     public function init() {
-        $this->elements         = $this->Elements();
-        $controller             = Controller::curr();
-        $elementIdx             = 0;
+        $this->elements = $this->Elements();
         
-        if ($this->useListView) {
-            $productAddCartFormName = 'SilvercartProductAddCartFormList';
-        } else {
-            $productAddCartFormName = 'SilvercartProductAddCartFormTile';
-        }
-        
-        foreach ($this->elements as $element) {
-            $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
-            $controller->registerCustomHtmlForm($formIdentifier, new $productAddCartFormName($controller, array('productID' => $element->ID)));
-            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
+        if ($this->elements) {
+            $controller = Controller::curr();
+            $elementIdx = 0;
+
+            if ($this->useListView) {
+                $productAddCartFormName = 'SilvercartProductAddCartFormList';
+            } else {
+                $productAddCartFormName = 'SilvercartProductAddCartFormTile';
+            }
+
+            foreach ($this->elements as $element) {
+                $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+                
+                $controller->registerCustomHtmlForm(
+                    $formIdentifier,
+                    new $productAddCartFormName(
+                        $controller,
+                        array('productID' => $element->ID)
+                    )
+                );
+                
+                $element->productAddCartForm = $controller->InsertCustomHtmlForm(
                     $formIdentifier,
                     array(
                         $element
                     )
                 );
-            $elementIdx++;
+                $elementIdx++;
+            }
         }
     }
     
