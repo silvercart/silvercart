@@ -40,6 +40,8 @@ class SilvercartProductGroupHolder extends Page {
         'RedirectorPage'
     );
     
+    public static $icon = "silvercart/images/page_icons/product_group_holder";
+    
     /**
      * Attributes.
      *
@@ -122,7 +124,8 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *
-     * @param SiteTree $parent Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
+     * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
+     * @param boolean  $allChildren ???
      *
      * @return array
      */

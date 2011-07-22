@@ -89,7 +89,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
-
         if (!$barebone) {
             /*
              * redirect a user if his cart is empty and no order exists
@@ -265,6 +264,23 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         if ($member) {
             return $this->customise($member->SilvercartShoppingCart())->renderWith('SilvercartShoppingCartFull');
         }
+    }
+    
+    /**
+     * The newsletter checkbox should not be shown if a registered customer has
+     * already subscribed to the newsletter.
+     * 
+     * @return boolean answer 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.7.2011
+     */
+    public function showNewsletterCheckbox() {
+        $customer = SilvercartCustomerRole::currentRegisteredCustomer();
+        if ($customer && $customer->SubscribedToNewsletter == 1) {
+            return false;
+        }
+        return true;
     }
 }
 

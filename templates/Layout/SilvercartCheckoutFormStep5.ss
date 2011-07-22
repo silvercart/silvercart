@@ -33,7 +33,9 @@
         <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
         $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
-        $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
+        <% if Top.showNewsletterCheckbox %>
+            $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
+        <% end_if %>
     </fieldset>
     <div class="actionRow">
         <div class="type-button">
