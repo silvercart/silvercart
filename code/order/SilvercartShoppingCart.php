@@ -1024,7 +1024,7 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
-     * determin weather a cart is filled or empty; usefull for template conditional
+     * determine wether a cart is filled or empty; useful for template conditional
      *
      * @return bool
      *
