@@ -34,6 +34,17 @@
 class SilvercartProductAddCartForm extends CustomHtmlForm {
 
     /**
+     * Don't enable Security token for this type of form because we'll run
+     * into caching problems when using it.
+     * 
+     * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.07.2011
+     */
+    protected $securityTokenEnabled = false;
+    
+    /**
      * field configuration
      *
      * @var array
