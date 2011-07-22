@@ -26,20 +26,20 @@
                                 <% control CurrentMembersOrders(3) %>
                                     <tr>
                                         <td>
-                                            <a href="{$Top.OrderDetailLink}$ID">$Created.Nice</a>
+                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
                                         </td>
                                         <td>
-                                            <a href="{$Top.OrderDetailLink}$ID">$OrderNumber</a>
+                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$OrderNumber</a>
                                         </td>
                                         <td>
-                                            <a href="{$Top.OrderDetailLink}$ID">
+                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                                             <% control SilvercartOrderPositions %>
                                                 $Title <% if Last %><% else %> | <% end_if %>
                                             <% end_control %>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{$Top.OrderDetailLink}$ID">
+                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                                                 $SilvercartOrderStatus.Title
                                             </a>
                                         </td>
