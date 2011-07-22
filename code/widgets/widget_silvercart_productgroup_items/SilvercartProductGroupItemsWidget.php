@@ -139,6 +139,40 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
  */
 class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Controller {
 
+    protected $elements = null;
+    
+    /**
+     * Register forms for the contained products.
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.07.2011
+     */
+    public function init() {
+        $this->elements         = $this->Elements();
+        $controller             = Controller::curr();
+        $elementIdx             = 0;
+        
+        if ($this->useListView) {
+            $productAddCartFormName = 'SilvercartProductAddCartFormList';
+        } else {
+            $productAddCartFormName = 'SilvercartProductAddCartFormTile';
+        }
+        
+        foreach ($this->elements as $element) {
+            $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+            $controller->registerCustomHtmlForm($formIdentifier, new $productAddCartFormName($controller, array('productID' => $element->ID)));
+            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
+                    $formIdentifier,
+                    array(
+                        $element
+                    )
+                );
+            $elementIdx++;
+        }
+    }
+    
     /**
      * Returns a number of products from the chosen productgroup.
      * 
@@ -148,6 +182,9 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 26.05.2011
      */
     public function Elements() {
+        if ($this->elements) {
+            return $this->elements;
+        }
         
         if (!$this->SilvercartProductGroupPageID) {
             return false;
