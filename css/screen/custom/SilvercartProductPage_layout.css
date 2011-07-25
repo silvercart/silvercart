@@ -13,8 +13,17 @@
     padding:                        0px;
 }
 
-.silvercart-product-page .silvercart-product-group-page-box-image img {
+.silvercart-product-page .silvercart-product-page-box-images img {
     display:                        inline-block;
+}
+.silvercart-product-page-box-image {
+    margin:                         0px 0px 10px 0px;
+}
+.silvercart-product-image-list-entry {
+    float:                          left;
+}
+.silvercart-product-image-list-entry_content {
+    padding:                        0px 0px 8px 8px;
 }
 
 .silvercart-product-page form.yform {

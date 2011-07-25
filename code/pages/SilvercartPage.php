@@ -225,9 +225,11 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::themedCSS('SilvercartProductGroupPageList_content');
         Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
         Requirements::themedCSS('SilvercartProductGroupPageTile_content');
+        Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
+        Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
 
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));

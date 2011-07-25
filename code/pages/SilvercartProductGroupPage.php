@@ -1073,6 +1073,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     protected function ProductDetailView($urlEncodedProductName) {
         if ($this->isProductDetailView()) {
+            
+            Requirements::customScript("
+                $(document).ready(function() {
+                    $('a.silvercart-product-detail-image').fancybox();
+                });
+            ");
+            
             $product = $this->getDetailViewProduct();
             $product->productAddCartForm = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
             $viewParams = array(
