@@ -2,7 +2,6 @@
     <fieldset>
           <legend><% _t('SilvercartPaymentMethod.TITLE') %></legend>
           <div class="subcolumns">
-              
             <div class="silvercart-checkout-payment">
                 <% if RegisteredNestedForms %>
                 <ul>

@@ -244,6 +244,22 @@ p.silvercart-message.highlighted.error48 {
     -webkit-border-radius:          3px;
 }
 
+/* Errors and notices ------------------------------------------------------ */
+
+.silvercart-error-list {
+    background:                     #fafafa;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffd3d3,  #f2e8e8); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
+    border:                         1px #ce0000 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-error-list p {
+    color:                          #530000;
+}
+
 .silvercart-checkout-notice_content {
     border:                         1px #353535 solid;
     border-radius:                  3px;

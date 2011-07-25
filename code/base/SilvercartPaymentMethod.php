@@ -326,11 +326,11 @@ class SilvercartPaymentMethod extends DataObject {
             ),
             'minAmountForActivation' => array(
                 'title' => _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION'),
-                'filter' => 'GreaterThenFilter'
+                'filter' => 'GreaterThanFilter'
             ),
             'maxAmountForActivation' => array(
                 'title' => _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION'),
-                'filter' => 'LessThenFilter'
+                'filter' => 'LessThanFilter'
             ),
             'SilvercartZone.ID' => array(
                 'title' => _t("SilvercartCountry.ATTRIBUTED_ZONES"),
@@ -386,30 +386,6 @@ class SilvercartPaymentMethod extends DataObject {
             'AttributedCountries' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
             'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE'),
             'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE'),
-        );
-    }
-
-    /**
-     * Set a custom search context for fields like "greater than", "less than",
-     * etc.
-     * 
-     * @return SearchContext
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public function getDefaultSearchContext() {
-        $fields = $this->scaffoldSearchFields();
-        $filters = array(
-            'minAmountForActivation' => new GreaterThanFilter('minAmountForActivation'),
-            'maxAmountForActivation' => new LessThanFilter('maxAmountForActivation'),
-            'isActive' => new ExactMatchFilter('isActive')
-        );
-        return new SearchContext(
-                $this->class,
-                $fields,
-                $filters
         );
     }
 
@@ -560,8 +536,9 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * Returns allowed shipping methods.
      * 
-     * @param string $shippingCountry The SilvercartCountry to check the
-     *                                payment methods for.
+     * @param string                 $shippingCountry The SilvercartCountry to check the
+     *                                                payment methods for.
+     * @param SilvercartShoppingCart $shoppingCart    The shopping cart object
      * 
      * @return DataObjectSet
      * 
@@ -569,7 +546,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.07.2011
      */
-    public static function getAllowedPaymentMethodsFor($shippingCountry) {
+    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart) {
         $allowedPaymentMethods  = array();
         
         if (!$shippingCountry) {
@@ -591,6 +568,12 @@ class SilvercartPaymentMethod extends DataObject {
                 // ------------------------------------------------------------
                 if ($paymentMethod->enableActivationByOrderRestrictions) {
                     $assumePaymentMethod = $paymentMethod->isActivationByOrderRestrictionsPossible($member);
+                    $doAccessChecks      = false;
+                }
+                
+                if (!$paymentMethod->isAvailableForAmount($shoppingCart->getAmountTotalWithoutFees()->getAmount())) {
+                    $assumePaymentMethod = false;
+                    $doAccessChecks      = false;
                 }
                 
                 // ------------------------------------------------------------
@@ -783,16 +766,16 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.11.2010
      */
     public function isAvailableForAmount($amount) {
-        $isAvailable = false;
-        $amount = (float) $amount;
-        $minAmount = (float) $this->minAmountForActivation;
-        $maxAmount = (float) $this->maxAmountForActivation;
+        $isAvailable    = false;
+        $amount         = (float) $amount;
+        $minAmount      = (float) $this->minAmountForActivation;
+        $maxAmount      = (float) $this->maxAmountForActivation;
 
         if (($minAmount != 0.0 &&
-                $maxAmount != 0.0)) {
-
+             $maxAmount != 0.0)) {
+            
             if ($amount >= $minAmount &&
-                    $amount <= $maxAmount) {
+                $amount <= $maxAmount) {
 
                 $isAvailable = true;
             }
@@ -804,6 +787,8 @@ class SilvercartPaymentMethod extends DataObject {
             if ($amount <= $maxAmount) {
                 $isAvailable = true;
             }
+        } else {
+            $isAvailable = true;
         }
 
         return $isAvailable;

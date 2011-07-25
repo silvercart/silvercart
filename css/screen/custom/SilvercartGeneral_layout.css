@@ -259,6 +259,22 @@ p.silvercart-message.highlighted.error48 {
     margin:                         0px 0px 12px 0px;
 }
 
+/* Errors and notices ------------------------------------------------------ */
+
+.silvercart-error-list {
+    margin:                         8px 0px;
+}
+.silvercart-error-list_content {
+    padding:                        4px;
+}
+.silvercart-error-list p {
+    margin:                         0px 0px 6px 0px;
+}
+.silvercart-error-list p:last-child {
+    margin-bottom:                  0px;
+}
+
+
 .silvercart-checkout-notice {
     float:                          right;
 }

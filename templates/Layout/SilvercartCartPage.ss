@@ -6,8 +6,10 @@
 
         <% if CurrentMember.SilvercartShoppingCart.isFilled %>
             <% if CurrentMember.SilvercartShoppingCart.IsMinimumOrderValueReached %>
-                <div class="shopping-cart-page-footer-bar">
-                    <a class="checkout-button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>
+                <div class="silvercart-button">
+                    <div class="silvercart-button_content">
+                        <a href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>
+                    </div>
                 </div>
             <% else %>
                 <div class="silvercart-checkout-notice">

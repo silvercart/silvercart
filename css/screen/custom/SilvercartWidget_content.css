@@ -42,8 +42,12 @@
 .silvercart-widget .vlist li a,
 .silvercart-widget .vlist li strong,
 .silvercart-widget .vlist li span {
+    font-weight:                    normal;
     color:                          #333;
     border-bottom:                  1px #eee dotted;
+}
+.silvercart-widget .vlist li strong {
+    font-weight:                    bold;
 }
 .silvercart-widget .vlist li:last-child a,
 .silvercart-widget .vlist li:last-child strong,
