@@ -78,7 +78,6 @@ class SilvercartProduct extends DataObject {
         'PriceGross'                  => 'Money', //price taxes including
         'PriceNet'                    => 'Money', //price taxes excluded
         'Weight'                      => 'Int', //unit is gramm
-        'Quantity'                    => 'Int', //Quantity Pieces (Pack)
         'isFreeOfCharge'              => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
         'EANCode'                     => 'VarChar(13)',
         'isActive'                    => 'Boolean(1)',
@@ -336,7 +335,6 @@ class SilvercartProduct extends DataObject {
                 'PriceNet'                          => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
                 'MetaDescription'                   => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
                 'Weight'                            => _t('SilvercartProduct.WEIGHT', 'weight'),
-                'Quantity'                          => _t('SilvercartProduct.QUANTITY', 'quantity'),
                 'MetaTitle'                         => _t('SilvercartProduct.METATITLE', 'meta title'),
                 'MetaKeywords'                      => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
                 'ProductNumberShop'                 => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
@@ -486,7 +484,6 @@ class SilvercartProduct extends DataObject {
                 'PriceGross',
                 'PriceNet',
                 'Weight',
-                'Quantity',
                 'isFreeOfCharge',
                 'EANCode',
                 'isActive',
