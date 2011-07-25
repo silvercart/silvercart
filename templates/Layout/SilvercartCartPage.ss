@@ -10,7 +10,11 @@
                     <a class="checkout-button" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>
                 </div>
             <% else %>
-                <p>Der Mindestbestellwert beträgt ...</p>
+                <div class="silvercart-checkout-notice">
+                    <div class="silvercart-checkout-notice_content">
+                        <% sprintf(_t('SilvercartShoppingCart.ERROR_MINIMUMORDERVALUE_NOT_REACHED'),$SilvercartShoppingCart.MinimumOrderValue) %>
+                    </div>
+                </div>
             <% end_if %>
         <% end_if %>
     </div>

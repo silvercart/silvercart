@@ -243,3 +243,10 @@ p.silvercart-message.highlighted.error48 {
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+
+.silvercart-checkout-notice_content {
+    border:                         1px #353535 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
