@@ -14,13 +14,34 @@
                     </div>
                     
                     <div class="subcolumns">
-                        <div class="c33l silvercart-product-group-page-box-image">
+                        <div class="c33l silvercart-product-page-box-images">
                             <div class="subcl">
                                 <% if getSilvercartImages %>
                                     <% control getSilvercartImages.First %>
-                                        $Image.SetRatioSize(200,200)
+                                        <div class="silvercart-product-page-box-image">
+                                            <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
+                                                $Image.SetRatioSize(200,200)
+                                            </a>
+                                        </div>
                                     <% end_control %>
                                 <% end_if %>
+                                
+                                <div class="silvercart-product-image-list">
+                                    <% if getSilvercartImages %>
+                                        <% control getSilvercartImages %>
+                                            <% if First %>
+                                            <% else %>
+                                                <div class="silvercart-product-image-list-entry">
+                                                    <div class="silvercart-product-image-list-entry_content">
+                                                        <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
+                                                            $Image.SetRatioSize(90,90)
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            <% end_if %>
+                                        <% end_control %>
+                                    <% end_if %>
+                                </div>
                             </div>
                         </div>
                         <div class="c33l">

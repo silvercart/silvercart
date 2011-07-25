@@ -12,7 +12,7 @@
     line-height:                    130%;
 }
 
-.silvercart-product-page .silvercart-product-group-page-box-image {
+.silvercart-product-page .silvercart-product-page-box-images {
     text-align:                     center;
 }
 
@@ -23,6 +23,10 @@
 .silvercart-product-page form.yform fieldset {
     border:                         none;
     background:                     none;
+}
+
+.silvercart-product-page .silvercart-product-availability {
+    text-align:                     left;
 }
 
 /* Tabs ---------------------------------------------------------------- */

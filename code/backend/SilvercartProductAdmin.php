@@ -62,6 +62,16 @@ class SilvercartProductAdmin extends ModelAdmin {
         'SilvercartProduct'             => 'SilvercartProductCsvBulkLoader',
         'SilvercartManufacturer'        => 'CsvBulkLoader'
     );
+    
+    /**
+     * Set the result table class.
+     * 
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.07.2011
+     */
+    protected $resultsTableClassName = 'SilvercartProductTableListField';
 
     /**
      * The URL segment
