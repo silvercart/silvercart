@@ -115,7 +115,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $email = Email::getAdminEmail();
             if ($email != '') {
                 $silvercartConfig->EmailSender = $email;
-                $silvercartConfig->GlobalEmailRecipient = $email;
             }
             $silvercartConfig->write();
         }
@@ -795,6 +794,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $paymentMethod->Name = _t('SilvercartPaymentPrepayment.SINGULARNAME');
                 }
                 $paymentMethod->isActive = true;
+                $orderStatusPending = DataObject::get_one("SilvercartOrderStatus", "`Code` = 'pending'");
+                if ($orderStatusPending) {
+                    $paymentMethod->orderStatus = $orderStatusPending->Code;
+                }
                 $paymentMethod->write();
                 $country->SilvercartPaymentMethods()->add($paymentMethod);
 
@@ -814,7 +817,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $shippingFee = DataObject::get_one('SilvercartShippingFee');
                 if (!$shippingFee) {
                     $shippingFee = new SilvercartShippingFee();
-                    $shippingFee->MaximumWeight = '1000';
+                    $shippingFee->MaximumWeight = '100000';
                     $shippingFee->Price = new Money();
                     $shippingFee->Price->setAmount('3.9');
                     $shippingFee->Price->setCurrency('EUR');

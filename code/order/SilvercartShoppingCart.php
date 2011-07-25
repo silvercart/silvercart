@@ -226,7 +226,9 @@ class SilvercartShoppingCart extends DataObject {
      */
     public static function addProduct($formData) {
         $error = true;
+        
         if ($formData['productID'] && $formData['productQuantity']) {
+            
             $member = Member::currentUser();
             if ($member == false) {
                 $member = new SilvercartAnonymousCustomer();
@@ -1024,7 +1026,7 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
-     * determin weather a cart is filled or empty; usefull for template conditional
+     * determine wether a cart is filled or empty; useful for template conditional
      *
      * @return bool
      *

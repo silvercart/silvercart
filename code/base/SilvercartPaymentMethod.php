@@ -1006,7 +1006,7 @@ class SilvercartPaymentMethod extends DataObject {
                 new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
-                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')
+                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title', _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"))
                 )
             )
         );
