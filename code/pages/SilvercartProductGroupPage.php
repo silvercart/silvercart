@@ -1034,19 +1034,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function handleAction($request) {
         if ($this->isProductDetailView()) {
+            
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
 
             if (!empty($this->urlParams['OtherID']) &&
                     $this->hasMethod($this->urlParams['OtherID'])) {
 
                 $methodName = $this->urlParams['OtherID'];
-
-                return $this->$methodName($request);
+                
+                if (method_exists($this, $methodName)) {
+                    return $this->$methodName($request);
+                } else {
+                    $this->$methodName($request);
+                }
             }
 
             $view = $this->ProductDetailView(
-                    $this->urlParams['ID']
+                $this->urlParams['ID']
             );
+            
             if ($view !== false) {
                 return $view;
             }
