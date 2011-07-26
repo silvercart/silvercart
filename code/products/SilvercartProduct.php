@@ -827,11 +827,16 @@ class SilvercartProduct extends DataObject {
         $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if (!$shoppingCartPosition) {
-            $shoppingCartPosition                           = new SilvercartShoppingCartPosition();
-            $shoppingCartPosition->SilvercartShoppingCartID = $cartID;
-            $shoppingCartPosition->SilvercartProductID      = $this->ID;
+            $shoppingCartPosition = new SilvercartShoppingCartPosition();
+            
+            $shoppingCartPosition->castedUpdate(
+                array(
+                    'SilvercartShoppingCartID' => $cartID,
+                    'SilvercartProductID' => $this->ID
+                )
+            );
             $shoppingCartPosition->write();
-            $shoppingCartPosition = $shoppingCartPosition->data();
+            $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
         }
         
         if ($shoppingCartPosition->isQuantityIncrementableBy($quantity)) {
