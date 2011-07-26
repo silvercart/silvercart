@@ -231,11 +231,9 @@ class SilvercartShoppingCartPosition extends DataObject {
             if ($this->SilvercartProduct()->isStockQuantityOverbookable()) {
                 return true;
             }
-            
             if ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
                 return true;
             }
-            
             return false;
         }
         return true;
