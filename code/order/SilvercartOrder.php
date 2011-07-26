@@ -499,6 +499,10 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     protected function convertShoppingCartPositionsToOrderPositions() {
+        if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
+            return true;
+        }
+        
         $member = Member::currentUser();
         $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID);
         $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
