@@ -227,10 +227,15 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 18.7.2011 
      */
     public function isQuantityIncrementableBy($quantity = 1) {
-        if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+        if (SilvercartConfig::EnableStockManagement()) {
+            if ($this->SilvercartProduct()->isStockQuantityOverbookable()) {
+                return true;
+            }
+            
             if ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
                 return true;
             }
+            
             return false;
         }
         return true;
