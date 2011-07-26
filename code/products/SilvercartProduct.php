@@ -439,8 +439,8 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
-
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
+        $fields->removeByName('SilvercartShoppingCartPositions');//There is not enough space for so many tabs
         //Get all products that have no master
         $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
         $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
@@ -452,7 +452,7 @@ class SilvercartProduct extends DataObject {
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->push($dropdownField);
+        $fields->addFieldToTab('Root.Main', $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
@@ -516,7 +516,6 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        
         // remove GoogleSitemap Priority
         $fields->removeByName('Priority');
         $fields->removeByName('GoogleSitemapIntro');

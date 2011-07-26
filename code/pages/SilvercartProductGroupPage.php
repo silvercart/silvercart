@@ -263,7 +263,7 @@ class SilvercartProductGroupPage extends Page {
                     'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
                     'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
                 ),
-                'getCMSFields',
+                'getCMSFields_forPopup',
                 $filter
             );
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
