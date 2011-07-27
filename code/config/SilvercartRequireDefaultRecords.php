@@ -697,6 +697,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $productGroup->ParentID = $silvercartProductGroupHolder->ID;
                 $productGroup->ShowInMenus = true;
                 $productGroup->ShowInSearch = true;
+                $productGroup->Sort = $i;
                 $productGroup->write();
                 $productGroup->publish("Stage", "Live");
                 //create products
@@ -720,7 +721,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->MetaTitle = 'Testproduct' . $idx;
                     $product->MetaKeywords = 'Testproduct' . $idx;
                     $product->Weight = 500;
-                    $product->Quantity = 1;
+                    $product->StockQuantity = 1;
                     $product->ProductNumberShop = "1000" . $idx;
                     $product->ProductNumberManufacturer = "123000" . $idx;
                     $product->SilvercartProductGroupID = $productGroup->ID;
