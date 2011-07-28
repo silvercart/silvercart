@@ -1315,8 +1315,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     }
     
     /**
-	 * Return the columns available in the column selection field.
-	 * Overload this to make other columns available.
+     * Return the columns available in the column selection field.
+     * Overload this to make other columns available.
      * 
      * This is used for the CSV export, too.
      * 
@@ -1324,7 +1324,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 20.07.2011
-	 */
+     */
 	public function columnsAvailable() {
 		$columnsAvailable = array(
             'ID'                                    => 'ID',
@@ -1345,7 +1345,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             'PriceNetAmount'                        => 'PriceNetAmount',
             'PriceNetCurrency'                      => 'PriceNetCurrency',
             'Weight'                                => 'Weight',
-            'Quantity'                              => 'Quantity',
             'isFreeOfCharge'                        => 'isFreeOfCharge',
             'EANCode'                               => 'EANCode',
             'isActive'                              => 'isActive',

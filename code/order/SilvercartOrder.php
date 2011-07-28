@@ -336,7 +336,7 @@ class SilvercartOrder extends DataObject {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
     }
 
-        /**
+    /**
      * customize backend fields
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -370,7 +370,30 @@ class SilvercartOrder extends DataObject {
 
         return $fields;
     }
-
+    
+//    public function getCMSAddFormFields() {
+//        
+//        $fields = parent::getCMSFields();
+//        print_r($fields); exit();
+//        $fields->removeByName(_t('SilvercartAddressHolder.SHIPPINGADDRESS'));
+//        $fields->removeByName(_t('SilvercartAddressHolder.INVOICEADDRESS'));
+//        $fields->removeByName(_t('Versioned.has_many_Versions'));
+//        $fields->removeByName('SilvercartProducts');
+//        $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
+//        $fields->removeByName('SilvercartAddresses');
+//        $fields->removeByName('SilvercartOrderPositions');
+//        $fields->removeByName('SilvercartShippingFee');
+//        $fields->removeByName('Member');
+//        $fields->removeByName('SilvercartOrderStatus');
+//        $fields->removeByName('SilvercartShippingMethod');
+//        $fields->removeByName('SilvercartPaymentMethod');
+//        $fields->removeByName('SilvercartInvoiceAddress');
+//        $fields->removeByName('SilvercartShippingAddress');
+//        $fields->removeByName('OrderNumber');
+//        
+//        return $fields;
+//    }
+    
     /**
      * create a invoice address for an order from customers data
      *
@@ -1301,5 +1324,16 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         $this->extend('getResultsTable', $tableField, $searchCriteria);
         
         return $tableField;
+    }
+    
+    /**
+     *
+     * @return bool false
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     *  
+     */
+    public function CreateForm() {
+        return false;
     }
 }
