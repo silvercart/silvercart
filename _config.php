@@ -49,6 +49,7 @@ Object::add_extension('CMSMain',        'SilvercartMain');
 DataObject::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
+DataObject::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartCountry',                          'Translatable');
 DataObject::add_extension('Image',                                      'SilvercartImageExtension');
 SortableDataObject::add_sortable_classes(array(

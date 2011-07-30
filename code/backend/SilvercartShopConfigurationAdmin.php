@@ -56,6 +56,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartAmountUnit',
         'SilvercartWidgetSet',
         'SilvercartConfig',
+        'SilvercartDeeplink'
     );
     /**
      * The URL segment

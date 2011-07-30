@@ -665,6 +665,9 @@ $lang['en_US']['SilvercartDataPrivacyStatementPage']['SINGULARNAME'] = 'Privacy 
 $lang['en_US']['SilvercartDataPrivacyStatementPage']['TITLE'] = 'Data privacy statement';
 $lang['en_US']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'] = 'data-privacy-statement';
 
+$lang['en_US']['SilvercartDeeplinkPage']['SINGULARNAME'] = 'deeplink page';
+$lang['en_US']['SilvercartDeeplinkPage']['PLURALNAME'] = 'deeplink pages';
+
 $lang['en_US']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
 
 $lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';

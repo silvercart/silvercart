@@ -1327,11 +1327,12 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-     *
+     * Removes the field "create order" from the model admin
+     * 
      * @return bool false
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     *  
+     * @since 28.7.2011 
      */
     public function CreateForm() {
         return false;
