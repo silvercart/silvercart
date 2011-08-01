@@ -28,7 +28,7 @@ class SilvercartDeeplink extends DataObject {
     );
     
     public static $casting = array(
-        'DeeplinkUrl' => 'VarChar',
+        'DeeplinkUrl'      => 'VarChar',
         'ActivationStatus' => 'VarChar'
     );
     
@@ -91,9 +91,6 @@ class SilvercartDeeplink extends DataObject {
         $fields->removeByName('productAttribute');
         $productAttributes = DataObject::database_fields('SilvercartProduct');
         $productAttributeDropdownSource = SilvercartProduct::fieldLabels();
-//        foreach ($productAttributes as $key => $value) {
-//            $productAttributeDropdownSource[$key] = $key;
-//        }
         $productAttributeDropdown = new DropdownField('productAttribute', _t('SilvercartAttribute.SINGULARNAME'), $productAttributeDropdownSource, null, null, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'));
         $fields->addFieldToTab('Root.Main', $productAttributeDropdown);
         $fields->addFieldToTab('Root.Main', new ReadonlyField('deeplink', $this->singular_name(), $this->getDeeplinkUrl()));
@@ -113,7 +110,7 @@ class SilvercartDeeplink extends DataObject {
         $summaryFields = array(
             'productAttribute' => _t('SilvercartAttribute.SINGULARNAME'),
             'ActivationStatus' => _t('SilvercartCountry.ACTIVE'),
-            'DeeplinkUrl' => 'Deeplink'
+            'DeeplinkUrl'      => 'Deeplink'
         );
         return $summaryFields;
     }

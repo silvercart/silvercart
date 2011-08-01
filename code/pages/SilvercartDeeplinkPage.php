@@ -78,7 +78,8 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      * Only filled if the result does not point to one product only
      */
     public function getProducts() {
-        return $this->products = $this->getPartiallyMatchingProducts();
+        $this->products = $this->getPartiallyMatchingProducts();
+        return $this->products;
     }
     
     /**
