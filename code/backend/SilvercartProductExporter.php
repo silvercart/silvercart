@@ -133,6 +133,30 @@ class SilvercartProductExporter extends DataObject {
     }
     
     /**
+     * Returns the localized singular name.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.08.2011
+     */
+    public function singular_name() {
+        return _t('SilvercartProductExport.SINGULAR_NAME');
+    }
+    
+    /**
+     * Returns the localized plural name.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.08.2011
+     */
+    public function plural_name() {
+        return _t('SilvercartProductExport.PLURAL_NAME');
+    }
+    
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields

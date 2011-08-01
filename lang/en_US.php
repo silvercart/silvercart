@@ -203,6 +203,8 @@ $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUF
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
+$lang['en_US']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
+$lang['en_US']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
 
 $lang['en_US']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Add callback field';
 $lang['en_US']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Attributed fields';
@@ -364,11 +366,11 @@ $lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact for
 $lang['en_US']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Contact form response page';
 $lang['en_US']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
 
-$lang['en_US']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
-$lang['en_US']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
+$lang['en_US']['SilvercartContactMessage']['PLURALNAME'] = 'Contact messages';
+$lang['en_US']['SilvercartContactMessage']['SINGULARNAME'] = 'Contact message';
 $lang['en_US']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:<br/>\n\n\$Message</p>\n";
 
-$lang['en_US']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contactmessages';
+$lang['en_US']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contact messages';
 
 $lang['en_US']['SilvercartCountry']['ACTIVE'] = 'Active';
 $lang['en_US']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'Attributed payment method';
@@ -1039,6 +1041,8 @@ $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Minim
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_US']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
+
+$lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart administration';
 
 $lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
 
