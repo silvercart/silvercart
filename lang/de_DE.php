@@ -695,6 +695,30 @@ $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
 $lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';
 $lang['de_DE']['SilvercartImage']['TITLE'] = 'Anzeigename';
 
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING']                       = 'Zeichenkette mit Trennern';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_KEY']                   = 'Name der Variable, in der die Zeichenkette gespeichert ist';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_ENTITY_SEPARATOR']      = 'Entitentrennzeichen in der Zeichenkette';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_QUANTITY_SEPARATOR']    = 'Mengentrennzeichen in der Zeichenkette';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE']                             = 'Schlüssel-Wert Paare';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_PRODUCT_IDENTIFIER']          = 'Name der Produkt-Variable';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_QUANTITY_IDENTIFIER']         = 'Name der Mengen-Variable';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']                            = 'Externe Warenkorbbefüllung';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Produkt-Bezugsfeld';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Kurzname des externen Partners';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Name der Shared secret Variable';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Externe Warenkorbbefüllung';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Bezeichnung';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['TRANSFER_METHOD']                       = 'Übertragungsmethode';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['USE_SHARED_SECRET']                     = 'Shared secret benutzen';
+
+$lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_COMBINED_STRING_KEY_NOT_FOUND']              = 'Parameter wurden nicht gesendet';
+$lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND']     = 'Parameter wurden nicht gesendet (Produktbezeichner fehlt)';
+$lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_KEY_VALUE_QUANTITY_IDENTIFIER_NOT_FOUND']    = 'Parameter wurden nicht gesendet (Mengenbezeichner fehlt)';
+$lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_REFERER_NOT_FOUND']                          = 'Externer Aufrufer ist nicht gültig';
+$lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_SHARED_SECRET_INVALID']                      = 'Keine Berechtigung';
+
+
 $lang['de_DE']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen';
 $lang['de_DE']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse';
 
