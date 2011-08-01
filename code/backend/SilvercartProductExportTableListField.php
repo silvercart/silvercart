@@ -184,7 +184,7 @@ class SilvercartProductExportTableListField_ItemRequest extends TableListField_I
         $this->dataObj()->doExport();
         
         if (Director::is_ajax()) {
-            $collectionController = new SilvercartProductExportAdmin_CollectionController(new SilvercartProductExportAdmin(), 'SilvercartProductExporter');
+            $collectionController = new SilvercartProductExportAdmin_CollectionController(new SilvercartShopAdministrationAdmin(), 'SilvercartProductExporter');
             $ResultsForm = $collectionController->ResultsForm(array());
             return $ResultsForm->forAjaxTemplate();
         } else {

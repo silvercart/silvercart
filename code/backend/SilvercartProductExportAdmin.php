@@ -22,102 +22,6 @@
  */
 
 /**
- * The Silvercart product export backend.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 05.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartProductExportAdmin extends ModelAdmin {
-
-    /**
-     * Managed models
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $managed_models = array(
-        'SilvercartProductExporter'
-    );
-
-    /**
-     * The collection controller class to use for the shop configuration.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
-     */
-    public static $collection_controller_class = 'SilvercartProductExportAdmin_CollectionController';
-
-    /**
-     * We use our own RecordController class.
-     * 
-         * @param string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
-         */
-        public static $record_controller_class = "SilvercartProductExportAdmin_RecordController";
-
-    /**
-     * The URL segment
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $url_segment = 'silvercart-product-export';
-
-    /**
-     * The menu title
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $menu_title = 'Silvercart product export';
-
-    /**
-     * Set the menu priority for ordering purposes
-     * 
-     * @var Int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $menu_priority = -1;
-
-    /**
-     * Set the result table class.
-     * 
-     * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
-     */
-    protected $resultsTableClassName = 'SilvercartProductExportTableListField';
-
-    /**
-     * We set the menu title for the CMS here.
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public function __construct() {
-        self::$menu_title = _t('SilvercartProductExportAdmin.SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL', 'SilverCart product export');
-        parent::__construct();
-    }
-}
-
-/**
  * Modifies the model admin search panel.
  *
  * @package Silvercart
@@ -132,19 +36,18 @@ class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_Colle
     public $showImportForm = false;
 
     /**
-         * Shows results from the "search" action in a TableListField. 
-         *
-         * @uses getResultsTable()
-         *
-         * @return Form
-         */
-        function ResultsForm($searchCriteria) {
-                $form = parent::ResultsForm($searchCriteria);
-
+     * Shows results from the "search" action in a TableListField. 
+     *
+     * @return Form
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    function ResultsForm($searchCriteria) {
+        $form = parent::ResultsForm($searchCriteria);
         $form->setActions(new FieldSet());
-
-                return $form;
-        }
+        return $form;
+    }
 }
 
 /**

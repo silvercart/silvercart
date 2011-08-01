@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -22,17 +22,17 @@
  */
 
 /**
- * backend interface to CRUD the defined classes
+ * The Silvercart administration backend.
  *
  * @package Silvercart
  * @subpackage Backend
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 23.10.2010
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 01.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProductAdmin extends ModelAdmin {
-
+class SilvercartShopAdministrationAdmin extends ModelAdmin {
+    
     /**
      * Managed models
      *
@@ -40,15 +40,29 @@ class SilvercartProductAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 01.08.2011
      */
     public static $managed_models = array(
+        'SilvercartOrder' => array(
+            'collection_controller' => 'SilvercartOrder_CollectionController'
+        ),
+        'SilvercartContactMessage' => array(
+            'collection_controller' => 'SilvercartContactMessageAdmin_CollectionController'
+        ),
         'SilvercartProduct' => array(
             'collection_controller' => 'SilvercartProduct_CollectionController'
         ),
-        'SilvercartManufacturer'
+        'SilvercartProductExporter' => array(
+            'collection_controller' => 'SilvercartProductExportAdmin_CollectionController',
+            'record_controller'     => 'SilvercartProductExportAdmin_RecordController'
+        ),
+        'SilvercartManufacturer',
+        'SilvercartRegularCustomer',
+        'SilvercartBusinessCustomer',
+        'SilvercartAnonymousCustomer',
+        'SilvercartCustomerCategory',
     );
-
+    
     /**
      * Definition of the Importers for the managed model.
      *
@@ -56,7 +70,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler
      * @copyright 2011 pixeltricks GmbH
-     * @since 24.02.2011
+     * @since 01.08.2011
      */
     public static $model_importers = array(
         'SilvercartProduct'             => 'SilvercartProductCsvBulkLoader',
@@ -64,50 +78,28 @@ class SilvercartProductAdmin extends ModelAdmin {
     );
     
     /**
-     * Set the result table class.
-     * 
-     * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.07.2011
-     */
-    protected $resultsTableClassName = 'SilvercartProductTableListField';
-
-    /**
      * The URL segment
      *
      * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 01.08.2011
      */
-    public static $url_segment = 'products';
-
-    /**
-     * The menu title
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $menu_title = 'Artikel';
-
+    public static $url_segment = 'silvercart-administration';
+    
     /**
      * constructor
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 02.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.08.2011
      */
-    public function  __construct() {
-        self::$menu_title = _t('SilvercartProduct.SINGULARNAME');
-
+    public function __construct() {
+        self::$menu_title = _t('SilvercartShopAdministrationAdmin.TITLE');
+        
         parent::__construct();
     }
-
+    
     /**
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
@@ -116,10 +108,34 @@ class SilvercartProductAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.03.2011
+     * @since 01.08.2011
      */
     public function init() {
         parent::init();
         $this->extend('updateInit');
     }
+    
+    /**
+     * Provides a way to use different result tables for the managed models.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.08.2011
+     */
+	public function resultsTableClassName() {
+        $className = $this->resultsTableClassName;
+        
+        if (isset($this->urlParams['Action']) ) {
+            if ($this->urlParams['Action'] == 'SilvercartProduct') {
+                $className = 'SilvercartProductTableListField';
+            }
+            if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
+                $className = 'SilvercartProductExportTableListField';
+            }
+        }
+        
+        return $className;
+	}
 }

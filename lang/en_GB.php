@@ -203,6 +203,8 @@ $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUF
 $lang['en_GB']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
+$lang['en_GB']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
+$lang['en_GB']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Add callback field';
 $lang['en_GB']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Attributed fields';
@@ -1039,6 +1041,8 @@ $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Minim
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_GB']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
+
+$lang['en_GB']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart administration';
 
 $lang['en_GB']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
 
