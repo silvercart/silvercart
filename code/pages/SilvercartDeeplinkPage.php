@@ -10,7 +10,7 @@
  * @since 29.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartDeeplinkPage extends SilvercartPage {
+class SilvercartDeeplinkPage extends Page {
     
 }
 
@@ -22,7 +22,7 @@ class SilvercartDeeplinkPage extends SilvercartPage {
  * @since 29.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
+class SilvercartDeeplinkPage_Controller extends Page_Controller {
     
     /**
      *
@@ -30,15 +30,26 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      */
     protected $products = null;
 
+    /**
+     * controller method called before anything else happens
+     * 
+     * return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 1.8.2011
+     */
     public function init() {
-        parent::init();
+        $formActionLink  = $this->getRelativeDeepLinkForPartiallyMatchingProducts();
+        $formActionLink .= 'customHtmlFormSubmit';
+        
         //fill $products if there is more than one result
         if (!$this->getExactlyMatchingProduct() && $this->getPartiallyMatchingProducts()) {
-            $products = $this->getProducts();
+            $this->products = $this->getPartiallyMatchingProducts();
             $productIdx = 0;
             $productAddCartForm = $this->getCartFormName();
-            foreach ($products as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+            foreach ($this->products as $product) {
+                $addCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $this->Link().$this->getRelativeDeepLinkForPartiallyMatchingProducts()), array('submitAction' => $formActionLink));
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $addCartForm);
                 $product->productAddCartForm = $this->InsertCustomHtmlForm(
                     'ProductAddCartForm' . $productIdx,
                     array(
@@ -48,6 +59,7 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
                 $productIdx++;
             }
         }
+        parent::init();
     }
 
 
@@ -62,15 +74,21 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      * @since 28.7.2011
      */
     public function handleAction($request) {
-        if ($this->getDeeplink()) {
+        if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
                 return Director::redirect($this->getExactlyMatchingProduct()->Link());
             } elseif ($this->getPartiallyMatchingProducts()) {
+                
+                if ($this->urlParams['OtherID'] == 'customHtmlFormSubmit') {
+                    $this->customHtmlFormSubmit($request);
+                }
+                
                 return $this->renderWith(array('SilvercartDeeplinkPage', 'Page'));
             }
         }
+        
         return Director::redirect(DataObject::get_one('ErrorPage', '`ErrorCode` = 404')->Link());
-    }
+    } 
 
 
     /**
@@ -78,7 +96,6 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      * Only filled if the result does not point to one product only
      */
     public function getProducts() {
-        $this->products = $this->getPartiallyMatchingProducts();
         return $this->products;
     }
     
@@ -92,7 +109,7 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      * @since 30.7.2011
      */
     public function getDeeplink() {
-        if (isset ($this->urlParams['Action']) && isset ($this->urlParams['ID'])) {
+        if (isset ($this->urlParams['Action'])) {
             $filter = sprintf("`isActive` = 1 AND `productAttribute` = '%s'", $this->urlParams['Action']);
             $deeplinkObject = DataObject::get_one('SilvercartDeeplink', $filter);
             return $deeplinkObject;
@@ -131,10 +148,37 @@ class SilvercartDeeplinkPage_Controller extends SilvercartPage_Controller {
      */
     public function getPartiallyMatchingProducts() {
         if ($this->getDeeplink()) {
+            $SQL_start = 1;
+            
+            if (isset ($_GET['start'])) {
+                $SQL_start = (int)$_GET['start'];
+            }
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
             $likeClause = sprintf("`%s` LIKE '%%%s%%'", $this->urlParams['Action'], $this->urlParams['ID']);
-            $products = SilvercartProduct::get($likeClause);
+            $products = SilvercartProduct::get($likeClause, null, null, "$SQL_start,$productsPerPage");
             return $products;
         }
         return false;
+    }
+    
+    /**
+     * Returns the relative path for the current view with identifier sections.
+     * 
+     * @return string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 1.8.2011
+     */
+    protected function getRelativeDeepLinkForPartiallyMatchingProducts() {
+        $link = '';
+        
+        if (isset($this->urlParams['Action'])) {
+            $link .= $this->urlParams['Action'].'/';
+        }
+        if (isset($this->urlParams['ID'])) {
+            $link .= $this->urlParams['ID'].'/';
+        }
+        
+        return $link;
     }
 }

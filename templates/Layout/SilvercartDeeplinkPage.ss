@@ -4,6 +4,7 @@
             <h2><% _t('SilvercartSearchResultsPage.TITLE') %></h2>
 
             <% if getProducts %>
+                <% include SilvercartProductPagination %>
                 $RenderProductGroupPageGroupView
                 <% include SilvercartProductPagination %>
             <% end_if %>

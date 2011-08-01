@@ -358,7 +358,8 @@ class SilvercartProduct extends DataObject {
                 'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
                 'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
                 'StockQuantity'                     => _t('SilvercartProduct.STOCKQUANTITY', 'stock quantity'),
-                'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?')
+                'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
+                'ID'                                => 'ID' //needed for the deeplink feature
             )
         );
 
