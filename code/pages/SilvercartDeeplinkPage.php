@@ -29,6 +29,8 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * @var DataObjectSet the products that match the attribute/value in the url params 
      */
     protected $products = null;
+    
+    protected $SQL_start = 0;
 
     /**
      * controller method called before anything else happens
@@ -39,6 +41,9 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * @since 1.8.2011
      */
     public function init() {
+        if (isset($_GET['start'])) {
+            $this->SQL_start = (int)$_GET['start'];
+        }
         $formActionLink  = $this->getRelativeDeepLinkForPartiallyMatchingProducts();
         $formActionLink .= 'customHtmlFormSubmit';
         
@@ -48,7 +53,8 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
             $productIdx = 0;
             $productAddCartForm = $this->getCartFormName();
             foreach ($this->products as $product) {
-                $addCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $this->Link().$this->getRelativeDeepLinkForPartiallyMatchingProducts()), array('submitAction' => $formActionLink));
+                $backLink = $this->Link().$this->getRelativeDeepLinkForPartiallyMatchingProducts()."?start=".$this->SQL_start;
+                $addCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backLink), array('submitAction' => $formActionLink));
                 $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $addCartForm);
                 $product->productAddCartForm = $this->InsertCustomHtmlForm(
                     'ProductAddCartForm' . $productIdx,
@@ -76,7 +82,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     public function handleAction($request) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
-                return Director::redirect($this->getExactlyMatchingProduct()->Link());
+                return Director::redirect($this->getExactlyMatchingProduct()->Link(), 301);
             } elseif ($this->getPartiallyMatchingProducts()) {
                 
                 if ($this->urlParams['OtherID'] == 'customHtmlFormSubmit') {
@@ -84,7 +90,10 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
                 }
                 
                 return $this->renderWith(array('SilvercartDeeplinkPage', 'Page'));
-            }
+            } 
+        } elseif ($this->urlParams['Action'] == 'customHtmlFormSubmit') {
+            $this->customHtmlFormSubmit($request);
+            return $this->renderWith(array('SilvercartSearchResultsPage', 'Page'));
         }
         
         return Director::redirect(DataObject::get_one('ErrorPage', '`ErrorCode` = 404')->Link());
@@ -148,7 +157,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      */
     public function getPartiallyMatchingProducts() {
         if ($this->getDeeplink()) {
-            $SQL_start = 1;
+            $SQL_start = 0;
             
             if (isset ($_GET['start'])) {
                 $SQL_start = (int)$_GET['start'];
