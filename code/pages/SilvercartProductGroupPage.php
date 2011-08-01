@@ -496,6 +496,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     protected $listFilters = array();
     
+    protected $SQL_start = 0;
+    
     /**
      * Contains the output of all WidgetSets of the parent page
      *
@@ -515,6 +517,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
+        if (isset($_GET['start'])) {
+            $this->SQL_start = (int)$_GET['start'];
+        }
         
         $parentPage = $this->getParent();
 
@@ -550,7 +555,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             if ($products) {
                 $productAddCartForm = $this->getCartFormName();
                 foreach ($products as $product) {
-                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                    $backlink = $this->Link()."?start=".$this->SQL_start;
+                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
                     $product->setField('Thumbnail', $product->image()->SetWidth(150));
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,

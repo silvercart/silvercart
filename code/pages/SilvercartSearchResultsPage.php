@@ -105,6 +105,13 @@ class SilvercartSearchResultsPage extends Page {
  * @since 23.10.2010
  */
 class SilvercartSearchResultsPage_Controller extends Page_Controller {
+    
+    /**
+     * pagination start value
+     * 
+     * @var integer 
+     */
+    protected $SQL_start = 0;
 
     protected $searchResultProducts;
 
@@ -118,6 +125,9 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
+        if (isset($_GET['start'])) {
+            $this->SQL_start = (int)$_GET['start'];
+        }
         $searchQuery            = Convert::raw2sql($this->getSearchQuery());
         $searchResultProducts   = $this->searchResultProducts;
 
@@ -223,7 +233,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         if ($searchResultProducts) {
             $productAddCartForm = $this->getCartFormName();
             foreach ($searchResultProducts as $product) {
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                $backlink = $this->Link()."?start=".  $this->SQL_start;
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
                 $product->productAddCartForm = $this->InsertCustomHtmlForm(
                     'ProductAddCartForm' . $productIdx,
                     array(
