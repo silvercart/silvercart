@@ -43,7 +43,7 @@ class SilvercartProductExporter extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    protected $obj;
+    protected $objName;
     
     /**
      * Contains the path to the export directory.
@@ -128,7 +128,7 @@ class SilvercartProductExporter extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         
-        $this->obj              = 'SilvercartProduct';
+        $this->objName          = 'SilvercartProduct';
         $this->exportDirectory  = Director::baseFolder().'/silvercart/product_exports/';
     }
     
@@ -350,23 +350,32 @@ class SilvercartProductExporter extends DataObject {
      */
     public function doExport($exportTimeStamp = null) {
         $fileName = $this->name.'.csv';
-        $products = DataObject::get(
-            $this->obj,
+        $records  = DB::query(
+            sprintf("
+                SELECT
+                    *
+                FROM
+                    %s
+                WHERE
+                    %s
+            ",
+            $this->objName,
             $this->getSqlFilter()
+            )
         );
         
-        if ($fp = fopen($this->exportDirectory.$fileName, 'w')) {
-            
-            if ($this->activateCsvHeaders) {
-                fwrite($fp, $this->getHeaderRow());
-            }
-            
-            if ($products) {
-                foreach ($products as $product) {
-                    fwrite($fp, $this->getCsvRowFromProduct($product));
+        if ($records) {
+            if ($fp = fopen($this->exportDirectory.$fileName, 'w')) {
+
+                if ($this->activateCsvHeaders) {
+                    fwrite($fp, $this->getHeaderRow());
                 }
+
+                foreach ($records as $record) {
+                    fwrite($fp, $this->getCsvRowFromRecord($record));
+                }
+                fclose($fp);
             }
-            fclose($fp);
         }
         
         if (!$exportTimeStamp) {
@@ -416,7 +425,7 @@ class SilvercartProductExporter extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.07.2011
      */
-    protected function getCsvRowFromProduct($productObj) {
+    protected function getCsvRowFromRecord($record) {
         $includeRow     = true;
         $rowElements    = array();
         $row            = '';
@@ -434,8 +443,7 @@ class SilvercartProductExporter extends DataObject {
                 // use eval instead of generic static method call to keep
                 // compatible with PHP version < 5.3
                 // eval is dirty, but it works for older versions...
-                //$includeRow = $callbackClass::includeRow($productObj);
-                $includeRow = eval('return ' . $callbackClass . '::includeRow($productObj);');
+                $includeRow = eval('return ' . $callbackClass . '::includeRow($record);');
             }
         }
         
@@ -444,7 +452,7 @@ class SilvercartProductExporter extends DataObject {
                 if ($exportField->isCallbackField) {
                     $fieldValue = '';
                 } else {
-                    $fieldValue = $productObj->getField($exportField->name);
+                    $fieldValue = $record[$exportField->name];
                 }
 
                 // If a callback class and method exist for this exporter and field
