@@ -42,51 +42,19 @@
  * @since 07.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProductExporter_Kelkoo {
+class SilvercartProductExporter_Example {
 
     /**
      * Determines wether the given product should be included as CSV row.
      * 
-     * @param SilvercartProduct $product The SilvercartProduct object. You can access every attribute and relation.
+     * @param array $record An array with raw product data.
      * 
      * @return Boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    public static function includeRow($product) {
+    public static function includeRow($record) {
         return true;
-    }
-    
-    /**
-     * Treats the field "Title".
-     * 
-     * @param SilvercartProduct $product    The SilvercartProduct object. You can access every attribute and relation.
-     * @param mixed             $fieldValue The original value of the field.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
-     */
-    public static function Title($product, $fieldValue) {
-        $fieldValue = $fieldValue;
-        
-        return $fieldValue;
-    }
-    
-    /**
-     * Treats the callback field "CallbackField2".
-     * 
-     * @param SilvercartProduct $product    The SilvercartProduct object. You can access every attribute and relation.
-     * @param mixed             $fieldValue The original value of the field.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
-     */
-    public static function MyCustomPrice($product, $fieldValue) {
-        return $product->PurchasePrice->Nice();
     }
 }
