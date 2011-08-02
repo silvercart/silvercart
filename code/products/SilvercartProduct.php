@@ -98,6 +98,15 @@ class SilvercartProduct extends DataObject {
      * @since 02.02.2011
      */
     protected static $requiredAttributes = array();
+    
+    /**
+     * Wee have to save the deeplink value this way because the framework will
+     * not show a DataObjects ID.
+     * 
+     * @var mixed
+     * @author Roland Lehmann <rlehmann@pixeltricks.de> 
+     */
+    protected $deeplinkValue = null;
 
     /**
      * 1:n relations
@@ -687,12 +696,31 @@ class SilvercartProduct extends DataObject {
         // remove GoogleSitemap Priority again
         if ($fields->dataFieldByName('Priority')) {
             $priority = clone $fields->dataFieldByName('Priority');
-        
-            //$googleSitemapIntro = clone $fields->fieldByName('GoogleSitemapIntro');
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
             $fields->removeByName('Content');
             $fields->addFieldToTab('Root.SEO', $priority);
+        }
+        //add a tab for deeplinks
+        $fields->findOrMakeTab('Root.Deeplinks');
+        $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
+        if ($this->canView()) {
+            $deeplinks = DataObject::get('SilvercartDeeplink', '`isActive` = 1');
+            if ($deeplinks) {
+                $idx = 1;
+                foreach ($deeplinks as $deeplink) {
+                    if (isset($deeplink->productAttribute)) {
+                        $attribute = $deeplink->productAttribute;
+                        if (isset($this->{$attribute})) {
+                            $this->deeplinkValue = (string)$this->{$attribute};
+                            $productDeeplink = $deeplink->getDeeplinkUrl() . $this->deeplinkValue;
+                            $fieldName = sprintf(_t('SilvercartProduct.DEEPLINK_FOR'), $attribute);
+                            $fields->addFieldToTab('Root.Deeplinks', new ReadonlyField($attribute.$idx, $fieldName, $productDeeplink));
+                            $idx++;
+                        }
+                    }
+                }
+            }
         }
         return $fields;
     }
