@@ -47,6 +47,16 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
     protected $exporterObj;
     
     /**
+     * Contains the name of the field relation.
+     * 
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.08.2011
+     */
+    protected $fieldRelationName;
+    
+    /**
 	 * Creates a new SilvercartMultiSelectAndOrder field.
 	 * 
 	 * @param string       $name   The field name
@@ -61,14 +71,19 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
 	 */
-    function __construct($exporterId, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
+    function __construct($id, $className, $fieldRelationName, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
         parent::__construct($name, $title, $source, $value, $form);
         
-        if (!empty($exporterId)) {
+        if (!empty($id) &&
+            !empty($className)) {
             $this->exporterObj = DataObject::get_by_id(
-                'SilvercartProductExporter',
-                $exporterId
+                $className,
+                $id
             );
+        }
+
+        if (!empty($fieldRelationName)) {
+            $this->fieldRelationName = $fieldRelationName;
         }
     }
     
@@ -81,6 +96,7 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
      * @since 06.07.2011
      */
     public function FieldHolder() {
+        $fieldRelationName  = $this->fieldRelationName;
         $source             = $this->getSource();
         $availableItemIdx   = 0;
         $selectedItemIdx    = 0;
@@ -102,7 +118,7 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
         // Fill available field list
         // --------------------------------------------------------------------
         foreach ($source as $key => $value) {
-            if (!$this->exporterObj->SilvercartProductExporterFields()->find('name', $value)) {
+            if (!$this->exporterObj->$fieldRelationName()->find('name', $value)) {
                 $availableItems['item_'.$availableItemIdx] = new ArrayData(
                     array(
                         'value'             => $value,
@@ -116,7 +132,7 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
         // --------------------------------------------------------------------
         // Fill selected field list
         // --------------------------------------------------------------------
-        $selectedProductExporterFields = $this->exporterObj->SilvercartProductExporterFields();
+        $selectedProductExporterFields = $this->exporterObj->$fieldRelationName();
         $selectedProductExporterFields->sort('sortOrder', 'ASC');
         
         foreach ($selectedProductExporterFields as $exporterField) {

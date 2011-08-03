@@ -189,17 +189,17 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
     }
 
     /**
-         * We save the CSV-Header definitions here.
-         *
-         * @param array          $data    The sent data
-         * @param Form           $form    The current form object
-         * @param SS_HTTPRequest $request The HTTP request
+     * We save the CSV-Header definitions here.
+     *
+     * @param array          $data    The sent data
+     * @param Form           $form    The current form object
+     * @param SS_HTTPRequest $request The HTTP request
      * 
-         * @return mixed
+     * @return mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
-         */
+     */
         public function doSave($data, $form, $request) {
 
         $exporterObj = DataObject::get_by_id(
