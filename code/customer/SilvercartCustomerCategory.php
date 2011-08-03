@@ -39,7 +39,6 @@ class SilvercartCustomerCategory extends DataObject {
         'Code' => 'VarChar'
     );
     public static $has_many = array(
-        'prices' => 'SilvercartPrice',
         'customers' => 'Member'
     );
     public static $summary_fields = array(
