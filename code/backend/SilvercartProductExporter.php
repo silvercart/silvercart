@@ -466,7 +466,7 @@ class SilvercartProductExporter extends DataObject {
                         // compatible with PHP version < 5.3
                         // eval is dirty, but it works for older versions...
                         //$fieldValue = $callbackClass::$callbackMethod($productObj, $fieldValue);
-                        $fieldValue = eval('return ' . $callbackClass . '::' . $callbackMethod . '($productObj, $fieldValue);');
+                        $fieldValue = eval('return ' . $callbackClass . '::' . $callbackMethod . '($record, $fieldValue);');
                     }
                 }
 
