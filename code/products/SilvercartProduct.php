@@ -726,22 +726,30 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
-     * Getter for aricles price
+     * Getter for product price
+     * May be decorated by the module silvercart_pricerange
+     * 
+     * @param integer $quantity shopping cart position quantity; value only used
+     *                          if the module silvercart_pricerange is installed 
      *
      * @return Money price dependent on customer class and configuration
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
-    public function getPrice() {
-        $pricetype = SilvercartConfig::Pricetype();
-        if ($pricetype =="net") {
-            $price = $this->PriceNet;
-        } elseif ($pricetype == "gross") {
-            $price = $this->PriceGross;
-        } else {
-            $price = $this->PriceGross;
+    public function getPrice($quantity = 1) {
+        $overwritten = $this->extend('updatePrice', $quantity);
+        if (empty ($overwritten) || $overwritten[0] === false) {
+           $pricetype = SilvercartConfig::Pricetype();
+            if ($pricetype =="net") {
+                $price = $this->PriceNet;
+            } elseif ($pricetype == "gross") {
+                $price = $this->PriceGross;
+            } else {
+                $price = $this->PriceGross;
+            }
+            return $price; 
         }
-        return $price;
+        return $overwritten[0];
     }
 
     /**

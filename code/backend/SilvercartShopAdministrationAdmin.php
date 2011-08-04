@@ -60,7 +60,6 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         'SilvercartRegularCustomer',
         'SilvercartBusinessCustomer',
         'SilvercartAnonymousCustomer',
-        'SilvercartCustomerCategory',
     );
     
     /**

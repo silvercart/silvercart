@@ -640,11 +640,6 @@ $lang['de_DE']['SilvercartCountry']['TITLE_ZW'] = 'Simbabwe';
 
 $lang['de_DE']['SilvercartCustomerAdmin']['customers'] = 'Kunden';
 
-$lang['de_DE']['SilvercartCustomerCategory']['EXISTING_CUSTOMER'] = 'Bestandskunde';
-$lang['de_DE']['SilvercartCustomerCategory']['NEW_CUSTOMER'] = 'Neukunde';
-$lang['de_DE']['SilvercartCustomerCategory']['PLURALNAME'] = 'Kundengruppen';
-$lang['de_DE']['SilvercartCustomerCategory']['SINGULARNAME'] = 'Kundengruppe';
-
 $lang['de_DE']['SilvercartCustomerRole']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartCustomerRole']['GROSS'] = 'Brutto';
 $lang['de_DE']['SilvercartCustomerRole']['NET'] = 'Netto';

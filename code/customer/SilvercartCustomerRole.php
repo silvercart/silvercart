@@ -58,7 +58,6 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'CustomerNumber'                    => 'VarChar(128)',
             ),
             'has_one' => array(
-                'SilvercartCustomerCategory'    => 'SilvercartCustomerCategory',
                 'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
                 'SilvercartInvoiceAddress'      => 'SilvercartAddress',
                 'SilvercartShippingAddress'     => 'SilvercartAddress'
@@ -95,7 +94,6 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
                 'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
                 'CustomerNumber'                    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
-                'SilvercartCustomerCategory'        => _t('SilvercartCustomerCategory.SINGULARNAME', 'customer category'),
                 'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),

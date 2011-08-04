@@ -92,22 +92,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $B2C_optinGroup->write();
         }
 
-        //create customer categories existingCustomer and newCustomer
-        $newCustomer = DataObject::get_one('SilvercartCustomerCategory', "`Code` = 'newCustomer'");
-        if (!$newCustomer) {
-            $newCustomer = new SilvercartCustomerCategory();
-            $newCustomer->Title = _t('SilvercartCustomerCategory.NEW_CUSTOMER', 'new customer');
-            $newCustomer->Code = 'newCustomer';
-            $newCustomer->write();
-        }
-        $existingCustomer = DataObject::get_one('SilvercartCustomerCategory', "`Code` = 'existingCustomer'");
-        if (!$existingCustomer) {
-            $existingCustomer = new SilvercartCustomerCategory();
-            $existingCustomer->Title = _t('SilvercartCustomerCategory.EXISTING_CUSTOMER', 'existing customer');
-            $existingCustomer->Code = 'existingCustomer';
-            $existingCustomer->write();
-        }
-
         // create a SilvercartConfig if not exist
         if (!DataObject::get_one('SilvercartConfig')) {
             $silvercartConfig = new SilvercartConfig();
