@@ -115,13 +115,13 @@ class SilvercartProductExport extends ScheduledTask {
     /**
      * A function for making time periods readable
      * 
-     * @param       int     number of seconds elapsed
-     * @param       string  which time periods to display
-     * @param       bool    whether to show zero time periods
+     * @param int    number of seconds elapsed
+     * @param string which time periods to display
+     * @param bool   whether to show zero time periods
      * 
-     * @author      Aidan Lister <aidan@php.net>
-     * @version     2.0.1
-     * @link        http://aidanlister.com/2004/04/making-time-periods-readable/
+     * @author Aidan Lister <aidan@php.net>
+     * @version 2.0.1
+     * @link http://aidanlister.com/2004/04/making-time-periods-readable/
      */
     protected function time_duration($seconds, $use = null, $zeros = false) {
         // Define time periods
