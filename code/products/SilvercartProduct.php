@@ -727,16 +727,14 @@ class SilvercartProduct extends DataObject {
 
     /**
      * Getter for product price
-     * May be decorated by the module silvercart_pricerange
-     * 
-     * @param integer $quantity shopping cart position quantity; value only used
-     *                          if the module silvercart_pricerange is installed 
+     * May be decorated by the module silvercart_graduatedprices
      *
      * @return Money price dependent on customer class and configuration
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
-    public function getPrice($quantity = 1) {
+    public function getPrice() {
         $overwritten = $this->extend('updatePrice', $quantity);
         if (empty ($overwritten) || $overwritten[0] === false) {
            $pricetype = SilvercartConfig::Pricetype();
