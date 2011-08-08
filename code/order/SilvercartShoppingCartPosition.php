@@ -63,9 +63,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'Quantity'                          => 'Int',
-        'ShowQuantityAdjustedMessage'       => 'Boolean(0)',
-        'ShowRemainingQuantityAddedMessage' => 'Boolean(0)'
+        'Quantity' => 'Int'
         
     );
     /**
@@ -239,29 +237,23 @@ class SilvercartShoppingCartPosition extends DataObject {
         return true;
     }
     
+   
+    
     /**
-     * Returns messages determined by tokens of $this.
-     * The messages are i18n.
-     * The message gets only shown once because this getter resets the tokens.
+     * returns a string with notices
      * 
-     * @return string the messages determined by tokens
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.7.2011
      */
-    public function getShoppingCartPositionMessage() {
-        $text = "";
-        
-        if ($this->ShowQuantityAdjustedMessage) {
-            $text .= _t('SilvercartShoppingCartPosition.QUANTITY_ADJUSTED_MESSAGE') . "<br />";
+    public function getShoppingCartPositionNotices() {
+        $notices = Session::get("position".$this->ID);
+        if (array_key_exists('codes', $notices)) {
+            $text = "";
+            foreach ($notices['codes'] as $code) {
+                $text .= SilvercartShoppingCartPositionNotice::getNoticeText($code) . "<br />";
+            }
+            SilvercartShoppingCartPositionNotice::unsetNotices($this->ID);
+            return $text;
         }
-        if ($this->ShowRemainingQuantityAddedMessage) {
-            $text .= _t('SilvercartShoppingCartPosition.REMAINING_QUANTITY_ADDED_MESSAGE') . "<br />";
-        }
-        
-        $this->resetMessageTokens();
-        
-        return $text;
+        return false;
     }
 
     /**
@@ -281,28 +273,15 @@ class SilvercartShoppingCartPosition extends DataObject {
                 if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
                     if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
                         $this->Quantity = $this->SilvercartProduct()->StockQuantity;
-                        $this->ShowQuantityAdjustedMessage = true;
                         $this->write();
+                        SilvercartShoppingCartPositionNotice::setNotice($this->ID, "adjusted");
                     }
                 }
             }
         }
     }
     
-    /**
-     * A position may have feedback messages to the customer which are determined
-     * by tokens.
-     * 
-     * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.7.2011
-     */
-    public function resetMessageTokens() {
-        $this->ShowQuantityAdjustedMessage = false;
-        $this->ShowRemainingQuantityAddedMessage = false;
-        $this->write();
-    }
+
     
     /**
      * Does this position have stock management message tokens set?
@@ -312,8 +291,8 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.7.2011
      */
-    public function hasMessage() {
-        if ($this->ShowQuantityAdjustedMessage || $this->ShowRemainingQuantityAddedMessage) {
+    public function hasNotice() {
+        if (Session::get("position".$this->ID)) {
             return true;
         }
         return false;

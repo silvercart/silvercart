@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ * A notice is a frontend message
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH

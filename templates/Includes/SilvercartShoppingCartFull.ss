@@ -85,11 +85,11 @@
                         <% end_if %>
                     </tr>
                     
-                    <% if hasMessage %>
+                    <% if hasNotice %>
                     <tr>
                         <td colspan="<% if Top.EditableShoppingCart %>9<% else %>6<% end_if %>">
                             <p class="silvercart-message highlighted info16">
-                                $getShoppingCartPositionMessage
+                                $getShoppingCartPositionNotices
                             </p>
                         </td>
                     </tr>
