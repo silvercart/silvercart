@@ -10,7 +10,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
-    
+
     /**
      * Holds an array with possible notices that are selected with a $code
      * A notice can have a type: hint, error, warning
@@ -34,25 +34,31 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
             )
         );
         if (array_key_exists($code, $notices)) {
-            return $notices[$code];
+            return $notices[$code]['text'];
         }
-        return false;
-        
+        return false;   
     }
     
     /**
-     * Saves a notice for a position to the session
+     * adds a notice to a position
+     * 
+     * @return void
+     * 
+     * @param integer $positionID object id of the position
+     * @param string  $code       message identifier 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 7.8.2011
      */
     public static function setNotice($positionID, $code) {
         $notice = array(
-            'positionID'  => $positionID,
             'codes'       => array($code)
         );
         //merge existing notices for the position
         if (Session::get("position".$positionID)) {
             $existingPositionCodes = Session::get("position".$positionID);
             $codes = array_merge($existingPositionCodes['codes'], $notice['codes']);
-            $notice['codes'] = $codes;
+            $notice['codes'] = array_unique($codes);
         }
         Session::set("position".$positionID, $notice);
         Session::save();
@@ -74,6 +80,7 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
         if (array_key_exists('codes', $notices)) {
             unset ($notices[$code]);
             Session::set("position".$positionID, $notices);
+            Session::save();
             return true;
         }
         return false;

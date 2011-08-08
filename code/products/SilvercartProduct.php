@@ -878,7 +878,8 @@ class SilvercartProduct extends DataObject {
         } else {
             if ($this->StockQuantity > 0) {
                 $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
-                $shoppingCartPosition->ShowRemainingQuantityAddedMessage = true;  
+                $shoppingCartPosition->write(); //we have to write because we need the ID
+                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");  
             } else {
                 return false;
             }
