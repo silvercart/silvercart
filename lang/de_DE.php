@@ -32,6 +32,12 @@ if (array_key_exists('de_DE', $lang) && is_array($lang['de_DE'])) {
 } else {
     $lang['de_DE'] = $lang['en_US'];
 }
+if (file_exists(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php')) {
+    require_once(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php');
+}
+
+$lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
+$lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
 
 $lang['de_DE']['Silvercart']['DATE'] = 'Datum';
 $lang['de_DE']['Silvercart']['DAY'] = 'Tag';
@@ -115,6 +121,15 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE'] = 'verfügbar
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'nicht verfügbar';
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'verfügbar in %s %sn';
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'verfügbar in %s bis %s %sn';
+
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL1']    = 'Stufe 1';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL2']    = 'Stufe 2';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL3']    = 'Stufe 3';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL4']    = 'Stufe 4';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL5']    = 'Stufe 5';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Stufe 6';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google Taxonomie';
+$lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google Taxonomie';
 
 $lang['de_DE']['SilvercartNewsletter']['SUBSCRIBED']                        = 'Sie haben den Newsletter abonniert';
 $lang['de_DE']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'Sie haben den Newsletter nicht abonniert';
@@ -956,6 +971,11 @@ $lang['de_DE']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'zahlungsbenach
 
 $lang['de_DE']['SilvercartPrice']['PLURALNAME'] = 'Preise';
 $lang['de_DE']['SilvercartPrice']['SINGULARNAME'] = 'Preis';
+
+$lang['de_DE']['SilvercartProductCondition']['PLEASECHOOSE']    = 'Bitte wählen';
+$lang['de_DE']['SilvercartProductCondition']['PLURALNAME']      = 'Artikel Zustände';
+$lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']    = 'Artikel Zustand';
+$lang['de_DE']['SilvercartProductCondition']['TITLE']           = 'Zustand';
 
 $lang['de_DE']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Suchen';
 

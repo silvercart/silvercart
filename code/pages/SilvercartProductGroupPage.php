@@ -97,7 +97,8 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public static $has_one = array(
-        'GroupPicture' => 'Image'
+        'GroupPicture'                      => 'Image',
+        'SilvercartGoogleMerchantTaxonomy'  => 'SilvercartGoogleMerchantTaxonomy'
     );
 
     /**
@@ -287,8 +288,26 @@ class SilvercartProductGroupPage extends Page {
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
         $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField, 'IdentifierCode');
+        
+        // Google taxonomy breadcrumb field
+        $cachekey       = SilvercartGoogleMerchantTaxonomy::$cacheKey;
+        $cache          = SS_Cache::factory($cachekey);
+        $breadcrumbList = $cache->load($cachekey);
 
-
+        if ($breadcrumbList) {
+            $breadcrumbList = unserialize($breadcrumbList);
+        } else {
+            $breadcrumbList = DataObject::get(
+                'SilvercartGoogleMerchantTaxonomy'
+            )->map('ID', 'BreadCrumb');
+            
+            $cache->save(serialize($breadcrumbList));
+        }
+        $fields->addFieldToTab('Root.Content.Metadata', new DropdownField(
+            'SilvercartGoogleMerchantTaxonomyID',
+            _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME'),
+            $breadcrumbList
+        ));
 
         $this->extend('extendCMSFields', $fields);
         return $fields;

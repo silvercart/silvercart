@@ -60,6 +60,9 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         'SilvercartRegularCustomer',
         'SilvercartBusinessCustomer',
         'SilvercartAnonymousCustomer',
+        'SilvercartGoogleMerchantTaxonomy' => array(
+            'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
+        )
     );
     
     /**
@@ -72,8 +75,9 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public static $model_importers = array(
-        'SilvercartProduct'             => 'SilvercartProductCsvBulkLoader',
-        'SilvercartManufacturer'        => 'CsvBulkLoader'
+        'SilvercartProduct'                 => 'SilvercartProductCsvBulkLoader',
+        'SilvercartManufacturer'            => 'CsvBulkLoader',
+        'SilvercartGoogleMerchantTaxonomy'  => 'CsvBulkLoader'
     );
     
     /**
@@ -95,6 +99,9 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      */
     public function __construct() {
         self::$menu_title = _t('SilvercartShopAdministrationAdmin.TITLE');
+        
+        self::$managed_models['SilvercartProductExporter']['title']         = _t('SilvercartProductExport.SINGULAR_NAME');
+        self::$managed_models['SilvercartGoogleMerchantTaxonomy']['title']  = _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME');
         
         parent::__construct();
     }
@@ -562,4 +569,20 @@ class SilvercartProductExportAdmin_RecordController extends ModelAdmin_RecordCon
             $itemToMove->write();
         }
     }
+}
+
+/**
+ * Modifies the model admin search panel.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 08.08.2011
+ * @copyright 2011 pixeltricks GmbH
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartGoogleMerchantTaxonomy_CollectionController extends ModelAdmin_CollectionController {
+    
+    public $showImportForm = true;
+
 }
