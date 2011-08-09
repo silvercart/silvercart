@@ -237,11 +237,13 @@ class SilvercartShoppingCartPosition extends DataObject {
         return true;
     }
     
-   
-    
     /**
-     * returns a string with notices
+     * returns a string with notices. Notices are seperated by <br />
      * 
+     * @return string|false
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 8.8.2011
      */
     public function getShoppingCartPositionNotices() {
         $notices = Session::get("position".$this->ID);
@@ -281,12 +283,10 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
     }
     
-
-    
     /**
-     * Does this position have stock management message tokens set?
+     * Is a notice set in the session?
      * 
-     * @return bool Are message tokens set? 
+     * @return bool 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.7.2011
