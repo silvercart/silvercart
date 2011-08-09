@@ -297,9 +297,16 @@ class SilvercartProductGroupPage extends Page {
         if ($breadcrumbList) {
             $breadcrumbList = unserialize($breadcrumbList);
         } else {
-            $breadcrumbList = DataObject::get(
+            $breadcrumbList         = array();
+            $googleMerchantTaxonomy = DataObject::get(
                 'SilvercartGoogleMerchantTaxonomy'
-            )->map('ID', 'BreadCrumb');
+            );
+            
+            if ($googleMerchantTaxonomy) {
+                $breadcrumbList = DataObject::get(
+                    'SilvercartGoogleMerchantTaxonomy'
+                )->map('ID', 'BreadCrumb');
+            }
             
             $cache->save(serialize($breadcrumbList));
         }
