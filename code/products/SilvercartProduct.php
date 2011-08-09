@@ -562,12 +562,19 @@ class SilvercartProduct extends DataObject {
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
         
+        $conditionMap   = array();
+        $conditions     = DataObject::get(
+            'SilvercartProductCondition'
+        );
+            
+        if ($conditions) {
+            $conditionMap = $conditions->map('ID', 'Title');
+        }
+        
         $conditionField = new DropdownField(
             'SilvercartProductConditionID',
             _t('SilvercartProductCondition.TITLE'),
-            DataObject::get(
-                'SilvercartProductCondition'
-            )->map('ID', 'Title'),
+            $conditionMap,
             $this->SilvercartProductConditionID,
             null,
             _t('SilvercartProductCondition.PLEASECHOOSE')
