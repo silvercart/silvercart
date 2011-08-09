@@ -56,6 +56,26 @@ class SilvercartProductExporter extends DataObject {
     protected $exportDirectory;
     
     /**
+     * Character to quote a text with special characters.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */    
+    protected $quoteCharacter = '"';
+    
+    /**
+     * Contains the objects we're operating on.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    protected $dataObjects = array();
+    
+    /**
      * singular name for backend
      *
      * @var string
@@ -74,6 +94,40 @@ class SilvercartProductExporter extends DataObject {
      * @since 05.07.2011
      */
     public static $plural_name = "Silvercart product exporters";
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.08.2011
+     */
+    public function singular_name() {
+        if (_t('SilvercartProductExport.SINGULARNAME')) {
+            return _t('SilvercartProductExport.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.08.2011 
+     */
+    public function plural_name() {
+        if (_t('SilvercartProductExport.PLURALNAME')) {
+            return _t('SilvercartProductExport.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }   
+    }
     
     /**
      * Attributes
@@ -464,11 +518,11 @@ class SilvercartProductExporter extends DataObject {
                         // compatible with PHP version < 5.3
                         // eval is dirty, but it works for older versions...
                         //$fieldValue = $callbackClass::$callbackMethod($productObj, $fieldValue);
-                        $fieldValue = eval('return ' . $callbackClass . '::' . $callbackMethod . '($productObj, $fieldValue);');
+                        $fieldValue = eval('return ' . $callbackClass . '::' . $callbackMethod . '($record, $fieldValue);');
                     }
                 }
 
-                $rowElements[]  = $fieldValue;
+                $rowElements[]  = $this->quoteValue($fieldValue);
             }
         }
         
@@ -524,5 +578,48 @@ class SilvercartProductExporter extends DataObject {
         }
         
         return $separator;
+    }
+    
+    /**
+     * Quote a field value according to the csv specifications.
+     *
+     * @return string
+     *
+     * @param mixed
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    protected function quoteValue($value) {
+        $value = str_replace(
+            $this->quoteCharacter,
+            $this->quoteCharacter.$this->quoteCharacter,
+            (string) $value
+        );
+        
+        $value = $this->quoteCharacter.$value.$this->quoteCharacter;
+        
+        return $value;
+    }
+    
+    /**
+     * Returns the DataObject for the current record
+     *
+     * @return DataObject
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    public function getDataObj($record) {
+        if (!array_key_exists('Record'.$record['ID'], $this->dataObjects)) {
+            $dataObject = DataObject::get_by_id(
+                $record['ClassName'],
+                $record['ID']
+            );
+
+            $this->dataObjects['Record'.$record['ID']] = $dataObject;
+        }
+        
+        return $this->dataObjects['Record'.$record['ID']];
     }
 }

@@ -33,6 +33,12 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
     $lang['en_GB'] = $lang['en_US'];
 }
 
+
+
+
+
+
+
 $lang['en_GB']['Silvercart']['DATE'] = 'Date';
 $lang['en_GB']['Silvercart']['DAY'] = 'day';
 $lang['en_GB']['Silvercart']['DAYS'] = 'days';
@@ -115,6 +121,15 @@ $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE'] = 'available'
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not available';
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
+
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL1']    = 'Level 1';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL2']    = 'Level 2';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL3']    = 'Level 3';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL4']    = 'Level 4';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL5']    = 'Level 5';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Level 6';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google taxonomy';
+$lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google taxonomy';
 
 $lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You are subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
@@ -955,6 +970,11 @@ $lang['en_GB']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'payment-notifi
 
 $lang['en_GB']['SilvercartPrice']['PLURALNAME'] = 'Prices';
 $lang['en_GB']['SilvercartPrice']['SINGULARNAME'] = 'Price';
+
+$lang['en_GB']['SilvercartProductCondition']['PLEASECHOOSE']    = 'Please choose';
+$lang['en_GB']['SilvercartProductCondition']['PLURALNAME']      = 'Product conditions';
+$lang['en_GB']['SilvercartProductCondition']['SINGULARNAME']    = 'Product condition';
+$lang['en_GB']['SilvercartProductCondition']['TITLE']           = 'Condition';
 
 $lang['en_GB']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 

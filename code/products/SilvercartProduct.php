@@ -123,6 +123,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'       => 'SilvercartProduct',
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
+        'SilvercartProductCondition'    => 'SilvercartProductCondition',
         /**
          * @deprecated HasOne relation Images is deprecated. HasMany relation SilvercartImages should be used instead.
          */
@@ -561,6 +562,26 @@ class SilvercartProduct extends DataObject {
         $fields->removeByName('PackagingTypeID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
         
+        $conditionMap   = array();
+        $conditions     = DataObject::get(
+            'SilvercartProductCondition'
+        );
+            
+        if ($conditions) {
+            $conditionMap = $conditions->map('ID', 'Title');
+        }
+        
+        $conditionField = new DropdownField(
+            'SilvercartProductConditionID',
+            _t('SilvercartProductCondition.TITLE'),
+            $conditionMap,
+            $this->SilvercartProductConditionID,
+            null,
+            _t('SilvercartProductCondition.PLEASECHOOSE')
+        );
+        
+        $fields->addFieldToTab('Root.Main', $conditionField);
+        
         // --------------------------------------------------------------------
         // Image tab
         // --------------------------------------------------------------------
@@ -773,6 +794,27 @@ class SilvercartProduct extends DataObject {
             'SilvercartManufacturer.Title' => new PartialMatchFilter('SilvercartManufacturer.Title')
         );
         return new SearchContext($this->class, $fields, $filters);
+    }
+    
+    /**
+     * Return the google taxonomy breadcrumb for the product group of this
+     * product.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    public function getGoogleTaxonomyCategory() {
+        $category = '';
+        
+        if ($this->SilvercartProductGroup() &&
+            $this->SilvercartProductGroup()->SilvercartGoogleMerchantTaxonomy()) {
+            
+            $category = $this->SilvercartProductGroup()->SilvercartGoogleMerchantTaxonomy()->BreadCrumb();
+        }
+        
+        return $category;
     }
 
     /**
