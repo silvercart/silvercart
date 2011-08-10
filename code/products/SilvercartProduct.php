@@ -26,13 +26,14 @@
  *
  * @package Silvercart
  * @subpackage Products
- * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>, <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct extends DataObject {
 
+    
     /**
      * singular name for backend
      *
@@ -78,7 +79,7 @@ class SilvercartProduct extends DataObject {
         'PriceGross'                  => 'Money', //price taxes including
         'PriceNet'                    => 'Money', //price taxes excluded
         'Weight'                      => 'Int', //unit is gramm
-        'isFreeOfCharge'              => 'Boolean', //evades the mechanism of preventing products without price to go into the frontend
+        'isFreeOfCharge'              => 'Boolean', //evades filter mechanism
         'EANCode'                     => 'VarChar(13)',
         'isActive'                    => 'Boolean(1)',
         'PurchaseMinDuration'         => 'Int',
