@@ -360,6 +360,7 @@ $lang['en_US']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Pricetype anonymous
 $lang['en_US']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Pricetype regular customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Pricetype business customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Pricetype administrators';
+$lang['en_US']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Price types';
 $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_US']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_US']['SilvercartConfig']['SEARCH'] = 'Search';
@@ -370,6 +371,7 @@ $lang['en_US']['SilvercartConfig']['STOCK'] = 'Stock';
 $lang['en_US']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_US']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_US']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum  order value';
+$lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimum order value';
 
 $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
@@ -975,6 +977,7 @@ $lang['en_US']['SilvercartProductCondition']['PLEASECHOOSE']    = 'Please choose
 $lang['en_US']['SilvercartProductCondition']['PLURALNAME']      = 'Product conditions';
 $lang['en_US']['SilvercartProductCondition']['SINGULARNAME']    = 'Product condition';
 $lang['en_US']['SilvercartProductCondition']['TITLE']           = 'Condition';
+$lang['en_US']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Use as default condition if not defined at the product';
 
 $lang['en_US']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 

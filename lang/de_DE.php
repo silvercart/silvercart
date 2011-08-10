@@ -360,6 +360,7 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Preistyp für anony
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Preistyp für Endkunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Preistyp für Geschäftskunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Preistyp für Administratoren';
+$lang['de_DE']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Preistypen';
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Produkte pro Seite';
 $lang['de_DE']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Produktgruppen pro Seite';
 $lang['de_DE']['SilvercartConfig']['SEARCH'] = 'Suche';
@@ -370,6 +371,7 @@ $lang['de_DE']['SilvercartConfig']['SHOW_CONFIG'] = 'Konfiguration anzeigen';
 $lang['de_DE']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Ist der Lagerbestand generell überbuchbar?';
 $lang['de_DE']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Apache Solr Suche benutzen';
 $lang['de_DE']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Mindestbestellwert aktivieren';
+$lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Mindestbestellwert';
 
 $lang['de_DE']['SilvercartContactFormPage']['PLURALNAME'] = 'Kontaktformularseiten';
 $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kontaktformular';
@@ -972,10 +974,11 @@ $lang['de_DE']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'zahlungsbenach
 $lang['de_DE']['SilvercartPrice']['PLURALNAME'] = 'Preise';
 $lang['de_DE']['SilvercartPrice']['SINGULARNAME'] = 'Preis';
 
-$lang['de_DE']['SilvercartProductCondition']['PLEASECHOOSE']    = 'Bitte wählen';
-$lang['de_DE']['SilvercartProductCondition']['PLURALNAME']      = 'Artikel Zustände';
-$lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']    = 'Artikel Zustand';
-$lang['de_DE']['SilvercartProductCondition']['TITLE']           = 'Zustand';
+$lang['de_DE']['SilvercartProductCondition']['PLEASECHOOSE']                = 'Bitte wählen';
+$lang['de_DE']['SilvercartProductCondition']['PLURALNAME']                  = 'Artikel Zustände';
+$lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']                = 'Artikel Zustand';
+$lang['de_DE']['SilvercartProductCondition']['TITLE']                       = 'Zustand';
+$lang['de_DE']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Als Vorgabe-Zustand verwenden, wenn nichts am Produkt definiert ist';
 
 $lang['de_DE']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Suchen';
 

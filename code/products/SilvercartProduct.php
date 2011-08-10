@@ -391,6 +391,32 @@ class SilvercartProduct extends DataObject {
         }
         return $isActiveString;
     }
+    
+    /**
+     * Returns the product condition. If none is defined at the product we
+     * try to get the standard product condition as defined in the
+     * SilvercartConfig.
+     *
+     * @return string
+     *
+     * @param 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.08.2011
+     */
+    public function getCondition() {
+        $condition = '';
+        
+        if ($this->SilvercartProductConditionID > 0) {
+            $condition = $this->SilvercartProductCondition()->Title;
+        } else {
+            if (SilvercartConfig::getStandardProductCondition()) {
+                $condition = SilvercartConfig::getStandardProductCondition()->Title;
+            }
+        }
+        
+        return $condition;
+    }
 
     /**
      * Getter similar to DataObject::get(); returns a DataObectSet of products filtered by the requirements in self::getRequiredAttributes();

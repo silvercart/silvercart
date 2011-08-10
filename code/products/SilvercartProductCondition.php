@@ -92,6 +92,28 @@ class SilvercartProductCondition extends DataObject {
     );
     
     /**
+     * Returns a string with HTML Code for a selector box that lets the user
+     * choose a product condition.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.08.2011
+     */
+    public static function getDropdownFieldOptionSet() {
+        $productConditionMap    = array();
+        $productConditions      = DataObject::get(
+            'SilvercartProductCondition'
+        );
+        
+        if ($productConditions) {
+            $productConditionMap = $productConditions->map('ID', 'Title');
+        }
+        
+        return $productConditionMap;
+    }
+    
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
