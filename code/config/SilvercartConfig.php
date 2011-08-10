@@ -745,7 +745,7 @@ class SilvercartConfig extends DataObject {
     public static function getStandardProductCondition() {
         $configObject = self::getConfig();
         
-        return $configObject->SilvercartProductCondition();
+        return $configObject->StandardProductCondition();
     }
     
     /**
