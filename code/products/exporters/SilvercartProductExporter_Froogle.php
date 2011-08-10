@@ -131,7 +131,7 @@ class SilvercartProductExporter_Froogle {
         $condition = '';
         
         if ($this->getDataObj($record)->SilvercartProductConditionID > 0) {
-            $condition = $this->getDataObj($record)->SilvercartProductCondition()->Title;
+            $condition = $this->getDataObj($record)->getCondition();
         }
         
         return $condition;

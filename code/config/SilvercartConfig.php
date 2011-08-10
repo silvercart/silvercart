@@ -104,7 +104,8 @@ class SilvercartConfig extends DataObject {
      * @since 27.06.2011
      */
     public static $has_one = array(
-        'SilvercartNoImage' => 'Image'
+        'SilvercartNoImage'         => 'Image',
+        'StandardProductCondition'  => 'SilvercartProductCondition'
     );
     
     /**
@@ -228,6 +229,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('enableSSL');
         $defaultCMSFields->removeByName('enableStockManagement');
         $defaultCMSFields->removeByName('isStockManagementOverbookable');
+        $defaultCMSFields->removeByName('StandardProductCondition');
 
         // Building the general tab structure
         $CMSFields = new FieldSet(
@@ -252,6 +254,7 @@ class SilvercartConfig extends DataObject {
 
         // General Form Fields right here
         $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
+        
         // General Main
         $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
         $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
@@ -263,17 +266,45 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
         
+        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
+        
+        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
+            'StandardProductConditionID',
+            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
+            $productConditionMap,
+            $this->StandardProductConditionID,
+            null,
+            _t('SilvercartProductCondition.PLEASECHOOSE')
+        ));
         
         /*
          * Root.General.Prices tab
          */
         $CMSFields->addFieldToTab('Root.General.Prices', new TextField('DefaultCurrency', _t('SilvercartConfig.DEFAULTCURRENCY')));
-        $CMSFields->addFieldToTab('Root.General.Prices', new LiteralField('MinimumOrderValueTitle', '<h3>Minimum Order Value</h3>'));
+        $CMSFields->addFieldToTab(
+            'Root.General.Prices',
+            new LiteralField(
+                'MinimumOrderValueTitle',
+                sprintf(
+                    '<h3>%s</h3>',
+                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
+                )
+            )
+        );
         $CMSFields->addFieldToTab('Root.General.Prices', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
         $CMSFields->addFieldToTab('Root.General.Prices', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
         
         // configure the fields for pricetype configuration
-        $CMSFields->addFieldToTab('Root.General.Prices', new LiteralField('PricetypesTitle', '<h3>Price Types</h3>'));
+        $CMSFields->addFieldToTab(
+            'Root.General.Prices',
+            new LiteralField(
+                'PricetypesTitle',
+                sprintf(
+                    '<h3>%s</h3>',
+                    _t('SilvercartConfig.PRICETYPES_HEADLINE')
+                )
+            )
+        );
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
             'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
@@ -701,6 +732,20 @@ class SilvercartConfig extends DataObject {
         $configObject = self::getConfig();
         
         return $configObject->SilvercartNoImage();
+    }
+    
+    /**
+     * Returns the standard product condition.
+     * 
+     * @return mixed SilvercartProductCondition|bool false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.08.2011
+     */
+    public static function getStandardProductCondition() {
+        $configObject = self::getConfig();
+        
+        return $configObject->SilvercartProductCondition();
     }
     
     /**

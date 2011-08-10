@@ -360,6 +360,7 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Price type for anon
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Price type for regular customers';
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Price type for business customers';
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Price type for administrators';
+$lang['en_GB']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Price types';
 $lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_GB']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_GB']['SilvercartConfig']['SEARCH'] = 'Search';
@@ -370,6 +371,7 @@ $lang['en_GB']['SilvercartConfig']['STOCK'] = 'Stock';
 $lang['en_GB']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_GB']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_GB']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum order value';
+$lang['en_GB']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimum order value';
 
 $lang['en_GB']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_GB']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
@@ -971,10 +973,11 @@ $lang['en_GB']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'payment-notifi
 $lang['en_GB']['SilvercartPrice']['PLURALNAME'] = 'Prices';
 $lang['en_GB']['SilvercartPrice']['SINGULARNAME'] = 'Price';
 
-$lang['en_GB']['SilvercartProductCondition']['PLEASECHOOSE']    = 'Please choose';
-$lang['en_GB']['SilvercartProductCondition']['PLURALNAME']      = 'Product conditions';
-$lang['en_GB']['SilvercartProductCondition']['SINGULARNAME']    = 'Product condition';
-$lang['en_GB']['SilvercartProductCondition']['TITLE']           = 'Condition';
+$lang['en_GB']['SilvercartProductCondition']['PLEASECHOOSE']                = 'Please choose';
+$lang['en_GB']['SilvercartProductCondition']['PLURALNAME']                  = 'Product conditions';
+$lang['en_GB']['SilvercartProductCondition']['SINGULARNAME']                = 'Product condition';
+$lang['en_GB']['SilvercartProductCondition']['TITLE']                       = 'Condition';
+$lang['en_GB']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Use as default condition if not defined at the product';
 
 $lang['en_GB']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
