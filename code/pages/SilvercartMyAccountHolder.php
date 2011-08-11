@@ -83,6 +83,10 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
      * @return void
      */
     public function init() {
+        if (SilvercartConfig::EnableSSL()) {
+            Director::forceSSL();
+        }
+        
         Session::clear("redirect"); //if customer has been to the checkout yet this is set to direct him back to the checkout after address editing
 
         parent::init();
