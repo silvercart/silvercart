@@ -105,6 +105,10 @@ class SilvercartRegistrationPage_Controller extends Page_Controller {
      * @return void
      */
     public function init() {
+        if (SilvercartConfig::EnableSSL()) {
+            Director::forceSSL();
+        }
+        
         $this->registerCustomHtmlForm('SilvercartRegisterRegularCustomerForm', new SilvercartRegisterRegularCustomerForm($this));
         parent::init();
     }
