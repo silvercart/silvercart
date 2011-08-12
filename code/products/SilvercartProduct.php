@@ -398,8 +398,6 @@ class SilvercartProduct extends DataObject {
      * SilvercartConfig.
      *
      * @return string
-     *
-     * @param 
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 10.08.2011
@@ -1430,8 +1428,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 20.07.2011
      */
-	public function columnsAvailable() {
-		$columnsAvailable = array(
+    public function columnsAvailable() {
+        $columnsAvailable = array(
             'ID'                                    => 'ID',
             'Title'                                 => 'Title',
             'ShortDescription'                      => 'ShortDescription',
@@ -1470,5 +1468,5 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $this->extend('updateColumnsAvailable', $columnsAvailable);
         
         return $columnsAvailable;
-	}
+    }
 }
