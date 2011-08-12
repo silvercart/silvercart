@@ -101,15 +101,17 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
         // --------------------------------------------------------------------
         // Fill available field list
         // --------------------------------------------------------------------
-        foreach ($source as $key => $value) {
-            if (!$this->exporterObj->SilvercartProductExporterFields()->find('name', $value)) {
-                $availableItems['item_'.$availableItemIdx] = new ArrayData(
-                    array(
-                        'value'             => $value,
-                        'label'             => $value
-                    )
-                );
-                $availableItemIdx++;
+        if (is_array($source)) {
+            foreach ($source as $key => $value) {
+                if (!$this->exporterObj->SilvercartProductExporterFields()->find('name', $value)) {
+                    $availableItems['item_'.$availableItemIdx] = new ArrayData(
+                        array(
+                            'value'             => $value,
+                            'label'             => $value
+                        )
+                    );
+                    $availableItemIdx++;
+                }
             }
         }
         
