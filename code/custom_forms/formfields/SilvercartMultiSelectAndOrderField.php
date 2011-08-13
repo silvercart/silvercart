@@ -28,8 +28,13 @@
  * related to the given DataObject via a relation ($relationName).
  * The selected items can be removed and ordered.
  * 
+ * You have to follow a naming convention for this field to work. If the
+ * DataObject is called "MyDataObject" the relation to it's fields has to be
+ * named "MyDataObjectFields"; the relation object's name must be
+ * "MyDataObjectField".
+ * 
  * For the actions (move up, move down, attribute, remove, etc) to work you
- * have to register this classes recordController:
+ * have to register this classes' recordController:
  * 
  * Register your record_controller in your ModelAdmin:
  * 
