@@ -4,7 +4,7 @@
     <div class="subcolumns">
         <div class="c45l">
             <p>
-                <% _t('SilvercartProductExportAdmin.NOT_ATTRIBUTED_FIELDS') %>:
+                <% _t('SilvercartMultiSelectAndOrderField.NOT_ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_available_items" class="silvercart-multiselectandorder-field-available-items" name="availableItems[]" multiple="multiple" size="20">
                 <% control available_items %>
@@ -13,15 +13,15 @@
             </select>
             <br />
             <p>
-                <% _t('SilvercartProductExportAdmin.ADD_CALLBACK_FIELD') %>:
+                <% _t('SilvercartMultiSelectAndOrderField.ADD_CALLBACK_FIELD') %>:
             </p>
             <div id="callbackField" class="field text ">
-                <label class="left" for="{$ID}_callbackField">Field name:</label>
+                <label class="left" for="{$ID}_callbackField"><% _t('SilvercartMultiSelectAndOrderField.FIELD_NAME') %>:</label>
                 <div class="middleColumn">
                     <input type="text" class="text" id="{$ID}_callbackField" name="callbackField" />
                 </div>
             </div>
-            <input id="{$ID}_action_doAddCallbackField" class="action_doAddCallbackField" type="submit" name="action_doAddCallbackField" value="<% _t('SilvercartProductExportAdmin.ADD_CALLBACK_FIELD') %>" />
+            <input id="{$ID}_action_doAddCallbackField" class="action_doAddCallbackField" type="submit" name="action_doAddCallbackField" value="<% _t('SilvercartMultiSelectAndOrderField.ADD_CALLBACK_FIELD') %>" />
         </div>
         <div class="c10l">
             <p>&nbsp;</p>
@@ -30,7 +30,7 @@
         </div>
         <div class="c45r">
             <p>
-                <% _t('SilvercartProductExportAdmin.ATTRIBUTED_FIELDS') %>:
+                <% _t('SilvercartMultiSelectAndOrderField.ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_selected_items" class="silvercart-multiselectandorder-field-selected-items" name="selectedItems[]" multiple="multiple" size="20">
                 <% control selected_items %>
@@ -39,8 +39,8 @@
             </select>
             
             <div class="silvercart-multiselectandorder-field-action-row">
-                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="<% _t('SilvercartProductExportAdmin.MOVE_UP') %>" />
-                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="<% _t('SilvercartProductExportAdmin.MOVE_DOWN') %>" />
+                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="<% _t('SilvercartMultiSelectAndOrderField.MOVE_UP') %>" />
+                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="<% _t('SilvercartMultiSelectAndOrderField.MOVE_DOWN') %>" />
             </div>
         </div>
     </div>

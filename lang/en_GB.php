@@ -131,6 +131,14 @@ $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Level 6';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google taxonomy';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google taxonomy';
 
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['FIELD_NAME']              = 'Field name';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               = 'Move down';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Move up';
+$lang['en_GB']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Not attributed fields';
+
 $lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You are subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletterPage']['TITLE']                     = 'Newsletter';
@@ -223,12 +231,6 @@ $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']       
 $lang['en_GB']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
 $lang['en_GB']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
 
-$lang['en_GB']['SilvercartProductExportAdmin']['ADD_CALLBACK_FIELD']                    = 'Add callback field';
-$lang['en_GB']['SilvercartProductExportAdmin']['ATTRIBUTED_FIELDS']                     = 'Attributed fields';
-$lang['en_GB']['SilvercartProductExportAdmin']['CSV_SEPARATOR_LABEL']                   = 'CSV separator';
-$lang['en_GB']['SilvercartProductExportAdmin']['MOVE_DOWN']                             = 'Move down';
-$lang['en_GB']['SilvercartProductExportAdmin']['MOVE_UP']                               = 'Move up';
-$lang['en_GB']['SilvercartProductExportAdmin']['NOT_ATTRIBUTED_FIELDS']                 = 'Not attributed fields';
 $lang['en_GB']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
 $lang['en_GB']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
 $lang['en_GB']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_PERIOD_LABEL']          = 'Update interval period';
