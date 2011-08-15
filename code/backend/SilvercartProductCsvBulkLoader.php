@@ -45,4 +45,47 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
 		
 		return $this->processAll($filepath);
 	}
+    
+    /**
+     * Process a record from the import file
+     *
+     * @return boolean
+     *
+     * @param array             $record    The record to process
+     * @param array             $columnMap The map of columns; NOT USED
+     * @param BulkLoader_Result &$results  Stores the results so they can be displayed for the user
+     * @param boolean           $preview   If set to true changes will not be written to the database
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.08.2011
+     */
+	protected function processRecord($record, $columnMap, &$results, $preview = false) {
+        $class       = $this->objectClass;
+        $existingObj = $this->findExistingObject($record, $columnMap);
+		$obj         = ($existingObj) ? $existingObj : new $class(); 
+        
+        foreach($record as $fieldName => $val) {
+			if($this->isNullValue($val, $fieldName)) {
+                continue;
+            }
+			if(strpos($fieldName, '->') !== FALSE) {
+				$funcName = substr($fieldName, 2);
+				$this->$funcName($obj, $val, $record);
+			} else if($obj->hasMethod("import{$fieldName}")) {
+				$obj->{"import{$fieldName}"}($val, $record);
+			} else {
+				$obj->update(array($fieldName => $val));
+			}
+            
+            $id     = ($preview) ? 0 : $obj->write();
+            $objID  = $obj->ID;
+		
+            $obj->destroy();
+            
+            unset($existingObj);
+            unset($obj);
+
+            return $objID;
+		}
+    }
 }
