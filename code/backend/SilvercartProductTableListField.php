@@ -51,6 +51,47 @@ class SilvercartProductTableListField extends TableListField {
     );
     
     /**
+     * The normal fieldListCsv gets overwritten by ModelAdmin, so we use our
+     * own definition.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.08.2011
+     */
+    protected $fieldListCsvSpecial = array(
+        'ID'                                    => 'ID',
+        'Title'                                 => 'Title',
+        'ShortDescription'                      => 'ShortDescription',
+        'LongDescription'                       => 'LongDescription',
+        'MetaDescription'                       => 'MetaDescription',
+        'MetaTitle'                             => 'MetaTitle',
+        'MetaKeywords'                          => 'MetaKeywords',
+        'ProductNumberShop'                     => 'ProductNumberShop',
+        'ProductNumberManufacturer'             => 'ProductNumberManufacturer',
+        'PurchasePriceAmount'                   => 'PurchasePriceAmount',
+        'PurchasePriceCurrency'                 => 'PurchasePriceCurrency',
+        'MSRPriceAmount'                        => 'MSRPriceAmount',
+        'MSRPriceCurrency'                      => 'MSRPriceCurrency',
+        'PriceGrossAmount'                      => 'PriceGrossAmount',
+        'PriceGrossCurrency'                    => 'PriceGrossCurrency',
+        'PriceNetAmount'                        => 'PriceNetAmount',
+        'PriceNetCurrency'                      => 'PriceNetCurrency',
+        'Weight'                                => 'Weight',
+        'isFreeOfCharge'                        => 'isFreeOfCharge',
+        'EANCode'                               => 'EANCode',
+        'isActive'                              => 'isActive',
+        'PurchaseMinDuration'                   => 'PurchaseMinDuration',
+        'PurchaseMaxDuration'                   => 'PurchaseMaxDuration',
+        'PurchaseTimeUnit'                      => 'PurchaseTimeUnit',
+        'StockQuantity'                         => 'StockQuantity',
+        'StockQuantityOverbookable'             => 'StockQuantityOverbookable',
+        'SilvercartProductGroupID'              => 'SilvercartProductGroupID',
+        'SilvercartManufacturerID'              => 'SilvercartManufacturerID',
+        'SilvercartAvailabilityStatusID'        => 'SilvercartAvailabilityStatusID',
+    );
+    
+    /**
      * We have to replace some field contents here to gain real CSV
      * compatibility.
      *
@@ -62,14 +103,13 @@ class SilvercartProductTableListField extends TableListField {
      * @since 25.07.2011
      */
     function generateExportFileData(&$numColumns, &$numRows) {
+        
         $separator = $this->csvSeparator;
-        $csvColumns = ($this->fieldListCsv) ? $this->fieldListCsv : $this->fieldList;
         $fileData = '';
         $columnData = array();
-        $fieldItems = new DataObjectSet();
 
         if($this->csvHasHeader) {
-            $fileData .= "\"" . implode("\"{$separator}\"", array_values($csvColumns)) . "\"";
+            $fileData .= "\"" . implode("\"{$separator}\"", array_values($this->fieldListCsvSpecial)) . "\"";
             $fileData .= "\n";
         }
 
@@ -79,57 +119,44 @@ class SilvercartProductTableListField extends TableListField {
             $dataQuery = $this->getCsvQuery();
             $items = $dataQuery->execute();
         }
-
+        
         // temporary override to adjust TableListField_Item behaviour
         $this->setFieldFormatting(array());
-        $this->fieldList = $csvColumns;
 
         if($items) {
             foreach($items as $item) {
+                
                 if(is_array($item)) {
                     $className = isset($item['RecordClassName']) ? $item['RecordClassName'] : $item['ClassName'];
                     $item = new $className($item);
                 }
-                $fieldItem = new $this->itemClass($item, $this);
 
-                $fields = $fieldItem->Fields(false);
+                $fields = $this->fieldListCsvSpecial;
                 $columnData = array();
-                if($fields) foreach($fields as $field) {
-                    $value = $field->Value;
 
-                    // TODO This should be replaced with casting
-                    if(array_key_exists($field->Name, $this->csvFieldFormatting)) {
-                        $format = str_replace('$value', "__VAL__", $this->csvFieldFormatting[$field->Name]);
-                        $format = preg_replace('/\$([A-Za-z0-9-_]+)/','$item->$1', $format);
-                        $format = str_replace('__VAL__', '$value', $format);
-                        eval('$value = "' . $format . '";');
-                    }
-
+                if($fields) foreach($fields as $fieldName => $fieldTitle) {
                     $value = str_replace(
                         array(
                             "\n",
+                            '"'
                         ),
                         array(
                             "<br />",
+                            '""'
                         ),
-                        $value
+                        $item->$fieldName
                     );
 
-                    $value = str_replace(array("\r", "\n"), "\n", $value);
-                    
-                    $tmpColumnData = '"' . str_replace('"', '""', $value) . '"';
+                    $tmpColumnData = '"' . $value . '"';
                     $columnData[] = $tmpColumnData;
                 }
-                $fileData .= implode($separator, $columnData);
-                $fileData .= "\n";
+
+                $fileData .= implode($separator, $columnData)."\n";
 
                 $item->destroy();
                 unset($item);
-                unset($fieldItem);
             }
 
-            $numColumns = count($columnData);
-            $numRows = $fieldItems->count();
             return $fileData;
         } else {
             return null;
