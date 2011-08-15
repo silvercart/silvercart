@@ -337,7 +337,8 @@ class SilvercartProductExporter extends DataObject {
         }
         
         $multiSelect2SideField = new SilvercartMultiSelectAndOrderField(
-            $this->ID,
+            $this,
+            'SilvercartProductExporterFields',
             'availableExportFields',
             _t('SilvercartProductExport.FIELD_AVAILABLE_EXPORT_FIELDS'),
             $availableFields,

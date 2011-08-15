@@ -124,7 +124,6 @@
 <div id="col3">
     <div id="col3_content" class="clearfix">
         $InsertWidgetArea(Sidebar)
-        $SubNavigation
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>
