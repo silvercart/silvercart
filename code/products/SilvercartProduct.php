@@ -645,6 +645,8 @@ class SilvercartProduct extends DataObject {
             'SiteTree.ParentID ASC, SiteTree.Sort ASC'
         );
         
+        $productGroupTable->pageSize = 1000;
+        
         $fields->addFieldToTab('Root.SilvercartProductGroup', $productGroupTable);
         
         // set tab title

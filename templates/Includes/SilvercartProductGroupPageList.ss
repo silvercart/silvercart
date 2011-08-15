@@ -40,7 +40,7 @@
                                 <p>
                                     <strong class="silvercart-price">$Price.Nice</strong>
                                 </p>
-                                <p>
+                                <p class="silvercart-price-notes">
                                     <small>
                                         <% if showPricesGross %>
                                             <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />

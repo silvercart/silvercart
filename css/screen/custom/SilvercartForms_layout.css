@@ -8,10 +8,10 @@ form.yform .type-button input.action[type="submit"],
 form.yform .type-button input.submit {
     float:                          right;
     margin:                         0px 0px 0px 4px;
-    padding:                        3px 10px 4px 10px;
+    padding:                        4px 10px;
 }
 form.yform input[type="submit"] {
-    padding:                        1px 8px 2px 8px;
+    padding:                        2px 8px;
 }
 form.yform input[type="password"],
 form.yform input[type="text"] {

@@ -864,6 +864,7 @@ $lang['de_DE']['SilvercartPage']['FIND'] = 'Finden:';
 $lang['de_DE']['SilvercartPage']['FORWARD'] = 'Weiter';
 $lang['de_DE']['SilvercartPage']['GOTO'] = 'gehe zur %s Seite';
 $lang['de_DE']['SilvercartPage']['GOTO_CART'] = 'zum Warenkorb';
+$lang['de_DE']['SilvercartPage']['GOTO_CART_SHORT'] = 'Warenkorb';
 $lang['de_DE']['SilvercartPage']['GOTO_CONTACT_LINK'] = 'Zur Kontakt Seite';
 $lang['de_DE']['SilvercartPage']['HEADERPICTURE'] = 'Header Bild';
 $lang['de_DE']['SilvercartPage']['INCLUDED_VAT'] = 'enthaltene MwSt.';

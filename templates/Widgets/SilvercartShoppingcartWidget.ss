@@ -43,7 +43,7 @@
             <div class="c50l">
                 <div class="silvercart-button left">
                     <div class="silvercart-button_content">
-                        <a href="$CartLink"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></a>
+                        <a href="$CartLink"><% _t('SilvercartPage.GOTO_CART_SHORT', 'Cart') %></a>
                     </div>
                 </div>
             </div>

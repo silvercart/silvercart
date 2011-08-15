@@ -863,6 +863,7 @@ $lang['en_US']['SilvercartPage']['FIND'] = 'Find:';
 $lang['en_US']['SilvercartPage']['FORWARD'] = 'Next';
 $lang['en_US']['SilvercartPage']['GOTO'] = 'Go to %s page';
 $lang['en_US']['SilvercartPage']['GOTO_CART'] = 'Go to cart';
+$lang['en_US']['SilvercartPage']['GOTO_CART_SHORT'] = 'Cart';
 $lang['en_US']['SilvercartPage']['GOTO_CONTACT_LINK'] = 'Go to contact page';
 $lang['en_US']['SilvercartPage']['HEADERPICTURE'] = 'Header picture';
 $lang['en_US']['SilvercartPage']['INCLUDED_VAT'] = 'included VAT';
