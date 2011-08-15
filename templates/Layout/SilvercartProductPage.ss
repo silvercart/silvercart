@@ -47,7 +47,7 @@
                         <div class="c33l">
                             <div class="subcl">
                                 <div class="silvercart-product-text-info">
-                                    <p>$ShortDescription</p>
+                                    <p>$ShortDescription.RAW</p>
                                 </div>
                             </div>
                         </div>
