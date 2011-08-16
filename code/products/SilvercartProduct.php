@@ -1301,6 +1301,111 @@ class SilvercartProduct extends DataObject {
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
 
     /**
+	 * We use a slice techniqure here since imports of large datasets fail
+     * with the standard import mechanism.
+	 * 
+	 * @param array          $data    Some data
+	 * @param Form           $form    The form object
+	 * @param SS_HTTPRequest $request The request object
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.08.2011
+	 */
+	public function import($data, $form, $request) {
+		$modelName = $data['ClassName'];
+
+		if(!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) return false;
+		$importers = $this->parentController->getModelImporters();
+		$importerClass = $importers[$modelName];
+
+		$loader = new $importerClass($data['ClassName']);
+
+		// File wasn't properly uploaded, show a reminder to the user
+		if(
+			empty($_FILES['_CsvFile']['tmp_name']) ||
+			file_get_contents($_FILES['_CsvFile']['tmp_name']) == ''
+		) {
+			$form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
+			Director::redirectBack();
+			return false;
+		}
+
+		if (!empty($data['EmptyBeforeImport']) && $data['EmptyBeforeImport']) { //clear database before import
+			$loader->deleteExistingRecords = true;
+		}
+        
+        $processingResult        = '1';
+        $cStr                    = $this->doCurlLogin();
+        $csvFileProcessorLoopIdx = 0;
+        
+        // Segmented processing of each file
+        while ($processingResult == '1') {
+            $url                     = Director::absoluteURL(
+                Controller::curr()->Link.
+                'admin/silvercart-administration/SilvercartProduct/customFormAction'
+            );
+            $offset = $csvFileProcessorLoopIdx;
+            
+            // Trigger processor via CURL
+            $ch = curl_init();
+            curl_setopt($ch,CURLOPT_COOKIE, $cStr);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+                    'action'    => 'importCsvSlice',
+                    'offset'    => $offset,
+                    'csvFile'   => urlencode($_FILES['_CsvFile']['tmp_name'])
+                )
+            );
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+
+            $processingResult = curl_exec($ch);
+            $processingResult = ''.$processingResult;
+            $this->Log('Processing Result is '.$processingResult);
+
+            curl_close($ch);
+            unset($ch);
+            unset($url);
+
+            $csvFileProcessorLoopIdx++;
+        }
+        unlink($_FILES['_CsvFile']['tmp_name']);
+        
+        Director::redirectBack();
+	}
+    
+    /**
+     * Imports a slice of a CSV file.
+     *
+     * @param array           &$data    The sent data
+     * @param Form            &$form    The connected form
+     * @param SS_HTTP_Request &$request The request object
+     * @param string          &$output  The resulting output as html string
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.08.2011
+     */
+    public function importCsvSlice(&$data, &$form, &$request, &$output) {
+        $importers      = $this->parentController->getModelImporters();
+        $importerClass  = $importers['SilvercartProduct'];
+        $loader         = new $importerClass('SilvercartProduct');
+        $csvFile        = isset($_REQUEST['csvFile']) ? urldecode($_REQUEST['csvFile']) : '';
+        
+        if ($csvFile) {
+            $result = $loader->load($csvFile);
+        }
+        
+        print $result;
+        exit();
+    }
+    
+    /**
      * We extend the sidebar template renderer so that you can alter it in your
      * decorators.
      *
@@ -1397,7 +1502,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $output = '';
 
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
-
+        
+        if (method_exists($this, $data['action'])) {
+            $this->$data['action']($data, $form, $request, $output);
+        }
+        
         return $output;
     }
     
@@ -1470,5 +1579,91 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $this->extend('updateColumnsAvailable', $columnsAvailable);
         
         return $columnsAvailable;
+    }
+    
+    /**
+     * Logs into the CMS via CURL and returns the cookie variables.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.08.2011
+     */
+    protected function doCurlLogin() {
+        $ch = curl_init();
+
+        curl_setopt($ch,CURLOPT_URL, Director::absoluteURL(Director::baseURL()."Security/LoginForm"));
+        curl_setopt($ch,CURLOPT_POST,TRUE);
+        curl_setopt($ch,CURLINFO_HEADER_OUT,TRUE);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
+        curl_setopt($ch,CURLOPT_HEADER,TRUE);
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            sprintf(
+                "Email=%s&Password=%s",
+                SS_API_USERNAME,
+                SS_API_PASSWORD
+            )
+        );
+        $result1 = curl_exec($ch);
+        $headers = preg_replace("/<html.*<\/html>/ims","",$result1);
+
+        curl_close($ch);
+
+        // Get the cookie vars
+        $cookies = array();
+        $headers = explode("\n",$headers);
+
+        foreach($headers as $h){
+            if(preg_match("/Set-Cookie: (.*)/",$h,$m)){
+                $vars = explode(";",$m[1]);
+
+                foreach($vars as $v){
+                    if (strpos($v, '=') !== false) {
+                        $pieces = explode("=",trim($v));
+                        $cookies[trim($pieces[0])] = trim($pieces[1]);
+                    }
+                }
+            }
+        }
+
+        // Generate Cookie String
+        $cStr = "";
+        foreach($cookies as $k => $v){
+            $cStr.= $k."=".$v.";";
+        }
+
+        return $cStr;
+    }
+    
+    /**
+     * Write a log message.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.08.2011
+     */
+    protected function Log($logString) {
+        $logDirectory = Director::baseFolder();
+
+        $logDirectory = explode('/', $logDirectory);
+        array_pop($logDirectory);
+        array_pop($logDirectory);
+        $logDirectory = implode('/', $logDirectory);
+
+        if ($fp = fopen($logDirectory.'/log/importProducts.log', 'a')) {
+
+            fwrite(
+                $fp,
+                "=== ".date('d.m.Y H:i:s').":\n".
+                "    ".$logString."\n"
+            );
+
+            fclose($fp);
+        }
     }
 }
