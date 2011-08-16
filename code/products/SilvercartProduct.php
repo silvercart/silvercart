@@ -1030,6 +1030,25 @@ class SilvercartProduct extends DataObject {
         }
         return $html;
     }
+    
+    /**
+     * Indicates wether the availability information should be shown. If
+     * there's no status attributed we don't want to show it.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.08.2011
+     */
+    public function showAvailability() {
+        $showAvailability = false;
+        
+        if ($this->SilvercartAvailabilityStatusID > 0) {
+            $showAvailability = true;
+        }
+        
+        return $showAvailability;
+    }
 
     /**
      * used to determine weather something should be shown on a template or not
