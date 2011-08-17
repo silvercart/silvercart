@@ -320,6 +320,7 @@ $lang['en_GB']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Please choose you
 $lang['en_GB']['SilvercartCheckoutFormStep4']['TITLE'] = 'Payment';
 $lang['en_GB']['SilvercartCheckoutFormStep5']['TITLE'] = 'Overview';
 
+$lang['en_GB']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Back to the shopping cart';
 $lang['en_GB']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_GB']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_GB']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';

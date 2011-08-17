@@ -36,13 +36,13 @@
                                         <% if StepIsVisible %>
                                         <li<% if IsCurrentStep %> class="active"<% end_if %>>
                                             <% if IsCurrentStep %>
-                                            <strong><% if StepImage %>$StepImage<% end_if %>$StepTitle</strong>
+                                            <strong><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</strong>
                                             <% else_if isStepCompleted %>
-                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle</a>
+                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
                                             <% else_if isPreviousStepCompleted %>
-                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle</a>
+                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
                                             <% else %>
-                                            <span><% if StepImage %>$StepImage<% end_if %>$StepTitle</span>
+                                            <span><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</span>
                                             <% end_if %>
                                         </li>
                                         <% end_if %>

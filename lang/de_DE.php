@@ -320,6 +320,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Zahlungsinformationen'
 $lang['de_DE']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:';
 $lang['de_DE']['SilvercartCheckoutFormStep5']['TITLE'] = 'Bestellung überprüfen';
 
+$lang['de_DE']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Zurück zum Warenkorb';
 $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
 $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Schritt';
 $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
