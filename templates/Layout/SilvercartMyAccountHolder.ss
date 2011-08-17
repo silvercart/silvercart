@@ -59,7 +59,7 @@
                     <% end_if %>
 
                     <div class="silvercart-button right">
-                        <div class="silvercart-button right_content">
+                        <div class="silvercart-button_content">
                             <a href="$PageByIdentifierCodeLink(SilvercartOrderHolder)"><% _t('Silvercart.MORE') %></a>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                     <% end_control %>
 
                     <div class="silvercart-button right">
-                        <div class="silvercart-button right_content">
+                        <div class="silvercart-button_content">
                             <a href="$PageByIdentifierCodeLink(SilvercartAddressHolder)"><% _t('Silvercart.MORE') %></a>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                     <% end_control %>
 
                     <div class="silvercart-button right">
-                        <div class="silvercart-button right_content">
+                        <div class="silvercart-button_content">
                             <a href="$PageByIdentifierCodeLink(SilvercartDataPage)"><% _t('Silvercart.MORE') %></a>
                         </div>
                     </div>
