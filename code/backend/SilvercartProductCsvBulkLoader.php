@@ -62,23 +62,14 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         $results                = new BulkLoader_Result();
         $result                 = 0;
         $currPointer            = 0;
-        $processItemsPerLoop    = 500;
-        $processResults         = '';
-        $offsetIdx              = isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 0;
-        $offset                 = $offsetIdx * $processItemsPerLoop;
         $csvParser              = new CSVParser($filepath, $this->delimiter, $this->enclosure);
         
-        if ($offset > 0) {
-            $offset += 1;
-        }
-        
-        $this->Log('Starte Produktimport ---------------------------------------------------------------------');
+        $this->Log('product import start ---------------------------------------------------------------------');
         
         // --------------------------------------------------------------------
         // Insert header row if configured so
         // --------------------------------------------------------------------
-		if($this->columnMap &&
-           $offset === 0) {
+		if($this->columnMap) {
 			if ($this->hasHeaderRow) {
                 $csv->mapColumns($this->columnMap);
             } else {
@@ -87,37 +78,9 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
 		}
 		
         // --------------------------------------------------------------------
-        // Move to current offset
-        // --------------------------------------------------------------------
-        $mtime = microtime();
-        $mtime = explode(" ",$mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $starttime = $mtime; 
-
-        foreach ($csvParser as $row) {
-            if ($currPointer >= $offset) {
-                break;
-            }
-            $currPointer++;
-        }
-        
-        $mtime = microtime();
-        $mtime = explode(" ",$mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $endtime = $mtime;
-        $totaltime = ($endtime - $starttime); 
-
-        $this->Log("Move to current offset needed ".$totaltime." seconds.");
-        
-        // --------------------------------------------------------------------
         // Process data range
         // --------------------------------------------------------------------
 		foreach($csvParser as $row) {
-            $mtime = microtime();
-            $mtime = explode(" ",$mtime);
-            $mtime = $mtime[1] + $mtime[0];
-            $starttime = $mtime; 
-            
 			$this->processRecord(
                 $row,
                 $this->columnMap,
@@ -125,29 +88,11 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 $preview
             );
             
-            $mtime = microtime();
-            $mtime = explode(" ",$mtime);
-            $mtime = $mtime[1] + $mtime[0];
-            $endtime = $mtime;
-            $totaltime = ($endtime - $starttime); 
-
-            $this->Log("Processing of record idx ".$currPointer." needed ".$totaltime." seconds.");
-            
-            if (($currPointer - $offset) > 0 &&
-                ($currPointer - $offset) > $processItemsPerLoop) {
-
-                $this->Log("___BREAK; currPointer: ".$currPointer.", offset: ".$offset.", processItemsPerLoop: ".$processItemsPerLoop);
-
-                $result = 1;
-                break;
-            }
-            
             $currPointer++;
             usleep(1000);
 		}
         
-        $this->Log("currPointer: ".$currPointer.", offset: ".$offset.", processItemsPerLoop: ".$processItemsPerLoop.", result: ".$result);
-        $this->Log('Produktimport beendet ---------------------------------------------------------------------');
+        $this->Log('product import end ---------------------------------------------------------------------');
         
         return $result;
     }
@@ -169,6 +114,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         $silvercartProduct   = false;
         $silvercartProductID = 0;
         $action              = '';
+        $updateIdentifier    = '';
         
         // ----------------------------------------------------------------
         // Use existing object:
@@ -181,7 +127,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 'SilvercartProduct',
                 $record['ID']
             );
-            $action = 'update';
+            $action             = 'update';
+            $updateIdentifier   = 'ID';
         }
         if (!$silvercartProduct &&
              array_key_exists('EANCode', $record)) {
@@ -193,7 +140,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     $record['EANCode']
                 )
             );
-            $action = 'update';
+            $action             = 'update';
+            $updateIdentifier   = 'EAN';
         }
         if (!$silvercartProduct &&
              array_key_exists('ProductNumberManufacturer', $record)) {
@@ -205,7 +153,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     $record['ProductNumberManufacturer']
                 )
             );
-            $action = 'update';
+            $action             = 'update';
+            $updateIdentifier   = 'Manufacturer product number';
         }
         
         if (!$silvercartProduct) {
@@ -254,12 +203,17 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         // Update product fields
         // --------------------------------------------------------------------
         if ($silvercartProduct) {
+            
+            if (array_key_exists('ID', $record)) {
+                unset($record['ID']);
+            }
+            
             $silvercartProduct->castedUpdate($record);
             $silvercartProduct->write();
             $silvercartProductID = $silvercartProduct->ID;
             
             if ($action == 'update') {
-                $this->Log("Updated Product ID: ".$silvercartProductID);
+                $this->Log("Updated Product ID: ".$silvercartProductID.", identified by ".$updateIdentifier);
             } else {
                 $this->Log("Inserted Product ID: ".$silvercartProductID);
             }

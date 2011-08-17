@@ -1312,6 +1312,29 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 16.08.2011
 	 */
 	public function import($data, $form, $request) {
+        $pidFile    = Director::baseFolder();
+        $uploadFile = $_FILES['_CsvFile']['tmp_name'];
+        
+        if (!file_exists($uploadFile)) {
+            $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
+			Director::redirectBack();
+			return false;
+        }
+        
+        system(
+            sprintf(
+                'sake /SilvercartProductImport -i="%s"',
+                $uploadFile
+            ),
+            $returnValue
+        );
+
+        $form->sessionMessage($returnValue, 'good');
+        
+        Director::redirectBack();
+        
+        
+        /*
 		$modelName = $data['ClassName'];
 
 		if(!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) return false;
@@ -1375,6 +1398,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         unlink($_FILES['_CsvFile']['tmp_name']);
         
         Director::redirectBack();
+        */
 	}
     
     /**
