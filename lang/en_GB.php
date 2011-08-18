@@ -258,6 +258,7 @@ $lang['en_GB']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page (overrides global setting)';
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page (overrides global setting)';
 $lang['en_GB']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
+$lang['en_GB']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
 
 $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_GB']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';

@@ -85,7 +85,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public static $db = array(
         'productsPerPage'       => 'Int',
-        'productGroupsPerPage'  => 'Int'
+        'productGroupsPerPage'  => 'Int',
+        'useContentFromParent'  => 'Boolean(0)'
     );
 
     /**
@@ -209,7 +210,8 @@ class SilvercartProductGroupPage extends Page {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'productsPerPage' => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'productsPerPage'       => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'useContentFromParent'  => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
             )
         );
 
@@ -284,6 +286,9 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
 
+        $useContentField = new CheckboxField('useContentFromParent', _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'));
+        $fields->addFieldToTab('Root.Content.Main', $useContentField, 'Content');
+        
         $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
         $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
@@ -1041,6 +1046,37 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         return $hasMoreResults;
     }
 
+    /**
+     * Returns $Content of the page. If it's empty and
+     * the option is set to use the content of a parent page we try to find
+     * the first parent page with content and deliver that.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
+     */
+    public function getPageContent() {
+        if (!empty($this->Content) ||
+            !$this->useContentFromParent) {
+            return $this->Content;
+        }
+        
+        $page       = $this;
+        $content    = '';
+        
+        while ($page->ParentID > 0) {
+            if (!empty($page->Content)) {
+                $content = $page->Content;
+                break;
+            }
+            
+            $page = DataObject::get_by_id('SiteTree', $page->ParentID);
+        }
+        
+        return $content;
+    }
+    
     /**
      * Getter for an products image.
      *

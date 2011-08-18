@@ -2,7 +2,7 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         
-        $Content
+        $PageContent
         $InsertWidgetArea(Content)
         
         <div class="silvercart-product-group-page-control-top">

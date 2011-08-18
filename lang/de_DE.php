@@ -258,6 +258,7 @@ $lang['de_DE']['SilvercartProductGroupPage']['PLURALNAME'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Produkte pro Seite (wird anstatt der globalen Einstellung verwendet)';
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Produktgruppen pro Seite (wird anstatt der globalen Einstellung verwendet)';
 $lang['de_DE']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Warengruppe';
+$lang['de_DE']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Inhalte von übergeordneten Seiten übernehmen';
 
 $lang['de_DE']['SilvercartProductImageGallery']['PLURALNAME'] = 'Gallerien';
 $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';
