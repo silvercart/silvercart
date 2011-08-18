@@ -96,8 +96,6 @@ class SilvercartWidget_Controller extends Widget_Controller {
      */
     protected $classInstanceIdx = 0;
     
-    protected $pageControler = null;
-    
     /**
      * We register the search form on the page controller here.
      * 
@@ -117,5 +115,33 @@ class SilvercartWidget_Controller extends Widget_Controller {
         }
         
         $this->classInstanceIdx = self::$classInstanceCounter[$this->class];
+    }
+    
+    /**
+     * returns a page by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
+     */
+    public function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
+        return SilvercartPage_Controller::PageByIdentifierCode($identifierCode);
+    }
+    
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
+     */
+    public function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
+        return SilvercartPage_Controller::PageByIdentifierCodeLink($identifierCode);
     }
 }

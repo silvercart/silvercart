@@ -64,7 +64,11 @@
                                             <% else_if showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
-                                            <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                            <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                                    <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                                </a>
+                                            <% end_control %>
                                         </small>
                                     </p>
                                 </div>

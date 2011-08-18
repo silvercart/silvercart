@@ -1294,11 +1294,14 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-	 * Gets the search query generated on the SearchContext from
-	 * {@link DataObject::getDefaultSearchContext()},
-	 * and the current GET parameters on the request.
+	 * We modify the original search query here, so that the administrator can
+     * search for the firstname and surname in both the invoice and shipping
+     * address of the order with only one input field for each.
 	 *
 	 * @return SQLQuery
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
 	 */
     public function getSearchQuery($searchCriteria) {
         $query = parent::getSearchQuery($searchCriteria);
