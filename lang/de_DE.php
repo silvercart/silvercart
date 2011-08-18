@@ -1139,6 +1139,14 @@ $lang['de_DE']['SilvercartAmountUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten'
 
 // Widgets ----------------------------------------------------------------- */
 
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Neueste Blogeinträge anzeigen';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['DESCRIPTION']                = 'Zeigt die neuesten Blogeinträge an.';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['IS_CONTENT_VIEW']            = 'Normale Produktansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['SHOW_ENTRY']                 = 'Meldung lesen';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['STOREADMIN_NUMBEROFPOSTS']   = 'Anzahl der Blogeinträge, die angezeigt werden sollen';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['TITLE']                      = 'Neueste Blogeinträge anzeigen';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['WIDGET_TITLE']               = 'Überschrift für das Widget';
+
 $lang['de_DE']['SilvercartLoginWidget']['TITLE']                    = 'Anmeldung';
 $lang['de_DE']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'Mein Konto';
 $lang['de_DE']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Anmeldung';

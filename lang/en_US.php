@@ -1138,6 +1138,14 @@ $lang['en_US']['SilvercartAmountUnit']['PLURALNAME'] = 'amount units';
 
 // Widgets ----------------------------------------------------------------- */
 
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Show latest blog posts';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['DESCRIPTION']                = 'Shows the most current blog posts.';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['IS_CONTENT_VIEW']            = 'Use regular productview instead of widgetview';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['SHOW_ENTRY']                 = 'Read message';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['STOREADMIN_NUMBEROFPOSTS']   = 'Number of blog posts to show';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['TITLE']                      = 'Show latest blog posts';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['WIDGET_TITLE']               = 'Widget headline';
+
 $lang['en_US']['SilvercartLoginWidget']['TITLE']                    = 'Login';
 $lang['en_US']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'My account';
 $lang['en_US']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
