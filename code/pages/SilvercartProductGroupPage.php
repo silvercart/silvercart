@@ -708,22 +708,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         if ($this->isProductDetailView()) {
-            if (Session::get("SilvercartProductGroupPageID")) {
-                $dataRecord = DataObject::get_by_id("SilvercartProductGroupPage", Session::get("SilvercartProductGroupPageID"));
-                $page = new SilvercartProductGroupPage_Controller($dataRecord);
-            } else {
-                $page = $this;
-            }
-            $parts = array();
+            $page    = $this;
+            $parts   = array();
             $parts[] = $this->getDetailViewProduct()->Title;
-            $i = 0;
-            while ($page
-             && (!$maxDepth || sizeof($parts) < $maxDepth)
-             && (!$stopAtPageType || $page->ClassName != $stopAtPageType)) {
-                if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
-                    if ($page->URLSegment == 'home') {
-                        $hasHome = true;
-                    }
+            
+            while (
+                $page
+                && (!$maxDepth ||
+                     sizeof($parts) < $maxDepth)
+                && (!$stopAtPageType ||
+                     $page->ClassName != $stopAtPageType)
+            ) {
+                if ($showHidden ||
+                    $page->ShowInMenus ||
+                    ($page->ID == $this->ID)) {
+                    
                     if ($page->ID == $this->ID) {
                         $link = $page->OriginalLink();
                     } else {
