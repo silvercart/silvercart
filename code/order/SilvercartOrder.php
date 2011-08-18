@@ -102,7 +102,6 @@ class SilvercartOrder extends DataObject {
      */
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct',
-        'SilvercartAddresses'       => 'SilvercartAddress'
     );
 
     /**
@@ -268,11 +267,11 @@ class SilvercartOrder extends DataObject {
                 'title'     => _t('SilvercartOrder.ORDERNUMBER'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'SilvercartAddresses.FirstName' => array(
+            'SilvercartShippingAddress.FirstName' => array(
                 'title'     => _t('SilvercartAddress.FIRSTNAME'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'SilvercartAddresses.Surname' => array(
+            'SilvercartShippingAddress.Surname' => array(
                 'title'     => _t('SilvercartAddress.SURNAME'),
                 'filter'    => 'PartialMatchFilter'
             ),
@@ -1283,8 +1282,41 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
 	 * @return SQLQuery
 	 */
     public function getSearchQuery($searchCriteria) {
-        $query = parent::getSearchQuery($searchCriteria )->leftJoin( 'SilvercartAddress', 'SilvercartAddress.ID = SilvercartOrder.SilvercartShippingAddressID OR SilvercartAddress.ID = SilvercartOrder.SilvercartInvoiceAddressID' );
+        $query = parent::getSearchQuery($searchCriteria);
+        $query->leftJoin( 'SilvercartAddress', 'SilvercartInvoiceAddress.ID = SilvercartOrder.SilvercartInvoiceAddressID', 'SilvercartInvoiceAddress');
+        $query->leftJoin( 'SilvercartAddress', 'SilvercartShippingAddress.ID = SilvercartOrder.SilvercartShippingAddressID', 'SilvercartShippingAddress');
+
+        if (isset($query->from['SilvercartOrderShippingAddress'])) {
+            unset($query->from['SilvercartOrderShippingAddress']);
+        }
         
+        if (isset($query->from['SilvercartAddress'])) {
+            unset($query->from['SilvercartAddress']);
+        }
+
+        $whereIdx = 0;
+        foreach ($query->where as $sqlWhere) {
+            if (strpos($sqlWhere, '"SilvercartAddress"."FirstName"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."FirstName" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."FirstName" LIKE %s OR "SilvercartShippingAddress"."FirstName" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            if (strpos($sqlWhere, '"SilvercartAddress"."Surname"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."Surname" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."Surname" LIKE %s OR "SilvercartShippingAddress"."Surname" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            $whereIdx++;
+        }
+
         return $query;
     }
 
