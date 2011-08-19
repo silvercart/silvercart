@@ -23,7 +23,7 @@
  */
 
 /**
- * Abstract for SilvercartamountUnit
+ * Abstract for SilvercartQuantityUnit
  *
  * @package Silvercart
  * @subpackage Products
@@ -32,7 +32,7 @@
  * @since 25.03.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartAmountUnit extends DataObject {
+class SilvercartQuantityUnit extends DataObject {
 
     /**
      * singular name for backend
@@ -80,8 +80,8 @@ class SilvercartAmountUnit extends DataObject {
      * @since 5.7.2011
      */
     public function singular_name() {
-        if (_t('SilvercartAmountUnit.SINGULARNAME')) {
-            return _t('SilvercartAmountUnit.SINGULARNAME');
+        if (_t('SilvercartQuantityUnit.SINGULARNAME')) {
+            return _t('SilvercartQuantityUnit.SINGULARNAME');
         } else {
             return parent::singular_name();
         } 
@@ -97,8 +97,8 @@ class SilvercartAmountUnit extends DataObject {
      * @since 5.7.2011 
      */
     public function plural_name() {
-        if (_t('SilvercartAmountUnit.PLURALNAME')) {
-            return _t('SilvercartAmountUnit.PLURALNAME');
+        if (_t('SilvercartQuantityUnit.PLURALNAME')) {
+            return _t('SilvercartQuantityUnit.PLURALNAME');
         } else {
             return parent::plural_name();
         }   
@@ -117,8 +117,8 @@ class SilvercartAmountUnit extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                    'Name' => _t('SilvercartAmountUnit.NAME'),
-                    'Abbreviation' => _t('SilvercartAmountUnit.ABBREVIATION')
+                    'Name' => _t('SilvercartQuantityUnit.NAME'),
+                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
                 )
         );
     }
@@ -136,8 +136,8 @@ class SilvercartAmountUnit extends DataObject {
         return array_merge(
                 parent::fieldLabels(),
                 array(
-                    'Name' => _t('SilvercartAmountUnit.NAME'),
-                    'Abbreviation' => _t('SilvercartAmountUnit.ABBREVIATION')
+                    'Name' => _t('SilvercartQuantityUnit.NAME'),
+                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
                 )
         );
     }

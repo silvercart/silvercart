@@ -86,7 +86,8 @@ class SilvercartProduct extends DataObject {
         'PurchaseMaxDuration'         => 'Int',
         'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
         'StockQuantity'               => 'Int',
-        'StockQuantityOverbookable'   => 'Boolean(0)'
+        'StockQuantityOverbookable'   => 'Boolean(0)',
+        'PackagingQuantity'           => 'Int',
     );
 
     /**
@@ -125,11 +126,11 @@ class SilvercartProduct extends DataObject {
         'SilvercartMasterProduct'       => 'SilvercartProduct',
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
         'SilvercartProductCondition'    => 'SilvercartProductCondition',
+        'SilvercartQuantityUnit'        => 'SilvercartQuantityUnit',
         /**
          * @deprecated HasOne relation Images is deprecated. HasMany relation SilvercartImages should be used instead.
          */
         'Image'                         => 'Image',
-        'PackagingType'                 => 'SilvercartAmountUnit',
     );
 
     /**
@@ -366,10 +367,11 @@ class SilvercartProduct extends DataObject {
                 'SilvercartShoppingCarts'           => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
                 'SilvercartOrders'                  => _t('SilvercartOrder.PLURALNAME', 'Orders'),
                 'SilvercartProductGroupMirrorPages' => _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'),
-                'PackagingType'                     => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
+                'SilvercartQuantityUnit'            => _t('SilvercartProduct.AMOUNT_UNIT', 'amount Unit'),
                 'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
                 'StockQuantity'                     => _t('SilvercartProduct.STOCKQUANTITY', 'stock quantity'),
                 'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
+                'PackagingQuantity'                 => _t('SilvercartProduct.PACKAGING_QUANTITY', 'purchase quantity'),
                 'ID'                                => 'ID' //needed for the deeplink feature
             )
         );
@@ -529,11 +531,12 @@ class SilvercartProduct extends DataObject {
                 'SilvercartTax',
                 'SilvercartManufacturer',
                 'SilvercartAvailabilityStatus',
-                'PackagingType',
+                'SilvercartQuantityUnit',
                 'SilvercartFiles',
                 'SilvercartOrders',
                 'StockQuantity',
-                'StockQuantityOverbookable'
+                'StockQuantityOverbookable',
+                'PackagingQuantity',
             ),
             'includeRelations' => true
         );
@@ -583,8 +586,9 @@ class SilvercartProduct extends DataObject {
         $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
         $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
 
-        $amountUnitField = clone $fields->dataFieldByName('PackagingTypeID');
-        $fields->removeByName('PackagingTypeID');
+        $amountUnitField = clone $fields->dataFieldByName('SilvercartQuantityUnitID');
+        $fields->removeByName('SilvercartQuantityUnitID');
+        $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('PackagingQuantity'), 'SilvercartTaxID');
         $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
         
         $conditionMap   = array();
@@ -1320,24 +1324,26 @@ class SilvercartProduct extends DataObject {
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
 
     /**
-	 * We use a slice techniqure here since imports of large datasets fail
+     * We use a slice techniqure here since imports of large datasets fail
      * with the standard import mechanism.
-	 * 
-	 * @param array          $data    Some data
-	 * @param Form           $form    The form object
-	 * @param SS_HTTPRequest $request The request object
+     * 
+     * @param array          $data    Some data
+     * @param Form           $form    The form object
+     * @param SS_HTTPRequest $request The request object
+     * 
+     * @return bool
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.08.2011
-	 */
-	public function import($data, $form, $request) {
+     */
+    public function import($data, $form, $request) {
         $pidFile    = Director::baseFolder();
         $uploadFile = $_FILES['_CsvFile']['tmp_name'];
         
         if (!file_exists($uploadFile)) {
             $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
-			Director::redirectBack();
-			return false;
+            Director::redirectBack();
+            return false;
         }
         
         system(
@@ -1418,7 +1424,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         
         Director::redirectBack();
         */
-	}
+    }
     
     /**
      * Imports a slice of a CSV file.
@@ -1637,10 +1643,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $ch = curl_init();
 
         curl_setopt($ch,CURLOPT_URL, Director::absoluteURL(Director::baseURL()."Security/LoginForm"));
-        curl_setopt($ch,CURLOPT_POST,TRUE);
-        curl_setopt($ch,CURLINFO_HEADER_OUT,TRUE);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,TRUE);
-        curl_setopt($ch,CURLOPT_HEADER,TRUE);
+        curl_setopt($ch,CURLOPT_POST,true);
+        curl_setopt($ch,CURLINFO_HEADER_OUT,true);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch,CURLOPT_HEADER,true);
         curl_setopt(
             $ch,
             CURLOPT_POSTFIELDS,
@@ -1659,11 +1665,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $cookies = array();
         $headers = explode("\n",$headers);
 
-        foreach($headers as $h){
-            if(preg_match("/Set-Cookie: (.*)/",$h,$m)){
+        foreach ($headers as $h) {
+            if (preg_match("/Set-Cookie: (.*)/",$h,$m)) {
                 $vars = explode(";",$m[1]);
 
-                foreach($vars as $v){
+                foreach ($vars as $v) {
                     if (strpos($v, '=') !== false) {
                         $pieces = explode("=",trim($v));
                         $cookies[trim($pieces[0])] = trim($pieces[1]);
@@ -1674,7 +1680,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
 
         // Generate Cookie String
         $cStr = "";
-        foreach($cookies as $k => $v){
+        foreach ($cookies as $k => $v) {
             $cStr.= $k."=".$v.";";
         }
 
@@ -1683,6 +1689,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     
     /**
      * Write a log message.
+     * 
+     * @param string $logString String to log
      *
      * @return void
      *

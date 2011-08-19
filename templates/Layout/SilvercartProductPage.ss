@@ -48,6 +48,9 @@
                             <div class="subcl">
                                 <div class="silvercart-product-text-info">
                                     <p>$ShortDescription.RAW</p>
+                                    <% if PackagingQuantity %>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <% end_if %>
                                 </div>
                             </div>
                         </div>

@@ -188,6 +188,7 @@ $lang['en_US']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for s
 $lang['en_US']['SilvercartProduct']['METAKEYWORDS'] = 'Meta keywords for search engines';
 $lang['en_US']['SilvercartProduct']['METATITLE'] = 'Meta title for search engines';
 $lang['en_US']['SilvercartProduct']['MSRP'] = 'MSR price';
+$lang['en_US']['SilvercartProduct']['PACKAGING_QUANTITY'] = 'purchase quantity';
 $lang['en_US']['SilvercartProduct']['PACKAGING_UNIT'] = 'packaging unit';
 $lang['en_US']['SilvercartProduct']['PLURALNAME'] = 'Products';
 $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
@@ -265,6 +266,7 @@ $lang['en_US']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
 
 $lang['en_US']['SilvercartProductPage']['ADD_TO_CART'] = 'Add to cart';
 $lang['en_US']['SilvercartProductPage']['OUT_OF_STOCK'] = 'This product is out of stock.';
+$lang['en_US']['SilvercartProductPage']['PACKAGING_CONTENT'] = 'Content';
 $lang['en_US']['SilvercartProductPage']['PLURALNAME'] = 'Product details pages';
 $lang['en_US']['SilvercartProductPage']['QUANTITY'] = 'Quantity';
 $lang['en_US']['SilvercartProductPage']['SINGULARNAME'] = 'Product details page';
@@ -1132,10 +1134,10 @@ $lang['en_US']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
 $lang['en_US']['SilvercartZone']['PLURALNAME'] = 'Zones';
 $lang['en_US']['SilvercartZone']['SINGULARNAME'] = 'Zone';
 
-$lang['en_US']['SilvercartAmountUnit']['NAME'] = 'Name';
-$lang['en_US']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abbreviation';
-$lang['en_US']['SilvercartAmountUnit']['SINGULARNAME'] = 'amount unit';
-$lang['en_US']['SilvercartAmountUnit']['PLURALNAME'] = 'amount units';
+$lang['en_US']['SilvercartQuantityUnit']['NAME'] = 'Name';
+$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
+$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME'] = 'amount unit';
+$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME'] = 'amount units';
 
 // Widgets ----------------------------------------------------------------- */
 

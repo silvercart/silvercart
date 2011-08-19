@@ -188,6 +188,7 @@ $lang['de_DE']['SilvercartProduct']['METADESCRIPTION'] = 'Meta Beschreibung für
 $lang['de_DE']['SilvercartProduct']['METAKEYWORDS'] = 'Meta Schlagworte für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['METATITLE'] = 'Meta Titel für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['MSRP'] = 'UVP';
+$lang['de_DE']['SilvercartProduct']['PACKAGING_QUANTITY'] = 'Verkaufsmenge';
 $lang['de_DE']['SilvercartProduct']['PACKAGING_UNIT'] = 'Verpackungseinheit';
 $lang['de_DE']['SilvercartProduct']['PLURALNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['PRICE'] = 'Preis';
@@ -265,6 +266,7 @@ $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';
 
 $lang['de_DE']['SilvercartProductPage']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['SilvercartProductPage']['OUT_OF_STOCK'] = 'Dieser Artikel ist ausverkauft.';
+$lang['de_DE']['SilvercartProductPage']['PACKAGING_CONTENT'] = 'Inhalt';
 $lang['de_DE']['SilvercartProductPage']['PLURALNAME'] = 'Artikeldetailseiten';
 $lang['de_DE']['SilvercartProductPage']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProductPage']['SINGULARNAME'] = 'Artikeldetailseite';
@@ -1133,10 +1135,10 @@ $lang['de_DE']['SilvercartZone']['FOR_COUNTRIES'] = 'für Länder';
 $lang['de_DE']['SilvercartZone']['PLURALNAME'] = 'Zonen';
 $lang['de_DE']['SilvercartZone']['SINGULARNAME'] = 'Zone';
 
-$lang['de_DE']['SilvercartAmountUnit']['NAME'] = 'Name';
-$lang['de_DE']['SilvercartAmountUnit']['ABBREVIATION'] = 'Abkürzung';
-$lang['de_DE']['SilvercartAmountUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
-$lang['de_DE']['SilvercartAmountUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';
+$lang['de_DE']['SilvercartQuantityUnit']['NAME'] = 'Name';
+$lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abkürzung';
+$lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
+$lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';
 
 // Widgets ----------------------------------------------------------------- */
 

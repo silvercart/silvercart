@@ -54,7 +54,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartAvailabilityStatus',
         'SilvercartProductCondition',
         'SilvercartNumberRange',
-        'SilvercartAmountUnit',
+        'SilvercartQuantityUnit',
         'SilvercartWidgetSet',
         'SilvercartConfig',
         'SilvercartDeeplink',
