@@ -246,12 +246,17 @@ class SilvercartPage_Controller extends ContentController {
         if ($checkConfiguration) {
             SilvercartConfig::Check();
         }
+        
+        // Decorator can use this method to add custom forms and other stuff
+        $this->extend('updateInit');
 
         parent::init();
     }
     
     /**
      * template function: returns customers orders
+     * 
+     * @param int $limit Limit
      *
      * @since 27.10.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
