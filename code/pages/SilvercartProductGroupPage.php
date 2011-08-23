@@ -522,6 +522,16 @@ class SilvercartProductGroupPage extends Page {
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     /**
+     * Contains a list of all registered filter plugins.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $registeredFilterPlugins = array();
+    
+    /**
      * Contains a DataObjectSet of products for this page or null. Used for
      * caching.
      *
@@ -575,6 +585,24 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     protected $widgetOutput = array();
 
+    /**
+     * Registers an object as a filter plugin. Before getting the result set
+     * the method 'filter' is called on the plugin. It has to return an array
+     * with filters to deploy on the query.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function registerFilterPlugin($object) {
+        $reflectionClass = new ReflectionClass($object);
+        
+        if ($reflectionClass->hasMethod('filter')) {
+            self::$registeredFilterPlugins[] = $object;
+        }
+    }
+    
     /**
      * execute these statements on object call
      *
@@ -886,6 +914,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $this->ID,
                     $mirroredProductIdList
                 );
+            }
+            
+            if (count(self::$registeredFilterPlugins) > 0) {
+                foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                    $pluginFilters = $registeredPlugin->filter();
+                    
+                    if (is_array($pluginFilters)) {
+                        $this->listFilters = array_merge(
+                            $this->listFilters,
+                            $pluginFilters
+                        );
+                    }
+                }
             }
 
             foreach ($this->listFilters as $listFilter) {
