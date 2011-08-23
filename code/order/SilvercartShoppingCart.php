@@ -230,17 +230,8 @@ class SilvercartShoppingCart extends DataObject {
         if ($formData['productID'] && $formData['productQuantity']) {
             
             $member = Member::currentUser();
-            if ($member == false) {
-                $member = new SilvercartAnonymousCustomer();
-                $member->write();
-                // Add customer to intermediate group
-                $customerGroup = DataObject::get_one(
-                                'Group', "`Code` = 'anonymous'"
-                );
-                if ($customerGroup) {
-                    $member->Groups()->add($customerGroup);
-                }
-                $member->logIn(true);
+            if (!$member) {
+                $member = SilvercartCustomerRole::createAnonymousCustomer();
             }
 
             if ($member) {

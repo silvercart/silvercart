@@ -6,3 +6,33 @@
     margin:                         10px 0px 0px 0px;
     padding:                        6px 0px 0px 0px;
 }
+
+.silvercart-product-group-page-controls_content {
+    padding:                        4px;
+}
+.silvercart-product-group-page-controls h2 {
+    margin:                         0px;
+    padding:                        4px 4px 4px 4px;
+}
+.silvercart-product-group-page-controls h3 {
+    margin:                         0px;
+    padding:                        0px 0px 6px 0px;
+}
+
+/* Selectors --------------------------------------------------------------- */
+
+.silvercart-product-group-page-selectors form.yform {
+    margin:                         0px;
+    padding:                        0px;
+}
+
+.silvercart-product-group-page-selectors form.yform div.type-select {
+    margin-bottom:                  0px;
+    padding-left:                   0px;
+}
+.silvercart-product-group-page-selectors form.yform div.type-select select {
+    width:                          9em;
+}
+.silvercart-product-group-page-selectors form.yform div.type-button {
+    padding:                        16px 0px 0px 0px;
+}

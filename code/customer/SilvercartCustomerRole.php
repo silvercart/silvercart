@@ -60,7 +60,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
             'has_one' => array(
                 'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
                 'SilvercartInvoiceAddress'      => 'SilvercartAddress',
-                'SilvercartShippingAddress'     => 'SilvercartAddress'
+                'SilvercartShippingAddress'     => 'SilvercartAddress',
+                'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
             ),
             'has_many' => array(
                 'SilvercartAddresses' => 'SilvercartAddress',
@@ -144,6 +145,36 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
+     * Creates an anonymous customer if there's no currentMember object.
+     *
+     * @return Member
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function createAnonymousCustomer() {
+        $member = Member::currentUser();
+        
+        if ($member == false) {
+            $member = new SilvercartAnonymousCustomer();
+            $member->write();
+            
+            // Add customer to intermediate group
+            $customerGroup = DataObject::get_one(
+                'Group', "`Code` = 'anonymous'"
+            );
+            
+            if ($customerGroup) {
+                $member->Groups()->add($customerGroup);
+            }
+            
+            $member->logIn(true);
+        }
+        
+        return $member;
+    }
+    
+    /**
      * Function similar to Member::currentUser(); Determins if we deal with a
      * registered customer who has opted in. Returns the member object or
      * false.
@@ -184,7 +215,7 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function getCart() {
-        if ($this->owner->SilvercartShoppingCartID == 0 ||
+        if ($this->owner->SilvercartShoppingCartID === 0 ||
             !DataObject::get_by_id('SilvercartShoppingCart', $this->owner->SilvercartShoppingCartID)) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
@@ -193,6 +224,31 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         }
         
         return $this->owner->SilvercartShoppingCart();
+    }
+    
+    /**
+     * Get the customer's configuration object or create one if it doesn't
+     * exist yet.
+     *
+     * @return SilvercartCustomerConfig
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function getSilvercartCustomerConfig() {
+        if (!$this->owner->SilvercartCustomerConfigID ||
+            !DataObject::get_by_id('SilvercartCustomerConfig', $this->owner->SilvercartCustomerConfigID)) {
+            
+            $silvercartCustomerConfig                   = new SilvercartCustomerConfig();
+            $silvercartCustomerConfig->MemberID         = $this->owner->ID;
+            $silvercartCustomerConfig->productsPerPage  = SilvercartConfig::getProductsPerPageDefault();
+            $silvercartCustomerConfig->write();
+            
+            $this->owner->SilvercartCustomerConfigID = $silvercartCustomerConfig->ID;
+            $this->owner->write();
+        }
+        
+        return $this->owner->SilvercartCustomerConfig();
     }
 
     /**

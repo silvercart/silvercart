@@ -61,6 +61,48 @@ class SilvercartConfig extends DataObject {
     public static $plural_name = "General configurations";
     
     /**
+     * Contains the possible values for products per page selectors for
+     * storefront users.
+     * 
+     * This array is directly used for <option> Tags:
+     *  'value' => 'Title': <option value="value">Title</option>
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageOptions = array(
+        '5'         => '5',
+        '10'        => '10',
+        '15'        => '15',
+        '20'        => '20',
+        '50'        => '50',
+        '100'       => '100',
+        '0'         => 'All'
+    );
+    
+    /**
+     * The default setting for the CustomerConfig option 'productsPerPage'.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageDefault = 15;
+    
+    /**
+     * Used as SQL limit number for unlimited products per page.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageUnlimitedNumber = 999999;
+    
+    /**
      * Attributes.
      *
      * @var array
@@ -746,6 +788,53 @@ class SilvercartConfig extends DataObject {
         $configObject = self::getConfig();
         
         return $configObject->StandardProductCondition();
+    }
+    
+    /**
+     * Returns the default value for the CustomerConfig option 'productsPerPage'.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageDefault() {
+        return self::$productsPerPageDefault;
+    }
+    
+    /**
+     * Returns an associative array with values for products per page, e.g.
+     * array(
+     *     '5'  => '5',
+     *     '10' => '10',
+     *     ...
+     * )
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageOptions() {
+        
+        if (array_key_exists('0', self::$productsPerPageOptions)) {
+            self::$productsPerPageOptions['0'] = _t('SilvercartConfig.PRODUCTSPERPAGE_ALL');
+        }
+        
+        return self::$productsPerPageOptions;
+    }
+    
+    /**
+     * Returns the number that is used as unlimited value for the products
+     * per page setting.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageUnlimitedNumber() {
+        return self::$productsPerPageUnlimitedNumber;
     }
     
     /**

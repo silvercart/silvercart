@@ -75,5 +75,11 @@
                 </div>
             </div>
         </div>
+        
+        <div class="silvercart-product-group-page-selectors">
+            <div class="silvercart-product-group-page-selectors_content">
+                $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
+            </div>
+        </div>
     </div>
 </div>

@@ -261,6 +261,8 @@ $lang['en_US']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product 
 $lang['en_US']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 $lang['en_US']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
 
+$lang['en_US']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
+
 $lang['en_US']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_US']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
 
@@ -368,6 +370,7 @@ $lang['en_US']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Pricetype business c
 $lang['en_US']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Pricetype administrators';
 $lang['en_US']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Price types';
 $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
+$lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE_ALL'] = 'Show all';
 $lang['en_US']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_US']['SilvercartConfig']['SEARCH'] = 'Search';
 $lang['en_US']['SilvercartConfig']['SERVER'] = 'Server';

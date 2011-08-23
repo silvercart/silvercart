@@ -1,4 +1,4 @@
-<?php
+3<?php
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -261,6 +261,8 @@ $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product 
 $lang['en_GB']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 $lang['en_GB']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
 
+$lang['en_GB']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
+
 $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_GB']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';
 
@@ -368,6 +370,7 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Price type for busin
 $lang['en_GB']['SilvercartConfig']['PRICETYPE_ADMINS'] = 'Price type for administrators';
 $lang['en_GB']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Price types';
 $lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
+$lang['en_GB']['SilvercartConfig']['PRODUCTSPERPAGE_ALL'] = 'Show all';
 $lang['en_GB']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_GB']['SilvercartConfig']['SEARCH'] = 'Search';
 $lang['en_GB']['SilvercartConfig']['SERVER'] = 'Server';

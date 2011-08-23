@@ -521,12 +521,48 @@ class SilvercartProductGroupPage extends Page {
  */
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
+    /**
+     * Contains a DataObjectSet of products for this page or null. Used for
+     * caching.
+     *
+     * @var mixed null|DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $groupProducts = null;
 
+    /**
+     * Contains the SilvercartProduct object that is used for the detail view
+     * or null. Used for caching.
+     *
+     * @var mixed null|SilvercartProduct
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $detailViewProduct = null;
 
+    /**
+     * Contains filters for the SQL query that retrieves the products for this
+     * page.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $listFilters = array();
     
+    /**
+     * Used for offset calculation of the SQL query that retrieves the
+     * products for this page.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $SQL_start = 0;
     
     /**
@@ -598,6 +634,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $productIdx++;
                 }
             }
+            
+            // Register selector forms, e.g. the "products per page" selector
+            $this->registerCustomHtmlForm(
+                'SilvercartProductGroupPageSelectors',
+                new SilvercartProductGroupPageSelectorsForm(
+                    $this
+                )
+            );
         }
     }
 
@@ -752,11 +796,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
 
             if (isset($_GET['offset'])) {
-                if ($this->productsPerPage) {
-                    $productsPerPage = $this->productsPerPage;
-                } else {
-                    $productsPerPage = SilvercartConfig::ProductsPerPage();
-                }
+                $productsPerPage = $this->getProductsPerPageSetting();
                 
                 // --------------------------------------------------------
                 // Use offset for getting the current item rage
@@ -803,11 +843,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
-            if ($this->productsPerPage) {
-                $productsPerPage = $this->productsPerPage;
-            } else {
-                $productsPerPage = SilvercartConfig::ProductsPerPage();
-            }
+            $productsPerPage = $this->getProductsPerPageSetting();
 
             if ($numberOfProducts !== false) {
                 $productsPerPage = (int) $numberOfProducts;
@@ -874,6 +910,39 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
     
     /**
+     * Returns the number of products per page according to where it is set.
+     * Highest priority has the customer's configuration setting if available.
+     * Next comes the shop owners setting for this page; if that's not
+     * configured we use the global setting from SilvercartConfig.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function getProductsPerPageSetting() {
+        $productsPerPage = 0;
+        $member          = Member::currentUser();
+        
+        if ($member &&
+            $member->getSilvercartCustomerConfig() &&
+            $member->getSilvercartCustomerConfig()->productsPerPage !== null) {
+            
+            $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
+            
+            if ($productsPerPage == 0) {
+                $productsPerPage = SilvercartConfig::getProductsPerPageUnlimitedNumber();
+            }
+        } else if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+        
+        return $productsPerPage;
+    }
+    
+    /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
      * 
@@ -886,44 +955,44 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 12.06.2011
      */
     public function getSqlOffset($numberOfProducts = false) {
-        if ($this->productsPerPage) {
-            $productsPerPage = $this->productsPerPage;
-        } else {
-            $productsPerPage = SilvercartConfig::ProductsPerPage();
-        }
+        $productsPerPage = $this->getProductsPerPageSetting();
 
         if ($numberOfProducts !== false) {
             $productsPerPage = (int) $numberOfProducts;
         }
-            
-        if (!isset($_GET['start']) ||
-            !is_numeric($_GET['start']) ||
-            (int)$_GET['start'] < 1) {
-
-            if (isset($_GET['offset'])) {
-                // --------------------------------------------------------
-                // Use offset for getting the current item rage
-                // --------------------------------------------------------
-                $offset = (int) $_GET['offset'];
-
-                if ($offset > 0) {
-                    $offset -= 1;
-                }
-
-                // Prevent too high values
-                if ($offset > 999999) {
-                    $offset = 0;
-                }
-
-                $SQL_start = $offset * $productsPerPage;
-            } else {
-                // --------------------------------------------------------
-                // Use item number for getting the current item range
-                // --------------------------------------------------------
-                $SQL_start = 0;
-            }
+        
+        if ($productsPerPage === SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
+            $SQL_start = 0;
         } else {
-            $SQL_start = (int) $_GET['start'];
+            if (!isset($_GET['start']) ||
+                !is_numeric($_GET['start']) ||
+                (int)$_GET['start'] < 1) {
+
+                if (isset($_GET['offset'])) {
+                    // --------------------------------------------------------
+                    // Use offset for getting the current item rage
+                    // --------------------------------------------------------
+                    $offset = (int) $_GET['offset'];
+
+                    if ($offset > 0) {
+                        $offset -= 1;
+                    }
+
+                    // Prevent too high values
+                    if ($offset > 999999) {
+                        $offset = 0;
+                    }
+
+                    $SQL_start = $offset * $productsPerPage;
+                } else {
+                    // --------------------------------------------------------
+                    // Use item number for getting the current item range
+                    // --------------------------------------------------------
+                    $SQL_start = 0;
+                }
+            } else {
+                $SQL_start = (int) $_GET['start'];
+            }
         }
         
         return $SQL_start;
