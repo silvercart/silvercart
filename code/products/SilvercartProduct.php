@@ -1226,6 +1226,8 @@ class SilvercartProduct extends DataObject {
      */
     public function getSilvercartImages() {
         $images = $this->SilvercartImages();
+
+        $this->extend('updateGetSilvercartImages', $images);
         
         if ($images->Count() > 0) {
             return $images;

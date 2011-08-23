@@ -636,11 +636,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
             
             // Register selector forms, e.g. the "products per page" selector
+            $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
+            $selectorForm->setSecurityTokenDisabled();
+                
             $this->registerCustomHtmlForm(
                 'SilvercartProductGroupPageSelectors',
-                new SilvercartProductGroupPageSelectorsForm(
-                    $this
-                )
+                $selectorForm
             );
         }
     }
@@ -1112,6 +1113,46 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
 
         return $hasMoreResults;
+    }
+    
+    /**
+     * Indicates wether the resultset of the product query returns more
+     * products than the number given (defaults to 10).
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function HasMoreProductsThan($maxResults = 10) {
+        $products = $this->getProducts();
+        
+        if ($products &&
+            $products->TotalItems() > $maxResults) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Indicates wether the resultset of the product query returns less
+     * products than the number given (defaults to 10).
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function HasLessProductsThan($maxResults = 10) {
+        $products = $this->getProducts();
+        
+        if ($products &&
+            $products->TotalItems() < $maxResults) {
+            return true;
+        }
+        
+        return false;
     }
 
     /**

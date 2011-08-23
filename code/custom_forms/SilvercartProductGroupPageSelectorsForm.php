@@ -104,7 +104,7 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      * @copyright 2011 pixeltricks GmbH
      * @since 23.08.2011
      */
-    protected function submitSuccess($data, $form, $formData) {
+    public function submitSuccess($data, $form, $formData) {
         $backLink = $this->controller->Link();
         $member   = Member::currentUser();
         

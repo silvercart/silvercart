@@ -1,7 +1,7 @@
 <div class="columnar">
 <form class="yform" $FormAttributes >
     $CustomHtmlFormMetadata
-    $CustomHtmlErrorMessages
+    $CustomHtmlFormErrorMessages
     
     <div class="subcolumns">
         <div class="c80l">
