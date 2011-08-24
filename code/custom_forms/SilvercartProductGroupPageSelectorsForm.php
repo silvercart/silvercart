@@ -75,6 +75,7 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      * @since 23.08.2011
      */
     public function fillInFieldValues() {
+        $this->formFields['productsPerPage']['title'] = _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE');
         $this->formFields['productsPerPage']['value'] = SilvercartConfig::getProductsPerPageOptions();
         
         // Get the products per page setting

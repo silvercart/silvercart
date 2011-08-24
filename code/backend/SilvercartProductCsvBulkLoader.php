@@ -209,7 +209,35 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             }
             
             $silvercartProduct->castedUpdate($record);
+            $this->Log('Mirror IDs are to be set');
+            // ----------------------------------------------------------------
+            // Update product group mirror pages
+            // ----------------------------------------------------------------
+            if (array_key_exists('SilvercartProductMirrorGroupIDs', $record)) {
+                
+                // Delete existing relations
+                if ($silvercartProduct->SilvercartProductGroupMirrorPages()) {
+                    foreach ($silvercartProduct->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
+                        $silvercartProduct->SilvercartProductGroupMirrorPages()->remove($silvercartProductGroupMirrorPage);
+                    }
+                }
+                
+                // Set new relations
+                $silvercartProductMirrorGroupIDs = explode(',', $record['SilvercartProductMirrorGroupIDs']);
+                
+                foreach ($silvercartProductMirrorGroupIDs as $silvercartProductMirrorGroupID) {
+                    $silvercartProductGroupMirrorPage = DataObject::get_by_id('SilvercartProductGroupPage', $silvercartProductMirrorGroupID);
+                    
+                    if ($silvercartProductGroupMirrorPage) {
+                        $silvercartProduct->SilvercartProductGroupMirrorPages()->add($silvercartProductGroupMirrorPage);
+                    }
+                    unset($silvercartProductGroupMirrorPage);
+                }
+                unset($silvercartProductMirrorGroupIDs);
+            }
+            $this->Log('Mirror IDs set');
             $silvercartProduct->write();
+            
             $silvercartProductID = $silvercartProduct->ID;
             
             if ($action == 'update') {

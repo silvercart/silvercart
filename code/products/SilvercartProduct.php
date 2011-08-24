@@ -185,7 +185,8 @@ class SilvercartProduct extends DataObject {
      * @since 27.06.2011
      */
     public static $casting = array(
-        'isActiveString'        => 'VarChar(8)'
+        'isActiveString'                    => 'VarChar(8)',
+        'SilvercartProductMirrorGroupIDs'   => 'Text'
     );
     
     /**
@@ -797,6 +798,9 @@ class SilvercartProduct extends DataObject {
             } else {
                 $price = $this->PriceGross;
             }
+            if ($price->getAmount() < 0) {
+                $price->setAmount(0);
+            }
             return $price; 
         }
         return $overwritten[0];
@@ -1311,6 +1315,33 @@ class SilvercartProduct extends DataObject {
             return true;
         }
     }
+    
+    /**
+     * Returns a string of comma separated IDs of the attributed
+     * SilvercartProductGroupMirror objects.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.08.2011
+     */
+    public function getSilvercartProductMirrorGroupIDs() {
+        $idListArray = array();
+        $idList      = '';
+        
+        if ($this->SilvercartProductGroupMirrorPages()) {
+            foreach ($this->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
+                $idListArray[] = $silvercartProductGroupMirrorPage->ID;
+                unset($silvercartProductGroupMirrorPage);
+            }
+        }
+        
+        if (!empty($idListArray)) {
+            $idList = implode(',', $idListArray);
+        }
+        
+        return $idList;
+    }
 }
 
 /**
@@ -1357,7 +1388,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         );
 
         $form->sessionMessage($returnValue, 'good');
-        
+
         Director::redirectBack();
         
         

@@ -262,6 +262,7 @@ $lang['en_GB']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 $lang['en_GB']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
 
 $lang['en_GB']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
+$lang['en_GB']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE'] = 'Products per page';
 
 $lang['en_GB']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_GB']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';

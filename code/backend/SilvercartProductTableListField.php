@@ -89,6 +89,8 @@ class SilvercartProductTableListField extends TableListField {
         'SilvercartProductGroupID'              => 'SilvercartProductGroupID',
         'SilvercartManufacturerID'              => 'SilvercartManufacturerID',
         'SilvercartAvailabilityStatusID'        => 'SilvercartAvailabilityStatusID',
+        'SilvercartTaxID'                       => 'SilvercartTaxID',
+        'SilvercartProductMirrorGroupIDs'       => 'SilvercartProductMirrorGroupIDs'
     );
     
     /**

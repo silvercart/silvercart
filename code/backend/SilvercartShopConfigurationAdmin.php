@@ -153,7 +153,7 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
      */
     public function SearchForm() {
         $form = parent::SearchForm();
-
+        
         switch ($this->getModelClass()) {
             case 'SilvercartConfig':
                 $form->setFields(new FieldSet());

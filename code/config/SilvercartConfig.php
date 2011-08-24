@@ -78,8 +78,8 @@ class SilvercartConfig extends DataObject {
         '15'        => '15',
         '20'        => '20',
         '50'        => '50',
-        '100'       => '100',
-        '0'         => 'All'
+        '100'       => '100'
+        //'0'         => 'All' // Activate this only for shops with small product counts
     );
     
     /**
