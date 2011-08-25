@@ -154,6 +154,7 @@ $lang['de_DE']['SilvercartNewsletterStatus']['REGULAR_CUSTOMER_WITH_SAME_EMAIL_E
 $lang['de_DE']['SilvercartNewsletterStatus']['NO_EMAIL_FOUND']              = 'Die Emailadresse "%s" konnte nicht gefunden werden.';
 $lang['de_DE']['SilvercartNewsletterStatus']['UNSUBSCRIBED_SUCCESSFULLY']   = 'Die Emailadresse "%s" wurde von der Liste der Newsletterempfänger entfernt.';
 $lang['de_DE']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY']     = 'Die Emailadresse "%s" wurde zu der Liste der Newsletterempfänger hinzugefügt.';
+$lang['de_DE']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN'] = 'Es wurde eine Email mit Instruktionen zur Bestätigung an die Adresse "%s" geschickt.';
 
 $lang['de_DE']['SilvercartNumberRange']['ACTUAL'] = 'Aktuell';
 $lang['de_DE']['SilvercartNumberRange']['ACTUALCOUNT'] = 'Aktuell';
@@ -675,9 +676,6 @@ $lang['de_DE']['SilvercartCustomerRole']['SALUTATION'] = 'Anrede';
 $lang['de_DE']['SilvercartCustomerRole']['SUBSCRIBEDTONEWSLETTER'] = 'Hat Newsletter aboniert';
 $lang['de_DE']['SilvercartCustomerRole']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Hat die AGB akzeptiert';
 $lang['de_DE']['SilvercartCustomerRole']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Hat die Widerrufsbelehrung akzeptiert';
-$lang['de_DE']['SilvercartCustomerRole']['CONFIRMATIONDATE'] = 'Bestätigungsdatum';
-$lang['de_DE']['SilvercartCustomerRole']['CONFIRMATIONHASH'] = 'Bestätigungscode';
-$lang['de_DE']['SilvercartCustomerRole']['OPTINSTATUS'] = 'Opt-In Status';
 $lang['de_DE']['SilvercartCustomerRole']['BIRTHDAY'] = 'Geburtstag';
 $lang['de_DE']['SilvercartCustomerRole']['TYPE'] = 'Typ';
 
@@ -767,6 +765,20 @@ $lang['de_DE']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Ihre Kunde
 $lang['de_DE']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES'] = 'Ihre aktuelle Rechnungs- und Lieferadresse';
 $lang['de_DE']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS'] = 'Ihre aktuellsten Bestellungen';
 $lang['de_DE']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Ihre persönlichen Daten';
+
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['ALREADY_CONFIRMED_MESSAGE_TEXT']   = 'Nachricht: Benutzer hat Opt-In schon vollzogen';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['FAILURE_MESSAGE_TEXT']             = 'Fehlermeldung';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['PLURALNAME']                       = 'Newsletter Opt-In Seite';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['SINGULARNAME']                     = 'Newsletter Opt-In Seiten';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['SUCCESS_MESSAGE_TEXT']             = 'Erfolgsmeldung';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONFAILUREMESSAGE']       = '<p>Ihre Newsletteranmeldung konnte nicht abgeschlossen werden.</p>';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE']       = '<p>Ihre Newsletteranmeldung war erfolgreich!</p><p>Wir wünschen Ihnen viel Spaß und Erfolg mit unseren Angeboten.</p>';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['ALREADYCONFIRMEDMESSAGE']          = '<p>Sie hatten die Newsletteranmeldung schon zuvor abgeschlossen.</p>';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['CONTENT']                          = '';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['URL_SEGMENT']                      = 'newsletter-opt-in-confirmation';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['TITLE']                            = 'Newsletteranmeldung abschließen';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['TITLE_THANKS']                     = 'Newsletteranmeldung erfolgreich abgeschlossen';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_TEXT']          = '<h1>Newsletter-Anmeldung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href="$ConfirmationLink">Anmeldung bestätigen</a></p><p>Sollten Sie den Newsletter nicht angefordert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>';
 
 $lang['de_DE']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Gesamtbetrag brutto';
 $lang['de_DE']['SilvercartOrder']['AMOUNTTOTAL'] = 'Gesamtbetrag';

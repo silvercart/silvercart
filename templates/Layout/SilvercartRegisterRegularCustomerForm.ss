@@ -144,6 +144,4 @@
     </div>
 
     $CustomHtmlFormFieldByName(backlink,CustomHtmlFormFieldHidden)
-    $CustomHtmlFormFieldByName(backlinkText,CustomHtmlFormFieldHidden)
-    $CustomHtmlFormFieldByName(optInTempText,CustomHtmlFormFieldHidden)
 </form>

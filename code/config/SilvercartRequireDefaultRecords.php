@@ -498,9 +498,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterPage->Title          = _t('SilvercartNewsletterPage.TITLE', 'Newsletter');
             $newsletterPage->URLSegment     = _t('SilvercartNewsletterPage.URL_SEGMENT', 'newsletter');
             $newsletterPage->Status         = "Published";
-            $newsletterPage->ShowInMenus    = false;
-            $newsletterPage->ShowInSearch   = false;
-            $newsletterPage->ParentID       = $rootPage->ID;
+            $newsletterPage->ShowInMenus    = true;
+            $newsletterPage->ShowInSearch   = true;
+            $newsletterPage->ParentID       = $metaNavigationHolder->ID;
             $newsletterPage->IdentifierCode = "SilvercartNewsletterPage";
             $newsletterPage->write();
             $newsletterPage->publish("Stage", "Live");
@@ -512,10 +512,26 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterResponsePage->Status         = "Published";
             $newsletterResponsePage->ShowInMenus    = false;
             $newsletterResponsePage->ShowInSearch   = false;
-            $newsletterResponsePage->ParentID       = $newsletterResponsePage->ID;
+            $newsletterResponsePage->ParentID       = $newsletterPage->ID;
             $newsletterResponsePage->IdentifierCode = "SilvercartNewsletterResponsePage";
             $newsletterResponsePage->write();
             $newsletterResponsePage->publish("Stage", "Live");
+            
+            //create a silvercart newsletter opt-in confirmation page
+            $newsletterOptInConfirmationPage = new SilvercartNewsletterOptInConfirmationPage();
+            $newsletterOptInConfirmationPage->Title = _t('SilvercartNewsletterOptInConfirmationPage.TITLE', 'register confirmation page');
+            $newsletterOptInConfirmationPage->URLSegment = _t('SilvercartNewsletterOptInConfirmationPage.URL_SEGMENT', 'register-confirmation');
+            $newsletterOptInConfirmationPage->Content = _t('SilvercartNewsletterOptInConfirmationPage.CONTENT');
+            $newsletterOptInConfirmationPage->ConfirmationFailureMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
+            $newsletterOptInConfirmationPage->ConfirmationSuccessMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
+            $newsletterOptInConfirmationPage->AlreadyConfirmedMessage = _t('SilvercartNewsletterOptInConfirmationPage.ALREADYCONFIRMEDMESSAGE');
+            $newsletterOptInConfirmationPage->Status = "Published";
+            $newsletterOptInConfirmationPage->ParentID = $newsletterPage->ID;
+            $newsletterOptInConfirmationPage->ShowInMenus = false;
+            $newsletterOptInConfirmationPage->ShowInSearch = false;
+            $newsletterOptInConfirmationPage->IdentifierCode = "SilvercartNewsletterOptInConfirmationPage";
+            $newsletterOptInConfirmationPage->write();
+            $newsletterOptInConfirmationPage->publish("Stage", "Live");
         }
 
         /*
@@ -592,6 +608,28 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactEmail->setField('Variables',    "\$FirstName\n\$Surname\n\$Email\n\$Message");
             $contactEmail->setField('EmailText',    _t('SilvercartContactMessage.TEXT'));
             $contactEmail->write();
+        }
+        $shopEmailNewsletterOptIn = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'NewsletterOptIn'"
+        );
+        if (!$shopEmailNewsletterOptIn) {
+            $shopEmailNewsletterOptIn = new SilvercartShopEmail();
+            $shopEmailNewsletterOptIn->setField('Identifier', 'NewsletterOptIn');
+            $shopEmailNewsletterOptIn->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE'));
+            $shopEmailNewsletterOptIn->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.EMAIL_CONFIRMATION_TEXT'));
+            $shopEmailNewsletterOptIn->write();
+        }
+        $shopEmailNewsletterOptInConfirmation = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'NewsletterOptInConfirmation'"
+        );
+        if (!$shopEmailNewsletterOptInConfirmation) {
+            $shopEmailNewsletterOptInConfirmation = new SilvercartShopEmail();
+            $shopEmailNewsletterOptInConfirmation->setField('Identifier', 'NewsletterOptInConfirmation');
+            $shopEmailNewsletterOptInConfirmation->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE_THANKS'));
+            $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
+            $shopEmailNewsletterOptInConfirmation->write();
         }
 
         $this->extend('updateDefaultRecords', $rootPage);

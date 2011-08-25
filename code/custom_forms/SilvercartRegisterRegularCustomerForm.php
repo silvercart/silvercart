@@ -199,14 +199,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         'backlink' => array(
             'type' => 'HiddenField',
             'value' => ''
-        ),
-        'backlinkText' => array(
-            'type' => 'HiddenField',
-            'value' => ''
-        ),
-        'optInTempText' => array(
-            'type' => 'HiddenField',
-            'value' => ''
         )
     );
 
@@ -299,12 +291,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         if (isset($_GET['backlink'])) {
             $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);
         }
-        if (isset($_GET['backlinkText'])) {
-            $this->formFields['backlinkText']['value'] = Convert::raw2sql($_GET['backlinkText']);
-        }
-        if (isset($_GET['optInTempText'])) {
-            $this->formFields['optInTempText']['value'] = Convert::raw2sql($_GET['optInTempText']);
-        }
     }
 
     /**
@@ -357,20 +343,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             Member::currentUser()->logOut();
         }
 
-        // Create Confirmation hash for opt-in confirmation mail
-        $confirmationHash = md5(
-            $formData['Email'] .
-            $formData['FirstName'] .
-            $formData['Surname'] .
-            mktime() .
-            rand()
-        );
-
         // Aggregate Data and set defaults
         $formData['MemberID']           = Member::currentUserID();
-        $formData['ConfirmationHash']   = $confirmationHash;
         $formData['Locale']             = 'de_DE';
-        $formData['OptInStatus']        = 0;
         $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
                                           $formData['BirthdayMonth'] . '-' .
                                           $formData['BirthdayDay'];
@@ -394,9 +369,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         }
 
         $customer->castedUpdate($formData);
-        $customer->setField('ConfirmationBacklink',     $formData['backlink']);
-        $customer->setField('ConfirmationBacklinkText', $formData['backlinkText']);
-        $customer->setField('OptInTempText',            $formData['optInTempText']);
         $customer->write();
         $customer->logIn();
         $customer->changePassword($formData['Password']);
@@ -404,7 +376,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         // Add customer to intermediate group
         $customerGroup = DataObject::get_one(
             'Group',
-            "`Code` = 'b2c-optin'"
+            "`Code` = 'b2c'"
         );
         if ($customerGroup) {
             $customer->Groups()->add($customerGroup);
@@ -441,36 +413,30 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $customer->SilvercartAddresses()->add($invoiceAddress);
         $customer->write();
 
-        $this->sendOptInMail($formData);
-
         // Remove from the anonymous newsletter recipients list
-        SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($customer->Email);
+        if (SilvercartAnonymousNewsletterRecipient::doesExist($customer->Email)) {
+            $recipient = SilvercartAnonymousNewsletterRecipient::getByEmailAddress($customer->Email);
+            
+            if ($recipient->NewsletterOptInStatus) {
+                $customer->NewsletterOptInStatus = 1;
+                $customer->write();
+            }
+            SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($customer->Email);
+        }
+        
+        if ( $customer->SubscribedToNewsletter &&
+            !$customer->NewsletterOptInStatus) {
+            
+            SilvercartNewsletter::subscribeRegisteredCustomer($customer);
+        }
 
         // Redirect to welcome page
-        Director::redirect($this->controller->PageByIdentifierCode('RegistrationWelcomePage')->Link());
-    }
-
-    /**
-     * sendOptInMail
-     *
-     * @param array $formData Enthaelt die geparsten Formulardaten
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.10.2010
-     */
-    protected function sendOptInMail($formData) {
-        SilvercartShopEmail::send(
-            'RegistrationOptIn',
-            $formData['Email'],
-            array(
-                'FirstName'         => $formData['FirstName'],
-                'Surname'           => $formData['Surname'],
-                'Email'             => $formData['Email'],
-                'ConfirmationLink'  => SilvercartPage_Controller::PageByIdentifierCode("SilvercartRegisterConfirmationPage")->getAbsoluteLiveLink(false).'/?h='.urlencode($formData['ConfirmationHash'])
-            )
-        );
+        if (array_key_exists('backLink', $formData) &&
+            $empty($formData['backLink'])) {
+            
+             Director::redirect($backLink);
+        } else {
+            Director::redirect($this->controller->PageByIdentifierCode('RegistrationWelcomePage')->Link());
+        }
     }
 }

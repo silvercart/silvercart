@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 22.03.2011
  */
-class SilvercartNewsletterResponsePage extends Page {
+class SilvercartNewsletterResponsePage extends SilvercartMetaNavigationHolder {
     
     public static $icon = "silvercart/images/page_icons/newsletter_status";
 
@@ -58,7 +58,7 @@ class SilvercartNewsletterResponsePage extends Page {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @since 22.03.2011
  */
-class SilvercartNewsletterResponsePage_Controller extends Page_Controller {
+class SilvercartNewsletterResponsePage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
      * Here we initialise the form object.

@@ -214,7 +214,33 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
 
         $member->castedUpdate($registrationData);
         
+        if (!$member->SubscribedToNewsletter) {
+            $member->NewsletterOptInStatus      = false;
+            $member->NewsletterConfirmationHash = '';
+        }
+        
         $member->write();
+        
+        if ( $member->SubscribedToNewsletter &&
+            !$member->NewsletterOptInStatus) {
+            
+            $confirmationHash = SilvercartNewsletter::createConfirmationHash(
+                $member->Salutation,
+                $member->FirstName,
+                $member->Surname,
+                $member->Email
+            );
+            $member->setField('NewsletterConfirmationHash', $confirmationHash);
+            $member->write();
+            
+            SilvercartNewsletter::sendOptInEmailTo(
+                $member->Salutation,
+                $member->FirstName,
+                $member->Surname,
+                $member->Email,
+                $confirmationHash
+            );
+        }
 
         Director::redirect($this->controller->Link());
     }

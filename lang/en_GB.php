@@ -154,6 +154,7 @@ $lang['en_GB']['SilvercartNewsletterStatus']['REGULAR_CUSTOMER_WITH_SAME_EMAIL_E
 $lang['en_GB']['SilvercartNewsletterStatus']['NO_EMAIL_FOUND']              = 'We could not find the email address "%s".';
 $lang['en_GB']['SilvercartNewsletterStatus']['UNSUBSCRIBED_SUCCESSFULLY']   = 'The email address "%s" was unsubscribed successfully.';
 $lang['en_GB']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY']     = 'The email address "%s" was subscribed successfully.';
+$lang['en_GB']['SilvercartNewsletterStatus']['SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN'] = 'An email was sent to the address "%s" with further instructions for the confirmation.';
 
 $lang['en_GB']['SilvercartNumberRange']['ACTUAL'] = 'Actual';
 $lang['en_GB']['SilvercartNumberRange']['ACTUALCOUNT'] = 'Actual';
@@ -675,9 +676,6 @@ $lang['en_GB']['SilvercartCustomerRole']['SALUTATION'] = 'Salutation';
 $lang['en_GB']['SilvercartCustomerRole']['SUBSCRIBEDTONEWSLETTER'] = 'Subscribed to newsletter';
 $lang['en_GB']['SilvercartCustomerRole']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Has accepted terms and conditions';
 $lang['en_GB']['SilvercartCustomerRole']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Has accepted revocation instruction';
-$lang['en_GB']['SilvercartCustomerRole']['CONFIRMATIONDATE'] = 'Confirmation date';
-$lang['en_GB']['SilvercartCustomerRole']['CONFIRMATIONHASH'] = 'Confirmation code';
-$lang['en_GB']['SilvercartCustomerRole']['OPTINSTATUS'] = 'Opt-in status';
 $lang['en_GB']['SilvercartCustomerRole']['BIRTHDAY'] = 'Birthday';
 $lang['en_GB']['SilvercartCustomerRole']['TYPE'] = 'Type';
 
@@ -766,6 +764,20 @@ $lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Your custo
 $lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES'] = 'Your current invoice and delivery address';
 $lang['en_GB']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS'] = 'Your most current orders';
 $lang['en_GB']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Your personal data';
+
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['ALREADY_CONFIRMED_MESSAGE_TEXT']   = 'Message: user completed opt-in already';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['FAILURE_MESSAGE_TEXT']             = 'Failure message';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['PLURALNAME']                       = 'Newsletter opt-in confirmation page';
+$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['SINGULARNAME']                     = 'Newsletter opt-in confirmation pages';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['SUCCESS_MESSAGE_TEXT']             = 'Success message';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONFAILUREMESSAGE']       = '<p>Your newsletter registration couldn\'t be completed.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE']       = '<p>Your newsletter registration was successful!</p><p>Hopefully our offers will be of good use to you.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['ALREADYCONFIRMEDMESSAGE']          = '<p>Your newsletter registration has been completed already.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['CONTENT']                          = '';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['URL_SEGMENT']                      = 'newsletter-opt-in-confirmation';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['TITLE']                            = 'Complete newsletter registration';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['TITLE_THANKS']                     = 'Newsletter registration successfully completed';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_TEXT']          = '<h1>Complete newsletter registration</h1><p>Click on the activation link or copy the link to your browser please.</p><p><a href="$ConfirmationLink">Confirm newsletter registration</a></p><p>If you haven\'t requested the newsletter registration just ignore this email.</p><p>Your webshop team</p>';
 
 $lang['en_GB']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Total gross amount';
 $lang['en_GB']['SilvercartOrder']['AMOUNTTOTAL'] = 'Total amount';

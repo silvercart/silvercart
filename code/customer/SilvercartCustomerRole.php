@@ -45,15 +45,11 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         return array(
             'db' => array(
                 'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
-                'SubscribedToNewsletter'            => 'Boolean',
-                'HasAcceptedTermsAndConditions'     => 'Boolean',
-                'HasAcceptedRevocationInstruction'  => 'Boolean',
-                'ConfirmationDate'                  => 'SS_DateTime',
-                'ConfirmationHash'                  => 'VarChar(100)',
-                'ConfirmationBacklink'              => 'VarChar(255)',
-                'ConfirmationBacklinkText'          => 'VarChar(255)',
-                'OptInStatus'                       => 'Boolean',
-                'OptInTempText'                     => 'Text',
+                'NewsletterOptInStatus'             => 'Boolean(0)',
+                'NewsletterConfirmationHash'        => 'VarChar(50)',
+                'SubscribedToNewsletter'            => 'Boolean(0)',
+                'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
+                'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
                 'Birthday'                          => 'Date',
                 'CustomerNumber'                    => 'VarChar(128)',
             ),
@@ -89,9 +85,6 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SubscribedToNewsletter'            => _t('SilvercartCustomerRole.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
                 'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomerRole.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
                 'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomerRole.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
-                'ConfirmationDate'                  => _t('SilvercartCustomerRole.CONFIRMATIONDATE', 'confirmation date'),
-                'ConfirmationHash'                  => _t('SilvercartCustomerRole.CONFIRMATIONHASH', 'confirmation code'),
-                'OptInStatus'                       => _t('SilvercartCustomerRole.OPTINSTATUS', 'opt-in status'),
                 'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
                 'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
                 'CustomerNumber'                    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
@@ -195,10 +188,9 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 $isInCustomerGroup = true;
             }
             
-            if (($member->ClassName == "SilvercartRegularCustomer" ||
-                 $member->ClassName == 'SilvercartBusinessCustomer' ||
-                 $isInCustomerGroup) &&
-                $member->OptInStatus === '1') {
+            if ($member->ClassName == "SilvercartRegularCustomer" ||
+                $member->ClassName == 'SilvercartBusinessCustomer' ||
+                $isInCustomerGroup) {
 
                 return $member;
             }
