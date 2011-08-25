@@ -418,7 +418,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             $recipient = SilvercartAnonymousNewsletterRecipient::getByEmailAddress($customer->Email);
             
             if ($recipient->NewsletterOptInStatus) {
-                $customer->NewsletterOptInStatus = 1;
+                $customer->NewsletterOptInStatus      = 1;
+                $customer->NewsletterConfirmationHash = $recipient->NewsletterOptInConfirmationHash;
                 $customer->write();
             }
             SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($customer->Email);
