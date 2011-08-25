@@ -78,7 +78,9 @@ class SilvercartNewsletter extends DataObject {
         $unSubscribed = false;
         
         if ($member instanceof Member) {
-            $member->SubscribedToNewsletter = false;
+            $member->SubscribedToNewsletter     = false;
+            $member->NewsletterConfirmationHash = '';
+            $member->NewsletterOptInStatus      = false;
             $member->write();
             $unSubscribed = true;
         }
