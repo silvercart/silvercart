@@ -161,7 +161,7 @@ class SilvercartAddress extends DataObject {
      *
      * @return string
      */
-    public function getSalutaionText() {
+    public function getSalutationText() {
         if ($this->Salutation == 'Herr') {
             $salutation = _t('SilvercartAddress.MISTER', 'Mister');
         } else {

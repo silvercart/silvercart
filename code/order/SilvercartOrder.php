@@ -1170,6 +1170,12 @@ class SilvercartOrder extends DataObject {
      * @return void
      */
     public function sendConfirmationMail() {
+        $result = $this->extend('updateConfimationMail');
+        if (is_array($result) &&
+            array_key_exists(0, $result) &&
+            $result[0] === true) {
+            return;
+        }
         SilvercartShopEmail::send(
             'MailOrderConfirmation',
             $this->CustomersEmail,
@@ -1294,15 +1300,17 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-	 * We modify the original search query here, so that the administrator can
+     * We modify the original search query here, so that the administrator can
      * search for the firstname and surname in both the invoice and shipping
      * address of the order with only one input field for each.
-	 *
-	 * @return SQLQuery
+     * 
+     * @param mixed $searchCriteria Search criteria
+     *
+     * @return SQLQuery
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
-	 */
+     */
     public function getSearchQuery($searchCriteria) {
         $query = parent::getSearchQuery($searchCriteria);
         $query->leftJoin( 'SilvercartAddress', 'SilvercartInvoiceAddress.ID = SilvercartOrder.SilvercartInvoiceAddressID', 'SilvercartInvoiceAddress');

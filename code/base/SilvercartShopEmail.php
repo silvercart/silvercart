@@ -144,17 +144,18 @@ class SilvercartShopEmail extends DataObject {
     /**
      * sends email to defined address
      *
-     * @param string $identifier identifier for email template
-     * @param string $to         recipients email address
-     * @param array  $variables  array with template variables that can be called in the template
+     * @param string $identifier  identifier for email template
+     * @param string $to          recipients email address
+     * @param array  $variables   array with template variables that can be called in the template
+     * @param string $attachement absolute filename to an attachment file
      *
      * @return bool
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 06.12.2010
+     * @since 25.08.2011
      */
-    public static function send($identifier, $to, $variables = array()) {
+    public static function send($identifier, $to, $variables = array(), $attachement = null) {
         $mailObj = DataObject::get_one(
             'SilvercartShopEmail',
             sprintf(
@@ -188,6 +189,9 @@ class SilvercartShopEmail extends DataObject {
                 'ShopEmailMessage' => $emailText,
             )
         );
+        if (!is_null($attachement)) {
+            $email->attachFile($attachement, basename($attachement));
+        }
 
         $email->send();
         if (SilvercartConfig::GlobalEmailRecipient() != '') {
@@ -234,6 +238,9 @@ class SilvercartShopEmail extends DataObject {
                     'ShopEmailMessage' => $emailText,
                     )
                 );
+                if (!is_null($attachement)) {
+                    $email->attachFile($attachement, basename($attachement));
+                }
                 $email->send();
             }
         }
