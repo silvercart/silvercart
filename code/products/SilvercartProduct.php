@@ -185,7 +185,7 @@ class SilvercartProduct extends DataObject {
      * @since 27.06.2011
      */
     public static $casting = array(
-        'isActiveString'                    => 'VarChar(8)',
+        'isActiveString'    => 'VarChar(8)',
         'SilvercartProductMirrorGroupIDs'   => 'Text'
     );
     
@@ -259,13 +259,14 @@ class SilvercartProduct extends DataObject {
             'SilvercartProductGroup.Title'          => _t('SilvercartProductGroupPage.SINGULARNAME'),
             'SilvercartManufacturer.Title'          => _t('SilvercartManufacturer.SINGULARNAME'),
             'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
-            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
+            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE')
         );
         
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
-
+    
+    
     /**
      * Searchable fields
      *
@@ -295,6 +296,10 @@ class SilvercartProduct extends DataObject {
             ),
             'SilvercartManufacturer.Title' => array(
                 'title'     => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+                'filter'    => 'PartialMatchFilter'
+             ),
+            'ProductNumberManufacturer' => array(
+                'title'     => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'filter'    => 'PartialMatchFilter'
              ),
             'isFreeOfCharge' => array(
@@ -804,6 +809,25 @@ class SilvercartProduct extends DataObject {
             return $price; 
         }
         return $overwritten[0];
+    }
+    
+    /**
+     * Returns the formatted (Nice) price.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.08.2011
+     */
+    public function getPriceNice() {
+        $priceNice = '';
+        $price     = $this->getPrice();
+        
+        if ($price) {
+            $priceNice = $price->Nice();
+        }
+        
+        return $priceNice;
     }
 
     /**
@@ -1335,7 +1359,7 @@ class SilvercartProduct extends DataObject {
                 unset($silvercartProductGroupMirrorPage);
             }
         }
-        
+
         if (!empty($idListArray)) {
             $idList = implode(',', $idListArray);
         }
@@ -1388,6 +1412,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         );
 
         $form->sessionMessage($returnValue, 'good');
+
         /*
         return new SS_HTTPResponse(
             $form->forTemplate(), 
@@ -1398,6 +1423,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             )
         );
         */
+
         Director::redirectBack();
         
         
