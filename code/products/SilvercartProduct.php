@@ -1622,13 +1622,17 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $mapNames[Convert::raw2sql($fileName)] = $file;
         }
         
+        // Add trailing slash if necessary
+        if (substr($data['imageDirectory'], -1) != '/') {
+            $data['imageDirectory'] .= '/';
+        }
+        
         $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearch), $mapNames);
         
         // Create Image object and SilvercartImage objects and connect them
         // to the respective SilvercartProduct
         if ($products) {
             foreach ($products as $product) {
-                
                 // Create Image
                 $image = $this->createImageObject(
                     $data['imageDirectory'].$product['fileName'],
@@ -1650,6 +1654,15 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                     }
                     unset($image);
                     unset($silvercartImage);
+                }
+            }
+            
+            // Unlink imported images from original location. We have to do
+            // this in a separated loop because one image can be used for
+            // many products.
+            foreach ($products as $product) {
+                if (file_exists($data['imageDirectory'].$product['fileName'])) {
+                    unlink($data['imageDirectory'].$product['fileName']);
                 }
             }
         }
@@ -1739,7 +1752,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         // move image to silverstripe path
         $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
 
-        rename($filePath, $newFilePath);
+        copy($filePath, $newFilePath);
 
         $sqlQuery = new SQLQuery(
             'ID',
