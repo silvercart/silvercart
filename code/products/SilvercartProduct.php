@@ -1593,7 +1593,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         if (empty($data['imageDirectory'])) {
             return sprintf(
                 "<p style=\"margin: 10px;\">%s</p>",
-                _t('SilvercartProduct.IMPORTIMAGESFORM_ERROR_NOTIMAGEDIRECTORYGIVEN')
+                _t('SilvercartProduct.IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN')
             );
         }
         
@@ -1667,11 +1667,13 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             }
         }
         
+        print "<div style=\"margin: 10px\">";
         printf(
-            "<div style=\"margin: 10px\"><p>Found %d files.</p><p>%d could be attributed to products and were imported.</p></div>",
+            _t('SilvercartProduct.IMPORTIMAGESFORM_REPORT'),
             $foundFiles,
             $importedFiles
         );
+        print "</div>";
     }
     
     /**
@@ -1752,8 +1754,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         // move image to silverstripe path
         $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
 
-        copy($filePath, $newFilePath);
-
+        if (!copy($filePath, $newFilePath)) {
+            return false;
+        }
+        
         $sqlQuery = new SQLQuery(
             'ID',
             'File',
@@ -1779,12 +1783,12 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                 $insertID
             )
         );
-        
+
         $object = DataObject::get_by_id(
             'File',
             $insertID
         );
-        
+
         if ($object) {
             $object->setField('ClassName',   $objectClassName);
             $object->setField('Created',     date('Y-m-d H:i:s'));
