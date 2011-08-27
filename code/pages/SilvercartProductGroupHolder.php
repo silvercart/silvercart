@@ -72,6 +72,21 @@ class SilvercartProductGroupHolder extends Page {
         $this->extend('extendCMSFields', $fields);
         return $fields;
     }
+
+    /**
+     * Checks if SilvercartProductGroup has children or products.
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.02.2011
+     */
+    public function hasProductsOrChildren() {
+        if (count($this->Children()) > 0) {
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
@@ -129,7 +144,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      *
      * @return array
      */
-    public static function getRecursiveProductGroupsForGroupedDropdownAsArray($parent = null, $allChildren = false) {
+    public static function getRecursiveProductGroupsForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false) {
         $productGroups = array();
         
         if (is_null($parent)) {
@@ -138,6 +153,9 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         }
         
         if ($parent) {
+            if ($withParent) {
+                $productGroups[$parent->ID] = $parent->Title;
+            }
             if ($allChildren) {
                 $children = $parent->AllChildren();
             } else {

@@ -100,7 +100,9 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
         $backLink = $this->controller->Link();
 
-        if (isset($formData['backLink'])) {
+        if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
+            $backLink = SilvercartPage_Controller::PageByIdentifierCodeLink('SilvercartCartPage');
+        } else if (isset($formData['backLink'])) {
             $backLink = $formData['backLink'];
         }
         

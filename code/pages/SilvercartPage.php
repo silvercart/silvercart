@@ -730,4 +730,40 @@ class SilvercartPage_Controller extends ContentController {
         $this->WidgetSetContentControllers = $controllers;
         $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
     }
+    /**
+     * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
+     *
+     * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
+     * @param boolean  $allChildren ???
+     *
+     * @return array
+     */
+    public static function getRecursivePagesForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false) {
+        $pages = array();
+        
+        if (is_null($parent)) {
+            $pages['']  = '';
+            $parent             = self::PageByIdentifierCode('SilverCartPageHolder');
+        }
+        
+        if ($parent) {
+            if ($withParent) {
+                $pages[$parent->ID] = $parent->Title;
+            }
+            if ($allChildren) {
+                $children = $parent->AllChildren();
+            } else {
+                $children = $parent->Children();
+            }
+            foreach ($children as $child) {
+                $pages[$child->ID] = $child->Title;
+                $subs                      = self::getRecursivePagesForGroupedDropdownAsArray($child);
+                
+                if (!empty ($subs)) {
+                    $pages[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $subs;
+                }
+            }
+        }
+        return $pages;
+    }
 }
