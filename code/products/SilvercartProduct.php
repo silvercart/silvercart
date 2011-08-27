@@ -1323,19 +1323,24 @@ class SilvercartProduct extends DataObject {
      * If stock management is activated but the quantity is overbookable true is
      * returned.
      * 
-     * @return boolean Can this product be bought due to stock managemnt settings?
+     * @return boolean Can this product be bought due to stock management
+     *                 settings and the customers cart?
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.7.2011
      */
     public function isBuyableDueToStockManagementSettings() {
+        //is the product already in the cart?
+        $cartPositionQuantity = 0;
+        if (Member::currentUser() && Member::currentUser()->SilvercartShoppingCart()) {
+            $cartPositionQuantity = Member::currentUser()->SilvercartShoppingCart()->getQuantity($this->ID);
+        }
         if (SilvercartConfig::EnableStockManagement()
                 && !$this->isStockQuantityOverbookable() 
-                && $this->StockQuantity <= 0) {
+                && ($this->StockQuantity - $cartPositionQuantity) <= 0) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
     
     /**
