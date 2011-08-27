@@ -788,22 +788,20 @@ class SilvercartProduct extends DataObject {
      * @since 18.3.2011
      */
     public function getPrice() {
-        $overwritten = $this->extend('updatePrice', $quantity);
-        if (empty ($overwritten) || $overwritten[0] === false) {
-           $pricetype = SilvercartConfig::Pricetype();
-            if ($pricetype =="net") {
-                $price = $this->PriceNet;
-            } elseif ($pricetype == "gross") {
-                $price = $this->PriceGross;
-            } else {
-                $price = $this->PriceGross;
-            }
-            if ($price->getAmount() < 0) {
-                $price->setAmount(0);
-            }
-            return $price; 
+       $pricetype = SilvercartConfig::Pricetype();
+        if ($pricetype =="net") {
+            $price = $this->PriceNet;
+        } elseif ($pricetype == "gross") {
+            $price = $this->PriceGross;
+        } else {
+            $price = $this->PriceGross;
         }
-        return $overwritten[0];
+        if ($price->getAmount() < 0) {
+            $price->setAmount(0);
+        }
+        //overwrite the price in a decorator
+        $this->extend('updatePrice', $price);
+        return $price; 
     }
 
     /**
@@ -1578,11 +1576,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     /**
      * Imports images with the settings from $this->ImportImagesForm().
      *
-     * @return void
-     *
      * @param array          $data    The data sent
      * @param Form           $form    The form object
      * @param SS_HTTPRequest $request The request object
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.08.2011
@@ -1679,11 +1677,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     /**
      * Create a SilvercartImage object with the given parameters.
      *
-     * @return mixed SilvercartImage|boolean false
-     *
      * @param int    $silvercartProductID The ID of the attributed SilvercartProduct
      * @param int    $imageID             The ID of the attributed image
      * @param string $title               The title for the image
+     * 
+     * @return mixed SilvercartImage|boolean false
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.08.2011
@@ -1692,10 +1690,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $sqlQuery = new SQLQuery(
             'ID',
             'SilvercartImage',
-            NULL,
+            null,
             'ID DESC',
-            NULL,
-            NULL,
+            null,
+            null,
             '1'
         );
         $insertID = $sqlQuery->execute()->value();
@@ -1761,10 +1759,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $sqlQuery = new SQLQuery(
             'ID',
             'File',
-            NULL,
+            null,
             'ID DESC',
-            NULL,
-            NULL,
+            null,
+            null,
             '1'
         );
         $insertID = $sqlQuery->execute()->value();
@@ -1809,9 +1807,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      *     - ProductNumberManufacturer
      * Returns the ID of the found product or false.
      *
+     * @param string $numbers  The number to search for
+     * @param string $mapNames ???
+     * 
      * @return mixed int|boolean false
-     *
-     * @param string $number The number to search for
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.08.2011
