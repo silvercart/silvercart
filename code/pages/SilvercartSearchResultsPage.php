@@ -239,7 +239,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                     // Regular search
                     // --------------------------------------------------------
                     $filter              = '';
-                    $this->listFilters[] = sprintf("
+                    $this->listFilters['original'] = sprintf("
                         `SilvercartProductGroupID` IS NOT NULL AND
                         `SilvercartProductGroupID` > 0 AND
                         `isActive` = 1 AND (
@@ -274,7 +274,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                         }
                     }
 
-                    foreach ($this->listFilters as $listFilter) {
+                    foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                         $filter .= ' ' . $listFilter;
                     }
                     
@@ -382,6 +382,26 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     public function getProducts() {
         return $this->searchResultProducts;
     }
+    
+    /**
+     * Returns the SQL filter statement for the current query.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    public function getListFilters($excludeFilter = false) {
+        $filter = '';
+        
+        foreach ($this->listFilters as $listFilterIdenfitier => $listFilter) {
+            if ($listFilterIdenfitier != $excludeFilter) {
+                $filter .= ' ' . $listFilter;
+            }
+        }
+        
+        return $filter;
+    }
 
     /**
      * Indicates wether the resultset of the product query returns more items
@@ -486,5 +506,30 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         }
         
         return $productsPerPage;
+    }
+    
+    /**
+     * Adds a filter to filter the groups product list.
+     *
+     * @param string $property   The property to filter
+     * @param string $value      The value of the property
+     * @param string $comparison The comparison operator (default: '=')
+     * @param string $operator   The logical operator (default: 'AND')
+     *
+     * @return void
+     *
+     * @example $productGroup->addListFilter('SilvercartManufacturerID','5');
+     *          Will add the following filter: "AND `SilvercartManufacturerID` = '5'"
+     * @example $productGroup->addListFilter('SilvercartManufacturerID','(5,6,7)','IN','OR');
+     *          Will add the following filter: "OR `SilvercartManufacturerID` IN (5,6,7)"
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') {
+        if ($comparison == 'IN') {
+            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
+        } else {
+            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
+        }
     }
 }
