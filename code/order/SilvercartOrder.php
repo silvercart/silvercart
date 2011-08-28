@@ -1165,37 +1165,52 @@ class SilvercartOrder extends DataObject {
     /**
      * send a confirmation mail with order details to the customer $member
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.11.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.08.2011
      * @return void
      */
     public function sendConfirmationMail() {
-        $result = $this->extend('updateConfimationMail');
-        if (is_array($result) &&
-            array_key_exists(0, $result) &&
-            $result[0] === true) {
-            return;
-        }
+        
+        $params = array(
+            'MailOrderConfirmation' => array(
+                'Template'      => 'MailOrderConfirmation',
+                'Recipient'     => $this->CustomersEmail,
+                'Variables'     => array(
+                    'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                    'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'SilvercartOrder'   => $this
+                ),
+                'Attachments'   => null,
+            ),
+            'MailOrderNotification' => array(
+                'Template'      => 'MailOrderNotification',
+                'Recipient'     => Email::getAdminEmail(),
+                'Variables'     => array(
+                    'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                    'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'SilvercartOrder'   => $this
+                ),
+                'Attachments'   => null,
+            ),
+        );
+                
+        $result = $this->extend('updateConfimationMail', $params);
+        
         SilvercartShopEmail::send(
-            'MailOrderConfirmation',
-            $this->CustomersEmail,
-            array(
-                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
-                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
-                'SilvercartOrder'   => $this
-            )
+            $params['MailOrderConfirmation']['Template'],
+            $params['MailOrderConfirmation']['Recipient'],
+            $params['MailOrderConfirmation']['Variables'],
+            $params['MailOrderConfirmation']['Attachments']
         );
         SilvercartShopEmail::send(
-            'MailOrderNotification',
-            Email::getAdminEmail(),
-            array(
-                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
-                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
-                'SilvercartOrder'   => $this
-            )
+            $params['MailOrderNotification']['Template'],
+            $params['MailOrderNotification']['Recipient'],
+            $params['MailOrderNotification']['Variables'],
+            $params['MailOrderNotification']['Attachments']
         );
+        $this->extend('onAfterConfirmationMail');
     }
 
     /**

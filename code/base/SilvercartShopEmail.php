@@ -147,15 +147,15 @@ class SilvercartShopEmail extends DataObject {
      * @param string $identifier  identifier for email template
      * @param string $to          recipients email address
      * @param array  $variables   array with template variables that can be called in the template
-     * @param string $attachement absolute filename to an attachment file
+     * @param array  $attachments absolute filename to an attachment file
      *
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 25.08.2011
+     * @since 26.08.2011
      */
-    public static function send($identifier, $to, $variables = array(), $attachement = null) {
+    public static function send($identifier, $to, $variables = array(), $attachments = null) {
         $mailObj = DataObject::get_one(
             'SilvercartShopEmail',
             sprintf(
@@ -189,9 +189,8 @@ class SilvercartShopEmail extends DataObject {
                 'ShopEmailMessage' => $emailText,
             )
         );
-        if (!is_null($attachement)) {
-            $email->attachFile($attachement, basename($attachement));
-        }
+        
+        self::attachFiles($email, $attachments);
 
         $email->send();
         if (SilvercartConfig::GlobalEmailRecipient() != '') {
@@ -238,10 +237,40 @@ class SilvercartShopEmail extends DataObject {
                     'ShopEmailMessage' => $emailText,
                     )
                 );
-                if (!is_null($attachement)) {
-                    $email->attachFile($attachement, basename($attachement));
-                }
+                self::attachFiles($email, $attachments);
                 $email->send();
+            }
+        }
+    }
+    
+    /**
+     * Attaches the given files to the given email.
+     *
+     * @param Email $email       Email
+     * @param array $attachments Attachments
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.08.2011
+     */
+    protected static function attachFiles(Email $email, $attachments) {
+        if (!is_null($attachments)) {
+            if (is_array($attachments)) {
+                foreach ($attachments as $attachment) {
+                    if (is_array($attachment)) {
+                        $filename           = $attachment['filename'];
+                        $attachedFilename   = array_key_exists('attachedFilename', $attachment) ? $attachment['attachedFilename'] : basename($filename);
+                        $mimetype           = array_key_exists('mimetype', $attachment) ? $attachment['mimetype'] : null;
+                    } else {
+                        $filename           = $attachment;
+                        $attachedFilename   = basename($attachment);
+                        $mimetype           = null;
+                    }
+                    $email->attachFile($filename, $attachedFilename, $mimetype);
+                }
+            } else {
+                $email->attachFile($attachments, basename($attachments));
             }
         }
     }

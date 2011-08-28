@@ -185,7 +185,7 @@ class SilvercartProduct extends DataObject {
      * @since 27.06.2011
      */
     public static $casting = array(
-        'isActiveString'                    => 'VarChar(8)',
+        'isActiveString'    => 'VarChar(8)',
         'SilvercartProductMirrorGroupIDs'   => 'Text'
     );
     
@@ -259,13 +259,14 @@ class SilvercartProduct extends DataObject {
             'SilvercartProductGroup.Title'          => _t('SilvercartProductGroupPage.SINGULARNAME'),
             'SilvercartManufacturer.Title'          => _t('SilvercartManufacturer.SINGULARNAME'),
             'SilvercartAvailabilityStatus.Title'    => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
-            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE'),
+            'isActiveString'                        => _t('SilvercartProduct.IS_ACTIVE')
         );
         
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
-
+    
+    
     /**
      * Searchable fields
      *
@@ -295,6 +296,10 @@ class SilvercartProduct extends DataObject {
             ),
             'SilvercartManufacturer.Title' => array(
                 'title'     => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
+                'filter'    => 'PartialMatchFilter'
+             ),
+            'ProductNumberManufacturer' => array(
+                'title'     => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'filter'    => 'PartialMatchFilter'
              ),
             'isFreeOfCharge' => array(
@@ -788,22 +793,39 @@ class SilvercartProduct extends DataObject {
      * @since 18.3.2011
      */
     public function getPrice() {
-        $overwritten = $this->extend('updatePrice', $quantity);
-        if (empty ($overwritten) || $overwritten[0] === false) {
-           $pricetype = SilvercartConfig::Pricetype();
-            if ($pricetype =="net") {
-                $price = $this->PriceNet;
-            } elseif ($pricetype == "gross") {
-                $price = $this->PriceGross;
-            } else {
-                $price = $this->PriceGross;
-            }
-            if ($price->getAmount() < 0) {
-                $price->setAmount(0);
-            }
-            return $price; 
+       $pricetype = SilvercartConfig::Pricetype();
+        if ($pricetype =="net") {
+            $price = $this->PriceNet;
+        } elseif ($pricetype == "gross") {
+            $price = $this->PriceGross;
+        } else {
+            $price = $this->PriceGross;
         }
-        return $overwritten[0];
+        if ($price->getAmount() < 0) {
+            $price->setAmount(0);
+        }
+        //overwrite the price in a decorator
+        $this->extend('updatePrice', $price);
+        return $price; 
+    }
+    
+    /**
+     * Returns the formatted (Nice) price.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.08.2011
+     */
+    public function getPriceNice() {
+        $priceNice = '';
+        $price     = $this->getPrice();
+        
+        if ($price) {
+            $priceNice = $price->Nice();
+        }
+        
+        return $priceNice;
     }
 
     /**
@@ -1301,19 +1323,24 @@ class SilvercartProduct extends DataObject {
      * If stock management is activated but the quantity is overbookable true is
      * returned.
      * 
-     * @return boolean Can this product be bought due to stock managemnt settings?
+     * @return boolean Can this product be bought due to stock management
+     *                 settings and the customers cart?
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.7.2011
      */
     public function isBuyableDueToStockManagementSettings() {
+        //is the product already in the cart?
+        $cartPositionQuantity = 0;
+        if (Member::currentUser() && Member::currentUser()->SilvercartShoppingCart()) {
+            $cartPositionQuantity = Member::currentUser()->SilvercartShoppingCart()->getQuantity($this->ID);
+        }
         if (SilvercartConfig::EnableStockManagement()
                 && !$this->isStockQuantityOverbookable() 
-                && $this->StockQuantity <= 0) {
+                && ($this->StockQuantity - $cartPositionQuantity) <= 0) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
     
     /**
@@ -1335,7 +1362,7 @@ class SilvercartProduct extends DataObject {
                 unset($silvercartProductGroupMirrorPage);
             }
         }
-        
+
         if (!empty($idListArray)) {
             $idList = implode(',', $idListArray);
         }
@@ -1388,6 +1415,17 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         );
 
         $form->sessionMessage($returnValue, 'good');
+
+        /*
+        return new SS_HTTPResponse(
+            $form->forTemplate(), 
+            200, 
+            sprintf(
+                _t('ModelAdmin.FOUNDRESULTS',"Your search found %s matching items"), 
+                $numResults
+            )
+        );
+        */
 
         Director::redirectBack();
         
@@ -1498,7 +1536,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 11.03.2011
      */
     public function getModelSidebar() {
-        $sidebarHtml = parent::getModelSidebar();
+        $sidebarHtml = $this->renderWith('SilvercartProductModelSidebar');
+        
         $this->extend('getUpdatedModelSidebar', $sidebarHtml);
         return $sidebarHtml;
     }
@@ -1520,6 +1559,326 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $this->extend('updateImportForm', $form);
 
         return $form;
+    }
+        
+    /**
+     * A form that let's the user import images for existing products.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.08.2011
+     */
+    public function ImportImagesForm() {
+        $fields = new FieldSet(
+            new HeaderField(
+                'importImagesHeadline',
+                _t('SilvercartProduct.IMPORTIMAGESFORM_HEADLINE'),
+                3
+            ),
+            new LiteralField(
+                'imageDirectoryDesc',
+                _t('SilvercartProduct.IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC').':'
+            ),
+            new TextField(
+                'imageDirectory',
+                _t('SilvercartProduct.IMPORTIMAGESFORM_IMAGEDIRECTORY')
+            )
+        );
+        $actions = new FieldSet(
+            new FormAction(
+                'importImages',
+                _t('SilvercartProduct.IMPORTIMAGESFORM_ACTION')
+            )
+        );
+        
+        $form = new Form(
+            $this,
+            'ImportImagesForm',
+            $fields,
+            $actions
+        );
+        $form->setFormMethod('get');
+        $form->disableSecurityToken();
+        
+        return $form;
+    }
+    
+    /**
+     * Imports images with the settings from $this->ImportImagesForm().
+     *
+     * @param array          $data    The data sent
+     * @param Form           $form    The form object
+     * @param SS_HTTPRequest $request The request object
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.08.2011
+     */
+    public function importImages($data, $form, $request) {
+        $resultsForm = $this->ResultsForm(array_merge($form->getData(), $data));
+        
+        if (empty($data['imageDirectory'])) {
+            return sprintf(
+                "<p style=\"margin: 10px;\">%s</p>",
+                _t('SilvercartProduct.IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN')
+            );
+        }
+        
+        if (!is_dir($data['imageDirectory'])) {
+            return sprintf(
+                "<p style=\"margin: 10px;\">%s</p>",
+                _t('SilvercartProduct.IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID')
+            );
+        }
+        
+        $files              = scandir($data['imageDirectory']);
+        $foundFiles         = count($files);
+        $importedFiles      = 0;
+        $fileNamesToSearch  = array();
+        $mapNames           = array();
+        
+        foreach ($files as $file) {
+            $fileInfo = pathinfo($file);
+            
+            if (empty($fileInfo['extension'])) {
+                continue;
+            }
+            
+            $fileName            = basename($file, '.'.$fileInfo['extension']);
+            $fileNamesToSearch[] = Convert::raw2sql($fileName);
+            $mapNames[Convert::raw2sql($fileName)] = $file;
+        }
+        
+        // Add trailing slash if necessary
+        if (substr($data['imageDirectory'], -1) != '/') {
+            $data['imageDirectory'] .= '/';
+        }
+        
+        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearch), $mapNames);
+        
+        // Create Image object and SilvercartImage objects and connect them
+        // to the respective SilvercartProduct
+        if ($products) {
+            foreach ($products as $product) {
+                // Create Image
+                $image = $this->createImageObject(
+                    $data['imageDirectory'].$product['fileName'],
+                    $product['fileName'],
+                    $product['fileName'],
+                    'Image'
+                );
+                
+                if ($image) {
+                    // Create Image object
+                    $silvercartImage = $this->createSilvercartImage(
+                        $product['ID'],
+                        $image->ID,
+                        $product['fileName']
+                    );
+                    
+                    if ($silvercartImage) {
+                        $importedFiles++;
+                    }
+                    unset($image);
+                    unset($silvercartImage);
+                }
+            }
+            
+            // Unlink imported images from original location. We have to do
+            // this in a separated loop because one image can be used for
+            // many products.
+            foreach ($products as $product) {
+                if (file_exists($data['imageDirectory'].$product['fileName'])) {
+                    unlink($data['imageDirectory'].$product['fileName']);
+                }
+            }
+        }
+        
+        print "<div style=\"margin: 10px\">";
+        printf(
+            _t('SilvercartProduct.IMPORTIMAGESFORM_REPORT'),
+            $foundFiles,
+            $importedFiles
+        );
+        print "</div>";
+    }
+    
+    /**
+     * Create a SilvercartImage object with the given parameters.
+     *
+     * @param int    $silvercartProductID The ID of the attributed SilvercartProduct
+     * @param int    $imageID             The ID of the attributed image
+     * @param string $title               The title for the image
+     * 
+     * @return mixed SilvercartImage|boolean false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.08.2011
+     */
+    protected function createSilvercartImage($silvercartProductID, $imageID, $title) {
+        $sqlQuery = new SQLQuery(
+            'ID',
+            'SilvercartImage',
+            null,
+            'ID DESC',
+            null,
+            null,
+            '1'
+        );
+        $insertID = $sqlQuery->execute()->value();
+        $insertID = (int) $insertID + 1;
+
+        DB::query(
+            sprintf(
+                '
+                INSERT INTO
+                    SilvercartImage(
+                        ID
+                    ) VALUES(
+                        %d
+                    )
+                ',
+                $insertID
+            )
+        );
+        
+        $object = DataObject::get_by_id(
+            'SilvercartImage',
+            $insertID
+        );
+        
+        if ($object) {
+            $object->setField('ClassName',              'SilvercartImage');
+            $object->setField('Created',                date('Y-m-d H:i:s'));
+            $object->setField('SilvercartProductID',    $silvercartProductID);
+            $object->setField('ImageID',                $imageID);
+            $object->setField('Title',                  $title);
+            $object->write();
+        }
+
+        return $object;
+    }
+    
+    /**
+     * Create an Image object from the given filepath.
+     *
+     * @param string $filePath        The filepath
+     * @param string $fileName        The filename
+     * @param string $title           The title of the image
+     * @param string $objectClassName The classname of the object to use
+     *
+     * @return mixed Image|boolean false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 26.08.2011
+     */
+    protected function createImageObject($filePath, $fileName, $title, $objectClassName) {
+        if (!is_file($filePath)) {
+            return false;
+        }
+
+        // move image to silverstripe path
+        $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
+
+        if (!copy($filePath, $newFilePath)) {
+            return false;
+        }
+        
+        $sqlQuery = new SQLQuery(
+            'ID',
+            'File',
+            null,
+            'ID DESC',
+            null,
+            null,
+            '1'
+        );
+        $insertID = $sqlQuery->execute()->value();
+        $insertID = (int) $insertID + 1;
+
+        DB::query(
+            sprintf(
+                '
+                INSERT INTO
+                    File(
+                        ID
+                    ) VALUES(
+                        %d
+                    )
+                ',
+                $insertID
+            )
+        );
+
+        $object = DataObject::get_by_id(
+            'File',
+            $insertID
+        );
+
+        if ($object) {
+            $object->setField('ClassName',   $objectClassName);
+            $object->setField('Created',     date('Y-m-d H:i:s'));
+            $object->setField('Name',        $title);
+            $object->setField('Title',       $title);
+            $object->setField('Filename',    'assets/Uploads/'.$fileName);
+            $object->setField('ParentID',    1);
+            $object->setField('OwnerID',     1);
+            $object->write();
+        }
+
+        return $object;
+    }
+    
+    /**
+     * Tries to find a product by the given number. The fields searched for are:
+     *     - ProductNumberShop
+     *     - ProductNumberManufacturer
+     * Returns the ID of the found product or false.
+     *
+     * @param string $numbers  The number to search for
+     * @param string $mapNames ???
+     * 
+     * @return mixed int|boolean false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.08.2011
+     */
+    protected function findProductsByNumbers($numbers, $mapNames) {
+        $resultSet = array();
+        $query     = DB::query(
+            sprintf("
+                SELECT
+                    `SilvercartProduct`.`ID`,
+                    `SilvercartProduct`.`ProductNumberShop`,
+                    `SilvercartProduct`.`ProductNumberManufacturer`
+                FROM
+                    `SilvercartProduct`
+                WHERE
+                    FIND_IN_SET(`SilvercartProduct`.`ProductNumberShop`, '%s') OR
+                    FIND_IN_SET(`SilvercartProduct`.`ProductNumberManufacturer`, '%s')
+                ",
+                $numbers,
+                $numbers
+            )
+        );
+        
+        if ($query) {
+            foreach ($query as $result) {
+                
+                if (array_key_exists($result['ProductNumberShop'], $mapNames)) {
+                    $result['fileName'] = $mapNames[$result['ProductNumberShop']];
+                } else if (array_key_exists($result['ProductNumberManufacturer'], $mapNames)) {
+                    $result['fileName'] = $mapNames[$result['ProductNumberManufacturer']];
+                }
+                
+                $resultSet[] = $result;
+            }
+        }
+        
+        return $resultSet;
     }
 
     /**
@@ -1562,6 +1921,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     public function CustomForm($formIdentifier) {
         $form = '';
 
+        if (method_exists($this, $formIdentifier)) {
+            $form = $this->$formIdentifier();
+        }
+        
         $this->extend('updateCustomForm', $form, $formIdentifier);
 
         return $form;

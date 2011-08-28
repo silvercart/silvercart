@@ -61,6 +61,22 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartInboundShoppingCartTransfer'
     );
     /**
+     * List of managed models with disabled creation and import form
+     *
+     * @var array
+     */
+    public static $disable_creation_and_import_for = array(
+        'SilvercartConfig',
+    );
+    /**
+     * List of managed models with resetted search form
+     *
+     * @var array
+     */
+    public static $reset_search_form_for = array(
+        'SilvercartConfig',
+    );
+    /**
      * The URL segment
      *
      * @var string
@@ -153,14 +169,10 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
      */
     public function SearchForm() {
         $form = parent::SearchForm();
-        
-        switch ($this->getModelClass()) {
-            case 'SilvercartConfig':
-                $form->setFields(new FieldSet());
-                $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
-                $form->Actions()->removeByName('action_clearsearch');
-                break;
-            default:
+        if (in_array($this->getModelClass(), SilvercartShopConfigurationAdmin::$reset_search_form_for)) {
+            $form->setFields(new FieldSet());
+            $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
+            $form->Actions()->removeByName('action_clearsearch');
         }
         return $form;
     }
@@ -174,14 +186,12 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
      * @since 29.03.2011
      */
     public function alternatePermissionCheck() {
-        switch ($this->getModelClass()) {
-            case 'SilvercartConfig':
-                $this->showImportForm = false;
-                return false;
-                break;
-            default:
-                return true;
+        $result = true;
+        if (in_array($this->getModelClass(), SilvercartShopConfigurationAdmin::$disable_creation_and_import_for)) {
+            $result = false;
+            $this->showImportForm = false;
         }
+        return $result;
     }
 
 }
