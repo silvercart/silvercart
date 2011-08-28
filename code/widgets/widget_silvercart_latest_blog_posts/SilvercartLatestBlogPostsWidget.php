@@ -70,9 +70,9 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $widgetTitleField   = new TextField('WidgetTitle', _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE'));
+        $widgetTitleField    = new TextField('WidgetTitle', _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE'));
         $numberOfPostsField  = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
-        $isContentView       = new TextField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
+        $isContentView       = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
         
         $fields->push($widgetTitleField);
         $fields->push($numberOfPostsField);
@@ -137,4 +137,23 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
 
         return $blogEntries;
     }
+    
+    /**
+     * We set checkbox field values here to false if they are not in the post
+     * data array.
+     *
+     * @return void
+     *
+     * @param array $data The post data array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    function populateFromPostData($data) {
+        if (!array_key_exists('isContentView', $data)) {
+            $this->isContentView = 0;
+        }
+        
+        parent::populateFromPostData($data);
+	}
 }
