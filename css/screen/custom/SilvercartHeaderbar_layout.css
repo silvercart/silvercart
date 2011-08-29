@@ -54,3 +54,6 @@
 }
 
 /* Action section (checkout and shoppingcart links) ------------------------ */
+.silvercart-headerbar-actions {
+    padding:                        6px 0px 0px 0px;
+}
