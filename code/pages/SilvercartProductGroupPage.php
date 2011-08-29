@@ -893,7 +893,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.10.2010
      */
     public function getProducts($numberOfProducts = false) {
-        if (is_null($this->groupProducts)) {
+        if (!($this->groupProducts)) {
+            $this->listFilters = array();
             $filter    = '';
             $SQL_start = $this->getSqlOffset($numberOfProducts);
             
@@ -969,6 +970,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
                 $this->ID
             );
+            
             $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
 
             // Inject additional methods into the DataObjectSet
@@ -978,6 +980,104 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         return $this->groupProducts;
+    }
+    
+    /**
+     * All products of this group
+     * 
+     * @param int|bool          $numberOfProducts        The number of products to return
+     * @param bool              $useRandomSelection      Indicate wether a random selection of
+     *                                                   products from the product group
+     *                                                   should be returned
+     * @param mixed int|boolean $limitToNumberOfProducts Optional limitation of the
+     *                                                   resultset to a number of products
+     * 
+     * @return DataObjectSet all products of this group or FALSE
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.10.2010
+     */
+    public function getRandomProducts($numberOfProducts) {
+        $this->listFilters = array();
+        $filter    = '';
+        $SQL_start = $this->getSqlOffset($numberOfProducts);
+
+        // ----------------------------------------------------------------
+        // Get products that have this group set as mirror group
+        // ----------------------------------------------------------------
+        $productsPerPage = $this->getProductsPerPageSetting();
+
+        if ($numberOfProducts !== false) {
+            $productsPerPage = (int) $numberOfProducts;
+        }
+
+        $mirroredProductIdList  = '';
+        $mirroredProductIDs     = $this->getMirroredProductIDs();
+
+        foreach ($mirroredProductIDs as $mirroredProductID) {
+            $mirroredProductIdList .= sprintf(
+                "'%s',",
+                $mirroredProductID
+            );
+        }
+
+        if (!empty($mirroredProductIdList)) {
+            $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
+        }
+
+        // ----------------------------------------------------------------
+        // Get products that have this group set as main group
+        // ----------------------------------------------------------------
+        if ($this->isFilteredByManufacturer()) {
+            $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
+            if ($manufacturer) {
+                $this->addListFilter('SilvercartManufacturerID', $manufacturer->ID);
+            }
+        }
+
+        if (empty($mirroredProductIdList)) {
+            $this->listFilters['original'] = sprintf(
+                "`SilvercartProductGroupID` = '%s'",
+                $this->ID
+            );
+        } else {
+            $this->listFilters['original'] = sprintf(
+                "(`SilvercartProductGroupID` = '%s' OR
+                  `SilvercartProduct`.`ID` IN (%s))",
+                $this->ID,
+                $mirroredProductIdList
+            );
+        }
+
+        $this->registerWidgetAreas();
+
+        if (count(self::$registeredFilterPlugins) > 0) {
+            foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                $pluginFilters = $registeredPlugin->filter();
+
+                if (is_array($pluginFilters)) {
+                    $this->listFilters = array_merge(
+                        $this->listFilters,
+                        $pluginFilters
+                    );
+                }
+            }
+        }
+
+        foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
+            $filter .= ' ' . $listFilter;
+        }
+
+        $sort = 'RAND()';
+
+        $join = sprintf(
+            "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
+            $this->ID
+        );
+
+        $products = SilvercartProduct::get($filter, $sort, $join, sprintf("%",$productsPerPage));
+        
+        return $products;
     }
     
     /**
