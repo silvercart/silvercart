@@ -164,6 +164,18 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     }
     
     /**
+     * Indicates wether a filter plugin can be registered for the current view.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.08.2011
+     */
+    public function canRegisterFilterPlugin() {
+        return true;
+    }
+    
+    /**
      * Diese Funktion wird beim Initialisieren ausgeführt
      *
      * @return void

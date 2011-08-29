@@ -586,6 +586,22 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $widgetOutput = array();
 
     /**
+     * Indicates wether a filter plugin can be registered for the current view.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.08.2011
+     */
+    public function canRegisterFilterPlugin() {
+        if ($this->isProductDetailView()) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
      * Registers an object as a filter plugin. Before getting the result set
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
