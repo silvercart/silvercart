@@ -35,8 +35,10 @@
                 <td><% _t('SilvercartOrder.YOUR_REMARK','Your remark') %></td>
                 <td>$Note</td>
             </tr>
+            <% end_if />
+            
+            $SilvercartOrderPlugin(OrderDetailInformation)
         </tbody>
-        <% end_if %>
     </table>
 <div class="subcolumns">
     <div class="c50l">
