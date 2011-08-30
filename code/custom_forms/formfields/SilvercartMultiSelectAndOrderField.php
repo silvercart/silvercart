@@ -59,12 +59,14 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
     /**
 	 * Creates a new SilvercartMultiSelectAndOrder field.
 	 * 
-	 * @param string       $name   The field name
-	 * @param string       $title  The field title
-	 * @param array        $source An map of the dropdown items
-	 * @param string|array $value  You can pass an array of values or a single value like a drop down to be selected
-	 * @param int          $size   Optional size of the select element
-	 * @param form         $form   The parent form
+     * @param Int          $id        The ID of the DataObject
+     * @param string       $className The ClassName of the DataObject
+	 * @param string       $name      The field name
+	 * @param string       $title     The field title
+	 * @param array        $source    An map of the dropdown items
+	 * @param string|array $value     You can pass an array of values or a single value like a drop down to be selected
+	 * @param int          $size      Optional size of the select element
+	 * @param form         $form      The parent form
      * 
      * @return void
      * 

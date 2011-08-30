@@ -35,6 +35,8 @@
             <td>$Note</td>
         </tr>
         <% end_if %>
+        
+        $SilvercartOrderPlugin(OrderDetailInformation)
     </table>
 <div class="subcolumns">
     <div class="c50l">
