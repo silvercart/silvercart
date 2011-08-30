@@ -1261,6 +1261,7 @@ class SilvercartOrder extends DataObject {
             $params['MailOrderNotification']['Variables'],
             $params['MailOrderNotification']['Attachments']
         );
+        $this->extend('onAfterConfirmationMail');
     }
 
     /**

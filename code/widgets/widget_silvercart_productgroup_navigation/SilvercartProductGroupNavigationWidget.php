@@ -59,7 +59,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $productGroupField = new GroupedDropdownField(
             'SilvercartProductGroupPageID',
             _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
-            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(),
+            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, false, true),
             $this->SilvercartProductGroupPageID
         );
         
@@ -135,6 +135,13 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
             'SilvercartProductGroupPage',
             $this->SilvercartProductGroupPageID
         );
+        
+        if (!$productgroupPage) {
+            $productgroupPage = DataObject::get_by_id(
+                'SilvercartProductGroupHolder',
+                $this->SilvercartProductGroupPageID
+            );
+        }
         
         if (!$productgroupPage) {
             return false;

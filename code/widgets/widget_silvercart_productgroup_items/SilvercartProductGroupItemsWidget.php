@@ -45,7 +45,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'numberOfProductsToShow'        => 'Int',
         'SilvercartProductGroupPageID'  => 'Int',
         'useListView'                   => 'Boolean',
-        'isContentView'                  => 'Boolean'
+        'isContentView'                 => 'Boolean'
     );
     
     /**
@@ -78,8 +78,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             $this->SilvercartProductGroupPageID
         );
         $numberOfProductsField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));
-        $useListViewField       = new TextField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
-        $isContentView          = new TextField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $useListViewField       = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
+        $isContentView          = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
         
         $fields->push($productGroupField);
         $fields->push($numberOfProductsField);
@@ -125,6 +125,28 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     public function Description() {
         return _t('SilvercartProductGroupItemsWidget.DESCRIPTION');
     }
+    
+    /**
+     * We set checkbox field values here to false if they are not in the post
+     * data array.
+     *
+     * @return void
+     *
+     * @param array $data The post data array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    function populateFromPostData($data) {
+        if (!array_key_exists('isContentView', $data)) {
+            $this->isContentView = 0;
+        }
+        if (!array_key_exists('useListView', $data)) {
+            $this->useListView = 0;
+        }
+        
+        parent::populateFromPostData($data);
+	}
 }
 
 /**
@@ -214,8 +236,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return false;
         }
         $productgroupPageSiteTree                  = ModelAsController::controller_for($productgroupPage);
-        $productgroupPageSiteTree->productsPerPage = $this->numberOfProductsToShow;
-        $products                                  = $productgroupPageSiteTree->getProducts();
+        $products                                  = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
         
         return $products;
     }

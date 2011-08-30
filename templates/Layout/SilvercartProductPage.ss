@@ -2,6 +2,8 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         
+        $InsertWidgetArea(Content)
+        
         <% control getProduct %>
             <div class="silvercart-product-page clearfix">
                 <div class="silvercart-product-page_content">

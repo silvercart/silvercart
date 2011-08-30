@@ -130,6 +130,7 @@ class SilvercartConfig extends DataObject {
         'apacheSolrPort'                => 'Int',
         'enableStockManagement'         => 'Boolean(0)',
         'isStockManagementOverbookable' => 'Boolean(0)',
+        'redirectToCartAfterAddToCart'  => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -209,6 +210,7 @@ class SilvercartConfig extends DataObject {
     public static $useApacheSolrSearch           = null;
     public static $enableStockManagement         = null;
     public static $isStockManagementOverbookable = null;
+    public static $redirectToCartAfterAddToCart  = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -272,6 +274,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('enableStockManagement');
         $defaultCMSFields->removeByName('isStockManagementOverbookable');
         $defaultCMSFields->removeByName('StandardProductCondition');
+        $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
 
         // Building the general tab structure
         $CMSFields = new FieldSet(
@@ -318,6 +321,7 @@ class SilvercartConfig extends DataObject {
             null,
             _t('SilvercartProductCondition.PLEASECHOOSE')
         ));
+        $CMSFields->addFieldToTab('Root.General.Main', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
         
         /*
          * Root.General.Prices tab
@@ -791,7 +795,22 @@ class SilvercartConfig extends DataObject {
     }
     
     /**
-     * Returns the default value for the CustomerConfig option 'productsPerPage'.
+     * Returns the standard product condition.
+     * 
+     * @return mixed SilvercartProductCondition|bool false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+ 
+    public static function getRedirectToCartAfterAddToCartAction() {
+        if (is_null(self::$redirectToCartAfterAddToCart)) {
+            self::$redirectToCartAfterAddToCart = self::getConfig()->redirectToCartAfterAddToCart;
+        }
+        return self::$redirectToCartAfterAddToCart;
+    }
+
+    /* Returns the default value for the CustomerConfig option 'productsPerPage'.
      *
      * @return int
      *

@@ -27,7 +27,7 @@
         <div class="silvercart-button-row right">
             <div class="silvercart-button inline">
                 <div class="silvercart-button_content">
-                    <a href="$RegistrationLink"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %></a>
+                    <a href="$PageByIdentifierCodeLink(SilvercartRegistrationPage)"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %></a>
                 </div>
             </div>
         </div>
