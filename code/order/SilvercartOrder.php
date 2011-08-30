@@ -171,9 +171,11 @@ class SilvercartOrder extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         
-        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-            if (method_exists($silvercartOrderPlugin, 'init')) {
-                $silvercartOrderPlugin::init($this);
+        if (!empty(self::$registeredSilvercartOrderPlugins)) {
+            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+                if (method_exists($silvercartOrderPlugin, 'init')) {
+                    $silvercartOrderPlugin::init($this);
+                }
             }
         }
     }
@@ -350,9 +352,11 @@ class SilvercartOrder extends DataObject {
     public function SilvercartOrderPlugin($section) {
         $output = '';
         
-        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-            if (method_exists($silvercartOrderPlugin, $section)) {
-                $output .= $silvercartOrderPlugin::$section();
+        if (!empty(self::$registeredSilvercartOrderPlugins)) {
+            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+                if (method_exists($silvercartOrderPlugin, $section)) {
+                    $output .= $silvercartOrderPlugin::$section();
+                }
             }
         }
         
