@@ -34,6 +34,16 @@
 class SilvercartOrder extends DataObject {
 
     /**
+     * Contains all registered plugins for this DataObject.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.08.2011
+     */
+    protected static $registeredSilvercartOrderPlugins = array();
+    
+    /**
      * attributes
      *
      * @var array
@@ -144,6 +154,44 @@ class SilvercartOrder extends DataObject {
     public static $extensions = array(
         "Versioned('Live')",
     );
+    
+    /**
+     * Registered plugins get initialised here.
+     *
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
+	 *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
+	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
+	 *                                don't have their defaults set.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.08.2011
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        
+        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+            if (method_exists($silvercartOrderPlugin, 'init')) {
+                $silvercartOrderPlugin::init($this);
+            }
+        }
+    }
+    
+    /**
+     * Registers a plugin for this DataObject.
+     *
+     * @return void
+     *
+     * @param string $objectName The name of the object on which the method
+     *                           calls should be done
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.08.2011
+     */
+    public static function registerSilvercartOrderPlugin($objectName) {
+       self::$registeredSilvercartOrderPlugins[] = $objectName;
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -288,6 +336,28 @@ class SilvercartOrder extends DataObject {
 
         return $searchableFields;
     }
+    
+    /**
+     * Returns the cumulated output of all registered SilvercartOrderPlugins
+     *
+     * @return string
+     *
+     * @param string $section The section for which the output is requested for.
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.08.2011
+     */
+    public function SilvercartOrderPlugin($section) {
+        $output = '';
+        
+        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+            if (method_exists($silvercartOrderPlugin, $section)) {
+                $output .= $silvercartOrderPlugin::$section();
+            }
+        }
+        
+        return $output;
+    }
 
     /**
      * returns the orders creation date formated: dd.mm.yyyy hh:mm
@@ -369,29 +439,6 @@ class SilvercartOrder extends DataObject {
 
         return $fields;
     }
-    
-//    public function getCMSAddFormFields() {
-//        
-//        $fields = parent::getCMSFields();
-//        print_r($fields); exit();
-//        $fields->removeByName(_t('SilvercartAddressHolder.SHIPPINGADDRESS'));
-//        $fields->removeByName(_t('SilvercartAddressHolder.INVOICEADDRESS'));
-//        $fields->removeByName(_t('Versioned.has_many_Versions'));
-//        $fields->removeByName('SilvercartProducts');
-//        $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
-//        $fields->removeByName('SilvercartAddresses');
-//        $fields->removeByName('SilvercartOrderPositions');
-//        $fields->removeByName('SilvercartShippingFee');
-//        $fields->removeByName('Member');
-//        $fields->removeByName('SilvercartOrderStatus');
-//        $fields->removeByName('SilvercartShippingMethod');
-//        $fields->removeByName('SilvercartPaymentMethod');
-//        $fields->removeByName('SilvercartInvoiceAddress');
-//        $fields->removeByName('SilvercartShippingAddress');
-//        $fields->removeByName('OrderNumber');
-//        
-//        return $fields;
-//    }
     
     /**
      * create a invoice address for an order from customers data
@@ -521,6 +568,10 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     protected function convertShoppingCartPositionsToOrderPositions() {
+        if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
+            return true;
+        }
+        
         $member = Member::currentUser();
         $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID);
         $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
