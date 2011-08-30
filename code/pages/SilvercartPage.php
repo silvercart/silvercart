@@ -189,7 +189,13 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::block('cms/css/form.css');
             
             // Require the default layout and its patches only if it is enabled
-            Requirements::themedCSS('layout');
+            Requirements::themedCSS('base');
+            Requirements::themedCSS('patch_forms');
+            Requirements::themedCSS('nav_shinybuttons');
+            Requirements::themedCSS('nav_vlist');
+            Requirements::themedCSS('basemod');
+            Requirements::themedCSS('content');
+            Requirements::themedCSS('forms');
             Requirements::insertHeadTags('<!--[if lte IE 7]>');
             Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
             Requirements::insertHeadTags('<![endif]-->');
@@ -230,7 +236,21 @@ class SilvercartPage_Controller extends ContentController {
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
         Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
         Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
-
+        
+        $combinedCssFiles = array();
+        foreach (Requirements::backend()->get_css() as $file => $value) {
+            $combinedCssFiles[] = $file;
+        }
+        Requirements::combine_files('content.css', $combinedCssFiles);
+        Requirements::process_combined_files();
+        
+        $combinedJsFiles = array();
+        foreach (Requirements::backend()->get_javascript() as $file) {
+            $combinedJsFiles[] = $file;
+        }
+        Requirements::combine_files('script.js', $combinedJsFiles);
+        Requirements::process_combined_files();
+        
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
         
@@ -735,6 +755,7 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
      * @param boolean  $allChildren ???
+     * @param boolean  $withParent  ???
      *
      * @return array
      */
