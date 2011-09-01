@@ -691,12 +691,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             
             if ($this->WidgetSetSidebar()->Count() == 0) {
                 $identifier           = 'Sidebar';
-                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
             }
             
             if ($this->WidgetSetContent()->Count() == 0) {
                 $identifier           = 'Content';
-                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
+                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
             }
         }
     }
@@ -1477,40 +1477,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         return $filter;
-    }
-    
-    /**
-     * Returns the HTML Code as string for all widgets in the given WidgetArea.
-     * 
-     * If thereÄs no WidgetArea for this page defined we try to get the
-     * definition from its parent page.
-     *
-     * @param int $identifier target area
-     * 
-     * @return string
-     * 
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    public function InsertWidgetArea($identifier = 'Sidebar') {
-        $output         = '';
-        $controllerName = 'WidgetSet'.$identifier.'Controllers';
-        
-        if (!isset($this->$controllerName)) {
-            return $output;
-        }
-        
-        foreach ($this->$controllerName as $controller) {
-            $output .= $controller->WidgetHolder();
-        }
-        
-        if (empty($output)) {
-            if (isset($this->widgetOutput[$identifier])) {
-                $output = $this->widgetOutput[$identifier];
-            }
-        }
-        
-        return $output;
     }
 
     /**

@@ -143,6 +143,16 @@ class SilvercartPage extends SiteTree {
 class SilvercartPage_Controller extends ContentController {
     
     /**
+     * Contains the output of all WidgetSets of the parent page
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    protected $widgetOutput = array();
+    
+    /**
      * Contains the controllers for the sidebar widgets
      * 
      * @var DataObjectSet
@@ -296,6 +306,9 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      *
+     * If there's no WidgetArea for this page defined we try to get the
+     * definition from its parent page.
+     * 
      * @param string $identifier The identifier of the widget area to insert
      * 
      * @return string
@@ -313,6 +326,12 @@ class SilvercartPage_Controller extends ContentController {
         
         foreach ($this->$controllerName as $controller) {
             $output .= $controller->WidgetHolder();
+        }
+        
+        if (empty($output)) {
+            if (isset($this->widgetOutput[$identifier])) {
+                $output = $this->widgetOutput[$identifier];
+            }
         }
         
         return $output;
@@ -509,6 +528,21 @@ class SilvercartPage_Controller extends ContentController {
             );
         }
         return $output;
+    }
+    
+    /**
+     * Adds a widget output to the class variable "$this->widgetOutput".
+     *
+     * @return void
+     *
+     * @param string $key    The key for the output
+     * @param string $output The actual output of the widget
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.09.2011
+     */
+    public function saveWidgetOutput($key, $output) {
+        $this->widgetOutput[$key] = $output;
     }
 
     /**
