@@ -160,8 +160,8 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.0',
-        'SilvercartUpdateVersion'       => '3',
+        'SilvercartVersion'             => '1.1',
+        'SilvercartUpdateVersion'       => '1',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
         'PricetypeBusinessCustomers'    => 'net',
@@ -802,7 +802,6 @@ class SilvercartConfig extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
- 
     public static function getRedirectToCartAfterAddToCartAction() {
         if (is_null(self::$redirectToCartAfterAddToCart)) {
             self::$redirectToCartAfterAddToCart = self::getConfig()->redirectToCartAfterAddToCart;
@@ -810,7 +809,8 @@ class SilvercartConfig extends DataObject {
         return self::$redirectToCartAfterAddToCart;
     }
 
-    /* Returns the default value for the CustomerConfig option 'productsPerPage'.
+    /**
+     * Returns the default value for the CustomerConfig option 'productsPerPage'.
      *
      * @return int
      *
