@@ -216,7 +216,7 @@ p.silvercart-message.highlighted.error48 {
 /* Silvercart header ------------------------------------------------------- */
 
 #silvercart-header {
-    background:                     #efefeb url("../images/bg_header.png") left bottom repeat-x;
+    background:                     #efefeb url("/silvercart/css/screen/images/bg_header.png") left bottom repeat-x;
 }
 
 #silvercart-shop-claim-text h1 {

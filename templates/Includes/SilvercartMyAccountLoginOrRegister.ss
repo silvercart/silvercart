@@ -9,7 +9,7 @@ $InsertCustomHtmlForm(SilvercartLoginForm)
 <div class="silvercart-button-row">
     <div class="silvercart-button">
         <div class="silvercart-button_content">
-            <a href="$RegistrationLink"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %></a>
+            <a href="$PageByIdentifierCodeLink(SilvercartRegistrationPage)"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %></a>
         </div>
     </div>
 </div>

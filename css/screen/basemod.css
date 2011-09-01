@@ -27,7 +27,7 @@
 
   /* (en) Marginal areas & page background */
   /* (de) Randbereiche & Seitenhintergrund */
-  body { background: #fff url("images/bg.jpg") repeat-x top left fixed; padding: 0; }
+  body { background: #fff url(/silvercart/css/screen/images/bg.jpg) repeat-x top left fixed; padding: 0; }
 
   #headerbar {height: 40px; width: 100%; background:#959697; position:fixed; left: 0; top:0; z-index: 100; font-size : 85%; border-bottom: 1px white solid;}
 

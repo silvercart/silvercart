@@ -248,13 +248,13 @@
     -------------------------------------------------*/
 
     .yform .type-button input[type="submit"].action {
-        background:url("images/button_gray.png") repeat-x scroll left top #454545;
+        background:url(/silvercart/css/screen/images/button_gray.png) repeat-x scroll left top #454545;
         margin: 0 0 0 0;
 }
 
 
    #Form_decrementAmountForm_action_doDecrementAmount {
-      background:url(images/button_remove.png) no-repeat center center;
+      background:url(/silvercart/css/screen/images/button_remove.png) no-repeat center center;
       cursor:pointer;
       width: 18px;
       height: 18px;
@@ -263,7 +263,7 @@
    }
 
    #Form_incrementAmountForm_action_doIncrementAmount {
-      background:url(images/button_add.png) no-repeat center center;
+      background:url(/silvercart/css/screen/images/button_add.png) no-repeat center center;
       cursor:pointer;
       width: 18px;
       height: 18px;
@@ -273,7 +273,7 @@
 
      #Form_removeFromCartForm_action_doRemoveFromCart,
      form .action-remove input {
-      background:url(images/button_delete.png) no-repeat top left;
+      background:url(/silvercart/css/screen/images/button_delete.png) no-repeat top left;
       padding-left: 20px;
       cursor:pointer;
       width: 100px;
@@ -304,11 +304,11 @@
     #SearchForm_SearchForm .type-text .text { width: 160px;}
 
     /*#SearchForm_SearchForm #quickSearchQuery .clear {clear: none}*/
-    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(images/icon_search.png) no-repeat; font-size: 0px; color: #959697; }
+    #SearchForm_SearchForm .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 1px; background: url(/silvercart/css/screen/images/icon_search.png) no-repeat; font-size: 0px; color: #959697; }
 
     #Search_Login {background: #3a3436; border: none; margin-top: 0; padding: 0; width: 300px;}
 
-    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(images/icon_search.png) no-repeat;}
+    #Search_Login .action { border: none; width: 24px; height: 24px; display: block; padding: 0 ; margin-top: 14px; background: url(/silvercart/css/screen/images/icon_search.png) no-repeat;}
 
     #Search_Login .yform {background: transparent; border: none; padding: 5px 0 0 0; margin: 0;}
 

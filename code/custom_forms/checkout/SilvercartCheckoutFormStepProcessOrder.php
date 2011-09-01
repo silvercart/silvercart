@@ -94,9 +94,9 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 16.11.2010
+     * @since 31.08.2011
      */
     public function process() {
         $checkoutData = $this->controller->getCombinedStepData();
@@ -112,6 +112,12 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
             $customerNote = $checkoutData['Note'];
         } else {
             $customerNote = '';
+        }
+        
+        if (Member::currentUser() instanceof SilvercartAnonymousCustomer) {
+            // add a customer number to anonymous customer when ordering
+            Member::currentUser()->CustomerNumber = SilvercartNumberRange::useReservedNumberByIdentifier('CustomerNumber');
+            Member::currentUser()->write();
         }
 
         $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
