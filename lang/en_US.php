@@ -1169,8 +1169,8 @@ $lang['en_US']['SilvercartZone']['SINGULARNAME'] = 'Zone';
 
 $lang['en_US']['SilvercartQuantityUnit']['NAME'] = 'Name';
 $lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
-$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME'] = 'amount unit';
-$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME'] = 'amount units';
+$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';
+$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME'] = 'quantity units';
 
 // Widgets ----------------------------------------------------------------- */
 

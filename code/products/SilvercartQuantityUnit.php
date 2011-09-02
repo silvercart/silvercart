@@ -35,28 +35,6 @@
 class SilvercartQuantityUnit extends DataObject {
 
     /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.03.2011
-     */
-    static $singular_name = "amount unit";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 29.03.2011
-     */
-    static $plural_name = "amount units";
-
-    /**
      * attributes
      *
      * @var array
