@@ -51,7 +51,7 @@ class SilvercartOrderPosition extends DataObject {
         'TaxRate' => 'Float',
         'ProductDescription' => 'Text',
         'Quantity' => 'Int',
-        'Title' => 'VarChar',
+        'Title' => 'VarChar(255)',
         'ProductNumber' => 'VarChar',
     );
     /**
