@@ -685,29 +685,7 @@ class SilvercartProduct extends DataObject {
         $fields->findOrMakeTab('Root.SilvercartProductGroupMirrorPages', _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'));
         $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
         
-        // --------------------------------------------------------------------
-        // image field tab or main tab field
-        // --------------------------------------------------------------------
         
-        // When there are more than 500 images we want to display them as
-        // paginated table to save resources
-        $query = new SQLQuery(
-            array("COUNT(*) AS numberOfEntries"),
-            array("File"),
-            array("ClassName != 'Folder'")
-        );
-        
-        if ($query->execute()->value() > 500) {
-            $fields->removeByName('Root.Image');
-            $imageFieldTable = new HasOneComplexTableField($this, _t('SilvercartProduct.IMAGE'), 'Image');
-            $fields->addFieldToTab('Root.SilvercartImage', $imageFieldTable);
-            
-            $tab = $fields->findOrMakeTab('Root.SilvercartImage');
-            $tab->title = _t('SilvercartProduct.IMAGE');
-        } else {
-            $imageField = new ImageField('Image', _t('SilvercartProduct.IMAGE'));
-            $fields->addFieldToTab('Root.Main', $imageField);
-        }
         
         // --------------------------------------------------------------------
         // Reorder tabs
