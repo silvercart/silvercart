@@ -6,10 +6,18 @@ form.yform select {
     font-family:                    arial, sans-serif;
 }
 
+form.yform .type-button {
+    text-align:                     right;
+}
+
 form.yform input[type="submit"],
 form.yform .type-button input[type="submit"],
 form.yform .type-button input.action[type="submit"],
 form.yform .type-button input.submit {
+    float:                          right;
+    margin:                         0px 0px 0px 4px;
+    padding:                        4px 10px;
+    
     font-size:                      12px;
     color:                          #fff;
     background:                     #407e95;
@@ -22,6 +30,9 @@ form.yform .type-button input.submit {
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+form.yform input[type="submit"] {
+    padding:                        2px 8px;
+}
 form.yform input[type="submit"]:hover,
 form.yform .type-button input[type="submit"]:hover,
 form.yform .type-button input.action[type="submit"]:hover,
@@ -33,15 +44,39 @@ form.yform .type-button input.submit:hover {
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#34677a', endColorstr='#13415d'); /* for IE */
     cursor:                         pointer;
 }
+form.yform input[type="password"],
+form.yform input[type="text"] {
+    padding:                        2px 4px;
+}
+form.yform .type-button .silvercart-button {
+    margin:                         7px 0px 0px 0px;
+}
 
 /* Quicksearch form -------------------------------------------------------- */
 
+#silvercart-quicksearch-form {
+    padding:                        6px 0px 0px 0px;
+}
+
 #silvercart-quicksearch-form form.yform {
+    float:                          left;
+    margin:                         0px;
+    padding:                        0px;
+    
     background:                     none;
     border:                         none;
 }
 
+#silvercart-quicksearch-form form.yform div.type-text {
+    clear:                          none;
+    float:                          left;
+    margin:                         0px;
+    padding:                        0px;
+}
 #silvercart-quicksearch-form form.yform div.type-text input { /* Search query field */
+    width:                          90%;
+    padding:                        4px 4px 3px 4px;
+    
     font-size:                      12px;
     line-height:                    100%;
     color:                          #ece6e1;
@@ -57,7 +92,13 @@ form.yform .type-button input.submit:hover {
     color:                          #fff;
     background-color:               #5f5c5a;
 }
+#silvercart-quicksearch-form form.yform input {
+    clear:                          none;
+    float:                          left;
+}
 #silvercart-quicksearch-form form.yform input.action { /* Submit button */
+    padding:                        3px 10px 3px 10px;
+    
     font-size:                      12px;
     color:                          #fff;
     background-color:               #42403e;
@@ -83,6 +124,13 @@ form.yform .type-button input.submit:hover {
 /* Quicklogin form --------------------------------------------------------- */
 
 #silvercart-quicklogin-form {
+    display:                        none;
+    z-index:                        99;
+    width:                          320px;
+    position:                       absolute;
+    top:                            35px;
+    left:                           466px;
+    
     color:                          #fff;
     border:                         1px #9f9a96 solid;
     border-top:                     none;
@@ -99,14 +147,27 @@ form.yform .type-button input.submit:hover {
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#252223', endColorstr='#000000'); /* for IE */
     box-shadow:                     0px 0px 9px #252223;
 }
+#silvercart-quicklogin-form_content {
+    padding:                        4px 5px 8px 10px;
+}
 #silvercart-quicklogin-form form.yform {
+    margin:                         0px;
+    padding:                        0px;
+    
     background:                     none;
     border:                         none;
 }
 #silvercart-quicklogin-form form.yform label {
+    padding:                        0px 0px 3px 0px;
+    
     color:                          #fff;
 }
+#silvercart-quicklogin-form form.yform .type-text {
+    padding:                        0px 0px 4px 0px;
+}
 #silvercart-quicklogin-form form.yform .type-text input { /* Input[text] fields */
+    width:                          90%;
+    
     font-size:                      12px;
     color:                          #ece6e1;
     background-color:               #75726f;
@@ -126,6 +187,8 @@ form.yform .type-button input.submit:hover {
     padding:                        0px 6px 0px 0px;
 }
 #silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit button */
+    padding:                        3px 10px 3px 10px;
+    
     font-size:                      12px;
     color:                          #fff;
     background-color:               #42403e;
