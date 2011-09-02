@@ -1595,7 +1595,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     public function importImages($data, $form, $request) {
-        $resultsForm = $this->ResultsForm(array_merge($form->getData(), $data));
+        $resultsForm                = $this->ResultsForm(array_merge($form->getData(), $data));
+        $consecutiveNumberSeparator = '__';
+        $fileNamesToSearchFiltered  = array();
+        $mapNamesFiltered           = array();
         
         if (empty($data['imageDirectory'])) {
             return sprintf(
@@ -1612,7 +1615,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         }
         
         $files              = scandir($data['imageDirectory']);
-        $foundFiles         = count($files);
+        $foundFiles         = count($files) - 2;
         $importedFiles      = 0;
         $fileNamesToSearch  = array();
         $mapNames           = array();
@@ -1629,38 +1632,92 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $mapNames[Convert::raw2sql($fileName)] = $file;
         }
         
+        foreach ($fileNamesToSearch as $fileNameToSearch) {
+            if (strpos($fileNameToSearch, $consecutiveNumberSeparator) === false) {
+                if (!in_array($fileNameToSearch, $fileNamesToSearchFiltered)) {
+                    $fileNamesToSearchFiltered[] = $fileNameToSearch;
+                }
+            } else {
+                $fileNameElements = explode($consecutiveNumberSeparator, $fileName);
+                
+                if (!in_array($fileNameElements[0], $fileNamesToSearchFiltered)) {
+                    $fileNamesToSearchFiltered[] = $fileNameElements[0];
+                }
+            }
+        }
+        
+        foreach ($mapNames as $mapNameKey => $mapNameValue) {
+            if (strpos($mapNameKey, $consecutiveNumberSeparator) === false) {
+                $mapNameKeyFiltered = $mapNameKey;
+            } else {
+                $mapNameKeyElements = explode($consecutiveNumberSeparator, $mapNameKey);
+                $mapNameKeyFiltered = $mapNameKeyElements[0];
+            }
+            
+            if (!array_key_exists($mapNameKeyFiltered, $mapNamesFiltered)) {
+                $mapNamesFiltered[$mapNameKeyFiltered] = array();
+            }
+            
+            $mapNamesFiltered[$mapNameKeyFiltered][] = $mapNameValue;
+        }
+        
         // Add trailing slash if necessary
         if (substr($data['imageDirectory'], -1) != '/') {
             $data['imageDirectory'] .= '/';
         }
         
-        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearch), $mapNames);
+        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);
         
         // Create Image object and SilvercartImage objects and connect them
         // to the respective SilvercartProduct
         if ($products) {
             foreach ($products as $product) {
-                // Create Image
-                $image = $this->createImageObject(
-                    $data['imageDirectory'].$product['fileName'],
-                    $product['fileName'],
-                    $product['fileName'],
-                    'Image'
-                );
                 
-                if ($image) {
-                    // Create Image object
-                    $silvercartImage = $this->createSilvercartImage(
-                        $product['ID'],
-                        $image->ID,
-                        $product['fileName']
+                foreach ($product['fileName'] as $fileName) {
+                    
+                    $existingImage = DataObject::get_one(
+                        'Image',
+                        sprintf(
+                            "Filename = 'assets/Uploads/%s'",
+                            $fileName
+                        )
                     );
                     
-                    if ($silvercartImage) {
+                    if ($existingImage) {
+                        // overwrite existing image
+                        $image       = $existingImage;
+                        $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
+
+                        if (!copy($data['imageDirectory'].$fileName, $newFilePath)) {
+                            continue;
+                        }
+                        
+                        $image->deleteFormattedImages();
                         $importedFiles++;
+                    } else {
+                        // Create new image
+                        $image = $this->createImageObject(
+                            $data['imageDirectory'].$fileName,
+                            $fileName,
+                            $fileName,
+                            'Image'
+                        );
+                        
+                        if ($image) {
+                            // Create Image object
+                            $silvercartImage = $this->createSilvercartImage(
+                                $product['ID'],
+                                $image->ID,
+                                $fileName
+                            );
+
+                            if ($silvercartImage) {
+                                $importedFiles++;
+                            }
+                            unset($image);
+                            unset($silvercartImage);
+                        }
                     }
-                    unset($image);
-                    unset($silvercartImage);
                 }
             }
             
@@ -1825,8 +1882,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     protected function findProductsByNumbers($numbers, $mapNames) {
-        $resultSet = array();
-        $query     = DB::query(
+        $resultSet  = array();
+        $query      = DB::query(
             sprintf("
                 SELECT
                     `SilvercartProduct`.`ID`,
@@ -1855,7 +1912,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                 $resultSet[] = $result;
             }
         }
-        
         return $resultSet;
     }
 
