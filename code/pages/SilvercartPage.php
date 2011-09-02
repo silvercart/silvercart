@@ -210,37 +210,22 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
             Requirements::insertHeadTags('<![endif]-->');
         }
-        Requirements::themedCSS('SilvercartAddressHolder_layout');
-        Requirements::themedCSS('SilvercartAddressHolder_content');
-        Requirements::themedCSS('SilvercartCheckout_layout');
-        Requirements::themedCSS('SilvercartCheckout_content');
-        Requirements::themedCSS('SilvercartGeneral_layout');
-        Requirements::themedCSS('SilvercartGeneral_content');
-        Requirements::themedCSS('SilvercartHeaderbar_layout');
-        Requirements::themedCSS('SilvercartHeaderbar_content');
-        Requirements::themedCSS('SilvercartForms_content');
-        Requirements::themedCSS('SilvercartForms_layout');
-        Requirements::themedCSS('SilvercartFooter_layout');
-        Requirements::themedCSS('SilvercartFooter_content');
-        Requirements::themedCSS('SilvercartWidget_layout');
-        Requirements::themedCSS('SilvercartWidget_content');
-        Requirements::themedCSS('SilvercartBreadcrumbs_layout');
-        Requirements::themedCSS('SilvercartBreadcrumbs_content');
-        Requirements::themedCSS('SilvercartPagination_layout');
-        Requirements::themedCSS('SilvercartPagination_content');
+        Requirements::themedCSS('SilvercartAddressHolder');
+        Requirements::themedCSS('SilvercartBreadcrumbs');
+        Requirements::themedCSS('SilvercartCheckout');
+        Requirements::themedCSS('SilvercartFooter');
+        Requirements::themedCSS('SilvercartForms');
+        Requirements::themedCSS('SilvercartGeneral');
+        Requirements::themedCSS('SilvercartHeaderbar');
+        Requirements::themedCSS('SilvercartPagination');
         Requirements::themedCSS('SilvercartProductGroupNavigation');
-        Requirements::themedCSS('SilvercartProductGroupViewNavigation_layout');
-        Requirements::themedCSS('SilvercartProductGroupViewNavigation_content');
-        Requirements::themedCSS('SilvercartProductGroupPageControls_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageControls_content');
-        Requirements::themedCSS('SilvercartShoppingCart_layout');
-        Requirements::themedCSS('SilvercartShoppingCart_content');
-        Requirements::themedCSS('SilvercartProductPage_layout');
-        Requirements::themedCSS('SilvercartProductPage_content');
-        Requirements::themedCSS('SilvercartProductGroupPageList_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageList_content');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
+        Requirements::themedCSS('SilvercartProductGroupPageControls');
+        Requirements::themedCSS('SilvercartProductGroupPageList');
+        Requirements::themedCSS('SilvercartProductGroupPageTile');
+        Requirements::themedCSS('SilvercartProductGroupViewNavigation');
+        Requirements::themedCSS('SilvercartProductPage');
+        Requirements::themedCSS('SilvercartShoppingCart');
+        Requirements::themedCSS('SilvercartWidget');        
         Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
         Requirements::javascript("customhtmlform/script/jquery.js");
         Requirements::javascript("silvercart/script/document.ready_scripts.js");
@@ -553,10 +538,10 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Adds a widget output to the class variable "$this->widgetOutput".
      *
-     * @return void
-     *
      * @param string $key    The key for the output
      * @param string $output The actual output of the widget
+     *
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.09.2011

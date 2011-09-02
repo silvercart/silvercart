@@ -13,5 +13,22 @@
 @import url(../../yaml/core/iehacks.css);
 
 /* Layout-dependent adjustments | Layout-abhängige Anpassungen */
-@media screen, projection
-{}
+@media screen, projection {
+/* SilverCart Headerbar ---------------------------------------------------- */
+
+    #silvercart-headerbar {
+        position: static;
+    }
+    
+/* General settings -------------------------------------------------------- */
+
+    .page_margins {
+        padding-top: 0px;
+    }
+    
+/* Quicksearch form -------------------------------------------------------- */
+
+    #silvercart-quicksearch-form form.yform div.type-text {
+        width: 50%;
+    }
+}
