@@ -1,5 +1,9 @@
+.widget {
+    margin:                         0px;
+}
 .silvercart-widget {
     font-size:                      12px;
+    margin:                         0px 0px 12px 0px;
 }
 .silvercart-widget_content {
     background:                     #ffffff;
@@ -14,6 +18,10 @@
 }
 .silvercart-widget-content_frame {
     border-top:                     1px #ddd solid;
+    padding:                        4px;
+}
+.silvercart-widget-content-area {
+    margin:                         0px 0px 20px 0px;
 }
 .silvercart-widget h2,
 #col1 .silvercart-widget h2,/* Widgets in content area */
@@ -27,11 +35,15 @@
     background:                     -o-linear-gradient(top,  #e1e1e1,  #ffffff); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#e1e1e1', endColorstr='#ffffff'); /* for IE */
     border:                         none;
+    margin:                         0px;
+    padding:                        4px 4px 4px 4px;
 }
 .silvercart-widget h3,
 #col1 .silvercart-widget h3,/* Widgets in content area */
 #col4 .silvercart-widget h3 /* Widgets in content area */ {
     font-size:                      12px;
+    margin:                         0px;
+    padding:                        0px 0px 6px 0px;
 }
 .silvercart-widget p {
     font-size:                      11px;
@@ -39,9 +51,21 @@
 
 /* YAML vlist -------------------------------------------------------------- */
 
+.silvercart-widget .vlist {
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget .vlist li {
+    margin:                         0px;
+    padding:                        0px;
+}
 .silvercart-widget .vlist li a,
 .silvercart-widget .vlist li strong,
 .silvercart-widget .vlist li span {
+    display:                        block;
+    width:                          100%;
+    margin:                         0px;
+    padding:                        3px 5px;
     font-weight:                    normal;
     color:                          #333;
     border-bottom:                  1px #eee dotted;
@@ -49,10 +73,16 @@
 .silvercart-widget .vlist li strong {
     font-weight:                    bold;
 }
+.silvercart-widget .vlist li:first-child a,
+.silvercart-widget .vlist li:first-child strong,
+.silvercart-widget .vlist li:first-child span {
+    padding-top:                    2px;
+}
 .silvercart-widget .vlist li:last-child a,
 .silvercart-widget .vlist li:last-child strong,
 .silvercart-widget .vlist li:last-child span {
     border-bottom:                  none;
+    padding-bottom:                 2px;
 }
 .silvercart-widget .vlist li a:hover {
     text-decoration:                none;
@@ -61,6 +91,8 @@
 .silvercart-widget .vlist ul ul {
     color:                          #333;
     list-style:                     disc;
+    margin:                         0px 0px 0px 12px;
+    padding:                        0px 0px 0px 12px;
 }
 
 /* Product boxes ----------------------------------------------------------- */
@@ -74,6 +106,9 @@
     background:                     -o-linear-gradient(top,  #f6f6f6,  #ffffff); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff'); /* for IE */
 }
+.silvercart-product-box_content {
+    padding:                        8px 4px 6px 4px;
+}
 .silvercart-widget .silvercart-product-box h3 {
     font-size:                      12px;
     font-weight:                    bold;
@@ -84,11 +119,15 @@
 }
 .silvercart-widget .silvercart-product-box p.silvercart-price {
     font-size:                      12px;
+    margin:                         0px 0px 3px 0px;
 }
 .silvercart-widget .silvercart-product-box small {
     font-size:                      10px;
 }
 
+.silvercart-product-box .product-group-page-image img {
+    display:                        inline-block;
+}
 .silvercart-widget .silvercart-product-box .product-group-page-image a {
     text-align:                     center;
     border:                         1px #d1d1d1 solid;
@@ -96,6 +135,7 @@
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    display:                        block;
 }
 
 /* Tables ------------------------------------------------------------------ */
@@ -124,6 +164,14 @@
 .silvercart-widget-login form.yform {
     background:                     none;
     border:                         none;
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget-login form.yform div.type-text {
+    padding:                        0px 5px 0px 0px;
+}
+.silvercart-widget-login form.yform div.type-button {
+    padding:                        0px;
 }
 
 /* Search ------------------------------------------------------------------ */
@@ -131,4 +179,12 @@
 .silvercart-widget-search form.yform {
     background:                     none;
     border:                         none;
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget-search form.yform div.type-text {
+    padding:                        0px 5px 0px 0px;
+}
+.silvercart-widget-search form.yform div.type-button {
+    padding:                        0px;
 }
