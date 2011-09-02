@@ -132,7 +132,6 @@ table {
     border-collapse:                collapse;
 }
 table tr:hover td {
-    fonr-size:                      12px;
     background:                     none;
 }
 table th {
@@ -270,6 +269,16 @@ p.silvercart-message.highlighted.error48 {
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+.silvercart-button a:hover,
+.silvercart-button-small a:hover {
+    text-decoration:                none;
+    color:                          #fff;
+    background-color:               #444;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#666), to(#333)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #666,  #333); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #666,  #333); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#333'); /* for IE */
+}
 .silvercart-button-small {
     float:                          right;
 }
@@ -292,16 +301,6 @@ p.silvercart-message.highlighted.error48 {
     padding:                        2px 4px 4px 4px;
     
     font-size:                      11px;
-}
-.silvercart-button a:hover,
-.silvercart-button-small a:hover {
-    text-decoration:                none;
-    color:                          #fff;
-    background-color:               #444;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#666), to(#333)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #666,  #333); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #666,  #333); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#333'); /* for IE */
 }
 
 /* Icon only buttons ------------------------------------------------------- */
