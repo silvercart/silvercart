@@ -554,7 +554,7 @@ class SilvercartProduct extends DataObject {
 
     /**
      * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
-     * $fields are the inherited fields, $CMSFields are a my new definitions.
+     * Be aware that new properties/relations will not be scaffolded any more.
      *
      * @param array $params See {@link scaffoldFormFields()}
      *
@@ -607,8 +607,12 @@ class SilvercartProduct extends DataObject {
         $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('isActive'));
         $CMSFields->addFieldToTab('Root.Main.Content', new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER')));
         $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Title'));
-        $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('ShortDescription'));
-        $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('LongDescription'));
+        $textFieldShortDescription = $fields->dataFieldByName('ShortDescription');
+        $textFieldShortDescription->setRows(2);
+        $CMSFields->addFieldToTab('Root.Main.Content', $textFieldShortDescription);
+        $htmlEditorFieldLongDescription = $fields->dataFieldByName('LongDescription');
+        $htmlEditorFieldLongDescription->setRows(15);
+        $CMSFields->addFieldToTab('Root.Main.Content', $htmlEditorFieldLongDescription);
         $taxRates = DataObject::get('SilvercartTax');
         $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRates->map('ID', 'Title'), $this->SilvercartTaxID));
         $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Weight'));
@@ -785,43 +789,6 @@ class SilvercartProduct extends DataObject {
                     _t('SilvercartImage.SINGULARNAME', 'Image')));
             $CMSFields->addFieldToTab('Root.Files.Attachments', $silvercartFileInformation);
         }
-        
-        /*
-         * remove all scaffolded fields from the parent call. They must be removed
-         * after they were added to $CMSFields.
-         */
-//        $fields->removeByName('isActive');
-//        $fields->removeByName('ProductNumberShop');
-//        $fields->removeByName('Title');
-//        $fields->removeByName('ShortDescription');
-//        $fields->removeByName('LongDescription');
-//        $fields->removeByName('SilvercartTaxID');
-//        $fields->removeByName('Weight');
-//        $fields->removeByName('EANCode');
-//        
-//        $fields->removeByName('PurchasePrice');
-//        $fields->removeByName('MSRPrice');
-//        $fields->removeByName('PriceGross');
-//        $fields->removeByName('PriceNet');
-//        $fields->removeByName('isFreeOfCharge');
-//        
-//        $fields->removeByName('ProductNumberManufacturer');
-//        $fields->removeByName('SilvercartManufacturerID');
-//        
-//        $fields->removeByName('MetaTitle');
-//        $fields->removeByName('MetaDescription');
-//        $fields->removeByName('MetaKeywords');
-//        
-//        $fields->removeByName('StockQuantity');
-//        $fields->removeByName('PackagingQuantity');
-//        
-//        $fields->removeByName('PurchaseMinDuration');
-//        $fields->removeByName('PurchaseMaxDuration');
-//        $fields->removeByName('PurchaseTimeUnit');
-//        
-//        $fields->removeByName('SilvercartAvailabilityStatusID');
-//        $fields->removeByName('StockQuantityOverbookable');
-//        $fields->removeByName('SilvercartProductConditionID');    
         $this->extend('updateCMSFields', $CMSFields);
         return $CMSFields;
     }
