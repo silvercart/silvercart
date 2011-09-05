@@ -39,6 +39,13 @@ global $lang;
 
 
 
+$lang['en_US']['Silvercart']['CONTENT'] = 'Content';
+$lang['en_US']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
+$lang['en_US']['Silvercart']['DATA'] = 'Data';
+$lang['en_US']['Silvercart']['DEEPLINKS'] = 'Deeplinks';
+$lang['en_US']['Silvercart']['LINKS'] = 'Links';
+$lang['en_US']['Silvercart']['MISC_CONFIG'] = 'Misc. Configuration';
+$lang['en_US']['Silvercart']['TIMES'] = 'Time';
 $lang['en_US']['Silvercart']['DATE'] = 'Date';
 $lang['en_US']['Silvercart']['DAY'] = 'day';
 $lang['en_US']['Silvercart']['DAYS'] = 'days';
@@ -193,6 +200,7 @@ $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Direct
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
 $lang['en_US']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
+$lang['en_US']['SilvercartProduct']['METADATA'] = 'Meta Data';
 $lang['en_US']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for search engines';
 $lang['en_US']['SilvercartProduct']['METAKEYWORDS'] = 'Meta keywords for search engines';
 $lang['en_US']['SilvercartProduct']['METATITLE'] = 'Meta title for search engines';
@@ -237,9 +245,9 @@ $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_QUANTITY']
 $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_GOUP']           = 'are attributed to a product group';
 $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_IMAGE']          = 'have a product image';
 $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER']   = 'are attributed to a manufacturer';
+$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
-$lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY']       = 'are available in a follwing quantity';
 $lang['en_US']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
 $lang['en_US']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
 
@@ -374,7 +382,7 @@ $lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration fo
 $lang['en_US']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.';
-$lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum  order value';
+$lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum order value';
 $lang['en_US']['SilvercartConfig']['PLURALNAME'] = 'General configurations';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Pricetype anonymous customers';
 $lang['en_US']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Pricetype regular customers';
@@ -403,7 +411,7 @@ $lang['en_US']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
 
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Contact confirmation';
 $lang['en_US']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks for your message. Your request will be answered as soon as possible.';
-$lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact form response pags';
+$lang['en_US']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact form response pages';
 $lang['en_US']['SilvercartContactFormResponsePage']['SINGULARNAME'] = 'Contact form response page';
 $lang['en_US']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactconfirmation';
 
@@ -710,6 +718,7 @@ $lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';
 $lang['en_US']['SilvercartEmailTemplates']['SINGULARNAME'] = 'Email template';
 
 $lang['en_US']['SilvercartFile']['DESCRIPTION'] = 'Description';
+$lang['en_US']['SilvercartFile']['FILE_ATTACHMENTS'] = 'File attachments';
 $lang['en_US']['SilvercartFile']['PLURALNAME'] = 'Files';
 $lang['en_US']['SilvercartFile']['SINGULARNAME'] = 'File';
 $lang['en_US']['SilvercartFile']['TITLE'] = 'Display name';

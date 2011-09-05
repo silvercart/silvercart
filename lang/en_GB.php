@@ -39,6 +39,13 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 
 
 
+$lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
+$lang['en_GB']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
+$lang['en_GB']['Silvercart']['DATA'] = 'Data';
+$lang['en_GB']['Silvercart']['DEEPLINKS'] = 'Deeplinks';
+$lang['en_GB']['Silvercart']['LINKS'] = 'Links';
+$lang['en_GB']['Silvercart']['MISC_CONFIG'] = 'Misc. Configuration';
+$lang['en_GB']['Silvercart']['TIMES'] = 'Time';
 $lang['en_GB']['Silvercart']['DATE'] = 'Date';
 $lang['en_GB']['Silvercart']['DAY'] = 'day';
 $lang['en_GB']['Silvercart']['DAYS'] = 'days';
@@ -193,6 +200,7 @@ $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Direct
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
 $lang['en_GB']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
+$lang['en_GB']['SilvercartProduct']['METADATA'] = 'Meta Data';
 $lang['en_GB']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for search engines';
 $lang['en_GB']['SilvercartProduct']['METAKEYWORDS'] = 'Meta keywords for search engines';
 $lang['en_GB']['SilvercartProduct']['METATITLE'] = 'Meta title for search engines';
@@ -710,6 +718,7 @@ $lang['en_GB']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';
 $lang['en_GB']['SilvercartEmailTemplates']['SINGULARNAME'] = 'Email template';
 
 $lang['en_GB']['SilvercartFile']['DESCRIPTION'] = 'Description';
+$lang['en_GB']['SilvercartFile']['FILE_ATTACHMENTS'] = 'File attachments';
 $lang['en_GB']['SilvercartFile']['PLURALNAME'] = 'Files';
 $lang['en_GB']['SilvercartFile']['SINGULARNAME'] = 'File';
 $lang['en_GB']['SilvercartFile']['TITLE'] = 'Display name';
@@ -780,7 +789,7 @@ $lang['en_GB']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Your person
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['ALREADY_CONFIRMED_MESSAGE_TEXT']   = 'Message: user completed opt-in already';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['FAILURE_MESSAGE_TEXT']             = 'Failure message';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['PLURALNAME']                       = 'Newsletter opt-in confirmation page';
-$lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['SINGULARNAME']                     = 'Newsletter opt-in confirmation pages';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['SINGULARNAME']                     = 'Newsletter opt-in confirmation pages';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['SUCCESS_MESSAGE_TEXT']             = 'Success message';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONFAILUREMESSAGE']       = '<p>Your newsletter registration couldn\'t be completed.</p>';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE']       = '<p>Your newsletter registration was successful!</p><p>Hopefully our offers will be of good use to you.</p>';

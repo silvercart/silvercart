@@ -496,7 +496,7 @@ class SilvercartProduct extends DataObject {
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->addFieldToTab('Root.Main', $dropdownField);
+        $fields->addFieldToTab('Root.Main.Content', $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
@@ -603,6 +603,34 @@ class SilvercartProduct extends DataObject {
                         )
         );
         
+        // i18n for the tabs
+        $mainTab->setTitle(                 _t('SiteTree.TABMAIN'));
+        $contentTab->setTitle(              _t('Silvercart.CONTENT',                                'Content'));
+        $pricesTab->setTitle(               _t('SilvercartPrice.PLURALNAME'));
+        $manufacturerTab->setTitle(         _t('SilvercartManufacturer.PLURALNAME'));
+        
+        $seoTab->setTitle(                  _t('Silvercart.SEO',                                    'SEO'));
+        $metadataTab->setTitle(             _t('SilvercartProduct.METADATA',                        'Meta Data'));
+        
+        $linksTab->setTitle(                _t('Silvercart.LINKS',                                  'Links'));
+        $mirrorProductGroupsTab->setTitle(  _t('SilvercartProductGroupMirrorPage.PLURALNAME'));
+        $productGroupsTab->setTitle(        _t('SilvercartProductGroupPage.SINGULARNAME'));
+        $deeplinksTab->setTitle(            _t('Silvercart.DEEPLINKS',                              'Deeplinks'));
+        
+        $xSellingTab->setTitle(             _t('Silvercart.CROSSSELLING',                           'Cross-Selling'));
+        $ordersTab->setTitle(               _t('SilvercartOrder.PLURALNAME'));
+        $cartsTab->setTitle(                _t('SilvercartShoppingCart.PLURALNAME'));
+        $cartPositionsTab->setTitle(        _t('SilvercartShoppingCartPosition.PLURALNAME'));
+        
+        $stockTab->setTitle(                _t('SilvercartConfig.STOCK'));
+        $dataTab->setTitle(                 _t('Silvercart.DATA'));
+        $timeTab->setTitle(                 _t('Silvercart.TIMES'));
+        $configTab->setTitle(               _t('Silvercart.MISC_CONFIG'));
+        
+        $filesTab->setTitle(                _t('SilvercartFile.PLURALNAME'));
+        $attachmentsTab->setTitle(          _t('SilvercartFile.FILE_ATTACHMENTS'));
+        $imagesTab->setTitle(               _t('SilvercartImage.PLURALNAME'));
+        
         //fill the tab Root.Main.Content
         $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('isActive'));
         $CMSFields->addFieldToTab('Root.Main.Content', new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER')));
@@ -659,7 +687,7 @@ class SilvercartProduct extends DataObject {
             'SilvercartProductGroup',
             'SilvercartProductGroupPage',
             array(
-                'Breadcrumbs'   => 'Breadcrumbs'
+                'Breadcrumbs'   => _t('SilvercartProductGroupPage.SINGULARNAME')
             ),
             null,
             null,

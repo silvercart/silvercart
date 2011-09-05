@@ -39,6 +39,13 @@ if (file_exists(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php')) 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
 
+$lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';
+$lang['de_DE']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
+$lang['de_DE']['Silvercart']['DATA'] = 'Daten';
+$lang['de_DE']['Silvercart']['DEEPLINKS'] = 'Deeplinks';
+$lang['de_DE']['Silvercart']['LINKS'] = 'Links';
+$lang['de_DE']['Silvercart']['MISC_CONFIG'] = 'Sonstige Einstellungen';
+$lang['de_DE']['Silvercart']['TIMES'] = 'Zeiten';
 $lang['de_DE']['Silvercart']['DATE'] = 'Datum';
 $lang['de_DE']['Silvercart']['DAY'] = 'Tag';
 $lang['de_DE']['Silvercart']['DAYS'] = 'Tage';
@@ -193,6 +200,7 @@ $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Verzei
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absoluter Pfad zum Verzeichnis auf dem Webserver, in dem die Bilder liegen';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Es wurden %d Dateien gefunden.</p><p>%d davon konnten Produkten zugeordnet werden und wurden importiert.</p>';
 $lang['de_DE']['SilvercartProduct']['MASTERPRODUCT'] = 'Basisartikel';
+$lang['de_DE']['SilvercartProduct']['METADATA'] = 'Meta Daten';
 $lang['de_DE']['SilvercartProduct']['METADESCRIPTION'] = 'Meta Beschreibung für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['METAKEYWORDS'] = 'Meta Schlagworte für Suchmaschinen';
 $lang['de_DE']['SilvercartProduct']['METATITLE'] = 'Meta Titel für Suchmaschinen';
@@ -710,6 +718,7 @@ $lang['de_DE']['SilvercartEmailTemplates']['PLURALNAME'] = 'E-Mail Vorlagen';
 $lang['de_DE']['SilvercartEmailTemplates']['SINGULARNAME'] = 'E-Mail Vorlage';
 
 $lang['de_DE']['SilvercartFile']['DESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartFile']['FILE_ATTACHMENTS'] = 'Dateianhänge';
 $lang['de_DE']['SilvercartFile']['PLURALNAME'] = 'Dateien';
 $lang['de_DE']['SilvercartFile']['SINGULARNAME'] = 'Datei';
 $lang['de_DE']['SilvercartFile']['TITLE'] = 'Anzeigename';
@@ -753,7 +762,6 @@ $lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_KEY_VALUE_PRO
 $lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_KEY_VALUE_QUANTITY_IDENTIFIER_NOT_FOUND']    = 'Parameter wurden nicht gesendet (Mengenbezeichner fehlt)';
 $lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_REFERER_NOT_FOUND']                          = 'Externer Aufrufer ist nicht gültig';
 $lang['de_DE']['SilvercartInboundShoppingCartTransferPage']['ERROR_SHARED_SECRET_INVALID']                      = 'Keine Berechtigung';
-
 
 $lang['de_DE']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen';
 $lang['de_DE']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse';
@@ -989,12 +997,12 @@ $lang['de_DE']['SilvercartPaymentMethod']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartPaymentMethod']['NO_PAYMENT_METHOD_AVAILABLE'] = 'Keine Zahlarten verfügbar';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_LOGOS'] = 'Logos';
 $lang['de_DE']['SilvercartPaymentMethod']['PLURALNAME'] = 'Bezahlarten';
-$lang['de_DE']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Versandart';
-$lang['de_DE']['SilvercartPaymentMethod']['SHOW_NOT_FOR_GROUPS_LABEL'] = 'Für folgende Gruppen deaktivieren';
-$lang['de_DE']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_GROUPS_LABEL'] = 'Für folgende Gruppen aktivieren';
 $lang['de_DE']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_QUANTITY'] = 'Der Kunde muss mindestens die folgende Anzahl Bestellungen durchgeführt haben';
 $lang['de_DE']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_STATUS'] = 'deren Bestellstatus in der folgenden Liste markiert ist';
 $lang['de_DE']['SilvercartPaymentMethod']['RESTRICTION_LABEL'] = 'Nur für Kunden anzeigen, die die folgenden Kriterien erfüllen';
+$lang['de_DE']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Versandart';
+$lang['de_DE']['SilvercartPaymentMethod']['SHOW_NOT_FOR_GROUPS_LABEL'] = 'Für folgende Gruppen deaktivieren';
+$lang['de_DE']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_GROUPS_LABEL'] = 'Für folgende Gruppen aktivieren';
 $lang['de_DE']['SilvercartPaymentMethod']['SHOW_NOT_FOR_USERS_LABEL'] = 'Für folgende Benutzer deaktivieren';
 $lang['de_DE']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_USERS_LABEL'] = 'Für folgende Benutzer aktivieren';
 $lang['de_DE']['SilvercartPaymentMethod']['SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'] = 'Eingabefelder bereits bei Zahlungs-Auswahl anzeigen';
