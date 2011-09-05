@@ -193,58 +193,77 @@ class SilvercartPage_Controller extends ContentController {
         
         $this->loadWidgetControllers();
         
-        if (SilvercartConfig::DefaultLayoutEnabled()) {
-            Requirements::block('cms/css/layout.css');
-            Requirements::block('cms/css/typography.css');
-            Requirements::block('cms/css/form.css');
+        $css = Requirements::backend()->get_css();
+        if (count($css) == 0) {
+            if (SilvercartConfig::DefaultLayoutEnabled()) {
+                Requirements::block('cms/css/layout.css');
+                Requirements::block('cms/css/typography.css');
+                Requirements::block('cms/css/form.css');
+
+                // Require the default layout and its patches only if it is enabled
+                Requirements::themedCSS('base');
+                Requirements::themedCSS('basemod');
+                Requirements::themedCSS('nav_shinybuttons');
+                Requirements::themedCSS('nav_vlist');
+                Requirements::themedCSS('content');
+                Requirements::themedCSS('forms');
+                Requirements::themedCSS('patch_forms');
+                Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                          'silvercart_ie7patch_begin');
+                Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
+                Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_ie7patch_end');
+            }
+            Requirements::themedCSS('SilvercartAddressHolder');
+            Requirements::themedCSS('SilvercartBreadcrumbs');
+            Requirements::themedCSS('SilvercartCheckout');
+            Requirements::themedCSS('SilvercartFooter');
+            Requirements::themedCSS('SilvercartForms');
+            Requirements::themedCSS('SilvercartGeneral');
+            Requirements::themedCSS('SilvercartHeaderbar');
+            Requirements::themedCSS('SilvercartPagination');
+            Requirements::themedCSS('SilvercartProductGroupNavigation');
+            Requirements::themedCSS('SilvercartProductGroupPageControls');
+            Requirements::themedCSS('SilvercartProductGroupPageList');
+            Requirements::themedCSS('SilvercartProductGroupPageTile');
+            Requirements::themedCSS('SilvercartProductGroupViewNavigation');
+            Requirements::themedCSS('SilvercartProductPage');
+            Requirements::themedCSS('SilvercartShoppingCart');
+            Requirements::themedCSS('SilvercartWidget');        
+            Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
+            Requirements::javascript("customhtmlform/script/jquery.js");
+            Requirements::javascript("silvercart/script/document.ready_scripts.js");
+            Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
+            Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
+
+            $contentCssFiles = array(
+                'content',
+                'forms',
+                'patch_forms',
+            );
             
-            // Require the default layout and its patches only if it is enabled
-            Requirements::themedCSS('base');
-            Requirements::themedCSS('patch_forms');
-            Requirements::themedCSS('nav_shinybuttons');
-            Requirements::themedCSS('nav_vlist');
-            Requirements::themedCSS('basemod');
-            Requirements::themedCSS('content');
-            Requirements::themedCSS('forms');
-            Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                          'silvercart_ie7patch_begin');
-            Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
-            Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_ie7patch_end');
+            $combinedCssFiles = array();
+            $combinedContentCssFiles = array();
+            $combinedSilvercartCssFiles = array();
+            foreach (Requirements::backend()->get_css() as $file => $value) {
+                if (strpos(basename($file), 'Silvercart') === 0) {
+                    $combinedSilvercartCssFiles[] = $file;
+                } elseif (in_array(basename($file, '.css'), $contentCssFiles)) {
+                    $combinedContentCssFiles[] = $file;
+                } else {
+                    $combinedCssFiles[] = $file;
+                }
+            }
+            Requirements::combine_files('base.css', $combinedCssFiles);
+            Requirements::combine_files('content.css', $combinedContentCssFiles);
+            Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
+            Requirements::process_combined_files();
+
+            $combinedJsFiles = array();
+            foreach (Requirements::backend()->get_javascript() as $file) {
+                $combinedJsFiles[] = $file;
+            }
+            Requirements::combine_files('script.js', $combinedJsFiles);
+            Requirements::process_combined_files();
         }
-        Requirements::themedCSS('SilvercartAddressHolder');
-        Requirements::themedCSS('SilvercartBreadcrumbs');
-        Requirements::themedCSS('SilvercartCheckout');
-        Requirements::themedCSS('SilvercartFooter');
-        Requirements::themedCSS('SilvercartForms');
-        Requirements::themedCSS('SilvercartGeneral');
-        Requirements::themedCSS('SilvercartHeaderbar');
-        Requirements::themedCSS('SilvercartPagination');
-        Requirements::themedCSS('SilvercartProductGroupNavigation');
-        Requirements::themedCSS('SilvercartProductGroupPageControls');
-        Requirements::themedCSS('SilvercartProductGroupPageList');
-        Requirements::themedCSS('SilvercartProductGroupPageTile');
-        Requirements::themedCSS('SilvercartProductGroupViewNavigation');
-        Requirements::themedCSS('SilvercartProductPage');
-        Requirements::themedCSS('SilvercartShoppingCart');
-        Requirements::themedCSS('SilvercartWidget');        
-        Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
-        Requirements::javascript("customhtmlform/script/jquery.js");
-        Requirements::javascript("silvercart/script/document.ready_scripts.js");
-        Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
-        Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
-        
-        $combinedCssFiles = array();
-        foreach (Requirements::backend()->get_css() as $file => $value) {
-            $combinedCssFiles[] = $file;
-        }
-        Requirements::combine_files('content.css', $combinedCssFiles);
-        Requirements::process_combined_files();
-        
-        $combinedJsFiles = array();
-        foreach (Requirements::backend()->get_javascript() as $file) {
-            $combinedJsFiles[] = $file;
-        }
-        Requirements::combine_files('script.js', $combinedJsFiles);
-        Requirements::process_combined_files();
         
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
