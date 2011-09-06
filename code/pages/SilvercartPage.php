@@ -192,8 +192,13 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->loadWidgetControllers();
-        
+                
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
+            // temporary hold preloaded css files to prevent combine changes by 
+            // different pages
+            $preloadedCssFiles = Requirements::backend()->get_css();
+            // load all css files by themedCss to be able to load customized css
+            // files without any Requirement changes
             if (SilvercartConfig::DefaultLayoutEnabled()) {
                 Requirements::block('cms/css/layout.css');
                 Requirements::block('cms/css/typography.css');
@@ -242,7 +247,12 @@ class SilvercartPage_Controller extends ContentController {
             $combinedCssFiles = array();
             $combinedContentCssFiles = array();
             $combinedSilvercartCssFiles = array();
+            // combine the themed css files here into different arrays
             foreach (Requirements::backend()->get_css() as $file => $value) {
+                if (array_key_exists($file, $preloadedCssFiles)) {
+                    // skip preloaded css files to prevent combine changes by different pages
+                    continue;
+                }
                 if (strpos(basename($file), 'Silvercart') === 0) {
                     $combinedSilvercartCssFiles[] = $file;
                 } elseif (in_array(basename($file, '.css'), $contentCssFiles)) {
@@ -262,6 +272,8 @@ class SilvercartPage_Controller extends ContentController {
             }
             Requirements::combine_files('script.js', $combinedJsFiles);
             Requirements::process_combined_files();
+            // set default layout loaded in SilvercartConfig to prevent multiple
+            // loading of css files
             SilvercartConfig::setDefaultLayoutLoaded(true);
         }
         
