@@ -193,8 +193,7 @@ class SilvercartPage_Controller extends ContentController {
         
         $this->loadWidgetControllers();
         
-        $css = Requirements::backend()->get_css();
-        if (count($css) == 0) {
+        if (!SilvercartConfig::DefaultLayoutLoaded()) {
             if (SilvercartConfig::DefaultLayoutEnabled()) {
                 Requirements::block('cms/css/layout.css');
                 Requirements::block('cms/css/typography.css');
@@ -263,6 +262,7 @@ class SilvercartPage_Controller extends ContentController {
             }
             Requirements::combine_files('script.js', $combinedJsFiles);
             Requirements::process_combined_files();
+            SilvercartConfig::setDefaultLayoutLoaded(true);
         }
         
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));

@@ -192,6 +192,7 @@ class SilvercartConfig extends DataObject {
      * Put here all static attributes which have no db field.
      */
     public static $defaultLayoutEnabled = true;
+    public static $defaultLayoutLoaded = false;
     /**
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
@@ -926,6 +927,32 @@ class SilvercartConfig extends DataObject {
      */
     public static function DefaultLayoutEnabled() {
         return self::$defaultLayoutEnabled;
+    }
+
+    /**
+     * Returns whether the base layout is loaded or not.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2011
+     */
+    public static function DefaultLayoutLoaded() {
+        return self::$defaultLayoutLoaded;
+    }
+
+    /**
+     * Sets whether the base layout is loaded or not.
+     *
+     * @param bool $loaded indicator whether the layout is loaded or not
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2011
+     */
+    public static function setDefaultLayoutLoaded($loaded) {
+        self::$defaultLayoutLoaded = $loaded;
     }
 
     /**
