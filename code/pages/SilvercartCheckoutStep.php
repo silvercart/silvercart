@@ -78,6 +78,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 09.11.2010
+     * 
+     * @todo SilvercartShoppingCart ShippingMethod and PaymentMethod must be set earlier
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
@@ -109,6 +111,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
             }
 
+            // TODO: this is too late to set the shipping and payment method IDs
+            // Some payment methods will access this data before in parent::init()
+            // when custom form steps are loaded
             if (isset($stepData['ShippingMethod'])) {
                 $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);
             }
