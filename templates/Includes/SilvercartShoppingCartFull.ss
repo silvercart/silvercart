@@ -240,7 +240,7 @@
                         <td class="right"><strong>$AmountTotal.Nice</strong></td>
 
                         <% if Top.EditableShoppingCart %>
-                            <td>&nbsp;</td>
+                            <td class="right"><a class="small"  href="$CurrentPage.PageByIdentifierCodeLink(SilvercartShippingFeesPage)"> zzgl. Versand</a></td>
                         <% end_if %>
                     </tr>
                 </tbody>
