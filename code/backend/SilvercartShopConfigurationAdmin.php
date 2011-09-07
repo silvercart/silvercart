@@ -327,7 +327,6 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
         $processingValue = 100;
         if (array_key_exists('start', $_GET)) {
             $start = $_GET['start'];
-            $limit = $start . ',' . $processingValue;
         }
         if ($start == 0) {
             if (Session::get('cleanDataBase.inProgress')) {
@@ -371,6 +370,7 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
                 Session::set('cleanDataBase.remainingTime',                         0);
                 Session::save();
             }
+            $limit = ($start - Session::get('cleanDataBase.deletedImages')) . ',' . $processingValue;
             
             $newStart = $processedImages;
             $percent = floor($processedImages / ($numberOfImages/100));
