@@ -1698,7 +1698,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                     $fileNamesToSearchFiltered[] = $fileNameToSearch;
                 }
             } else {
-                $fileNameElements = explode($consecutiveNumberSeparator, $fileName);
+                $fileNameElements = explode($consecutiveNumberSeparator, $fileNameToSearch);
                 
                 if (!in_array($fileNameElements[0], $fileNamesToSearchFiltered)) {
                     $fileNamesToSearchFiltered[] = $fileNameElements[0];
@@ -1734,22 +1734,32 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             foreach ($products as $product) {
                 
                 foreach ($product['fileName'] as $fileName) {
-                    
+                    // disable caching to prevent duplicated image objects
                     $existingImage = DataObject::get_one(
                         'Image',
                         sprintf(
                             "Filename = 'assets/Uploads/%s'",
                             $fileName
-                        )
+                        ),
+                        false
                     );
                     
                     if ($existingImage) {
                         // overwrite existing image
                         $image       = $existingImage;
-                        $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
+                        $newFilePath = $image->getFullPath();
 
                         if (!copy($data['imageDirectory'].$fileName, $newFilePath)) {
                             continue;
+                        }
+                        
+                        $silvercartImage = DataObject::get_one('SilvercartImage', sprintf("`ImageID` = '%s' AND `SilvercartProductID` = '%s'", $image->ID, $product['ID']));
+                        if (!$silvercartImage) {
+                            $silvercartImage = new SilvercartImage();
+                            $silvercartImage->SilvercartProductID   = $product['ID'];
+                            $silvercartImage->ImageID               = $image->ID;
+                            $silvercartImage->Title                 = $fileName;
+                            $silvercartImage->write();
                         }
                         
                         $image->deleteFormattedImages();
