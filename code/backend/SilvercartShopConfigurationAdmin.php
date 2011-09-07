@@ -226,6 +226,8 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
             return $this->addExampleData();
         } elseif (array_key_exists('addExampleConfig', $vars)) {
             return $this->addExampleConfig();
+        } elseif (array_key_exists('cleanDataBase', $vars)) {
+            return $this->cleanDataBase();
         } else {
             return parent::handleAction($request);
         }
@@ -295,6 +297,204 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
                     $form->forAjaxTemplate(), 
                     200, 
                     _t('SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION', "Added Example Configuration")
+                );
+            } else {
+                // This is really quite ugly; to fix will require a change in the way that customise() works. :-(
+                return $this->parentController->parentController->customise(array(
+                        'Right' => $this->parentController->parentController->customise(array(
+                                'EditForm' => $this->EditForm()
+                        ))->renderWith('ModelAdmin_right')
+                ))->renderWith(array('ModelAdmin','LeftAndMain'));
+                return ;
+            }
+        } else {
+            return _t('ModelAdmin.ITEMNOTFOUND', "I can't find that item");
+        }
+    }
+    
+    /**
+     * Cleans the SilverCart database
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2011
+     */
+    public function cleanDataBase() {
+        // check SilvercartImages
+        $limit = '';
+        $start = 0;
+        $processingValue = 100;
+        if (array_key_exists('start', $_GET)) {
+            $start = $_GET['start'];
+            $limit = $start . ',' . $processingValue;
+        }
+        if ($start == 0) {
+            if (Session::get('cleanDataBase.inProgress')) {
+                $start = Session::get('cleanDataBase.startIndex');
+                Session::set('cleanDataBase.startTime', time() - Session::get('cleanDataBase.lastLog') - Session::get('cleanDataBase.startTime'));
+            } else {
+                Session::clear('cleanDataBase');
+                Session::save();
+            }
+        }
+        
+        if (!Session::get('cleanDataBase.numberOfImages')) {
+            $query = new SQLQuery(
+                array("COUNT(*) AS numberOfImages"),
+                array("SilvercartImage")
+            );
+
+            $numberOfImages = $query->execute()->value();
+            Session::set('cleanDataBase.numberOfImages', $numberOfImages);
+            Session::save();
+        } else {
+            $numberOfImages = Session::get('cleanDataBase.numberOfImages');
+        }
+        
+        $processedImages = $start + $processingValue;
+        if ($processedImages >= $numberOfImages) {
+            $processedImages = $numberOfImages;
+            $callback = '';
+            $progressMessage = _t('SilvercartConfig.CLEANED_DATABASE');
+            Session::clear('cleanDataBase');
+            Session::save();
+        } else {
+            
+            if (!Session::get('cleanDataBase.deletedImages') && Session::get('cleanDataBase.deletedImages') !== 0) {
+                Session::set('cleanDataBase.deletedImages',                         0);
+                Session::set('cleanDataBase.deletedImagesBecauseOfMissingProduct',  0);
+                Session::set('cleanDataBase.deletedImagesBecauseOfBrokenImage',     0);
+                Session::set('cleanDataBase.deletedImagesBecauseOfMissingImage',    0);
+                Session::set('cleanDataBase.reAssignedImages',                      0);
+                Session::set('cleanDataBase.startTime',                             time());
+                Session::set('cleanDataBase.remainingTime',                         0);
+                Session::save();
+            }
+            
+            $newStart = $processedImages;
+            $percent = floor($processedImages / ($numberOfImages/100));
+            
+            $callback = '';
+            $callback .= '<script type="text/javascript">';
+            $callback .= '(function($) {';
+            $callback .= '$("#right input[name=action_cleanDataBase]").addClass("loading");';
+            $callback .= 'var cleanDataBaseButton = $("#right input[name=action_cleanDataBase]");';
+            $callback .= 'var form = $("#right form");';
+            $callback .= 'var formAction = form.attr("action") + "?" + $(cleanDataBaseButton).attr("name").replace("action_", "") + "&start=" + ' . $newStart . ';';
+            $callback .= '$.post(formAction, form.formToArray(), function(result){';
+            $callback .= '$("#right #ModelAdminPanel").html(result);';
+            $callback .= 'statusMessage(ss.i18n._t("SilvercartConfig.CLEANED_DATABASE"), "good");';
+            $callback .= '$(cleanDataBaseButton).removeClass("loading");';
+            $callback .= 'Behaviour.apply();';
+            $callback .= 'if(window.onresize) window.onresize();';
+            $callback .= '}, "html");';
+            $callback .= '})(jQuery);';
+            $callback .= '</script>';
+
+            $deletedImages                          = Session::get('cleanDataBase.deletedImages');
+            $deletedImagesBecauseOfMissingProduct   = Session::get('cleanDataBase.deletedImagesBecauseOfMissingProduct');
+            $deletedImagesBecauseOfBrokenImage      = Session::get('cleanDataBase.deletedImagesBecauseOfBrokenImage');
+            $deletedImagesBecauseOfMissingImage     = Session::get('cleanDataBase.deletedImagesBecauseOfMissingImage');
+            $reAssignedImages                       = Session::get('cleanDataBase.reAssignedImages');
+            $silvercartImages = DataObject::get('SilvercartImage', '', '', '', $limit);
+            $silvercartProducts = DataObject::get('SilvercartProduct');
+
+            foreach ($silvercartImages as $silvercartImage) {
+                if ($silvercartImage->SilvercartProductID != 0) {
+                    // check existance of related product
+                    if (!$silvercartProducts->find('ID', $silvercartImage->SilvercartProductID)) {
+                        // related product does not exist. Delete image!
+                        $silvercartImage->delete();
+                        $deletedImages++;
+                        $deletedImagesBecauseOfMissingProduct++;
+                        continue;
+                    } else {
+                        // related product exists. Check if image is broken
+                        if (!$silvercartImage->Image() ||
+                            $silvercartImage->Image()->ID == 0) {
+                            // related image object is broken. Delete image!
+                            $silvercartImage->delete();
+                            $deletedImages++;
+                            $deletedImagesBecauseOfBrokenImage++;
+                        } else {
+                            // related image object is OK. Check filesystem
+                            if (!file_exists($silvercartImage->Image()->getFullPath())) {
+                                // image file does not exist. Delete image!
+                                $silvercartImage->Image()->delete();
+                                $silvercartImage->delete();
+                                $deletedImages++;
+                                $deletedImagesBecauseOfMissingImage++;
+                                continue;
+                            }
+
+                        }
+                    }
+                }
+            }
+            
+            
+            $timeSpent = time() - Session::get('cleanDataBase.startTime');
+            $percentGtZero = $percent;
+            if ($percentGtZero == 0) {
+                $percentGtZero++;
+            }
+            $remainingTime = ($timeSpent / $percentGtZero) * (100 - $percent);
+            
+            $seconds = $remainingTime % 60;
+            $minutes = floor($remainingTime/60);
+            if ($minutes == 1) {
+                $minuteString = _t('Silvercart.MIN');
+            } else {
+                $minuteString = _t('Silvercart.MINS');
+            }
+            if ($seconds == 1) {
+                $secondsString = _t('Silvercart.SEC');
+            } else {
+                $secondsString = _t('Silvercart.SECS');
+            }
+            $remainingTimeString = $minutes . ' ' . $minuteString . ' ' . $seconds . ' ' . $secondsString;
+
+            Session::set('cleanDataBase.lastLog',                               time());
+            Session::set('cleanDataBase.startIndex',                            $newStart);
+            Session::set('cleanDataBase.deletedImages',                         $deletedImages);
+            Session::set('cleanDataBase.deletedImagesBecauseOfMissingProduct',  $deletedImagesBecauseOfMissingProduct);
+            Session::set('cleanDataBase.deletedImagesBecauseOfBrokenImage',     $deletedImagesBecauseOfBrokenImage);
+            Session::set('cleanDataBase.deletedImagesBecauseOfMissingImage',    $deletedImagesBecauseOfMissingImage);
+            Session::set('cleanDataBase.reAssignedImages',                      $reAssignedImages);
+            Session::set('cleanDataBase.remainingTime',                         $remainingTime);
+            Session::save();
+            
+            $progressMessage = sprintf(
+                    _t('SilvercartConfig.CLEAN_DATABASE_INPROGRESS'),
+                    $processedImages,
+                    $numberOfImages,
+                    $percent,
+                    $remainingTimeString
+            );
+        }
+        
+        
+        if ($this->currentRecord) {
+            if (Director::is_ajax()) {
+                $form = $this->EditForm();
+                $fields = $form->Fields();
+                $reportToDisplay = sprintf(
+                        _t('SilvercartConfig.CLEANED_DATABASE_REPORT'),
+                        $progressMessage,
+                        Session::get('cleanDataBase.deletedImages'),
+                        Session::get('cleanDataBase.deletedImagesBecauseOfMissingProduct'),
+                        Session::get('cleanDataBase.deletedImagesBecauseOfBrokenImage'),
+                        Session::get('cleanDataBase.deletedImagesBecauseOfMissingImage'),
+                        Session::get('cleanDataBase.reAssignedImages')
+                ) . $callback;
+                $cleanDataBaseReportField = new LiteralField('', $reportToDisplay);
+                $fields->addFieldToTab('Root.General.Clean', $cleanDataBaseReportField);
+                $fields->dataFieldByName('cleanDataBaseStartIndex')->setValue($newStart);
+                return new SS_HTTPResponse(
+                    $form->forAjaxTemplate(), 
+                    200, 
+                    _t('SilvercartConfig.CLEANED_DATABASE')
                 );
             } else {
                 // This is really quite ugly; to fix will require a change in the way that customise() works. :-(

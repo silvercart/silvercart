@@ -49,4 +49,29 @@
 
         return false;
     });
+    $('#right input[name=action_cleanDataBase]').live('click', function(){
+        return triggerCleanDataBase(0);
+    });
+    
+    var triggerCleanDataBase = function(start) {
+        $('#right input[name=action_cleanDataBase]').addClass('loading')
+        var cleanDataBaseButton = $('#right input[name=action_cleanDataBase]');
+        var cleanDataBaseStartIndex = $('#right input[name=cleanDataBaseStartIndex]');
+        var form = $('#right form');
+        var formAction = form.attr('action') + '?' + $(cleanDataBaseButton).attr('name').replace('action_', '') + '&start=' + $(cleanDataBaseStartIndex).val();
+
+        // Post the data to save
+        $.post(formAction, form.formToArray(), function(result){
+
+            $('#right #ModelAdminPanel').html(result);
+
+            statusMessage(ss.i18n._t('SilvercartConfig.CLEANED_DATABASE'), 'good');
+            $(cleanDataBaseButton).removeClass('loading');
+            
+            Behaviour.apply(); // refreshes ComplexTableField
+            if(window.onresize) window.onresize();
+        }, 'html');
+
+        return false;
+    }
 })(jQuery);

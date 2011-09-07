@@ -289,7 +289,8 @@ class SilvercartConfig extends DataObject {
                     $tabLayoutMain = new Tab('Layout'),
                     $tabServerMain = new Tab('Server'),
                     $tabStockMain = new Tab('Stock'),
-                    $tabCkechoutMain = new Tab('Checkout')
+                    $tabCkechoutMain = new Tab('Checkout'),
+                    $tabCleanMain = new Tab('Clean')
                 ),
                 $interfacesTab = new TabSet(
                     'Interfaces',
@@ -303,11 +304,13 @@ class SilvercartConfig extends DataObject {
         
         // General Main
         $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
+        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
         $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
         $tabLayoutMain->setTitle(_t('SilvercartConfig.LAYOUT'));
         $tabServerMain->setTitle(_t('SilvercartConfig.SERVER'));
         $tabStockMain->setTitle(_t('SilvercartConfig.STOCK'));
         $tabCkechoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
+        $tabCleanMain->setTitle(_t('SilvercartConfig.CLEAN'));
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
@@ -394,8 +397,6 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
         
         // FormFields for Test Data right here
-        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
-        
         $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
         $addExampleData->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_DATA_DESCRIPTION'));
         $CMSFields->addFieldToTab('Root.General.TestData', $addExampleData);
@@ -406,6 +407,13 @@ class SilvercartConfig extends DataObject {
         $addExampleConfig = new FormAction('addExampleConfig', _t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION', 'Add Example Configuration'));
         $addExampleConfig->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION_DESCRIPTION'));
         $CMSFields->addFieldToTab('Root.General.TestData', $addExampleConfig);
+        
+        // FormFields for cleaning tab right here
+        $cleanDataBaseStartIndex = new TextField('cleanDataBaseStartIndex', _t('SilvercartConfig.CLEAN_DATABASE_START_INDEX'), 0);
+        $cleanDataBase = new FormAction('cleanDataBase', _t('SilvercartConfig.CLEAN_DATABASE', 'Clean database'));
+        $cleanDataBase->setRightTitle(_t('SilvercartConfig.CLEAN_DATABASE_DESCRIPTION'));
+        $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBaseStartIndex);
+        $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBase);
         
         // FormFields for Interfaces right here
         $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
