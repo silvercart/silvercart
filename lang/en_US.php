@@ -1041,6 +1041,9 @@ $lang['en_US']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'U
 
 $lang['en_US']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
+$lang['en_US']['SilvercartRating']['SINGULARNAME'] = 'rating';
+$lang['en_US']['SilvercartRating']['PLURALNAME'] = 'ratings';
+
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';

@@ -183,10 +183,10 @@ class SilvercartOrder extends DataObject {
     /**
      * Registers a plugin for this DataObject.
      *
-     * @return void
-     *
      * @param string $objectName The name of the object on which the method
      *                           calls should be done
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 30.08.2011
@@ -340,11 +340,11 @@ class SilvercartOrder extends DataObject {
     }
     
     /**
-     * Returns the cumulated output of all registered SilvercartOrderPlugins
-     *
-     * @return string
+     * Returns the cumulated output of all registered SilvercartOrderPlugin
      *
      * @param string $section The section for which the output is requested for.
+     * 
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 30.08.2011
@@ -538,7 +538,7 @@ class SilvercartOrder extends DataObject {
         $this->AmountTotal->setAmount(
             $totalAmount
         );
-        $this->AmountGrossTotal->setCurrency('EUR');
+        $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
@@ -1286,6 +1286,7 @@ class SilvercartOrder extends DataObject {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
         }
+        $this->extend('updateOnBeforeWrite');
     }
 
     /**
