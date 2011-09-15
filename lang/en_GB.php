@@ -361,6 +361,7 @@ $lang['en_GB']['SilvercartConfig']['APACHE_SOLR_URL'] = 'URL for requests to Apa
 $lang['en_GB']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart weight to be zero.';
 $lang['en_GB']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_GB']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Default product image';
+$lang['en_GB']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Display type of product administration';
 $lang['en_GB']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
 $lang['en_GB']['SilvercartConfig']['ENABLESSL'] = 'Enable SSL';
 $lang['en_GB']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Enable stock management';
