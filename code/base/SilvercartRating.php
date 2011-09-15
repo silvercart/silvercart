@@ -6,7 +6,7 @@
  * Decorate this class or extend it if you want to implement third party ratings.
  *
  * @package Silvercart
- * @subpackage Pages
+ * @subpackage base
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 08.09.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -59,7 +59,7 @@ class SilvercartRating extends DataObject {
      */
     public static $db = array(
         'RatingText'  => 'Text',
-        'RatingGrade' => 'VarChar(20)'
+        'RatingGrade' => 'Decimal'
     );
     
     /**
@@ -74,4 +74,33 @@ class SilvercartRating extends DataObject {
         'SilvercartProduct' => 'SilvercartProduct',
         'Customer'          => 'Member'
     );
+    
+    /**
+     * calculates the average grade of ratings of a ratings class
+     * 
+     * @param string  $className the class name of the the rating class;
+     * @param integer $precision figure number for rounding
+     * @param string  $filter    the sql filter string
+     * 
+     * @return decimal|false the result is rounded by two digits
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.09.2011
+     */
+    public static function calculateAverageRatingGrade($className, $precision = 2, $filter = null) {
+        if ($filter === null) {
+            $ratings = DataObject::get('SilvercartRating', "`ClassName` = $className");
+        } else {
+            $ratings = DataObject::get('SilvercartRating', "`ClassName` = $className AND $filter");
+        }
+        if ($ratings) {
+                $ratingGradesSum = 0;
+                foreach ($ratings as $rating) {
+                    $ratingGradesSum += $rating->ratingGrade;
+                }
+                $averageGrade = $ratingGradesSum / $ratings->Count();
+                return round($averageGrade, $precision);
+            }
+        return false;
+    }
 }

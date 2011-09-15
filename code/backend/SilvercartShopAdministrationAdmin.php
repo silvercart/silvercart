@@ -62,7 +62,8 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         'SilvercartAnonymousCustomer',
         'SilvercartGoogleMerchantTaxonomy' => array(
             'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
-        )
+        ),
+        'SilvercartRating'
     );
     
     /**
@@ -130,20 +131,20 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 01.08.2011
      */
-	public function resultsTableClassName() {
-        $className = $this->resultsTableClassName;
-        
-        if (isset($this->urlParams['Action']) ) {
-            if ($this->urlParams['Action'] == 'SilvercartProduct') {
-                $className = 'SilvercartProductTableListField';
-            }
-            if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
-                $className = 'SilvercartProductExportTableListField';
-            }
+    public function resultsTableClassName() {
+    $className = $this->resultsTableClassName;
+
+    if (isset($this->urlParams['Action']) ) {
+        if ($this->urlParams['Action'] == 'SilvercartProduct') {
+            $className = 'SilvercartProductTableListField';
         }
-        
-        return $className;
-	}
+        if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
+            $className = 'SilvercartProductExportTableListField';
+        }
+    }
+
+    return $className;
+    }
 }
 
 /**
@@ -162,13 +163,15 @@ class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_Colle
 
     /**
      * Shows results from the "search" action in a TableListField. 
+     * 
+     * @param string $searchCriteria ???
      *
      * @return Form
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    function ResultsForm($searchCriteria) {
+    public function ResultsForm($searchCriteria) {
         $form = parent::ResultsForm($searchCriteria);
         $form->setActions(new FieldSet());
         return $form;
