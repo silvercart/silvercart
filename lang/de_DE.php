@@ -372,6 +372,7 @@ $lang['de_DE']['SilvercartConfig']['CLEANED_DATABASE'] = 'Die Datenbank wurde op
 $lang['de_DE']['SilvercartConfig']['CLEANED_DATABASE_REPORT'] = '<br/><hr/><br/><h3>%s</h3><strong><br/>%s Bilder wurden gelöscht.<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Produktzuordnung<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Bilddatei<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Dateizuordnung<br/>%s Bilder wurden neu zugeordnet.</strong><br/><br/><hr/>';
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
 $lang['de_DE']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Standard Produktbild';
+$lang['de_DE']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Anzeigeart der Produktverwaltung';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
 $lang['de_DE']['SilvercartConfig']['ENABLESSL'] = 'SSL verwenden';
 $lang['de_DE']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Lagerbestandsverwaltung aktivieren';

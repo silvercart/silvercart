@@ -123,6 +123,7 @@ class SilvercartConfig extends DataObject {
         'enableSSL'                     => 'Boolean(0)',
         'productsPerPage'               => 'Int',
         'productGroupsPerPage'          => 'Int',
+        'displayTypeOfProductAdmin'       => 'Enum("Flat,Tabbed","Tabbed")',
         'minimumOrderValue'             => 'Money',
         'useMinimumOrderValue'          => 'Boolean(0)',
         'useApacheSolrSearch'           => 'Boolean(0)',
@@ -376,6 +377,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productsPerPage', _t('SilvercartConfig.PRODUCTSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productGroupsPerPage', _t('SilvercartConfig.PRODUCTGROUPSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new FileIFrameField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', $CMSFields->dataFieldByName('displayTypeOfProductAdmin'));
         
         /*
          * Root.General.Server tab
@@ -459,7 +461,8 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['useApacheSolrSearch']           = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
         $fieldLabels['apacheSolrPort']                = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
         $fieldLabels['apacheSolrUrl']                 = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
-        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');     
+        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
+        $fieldLabels['displayTypeOfProductAdmin']     = _t('SilvercartConfig.DISPLAY_TYPE_OF_PRODUCT_ADMIN', 'Display type of product administration');
         return $fieldLabels;
     }
 
@@ -1110,6 +1113,50 @@ class SilvercartConfig extends DataObject {
      */
     public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
         SilvercartGroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
+    }
+    
+    /**
+     * Returns the display type of product administration
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdmin() {
+        return self::getConfig()->displayTypeOfProductAdmin;
+    }
+    
+    /**
+     * Returns whether the display type of product administration is tabbed or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdminTabbed() {
+        $displayTypeOfProductAdminTabbed = false;
+        if (self::getConfig()->displayTypeOfProductAdmin == 'Tabbed' ) {
+            $displayTypeOfProductAdminTabbed = true;
+        }
+        return $displayTypeOfProductAdminTabbed;
+    }
+    
+    /**
+     * Returns whether the display type of product administration is flat or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdminFlat() {
+        $displayTypeOfProductAdminFlat = false;
+        if (self::getConfig()->displayTypeOfProductAdmin == 'Flat' ) {
+            $displayTypeOfProductAdminFlat = true;
+        }
+        return $displayTypeOfProductAdminFlat;
     }
 
     /**

@@ -372,6 +372,7 @@ $lang['en_US']['SilvercartConfig']['CLEANED_DATABASE'] = 'Database was optimized
 $lang['en_US']['SilvercartConfig']['CLEANED_DATABASE_REPORT'] = '<br/><hr/><br/><h3>%s</h3><strong><br/>%s images were deleted.<br/>&nbsp;&nbsp;%s because of a destroyed product relation<br/>&nbsp;&nbsp;%s because of a missing image file<br/>&nbsp;&nbsp;%s because of a destroyed image relation<br/>%s images were reassigned.</strong><br/><br/><hr/>';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_US']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Default product image';
+$lang['en_US']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Display type of product administration';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
 $lang['en_US']['SilvercartConfig']['ENABLESSL'] = 'Enable SSL';
 $lang['en_US']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Enable stock management';
