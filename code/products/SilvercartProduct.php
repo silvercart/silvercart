@@ -1858,6 +1858,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     public function importImages($data, $form, $request) {
+        $this->Log('', 'importImages');
+        $this->Log('', 'importImages');
+        $this->Log('starting import', 'importImages');
         $resultsForm                = $this->ResultsForm(array_merge($form->getData(), $data));
         $consecutiveNumberSeparator = '__';
         $fileNamesToSearchFiltered  = array();
@@ -1901,7 +1904,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                     $fileNamesToSearchFiltered[] = $fileNameToSearch;
                 }
             } else {
-                $fileNameElements = explode($consecutiveNumberSeparator, $fileName);
+                $fileNameElements = explode($consecutiveNumberSeparator, $fileNameToSearch);
                 
                 if (!in_array($fileNameElements[0], $fileNamesToSearchFiltered)) {
                     $fileNamesToSearchFiltered[] = $fileNameElements[0];
@@ -1937,27 +1940,45 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             foreach ($products as $product) {
                 
                 foreach ($product['fileName'] as $fileName) {
-                    
+                    // disable caching to prevent duplicated image objects
                     $existingImage = DataObject::get_one(
                         'Image',
                         sprintf(
                             "Filename = 'assets/Uploads/%s'",
                             $fileName
-                        )
+                        ),
+                        false
                     );
                     
                     if ($existingImage) {
+                        $this->Log('using an existing image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // overwrite existing image
                         $image       = $existingImage;
-                        $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
+                        $newFilePath = $image->getFullPath();
 
                         if (!copy($data['imageDirectory'].$fileName, $newFilePath)) {
                             continue;
                         }
                         
+                        $silvercartImage = DataObject::get_one('SilvercartImage', sprintf("`ImageID` = '%s' AND `SilvercartProductID` = '%s'", $image->ID, $product['ID']));
+                        if (!$silvercartImage) {
+                            $silvercartImage = $this->createSilvercartImage(
+                                $product['ID'],
+                                $image->ID,
+                                $fileName
+                            );
+                        }
+                        
                         $image->deleteFormattedImages();
                         $importedFiles++;
                     } else {
+                        $this->Log('creating new image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // Create new image
                         $image = $this->createImageObject(
                             $data['imageDirectory'].$fileName,
@@ -2001,6 +2022,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $importedFiles
         );
         print "</div>";
+        $this->Log('end', 'importImages');
     }
     
     /**
@@ -2384,6 +2406,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * Write a log message.
      * 
      * @param string $logString String to log
+     * @param string $filename  Name of logfile
      *
      * @return void
      *
@@ -2391,7 +2414,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @copyright 2011 pixeltricks GmbH
      * @since 16.08.2011
      */
-    protected function Log($logString) {
+    protected function Log($logString, $filename = 'importProducts') {
         $logDirectory = Director::baseFolder();
 
         $logDirectory = explode('/', $logDirectory);
@@ -2399,15 +2422,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         array_pop($logDirectory);
         $logDirectory = implode('/', $logDirectory);
 
-        if ($fp = fopen($logDirectory.'/log/importProducts.log', 'a')) {
-
-            fwrite(
-                $fp,
-                "=== ".date('d.m.Y H:i:s').":\n".
-                "    ".$logString."\n"
-            );
-
-            fclose($fp);
-        }
+        $data  = date('d.m.Y H:i:s').":\t".$logString."\n";
+        $filename = $logDirectory.'/log/' . $filename . '.log';
+        file_put_contents($filename, $data, FILE_APPEND);
     }
 }

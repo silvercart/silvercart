@@ -53,6 +53,10 @@ $lang['en_US']['Silvercart']['WEEK'] = 'week';
 $lang['en_US']['Silvercart']['WEEKS'] = 'weeks';
 $lang['en_US']['Silvercart']['MONTH'] = 'month';
 $lang['en_US']['Silvercart']['MONTHS'] = 'months';
+$lang['en_GB']['Silvercart']['MIN'] = 'minute';
+$lang['en_GB']['Silvercart']['MINS'] = 'minutes';
+$lang['en_GB']['Silvercart']['SEC'] = 'second';
+$lang['en_GB']['Silvercart']['SECS'] = 'seconds';
 $lang['en_US']['Silvercart']['MORE'] = 'More';
 $lang['en_US']['Silvercart']['SEO'] = 'SEO';
 $lang['en_US']['Silvercart']['YES'] = 'Yes';
@@ -359,6 +363,13 @@ $lang['en_US']['SilvercartConfig']['ADDED_EXAMPLE_CONFIGURATION'] = 'Added Examp
 $lang['en_US']['SilvercartConfig']['APACHE_SOLR_PORT'] = 'Port for requests to Apache Solr';
 $lang['en_US']['SilvercartConfig']['APACHE_SOLR_URL'] = 'URL for requests to Apache Solr';
 $lang['en_US']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart weight to be zero.';
+$lang['en_US']['SilvercartConfig']['CLEAN'] = 'Optimization';
+$lang['en_US']['SilvercartConfig']['CLEAN_DATABASE'] = 'Optimize database';
+$lang['en_US']['SilvercartConfig']['CLEAN_DATABASE_START_INDEX'] = 'Startindex';
+$lang['en_US']['SilvercartConfig']['CLEAN_DATABASE_DESCRIPTION'] = 'The action "Optimize database" searches for destroyed DataObjects and tries to reassign them. In case of failure, the object will be deleted.<br/><strong>CAUTION: This action can take a few minutes!</strong>';
+$lang['en_US']['SilvercartConfig']['CLEAN_DATABASE_INPROGRESS'] = 'Optimization in progress... (%s/%s) (%s%% completed, %s remaining)';
+$lang['en_US']['SilvercartConfig']['CLEANED_DATABASE'] = 'Database was optimized.';
+$lang['en_US']['SilvercartConfig']['CLEANED_DATABASE_REPORT'] = '<br/><hr/><br/><h3>%s</h3><strong><br/>%s images were deleted.<br/>&nbsp;&nbsp;%s because of a destroyed product relation<br/>&nbsp;&nbsp;%s because of a missing image file<br/>&nbsp;&nbsp;%s because of a destroyed image relation<br/>%s images were reassigned.</strong><br/><br/><hr/>';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
 $lang['en_US']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Default product image';
 $lang['en_US']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Display type of product administration';
@@ -1030,6 +1041,9 @@ $lang['en_US']['SilvercartProductCondition']['TITLE']           = 'Condition';
 $lang['en_US']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Use as default condition if not defined at the product';
 
 $lang['en_US']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
+
+$lang['en_US']['SilvercartRating']['SINGULARNAME'] = 'rating';
+$lang['en_US']['SilvercartRating']['PLURALNAME'] = 'ratings';
 
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
