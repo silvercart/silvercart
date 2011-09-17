@@ -88,15 +88,11 @@ class SilvercartRating extends DataObject {
      * @since 10.09.2011
      */
     public static function calculateAverageRatingGrade($className, $precision = 2, $filter = null) {
-        if ($filter === null) {
-            $ratings = DataObject::get('SilvercartRating', "`ClassName` = $className");
-        } else {
-            $ratings = DataObject::get('SilvercartRating', "`ClassName` = $className AND $filter");
-        }
+        $ratings = DataObject::get($className, $filter);
         if ($ratings) {
                 $ratingGradesSum = 0;
                 foreach ($ratings as $rating) {
-                    $ratingGradesSum += $rating->ratingGrade;
+                    $ratingGradesSum += $rating->RatingGrade;
                 }
                 $averageGrade = $ratingGradesSum / $ratings->Count();
                 return round($averageGrade, $precision);
