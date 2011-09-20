@@ -822,10 +822,18 @@ class SilvercartProduct extends DataObject {
      * @return bool
      */
     public function addToCart($cartID, $quantity = 1) {
+        $addToCartAllowed = true;
+        
+        $this->extend('updateAddToCart', $addToCartAllowed);
+        
         if ($quantity == 0 || $cartID == 0) {
             return false;
         }
 
+        if (!$addToCartAllowed) {
+            return false;
+        }
+        
         $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
         $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 

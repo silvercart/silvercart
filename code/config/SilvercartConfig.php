@@ -287,6 +287,8 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesUserName'));
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesAPI'));
 
+        $this->extend('updateSilvercartCMSFields', $CMSFields);
+        
         return $CMSFields;
     }
 
