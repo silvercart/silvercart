@@ -15,6 +15,34 @@
 class SilvercartRating extends DataObject {
     
     /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.09.2011
+     */
+    public static $db = array(
+        'RatingText'  => 'Text',
+        'RatingGrade' => 'Decimal'
+    );
+    
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 09.09.2011
+     */
+    public static $has_one = array(
+        'SilvercartProduct' => 'SilvercartProduct',
+        'Customer'          => 'Member'
+    );
+    
+    public static $default_sort = "Created DESC";
+
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -48,33 +76,7 @@ class SilvercartRating extends DataObject {
         }
 
     }
-    
-    /**
-     * Attributes.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.09.2011
-     */
-    public static $db = array(
-        'RatingText'  => 'Text',
-        'RatingGrade' => 'Decimal'
-    );
-    
-    /**
-     * 1:1 or 1:n relationships.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.09.2011
-     */
-    public static $has_one = array(
-        'SilvercartProduct' => 'SilvercartProduct',
-        'Customer'          => 'Member'
-    );
-    
+
     /**
      * Field labels for display in tables.
      *
@@ -98,6 +100,26 @@ class SilvercartRating extends DataObject {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 22.09.2011
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'RatingText' => _t('SilvercartRating.TEXT'),
+            'RatingGrade' => _t('SilvercartRating.GRADE')
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
     
     /**
