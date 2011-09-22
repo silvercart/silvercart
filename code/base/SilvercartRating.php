@@ -76,6 +76,31 @@ class SilvercartRating extends DataObject {
     );
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 22.09.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'RatingText' => _t('SilvercartRating.TEXT'),
+            'RatingGrade' => _t('SilvercartRating.GRADE'),
+            'SilvercartProduct' => _t('SilvercartProduct.SINGULARNAME'),
+            'Customer' => _t('Member.SINGULARNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * calculates the average grade of ratings of a ratings class
      * 
      * @param string  $className the class name of the the rating class;

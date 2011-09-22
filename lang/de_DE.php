@@ -1044,6 +1044,8 @@ $lang['de_DE']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Suchen';
 
 $lang['de_DE']['SilvercartRating']['SINGULARNAME'] = 'Bewertung';
 $lang['de_DE']['SilvercartRating']['PLURALNAME'] = 'Bewertungen';
+$lang['de_DE']['SilvercartRating']['TEXT'] = 'Bewertungstext';
+$lang['de_DE']['SilvercartRating']['GRADE'] = 'Bewertungsnote';
 
 $lang['de_DE']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Nachricht: Benutzer bereits registriert';
 $lang['de_DE']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Bestätigungsmail: Betreff';
