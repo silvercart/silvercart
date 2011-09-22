@@ -59,6 +59,12 @@ SortableDataObject::add_sortable_classes(array(
 ));
 
 // ----------------------------------------------------------------------------
+// Register SilvercartPlugins
+// ----------------------------------------------------------------------------
+Object::add_extension('SilvercartOrder', 'SilvercartPluginObjectExtension');
+SilvercartPlugin::registerPluginProvider('SilvercartOrder', 'SilvercartOrderPluginProvider');
+
+// ----------------------------------------------------------------------------
 // Define path constants
 // ----------------------------------------------------------------------------
 $path = dirname(__FILE__) . '/';

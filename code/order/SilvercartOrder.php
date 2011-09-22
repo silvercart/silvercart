@@ -32,16 +32,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrder extends DataObject {
-
-    /**
-     * Contains all registered plugins for this DataObject.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    protected static $registeredSilvercartOrderPlugins = array();
     
     /**
      * attributes
@@ -154,46 +144,6 @@ class SilvercartOrder extends DataObject {
     public static $extensions = array(
         "Versioned('Live')",
     );
-    
-    /**
-     * Registered plugins get initialised here.
-     *
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
-	 *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-	 *                                don't have their defaults set.
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function __construct($record = null, $isSingleton = false) {
-        parent::__construct($record, $isSingleton);
-        
-        if (!empty(self::$registeredSilvercartOrderPlugins)) {
-            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-                if (method_exists($silvercartOrderPlugin, 'init')) {
-                    $silvercartOrderPlugin::init($this);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Registers a plugin for this DataObject.
-     *
-     * @param string $objectName The name of the object on which the method
-     *                           calls should be done
-     * 
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public static function registerSilvercartOrderPlugin($objectName) {
-       self::$registeredSilvercartOrderPlugins[] = $objectName;
-    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -337,30 +287,6 @@ class SilvercartOrder extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
-    }
-    
-    /**
-     * Returns the cumulated output of all registered SilvercartOrderPlugin
-     *
-     * @param string $section The section for which the output is requested for.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function SilvercartOrderPlugin($section) {
-        $output = '';
-        
-        if (!empty(self::$registeredSilvercartOrderPlugins)) {
-            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-                if (method_exists($silvercartOrderPlugin, $section)) {
-                    $output .= $silvercartOrderPlugin::$section();
-                }
-            }
-        }
-        
-        return $output;
     }
 
     /**
@@ -556,10 +482,10 @@ class SilvercartOrder extends DataObject {
             $this->SilvercartOrderStatusID = $orderStatus->ID;
         }
         
-        $this->extend('updateCreateFromShoppingCart');
-        
         // write order to have an id
         $this->write();
+        
+        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this));
 
         // Convert shopping cart positions
         $this->convertShoppingCartPositionsToOrderPositions();

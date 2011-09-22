@@ -296,6 +296,8 @@ class SilvercartPage_Controller extends ContentController {
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 
+        #SilvercartPlugin::call($this, 'init');
+        
         parent::init();
     }
     
