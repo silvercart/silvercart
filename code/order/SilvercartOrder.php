@@ -358,7 +358,23 @@ class SilvercartOrder extends DataObject {
         
         return $output;
     }
-
+    
+    
+    public function PluginOrderDetailInformation() {
+        $output = '';
+        $result =  $this->extend('UpdatePluginOrderDetailInformation');
+        
+        if ( is_array($result) &&
+            !empty($result)) {
+            
+            foreach ($result as $extensionOutput) {
+                $output .= $extensionOutput;
+            }
+        }
+        
+        return $output;
+    }
+    
     /**
      * returns the orders creation date formated: dd.mm.yyyy hh:mm
      *
@@ -551,6 +567,9 @@ class SilvercartOrder extends DataObject {
         if ($orderStatus) {
             $this->SilvercartOrderStatusID = $orderStatus->ID;
         }
+        
+        $this->extend('updateCreateFromShoppingCart');
+        
         // write order to have an id
         $this->write();
 

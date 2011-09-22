@@ -83,6 +83,7 @@ class SilvercartConfig extends DataObject {
         'productGroupsPerPage'          => 'Int',
         'minimumOrderValue'             => 'Money',
         'useMinimumOrderValue'          => 'Boolean(0)',
+        'disregardMinimumOrderValue'    => 'Boolean(0)',
         'useApacheSolrSearch'           => 'Boolean(0)',
         'apacheSolrUrl'                 => 'VarChar(255)',
         'apacheSolrPort'                => 'Int',
@@ -161,6 +162,7 @@ class SilvercartConfig extends DataObject {
     public static $config                        = null;
     public static $enableSSL                     = null;
     public static $minimumOrderValue             = null;
+    public static $disregardMinimumOrderValue    = null;
     public static $useMinimumOrderValue          = null;
     public static $productsPerPage               = null;
     public static $useApacheSolrSearch           = null;
@@ -310,6 +312,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['enableSSL']                     = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
         $fieldLabels['enableStockManagement']         = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
         $fieldLabels['minimumOrderValue']             = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
+        $fieldLabels['disregardMinimumOrderValue']    = _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value');
         $fieldLabels['useMinimumOrderValue']          = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
         $fieldLabels['productsPerPage']               = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         $fieldLabels['productGroupsPerPage']          = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
@@ -513,6 +516,22 @@ class SilvercartConfig extends DataObject {
             self::$minimumOrderValue = self::getConfig()->minimumOrderValue;
         }
         return self::$minimumOrderValue;
+    }
+    
+    /**
+     * Returns the minimum order value if specified
+     *
+     * @return mixed float|bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 09.06.2011
+     */
+    public static function DisregardMinimumOrderValue() {
+        if (is_null(self::$disregardMinimumOrderValue)) {
+            self::$disregardMinimumOrderValue = self::getConfig()->disregardMinimumOrderValue;
+        }
+        return self::$disregardMinimumOrderValue;
     }
     
     /**

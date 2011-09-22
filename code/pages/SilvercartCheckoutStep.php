@@ -96,10 +96,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             // If minimum order value is set and shoppingcart value is below we
             // have to redirect the customer to the shoppingcart page and set
             // an appropriate error message.
-            if ($this->getCurrentStep() < 5 &&
-                SilvercartConfig::UseMinimumOrderValue() &&
-                SilvercartConfig::MinimumOrderValue() &&
-                SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
+            if ( $this->getCurrentStep() < 5 &&
+                 SilvercartConfig::UseMinimumOrderValue() &&
+                 SilvercartConfig::MinimumOrderValue() &&
+                !SilvercartConfig::DisregardMinimumOrderValue() &&
+                 SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
                 
                 $_SESSION['Silvercart']['errors'][] = sprintf(
                     _t('SilvercartShoppingCart.ERROR_MINIMUMORDERVALUE_NOT_REACHED'),

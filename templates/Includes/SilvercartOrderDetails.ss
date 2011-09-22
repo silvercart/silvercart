@@ -36,7 +36,7 @@
         </tr>
         <% end_if %>
         
-        $SilvercartOrderPlugin(OrderDetailInformation)
+        $PluginOrderDetailInformation
     </table>
 <div class="subcolumns">
     <div class="c50l">

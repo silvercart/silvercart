@@ -31,34 +31,8 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-abstract class SilvercartOrderPlugin {
-    
-    /**
-     * Contains the order object on which this class operates.
-     *
-     * @var SilvercartOrder
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    protected static $silvercartOrder = null;
-
-    /**
-     * Gets the object on which the class should operate.
-     *
-     * @return void
-     *
-     * @param SilvercartOrder $silvercartOrder The order object to operate on.
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function init(SilvercartOrder $silvercartOrder) {
-        if ($silvercartOrder instanceOf SilvercartOrder) {
-            self::$silvercartOrder = $silvercartOrder;
-        }
-    }
-    
+class SilvercartOrderPlugin {
+        
     /**
      * Should return informations regarding the order details.
      *
@@ -67,5 +41,9 @@ abstract class SilvercartOrderPlugin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 30.08.2011
      */
-    abstract public static function OrderDetailInformation();
+    public function PluginOrderDetailInformation() {
+        print "OK1<br />";
+        $this->UpdatePluginOrderDetailInformation();
+    }
+    
 }

@@ -313,6 +313,7 @@ $lang['en_US']['SilvercartConfig']['APACHE_SOLR_PORT'] = 'Port for requests to A
 $lang['en_US']['SilvercartConfig']['APACHE_SOLR_URL'] = 'URL for requests to Apache Solr';
 $lang['en_US']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Allow cart weight to be zero.';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
+$lang['en_US']['SilvercartConfig']['DISREGARDMINIMUMORDERVALUE'] = 'Allow orders disregarding the minimum order value';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER'] = 'Email sender';
 $lang['en_US']['SilvercartConfig']['ENABLESSL'] = 'Enable SSL';
 $lang['en_US']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Enable stock management';

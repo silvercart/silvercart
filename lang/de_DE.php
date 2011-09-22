@@ -313,6 +313,7 @@ $lang['de_DE']['SilvercartConfig']['APACHE_SOLR_PORT'] = 'Port für Anfragen an 
 $lang['de_DE']['SilvercartConfig']['APACHE_SOLR_URL'] = 'URL für Anfragen an Apache Solr';
 $lang['de_DE']['SilvercartConfig']['ALLOW_CART_WEIGHT_TO_BE_ZERO'] = 'Gewicht des Warenkorbs darf null sein.';
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
+$lang['de_DE']['SilvercartConfig']['DISREGARDMINIMUMORDERVALUE'] = 'Bestellungen erlauben, die den Mindestbestellwert unterschreiten';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
 $lang['de_DE']['SilvercartConfig']['ENABLESSL'] = 'SSL verwenden';
 $lang['de_DE']['SilvercartConfig']['ENABLESTOCKMANAGEMENT'] = 'Lagerbestandsverwaltung aktivieren';
