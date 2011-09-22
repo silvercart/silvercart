@@ -1,0 +1,3 @@
+<% include ModelSidebar %>
+
+$CustomForm(ImportImagesForm)

@@ -143,6 +143,16 @@ class SilvercartPage extends SiteTree {
 class SilvercartPage_Controller extends ContentController {
     
     /**
+     * Contains the output of all WidgetSets of the parent page
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.07.2011
+     */
+    protected $widgetOutput = array();
+    
+    /**
      * Contains the controllers for the sidebar widgets
      * 
      * @var DataObjectSet
@@ -182,53 +192,91 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->loadWidgetControllers();
-        
-        if (SilvercartConfig::DefaultLayoutEnabled()) {
-            Requirements::block('cms/css/layout.css');
-            Requirements::block('cms/css/typography.css');
-            Requirements::block('cms/css/form.css');
-            
-            // Require the default layout and its patches only if it is enabled
-            Requirements::themedCSS('layout');
-            Requirements::insertHeadTags('<!--[if lte IE 7]>');
-            Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />');
-            Requirements::insertHeadTags('<![endif]-->');
-        }
-        Requirements::themedCSS('SilvercartAddressHolder_layout');
-        Requirements::themedCSS('SilvercartAddressHolder_content');
-        Requirements::themedCSS('SilvercartCheckout_layout');
-        Requirements::themedCSS('SilvercartCheckout_content');
-        Requirements::themedCSS('SilvercartGeneral_layout');
-        Requirements::themedCSS('SilvercartGeneral_content');
-        Requirements::themedCSS('SilvercartHeaderbar_layout');
-        Requirements::themedCSS('SilvercartHeaderbar_content');
-        Requirements::themedCSS('SilvercartForms_content');
-        Requirements::themedCSS('SilvercartForms_layout');
-        Requirements::themedCSS('SilvercartFooter_layout');
-        Requirements::themedCSS('SilvercartFooter_content');
-        Requirements::themedCSS('SilvercartWidget_layout');
-        Requirements::themedCSS('SilvercartWidget_content');
-        Requirements::themedCSS('SilvercartBreadcrumbs_layout');
-        Requirements::themedCSS('SilvercartBreadcrumbs_content');
-        Requirements::themedCSS('SilvercartPagination_layout');
-        Requirements::themedCSS('SilvercartPagination_content');
-        Requirements::themedCSS('SilvercartProductGroupNavigation');
-        Requirements::themedCSS('SilvercartProductGroupViewNavigation_layout');
-        Requirements::themedCSS('SilvercartProductGroupViewNavigation_content');
-        Requirements::themedCSS('SilvercartProductGroupPageControls_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageControls_content');
-        Requirements::themedCSS('SilvercartShoppingCart_layout');
-        Requirements::themedCSS('SilvercartShoppingCart_content');
-        Requirements::themedCSS('SilvercartProductPage_layout');
-        Requirements::themedCSS('SilvercartProductPage_content');
-        Requirements::themedCSS('SilvercartProductGroupPageList_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageList_content');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_layout');
-        Requirements::themedCSS('SilvercartProductGroupPageTile_content');
-        Requirements::javascript("customhtmlform/script/jquery.js");
-        Requirements::javascript("silvercart/script/document.ready_scripts.js");
-        Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
+                
+        if (!SilvercartConfig::DefaultLayoutLoaded()) {
+            // temporary hold preloaded css files to prevent combine changes by 
+            // different pages
+            $preloadedCssFiles = Requirements::backend()->get_css();
+            // load all css files by themedCss to be able to load customized css
+            // files without any Requirement changes
+            if (SilvercartConfig::DefaultLayoutEnabled()) {
+                Requirements::block('cms/css/layout.css');
+                Requirements::block('cms/css/typography.css');
+                Requirements::block('cms/css/form.css');
 
+                // Require the default layout and its patches only if it is enabled
+                Requirements::themedCSS('base');
+                Requirements::themedCSS('basemod');
+                Requirements::themedCSS('nav_shinybuttons');
+                Requirements::themedCSS('nav_vlist');
+                Requirements::themedCSS('content');
+                Requirements::themedCSS('forms');
+                Requirements::themedCSS('patch_forms');
+                Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                          'silvercart_ie7patch_begin');
+                Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
+                Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_ie7patch_end');
+            }
+            Requirements::themedCSS('SilvercartAddressHolder');
+            Requirements::themedCSS('SilvercartBreadcrumbs');
+            Requirements::themedCSS('SilvercartCheckout');
+            Requirements::themedCSS('SilvercartFooter');
+            Requirements::themedCSS('SilvercartForms');
+            Requirements::themedCSS('SilvercartGeneral');
+            Requirements::themedCSS('SilvercartHeaderbar');
+            Requirements::themedCSS('SilvercartPagination');
+            Requirements::themedCSS('SilvercartProductGroupNavigation');
+            Requirements::themedCSS('SilvercartProductGroupPageControls');
+            Requirements::themedCSS('SilvercartProductGroupPageList');
+            Requirements::themedCSS('SilvercartProductGroupPageTile');
+            Requirements::themedCSS('SilvercartProductGroupViewNavigation');
+            Requirements::themedCSS('SilvercartProductPage');
+            Requirements::themedCSS('SilvercartShoppingCart');
+            Requirements::themedCSS('SilvercartWidget');        
+            Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
+            Requirements::javascript("customhtmlform/script/jquery.js");
+            Requirements::javascript("silvercart/script/document.ready_scripts.js");
+            Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
+            Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
+
+            $contentCssFiles = array(
+                'content',
+                'forms',
+                'patch_forms',
+            );
+            
+            $combinedCssFiles = array();
+            $combinedContentCssFiles = array();
+            $combinedSilvercartCssFiles = array();
+            // combine the themed css files here into different arrays
+            foreach (Requirements::backend()->get_css() as $file => $value) {
+                if (array_key_exists($file, $preloadedCssFiles)) {
+                    // skip preloaded css files to prevent combine changes by different pages
+                    continue;
+                }
+                if (strpos(basename($file), 'Silvercart') === 0) {
+                    $combinedSilvercartCssFiles[] = $file;
+                } elseif (in_array(basename($file, '.css'), $contentCssFiles)) {
+                    $combinedContentCssFiles[] = $file;
+                } else {
+                    $combinedCssFiles[] = $file;
+                }
+            }
+            Requirements::combine_files('base.css', $combinedCssFiles);
+            Requirements::combine_files('content.css', $combinedContentCssFiles);
+            Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
+            Requirements::process_combined_files();
+
+            $combinedJsFiles = array();
+            foreach (Requirements::backend()->get_javascript() as $file) {
+                $combinedJsFiles[] = $file;
+            }
+            Requirements::combine_files('script.js', $combinedJsFiles);
+            Requirements::process_combined_files();
+            // set default layout loaded in SilvercartConfig to prevent multiple
+            // loading of css files
+            SilvercartConfig::setDefaultLayoutLoaded(true);
+        }
+        
         $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
         $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
         
@@ -244,12 +292,17 @@ class SilvercartPage_Controller extends ContentController {
         if ($checkConfiguration) {
             SilvercartConfig::Check();
         }
+        
+        // Decorator can use this method to add custom forms and other stuff
+        $this->extend('updateInit');
 
         parent::init();
     }
     
     /**
      * template function: returns customers orders
+     * 
+     * @param int $limit Limit
      *
      * @since 27.10.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -289,6 +342,9 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Returns the HTML Code as string for all widgets in the given WidgetArea.
      *
+     * If there's no WidgetArea for this page defined we try to get the
+     * definition from its parent page.
+     * 
      * @param string $identifier The identifier of the widget area to insert
      * 
      * @return string
@@ -306,6 +362,12 @@ class SilvercartPage_Controller extends ContentController {
         
         foreach ($this->$controllerName as $controller) {
             $output .= $controller->WidgetHolder();
+        }
+        
+        if (empty($output)) {
+            if (isset($this->widgetOutput[$identifier])) {
+                $output = $this->widgetOutput[$identifier];
+            }
         }
         
         return $output;
@@ -502,6 +564,21 @@ class SilvercartPage_Controller extends ContentController {
             );
         }
         return $output;
+    }
+    
+    /**
+     * Adds a widget output to the class variable "$this->widgetOutput".
+     *
+     * @param string $key    The key for the output
+     * @param string $output The actual output of the widget
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.09.2011
+     */
+    public function saveWidgetOutput($key, $output) {
+        $this->widgetOutput[$key] = $output;
     }
 
     /**
@@ -722,5 +799,42 @@ class SilvercartPage_Controller extends ContentController {
         
         $this->WidgetSetContentControllers = $controllers;
         $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
+    }
+    /**
+     * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
+     *
+     * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
+     * @param boolean  $allChildren ???
+     * @param boolean  $withParent  ???
+     *
+     * @return array
+     */
+    public static function getRecursivePagesForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false) {
+        $pages = array();
+        
+        if (is_null($parent)) {
+            $pages['']  = '';
+            $parent             = self::PageByIdentifierCode('SilverCartPageHolder');
+        }
+        
+        if ($parent) {
+            if ($withParent) {
+                $pages[$parent->ID] = $parent->Title;
+            }
+            if ($allChildren) {
+                $children = $parent->AllChildren();
+            } else {
+                $children = $parent->Children();
+            }
+            foreach ($children as $child) {
+                $pages[$child->ID] = $child->Title;
+                $subs                      = self::getRecursivePagesForGroupedDropdownAsArray($child);
+                
+                if (!empty ($subs)) {
+                    $pages[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $subs;
+                }
+            }
+        }
+        return $pages;
     }
 }

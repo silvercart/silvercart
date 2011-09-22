@@ -244,10 +244,10 @@
         <tr>
             <td>&nbsp;</td>
             <td>$Title</td>
-            <td class="right">$Price.Nice</td>
+            <td class="right">$PriceNice</td>
             <td class="right"></td>
             <td class="right">$Quantity</td>
-            <td class="right">$PriceTotal.Nice</td>
+            <td class="right">$PriceTotalNice</td>
         </tr>
             <% if SilvercartVoucherCode %>
                 <tr class="subrow">

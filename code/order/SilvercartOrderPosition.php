@@ -51,7 +51,7 @@ class SilvercartOrderPosition extends DataObject {
         'TaxRate' => 'Float',
         'ProductDescription' => 'Text',
         'Quantity' => 'Int',
-        'Title' => 'VarChar',
+        'Title' => 'VarChar(255)',
         'ProductNumber' => 'VarChar',
     );
     /**
@@ -134,7 +134,7 @@ class SilvercartOrderPosition extends DataObject {
     public function getPriceNice() {
         return str_replace('.', ',', number_format($this->PriceAmount, 2)) . ' ' . $this->PriceCurrency;
     }
-
+    
     /**
      * returns the orders total amount as string incl. currency.
      *

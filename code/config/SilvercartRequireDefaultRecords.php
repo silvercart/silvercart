@@ -92,22 +92,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $B2C_optinGroup->write();
         }
 
-        //create customer categories existingCustomer and newCustomer
-        $newCustomer = DataObject::get_one('SilvercartCustomerCategory', "`Code` = 'newCustomer'");
-        if (!$newCustomer) {
-            $newCustomer = new SilvercartCustomerCategory();
-            $newCustomer->Title = _t('SilvercartCustomerCategory.NEW_CUSTOMER', 'new customer');
-            $newCustomer->Code = 'newCustomer';
-            $newCustomer->write();
-        }
-        $existingCustomer = DataObject::get_one('SilvercartCustomerCategory', "`Code` = 'existingCustomer'");
-        if (!$existingCustomer) {
-            $existingCustomer = new SilvercartCustomerCategory();
-            $existingCustomer->Title = _t('SilvercartCustomerCategory.EXISTING_CUSTOMER', 'existing customer');
-            $existingCustomer->Code = 'existingCustomer';
-            $existingCustomer->write();
-        }
-
         // create a SilvercartConfig if not exist
         if (!DataObject::get_one('SilvercartConfig')) {
             $silvercartConfig = new SilvercartConfig();
@@ -202,6 +186,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $rootPage->Content = _t('SilvercartFrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
             $rootPage->write();
             $rootPage->publish("Stage", "Live");
+            
+            //create a deeplink page as child of the silvercart root
+            $deeplinkPage = new SilvercartDeeplinkPage();
+            $deeplinkPage->IdentifierCode = "SilvercartDeeplinkPage";
+            $deeplinkPage->Title = _t('SilvercartDeeplinkPage.SINGULARNAME');
+            $deeplinkPage->URLSegment = 'deeplink';
+            $deeplinkPage->Status = 'Published';
+            $deeplinkPage->ParentID = $rootPage->ID;
+            $deeplinkPage->ShowInMenus = false;
+            $deeplinkPage->ShowInSearch = false;
+            $deeplinkPage->CanViewType = "Anyone";
+            $deeplinkPage->write();
+            $deeplinkPage->publish("Stage", "Live");
 
             //create a silvercart product group holder as a child af the silvercart root
             $productGroupHolder = new SilvercartProductGroupHolder();
@@ -501,9 +498,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterPage->Title          = _t('SilvercartNewsletterPage.TITLE', 'Newsletter');
             $newsletterPage->URLSegment     = _t('SilvercartNewsletterPage.URL_SEGMENT', 'newsletter');
             $newsletterPage->Status         = "Published";
-            $newsletterPage->ShowInMenus    = false;
-            $newsletterPage->ShowInSearch   = false;
-            $newsletterPage->ParentID       = $rootPage->ID;
+            $newsletterPage->ShowInMenus    = true;
+            $newsletterPage->ShowInSearch   = true;
+            $newsletterPage->ParentID       = $metaNavigationHolder->ID;
             $newsletterPage->IdentifierCode = "SilvercartNewsletterPage";
             $newsletterPage->write();
             $newsletterPage->publish("Stage", "Live");
@@ -515,10 +512,26 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterResponsePage->Status         = "Published";
             $newsletterResponsePage->ShowInMenus    = false;
             $newsletterResponsePage->ShowInSearch   = false;
-            $newsletterResponsePage->ParentID       = $newsletterResponsePage->ID;
+            $newsletterResponsePage->ParentID       = $newsletterPage->ID;
             $newsletterResponsePage->IdentifierCode = "SilvercartNewsletterResponsePage";
             $newsletterResponsePage->write();
             $newsletterResponsePage->publish("Stage", "Live");
+            
+            //create a silvercart newsletter opt-in confirmation page
+            $newsletterOptInConfirmationPage = new SilvercartNewsletterOptInConfirmationPage();
+            $newsletterOptInConfirmationPage->Title = _t('SilvercartNewsletterOptInConfirmationPage.TITLE', 'register confirmation page');
+            $newsletterOptInConfirmationPage->URLSegment = _t('SilvercartNewsletterOptInConfirmationPage.URL_SEGMENT', 'register-confirmation');
+            $newsletterOptInConfirmationPage->Content = _t('SilvercartNewsletterOptInConfirmationPage.CONTENT');
+            $newsletterOptInConfirmationPage->ConfirmationFailureMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
+            $newsletterOptInConfirmationPage->ConfirmationSuccessMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
+            $newsletterOptInConfirmationPage->AlreadyConfirmedMessage = _t('SilvercartNewsletterOptInConfirmationPage.ALREADYCONFIRMEDMESSAGE');
+            $newsletterOptInConfirmationPage->Status = "Published";
+            $newsletterOptInConfirmationPage->ParentID = $newsletterPage->ID;
+            $newsletterOptInConfirmationPage->ShowInMenus = false;
+            $newsletterOptInConfirmationPage->ShowInSearch = false;
+            $newsletterOptInConfirmationPage->IdentifierCode = "SilvercartNewsletterOptInConfirmationPage";
+            $newsletterOptInConfirmationPage->write();
+            $newsletterOptInConfirmationPage->publish("Stage", "Live");
         }
 
         /*
@@ -595,6 +608,28 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactEmail->setField('Variables',    "\$FirstName\n\$Surname\n\$Email\n\$Message");
             $contactEmail->setField('EmailText',    _t('SilvercartContactMessage.TEXT'));
             $contactEmail->write();
+        }
+        $shopEmailNewsletterOptIn = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'NewsletterOptIn'"
+        );
+        if (!$shopEmailNewsletterOptIn) {
+            $shopEmailNewsletterOptIn = new SilvercartShopEmail();
+            $shopEmailNewsletterOptIn->setField('Identifier', 'NewsletterOptIn');
+            $shopEmailNewsletterOptIn->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE'));
+            $shopEmailNewsletterOptIn->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.EMAIL_CONFIRMATION_TEXT'));
+            $shopEmailNewsletterOptIn->write();
+        }
+        $shopEmailNewsletterOptInConfirmation = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'NewsletterOptInConfirmation'"
+        );
+        if (!$shopEmailNewsletterOptInConfirmation) {
+            $shopEmailNewsletterOptInConfirmation = new SilvercartShopEmail();
+            $shopEmailNewsletterOptInConfirmation->setField('Identifier', 'NewsletterOptInConfirmation');
+            $shopEmailNewsletterOptInConfirmation->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE_THANKS'));
+            $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
+            $shopEmailNewsletterOptInConfirmation->write();
         }
 
         $this->extend('updateDefaultRecords', $rootPage);
@@ -697,6 +732,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $productGroup->ParentID = $silvercartProductGroupHolder->ID;
                 $productGroup->ShowInMenus = true;
                 $productGroup->ShowInSearch = true;
+                $productGroup->Sort = $i;
                 $productGroup->write();
                 $productGroup->publish("Stage", "Live");
                 //create products
@@ -720,7 +756,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->MetaTitle = 'Testproduct' . $idx;
                     $product->MetaKeywords = 'Testproduct' . $idx;
                     $product->Weight = 500;
-                    $product->Quantity = 1;
+                    $product->StockQuantity = 1;
                     $product->ProductNumberShop = "1000" . $idx;
                     $product->ProductNumberManufacturer = "123000" . $idx;
                     $product->SilvercartProductGroupID = $productGroup->ID;

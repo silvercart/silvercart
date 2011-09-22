@@ -111,7 +111,7 @@ class SilvercartOrder extends DataObject {
      * @since 02.02.2011
      */
     public static $many_many = array(
-        'SilvercartProducts' => 'SilvercartProduct',
+        'SilvercartProducts' => 'SilvercartProduct'
     );
 
     /**
@@ -171,9 +171,11 @@ class SilvercartOrder extends DataObject {
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         
-        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-            if (method_exists($silvercartOrderPlugin, 'init')) {
-                $silvercartOrderPlugin::init($this);
+        if (!empty(self::$registeredSilvercartOrderPlugins)) {
+            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+                if (method_exists($silvercartOrderPlugin, 'init')) {
+                    $silvercartOrderPlugin::init($this);
+                }
             }
         }
     }
@@ -181,10 +183,10 @@ class SilvercartOrder extends DataObject {
     /**
      * Registers a plugin for this DataObject.
      *
-     * @return void
-     *
      * @param string $objectName The name of the object on which the method
      *                           calls should be done
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 30.08.2011
@@ -338,11 +340,11 @@ class SilvercartOrder extends DataObject {
     }
     
     /**
-     * Returns the cumulated output of all registered SilvercartOrderPlugins
-     *
-     * @return string
+     * Returns the cumulated output of all registered SilvercartOrderPlugin
      *
      * @param string $section The section for which the output is requested for.
+     * 
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 30.08.2011
@@ -350,31 +352,17 @@ class SilvercartOrder extends DataObject {
     public function SilvercartOrderPlugin($section) {
         $output = '';
         
-        foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-            if (method_exists($silvercartOrderPlugin, $section)) {
-                $output .= $silvercartOrderPlugin::$section();
+        if (!empty(self::$registeredSilvercartOrderPlugins)) {
+            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
+                if (method_exists($silvercartOrderPlugin, $section)) {
+                    $output .= $silvercartOrderPlugin::$section();
+                }
             }
         }
         
         return $output;
     }
-    
-    
-    public function PluginOrderDetailInformation() {
-        $output = '';
-        $result =  $this->extend('UpdatePluginOrderDetailInformation');
-        
-        if ( is_array($result) &&
-            !empty($result)) {
-            
-            foreach ($result as $extensionOutput) {
-                $output .= $extensionOutput;
-            }
-        }
-        
-        return $output;
-    }
-    
+
     /**
      * returns the orders creation date formated: dd.mm.yyyy hh:mm
      *
@@ -421,7 +409,7 @@ class SilvercartOrder extends DataObject {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
     }
 
-        /**
+    /**
      * customize backend fields
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -455,7 +443,7 @@ class SilvercartOrder extends DataObject {
 
         return $fields;
     }
-
+    
     /**
      * create a invoice address for an order from customers data
      *
@@ -550,7 +538,7 @@ class SilvercartOrder extends DataObject {
         $this->AmountTotal->setAmount(
             $totalAmount
         );
-        $this->AmountGrossTotal->setCurrency('EUR');
+        $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
@@ -701,7 +689,7 @@ class SilvercartOrder extends DataObject {
             }
         }
     }
-    
+
     /**
      * save order to db
      *
@@ -994,18 +982,6 @@ class SilvercartOrder extends DataObject {
     public function getPriceGross() {
         return $this->AmountTotal;
     }
-    
-    /**
-     * Returns the HTML Code of all order detail plugins.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function getSilvercartOrderDetailPlugins() {
-        
-    }
 
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
@@ -1247,31 +1223,52 @@ class SilvercartOrder extends DataObject {
     /**
      * send a confirmation mail with order details to the customer $member
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.11.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.08.2011
      * @return void
      */
     public function sendConfirmationMail() {
+        
+        $params = array(
+            'MailOrderConfirmation' => array(
+                'Template'      => 'MailOrderConfirmation',
+                'Recipient'     => $this->CustomersEmail,
+                'Variables'     => array(
+                    'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                    'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'SilvercartOrder'   => $this
+                ),
+                'Attachments'   => null,
+            ),
+            'MailOrderNotification' => array(
+                'Template'      => 'MailOrderNotification',
+                'Recipient'     => Email::getAdminEmail(),
+                'Variables'     => array(
+                    'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
+                    'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'SilvercartOrder'   => $this
+                ),
+                'Attachments'   => null,
+            ),
+        );
+                
+        $result = $this->extend('updateConfimationMail', $params);
+        
         SilvercartShopEmail::send(
-            'MailOrderConfirmation',
-            $this->CustomersEmail,
-            array(
-                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
-                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
-                'SilvercartOrder'   => $this
-            )
+            $params['MailOrderConfirmation']['Template'],
+            $params['MailOrderConfirmation']['Recipient'],
+            $params['MailOrderConfirmation']['Variables'],
+            $params['MailOrderConfirmation']['Attachments']
         );
         SilvercartShopEmail::send(
-            'MailOrderNotification',
-            Email::getAdminEmail(),
-            array(
-                'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
-                'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
-                'SilvercartOrder'   => $this
-            )
+            $params['MailOrderNotification']['Template'],
+            $params['MailOrderNotification']['Recipient'],
+            $params['MailOrderNotification']['Variables'],
+            $params['MailOrderNotification']['Attachments']
         );
+        $this->extend('onAfterConfirmationMail');
     }
 
     /**
@@ -1292,6 +1289,7 @@ class SilvercartOrder extends DataObject {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
         }
+        $this->extend('updateOnBeforeWrite');
     }
 
     /**
@@ -1376,12 +1374,17 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-	 * Gets the search query generated on the SearchContext from
-	 * {@link DataObject::getDefaultSearchContext()},
-	 * and the current GET parameters on the request.
-	 *
-	 * @return SQLQuery
-	 */
+     * We modify the original search query here, so that the administrator can
+     * search for the firstname and surname in both the invoice and shipping
+     * address of the order with only one input field for each.
+     * 
+     * @param mixed $searchCriteria Search criteria
+     *
+     * @return SQLQuery
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
+     */
     public function getSearchQuery($searchCriteria) {
         $query = parent::getSearchQuery($searchCriteria);
         $query->leftJoin( 'SilvercartAddress', 'SilvercartInvoiceAddress.ID = SilvercartOrder.SilvercartInvoiceAddressID', 'SilvercartInvoiceAddress');
@@ -1438,5 +1441,17 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         $this->extend('getResultsTable', $tableField, $searchCriteria);
         
         return $tableField;
+    }
+    
+    /**
+     * Removes the field "create order" from the model admin
+     * 
+     * @return bool false
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.7.2011 
+     */
+    public function CreateForm() {
+        return false;
     }
 }

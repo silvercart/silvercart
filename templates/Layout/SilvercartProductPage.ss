@@ -2,6 +2,8 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         
+        $InsertWidgetArea(Content)
+        
         <% control getProduct %>
             <div class="silvercart-product-page clearfix">
                 <div class="silvercart-product-page_content">
@@ -14,19 +16,43 @@
                     </div>
                     
                     <div class="subcolumns">
-                        <div class="c33l silvercart-product-group-page-box-image">
+                        <div class="c33l silvercart-product-page-box-images">
                             <div class="subcl">
                                 <% if getSilvercartImages %>
                                     <% control getSilvercartImages.First %>
-                                        $Image.SetRatioSize(200,200)
+                                        <div class="silvercart-product-page-box-image">
+                                            <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
+                                                $Image.SetRatioSize(200,200)
+                                            </a>
+                                        </div>
                                     <% end_control %>
                                 <% end_if %>
+                                
+                                <div class="silvercart-product-image-list">
+                                    <% if getSilvercartImages %>
+                                        <% control getSilvercartImages %>
+                                            <% if First %>
+                                            <% else %>
+                                                <div class="silvercart-product-image-list-entry">
+                                                    <div class="silvercart-product-image-list-entry_content">
+                                                        <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
+                                                            $Image.SetRatioSize(90,90)
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            <% end_if %>
+                                        <% end_control %>
+                                    <% end_if %>
+                                </div>
                             </div>
                         </div>
                         <div class="c33l">
                             <div class="subcl">
                                 <div class="silvercart-product-text-info">
-                                    <p>$ShortDescription</p>
+                                    <p>$ShortDescription.RAW</p>
+                                    <% if PackagingQuantity %>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <% end_if %>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +69,11 @@
                                             <% else_if showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
-                                            <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                            <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                                    <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                                </a>
+                                            <% end_control %>
                                         </small>
                                     </p>
                                 </div>
@@ -103,7 +133,6 @@
 <div id="col3">
     <div id="col3_content" class="clearfix">
         $InsertWidgetArea(Sidebar)
-        $SubNavigation
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>

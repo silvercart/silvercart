@@ -1,0 +1,212 @@
+/* General settings -------------------------------------------------------- */
+
+form.yform input,
+form.yform textarea,
+form.yform select {
+    font-family:                    arial, sans-serif;
+}
+
+form.yform .type-button {
+    text-align:                     right;
+}
+
+form.yform input[type="submit"],
+form.yform .type-button input[type="submit"],
+form.yform .type-button input.action[type="submit"],
+form.yform .type-button input.submit {
+    float:                          right;
+    margin:                         0px 0px 0px 4px;
+    padding:                        4px 10px;
+    
+    font-size:                      12px;
+    color:                          #fff;
+    background:                     #407e95;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #407e95,  #175072); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#407e95', endColorstr='#175072'); /* for IE */
+    border:                         1px #444 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+form.yform input[type="submit"] {
+    padding:                        2px 8px;
+}
+form.yform input[type="submit"]:hover,
+form.yform .type-button input[type="submit"]:hover,
+form.yform .type-button input.action[type="submit"]:hover,
+form.yform .type-button input.submit:hover {
+    background-color:               #f0fafe;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#34677a), to(#13415d)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #34677a,  #13415d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #34677a,  #13415d); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#34677a', endColorstr='#13415d'); /* for IE */
+    cursor:                         pointer;
+}
+form.yform input[type="password"],
+form.yform input[type="text"] {
+    padding:                        2px 4px;
+}
+form.yform .type-button .silvercart-button {
+    margin:                         7px 0px 0px 0px;
+}
+
+/* Quicksearch form -------------------------------------------------------- */
+
+#silvercart-quicksearch-form {
+    padding:                        6px 0px 0px 0px;
+}
+
+#silvercart-quicksearch-form form.yform {
+    float:                          left;
+    margin:                         0px;
+    padding:                        0px;
+    
+    background:                     none;
+    border:                         none;
+}
+
+#silvercart-quicksearch-form form.yform div.type-text {
+    clear:                          none;
+    float:                          left;
+    margin:                         0px;
+    padding:                        0px;
+}
+#silvercart-quicksearch-form form.yform div.type-text input { /* Search query field */
+    width:                          90%;
+    padding:                        4px 4px 3px 4px;
+    
+    font-size:                      12px;
+    line-height:                    100%;
+    color:                          #ece6e1;
+    background-color:               #75726f;
+    border:                         1px #9f9a96 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#silvercart-quicksearch-form form.yform div.type-text input:hover,
+#silvercart-quicksearch-form form.yform div.type-text input:active,
+#silvercart-quicksearch-form form.yform div.type-text input:focus {
+    color:                          #fff;
+    background-color:               #5f5c5a;
+}
+#silvercart-quicksearch-form form.yform input {
+    clear:                          none;
+    float:                          left;
+}
+#silvercart-quicksearch-form form.yform input.action { /* Submit button */
+    padding:                        3px 10px 3px 10px;
+    
+    font-size:                      12px;
+    color:                          #fff;
+    background-color:               #42403e;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #42403e,  #302e2d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #42403e,  #302e2d); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
+    border:                         1px #676461 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#silvercart-quicksearch-form form.yform input.action:hover {
+    cursor:                         pointer;
+    text-decoration:                none;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#5c5956), to(#464341)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #5c5956,  #464341); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #5c5956,  #464341); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c5956', endColorstr='#464341'); /* for IE */
+    border:                         1px #87837f solid;
+}
+
+/* Quicklogin form --------------------------------------------------------- */
+
+#silvercart-quicklogin-form {
+    display:                        none;
+    z-index:                        99;
+    width:                          320px;
+    position:                       absolute;
+    top:                            35px;
+    left:                           466px;
+    
+    color:                          #fff;
+    border:                         1px #9f9a96 solid;
+    border-top:                     none;
+    border-bottom-left-radius:      3px;
+    border-bottom-right-radius:     3px;
+    -moz--border-radius-bottomleft: 3px;
+    -moz--border-radius-bottomright:3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius:  3px;
+    background-color:               #252223;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#252223), to(#000000)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #252223,  #000000); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #252223,  #000000); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#252223', endColorstr='#000000'); /* for IE */
+    box-shadow:                     0px 0px 9px #252223;
+}
+#silvercart-quicklogin-form_content {
+    padding:                        4px 5px 8px 10px;
+}
+#silvercart-quicklogin-form form.yform {
+    margin:                         0px;
+    padding:                        0px;
+    
+    background:                     none;
+    border:                         none;
+}
+#silvercart-quicklogin-form form.yform label {
+    padding:                        0px 0px 3px 0px;
+    
+    color:                          #fff;
+}
+#silvercart-quicklogin-form form.yform .type-text {
+    padding:                        0px 0px 4px 0px;
+}
+#silvercart-quicklogin-form form.yform .type-text input { /* Input[text] fields */
+    width:                          90%;
+    
+    font-size:                      12px;
+    color:                          #ece6e1;
+    background-color:               #75726f;
+    border:                         1px #9f9a96 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#silvercart-quicklogin-form form.yform .type-text input:hover,
+#silvercart-quicklogin-form form.yform .type-text input:active,
+#silvercart-quicklogin-form form.yform .type-text input:focus {
+    color:                          #fff;
+    background-color:               #5f5c5a;
+}
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions {
+    text-align:                     right;
+    padding:                        0px 6px 0px 0px;
+}
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit button */
+    padding:                        3px 10px 3px 10px;
+    
+    font-size:                      12px;
+    color:                          #fff;
+    background-color:               #42403e;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #42403e,  #302e2d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #42403e,  #302e2d); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
+    border:                         1px #676461 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input:hover {
+    cursor:                         pointer;
+    text-decoration:                none;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #5c5956,  #464341); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #5c5956,  #464341); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
+    border:                         1px #87837f solid;
+}

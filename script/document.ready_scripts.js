@@ -52,6 +52,9 @@ jQuery(document).ready(function(){
     // Originally taken from
     // "http://www.sohtanaka.com/web-design/simple-tabs-w-css-jquery/" and
     // added some bugfixes.
+    // 
+    // @author Sascha Koehler <skoehler@pixeltricks.de>
+    // @since 23.08.2011
     // ------------------------------------------------------------------------
     if (jQuery(".tab_content")) {
         jQuery(".tab_content").hide(); //Hide all content
@@ -70,5 +73,18 @@ jQuery(document).ready(function(){
             jQuery(activeTab).fadeIn(); //Fade in the active ID content
             return false;
         });
+    }
+    
+    // ------------------------------------------------------------------------
+    // Hide submit buttons for the select-fields on product group pages and
+    // add onchange events to the select-fields so that the form ist submitted
+    // on change.
+    // 
+    // @author Sascha Koehler <skoehler@pixeltricks.de>
+    // @since 23.08.2011
+    // ------------------------------------------------------------------------
+    if (jQuery(".silvercart-product-group-page-selectors")) {
+        jQuery(".silvercart-product-group-page-selectors input[type=submit]").hide();
+        jQuery(".silvercart-product-group-page-selectors select").bind('change', function() { this.form.submit(); });
     }
 });

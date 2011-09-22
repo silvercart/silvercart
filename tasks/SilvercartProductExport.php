@@ -11,7 +11,7 @@
  * Example with parameters:
  *
  *   Generate all exports regardless of their update interval settings:
- *   "sake /SilvercartProductExport getAll
+ *      sake /SilvercartProductExport getAll
  *
  *
  * @package Silvercart

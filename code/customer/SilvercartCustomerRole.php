@@ -45,23 +45,19 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         return array(
             'db' => array(
                 'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
-                'SubscribedToNewsletter'            => 'Boolean',
-                'HasAcceptedTermsAndConditions'     => 'Boolean',
-                'HasAcceptedRevocationInstruction'  => 'Boolean',
-                'ConfirmationDate'                  => 'SS_DateTime',
-                'ConfirmationHash'                  => 'VarChar(100)',
-                'ConfirmationBacklink'              => 'VarChar(255)',
-                'ConfirmationBacklinkText'          => 'VarChar(255)',
-                'OptInStatus'                       => 'Boolean',
-                'OptInTempText'                     => 'Text',
+                'NewsletterOptInStatus'             => 'Boolean(0)',
+                'NewsletterConfirmationHash'        => 'VarChar(50)',
+                'SubscribedToNewsletter'            => 'Boolean(0)',
+                'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
+                'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
                 'Birthday'                          => 'Date',
                 'CustomerNumber'                    => 'VarChar(128)',
             ),
             'has_one' => array(
-                'SilvercartCustomerCategory'    => 'SilvercartCustomerCategory',
                 'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
                 'SilvercartInvoiceAddress'      => 'SilvercartAddress',
-                'SilvercartShippingAddress'     => 'SilvercartAddress'
+                'SilvercartShippingAddress'     => 'SilvercartAddress',
+                'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
             ),
             'has_many' => array(
                 'SilvercartAddresses' => 'SilvercartAddress',
@@ -89,13 +85,9 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SubscribedToNewsletter'            => _t('SilvercartCustomerRole.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
                 'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomerRole.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
                 'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomerRole.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
-                'ConfirmationDate'                  => _t('SilvercartCustomerRole.CONFIRMATIONDATE', 'confirmation date'),
-                'ConfirmationHash'                  => _t('SilvercartCustomerRole.CONFIRMATIONHASH', 'confirmation code'),
-                'OptInStatus'                       => _t('SilvercartCustomerRole.OPTINSTATUS', 'opt-in status'),
                 'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
                 'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
                 'CustomerNumber'                    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
-                'SilvercartCustomerCategory'        => _t('SilvercartCustomerCategory.SINGULARNAME', 'customer category'),
                 'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
@@ -146,6 +138,36 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
+     * Creates an anonymous customer if there's no currentMember object.
+     *
+     * @return Member
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function createAnonymousCustomer() {
+        $member = Member::currentUser();
+        
+        if ($member == false) {
+            $member = new SilvercartAnonymousCustomer();
+            $member->write();
+            
+            // Add customer to intermediate group
+            $customerGroup = DataObject::get_one(
+                'Group', "`Code` = 'anonymous'"
+            );
+            
+            if ($customerGroup) {
+                $member->Groups()->add($customerGroup);
+            }
+            
+            $member->logIn(true);
+        }
+        
+        return $member;
+    }
+    
+    /**
      * Function similar to Member::currentUser(); Determins if we deal with a
      * registered customer who has opted in. Returns the member object or
      * false.
@@ -166,10 +188,9 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 $isInCustomerGroup = true;
             }
             
-            if (($member->ClassName == "SilvercartRegularCustomer" ||
-                 $member->ClassName == 'SilvercartBusinessCustomer' ||
-                 $isInCustomerGroup) &&
-                $member->OptInStatus === '1') {
+            if ($member->ClassName == "SilvercartRegularCustomer" ||
+                $member->ClassName == 'SilvercartBusinessCustomer' ||
+                $isInCustomerGroup) {
 
                 return $member;
             }
@@ -195,6 +216,31 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         }
         
         return $this->owner->SilvercartShoppingCart();
+    }
+    
+    /**
+     * Get the customer's configuration object or create one if it doesn't
+     * exist yet.
+     *
+     * @return SilvercartCustomerConfig
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function getSilvercartCustomerConfig() {
+        if (!$this->owner->SilvercartCustomerConfigID ||
+            !DataObject::get_by_id('SilvercartCustomerConfig', $this->owner->SilvercartCustomerConfigID)) {
+            
+            $silvercartCustomerConfig                   = new SilvercartCustomerConfig();
+            $silvercartCustomerConfig->MemberID         = $this->owner->ID;
+            $silvercartCustomerConfig->productsPerPage  = SilvercartConfig::getProductsPerPageDefault();
+            $silvercartCustomerConfig->write();
+            
+            $this->owner->SilvercartCustomerConfigID = $silvercartCustomerConfig->ID;
+            $this->owner->write();
+        }
+        
+        return $this->owner->SilvercartCustomerConfig();
     }
 
     /**

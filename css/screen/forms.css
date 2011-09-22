@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /**
  * "Yet Another Multicolumn Layout" - (X)HTML/CSS Framework
  *
@@ -84,16 +83,16 @@
     border-right:1px #444 solid;
     border-bottom:1px #444 solid;
     color:#000;
-    background:#454545 url(images/button_gray.png) top left repeat-x;
+    background:#454545 url(/silvercart/css/screen/images/button_gray.png) top left repeat-x;
     padding:5px 1em;
   }
 
-  .yform .type-button input[type=reset] { color:#300; background:#661717 url(images/button_red.png) top left repeat-x; }
-  .yform .type-button input[type=submit] { color:#330; background:#5e5607 url(images/button_yellow.png) top left repeat-x; }
+  .yform .type-button input[type=reset] { color:#300; background:#661717 url(/silvercart/css/screen/images/button_red.png) top left repeat-x; }
+  .yform .type-button input[type=submit] { color:#330; background:#5e5607 url(/silvercart/css/screen/images/button_yellow.png) top left repeat-x; }
 
   /* optional button styling for IE6 using classes */
-  .yform .type-button input.reset { color:#300; background:#661717 url(images/button_red.png) top left repeat-x; }
-  .yform .type-button input.submit { color:#330; background:#5e5607 url(images/button_yellow.png) top left repeat-x; }
+  .yform .type-button input.reset { color:#300; background:#661717 url(/silvercart/css/screen/images/button_red.png) top left repeat-x; }
+  .yform .type-button input.submit { color:#330; background:#5e5607 url(/silvercart/css/screen/images/button_yellow.png) top left repeat-x; }
 
   /* :hover and :focus status on buttons | Effekt zur Hervorhebung von Schaltern bei :hover oder :focus */
   .yform div.type-button input:focus,

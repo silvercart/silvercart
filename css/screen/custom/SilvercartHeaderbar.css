@@ -1,0 +1,93 @@
+#silvercart-headerbar {
+    z-index:                        99;
+    position:                       fixed;
+    width:                          100%;
+    height:                         35px;
+    
+    color:                          #fff;
+    background:                     #252223;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#3a3436), to(#252223)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #3a3436,  #252223); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #3a3436,  #252223); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3a3436', endColorstr='#252223'); /* for IE */
+    border-bottom:                  1px #9f9a96 solid;
+    -moz-box-shadow:                0px 2px 9px #3a3436;
+    -webkit-box-shadow:             0px 2px 9px #3a3436;
+    box-shadow:                     0px 2px 9px #3a3436;
+}
+#silvercart-headerbar_content {
+    position:                       relative;
+    width:                          980px;
+    margin:                         0px auto;
+}
+
+/* Generic definitions ----------------------------------------------------- */
+
+#silvercart-headerbar .silvercart-button {
+    float:                          left;
+}
+#silvercart-headerbar .right .silvercart-button {
+    float:                          right;
+}
+#silvercart-headerbar .silvercart-button a {
+    float:                          left;
+    padding:                        5px 10px 6px 10px;
+    
+    font-size:                      12px;
+    text-decoration:                none;
+    color:                          #fff;
+    background-color:               #42403e;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #42403e,  #302e2d); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #42403e,  #302e2d); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#42403e', endColorstr='#302e2d'); /* for IE */
+    border:                         1px #676461 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#silvercart-headerbar .silvercart-button a:hover {
+    text-decoration:                none;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#5c5956), to(#464341)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #5c5956,  #464341); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #5c5956,  #464341); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c5956', endColorstr='#464341'); /* for IE */
+    border:                         1px #87837f solid;
+}
+#silvercart-headerbar .silvercart-button_content {
+    padding:                        0px 4px 0px 0px;
+}
+#silvercart-headerbar .right .silvercart-button_content {
+    padding:                        0px 0px 0px 4px;
+}
+
+#silvercart-headerbar .silvercart-button-plain {
+    float:                          left;
+}
+#silvercart-headerbar .silvercart-button-plain_content {
+    padding:                        0px 15px 0px 0px;
+}
+
+/* Metanavigation section (home and contact buttons) ----------------------- */
+
+.silvercart-meta-navigation {
+    padding:                        10px 0px 0px 0px;
+}
+
+/* Customer name section --------------------------------------------------- */
+
+#silvercart-customer-name {
+    overflow:                       hidden;
+    float:                          right;
+    width:                          140px;
+    
+    text-align:                     right;
+}
+#silvercart-customer-name_content {
+    padding:                        5px 8px 0px 0px;
+}
+
+/* Action section (checkout and shoppingcart links) ------------------------ */
+.silvercart-headerbar-actions {
+    padding:                        6px 0px 0px 0px;
+}

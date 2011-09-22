@@ -2,15 +2,8 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
 
-    <div class="subcolumns">
-        <div class="c50l">
-            $CustomHtmlFormFieldByName(emailaddress)
-        </div>
-
-        <div class="c50r">
-            $CustomHtmlFormFieldByName(password)
-        </div>
-    </div>
+    $CustomHtmlFormFieldByName(emailaddress)
+    $CustomHtmlFormFieldByName(password)
 
     <div class="actionRow">
         <div class="type-button">

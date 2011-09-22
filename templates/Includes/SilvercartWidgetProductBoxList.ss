@@ -21,17 +21,21 @@
                                 <p class="silvercart-price">
                                     <strong>$Price.Nice</strong>
                                 </p>
-                                <p>
+                                <p class="silvercart-price-notes">
                                     <small>
                                         <% if showPricesGross %>
                                             <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
                                         <% else %>
                                             <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                         <% end_if %>
-                                        <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                        <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                            </a>
+                                        <% end_control %>
                                     </small>
                                 </p>
-                                <p>
+                                <p class="silvercart-product-meta-info">
                                     <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
                                 </p>
                                 <div class="silvercart-button-small left">

@@ -94,7 +94,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 if ($stepData['Shipping_Country'] != "") {
                     $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
                     if ($shippingCountry) {
-                        $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry));
+                        $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart()));
                         foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
                             if ($paymentMethod->getNestedFormName()) {
                                 $formName = $paymentMethod->getNestedFormName();

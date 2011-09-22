@@ -85,7 +85,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public static $db = array(
         'productsPerPage'       => 'Int',
-        'productGroupsPerPage'  => 'Int'
+        'productGroupsPerPage'  => 'Int',
+        'useContentFromParent'  => 'Boolean(0)'
     );
 
     /**
@@ -97,7 +98,8 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public static $has_one = array(
-        'GroupPicture' => 'Image'
+        'GroupPicture'                      => 'Image',
+        'SilvercartGoogleMerchantTaxonomy'  => 'SilvercartGoogleMerchantTaxonomy'
     );
 
     /**
@@ -208,7 +210,8 @@ class SilvercartProductGroupPage extends Page {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'productsPerPage' => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'productsPerPage'       => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'useContentFromParent'  => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
             )
         );
 
@@ -263,7 +266,7 @@ class SilvercartProductGroupPage extends Page {
                     'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
                     'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
                 ),
-                'getCMSFields',
+                'getCMSFields_forPopup',
                 $filter
             );
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
@@ -283,12 +286,40 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
 
+        $useContentField = new CheckboxField('useContentFromParent', _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'));
+        $fields->addFieldToTab('Root.Content.Main', $useContentField, 'Content');
+        
         $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
         $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
         $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField, 'IdentifierCode');
+        
+        // Google taxonomy breadcrumb field
+        $cachekey       = SilvercartGoogleMerchantTaxonomy::$cacheKey;
+        $cache          = SS_Cache::factory($cachekey);
+        $breadcrumbList = $cache->load($cachekey);
 
-
+        if ($breadcrumbList) {
+            $breadcrumbList = unserialize($breadcrumbList);
+        } else {
+            $breadcrumbList         = array();
+            $googleMerchantTaxonomy = DataObject::get(
+                'SilvercartGoogleMerchantTaxonomy'
+            );
+            
+            if ($googleMerchantTaxonomy) {
+                $breadcrumbList = DataObject::get(
+                    'SilvercartGoogleMerchantTaxonomy'
+                )->map('ID', 'BreadCrumb');
+            }
+            
+            $cache->save(serialize($breadcrumbList));
+        }
+        $fields->addFieldToTab('Root.Content.Metadata', new DropdownField(
+            'SilvercartGoogleMerchantTaxonomyID',
+            _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME'),
+            $breadcrumbList
+        ));
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
@@ -490,11 +521,59 @@ class SilvercartProductGroupPage extends Page {
  */
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
+    /**
+     * Contains a list of all registered filter plugins.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $registeredFilterPlugins = array();
+    
+    /**
+     * Contains a DataObjectSet of products for this page or null. Used for
+     * caching.
+     *
+     * @var mixed null|DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $groupProducts = null;
 
+    /**
+     * Contains the SilvercartProduct object that is used for the detail view
+     * or null. Used for caching.
+     *
+     * @var mixed null|SilvercartProduct
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $detailViewProduct = null;
 
+    /**
+     * Contains filters for the SQL query that retrieves the products for this
+     * page.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
     protected $listFilters = array();
+    
+    /**
+     * Used for offset calculation of the SQL query that retrieves the
+     * products for this page.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    protected $SQL_start = 0;
     
     /**
      * Contains the output of all WidgetSets of the parent page
@@ -507,6 +586,40 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $widgetOutput = array();
 
     /**
+     * Indicates wether a filter plugin can be registered for the current view.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.08.2011
+     */
+    public function canRegisterFilterPlugin() {
+        if ($this->isProductDetailView()) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Registers an object as a filter plugin. Before getting the result set
+     * the method 'filter' is called on the plugin. It has to return an array
+     * with filters to deploy on the query.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function registerFilterPlugin($object) {
+        $reflectionClass = new ReflectionClass($object);
+        
+        if ($reflectionClass->hasMethod('filter')) {
+            self::$registeredFilterPlugins[] = $object;
+        }
+    }
+    
+    /**
      * execute these statements on object call
      *
      * @return void
@@ -515,26 +628,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function init() {
         parent::init();
-        
-        $parentPage = $this->getParent();
-
-        if ($parentPage) {
-            $parentPageController = ModelAsController::controller_for($parentPage);
-            $parentPageController->init();
-            
-            if ($this->WidgetSetSidebar()->Count() == 0) {
-                $identifier           = 'Sidebar';
-                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
-            }
-            
-            if ($this->WidgetSetContent()->Count() == 0) {
-                $identifier           = 'Content';
-                $this->widgetOutput[$identifier] = $parentPageController->InsertWidgetArea($identifier);
-            }
+        if (isset($_GET['start'])) {
+            $this->SQL_start = (int)$_GET['start'];
         }
         
         // there must be two way to initialize this controller:
         if ($this->isProductDetailView()) {
+            $this->registerWidgetAreas();
             // a product detail view is requested
             if (!$this->getDetailViewProduct()->isActive) {
                 Director::redirect($this->PageByIdentifierCodeLink());
@@ -550,7 +650,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             if ($products) {
                 $productAddCartForm = $this->getCartFormName();
                 foreach ($products as $product) {
-                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID)));
+                    $backlink = $this->Link()."?start=".$this->SQL_start;
+                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
                     $product->setField('Thumbnail', $product->image()->SetWidth(150));
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
@@ -560,6 +661,42 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     );
                     $productIdx++;
                 }
+            }
+            
+            // Register selector forms, e.g. the "products per page" selector
+            $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
+            $selectorForm->setSecurityTokenDisabled();
+                
+            $this->registerCustomHtmlForm(
+                'SilvercartProductGroupPageSelectors',
+                $selectorForm
+            );
+        }
+    }
+    
+    /**
+     * Registers the WidgetAreas and stores their output.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    protected function registerWidgetAreas() {
+        $parentPage = $this->getParent();
+
+        if ($parentPage) {
+            $parentPageController = ModelAsController::controller_for($parentPage);
+            $parentPageController->init();
+            
+            if ($this->WidgetSetSidebar()->Count() == 0) {
+                $identifier           = 'Sidebar';
+                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
+            }
+            
+            if ($this->WidgetSetContent()->Count() == 0) {
+                $identifier           = 'Content';
+                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
             }
         }
     }
@@ -671,22 +808,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         if ($this->isProductDetailView()) {
-            if (Session::get("SilvercartProductGroupPageID")) {
-                $dataRecord = DataObject::get_by_id("SilvercartProductGroupPage", Session::get("SilvercartProductGroupPageID"));
-                $page = new SilvercartProductGroupPage_Controller($dataRecord);
-            } else {
-                $page = $this;
-            }
-            $parts = array();
+            $page    = $this;
+            $parts   = array();
             $parts[] = $this->getDetailViewProduct()->Title;
-            $i = 0;
-            while ($page
-             && (!$maxDepth || sizeof($parts) < $maxDepth)
-             && (!$stopAtPageType || $page->ClassName != $stopAtPageType)) {
-                if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
-                    if ($page->URLSegment == 'home') {
-                        $hasHome = true;
-                    }
+            
+            while (
+                $page
+                && (!$maxDepth ||
+                     sizeof($parts) < $maxDepth)
+                && (!$stopAtPageType ||
+                     $page->ClassName != $stopAtPageType)
+            ) {
+                if ($showHidden ||
+                    $page->ShowInMenus ||
+                    ($page->ID == $this->ID)) {
+                    
                     if ($page->ID == $this->ID) {
                         $link = $page->OriginalLink();
                     } else {
@@ -716,11 +852,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
 
             if (isset($_GET['offset'])) {
-                if ($this->productsPerPage) {
-                    $productsPerPage = $this->productsPerPage;
-                } else {
-                    $productsPerPage = SilvercartConfig::ProductsPerPage();
-                }
+                $productsPerPage = $this->getProductsPerPageSetting();
                 
                 // --------------------------------------------------------
                 // Use offset for getting the current item rage
@@ -761,17 +893,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.10.2010
      */
     public function getProducts($numberOfProducts = false) {
-        if (is_null($this->groupProducts)) {
+        if (!($this->groupProducts)) {
+            $this->listFilters = array();
+            $filter    = '';
             $SQL_start = $this->getSqlOffset($numberOfProducts);
             
             // ----------------------------------------------------------------
             // Get products that have this group set as mirror group
             // ----------------------------------------------------------------
-            if ($this->productsPerPage) {
-                $productsPerPage = $this->productsPerPage;
-            } else {
-                $productsPerPage = SilvercartConfig::ProductsPerPage();
-            }
+            $productsPerPage = $this->getProductsPerPageSetting();
 
             if ($numberOfProducts !== false) {
                 $productsPerPage = (int) $numberOfProducts;
@@ -802,20 +932,35 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
 
             if (empty($mirroredProductIdList)) {
-                $filter = sprintf(
+                $this->listFilters['original'] = sprintf(
                     "`SilvercartProductGroupID` = '%s'",
                     $this->ID
                 );
             } else {
-                $filter = sprintf(
+                $this->listFilters['original'] = sprintf(
                     "(`SilvercartProductGroupID` = '%s' OR
                       `SilvercartProduct`.`ID` IN (%s))",
                     $this->ID,
                     $mirroredProductIdList
                 );
             }
+            
+            $this->registerWidgetAreas();
+            
+            if (count(self::$registeredFilterPlugins) > 0) {
+                foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                    $pluginFilters = $registeredPlugin->filter();
+                    
+                    if (is_array($pluginFilters)) {
+                        $this->listFilters = array_merge(
+                            $this->listFilters,
+                            $pluginFilters
+                        );
+                    }
+                }
+            }
 
-            foreach ($this->listFilters as $listFilter) {
+            foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                 $filter .= ' ' . $listFilter;
             }
 
@@ -825,7 +970,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
                 $this->ID
             );
-
+            
             $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
 
             // Inject additional methods into the DataObjectSet
@@ -835,6 +980,115 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         return $this->groupProducts;
+    }
+    
+    /**
+     * All products of this group
+     * 
+     * @param int|bool          $numberOfProducts        The number of products to return
+     * @param bool              $useRandomSelection      Indicate wether a random selection of
+     *                                                   products from the product group
+     *                                                   should be returned
+     * @param mixed int|boolean $limitToNumberOfProducts Optional limitation of the
+     *                                                   resultset to a number of products
+     * 
+     * @return DataObjectSet all products of this group or FALSE
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.10.2010
+     */
+    public function getRandomProducts($numberOfProducts) {
+        $listFilters = array();
+        $filter      = '';
+
+        // ----------------------------------------------------------------
+        // Get products that have this group set as mirror group
+        // ----------------------------------------------------------------
+        
+        $mirroredProductIdList  = '';
+        $mirroredProductIDs     = $this->getMirroredProductIDs();
+
+        foreach ($mirroredProductIDs as $mirroredProductID) {
+            $mirroredProductIdList .= sprintf(
+                "'%s',",
+                $mirroredProductID
+            );
+        }
+
+        if (!empty($mirroredProductIdList)) {
+            $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
+        }
+
+        // ----------------------------------------------------------------
+        // Get products that have this group set as main group
+        // ----------------------------------------------------------------
+        if ($this->isFilteredByManufacturer()) {
+            $manufacturer = SilvercartManufacturer::getByUrlSegment($this->urlParams['ID']);
+            if ($manufacturer) {
+                $this->addListFilter('SilvercartManufacturerID', $manufacturer->ID);
+            }
+        }
+
+        if (empty($mirroredProductIdList)) {
+            $listFilters['original'] = sprintf(
+                "`SilvercartProductGroupID` = '%s'",
+                $this->ID
+            );
+        } else {
+            $listFilters['original'] = sprintf(
+                "(`SilvercartProductGroupID` = '%s' OR
+                  `SilvercartProduct`.`ID` IN (%s))",
+                $this->ID,
+                $mirroredProductIdList
+            );
+        }
+
+        foreach ($listFilters as $listFilterIdentifier => $listFilter) {
+            $filter .= ' ' . $listFilter;
+        }
+
+        $sort = 'RAND()';
+        $join = sprintf(
+            "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
+            $this->ID
+        );
+
+        $products = SilvercartProduct::get($filter, $sort, $join, $numberOfProducts);
+        
+        return $products;
+    }
+    
+    /**
+     * Returns the number of products per page according to where it is set.
+     * Highest priority has the customer's configuration setting if available.
+     * Next comes the shop owners setting for this page; if that's not
+     * configured we use the global setting from SilvercartConfig.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function getProductsPerPageSetting() {
+        $productsPerPage = 0;
+        $member          = Member::currentUser();
+        
+        if ($member &&
+            $member->getSilvercartCustomerConfig() &&
+            $member->getSilvercartCustomerConfig()->productsPerPage !== null) {
+            
+            $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
+            
+            if ($productsPerPage == 0) {
+                $productsPerPage = SilvercartConfig::getProductsPerPageUnlimitedNumber();
+            }
+        } else if ($this->productsPerPage) {
+            $productsPerPage = $this->productsPerPage;
+        } else {
+            $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+        
+        return $productsPerPage;
     }
     
     /**
@@ -850,44 +1104,44 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 12.06.2011
      */
     public function getSqlOffset($numberOfProducts = false) {
-        if ($this->productsPerPage) {
-            $productsPerPage = $this->productsPerPage;
-        } else {
-            $productsPerPage = SilvercartConfig::ProductsPerPage();
-        }
+        $productsPerPage = $this->getProductsPerPageSetting();
 
         if ($numberOfProducts !== false) {
             $productsPerPage = (int) $numberOfProducts;
         }
-            
-        if (!isset($_GET['start']) ||
-            !is_numeric($_GET['start']) ||
-            (int)$_GET['start'] < 1) {
-
-            if (isset($_GET['offset'])) {
-                // --------------------------------------------------------
-                // Use offset for getting the current item rage
-                // --------------------------------------------------------
-                $offset = (int) $_GET['offset'];
-
-                if ($offset > 0) {
-                    $offset -= 1;
-                }
-
-                // Prevent too high values
-                if ($offset > 999999) {
-                    $offset = 0;
-                }
-
-                $SQL_start = $offset * $productsPerPage;
-            } else {
-                // --------------------------------------------------------
-                // Use item number for getting the current item range
-                // --------------------------------------------------------
-                $SQL_start = 0;
-            }
+        
+        if ($productsPerPage === SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
+            $SQL_start = 0;
         } else {
-            $SQL_start = (int) $_GET['start'];
+            if (!isset($_GET['start']) ||
+                !is_numeric($_GET['start']) ||
+                (int)$_GET['start'] < 1) {
+
+                if (isset($_GET['offset'])) {
+                    // --------------------------------------------------------
+                    // Use offset for getting the current item rage
+                    // --------------------------------------------------------
+                    $offset = (int) $_GET['offset'];
+
+                    if ($offset > 0) {
+                        $offset -= 1;
+                    }
+
+                    // Prevent too high values
+                    if ($offset > 999999) {
+                        $offset = 0;
+                    }
+
+                    $SQL_start = $offset * $productsPerPage;
+                } else {
+                    // --------------------------------------------------------
+                    // Use item number for getting the current item range
+                    // --------------------------------------------------------
+                    $SQL_start = 0;
+                }
+            } else {
+                $SQL_start = (int) $_GET['start'];
+            }
         }
         
         return $SQL_start;
@@ -1008,7 +1262,77 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         return $hasMoreResults;
     }
+    
+    /**
+     * Indicates wether the resultset of the product query returns more
+     * products than the number given (defaults to 10).
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function HasMoreProductsThan($maxResults = 10) {
+        $products = $this->getProducts();
+        if ($products &&
+            $products->TotalItems() > $maxResults) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Indicates wether the resultset of the product query returns less
+     * products than the number given (defaults to 10).
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public function HasLessProductsThan($maxResults = 10) {
+        $products = $this->getProducts();
+        
+        if ($products &&
+            $products->TotalItems() < $maxResults) {
+            return true;
+        }
+        
+        return false;
+    }
 
+    /**
+     * Returns $Content of the page. If it's empty and
+     * the option is set to use the content of a parent page we try to find
+     * the first parent page with content and deliver that.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.08.2011
+     */
+    public function getPageContent() {
+        if (!empty($this->Content) ||
+            !$this->useContentFromParent) {
+            return $this->Content;
+        }
+        
+        $page       = $this;
+        $content    = '';
+        
+        while ($page->ParentID > 0) {
+            if (!empty($page->Content)) {
+                $content = $page->Content;
+                break;
+            }
+            
+            $page = DataObject::get_by_id('SiteTree', $page->ParentID);
+        }
+        
+        return $content;
+    }
+    
     /**
      * Getter for an products image.
      *
@@ -1034,19 +1358,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function handleAction($request) {
         if ($this->isProductDetailView()) {
+            
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
 
             if (!empty($this->urlParams['OtherID']) &&
                     $this->hasMethod($this->urlParams['OtherID'])) {
 
                 $methodName = $this->urlParams['OtherID'];
-
-                return $this->$methodName($request);
+                
+                if (method_exists($this, $methodName)) {
+                    return $this->$methodName($request);
+                } else {
+                    $this->$methodName($request);
+                }
             }
 
             $view = $this->ProductDetailView(
-                    $this->urlParams['ID']
+                $this->urlParams['ID']
             );
+            
             if ($view !== false) {
                 return $view;
             }
@@ -1073,6 +1403,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     protected function ProductDetailView($urlEncodedProductName) {
         if ($this->isProductDetailView()) {
+            
+            Requirements::customScript("
+                $(document).ready(function() {
+                    $('a.silvercart-product-detail-image').fancybox();
+                });
+            ");
+            
             $product = $this->getDetailViewProduct();
             $product->productAddCartForm = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
             $viewParams = array(
@@ -1123,37 +1460,23 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
     
     /**
-     * Returns the HTML Code as string for all widgets in the given WidgetArea.
-     * 
-     * If thereÄs no WidgetArea for this page defined we try to get the
-     * definition from its parent page.
+     * Returns the SQL filter statement for the current query.
      *
-     * @param int $identifier target area
-     * 
      * @return string
-     * 
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
      */
-    public function InsertWidgetArea($identifier = 'Sidebar') {
-        $output         = '';
-        $controllerName = 'WidgetSet'.$identifier.'Controllers';
+    public function getListFilters($excludeFilter = false) {
+        $filter = '';
         
-        if (!isset($this->$controllerName)) {
-            return $output;
-        }
-        
-        foreach ($this->$controllerName as $controller) {
-            $output .= $controller->WidgetHolder();
-        }
-        
-        if (empty($output)) {
-            if (isset($this->widgetOutput[$identifier])) {
-                $output = $this->widgetOutput[$identifier];
+        foreach ($this->listFilters as $listFilterIdenfitier => $listFilter) {
+            if ($listFilterIdenfitier != $excludeFilter) {
+                $filter .= ' ' . $listFilter;
             }
         }
         
-        return $output;
+        return $filter;
     }
 
     /**

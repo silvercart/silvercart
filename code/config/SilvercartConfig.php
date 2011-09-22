@@ -61,6 +61,48 @@ class SilvercartConfig extends DataObject {
     public static $plural_name = "General configurations";
     
     /**
+     * Contains the possible values for products per page selectors for
+     * storefront users.
+     * 
+     * This array is directly used for <option> Tags:
+     *  'value' => 'Title': <option value="value">Title</option>
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageOptions = array(
+        '5'         => '5',
+        '10'        => '10',
+        '15'        => '15',
+        '20'        => '20',
+        '50'        => '50',
+        '100'       => '100'
+        //'0'         => 'All' // Activate this only for shops with small product counts
+    );
+    
+    /**
+     * The default setting for the CustomerConfig option 'productsPerPage'.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageDefault = 15;
+    
+    /**
+     * Used as SQL limit number for unlimited products per page.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static $productsPerPageUnlimitedNumber = 999999;
+    
+    /**
      * Attributes.
      *
      * @var array
@@ -81,6 +123,7 @@ class SilvercartConfig extends DataObject {
         'enableSSL'                     => 'Boolean(0)',
         'productsPerPage'               => 'Int',
         'productGroupsPerPage'          => 'Int',
+        'displayTypeOfProductAdmin'       => 'Enum("Flat,Tabbed","Tabbed")',
         'minimumOrderValue'             => 'Money',
         'useMinimumOrderValue'          => 'Boolean(0)',
         'disregardMinimumOrderValue'    => 'Boolean(0)',
@@ -89,6 +132,7 @@ class SilvercartConfig extends DataObject {
         'apacheSolrPort'                => 'Int',
         'enableStockManagement'         => 'Boolean(0)',
         'isStockManagementOverbookable' => 'Boolean(0)',
+        'redirectToCartAfterAddToCart'  => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -105,7 +149,8 @@ class SilvercartConfig extends DataObject {
      * @since 27.06.2011
      */
     public static $has_one = array(
-        'SilvercartNoImage' => 'Image'
+        'SilvercartNoImage'         => 'Image',
+        'StandardProductCondition'  => 'SilvercartProductCondition'
     );
     
     /**
@@ -117,8 +162,8 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.0',
-        'SilvercartUpdateVersion'       => '3',
+        'SilvercartVersion'             => '1.1',
+        'SilvercartUpdateVersion'       => '1',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
         'PricetypeBusinessCustomers'    => 'net',
@@ -149,6 +194,7 @@ class SilvercartConfig extends DataObject {
      * Put here all static attributes which have no db field.
      */
     public static $defaultLayoutEnabled = true;
+    public static $defaultLayoutLoaded = false;
     /**
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
@@ -168,6 +214,7 @@ class SilvercartConfig extends DataObject {
     public static $useApacheSolrSearch           = null;
     public static $enableStockManagement         = null;
     public static $isStockManagementOverbookable = null;
+    public static $redirectToCartAfterAddToCart  = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -218,6 +265,20 @@ class SilvercartConfig extends DataObject {
         // Remove not required fields
         $defaultCMSFields->removeByName('SilvercartVersion');
         $defaultCMSFields->removeByName('SilvercartUpdateVersion');
+        $defaultCMSFields->removeByName('DefaultCurrency');
+        $defaultCMSFields->removeByName('minimumOrderValue');
+        $defaultCMSFields->removeByName('useMinimumOrderValue');
+        $defaultCMSFields->removeByName('productsPerPage');
+        $defaultCMSFields->removeByName('productGroupsPerPage');
+        $defaultCMSFields->removeByName('SilvercartNoImage');
+        $defaultCMSFields->removeByName('useApacheSolrSearch');
+        $defaultCMSFields->removeByName('apacheSolrUrl');
+        $defaultCMSFields->removeByName('apacheSolrPort');
+        $defaultCMSFields->removeByName('enableSSL');
+        $defaultCMSFields->removeByName('enableStockManagement');
+        $defaultCMSFields->removeByName('isStockManagementOverbookable');
+        $defaultCMSFields->removeByName('StandardProductCondition');
+        $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
 
         // Building the general tab structure
         $CMSFields = new FieldSet(
@@ -226,7 +287,13 @@ class SilvercartConfig extends DataObject {
                 $generalTab = new TabSet(
                     'General',
                     $tabGeneralMain = new Tab('Main'),
-                    $tabGeneralTestData = new Tab('TestData')
+                    $tabGeneralTestData = new Tab('TestData'),
+                    $tabPricesMain = new Tab('Prices'),
+                    $tabLayoutMain = new Tab('Layout'),
+                    $tabServerMain = new Tab('Server'),
+                    $tabStockMain = new Tab('Stock'),
+                    $tabCkechoutMain = new Tab('Checkout'),
+                    $tabCleanMain = new Tab('Clean')
                 ),
                 $interfacesTab = new TabSet(
                     'Interfaces',
@@ -237,12 +304,60 @@ class SilvercartConfig extends DataObject {
 
         // General Form Fields right here
         $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
+        
         // General Main
         $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
+        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
+        $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
+        $tabLayoutMain->setTitle(_t('SilvercartConfig.LAYOUT'));
+        $tabServerMain->setTitle(_t('SilvercartConfig.SERVER'));
+        $tabStockMain->setTitle(_t('SilvercartConfig.STOCK'));
+        $tabCkechoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
+        $tabCleanMain->setTitle(_t('SilvercartConfig.CLEAN'));
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
+        
+        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
+        
+        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
+            'StandardProductConditionID',
+            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
+            $productConditionMap,
+            $this->StandardProductConditionID,
+            null,
+            _t('SilvercartProductCondition.PLEASECHOOSE')
+        ));
+        $CMSFields->addFieldToTab('Root.General.Main', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
+        
+        /*
+         * Root.General.Prices tab
+         */
+        $CMSFields->addFieldToTab('Root.General.Prices', new TextField('DefaultCurrency', _t('SilvercartConfig.DEFAULTCURRENCY')));
+        $CMSFields->addFieldToTab(
+            'Root.General.Prices',
+            new LiteralField(
+                'MinimumOrderValueTitle',
+                sprintf(
+                    '<h3>%s</h3>',
+                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
+                )
+            )
+        );
+        $CMSFields->addFieldToTab('Root.General.Prices', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
+        $CMSFields->addFieldToTab('Root.General.Prices', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+        
         // configure the fields for pricetype configuration
+        $CMSFields->addFieldToTab(
+            'Root.General.Prices',
+            new LiteralField(
+                'PricetypesTitle',
+                sprintf(
+                    '<h3>%s</h3>',
+                    _t('SilvercartConfig.PRICETYPES_HEADLINE')
+                )
+            )
+        );
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
             'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
@@ -255,9 +370,36 @@ class SilvercartConfig extends DataObject {
         );
         foreach ($pricetypes as $name => $title) {
             $CMSFields->removeByName($name);
-            $CMSFields->addFieldToTab('Root.General.Main', new DropdownField($name, $title, $pricetypeDropdownValues));
+            $CMSFields->addFieldToTab('Root.General.Prices', new DropdownField($name, $title, $pricetypeDropdownValues));
         }
-
+        
+        /*
+         * Root.General.Layout tab
+         */
+        $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productsPerPage', _t('SilvercartConfig.PRODUCTSPERPAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productGroupsPerPage', _t('SilvercartConfig.PRODUCTGROUPSPERPAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', new FileIFrameField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', $CMSFields->dataFieldByName('displayTypeOfProductAdmin'));
+        
+        /*
+         * Root.General.Server tab
+         */
+        $CMSFields->addFieldToTab('Root.General.Server', new LiteralField('ApacheSolrTitle', '<h3>Apache Solr Search</h3>'));
+        $CMSFields->addFieldToTab('Root.General.Server', new CheckboxField('useApacheSolrSearch', _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH')));
+        $CMSFields->addFieldToTab('Root.General.Server', new TextField('apacheSolrUrl', _t('SilvercartConfig.APACHE_SOLR_URL')));
+        $CMSFields->addFieldToTab('Root.General.Server', new TextField('apacheSolrPort', _t('SilvercartConfig.APACHE_SOLR_PORT')));
+        
+        /*
+         * Root.General.Stock tab
+         */
+        $CMSFields->addFieldToTab('Root.General.Stock', new CheckboxField('enableStockManagement', _t('SilvercartConfig.ENABLESTOCKMANAGEMENT')));
+        $CMSFields->addFieldToTab('Root.General.Stock', new CheckboxField('isStockManagementOverbookable', _t('SilvercartConfig.QUANTITY_OVERBOOKABLE')));
+        
+        /*
+         * Root.General.Checkout tab
+         */
+        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
+        
         // FormFields for Test Data right here
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
         
@@ -271,6 +413,13 @@ class SilvercartConfig extends DataObject {
         $addExampleConfig = new FormAction('addExampleConfig', _t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION', 'Add Example Configuration'));
         $addExampleConfig->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION_DESCRIPTION'));
         $CMSFields->addFieldToTab('Root.General.TestData', $addExampleConfig);
+        
+        // FormFields for cleaning tab right here
+        $cleanDataBaseStartIndex = new TextField('cleanDataBaseStartIndex', _t('SilvercartConfig.CLEAN_DATABASE_START_INDEX'), 0);
+        $cleanDataBase = new FormAction('cleanDataBase', _t('SilvercartConfig.CLEAN_DATABASE', 'Clean database'));
+        $cleanDataBase->setRightTitle(_t('SilvercartConfig.CLEAN_DATABASE_DESCRIPTION'));
+        $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBaseStartIndex);
+        $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBase);
         
         // FormFields for Interfaces right here
         $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
@@ -288,9 +437,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesActive'));
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesUserName'));
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesAPI'));
-
-        $this->extend('updateSilvercartCMSFields', $CMSFields);
-        
+        $this->extend('updateCMSFields', $CMSFields);
         return $CMSFields;
     }
 
@@ -319,7 +466,8 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['useApacheSolrSearch']           = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
         $fieldLabels['apacheSolrPort']                = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
         $fieldLabels['apacheSolrUrl']                 = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
-        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');     
+        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
+        $fieldLabels['displayTypeOfProductAdmin']     = _t('SilvercartConfig.DISPLAY_TYPE_OF_PRODUCT_ADMIN', 'Display type of product administration');
         return $fieldLabels;
     }
 
@@ -666,6 +814,82 @@ class SilvercartConfig extends DataObject {
     }
     
     /**
+     * Returns the standard product condition.
+     * 
+     * @return mixed SilvercartProductCondition|bool false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.08.2011
+     */
+    public static function getStandardProductCondition() {
+        $configObject = self::getConfig();
+        
+        return $configObject->StandardProductCondition();
+    }
+    
+    /**
+     * Returns the standard product condition.
+     * 
+     * @return mixed SilvercartProductCondition|bool false
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getRedirectToCartAfterAddToCartAction() {
+        if (is_null(self::$redirectToCartAfterAddToCart)) {
+            self::$redirectToCartAfterAddToCart = self::getConfig()->redirectToCartAfterAddToCart;
+        }
+        return self::$redirectToCartAfterAddToCart;
+    }
+
+    /**
+     * Returns the default value for the CustomerConfig option 'productsPerPage'.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageDefault() {
+        return self::$productsPerPageDefault;
+    }
+    
+    /**
+     * Returns an associative array with values for products per page, e.g.
+     * array(
+     *     '5'  => '5',
+     *     '10' => '10',
+     *     ...
+     * )
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageOptions() {
+        
+        if (array_key_exists('0', self::$productsPerPageOptions)) {
+            self::$productsPerPageOptions['0'] = _t('SilvercartConfig.PRODUCTSPERPAGE_ALL');
+        }
+        
+        return self::$productsPerPageOptions;
+    }
+    
+    /**
+     * Returns the number that is used as unlimited value for the products
+     * per page setting.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.08.2011
+     */
+    public static function getProductsPerPageUnlimitedNumber() {
+        return self::$productsPerPageUnlimitedNumber;
+    }
+    
+    /**
      * Diplays an error rendered with Silvercart's error template.
      *
      * @param string $errorMessage the error message to display
@@ -735,6 +959,32 @@ class SilvercartConfig extends DataObject {
      */
     public static function DefaultLayoutEnabled() {
         return self::$defaultLayoutEnabled;
+    }
+
+    /**
+     * Returns whether the base layout is loaded or not.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2011
+     */
+    public static function DefaultLayoutLoaded() {
+        return self::$defaultLayoutLoaded;
+    }
+
+    /**
+     * Sets whether the base layout is loaded or not.
+     *
+     * @param bool $loaded indicator whether the layout is loaded or not
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2011
+     */
+    public static function setDefaultLayoutLoaded($loaded) {
+        self::$defaultLayoutLoaded = $loaded;
     }
 
     /**
@@ -884,6 +1134,50 @@ class SilvercartConfig extends DataObject {
      */
     public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
         SilvercartGroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
+    }
+    
+    /**
+     * Returns the display type of product administration
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdmin() {
+        return self::getConfig()->displayTypeOfProductAdmin;
+    }
+    
+    /**
+     * Returns whether the display type of product administration is tabbed or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdminTabbed() {
+        $displayTypeOfProductAdminTabbed = false;
+        if (self::getConfig()->displayTypeOfProductAdmin == 'Tabbed' ) {
+            $displayTypeOfProductAdminTabbed = true;
+        }
+        return $displayTypeOfProductAdminTabbed;
+    }
+    
+    /**
+     * Returns whether the display type of product administration is flat or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2011
+     */
+    public static function DisplayTypeOfProductAdminFlat() {
+        $displayTypeOfProductAdminFlat = false;
+        if (self::getConfig()->displayTypeOfProductAdmin == 'Flat' ) {
+            $displayTypeOfProductAdminFlat = true;
+        }
+        return $displayTypeOfProductAdminFlat;
     }
 
     /**

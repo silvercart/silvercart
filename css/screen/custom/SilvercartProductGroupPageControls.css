@@ -1,0 +1,55 @@
+.silvercart-product-group-page-control-top .silvercart-product-group-page-controls {
+    margin:                         0px 0px 10px 0px;
+    padding:                        0px 0px 6px 0px;
+    
+    border-bottom:                  1px #ddd dotted;
+}
+.silvercart-product-group-page-control-bottom .silvercart-product-group-page-controls {
+    margin:                         10px 0px 0px 0px;
+    padding:                        6px 0px 0px 0px;
+    
+    border-top:                     1px #ddd dotted;
+}
+
+.silvercart-product-group-page-controls_content {
+    padding:                        4px;
+    
+    background:                     #ffffff;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #fafafa,  #ffffff); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #fafafa,  #ffffff); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
+    border:                         1px #e1e1e1 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-product-group-page-controls h2 {
+    margin:                         0px;
+    padding:                        4px 4px 4px 4px;
+}
+.silvercart-product-group-page-controls h3 {
+    margin:                         0px;
+    padding:                        0px 0px 6px 0px;
+}
+
+/* Selectors --------------------------------------------------------------- */
+
+.silvercart-product-group-page-selectors form.yform {
+    margin:                         0px;
+    padding:                        0px;
+    
+    background:                     none;
+    border:                         none;
+}
+
+.silvercart-product-group-page-selectors form.yform div.type-select {
+    margin-bottom:                  0px;
+    padding-left:                   0px;
+}
+.silvercart-product-group-page-selectors form.yform div.type-select select {
+    width:                          9em;
+}
+.silvercart-product-group-page-selectors form.yform div.type-button {
+    padding:                        16px 0px 0px 0px;
+}

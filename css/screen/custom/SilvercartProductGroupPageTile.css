@@ -1,0 +1,94 @@
+#col1 .silvercart-product-group-page-box-tile h3,
+#col4 .silvercart-product-group-page-box-tile h3 {
+    margin:                         0px 0px 8px 0px;
+}
+.silvercart-product-group-page-box-tile {
+    color:                          #333;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-group-page-box-tile_frame {
+    padding:                        4px;
+    
+    border:                         1px #e1e1e1 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+
+.silvercart-product-group-page-box-tile form.yform {
+    margin:                         0px;
+    padding:                        0px;
+    
+    border:                         none;
+    background:                     none;
+}
+.silvercart-product-group-page-box-tile form.yform fieldset {
+    margin:                         0px;
+    padding:                        0px;
+    
+    border:                         none;
+    background:                     none;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form {
+    text-align:                     right;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form input.text {
+    width:                          2em;
+    
+    text-align:                     right;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form form.yform label {
+    display:                        none;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-group-add-cart-form_content {
+    padding:                        0px;
+}
+
+.silvercart-product-group-page-box-tile h3 a,
+.silvercart-product-group-page-box-tile h3 a:visited {
+    font-size:                      14px;
+    font-weight:                    bold;
+    color:                          #333;
+    text-shadow:                    0px 1px 3px #eee;
+}
+.silvercart-product-group-page-box-tile p {
+    margin:                         0px 0px 4px 0px;
+}
+
+.silvercart-product-group-page-box-tile .silvercart-product-text-info {
+    height:                         130px;
+    padding:                        0px 0px 8px 0px;
+    
+    overflow:                       hidden;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-meta-info {
+    text-align:                     right;
+}
+
+.silvercart-product-group-page-box-tile .silvercart-product-page-box-price {
+    font-size:                      13px;
+    text-align:                     right;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-page-box-price small {
+    font-size:                      10px;
+    line-height:                    130%;
+}
+
+.silvercart-product-group-page-box-tile h3 a {
+    font-size:                      14px;
+    font-weight:                    bold;
+    color:                          #333;
+    text-shadow:                    0px 1px 3px #eee;
+}
+
+.silvercart-product-group-page-box-tile .silvercart-product-group-page-box-image a {
+    text-align:                     center;
+}
+.silvercart-product-availability {
+    text-align:                     right;
+}
+.silvercart-product-group-page-box-tile.odd .silvercart-product-group-page-box-tile_content {
+    margin:                         0px 3px 6px 0px;
+}
+.silvercart-product-group-page-box-tile.even .silvercart-product-group-page-box-tile_content {
+    margin:                         0px 0px 6px 3px;
+}

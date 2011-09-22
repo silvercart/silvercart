@@ -4,7 +4,7 @@
             <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
                     <h3>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
+                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title.HTML) %>">$Title.HTML</a>
                     </h3>
                 </div>
                 <div class="subcolumns clearfix">
@@ -21,6 +21,9 @@
                         <div class="subcl">
                             <div class="silvercart-product-text-info">
                                 <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                <% if PackagingQuantity %>
+                                <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                <% end_if %>
                             </div>
                             <div class="silvercart-product-meta-info">
                                 <p>
@@ -40,14 +43,18 @@
                                 <p>
                                     <strong class="silvercart-price">$Price.Nice</strong>
                                 </p>
-                                <p>
+                                <p class="silvercart-price-notes">
                                     <small>
                                         <% if showPricesGross %>
                                             <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
                                         <% else_if showPricesNet %>
                                             <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                         <% end_if %>
-                                        <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                        <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                            </a>
+                                        <% end_control %>
                                     </small>
                                 </p>
                             </div>

@@ -25,14 +25,18 @@
                                     <p>
                                         <strong class="silvercart-price">$Price.Nice</strong>
                                     </p>
-                                    <p>
+                                    <p class="silvercart-price-notes">
                                         <small>
                                             <% if showPricesGross %>
                                                 <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
                                             <% else %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
-                                            <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                            <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                                    <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
+                                                </a>
+                                            <% end_control %>
                                         </small>
                                     </p>
                                 </div>
@@ -45,6 +49,9 @@
                             <div class="subcr">
                                 <div class="silvercart-product-text-info">
                                     <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                    <% if PackagingQuantity %>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <% end_if %>
                                 </div>
                                 <div class="silvercart-product-meta-info">
                                     <p>

@@ -191,7 +191,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
             // ----------------------------------------------------------------
             switch ($formData['NewsletterAction']) {
                 case '1':
-                    $member->SubscribedToNewsletter = true;
+                    SilvercartNewsletter::subscribeRegisteredCustomer($member);
                     $this->setSessionMessage(
                         sprintf(
                             _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY'),
@@ -201,16 +201,16 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                     break;
                 case '2':
                 default:
+                    SilvercartNewsletter::unSubscribeRegisteredCustomer($member);
                     $this->setSessionMessage(
                         sprintf(
                             _t('SilvercartNewsletterStatus.UNSUBSCRIBED_SUCCESSFULLY'),
                             $formData['Email']
                         )
                     );
-                    $member->SubscribedToNewsletter = false;
             }
-            $member->write();
         } else {
+            
             // ----------------------------------------------------------------
             // For unregistered customers we have to add / remove them from
             // the datastore for unregistered newsletter recipients.
@@ -218,15 +218,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
             // If the given email address belongs to a registered customer we
             // should not do anything but ask the user to log in first.
             // ----------------------------------------------------------------
-            $checkForRegularCustomer = DataObject::get_one(
-                'SilvercartRegularCustomer',
-                sprintf(
-                    "Email = '%s'",
-                    $formData['Email']
-                )
-            );
-
-            if ($checkForRegularCustomer) {
+            if (SilvercartNewsletter::isEmailAllocatedByRegularCustomer($formData['Email'])) {
                 $this->setSessionMessage(
                     sprintf(
                         _t('SilvercartNewsletterStatus.REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS'),
@@ -235,21 +227,13 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                     )
                 );
             } else {
-                $checkForAnonymousRecipient = DataObject::get_one(
-                    'SilvercartAnonymousNewsletterRecipient',
-                    sprintf(
-                        "Email = '%s'",
-                        $formData['Email']
-                    )
-                );
-
                 if ($formData['NewsletterAction'] == '1') {
                     // --------------------------------------------------------
                     // Subscribe to newsletter.
                     // If the user is already subscribed we display a
                     // message accordingly.
                     // --------------------------------------------------------
-                    if ($checkForAnonymousRecipient) {
+                    if (SilvercartNewsletter::isEmailAllocatedByAnonymousRecipient($formData['Email'])) {
                         $this->setSessionMessage(
                             sprintf(
                                 _t('SilvercartNewsletterStatus.ALREADY_SUBSCRIBED'),
@@ -257,10 +241,10 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                             )
                         );
                     } else {
-                        SilvercartAnonymousNewsletterRecipient::add($formData['Salutation'], $formData['FirstName'], $formData['Surname'], $formData['Email']);
+                        SilvercartNewsletter::subscribeAnonymousCustomer($formData['Salutation'], $formData['FirstName'], $formData['Surname'], $formData['Email']);
                         $this->setSessionMessage(
                             sprintf(
-                                _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY'),
+                                _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN'),
                                 $formData['Email']
                             )
                         );
@@ -271,8 +255,8 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                     // If no email address exists we display a message
                     // accordingly.
                     // --------------------------------------------------------
-                    if ($checkForAnonymousRecipient) {
-                        SilvercartAnonymousNewsletterRecipient::removeByEmailAddress($formData['Email']);
+                    if (SilvercartNewsletter::isEmailAllocatedByAnonymousRecipient($formData['Email'])) {
+                        SilvercartNewsletter::unSubscribeAnonymousCustomer($formData['Email']);
                         $this->setSessionMessage(
                             sprintf(
                                 _t('SilvercartNewsletterStatus.UNSUBSCRIBED_SUCCESSFULLY'),

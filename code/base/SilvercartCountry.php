@@ -215,40 +215,40 @@ class SilvercartCountry extends DataObject {
      */
     public function  searchableFields() {
         return array(
-            'Title'                     => array(
+            'Title' => array(
                 'title'     => _t('SilvercartCountry.SINGULARNAME'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'ISO2'                      => array(
+            'ISO2' => array(
                 'title'     => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'ISO3'                      => array(
+            'ISO3' => array(
                 'title'     => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'ISON'                      => array(
+            'ISON' => array(
                 'title'     => _t('SilvercartCountry.ISON', 'ISO numeric'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'FIPS'                      => array(
+            'FIPS' => array(
                 'title'     => _t('SilvercartCountry.FIPS', 'FIPS code'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'Continent'                 => array(
+            'Continent' => array(
                 'title'     => _t('SilvercartCountry.CONTINENT', 'Continent'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'Currency'                  => array(
+            'Currency' => array(
                 'title'     => _t('SilvercartCountry.CURRENCY', 'Currency'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'SilvercartZones.ID' => array(
-                'title' => _t('Country.ATTRIBUTED_ZONES'),
+                'title'     => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'SilvercartPaymentMethods.ID' => array(
-                'title' => _t('Country.ATTRIBUTED_PAYMENTMETHOD'),
+                'title'     => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD'),
                 'filter'    => 'PartialMatchFilter',
             )
         );

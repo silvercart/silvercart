@@ -1,0 +1,485 @@
+/* General settings -------------------------------------------------------- */
+body, html {
+    min-height:                     100%;
+}
+
+body {
+    font-family:                    verdana, sans-serif;
+    color:                          #333;
+    background:                     #f1f1f1;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#b5b0a8), to(#f1f1f1)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for opera */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b0a8', endColorstr='#f1f1f1'); /* for IE */
+}
+
+#col1 {
+    float:                          left;
+    width:                          70%
+}
+#col1_content {
+    padding:                        0px 12px 0px 12px;
+}
+#col2 {
+    display:                        none
+}
+#col3 {
+    width:                          auto;
+    margin:                         0px 0px 0px 70%
+}
+#col3_content {
+    padding:                        0px 12px 0px 0px;
+}
+#col4 {
+    margin:                         0px;
+    padding:                        0px;
+}
+#col4_content {
+    margin:                         0px;
+    padding:                        0px 12px;
+}
+
+.c45l, .c30l {
+    float:                          left;
+}
+.c45r, .c30r {
+    float:                          right;
+    margin-left:                    -5px;
+}
+.c30l, .c30r {
+    width:                          30%;
+}
+.c45l, .c45r {
+    width:                          45%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family:                    verdana, sans-serif;
+}
+
+a {
+    color:                          #0f517b;
+}
+a:focus {
+    outline:                        0 none;
+}
+
+h1 {
+    font-family:                    georgia, serif;
+    font-size:                      28px;
+}
+
+#main {
+    padding:                        20px 0px 10px 0px;
+}
+
+.page_margins {
+    width:                          980px;
+    margin:                         0px auto;
+    padding:                        36px 0px 0px 0px;
+}
+
+.align_right {
+    text-align:                     right;
+}
+
+.page {
+    background:                     #fff;
+    border:                         1px #8d8981 solid;
+    border-top:                     none;
+    box-shadow:                     #aeaaa1 0px 0px 100px;
+}
+.right {
+    text-align:                     right;
+}
+.center {
+    text-align:                     center;
+}
+    
+hr {
+    border-bottom: 2px dotted #DDDDDD;
+}
+
+/* Headlines --------------------------------------------------------------- */
+
+#col1 h2,
+#col4 h2 {
+    margin:                         26px 0px 14px 0px;
+    padding:                        0px 0px 3px 0px;
+    
+    font-size:                      18px;
+    color:                          #333;
+    border-bottom:                  2px #ddd dotted;
+}
+#col1 h3,
+#col4 h3 {
+    margin:                         10px 0px 4px 0px;
+    padding:                        0px;
+    
+    font-size:                      14px;
+    color:                          #333;
+}
+
+
+/* Tables ------------------------------------------------------------------ */
+
+table {
+    width:                          100%;
+    margin:                         4px 0px 8px 0px;
+    padding:                        0px;
+    
+    border:                         1px #eee solid;
+    border-collapse:                collapse;
+}
+table tr:hover td {
+    background:                     none;
+}
+table th {
+    padding:                        6px 4px;
+}
+table td {
+    padding:                        3px 4px;
+}
+#silvercart-order-holder-table-id td {
+    padding:                        3px 4px;
+}
+#silvercart-order-holder-table-id .silvercart-button a {
+    margin:                         2px 0px 0px 0px;
+}
+
+/* Helper classes ---------------------------------------------------------- */
+
+.hidden-form {
+    display: none;
+}
+
+/* Highlighted messages ---------------------------------------------------- */
+
+p.silvercart-message {
+    margin:                         0px;
+}
+p.silvercart-message.info16 {
+    padding: 0 0 0 20px;
+    
+    background: url(/silvercart/images/icons/16x16_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info16 {
+    padding: 5px 5px 5px 20px;
+    
+    background-color: #efefef;
+    line-height: 16px;
+}
+p.silvercart-message.info32 {
+    padding: 0 0 0 30px;
+    
+    background: url(/silvercart/images/icons/32x32_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info32 {
+    padding: 5px 5px 5px 40px;
+    
+    background-color: #efefef;
+    line-height: 32px;
+}
+p.silvercart-message.info48 {
+    padding: 0 0 0 60px;
+    
+    background: url(/silvercart/images/icons/48x48_info.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.info48 {
+    padding: 5px 5px 5px 60px;
+    
+    background-color: #efefef;
+    line-height: 48px;
+}
+p.silvercart-message.error16 {
+    padding: 0 0 0 20px;
+    
+    background: url(/silvercart/images/icons/16x16_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error16 {
+    padding: 5px 5px 5px 20px;
+    
+    background-color: #efefef;
+    line-height: 16px;
+}
+p.silvercart-message.error32 {
+    padding: 0 0 0 40px;
+    
+    background: url(/silvercart/images/icons/32x32_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error32 {
+    padding: 5px 5px 5px 40px;
+    
+    background-color: #efefef;
+    line-height: 32px;
+}
+p.silvercart-message.error48 {
+    padding: 0 0 0 60px;
+    
+    background: url(/silvercart/images/icons/48x48_error.png) no-repeat left center;
+}
+p.silvercart-message.highlighted.error48 {
+    padding: 5px 5px 5px 60px;
+    
+    background-color: #efefef;
+    line-height: 48px;
+}
+
+/* Buttons ----------------------------------------------------------------- */
+
+.silvercart-button-row {
+    padding:                        6px 0px;
+}
+.silvercart-button-row.left {
+    padding-left:                   4px;
+}
+.silvercart-button-row.right {
+    padding-right:                  4px;
+}
+.silvercart-button {
+    float:                          right;
+}
+.silvercart-button.left {
+    float:                          left;
+}
+.silvercart-button.inline {
+    float:                          none;
+    display:                        inline-block;
+}
+.silvercart-button.left .silvercart-button_content {
+    padding:                        0px 4px 0px 0px;
+}
+.silvercart-button a {
+    display:                        block;
+    padding:                        3px 10px 5px 10px;
+}
+.silvercart-button a,
+.silvercart-button-small a {
+    line-height:                    100%;
+    font-size:                      12px;
+    text-align:                     center;
+    color:                          #fff;
+    background:                     #555;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#777), to(#444)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #777,  #444); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #777,  #444); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#777', endColorstr='#444'); /* for IE */
+    border:                         1px #444 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-button a:hover,
+.silvercart-button-small a:hover {
+    text-decoration:                none;
+    color:                          #fff;
+    background-color:               #444;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#666), to(#333)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #666,  #333); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #666,  #333); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#333'); /* for IE */
+}
+.silvercart-button-small {
+    float:                          right;
+}
+.silvercart-button-small.left {
+    float:                          left;
+}
+.silvercart-button-small_content {
+    padding:                        0px 0px 0px 4px;
+}
+.silvercart-button-small.left .silvercart-button-small_content {
+    padding:                        0px 4px 0px 0px;
+}
+
+.silvercart-button.full,
+.silvercart-button-small.full {
+    width:                          100%;
+}
+.silvercart-button-small a {
+    display:                        block;
+    padding:                        2px 4px 4px 4px;
+    
+    font-size:                      11px;
+}
+
+/* Icon only buttons ------------------------------------------------------- */
+
+.silvercart-icon-button {
+    margin:                         4px 4px 0 0;
+    display:                        inline-block;
+    
+    color:                          #000;
+    background:                     #d9d9d9;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffffff,  #d9d9d9); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #ffffff,  #d9d9d9); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
+    text-decoration:                none;
+    border:                         1px #999 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-icon-button:hover {
+    color:                          #000;
+    text-decoration:                none;
+    background-color:               #cecece;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cecece)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #eeeeee,  #cecece); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
+}
+.silvercart-icon-button:visited {
+    color:                          #000;
+    text-decoration:                none;
+}
+.silvercart-icon-button_content {
+    display:                        inline-block;
+    padding:                        3px;
+}
+.edit32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url(/silvercart/images/icons/32x32_notepad.png) no-repeat center center;
+}
+.delete32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url(/silvercart/images/icons/32x32_recycle_bin_empty.png) no-repeat center center;
+}
+
+/* Icon with text buttons -------------------------------------------------- */
+
+.silvercart-icon-with-text-button {
+    
+}
+.silvercart-icon-with-text-button.big {
+    font-size: 1.5em;
+}
+.silvercart-icon-with-text-button.p {
+    display: inline-block;
+    margin: 0 0 1em;
+    
+    line-height: 1.5em;
+}
+.silvercart-icon-with-text-button.add16 {
+    padding: 0 0 0 20px;
+    
+    background: url(/silvercart/images/icons/16x16_add.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as16 {
+    padding: 0 0 0 20px;
+    
+    background: url(/silvercart/images/icons/16x16_task.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as32 {
+    padding: 0 0 0 40px;
+    
+    background: url(/silvercart/images/icons/32x32_task.png) no-repeat left center;
+}
+.silvercart-icon-with-text-button.set-as48 {
+    padding: 0 0 0 60px;
+    
+    background: url(/silvercart/images/icons/48x48_task.png) no-repeat left center;
+}
+
+/* Silvercart header ------------------------------------------------------- */
+
+#silvercart-header {
+    background:                     #efefeb url("/silvercart/css/screen/images/bg_header.png") left bottom repeat-x;
+}
+
+#silvercart-shop-claim {
+    padding:                        30px 0px;
+}
+#silvercart-shop-claim a {
+    float:                          left;
+}
+#silvercart-shop-claim img {
+    float:                          left;
+}
+#silvercart-shop-claim-text {
+    float:                          left;
+    margin:                         0px;
+    padding:                        18px 0px 0px 0px;
+}
+#silvercart-shop-claim-text h1 {
+    margin:                         0px 0px 4px 0px;
+    
+    line-height:                    100%;
+}
+#silvercart-shop-claim-text h1 a {
+    color:                          #0f517b;
+}
+#silvercart-shop-claim-text p {
+    clear: both;
+    margin:                         0px;
+    padding:                        0px 0px 0px 8px;
+    
+    font-family:                    georgia, serif;
+    font-size:                      14px;
+    color:                          #3a3436;
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.silvercart-section {
+    margin:                         0px 0px 10px 0px;
+}
+.silvercart-section_content {
+    padding:                        4px;
+    
+    background:                     #fafafa;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #fafafa,  #ffffff); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
+    border:                         1px #e1e1e1 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+#col1 .silvercart-section h3,
+#col4 .silvercart-section h3 {
+    margin:                         0px 0px 12px 0px;
+}
+
+/* Errors and notices ------------------------------------------------------ */
+
+.silvercart-error-list {
+    margin:                         8px 0px;
+    
+    background:                     #fafafa;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #ffd3d3,  #f2e8e8); /* for firefox 3.6+ */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
+    border:                         1px #ce0000 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-error-list_content {
+    padding:                        4px;
+}
+.silvercart-error-list p {
+    margin:                         0px 0px 6px 0px;
+    
+    color:                          #530000;
+}
+.silvercart-error-list p:last-child {
+    margin-bottom:                  0px;
+}
+
+.silvercart-checkout-notice {
+    float:                          right;
+}
+.silvercart-checkout-notice_content {
+    padding:                        4px;
+    
+    border:                         1px #353535 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}

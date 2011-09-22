@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /**
  * "Yet Another Multicolumn Layout" - (X)HTML/CSS framework
  * (en) IE patch stylesheet
@@ -13,5 +12,22 @@
 @import url(../../yaml/core/iehacks.css);
 
 /* Layout-dependent adjustments | Layout-abhängige Anpassungen */
-@media screen, projection
-{}
+@media screen, projection {
+/* SilverCart Headerbar ---------------------------------------------------- */
+
+    #silvercart-headerbar {
+        position: static;
+    }
+    
+/* General settings -------------------------------------------------------- */
+
+    .page_margins {
+        padding-top: 0px;
+    }
+    
+/* Quicksearch form -------------------------------------------------------- */
+
+    #silvercart-quicksearch-form form.yform div.type-text {
+        width: 136px;
+    }
+}
