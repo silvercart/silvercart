@@ -172,7 +172,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 22.07.2011
      */
     public function init() {
-        $this->elements = $this->Elements();
+        $this->elements = $this->ProductPages();
         
         if ($this->elements) {
             $controller = Controller::curr();
@@ -204,6 +204,17 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 $elementIdx++;
             }
         }
+        
+        Requirements::customScript(
+            sprintf('
+            $(document).ready(function() {
+                $("#SilvercartProductGroupItemsWidgetSlider%d").anythingSlider({
+                    \'easing\':     \'easeInOutBack\'
+                });
+            });
+            ',
+            $this->ID)
+        );
     }
     
     /**
@@ -214,7 +225,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function Elements() {
+    public function ProductPages() {
         if ($this->elements) {
             return $this->elements;
         }
@@ -236,9 +247,32 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return false;
         }
         $productgroupPageSiteTree                  = ModelAsController::controller_for($productgroupPage);
-        $products                                  = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+        $products                                  = $productgroupPageSiteTree->getProducts(999);
         
-        return $products;
+        $pages          = array();
+        $pageProducts   = array();
+        $pageNr         = 0;
+        $PageProductIdx = 1;
+        
+        foreach ($products as $product) {
+            $pageProducts['Element'.$PageProductIdx] = $product;
+            $PageProductIdx++;
+
+            if ($PageProductIdx > $this->numberOfProductsToShow) {
+                $pages['Page'.$pageNr] = array('Elements' => new DataObjectSet($pageProducts));
+                $PageProductIdx = 1;
+                $pageProducts   = array();
+                $pageNr++;
+            }
+        }
+        
+        if (!array_key_exists('Page'.$pageNr, $pages)) {
+            $pages['Page'.$pageNr] = array('Elements' => new DataObjectSet($pageProducts));
+        }
+        
+        $this->elements = new DataObjectSet($pages);
+        
+        return $this->elements;
     }
     
     /**

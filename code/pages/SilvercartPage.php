@@ -233,10 +233,16 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartShoppingCart');
             Requirements::themedCSS('SilvercartWidget');        
             Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
+            Requirements::css('silvercart/script/anythingslider/css/anythingslider.css');
+            Requirements::css('silvercart/script/anythingslider/css/theme-construction.css');
             Requirements::javascript("customhtmlform/script/jquery.js");
             Requirements::javascript("silvercart/script/document.ready_scripts.js");
             Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
             Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
+            Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.min.js");
+            Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
+            Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
+            Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
 
             $contentCssFiles = array(
                 'content',
