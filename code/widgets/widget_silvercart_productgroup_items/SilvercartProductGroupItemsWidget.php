@@ -204,12 +204,15 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 $elementIdx++;
             }
         }
-        
+        Requirements::css('silvercart/script/anythingslider/css/theme-cs-portfolio.css');
         Requirements::customScript(
             sprintf('
             $(document).ready(function() {
                 $("#SilvercartProductGroupItemsWidgetSlider%d").anythingSlider({
-                    \'easing\':     \'easeInOutBack\'
+                    autoplay:       true,
+                    theme:          \'cs-portfolio\',
+                    easing:         \'linear\',
+                    vertical:       true
                 });
             });
             ',
@@ -253,13 +256,20 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         $pageProducts   = array();
         $pageNr         = 0;
         $PageProductIdx = 1;
+        $isFirst        = true;
         
         foreach ($products as $product) {
             $pageProducts['Element'.$PageProductIdx] = $product;
             $PageProductIdx++;
 
+            if ($pageNr > 0) {
+                $isFirst = false;
+            }
             if ($PageProductIdx > $this->numberOfProductsToShow) {
-                $pages['Page'.$pageNr] = array('Elements' => new DataObjectSet($pageProducts));
+                $pages['Page'.$pageNr] = array(
+                    'Elements' => new DataObjectSet($pageProducts),
+                    'IsFirst'    => $isFirst
+                );
                 $PageProductIdx = 1;
                 $pageProducts   = array();
                 $pageNr++;
@@ -267,7 +277,14 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         }
         
         if (!array_key_exists('Page'.$pageNr, $pages)) {
-            $pages['Page'.$pageNr] = array('Elements' => new DataObjectSet($pageProducts));
+            if ($pageNr > 0) {
+                $isFirst = false;
+            }
+            
+            $pages['Page'.$pageNr] = array(
+                'Elements' => new DataObjectSet($pageProducts),
+                'IsFirst'  => $isFirst
+            );
         }
         
         $this->elements = new DataObjectSet($pages);
