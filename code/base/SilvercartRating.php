@@ -15,6 +15,34 @@
 class SilvercartRating extends DataObject {
     
     /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.09.2011
+     */
+    public static $db = array(
+        'RatingText'  => 'Text',
+        'RatingGrade' => 'Decimal'
+    );
+    
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 09.09.2011
+     */
+    public static $has_one = array(
+        'SilvercartProduct' => 'SilvercartProduct',
+        'Customer'          => 'Member'
+    );
+    
+    public static $default_sort = "Created DESC";
+
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -48,32 +76,51 @@ class SilvercartRating extends DataObject {
         }
 
     }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 22.09.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'RatingText' => _t('SilvercartRating.TEXT'),
+            'RatingGrade' => _t('SilvercartRating.GRADE'),
+            'SilvercartProduct' => _t('SilvercartProduct.SINGULARNAME'),
+            'Customer' => _t('Member.SINGULARNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
     
     /**
-     * Attributes.
+     * Summaryfields for display in tables.
      *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.09.2011
-     */
-    public static $db = array(
-        'RatingText'  => 'Text',
-        'RatingGrade' => 'Decimal'
-    );
-    
-    /**
-     * 1:1 or 1:n relationships.
+     * @return array
      *
-     * @var array
-     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.09.2011
+     * @copyright 2011 pixeltricks GmbH
+     * @since 22.09.2011
      */
-    public static $has_one = array(
-        'SilvercartProduct' => 'SilvercartProduct',
-        'Customer'          => 'Member'
-    );
+    public function summaryFields() {
+        $summaryFields = array(
+            'RatingText' => _t('SilvercartRating.TEXT'),
+            'RatingGrade' => _t('SilvercartRating.GRADE')
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
     
     /**
      * calculates the average grade of ratings of a ratings class

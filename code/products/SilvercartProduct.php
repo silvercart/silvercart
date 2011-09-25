@@ -33,29 +33,6 @@
  */
 class SilvercartProduct extends DataObject {
 
-    
-    /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $singular_name = "product";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $plural_name = "products";
-
     /**
      * attributes
      *

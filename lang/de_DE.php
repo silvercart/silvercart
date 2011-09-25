@@ -410,6 +410,8 @@ $lang['de_DE']['SilvercartConfig']['SERVER'] = 'Server';
 $lang['de_DE']['SilvercartConfig']['SINGULARNAME'] = 'Allgemeine Konfiguration';
 $lang['de_DE']['SilvercartConfig']['STOCK'] = 'Lager';
 $lang['de_DE']['SilvercartConfig']['SHOW_CONFIG'] = 'Konfiguration anzeigen';
+$lang['de_DE']['SilvercartConfig']['TABBED'] = 'verschachtelt';
+$lang['de_DE']['SilvercartConfig']['FLAT'] = 'flach';
 $lang['de_DE']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Ist der Lagerbestand generell überbuchbar?';
 $lang['de_DE']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Apache Solr Suche benutzen';
 $lang['de_DE']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Mindestbestellwert aktivieren';
@@ -1044,6 +1046,8 @@ $lang['de_DE']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Suchen';
 
 $lang['de_DE']['SilvercartRating']['SINGULARNAME'] = 'Bewertung';
 $lang['de_DE']['SilvercartRating']['PLURALNAME'] = 'Bewertungen';
+$lang['de_DE']['SilvercartRating']['TEXT'] = 'Bewertungstext';
+$lang['de_DE']['SilvercartRating']['GRADE'] = 'Bewertungsnote';
 
 $lang['de_DE']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Nachricht: Benutzer bereits registriert';
 $lang['de_DE']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Bestätigungsmail: Betreff';

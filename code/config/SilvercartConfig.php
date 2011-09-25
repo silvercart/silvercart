@@ -379,7 +379,12 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productsPerPage', _t('SilvercartConfig.PRODUCTSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productGroupsPerPage', _t('SilvercartConfig.PRODUCTGROUPSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new FileIFrameField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
-        $CMSFields->addFieldToTab('Root.General.Layout', $CMSFields->dataFieldByName('displayTypeOfProductAdmin'));
+        $source = array(
+            'Tabbed' => _t('SilvercartConfig.TABBED'),
+            'Flat' => _t('SilvercartConfig.FLAT')
+        );
+        $displayTypeOfProductAdminDropdown = new DropdownField('displayTypeOfProductAdmin', _t('SilvercartConfig.DISPLAY_TYPE_OF_PRODUCT_ADMIN', 'Display type of product administration'), $source, $this->displayTypeOfProductAdmin);
+        $CMSFields->addFieldToTab('Root.General.Layout', $displayTypeOfProductAdminDropdown);
         
         /*
          * Root.General.Server tab
@@ -467,7 +472,6 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['apacheSolrPort']                = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
         $fieldLabels['apacheSolrUrl']                 = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
         $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
-        $fieldLabels['displayTypeOfProductAdmin']     = _t('SilvercartConfig.DISPLAY_TYPE_OF_PRODUCT_ADMIN', 'Display type of product administration');
         return $fieldLabels;
     }
 

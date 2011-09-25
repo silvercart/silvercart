@@ -34,26 +34,6 @@
 class SilvercartManufacturer extends DataObject {
 
     /**
-     * Singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    static $singular_name = "manufacturer";
-    /**
-     * Plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    static $plural_name = "manufacturers";
-    /**
      * Attributes
      *
      * @var array
@@ -168,7 +148,7 @@ class SilvercartManufacturer extends DataObject {
         $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
         $fieldLabels['URL']                 = _t('SilvercartPage.URL', 'URL');
         $fieldLabels['logo']                = _t('SilvercartPage.LOGO', 'logo');
-        $fieldLabels['SilvercartProducts']  = _t('SilvercartProducts.PLURALNAME', 'products');
+        $fieldLabels['SilvercartProducts']  = _t('SilvercartProduct.PLURALNAME', 'products');
         return $fieldLabels;
     }
 

@@ -83,15 +83,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $B2Cgroup->write();
         }
 
-        //create a group for b2c optin
-        $B2C_optinGroup = DataObject::get_one('Group', "`Code` = 'b2c-optin'");
-        if (!$B2C_optinGroup) {
-            $B2C_optinGroup = new Group();
-            $B2C_optinGroup->Title = _t("SilvercartRegularCustomer.REGULARCUSTOMER_OPTIN", "regular customer unconfirmed");
-            $B2C_optinGroup->Code = "b2c-optin";
-            $B2C_optinGroup->write();
-        }
-
         // create a SilvercartConfig if not exist
         if (!DataObject::get_one('SilvercartConfig')) {
             $silvercartConfig = new SilvercartConfig();

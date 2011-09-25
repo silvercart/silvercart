@@ -410,6 +410,8 @@ $lang['en_US']['SilvercartConfig']['SERVER'] = 'Server';
 $lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';
 $lang['en_US']['SilvercartConfig']['SHOW_CONFIG'] = 'Show configuration';
 $lang['en_US']['SilvercartConfig']['STOCK'] = 'Stock';
+$lang['en_US']['SilvercartConfig']['TABBED'] = 'tabbed';
+$lang['en_US']['SilvercartConfig']['FLAT'] = 'flat';
 $lang['en_US']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_US']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_US']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum  order value';
@@ -1044,6 +1046,9 @@ $lang['en_US']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
 $lang['en_US']['SilvercartRating']['SINGULARNAME'] = 'rating';
 $lang['en_US']['SilvercartRating']['PLURALNAME'] = 'ratings';
+$lang['en_US']['SilvercartRating']['TEXT'] = 'rating text';
+$lang['en_US']['SilvercartRating']['GRADE'] = 'rating grade';
+
 
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';

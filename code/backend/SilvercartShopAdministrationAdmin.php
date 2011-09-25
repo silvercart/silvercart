@@ -62,8 +62,7 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         'SilvercartAnonymousCustomer',
         'SilvercartGoogleMerchantTaxonomy' => array(
             'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
-        ),
-        'SilvercartRating'
+        )
     );
     
     /**

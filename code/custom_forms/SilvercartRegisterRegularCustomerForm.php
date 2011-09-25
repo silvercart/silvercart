@@ -437,7 +437,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             
              Director::redirect($formData['backlink']);
         } else {
-            Director::redirect($this->controller->PageByIdentifierCode('RegistrationWelcomePage')->Link());
+            Director::redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
         }
     }
 }
