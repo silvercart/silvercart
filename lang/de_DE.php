@@ -1216,12 +1216,24 @@ $lang['de_DE']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Anmeldung
 $lang['de_DE']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart Anmeldung';
 $lang['de_DE']['SilvercartLoginWidget']['DESCRIPTION']              = 'Dieses Widget zeigt ein Loginformular und Links zu der Registrierungsseite. Ist der Kunde eingeloggt, werden ihm stattdessen Links zu den Bereichen seines Kundenkontos angezeigt.';
 
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['AUTOPLAY']                     = 'Automatische Slideshow aktivieren';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['AUTOPLAYDELAYED']              = 'Verzögerung für automatische Slideshow aktivieren';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']               = 'Automatische Slideshow deaktivieren, wenn Benutzer selbst navigiert';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                  = 'Vor-/Zurück Schaltflächen anzeigen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']              = 'Seitennavigation anzeigen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']               = 'Start/Stop Schaltfläche anzeigen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart Warengruppenansicht';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'Dieses Widget zeigt Produkte aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Produkte angezeigt werden sollen.';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']              = 'Normale Produktansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                   = 'Anzeigedauer eines Panels für die automatische Slideshow';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['STOPATEND']                    = 'Automatische Slideshow nach dem ersten Durchlauf beenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Anzahl der Produkte, die angezeigt werden sollen:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Warengruppen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITIONEFFECT']             = 'Übergangeffekt';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']              = 'Überblenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']   = 'Horizontal schieben';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']     = 'Vertikal schieben';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                 = 'Listendarstellung verwenden';
 
 $lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';

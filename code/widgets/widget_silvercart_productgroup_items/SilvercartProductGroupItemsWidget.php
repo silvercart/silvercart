@@ -45,7 +45,16 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'numberOfProductsToShow'        => 'Int',
         'SilvercartProductGroupPageID'  => 'Int',
         'useListView'                   => 'Boolean',
-        'isContentView'                 => 'Boolean'
+        'isContentView'                 => 'Boolean',
+        'Autoplay'                      => 'Boolean(1)',
+        'autoPlayDelayed'               => 'Boolean(1)',
+        'autoPlayLocked'                => 'Boolean(0)',
+        'buildArrows'                   => 'Boolean(1)',
+        'buildNavigation'               => 'Boolean(1)',
+        'buildStartStop'                => 'Boolean(1)',
+        'slideDelay'                    => 'Int',
+        'stopAtEnd'                     => 'Boolean(0)',
+        'transitionEffect'              => "Enum('fade,horizontalSlide,verticalSlide','fade')"
     );
     
     /**
@@ -57,7 +66,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public static $defaults = array(
-        'numberOfProductsToShow' => 5
+        'numberOfProductsToShow'    => 5,
+        'slideDelay'                => 5000
     );
     
     /**
@@ -80,11 +90,37 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         $numberOfProductsField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));
         $useListViewField       = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
         $isContentView          = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $autoplay               = new CheckboxField('Autoplay', _t('SilvercartProductGroupItemsWidget.AUTOPLAY'));
+        $slideDelay             = new TextField('slideDelay', _t('SilvercartProductGroupItemsWidget.SLIDEDELAY'));
+        $buildArrows            = new CheckboxField('buildArrows', _t('SilvercartProductGroupItemsWidget.BUILDARROWS'));
+        $buildNavigation        = new CheckboxField('buildNavigation', _t('SilvercartProductGroupItemsWidget.BUILDNAVIGATION'));
+        $buildStartStop         = new CheckboxField('buildStartStop', _t('SilvercartProductGroupItemsWidget.BUILDSTARTSTOP'));
+        $autoPlayDelayed        = new CheckboxField('autoPlayDelayed', _t('SilvercartProductGroupItemsWidget.AUTOPLAYDELAYED'));
+        $autoPlayLocked         = new CheckboxField('autoPlayLocked', _t('SilvercartProductGroupItemsWidget.AUTOPLAYLOCKED'));
+        $stopAtEnd              = new CheckboxField('stopAtEnd', _t('SilvercartProductGroupItemsWidget.STOPATEND'));
+        $transitionEffect       = new DropdownField(
+            'transitionEffect',
+            _t('SilvercartProductGroupItemsWidget.TRANSITIONEFFECT'),
+            array(
+                'fade'              => _t('SilvercartProductGroupItemsWidget.TRANSITION_FADE'),
+                'horizontalSlide'   => _t('SilvercartProductGroupItemsWidget.TRANSITION_HORIZONTALSLIDE'),
+                'verticalSlide'     => _t('SilvercartProductGroupItemsWidget.TRANSITION_VERTICALSLIDE')
+            )
+        );
         
         $fields->push($productGroupField);
         $fields->push($numberOfProductsField);
         $fields->push($useListViewField);
         $fields->push($isContentView);
+        $fields->push($autoplay);
+        $fields->push($autoPlayDelayed);
+        $fields->push($autoPlayLocked);
+        $fields->push($stopAtEnd);
+        $fields->push($slideDelay);
+        $fields->push($buildArrows);
+        $fields->push($buildNavigation);
+        $fields->push($buildStartStop);
+        $fields->push($transitionEffect);
         
         return $fields;
     }
@@ -143,6 +179,27 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         }
         if (!array_key_exists('useListView', $data)) {
             $this->useListView = 0;
+        }
+        if (!array_key_exists('Autoplay', $data)) {
+            $this->autoplay = 0;
+        }
+        if (!array_key_exists('buildArrows', $data)) {
+            $this->buildArrows = 0;
+        }
+        if (!array_key_exists('buildNavigation', $data)) {
+            $this->buildNavigation = 0;
+        }
+        if (!array_key_exists('buildStartStop', $data)) {
+            $this->buildStartStop = 0;
+        }
+        if (!array_key_exists('autoPlayDelayed', $data)) {
+            $this->autoPlayDelayed = 0;
+        }
+        if (!array_key_exists('autoPlayLocked', $data)) {
+            $this->autoPlayLocked = 0;
+        }
+        if (!array_key_exists('stopAtEnd', $data)) {
+            $this->stopAtEnd = 0;
         }
         
         parent::populateFromPostData($data);
@@ -204,19 +261,102 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 $elementIdx++;
             }
         }
-        Requirements::css('silvercart/script/anythingslider/css/theme-cs-portfolio.css');
+        $autoplay           = 'false';
+        $autoPlayDelayed    = 'false';
+        $autoPlayLocked     = 'true';
+        $stopAtEnd          = 'false';
+        $buildArrows        = 'false';
+        $buildStartStop     = 'false';
+        
+        if ($this->Autoplay) {
+            $autoplay = 'true';
+        }
+        if ($this->buildArrows) {
+            $buildArrows = 'true';
+        }
+        if ($this->buildNavigation) {
+            $buildNavigation = 'true';
+        }
+        if ($this->buildStartStop) {
+            $buildStartStop = 'true';
+        }
+        if ($this->autoPlayDelayed) {
+            $autoPlayDelayed = 'true';
+        }
+        if ($this->autoPlayLocked) {
+            $autoPlayLocked = 'false';
+        }
+        if ($this->stopAtEnd) {
+            $stopAtEnd = 'true';
+        }
+        
+        switch ($this->transitionEffect) {
+            case 'horizontalSlide':
+                $vertical           = 'false';
+                $animationTime      = 500;
+                $delayBeforeAnimate = 500;
+                $effect             = 'swing';
+                break;
+            case 'verticalSlide':
+                $vertical           = 'true';
+                $animationTime      = 500;
+                $delayBeforeAnimate = 500;
+                $effect             = 'swing';
+                break;
+            case 'fade':
+                $vertical           = 'false';
+                $animationTime      = 0;
+                $delayBeforeAnimate = 500;
+                $effect             = 'fade';
+            default:
+                break;
+        }
+        
+        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
         Requirements::customScript(
             sprintf('
-            $(document).ready(function() {
-                $("#SilvercartProductGroupItemsWidgetSlider%d").anythingSlider({
-                    autoplay:       true,
-                    theme:          \'cs-portfolio\',
-                    easing:         \'linear\',
-                    vertical:       true
+                $(document).ready(function() {
+                    $("#SilvercartProductGroupItemsWidgetSlider%d")
+                    .anythingSlider({
+                        autoPlay:           %s,
+                        autoPlayDelayed:    %s,
+                        autoPlayLocked:     %s,
+                        stopAtEnd:          %s,
+                        buildArrows:        %s,
+                        buildNavigation:    %s,
+                        buildStartStop:     %s,
+                        delay:              %d,
+                        animationTime:      %s,
+                        delayBeforeAnimate: %d,
+                        theme:              \'silvercart-default\',
+                        vertical:           %s,
+                        navigationFormatter: function(index, panel){
+                            panel.css("display", "block");
+                            return index;
+                        }
+                    })
+                    .anythingSliderFx({
+                        // base FX definitions
+                        // ".selector" : [ "effect(s)", "size", "time", "easing" ]
+                        // "size", "time" and "easing" are optional parameters, but must be kept in order if added
+                        \'.panel\' : [ \'%s\', \'\', 500, \'easeInOutCirc\' ]
+                    });
                 });
-            });
-            ',
-            $this->ID)
+                ',
+                $this->ID,
+                $autoplay,
+                $autoPlayDelayed,
+                $autoPlayLocked,
+                $stopAtEnd,
+                $buildArrows,
+                $buildNavigation,
+                $buildStartStop,
+                $this->slideDelay,
+                $animationTime,
+                $delayBeforeAnimate,
+                $vertical,
+                $effect
+            )
         );
     }
     
@@ -276,7 +416,9 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             }
         }
         
-        if (!array_key_exists('Page'.$pageNr, $pages)) {
+        if (!array_key_exists('Page'.$pageNr, $pages) &&
+            !empty($pageProducts)) {
+            
             if ($pageNr > 0) {
                 $isFirst = false;
             }
