@@ -3,6 +3,12 @@
         
         <% include SilvercartBreadCrumbs %>
         <% include SilvercartShoppingCartFull %>
+        
+        <div class="silvercart-button left">
+            <div class="silvercart-button_content">
+                <a href="$PageByIdentifierCode(SilvercartFrontPage).Link"><% _t('SilvercartPage.CONTINUESHOPPING') %></a>
+            </div>
+        </div>
 
         <% if CurrentMember.SilvercartShoppingCart.isFilled %>
             <% if CurrentMember.SilvercartShoppingCart.IsMinimumOrderValueReached %>
