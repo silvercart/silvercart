@@ -1,0 +1,175 @@
+/*
+	AnythingSlider Silvercart default Theme
+*/
+
+/* Default State */
+div.anythingSlider-silvercart-default {
+    width:                      100%;
+    margin:                     0px;
+    padding:                    28px 0px 0px 0px;
+}
+div.anythingSlider-silvercart-default .anythingWindow {
+    width:                      100%;
+    border:                     none;
+}
+div.anythingSlider-silvercart-default .anythingWindow .panel {
+    width:                      100%;
+}
+.teleapotheke-product-group-page {
+    width:                      708px;
+}
+
+/* Active State */
+div.anythingSlider-silvercart-default.activeSlider .anythingWindow {
+    border:                         none;
+}
+div.anythingSlider-silvercart-default .start-stop:hover,
+div.anythingSlider-silvercart-default .start-stop.hover {
+}
+
+/* Navigation Arrows (back/forward) */
+div.anythingSlider-silvercart-default .arrow {
+    position:                   absolute;
+    top:                        0px;
+    left:                       0px;
+}
+div.anythingSlider-silvercart-default .arrow a {
+    width:                      20px;
+    height:                     20px;
+    float:                      left;
+    color:                      #fff;
+    background:                 #fff;
+    border:                     1px #ccc solid;
+    border-radius:              2px;
+    -moz-border-radius:         2px;
+    -o-border-radius:           2px;
+    -webkit-border-radius:      2px;
+    margin:                     0px;
+}
+div.anythingSlider-silvercart-default .arrow a span {
+    display:                    block;
+    color:                      #333;
+    text-indent:                0px;
+    padding:                    2px 0px 0px 0px;
+}
+div.anythingSlider-silvercart-default .forward {
+    left:                       24px;
+}
+div.anythingSlider-silvercart-default .back {
+    left:                       0px;
+}
+div.anythingSlider-silvercart-default .forward a {
+}
+div.anythingSlider-silvercart-default .back a {
+}
+div.anythingSlider-silvercart-default .forward a:hover,
+div.anythingSlider-silvercart-default .forward a.hover {
+    border-color:               #333;
+}
+div.anythingSlider-silvercart-default .back a:hover,
+div.anythingSlider-silvercart-default .back a.hover {
+    border-color:               #333;
+}
+
+/* Navigation Links */
+div.anythingSlider-silvercart-default .anythingControls {
+    float:                      none;
+    width:                      658px;
+    position:                   absolute;
+    top:                        0px;
+    left:                       52px;
+    z-index:                    2;
+}
+div.anythingSlider-silvercart-default .anythingControls ul {
+    float:                      none;
+    display:                    inline-block;
+    width:                      80%;
+    text-align:                 center;
+}
+div.anythingSlider-silvercart-default .anythingControls ul li {
+    margin:                     0px;
+    padding:                    0px;
+}
+div.anythingSlider-silvercart-default .anythingControls ul a {
+    width:                      14px;
+    height:                     14px;
+    color:                      #333;
+    background:                 none;
+    border:                     1px #ccc solid;
+    border-radius:              12px;
+    -moz-border-radius:         12px;
+    -o-border-radius:           12px;
+    -webkit-border-radius:      12px;
+    padding:                    0px;
+}
+div.anythingSlider-silvercart-default .anythingControls ul a span {
+    display:                    inline-block;
+    width:                      8px;
+    height:                     8px;
+    font-size:                  1px;
+    color:                      #fff;
+    background:                 #fff;
+    border-radius:              12px;
+    -moz-border-radius:         12px;
+    -o-border-radius:           12px;
+    -webkit-border-radius:      12px;
+    margin:                     3px 0px 0px 0px;
+}
+div.anythingSlider-silvercart-default .anythingControls ul a.cur span {
+    color:                      #333;
+    background:                 #333;
+}
+div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a {
+    color:                      #333;
+    background:                 none;
+    margin:                     0px 2px 0px 0px;
+}
+div.anythingSlider-silvercart-default .anythingControls ul a:hover,
+div.anythingSlider-silvercart-default .anythingControls ul a.cur {
+    background:                 #fff;
+    margin:                     0px 2px 0px 0px;
+}
+div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a:hover,
+div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a.cur {
+    background:                 #fff;
+    border-color:               #333;
+}
+
+/* Navigation size window arrows */
+div.anythingSlider-silvercart-default .anythingControls li.next a span,
+div.anythingSlider-silvercart-default .anythingControls li.prev a span {
+}
+div.anythingSlider-silvercart-default .anythingControls li.prev a,
+div.anythingSlider-silvercart-default .anythingControls li.next a {
+}
+div.anythingSlider-silvercart-default .anythingControls li.next a:hover,
+div.anythingSlider-silvercart-default .anythingControls li.prev a:hover {
+}
+
+/* slider autoplay right-to-left, reverse order of nav links to look better */
+div.anythingSlider-silvercart-default.rtl .anythingControls ul a {
+}
+div.anythingSlider-silvercart-default.rtl .anythingControls ul {
+}
+
+/* Autoplay Start/Stop button */
+div.anythingSlider-silvercart-default .start-stop {
+    display:                    inline-block;
+    width:                      18%;
+    color:                      #333;
+    background:                 #fff;
+    border:                     1px #ccc solid;
+    border-radius:              2px;
+    -moz-border-radius:         2px;
+    -o-border-radius:           2px;
+    -webkit-border-radius:      2px;
+}
+div.anythingSlider-silvercart-default .start-stop:hover,
+div.anythingSlider-silvercart-default .start-stop.hover {
+    color:                      #333;
+    background:                 #fff;
+}
+div.anythingSlider-silvercart-default.activeSlider .start-stop.playing {
+    color:                      #333;
+    background:                 #fff;
+}
