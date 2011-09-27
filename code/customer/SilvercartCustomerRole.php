@@ -244,6 +244,22 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
 
     /**
+     * used to determine weather something should be shown on a template or not
+     *
+     * @return bool
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.3.2011
+     */
+    public function showPricesGross() {
+        $pricetype = SilvercartConfig::Pricetype();
+        if ($pricetype == "gross") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * standard hook
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>

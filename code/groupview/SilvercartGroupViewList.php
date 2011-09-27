@@ -47,8 +47,9 @@ class SilvercartGroupViewList extends SilvercartGroupViewBase {
      */
     protected function preferences() {
         $preferences = parent::preferences();
-        $preferences['code']    = 'list';
-        $preferences['label']   = _t('GroupView.LIST', 'List');
+        $preferences['code']            = 'list';
+        $preferences['i18n_key']        = 'SilvercartGroupView.LIST';
+        $preferences['i18n_default']    = 'List';
         return $preferences;
     }
 }

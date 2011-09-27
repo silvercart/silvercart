@@ -56,7 +56,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      *
      * @var DataObjectSet
      */
-    protected $registeredNestedForms = null;
+    protected $registeredNestedForms = array();
 
     /**
      * constructor
@@ -282,7 +282,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 15.07.2011
      */
     public function addRegisteredNestedForm(CustomHtmlForm $registeredNestedForm) {
-        if (is_null($this->registeredNestedForms)) {
+        if (empty($this->registeredNestedForms)) {
             $this->registeredNestedForms = new DataObjectSet();
         }
         $this->registeredNestedForms->push($registeredNestedForm);

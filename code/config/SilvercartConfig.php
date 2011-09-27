@@ -317,19 +317,7 @@ class SilvercartConfig extends DataObject {
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
-        
-        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
-        
-        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
-            'StandardProductConditionID',
-            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
-            $productConditionMap,
-            $this->StandardProductConditionID,
-            null,
-            _t('SilvercartProductCondition.PLEASECHOOSE')
-        ));
-        $CMSFields->addFieldToTab('Root.General.Main', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
-        
+     
         /*
          * Root.General.Prices tab
          */
@@ -404,6 +392,17 @@ class SilvercartConfig extends DataObject {
          * Root.General.Checkout tab
          */
         $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
+        
+        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
+        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
+            'StandardProductConditionID',
+            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
+            $productConditionMap,
+            $this->StandardProductConditionID,
+            null,
+            _t('SilvercartProductCondition.PLEASECHOOSE')
+        ));
+        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
         
         // FormFields for Test Data right here
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));

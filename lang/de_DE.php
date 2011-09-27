@@ -745,6 +745,9 @@ $lang['de_DE']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Willkommen im <s
 $lang['de_DE']['SilvercartFrontPage']['PLURALNAME'] = 'Frontseiten';
 $lang['de_DE']['SilvercartFrontPage']['SINGULARNAME'] = 'Frontseite';
 
+$lang['de_DE']['SilvercartGroupView']['LIST'] = 'Liste';
+$lang['de_DE']['SilvercartGroupView']['TILE'] = 'Kacheln';
+
 $lang['de_DE']['SilvercartHandlingCost']['PLURALNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['SINGULARNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['AMOUNT'] = 'Betrag';

@@ -47,8 +47,9 @@ class SilvercartGroupViewTile extends SilvercartGroupViewBase {
      */
     protected function preferences() {
         $preferences = parent::preferences();
-        $preferences['code']    = 'tile';
-        $preferences['label']   = _t('GroupView.TILE', 'Tile');
+        $preferences['code']            = 'tile';
+        $preferences['i18n_key']        = 'SilvercartGroupView.TILE';
+        $preferences['i18n_default']    = 'Tile';
         return $preferences;
     }
 }

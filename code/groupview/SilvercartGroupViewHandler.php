@@ -179,6 +179,7 @@ class SilvercartGroupViewHandler {
                 self::$defaultGroupView = $code;
                 return;
             }
+            self::addGroupView($defaultGroupView);
         }
         $tmp = array_flip(self::$groupViews);
         self::$defaultGroupView = $tmp[$defaultGroupView];
@@ -198,6 +199,7 @@ class SilvercartGroupViewHandler {
                 self::$defaultGroupHolderView = $code;
                 return;
             }
+            self::addGroupHolderView($defaultGroupHolderView);
         }
         $tmp = array_flip(self::$groupHolderViews);
         self::$defaultGroupHolderView = $tmp[$defaultGroupHolderView];

@@ -1250,10 +1250,26 @@ class SilvercartProduct extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 25.11.2010
      */
-    public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100);
-
+    public function getTaxAmount() {        
+        if (Member::currentUser()->showPricesGross()) {
+            $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100); 
+        } else {
+            $taxRate = $this->Price->getAmount() * ($this->getTaxRate() / 100);
+        }
         return $taxRate;
+    }
+    
+    /**
+     * return the tax amount nice with only 2 decimal places and replaced . in , 
+     * includes currency symbol from current locale
+     * 
+     * @return string 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 02.09.2011
+     */
+    public function getTaxAmountNice() {
+        return str_replace('.', ',', number_format($this->getTaxAmount(),2)) . ' ' . $this->Price->getSymbol();
     }
 
     /**
