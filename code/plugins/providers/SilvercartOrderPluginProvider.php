@@ -33,12 +33,6 @@
  */
 class SilvercartOrderPluginProvider extends SilvercartPlugin {
 
-    public function __construct($callingObject) {
-        parent::__construct($callingObject);
-        
-        
-    }
-    
     /**
      * Initialisation for plugin providers.
      *
@@ -60,6 +54,8 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * shoppingcart object and before the order positions get created.
      *
      * @param array $arguments The arguments to pass
+     *                         $arguments[0] = SilvercartOrder
+     *                         $arguments[1] = SilvercartShoppingCart
      * 
      * @return void
      *

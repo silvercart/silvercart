@@ -485,7 +485,7 @@ class SilvercartOrder extends DataObject {
         // write order to have an id
         $this->write();
         
-        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this));
+        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $member->SilvercartShoppingCart()));
 
         // Convert shopping cart positions
         $this->convertShoppingCartPositionsToOrderPositions();
@@ -1121,6 +1121,18 @@ class SilvercartOrder extends DataObject {
         $handlingCostsObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCostsObj;
+    }
+    
+    /**
+     * Returns plugin output.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.09.2011
+     */
+    public function OrderDetailInformation() {
+        return SilvercartPlugin::call($this, 'OrderDetailInformation', array($this));
     }
 
     /**

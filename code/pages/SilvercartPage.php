@@ -232,8 +232,8 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartProductPage');
             Requirements::themedCSS('SilvercartShoppingCart');
             Requirements::themedCSS('SilvercartWidget');        
-            Requirements::css('silvercart/script/fancybox/jquery.fancybox-1.3.4.css');
-            Requirements::css('silvercart/script/anythingslider/css/anythingslider.css');
+            Requirements::themedCSS('jquery.fancybox-1.3.4');
+            Requirements::themedCSS('anythingslider');
             Requirements::javascript("customhtmlform/script/jquery.js");
             Requirements::javascript("silvercart/script/document.ready_scripts.js");
             Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
@@ -266,17 +266,29 @@ class SilvercartPage_Controller extends ContentController {
                     $combinedCssFiles[] = $file;
                 }
             }
-            Requirements::combine_files('base.css', $combinedCssFiles);
-            Requirements::combine_files('content.css', $combinedContentCssFiles);
-            Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
-            Requirements::process_combined_files();
 
             $combinedJsFiles = array();
             foreach (Requirements::backend()->get_javascript() as $file) {
                 $combinedJsFiles[] = $file;
             }
-            Requirements::combine_files('script.js', $combinedJsFiles);
-            Requirements::process_combined_files();
+            
+            // Combine files
+            if (class_exists('RequirementsEngine')) {
+                RequirementsEngine::combine_files('script.js', $combinedJsFiles);
+                RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
+                RequirementsEngine::combine_files_and_parse('content.css', $combinedContentCssFiles);
+                RequirementsEngine::combine_files_and_parse('content.ec.css', $combinedSilvercartCssFiles);
+                
+                RequirementsEngine::process_combined_files();
+            } else {
+                Requirements::combine_files('script.js', $combinedJsFiles);
+                Requirements::combine_files('base.css', $combinedCssFiles);
+                Requirements::combine_files('content.css', $combinedContentCssFiles);
+                Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
+                
+                Requirements::process_combined_files();
+            }
+
             // set default layout loaded in SilvercartConfig to prevent multiple
             // loading of css files
             SilvercartConfig::setDefaultLayoutLoaded(true);
@@ -301,7 +313,7 @@ class SilvercartPage_Controller extends ContentController {
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 
-        #SilvercartPlugin::call($this, 'init');
+        SilvercartPlugin::call($this, 'init', array($this));
         
         parent::init();
     }

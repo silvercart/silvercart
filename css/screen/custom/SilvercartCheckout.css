@@ -7,3 +7,14 @@
 .silvercart-address-radiofield input {
     float: right;
 }
+.silvercart-checkout-annotation {
+    position:                   relative;
+    clear:                      both;
+    padding:                    20px 0px 0px 0px;
+}
+.silvercart-checkout-annotation form.yform {
+    background:                 none;
+    border:                     none;
+    margin:                     0px;
+    padding:                    0px;
+}

@@ -294,13 +294,13 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             case 'horizontalSlide':
                 $vertical           = 'false';
                 $animationTime      = 500;
-                $delayBeforeAnimate = 500;
+                $delayBeforeAnimate = 0;
                 $effect             = 'swing';
                 break;
             case 'verticalSlide':
                 $vertical           = 'true';
                 $animationTime      = 500;
-                $delayBeforeAnimate = 500;
+                $delayBeforeAnimate = 0;
                 $effect             = 'swing';
                 break;
             case 'fade':

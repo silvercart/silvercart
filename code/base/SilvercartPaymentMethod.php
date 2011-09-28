@@ -672,10 +672,10 @@ class SilvercartPaymentMethod extends DataObject {
                     break;
                 }
             }
-        }
-        
-        if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
-            $isActivationByOrderRestrictionsPossible = true;
+            
+            if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+                $isActivationByOrderRestrictionsPossible = true;
+            }
         }
         
         return $isActivationByOrderRestrictionsPossible;
