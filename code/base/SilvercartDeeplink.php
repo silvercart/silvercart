@@ -87,11 +87,19 @@ class SilvercartDeeplink extends DataObject {
      * @since 28.7.2011
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
+        $productFields  = array();
+        $fields         = parent::getCMSFields($params);
         $fields->removeByName('productAttribute');
+        
+        $dbFields = DataObject::database_fields('SilvercartProduct');
+        foreach($dbFields as $fieldName => $fieldType) {
+            $productFields[$fieldName] = $fieldName;
+        }
+        
         $productAttributes = DataObject::database_fields('SilvercartProduct');
         $productAttributeDropdownSource = SilvercartProduct::fieldLabels();
-        $productAttributeDropdown = new DropdownField('productAttribute', _t('SilvercartAttribute.SINGULARNAME'), $productAttributeDropdownSource, null, null, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'));
+        $productAttributeDropdown = new DropdownField('productAttribute', _t('SilvercartAttribute.SINGULARNAME'), $productFields, null, null, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'));
+        
         $fields->addFieldToTab('Root.Main', $productAttributeDropdown);
         $fields->addFieldToTab('Root.Main', new ReadonlyField('deeplink', $this->singular_name(), $this->getDeeplinkUrl()));
         return $fields;
