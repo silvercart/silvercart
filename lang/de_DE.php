@@ -236,6 +236,7 @@ $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 
 $lang['de_DE']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'CSV Header aktivieren';
 $lang['de_DE']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Exportfelder bestimmen';
+$lang['de_DE']['SilvercartProductExport']['CREATE_TIMESTAMP_FILE']                          = 'Timestamp Datei erzeugen';
 $lang['de_DE']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Zugeordnete Exportfelder';
 $lang['de_DE']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Verfügbare Exportfelder';
 $lang['de_DE']['SilvercartProductExport']['FIELD_CSV_SEPARATOR']                            = 'CSV Trennzeichen';
