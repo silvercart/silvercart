@@ -130,7 +130,7 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
             array(
                 'Title'                             => _t('SilvercartInboundShoppingCartTransfer.TITLE'),
                 'refererIdentifier'                 => _t('SilvercartInboundShoppingCartTransfer.REFERER_IDENTIFIER'),
-                'useSharedSecret'                   => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET'),
+                'useSharedSecret'                   => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET_ACTIVATION'),
                 'sharedSecret'                      => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET'),
                 'sharedSecretIdentifier'            => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET_IDENTIFIER'),
                 'transferMethod'                    => _t('SilvercartInboundShoppingCartTransfer.TRANSFER_METHOD'),

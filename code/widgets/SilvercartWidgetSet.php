@@ -146,9 +146,8 @@ class SilvercartWidgetSet extends DataObject {
             'SilvercartPages',
             'SilvercartPage'
         );
-        
+        $fields->findOrMakeTab('Root.SilvercartPages', _t('SilvercartWidgetSet.PAGES'));
         $fields->addFieldToTab('Root.SilvercartPages', $pagesTableField);
-        
         return $fields;
     }
     
@@ -166,5 +165,27 @@ class SilvercartWidgetSet extends DataObject {
         );
         
         return $fields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.10.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title' => _t('SilvercartAvailabilityStatus.TITLE')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
 }

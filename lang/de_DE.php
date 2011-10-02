@@ -172,11 +172,11 @@ $lang['de_DE']['SilvercartNumberRange']['ACTUALCOUNT'] = 'Aktuell';
 $lang['de_DE']['SilvercartNumberRange']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartNumberRange']['END'] = 'Ende';
 $lang['de_DE']['SilvercartNumberRange']['ENDCOUNT'] = 'Ende';
-$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Identifier';
+$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Identifikator';
 $lang['de_DE']['SilvercartNumberRange']['INVOICENUMBER'] = 'Rechnungsnummer';
 $lang['de_DE']['SilvercartNumberRange']['ORDERNUMBER'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartNumberRange']['PLURALNAME'] = 'Nummernkreise';
-$lang['de_DE']['SilvercartNumberRange']['PREFIX'] = 'Prefix';
+$lang['de_DE']['SilvercartNumberRange']['PREFIX'] = 'Präfix';
 $lang['de_DE']['SilvercartNumberRange']['SINGULARNAME'] = 'Nummernkreis';
 $lang['de_DE']['SilvercartNumberRange']['START'] = 'Start';
 $lang['de_DE']['SilvercartNumberRange']['STARTCOUNT'] = 'Start';
@@ -760,7 +760,7 @@ $lang['de_DE']['SilvercartImage']['TITLE'] = 'Anzeigename';
 
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING']                       = 'Zeichenkette mit Trennern';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_KEY']                   = 'Name der Variable, in der die Zeichenkette gespeichert ist';
-$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_ENTITY_SEPARATOR']      = 'Entitentrennzeichen in der Zeichenkette';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_ENTITY_SEPARATOR']      = 'Entitätentrennzeichen in der Zeichenkette';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_QUANTITY_SEPARATOR']    = 'Mengentrennzeichen in der Zeichenkette';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE']                             = 'Schlüssel-Wert Paare';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_PRODUCT_IDENTIFIER']          = 'Name der Artikel-Variable';
@@ -769,6 +769,7 @@ $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Artikel-Bezugsfeld';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Kurzname des externen Partners';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']                         = 'Shared secret aktivieren';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Name der Shared secret Variable';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Externe Warenkorbbefüllung';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Bezeichnung';
@@ -1041,8 +1042,8 @@ $lang['de_DE']['SilvercartPrice']['PLURALNAME'] = 'Preise';
 $lang['de_DE']['SilvercartPrice']['SINGULARNAME'] = 'Preis';
 
 $lang['de_DE']['SilvercartProductCondition']['PLEASECHOOSE']                = 'Bitte wählen';
-$lang['de_DE']['SilvercartProductCondition']['PLURALNAME']                  = 'Artikel Zustände';
-$lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']                = 'Artikel Zustand';
+$lang['de_DE']['SilvercartProductCondition']['PLURALNAME']                  = 'Artikelzustände';
+$lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']                = 'Artikelzustand';
 $lang['de_DE']['SilvercartProductCondition']['TITLE']                       = 'Zustand';
 $lang['de_DE']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Als Vorgabe-Zustand verwenden, wenn nichts am Artikel definiert ist';
 
@@ -1147,6 +1148,7 @@ $lang['de_DE']['SilvercartShopEmail']['VARIABLES'] = 'Variablen';
 $lang['de_DE']['SilvercartShopEmail']['REGARDS'] = 'Mit freundlichen Grüßen';
 $lang['de_DE']['SilvercartShopEmail']['YOUR_TEAM'] = 'Ihr SilverCart Webshop Team';
 $lang['de_DE']['SilvercartShopEmail']['HELLO'] = 'Hallo';
+$lang['de_DE']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'Zusätzliche Empfänger';
 $lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'Ihre Bestellung ist soeben bei uns eingegangen, vielen Dank.';
 
 $lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
@@ -1190,6 +1192,7 @@ $lang['de_DE']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets 
 
 $lang['de_DE']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['de_DE']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
+$lang['de_DE']['SilvercartWidgetSet']['PAGES'] = 'zugeordnete Seiten';
 
 $lang['de_DE']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'zugeordnete Länder';
 $lang['de_DE']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'zugeordnete Versandart';

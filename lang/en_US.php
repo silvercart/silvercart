@@ -769,6 +769,7 @@ $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Product matching field';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Referer identifier';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
+$lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']                         = 'activate shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Request variable name for shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Inbound Shopping Cart Transfer';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Title';
@@ -1148,6 +1149,7 @@ $lang['en_US']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
 $lang['en_US']['SilvercartShopEmail']['REGARDS'] = 'Best regards';
 $lang['en_US']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce team';
 $lang['en_US']['SilvercartShopEmail']['HELLO'] = 'Hello';
+$lang['en_US']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
 $lang['en_US']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 
 $lang['en_US']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
@@ -1191,6 +1193,7 @@ $lang['en_US']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets 
 
 $lang['en_US']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_US']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
+$lang['en_US']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
 
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_US']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';

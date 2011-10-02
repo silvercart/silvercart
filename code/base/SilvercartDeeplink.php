@@ -33,6 +33,29 @@ class SilvercartDeeplink extends DataObject {
     );
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.10.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'isActive' => _t('SilvercartPage.ISACTIVE'),
+                    'productAttribute' => _t('SilvercartProductGroupPage.ATTRIBUTES')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * getter for the avtivation status
      * 
      * @return boolean answer 
@@ -78,8 +101,9 @@ class SilvercartDeeplink extends DataObject {
     }
     
     /**
-     *
-     * @param array $params ???
+     * Returns the GUI fields for the storeadmin.
+     * 
+     * @param array $params Additional parameters
      * 
      * @return FieldSet a set of fields 
      * 
