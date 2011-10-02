@@ -45,7 +45,9 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartCountry',
         'SilvercartZone',
-        'SilvercartPaymentMethod',
+        'SilvercartPaymentMethod' => array(
+            'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
+        ),
         'SilvercartShippingMethod',
         'SilvercartCarrier',
         'SilvercartTax',
