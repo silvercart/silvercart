@@ -123,7 +123,7 @@ class SilvercartConfig extends DataObject {
         'enableSSL'                     => 'Boolean(0)',
         'productsPerPage'               => 'Int',
         'productGroupsPerPage'          => 'Int',
-        'displayTypeOfProductAdmin'       => 'Enum("Flat,Tabbed","Tabbed")',
+        'displayTypeOfProductAdmin'     => 'Enum("Flat,Tabbed","Tabbed")',
         'minimumOrderValue'             => 'Money',
         'useMinimumOrderValue'          => 'Boolean(0)',
         'disregardMinimumOrderValue'    => 'Boolean(0)',
@@ -279,6 +279,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('isStockManagementOverbookable');
         $defaultCMSFields->removeByName('StandardProductCondition');
         $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
+        $defaultCMSFields->removeByName('disregardMinimumOrderValue');
 
         // Building the general tab structure
         $CMSFields = new FieldSet(
@@ -317,23 +318,20 @@ class SilvercartConfig extends DataObject {
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
+        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
+        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
+            'StandardProductConditionID',
+            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
+            $productConditionMap,
+            $this->StandardProductConditionID,
+            null,
+            _t('SilvercartProductCondition.PLEASECHOOSE')
+        ));
      
         /*
          * Root.General.Prices tab
          */
         $CMSFields->addFieldToTab('Root.General.Prices', new TextField('DefaultCurrency', _t('SilvercartConfig.DEFAULTCURRENCY')));
-        $CMSFields->addFieldToTab(
-            'Root.General.Prices',
-            new LiteralField(
-                'MinimumOrderValueTitle',
-                sprintf(
-                    '<h3>%s</h3>',
-                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
-                )
-            )
-        );
-        $CMSFields->addFieldToTab('Root.General.Prices', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
-        $CMSFields->addFieldToTab('Root.General.Prices', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
         
         // configure the fields for pricetype configuration
         $CMSFields->addFieldToTab(
@@ -392,17 +390,22 @@ class SilvercartConfig extends DataObject {
          * Root.General.Checkout tab
          */
         $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
-        
-        $productConditionMap = SilvercartProductCondition::getDropdownFieldOptionSet();
-        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
-            'StandardProductConditionID',
-            _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
-            $productConditionMap,
-            $this->StandardProductConditionID,
-            null,
-            _t('SilvercartProductCondition.PLEASECHOOSE')
-        ));
         $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
+        $CMSFields->addFieldToTab(
+            'Root.General.Checkout',
+            new LiteralField(
+                'MinimumOrderValueTitle',
+                sprintf(
+                    '<h3>%s</h3>',
+                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
+                )
+            )
+        );
+        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
+        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
+        $CMSFields->addFieldToTab('Root.General.Checkout', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+        
+        
         
         // FormFields for Test Data right here
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));

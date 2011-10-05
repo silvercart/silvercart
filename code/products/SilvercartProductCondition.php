@@ -128,7 +128,8 @@ class SilvercartProductCondition extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title' => _t('SilvercartProductCondition.TITLE')
+                'Title' => _t('SilvercartProductCondition.TITLE'),
+                'SilvercartProducts' => _t('SilvercartProduct.PLURALNAME')
             )
         );
         

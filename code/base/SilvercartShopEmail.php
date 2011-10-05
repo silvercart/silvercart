@@ -85,10 +85,11 @@ class SilvercartShopEmail extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Identifier']  = _t('SilvercartShopEmail.IDENTIFIER', 'identifier');
-        $fieldLabels['Subject']     = _t('SilvercartShopEmail.SUBJECT', 'subject');
-        $fieldLabels['EmailText']   = _t('SilvercartShopEmail.EMAILTEXT', 'message');
-        $fieldLabels['Variables']   = _t('SilvercartShopEmail.VARIABLES', 'variables');
+        $fieldLabels['Identifier']  = _t('SilvercartShopEmail.IDENTIFIER');
+        $fieldLabels['Subject']     = _t('SilvercartShopEmail.SUBJECT');
+        $fieldLabels['EmailText']   = _t('SilvercartShopEmail.EMAILTEXT');
+        $fieldLabels['Variables']   = _t('SilvercartShopEmail.VARIABLES');
+        $fieldLabels['AdditionalReceipients'] = _t('SilvercartShopEmail.ADDITIONALS_RECEIPIENTS');
         return $fieldLabels;
     }
 

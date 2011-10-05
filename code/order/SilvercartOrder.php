@@ -1382,7 +1382,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-     * Removes the field "create order" from the model admin
+     * Removes the button "create order" from the model admin
      * 
      * @return bool false
      * 

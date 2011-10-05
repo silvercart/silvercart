@@ -808,6 +808,25 @@ class SilvercartProduct extends DataObject {
             $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRates->map('ID', 'Title'), $this->SilvercartTaxID));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Weight'));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('EANCode'));
+            $conditionMap   = array();
+            $conditions     = DataObject::get(
+                'SilvercartProductCondition'
+            );
+
+            if ($conditions) {
+                $conditionMap = $conditions->map('ID', 'Title');
+            }
+
+            $conditionField = new DropdownField(
+                'SilvercartProductConditionID',
+                _t('SilvercartProductCondition.TITLE'),
+                $conditionMap,
+                $this->SilvercartProductConditionID,
+                null,
+                _t('SilvercartProductCondition.PLEASECHOOSE')
+            );
+
+            $CMSFields->addFieldToTab('Root.Main.Content', $conditionField);
 
             //fill the tab Root.Main.Prices
             $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PurchasePrice'));
@@ -892,27 +911,7 @@ class SilvercartProduct extends DataObject {
             //fill the tab Root.Stock.Config
             $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
             $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('StockQuantityOverbookable'));
-
-            $conditionMap   = array();
-            $conditions     = DataObject::get(
-                'SilvercartProductCondition'
-            );
-
-            if ($conditions) {
-                $conditionMap = $conditions->map('ID', 'Title');
-            }
-
-            $conditionField = new DropdownField(
-                'SilvercartProductConditionID',
-                _t('SilvercartProductCondition.TITLE'),
-                $conditionMap,
-                $this->SilvercartProductConditionID,
-                null,
-                _t('SilvercartProductCondition.PLEASECHOOSE')
-            );
-
-            $CMSFields->addFieldToTab('Root.Stock.Config', $conditionField);
-
+            
             //fill the tab Root.Files.Images
             if ($this->ID) {
                 $silvercartImagesTable = new ImageDataObjectManager(
