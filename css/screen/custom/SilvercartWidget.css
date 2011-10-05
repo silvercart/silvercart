@@ -188,3 +188,17 @@
 .silvercart-widget-search form.yform div.type-button {
     padding:                        0px;
 }
+
+/* AnythingSlider ---------------------------------------------------------- */
+
+.silvercart-widget-productgroupitems-slider {
+    list-style-type:                none;
+    margin:                         0px;
+    padding:                        0px;
+}
+.silvercart-widget-productgroupitems-slider li {
+    width:                          660px;
+    list-style-type:                none;
+    margin:                         0px;
+    padding:                        0px;
+}
