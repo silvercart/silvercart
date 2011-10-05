@@ -34,6 +34,16 @@
 class SilvercartShopAdministrationAdmin extends ModelAdmin {
     
     /**
+     * We use a custom result table class name.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.10.2011
+     */
+    protected $resultsTableClassName = 'SilvercartTableListField';
+    
+    /**
      * Managed models
      *
      * @var array
@@ -50,7 +60,8 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
             'collection_controller' => 'SilvercartContactMessageAdmin_CollectionController'
         ),
         'SilvercartProduct' => array(
-            'collection_controller' => 'SilvercartProduct_CollectionController'
+            'collection_controller'         => 'SilvercartProduct_CollectionController',
+            'preventTableListFieldAutoLoad' => true
         ),
         'SilvercartProductExporter' => array(
             'collection_controller' => 'SilvercartProductExportAdmin_CollectionController',
@@ -131,18 +142,18 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function resultsTableClassName() {
-    $className = $this->resultsTableClassName;
+        $className = $this->resultsTableClassName;
 
-    if (isset($this->urlParams['Action']) ) {
-        if ($this->urlParams['Action'] == 'SilvercartProduct') {
-            $className = 'SilvercartProductTableListField';
+        if (isset($this->urlParams['Action']) ) {
+            if ($this->urlParams['Action'] == 'SilvercartProduct') {
+                $className = 'SilvercartProductTableListField';
+            }
+            if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
+                $className = 'SilvercartProductExportTableListField';
+            }
         }
-        if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
-            $className = 'SilvercartProductExportTableListField';
-        }
-    }
-
-    return $className;
+        
+        return $className;
     }
 }
 

@@ -1,20 +1,44 @@
+var preventAutoloadFor = [
+    $PreventAutoLoadForManagedModels
+];
 
 (function($) {
     $(document).ready(function() {
+        var managedModelClass;
+        
         if ($('#ModelClassSelector select').length > 0) {
             $('#ModelClassSelector select').change(function(){
-                $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                managedModelClass = $(this).val().replace('Form_', '');
+                
+                if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                    $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                } else {
+                    $('#Form_ResultsForm').html(' ');
+                }
             });
         }
         if ($('#SearchForm_holder .tabstrip').length > 0) {
             $('#SearchForm_holder .tabstrip a').click(function(){
                 var index = $(this).attr('href').indexOf('#') + 1;
                 var FormID = $(this).attr('href').substring(index).replace('Form_','Form_SearchForm_');
-                $('#' + FormID).triggerHandler('submit');
+                
+                managedModelClass = FormID.replace('Form_SearchForm_', '');
+                
+                if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                    $('#' + FormID).triggerHandler('submit');
+                } else {
+                    $('#Form_ResultsForm').html(' ');
+                }
             });
         }
         if ($('.Actions input[name="action_search"]:visible').length > 0) {
-            $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+            managedModelClass = '' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','').replace('Form_SearchForm_', '');
+            
+            if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+            } else {
+                $('#Form_ResultsForm').html(' ');
+            }
         }
     });
 	

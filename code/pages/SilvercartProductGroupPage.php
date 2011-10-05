@@ -115,18 +115,6 @@ class SilvercartProductGroupPage extends Page {
     );
 
     /**
-     * Many-many relationships.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
-     */
-    public static $many_many = array(
-        'SilvercartAttributes'      => 'SilvercartAttribute',
-    );
-
-    /**
      * Belongs-many-many relationships.
      *
      * @var array
@@ -272,16 +260,6 @@ class SilvercartProductGroupPage extends Page {
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
             $fields->addFieldToTab($tabPARAM, $productsTableField);
 
-            $attributeTableField = new ManyManyDataObjectManager(
-                $this,
-                'SilvercartAttributes',
-                'SilvercartAttribute',
-                array(
-                    'Title' => _t('SilvercartProduct.COLUMN_TITLE')
-                )
-            );
-            $tabPARAM2 = "Root.Content." . _t('SilvercartProductGroupPage.ATTRIBUTES', 'attributes');
-            $fields->addFieldToTab($tabPARAM2, $attributeTableField);
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }

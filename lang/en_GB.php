@@ -133,6 +133,9 @@ $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not av
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
 
+$lang['en_GB']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
+$lang['en_GB']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
+
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL1']    = 'Level 1';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL2']    = 'Level 2';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL3']    = 'Level 3';
@@ -301,9 +304,6 @@ $lang['en_GB']['SilvercartProductPage']['URL_SEGMENT'] = 'Productdetails';
 
 $lang['en_GB']['SilvercartProductTexts']['PLURALNAME'] = 'Product translation texts';
 $lang['en_GB']['SilvercartProductTexts']['SINGULARNAME'] = 'Product translation text';
-
-$lang['en_GB']['SilvercartAttribute']['PLURALNAME'] = 'Attributes';
-$lang['en_GB']['SilvercartAttribute']['SINGULARNAME'] = 'Attribute';
 
 $lang['en_GB']['SilvercartBusinessCustomer']['BUSINESSCUSTOMER'] = 'Business customer';
 $lang['en_GB']['SilvercartBusinessCustomer']['PLURALNAME'] = 'Business Customers';

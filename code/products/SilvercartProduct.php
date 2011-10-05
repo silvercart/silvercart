@@ -669,7 +669,7 @@ class SilvercartProduct extends DataObject {
             // --------------------------------------------------------------------
             // Reorder tabs
             // --------------------------------------------------------------------
-                $tabset = false;
+            $tabset = false;
 
             foreach ($fields as $i => $field) {
                 if (is_object($field) && $field instanceof TabSet) {
@@ -739,43 +739,36 @@ class SilvercartProduct extends DataObject {
         } else {
             //define the new tabset
             $CMSFields = new FieldSet(
-                    $rootTab = new TabSet(
-                            'Root',
-                            $mainTab = new TabSet(
-                                    'Main',
-                                    $contentTab = new Tab('Content'),
-                                    $pricesTab = new Tab('Prices'),
-                                    $manufacturerTab = new Tab('Manufacturer')
-
-                                    ),
-                            $seoTab = new TabSet(
-                                    'SEO',
-                                    $metadataTab = new Tab('MetaData')
-                                    ),
-                            $linksTab = new TabSet(
-                                    'Links',
-                                    $mirrorProductGroupsTab = new Tab('MirrorProductGroups'),
-                                    $productGroupsTab = new Tab('ProductGroups'),
-                                    $deeplinksTab = new Tab('Deeplinks')
-                                    ),
-                            $xSellingTab = new TabSet(
-                                    'XSelling',
-                                    $ordersTab = new Tab('Orders'),
-                                    $cartsTab = new Tab('Carts'),
-                                    $cartPositionsTab = new Tab('CartPositions')
-                                    ),
-                            $stockTab = new TabSet(
-                                    'Stock',
-                                    $dataTab = new Tab('Data'),
-                                    $timeTab = new Tab('Time'),
-                                    $configTab = new Tab('Config')
-                                    ),
-                            $filesTab = new TabSet(
-                                    'Files',
-                                    $attachmentsTab = new Tab('Attachments'),
-                                    $imagesTab = new Tab('Images')
-                                    )
-                            )
+                $rootTab = new TabSet(
+                    'Root',
+                    $mainTab = new TabSet(
+                        'Main',
+                        $contentTab = new Tab('Content'),
+                        $pricesTab = new Tab('Prices'),
+                        $manufacturerTab = new Tab('Manufacturer')
+                    ),
+                    $seoTab = new TabSet(
+                        'SEO',
+                        $metadataTab = new Tab('MetaData')
+                    ),
+                    $linksTab = new TabSet(
+                        'Links',
+                        $mirrorProductGroupsTab = new Tab('MirrorProductGroups'),
+                        $productGroupsTab = new Tab('ProductGroups'),
+                        $deeplinksTab = new Tab('Deeplinks')
+                    ),
+                    $stockTab = new TabSet(
+                        'Stock',
+                        $dataTab = new Tab('Data'),
+                        $timeTab = new Tab('Time'),
+                        $configTab = new Tab('Config')
+                    ),
+                    $filesTab = new TabSet(
+                        'Files',
+                        $attachmentsTab = new Tab('Attachments'),
+                        $imagesTab = new Tab('Images')
+                    )
+                )
             );
 
             // i18n for the tabs
@@ -791,11 +784,6 @@ class SilvercartProduct extends DataObject {
             $mirrorProductGroupsTab->setTitle(  _t('SilvercartProductGroupMirrorPage.PLURALNAME'));
             $productGroupsTab->setTitle(        _t('SilvercartProductGroupPage.SINGULARNAME'));
             $deeplinksTab->setTitle(            _t('Silvercart.DEEPLINKS',                              'Deeplinks'));
-
-            $xSellingTab->setTitle(             _t('Silvercart.CROSSSELLING',                           'Cross-Selling'));
-            $ordersTab->setTitle(               _t('SilvercartOrder.PLURALNAME'));
-            $cartsTab->setTitle(                _t('SilvercartShoppingCart.PLURALNAME'));
-            $cartPositionsTab->setTitle(        _t('SilvercartShoppingCartPosition.PLURALNAME'));
 
             $stockTab->setTitle(                _t('SilvercartConfig.STOCK'));
             $dataTab->setTitle(                 _t('Silvercart.DATA'));
@@ -891,37 +879,6 @@ class SilvercartProduct extends DataObject {
                     }
                 }
             }
-
-            //fill the tab Root.XSelling.Orders
-            $ordersTable = new TableListField(
-                    'SilvercartOrders',
-                    'SilvercartOrder',
-                    null,
-                    $this->getManyManyFilter('SilvercartOrders', 'SilvercartOrder'),
-                    null,
-                    $this->getManyManyJoin('SilvercartOrders', 'SilvercartOrder')
-            );
-            $CMSFields->addFieldToTab('Root.XSelling.Orders', $ordersTable);
-
-            //fill the tab Root.XSelling.Carts
-            $cartsTable = new TableListField(
-                    'SilvercartShoppingCarts',
-                    'SilvercartShoppingCart',
-                    null,
-                    $this->getManyManyFilter('SilvercartShoppingCarts', 'SilvercartShoppingCart'),
-                    null,
-                    $this->getManyManyJoin('SilvercartShoppingCarts', 'SilvercartShoppingCart')
-            );
-            $CMSFields->addFieldToTab('Root.XSelling.Carts', $cartsTable);
-
-            //fill the tab Root.XSelling.CartPositions
-            $positionsTable = new TableListField(
-                    'SilvercartShoppingCartPositions',
-                    'SilvercartShoppingCartPosition',
-                    null,
-                    "SilvercartProductID = ".$this->ID
-            );
-            $CMSFields->addFieldToTab('Root.XSelling.CartPositions', $positionsTable);
 
             //fill the tab Root.Stock.Data
             $CMSFields->addFieldToTab('Root.Stock.Data', $fields->dataFieldByName('StockQuantity'));
