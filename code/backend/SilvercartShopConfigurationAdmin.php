@@ -32,7 +32,17 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShopConfigurationAdmin extends ModelAdmin {
-
+    
+    /**
+     * We use a custom result table class name.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.10.2011
+     */
+    protected $resultsTableClassName = 'SilvercartTableListField';
+    
     /**
      * Managed models
      *
