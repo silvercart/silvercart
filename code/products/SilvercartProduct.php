@@ -837,8 +837,7 @@ class SilvercartProduct extends DataObject {
 
             //fill the tab Root.Main.Manufacturer
             $CMSFields->addFieldToTab('Root.Main.Manufacturer', new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'), $this->ProductNumberManufacturer));
-            $manufacturers = DataObject::get('SilvercartManufacturer');
-            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new DropdownField('SilvercartManufacturerID', _t('SilvercartManufacturer.SINGULARNAME'), $manufacturers->map('ID', 'Title'), $this->SilvercartManufacturerID));
+            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new LiveDropdownField('SilvercartManufacturerID', _t('SilvercartManufacturer.SINGULARNAME'), 'SilvercartManufacturer'));
 
             //fill the tab Root.SEO.MetaData
             $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaTitle'));
