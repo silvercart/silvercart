@@ -1,4 +1,4 @@
-3<?php
+<?php
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -416,6 +416,7 @@ $lang['en_GB']['SilvercartConfig']['FLAT'] = 'flat';
 $lang['en_GB']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_GB']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
 $lang['en_GB']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum order value';
+$lang['en_GB']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Disgregard minimum order value';
 $lang['en_GB']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimum order value';
 
 $lang['en_GB']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
@@ -769,6 +770,7 @@ $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Product matching field';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Referer identifier';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
+$lang['en_GB']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'Activate shared secret';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Request variable name for shared secret';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Inbound Shopping Cart Transfer';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Title';
@@ -1048,6 +1050,11 @@ $lang['en_GB']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'U
 
 $lang['en_GB']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
+$lang['en_GB']['SilvercartRating']['SINGULARNAME'] = 'rating';
+$lang['en_GB']['SilvercartRating']['PLURALNAME'] = 'ratings';
+$lang['en_GB']['SilvercartRating']['TEXT'] = 'rating text';
+$lang['en_GB']['SilvercartRating']['GRADE'] = 'rating grade';
+
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';
@@ -1142,6 +1149,7 @@ $lang['en_GB']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
 $lang['en_GB']['SilvercartShopEmail']['REGARDS'] = 'Best regards';
 $lang['en_GB']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce team';
 $lang['en_GB']['SilvercartShopEmail']['HELLO'] = 'Hello';
+$lang['en_GB']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 
 $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
@@ -1185,6 +1193,7 @@ $lang['en_GB']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets 
 
 $lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
+$lang['en_GB']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
 
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
@@ -1245,6 +1254,10 @@ $lang['en_GB']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 $lang['en_GB']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shoppingc art';
 $lang['en_GB']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shopping cart';
 $lang['en_GB']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shopping cart. Additionally it provides links to the shopping cart and (if there are products in the cart) the checkout pages.';
+
+$lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
+$lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Silvercart Subnavigation';
+$lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
 
 $lang['en_GB']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_GB']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';

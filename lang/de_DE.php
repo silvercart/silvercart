@@ -409,8 +409,8 @@ $lang['de_DE']['SilvercartConfig']['REDIRECTTOCARTAFTERADDTOCART'] = 'Kunde zum 
 $lang['de_DE']['SilvercartConfig']['SEARCH'] = 'Suche';
 $lang['de_DE']['SilvercartConfig']['SERVER'] = 'Server';
 $lang['de_DE']['SilvercartConfig']['SINGULARNAME'] = 'Allgemeine Konfiguration';
-$lang['de_DE']['SilvercartConfig']['STOCK'] = 'Lager';
 $lang['de_DE']['SilvercartConfig']['SHOW_CONFIG'] = 'Konfiguration anzeigen';
+$lang['de_DE']['SilvercartConfig']['STOCK'] = 'Lager';
 $lang['de_DE']['SilvercartConfig']['TABBED'] = 'verschachtelt';
 $lang['de_DE']['SilvercartConfig']['FLAT'] = 'flach';
 $lang['de_DE']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Ist der Lagerbestand generell überbuchbar?';
@@ -1233,6 +1233,8 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']           
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart Warengruppenansicht';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'Dieses Widget zeigt Artikel aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Artikel angezeigt werden sollen.';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']              = 'Normale Artikelansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                   = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                    = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Anzahl der Artikel, die angezeigt werden sollen:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Warengruppen';
@@ -1252,6 +1254,10 @@ $lang['de_DE']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Suchen';
 $lang['de_DE']['SilvercartShoppingcartWidget']['TITLE']                 = 'Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt';
+
+$lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
+$lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Silvercart Subnavigation';
+$lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
 
 $lang['de_DE']['SilvercartText']['TITLE']               = 'Freitext';
 $lang['de_DE']['SilvercartText']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';

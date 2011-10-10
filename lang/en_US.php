@@ -1055,7 +1055,6 @@ $lang['en_US']['SilvercartRating']['PLURALNAME'] = 'ratings';
 $lang['en_US']['SilvercartRating']['TEXT'] = 'rating text';
 $lang['en_US']['SilvercartRating']['GRADE'] = 'rating grade';
 
-
 $lang['en_US']['SilvercartRegisterConfirmationPage']['ALREADY_REGISTERES_MESSAGE_TEXT'] = 'Message: user already registered';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT'] = 'Confirmation mail: subject';
 $lang['en_US']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';
@@ -1255,6 +1254,10 @@ $lang['en_US']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shoppingcart';
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shoppingcart';
 $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';
+
+$lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
+$lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Silvercart Subnavigation';
+$lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
 
 $lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';
