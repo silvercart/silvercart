@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2011 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -22,28 +22,30 @@
  */
 
 /**
- * Decorates the Member class for additional customer functionality
+ * Contains additional datafields for SilverCart customers and corresponding
+ * methods.
  *
  * @package Silvercart
- * @subpackage Customer
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 18.10.2010
+ * @subpacke Customer
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 10.10.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartCustomerRole extends DataObjectDecorator {
-
+class SilvercartCustomer extends DataObjectDecorator {
+    
     /**
-     * Defines relations, attributes and settings for the decorated class.
+     * Extends the database fields and relations of the decorated class.
      *
-     * @return for defining and configuring the decorated class.
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2011
      */
     public function extraStatics() {
         return array(
             'db' => array(
+                'taxIdNumber'                       => 'VarChar(30)',
                 'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
                 'NewsletterOptInStatus'             => 'Boolean(0)',
                 'NewsletterConfirmationHash'        => 'VarChar(50)',
@@ -60,8 +62,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
             ),
             'has_many' => array(
-                'SilvercartAddresses' => 'SilvercartAddress',
-                'SilvercartOrder'   => 'SilvercartOrder'
+                'SilvercartAddresses'   => 'SilvercartAddress',
+                'SilvercartOrder'       => 'SilvercartOrder'
             ),
             'belongs_many_many' => array(
                 'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
@@ -81,13 +83,13 @@ class SilvercartCustomerRole extends DataObjectDecorator {
                 'FirstName'
             ),
             'field_labels' => array(
-                'Salutation'                        => _t('SilvercartCustomerRole.SALUTATION', 'salutation'),
-                'SubscribedToNewsletter'            => _t('SilvercartCustomerRole.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
-                'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomerRole.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
-                'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomerRole.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
-                'Birthday'                          => _t('SilvercartCustomerRole.BIRTHDAY', 'birthday'),
-                'ClassName'                         => _t('SilvercartCustomerRole.TYPE', 'type'),
-                'CustomerNumber'                    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
+                'Salutation'                        => _t('SilvercartCustomer.SALUTATION', 'salutation'),
+                'SubscribedToNewsletter'            => _t('SilvercartCustomer.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
+                'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomer.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
+                'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomer.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
+                'Birthday'                          => _t('SilvercartCustomer.BIRTHDAY', 'birthday'),
+                'ClassName'                         => _t('SilvercartCustomer.TYPE', 'type'),
+                'CustomerNumber'                    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
                 'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
@@ -96,28 +98,50 @@ class SilvercartCustomerRole extends DataObjectDecorator {
             )
         );
     }
-
+    
+    // ------------------------------------------------------------------------
+    // Extension methods
+    // ------------------------------------------------------------------------
+    
     /**
      * manipulate the cms fields of the decorated class
      *
      * @param FieldSet &$fields the field set of cms fields
      * 
+     * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
-     * @return void
      */
     public function updateCMSFields(FieldSet &$fields) {
         parent::updateCMSFields($fields);
-        //i18n for enum values of Salutation
+        
         $fields->removeByName('Salutation');
         $values = array(
             'Herr' => _t('SilvercartAddress.MISTER'),
             'Frau' => _t('SilvercartAddress.MISSES')
         );
-        $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomerRole.SALUTATION'), $values);
+        $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomer.SALUTATION'), $values);
         $fields->insertBefore($salutationDropdown, 'FirstName');
     }
-
+    
+    /**
+     * Defines additional searchable fields.
+     *
+     * @param array &$fields The searchable fields from the decorated object
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2011
+     */
+    public function updateSearchableFields(&$fields) {
+        $fields['CustomerNumber'] = array(
+            'title'     => _t('SilvercartCustomer.CUSTOMERNUMBER'),
+            'filter'    => 'PartialMatchFilter'
+        );
+    }
+    
     /**
      * overwrite the summary fields
      *
@@ -130,13 +154,17 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      */
     public function updateSummaryFields(&$fields) {
         $fields = array(
-            'CustomerNumber'    => _t('SilvercartCustomerRole.CUSTOMERNUMBER', 'Customernumber'),
+            'CustomerNumber'    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
             'FirstName'         => _t('Member.FIRSTNAME'),
             'Surname'           => _t('Member.SURNAME'),
-            'ClassName'         => _t('SilvercartCustomerRole.TYPE', 'type'),
+            'ClassName'         => _t('SilvercartCustomer.TYPE', 'type'),
         );
     }
-
+    
+    // ------------------------------------------------------------------------
+    // Regular methods
+    // ------------------------------------------------------------------------
+    
     /**
      * Creates an anonymous customer if there's no currentMember object.
      *
@@ -148,8 +176,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     public static function createAnonymousCustomer() {
         $member = Member::currentUser();
         
-        if ($member == false) {
-            $member = new SilvercartAnonymousCustomer();
+        if (!$member) {
+            $member = new Member();
             $member->write();
             
             // Add customer to intermediate group
@@ -168,6 +196,34 @@ class SilvercartCustomerRole extends DataObjectDecorator {
     }
     
     /**
+     * Returns the Member object if the current Member is an anonymous
+     * customer.
+     * If the user is not logged in or the Member is not anonymous boolean
+     * false will be returned.
+     *
+     * @return mixed Member|boolean false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2011
+     */
+    public static function currentAnonymousCustomer() {
+        $isAnonymousCustomer = false;
+        $member              = Member::currentUser();
+        
+        if ($member) {
+            if ($member->Groups()->find('Code', 'anonymous')) {
+                $isAnonymousCustomer = true;
+            }
+        }
+        
+        if ($isAnonymousCustomer) {
+            return $member;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Function similar to Member::currentUser(); Determins if we deal with a
      * registered customer who has opted in. Returns the member object or
      * false.
@@ -178,33 +234,33 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      * @since 18.10.2010
      */
     public static function currentRegisteredCustomer() {
-        $member             = Member::currentUser();
-        $isInCustomerGroup  = false;
+        $member                 = Member::currentUser();
+        $isRegisteredCustomer   = false;
         
-        if ($member) {
+        if ($member &&
+            $member->Groups()) {
             
             if ($member->Groups()->find('Code', 'b2c') ||
                 $member->Groups()->find('Code', 'b2b')) {
-                $isInCustomerGroup = true;
+                
+                $isRegisteredCustomer = true;
             }
-            
-            if ($member->ClassName == "SilvercartRegularCustomer" ||
-                $member->ClassName == 'SilvercartBusinessCustomer' ||
-                $isInCustomerGroup) {
-
-                return $member;
-            }
-        } else {
-            return false;
         }
+        
+        if ($isRegisteredCustomer) {
+            return $member;
+        }
+        
+        return false;
     }
-
+    
     /**
-     * Get the customers shopping cart or create one if it doesn¬¥t exist yet. "Get me a cart, I don¬¥t care how!"
+     * Get the customers shopping cart or create one if it doesn't exist yet.
      * 
      * @return SilvercartShoppingCart
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 18.10.2010
      */
     public function getCart() {
         if ($this->owner->SilvercartShoppingCartID == 0 ||
@@ -216,6 +272,34 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         }
         
         return $this->owner->SilvercartShoppingCart();
+    }
+    
+    /**
+     * Defines which attributes of an object can be accessed via api
+     * 
+     * @return SearchContext
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.11.2010
+     */
+    public static function getRestfulSearchContext() {
+        $fields = new FieldSet(
+            array(
+                new TextField(
+                    'Email'
+                )
+            )
+        );
+
+        $filters = array(
+            'Email' => new ExactMatchFilter('Email')
+        );
+
+        return new SearchContext(
+            'Member',
+            $fields,
+            $filters
+        );
     }
     
     /**
@@ -242,8 +326,8 @@ class SilvercartCustomerRole extends DataObjectDecorator {
         
         return $this->owner->SilvercartCustomerConfig();
     }
-
-    /**
+    
+     /**
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
@@ -252,48 +336,72 @@ class SilvercartCustomerRole extends DataObjectDecorator {
      */
     public function showPricesGross() {
         $pricetype = SilvercartConfig::Pricetype();
+        
         if ($pricetype == "gross") {
             return true;
         } else {
             return false;
         }
     }
-
+    
+    // ------------------------------------------------------------------------
+    // Hooks
+    // ------------------------------------------------------------------------
+    
     /**
-     * standard hook
+     * If the user is not anonymous a customer number is attributed to the
+     * Member if none is yet given.
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
      * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2011
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        
+        if (!self::currentAnonymousCustomer()) {
+            if (empty($this->owner->CustomerNumber)) {
+                $this->owner->CustomerNumber = SilvercartNumberRange::useReservedNumberByIdentifier('CustomerNumber');
+            }
+        }
+    }
+    
+    /**
+     * Attributes a shopping cart to the Member if none is attributed yet.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2011
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
+        
+        if ($this->owner->SilvercartShoppingCartID === null) {
+            $cart = new SilvercartShoppingCart();
+            $cart->write();
+            $this->owner->SilvercartShoppingCartID = $cart->ID;
+            $this->owner->write();
+        }
     }
-
+    
     /**
-     * defines which attributes of an object that can be accessed via api
-     * 
-     * @return SearchContext ???
+     * Delete the attributed shopping cart if existant.
+     *
+     * @return void
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 3.11.2010
+     * @since 10.10.2011
      */
-    public static function getRestfulSearchContext() {
-        $fields = new FieldSet(
-            array(
-                new TextField(
-                    'Email'
-                )
-            )
-        );
-
-        $filters = array(
-            'Email' => new ExactMatchFilter('Email')
-        );
-
-        return new SearchContext(
-            'Member',
-            $fields,
-            $filters
-        );
+    public function onAfterDelete() {
+        parent::onAfterDelete();
+        
+        if ($this->owner->SilvercartShoppingCartID !== null) {
+            $cart = DataObject::get_by_id('SilvercartShoppingCart', $this->owner->SilvercartShoppingCartID);
+            if ($cart) {
+                $cart->delete();
+            }
+        }
     }
 }

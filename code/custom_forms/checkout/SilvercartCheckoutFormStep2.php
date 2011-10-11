@@ -86,7 +86,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
      */
     public function isCustomerLoggedIn() {
         $isLoggedIn = false;
-        if (SilvercartCustomerRole::currentRegisteredCustomer()) {
+        if (SilvercartCustomer::currentRegisteredCustomer()) {
             $isLoggedIn = true;
         }
         return $isLoggedIn;

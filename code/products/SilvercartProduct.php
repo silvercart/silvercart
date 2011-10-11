@@ -1145,7 +1145,7 @@ class SilvercartProduct extends DataObject {
             return false;
         }
 
-        $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
+        $filter               = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
         $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if (!$shoppingCartPosition) {

@@ -351,7 +351,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                                           $formData['BirthdayDay'];
 
         // Create new regular customer and perform a log in
-        $customer = new SilvercartRegularCustomer();
+        $customer = new Member();
 
         // Pass shoppingcart to registered customer and delete the anonymous
         // customer.

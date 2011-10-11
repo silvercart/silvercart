@@ -137,10 +137,10 @@ class SilvercartNewsletter extends DataObject {
     /**
      * Checks if the given email address is allocated by a registered
      * regular customer.
-     *
-     * @return boolean
-     *
+     * 
      * @param string $email The email address to check
+     * 
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -148,14 +148,18 @@ class SilvercartNewsletter extends DataObject {
     public static function isEmailAllocatedByRegularCustomer($email) {
         $emailIsAllocated = false;
         $regularCustomer  = DataObject::get_one(
-            'SilvercartRegularCustomer',
+            'Member',
             sprintf(
                 "Email = '%s'",
                 $email
             )
         );
         
-        if ($regularCustomer) {
+        if ( $regularCustomer &&
+            ($regularCustomer->Groups()->find('Code', 'b2b') ||
+             $regularCustomer->Groups()->find('Code', 'b2c'))
+            ) {
+            
             $emailIsAllocated = true;
         }
         
@@ -166,9 +170,9 @@ class SilvercartNewsletter extends DataObject {
      * Checks if the given email address is allocated by an anonymous
      * newsletter subscriber.
      *
-     * @return boolean
-     *
      * @param string $email The email address to check
+     * 
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011

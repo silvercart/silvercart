@@ -118,7 +118,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @since 22.03.2011
      */
     protected function fillInFieldValues() {
-        $member = SilvercartCustomerRole::currentRegisteredCustomer();
+        $member = SilvercartCustomer::currentRegisteredCustomer();
 
         $this->clearSessionMessages();
 
@@ -182,7 +182,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @since 22.03.2011
      */
     protected function submitSuccess($data, $form, $formData) {
-        $member = SilvercartCustomerRole::currentRegisteredCustomer();
+        $member = SilvercartCustomer::currentRegisteredCustomer();
 
         if ($member) {
             // ----------------------------------------------------------------
