@@ -32,27 +32,7 @@
  * @since 20.10.2010
  */
 class SilvercartCountry extends DataObject {
-
-    /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $singular_name = "country";
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $plural_name = "countries";
+    
     /**
      * Attributes.
      *
@@ -267,6 +247,7 @@ class SilvercartCountry extends DataObject {
         $fields = parent::getCMSFields();
         $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartZones');
+        $fields->removeByName('Locale');//Field comes from Translatable
 
         $paymentMethodsTable = new ManyManyComplexTableField(
             $this,
