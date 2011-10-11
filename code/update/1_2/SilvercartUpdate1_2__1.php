@@ -22,18 +22,17 @@
  */
 
 /**
- * Update 1.1 - 1
- * This update adjusts the newsletter opt-in status of existing customers
- * according to their classname and their opt-in-status.
+ * Update 1.2 - 1
+ * This update moves all Member objects without ClassName to the Member class.
  *
  * @package Silvercart
  * @subpackage Update
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright pixeltricks GmbH
- * @since 26.08.2011
+ * @since 11.10.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartUpdate1_1__1 extends SilvercartUpdate {
+class SilvercartUpdate1_2__1 extends SilvercartUpdate {
 
     /**
      * Set the defaults for this update.
@@ -41,40 +40,41 @@ class SilvercartUpdate1_1__1 extends SilvercartUpdate {
      * @var array
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.08.2011
+     * @since 11.10.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'         => '1.1',
+        'SilvercartVersion'         => '1.2',
         'SilvercartUpdateVersion'   => '1',
-        'Description'               => 'This update adjusts the newsletter opt-in status of existing customers according to their classname and their opt-in-status.',
+        'Description'               => 'This update moves all Member objects without ClassName to the Member class and deletes the group ""',
     );
-
+    
     /**
      * Executes the update logic.
      *
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.08.2011
+     * @since 11.10.2011
      */
     public function executeUpdate() {
-        if (class_exists('SilvercartRegularCustomer')) {
-            $className = 'SilvercartRegularCustomer';
-        } else {
-            $className = 'Member';
-        }
-        $members = DataObject::get($className);
+        $members = DataObject::get('Member');
         
-        // Set the newsletter opt-in status according to the class of the customers
-        if ($members) {
-            foreach ($members as $member) {
-                if ($member->hasField('OptInStatus') &&
-                    $member->ClassName == $className &&
-                    $member->OptInStatus) {
-
-                    $member->NewsletterOptInStatus = 1;
-                    $member->write();
+        foreach ($members as $member) {
+            if (empty($member->ClassName)) {
+                $member->ClassName = 'Member';
+                
+                if ($member->Groups()->Count() == 0) {
+                    $anonymousGroup = DataObject::get_one(
+                        'Group',
+                        "Code = 'anonymous'"
+                    );
+                    
+                    if ($anonymousGroup) {
+                        $member->Groups()->add($anonymousGroup);
+                    }
                 }
+                
+                $member->write();
             }
         }
         

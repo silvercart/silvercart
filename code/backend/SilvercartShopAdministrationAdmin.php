@@ -68,9 +68,6 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
             'record_controller'     => 'SilvercartProductExportAdmin_RecordController'
         ),
         'SilvercartManufacturer',
-        'SilvercartRegularCustomer',
-        'SilvercartBusinessCustomer',
-        'SilvercartAnonymousCustomer',
         'SilvercartGoogleMerchantTaxonomy' => array(
             'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
         )

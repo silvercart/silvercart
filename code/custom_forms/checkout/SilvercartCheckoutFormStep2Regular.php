@@ -141,7 +141,7 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
         // --------------------------------------------------------------------
         // Insert values from customers saved addresses
         // --------------------------------------------------------------------
-        $member = SilvercartCustomerRole::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
+        $member = SilvercartCustomer::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
         if ($member) {
             $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->map();
             $this->formFields['ShippingAddress']['value'] = $member->SilvercartAddresses()->map();

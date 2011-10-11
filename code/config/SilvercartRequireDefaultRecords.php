@@ -56,20 +56,20 @@ class SilvercartRequireDefaultRecords extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        // Create an own group for SilvercartAnonymousCustomer. The group is identified by "Code", so its name can be changed via backend.
+        // Create an own group for anonymous customers
         $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
         if (!$anonymousGroup) {
             $anonymousGroup = new Group();
-            $anonymousGroup->Title = _t('SilvercartAnonymousCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
+            $anonymousGroup->Title = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
             $anonymousGroup->Code = "anonymous";
             $anonymousGroup->write();
         }
 
-        // Create an own group for b2b customers. The group is identified by "Code", so its name can be changed via backend.
+        // Create an own group for b2b customers
         $B2Bgroup = DataObject::get_one('Group', "`Code` = 'b2b'");
         if (!$B2Bgroup) {
             $B2Bgroup = new Group();
-            $B2Bgroup->Title = _t('SilvercartBusinessCustomer.BUSINESSCUSTOMER', 'business customer');
+            $B2Bgroup->Title = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
             $B2Bgroup->Code = "b2b";
             $B2Bgroup->write();
         }
@@ -78,7 +78,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2c'");
         if (!$B2Cgroup) {
             $B2Cgroup = new Group();
-            $B2Cgroup->Title = _t('SilvercartRegularCustomer.REGULARCUSTOMER', 'regular customer');
+            $B2Cgroup->Title = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
             $B2Cgroup->Code = "b2c";
             $B2Cgroup->write();
         }
@@ -448,9 +448,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $registerConfirmationPage->Title = _t('SilvercartRegisterConfirmationPage.TITLE', 'register confirmation page');
             $registerConfirmationPage->URLSegment = _t('SilvercartRegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
             $registerConfirmationPage->Content = _t('SilvercartRegisterConfirmationPage.CONTENT');
-            $registerConfirmationPage->ConfirmationFailureMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
-            $registerConfirmationPage->ConfirmationSuccessMessage = _t('SilvercartRegisterConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
-            $registerConfirmationPage->AlreadyConfirmedMessage = _t('SilvercartRegisterConfirmationPage.ALREADYCONFIRMEDMESSAGE');
             $registerConfirmationPage->Status = "Published";
             $registerConfirmationPage->ParentID = $registrationPage->ID;
             $registerConfirmationPage->ShowInMenus = false;
@@ -458,19 +455,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $registerConfirmationPage->IdentifierCode = "SilvercartRegisterConfirmationPage";
             $registerConfirmationPage->write();
             $registerConfirmationPage->publish("Stage", "Live");
-
-            //create a registration welcome page as a child of the registration page+
-            $registrationWelcomePage = new Page();
-            $registrationWelcomePage->Title = _t('SilvercartPage.WELCOME_PAGE_TITLE', 'welcome');
-            $registrationWelcomePage->URLSegment = _t('SilvercartPage.WELCOME_PAGE_URL_SEGMENT');
-            $registrationWelcomePage->Content = _t('SilvercartRegisterWelcomePage.CONTENT');
-            $registrationWelcomePage->Status = "Published";
-            $registrationWelcomePage->ParentID = $registrationPage->ID;
-            $registrationWelcomePage->ShowInMenus = false;
-            $registrationWelcomePage->ShowInSearch = false;
-            $registrationWelcomePage->IdentifierCode = "RegistrationWelcomePage";
-            $registrationWelcomePage->write();
-            $registrationWelcomePage->publish("Stage", "Live");
 
             //create a silvercart search results page as a child of the silvercart root
             $searchResultsPage = new SilvercartSearchResultsPage();
