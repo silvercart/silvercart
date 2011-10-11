@@ -351,8 +351,8 @@ class SilvercartConfig extends DataObject {
             'PricetypeAdmins' => _t('SilvercartConfig.PRICETYPE_ADMINS', 'Pricetype administrators')
         );
         $pricetypeDropdownValues = array(
-            'gross' => _t('SilvercartCustomerRole.GROSS'),
-            'net' => _t('SilvercartCustomerRole.NET')
+            'gross' => _t('SilvercartCustomer.GROSS'),
+            'net' => _t('SilvercartCustomer.NET')
         );
         foreach ($pricetypes as $name => $title) {
             $CMSFields->removeByName($name);
@@ -759,33 +759,32 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
-     * determins weather a customer gets prices shown gross or net dependent on customer's class
+     * determins weather a customer gets prices shown gross or net dependent on
+     * customer's class
      *
      * @return string returns "gross" or "net"
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
     public static function Pricetype() {
-            $member = Member::currentUser();
-            $configObject = self::getConfig();
-            if ($member) {
-                switch ($member->ClassName) {
-                    case "SilvercartAnonymousCustomer":
-                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
-                        break;
-                    case "SilvercartRegularCustomer":
-                        self::$priceType = $configObject->PricetypeRegularCustomers;
-                        break;
-                    case "SilvercartBusinessCustomer":
-                        self::$priceType = $configObject->PricetypeBusinessCustomers;
-                        break;
-                    case "Member":
-                        self::$priceType = $configObject->PricetypeAdmins;
-                        break;
-                }
+        $member         = Member::currentUser();
+        $configObject   = self::getConfig();
+
+        if ($member) {
+            if ($member->Groups()->find('Code', 'anonymous')) {
+                self::$priceType = $configObject->PricetypeAnonymousCustomers;
+            } else if ($member->Groups()->find('Code', 'b2b')) {
+                self::$priceType = $configObject->PricetypeBusinessCustomers;
+            } else if ($member->Groups()->find('Code', 'b2c')) {
+                self::$priceType = $configObject->PricetypeRegularCustomers;
             } else {
                 self::$priceType = $configObject->PricetypeAnonymousCustomers;
             }
+        } else {
+            self::$priceType = $configObject->PricetypeAnonymousCustomers;
+        }
+            
         return self::$priceType;
     }
 
@@ -1189,7 +1188,7 @@ class SilvercartConfig extends DataObject {
     /**
      * Checks if the installation is complete. We assume a complete
      * installation if the Member table has the field "SilvercartShoppingCartID"
-     * that is decorated via "SilvercartCustomerRole".
+     * that is decorated via "SilvercartCustomer".
      * 
      * @return boolean
      * 

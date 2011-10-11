@@ -162,7 +162,7 @@ class SilvercartShoppingCart extends DataObject {
         //  
         // Check if the installation is complete. If it's not complete we
         // can't call the method "Member::currentUser()", since it tries to
-        // get the decorated fields from SilvercartCustomerRole that are not
+        // get the decorated fields from SilvercartCustomer that are not
         // yet created in the database
         if (!SapphireTest::is_running_test() && 
             SilvercartConfig::isInstallationCompleted() &&
@@ -231,7 +231,7 @@ class SilvercartShoppingCart extends DataObject {
             
             $member = Member::currentUser();
             if (!$member) {
-                $member = SilvercartCustomerRole::createAnonymousCustomer();
+                $member = SilvercartCustomer::createAnonymousCustomer();
             }
 
             if ($member) {

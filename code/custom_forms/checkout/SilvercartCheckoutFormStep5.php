@@ -276,7 +276,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 22.7.2011
      */
     public function showNewsletterCheckbox() {
-        $customer = SilvercartCustomerRole::currentRegisteredCustomer();
+        $customer = SilvercartCustomer::currentRegisteredCustomer();
         if ($customer && $customer->SubscribedToNewsletter == 1) {
             return false;
         }

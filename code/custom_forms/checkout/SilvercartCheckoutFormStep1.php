@@ -79,7 +79,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @since 08.04.2011
      */
     public function isConditionForDisplayFulfilled() {
-        if (SilvercartCustomerRole::currentRegisteredCustomer()) {
+        if (SilvercartCustomer::currentRegisteredCustomer()) {
             return false;
         }
 

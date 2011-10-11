@@ -483,10 +483,10 @@ class SilvercartPage_Controller extends ContentController {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.11.2010
      * @since 13.05.2011 - replaced logic with call to the appropriate method
-     *                     in the SilvercartCustomerRole object (SK).
+     *                     in the SilvercartRole object (SK).
      */
     public function CurrentRegisteredCustomer() {
-        return SilvercartCustomerRole::currentRegisteredCustomer();
+        return SilvercartCustomer::currentRegisteredCustomer();
     }
 
     /**

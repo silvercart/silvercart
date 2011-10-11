@@ -110,7 +110,7 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         $member   = Member::currentUser();
         
         if (!$member) {
-            $member = SilvercartCustomerRole::createAnonymousCustomer();
+            $member = SilvercartCustomer::createAnonymousCustomer();
         }
         
         if ($member) {

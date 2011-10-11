@@ -148,14 +148,18 @@ class SilvercartNewsletter extends DataObject {
     public static function isEmailAllocatedByRegularCustomer($email) {
         $emailIsAllocated = false;
         $regularCustomer  = DataObject::get_one(
-            'SilvercartRegularCustomer',
+            'Member',
             sprintf(
                 "Email = '%s'",
                 $email
             )
         );
         
-        if ($regularCustomer) {
+        if ( $regularCustomer &&
+            ($regularCustomer->Groups()->find('Code', 'b2b') ||
+             $regularCustomer->Groups()->find('Code', 'b2c'))
+            ) {
+            
             $emailIsAllocated = true;
         }
         
