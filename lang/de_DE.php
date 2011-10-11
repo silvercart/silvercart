@@ -822,7 +822,6 @@ $lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_
 
 $lang['de_DE']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Gesamtbetrag brutto';
 $lang['de_DE']['SilvercartOrder']['AMOUNTTOTAL'] = 'Gesamtbetrag';
-$lang['de_DE']['SilvercartOrder']['CARRIERANDSHIPPINGMETHODTITLE'] = 'Versandart';
 $lang['de_DE']['SilvercartOrder']['CUSTOMER'] = 'Kunde';
 $lang['de_DE']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Emailadresse des Kunden';
 $lang['de_DE']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Gebühren der Bezahlart';

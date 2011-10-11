@@ -822,7 +822,6 @@ $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_
 
 $lang['en_GB']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Total gross amount';
 $lang['en_GB']['SilvercartOrder']['AMOUNTTOTAL'] = 'Total amount';
-$lang['en_GB']['SilvercartOrder']['CARRIERANDSHIPPINGMETHODTITLE'] = 'Shipping method';
 $lang['en_GB']['SilvercartOrder']['CUSTOMER'] = 'Customer';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
 $lang['en_GB']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Payment handling costs';

@@ -53,8 +53,6 @@ class SilvercartOrder extends DataObject {
         'TaxAmountShipment'             => 'Float',
         'Note'                          => 'Text',
         'WeightTotal'                   => 'Int', //unit is gramm
-        'CarrierAndShippingMethodTitle' => 'VarChar(100)',
-        'PaymentMethodTitle'            => 'VarChar(100)',
         'CustomersEmail'                => 'VarChar(60)',
         'OrderNumber'                   => 'VarChar(128)',
     );
@@ -238,9 +236,9 @@ class SilvercartOrder extends DataObject {
                 'TaxAmountShipment'             => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
                 'Note'                          => _t('SilvercartOrder.NOTE'),
                 'WeightTotal'                   => _t('SilvercartOrder.WEIGHTTOTAL'),
-                'CarrierAndShippingMethodTitle' => _t('SilvercartOrder.CARRIERANDSHIPPINGMETHODTITLE'),
-                'PaymentMethodTitle'            => _t('SilvercartOrder.PAYMENTMETHODTITLE'),
-                'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL')
+                'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL'),
+                'SilvercartPaymentMethod'       => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -350,6 +348,22 @@ class SilvercartOrder extends DataObject {
         $fields->removeByName('Silvercart Products');
         $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
         $fields->removeByName('SilvercartAddresses');
+        $fields->removeByName('SilvercartShippingMethod');
+        
+        //shipping fee dropdown
+        $fields->removeByName('SilvercartShippingFeeID');
+        $shippingFees = DataObject::get('SilvercartShippingFee');
+        if ($shippingFees) {
+            $shippingFeesDropdown = new DropdownField(
+                    'SilvercartShippingFeeID',
+                    _t('SilvercartShippingFee.SINGULARNAME'),
+                    $shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'),
+                    $this->SilvercartShippingFeeID,
+                    null,
+                    _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                    );
+            $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
+        }
         $fields->makeFieldReadonly('OrderNumber');
         $fields->makeFieldReadonly('Version');
 
@@ -648,7 +662,6 @@ class SilvercartOrder extends DataObject {
 
         if ($paymentMethodObj) {
             $this->SilvercartPaymentMethodID = $paymentMethodObj->ID;
-            $this->PaymentMethodTitle = $paymentMethodObj->Name;
             $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->getAmount());
             $this->HandlingCostPayment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
@@ -804,7 +817,6 @@ class SilvercartOrder extends DataObject {
 
         if ($selectedShippingMethod) {
             $this->SilvercartShippingMethodID    = $selectedShippingMethod->ID;
-            $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
             $this->SilvercartShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->Price->getAmount());
             $this->HandlingCostShipment->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -1099,7 +1111,7 @@ class SilvercartOrder extends DataObject {
     /**
      * returns handling fee for choosen payment method
      *
-     * @return float
+     * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

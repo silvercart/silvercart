@@ -318,5 +318,27 @@ class SilvercartShippingFee extends DataObject {
 
         return $taxRate;
     }
+    
+    /**
+     * helper method for displaying a fee in a dropdown menu
+     *
+     * @return false|string [carrier] - [shipping method] (+[fee amount][currency])
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.10.2011
+     */
+    public function getFeeWithCarrierAndShippingMethod() {
+        if ($this->SilvercartShippingMethod()) {
+            $carrier = "";
+            if ($this->SilvercartShippingMethod()->SilvercartCarrier()) {
+                $carrier = $this->SilvercartShippingMethod()->SilvercartCarrier()->Title;
+            }
+            $shippingMethod = $this->SilvercartShippingMethod()->Title;
+            $shippingFeeAmountAsString = number_format($this->Price->getAmount(), 2, ',', '') .$this->Price->getCurrency();
+            
+            return $carrier . "-" . $shippingMethod . "(+" . $shippingFeeAmountAsString . ")";
+        }
+        return false;
+    }
 }
 
