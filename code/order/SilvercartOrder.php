@@ -348,7 +348,7 @@ class SilvercartOrder extends DataObject {
         $fields->removeByName('Silvercart Products');
         $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
         $fields->removeByName('SilvercartAddresses');
-        $fields->removeByName('SilvercartShippingMethod');
+        $fields->removeByName(_t('SilvercartShippingMethod.SINGULARNAME'));
         
         //shipping fee dropdown
         $fields->removeByName('SilvercartShippingFeeID');
