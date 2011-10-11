@@ -45,7 +45,7 @@ class SilvercartUpdate1_2__1 extends SilvercartUpdate {
     public static $defaults = array(
         'SilvercartVersion'         => '1.2',
         'SilvercartUpdateVersion'   => '1',
-        'Description'               => 'This update moves all Member objects without ClassName to the Member class and deletes the group ""',
+        'Description'               => 'This update moves all Member objects without ClassName to the Member class.',
     );
     
     /**
