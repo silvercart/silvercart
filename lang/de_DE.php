@@ -151,6 +151,7 @@ $lang['de_DE']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Nach oben schieben';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Nicht zugewiesene Felder';
 
+$lang['de_DE']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']        = 'Sie erhalten den Newsletter erst, wenn Sie den Bestätigungslink in der Ihnen zugeschickten Email aufrufen.';
 $lang['de_DE']['SilvercartNewsletter']['SUBSCRIBED']                        = 'Sie haben den Newsletter abonniert';
 $lang['de_DE']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'Sie haben den Newsletter nicht abonniert';
 $lang['de_DE']['SilvercartNewsletterPage']['TITLE']                         = 'Newsletter';

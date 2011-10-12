@@ -151,6 +151,7 @@ $lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Move up';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Not attributed fields';
 
+$lang['en_GB']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']    = 'You\'ll be on the newsletter recipients list after clicking on the link in the opt-in mail we sent you.';
 $lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You are subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletterPage']['TITLE']                     = 'Newsletter';

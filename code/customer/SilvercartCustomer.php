@@ -352,6 +352,24 @@ class SilvercartCustomer extends DataObjectDecorator {
     }
     
     /**
+     * Indicates wether the customer has finished the newsletter opt-in or not.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function hasFinishedNewsletterOptIn() {
+        $hasFinishedNewsletterOptIn = false;
+        
+        if ($this->owner->NewsletterOptInStatus) {
+            $hasFinishedNewsletterOptIn = true;
+        }
+        
+        return $hasFinishedNewsletterOptIn;
+    }
+    
+    /**
      * Indicates wether the customer has defined only one address to be both
      * invoice and shipping address.
      *
