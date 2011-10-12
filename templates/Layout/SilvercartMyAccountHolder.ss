@@ -103,7 +103,7 @@
 
                     <% control CurrentRegisteredCustomer %>
                         <p>
-                            $Salutation $FirstName $Surname
+                            $TranslatedSalutation $FirstName $Surname
                         </p>
                         <table>
                             <colgroup>

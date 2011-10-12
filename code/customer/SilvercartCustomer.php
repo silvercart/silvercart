@@ -304,6 +304,29 @@ class SilvercartCustomer extends DataObjectDecorator {
     }
     
     /**
+     * Returns the translated salutation.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function getTranslatedSalutation() {
+        $salutation = '';
+        
+        switch ($this->owner->Salutation) {
+            case 'Frau':
+                $salutation = _t('SilvercartAddress.MISSES');
+                break;
+            case 'Herr':
+                $salutation = _t('SilvercartAddress.MISTER');
+                break;
+        }
+            
+        return $salutation;
+    }
+    
+    /**
      * Get the customer's configuration object or create one if it doesn't
      * exist yet.
      *

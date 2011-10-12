@@ -158,7 +158,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE');
 
         $member = Member::currentUser();
-        #var_dump(date('d', strtotime($member->Birthday)));die();
+        
         if ($member) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
             $this->formFields['FirstName']['value'] = $member->FirstName;
