@@ -3,7 +3,8 @@
 form.yform input,
 form.yform textarea,
 form.yform select {
-    font-family:                    arial, sans-serif;
+    font-family:                    verdana, sans-serif;
+    line-height:                    100%;
 }
 
 form.yform .type-button {
@@ -15,10 +16,10 @@ form.yform .type-button input[type="submit"],
 form.yform .type-button input.action[type="submit"],
 form.yform .type-button input.submit {
     float:                          right;
+    height:                         30px;
     margin:                         0px 0px 0px 4px;
     padding:                        4px 10px;
-    
-    font-size:                      12px;
+    font-size:                      11px;
     color:                          #fff;
     background:                     #407e95;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
@@ -49,7 +50,14 @@ form.yform input[type="text"] {
     padding:                        2px 4px;
 }
 form.yform .type-button .silvercart-button {
-    margin:                         7px 0px 0px 0px;
+    margin:                         0px;
+}
+form.yform .type-button .silvercart-button a {
+    line-height:                    28px;
+    height:                         28px;
+    padding-top:                    0px;
+    padding-bottom:                 0px;
+    vertical-align:                 middle;
 }
 
 /* Quicksearch form -------------------------------------------------------- */
@@ -97,9 +105,8 @@ form.yform .type-button .silvercart-button {
     float:                          left;
 }
 #silvercart-quicksearch-form form.yform input.action { /* Submit button */
-    padding:                        3px 10px 3px 10px;
-    
-    font-size:                      12px;
+    height:                         25px;
+    font-size:                      11px;
     color:                          #fff;
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
@@ -110,6 +117,7 @@ form.yform .type-button .silvercart-button {
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    padding:                        0px 10px;
 }
 #silvercart-quicksearch-form form.yform input.action:hover {
     cursor:                         pointer;

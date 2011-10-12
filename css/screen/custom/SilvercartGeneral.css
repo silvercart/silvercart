@@ -259,15 +259,15 @@ p.silvercart-message.vdistance {
 .silvercart-button a,
 .silvercart-button-small a {
     line-height:                    100%;
-    font-size:                      12px;
+    font-size:                      11px;
     text-align:                     center;
-    color:                          #fff;
-    background:                     #555;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#777), to(#444)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #777,  #444); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #777,  #444); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#777', endColorstr='#444'); /* for IE */
-    border:                         1px #444 solid;
+    color:                          #333;
+    background:                     #eee;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fff), to(#d9d9d9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #fff,  #d9d9d9); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #fff,  #d9d9d9); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#d9d9d9'); /* for IE */
+    border:                         1px #999 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
@@ -275,12 +275,12 @@ p.silvercart-message.vdistance {
 .silvercart-button a:hover,
 .silvercart-button-small a:hover {
     text-decoration:                none;
-    color:                          #fff;
-    background-color:               #444;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#666), to(#333)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #666,  #333); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #666,  #333); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#333'); /* for IE */
+    color:                          #000;
+    background-color:               #ddd;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#eee), to(#c9c9c9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #eee,  #c9c9c9); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #eee,  #c9c9c9); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eee', endColorstr='#c9c9c9'); /* for IE */
 }
 .silvercart-button-small {
     float:                          right;

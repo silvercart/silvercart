@@ -41,7 +41,7 @@
                             <th>&nbsp;</th>
                         <% end_if %>
                         
-                        <th<% if Top.EditableShoppingCart %> colspan="3"<% end_if %> class="left"><% _t('SilvercartProductPage.QUANTITY') %></th>
+                        <th<% if Top.EditableShoppingCart %> colspan="3"<% end_if %> class="right"><% _t('SilvercartProductPage.QUANTITY') %></th>
                         
                         <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
 

@@ -1,19 +1,14 @@
 .silvercart-product-group-page-control-top .silvercart-product-group-page-controls {
     margin:                         0px 0px 10px 0px;
     padding:                        0px 0px 6px 0px;
-    
-    border-bottom:                  1px #ddd dotted;
 }
 .silvercart-product-group-page-control-bottom .silvercart-product-group-page-controls {
     margin:                         10px 0px 0px 0px;
     padding:                        6px 0px 0px 0px;
-    
-    border-top:                     1px #ddd dotted;
 }
 
 .silvercart-product-group-page-controls_content {
     padding:                        4px;
-    
     background:                     #ffffff;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #fafafa,  #ffffff); /* for firefox 3.6+ */ 
@@ -38,7 +33,6 @@
 .silvercart-product-group-page-selectors form.yform {
     margin:                         0px;
     padding:                        0px;
-    
     background:                     none;
     border:                         none;
 }

@@ -59,6 +59,19 @@
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
+    height:                         28px;
+    padding:                        0px 8px;
+    line-height:                    100%;
+    font-size:                      11px;
+    border:                         1px #333 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-product-page .silvercart-product-group-add-cart-form input.text:hover,
+.silvercart-product-page .silvercart-product-group-add-cart-form input.text:focus {
+    color:                          #000;
+    background-color:               #ddd;
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form form.yform label {
     display:                        none;

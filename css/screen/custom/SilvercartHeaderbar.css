@@ -31,10 +31,12 @@
 }
 #silvercart-headerbar .silvercart-button a {
     float:                          left;
-    padding:                        5px 10px 6px 10px;
-    
-    font-size:                      12px;
+    height:                         23px;
+    padding:                        0px 10px;
+    font-size:                      11px;
+    line-height:                    23px;
     text-decoration:                none;
+    vertical-align:                 middle;
     color:                          #fff;
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
