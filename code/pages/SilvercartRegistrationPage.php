@@ -81,7 +81,6 @@ class SilvercartRegistrationPage extends Page {
 
         return $fields;
     }
-
 }
 
 /**
@@ -112,5 +111,4 @@ class SilvercartRegistrationPage_Controller extends Page_Controller {
         $this->registerCustomHtmlForm('SilvercartRegisterRegularCustomerForm', new SilvercartRegisterRegularCustomerForm($this));
         parent::init();
     }
-
 }

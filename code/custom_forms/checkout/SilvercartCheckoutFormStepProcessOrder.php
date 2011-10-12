@@ -130,6 +130,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         $order->setPaymentMethod($checkoutData['PaymentMethod']);
         $order->setNote($customerNote);
         $order->setWeight();
+        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions']);
+        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction']);
         $order->createFromShoppingCart();
 
         $order->createShippingAddress($shippingData);

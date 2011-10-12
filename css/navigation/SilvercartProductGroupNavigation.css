@@ -1,13 +1,14 @@
 #silvercart-productgroup-navigation {
-    border-top:                     1px #b6b0ab solid;
+    border-top:                     1px #175072 solid;
 }
 #silvercart-productgroup-navigation .hlist {
     border:                         none;
-    border-top:                     1px #aaa5a0 solid;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#aaa5a0), to(#beb8b3)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #aaa5a0,  #beb8b3); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #aaa5a0,  #beb8b3); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#aaa5a0', endColorstr='#beb8b3'); /* for IE */
+    border-top:                     1px #3f7d94 solid;
+    background:                     #3f7d94;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#3f7d94), to(#175072)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #3f7d94, #175072); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #3f7d94,  #175072); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f7d94', endColorstr='#175072'); /* for IE */
     padding:                        1px 0px 0px 0px;
 }
 #silvercart-productgroup-navigation .hlist ul {
@@ -21,32 +22,32 @@
 #silvercart-productgroup-navigation .hlist ul li a {
     font-size:                      13px;
     font-weight:                    normal;
-    color:                          #4f4a4b;
+    color:                          #fff;
     margin:                         0px;
     padding:                        4px 10px;
 }
 #silvercart-productgroup-navigation .hlist ul li a:hover {
     background-color:               #e4e1dd;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#e4e1dd), to(#fff)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #e4e1dd,  #fff); /* for firefox 3.6+ */ 
+    background:                     -moz-linear-gradient(top,  #3f7d94,  #4d98b4); /* for firefox 3.6+ */ 
     background:                     -o-linear-gradient(top,  #e4e1dd,  #fff); /* for opera */ 
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e1dd', endColorstr='#ffffff'); /* for IE */
 }
 #silvercart-productgroup-navigation .hlist ul li:hover {
-    border-top-color:               #86827e;
-    background:                     #86827e;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#86827e), to(#aea9a4)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #86827e,  #aea9a4); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #86827e,  #aea9a4); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#86827e', endColorstr='#aea9a4'); /* for IE */
+    border-top-color:               #4d98b4;
+    background:                     #6cb7d3;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#4d98b4), to(#6cb7d3)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #4d98b4,  #6cb7d3); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #4d98b4,  #6cb7d3); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#4d98b4', endColorstr='#6cb7d3'); /* for IE */
 }
 #silvercart-productgroup-navigation .hlist ul li.active {
     border-top-color:               #0f517b;
     background:                     #0f517b;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#0f517b), to(#76a7c7)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #0f517b,  #76a7c7); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #0f517b,  #76a7c7); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f517b', endColorstr='#76a7c7'); /* for IE */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#0f517b), to(#5e9bc1)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #0f517b,  #5e9bc1); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #0f517b,  #5e9bc1); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f517b', endColorstr='#5e9bc1'); /* for IE */
     box-shadow:                     #666 0px -4px 0px -0px -4px;
 }
 #silvercart-productgroup-navigation .hlist ul li.active a {

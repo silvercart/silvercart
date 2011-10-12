@@ -111,28 +111,29 @@ class SilvercartConfig extends DataObject {
      * @since 27.06.2011
      */
     public static $db = array(
-        'SilvercartVersion'             => 'VarChar(16)',
-        'SilvercartUpdateVersion'       => 'VarChar(16)',
-        'DefaultCurrency'               => 'VarChar(16)',
-        'EmailSender'                   => 'VarChar(255)',
-        'GlobalEmailRecipient'          => 'VarChar(255)',
-        'PricetypeAnonymousCustomers'   => 'VarChar(6)',
-        'PricetypeRegularCustomers'     => 'VarChar(6)',
-        'PricetypeBusinessCustomers'    => 'VarChar(6)',
-        'PricetypeAdmins'               => 'VarChar(6)',
-        'enableSSL'                     => 'Boolean(0)',
-        'productsPerPage'               => 'Int',
-        'productGroupsPerPage'          => 'Int',
-        'displayTypeOfProductAdmin'     => 'Enum("Flat,Tabbed","Tabbed")',
-        'minimumOrderValue'             => 'Money',
-        'useMinimumOrderValue'          => 'Boolean(0)',
-        'disregardMinimumOrderValue'    => 'Boolean(0)',
-        'useApacheSolrSearch'           => 'Boolean(0)',
-        'apacheSolrUrl'                 => 'VarChar(255)',
-        'apacheSolrPort'                => 'Int',
-        'enableStockManagement'         => 'Boolean(0)',
-        'isStockManagementOverbookable' => 'Boolean(0)',
-        'redirectToCartAfterAddToCart'  => 'Boolean(0)',
+        'SilvercartVersion'                 => 'VarChar(16)',
+        'SilvercartUpdateVersion'           => 'VarChar(16)',
+        'DefaultCurrency'                   => 'VarChar(16)',
+        'EmailSender'                       => 'VarChar(255)',
+        'GlobalEmailRecipient'              => 'VarChar(255)',
+        'PricetypeAnonymousCustomers'       => 'VarChar(6)',
+        'PricetypeRegularCustomers'         => 'VarChar(6)',
+        'PricetypeBusinessCustomers'        => 'VarChar(6)',
+        'PricetypeAdmins'                   => 'VarChar(6)',
+        'enableSSL'                         => 'Boolean(0)',
+        'productsPerPage'                   => 'Int',
+        'productGroupsPerPage'              => 'Int',
+        'displayTypeOfProductAdmin'         => 'Enum("Flat,Tabbed","Tabbed")',
+        'minimumOrderValue'                 => 'Money',
+        'useMinimumOrderValue'              => 'Boolean(0)',
+        'disregardMinimumOrderValue'        => 'Boolean(0)',
+        'useApacheSolrSearch'               => 'Boolean(0)',
+        'apacheSolrUrl'                     => 'VarChar(255)',
+        'apacheSolrPort'                    => 'Int',
+        'enableStockManagement'             => 'Boolean(0)',
+        'isStockManagementOverbookable'     => 'Boolean(0)',
+        'redirectToCartAfterAddToCart'      => 'Boolean(0)',
+        'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -199,22 +200,23 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $apacheSolrPort                = null;
-    public static $apacheSolrUrl                 = null;
-    public static $defaultCurrency               = null;
-    public static $emailSender                   = null;
-    public static $globalEmailRecipient          = null;
-    public static $priceType                     = null;
-    public static $config                        = null;
-    public static $enableSSL                     = null;
-    public static $minimumOrderValue             = null;
-    public static $disregardMinimumOrderValue    = null;
-    public static $useMinimumOrderValue          = null;
-    public static $productsPerPage               = null;
-    public static $useApacheSolrSearch           = null;
-    public static $enableStockManagement         = null;
-    public static $isStockManagementOverbookable = null;
-    public static $redirectToCartAfterAddToCart  = null;
+    public static $apacheSolrPort                   = null;
+    public static $apacheSolrUrl                    = null;
+    public static $defaultCurrency                  = null;
+    public static $emailSender                      = null;
+    public static $globalEmailRecipient             = null;
+    public static $priceType                        = null;
+    public static $config                           = null;
+    public static $enableSSL                        = null;
+    public static $minimumOrderValue                = null;
+    public static $disregardMinimumOrderValue       = null;
+    public static $useMinimumOrderValue             = null;
+    public static $productsPerPage                  = null;
+    public static $useApacheSolrSearch              = null;
+    public static $enableStockManagement            = null;
+    public static $isStockManagementOverbookable    = null;
+    public static $redirectToCartAfterAddToCart     = null;
+    public static $demandBirthdayDateOnRegistration = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -460,20 +462,21 @@ class SilvercartConfig extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['DefaultCurrency']               = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
-        $fieldLabels['EmailSender']                   = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
-        $fieldLabels['GlobalEmailRecipient']          = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
-        $fieldLabels['enableSSL']                     = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
-        $fieldLabels['enableStockManagement']         = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
-        $fieldLabels['minimumOrderValue']             = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
-        $fieldLabels['disregardMinimumOrderValue']    = _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value');
-        $fieldLabels['useMinimumOrderValue']          = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
-        $fieldLabels['productsPerPage']               = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
-        $fieldLabels['productGroupsPerPage']          = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
-        $fieldLabels['useApacheSolrSearch']           = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
-        $fieldLabels['apacheSolrPort']                = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
-        $fieldLabels['apacheSolrUrl']                 = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
-        $fieldLabels['isStockManagementOverbookable'] = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
+        $fieldLabels['DefaultCurrency']                     = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
+        $fieldLabels['EmailSender']                         = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
+        $fieldLabels['GlobalEmailRecipient']                = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $fieldLabels['enableSSL']                           = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
+        $fieldLabels['enableStockManagement']               = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
+        $fieldLabels['minimumOrderValue']                   = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
+        $fieldLabels['disregardMinimumOrderValue']          = _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value');
+        $fieldLabels['useMinimumOrderValue']                = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
+        $fieldLabels['productsPerPage']                     = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
+        $fieldLabels['productGroupsPerPage']                = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
+        $fieldLabels['useApacheSolrSearch']                 = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
+        $fieldLabels['apacheSolrPort']                      = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
+        $fieldLabels['apacheSolrUrl']                       = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
+        $fieldLabels['isStockManagementOverbookable']       = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
+        $fieldLabels['demandBirthdayDateOnRegistration']    = _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?');
         return $fieldLabels;
     }
 
@@ -588,6 +591,21 @@ class SilvercartConfig extends DataObject {
             self::$defaultCurrency = self::getConfig()->DefaultCurrency;
         }
         return self::$defaultCurrency;
+    }
+    
+    /**
+     * Indicates wether the birthday date should be demanded on registration.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public static function DemandBirthdayDateOnRegistration() {
+        if (is_null(self::$demandBirthdayDateOnRegistration)) {
+            self::$demandBirthdayDateOnRegistration = self::getConfig()->demandBirthdayDateOnRegistration;
+        }
+        return self::$demandBirthdayDateOnRegistration;
     }
 
     /**

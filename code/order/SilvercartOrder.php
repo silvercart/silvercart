@@ -43,18 +43,20 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'AmountTotal'                   => 'Money', // value of all products
-        'AmountGrossTotal'              => 'Money', // value of all products + transaction fee
-        'HandlingCostPayment'           => 'Money',
-        'HandlingCostShipment'          => 'Money',
-        'TaxRatePayment'                => 'Int',
-        'TaxRateShipment'               => 'Int',
-        'TaxAmountPayment'              => 'Float',
-        'TaxAmountShipment'             => 'Float',
-        'Note'                          => 'Text',
-        'WeightTotal'                   => 'Int', //unit is gramm
-        'CustomersEmail'                => 'VarChar(60)',
-        'OrderNumber'                   => 'VarChar(128)',
+        'AmountTotal'                       => 'Money', // value of all products
+        'AmountGrossTotal'                  => 'Money', // value of all products + transaction fee
+        'HandlingCostPayment'               => 'Money',
+        'HandlingCostShipment'              => 'Money',
+        'TaxRatePayment'                    => 'Int',
+        'TaxRateShipment'                   => 'Int',
+        'TaxAmountPayment'                  => 'Float',
+        'TaxAmountShipment'                 => 'Float',
+        'Note'                              => 'Text',
+        'WeightTotal'                       => 'Int', //unit is gramm
+        'CustomersEmail'                    => 'VarChar(60)',
+        'OrderNumber'                       => 'VarChar(128)',
+        'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
+        'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
     );
 
     /**
@@ -217,28 +219,30 @@ class SilvercartOrder extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ID'                            => _t('SilvercartOrder.ORDER_ID'),
-                'Created'                       => _t('SilvercartPage.ORDER_DATE'),
-                'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
-                'SilvercartShippingFee'         => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                          => _t('SilvercartPage.REMARKS'),
-                'Member'                        => _t('SilvercartOrder.CUSTOMER', 'customer'),
-                'SilvercartShippingAddress'     => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'SilvercartInvoiceAddress'      => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'SilvercartOrderStatus'         => _t('SilvercartOrder.STATUS', 'order status'),
-                'AmountTotal'                   => _t('SilvercartOrder.AMOUNTTOTAL'),
-                'AmountGrossTotal'              => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
-                'HandlingCostPayment'           => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
-                'HandlingCostShipment'          => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
-                'TaxRatePayment'                => _t('SilvercartOrder.TAXRATEPAYMENT'),
-                'TaxRateShipment'               => _t('SilvercartOrder.TAXRATESHIPMENT'),
-                'TaxAmountPayment'              => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
-                'TaxAmountShipment'             => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
-                'Note'                          => _t('SilvercartOrder.NOTE'),
-                'WeightTotal'                   => _t('SilvercartOrder.WEIGHTTOTAL'),
-                'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL'),
-                'SilvercartPaymentMethod'       => _t('SilvercartPaymentMethod.SINGULARNAME'),
-                'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME')
+                'ID'                                => _t('SilvercartOrder.ORDER_ID'),
+                'Created'                           => _t('SilvercartPage.ORDER_DATE'),
+                'OrderNumber'                       => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+                'SilvercartShippingFee'             => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+                'Note'                              => _t('SilvercartPage.REMARKS'),
+                'Member'                            => _t('SilvercartOrder.CUSTOMER', 'customer'),
+                'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'SilvercartOrderStatus'             => _t('SilvercartOrder.STATUS', 'order status'),
+                'AmountTotal'                       => _t('SilvercartOrder.AMOUNTTOTAL'),
+                'AmountGrossTotal'                  => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCostPayment'               => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
+                'HandlingCostShipment'              => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
+                'TaxRatePayment'                    => _t('SilvercartOrder.TAXRATEPAYMENT'),
+                'TaxRateShipment'                   => _t('SilvercartOrder.TAXRATESHIPMENT'),
+                'TaxAmountPayment'                  => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
+                'TaxAmountShipment'                 => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
+                'Note'                              => _t('SilvercartOrder.NOTE'),
+                'WeightTotal'                       => _t('SilvercartOrder.WEIGHTTOTAL'),
+                'CustomersEmail'                    => _t('SilvercartOrder.CUSTOMERSEMAIL'),
+                'SilvercartPaymentMethod'           => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartShippingMethod'          => _t('SilvercartShippingMethod.SINGULARNAME'),
+                'HasAcceptedTermsAndConditions'     => _t('SilvercartOrder.HAS_ACCEPTED_TERMS_AND_CONDITIONS'),
+                'HasAcceptedRevocationInstruction'  => _t('SilvercartOrder.HAS_ACCEPTED_REVOCATION_INSTRUCTION')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -439,7 +443,7 @@ class SilvercartOrder extends DataObject {
     public function createFromShoppingCart() {
         $member = Member::currentUser();
         $this->MemberID = $member->ID;
-
+        
         // VAT tax for shipping and payment fees
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
         if ($shippingMethod) {
@@ -797,6 +801,42 @@ class SilvercartOrder extends DataObject {
             $email = $email;
         }
         $this->CustomersEmail = $email;
+    }
+    
+    /**
+     * Set the status of the revocation instructions checkbox field.
+     *
+     * @return void
+     *
+     * @param boolean $status The status of the field
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function setHasAcceptedRevocationInstruction($status) {
+        if ($status == 1) {
+            $status = true;
+        }
+        
+        $this->setField('HasAcceptedRevocationInstruction', $status);
+    }
+    
+    /**
+     * Set the status of the terms and conditions checkbox field.
+     *
+     * @return void
+     *
+     * @param boolean $status The status of the field
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function setHasAcceptedTermsAndConditions($status) {
+        if ($status == 1) {
+            $status = true;
+        }
+        
+        $this->setField('HasAcceptedTermsAndConditions', $status);
     }
 
     /**
