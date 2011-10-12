@@ -1133,6 +1133,7 @@ $lang['en_US']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce 
 $lang['en_US']['SilvercartShopEmail']['HELLO'] = 'Hello';
 $lang['en_US']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
 $lang['en_US']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
+$lang['en_US']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your Order in Our Online Store';
 
 $lang['en_US']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_US']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
