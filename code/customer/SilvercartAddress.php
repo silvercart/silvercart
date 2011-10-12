@@ -155,6 +155,29 @@ class SilvercartAddress extends DataObject {
             )
         );
     }
+    
+    /**
+     * Indicates wether this address is set as a standard address for shipping
+     * or invoicing.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function isStandardAddress() {
+        $isStandardAddress = false;
+        
+        if ($this->ID > 0) {
+            if (Member::currentUser()->SilvercartInvoiceAddressID == $this->ID ||
+                Member::currentUser()->SilvercartShippingAddressID == $this->ID) {
+
+                $isStandardAddress = true;
+            }
+        }
+        
+        return $isStandardAddress;
+    }
 
     /**
      * Returns the localized salutation string.
@@ -194,4 +217,25 @@ class SilvercartAddress extends DataObject {
         return $this->ID == Member::currentUser()->SilvercartShippingAddressID;
     }
 
+    /**
+     * Indicates if this is both an invoice and shipping address.
+     *
+     * @return bool
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.11.2011
+     */
+    public function isInvoiceAndShippingAddress() {
+        $isInvoiceAndShippingAddress = false;
+        
+        if ($this->ID > 0) {
+            if (Member::currentUser()->SilvercartInvoiceAddressID == $this->ID &&
+                Member::currentUser()->SilvercartShippingAddressID == $this->ID) {
+
+                $isInvoiceAndShippingAddress = true;
+            }
+        }
+        
+        return $isInvoiceAndShippingAddress;
+    }
 }

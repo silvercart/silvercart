@@ -104,6 +104,8 @@ $lang['en_US']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Excuse us,
 $lang['en_US']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Excuse us, but You have not added a delivery address yet.';
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'Invoice address';
 $lang['en_US']['SilvercartAddressHolder']['INVOICEADDRESS_TAB'] = 'Invoiceaddress';
+$lang['en_US']['SilvercartAddressHolder']['INVOICEANDSHIPPINGADDRESS'] = 'Invoice and shipping address';
+$lang['en_US']['SilvercartAddressHolder']['NOT_DEFINED'] = 'Not defined yet';
 $lang['en_US']['SilvercartAddressHolder']['PLURALNAME'] = 'Address Holders';
 $lang['en_US']['SilvercartAddressHolder']['SET_AS'] = 'Set as';
 $lang['en_US']['SilvercartAddressHolder']['SET_DEFAULT_INVOICE'] = 'Set as invoice address';
@@ -149,6 +151,7 @@ $lang['en_US']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Move up';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Not attributed fields';
 
+$lang['en_US']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']    = 'You\'ll be on the newsletter recipients list after clicking on the link in the opt-in mail we sent you.';
 $lang['en_US']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You are subscribed to the newsletter';
 $lang['en_US']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
 $lang['en_US']['SilvercartNewsletterPage']['TITLE']                     = 'Newsletter';

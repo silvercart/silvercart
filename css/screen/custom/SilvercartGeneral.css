@@ -224,6 +224,9 @@ p.silvercart-message.highlighted.error48 {
     background-color: #efefef;
     line-height: 48px;
 }
+p.silvercart-message.vdistance {
+    margin:                         8px 0px;
+}
 
 /* Buttons ----------------------------------------------------------------- */
 
