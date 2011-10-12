@@ -128,9 +128,9 @@ class SilvercartCustomer extends DataObjectDecorator {
     /**
      * Defines additional searchable fields.
      *
-     * @return void
-     *
      * @param array &$fields The searchable fields from the decorated object
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 10.10.2011

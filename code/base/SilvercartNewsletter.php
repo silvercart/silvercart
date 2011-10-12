@@ -137,10 +137,10 @@ class SilvercartNewsletter extends DataObject {
     /**
      * Checks if the given email address is allocated by a registered
      * regular customer.
-     *
-     * @return boolean
-     *
+     * 
      * @param string $email The email address to check
+     * 
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -170,9 +170,9 @@ class SilvercartNewsletter extends DataObject {
      * Checks if the given email address is allocated by an anonymous
      * newsletter subscriber.
      *
-     * @return boolean
-     *
      * @param string $email The email address to check
+     * 
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
