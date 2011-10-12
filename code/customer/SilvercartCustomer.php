@@ -351,6 +351,26 @@ class SilvercartCustomer extends DataObjectDecorator {
         return $this->owner->SilvercartCustomerConfig();
     }
     
+    /**
+     * Indicates wether the customer has defined only one address to be both
+     * invoice and shipping address.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function hasOnlyOneStandardAddress() {
+        $hasOnlyOneStandardAddress = false;
+        
+        if ($this->owner->SilvercartInvoiceAddressID == $this->owner->SilvercartShippingAddressID &&
+            $this->owner->SilvercartInvoiceAddressID > 0) {
+            $hasOnlyOneStandardAddress = true;
+        }
+        
+        return $hasOnlyOneStandardAddress;
+    }
+    
      /**
      * used to determine weather something should be shown on a template or not
      *

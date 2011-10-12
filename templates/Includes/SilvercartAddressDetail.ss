@@ -13,7 +13,7 @@
                     <div class="subcolumns">
                         <div class="c66l">
                             <div class="silvercart-address-field_content">
-                                $SalutaionText $FirstName $Surname<br/>
+                                $SalutationText $FirstName $Surname<br/>
                                 $Street $StreetNumber<br/>
                                 $Postcode $City<br/>
                                 $SilvercartCountry.Title<br/>
@@ -37,36 +37,36 @@
                     <div class="subcolumns silvercart-address-bottom">
                         <div class="c50l">
                             <div class="silvercart-button-row left clearfix">
-        <% if isInvoiceAddress %>
-                                <p class="silvercart-message">
-                                    <strong>
-                                        <% _t('SilvercartAddressHolder.DEFAULT_INVOICE','This is your invoice address') %>
-                                    </strong>
-                                </p>
-        <% else %>
-                                <div class="silvercart-button left">
-                                    <div class="silvercart-button_content">
-                                        <a href="{$Top.Link}setInvoiceAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
+                                <% if isInvoiceAddress %>
+                                    <p class="silvercart-message">
+                                        <strong>
+                                            <% _t('SilvercartAddressHolder.DEFAULT_INVOICE','This is your invoice address') %>
+                                        </strong>
+                                    </p>
+                                <% else %>
+                                    <div class="silvercart-button left">
+                                        <div class="silvercart-button_content">
+                                            <a href="{$Top.Link}setInvoiceAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
+                                        </div>
                                     </div>
-                                </div>
-        <% end_if %>
+                                <% end_if %>
                             </div>
                         </div>
                         <div class="c50r">
                             <div class="silvercart-button-row right clearfix">
-        <% if isShippingAddress %>
-                                <p class="silvercart-message">
-                                    <strong>
-                                        <% _t('SilvercartAddressHolder.DEFAULT_SHIPPING','This is your shipping address') %>
-                                    </strong>
-                                </p>
-        <% else %>
-                                <div class="silvercart-button right">
-                                    <div class="silvercart-button_content">
-                                        <a href="{$Top.Link}setShippingAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
+                                <% if isShippingAddress %>
+                                    <p class="silvercart-message">
+                                        <strong>
+                                            <% _t('SilvercartAddressHolder.DEFAULT_SHIPPING','This is your shipping address') %>
+                                        </strong>
+                                    </p>
+                                <% else %>
+                                    <div class="silvercart-button right">
+                                        <div class="silvercart-button_content">
+                                            <a href="{$Top.Link}setShippingAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
+                                        </div>
                                     </div>
-                                </div>
-        <% end_if %>
+                                <% end_if %>
                             </div>
                         </div>
                     </div>
