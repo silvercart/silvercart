@@ -209,8 +209,13 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $invoiceAddress['hasAddressData']       = true;
         }
         
-        if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
-            $invoiceAddress['isInvoiceAndShippingAddress'] = true;
+        if (array_key_exists('InvoiceAddress',$checkoutData) &&
+            array_key_exists('ShippingAddress',$checkoutData)) {
+            
+        
+            if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
+                $invoiceAddress['isInvoiceAndShippingAddress'] = true;
+            }
         }
         
         $addressData = new ArrayData(
