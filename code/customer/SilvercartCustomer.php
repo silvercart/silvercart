@@ -241,7 +241,8 @@ class SilvercartCustomer extends DataObjectDecorator {
             $member->Groups()) {
             
             if ($member->Groups()->find('Code', 'b2c') ||
-                $member->Groups()->find('Code', 'b2b')) {
+                $member->Groups()->find('Code', 'b2b') ||
+                $member->Groups()->find('Code', 'administrators')) {
                 
                 $isRegisteredCustomer = true;
             }
