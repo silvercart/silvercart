@@ -109,9 +109,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             $defaultStatusEntries = array(
                 'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment'),
-                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed'),
-                'paypal_refunding' => _t('SilvercartOrderStatus.PAYPAL_REFUNDING', 'paypal refunding'),
-                'paypal_pending' => _t('SilvercartOrderStatus.PAYPAL_PENDING', 'paypal pending')
+                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
