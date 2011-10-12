@@ -42,7 +42,11 @@
             <div class="hidden-form" id="silvercart-add-address-form">
                 $insertCustomHtmlForm(SilvercartAddAddressForm)
             </div>
-            <a href="{$Link}addNewAddress" class="silvercart-icon-with-text-button big add16" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+            <div class="silvercart-button">
+                <div class="silvercart-button_content">
+                    <a href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+                </div>
+            </div>
             <% require javascript(silvercart/script/SilvercartAddressHolder.js) %>
             
         <% else %>

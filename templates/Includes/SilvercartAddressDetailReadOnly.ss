@@ -11,7 +11,7 @@
             <% end_if %>
         <% end_if %>
 
-        <% if isStandardAddress %>
+        <% if hasAddressData %>
             <br />
             $SalutationText $FirstName $Surname<br/>
             $Street $StreetNumber<br/>

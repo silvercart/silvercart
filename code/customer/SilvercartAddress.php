@@ -165,18 +165,14 @@ class SilvercartAddress extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.10.2011
      */
-    public function isStandardAddress() {
-        $isStandardAddress = false;
+    public function hasAddressData() {
+        $hasAddressData = false;
         
         if ($this->ID > 0) {
-            if (Member::currentUser()->SilvercartInvoiceAddressID == $this->ID ||
-                Member::currentUser()->SilvercartShippingAddressID == $this->ID) {
-
-                $isStandardAddress = true;
-            }
+            $hasAddressData = true;
         }
         
-        return $isStandardAddress;
+        return $hasAddressData;
     }
 
     /**

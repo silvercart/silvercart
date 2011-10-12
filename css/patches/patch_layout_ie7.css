@@ -1,0 +1,18 @@
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS framework
+ * (en) IE patch stylesheet
+ * (de) IE-Anpassungs-Stylesheet
+ *
+ * @creator       YAML Builder V1.2 (http://builder.yaml.de)
+ * @file          patch_my_layout.css
+ * @-yaml-minver  3.2
+ */
+
+/* Layout independent adjustments | Layout-unabhängige Anpassungen  */
+@import url(../../yaml/core/iehacks.css);
+
+/* Layout-dependent adjustments | Layout-abhängige Anpassungen */
+@media screen, projection {
+    /* SilverCart Headerbar ---------------------------------------------------- */
+
+}
