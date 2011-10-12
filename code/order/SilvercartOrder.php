@@ -241,8 +241,8 @@ class SilvercartOrder extends DataObject {
                 'CustomersEmail'                    => _t('SilvercartOrder.CUSTOMERSEMAIL'),
                 'SilvercartPaymentMethod'           => _t('SilvercartPaymentMethod.SINGULARNAME'),
                 'SilvercartShippingMethod'          => _t('SilvercartShippingMethod.SINGULARNAME'),
-                'HasAcceptedTermsAndConditions'     => _t('SilvercartOrder.HAS_ACCEPTED_TERMS_AND_CONDITIONS'),
-                'HasAcceptedRevocationInstruction'  => _t('SilvercartOrder.HAS_ACCEPTED_REVOCATION_INSTRUCTION')
+                'HasAcceptedTermsAndConditions'     => _t('SilvercartOrder.HASACCEPTEDTERMSANDCONDITIONS'),
+                'HasAcceptedRevocationInstruction'  => _t('SilvercartOrder.HASACCEPTEDREVOCATIONINSTRUCTION')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);

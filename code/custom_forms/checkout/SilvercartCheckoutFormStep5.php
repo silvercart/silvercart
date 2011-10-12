@@ -236,8 +236,12 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $hasOnlyOneStandardAddress = false;
         $checkoutData              = $this->controller->getCombinedStepData();
         
-        if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
-            $hasOnlyOneStandardAddress = true;
+        if (array_key_exists('InvoiceAddress',$checkoutData) &&
+            array_key_exists('ShippingAddress',$checkoutData)) {
+            
+            if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
+                $hasOnlyOneStandardAddress = true;
+            }
         }
         
         return $hasOnlyOneStandardAddress;
