@@ -1136,6 +1136,7 @@ $lang['de_DE']['SilvercartShopEmail']['YOUR_TEAM'] = 'Ihr SilverCart Webshop Tea
 $lang['de_DE']['SilvercartShopEmail']['HELLO'] = 'Hallo';
 $lang['de_DE']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'Zusätzliche Empfänger';
 $lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'Ihre Bestellung ist soeben bei uns eingegangen, vielen Dank.';
+$lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Ihre Bestellung in unserem Webshop';
 
 $lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
 $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';

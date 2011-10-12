@@ -541,7 +541,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         if (!$checkOrderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderConfirmation');
-            $orderMail->setField('Subject',      'Ihre Bestellung in unserem Webshop');
+            $orderMail->setField('Subject', _t('SilvercartShopEmail.ORDER_ARRIVED_EMAIL_SUBJECT'));
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
             if (is_file($defaultTemplateFile)) {
