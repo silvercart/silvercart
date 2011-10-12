@@ -3,10 +3,11 @@
 }
 #silvercart-productgroup-navigation .hlist {
     border:                         none;
-    border-top:                     1px #c5bfba solid;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#beb8b3), to(#d8d1cb)); /* for webkit browsers */
+    border-top:                     1px #aaa5a0 solid;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#aaa5a0), to(#beb8b3)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #aaa5a0,  #beb8b3); /* for firefox 3.6+ */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#beb8b3', endColorstr='#d8d1cb'); /* for IE */
+    background:                     -o-linear-gradient(top,  #aaa5a0,  #beb8b3); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#aaa5a0', endColorstr='#beb8b3'); /* for IE */
     padding:                        1px 0px 0px 0px;
 }
 #silvercart-productgroup-navigation .hlist ul {
@@ -25,16 +26,18 @@
     padding:                        4px 10px;
 }
 #silvercart-productgroup-navigation .hlist ul li a:hover {
-    background-color:               #d8d4d0;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#beb8b3), to(#d8d1cb)); /* for webkit browsers */
+    background-color:               #e4e1dd;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#e4e1dd), to(#fff)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #e4e1dd,  #fff); /* for firefox 3.6+ */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#beb8b3', endColorstr='#d8d1cb'); /* for IE */
+    background:                     -o-linear-gradient(top,  #e4e1dd,  #fff); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e1dd', endColorstr='#ffffff'); /* for IE */
 }
 #silvercart-productgroup-navigation .hlist ul li:hover {
     border-top-color:               #86827e;
     background:                     #86827e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#86827e), to(#aea9a4)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #86827e,  #aea9a4); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #86827e,  #aea9a4); /* for opera */ 
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#86827e', endColorstr='#aea9a4'); /* for IE */
 }
 #silvercart-productgroup-navigation .hlist ul li.active {
@@ -42,6 +45,7 @@
     background:                     #0f517b;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#0f517b), to(#76a7c7)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #0f517b,  #76a7c7); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #0f517b,  #76a7c7); /* for opera */ 
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f517b', endColorstr='#76a7c7'); /* for IE */
     box-shadow:                     #666 0px -4px 0px -0px -4px;
 }
@@ -50,6 +54,7 @@
     background:                     #fff;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#fff)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #d4e2e8,  #fff); /* for firefox 3.6+ */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#fff'); /* for IE */
+    background:                     -o-linear-gradient(top,  #d4e2e8,  #fff); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#ffffff'); /* for IE */
     
 }

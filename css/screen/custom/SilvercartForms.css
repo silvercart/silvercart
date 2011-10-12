@@ -209,9 +209,9 @@ form.yform .type-button .silvercart-button a {
     text-align:                     right;
     padding:                        0px 6px 0px 0px;
 }
-#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit button */
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit and cancel buttons */
+    height:                         30px;
     padding:                        3px 10px 3px 10px;
-    
     font-size:                      12px;
     color:                          #fff;
     background-color:               #42403e;

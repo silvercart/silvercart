@@ -61,7 +61,8 @@
     width:                          2em;
     height:                         28px;
     padding:                        0px 8px;
-    line-height:                    100%;
+    line-height:                    28px;
+    vertical-align:                 middle;
     font-size:                      11px;
     border:                         1px #333 solid;
     border-radius:                  3px;
