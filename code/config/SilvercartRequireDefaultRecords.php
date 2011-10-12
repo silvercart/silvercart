@@ -698,12 +698,14 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $manufacturer->Title = 'Testmanufacturer';
             $manufacturer->URL = 'http://www.silvercart.org/';
             $manufacturer->write();
+            
             //create product groups
             for ($i = 1; $i <= 4; $i++) {
                 $productGroup = new SilvercartProductGroupPage();
                 $productGroup->Title = 'TestProductGroup' . $i;
                 $productGroup->URLSegment = 'testgroup' . $i;
                 $productGroup->Status = "Published";
+                $productGroup->IdentifierCode = 'TestProductGroup' . $i;
                 $productGroup->ParentID = $silvercartProductGroupHolder->ID;
                 $productGroup->ShowInMenus = true;
                 $productGroup->ShowInSearch = true;
@@ -738,6 +740,86 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->write();
                 }
             }
+            
+            // create widget sets
+            
+            $widgetSetFrontPageContentArea = new WidgetArea();
+            $widgetSetFrontPageContentArea->write();
+            
+            $widgetSetFrontPageContent = new SilvercartWidgetSet();
+            $widgetSetFrontPageContent->setField('Title', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT_TITLE'));
+            $widgetSetFrontPageContent->setField('WidgetAreaID', $widgetSetFrontPageContentArea->ID);
+            $widgetSetFrontPageContent->write();
+            
+            $widgetSetFrontPageSidebarArea = new WidgetArea();
+            $widgetSetFrontPageSidebarArea->write();
+            
+            $widgetSetFrontPageSidebar = new SilvercartWidgetSet();
+            $widgetSetFrontPageSidebar->setField('Title', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_SIDEBAR_TITLE'));
+            $widgetSetFrontPageSidebar->setField('WidgetAreaID', $widgetSetFrontPageSidebarArea->ID);
+            $widgetSetFrontPageSidebar->write();
+            
+            $widgetSetProductGroupPagesSidebarArea = new WidgetArea();
+            $widgetSetProductGroupPagesSidebarArea->write();
+            
+            $widgetSetProductGroupPagesSidebar = new SilvercartWidgetSet();
+            $widgetSetProductGroupPagesSidebar->setField('Title', _t('SilvercartTestData.WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE'));
+            $widgetSetProductGroupPagesSidebar->setField('WidgetAreaID', $widgetSetProductGroupPagesSidebarArea->ID);
+            $widgetSetProductGroupPagesSidebar->write();
+            
+            // Attribute widget sets to pages
+            $frontPage = SilvercartPage_Controller::PageByIdentifierCode('SilvercartFrontPage');
+            
+            if ($frontPage) {
+                $frontPage->WidgetSetContent()->add($widgetSetFrontPageContent);
+                $frontPage->WidgetSetSidebar()->add($widgetSetFrontPageSidebar);
+            }
+            
+            $productGroupHolderPage = SilvercartPage_Controller::PageByIdentifierCode('SilvercartProductGroupHolder');
+            
+            if ($productGroupHolderPage) {
+                $productGroupHolderPage->WidgetSetSidebar()->add($widgetSetProductGroupPagesSidebar);
+            }
+            
+            // Create Widgets
+            $productGroupPage2 = SilvercartPage_Controller::PageByIdentifierCode('TestProductGroup2');
+            
+            if ($productGroupPage2) {
+                $widgetFrontPageContent1 = new SilvercartProductGroupItemsWidget();
+                $widgetFrontPageContent1->setField('numberOfProductsToShow', '4');
+                $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPage2->ID);
+                $widgetFrontPageContent1->setField('useListView', 0);
+                $widgetFrontPageContent1->setField('isContentView', 1);
+                $widgetFrontPageSidebar1->setField('useSlider', 1);
+                $widgetFrontPageContent1->setField('buildArrows', 0);
+                $widgetFrontPageContent1->setField('buildNavigation', 1);
+                $widgetFrontPageContent1->setField('buildStartStop', 0);
+                $widgetFrontPageContent1->setField('slideDelay', 6000);
+                $widgetFrontPageContent1->setField('transitionEffect', 'fade');
+                $widgetFrontPageContent1->write();
+                
+                $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent1);
+            }
+            
+            $productGroupPage3 = SilvercartPage_Controller::PageByIdentifierCode('TestProductGroup3');
+            
+            if ($productGroupPage3) {
+                $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
+                $widgetFrontPageSidebar1->setField('numberOfProductsToShow', '1');
+                $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupPage3->ID);
+                $widgetFrontPageSidebar1->setField('useSlider', 0);
+                $widgetFrontPageSidebar1->setField('useListView', 1);
+                $widgetFrontPageSidebar1->setField('isContentView', 0);
+                $widgetFrontPageSidebar1->setField('buildArrows', 0);
+                $widgetFrontPageSidebar1->setField('buildNavigation', 1);
+                $widgetFrontPageSidebar1->setField('buildStartStop', 0);
+                $widgetFrontPageSidebar1->setField('slideDelay', 4000);
+                $widgetFrontPageSidebar1->setField('transitionEffect', 'horizontalSlide');
+                $widgetFrontPageSidebar1->write();
+                
+                $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
+            }
+            
             return true;
         }
     }

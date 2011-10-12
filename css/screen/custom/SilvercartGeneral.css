@@ -7,10 +7,10 @@ body {
     font-family:                    verdana, sans-serif;
     color:                          #333;
     background:                     #f1f1f1;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#b5b0a8), to(#f1f1f1)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #b5b0a8,  #f1f1f1); /* for opera */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#b5b0a8', endColorstr='#f1f1f1'); /* for IE */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#dbd5cc), to(#f1f1f1)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #dbd5cc,  #f1f1f1); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #dbd5cc,  #f1f1f1); /* for opera */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#dbd5cc', endColorstr='#f1f1f1'); /* for IE */
 }
 
 #col1 {
@@ -85,7 +85,7 @@ h1 {
 
 .page {
     background:                     #fff;
-    border:                         1px #8d8981 solid;
+    border:                         1px #aaa59c solid;
     border-top:                     none;
     box-shadow:                     #aeaaa1 0px 0px 100px;
 }
@@ -392,7 +392,11 @@ p.silvercart-message.vdistance {
 /* Silvercart header ------------------------------------------------------- */
 
 #silvercart-header {
-    background:                     #efefeb url("/silvercart/css/screen/images/bg_header.png") left bottom repeat-x;
+    background:                     #fafafa;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#fcfdfd), to(#d5e3e8)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #fcfdfd,  #d5e3e8); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #fcfdfd,  #d5e3e8); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfdfd', endColorstr='#d5e3e8'); /* for IE */
 }
 
 #silvercart-shop-claim {

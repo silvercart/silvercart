@@ -1156,6 +1156,10 @@ $lang['en_US']['SilvercartTax']['SINGULARNAME'] = 'Rate';
 $lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pags';
 $lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
+$lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE'] = 'Frontpage content area';
+$lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE'] = 'Frontpage sidebar area';
+$lang['en_US']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE'] = 'product group pages sidebar area';
+
 $lang['en_US']['SilvercartUpdate']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';
 $lang['en_US']['SilvercartUpdate']['SILVERCARTUPDATEVERSION'] = 'Update';
@@ -1229,6 +1233,7 @@ $lang['en_US']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']          
 $lang['en_US']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']   = 'Horizontal slide';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']     = 'Vertical slide';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                 = 'Use listview';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                   = 'Use slider';
 
 $lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';
