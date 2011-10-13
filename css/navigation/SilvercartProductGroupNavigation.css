@@ -28,10 +28,10 @@
 }
 #silvercart-productgroup-navigation .hlist ul li a:hover {
     background-color:               #e4e1dd;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#e4e1dd), to(#fff)); /* for webkit browsers */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#3f7d94), to(#4d98b4)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #3f7d94,  #4d98b4); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #e4e1dd,  #fff); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e1dd', endColorstr='#ffffff'); /* for IE */
+    background:                     -o-linear-gradient(top,  #3f7d94,  #4d98b4); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f7d94', endColorstr='#4d98b4'); /* for IE */
 }
 #silvercart-productgroup-navigation .hlist ul li:hover {
     border-top-color:               #4d98b4;

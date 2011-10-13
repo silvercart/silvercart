@@ -24,10 +24,11 @@
 <div id="col3">
     <div id="col3_content" class="clearfix">
 
-        <div class="silvercart-widget">
-            <div class="silvercart-widget_content">
-                <% control CurrentFormInstance %>
-                    <% if ShowCustomHtmlFormStepNavigation %>
+        <% control CurrentFormInstance %>
+            <% if ShowCustomHtmlFormStepNavigation %>
+                <div class="silvercart-widget">
+                    <div class="silvercart-widget_content">
+                
                         <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
                         <div class="silvercart-widget-content_frame">
                             <ul class="vlist">
@@ -50,10 +51,11 @@
                                 <% end_control %>
                             </ul>
                         </div>
-                    <% end_if %>
-                <% end_control %>
-            </div>
-        </div>
+
+                    </div>
+                </div>
+            <% end_if %>
+        <% end_control %>
 
     </div>
 

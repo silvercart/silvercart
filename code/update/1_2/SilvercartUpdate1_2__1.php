@@ -61,20 +61,18 @@ class SilvercartUpdate1_2__1 extends SilvercartUpdate {
         
         foreach ($members as $member) {
             if (empty($member->ClassName)) {
-                $member->ClassName = 'Member';
-                
-                if ($member->Groups()->Count() == 0) {
-                    $anonymousGroup = DataObject::get_one(
-                        'Group',
-                        "Code = 'anonymous'"
-                    );
-                    
-                    if ($anonymousGroup) {
-                        $member->Groups()->add($anonymousGroup);
-                    }
-                }
-                
+                $member->setField('ClassName', 'Member');
                 $member->write();
+            }
+            if ($member->Groups()->Count() == 0) {
+                $anonymousGroup = DataObject::get_one(
+                    'Group',
+                    "Code = 'anonymous'"
+                );
+
+                if ($anonymousGroup) {
+                    $member->Groups()->add($anonymousGroup);
+                }
             }
         }
         
