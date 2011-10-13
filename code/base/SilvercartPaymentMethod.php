@@ -1043,8 +1043,7 @@ class SilvercartPaymentMethod extends DataObject {
             'ShowOnlyForUsers',
             'Member',
             null,
-            null,
-            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+            null
         );
         $showOnlyForUsersTable->setPermissions(array('show'));
         $showNotForUsersTable = new ManyManyComplexTableField(
@@ -1052,8 +1051,7 @@ class SilvercartPaymentMethod extends DataObject {
             'ShowNotForUsers',
             'Member',
             null,
-            null,
-            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+            null
         );
         $showNotForUsersTable->setPermissions(array('show'));
         

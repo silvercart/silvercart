@@ -212,9 +212,12 @@ class SilvercartPage_Controller extends ContentController {
                 Requirements::themedCSS('content');
                 Requirements::themedCSS('forms');
                 Requirements::themedCSS('patch_forms');
-                Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                          'silvercart_ie7patch_begin');
-                Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
-                Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_ie7patch_end');
+                Requirements::insertHeadTags('<!--[if lte IE 8]>',                                                                          'silvercart_iepatch_begin');
+                Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_iepatch');
+                Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_iepatch_end');
+                Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                              'silvercart_ie7patch_begin');
+                Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout_ie7.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
+                Requirements::insertHeadTags('<![endif]-->',                                                                                    'silvercart_ie7patch_end');
             }
             Requirements::themedCSS('SilvercartAddressHolder');
             Requirements::themedCSS('SilvercartBreadcrumbs');
@@ -483,10 +486,10 @@ class SilvercartPage_Controller extends ContentController {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.11.2010
      * @since 13.05.2011 - replaced logic with call to the appropriate method
-     *                     in the SilvercartCustomerRole object (SK).
+     *                     in the SilvercartRole object (SK).
      */
     public function CurrentRegisteredCustomer() {
-        return SilvercartCustomerRole::currentRegisteredCustomer();
+        return SilvercartCustomer::currentRegisteredCustomer();
     }
 
     /**

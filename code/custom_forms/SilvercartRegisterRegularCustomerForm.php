@@ -168,7 +168,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'checkRequirements' => array(
                 'isFilledIn' => true,
                 'hasMinLength' => 6,
-                'mustNotEqual' => 'FirstName',
+                'mustNotEqual' => 'Email',
             )
         ),
         'PasswordCheck' => array(
@@ -176,20 +176,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'title' => 'Passwort Gegenprüfung',
             'checkRequirements' => array(
                 'mustEqual' => 'Password'
-            )
-        ),
-        'HasAcceptedTermsAndConditions' => array(
-            'type' => 'CheckboxField',
-            'title' => 'Ich akzeptiere die allgemeinen Geschäftsbedingungen',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'HasAcceptedRevocationInstruction' => array(
-            'type' => 'CheckboxField',
-            'title' => 'Ich habe die Widerrufsbelehrung gelesen',
-            'checkRequirements' => array(
-                'isFilledIn' => true
             )
         ),
         'SubscribedToNewsletter' => array(
@@ -257,8 +243,6 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR');
         $this->formFields['Password']['title'] = _t('SilvercartPage.PASSWORD');
         $this->formFields['PasswordCheck']['title'] = _t('SilvercartPage.PASSWORD_CHECK');
-        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS');
-        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION');
         $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
         $birthdayDays = array(
             '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
@@ -291,6 +275,12 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         if (isset($_GET['backlink'])) {
             $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);
         }
+        
+        if (!$this->demandBirthdayDate()) {
+            unset($this->formFields['BirthdayDay']);
+            unset($this->formFields['BirthdayMonth']);
+            unset($this->formFields['BirthdayYear']);
+        }
     }
 
     /**
@@ -319,6 +309,18 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'errorMessage' => _t('SilvercartPage.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
         );
     }
+    
+    /**
+     * Indicates wether the birthday date has to be entered.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function demandBirthdayDate() {
+        return SilvercartConfig::demandBirthdayDateOnRegistration();
+    }
 
     /**
      * No validation errors occured, so we register the customer and send
@@ -346,12 +348,14 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         // Aggregate Data and set defaults
         $formData['MemberID']           = Member::currentUserID();
         $formData['Locale']             = 'de_DE';
-        $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
-                                          $formData['BirthdayMonth'] . '-' .
-                                          $formData['BirthdayDay'];
+        if ($this->demandBirthdayDate()) {
+            $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
+                                              $formData['BirthdayMonth'] . '-' .
+                                              $formData['BirthdayDay'];
+        }
 
         // Create new regular customer and perform a log in
-        $customer = new SilvercartRegularCustomer();
+        $customer = new Member();
 
         // Pass shoppingcart to registered customer and delete the anonymous
         // customer.

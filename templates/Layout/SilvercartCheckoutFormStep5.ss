@@ -4,27 +4,35 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
 
-    <div class="subcolumns">
-        <div class="c50l">
-            <div class="subcl">
-                <% control AddressData %>
-                    <% control SilvercartInvoiceAddress %>
-                        <% include SilvercartAddressDetailReadOnly %>
+    <% if hasOnlyOneStandardAddress %>
+        <% control AddressData %>
+            <% control SilvercartInvoiceAddress %>
+                <% include SilvercartAddressDetailReadOnly %>
+            <% end_control %>
+        <% end_control %>
+    <% else %>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    <% control AddressData %>
+                        <% control SilvercartInvoiceAddress %>
+                            <% include SilvercartAddressDetailReadOnly %>
+                        <% end_control %>
                     <% end_control %>
-                <% end_control %>
+                </div>
             </div>
-        </div>
 
-        <div class="c50r">
-            <div class="subcr">
-                <% control AddressData %>
-                    <% control SilvercartShippingAddress %>
-                        <% include SilvercartAddressDetailReadOnly %>
+            <div class="c50r">
+                <div class="subcr">
+                    <% control AddressData %>
+                        <% control SilvercartShippingAddress %>
+                            <% include SilvercartAddressDetailReadOnly %>
+                        <% end_control %>
                     <% end_control %>
-                <% end_control %>
+                </div>
             </div>
         </div>
-    </div>
+    <% end_if %>
     <fieldset>
           <legend><% _t('SilvercartPage.REMARKS') %></legend>
           $CustomHtmlFormFieldByName(Note)

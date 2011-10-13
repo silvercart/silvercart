@@ -209,12 +209,12 @@
 
         <tr>
             <td colspan="2"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></td>
-            <td colspan="3"><strong>$CarrierAndShippingMethodTitle</strong></td>
+            <td colspan="3"><strong>$SilvercartShippingMethod.TitleWithCarrier</strong></td>
             <td class="right">$HandlingCostShipment.Nice</td>
         </tr>
         <tr>
             <td colspan="2"><% _t('SilvercartOrder.PAYMENTMETHODTITLE') %></td>
-            <td colspan="3"><strong>$PaymentMethodTitle</strong></td>
+            <td colspan="3"><strong>$SilvercartPaymentMethod.Name</strong></td>
             <td class="right">$HandlingCostPayment.Nice</td>
         </tr>
 

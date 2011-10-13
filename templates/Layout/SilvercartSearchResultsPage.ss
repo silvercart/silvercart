@@ -1,7 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         
-        <h2><% _t('SilvercartSearchResultsPage.TITLE','Suchergebnisse') %></h2>
+        <h2><% _t('SilvercartSearchResultsPage.TITLE','Search Results') %></h2>
         <% if SearchQuery %>
             <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$SearchQuery) %> ($TotalSearchResults <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
         <% end_if %>

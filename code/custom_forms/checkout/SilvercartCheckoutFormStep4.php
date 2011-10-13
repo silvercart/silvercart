@@ -106,7 +106,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                             );
                             $preferences = array(
                                 'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
-                            );
+                                );
                             $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
                             $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
                             $this->addRegisteredNestedForm($registeredNestedForm);

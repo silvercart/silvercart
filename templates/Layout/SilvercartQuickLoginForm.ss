@@ -17,6 +17,4 @@
             $Field
         <% end_control %>
     </div>
-    
-    $CustomHtmlFormErrorMessages
 </form>

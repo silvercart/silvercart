@@ -63,19 +63,20 @@
                     </div>
 
                     <div class="clearfix">
-                        <div class="silvercart-button right">
+                        <div class="silvercart-button left">
                             <div class="silvercart-button_content">
                                 <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                             </div>
                         </div>
-                    </div>
-                    <div class="silvercart-product-group-add-cart-form">
-                        <div class="silvercart-product-group-add-cart-form_content">
-                            <% if isBuyableDueToStockManagementSettings %>
-                                $productAddCartForm
-                            <% else %>
-                                <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
-                            <% end_if %>
+
+                        <div class="silvercart-product-group-add-cart-form">
+                            <div class="silvercart-product-group-add-cart-form_content">
+                                <% if isBuyableDueToStockManagementSettings %>
+                                    $productAddCartForm
+                                <% else %>
+                                    <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
+                                <% end_if %>
+                            </div>
                         </div>
                     </div>
                 </div>

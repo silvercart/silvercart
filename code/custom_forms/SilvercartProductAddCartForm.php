@@ -106,11 +106,8 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             $backLink = $formData['backLink'];
         }
         
-        if (SilvercartShoppingCart::addProduct($formData)) {
-            Director::redirect($backLink, 302);
-        } else {
-            Director::redirect($backLink, 302);
-        }
+        SilvercartShoppingCart::addProduct($formData);
+        Director::redirect($backLink, 302);
     }
 
 }

@@ -56,8 +56,10 @@ jQuery(document).ready(function(){
     // @author Sascha Koehler <skoehler@pixeltricks.de>
     // @since 23.08.2011
     // ------------------------------------------------------------------------
-    if (jQuery(".tab_content")) {
-        jQuery(".tab_content").hide(); //Hide all content
+    var tabContent = jQuery(".tab_content");
+    
+    if (tabContent.length > 0) {
+        tabContent.hide(); //Hide all content
         jQuery("ul.tabs li:first").addClass("active").show(); //Activate first tab
         jQuery(".tab_content:first").show(); //Show first tab content
 
@@ -65,7 +67,7 @@ jQuery(document).ready(function(){
 
             jQuery("ul.tabs li").removeClass("active"); //Remove any "active" class
             jQuery(this).addClass("active"); //Add "active" class to selected tab
-            jQuery(".tab_content").hide(); //Hide all tab content
+            tabContent.hide(); //Hide all tab content
 
             var activeTab = jQuery(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
             activeTab     = activeTab.substr(activeTab.indexOf('#'));

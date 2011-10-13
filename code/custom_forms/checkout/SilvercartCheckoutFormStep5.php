@@ -194,6 +194,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $shippingAddress['country']             = $shippingCountry;
             $shippingAddress['SilvercartCountry']   = $shippingCountry;
             $shippingAddress['isShippingAddress']   = true;
+            $shippingAddress['hasAddressData']      = true;
         }
 
         $invoiceCountry = DataObject::get_by_id(
@@ -205,15 +206,50 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $invoiceAddress['country']              = $invoiceCountry;
             $invoiceAddress['SilvercartCountry']    = $invoiceCountry;
             $invoiceAddress['isInvoiceAddress']     = true;
+            $invoiceAddress['hasAddressData']       = true;
         }
-
+        
+        if (array_key_exists('InvoiceAddress',$checkoutData) &&
+            array_key_exists('ShippingAddress',$checkoutData)) {
+            
+        
+            if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
+                $invoiceAddress['isInvoiceAndShippingAddress'] = true;
+            }
+        }
+        
         $addressData = new ArrayData(
             array(
                 'SilvercartShippingAddress' => $shippingAddress,
                 'SilvercartInvoiceAddress'  => $invoiceAddress
             )
         );
+        
         return $addressData;
+    }
+    
+    /**
+     * Indicates wether the invoice and shipping address are the same
+     * SilvercartAddress object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function hasOnlyOneStandardAddress() {
+        $hasOnlyOneStandardAddress = false;
+        $checkoutData              = $this->controller->getCombinedStepData();
+        
+        if (array_key_exists('InvoiceAddress',$checkoutData) &&
+            array_key_exists('ShippingAddress',$checkoutData)) {
+            
+            if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
+                $hasOnlyOneStandardAddress = true;
+            }
+        }
+        
+        return $hasOnlyOneStandardAddress;
     }
 
     /**
@@ -276,7 +312,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 22.7.2011
      */
     public function showNewsletterCheckbox() {
-        $customer = SilvercartCustomerRole::currentRegisteredCustomer();
+        $customer = SilvercartCustomer::currentRegisteredCustomer();
         if ($customer && $customer->SubscribedToNewsletter == 1) {
             return false;
         }
