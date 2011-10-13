@@ -212,7 +212,7 @@ class SilvercartPage_Controller extends ContentController {
                 Requirements::themedCSS('content');
                 Requirements::themedCSS('forms');
                 Requirements::themedCSS('patch_forms');
-                Requirements::insertHeadTags('<!--[if lte IE 8]>',                                                                          'silvercart_iepatch_begin');
+                Requirements::insertHeadTags('<!--[if lte IE 9]>',                                                                          'silvercart_iepatch_begin');
                 Requirements::insertHeadTags('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',   'silvercart_iepatch');
                 Requirements::insertHeadTags('<![endif]-->',                                                                                'silvercart_iepatch_end');
                 Requirements::insertHeadTags('<!--[if lte IE 7]>',                                                                              'silvercart_ie7patch_begin');
