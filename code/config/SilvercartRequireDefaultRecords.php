@@ -731,7 +731,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $product->MetaTitle = 'Testproduct' . $idx;
                     $product->MetaKeywords = 'Testproduct' . $idx;
                     $product->Weight = 500;
-                    $product->StockQuantity = 1;
+                    $product->StockQuantity = 5;
                     $product->ProductNumberShop = "1000" . $idx;
                     $product->ProductNumberManufacturer = "123000" . $idx;
                     $product->SilvercartProductGroupID = $productGroup->ID;
