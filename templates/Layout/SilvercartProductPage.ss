@@ -64,9 +64,9 @@
                                     </p>
                                     <p>
                                         <small>
-                                            <% if showPricesGross %>
+                                            <% if CurrentPage.showPricesGross %>
                                                 <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                                            <% else_if showPricesNet %>
+                                            <% else_if CurrentPage.showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
                                             <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
