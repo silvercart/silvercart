@@ -740,7 +740,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
             
             // create widget sets
-            
             $widgetSetFrontPageContentArea = new WidgetArea();
             $widgetSetFrontPageContentArea->write();
             
@@ -788,7 +787,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPage2->ID);
                 $widgetFrontPageContent1->setField('useListView', 0);
                 $widgetFrontPageContent1->setField('isContentView', 1);
-                $widgetFrontPageSidebar1->setField('useSlider', 1);
+                $widgetFrontPageContent1->setField('useSlider', 0);
                 $widgetFrontPageContent1->setField('buildArrows', 0);
                 $widgetFrontPageContent1->setField('buildNavigation', 1);
                 $widgetFrontPageContent1->setField('buildStartStop', 0);
@@ -803,7 +802,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             
             if ($productGroupPage3) {
                 $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
-                $widgetFrontPageSidebar1->setField('numberOfProductsToShow', '1');
+                $widgetFrontPageSidebar1->setField('numberOfProductsToShow', '3');
                 $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupPage3->ID);
                 $widgetFrontPageSidebar1->setField('useSlider', 0);
                 $widgetFrontPageSidebar1->setField('useListView', 1);
