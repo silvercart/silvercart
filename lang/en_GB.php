@@ -1245,7 +1245,7 @@ $lang['en_GB']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widg
 $lang['en_GB']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Enter your search term:';
 $lang['en_GB']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 
-$lang['en_GB']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shoppingc art';
+$lang['en_GB']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_GB']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shopping cart';
 $lang['en_GB']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shopping cart. Additionally it provides links to the shopping cart and (if there are products in the cart) the checkout pages.';
 
