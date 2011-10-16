@@ -1124,7 +1124,7 @@ $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_US']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
 
-$lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart administration';
+$lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart Administration';
 
 $lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
 
