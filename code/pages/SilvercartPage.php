@@ -86,8 +86,10 @@ class SilvercartPage extends SiteTree {
         
         $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
         $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
+        $widgetSetSidebarField->setPopupSize(900,600);
         $widgetSetContentlabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
         $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
+        $widgetSetContentField->setPopupSize(900,600);
         
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarLabel);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarField);
