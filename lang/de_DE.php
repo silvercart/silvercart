@@ -1161,9 +1161,18 @@ $lang['de_DE']['SilvercartTax']['SINGULARNAME'] = 'Steuersatz';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'AGB Seiten';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'AGB Seite';
 
-$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE'] = 'Startseite Inhaltsbereich';
-$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE'] = 'Startseite Seitenleiste';
-$lang['de_DE']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE'] = 'Warengruppen Seitenleiste';
+$lang['de_DE']['SilvercartTestData']['CURRENCY']                                    = 'Eur';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE']           = 'Startseite Inhaltsbereich';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE']           = 'Startseite Seitenleiste';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE']   = 'Warengruppen Seitenleiste';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPPAYMENT_TITLE']                   = 'Zahlungsmodule';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPPAYMENT_URLSEGMENT']              = 'zahlungsmodule';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']                 = 'Marketingmodule';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPMARKETING_URLSEGMENT']            = 'marketingmodule';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_TITLE']                  = 'PayPal';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_SHORTDESC']              = 'PayPal ist sicherererer. Für Daten, für Einkäufe - Für alles';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_LONGDESC']               = 'PayPal für Ihren Shop Sie haben einen Online-Shop und fragen sich, warum Sie PayPal anbieten sollen? Ganz einfach: Ihre Kunden bezahlen mit nur zwei Klicks. Sie schließen den Kauf zufrieden ab, kommen gerne wieder - und Sie steigern Ihren Umsatz! Das kann PayPal für Sie tun – und mehr!';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_KEYWORDS']               = 'SilverCart, module, PayPal, payment';
 
 $lang['de_DE']['SilvercartUpdate']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';

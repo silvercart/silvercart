@@ -698,45 +698,92 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $manufacturer->write();
             
             //create product groups
-            for ($i = 1; $i <= 4; $i++) {
-                $productGroup = new SilvercartProductGroupPage();
-                $productGroup->Title = 'TestProductGroup' . $i;
-                $productGroup->URLSegment = 'testgroup' . $i;
-                $productGroup->Status = "Published";
-                $productGroup->IdentifierCode = 'TestProductGroup' . $i;
-                $productGroup->ParentID = $silvercartProductGroupHolder->ID;
-                $productGroup->ShowInMenus = true;
-                $productGroup->ShowInSearch = true;
-                $productGroup->Sort = $i;
-                $productGroup->write();
-                $productGroup->publish("Stage", "Live");
-                //create products
-                for ($idx = 1; $idx <= 50; $idx++) {
-                    $product = new SilvercartProduct();
-                    //relate product to tax
-                    $product->SilvercartTaxID = $taxRateID;
-                    $product->SilvercartManufacturerID = $manufacturer->ID;
-                    $product->Title = 'Testproduct' . $idx;
-                    $product->PriceGross->setAmount($idx * 9 + 0.99);
-                    $product->PriceGross->setCurrency('EUR');
-                    $product->PriceNet->setAmount($idx * 9 + 0.94);
-                    $product->PriceNet->setCurrency('EUR');
-                    $product->MSRPrice->setAmount($idx * 9 + 0.99);
-                    $product->MSRPrice->setCurrency('EUR');
-                    $product->PurchasePrice->setAmount($idx * 9 + 0.99);
-                    $product->PurchasePrice->setCurrency('EUR');
-                    $product->ShortDescription = "This is short description of product $idx";
-                    $product->LongDescription = "This is the long description of product $idx. It is in fact not very long, because I do not know what to write. Perhaps I should copy some lorem ipsum?";
-                    $product->MetaDescription = "This is the long description of product $idx. It is in fact not very long, because I do not know what to write. Perhaps I should copy some lorem ipsum?";
-                    $product->MetaTitle = 'Testproduct' . $idx;
-                    $product->MetaKeywords = 'Testproduct' . $idx;
-                    $product->Weight = 500;
-                    $product->StockQuantity = 5;
-                    $product->ProductNumberShop = "1000" . $idx;
-                    $product->ProductNumberManufacturer = "123000" . $idx;
-                    $product->SilvercartProductGroupID = $productGroup->ID;
-                    $product->write();
-                }
+            $productGroupPayment = new SilvercartProductGroupPage();
+            $productGroupPayment->Title = _t('SilvercartTestData.PRODUCTGROUPPAYMENT_TITLE');
+            $productGroupPayment->URLSegment = _t('SilvercartTestData.PRODUCTGROUPPAYMENT_URLSEGMENT');
+            $productGroupPayment->Status = "Published";
+            $productGroupPayment->IdentifierCode = 'SilvercartProductGroupPayment';
+            $productGroupPayment->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupPayment->ShowInMenus = true;
+            $productGroupPayment->ShowInSearch = true;
+            $productGroupPayment->Sort = 1;
+            $productGroupPayment->write();
+            $productGroupPayment->publish("Stage", "Live");
+            
+            $productGroupMarketing = new SilvercartProductGroupPage();
+            $productGroupMarketing->Title = _t('SilvercartTestData.PRODUCTGROUPMARKETING_TITLE');
+            $productGroupMarketing->URLSegment = _t('SilvercartTestData.PRODUCTGROUPMARKETING_URLSEGMENT');
+            $productGroupMarketing->Status = "Published";
+            $productGroupMarketing->IdentifierCode = 'SilvercartproductGroupMarketing';
+            $productGroupMarketing->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupMarketing->ShowInMenus = true;
+            $productGroupMarketing->ShowInSearch = true;
+            $productGroupMarketing->Sort = 2;
+            $productGroupMarketing->write();
+            $productGroupMarketing->publish("Stage", "Live");
+            
+            $productGroupOthers = new SilvercartProductGroupPage();
+            $productGroupOthers->Title = _t('SilvercartTestData.PRODUCTGROUPOTHERS_TITLE');
+            $productGroupOthers->URLSegment = _t('SilvercartTestData.PRODUCTGROUPOTHERS_URLSEGMENT');
+            $productGroupOthers->Status = "Published";
+            $productGroupOthers->IdentifierCode = 'SilvercartproductGroupOthers';
+            $productGroupOthers->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupOthers->ShowInMenus = true;
+            $productGroupOthers->ShowInSearch = true;
+            $productGroupOthers->Sort = 3;
+            $productGroupOthers->write();
+            $productGroupOthers->publish("Stage", "Live");
+            
+            // Define products
+            $products = array(
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_TITLE'),
+                    'PriceGrossAmount'          => 9.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 9.99,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 9.99,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 9.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_KEYWORDS'),
+                    'Weight'                    => 250,
+                    'StockQuantity'             => 5,
+                    'ProductNumberShop'         => '10001',
+                    'ProductNumberManufacturer' => 'SC_Mod_100',
+                    'SilvercartProductGroupID'  => $productGroupPayment->ID,
+                )
+            );
+            
+            // Create products
+            foreach ($products as $product) {
+                $productItem                            = new SilvercartProduct();
+                $productItem->SilvercartTaxID           = $taxRateID;
+                $productItem->SilvercartManufacturerID  = $manufacturer->ID;
+                $productItem->Title                     = $product['Title'];
+                $productItem->ShortDescription          = $product['ShortDescription'];
+                $productItem->LongDescription           = $product['LongDescription'];
+                $productItem->MetaDescription           = $product['MetaDescription'];
+                $productItem->MetaTitle                 = $product['MetaTitle'];
+                $productItem->MetaKeywords              = $product['MetaKeywords'];
+                $productItem->Weight                    = $product['Weight'];
+                $productItem->StockQuantity             = $product['StockQuantity'];
+                $productItem->ProductNumberShop         = $product['ProductNumberShop'];
+                $productItem->ProductNumberManufacturer = $product['ProductNumberManufacturer'];
+                $productItem->SilvercartProductGroupID  = $product['SilvercartProductGroupID'];
+                $productItem->PriceGross->setAmount($product['PriceGrossAmount']);
+                $productItem->PriceGross->setCurrency($product['PriceGrossCurrency']);
+                $productItem->PriceNet->setAmount($product['PriceNetAmount']);
+                $productItem->PriceNet->setCurrency($product['PriceNetCurrency']);
+                $productItem->MSRPrice->setAmount($product['MSRPriceAmount']);
+                $productItem->MSRPrice->setCurrency($product['MSRPriceCurrency']);
+                $productItem->PurchasePrice->setAmount($product['PurchasePriceAmount']);
+                $productItem->PurchasePrice->setCurrency($product['PurchasePriceCurrency']);
+                $productItem->write();
             }
             
             // create widget sets
@@ -784,7 +831,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             if ($productGroupPage2) {
                 $widgetFrontPageContent1 = new SilvercartProductGroupItemsWidget();
                 $widgetFrontPageContent1->setField('numberOfProductsToShow', '4');
-                $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPage2->ID);
+                $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPayment->ID);
                 $widgetFrontPageContent1->setField('useListView', 0);
                 $widgetFrontPageContent1->setField('isContentView', 1);
                 $widgetFrontPageContent1->setField('useSlider', 0);
@@ -803,7 +850,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             if ($productGroupPage3) {
                 $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
                 $widgetFrontPageSidebar1->setField('numberOfProductsToShow', '3');
-                $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupPage3->ID);
+                $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
                 $widgetFrontPageSidebar1->setField('useSlider', 0);
                 $widgetFrontPageSidebar1->setField('useListView', 1);
                 $widgetFrontPageSidebar1->setField('isContentView', 0);
