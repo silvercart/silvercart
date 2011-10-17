@@ -472,16 +472,17 @@ class SilvercartProductGroupPage extends Page {
      * All products of this group
      * 
      * @param int|bool $numberOfProducts The number of products to return
+     * @param bool     $random           Indicates wether the result set should be randomized
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts($numberOfProducts = false) {
+    public function getProducts($numberOfProducts = false, $random = false) {
         $controller = new SilvercartProductGroupPage_Controller($this);
         
-        return $controller->getProducts($numberOfProducts);
+        return $controller->getProducts($numberOfProducts, $random);
     }
 }
 
@@ -863,14 +864,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int|bool $numberOfProducts The number of products to return
+     * @param mixed int|bool    $numberOfProducts The number of products to return
+     * @param mixed bool|string $sort             An SQL sort statement
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts($numberOfProducts = false) {
+    public function getProducts($numberOfProducts = false, $sort = false) {
         if (!($this->groupProducts)) {
             $this->listFilters = array();
             $filter    = '';
@@ -942,7 +944,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $filter .= ' ' . $listFilter;
             }
 
-            $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+            if (!$sort) {
+                $sort = 'RAND()';
+            }
 
             $join = sprintf(
                 "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",

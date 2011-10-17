@@ -43,6 +43,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      */
     public static $db = array(
         'numberOfProductsToShow'        => 'Int',
+        'numberOfProductsToFetch'       => 'Int',
+        'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
         'SilvercartProductGroupPageID'  => 'Int',
         'useListView'                   => 'Boolean',
         'isContentView'                 => 'Boolean',
@@ -68,6 +70,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      */
     public static $defaults = array(
         'numberOfProductsToShow'    => 5,
+        'numberOfProductsToFetch'   => 5,
         'slideDelay'                => 5000
     );
     
@@ -88,19 +91,29 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
-        $numberOfProductsField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTS'));
-        $useListViewField       = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
-        $isContentView          = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
-        $useSlider              = new CheckboxField('useSlider', _t('SilvercartProductGroupItemsWidget.USE_SLIDER'));
-        $autoplay               = new CheckboxField('Autoplay', _t('SilvercartProductGroupItemsWidget.AUTOPLAY'));
-        $slideDelay             = new TextField('slideDelay', _t('SilvercartProductGroupItemsWidget.SLIDEDELAY'));
-        $buildArrows            = new CheckboxField('buildArrows', _t('SilvercartProductGroupItemsWidget.BUILDARROWS'));
-        $buildNavigation        = new CheckboxField('buildNavigation', _t('SilvercartProductGroupItemsWidget.BUILDNAVIGATION'));
-        $buildStartStop         = new CheckboxField('buildStartStop', _t('SilvercartProductGroupItemsWidget.BUILDSTARTSTOP'));
-        $autoPlayDelayed        = new CheckboxField('autoPlayDelayed', _t('SilvercartProductGroupItemsWidget.AUTOPLAYDELAYED'));
-        $autoPlayLocked         = new CheckboxField('autoPlayLocked', _t('SilvercartProductGroupItemsWidget.AUTOPLAYLOCKED'));
-        $stopAtEnd              = new CheckboxField('stopAtEnd', _t('SilvercartProductGroupItemsWidget.STOPATEND'));
-        $transitionEffect       = new DropdownField(
+        $numberOfProductsShowField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOSHOW'));
+        $numberOfProductsFetchField = new TextField('numberOfProductsToFetch', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOFETCH'));
+        $fetchMethod                = new DropdownField(
+            'fetchMethod',
+            _t('SilvercartProductGroupItemsWidget.FETCHMETHOD'),
+            array(
+                'random'        => _t('SilvercartProductGroupItemsWidget.FETCHMETHOD_RANDOM'),
+                'sortOrderAsc'  => _t('SilvercartProductGroupItemsWidget.FETCHMETHOD_SORTORDERASC'),
+                'sortOrderDesc' => _t('SilvercartProductGroupItemsWidget.FETCHMETHOD_SORTORDERDESC')
+            )
+        );
+        $useListViewField           = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
+        $isContentView              = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $useSlider                  = new CheckboxField('useSlider', _t('SilvercartProductGroupItemsWidget.USE_SLIDER'));
+        $autoplay                   = new CheckboxField('Autoplay', _t('SilvercartProductGroupItemsWidget.AUTOPLAY'));
+        $slideDelay                 = new TextField('slideDelay', _t('SilvercartProductGroupItemsWidget.SLIDEDELAY'));
+        $buildArrows                = new CheckboxField('buildArrows', _t('SilvercartProductGroupItemsWidget.BUILDARROWS'));
+        $buildNavigation            = new CheckboxField('buildNavigation', _t('SilvercartProductGroupItemsWidget.BUILDNAVIGATION'));
+        $buildStartStop             = new CheckboxField('buildStartStop', _t('SilvercartProductGroupItemsWidget.BUILDSTARTSTOP'));
+        $autoPlayDelayed            = new CheckboxField('autoPlayDelayed', _t('SilvercartProductGroupItemsWidget.AUTOPLAYDELAYED'));
+        $autoPlayLocked             = new CheckboxField('autoPlayLocked', _t('SilvercartProductGroupItemsWidget.AUTOPLAYLOCKED'));
+        $stopAtEnd                  = new CheckboxField('stopAtEnd', _t('SilvercartProductGroupItemsWidget.STOPATEND'));
+        $transitionEffect           = new DropdownField(
             'transitionEffect',
             _t('SilvercartProductGroupItemsWidget.TRANSITIONEFFECT'),
             array(
@@ -111,7 +124,9 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         );
         
         $fields->push($productGroupField);
-        $fields->push($numberOfProductsField);
+        $fields->push($numberOfProductsFetchField);
+        $fields->push($fetchMethod);
+        $fields->push($numberOfProductsShowField);
         $fields->push($useListViewField);
         $fields->push($isContentView);
         $fields->push($useSlider);
@@ -251,24 +266,50 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 $productAddCartFormName = 'SilvercartProductAddCartFormTile';
             }
 
-            foreach ($this->elements as $element) {
-                $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
-                
-                $controller->registerCustomHtmlForm(
-                    $formIdentifier,
-                    new $productAddCartFormName(
-                        $controller,
-                        array('productID' => $element->ID)
-                    )
-                );
-                
-                $element->productAddCartForm = $controller->InsertCustomHtmlForm(
-                    $formIdentifier,
-                    array(
-                        $element
-                    )
-                );
-                $elementIdx++;
+            if ($this->useSlider) {
+                foreach ($this->elements as $productPage) {
+                    foreach ($productPage as $elementHolder) {
+                        foreach ($elementHolder->Elements as $element) {
+                            $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+
+                            $controller->registerCustomHtmlForm(
+                                $formIdentifier,
+                                new $productAddCartFormName(
+                                    $controller,
+                                    array('productID' => $element->ID)
+                                )
+                            );
+
+                            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
+                                $formIdentifier,
+                                array(
+                                    $element
+                                )
+                            );
+                            $elementIdx++;
+                        }
+                    }
+                }
+            } else {
+                foreach ($this->elements as $element) {
+                    $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+
+                    $controller->registerCustomHtmlForm(
+                        $formIdentifier,
+                        new $productAddCartFormName(
+                            $controller,
+                            array('productID' => $element->ID)
+                        )
+                    );
+
+                    $element->productAddCartForm = $controller->InsertCustomHtmlForm(
+                        $formIdentifier,
+                        array(
+                            $element
+                        )
+                    );
+                    $elementIdx++;
+                }
             }
         }
         
@@ -386,59 +427,79 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return false;
         }
         
-        if (!$this->numberOfProductsToShow) {
-            $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
-        }
-        
-        $productgroupPage = DataObject::get_by_id(
-            'SilvercartProductGroupPage',
-            $this->SilvercartProductGroupPageID
-        );
-        
-        if (!$productgroupPage) {
-            return false;
-        }
-        $productgroupPageSiteTree                  = ModelAsController::controller_for($productgroupPage);
-        $products                                  = $productgroupPageSiteTree->getProducts(999);
-        
-        $pages          = array();
-        $pageProducts   = array();
-        $pageNr         = 0;
-        $PageProductIdx = 1;
-        $isFirst        = true;
-        
-        foreach ($products as $product) {
-            $pageProducts['Element'.$PageProductIdx] = $product;
-            $PageProductIdx++;
-
-            if ($pageNr > 0) {
-                $isFirst = false;
+        if (!$this->elements) {
+            if (!$this->numberOfProductsToFetch) {
+                $this->numberOfProductsToFetch = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToFetch'];
             }
-            if ($PageProductIdx > $this->numberOfProductsToShow) {
+            if (!$this->numberOfProductsToShow) {
+                $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
+            }
+
+            if ($this->numberOfProductsToFetch < $this->numberOfProductsToShow) {
+                $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
+            }
+
+            $productgroupPage = DataObject::get_by_id(
+                'SilvercartProductGroupPage',
+                $this->SilvercartProductGroupPageID
+            );
+
+            if (!$productgroupPage) {
+                return false;
+            }
+            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+            
+            switch ($this->fetchMethod) {
+                case 'sortOrderAsc':
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
+                    break;
+                case 'sortOrderDesc':
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                    break;
+                case 'random':
+                default:
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
+            } 
+
+            $pages          = array();
+            $pageProducts   = array();
+            $pageNr         = 0;
+            $PageProductIdx = 1;
+            $isFirst        = true;
+
+            foreach ($products as $product) {
+                $pageProducts[] = $product;
+                $PageProductIdx++;
+
+                if ($pageNr > 0) {
+                    $isFirst = false;
+                }
+                if ($PageProductIdx > $this->numberOfProductsToShow) {
+                    $pages['Page'.$pageNr] = array(
+                        'Elements' => new DataObjectSet($pageProducts),
+                        'IsFirst'    => $isFirst
+                    );
+                    $PageProductIdx = 1;
+                    $pageProducts   = array();
+                    $pageNr++;
+                }
+            }
+
+            if (!array_key_exists('Page'.$pageNr, $pages) &&
+                !empty($pageProducts)) {
+
+                if ($pageNr > 0) {
+                    $isFirst = false;
+                }
+
                 $pages['Page'.$pageNr] = array(
                     'Elements' => new DataObjectSet($pageProducts),
-                    'IsFirst'    => $isFirst
+                    'IsFirst'  => $isFirst
                 );
-                $PageProductIdx = 1;
-                $pageProducts   = array();
-                $pageNr++;
             }
+
+            $this->elements = new DataObjectSet($pages);
         }
-        
-        if (!array_key_exists('Page'.$pageNr, $pages) &&
-            !empty($pageProducts)) {
-            
-            if ($pageNr > 0) {
-                $isFirst = false;
-            }
-            
-            $pages['Page'.$pageNr] = array(
-                'Elements' => new DataObjectSet($pageProducts),
-                'IsFirst'  => $isFirst
-            );
-        }
-        
-        $this->elements = new DataObjectSet($pages);
         
         return $this->elements;
     }
@@ -470,7 +531,18 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 return false;
             }
             $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-            $this->elements           = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+            
+            switch ($this->fetchMethod) {
+                case 'sortOrderAsc':
+                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
+                    break;
+                case 'sortOrderDesc':
+                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                    break;
+                case 'random':
+                default:
+                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+            } 
         }
         
         return $this->elements;
