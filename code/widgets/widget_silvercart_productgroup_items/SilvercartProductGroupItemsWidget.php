@@ -235,7 +235,11 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 22.07.2011
      */
     public function init() {
-        $this->elements = $this->ProductPages();
+        if ($this->useSlider) {
+            $this->elements = $this->ProductPages();
+        } else {
+            $this->elements = $this->Elements();
+        }
         
         if ($this->elements) {
             $controller = Controller::curr();
@@ -452,22 +456,24 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return false;
         }
         
-        if (!$this->numberOfProductsToShow) {
-            $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
+        if (!$this->elements) {
+            if (!$this->numberOfProductsToShow) {
+                $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
+            }
+
+            $productgroupPage = DataObject::get_by_id(
+                'SilvercartProductGroupPage',
+                $this->SilvercartProductGroupPageID
+            );
+
+            if (!$productgroupPage) {
+                return false;
+            }
+            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+            $this->elements           = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
         }
         
-        $productgroupPage = DataObject::get_by_id(
-            'SilvercartProductGroupPage',
-            $this->SilvercartProductGroupPageID
-        );
-        
-        if (!$productgroupPage) {
-            return false;
-        }
-        $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-        $products                 = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
-        
-        return $products;
+        return $this->elements;
     }
     
     /**

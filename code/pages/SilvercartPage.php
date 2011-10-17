@@ -423,11 +423,11 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function getBreadcrumbs() {
         $page = DataObject::get_one(
-                        'Page',
-                        sprintf(
-                                '"URLSegment" LIKE \'%s\'',
-                                $this->urlParams['URLSegment']
-                        )
+            'Page',
+            sprintf(
+                    '"URLSegment" LIKE \'%s\'',
+                    $this->urlParams['URLSegment']
+            )
         );
 
         return $this->ContextBreadcrumbs($page);
@@ -456,9 +456,9 @@ class SilvercartPage_Controller extends ContentController {
 
         $i = 0;
         while (
-        $page
-        && (!$maxDepth || sizeof($parts) < $maxDepth)
-        && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
+            $page
+            && (!$maxDepth || sizeof($parts) < $maxDepth)
+            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
         ) {
             if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
                 if ($page->URLSegment == 'home') {
@@ -818,7 +818,6 @@ class SilvercartPage_Controller extends ContentController {
                 $widgetSet->WidgetArea()->WidgetControllers()
             );
         }
-        
         $this->WidgetSetContentControllers = $controllers;
         $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
     }
