@@ -205,6 +205,7 @@ $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Import image
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Directory on the webserver where the images are located';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
+$lang['en_GB']['SilvercartProduct']['LIST_PRICE'] = 'list price';
 $lang['en_GB']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
 $lang['en_GB']['SilvercartProduct']['METADATA'] = 'Meta Data';
 $lang['en_GB']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for search engines';

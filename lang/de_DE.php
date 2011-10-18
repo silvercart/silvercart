@@ -205,6 +205,7 @@ $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Bilder nacht
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Verzeichnis';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absoluter Pfad zum Verzeichnis auf dem Webserver, in dem die Bilder liegen';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Es wurden %d Dateien gefunden.</p><p>%d davon konnten Produkten zugeordnet werden und wurden importiert.</p>';
+$lang['de_DE']['SilvercartProduct']['LIST_PRICE'] = 'Listenpreis';
 $lang['de_DE']['SilvercartProduct']['MASTERPRODUCT'] = 'Basisartikel';
 $lang['de_DE']['SilvercartProduct']['METADATA'] = 'Meta Daten';
 $lang['de_DE']['SilvercartProduct']['METADESCRIPTION'] = 'Meta Beschreibung für Suchmaschinen';
