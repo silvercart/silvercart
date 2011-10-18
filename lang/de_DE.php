@@ -1161,7 +1161,7 @@ $lang['de_DE']['SilvercartTax']['SINGULARNAME'] = 'Steuersatz';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'AGB Seiten';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'AGB Seite';
 
-$lang['de_DE']['SilvercartTestData']['CURRENCY']                                    = 'Eur';
+$lang['de_DE']['SilvercartTestData']['CURRENCY']                                    = 'EUR';
 $lang['de_DE']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Beispieldaten';
 $lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE']           = 'Startseite Inhaltsbereich';
 $lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE']           = 'Startseite Seitenleiste';
