@@ -563,6 +563,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 14.07.2011
      */
     protected $widgetOutput = array();
+    
+    /**
+     * Indicates wether the widget areas have already been registered.
+     *
+     * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2011
+     */
+    protected $widgetAreasRegistered = false;
 
     /**
      * Indicates wether a filter plugin can be registered for the current view.
@@ -621,6 +631,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested
+            $this->registerWidgetAreas();
             $products = $this->getProducts();
             Session::set("SilvercartProductGroupPageID", $this->ID);
             Session::save();
@@ -924,8 +935,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $mirroredProductIdList
                 );
             }
-            
-            $this->registerWidgetAreas();
             
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {

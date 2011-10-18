@@ -193,8 +193,6 @@ class SilvercartPage_Controller extends ContentController {
             $_SESSION['Silvercart']['errors'] = array();
         }
         
-        $this->loadWidgetControllers();
-                
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             // temporary hold preloaded css files to prevent combine changes by 
             // different pages
@@ -247,7 +245,11 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
-
+        }
+        
+        $this->loadWidgetControllers();
+        
+        if (!SilvercartConfig::DefaultLayoutLoaded()) {
             $contentCssFiles = array(
                 'content',
                 'forms',

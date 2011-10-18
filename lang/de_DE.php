@@ -1142,7 +1142,6 @@ $lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'Ihre Bestellung ist so
 $lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Ihre Bestellung in unserem Webshop';
 $lang['de_DE']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'Eine neue Bestellung wurde aufgegeben';
 
-
 $lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
 $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
@@ -1162,17 +1161,65 @@ $lang['de_DE']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'AGB Seiten';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'AGB Seite';
 
 $lang['de_DE']['SilvercartTestData']['CURRENCY']                                    = 'Eur';
+$lang['de_DE']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Beispieldaten';
 $lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE']           = 'Startseite Inhaltsbereich';
 $lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE']           = 'Startseite Seitenleiste';
-$lang['de_DE']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE']   = 'Warengruppen Seitenleiste';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE']   = 'Warengruppenseiten Seitenleiste';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_TITLE']          = 'Zahlungsmodule';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_CONTENT']        = '<p>Entdecken Sie die Zahlungsmodule von SilverCart.</p>';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_TITLE']          = 'Sonstige Module';
+$lang['de_DE']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_CONTENT']        = '<p>Auch für viele andere Anwendungsfälle finden Sie Module in SilverCart.</p>';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Achtung:</strong></p><p>Die Module selbst sind kostenfrei. Die Preisangabe wird rein für Demo-Zwecke verwendet.</p></div>';
 $lang['de_DE']['SilvercartTestData']['PRODUCTGROUPPAYMENT_TITLE']                   = 'Zahlungsmodule';
 $lang['de_DE']['SilvercartTestData']['PRODUCTGROUPPAYMENT_URLSEGMENT']              = 'zahlungsmodule';
 $lang['de_DE']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']                 = 'Marketingmodule';
 $lang['de_DE']['SilvercartTestData']['PRODUCTGROUPMARKETING_URLSEGMENT']            = 'marketingmodule';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPOTHERS_TITLE']                    = 'Andere Module';
+$lang['de_DE']['SilvercartTestData']['PRODUCTGROUPOTHERS_URLSEGMENT']               = 'andere-module';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_TITLE']          = 'Cross Selling';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_SHORTDESC']      = 'Kreuzverkauf bezeichnet im Marketing den Verkauf von sich ergänzenden Produkten oder Dienstleistungen.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_LONGDESC']       = 'Verkaufs- bzw. Marketinginstrument, bei dem Informationen über bereits existierende Kunden oder über bekanntes Konsumentenverhalten genutzt wird, um zusätzliche Käufe anderer Produkte zu begünstigen. Quelle: www.desig-n.de ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_KEYWORDS']       = 'SilverCart, module, Cross selling, marketing';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_TITLE']                 = 'eKomi';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_SHORTDESC']             = 'Mehr Umsatz und Vertrauen durch unabhängige Kunden- und Produktbewertungen!';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_LONGDESC']              = 'Beginnen Sie noch heute, durch intelligente Kundenbefragung authentisches und wertvolles Kundenfeedback zu gewinnen und damit Ihre Kundenzufriedenheit und Ihren Umsatz zu steigern. ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_KEYWORDS']              = 'SilverCart, module, Ekomi, marketing';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_TITLE']        = 'Protected Shops';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC']    = 'Machen Sie Ihr Online-Business sicherer! Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC']     = 'Wer im Internet handelt, ist mit einer unüberschaubaren Menge rechtlicher Vorgaben konfrontiert, die bei Nichteinhaltung zu einem teuren Unterfangen werden können. Gerade von Konkurrenten, die ihren Mitbewerb durch teuere Abmahnungen zu schädigen versuchen, geht für Ihr Unternehmen eine große Gefahr aus. Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. 67% der Online Käufer vertrauen auf Online-Konsumentenbewertungen (Quelle: www.nielsen.com vom 24.07.2009). Mit unserer Vote Connect Schnittstelle integrieren Sie das Protected Shops Kundenbewertungssystem in Ihren Shop. ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_KEYWORDS']     = 'SilverCart, module, ProtectedShops, marketing';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSDHL_TITLE']                      = 'DHL';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Paketschnittstelle zum Versandanbieter DHL (Easylog)';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Paketschnittstelle zum Versandanbieter DHL für den Export von Bestellungen nach Easylog und den Import von Sendungsnachverfolgungsnummern in SilverCart.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSDHL_KEYWORDS']                   = 'SilverCart, module, ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF-Rechnung';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_SHORTDESC']           = 'Automatische Generierung von PDF-Rechnungen';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_LONGDESC']            = 'Erstellt automatisiert PDF-Rechnungen bei Bestellungen.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_KEYWORDS']            = 'SilverCart, module, PDF Rechnung';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSSOLR_TITLE']                     = 'Apache Solr';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSSOLR_SHORTDESC']                 = 'Solr basiert auf Lucene Core und ist eine Volltext-Suchmaschine mit Web-Schnittstelle.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSSOLR_LONGDESC']                  = 'Dokumente zur Indexierung übernimmt Solr im XML-Format per HTTP-Request. Suchanfragen werden mittels HTTP GET durchgeführt, Resultate werden als XML oder in anderen Formaten wie JSON zurückgegeben. Solr lässt sich in einen Webserver und Servlet-Container wie Apache Tomcat integrieren. Mit Jetty enthält das Solr-Softwarepaket zudem selbst einen Servlet-Container. Mit dem Release 3.1 sind die Projekte Solr und Lucene zu einer Entwicklung zusammengeführt worden, die von einem gemeinsamen Projektteam weiterentwickelt werden. Quelle: Wikipedia.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSSOLR_KEYWORDS']                  = 'SilverCart, module, Apache Solr';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_TITLE']                 = 'Gutscheine';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_SHORTDESC']             = 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_LONGDESC']              = 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_KEYWORDS']              = 'SilverCart, module, Gutscheine';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_TITLE']                = 'iPayment';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_SHORTDESC']            = 'ipayment unterstützt Ihren Geschäftserfolg im Internet, indem es Ihren Kunden die sichere Bezahlung per Kreditkarte, internetbasiertem elektronischen Lastschriftverfahren und weiteren Zahlungsmedien ermöglicht.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_LONGDESC']             = 'ipayment unterstützt Ihren Geschäftserfolg im Internet, indem es Ihren Kunden die sichere Bezahlung per Kreditkarte, internetbasiertem elektronischen Lastschriftverfahren und weiteren Zahlungsmedien ermöglicht. Je nach genutztem Zahlungsanbieter können Sie Ihren Kunden über ipayment die Bezahlung mit folgenden Zahlungsmedien anbieten: Visa MasterCard Maestro American Express JCB Diners Club Visa Electron Solo Internetbasiertes Elektronisches Lastschriftverfahren (ELV) paysafecard Das Unternehmen, über das Sie Ihre Onlinezahlungen abwickeln möchten, können Sie dabei selbst auswählen - ipayment verfügt über Schnittstellen zu den wichtigsten Zahlungsanbietern. Sie schließen den Akzeptanzvertrag mit dem Anbieter Ihrer Wahl - ipayment sorgt für die reibungslose und sichere Abwicklung! Dazu nimmt ipayment die Zahlungsvorgänge direkt aus Ihrem System auf und verarbeitet sie im Hochleistungsrechenzentrum von 1&1 in Karlsruhe. Selbstverständlich erfüllt ipayment dabei die Zertifizierungsanforderungen gemäß dem PCI DSS (Payment Card Industry Data Security Standard). ';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_KEYWORDS']             = 'SilverCart, module, iPayment, payment';
 $lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_TITLE']                  = 'PayPal';
 $lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_SHORTDESC']              = 'PayPal ist sicherererer. Für Daten, für Einkäufe - Für alles';
 $lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_LONGDESC']               = 'PayPal für Ihren Shop Sie haben einen Online-Shop und fragen sich, warum Sie PayPal anbieten sollen? Ganz einfach: Ihre Kunden bezahlen mit nur zwei Klicks. Sie schließen den Kauf zufrieden ab, kommen gerne wieder - und Sie steigern Ihren Umsatz! Das kann PayPal für Sie tun – und mehr!';
 $lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_KEYWORDS']               = 'SilverCart, module, PayPal, payment';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_TITLE']                = 'Saferpay';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_SHORTDESC']            = 'Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet."';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_LONGDESC']             = '<h3>Saferpay E-Payment-Lösungen für Profis und Einsteiger</h3><p>Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet." Dank Saferpay müssen sich Online-Händler wie Karteninhaber über die Sicherheit beim Einkaufen im Internet keine Sorgen mehr machen. Händler kennen und schätzen das sichere Bezahlen im Internet über Saferpay weltweit.</p><p>Saferpay integriert alle gängigen Zahlungsmittel in Ihren Webshop - über eine einzige Schnittstelle. Dadurch sind Anpassungen und Erweiterungen problemlos umsetzbar. Darüber hinaus ermöglicht Saferpay die sichere Onlineabwicklung von schriftlichen und telefonischen Bestellungen.</p><h3>Mehr Zahlungsmittel – mehr Umsatz!</h3><p>Steigern Sie Ihren Umsatz durch das Angebot einer Vielzahl an Zahlungsmitteln! Mit Saferpay bieten Sie Ihren Kunden alle gängigen Zahlungsmittel über eine einzige Schnittstelle – flexibel, einfach & sicher! Mit Saferpay können Sie alle gängigen Kreditkarten und Debitkarten akzeptieren. Sie können jederzeit neue Zahlungsmittel aufschalten oder bestehende wieder abschalten und somit flexibel auf die Bedürfnisse im E-Commerce reagieren.</p><h3>Mit Sicherheit mehr Gewinn!</h3><p>Um die bargeldlose, elektronische Zahlungsabwicklung für Sie als Händler im E-Commerce oder Phone-/Mail-Order Business so sicher und bequem wie möglich zu machen, bietet die SIX Card Solutions Ihnen als Händler Komplettlösungen aus einer Hand. Die E-Payment-Lösung unterstützt alle heutigen Sicherheitsstandards. Stärken Sie das Vertrauen Ihrer Kunden !</p>';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_KEYWORDS']             = 'SilverCart, module, Saferpay, payment';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_TITLE']              = 'Vorkasse';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_SHORTDESC']          = 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_LONGDESC']           = 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern. Dieses Modul bietet neben der Vorkasse auch Rechnung als Zahlungsart.';
+$lang['de_DE']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_KEYWORDS']           = 'SilverCart, module, Vorkasse, payment';
 
 $lang['de_DE']['SilvercartUpdate']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';
@@ -1240,6 +1287,8 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD']              
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_RANDOM']                   = 'Zufällig';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERASC']             = 'Anordnung aufsteigend';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']            = 'Anordnung absteigend';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTTITLE']                           = 'Überschrift';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
@@ -1281,4 +1330,8 @@ $lang['de_DE']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Warengruppennavigation';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'Silvercart Warengruppennavigation';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll.';
+
+$lang['de_DE']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
+$lang['de_DE']['SiteConfig']['SITETAGLINE'] = 'eCommerce software. Open-source. You\'ll love it';
+$lang['de_DE']['SiteConfig']['TAGLINEDEFAULT'] = 'eCommerce software. Open-source. You\'ll love it';
 
