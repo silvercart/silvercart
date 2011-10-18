@@ -1,5 +1,5 @@
 <% if FrontTitle %>
-    <h3>$FrontTitle</h3>
+    <h2>$FrontTitle</h2>
 <% end_if %>
 <% if FrontContent %>
     $FrontContent

@@ -579,16 +579,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 14.07.2011
      */
     protected $widgetOutput = array();
-    
-    /**
-     * Indicates wether the widget areas have already been registered.
-     *
-     * @var boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2011
-     */
-    protected $widgetAreasRegistered = false;
 
     /**
      * Indicates wether a filter plugin can be registered for the current view.
@@ -604,6 +594,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         
         return true;
+    }
+    
+    /**
+     * Returns the cache key for the product group page list view.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.10.2011
+     */
+    public function CacheKeySilvercartProductGroupPageControls() {
+        return implode(
+            '_',
+            array(
+                $this->ID,
+                $this->SQL_start,
+                $this->getProductsPerPageSetting()
+            )
+        );
     }
     
     /**
@@ -660,7 +669,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
                     $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
-                    $product->setField('Thumbnail', $product->image()->SetWidth(150));
+                    if ($product->SilvercartImages()->Count() > 0) {
+                        $product->setField('Thumbnail', $product->SilvercartImages()->First()->SetWidth(150));
+                    }
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
@@ -893,8 +904,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int    $numberOfProducts The number of products to return
-     * @param string $sort             An SQL sort statement
+     * @param mixed int|bool    $numberOfProducts The number of products to return
+     * @param mixed bool|string $sort             An SQL sort statement
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 

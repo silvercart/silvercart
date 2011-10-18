@@ -186,13 +186,19 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        $controller = Controller::curr();
+        
+        if ($this != $controller) {
+            $registeredCustomHtmlForms = $controller->getRegisteredCustomHtmlForms();
+        }
+        
         if (!isset($_SESSION['Silvercart'])) {
             $_SESSION['Silvercart'] = array();
         }
         if (!isset($_SESSION['Silvercart']['errors'])) {
             $_SESSION['Silvercart']['errors'] = array();
         }
-        
+
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             // temporary hold preloaded css files to prevent combine changes by 
             // different pages
@@ -246,16 +252,16 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
         }
-        
-        $this->loadWidgetControllers();
-        
+        if ($controller == $this) {
+            $this->loadWidgetControllers();
+        }
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             $contentCssFiles = array(
                 'content',
                 'forms',
                 'patch_forms',
             );
-            
+
             $combinedCssFiles = array();
             $combinedContentCssFiles = array();
             $combinedSilvercartCssFiles = array();
@@ -278,21 +284,21 @@ class SilvercartPage_Controller extends ContentController {
             foreach (Requirements::backend()->get_javascript() as $file) {
                 $combinedJsFiles[] = $file;
             }
-            
+
             // Combine files
             if (class_exists('RequirementsEngine')) {
                 RequirementsEngine::combine_files('script.js', $combinedJsFiles);
                 RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
                 RequirementsEngine::combine_files_and_parse('content.css', $combinedContentCssFiles);
                 RequirementsEngine::combine_files_and_parse('content.ec.css', $combinedSilvercartCssFiles);
-                
+
                 RequirementsEngine::process_combined_files();
             } else {
                 Requirements::combine_files('script.js', $combinedJsFiles);
                 Requirements::combine_files('base.css', $combinedCssFiles);
                 Requirements::combine_files('content.css', $combinedContentCssFiles);
                 Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
-                
+
                 Requirements::process_combined_files();
             }
 
@@ -301,9 +307,16 @@ class SilvercartPage_Controller extends ContentController {
             SilvercartConfig::setDefaultLayoutLoaded(true);
         }
         
-        $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
-        $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
-        
+        // We have to check if we are in a customised controller (that's the
+        // case for all Security pages). If so, we use the registered forms of
+        // the outermost controller.
+        if (empty($registeredCustomHtmlForms)) {
+            $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
+            $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
+        } else {
+            $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
+        }
+
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
@@ -316,7 +329,7 @@ class SilvercartPage_Controller extends ContentController {
         if ($checkConfiguration) {
             SilvercartConfig::Check();
         }
-        
+
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 

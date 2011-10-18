@@ -1144,6 +1144,20 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
             
+            $widgetFrontPageSidebar2 = new SilvercartShoppingCartWidget();
+            $widgetFrontPageSidebar2->setField('sortOrder', 2);
+            $widgetFrontPageSidebar2->write();
+
+            $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar2);
+            
+            $widgetFrontPageSidebar3 = new SilvercartLoginWidget();
+            $widgetFrontPageSidebar3->setField('sortOrder', 3);
+            $widgetFrontPageSidebar3->write();
+
+            $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar3);
+            
+            // product group page widgets
+            
             $widgetProductGroupPageSidebar1 = new SilvercartProductGroupItemsWidget();
             $widgetProductGroupPageSidebar1->setField('numberOfProductsToShow', 3);
             $widgetProductGroupPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
@@ -1159,6 +1173,18 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetProductGroupPageSidebar1->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar1);
+            
+            $widgetProductGroupPageSidebar2 = new SilvercartShoppingCartWidget();
+            $widgetProductGroupPageSidebar2->setField('sortOrder', 2);
+            $widgetProductGroupPageSidebar2->write();
+
+            $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar2);
+            
+            $widgetProductGroupPageSidebar3 = new SilvercartLoginWidget();
+            $widgetProductGroupPageSidebar3->setField('sortOrder', 3);
+            $widgetProductGroupPageSidebar3->write();
+
+            $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar3);
             
             return true;
         }
