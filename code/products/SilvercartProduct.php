@@ -454,20 +454,24 @@ class SilvercartProduct extends DataObject {
      * Customizes the backend popup for Products.
      *
      * @return FieldSet the editible fields
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.10.2011
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         $fields->removeByName('SilvercartShoppingCartPositions');//There is not enough space for so many tabs
         //Get all products that have no master
-        $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
+        $var = sprintf("`SilvercartMasterProductID` = '%s'", "0");
         $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
+        $silvercartMasterProductMap = array();
+        if ($silvercartMasterProducts) {
+            $silvercartMasterProductMap = $silvercartMasterProducts->map();
+        }
         $dropdownField = new DropdownField(
             'SilvercartMasterProductID',
             _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-            $silvercartMasterProducts->toDropDownMap(),
+            $silvercartMasterProductMap,
             null,
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
@@ -805,7 +809,11 @@ class SilvercartProduct extends DataObject {
             $htmlEditorFieldLongDescription->setRows(15);
             $CMSFields->addFieldToTab('Root.Main.Content', $htmlEditorFieldLongDescription);
             $taxRates = DataObject::get('SilvercartTax');
-            $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRates->map('ID', 'Title'), $this->SilvercartTaxID));
+            $taxRateMap = array();
+            if ($taxRates) {
+                $taxRateMap = $taxRates->map();
+            }
+            $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRateMap, $this->SilvercartTaxID, null, ''));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Weight'));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('EANCode'));
             $conditionMap   = array();
@@ -838,10 +846,14 @@ class SilvercartProduct extends DataObject {
             //fill the tab Root.Main.Manufacturer
             $CMSFields->addFieldToTab('Root.Main.Manufacturer', new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'), $this->ProductNumberManufacturer));
             $manufacturers = DataObject::get('SilvercartManufacturer');
+            $manufacturerMap = array();
+            if ($manufacturers) {
+                $manufacturerMap = $manufacturers->map();
+            }
             $CMSFields->addFieldToTab('Root.Main.Manufacturer', new DropdownField(
                     'SilvercartManufacturerID',
                     _t('SilvercartManufacturer.SINGULARNAME'),
-                    $manufacturers->map('ID', 'Title'),
+                    $manufacturerMap,
                     $this->SilvercartManufacturerID,
                     null,
                     _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
