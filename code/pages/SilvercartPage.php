@@ -825,7 +825,7 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
         
         // Content area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
@@ -836,7 +836,7 @@ class SilvercartPage_Controller extends ContentController {
             );
         }
         $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
