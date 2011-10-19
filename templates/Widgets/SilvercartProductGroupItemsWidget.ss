@@ -1,9 +1,11 @@
-<% if FrontTitle %>
-    <h2>$FrontTitle</h2>
-<% end_if %>
-<% if FrontContent %>
-    $FrontContent
-<% end_if %>
+<div>
+    <% if FrontTitle %>
+        <h2>$FrontTitle</h2>
+    <% end_if %>
+    <% if FrontContent %>
+        $FrontContent
+    <% end_if %>
+</div>
 
 <% if Top.useSlider %>
     <% if ProductPages %>
