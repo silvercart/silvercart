@@ -597,6 +597,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
     
     /**
+     * Returns the cache key for the product group page list view.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.10.2011
+     */
+    public function CacheKeySilvercartProductGroupPageControls() {
+        return implode(
+            '_',
+            array(
+                $this->ID,
+                $this->SQL_start,
+                $this->getProductsPerPageSetting()
+            )
+        );
+    }
+    
+    /**
      * Registers an object as a filter plugin. Before getting the result set
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
@@ -639,6 +658,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested
+            $this->registerWidgetAreas();
             $products = $this->getProducts();
             Session::set("SilvercartProductGroupPageID", $this->ID);
             Session::save();
@@ -649,7 +669,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
                     $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
-                    $product->setField('Thumbnail', $product->image()->SetWidth(150));
+                    if ($product->SilvercartImages()->Count() > 0) {
+                        $product->setField('Thumbnail', $product->SilvercartImages()->First()->SetWidth(150));
+                    }
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
@@ -882,8 +904,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int    $numberOfProducts The number of products to return
-     * @param string $sort             An SQL sort statement
+     * @param mixed int|bool    $numberOfProducts The number of products to return
+     * @param mixed bool|string $sort             An SQL sort statement
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
@@ -942,8 +964,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $mirroredProductIdList
                 );
             }
-            
-            $this->registerWidgetAreas();
             
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {

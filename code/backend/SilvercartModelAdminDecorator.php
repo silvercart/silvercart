@@ -64,10 +64,11 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
      * @since 05.10.2011
      */
     public function getPreventAutoLoadForManagedModels() {
-        $classNames = '';
-        $ownerClass = $this->owner->class;
+        $classNames     = '';
+        $ownerClass     = $this->owner->class;
+        $managedModels  = eval('return $ownerClass::$managed_models;');
         
-        foreach ($ownerClass::$managed_models as $managedModel => $modelDefinitions) {
+        foreach ($managedModels as $managedModel => $modelDefinitions) {
             if (is_array($modelDefinitions) &&
                 array_key_exists('preventTableListFieldAutoLoad', $modelDefinitions) &&
                 $modelDefinitions['preventTableListFieldAutoLoad']) {

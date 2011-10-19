@@ -42,6 +42,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public static $db = array(
+        'FrontTitle'                    => 'VarChar(255)',
+        'FrontContent'                  => 'HTMLText',
         'numberOfProductsToShow'        => 'Int',
         'numberOfProductsToFetch'       => 'Int',
         'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
@@ -91,6 +93,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
+        $titleField                 = new TextField('FrontTitle', _t('SilvercartProductGroupItemsWidget.FRONTTITLE'));
+        $contentField               = new HtmlEditorField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'));
         $numberOfProductsShowField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOSHOW'));
         $numberOfProductsFetchField = new TextField('numberOfProductsToFetch', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOFETCH'));
         $fetchMethod                = new DropdownField(
@@ -123,6 +127,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             )
         );
         
+        $fields->push($titleField);
+        $fields->push($contentField);
         $fields->push($productGroupField);
         $fields->push($numberOfProductsFetchField);
         $fields->push($fetchMethod);
@@ -357,12 +363,11 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                     $effect             = 'swing';
                     break;
                 case 'fade':
+                default:
                     $vertical           = 'false';
                     $animationTime      = 0;
                     $delayBeforeAnimate = 500;
                     $effect             = 'fade';
-                default:
-                    break;
             }
 
             Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');

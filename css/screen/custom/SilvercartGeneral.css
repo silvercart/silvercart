@@ -155,70 +155,77 @@ table td {
 
 /* Highlighted messages ---------------------------------------------------- */
 
+div.silvercart-message {
+    border:                         1px #ccc8c5 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+    margin:                         0px 0px 8px 0px;
+}
 p.silvercart-message {
     margin:                         0px;
 }
-p.silvercart-message.info16 {
+.silvercart-message.info16 {
     padding: 0 0 0 20px;
     
     background: url(/silvercart/images/icons/16x16_info.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.info16 {
+.silvercart-message.highlighted.info16 {
     padding: 5px 5px 5px 20px;
     
     background-color: #efefef;
     line-height: 16px;
 }
-p.silvercart-message.info32 {
+.silvercart-message.info32 {
     padding: 0 0 0 30px;
     
     background: url(/silvercart/images/icons/32x32_info.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.info32 {
+.silvercart-message.highlighted.info32 {
     padding: 5px 5px 5px 40px;
     
     background-color: #efefef;
     line-height: 32px;
 }
-p.silvercart-message.info48 {
+.silvercart-message.info48 {
     padding: 0 0 0 60px;
     
     background: url(/silvercart/images/icons/48x48_info.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.info48 {
+.silvercart-message.highlighted.info48 {
     padding: 5px 5px 5px 60px;
     
     background-color: #efefef;
     line-height: 48px;
 }
-p.silvercart-message.error16 {
+.silvercart-message.error16 {
     padding: 0 0 0 20px;
     
     background: url(/silvercart/images/icons/16x16_error.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.error16 {
+.silvercart-message.highlighted.error16 {
     padding: 5px 5px 5px 20px;
     
     background-color: #efefef;
     line-height: 16px;
 }
-p.silvercart-message.error32 {
+.silvercart-message.error32 {
     padding: 0 0 0 40px;
     
     background: url(/silvercart/images/icons/32x32_error.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.error32 {
+.silvercart-message.highlighted.error32 {
     padding: 5px 5px 5px 40px;
     
     background-color: #efefef;
     line-height: 32px;
 }
-p.silvercart-message.error48 {
+.silvercart-message.error48 {
     padding: 0 0 0 60px;
     
     background: url(/silvercart/images/icons/48x48_error.png) no-repeat left center;
 }
-p.silvercart-message.highlighted.error48 {
+.silvercart-message.highlighted.error48 {
     padding: 5px 5px 5px 60px;
     
     background-color: #efefef;
@@ -484,9 +491,9 @@ p.silvercart-message.vdistance {
 }
 .silvercart-checkout-notice_content {
     padding:                        4px;
-    
     border:                         1px #353535 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+

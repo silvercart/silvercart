@@ -176,15 +176,17 @@
         </div>
         <p/>
         <div id="silvercart-footer">
-            <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
-                <% control Children %>
-                    <% if Last %>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
-                    <% else %>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
-                    <% end_if %>
+            <% cached 'SilvercartMetaNavigation', Aggregate(PageByIdentifierCode(SilvercartMetaNavigationHolder).Children.Max(LastEdited))  %>
+                <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
+                    <% control Children %>
+                        <% if Last %>
+                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
+                        <% else %>
+                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
+                        <% end_if %>
+                    <% end_control %>
                 <% end_control %>
-            <% end_control %>
+            <% end_cached %>
             <br/>
             <br/>
             Layout based on <a href="http://www.yaml.de" target="_blank">YAML</a>

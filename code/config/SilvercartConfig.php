@@ -163,7 +163,7 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.1',
+        'SilvercartVersion'             => '1.2',
         'SilvercartUpdateVersion'       => '1',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',

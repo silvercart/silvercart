@@ -26,7 +26,7 @@
 .silvercart-widget h2,
 #col1 .silvercart-widget h2,/* Widgets in content area */
 #col4 .silvercart-widget h2 /* Widgets in content area */ {
-    font-size:                      13px;
+    font-size:                      12px;
     font-weight:                    normal;
     color:                          #333;
     background:                     #ffffff;
@@ -38,11 +38,16 @@
     margin:                         0px;
     padding:                        4px 4px 4px 4px;
 }
-.silvercart-widget h3,
-#col1 .silvercart-widget h3,/* Widgets in content area */
-#col4 .silvercart-widget h3 /* Widgets in content area */ {
+.silvercart-widget h3 {
     font-size:                      12px;
     margin:                         0px;
+    padding:                        0px 0px 6px 0px;
+}
+#col1 .silvercart-widget-content-area h2,/* Widgets in content area */
+#col4 .silvercart-widget-content-area h2 /* Widgets in content area */ {
+    font-size:                      14px;
+    font-weight:                    bold;
+    margin:                         34px 0px 6px 0px;
     padding:                        0px 0px 6px 0px;
 }
 .silvercart-widget p {
@@ -196,7 +201,7 @@
     margin:                         0px;
     padding:                        0px;
 }
-.silvercart-widget-productgroupitems-slider li {
+#col1 .silvercart-widget-productgroupitems-slider li {
     width:                          660px;
     list-style-type:                none;
     margin:                         0px;

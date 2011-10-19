@@ -1,3 +1,10 @@
+<% if FrontTitle %>
+    <h2>$FrontTitle</h2>
+<% end_if %>
+<% if FrontContent %>
+    $FrontContent
+<% end_if %>
+
 <% if Top.useSlider %>
     <% if ProductPages %>
         <ul class="silvercart-widget-productgroupitems-slider" id="SilvercartProductGroupItemsWidgetSlider{$ID}">

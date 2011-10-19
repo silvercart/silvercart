@@ -414,6 +414,7 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
+        
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -442,12 +443,8 @@ class SilvercartProduct extends DataObject {
         if (!$sort) {
             $sort = 'SilvercartProduct.SortOrder ASC';
         }
-        $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
-        if ($products) {
-            return $products;
-        }
-
-        return false;
+        
+        return DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
     }
 
     /**
