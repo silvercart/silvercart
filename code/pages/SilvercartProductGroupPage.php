@@ -669,9 +669,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
                     $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
-                    if ($product->SilvercartImages()->Count() > 0) {
-                        $product->setField('Thumbnail', $product->SilvercartImages()->First()->SetWidth(150));
-                    }
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
@@ -983,7 +980,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
 
             if (!$sort) {
-                $sort = 'RAND()';
+                $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
             }
 
             $join = sprintf(

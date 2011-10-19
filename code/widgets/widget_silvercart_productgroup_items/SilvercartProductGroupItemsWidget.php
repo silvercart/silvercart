@@ -471,7 +471,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                     break;
                 case 'random':
                 default:
-                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'RAND()');
             } 
 
             $pages          = array();
