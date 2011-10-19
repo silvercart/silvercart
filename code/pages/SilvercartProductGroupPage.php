@@ -581,6 +581,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $widgetOutput = array();
 
     /**
+     * Makes widgets of parent pages load when subpages don't have any attributed.
+     *
+     * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.10.2011
+     */
+    public $forceLoadOfWidgets = true;
+    
+    /**
      * Indicates wether a filter plugin can be registered for the current view.
      *
      * @return boolean

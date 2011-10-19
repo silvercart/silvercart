@@ -174,8 +174,6 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected $WidgetSetContentControllers;
     
-    protected $registrationControllerObject = null;
-
     /**
      * standard page controller
      *
@@ -252,9 +250,11 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
         }
-        if ($controller == $this) {
+        
+        if ($controller == $this || $controller->forceLoadOfWidgets) {
             $this->loadWidgetControllers();
         }
+        
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             $contentCssFiles = array(
                 'content',
