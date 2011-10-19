@@ -363,7 +363,7 @@ class SilvercartShoppingCart extends DataObject {
 
         // products
         foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += (float) $position->SilvercartProduct()->Price->getAmount() * $position->Quantity;
+            $amount += (float) $position->SilvercartProduct()->getPrice()->getAmount() * $position->Quantity;
         }
 
         // Registered Modules

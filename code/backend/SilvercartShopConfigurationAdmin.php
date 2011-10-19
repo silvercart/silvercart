@@ -53,24 +53,27 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $managed_models = array(
-        'SilvercartCountry',
-        'SilvercartZone',
+        'SilvercartConfig',
         'SilvercartPaymentMethod' => array(
             'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
         ),
         'SilvercartShippingMethod',
         'SilvercartCarrier',
+        'SilvercartShopEmail',
+        'SilvercartWidgetSet' => array(
+            'record_controller' => 'SilvercartHasManyOrderField_RecordController'
+        ),
+        'SilvercartCountry',
+        'SilvercartZone',
         'SilvercartTax',
         'SilvercartOrderStatus',
-        'SilvercartShopEmail',
         'SilvercartAvailabilityStatus',
         'SilvercartProductCondition',
         'SilvercartNumberRange',
         'SilvercartQuantityUnit',
-        'SilvercartWidgetSet',
-        'SilvercartConfig',
         'SilvercartDeeplink',
-        'SilvercartInboundShoppingCartTransfer'
+        'SilvercartInboundShoppingCartTransfer',
+        'SilvercartWidget'
     );
     /**
      * List of managed models with disabled creation and import form

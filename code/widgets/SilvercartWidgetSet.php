@@ -134,11 +134,36 @@ class SilvercartWidgetSet extends DataObject {
      * @since 27.05.2011
      */
     public function getCMSFields($params = null) {
-        $fields           = parent::getCMSFields($params);
-        $widgetAreaEditor = new WidgetAreaEditor('WidgetArea');
-        
+        $fields = parent::getCMSFields($params);
         $fields->removeByName('WidgetAreaID');
         $fields->removeFieldFromTab('Root', 'SilvercartPages');
+        $availableWidgets = array();
+        
+        $classes = ClassInfo::subclassesFor('Widget');
+        array_shift($classes);
+        foreach($classes as $class) {
+            if ($class == 'SilvercartWidget') {
+                continue;
+            }
+            $widgetClass = singleton($class);
+            $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
+        }
+        
+        $widgetAreaField = new SilvercartHasManyOrderField(
+            $this->WidgetArea(),
+            'Widgets',
+            'WidgetArea',
+            'Widget Konfiguration',
+            $availableWidgets
+        );
+        
+        $fields->addFieldToTab('Root.Main', $widgetAreaField);
+        
+        /*
+        $widgetAreaEditor = new WidgetAreaEditor('WidgetArea');
+        
+        
+        
         $fields->addFieldToTab('Root.Main', $widgetAreaEditor);
         
         $pagesTableField = new ManyManyDataObjectManager(
@@ -148,6 +173,7 @@ class SilvercartWidgetSet extends DataObject {
         );
         $fields->findOrMakeTab('Root.SilvercartPages', _t('SilvercartWidgetSet.PAGES'));
         $fields->addFieldToTab('Root.SilvercartPages', $pagesTableField);
+         */
         return $fields;
     }
     

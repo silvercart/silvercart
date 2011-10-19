@@ -85,7 +85,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
+        $fields = new FieldSet();
         
         $productGroupField = new SilvercartGroupedDropdownField(
             'SilvercartProductGroupPageID',
@@ -94,7 +94,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             $this->SilvercartProductGroupPageID
         );
         $titleField                 = new TextField('FrontTitle', _t('SilvercartProductGroupItemsWidget.FRONTTITLE'));
-        $contentField               = new HtmlEditorField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'));
+        $contentField               = new TextareaField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'), 10);
         $numberOfProductsShowField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOSHOW'));
         $numberOfProductsFetchField = new TextField('numberOfProductsToFetch', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOFETCH'));
         $fetchMethod                = new DropdownField(
@@ -127,24 +127,32 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             )
         );
         
-        $fields->push($titleField);
-        $fields->push($contentField);
-        $fields->push($productGroupField);
-        $fields->push($numberOfProductsFetchField);
-        $fields->push($fetchMethod);
-        $fields->push($numberOfProductsShowField);
-        $fields->push($useListViewField);
-        $fields->push($isContentView);
-        $fields->push($useSlider);
-        $fields->push($autoplay);
-        $fields->push($autoPlayDelayed);
-        $fields->push($autoPlayLocked);
-        $fields->push($stopAtEnd);
-        $fields->push($slideDelay);
-        $fields->push($buildArrows);
-        $fields->push($buildNavigation);
-        $fields->push($buildStartStop);
-        $fields->push($transitionEffect);
+        $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
+        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        $sliderTab  = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($basicTab);
+        $rootTabSet->push($sliderTab);
+        
+        $basicTab->push($titleField);
+        $basicTab->push($contentField);
+        $basicTab->push($numberOfProductsShowField);
+        $basicTab->push($numberOfProductsFetchField);
+        $basicTab->push($fetchMethod);
+        $basicTab->push($useListViewField);
+        $basicTab->push($isContentView);
+        
+        $sliderTab->push($useSlider);
+        $sliderTab->push($autoplay);
+        $sliderTab->push($slideDelay);
+        $sliderTab->push($buildArrows);
+        $sliderTab->push($buildNavigation);
+        $sliderTab->push($buildStartStop);
+        $sliderTab->push($autoPlayDelayed);
+        $sliderTab->push($autoPlayLocked);
+        $sliderTab->push($stopAtEnd);
+        $sliderTab->push($transitionEffect);
         
         return $fields;
     }

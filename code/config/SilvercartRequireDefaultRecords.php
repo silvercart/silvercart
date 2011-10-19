@@ -1104,7 +1104,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent1->setField('buildStartStop', 0);
             $widgetFrontPageContent1->setField('slideDelay', 6000);
             $widgetFrontPageContent1->setField('transitionEffect', 'fade');
-            $widgetFrontPageContent1->setField('sortOrder', 1);
+            $widgetFrontPageContent1->setField('Sort', 1);
             $widgetFrontPageContent1->write();
 
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent1);
@@ -1123,7 +1123,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent2->setField('buildStartStop', 0);
             $widgetFrontPageContent2->setField('slideDelay', 6000);
             $widgetFrontPageContent2->setField('transitionEffect', 'horizontalSlide');
-            $widgetFrontPageContent2->setField('sortOrder', 2);
+            $widgetFrontPageContent2->setField('Sort', 2);
             $widgetFrontPageContent2->write();
 
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent2);
@@ -1139,19 +1139,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageSidebar1->setField('buildStartStop', 0);
             $widgetFrontPageSidebar1->setField('slideDelay', 4000);
             $widgetFrontPageSidebar1->setField('transitionEffect', 'horizontalSlide');
-            $widgetFrontPageSidebar1->setField('sortOrder', 1);
+            $widgetFrontPageSidebar1->setField('Sort', 1);
             $widgetFrontPageSidebar1->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
             
             $widgetFrontPageSidebar2 = new SilvercartShoppingCartWidget();
-            $widgetFrontPageSidebar2->setField('sortOrder', 2);
+            $widgetFrontPageSidebar2->setField('Sort', 2);
             $widgetFrontPageSidebar2->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar2);
             
             $widgetFrontPageSidebar3 = new SilvercartLoginWidget();
-            $widgetFrontPageSidebar3->setField('sortOrder', 3);
+            $widgetFrontPageSidebar3->setField('Sort', 3);
             $widgetFrontPageSidebar3->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar3);
@@ -1169,19 +1169,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetProductGroupPageSidebar1->setField('buildStartStop', 0);
             $widgetProductGroupPageSidebar1->setField('slideDelay', 4000);
             $widgetProductGroupPageSidebar1->setField('transitionEffect', 'horizontalSlide');
-            $widgetProductGroupPageSidebar1->setField('sortOrder', 1);
+            $widgetProductGroupPageSidebar1->setField('Sort', 1);
             $widgetProductGroupPageSidebar1->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar1);
             
             $widgetProductGroupPageSidebar2 = new SilvercartShoppingCartWidget();
-            $widgetProductGroupPageSidebar2->setField('sortOrder', 2);
+            $widgetProductGroupPageSidebar2->setField('Sort', 2);
             $widgetProductGroupPageSidebar2->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar2);
             
             $widgetProductGroupPageSidebar3 = new SilvercartLoginWidget();
-            $widgetProductGroupPageSidebar3->setField('sortOrder', 3);
+            $widgetProductGroupPageSidebar3->setField('Sort', 3);
             $widgetProductGroupPageSidebar3->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar3);

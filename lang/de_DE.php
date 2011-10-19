@@ -143,6 +143,10 @@ $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Stufe 6';
 $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google Taxonomie';
 $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google Taxonomie';
 
+$lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
+$lang['de_DE']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
+$lang['de_DE']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Stellt einen Imageslider zur Verfügung, das mehrere Bilder in einer Slideshow darstellt.';
+
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV Trennzeichen';
@@ -754,6 +758,12 @@ $lang['de_DE']['SilvercartHandlingCost']['PLURALNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['SINGULARNAME'] = 'Bearbeitungskosten';
 $lang['de_DE']['SilvercartHandlingCost']['AMOUNT'] = 'Betrag';
 
+$lang['de_DE']['SilvercartHasManyOrderField']['ATTRIBUTED_FIELDS']          = 'Zugewiesene Widgets';
+$lang['de_DE']['SilvercartHasManyOrderField']['MOVE_DOWN']                  = 'Nach unten schieben';
+$lang['de_DE']['SilvercartHasManyOrderField']['MOVE_UP']                    = 'Nach oben schieben';
+$lang['de_DE']['SilvercartHasManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Verfügbare Widgets';
+$lang['de_DE']['SilvercartHasManyOrderField']['EDIT']                       = 'Bearbeiten';
+
 $lang['de_DE']['SilvercartImage']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
 $lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';
@@ -1292,7 +1302,9 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTTITLE']               
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Anzahl der Artikel, die geladen werden sollen:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOSHOW']    = 'Anzahl der Artikel, die angezeigt werden sollen:';
