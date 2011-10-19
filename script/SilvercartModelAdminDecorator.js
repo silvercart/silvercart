@@ -1,6 +1,9 @@
 var preventAutoloadFor = [
     $PreventAutoLoadForManagedModels
 ];
+var enableFirstEntryAutoLoadFor = [
+    $EnabledFirstEntryAutoLoadForManagedModels
+];
 
 (function($) {
     $(document).ready(function() {
@@ -12,6 +15,9 @@ var preventAutoloadFor = [
                 
                 if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
                     $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                    if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                        loadFirstEntry(managedModelClass);
+                    }
                 } else {
                     $('#Form_ResultsForm').html(' ');
                 }
@@ -26,6 +32,9 @@ var preventAutoloadFor = [
                 
                 if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
                     $('#' + FormID).triggerHandler('submit');
+                    if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                        loadFirstEntry(managedModelClass);
+                    }
                 } else {
                     $('#Form_ResultsForm').html(' ');
                 }
@@ -36,6 +45,9 @@ var preventAutoloadFor = [
             
             if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
                 $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                    loadFirstEntry(managedModelClass);
+                }
             } else {
                 $('#Form_ResultsForm').html(' ');
             }
@@ -98,4 +110,15 @@ var preventAutoloadFor = [
 
         return false;
     }
+    
+    var loadFirstEntry = function(managedModelClass) {
+        if ($('#Form_ResultsForm_' + managedModelClass + ' table.data').length == 0) {
+            setTimeout(loadFirstEntry, 500, managedModelClass);
+        } else {
+            var table = jQuery('#Form_ResultsForm_' + managedModelClass + ' table.data');
+            var td = jQuery('tbody td:first', table);
+            var a = jQuery('a', td);
+            a.trigger('click');
+        }
+    };
 })(jQuery);

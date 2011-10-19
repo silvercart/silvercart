@@ -53,7 +53,9 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @since 31.01.2011
      */
     public static $managed_models = array(
-        'SilvercartConfig',
+        'SilvercartConfig' => array(
+            'enableFirstEntryAutoLoad' => true
+        ),
         'SilvercartPaymentMethod' => array(
             'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
         ),
