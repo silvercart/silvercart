@@ -161,8 +161,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage = new SilvercartFrontPage();
             $rootPage->IdentifierCode = "SilvercartFrontPage";
-            $rootPage->Title = 'Silvercart';
-            $rootPage->MenuTitle = "Silvercart";
+            $rootPage->Title = 'SilverCart';
+            $rootPage->MenuTitle = "SilverCart";
             if (SiteTree::get_by_link('home')) {
                 $rootPage->URLSegment = 'webshop';
             } else {
