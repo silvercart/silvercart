@@ -42,26 +42,7 @@ class SilvercartWidget extends Widget {
      * @since 14.07.2011
      */
     public static $db = array(
-        'sortOrder' => 'Int'
     );
-    
-    /**
-     * Returns the input fields for this widget.
-     * 
-     * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
-     */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $sortOrderField = new TextField('sortOrder', _t('SilvercartWidget.SORT_ORDER_LABEL'));
-        
-        $fields->push($sortOrderField);
-        
-        return $fields;
-    }
 }
 
 /**

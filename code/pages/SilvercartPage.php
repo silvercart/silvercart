@@ -174,8 +174,6 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected $WidgetSetContentControllers;
     
-    protected $registrationControllerObject = null;
-
     /**
      * standard page controller
      *
@@ -252,9 +250,11 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
         }
-        if ($controller == $this) {
+        
+        if ($controller == $this || $controller->forceLoadOfWidgets) {
             $this->loadWidgetControllers();
         }
+        
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             $contentCssFiles = array(
                 'content',
@@ -825,7 +825,7 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
         
         // Content area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
@@ -836,7 +836,7 @@ class SilvercartPage_Controller extends ContentController {
             );
         }
         $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.

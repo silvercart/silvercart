@@ -143,6 +143,10 @@ $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Level 6';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google taxonomy';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google taxonomy';
 
+$lang['en_GB']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
+$lang['en_GB']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
+$lang['en_GB']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an image slider for displaying multiple images in a slide show.';
+
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';
@@ -755,6 +759,12 @@ $lang['en_GB']['SilvercartHandlingCost']['PLURALNAME'] = 'Handling Costs';
 $lang['en_GB']['SilvercartHandlingCost']['SINGULARNAME'] = 'Handling Cost';
 $lang['en_GB']['SilvercartHandlingCost']['AMOUNT'] = 'amount';
 
+$lang['en_GB']['SilvercartHasManyOrderField']['ATTRIBUTED_FIELDS']          = 'Attributed widgets';
+$lang['en_GB']['SilvercartHasManyOrderField']['MOVE_DOWN']                  = 'Move down';
+$lang['en_GB']['SilvercartHasManyOrderField']['MOVE_UP']                    = 'Move up';
+$lang['en_GB']['SilvercartHasManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Available widgets';
+$lang['en_GB']['SilvercartHasManyOrderField']['EDIT']                       = 'Edit';
+
 $lang['en_GB']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartImage']['PLURALNAME'] = 'Images';
 $lang['en_GB']['SilvercartImage']['SINGULARNAME'] = 'Image';
@@ -1295,6 +1305,8 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTTITLE']               
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Content';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Number of products to fetch:';
