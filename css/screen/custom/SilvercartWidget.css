@@ -207,3 +207,18 @@
     margin:                         0px;
     padding:                        0px;
 }
+
+.silvercart-widget-image-slider {
+    list-style-type:                none;
+    margin:                         0px;
+    padding:                        0px;
+}
+#col1 .silvercart-widget-image-slider li {
+    width:                          660px;
+    list-style-type:                none;
+    margin:                         0px;
+    padding:                        0px;
+}
+#col1 .silvercart-widget-image-slider li {
+    text-align:                     center;
+}

@@ -334,6 +334,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             $stopAtEnd          = 'false';
             $buildArrows        = 'false';
             $buildStartStop     = 'false';
+            $buildNavigation    = 'false';
 
             if ($this->Autoplay) {
                 $autoplay = 'true';
