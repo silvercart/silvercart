@@ -268,7 +268,7 @@ class SilvercartCustomer extends DataObjectDecorator {
         
         return false;
     }
-    
+
     /**
      * Get the customers shopping cart or create one if it doesn't exist yet.
      * 
@@ -287,6 +287,29 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
         
         return $this->owner->SilvercartShoppingCart();
+    }
+    
+    /**
+     * Returns all customer groups of the current customer as a DataObjectSet.
+     * If Member::currentUser() does not exist, the group for anonymous customers
+     * will be returned. If no group for anonymous customers exists, null will 
+     * be returned.
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public static function getCustomerGroups() {
+        $customer = Member::currentUser();
+        if ($customer) {
+            $customerGroups = $customer->Groups();
+        } else {
+            $customerGroups = DataObject::get(
+                'Group', "`Code` = 'anonymous'"
+            );
+        }
+        return $customerGroups;
     }
     
     /**

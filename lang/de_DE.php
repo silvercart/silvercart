@@ -143,6 +143,8 @@ $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Stufe 6';
 $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google Taxonomie';
 $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google Taxonomie';
 
+$lang['de_DE']['SilvercartImageSliderImage']['LINKPAGE'] = 'Seite, zu der verlinkt werden soll';
+
 $lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Stellt einen Imageslider zur Verfügung, das mehrere Bilder in einer Slideshow darstellt.';

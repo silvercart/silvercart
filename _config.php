@@ -57,6 +57,7 @@ DataObject::add_extension('Image',                                      'Silverc
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",
+    "SilvercartImageSliderImage",
 ));
 
 // ----------------------------------------------------------------------------
