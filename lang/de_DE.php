@@ -1347,6 +1347,5 @@ $lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'S
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll.';
 
 $lang['de_DE']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
-$lang['de_DE']['SiteConfig']['SITETAGLINE'] = 'eCommerce software. Open-source. You\'ll love it';
-$lang['de_DE']['SiteConfig']['TAGLINEDEFAULT'] = 'eCommerce software. Open-source. You\'ll love it';
+$lang['de_DE']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it';
 

@@ -222,3 +222,9 @@
 #col1 .silvercart-widget-image-slider li {
     text-align:                     center;
 }
+#col1 .silvercart-widget-image-slider li img {
+    border:                         1px #e1e1e1 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}

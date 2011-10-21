@@ -1347,6 +1347,5 @@ $lang['en_GB']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'S
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for product groups. You can define what productgroup should be used as root.';
 
 $lang['en_GB']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
-$lang['en_GB']['SiteConfig']['SITETAGLINE'] = 'eCommerce software. Open-source. You\'ll love it';
-$lang['en_GB']['SiteConfig']['TAGLINEDEFAULT'] = 'eCommerce software. Open-source. You\'ll love it';
+$lang['en_GB']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it';
 

@@ -1104,7 +1104,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent1->setField('buildStartStop', 0);
             $widgetFrontPageContent1->setField('slideDelay', 6000);
             $widgetFrontPageContent1->setField('transitionEffect', 'fade');
-            $widgetFrontPageContent1->setField('Sort', 1);
+            $widgetFrontPageContent1->setField('Sort', 2);
             $widgetFrontPageContent1->write();
 
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent1);
@@ -1123,10 +1123,37 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent2->setField('buildStartStop', 0);
             $widgetFrontPageContent2->setField('slideDelay', 6000);
             $widgetFrontPageContent2->setField('transitionEffect', 'horizontalSlide');
-            $widgetFrontPageContent2->setField('Sort', 2);
+            $widgetFrontPageContent2->setField('Sort', 3);
             $widgetFrontPageContent2->write();
 
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent2);
+            
+            $widgetFrontPageContent3 = new SilvercartImageSliderWidget();
+            $widgetFrontPageContent3->setField('buildArrows', 0);
+            $widgetFrontPageContent3->setField('buildNavigation', 1);
+            $widgetFrontPageContent3->setField('buildStartStop', 0);
+            $widgetFrontPageContent3->setField('slideDelay', 10000);
+            $widgetFrontPageContent3->setField('transitionEffect', 'fade');
+            $widgetFrontPageContent3->setField('Sort', 1);
+            $widgetFrontPageContent3->write();
+
+            $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent3);
+            
+            copy(
+                Director::baseFolder().'/silvercart/images/exampledata/silvercart_teaser.jpg',
+                $exampleDataDir.'/silvercart_teaser.jpg'
+            );
+            $teaserImage = new Image();
+            $teaserImage->setFilename($exampleDataDir.'/silvercart_teaser.jpg');
+            $teaserImage->setParentID($imageFolder->ID);
+            $teaserImage->write();
+            
+            $slideImage = new SilvercartImageSliderImage();
+            $slideImage->setField('Title',   'Silvercart Teaser');
+            $slideImage->setField('ImageID', $teaserImage->ID);
+            $slideImage->write();
+            
+            $widgetFrontPageContent3->slideImages()->add($slideImage);
 
             $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
             $widgetFrontPageSidebar1->setField('numberOfProductsToShow', 3);
