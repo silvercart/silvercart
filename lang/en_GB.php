@@ -749,7 +749,7 @@ $lang['en_GB']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footer Navig
 $lang['en_GB']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footer Navigation Holder';
 $lang['en_GB']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
 
-$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
+$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
 $lang['en_GB']['SilvercartFrontPage']['PLURALNAME'] = 'Front pages';
 $lang['en_GB']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
 
@@ -1182,7 +1182,7 @@ $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_TITLE']      
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_CONTENT']        = '<p>Explore all the payment modules for SilverCart!</p>';
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_TITLE']          = 'Other Modules';
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_CONTENT']        = '<p>There are modules for nearly every use case available for SilverCart.</p>';
-$lang['en_GB']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purpose only.</p></div>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purposes only.</p></div>';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPPAYMENT_TITLE']                   = 'Payment Modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPPAYMENT_URLSEGMENT']              = 'payment-modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']                 = 'Marketing Modules';

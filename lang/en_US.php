@@ -1182,7 +1182,7 @@ $lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_TITLE']      
 $lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_CONTENT']        = '<p>Explore all the payment modules for SilverCart!</p>';
 $lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_TITLE']          = 'Other Modules';
 $lang['en_US']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_CONTENT']        = '<p>There are modules for nearly every use case available for SilverCart.</p>';
-$lang['en_US']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purpose only.</p></div>';
+$lang['en_US']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purposes only.</p></div>';
 $lang['en_US']['SilvercartTestData']['PRODUCTGROUPPAYMENT_TITLE']                   = 'Payment Modules';
 $lang['en_US']['SilvercartTestData']['PRODUCTGROUPPAYMENT_URLSEGMENT']              = 'payment-modules';
 $lang['en_US']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']                 = 'Marketing Modules';
