@@ -167,6 +167,14 @@ class SilvercartProduct extends DataObject {
     );
     
     /**
+     * The final price object (dependent on customer class and custom extensions
+     * like rebates @see $this->getPrice())
+     *
+     * @var Money
+     */
+    protected $price = null;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -979,24 +987,27 @@ class SilvercartProduct extends DataObject {
      *
      * @return Money price dependent on customer class and configuration
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.3.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2011
      */
     public function getPrice() {
-        $pricetype = SilvercartConfig::Pricetype();
-        if ($pricetype =="net") {
-            $price = $this->PriceNet;
-        } elseif ($pricetype == "gross") {
-            $price = $this->PriceGross;
-        } else {
-            $price = $this->PriceGross;
+        if (is_null($this->price)) {
+            $pricetype = SilvercartConfig::Pricetype();
+            if ($pricetype =="net") {
+                $price = clone $this->PriceNet;
+            } elseif ($pricetype == "gross") {
+                $price = clone $this->PriceGross;
+            } else {
+                $price = clone $this->PriceGross;
+            }
+            if ($price->getAmount() < 0) {
+                $price->setAmount(0);
+            }
+            //overwrite the price in a decorator
+            $this->extend('updatePrice', $price);
+            $this->price = $price;
         }
-        if ($price->getAmount() < 0) {
-            $price->setAmount(0);
-        }
-        //overwrite the price in a decorator
-        $this->extend('updatePrice', $price);
-        return $price; 
+        return $this->price; 
     }
     
     /**
