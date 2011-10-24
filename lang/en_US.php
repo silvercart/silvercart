@@ -1202,8 +1202,8 @@ $lang['en_US']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC']
 $lang['en_US']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC']     = 'Wer im Internet handelt, ist mit einer unüberschaubaren Menge rechtlicher Vorgaben konfrontiert, die bei Nichteinhaltung zu einem teuren Unterfangen werden können. Gerade von Konkurrenten, die ihren Mitbewerb durch teuere Abmahnungen zu schädigen versuchen, geht für Ihr Unternehmen eine große Gefahr aus. Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. 67% der Online Käufer vertrauen auf Online-Konsumentenbewertungen (Quelle: www.nielsen.com vom 24.07.2009). Mit unserer Vote Connect Schnittstelle integrieren Sie das Protected Shops Kundenbewertungssystem in Ihren Shop. ';
 $lang['en_US']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_KEYWORDS']     = 'SilverCart, modules, ProtectedShops, marketing';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_TITLE']                      = 'DHL';
-$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Paketschnittstelle zum Versandanbieter DHL (Easylog)';
-$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Paketschnittstelle zum Versandanbieter DHL für den Export von Bestellungen nach Easylog und den Import von Sendungsnachverfolgungsnummern in SilverCart.';
+$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Packet interface for the shipping provider DHL (EasyLog)';
+$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Packet interface for the shipping provider DHL. Interface to export ordernumbers into Easylog and to import tracking numbers back into SilverCart.';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_KEYWORDS']                   = 'SilverCart, modules, shipping';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF Invoice';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_SHORTDESC']           = 'Automatically generate PDF invoices';
