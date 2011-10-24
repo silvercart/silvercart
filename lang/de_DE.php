@@ -395,8 +395,8 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Preistyp fü
 $lang['de_DE']['SilvercartConfig']['PRICETYPEADMINS'] = 'Preistyp für Administratoren';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER_INFO'] = 'Der E-Mail Absender wird als Absenderadresse aller E-Mails verwendet, die von SilverCart gesendet werden.';
 $lang['de_DE']['SilvercartConfig']['ERROR_TITLE'] = 'Es ist ein Fehler aufgetreten!';
-$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Allgemeine Konfiguration".';
-$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SilverCart Konfiguration -> Länder".';
+$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SC Konfig -> Allgemeine Konfiguration".';
+$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href="%sadmin/silvercart-configuration/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SC Konfig -> Länder".';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Globaler E-Mail Empfänger';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Bestellbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.';
 $lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Mindestbestellwert';
@@ -1140,9 +1140,9 @@ $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['de_DE']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Logos anzeigen';
 
-$lang['de_DE']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart Administration';
+$lang['de_DE']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
-$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Konfiguration';
+$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Konfig';
 
 $lang['de_DE']['SilvercartShopEmail']['EMAILTEXT'] = 'Nachricht';
 $lang['de_DE']['SilvercartShopEmail']['IDENTIFIER'] = 'Bezeichner';
@@ -1251,7 +1251,7 @@ $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'Dieses Update ist
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manuelle Änderungen wurden gefunden. Dieses Update wurde übersprungen, um Schäden an der Datenhaltung zu vermeiden.';
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'Es ist ein unbekannter Fehler aufgetreten.';
 
-$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
 
 $lang['de_DE']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sortierung';
 
