@@ -1231,17 +1231,22 @@ class SilvercartConfig extends DataObject {
      */
     public static function isInstallationCompleted() {
         $installationComplete   = false;
-        $memberFieldList        = array();
-        $queryRes               = DB::query("SHOW TABLES");
-        if ($queryRes->numRecords() > 0) {
-            $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+        
+        if (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
+            $installationComplete = false;
+        } else {
+            $memberFieldList        = array();
+            $queryRes               = DB::query("SHOW TABLES");
+            if ($queryRes->numRecords() > 0) {
+                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
 
-            foreach ($queryRes as $key => $value) {
-                $memberFieldList[] = $value['Field'];
-            }
+                foreach ($queryRes as $key => $value) {
+                    $memberFieldList[] = $value['Field'];
+                }
 
-            if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                $installationComplete = true;
+                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                    $installationComplete = true;
+                }
             }
         }
         

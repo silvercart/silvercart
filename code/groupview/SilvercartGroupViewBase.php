@@ -120,9 +120,9 @@ class SilvercartGroupViewBase extends DataObject {
             }
 
             if (is_file(Director::baseFolder() . '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
-                $this->preferences['image'] = '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+                $this->preferences['image'] = Director::absoluteBaseURL() . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } elseif (is_file(Director::baseFolder() . '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
-                $this->preferences['image'] = '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+                $this->preferences['image'] = Director::absoluteBaseURL() . 'silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } else {
                 $this->preferences['image'] = '';
             }

@@ -287,6 +287,7 @@ class SilvercartPage_Controller extends ContentController {
 
             // Combine files
             if (class_exists('RequirementsEngine')) {
+                RequirementsEngine::registerCssVariable('CurrentController', Controller::curr());
                 RequirementsEngine::combine_files('script.js', $combinedJsFiles);
                 RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
                 RequirementsEngine::combine_files_and_parse('content.css', $combinedContentCssFiles);
@@ -320,10 +321,12 @@ class SilvercartPage_Controller extends ContentController {
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
-            if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
+            if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
         } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
+            $checkConfiguration = false;
+        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
             $checkConfiguration = false;
         }
         if ($checkConfiguration) {
