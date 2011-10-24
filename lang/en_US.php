@@ -394,8 +394,8 @@ $lang['en_US']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Pricetype bu
 $lang['en_US']['SilvercartConfig']['PRICETYPEADMINS'] = 'Pricetype administrators';
 $lang['en_US']['SilvercartConfig']['EMAILSENDER_INFO'] = 'The email sender will be the sender address of all emails sent by SilverCart.';
 $lang['en_US']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
-$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
-$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
+$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SC Config -> general configuration" to edit the missing field.';
+$lang['en_US']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No activated country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SC Config -> countries" to activate a country.';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_US']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.';
 $lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum order value';
@@ -1137,9 +1137,9 @@ $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_US']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
 
-$lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart Administration';
+$lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
-$lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
+$lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Config';
 
 $lang['en_US']['SilvercartShopEmail']['EMAILTEXT'] = 'Message';
 $lang['en_US']['SilvercartShopEmail']['IDENTIFIER'] = 'Identifier';
@@ -1248,7 +1248,7 @@ $lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is al
 $lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage on existing data.';
 $lang['en_US']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
 
-$lang['en_US']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+$lang['en_US']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
 
 $lang['en_US']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 

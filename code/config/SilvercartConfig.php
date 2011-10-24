@@ -212,6 +212,7 @@ class SilvercartConfig extends DataObject {
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
+    public static $silvercartVersion                = null;
     public static $useApacheSolrSearch              = null;
     public static $enableStockManagement            = null;
     public static $isStockManagementOverbookable    = null;
@@ -704,6 +705,21 @@ class SilvercartConfig extends DataObject {
             self::$disregardMinimumOrderValue = self::getConfig()->disregardMinimumOrderValue;
         }
         return self::$disregardMinimumOrderValue;
+    }
+
+    /**
+     * Returns the SilverCart version.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.10.2011
+     */
+    public static function SilvercartVersion() {
+        if (is_null(self::$silvercartVersion)) {
+            self::$silvercartVersion = self::$defaults['SilvercartVersion'];
+        }
+        return self::$silvercartVersion;
     }
     
     /**
