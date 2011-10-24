@@ -326,8 +326,6 @@ class SilvercartPage_Controller extends ContentController {
             }
         } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
             $checkConfiguration = false;
-        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
-            $checkConfiguration = false;
         }
         if ($checkConfiguration) {
             SilvercartConfig::Check();
