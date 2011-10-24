@@ -1205,7 +1205,7 @@ $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_TITLE']                  
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Paketschnittstelle zum Versandanbieter DHL (Easylog)';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Paketschnittstelle zum Versandanbieter DHL für den Export von Bestellungen nach Easylog und den Import von Sendungsnachverfolgungsnummern in SilverCart.';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSDHL_KEYWORDS']                   = 'SilverCart, modules, shipping';
-$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF invoice';
+$lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF Invoice';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_SHORTDESC']           = 'Automatically generate PDF invoices';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_LONGDESC']            = 'Automatically generated purchase order as PDF file.';
 $lang['en_US']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_KEYWORDS']            = 'SilverCart, modules, PDF invoice';
