@@ -965,23 +965,26 @@ class SilvercartProduct extends DataObject {
      * @since 18.3.2011
      */
     public function getPrice() {
-        $pricetype = SilvercartConfig::Pricetype();
-        if ($pricetype =="net") {
-            $price = $this->PriceNet;
-        } elseif ($pricetype == "gross") {
-            $price = $this->PriceGross;
-        } else {
-            $price = $this->PriceGross;
+        if (is_null($this->price)) {
+            $pricetype = SilvercartConfig::Pricetype();
+            if ($pricetype =="net") {
+                $price = clone $this->PriceNet;
+            } elseif ($pricetype == "gross") {
+                $price = clone $this->PriceGross;
+            } else {
+                $price = clone $this->PriceGross;
+            }
+            
+            $price->setAmount(round($price->getAmount(), 2));
+            
+            if ($price->getAmount() < 0) {
+                $price->setAmount(0);
+            }
+            //overwrite the price in a decorator
+            $this->extend('updatePrice', $price);
+            $this->price = $price;
         }
-        
-        $price->setAmount(round($price->getAmount(), 2));
-        
-        if ($price->getAmount() < 0) {
-            $price->setAmount(0);
-        }
-        //overwrite the price in a decorator
-        $this->extend('updatePrice', $price);
-        return $price; 
+        return $this->price; 
     }
     
     /**
