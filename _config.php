@@ -118,6 +118,23 @@ if (method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }
 
+// ----------------------------------------------------------------------------
+// add silvercart branding if no other branding is set
+// ----------------------------------------------------------------------------
+if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
+    LeftAndMain::$application_logo == 'cms/images/mainmenu/logo.gif' &&
+    LeftAndMain::$application_name == 'SilverStripe CMS' &&
+    LeftAndMain::$application_logo_text = 'SilverStripe') {
+    LeftAndMain::setApplicationName(
+        'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
+        '<p style="font-size: 11px; line-height: 11px;">eCommerce software.<br/>Open-source. You\'ll love it.</p>',
+        'http://www.silvercart.org'
+    );
+    LeftAndMain::set_loading_image(
+        '/silvercart/images/logo.jpg'
+    );
+}
+
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

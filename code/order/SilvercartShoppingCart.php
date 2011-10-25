@@ -618,6 +618,12 @@ class SilvercartShoppingCart extends DataObject {
     public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false) {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
+        
+        if (SilvercartConfig::Pricetype() == "net") {
+            foreach ($this->getTaxRatesWithFees() as $taxRate) {
+                $amount += (float) $taxRate->Amount->getAmount();
+            }
+        }
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
