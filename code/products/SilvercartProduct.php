@@ -454,7 +454,8 @@ class SilvercartProduct extends DataObject {
         
         $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
         
-        if (in_array('Price', $requiredAttributes)) {
+        if (in_array('Price', $requiredAttributes) &&
+            !is_null($databaseFilteredProducts)) {
             foreach ($databaseFilteredProducts as $product) {
                 if ($product->getPrice()->getAmount() <= 0) {
                     $databaseFilteredProducts->remove($product);

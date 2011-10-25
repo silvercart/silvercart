@@ -165,6 +165,9 @@ div.silvercart-message {
 p.silvercart-message {
     margin:                         0px;
 }
+span.silvercart-message {
+    display:                        block;
+}
 .silvercart-message.info16 {
     padding: 0 0 0 20px;
     
