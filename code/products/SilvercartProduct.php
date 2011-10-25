@@ -1000,6 +1000,9 @@ class SilvercartProduct extends DataObject {
             } else {
                 $price = clone $this->PriceGross;
             }
+            
+            $price->setAmount(round($price->getAmount(), 2));
+            
             if ($price->getAmount() < 0) {
                 $price->setAmount(0);
             }
