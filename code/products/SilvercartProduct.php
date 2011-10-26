@@ -471,7 +471,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return FieldSet the editible fields
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.10.2011
+     * @since 26.10.2011
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
@@ -492,7 +492,13 @@ class SilvercartProduct extends DataObject {
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->addFieldToTab('Root.Main.Content', $dropdownField);
+        
+        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            $targetTab = 'Root.Main';
+        } else {
+            $targetTab = 'Root.Main.Content';
+        }
+        $fields->addFieldToTab($targetTab, $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
