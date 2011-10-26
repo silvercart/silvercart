@@ -492,7 +492,13 @@ class SilvercartProduct extends DataObject {
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->addFieldToTab('Root.Main.Content', $dropdownField);
+        
+        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            $targetTab = 'Root.Main';
+        } else {
+            $targetTab = 'Root.Main.Content';
+        }
+        $fields->addFieldToTab($targetTab, $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
