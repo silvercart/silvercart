@@ -140,22 +140,25 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
                     )
                 );
 
+                Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
+                
                 return $this->submitFailure(
-                        $data,
-                        $form
+                    $data,
+                    $form
                 );
             }
         } else {
             $this->messages = array(
                 'Authentication' => array(
-                    'message' => _t('SilvercartPage.EMAIL_NOT_FOUND', 'This Email address could not be found.')
-                )
-            );
-
-            return $this->messages = array(
-                'Authentication' => array(
                     'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
                 )
+            );
+            
+            Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
+
+            return $this->submitFailure(
+                $data,
+                $form
             );
         }
     }
