@@ -471,7 +471,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return FieldSet the editible fields
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.10.2011
+     * @since 26.10.2011
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
