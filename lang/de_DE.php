@@ -385,6 +385,10 @@ $lang['de_DE']['SilvercartConfig']['EXAMPLE_CONFIGURATION_ALREADY_ADDED'] = 'Bei
 $lang['de_DE']['SilvercartConfig']['GENERAL'] = 'Allgemein';
 $lang['de_DE']['SilvercartConfig']['GENERAL_MAIN'] = 'Hauptteil';
 $lang['de_DE']['SilvercartConfig']['GENERAL_TEST_DATA'] = 'Beispieldaten';
+$lang['de_DE']['SilvercartConfig']['GEONAMES_DESCRIPTION'] = '<h3>Beschreibung</h3><p>GeoNames stellt eine Datenbank mit detailierten Geodaten bereit. Sie kann benutzt werden, um aktuelle Länderinformation zu beziehen (Namen, ISO2, ISO3, usw.).<br/> Um diese nutzen zu können, müssen Sie sich einen Account bei <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a> erstellen, die Registrierung bestätigen und den Webservice aktivieren.<br/> Aktivieren Sie dann GeoNames hier im Backend, setzen Ihren Benutzernamen ein und speichern die Änderungen.<br/> Danach wird SilverCart bei jedem dev/build die Länderdaten mit der GeoNames Datenbank synchronisieren, wahlweise mehrsprachig.</p>';
+$lang['de_DE']['SilvercartConfig']['GEONAMES_ACTIVE'] = 'GeoNames aktivieren';
+$lang['de_DE']['SilvercartConfig']['GEONAMES_USERNAME'] = 'GeoNames Benutzername';
+$lang['de_DE']['SilvercartConfig']['GEONAMES_API'] = 'GeoNames API URL';
 $lang['de_DE']['SilvercartConfig']['INTERFACES'] = 'Schnittstellen';
 $lang['de_DE']['SilvercartConfig']['INTERFACES_GEONAMES'] = 'GeoNames';
 $lang['de_DE']['SilvercartConfig']['LAYOUT'] = 'Layout';

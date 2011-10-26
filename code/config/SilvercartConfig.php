@@ -437,11 +437,7 @@ class SilvercartConfig extends DataObject {
         $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
 
         $geoNamesDescriptionValue = '';
-        $geoNamesDescriptionValue .= '<h3>Description</h3>';
-        $geoNamesDescriptionValue .= '<p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/>';
-        $geoNamesDescriptionValue .= 'To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/>';
-        $geoNamesDescriptionValue .= 'Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/>';
-        $geoNamesDescriptionValue .= 'After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+        $geoNamesDescriptionValue = _t('SilvercartConfig.GEONAMES_DESCRIPTION');
         $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $geoNamesDescription);
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesActive'));
@@ -478,6 +474,9 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['apacheSolrUrl']                       = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
         $fieldLabels['isStockManagementOverbookable']       = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
         $fieldLabels['demandBirthdayDateOnRegistration']    = _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?');
+        $fieldLabels['GeoNamesActive']                      = _t('SilvercartConfig.GEONAMES_ACTIVE');
+        $fieldLabels['GeoNamesUserName']                    = _t('SilvercartConfig.GEONAMES_USERNAME');
+        $fieldLabels['GeoNamesAPI']                         = _t('SilvercartConfig.GEONAMES_API');
         return $fieldLabels;
     }
 
