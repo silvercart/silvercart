@@ -441,6 +441,7 @@ $lang['de_DE']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'kontaktbes
 
 $lang['de_DE']['SilvercartContactMessage']['PLURALNAME'] = 'Kontaktanfragen';
 $lang['de_DE']['SilvercartContactMessage']['SINGULARNAME'] = 'Kontaktanfrage';
+$lang['de_DE']['SilvercartContactMessage']['MESSAGE'] = 'Nachricht';
 $lang['de_DE']['SilvercartContactMessage']['TEXT'] = "<h1>Anfrage über Kontaktformular</h1>\n<h2>Hallo,</h2>\n<p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />\nDer Kunde <strong>\"\$FirstName \$Surname\"</strong> hat die Email Adresse <strong>\"\$Email\"</strong> für Rückantworten angegeben.</p>\n<h2>Die Nachricht</h2>\n<p>\$Message</p>\n";
 
 $lang['de_DE']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Kontaktanfragen';
