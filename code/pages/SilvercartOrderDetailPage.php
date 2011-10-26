@@ -77,8 +77,12 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
         // get the order to check whether it is related to the actual customer or not.
         $order = DataObject::get_by_id('SilvercartOrder', $this->getOrderID());
        
-        if ($order->Member()->ID != Member::currentUserID()) {
-            // the order is not related to the customer, redirect elsewhere...
+        if ($order) {
+            if ($order->Member()->ID != Member::currentUserID()) {
+                // the order is not related to the customer, redirect elsewhere...
+                Director::redirect($this->PageByIdentifierCode()->Link());
+            }
+        } else {
             Director::redirect($this->PageByIdentifierCode()->Link());
         }
         parent::init();
