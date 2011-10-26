@@ -441,6 +441,7 @@ $lang['en_GB']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactcon
 
 $lang['en_GB']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
 $lang['en_GB']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
+$lang['en_GB']['SilvercartContactMessage']['MESSAGE'] = 'message';
 $lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:<br/>\n\n\$Message</p>\n";
 
 $lang['en_GB']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contactmessages';

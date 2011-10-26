@@ -231,7 +231,9 @@ class SilvercartZone extends DataObject {
                         'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
                         'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
                         'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
-                        'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+                        'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods'),
+                        'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME'),
+                        'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME')
                     )
                 );
         $this->extend('updateFieldLabels', $fieldLabels);
