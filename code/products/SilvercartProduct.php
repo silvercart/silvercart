@@ -418,8 +418,8 @@ class SilvercartProduct extends DataObject {
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
-     * @author Roland Lehmann
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.10.2011
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         
@@ -452,7 +452,18 @@ class SilvercartProduct extends DataObject {
             $sort = 'SilvercartProduct.SortOrder ASC';
         }
         
-        return DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        
+        if (in_array('Price', $requiredAttributes) &&
+            !is_null($databaseFilteredProducts)) {
+            foreach ($databaseFilteredProducts as $product) {
+                if ($product->getPrice()->getAmount() <= 0) {
+                    $databaseFilteredProducts->remove($product);
+                }
+            }
+        }
+        
+        return $databaseFilteredProducts;
     }
 
     /**
@@ -1000,6 +1011,9 @@ class SilvercartProduct extends DataObject {
             } else {
                 $price = clone $this->PriceGross;
             }
+            
+            $price->setAmount(round($price->getAmount(), 2));
+            
             if ($price->getAmount() < 0) {
                 $price->setAmount(0);
             }

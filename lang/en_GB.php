@@ -229,7 +229,7 @@ $lang['en_GB']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
 $lang['en_US']['SilvercartProduct']['PRICE_SINGLE_NET'] = 'Price single (net)';
 $lang['en_GB']['SilvercartProduct']['PRICE_ENTIRE'] = 'Price sum';
 $lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER'] = 'Item number';
-$lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Item number';
+$lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Item no.';
 $lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Item number (manufacturer)';
 $lang['en_GB']['SilvercartProduct']['PURCHASEPRICE'] = 'Purchase price';
 $lang['en_GB']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. purchase duration';
@@ -395,8 +395,8 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Price type f
 $lang['en_GB']['SilvercartConfig']['PRICETYPEADMINS'] = 'Price type for administrators';
 $lang['en_GB']['SilvercartConfig']['EMAILSENDER_INFO'] = 'The email sender will be the sender address of all emails sent by SilverCart.';
 $lang['en_GB']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SC Config -> general configuration" to edit the missing field.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SC Config -> countries" to activate a country.';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but appended.';
 $lang['en_GB']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum order value';
@@ -1140,9 +1140,9 @@ $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_GB']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
 
-$lang['en_GB']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart Administration';
+$lang['en_GB']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
-$lang['en_GB']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
+$lang['en_GB']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Config';
 
 $lang['en_GB']['SilvercartShopEmail']['EMAILTEXT'] = 'Message';
 $lang['en_GB']['SilvercartShopEmail']['IDENTIFIER'] = 'Identifier';
@@ -1193,48 +1193,48 @@ $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_URLSEGMENT']        
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_TITLE']                    = 'Other Modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_URLSEGMENT']               = 'other-modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_TITLE']          = 'Cross Selling';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_SHORTDESC']      = 'Kreuzverkauf bezeichnet im Marketing den Verkauf von sich ergänzenden Produkten oder Dienstleistungen.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_LONGDESC']       = 'Verkaufs- bzw. Marketinginstrument, bei dem Informationen über bereits existierende Kunden oder über bekanntes Konsumentenverhalten genutzt wird, um zusätzliche Käufe anderer Produkte zu begünstigen. Quelle: www.desig-n.de ';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_SHORTDESC']      = 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_LONGDESC']       = 'It is a practice of suggesting related products or services to a customer who is considering buying something. Encourage established customers to buy different but related products. Getting a computer buyer to purchase a printer, for example. Source: www.procopytips.com';
 $lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_KEYWORDS']       = 'SilverCart, modules, Cross selling, marketing';
 $lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_TITLE']                 = 'eKomi';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_SHORTDESC']             = 'Mehr Umsatz und Vertrauen durch unabhängige Kunden- und Produktbewertungen!';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_LONGDESC']              = 'Beginnen Sie noch heute, durch intelligente Kundenbefragung authentisches und wertvolles Kundenfeedback zu gewinnen und damit Ihre Kundenzufriedenheit und Ihren Umsatz zu steigern. ';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_KEYWORDS']              = 'SilverCart, modules, Ekomi, marketing';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_SHORTDESC']             = 'Increase sales with eKomi’s trusted independent customer review system!';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_LONGDESC']              = 'eKomi – The Feedback Company, helps companies through their web-based social SaaS technology with authentic and valuable reviews from customers and helps increasing the customer satisfaction and sales. Generate valuable customer reviews with eKomi' . "'" . 's intelligent, easy to install software and increase sales, trust and customer loyalty. <small>Source: www.ekomi.co.uk</small>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_KEYWORDS']              = 'SilverCart, modules, eKomi, marketing';
 $lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_TITLE']        = 'Protected Shops';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC']    = 'Machen Sie Ihr Online-Business sicherer! Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. ';
-$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC']     = 'Wer im Internet handelt, ist mit einer unüberschaubaren Menge rechtlicher Vorgaben konfrontiert, die bei Nichteinhaltung zu einem teuren Unterfangen werden können. Gerade von Konkurrenten, die ihren Mitbewerb durch teuere Abmahnungen zu schädigen versuchen, geht für Ihr Unternehmen eine große Gefahr aus. Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. 67% der Online Käufer vertrauen auf Online-Konsumentenbewertungen (Quelle: www.nielsen.com vom 24.07.2009). Mit unserer Vote Connect Schnittstelle integrieren Sie das Protected Shops Kundenbewertungssystem in Ihren Shop. ';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC']    = 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC']     = 'In the online business you will be confronted with unmanageable specifications which can be very expensive if you breach the conditions. Protected Shops offers a quality rating system to boost your sales. 67% of customers trust in a indepented shop ratings. Use the Vote connect interface of Protected Shops to integrate the quality rating system provided by Protected Shops into SilverCart.';
 $lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_KEYWORDS']     = 'SilverCart, modules, ProtectedShops, marketing';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_TITLE']                      = 'DHL';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Paketschnittstelle zum Versandanbieter DHL (Easylog)';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Paketschnittstelle zum Versandanbieter DHL für den Export von Bestellungen nach Easylog und den Import von Sendungsnachverfolgungsnummern in SilverCart.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Packet interface for the shipping provider DHL (EasyLog)';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Packet interface for the shipping provider DHL. Interface to export ordernumbers into Easylog and import tracking numbers back into SilverCart.';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_KEYWORDS']                   = 'SilverCart, modules, shipping';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF Invoice';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_SHORTDESC']           = 'Automatically generate PDF invoices';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_LONGDESC']            = 'Automatically generated purchase order as PDF file.';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_KEYWORDS']            = 'SilverCart, modules, PDF invoice';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_TITLE']                     = 'Apache Solr';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_SHORTDESC']                 = 'Solr basiert auf Lucene Core und ist eine Volltext-Suchmaschine mit Web-Schnittstelle.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_LONGDESC']                  = 'Dokumente zur Indexierung übernimmt Solr im XML-Format per HTTP-Request. Suchanfragen werden mittels HTTP GET durchgeführt, Resultate werden als XML oder in anderen Formaten wie JSON zurückgegeben. Solr lässt sich in einen Webserver und Servlet-Container wie Apache Tomcat integrieren. Mit Jetty enthält das Solr-Softwarepaket zudem selbst einen Servlet-Container. Mit dem Release 3.1 sind die Projekte Solr und Lucene zu einer Entwicklung zusammengeführt worden, die von einem gemeinsamen Projektteam weiterentwickelt werden. Quelle: Wikipedia.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_SHORTDESC']                 = 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_LONGDESC']                  = '<p>Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project. Its major features include powerful full-text search, hit highlighting, faceted search, dynamic clustering, database integration, rich document (e.g., Word, PDF) handling, and geospatial search. Solr is highly scalable, providing distributed search and index replication, and it powers the search and navigation features of many of the world' . "'" . 's largest internet sites.</p><p>Solr' . "'" . 's powerful external configuration allows it to be tailored to almost any type of application without Java coding, and it has an extensive plugin architecture when more advanced customization is required. <small>Soruce: http://lucene.apache.org/solr</small></p>';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_KEYWORDS']                  = 'SilverCart, modules, Apache Solr';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_TITLE']                 = 'Vouchers';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_SHORTDESC']             = 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_LONGDESC']              = 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_SHORTDESC']             = 'Create various vouchers with percentage or absolute price discount plus coupons for products.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_LONGDESC']              = 'Create various vouchers with percentage or absolute price discount plus coupons for products.';
 $lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_KEYWORDS']              = 'SilverCart, modules, vouchers';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_TITLE']                = 'iPayment';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_SHORTDESC']            = 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_LONGDESC']             = 'Receive best in class service no matter what size your business is, with iPayment. We’re committed to making your business more successful by delivering credit and debit card-based payment processing services that are customized to suit your needs. <br/><ul><li>Major credit cards: MasterCard®, Visa®, American Express®, Discover® and JCB®</li><li>PIN-secured and signature debit cards</li><li>Gift and loyalty cards</li><li>Petroleum services</li><li>Paper and electronic check services</li><li>Cash advance funding program</li></ul>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_LONGDESC']             = '<p>Receive best in class service no matter what size your business is, with iPayment. We’re committed to making your business more successful by delivering credit and debit card-based payment processing services that are customized to suit your needs.</p><ul><li>Major credit cards: MasterCard®, Visa®, American Express®, Discover® and JCB®</li><li>PIN-secured and signature debit cards</li><li>Gift and loyalty cards</li><li>Petroleum services</li><li>Paper and electronic check services</li><li>Cash advance funding program</li></ul><p><small>Source: www.ipaymentinc.com</small></p>';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_KEYWORDS']             = 'SilverCart, modules, iPayment, payment';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_TITLE']                  = 'PayPal';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_SHORTDESC']              = 'The world' . "'" . 's most loved way to pay and get paid.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_LONGDESC']               = 'PayPal works behind the scenes to help protect you and your customers. Your customers will love the speed of PayPal streamlined checkout experience. And you will love the sales boost PayPal can deliver. PayPal is ideal for selling overseas. You can accept payments in 22 currencies from 190 countries and markets worldwide.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_LONGDESC']               = 'PayPal works behind the scenes to help protect you and your customers. Your customers will love the speed of PayPal streamlined checkout experience. And you will love the sales boost PayPal can deliver. PayPal is ideal for selling overseas. You can accept payments in 22 currencies from 190 countries and markets worldwide. <small>Source: www.paypal.com</small>';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_KEYWORDS']               = 'SilverCart, modules, PayPal, payment';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_TITLE']                = 'Saferpay';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_SHORTDESC']            = 'Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet."';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_LONGDESC']             = '<h3>Saferpay E-Payment-Lösungen für Profis und Einsteiger</h3><p>Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet." Dank Saferpay müssen sich Online-Händler wie Karteninhaber über die Sicherheit beim Einkaufen im Internet keine Sorgen mehr machen. Händler kennen und schätzen das sichere Bezahlen im Internet über Saferpay weltweit.</p><p>Saferpay integriert alle gängigen Zahlungsmittel in Ihren Webshop - über eine einzige Schnittstelle. Dadurch sind Anpassungen und Erweiterungen problemlos umsetzbar. Darüber hinaus ermöglicht Saferpay die sichere Onlineabwicklung von schriftlichen und telefonischen Bestellungen.</p><h3>Mehr Zahlungsmittel – mehr Umsatz!</h3><p>Steigern Sie Ihren Umsatz durch das Angebot einer Vielzahl an Zahlungsmitteln! Mit Saferpay bieten Sie Ihren Kunden alle gängigen Zahlungsmittel über eine einzige Schnittstelle – flexibel, einfach & sicher! Mit Saferpay können Sie alle gängigen Kreditkarten und Debitkarten akzeptieren. Sie können jederzeit neue Zahlungsmittel aufschalten oder bestehende wieder abschalten und somit flexibel auf die Bedürfnisse im E-Commerce reagieren.</p><h3>Mit Sicherheit mehr Gewinn!</h3><p>Um die bargeldlose, elektronische Zahlungsabwicklung für Sie als Händler im E-Commerce oder Phone-/Mail-Order Business so sicher und bequem wie möglich zu machen, bietet die SIX Card Solutions Ihnen als Händler Komplettlösungen aus einer Hand. Die E-Payment-Lösung unterstützt alle heutigen Sicherheitsstandards. Stärken Sie das Vertrauen Ihrer Kunden !</p>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_SHORTDESC']            = 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_LONGDESC']             = '<h3>Saferpay e-payment solutions for professionals and beginners</h3><p>Saferpay integrates all popular payment means in your Web shop through a single interface. This makes it easy to make adaptations and upgrades. What’s more, Saferpay enables the secure online processing of written and phone orders.</p><h3>More payment means – more turnover!</h3><p>Boost your turnover by offering a variety of payment means! With Saferpay you can offer your customers all popular payment means through a single interface, flexibly, easily & securely! You can accept all popular credit cards and debit cards with Saferpay and can activate new payment means at any time or deactivate existing ones and thus can flexibly react to your e-commerce requirements.</p><h3>More profit with security!</h3><p>SIX Card Solutions offers you comprehensive solutions from a single source to handle cashless, electronic payment processing as a merchant in e-commerce or in the phone/mail-order business as securely and conveniently as possible. The e-payment solution supports all current security standards. Increase confidence among your customers!</p><small>Source:www.six-card-solutions.com/</small>';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_KEYWORDS']             = 'SilverCart, modules, Saferpay, payment';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_TITLE']              = 'Prepayment';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_SHORTDESC']          = 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern.';
-$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_LONGDESC']           = 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern. Dieses Modul bietet neben der Vorkasse auch Rechnung als Zahlungsart.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_SHORTDESC']          = 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_LONGDESC']           = 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic. This module provides beside prepayment also payment via invoice.';
 $lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_KEYWORDS']           = 'SilverCart, modules, Prepayment, payment';
 
 $lang['en_GB']['SilvercartUpdate']['DESCRIPTION'] = 'Description';
@@ -1251,7 +1251,7 @@ $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is al
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage to existing data.';
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
 
-$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
 
 $lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 

@@ -212,6 +212,7 @@ class SilvercartConfig extends DataObject {
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
+    public static $silvercartVersion                = null;
     public static $useApacheSolrSearch              = null;
     public static $enableStockManagement            = null;
     public static $isStockManagementOverbookable    = null;
@@ -704,6 +705,21 @@ class SilvercartConfig extends DataObject {
             self::$disregardMinimumOrderValue = self::getConfig()->disregardMinimumOrderValue;
         }
         return self::$disregardMinimumOrderValue;
+    }
+
+    /**
+     * Returns the SilverCart version.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.10.2011
+     */
+    public static function SilvercartVersion() {
+        if (is_null(self::$silvercartVersion)) {
+            self::$silvercartVersion = self::$defaults['SilvercartVersion'];
+        }
+        return self::$silvercartVersion;
     }
     
     /**
@@ -1215,17 +1231,26 @@ class SilvercartConfig extends DataObject {
      */
     public static function isInstallationCompleted() {
         $installationComplete   = false;
-        $memberFieldList        = array();
-        $queryRes               = DB::query("SHOW TABLES");
-        if ($queryRes->numRecords() > 0) {
-            $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+        
+        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
+            $installationComplete = false;
+        } else {
+            $memberFieldList        = array();
+            $queryRes               = DB::query("SHOW TABLES");
+            if ($queryRes->numRecords() > 0) {
+                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
 
-            foreach ($queryRes as $key => $value) {
-                $memberFieldList[] = $value['Field'];
-            }
+                foreach ($queryRes as $key => $value) {
+                    $memberFieldList[] = $value['Field'];
+                }
 
-            if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                $installationComplete = true;
+                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                    $installationComplete = true;
+                }
             }
         }
         
