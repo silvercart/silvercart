@@ -84,13 +84,22 @@ class SilvercartPage extends SiteTree {
         $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
         $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
         
+        // prevent edit/add/show/delete actions for widget sets in CMS area.
+        $permissions = array();
+        
+        $widgetSetInfoValue = _t('SilvercartWidgetSet.INFO');
+        $widgetSetInfo = new LiteralField('WidgetSetInfo', $widgetSetInfoValue);
+        
         $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
         $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
         $widgetSetSidebarField->setPopupSize(900,600);
-        $widgetSetContentlabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
+        $widgetSetSidebarField->setPermissions($permissions);
+        $widgetSetContentlabel = new HeaderField('WidgetSetContentLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
         $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
         $widgetSetContentField->setPopupSize(900,600);
+        $widgetSetContentField->setPermissions($permissions);
         
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetInfo);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarLabel);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarField);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentlabel);
