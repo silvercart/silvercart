@@ -39,7 +39,15 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
         "SilvercartAddressPage"
     );
     
-    public static $icon = "silvercart/images/page_icons/address_overview";
+    /**
+     * The icon to use for this page in the storeadmin sitetree.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public static $icon = "silvercart/images/page_icons/my_account_holder";
 
     /**
      * Return all fields of the backend
