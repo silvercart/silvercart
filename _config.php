@@ -42,6 +42,7 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 Object::add_extension('SiteTree',           'Translatable');
 Object::add_extension('SiteConfig',         'Translatable');
+Object::add_extension('SiteConfig',         'SilvercartSiteConfig');
 Object::add_extension('Member',             'SilvercartCustomer');
 Object::add_extension('Group',              'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');

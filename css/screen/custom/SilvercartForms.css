@@ -24,7 +24,7 @@ form.yform .type-button input.submit {
     background:                     #407e95;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #407e95,  #175072); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
+    background:     ^                -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#407e95', endColorstr='#175072'); /* for IE */
     border:                         1px #444 solid;
     border-radius:                  3px;
@@ -154,7 +154,8 @@ form.yform .type-button .silvercart-button a {
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#252223', endColorstr='#000000'); /* for IE */
     box-shadow:                     0px 0px 9px #252223;
 }
-#silvercart-quicklogin-form .yform div.error {
+#silvercart-quicklogin-form .yform div.error,
+#silvercart-quicklogin-form .yform div.note {
     background-color:               #451515;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#451515), to(#752323)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top, #451515, #752323); /* for firefox 3.6+ */ 
@@ -166,7 +167,8 @@ form.yform .type-button .silvercart-button a {
     -webkit-border-radius:          3px;
     margin:                         0px 4px 4px 0px;
 }
-#silvercart-quicklogin-form  .yform div.error .message {
+#silvercart-quicklogin-form  .yform div.error .message,
+#silvercart-quicklogin-form  .yform div.note .message {
     font-weight:                    normal;
     color:                          #ff9a9a;
 }

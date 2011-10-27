@@ -693,8 +693,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             //create a manufacturer
             $manufacturer = new SilvercartManufacturer();
-            $manufacturer->Title = 'Testmanufacturer';
-            $manufacturer->URL = 'http://www.silvercart.org/';
+            $manufacturer->Title = 'Pixeltricks GmbH';
+            $manufacturer->URL = 'http://www.pixeltricks.de/';
             $manufacturer->write();
             
             //create product groups

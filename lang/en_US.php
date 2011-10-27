@@ -386,6 +386,10 @@ $lang['en_US']['SilvercartConfig']['EXAMPLE_CONFIGURATION_ALREADY_ADDED'] = 'Exa
 $lang['en_US']['SilvercartConfig']['GENERAL'] = 'General';
 $lang['en_US']['SilvercartConfig']['GENERAL_MAIN'] = 'Main';
 $lang['en_US']['SilvercartConfig']['GENERAL_TEST_DATA'] = 'Test Data';
+$lang['en_US']['SilvercartConfig']['GEONAMES_DESCRIPTION'] = '<h3>Description</h3><p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/> To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/> Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/> After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+$lang['en_US']['SilvercartConfig']['GEONAMES_ACTIVE'] = 'activate GeoNames';
+$lang['en_US']['SilvercartConfig']['GEONAMES_USERNAME'] = 'GeoNames username';
+$lang['en_US']['SilvercartConfig']['GEONAMES_API'] = 'GeoNames API URL';
 $lang['en_US']['SilvercartConfig']['INTERFACES'] = 'Interfaces';
 $lang['en_US']['SilvercartConfig']['INTERFACES_GEONAMES'] = 'GeoNames';
 $lang['en_US']['SilvercartConfig']['LAYOUT'] = 'Layout';
@@ -437,6 +441,7 @@ $lang['en_US']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactcon
 
 $lang['en_US']['SilvercartContactMessage']['PLURALNAME'] = 'Contact messages';
 $lang['en_US']['SilvercartContactMessage']['SINGULARNAME'] = 'Contact message';
+$lang['en_US']['SilvercartContactMessage']['MESSAGE'] = 'message';
 $lang['en_US']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:<br/>\n\n\$Message</p>\n";
 
 $lang['en_US']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contact messages';
