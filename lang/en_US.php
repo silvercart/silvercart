@@ -876,6 +876,8 @@ $lang['en_US']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
 $lang['en_US']['SilvercartOrderShippingAddress']['PLURALNAME'] = 'Order shipping addresses';
 $lang['en_US']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Order shipping address';
 
+$lang['en_US']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_DESC'] = 'The following checked emails get sent when this order status is set for an order:';
+$lang['en_US']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'] = 'Attributed emails';
 $lang['en_US']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_US']['SilvercartOrderStatus']['PAYED'] = 'Payed';
 $lang['en_US']['SilvercartOrderStatus']['PLURALNAME'] = 'Order status';
