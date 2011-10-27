@@ -321,8 +321,11 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
             if ($dataObj) {
                 if (is_array($vars['availableItems'])) {
                     foreach ($vars['availableItems'] as $field) {
+                        $position = $dataObj->WidgetArea()->Widgets()->Count();
+                        
                         // Create new Widget
                         $widget = new $field();
+                        $widget->setField('Sort', $position);
                         $widget->write();
                         
                         // Add Widget to WidgetArea
