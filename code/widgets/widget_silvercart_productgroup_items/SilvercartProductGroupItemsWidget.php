@@ -137,6 +137,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         
         $basicTab->push($titleField);
         $basicTab->push($contentField);
+        $basicTab->push($productGroupField);
         $basicTab->push($numberOfProductsShowField);
         $basicTab->push($numberOfProductsFetchField);
         $basicTab->push($fetchMethod);

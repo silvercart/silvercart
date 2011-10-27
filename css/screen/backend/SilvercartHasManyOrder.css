@@ -50,7 +50,7 @@
     left:                               50%;
     top:                                120px;
     width:                              900px;
-    height:                             560px;
+    height:                             610px;
     margin:                             0px 0px 0px -450px;
     background-color:                   #fff;
     border:                             1px #999 solid;
@@ -58,7 +58,7 @@
 }
 #SilvercartWidgetEditForm_Form {
     width:                              100%;
-    height:                             524px;
+    height:                             574px;
     overflow:                           auto;
 }
 #SilvercartWidgetEditForm_content {
