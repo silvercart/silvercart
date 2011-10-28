@@ -352,13 +352,14 @@ class SilvercartShoppingCart extends DataObject {
         $amount = 0;
 
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions', array(
-                    $this,
-                    Member::currentUser(),
-                    true,
-                    $excludeShoppingCartPosition,
-                    false
-                        ), $excludeModules
+            'ShoppingCartPositions', array(
+                $this,
+                Member::currentUser(),
+                true,
+                $excludeShoppingCartPosition,
+                false
+            ),
+            $excludeModules
         );
 
         // products

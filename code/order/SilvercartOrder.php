@@ -1278,6 +1278,11 @@ class SilvercartOrder extends DataObject {
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
+            $newOrderStatus = DataObject::get_by_id('SilvercartOrderStatus', $this->SilvercartOrderStatusID);
+            
+            if ($newOrderStatus) {
+                $newOrderStatus->sendMailFor($this);
+            }
         }
         $this->extend('updateOnBeforeWrite');
     }

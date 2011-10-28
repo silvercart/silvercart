@@ -41,6 +41,19 @@ class SilvercartShopEmail extends DataObject {
     public static $many_many = array(
         'AdditionalReceipients' => 'SilvercartEmailAddress'
     );
+    
+    /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.10.2011
+     */
+    public static $belongs_many_many = array(
+        'SilvercartOrderStatus' => 'SilvercartOrderStatus'
+    );
 
     /**
      * classes attributes

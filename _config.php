@@ -68,6 +68,11 @@ Object::add_extension('SilvercartOrder', 'SilvercartPluginObjectExtension');
 SilvercartPlugin::registerPluginProvider('SilvercartOrder', 'SilvercartOrderPluginProvider');
 
 // ----------------------------------------------------------------------------
+// Register TaskNotificationChannels
+// ----------------------------------------------------------------------------
+SilvercartTaskNotificationHandler::registerNotificationChannel('SilvercartProductPriceUpdate');
+
+// ----------------------------------------------------------------------------
 // Define path constants
 // ----------------------------------------------------------------------------
 $path = dirname(__FILE__) . '/';

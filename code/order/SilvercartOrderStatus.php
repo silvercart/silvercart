@@ -68,8 +68,9 @@ class SilvercartOrderStatus extends DataObject {
         'Title' => 'VarChar',
         'Code' => 'VarChar'
     );
+
     /**
-     * n:m relations
+     * 1:n relations
      *
      * @var array
      *
@@ -78,9 +79,22 @@ class SilvercartOrderStatus extends DataObject {
      * @since 22.11.2010
      */
     public static $has_many = array(
-        'SilvercartOrders' => 'SilvercartOrder'
+        'SilvercartOrders'      => 'SilvercartOrder'
     );
-    
+
+    /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.10.2011
+     */
+    public static $many_many = array(
+        'SilvercartShopEmails'  => 'SilvercartShopEmail'
+    );
+
     /**
      * n:m relations
      *
@@ -93,7 +107,7 @@ class SilvercartOrderStatus extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartPaymentMethodRestrictions' => 'SilvercartPaymentMethod'
     );
-    
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -110,7 +124,7 @@ class SilvercartOrderStatus extends DataObject {
             return parent::singular_name();
         } 
     }
-    
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -166,13 +180,66 @@ class SilvercartOrderStatus extends DataObject {
      * remove attribute Code from the CMS fields
      *
      * @return FieldSet all CMS fields related
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeByName('Code'); //Code values are used for some getters and must not be changed via backend
+        $fields->removeByName('SilvercartShopEmails');
+
+        // Add shop email field
+        $shopEmailLabelField = new LiteralField(
+            'shopEmailLabelField',
+            sprintf(
+                "<br /><h2>%s</h2><p>%s</p>",
+                _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
+                _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC')
+            )
+        );
+        $shopEmailField = new ManyManyComplexTableField(
+            $this,
+            'SilvercartShopEmails',
+            'SilvercartShopEmail'
+        );
+        $shopEmailField->setPageSize(20);
+        
+        $fields->insertAfter($shopEmailLabelField, 'Title');
+        $fields->insertAfter($shopEmailField, 'shopEmailLabelField');
+
         return $fields;
+    }
+    
+    /**
+     * Sends a mail with the given SilvercartOrder object as data provider.
+     *
+     * @return void
+     *
+     * @param SilvercartOrder $order The order object that is used to fill the
+     *                               mail template variables.
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public function sendMailFor(SilvercartOrder $order) {
+        $shopEmails = $this->SilvercartShopEmails();
+        
+        if ($shopEmails) {
+            foreach ($shopEmails as $shopEmail) {
+                SilvercartShopEmail::send(
+                    $shopEmail->Identifier,
+                    $order->CustomersEmail,
+                    array(
+                        'SilvercartOrder'   => $order,
+                        'FirstName'         => $order->SilvercartInvoiceAddress()->FirstName,
+                        'Surname'           => $order->SilvercartInvoiceAddress()->Surname,
+                        'Salutation'        => $order->SilvercartInvoiceAddress()->Salutation
+                    )
+                );
+            }
+        }
+        
     }
 
     /**
@@ -186,10 +253,9 @@ class SilvercartOrderStatus extends DataObject {
      */
     public static function getStatusList() {
         $statusList = DataObject::get(
-                        'SilvercartOrderStatus'
+            'SilvercartOrderStatus'
         );
 
         return $statusList;
     }
-
 }

@@ -189,19 +189,25 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
         $combinedString = Convert::raw2sql($requestVars[$inboundShoppingCartTransfer->combinedStringKey]);
         $entities       = explode($inboundShoppingCartTransfer->combinedStringEntitySeparator, $combinedString);
         
-        foreach ($entities as $entity) {
-            list($productIdentifier, $productQuantity) = explode($inboundShoppingCartTransfer->combinedStringQuantitySeparator, $entity);
-            
-            $product = DataObject::get_one(
-                'SilvercartProduct',
-                sprintf(
-                    $inboundShoppingCartTransfer->productMatchingField." = '%s'",
-                    $productIdentifier
-                )
-            );
-            
-            if ($product) {
-                $this->addProduct($product, $productQuantity);
+        if (is_array($entities)) {
+            foreach ($entities as $entity) {
+                if (empty($entity)) {
+                    continue;
+                }
+                
+                list($productIdentifier, $productQuantity) = explode($inboundShoppingCartTransfer->combinedStringQuantitySeparator, $entity);
+
+                $product = DataObject::get_one(
+                    'SilvercartProduct',
+                    sprintf(
+                        $inboundShoppingCartTransfer->productMatchingField." = '%s'",
+                        $productIdentifier
+                    )
+                );
+
+                if ($product) {
+                    $this->addProduct($product, $productQuantity);
+                }
             }
         }
         

@@ -92,8 +92,13 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
 
         // get the address to check whether it is related to the actual customer or not.
         $address = DataObject::get_by_id('SilvercartAddress', $addressId);
-        if ($address->Member()->ID != Member::currentUserID()) {
-            // the address is not related to the customer, redirect elsewhere...
+        
+        if ($address->MemberID > 0) {
+            if ($address->Member()->ID != Member::currentUserID()) {
+                // the address is not related to the customer, redirect elsewhere...
+                Director::redirect($this->PageByIdentifierCode()->Link());
+            }
+        } else {
             Director::redirect($this->PageByIdentifierCode()->Link());
         }
 
