@@ -37,9 +37,17 @@ class SilvercartMetaNavigationHolder extends Page {
 
     public static $singular_name = "Metanavigation";
     
-    public static $icon = "silvercart/images/page_icons/meta_navi";
-
+    /**
+     * We set a custom icon for this page type here
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public static $icon = "silvercart/images/page_icons/metanavigation_holder";
 }
+
 /**
  * correlating controller
  *
