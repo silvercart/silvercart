@@ -196,7 +196,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
-        $searchQuery            = Convert::raw2sql($this->getSearchQuery());
+        $searchQuery            = Convert::raw2sql(Session::get('searchQuery'));
         $searchResultProducts   = $this->searchResultProducts;
         $productsPerPage        = $this->getProductsPerPageSetting();
 
@@ -472,8 +472,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.11.10
      */
-    public function getSearchQuery() {
-        return htmlentities(addslashes(Session::get('searchQuery')));
+    public function getEncodedSearchQuery() {
+        return htmlentities(stripslashes(Session::get('searchQuery')));
     }
     
     /**
