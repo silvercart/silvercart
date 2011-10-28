@@ -203,6 +203,7 @@ class SilvercartOrderStatus extends DataObject {
             'SilvercartShopEmails',
             'SilvercartShopEmail'
         );
+        $shopEmailField->setPageSize(20);
         
         $fields->insertAfter($shopEmailLabelField, 'Title');
         $fields->insertAfter($shopEmailField, 'shopEmailLabelField');
