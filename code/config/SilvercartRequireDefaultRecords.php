@@ -109,9 +109,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             $defaultStatusEntries = array(
                 'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment'),
-                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed'),
-                'paypal_refunding' => _t('SilvercartOrderStatus.PAYPAL_REFUNDING', 'paypal refunding'),
-                'paypal_pending' => _t('SilvercartOrderStatus.PAYPAL_PENDING', 'paypal pending')
+                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
@@ -163,8 +161,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage = new SilvercartFrontPage();
             $rootPage->IdentifierCode = "SilvercartFrontPage";
-            $rootPage->Title = 'Silvercart';
-            $rootPage->MenuTitle = "Silvercart";
+            $rootPage->Title = 'SilverCart';
+            $rootPage->MenuTitle = "SilverCart";
             if (SiteTree::get_by_link('home')) {
                 $rootPage->URLSegment = 'webshop';
             } else {
@@ -560,7 +558,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         if (!$checkOrderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderNotification');
-            $orderMail->setField('Subject',      'Eine neue Bestellung wurde aufgegeben');
+            $orderMail->setField('Subject', _t('SilvercartShopEmail.NEW_ORDER_PLACED'));
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
             if (is_file($defaultTemplateFile)) {
@@ -695,54 +693,365 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             //create a manufacturer
             $manufacturer = new SilvercartManufacturer();
-            $manufacturer->Title = 'Testmanufacturer';
-            $manufacturer->URL = 'http://www.silvercart.org/';
+            $manufacturer->Title = 'Pixeltricks GmbH';
+            $manufacturer->URL = 'http://www.pixeltricks.de/';
             $manufacturer->write();
             
             //create product groups
-            for ($i = 1; $i <= 4; $i++) {
-                $productGroup = new SilvercartProductGroupPage();
-                $productGroup->Title = 'TestProductGroup' . $i;
-                $productGroup->URLSegment = 'testgroup' . $i;
-                $productGroup->Status = "Published";
-                $productGroup->IdentifierCode = 'TestProductGroup' . $i;
-                $productGroup->ParentID = $silvercartProductGroupHolder->ID;
-                $productGroup->ShowInMenus = true;
-                $productGroup->ShowInSearch = true;
-                $productGroup->Sort = $i;
-                $productGroup->write();
-                $productGroup->publish("Stage", "Live");
-                //create products
-                for ($idx = 1; $idx <= 50; $idx++) {
-                    $product = new SilvercartProduct();
-                    //relate product to tax
-                    $product->SilvercartTaxID = $taxRateID;
-                    $product->SilvercartManufacturerID = $manufacturer->ID;
-                    $product->Title = 'Testproduct' . $idx;
-                    $product->PriceGross->setAmount($idx * 9 + 0.99);
-                    $product->PriceGross->setCurrency('EUR');
-                    $product->PriceNet->setAmount($idx * 9 + 0.94);
-                    $product->PriceNet->setCurrency('EUR');
-                    $product->MSRPrice->setAmount($idx * 9 + 0.99);
-                    $product->MSRPrice->setCurrency('EUR');
-                    $product->PurchasePrice->setAmount($idx * 9 + 0.99);
-                    $product->PurchasePrice->setCurrency('EUR');
-                    $product->ShortDescription = "This is short description of product $idx";
-                    $product->LongDescription = "This is the long description of product $idx. It is in fact not very long, because I do not know what to write. Perhaps I should copy some lorem ipsum?";
-                    $product->MetaDescription = "This is the long description of product $idx. It is in fact not very long, because I do not know what to write. Perhaps I should copy some lorem ipsum?";
-                    $product->MetaTitle = 'Testproduct' . $idx;
-                    $product->MetaKeywords = 'Testproduct' . $idx;
-                    $product->Weight = 500;
-                    $product->StockQuantity = 1;
-                    $product->ProductNumberShop = "1000" . $idx;
-                    $product->ProductNumberManufacturer = "123000" . $idx;
-                    $product->SilvercartProductGroupID = $productGroup->ID;
-                    $product->write();
+            $productGroupPayment = new SilvercartProductGroupPage();
+            $productGroupPayment->Title = _t('SilvercartTestData.PRODUCTGROUPPAYMENT_TITLE');
+            $productGroupPayment->URLSegment = _t('SilvercartTestData.PRODUCTGROUPPAYMENT_URLSEGMENT');
+            $productGroupPayment->Content = _t('SilvercartTestData.PRODUCTGROUP_CONTENT');
+            $productGroupPayment->Status = "Published";
+            $productGroupPayment->IdentifierCode = 'SilvercartProductGroupPayment';
+            $productGroupPayment->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupPayment->ShowInMenus = true;
+            $productGroupPayment->ShowInSearch = true;
+            $productGroupPayment->Sort = 1;
+            $productGroupPayment->write();
+            $productGroupPayment->publish("Stage", "Live");
+            
+            $productGroupMarketing = new SilvercartProductGroupPage();
+            $productGroupMarketing->Title = _t('SilvercartTestData.PRODUCTGROUPMARKETING_TITLE');
+            $productGroupMarketing->URLSegment = _t('SilvercartTestData.PRODUCTGROUPMARKETING_URLSEGMENT');
+            $productGroupMarketing->Content = _t('SilvercartTestData.PRODUCTGROUP_CONTENT');
+            $productGroupMarketing->Status = "Published";
+            $productGroupMarketing->IdentifierCode = 'SilvercartproductGroupMarketing';
+            $productGroupMarketing->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupMarketing->ShowInMenus = true;
+            $productGroupMarketing->ShowInSearch = true;
+            $productGroupMarketing->Sort = 2;
+            $productGroupMarketing->write();
+            $productGroupMarketing->publish("Stage", "Live");
+            
+            $productGroupOthers = new SilvercartProductGroupPage();
+            $productGroupOthers->Title = _t('SilvercartTestData.PRODUCTGROUPOTHERS_TITLE');
+            $productGroupOthers->URLSegment = _t('SilvercartTestData.PRODUCTGROUPOTHERS_URLSEGMENT');
+            $productGroupOthers->Content = _t('SilvercartTestData.PRODUCTGROUP_CONTENT');
+            $productGroupOthers->Status = "Published";
+            $productGroupOthers->IdentifierCode = 'SilvercartproductGroupOthers';
+            $productGroupOthers->ParentID = $silvercartProductGroupHolder->ID;
+            $productGroupOthers->ShowInMenus = true;
+            $productGroupOthers->ShowInSearch = true;
+            $productGroupOthers->Sort = 3;
+            $productGroupOthers->write();
+            $productGroupOthers->publish("Stage", "Live");
+            
+            // Define products
+            $products = array(
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_TITLE'),
+                    'PriceGrossAmount'          => 9.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 9.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 9.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 9.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTPAYMENTPAYPAL_KEYWORDS'),
+                    'Weight'                    => 250,
+                    'StockQuantity'             => 5,
+                    'ProductNumberShop'         => '10001',
+                    'ProductNumberManufacturer' => 'SC_Mod_100',
+                    'SilvercartProductGroupID'  => $productGroupPayment->ID,
+                    'productImage'              => 'logopaypal.jpg',
+                    'sortOrder'                 => 1
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_TITLE'),
+                    'PriceGrossAmount'          => 18.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 18.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 18.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 18.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTPAYMENTIPAYMENT_KEYWORDS'),
+                    'Weight'                    => 260,
+                    'StockQuantity'             => 3,
+                    'ProductNumberShop'         => '10002',
+                    'ProductNumberManufacturer' => 'SC_Mod_101',
+                    'SilvercartProductGroupID'  => $productGroupPayment->ID,
+                    'productImage'              => 'logoipayment.gif',
+                    'sortOrder'                 => 2
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_TITLE'),
+                    'PriceGrossAmount'          => 36.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 36.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 36.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 36.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTPAYMENTSAFERPAY_KEYWORDS'),
+                    'Weight'                    => 270,
+                    'StockQuantity'             => 12,
+                    'ProductNumberShop'         => '10003',
+                    'ProductNumberManufacturer' => 'SC_Mod_102',
+                    'SilvercartProductGroupID'  => $productGroupPayment->ID,
+                    'productImage'              => 'logosaferpay.jpg',
+                    'sortOrder'                 => 3
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_TITLE'),
+                    'PriceGrossAmount'          => 27.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 27.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 27.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 27.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTPAYMENTPREPAYMENT_KEYWORDS'),
+                    'Weight'                    => 290,
+                    'StockQuantity'             => 9,
+                    'ProductNumberShop'         => '10004',
+                    'ProductNumberManufacturer' => 'SC_Mod_103',
+                    'SilvercartProductGroupID'  => $productGroupPayment->ID,
+                    'productImage'              => 'logoprepayment.png',
+                    'sortOrder'                 => 4
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_TITLE'),
+                    'PriceGrossAmount'          => 12.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 12.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 12.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 12.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTMARKETINGCROSSSELLING_KEYWORDS'),
+                    'Weight'                    => 145,
+                    'StockQuantity'             => 26,
+                    'ProductNumberShop'         => '10006',
+                    'ProductNumberManufacturer' => 'SC_Mod_104',
+                    'SilvercartProductGroupID'  => $productGroupMarketing->ID,
+                    'productImage'              => 'logocrossselling.png',
+                    'sortOrder'                 => 1
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_TITLE'),
+                    'PriceGrossAmount'          => 32.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 32.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 32.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 32.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTMARKETINGEKOMI_KEYWORDS'),
+                    'Weight'                    => 345,
+                    'StockQuantity'             => 146,
+                    'ProductNumberShop'         => '10007',
+                    'ProductNumberManufacturer' => 'SC_Mod_105',
+                    'SilvercartProductGroupID'  => $productGroupMarketing->ID,
+                    'productImage'              => 'logoekomi.jpg',
+                    'sortOrder'                 => 2
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_TITLE'),
+                    'PriceGrossAmount'          => 49.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 49.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 49.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 49.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTMARKETINGPROTECTEDSHOPS_KEYWORDS'),
+                    'Weight'                    => 75,
+                    'StockQuantity'             => 101,
+                    'ProductNumberShop'         => '10008',
+                    'ProductNumberManufacturer' => 'SC_Mod_106',
+                    'SilvercartProductGroupID'  => $productGroupMarketing->ID,
+                    'productImage'              => 'logoprotectedshops.jpg',
+                    'sortOrder'                 => 3
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTOTHERSDHL_TITLE'),
+                    'PriceGrossAmount'          => 27.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 27.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 27.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 27.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTOTHERSDHL_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTOTHERSDHL_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTOTHERSDHL_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTOTHERSDHL_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTOTHERSDHL_KEYWORDS'),
+                    'Weight'                    => 95,
+                    'StockQuantity'             => 12,
+                    'ProductNumberShop'         => '10009',
+                    'ProductNumberManufacturer' => 'SC_Mod_107',
+                    'SilvercartProductGroupID'  => $productGroupOthers->ID,
+                    'productImage'              => 'logodhl.jpg',
+                    'sortOrder'                 => 1
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTOTHERSSOLR_TITLE'),
+                    'PriceGrossAmount'          => 9.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 9.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 9.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 9.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTOTHERSSOLR_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTOTHERSSOLR_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTOTHERSSOLR_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTOTHERSSOLR_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTOTHERSSOLR_KEYWORDS'),
+                    'Weight'                    => 25,
+                    'StockQuantity'             => 0,
+                    'ProductNumberShop'         => '10010',
+                    'ProductNumberManufacturer' => 'SC_Mod_108',
+                    'SilvercartProductGroupID'  => $productGroupOthers->ID,
+                    'productImage'              => 'logosolr.png',
+                    'sortOrder'                 => 2
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_TITLE'),
+                    'PriceGrossAmount'          => 18.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 18.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 18.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 18.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTOTHERSPDFINVOICE_KEYWORDS'),
+                    'Weight'                    => 173,
+                    'StockQuantity'             => 14,
+                    'ProductNumberShop'         => '10011',
+                    'ProductNumberManufacturer' => 'SC_Mod_109',
+                    'SilvercartProductGroupID'  => $productGroupOthers->ID,
+                    'productImage'              => 'logopdfinvoice.jpg',
+                    'sortOrder'                 => 3
+                ),
+                array(
+                    'Title'                     => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_TITLE'),
+                    'PriceGrossAmount'          => 32.99,
+                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
+                    'PriceNetAmount'            => 32.99 / 119 * 100,
+                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'MSRPriceAmount'            => 32.99 / 100 * 120,
+                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
+                    'PurchasePriceAmount'       => 32.99,
+                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
+                    'ShortDescription'          => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_SHORTDESC'),
+                    'LongDescription'           => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_LONGDESC'),
+                    'MetaDescription'           => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_SHORTDESC'),
+                    'MetaTitle'                 => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_TITLE'),
+                    'MetaKeywords'              => _t('SilvercartTestData.PRODUCTOTHERSVOUCHERS_KEYWORDS'),
+                    'Weight'                    => 373,
+                    'StockQuantity'             => 24,
+                    'ProductNumberShop'         => '10012',
+                    'ProductNumberManufacturer' => 'SC_Mod_110',
+                    'SilvercartProductGroupID'  => $productGroupOthers->ID,
+                    'productImage'              => 'logovouchers.png',
+                    'sortOrder'                 => 4
+                )
+            );
+            
+            // Create folder for product images
+            $exampleDataDir = Director::baseFolder().'/assets/'._t('SilvercartTestData.IMAGEFOLDERNAME');
+            $imageFolder = new Folder();
+            $imageFolder->setName(_t('SilvercartTestData.IMAGEFOLDERNAME'));
+            $imageFolder->write();
+            
+            if (!file_exists($exampleDataDir)) {
+                mkdir($exampleDataDir);
+            }
+            
+            // Create products
+            foreach ($products as $product) {
+                $productItem                            = new SilvercartProduct();
+                $productItem->SilvercartTaxID           = $taxRateID;
+                $productItem->SilvercartManufacturerID  = $manufacturer->ID;
+                $productItem->Title                     = $product['Title'];
+                $productItem->ShortDescription          = $product['ShortDescription'];
+                $productItem->LongDescription           = $product['LongDescription'];
+                $productItem->MetaDescription           = $product['MetaDescription'];
+                $productItem->MetaTitle                 = $product['MetaTitle'];
+                $productItem->MetaKeywords              = $product['MetaKeywords'];
+                $productItem->Weight                    = $product['Weight'];
+                $productItem->StockQuantity             = $product['StockQuantity'];
+                $productItem->ProductNumberShop         = $product['ProductNumberShop'];
+                $productItem->ProductNumberManufacturer = $product['ProductNumberManufacturer'];
+                $productItem->SilvercartProductGroupID  = $product['SilvercartProductGroupID'];
+                $productItem->PriceGrossAmount          = $product['PriceGrossAmount'];
+                $productItem->PriceGrossCurrency        = $product['PriceGrossCurrency'];
+                $productItem->PriceNetAmount            = $product['PriceNetAmount'];
+                $productItem->PriceNetCurrency          = $product['PriceNetCurrency'];
+                $productItem->MSRPriceAmount            = $product['MSRPriceAmount'];
+                $productItem->MSRPriceCurrency          = $product['MSRPriceCurrency'];
+                $productItem->PurchasePriceAmount       = $product['PurchasePriceAmount'];
+                $productItem->PurchasePriceCurrency     = $product['PurchasePriceCurrency'];
+                $productItem->SortOrder                 = $product['sortOrder'];
+                $productItem->write();
+                
+                // Add product image
+                if (array_key_exists('productImage', $product)) {
+                    copy(
+                        Director::baseFolder().'/silvercart/images/exampledata/'.$product['productImage'],
+                        $exampleDataDir.'/'.$product['productImage']
+                    );
+
+                    $productImage = new Image();
+                    $productImage->setName($product['productImage']);
+                    $productImage->setFilename($exampleDataDir.'/'.$product['productImage']);
+                    $productImage->setParentID($imageFolder->ID);
+                    $productImage->write();
+
+                    $silvercartImage = new SilvercartImage();
+                    $silvercartImage->setField('SilvercartProductID', $productItem->ID);
+                    $silvercartImage->setField('ImageID',             $productImage->ID);
+                    $silvercartImage->write();
                 }
             }
             
             // create widget sets
-            
             $widgetSetFrontPageContentArea = new WidgetArea();
             $widgetSetFrontPageContentArea->write();
             
@@ -782,43 +1091,127 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
             
             // Create Widgets
-            $productGroupPage2 = SilvercartPage_Controller::PageByIdentifierCode('TestProductGroup2');
+            $widgetFrontPageContent1 = new SilvercartProductGroupItemsWidget();
+            $widgetFrontPageContent1->setField('FrontTitle', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT1_TITLE'));
+            $widgetFrontPageContent1->setField('FrontContent', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT1_CONTENT'));
+            $widgetFrontPageContent1->setField('numberOfProductsToShow', 4);
+            $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPayment->ID);
+            $widgetFrontPageContent1->setField('useListView', 0);
+            $widgetFrontPageContent1->setField('isContentView', 1);
+            $widgetFrontPageContent1->setField('useSlider', 0);
+            $widgetFrontPageContent1->setField('buildArrows', 0);
+            $widgetFrontPageContent1->setField('buildNavigation', 1);
+            $widgetFrontPageContent1->setField('buildStartStop', 0);
+            $widgetFrontPageContent1->setField('slideDelay', 6000);
+            $widgetFrontPageContent1->setField('transitionEffect', 'fade');
+            $widgetFrontPageContent1->setField('Sort', 2);
+            $widgetFrontPageContent1->write();
+
+            $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent1);
             
-            if ($productGroupPage2) {
-                $widgetFrontPageContent1 = new SilvercartProductGroupItemsWidget();
-                $widgetFrontPageContent1->setField('numberOfProductsToShow', '4');
-                $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPage2->ID);
-                $widgetFrontPageContent1->setField('useListView', 0);
-                $widgetFrontPageContent1->setField('isContentView', 1);
-                $widgetFrontPageSidebar1->setField('useSlider', 1);
-                $widgetFrontPageContent1->setField('buildArrows', 0);
-                $widgetFrontPageContent1->setField('buildNavigation', 1);
-                $widgetFrontPageContent1->setField('buildStartStop', 0);
-                $widgetFrontPageContent1->setField('slideDelay', 6000);
-                $widgetFrontPageContent1->setField('transitionEffect', 'fade');
-                $widgetFrontPageContent1->write();
-                
-                $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent1);
-            }
+            $widgetFrontPageContent2 = new SilvercartProductGroupItemsWidget();
+            $widgetFrontPageContent2->setField('FrontTitle', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT2_TITLE'));
+            $widgetFrontPageContent2->setField('FrontContent', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT2_CONTENT'));
+            $widgetFrontPageContent2->setField('numberOfProductsToShow', 1);
+            $widgetFrontPageContent2->setField('numberOfProductsToFetch', 4);
+            $widgetFrontPageContent2->setField('SilvercartProductGroupPageID', $productGroupOthers->ID);
+            $widgetFrontPageContent2->setField('useListView', 1);
+            $widgetFrontPageContent2->setField('isContentView', 1);
+            $widgetFrontPageContent2->setField('useSlider', 1);
+            $widgetFrontPageContent2->setField('buildArrows', 0);
+            $widgetFrontPageContent2->setField('buildNavigation', 1);
+            $widgetFrontPageContent2->setField('buildStartStop', 0);
+            $widgetFrontPageContent2->setField('slideDelay', 6000);
+            $widgetFrontPageContent2->setField('transitionEffect', 'horizontalSlide');
+            $widgetFrontPageContent2->setField('Sort', 3);
+            $widgetFrontPageContent2->write();
+
+            $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent2);
             
-            $productGroupPage3 = SilvercartPage_Controller::PageByIdentifierCode('TestProductGroup3');
+            $widgetFrontPageContent3 = new SilvercartImageSliderWidget();
+            $widgetFrontPageContent3->setField('buildArrows', 0);
+            $widgetFrontPageContent3->setField('buildNavigation', 1);
+            $widgetFrontPageContent3->setField('buildStartStop', 0);
+            $widgetFrontPageContent3->setField('slideDelay', 10000);
+            $widgetFrontPageContent3->setField('transitionEffect', 'fade');
+            $widgetFrontPageContent3->setField('Sort', 1);
+            $widgetFrontPageContent3->write();
+
+            $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent3);
             
-            if ($productGroupPage3) {
-                $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
-                $widgetFrontPageSidebar1->setField('numberOfProductsToShow', '1');
-                $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupPage3->ID);
-                $widgetFrontPageSidebar1->setField('useSlider', 0);
-                $widgetFrontPageSidebar1->setField('useListView', 1);
-                $widgetFrontPageSidebar1->setField('isContentView', 0);
-                $widgetFrontPageSidebar1->setField('buildArrows', 0);
-                $widgetFrontPageSidebar1->setField('buildNavigation', 1);
-                $widgetFrontPageSidebar1->setField('buildStartStop', 0);
-                $widgetFrontPageSidebar1->setField('slideDelay', 4000);
-                $widgetFrontPageSidebar1->setField('transitionEffect', 'horizontalSlide');
-                $widgetFrontPageSidebar1->write();
-                
-                $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
-            }
+            copy(
+                Director::baseFolder().'/silvercart/images/exampledata/silvercart_teaser.jpg',
+                $exampleDataDir.'/silvercart_teaser.jpg'
+            );
+            $teaserImage = new Image();
+            $teaserImage->setFilename($exampleDataDir.'/silvercart_teaser.jpg');
+            $teaserImage->setParentID($imageFolder->ID);
+            $teaserImage->write();
+            
+            $slideImage = new SilvercartImageSliderImage();
+            $slideImage->setField('Title',   'Silvercart Teaser');
+            $slideImage->setField('ImageID', $teaserImage->ID);
+            $slideImage->write();
+            
+            $widgetFrontPageContent3->slideImages()->add($slideImage);
+
+            $widgetFrontPageSidebar1 = new SilvercartProductGroupItemsWidget();
+            $widgetFrontPageSidebar1->setField('numberOfProductsToShow', 3);
+            $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
+            $widgetFrontPageSidebar1->setField('useSlider', 0);
+            $widgetFrontPageSidebar1->setField('useListView', 1);
+            $widgetFrontPageSidebar1->setField('isContentView', 0);
+            $widgetFrontPageSidebar1->setField('buildArrows', 0);
+            $widgetFrontPageSidebar1->setField('buildNavigation', 1);
+            $widgetFrontPageSidebar1->setField('buildStartStop', 0);
+            $widgetFrontPageSidebar1->setField('slideDelay', 4000);
+            $widgetFrontPageSidebar1->setField('transitionEffect', 'horizontalSlide');
+            $widgetFrontPageSidebar1->setField('Sort', 1);
+            $widgetFrontPageSidebar1->write();
+
+            $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
+            
+            $widgetFrontPageSidebar2 = new SilvercartShoppingCartWidget();
+            $widgetFrontPageSidebar2->setField('Sort', 2);
+            $widgetFrontPageSidebar2->write();
+
+            $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar2);
+            
+            $widgetFrontPageSidebar3 = new SilvercartLoginWidget();
+            $widgetFrontPageSidebar3->setField('Sort', 3);
+            $widgetFrontPageSidebar3->write();
+
+            $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar3);
+            
+            // product group page widgets
+            
+            $widgetProductGroupPageSidebar1 = new SilvercartProductGroupItemsWidget();
+            $widgetProductGroupPageSidebar1->setField('numberOfProductsToShow', 3);
+            $widgetProductGroupPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
+            $widgetProductGroupPageSidebar1->setField('useSlider', 0);
+            $widgetProductGroupPageSidebar1->setField('useListView', 1);
+            $widgetProductGroupPageSidebar1->setField('isContentView', 0);
+            $widgetProductGroupPageSidebar1->setField('buildArrows', 0);
+            $widgetProductGroupPageSidebar1->setField('buildNavigation', 1);
+            $widgetProductGroupPageSidebar1->setField('buildStartStop', 0);
+            $widgetProductGroupPageSidebar1->setField('slideDelay', 4000);
+            $widgetProductGroupPageSidebar1->setField('transitionEffect', 'horizontalSlide');
+            $widgetProductGroupPageSidebar1->setField('Sort', 1);
+            $widgetProductGroupPageSidebar1->write();
+
+            $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar1);
+            
+            $widgetProductGroupPageSidebar2 = new SilvercartShoppingCartWidget();
+            $widgetProductGroupPageSidebar2->setField('Sort', 2);
+            $widgetProductGroupPageSidebar2->write();
+
+            $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar2);
+            
+            $widgetProductGroupPageSidebar3 = new SilvercartLoginWidget();
+            $widgetProductGroupPageSidebar3->setField('Sort', 3);
+            $widgetProductGroupPageSidebar3->write();
+
+            $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar3);
             
             return true;
         }

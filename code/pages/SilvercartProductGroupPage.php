@@ -34,26 +34,6 @@
 class SilvercartProductGroupPage extends Page {
 
     /**
-     * Singular name.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
-     */
-    public static $singular_name = "product group";
-
-    /**
-     * Plural name.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
-     */
-    public static $plural_name = "product groups";
-
-    /**
      * Set allowed childrens for this page.
      *
      * @var array
@@ -154,6 +134,42 @@ class SilvercartProductGroupPage extends Page {
         parent::__construct($record, $isSingleton);
         $this->drawCMSFields = true;
         $this->GroupPicture()->Title = $this->Title;
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.10.2011
+     */
+    public function singular_name() {
+        if (_t('SilvercartProductGroupPage.SINGULARNAME')) {
+            $singular_name = _t('SilvercartProductGroupPage.SINGULARNAME');
+        } else {
+            $singular_name = parent::singular_name();
+        }
+        return $singular_name;
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.10.2011
+     */
+    public function plural_name() {
+        if (_t('SilvercartProductGroupPage.PLURALNAME')) {
+            $plural_name = _t('SilvercartProductGroupPage.PLURALNAME');
+        } else {
+            $plural_name = parent::plural_name();
+        }
+        return $plural_name;
     }
     
     /**
@@ -472,16 +488,17 @@ class SilvercartProductGroupPage extends Page {
      * All products of this group
      * 
      * @param int|bool $numberOfProducts The number of products to return
+     * @param bool     $random           Indicates wether the result set should be randomized
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts($numberOfProducts = false) {
+    public function getProducts($numberOfProducts = false, $random = false) {
         $controller = new SilvercartProductGroupPage_Controller($this);
         
-        return $controller->getProducts($numberOfProducts);
+        return $controller->getProducts($numberOfProducts, $random);
     }
 }
 
@@ -564,6 +581,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $widgetOutput = array();
 
     /**
+     * Makes widgets of parent pages load when subpages don't have any attributed.
+     *
+     * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.10.2011
+     */
+    public $forceLoadOfWidgets = true;
+    
+    /**
      * Indicates wether a filter plugin can be registered for the current view.
      *
      * @return boolean
@@ -580,9 +607,30 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
     
     /**
+     * Returns the cache key for the product group page list view.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.10.2011
+     */
+    public function CacheKeySilvercartProductGroupPageControls() {
+        return implode(
+            '_',
+            array(
+                $this->ID,
+                $this->SQL_start,
+                $this->getProductsPerPageSetting()
+            )
+        );
+    }
+    
+    /**
      * Registers an object as a filter plugin. Before getting the result set
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
+     * 
+     * @param string $object Name of the filter plugin
      *
      * @return void
      *
@@ -620,6 +668,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
         } else {
             // a product group view is requested
+            $this->registerWidgetAreas();
             $products = $this->getProducts();
             Session::set("SilvercartProductGroupPageID", $this->ID);
             Session::save();
@@ -630,7 +679,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
                     $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
-                    $product->setField('Thumbnail', $product->image()->SetWidth(150));
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
@@ -863,14 +911,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int|bool $numberOfProducts The number of products to return
+     * @param mixed int|bool    $numberOfProducts The number of products to return
+     * @param mixed bool|string $sort             An SQL sort statement
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts($numberOfProducts = false) {
+    public function getProducts($numberOfProducts = false, $sort = false) {
         if (!($this->groupProducts)) {
             $this->listFilters = array();
             $filter    = '';
@@ -923,8 +972,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 );
             }
             
-            $this->registerWidgetAreas();
-            
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {
                     $pluginFilters = $registeredPlugin->filter();
@@ -942,7 +989,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $filter .= ' ' . $listFilter;
             }
 
-            $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+            if (!$sort) {
+                $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+            }
 
             $join = sprintf(
                 "LEFT JOIN SilvercartProductGroupMirrorSortOrder SPGMSO ON SPGMSO.SilvercartProductGroupPageID = %d AND SPGMSO.SilvercartProductID = SilvercartProduct.ID",
@@ -963,12 +1012,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int|bool          $numberOfProducts        The number of products to return
-     * @param bool              $useRandomSelection      Indicate wether a random selection of
-     *                                                   products from the product group
-     *                                                   should be returned
-     * @param mixed int|boolean $limitToNumberOfProducts Optional limitation of the
-     *                                                   resultset to a number of products
+     * @param int $numberOfProducts The number of products to return
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
@@ -1244,6 +1288,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Indicates wether the resultset of the product query returns more
      * products than the number given (defaults to 10).
+     * 
+     * @param int $maxResults The maximum count of results
      *
      * @return boolean
      *
@@ -1263,6 +1309,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Indicates wether the resultset of the product query returns less
      * products than the number given (defaults to 10).
+     * 
+     * @param int $maxResults The maximum count of results
      *
      * @return boolean
      *
@@ -1439,6 +1487,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     
     /**
      * Returns the SQL filter statement for the current query.
+     * 
+     * @param string $excludeFilter The name of the filter to exclude
      *
      * @return string
      *

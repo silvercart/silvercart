@@ -169,9 +169,10 @@ class SilvercartOrderStatus extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
-        $fieldLabels['Code']                = _t('SilvercartOrderStatus.CODE', 'code');
-        $fieldLabels['SilvercartOrders']    = _t('SilvercartOrder.PLURALNAME', 'orders');
+        $fieldLabels['Title']                               = _t('SilvercartPage.TITLE');
+        $fieldLabels['Code']                                = _t('SilvercartOrderStatus.CODE');
+        $fieldLabels['SilvercartOrders']                    = _t('SilvercartOrder.PLURALNAME');
+        $fieldLabels['SilvercartPaymentMethodRestrictions'] = _t('SilvercartPaymentMethod.PLURALNAME');
         return $fieldLabels;
     }
 

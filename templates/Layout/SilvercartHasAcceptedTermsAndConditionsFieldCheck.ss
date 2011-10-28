@@ -9,5 +9,5 @@
         </div>
     <% end_if %>
     $FieldTag
-    <label for="{$FormName}_{$FieldName}"><% _t('SilvercartPage.I_ACCEPT','I accept the') %> <a href="$CurrentPage.PageByIdentifierCodeLink(TermsOfServicePage)"><% _t('SilvercartPage.TITLE_TERMS') %></a> </label>
+    <label for="{$FormName}_{$FieldName}"><% _t('SilvercartPage.I_ACCEPT','I accept the') %> <a href="$CurrentPage.PageByIdentifierCodeLink(TermsOfServicePage)" target="_blank"><% _t('SilvercartPage.TITLE_TERMS') %></a> </label>
 </div>

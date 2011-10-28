@@ -42,10 +42,13 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 Object::add_extension('SiteTree',           'Translatable');
 Object::add_extension('SiteConfig',         'Translatable');
+Object::add_extension('SiteConfig',         'SilvercartSiteConfig');
 Object::add_extension('Member',             'SilvercartCustomer');
 Object::add_extension('Group',              'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');
 Object::add_extension('CMSMain',            'SilvercartMain');
+Object::add_extension('Security',           'SilvercartSecurityController');
+Object::add_extension('Security',           'CustomHtmlFormPage_Controller');
 DataObject::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
@@ -55,6 +58,7 @@ DataObject::add_extension('Image',                                      'Silverc
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",
+    "SilvercartImageSliderImage",
 ));
 
 // ----------------------------------------------------------------------------
@@ -118,6 +122,23 @@ if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
 
 if (method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
+}
+
+// ----------------------------------------------------------------------------
+// add silvercart branding if no other branding is set
+// ----------------------------------------------------------------------------
+if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
+    LeftAndMain::$application_logo == 'cms/images/mainmenu/logo.gif' &&
+    LeftAndMain::$application_name == 'SilverStripe CMS' &&
+    LeftAndMain::$application_logo_text = 'SilverStripe') {
+    LeftAndMain::setApplicationName(
+        'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
+        '<p style="font-size: 11px; line-height: 11px;">eCommerce software.<br/>Open-source. You\'ll love it.</p>',
+        'http://www.silvercart.org'
+    );
+    LeftAndMain::set_loading_image(
+        '/silvercart/images/logo.jpg'
+    );
 }
 
 /*

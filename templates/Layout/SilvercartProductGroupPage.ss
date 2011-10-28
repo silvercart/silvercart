@@ -22,7 +22,7 @@
         </div>
 	
         <div class="silvercart-product-group-page-control-bottom">
-            <% include SilvercartProductGroupPageControls %>
+            <% include SilvercartProductGroupHolderControls %>
         </div>
     </div>
 </div>

@@ -167,6 +167,14 @@ class SilvercartProduct extends DataObject {
     );
     
     /**
+     * The final price object (dependent on customer class and custom extensions
+     * like rebates @see $this->getPrice())
+     *
+     * @var Money
+     */
+    protected $price = null;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -410,10 +418,11 @@ class SilvercartProduct extends DataObject {
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
-     * @author Roland Lehmann
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.10.2011
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
+        
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -442,37 +451,54 @@ class SilvercartProduct extends DataObject {
         if (!$sort) {
             $sort = 'SilvercartProduct.SortOrder ASC';
         }
-        $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
-        if ($products) {
-            return $products;
+        
+        $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        
+        if (in_array('Price', $requiredAttributes) &&
+            !is_null($databaseFilteredProducts)) {
+            foreach ($databaseFilteredProducts as $product) {
+                if ($product->getPrice()->getAmount() <= 0) {
+                    $databaseFilteredProducts->remove($product);
+                }
+            }
         }
-
-        return false;
+        
+        return $databaseFilteredProducts;
     }
 
     /**
      * Customizes the backend popup for Products.
      *
      * @return FieldSet the editible fields
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2011
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         $fields->removeByName('SilvercartShoppingCartPositions');//There is not enough space for so many tabs
         //Get all products that have no master
-        $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
+        $var = sprintf("`SilvercartMasterProductID` = '%s'", "0");
         $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
+        $silvercartMasterProductMap = array();
+        if ($silvercartMasterProducts) {
+            $silvercartMasterProductMap = $silvercartMasterProducts->map();
+        }
         $dropdownField = new DropdownField(
             'SilvercartMasterProductID',
             _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-            $silvercartMasterProducts->toDropDownMap(),
+            $silvercartMasterProductMap,
             null,
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->addFieldToTab('Root.Main.Content', $dropdownField);
+        
+        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            $targetTab = 'Root.Main';
+        } else {
+            $targetTab = 'Root.Main.Content';
+        }
+        $fields->addFieldToTab($targetTab, $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
@@ -805,7 +831,11 @@ class SilvercartProduct extends DataObject {
             $htmlEditorFieldLongDescription->setRows(15);
             $CMSFields->addFieldToTab('Root.Main.Content', $htmlEditorFieldLongDescription);
             $taxRates = DataObject::get('SilvercartTax');
-            $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRates->map('ID', 'Title'), $this->SilvercartTaxID));
+            $taxRateMap = array();
+            if ($taxRates) {
+                $taxRateMap = $taxRates->map();
+            }
+            $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRateMap, $this->SilvercartTaxID, null, ''));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Weight'));
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('EANCode'));
             $conditionMap   = array();
@@ -837,7 +867,20 @@ class SilvercartProduct extends DataObject {
 
             //fill the tab Root.Main.Manufacturer
             $CMSFields->addFieldToTab('Root.Main.Manufacturer', new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'), $this->ProductNumberManufacturer));
-            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new LiveDropdownField('SilvercartManufacturerID', _t('SilvercartManufacturer.SINGULARNAME'), 'SilvercartManufacturer'));
+            $manufacturers = DataObject::get('SilvercartManufacturer');
+            $manufacturerMap = array();
+            if ($manufacturers) {
+                $manufacturerMap = $manufacturers->map();
+            }
+            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new DropdownField(
+                    'SilvercartManufacturerID',
+                    _t('SilvercartManufacturer.SINGULARNAME'),
+                    $manufacturerMap,
+                    $this->SilvercartManufacturerID,
+                    null,
+                    _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                    )
+                );
 
             //fill the tab Root.SEO.MetaData
             $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaTitle'));
@@ -961,28 +1004,30 @@ class SilvercartProduct extends DataObject {
      *
      * @return Money price dependent on customer class and configuration
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.3.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2011
      */
     public function getPrice() {
-        $pricetype = SilvercartConfig::Pricetype();
-        if ($pricetype =="net") {
-            $price = clone $this->PriceNet;
-        } elseif ($pricetype == "gross") {
-            $price = clone $this->PriceGross;
-        } else {
-            $price = clone $this->PriceGross;
+        if (is_null($this->price)) {
+            $pricetype = SilvercartConfig::Pricetype();
+            if ($pricetype =="net") {
+                $price = clone $this->PriceNet;
+            } elseif ($pricetype == "gross") {
+                $price = clone $this->PriceGross;
+            } else {
+                $price = clone $this->PriceGross;
+            }
+            
+            $price->setAmount(round($price->getAmount(), 2));
+            
+            if ($price->getAmount() < 0) {
+                $price->setAmount(0);
+            }
+            //overwrite the price in a decorator
+            $this->extend('updatePrice', $price);
+            $this->price = $price;
         }
-
-        $price->setAmount(round($price->getAmount(), 2));
-
-        if ($price->getAmount() < 0) {
-            $price->setAmount(0);
-        }
-        //overwrite the price in a decorator
-        $this->extend('updatePrice', $price);
-        
-        return $price; 
+        return $this->price; 
     }
     
     /**
@@ -1140,7 +1185,7 @@ class SilvercartProduct extends DataObject {
             return false;
         }
 
-        $filter           = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
+        $filter               = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
         $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
 
         if (!$shoppingCartPosition) {

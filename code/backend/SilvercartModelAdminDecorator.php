@@ -47,9 +47,11 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
             return true;
         }
         
-        $preventAutoLoadingClassNames = $this->getPreventAutoLoadForManagedModels();
+        $preventAutoLoadingClassNames           = $this->getPreventAutoLoadForManagedModels();
+        $enabledFirstEntryAutoLoadClassNames    = $this->getEnabledFirstEntryAutoLoadForManagedModels();
 
-        RequirementsEngine::registerJsVariable('PreventAutoLoadForManagedModels', $preventAutoLoadingClassNames);
+        RequirementsEngine::registerJsVariable('PreventAutoLoadForManagedModels',           $preventAutoLoadingClassNames);
+        RequirementsEngine::registerJsVariable('EnabledFirstEntryAutoLoadForManagedModels', $enabledFirstEntryAutoLoadClassNames);
         RequirementsEngine::parse('SilvercartModelAdminDecorator.js', array('silvercart/script/SilvercartModelAdminDecorator.js'));
         
         RequirementsEngine::add_i18n_javascript('silvercart/javascript/lang');
@@ -64,13 +66,43 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
      * @since 05.10.2011
      */
     public function getPreventAutoLoadForManagedModels() {
-        $classNames = '';
-        $ownerClass = $this->owner->class;
+        $classNames     = '';
+        $ownerClass     = $this->owner->class;
+        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
         
-        foreach ($ownerClass::$managed_models as $managedModel => $modelDefinitions) {
+        foreach ($managedModels as $managedModel => $modelDefinitions) {
             if (is_array($modelDefinitions) &&
                 array_key_exists('preventTableListFieldAutoLoad', $modelDefinitions) &&
                 $modelDefinitions['preventTableListFieldAutoLoad']) {
+             
+                if (!empty($classNames)) {
+                    $classNames .= ',';
+                }
+                $classNames .= "'".$managedModel."'";
+            }
+        }
+        
+        return $classNames;
+    }
+    
+    /**
+     * Returns a string of comma separated class names for which the autoload of
+     * the first table entry should be provided.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2011
+     */
+    public function getEnabledFirstEntryAutoLoadForManagedModels() {
+        $classNames     = '';
+        $ownerClass     = $this->owner->class;
+        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
+        
+        foreach ($managedModels as $managedModel => $modelDefinitions) {
+            if (is_array($modelDefinitions) &&
+                array_key_exists('enableFirstEntryAutoLoad', $modelDefinitions) &&
+                $modelDefinitions['enableFirstEntryAutoLoad']) {
              
                 if (!empty($classNames)) {
                     $classNames .= ',';

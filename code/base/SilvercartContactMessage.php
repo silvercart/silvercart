@@ -101,6 +101,7 @@ class SilvercartContactMessage extends DataObject {
                     'FirstName'     => _t('Member.FIRSTNAME'),
                     'Surname'       => _t('Member.SURNAME'),
                     'Email'         => _t('Member.EMAIL'),
+                    'Message'       => _t('SilvercartContactMessage.MESSAGE')
                 )
         );
     }

@@ -68,19 +68,10 @@ class SilvercartCustomer extends DataObjectDecorator {
             'belongs_many_many' => array(
                 'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
             ),
-            'summary_fields' => array(
-                'CustomerNumber',
-                'FirstName',
-                'Surname',
-                'ClassName',
-            ),
             'api_access' => array(
                 'view' => array(
                     'Email'
                 )
-            ),
-            'searchable_fields' => array(
-                'FirstName'
             ),
             'field_labels' => array(
                 'Salutation'                        => _t('SilvercartCustomer.SALUTATION', 'salutation'),
@@ -95,7 +86,10 @@ class SilvercartCustomer extends DataObjectDecorator {
                 'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
                 'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
                 'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
-            )
+            ),
+            'casting' => array(
+                'GroupNames' => 'Text',
+            ),
         );
     }
     
@@ -140,6 +134,10 @@ class SilvercartCustomer extends DataObjectDecorator {
             'title'     => _t('SilvercartCustomer.CUSTOMERNUMBER'),
             'filter'    => 'PartialMatchFilter'
         );
+        $fields['FirstName'] = array(
+            'title'     => _t('SilvercartCustomer.FIRSTNAME'),
+            'filter'    => 'PartialMatchFilter'
+        );
     }
     
     /**
@@ -157,8 +155,24 @@ class SilvercartCustomer extends DataObjectDecorator {
             'CustomerNumber'    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
             'FirstName'         => _t('Member.FIRSTNAME'),
             'Surname'           => _t('Member.SURNAME'),
-            'ClassName'         => _t('SilvercartCustomer.TYPE', 'type'),
+            'GroupNames'        => _t('SilvercartCustomer.TYPE', 'type'),
         );
+    }
+    
+    // ------------------------------------------------------------------------
+    // Casting methods
+    // ------------------------------------------------------------------------
+    
+    /**
+     * Returns the related groups as comma separated list.
+     *
+     * @return string
+     */
+    public function getGroupNames() {
+        $groupNamesAsString = '';
+        $groupNamesMap = $this->owner->Groups()->map();
+        $groupNamesAsString = implode(', ', $groupNamesMap);
+        return $groupNamesAsString;
     }
     
     // ------------------------------------------------------------------------
@@ -254,7 +268,7 @@ class SilvercartCustomer extends DataObjectDecorator {
         
         return false;
     }
-    
+
     /**
      * Get the customers shopping cart or create one if it doesn't exist yet.
      * 
@@ -273,6 +287,29 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
         
         return $this->owner->SilvercartShoppingCart();
+    }
+    
+    /**
+     * Returns all customer groups of the current customer as a DataObjectSet.
+     * If Member::currentUser() does not exist, the group for anonymous customers
+     * will be returned. If no group for anonymous customers exists, null will 
+     * be returned.
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public static function getCustomerGroups() {
+        $customer = Member::currentUser();
+        if ($customer) {
+            $customerGroups = $customer->Groups();
+        } else {
+            $customerGroups = DataObject::get(
+                'Group', "`Code` = 'anonymous'"
+            );
+        }
+        return $customerGroups;
     }
     
     /**

@@ -134,20 +134,36 @@ class SilvercartWidgetSet extends DataObject {
      * @since 27.05.2011
      */
     public function getCMSFields($params = null) {
-        $fields           = parent::getCMSFields($params);
-        $widgetAreaEditor = new WidgetAreaEditor('WidgetArea');
+        $fields = parent::getCMSFields($params);
         
-        $fields->removeByName('WidgetAreaID');
-        $fields->removeFieldFromTab('Root', 'SilvercartPages');
-        $fields->addFieldToTab('Root.Main', $widgetAreaEditor);
+        if ($this->ID > 0) {
+            $fields->removeByName('WidgetAreaID');
+            $fields->removeFieldFromTab('Root', 'SilvercartPages');
+            $availableWidgets = array();
+
+            $classes = ClassInfo::subclassesFor('Widget');
+            array_shift($classes);
+            foreach($classes as $class) {
+                if ($class == 'SilvercartWidget') {
+                    continue;
+                }
+                $widgetClass        = singleton($class);
+                $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
+            }
+
+            $widgetAreaField = new SilvercartHasManyOrderField(
+                $this->WidgetArea(),
+                'Widgets',
+                'WidgetArea',
+                'Widget Konfiguration',
+                $availableWidgets
+            );
+
+            $fields->addFieldToTab('Root.Main', $widgetAreaField);
+        } else {
+            $fields->removeByName('WidgetAreaID');
+        }
         
-        $pagesTableField = new ManyManyDataObjectManager(
-            $this,
-            'SilvercartPages',
-            'SilvercartPage'
-        );
-        $fields->findOrMakeTab('Root.SilvercartPages', _t('SilvercartWidgetSet.PAGES'));
-        $fields->addFieldToTab('Root.SilvercartPages', $pagesTableField);
         return $fields;
     }
     
@@ -187,5 +203,43 @@ class SilvercartWidgetSet extends DataObject {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * We have to create a WdgetArea object if there's none attributed yet.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        
+        if ($this->WidgetAreaID == 0) {
+            $widgetArea = new WidgetArea();
+            $widgetArea->write();
+            
+            $this->WidgetAreaID = $widgetArea->ID;
+            $this->write();
+        }
+    }
+    
+    /**
+     * We want to delete all attributed WidgetAreas and Widgets before deletion.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        foreach ($this->WidgetArea()->Widgets() as $widget) {
+            $widget->delete();
+        }
+        
+        $this->WidgetArea()->delete();
     }
 }

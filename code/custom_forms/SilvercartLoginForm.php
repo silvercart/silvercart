@@ -154,9 +154,9 @@ class SilvercartLoginForm extends CustomHtmlForm {
             );
 
             return $this->messages = array(
-        'Authentication' => array(
-            'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
-        )
+                'Authentication' => array(
+                    'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
+                )
             );
         }
     }

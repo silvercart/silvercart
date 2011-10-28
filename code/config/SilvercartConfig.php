@@ -163,7 +163,7 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.1',
+        'SilvercartVersion'             => '1.2',
         'SilvercartUpdateVersion'       => '1',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
@@ -212,6 +212,7 @@ class SilvercartConfig extends DataObject {
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
+    public static $silvercartVersion                = null;
     public static $useApacheSolrSearch              = null;
     public static $enableStockManagement            = null;
     public static $isStockManagementOverbookable    = null;
@@ -436,11 +437,7 @@ class SilvercartConfig extends DataObject {
         $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
 
         $geoNamesDescriptionValue = '';
-        $geoNamesDescriptionValue .= '<h3>Description</h3>';
-        $geoNamesDescriptionValue .= '<p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/>';
-        $geoNamesDescriptionValue .= 'To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/>';
-        $geoNamesDescriptionValue .= 'Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/>';
-        $geoNamesDescriptionValue .= 'After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+        $geoNamesDescriptionValue = _t('SilvercartConfig.GEONAMES_DESCRIPTION');
         $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $geoNamesDescription);
         $CMSFields->addFieldToTab('Root.Interfaces.GeoNames', $CMSFields->dataFieldByName('GeoNamesActive'));
@@ -477,6 +474,9 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['apacheSolrUrl']                       = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
         $fieldLabels['isStockManagementOverbookable']       = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
         $fieldLabels['demandBirthdayDateOnRegistration']    = _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?');
+        $fieldLabels['GeoNamesActive']                      = _t('SilvercartConfig.GEONAMES_ACTIVE');
+        $fieldLabels['GeoNamesUserName']                    = _t('SilvercartConfig.GEONAMES_USERNAME');
+        $fieldLabels['GeoNamesAPI']                         = _t('SilvercartConfig.GEONAMES_API');
         return $fieldLabels;
     }
 
@@ -704,6 +704,21 @@ class SilvercartConfig extends DataObject {
             self::$disregardMinimumOrderValue = self::getConfig()->disregardMinimumOrderValue;
         }
         return self::$disregardMinimumOrderValue;
+    }
+
+    /**
+     * Returns the SilverCart version.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.10.2011
+     */
+    public static function SilvercartVersion() {
+        if (is_null(self::$silvercartVersion)) {
+            self::$silvercartVersion = self::$defaults['SilvercartVersion'];
+        }
+        return self::$silvercartVersion;
     }
     
     /**
@@ -1215,17 +1230,26 @@ class SilvercartConfig extends DataObject {
      */
     public static function isInstallationCompleted() {
         $installationComplete   = false;
-        $memberFieldList        = array();
-        $queryRes               = DB::query("SHOW TABLES");
-        if ($queryRes->numRecords() > 0) {
-            $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+        
+        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
+            $installationComplete = false;
+        } else {
+            $memberFieldList        = array();
+            $queryRes               = DB::query("SHOW TABLES");
+            if ($queryRes->numRecords() > 0) {
+                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
 
-            foreach ($queryRes as $key => $value) {
-                $memberFieldList[] = $value['Field'];
-            }
+                foreach ($queryRes as $key => $value) {
+                    $memberFieldList[] = $value['Field'];
+                }
 
-            if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                $installationComplete = true;
+                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                    $installationComplete = true;
+                }
             }
         }
         

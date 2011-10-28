@@ -84,11 +84,22 @@ class SilvercartPage extends SiteTree {
         $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
         $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
         
+        // prevent edit/add/show/delete actions for widget sets in CMS area.
+        $permissions = array();
+        
+        $widgetSetInfoValue = _t('SilvercartWidgetSet.INFO');
+        $widgetSetInfo = new LiteralField('WidgetSetInfo', $widgetSetInfoValue);
+        
         $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
         $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
-        $widgetSetContentlabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
+        $widgetSetSidebarField->setPopupSize(900,600);
+        $widgetSetSidebarField->setPermissions($permissions);
+        $widgetSetContentlabel = new HeaderField('WidgetSetContentLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
         $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
+        $widgetSetContentField->setPopupSize(900,600);
+        $widgetSetContentField->setPermissions($permissions);
         
+        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetInfo);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarLabel);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarField);
         $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentlabel);
@@ -172,8 +183,6 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected $WidgetSetContentControllers;
     
-    protected $registrationControllerObject = null;
-
     /**
      * standard page controller
      *
@@ -184,15 +193,19 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        $controller = Controller::curr();
+        
+        if ($this != $controller) {
+            $registeredCustomHtmlForms = $controller->getRegisteredCustomHtmlForms();
+        }
+        
         if (!isset($_SESSION['Silvercart'])) {
             $_SESSION['Silvercart'] = array();
         }
         if (!isset($_SESSION['Silvercart']['errors'])) {
             $_SESSION['Silvercart']['errors'] = array();
         }
-        
-        $this->loadWidgetControllers();
-                
+
         if (!SilvercartConfig::DefaultLayoutLoaded()) {
             // temporary hold preloaded css files to prevent combine changes by 
             // different pages
@@ -245,13 +258,19 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
-
+        }
+        
+        if ($controller == $this || $controller->forceLoadOfWidgets) {
+            $this->loadWidgetControllers();
+        }
+        
+        if (!SilvercartConfig::DefaultLayoutLoaded()) {
             $contentCssFiles = array(
                 'content',
                 'forms',
                 'patch_forms',
             );
-            
+
             $combinedCssFiles = array();
             $combinedContentCssFiles = array();
             $combinedSilvercartCssFiles = array();
@@ -274,21 +293,22 @@ class SilvercartPage_Controller extends ContentController {
             foreach (Requirements::backend()->get_javascript() as $file) {
                 $combinedJsFiles[] = $file;
             }
-            
+
             // Combine files
             if (class_exists('RequirementsEngine')) {
+                RequirementsEngine::registerCssVariable('CurrentController', Controller::curr());
                 RequirementsEngine::combine_files('script.js', $combinedJsFiles);
                 RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
                 RequirementsEngine::combine_files_and_parse('content.css', $combinedContentCssFiles);
                 RequirementsEngine::combine_files_and_parse('content.ec.css', $combinedSilvercartCssFiles);
-                
+
                 RequirementsEngine::process_combined_files();
             } else {
                 Requirements::combine_files('script.js', $combinedJsFiles);
                 Requirements::combine_files('base.css', $combinedCssFiles);
                 Requirements::combine_files('content.css', $combinedContentCssFiles);
                 Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
-                
+
                 Requirements::process_combined_files();
             }
 
@@ -297,13 +317,20 @@ class SilvercartPage_Controller extends ContentController {
             SilvercartConfig::setDefaultLayoutLoaded(true);
         }
         
-        $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
-        $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
-        
+        // We have to check if we are in a customised controller (that's the
+        // case for all Security pages). If so, we use the registered forms of
+        // the outermost controller.
+        if (empty($registeredCustomHtmlForms)) {
+            $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
+            $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
+        } else {
+            $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
+        }
+
         // check the SilverCart configuration
         $checkConfiguration = true;
         if (array_key_exists('url', $_REQUEST)) {
-            if ($_REQUEST['url'] == '/Security/login' || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
+            if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
         } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
@@ -312,7 +339,7 @@ class SilvercartPage_Controller extends ContentController {
         if ($checkConfiguration) {
             SilvercartConfig::Check();
         }
-        
+
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 
@@ -423,11 +450,11 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function getBreadcrumbs() {
         $page = DataObject::get_one(
-                        'Page',
-                        sprintf(
-                                '"URLSegment" LIKE \'%s\'',
-                                $this->urlParams['URLSegment']
-                        )
+            'Page',
+            sprintf(
+                    '"URLSegment" LIKE \'%s\'',
+                    $this->urlParams['URLSegment']
+            )
         );
 
         return $this->ContextBreadcrumbs($page);
@@ -456,9 +483,9 @@ class SilvercartPage_Controller extends ContentController {
 
         $i = 0;
         while (
-        $page
-        && (!$maxDepth || sizeof($parts) < $maxDepth)
-        && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
+            $page
+            && (!$maxDepth || sizeof($parts) < $maxDepth)
+            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
         ) {
             if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
                 if ($page->URLSegment == 'home') {
@@ -808,7 +835,7 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
         
         // Content area widgets -----------------------------------------------
         $controllers = new DataObjectSet();
@@ -818,9 +845,8 @@ class SilvercartPage_Controller extends ContentController {
                 $widgetSet->WidgetArea()->WidgetControllers()
             );
         }
-        
         $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('sortOrder', 'ASC');
+        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.

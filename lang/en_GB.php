@@ -143,6 +143,12 @@ $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Level 6';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google taxonomy';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google taxonomy';
 
+$lang['en_GB']['SilvercartImageSliderImage']['LINKPAGE'] = 'Page that shall be linked to';
+
+$lang['en_GB']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
+$lang['en_GB']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
+$lang['en_GB']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an image slider for displaying multiple images in a slide show.';
+
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';
@@ -205,6 +211,7 @@ $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Import image
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Directory on the webserver where the images are located';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
+$lang['en_GB']['SilvercartProduct']['LIST_PRICE'] = 'list price';
 $lang['en_GB']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
 $lang['en_GB']['SilvercartProduct']['METADATA'] = 'Meta Data';
 $lang['en_GB']['SilvercartProduct']['METADESCRIPTION'] = 'Meta description for search engines';
@@ -219,9 +226,10 @@ $lang['en_GB']['SilvercartProduct']['PRICE'] = 'Price';
 $lang['en_GB']['SilvercartProduct']['PRICE_GROSS'] = 'Price (gross)';
 $lang['en_GB']['SilvercartProduct']['PRICE_NET'] = 'Price (net)';
 $lang['en_GB']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
+$lang['en_US']['SilvercartProduct']['PRICE_SINGLE_NET'] = 'Price single (net)';
 $lang['en_GB']['SilvercartProduct']['PRICE_ENTIRE'] = 'Price sum';
 $lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER'] = 'Item number';
-$lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Item number';
+$lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_SHORT'] = 'Item no.';
 $lang['en_GB']['SilvercartProduct']['PRODUCTNUMBER_MANUFACTURER'] = 'Item number (manufacturer)';
 $lang['en_GB']['SilvercartProduct']['PURCHASEPRICE'] = 'Purchase price';
 $lang['en_GB']['SilvercartProduct']['PURCHASE_MIN_DURATION'] = 'Min. purchase duration';
@@ -378,6 +386,10 @@ $lang['en_GB']['SilvercartConfig']['EXAMPLE_CONFIGURATION_ALREADY_ADDED'] = 'Exa
 $lang['en_GB']['SilvercartConfig']['GENERAL'] = 'General';
 $lang['en_GB']['SilvercartConfig']['GENERAL_MAIN'] = 'Main';
 $lang['en_GB']['SilvercartConfig']['GENERAL_TEST_DATA'] = 'Test Data';
+$lang['en_GB']['SilvercartConfig']['GEONAMES_DESCRIPTION'] = '<h3>Description</h3><p>GeoNames provides a detailed database of geo informations. It can be used to get up-to-date country informations (name, ISO2, ISO3, etc.).<br/> To use this feature, you have to create an account at <a href="http://www.geonames.org/" target="blank">http://www.geonames.org/</a>, confirm the registration and activate the webservice.<br/> Then set GeoNames to be active, put your username into the Username field and save the configuration right here.<br/> After that, SilverCart will sync your countries with the GeoNames database on every /dev/build, optionally in multiple languages.</p>';
+$lang['en_GB']['SilvercartConfig']['GEONAMES_ACTIVE'] = 'activate GeoNames';
+$lang['en_GB']['SilvercartConfig']['GEONAMES_USERNAME'] = 'GeoNames username';
+$lang['en_GB']['SilvercartConfig']['GEONAMES_API'] = 'GeoNames API URL';
 $lang['en_GB']['SilvercartConfig']['INTERFACES'] = 'Interfaces';
 $lang['en_GB']['SilvercartConfig']['INTERFACES_GEONAMES'] = 'GeoNames';
 $lang['en_GB']['SilvercartConfig']['LAYOUT'] = 'Layout';
@@ -387,8 +399,8 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Price type f
 $lang['en_GB']['SilvercartConfig']['PRICETYPEADMINS'] = 'Price type for administrators';
 $lang['en_GB']['SilvercartConfig']['EMAILSENDER_INFO'] = 'The email sender will be the sender address of all emails sent by SilverCart.';
 $lang['en_GB']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SC Config -> general configuration" to edit the missing field.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SC Config -> countries" to activate a country.';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but appended.';
 $lang['en_GB']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum order value';
@@ -429,6 +441,7 @@ $lang['en_GB']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactcon
 
 $lang['en_GB']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
 $lang['en_GB']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
+$lang['en_GB']['SilvercartContactMessage']['MESSAGE'] = 'message';
 $lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:<br/>\n\n\$Message</p>\n";
 
 $lang['en_GB']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contactmessages';
@@ -742,7 +755,7 @@ $lang['en_GB']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footer Navig
 $lang['en_GB']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footer Navigation Holder';
 $lang['en_GB']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
 
-$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
+$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
 $lang['en_GB']['SilvercartFrontPage']['PLURALNAME'] = 'Front pages';
 $lang['en_GB']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
 
@@ -752,6 +765,12 @@ $lang['en_GB']['SilvercartGroupView']['TILE'] = 'Tile';
 $lang['en_GB']['SilvercartHandlingCost']['PLURALNAME'] = 'Handling Costs';
 $lang['en_GB']['SilvercartHandlingCost']['SINGULARNAME'] = 'Handling Cost';
 $lang['en_GB']['SilvercartHandlingCost']['AMOUNT'] = 'amount';
+
+$lang['en_GB']['SilvercartHasManyOrderField']['ATTRIBUTED_FIELDS']          = 'Attributed widgets';
+$lang['en_GB']['SilvercartHasManyOrderField']['MOVE_DOWN']                  = 'Move down';
+$lang['en_GB']['SilvercartHasManyOrderField']['MOVE_UP']                    = 'Move up';
+$lang['en_GB']['SilvercartHasManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Available widgets';
+$lang['en_GB']['SilvercartHasManyOrderField']['EDIT']                       = 'Edit';
 
 $lang['en_GB']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartImage']['PLURALNAME'] = 'Images';
@@ -934,6 +953,7 @@ $lang['en_GB']['SilvercartPage']['GOTO_CART_SHORT'] = 'Cart';
 $lang['en_GB']['SilvercartPage']['GOTO_CONTACT_LINK'] = 'Go to contact page';
 $lang['en_GB']['SilvercartPage']['HEADERPICTURE'] = 'Header picture';
 $lang['en_GB']['SilvercartPage']['INCLUDED_VAT'] = 'included VAT';
+$lang['en_GB']['SilvercartPage']['ADDITIONAL_VAT'] = 'additional VAT';
 $lang['en_GB']['SilvercartPage']['I_ACCEPT'] = 'I accept the';
 $lang['en_GB']['SilvercartPage']['I_HAVE_READ'] = 'I have read the';
 $lang['en_GB']['SilvercartPage']['ISACTIVE'] = 'Active';
@@ -988,6 +1008,7 @@ $lang['en_GB']['SilvercartPage']['STEPS'] = 'Steps';
 $lang['en_GB']['SilvercartPage']['SUBMIT'] = 'Send';
 $lang['en_GB']['SilvercartPage']['SUBMIT_MESSAGE'] = 'Submit message';
 $lang['en_GB']['SilvercartPage']['SUBTOTAL'] = 'Subtotal';
+$lang['en_GB']['SilvercartPage']['SUBTOTAL_NET'] = 'Subtotal (Net)';
 $lang['en_GB']['SilvercartPage']['SUM'] = 'Sum';
 $lang['en_GB']['SilvercartPage']['INCLUDING_TAX'] = 'incl. %s%% VAT';
 $lang['en_GB']['SilvercartPage']['EXCLUDING_TAX'] = 'plus VAT';
@@ -1126,9 +1147,9 @@ $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
 $lang['en_GB']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Show logos in frontend';
 
-$lang['en_GB']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SilverCart administration';
+$lang['en_GB']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
-$lang['en_GB']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SilverCart Configuration';
+$lang['en_GB']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Config';
 
 $lang['en_GB']['SilvercartShopEmail']['EMAILTEXT'] = 'Message';
 $lang['en_GB']['SilvercartShopEmail']['IDENTIFIER'] = 'Identifier';
@@ -1142,6 +1163,7 @@ $lang['en_GB']['SilvercartShopEmail']['HELLO'] = 'Hello';
 $lang['en_GB']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your Order in Our Online Store';
+$lang['en_GB']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'A New Order Has Been Placed';
 
 $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
@@ -1161,9 +1183,66 @@ $lang['en_GB']['SilvercartTax']['SINGULARNAME'] = 'Rate';
 $lang['en_GB']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pages';
 $lang['en_GB']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
-$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE'] = 'Frontpage content area';
-$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE'] = 'Frontpage sidebar area';
-$lang['en_GB']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE'] = 'product group pages sidebar area';
+$lang['en_GB']['SilvercartTestData']['CURRENCY']                                    = 'EUR';
+$lang['en_GB']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Beispieldaten';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE']           = 'Frontpage content area';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE']           = 'Frontpage sidebar area';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE']   = 'product group pages sidebar area';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_TITLE']          = 'Payment Modules';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT1_CONTENT']        = '<p>Explore all the payment modules for SilverCart!</p>';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_TITLE']          = 'Other Modules';
+$lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT2_CONTENT']        = '<p>There are modules for nearly every use case available for SilverCart.</p>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUP_CONTENT']                        = '<div class="silvercart-message highlighted info32"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purposes only.</p></div>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPPAYMENT_TITLE']                   = 'Payment Modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPPAYMENT_URLSEGMENT']              = 'payment-modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']                 = 'Marketing Modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_URLSEGMENT']            = 'marketing-modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_TITLE']                    = 'Other Modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_URLSEGMENT']               = 'other-modules';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_TITLE']          = 'Cross Selling';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_SHORTDESC']      = 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_LONGDESC']       = 'It is a practice of suggesting related products or services to a customer who is considering buying something. Encourage established customers to buy different but related products. Getting a computer buyer to purchase a printer, for example. Source: www.procopytips.com';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGCROSSSELLING_KEYWORDS']       = 'SilverCart, modules, Cross selling, marketing';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_TITLE']                 = 'eKomi';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_SHORTDESC']             = 'Increase sales with eKomi’s trusted independent customer review system!';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_LONGDESC']              = 'eKomi – The Feedback Company, helps companies through their web-based social SaaS technology with authentic and valuable reviews from customers and helps increasing the customer satisfaction and sales. Generate valuable customer reviews with eKomi' . "'" . 's intelligent, easy to install software and increase sales, trust and customer loyalty. <small>Source: www.ekomi.co.uk</small>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGEKOMI_KEYWORDS']              = 'SilverCart, modules, eKomi, marketing';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_TITLE']        = 'Protected Shops';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_SHORTDESC']    = 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_LONGDESC']     = 'In the online business you will be confronted with unmanageable specifications which can be very expensive if you breach the conditions. Protected Shops offers a quality rating system to boost your sales. 67% of customers trust in a indepented shop ratings. Use the Vote connect interface of Protected Shops to integrate the quality rating system provided by Protected Shops into SilverCart.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTMARKETINGPROTECTEDSHOPS_KEYWORDS']     = 'SilverCart, modules, ProtectedShops, marketing';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_TITLE']                      = 'DHL';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_SHORTDESC']                  = 'Packet interface for the shipping provider DHL (EasyLog)';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_LONGDESC']                   = 'Packet interface for the shipping provider DHL. Interface to export ordernumbers into Easylog and import tracking numbers back into SilverCart.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSDHL_KEYWORDS']                   = 'SilverCart, modules, shipping';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_TITLE']               = 'PDF Invoice';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_SHORTDESC']           = 'Automatically generate PDF invoices';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_LONGDESC']            = 'Automatically generated purchase order as PDF file.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSPDFINVOICE_KEYWORDS']            = 'SilverCart, modules, PDF invoice';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_TITLE']                     = 'Apache Solr';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_SHORTDESC']                 = 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_LONGDESC']                  = '<p>Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project. Its major features include powerful full-text search, hit highlighting, faceted search, dynamic clustering, database integration, rich document (e.g., Word, PDF) handling, and geospatial search. Solr is highly scalable, providing distributed search and index replication, and it powers the search and navigation features of many of the world' . "'" . 's largest internet sites.</p><p>Solr' . "'" . 's powerful external configuration allows it to be tailored to almost any type of application without Java coding, and it has an extensive plugin architecture when more advanced customization is required. <small>Soruce: http://lucene.apache.org/solr</small></p>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSSOLR_KEYWORDS']                  = 'SilverCart, modules, Apache Solr';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_TITLE']                 = 'Vouchers';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_SHORTDESC']             = 'Create various vouchers with percentage or absolute price discount plus coupons for products.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_LONGDESC']              = 'Create various vouchers with percentage or absolute price discount plus coupons for products.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTOTHERSVOUCHERS_KEYWORDS']              = 'SilverCart, modules, vouchers';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_TITLE']                = 'iPayment';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_SHORTDESC']            = 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_LONGDESC']             = '<p>Receive best in class service no matter what size your business is, with iPayment. We’re committed to making your business more successful by delivering credit and debit card-based payment processing services that are customized to suit your needs.</p><ul><li>Major credit cards: MasterCard®, Visa®, American Express®, Discover® and JCB®</li><li>PIN-secured and signature debit cards</li><li>Gift and loyalty cards</li><li>Petroleum services</li><li>Paper and electronic check services</li><li>Cash advance funding program</li></ul><p><small>Source: www.ipaymentinc.com</small></p>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTIPAYMENT_KEYWORDS']             = 'SilverCart, modules, iPayment, payment';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_TITLE']                  = 'PayPal';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_SHORTDESC']              = 'The world' . "'" . 's most loved way to pay and get paid.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_LONGDESC']               = 'PayPal works behind the scenes to help protect you and your customers. Your customers will love the speed of PayPal streamlined checkout experience. And you will love the sales boost PayPal can deliver. PayPal is ideal for selling overseas. You can accept payments in 22 currencies from 190 countries and markets worldwide. <small>Source: www.paypal.com</small>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPAYPAL_KEYWORDS']               = 'SilverCart, modules, PayPal, payment';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_TITLE']                = 'Saferpay';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_SHORTDESC']            = 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_LONGDESC']             = '<h3>Saferpay e-payment solutions for professionals and beginners</h3><p>Saferpay integrates all popular payment means in your Web shop through a single interface. This makes it easy to make adaptations and upgrades. What’s more, Saferpay enables the secure online processing of written and phone orders.</p><h3>More payment means – more turnover!</h3><p>Boost your turnover by offering a variety of payment means! With Saferpay you can offer your customers all popular payment means through a single interface, flexibly, easily & securely! You can accept all popular credit cards and debit cards with Saferpay and can activate new payment means at any time or deactivate existing ones and thus can flexibly react to your e-commerce requirements.</p><h3>More profit with security!</h3><p>SIX Card Solutions offers you comprehensive solutions from a single source to handle cashless, electronic payment processing as a merchant in e-commerce or in the phone/mail-order business as securely and conveniently as possible. The e-payment solution supports all current security standards. Increase confidence among your customers!</p><small>Source:www.six-card-solutions.com/</small>';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTSAFERPAY_KEYWORDS']             = 'SilverCart, modules, Saferpay, payment';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_TITLE']              = 'Prepayment';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_SHORTDESC']          = 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_LONGDESC']           = 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic. This module provides beside prepayment also payment via invoice.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTPAYMENTPREPAYMENT_KEYWORDS']           = 'SilverCart, modules, Prepayment, payment';
 
 $lang['en_GB']['SilvercartUpdate']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';
@@ -1179,7 +1258,7 @@ $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is al
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage to existing data.';
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
 
-$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SilverCart Updates';
+$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
 
 $lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 
@@ -1189,6 +1268,7 @@ $lang['en_GB']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets 
 $lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['en_GB']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
+$lang['en_GB']['SilvercartWidgetSet']['INFO'] = '<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the "SC Config" area in main menu. There, choose "Widget Set" out of the dropdown list on the upper left side to get the forms to add or edit a widget set.';
 
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
@@ -1219,26 +1299,35 @@ $lang['en_GB']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
 $lang['en_GB']['SilvercartLoginWidget']['CMSTITLE']                 = 'Silvercart login';
 $lang['en_GB']['SilvercartLoginWidget']['DESCRIPTION']              = 'This widget shows a login form and links to the registration page. If the customer is logged in already links to their account section are shown instead.';
 
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAY']                     = 'Activate automatic slideshow';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAYDELAYED']              = 'Activate delay for automatic slideshow';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']               = 'Deactivate automatic slideshow when the user navigates the slides manually';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                  = 'Show next/previous buttons';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']              = 'Show page navigation';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']               = 'Show start/stop buttons';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMSTITLE']                     = 'Silvercart product group items';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                  = 'This widget displays products of a definable productgroup. You can define how many products from which product group should be shown.';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']              = 'Use regular productview instead of widgetview';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                   = 'Duration of panel display for the automatic slideshow';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                    = 'Stop automatic slideshow after the last panel';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']        = 'Please choose the product group to display:';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTS']  = 'Number of products to show:';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['TITLE']                        = 'Product group';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITIONEFFECT']             = 'Transition effect';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']              = 'Fade';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']   = 'Horizontal slide';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']     = 'Vertical slide';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                 = 'Use listview';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                   = 'Use slider';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAY']                             = 'Activate automatic slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAYDELAYED']                      = 'Activate delay for automatic slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']                       = 'Deactivate automatic slideshow when the user navigates the slides manually';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                          = 'Show next/previous buttons';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']                      = 'Show page navigation';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']                       = 'Show start/stop buttons';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'Silvercart product group items';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                          = 'This widget displays products of a definable productgroup. You can define how many products from which product group should be shown.';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD']                          = 'Selection method for products';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_RANDOM']                   = 'Random';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERASC']             = 'Order ascending';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']            = 'Order descending';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTTITLE']                           = 'Headline';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Content';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Number of products to fetch:';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOSHOW']    = 'Number of products to show:';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Product group';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITIONEFFECT']                     = 'Transition effect';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']                      = 'Fade';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']           = 'Horizontal slide';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertical slide';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Use listview';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Use slider';
 
 $lang['en_GB']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_GB']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';
@@ -1247,7 +1336,7 @@ $lang['en_GB']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widg
 $lang['en_GB']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Enter your search term:';
 $lang['en_GB']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 
-$lang['en_GB']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shoppingc art';
+$lang['en_GB']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_GB']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Silvercart shopping cart';
 $lang['en_GB']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shopping cart. Additionally it provides links to the shopping cart and (if there are products in the cart) the checkout pages.';
 
@@ -1267,4 +1356,7 @@ $lang['en_GB']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Product group navigation';
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'Silvercart product group navigation';
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for product groups. You can define what productgroup should be used as root.';
+
+$lang['en_GB']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
+$lang['en_GB']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it';
 
