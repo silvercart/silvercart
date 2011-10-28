@@ -104,12 +104,13 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
         }
 
-        //create order stati
+        // create order status
         if (!DataObject::get_one('SilvercartOrderStatus')) {
 
             $defaultStatusEntries = array(
                 'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment'),
-                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed')
+                'payed' => _t('SilvercartOrderStatus.PAYED', 'payed'),
+                'shipped' => _t('SilvercartOrderStatus.SHIPPED', 'shipped')
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
@@ -603,6 +604,33 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptInConfirmation->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE_THANKS'));
             $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
             $shopEmailNewsletterOptInConfirmation->write();
+        }
+        $shopEmailOrderShippedNotification = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'OrderShippedNotification'"
+        );
+        if (!$shopEmailOrderShippedNotification) {
+            $shopEmailOrderShippedNotification = new SilvercartShopEmail();
+            $shopEmailOrderShippedNotification->setField('Identifier', 'OrderShippedNotification');
+            $shopEmailOrderShippedNotification->setField('Subject',     _t('SilvercartShopEmail.ORDER_SHIPPED_NOTIFICATION_SUBJECT'));
+            $shopEmailOrderShippedNotification->setField('Variables',   "\$FirstName\n\$Surname\n\$Salutation\n\$SilvercartOrder");
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderShippedNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = file_get_contents($defaultTemplateFile);
+                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailOrderShippedNotification->setField('EmailText',    $defaultTemplate);
+            $shopEmailOrderShippedNotification->write();
+        }
+        
+        // attribute ShopEmails to order status
+        $orderStatus = DataObject::get_one('SilvercartOrderStatus', "Code='shipped'");
+        $orderEmail  = DataObject::get_one('SilvercartShopEmail', "Identifier='OrderShippedNotification'");
+        
+        if ($orderStatus && $orderEmail) {
+            $orderStatus->SilvercartShopEmails()->add($orderEmail);
         }
 
         $this->extend('updateDefaultRecords', $rootPage);

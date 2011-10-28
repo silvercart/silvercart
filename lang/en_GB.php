@@ -900,6 +900,7 @@ $lang['en_GB']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'] = '
 $lang['en_GB']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_GB']['SilvercartOrderStatus']['PAYED'] = 'Paid';
 $lang['en_GB']['SilvercartOrderStatus']['PLURALNAME'] = 'Order status';
+$lang['en_GB']['SilvercartOrderStatus']['SHIPPED'] = 'Order shipped';
 $lang['en_GB']['SilvercartOrderStatus']['SINGULARNAME'] = 'Order status';
 $lang['en_GB']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Waiting for payment';
 
@@ -1162,8 +1163,10 @@ $lang['en_GB']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce 
 $lang['en_GB']['SilvercartShopEmail']['HELLO'] = 'Hello';
 $lang['en_GB']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
-$lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your Order in Our Online Store';
-$lang['en_GB']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'A New Order Has Been Placed';
+$lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your order in our online store';
+$lang['en_GB']['SilvercartShopEmail']['ORDER_SHIPPED_MESSAGE'] = 'Your order has just been sent.';
+$lang['en_GB']['SilvercartShopEmail']['ORDER_SHIPPED_NOTIFICATION_SUBJECT'] = 'Your order has just been sent.';
+$lang['en_GB']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'A new order has been placed';
 
 $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
