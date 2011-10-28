@@ -152,7 +152,11 @@ class SilvercartShoppingCart extends DataObject {
         if (!self::$loadModules) {
             SilvercartShoppingCartPosition::setCreateForms(false);
         }
-        $this->SilvercartShoppingCartPositions();
+        foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
+            if ($cartPosition->SilvercartProduct()->ID == 0) {
+                $cartPosition->delete();
+            }
+        }
 
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID = 0;

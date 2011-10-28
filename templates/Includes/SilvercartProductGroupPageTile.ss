@@ -10,7 +10,7 @@
                 <div class="silvercart-product-group-page-box-tile_frame">
                     <div class="silvercart-product-title">
                         <h3>
-                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
+                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title.HTML</a>
                         </h3>
                     </div>
                     <div class="subcolumns clearfix equalize product-group-page-info">

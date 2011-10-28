@@ -2,7 +2,7 @@
     <% control Elements %>
 <div class="product-group-holder-entry clearfix $EvenOdd">
     <div class="product-group-holder-entry_content">
-        <h3><a href="$Link">$Title</a></h3>
+        <h3><a href="$Link">$Title.HTML</a></h3>
         <div class="subcolumns clearfix">
             <div class="c33l product-group-holder-entry-image">
                 <div class="subcl">
@@ -13,7 +13,7 @@
             </div>
             <div class="c66r">
                 <div class="subcr">
-                    $Content
+                    $Content.HTML
                 </div>
             </div>
         </div>

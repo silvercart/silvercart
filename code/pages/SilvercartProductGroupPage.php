@@ -1458,13 +1458,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 17.02.2011
      */
     public function isProductDetailView() {
+        
         if (empty($this->urlParams['Action'])) {
             return false;
         }
         if ($this->hasMethod($this->urlParams['Action'])) {
             return false;
         }
-        if (!is_null($this->getDetailViewProduct())) {
+        if ($this->getDetailViewProduct() instanceof SilvercartProduct) {
             return true;
         }
         return false;
