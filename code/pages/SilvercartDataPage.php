@@ -37,7 +37,15 @@ class SilvercartDataPage extends SilvercartMyAccountHolder {
     public static $can_be_root = false;
     public static $allowed_children = array();
     
-    public static $icon = "silvercart/images/page_icons/mydata";
+    /**
+     * The icon to use for this page in the storeadmin sitetree.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public static $icon = "silvercart/images/page_icons/my_account_holder";
 }
 
 /**

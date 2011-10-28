@@ -195,7 +195,8 @@ class SilvercartPage_Controller extends ContentController {
     public function init() {
         $controller = Controller::curr();
         
-        if ($this != $controller) {
+        if ($this != $controller &&
+            method_exists($controller, 'getRegisteredCustomHtmlForms')) {
             $registeredCustomHtmlForms = $controller->getRegisteredCustomHtmlForms();
         }
         
