@@ -1360,6 +1360,12 @@ $lang['en_US']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'P
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'Silvercart productgroup navigation';
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for productgroups. You can define what productgroup should be used as root.';
 
+$lang['en_US']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'Silvercart Dashboard';
+$lang['en_US']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Welcome to SilverCart';
+$lang['en_US']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata';
+$lang['en_US']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'There are no products yet; if you want to create some testdata just click on the following link:';
+$lang['en_US']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Jump to the testdata section';
+
 $lang['en_US']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
 $lang['en_US']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it';
 

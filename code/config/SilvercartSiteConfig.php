@@ -43,27 +43,32 @@ class SilvercartSiteConfig extends DataObjectDecorator {
      * @since 21.10.2011
      */
     public function updateCMSFields(&$fields) {
-        $dashboardTab = new Tab('silvercartDashboard', 'SilverCart Dashboard');
+        $dashboardTab = new Tab('silvercartDashboard', _t('SilvercartSiteConfig.DASHBOARD_TAB'));
         $fields->addFieldToTab('Root', $dashboardTab, 'Main');
 
-        $dashboardField = new LiteralField('silvercartDashboardField', '<h2>Willkommen bei SilverCart</h2>');
+        $dashboardField = new LiteralField(
+            'silvercartDashboardField',
+            sprintf(
+                "<h2>%s</h2>",
+                _t('SilvercartSiteConfig.WELCOME_TO_SILVERCART')
+            )
+        );
         $dashboardTab->push($dashboardField);
         
         // Button for testdata and setting generation
         $products = DataObject::get_one('SilvercartProduct');
         
         if (!$products) {
-            $dashboardTestDataField = new LiteralField('silvercartDashboardTestDataField', '<br /><h3>Testdaten und -konfiguration</h3><p>Es sind noch keine Produkte vorhanden. Wollen Sie Testprodukte erstellen?</p><p><a href="/admin/silvercart-configuration/#Root_General_set_TestData">Zur Konfigurationssektion für Testdaten springen</a></p>');
+            $dashboardTestDataField = new LiteralField(
+                'silvercartDashboardTestDataField',
+                sprintf(
+                    "<br /><h3>%s</h3><p>%s</p><p><a href=\"/admin/silvercart-configuration/#Root_General_set_TestData\">%s</a></p>",
+                    _t('SilvercartSiteConfig.TESTDATA_HEADLINE'),
+                    _t('SilvercartSiteConfig.TESTDATA_TEXT'),
+                    _t('SilvercartSiteConfig.TESTDATA_LINKTEXT')
+                )
+            );
             $dashboardTab->push($dashboardTestDataField);
         }
-        
-        /*
-        $configurationLinkField = new LiteralField(
-            'silvercartDashboardConfigurationField',
-            '<br /><h3>Konfiguration</h3><p><a href="/admin/silvercart-configuration/">Allgemeine Konfiguration</a></p><p><a href="/admin/silvercart-configuration/?jumpTo=SilvercartShopEmail">Emails konfigurieren</a></p><p><a href="/admin/silvercart-configuration/?jumpTo=SilvercartWidgetSet">Widgets konfigurieren</a></p>'
-        );
-        $dashboardTab->push($configurationLinkField);
-        */
     }
-    
 }
