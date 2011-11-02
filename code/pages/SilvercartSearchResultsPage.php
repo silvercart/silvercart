@@ -473,7 +473,11 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @since 13.11.10
      */
     public function getEncodedSearchQuery() {
-        return htmlentities(stripslashes(Session::get('searchQuery')));
+        return htmlentities(
+            stripslashes(Session::get('searchQuery')),
+            ENT_COMPAT,
+            'UTF-8'
+        );
     }
     
     /**
