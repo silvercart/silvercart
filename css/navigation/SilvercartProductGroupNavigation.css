@@ -5,10 +5,10 @@
     border:                         none;
     border-top:                     1px #3f7d94 solid;
     background:                     #3f7d94;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#3f7d94), to(#175072)); /* for webkit browsers */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#175072), to(#3f7d94)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #175072, #3f7d94); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #3f7d94,  #175072); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f7d94', endColorstr='#175072'); /* for IE */
+    background:                     -o-linear-gradient(top,  #175072,  #3f7d94); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#175072', endColorstr='#3f7d94'); /* for IE */
     padding:                        1px 0px 0px 0px;
 }
 #silvercart-productgroup-navigation .hlist ul {
