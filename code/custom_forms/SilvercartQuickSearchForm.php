@@ -43,6 +43,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             'type' => 'TextField',
             'title' => '',
             'value' => '',
+            'maxLength' => '30',
             'checkRequirements' => array(
             )
         )
