@@ -25,7 +25,7 @@
  * Plugin-Provider for the order object.
  *
  * @package Silvercart
- * @subpacke Plugins
+ * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 22.09.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -36,7 +36,7 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
     /**
      * Initialisation for plugin providers.
      *
-     * @param array $arguments The arguments to pass
+     * @param array &$arguments The arguments to pass
      * 
      * @return void
      *
@@ -53,9 +53,9 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * This method gets called after the order object has been created from the
      * shoppingcart object and before the order positions get created.
      *
-     * @param array $arguments The arguments to pass
-     *                         $arguments[0] = SilvercartOrder
-     *                         $arguments[1] = SilvercartShoppingCart
+     * @param array &$arguments The arguments to pass
+     *                          $arguments[0] = SilvercartOrder
+     *                          $arguments[1] = SilvercartShoppingCart
      * 
      * @return void
      *
@@ -72,7 +72,7 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * Use this method to return additional information on the order in the
      * section "My Account" for the customer.
      *
-     * @param array $arguments The arguments to pass
+     * @param array &$arguments The arguments to pass
      * 
      * @return void
      *

@@ -1,5 +1,27 @@
 <?php
 /**
+ * Copyright 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Tasks
+ */
+
+/**
  * Calls all due exports.
  *
  * This task should be called via sake on the command line:
@@ -12,7 +34,6 @@
  *
  *   Generate all exports regardless of their update interval settings:
  *      sake /SilvercartProductExport getAll
- *
  *
  * @package Silvercart
  * @subpackage Tasks
@@ -115,13 +136,16 @@ class SilvercartProductExport extends ScheduledTask {
     /**
      * A function for making time periods readable
      * 
-     * @param int    number of seconds elapsed
-     * @param string which time periods to display
-     * @param bool   whether to show zero time periods
+     * @param int    $seconds number of seconds elapsed
+     * @param string $use     which time periods to display
+     * @param bool   $zeros   whether to show zero time periods
+     * 
+     * @return string
      * 
      * @author Aidan Lister <aidan@php.net>
      * @version 2.0.1
      * @link http://aidanlister.com/2004/04/making-time-periods-readable/
+     * @since 08.07.2011
      */
     protected function time_duration($seconds, $use = null, $zeros = false) {
         // Define time periods

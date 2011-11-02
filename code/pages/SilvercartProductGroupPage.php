@@ -911,8 +911,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param mixed int|bool    $numberOfProducts The number of products to return
-     * @param mixed bool|string $sort             An SQL sort statement
+     * @param bool|int    $numberOfProducts The number of products to return
+     * @param bool|string $sort             An SQL sort statement
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 

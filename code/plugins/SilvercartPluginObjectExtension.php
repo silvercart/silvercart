@@ -25,7 +25,7 @@
  * Methods for objects that want to provide plugin support.
  *
  * @package Silvercart
- * @subpacke Plugins
+ * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 22.09.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -36,9 +36,9 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator {
     /**
      * Passes through calls to SilvercartPlugins.
      *
-     * @return mixed
-     *
      * @param string $method The name of the method to call
+     *
+     * @return mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011

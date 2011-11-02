@@ -25,7 +25,7 @@
  * Definition for the condition of a product.
  *
  * @package Silvercart
- * @subpacke Products
+ * @subpackage Products
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 09.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

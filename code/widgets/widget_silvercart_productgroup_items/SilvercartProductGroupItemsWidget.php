@@ -199,14 +199,14 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * We set checkbox field values here to false if they are not in the post
      * data array.
      *
-     * @return void
-     *
      * @param array $data The post data array
+     *
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.08.2011
      */
-    function populateFromPostData($data) {
+    public function populateFromPostData($data) {
         if (!array_key_exists('isContentView', $data)) {
             $this->isContentView = 0;
         }
@@ -239,7 +239,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         }
         
         parent::populateFromPostData($data);
-	}
+    }
 }
 
 /**
@@ -567,8 +567,6 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * Returns the title of the product group that items are shown.
      *
      * @return string
-     *
-     * @param 
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.04.2011
