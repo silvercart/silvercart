@@ -73,9 +73,8 @@ class SilvercartConfig extends DataObject {
      * @since 23.08.2011
      */
     public static $productsPerPageOptions = array(
-        '5'         => '5',
-        '10'        => '10',
-        '15'        => '15',
+        '4'         => '4',
+        '8'         => '8',
         '20'        => '20',
         '50'        => '50',
         '100'       => '100'
