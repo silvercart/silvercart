@@ -15,7 +15,8 @@ body {
 
 #col1 {
     float:                          left;
-    width:                          70%
+    width:                          70%;
+    margin:                         20px 0px;
 }
 #col1_content {
     padding:                        0px 12px 0px 12px;
@@ -28,11 +29,14 @@ body {
     margin:                         0px 0px 0px 70%
 }
 #col3_content {
-    padding:                        0px 12px 0px 0px;
+    background:                     #f4f4f4;
+    border-left:                    1px #eaeaea solid;
+    padding:                        6px 6px 0px 6px;
+    box-shadow:                     0px 4px 10px #ddd inset;
 }
 #col4 {
     margin:                         0px;
-    padding:                        0px;
+    padding:                        20px 0px 20px 0px;
 }
 #col4_content {
     margin:                         0px;
@@ -70,7 +74,7 @@ h1 {
 }
 
 #main {
-    padding:                        20px 0px 10px 0px;
+    padding:                        0px;
 }
 
 .page_margins {
@@ -85,9 +89,9 @@ h1 {
 
 .page {
     background:                     #fff;
-    border:                         1px #aaa59c solid;
+    border:                         1px #aeaaa1 solid;
     border-top:                     none;
-    box-shadow:                     #aeaaa1 0px 0px 100px;
+    box-shadow:                     #c4c0b6 0px 0px 14px;
 }
 .right {
     text-align:                     right;

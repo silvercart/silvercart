@@ -16,6 +16,9 @@
     border:                         none;
 }
 
+.silvercart-product-page .silvercart-product-page-box-price {
+    text-align:                     right;
+}
 .silvercart-product-page .silvercart-product-page-box-price .silvercart-price {
     font-size:                      18px;
 }
@@ -78,10 +81,11 @@
     display:                        none;
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form {
+    text-align:                     right;
     margin:                         0px 0px 8px 0px;
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form_content {
-    padding:                        4px;
+    padding:                        4px 0px;
 }
 
 .silvercart-product-page .silvercart-product-page-product-info {

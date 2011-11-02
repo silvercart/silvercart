@@ -127,7 +127,7 @@
             </div>
         </div>
         <div class="page_margins">
-            <div class="page">
+            <div class="page clearfix">
                 <div id="silvercart-header">
                     <div class="subcolumns">
                         <div class="c80l">
@@ -167,11 +167,10 @@
                         <% include SilvercartNavigation %>
                     </div>
                 </div>
-                <div id="main">
+                <div id="main" class="clearfix">
                     <a id="content" name="content"></a>
                     $Layout
                 </div>
-                <div class="clearfix">&nbsp;</div>
             </div>
         </div>
         <p/>
@@ -189,7 +188,7 @@
             <% end_cached %>
             <br/>
             <br/>
-            Layout based on <a href="http://www.yaml.de" target="_blank">YAML</a>
+            <a href="http://www.silvercart.org" target="_blank">SilverCart. eCommerce software. Open-source. You'll love it.</a>
         </div>
         <p/>
     </body>
