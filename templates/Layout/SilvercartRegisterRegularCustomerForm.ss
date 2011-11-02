@@ -129,7 +129,7 @@
     </fieldset>
 
     <fieldset>
-        <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
+        <legend><% _t('SilvercartRegistrationPage.OTHERITEMS') %></legend>
 
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
 

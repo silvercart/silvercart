@@ -1097,6 +1097,7 @@ $lang['de_DE']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Nachrich
 $lang['de_DE']['SilvercartRegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Registrierung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href="$ConfirmationLink">Registrierung bestätigen</a></p><p>Sollten Sie sich nicht registriert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>';
 $lang['de_DE']['SilvercartRegistrationPage']['CUSTOMER_SALUTATION'] = 'Sehr geehrter Kunde\,';
 $lang['de_DE']['SilvercartRegistrationPage']['EMAIL_EXISTS_ALREADY'] = 'Diese E-Mail-Adresse ist schon vergeben.';
+$lang['de_DE']['SilvercartRegistrationPage']['OTHERITEMS'] = 'Sonstiges';
 $lang['de_DE']['SilvercartRegistrationPage']['PLEASE_COFIRM'] = 'Bitte bestätigen Sie Ihre Registrierung.';
 $lang['de_DE']['SilvercartRegistrationPage']['PLURALNAME'] = 'Registrierungsseiten';
 $lang['de_DE']['SilvercartRegistrationPage']['SINGULARNAME'] = 'Registrierungsseite';
@@ -1367,5 +1368,5 @@ $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'Es sind n
 $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Zur Testdaten-Sektion springen';
 
 $lang['de_DE']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
-$lang['de_DE']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it';
+$lang['de_DE']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it.';
 
