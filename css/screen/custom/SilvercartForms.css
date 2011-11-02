@@ -24,7 +24,7 @@ form.yform .type-button input.submit {
     background:                     #407e95;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #407e95,  #175072); /* for firefox 3.6+ */
-    background:     ^                -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
+    background:                     -o-linear-gradient(top,  #407e95,  #175072); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#407e95', endColorstr='#175072'); /* for IE */
     border:                         1px #444 solid;
     border-radius:                  3px;
@@ -82,7 +82,7 @@ form.yform .type-button .silvercart-button a {
     padding:                        0px;
 }
 #silvercart-quicksearch-form form.yform div.type-text input { /* Search query field */
-    width:                          90%;
+    width:                          14em;
     padding:                        4px 4px 3px 4px;
     
     font-size:                      12px;
