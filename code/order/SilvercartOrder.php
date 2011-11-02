@@ -1283,8 +1283,8 @@ class SilvercartOrder extends DataObject {
             $newOrderStatus = DataObject::get_by_id('SilvercartOrderStatus', $this->SilvercartOrderStatusID);
             
             if ($newOrderStatus) {
-                $this->AmountTotal->setAmount($this->AmountTotalAmount);
-                $this->AmountTotal->setCurrency($this->AmountTotalCurrency);
+                #$this->AmountTotal->setAmount($this->AmountTotalAmount);
+                #$this->AmountTotal->setCurrency($this->AmountTotalCurrency);
                 
                 $newOrderStatus->sendMailFor($this);
             }
