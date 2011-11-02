@@ -15,7 +15,9 @@
                     <% if LinkedSite %>
                         <a href="$LinkedSite.Link">
                     <% end_if %>
-                    $Image.SetRatioSize(658,414)
+                    <% control Image %>
+                        <img src="$URL" width="$Width" height="$Height" alt="" />
+                    <% end_control %>
                     <% if LinkedSite %>
                         </a>
                     <% end_if %>
