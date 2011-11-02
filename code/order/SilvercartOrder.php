@@ -1262,25 +1262,30 @@ class SilvercartOrder extends DataObject {
     }
 
     /**
-     * Set a new/reserved ordernumber before writing
+     * Set a new/reserved ordernumber before writing and send attributed
+     * ShopEmails.
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.04.2011
      */
-    protected function  onBeforeWrite() {
+    protected function onBeforeWrite() {
         parent::onBeforeWrite();
+        
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
-        if ($this->isChanged('SilvercartOrderStatusID')) {
+        if ($this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
             $newOrderStatus = DataObject::get_by_id('SilvercartOrderStatus', $this->SilvercartOrderStatusID);
             
             if ($newOrderStatus) {
+                $this->AmountTotal->setAmount($this->AmountTotalAmount);
+                $this->AmountTotal->setCurrency($this->AmountTotalCurrency);
+                
                 $newOrderStatus->sendMailFor($this);
             }
         }
