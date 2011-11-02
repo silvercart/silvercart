@@ -25,7 +25,7 @@
  * Bundles newsletter related functionality.
  *
  * @package Silvercart
- * @subpacke Base
+ * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 25.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

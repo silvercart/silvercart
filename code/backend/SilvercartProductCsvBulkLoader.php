@@ -1,11 +1,33 @@
 <?php
 /**
+ * Copyright 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ */
+
+/**
  * We use our own bulkloader because there's an unpatched bug in Silverstripe's
  * implementation with regards to relationships.
  * (see Silverstripe bugtracker "http://open.silverstripe.org/ticket/6472").
  *
  * @package Silvercart
- * @subpacke Backend
+ * @subpackage Backend
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 20.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -13,21 +35,23 @@
  */
 class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
     
-    /*
-	 * Load the given file via {@link self::processAll()} and {@link self::processRecord()}.
-	 * Optionally truncates (clear) the table before it imports. 
-	 *  
-	 * @return BulkLoader_Result See {@link self::processAll()}
+    /**
+     * Load the given file via {@link self::processAll()} and {@link self::processRecord()}.
+     * Optionally truncates (clear) the table before it imports. 
+     * 
+     * @param string $filepath The filepath to use
+     *  
+     * @return BulkLoader_Result See {@link self::processAll()}
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 20.07.2011
-	 */
-	public function load($filepath) {
-		ini_set('max_execution_time', 3600);
-		increase_memory_limit_to('256M');
-		
-		//get all instances of the to be imported data object 
-        if($this->deleteExistingRecords) {
+     */
+    public function load($filepath) {
+        ini_set('max_execution_time', 3600);
+        increase_memory_limit_to('256M');
+
+        //get all instances of the to be imported data object 
+        if ($this->deleteExistingRecords) {
             $q = singleton($this->objectClass)->buildSQL();
             
             if (!empty($this->objectClass)) {
@@ -38,13 +62,12 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             
             $q->select = array($idSelector); $ids = $q->execute()->column('ID');
             
-            foreach($ids as $id) {
+            foreach ($ids as $id) {
                 $obj = DataObject::get_by_id($this->objectClass, $id); $obj->delete(); $obj->destroy(); unset($obj);
             }
         } 
-		
-		return $this->processAll($filepath);
-	}
+        return $this->processAll($filepath);
+    }
     
     /**
      * Process every record in the file
@@ -69,19 +92,18 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         // --------------------------------------------------------------------
         // Insert header row if configured so
         // --------------------------------------------------------------------
-		if($this->columnMap) {
-			if ($this->hasHeaderRow) {
+        if ($this->columnMap) {
+            if ($this->hasHeaderRow) {
                 $csv->mapColumns($this->columnMap);
             } else {
                 $csv->provideHeaderRow($this->columnMap);
             }
-		}
-		
+        }
         // --------------------------------------------------------------------
         // Process data range
         // --------------------------------------------------------------------
-		foreach($csvParser as $row) {
-			$this->processRecord(
+        foreach ($csvParser as $row) {
+            $this->processRecord(
                 $row,
                 $this->columnMap,
                 $results,
@@ -90,7 +112,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             
             $currPointer++;
             usleep(1000);
-		}
+        }
         
         $this->Log('product import end ---------------------------------------------------------------------');
         
@@ -100,17 +122,17 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
     /**
      * Process a record from the import file
      *
-     * @return boolean
-     *
      * @param array             $record    The record to process
      * @param array             $columnMap The map of columns; NOT USED
      * @param BulkLoader_Result &$results  Stores the results so they can be displayed for the user
      * @param boolean           $preview   If set to true changes will not be written to the database
+     *
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.08.2011
      */
-	protected function processRecord($record, $columnMap, &$results, $preview = false) {
+    protected function processRecord($record, $columnMap, &$results, $preview = false) {
         $silvercartProduct   = false;
         $silvercartProductID = 0;
         $action              = '';
@@ -165,10 +187,10 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             $sqlQuery = new SQLQuery(
                 'ID',
                 'SilvercartProduct',
-                NULL,
+                null,
                 'ID DESC',
-                NULL,
-                NULL,
+                null,
+                null,
                 '1'
             );
             $insertID = $sqlQuery->execute()->value();
@@ -257,6 +279,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
     
     /**
      * Write a log message.
+     * 
+     * @param string $logString string to log
      *
      * @return void
      *

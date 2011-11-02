@@ -25,7 +25,7 @@
  * Used to register and manage SilverCartNotificationChannels.
  *
  * @package Silvercart
- * @subpacke Base
+ * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 09.10.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -46,10 +46,10 @@ class SilvercartTaskNotificationHandler {
     /**
      * Registers a new notification channel.
      *
-     * @return void
-     *
      * @param string $channelId The identificator of the channel that'll be
      *                          used by the channel partners to communicate.
+     *
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.10.2011
@@ -61,9 +61,9 @@ class SilvercartTaskNotificationHandler {
     /**
      * Returns an array with the last x notifications.
      *
-     * @return array
-     *
      * @param int $numberOfNotifications The number of notifications to return
+     *
+     * @return array
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.10.2011
@@ -75,10 +75,10 @@ class SilvercartTaskNotificationHandler {
     /**
      * Returns an array with the last x notifications for the given channel.
      *
-     * @return array
-     *
      * @param string $channelId             The identificator of the channel
      * @param int    $numberOfNotifications The number of notifications to return
+     *
+     * @return array
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.10.2011

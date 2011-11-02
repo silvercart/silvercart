@@ -25,7 +25,7 @@
  * Handles the configuration for the prefilled shopping carts mechanism.
  *
  * @package Silvercart
- * @subpacke Order
+ * @subpackage Order
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 01.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

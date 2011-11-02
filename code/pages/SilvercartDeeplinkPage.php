@@ -1,11 +1,35 @@
 <?php
+/**
+ * Copyright 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Pages
+ */
 
 /**
  * Redirects to a product which is identified by url parameters product attribute
  * and attribute value;
  * If the result is ambiguous the set of products is shown.
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
  * @copyright Pixeltricks GmbH
  * @since 29.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -26,8 +50,10 @@ class SilvercartDeeplinkPage extends Page {
 /**
  * corresponding controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
+ * @copyright 2011 pixeltricks GmbH
  * @since 29.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -44,7 +70,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     /**
      * controller method called before anything else happens
      * 
-     * return void
+     * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 1.8.2011
@@ -85,10 +111,12 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * 
      * @param SS_HTTPRequest $request the HTTP request
      * 
+     * @return string|void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.7.2011
      */
-    public function handleAction($request) {
+    public function handleAction(SS_HTTPRequest $request) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
                 return Director::redirect($this->getExactlyMatchingProduct()->Link(), 301);
@@ -112,6 +140,8 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     /**
      * Return a set of Products to be rendered in the template
      * Only filled if the result does not point to one product only
+     * 
+     * @return DataObjectSet
      */
     public function getProducts() {
         return $this->products;

@@ -25,7 +25,7 @@
  * We want to use the source class's summaryFields for all our ModelAdmins.
  *
  * @package Silvercart
- * @subpacke Backend
+ * @subpackage Backend
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 05.10.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -48,9 +48,8 @@ class SilvercartTableListField extends TableListField {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.10.2011
      */
-    function __construct($name, $sourceClass, $fieldList = null, $sourceFilter = null, 
-		$sourceSort = null, $sourceJoin = null) {
+    public function __construct($name, $sourceClass, $fieldList = null, $sourceFilter = null, $sourceSort = null, $sourceJoin = null) {
 
-		parent::__construct($name, $sourceClass, singleton($sourceClass)->summaryFields(), $sourceFilter, $sourceSort, $sourceJoin);
-	}
+        parent::__construct($name, $sourceClass, singleton($sourceClass)->summaryFields(), $sourceFilter, $sourceSort, $sourceJoin);
+    }
 }

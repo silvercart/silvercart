@@ -26,7 +26,7 @@
  * methods.
  *
  * @package Silvercart
- * @subpacke Customer
+ * @subpackage Customer
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 10.10.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

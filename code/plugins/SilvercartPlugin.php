@@ -26,7 +26,7 @@
  * objects.
  *
  * @package Silvercart
- * @subpacke Plugins
+ * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 22.09.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -57,9 +57,9 @@ class SilvercartPlugin extends Object {
     /**
      * Takes the calling object as argument and stores it in a class variable
      *
-     * @return void
+     * @param mixed $callingObject The calling object
      *
-     * @param mixed $object The calling object
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -73,10 +73,10 @@ class SilvercartPlugin extends Object {
     /**
      * Registers a plugin provider for the given class.
      *
-     * @return void
-     *
      * @param string $forObject               The class name of the object you want to provide with the plugin
      * @param string $pluginProviderClassName The class name of the plugin provider
+     *
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -95,9 +95,9 @@ class SilvercartPlugin extends Object {
     /**
      * Returns all extensions for the given class.
      *
-     * @return array
-     *
      * @param string $className The name of the class for which you want the extensions
+     *
+     * @return array
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -134,11 +134,11 @@ class SilvercartPlugin extends Object {
      * The central method. Every Silvercart object calls this method to invoke
      * a plugin action.
      *
-     * @return mixed
-     *
      * @param mixed  $callingObject The object that performs the call
      * @param string $methodName    The name of the method to call
      * @param array  $arguments     The arguments to pass
+     *
+     * @return mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -166,9 +166,9 @@ class SilvercartPlugin extends Object {
     /**
      * Retrieves all plugin providers that belong to the given object.
      *
-     * @return array
+     * @param mixed $callingObject The object for which the plugin providers shall be retrieved
      *
-     * @param mixed $object The object for which the plugin providers shall be retrieved
+     * @return array
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -197,7 +197,7 @@ class SilvercartPlugin extends Object {
     /**
      * Initialisation for plugin providers.
      *
-     * @param array  $arguments     The arguments to pass
+     * @param array &$arguments The arguments to pass
      * 
      * @return void
      *
@@ -211,9 +211,9 @@ class SilvercartPlugin extends Object {
      * Extension results consist of arrays. This method concatenates all array
      * entries into a string.
      *
-     * @return string
-     *
      * @param array $extensionResultSet The result delivered by an extension
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011

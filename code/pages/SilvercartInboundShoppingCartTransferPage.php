@@ -26,20 +26,22 @@
  * a current users shopping cart.
  *
  * @package Silvercart
- * @subpacke Pages
+ * @subpackage Pages
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 01.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartInboundShoppingCartTransferPage extends Page {}
+class SilvercartInboundShoppingCartTransferPage extends Page {
+    
+}
 
 /**
  * Handles the transfer of shopping cart items from an external referer to
  * a current users shopping cart.
  *
  * @package Silvercart
- * @subpacke Pages
+ * @subpackage Pages
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 01.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -62,16 +64,16 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * as identifier string to look up the corresponding 
      * SilvercartInboundShoppingCartTransfer object.
      *
-     * @return string
-     *
      * @param SS_HTTPRequest $request The request parameters
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
      */
     public function handleAction(SS_HTTPRequest $request) {
         $this->action           = str_replace("-","_",$request->param('Action'));
-		$this->requestParams    = $request->requestVars();
+        $this->requestParams    = $request->requestVars();
         
         $inboundShoppingCartTransfer = DataObject::get_one(
             'SilvercartInboundShoppingCartTransfer',
@@ -106,8 +108,6 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * Returns the error messages.
      *
      * @return string
-     *
-     * @param 
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
@@ -120,10 +120,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * Handles the transfer of the sent product data to a valid shopping cart
      * via key-value pairs.
      *
-     * @return string
-     *
      * @param SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer The transfer object that handles this referer
      * @param SS_HTTPRequest                        $request                     The request parameters
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
@@ -171,10 +171,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * Handles the transfer of the sent product data to a valid shopping cart
      * via one string with separators.
      *
-     * @return string
-     *
      * @param SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer The transfer object that handles this referer
      * @param SS_HTTPRequest                        $request                     The request parameters
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
@@ -219,10 +219,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
     /**
      * Add a product to the shopping cart.
      *
-     * @return boolean
-     *
      * @param SilvercartProduct $product         The product object to add to the shopping cart
      * @param int               $productQuantity The quantity of the product to add
+     *
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
@@ -247,10 +247,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
     /**
      * Check if a shared secret was sent and is valid for this transfer type.
      *
-     * @return boolean
-     *
      * @param SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer The transfer object that handles this referer
      * @param SS_HTTPRequest                        $request                     The request parameters
+     *
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
