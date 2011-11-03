@@ -380,7 +380,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                     $effect             = 'fade';
             }
 
-            Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
+            Requirements::css(Director::absoluteUrl().'silvercart/css/screen/sliders/theme-silvercart-default.css');
             Requirements::customScript(
                 sprintf('
                     $(document).ready(function() {
