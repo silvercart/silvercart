@@ -125,7 +125,8 @@ class SilvercartHasManyOrderField extends DropdownField {
             'extraClass'        => $this->extraClass(),
             'available_items'   => array(),
             'selected_items'    => array(),
-            'relationName'      => $relationName
+            'relationName'      => $relationName,
+            'AbsUrl'            => Director::absoluteBaseURL()
         );
         
         if (!$this->dataObj) {

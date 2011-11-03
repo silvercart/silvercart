@@ -71,7 +71,7 @@
             var editItemID = ($('#{$ID}_selected_items option:selected').val());
 
             // Load the edit form data and put it into an overlay container
-            $.post('/admin/silvercart-configuration/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
+            $.post('{$AbsUrl}admin/silvercart-configuration/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
                 $('#SilvercartOverlay').css('display', 'block');
                 $('body').append('<div id="SilvercartWidgetEditForm"><div id="SilvercartWidgetEditForm_content"><div id="SilvercartWidgetEditForm_Form" class="right"></div><div id="SilvercartWidgetEditForm_Controls"><a href="#">Close</a></div></div></div>');
                 $('#SilvercartWidgetEditForm_Form').html(result);
