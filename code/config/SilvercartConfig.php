@@ -89,7 +89,7 @@ class SilvercartConfig extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static $productsPerPageDefault = 15;
+    public static $productsPerPageDefault = 20;
     
     /**
      * Used as SQL limit number for unlimited products per page.
