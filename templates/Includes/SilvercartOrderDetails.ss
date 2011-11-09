@@ -12,7 +12,7 @@
                 </tr>
                 <tr>
                     <td><% _t('SilvercartOrder.PAYMENTMETHODTITLE','Payment method') %></td>
-                    <td>$PaymentMethodTitle</td>
+                    <td>$SilvercartPaymentMethod.Name</td>
                 </tr>
                 <tr>
                     <td><% _t('SilvercartOrder.STATUS','Order status') %></td>
@@ -37,7 +37,7 @@
                 </tr>
                 <% end_if %>
 
-                $SilvercartOrderPlugin(OrderDetailInformation)
+                $OrderDetailInformation
             </tbody>
         </table>
     <div class="subcolumns">

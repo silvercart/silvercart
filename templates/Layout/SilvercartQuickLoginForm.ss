@@ -1,5 +1,6 @@
 <form name="QuickLogin" class="yform full" $FormAttributes>
     $CustomHtmlFormMetadata
+    $CustomHtmlFormErrorMessages
 
 	<div class="subcolumns">
 		<div class="c50l">
@@ -17,6 +18,4 @@
             $Field
         <% end_control %>
     </div>
-    
-    $CustomHtmlFormErrorMessages
 </form>

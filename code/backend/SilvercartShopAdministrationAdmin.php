@@ -34,6 +34,16 @@
 class SilvercartShopAdministrationAdmin extends ModelAdmin {
     
     /**
+     * We use a custom result table class name.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.10.2011
+     */
+    protected $resultsTableClassName = 'SilvercartTableListField';
+    
+    /**
      * Managed models
      *
      * @var array
@@ -50,16 +60,14 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
             'collection_controller' => 'SilvercartContactMessageAdmin_CollectionController'
         ),
         'SilvercartProduct' => array(
-            'collection_controller' => 'SilvercartProduct_CollectionController'
+            'collection_controller'         => 'SilvercartProduct_CollectionController',
+            'preventTableListFieldAutoLoad' => true
         ),
         'SilvercartProductExporter' => array(
             'collection_controller' => 'SilvercartProductExportAdmin_CollectionController',
             'record_controller'     => 'SilvercartProductExportAdmin_RecordController'
         ),
         'SilvercartManufacturer',
-        'SilvercartRegularCustomer',
-        'SilvercartBusinessCustomer',
-        'SilvercartAnonymousCustomer',
         'SilvercartGoogleMerchantTaxonomy' => array(
             'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
         )
@@ -130,9 +138,9 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 01.08.2011
      */
-	public function resultsTableClassName() {
+    public function resultsTableClassName() {
         $className = $this->resultsTableClassName;
-        
+
         if (isset($this->urlParams['Action']) ) {
             if ($this->urlParams['Action'] == 'SilvercartProduct') {
                 $className = 'SilvercartProductTableListField';
@@ -143,7 +151,7 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         }
         
         return $className;
-	}
+    }
 }
 
 /**
@@ -162,13 +170,15 @@ class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_Colle
 
     /**
      * Shows results from the "search" action in a TableListField. 
+     * 
+     * @param string $searchCriteria ???
      *
      * @return Form
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011
      */
-    function ResultsForm($searchCriteria) {
+    public function ResultsForm($searchCriteria) {
         $form = parent::ResultsForm($searchCriteria);
         $form->setActions(new FieldSet());
         return $form;
@@ -202,4 +212,31 @@ class SilvercartGoogleMerchantTaxonomy_CollectionController extends ModelAdmin_C
     
     public $showImportForm = true;
 
+}
+
+/**
+ * Modifies the model admin search panel.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 08.04.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartContactMessageAdmin_CollectionController extends ModelAdmin_CollectionController {
+
+    public $showImportForm = false;
+
+    /**
+     * Disable the creation of SilvercartContactMessage DataObjects.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2011
+     */
+    public function alternatePermissionCheck() {
+        return false;
+    }
 }

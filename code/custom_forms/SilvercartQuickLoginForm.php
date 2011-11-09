@@ -110,7 +110,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
             if ($customer) {
                 //transfer cart positions from an anonymous user to the one logging in
-                $anonymousCustomer = SilvercartAnonymousCustomer::currentAnonymousCustomer();
+                $anonymousCustomer = SilvercartCustomer::currentAnonymousCustomer();
                 if ($anonymousCustomer) {
                     if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->Count() > 0) {
                         //delete registered customers cart positions
@@ -134,31 +134,32 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
                 $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
                 Director::redirect($myAccountHolder->RelativeLink());
             } else {
-
                 $this->messages = array(
                     'Authentication' => array(
                         'message' => _t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
                     )
                 );
 
+                Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
+                
                 return $this->submitFailure(
-                        $data,
-                        $form
+                    $data,
+                    $form
                 );
             }
         } else {
             $this->messages = array(
                 'Authentication' => array(
-                    'message' => _t('SilvercartPage.EMAIL_NOT_FOUND', 'This Email address could not be found.')
+                    'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
                 )
             );
+            
+            Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
 
-            return $this->messages = array(
-        'Authentication' => array(
-            'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
-        )
+            return $this->submitFailure(
+                $data,
+                $form
             );
         }
     }
-
 }

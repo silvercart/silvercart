@@ -33,29 +33,6 @@
  */
 class SilvercartProduct extends DataObject {
 
-    
-    /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $singular_name = "product";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $plural_name = "products";
-
     /**
      * attributes
      *
@@ -74,8 +51,8 @@ class SilvercartProduct extends DataObject {
         'MetaKeywords'                => 'VarChar',
         'ProductNumberShop'           => 'VarChar(50)',
         'ProductNumberManufacturer'   => 'VarChar(50)',
-        'PurchasePrice'               => 'Money',
-        'MSRPrice'                    => 'Money',
+        'PurchasePrice'               => 'Money', //the price the shop owner bought the product for
+        'MSRPrice'                    => 'Money', //manufacturers recommended price
         'PriceGross'                  => 'Money', //price taxes including
         'PriceNet'                    => 'Money', //price taxes excluded
         'Weight'                      => 'Int', //unit is gramm
@@ -190,6 +167,14 @@ class SilvercartProduct extends DataObject {
     );
     
     /**
+     * The final price object (dependent on customer class and custom extensions
+     * like rebates @see $this->getPrice())
+     *
+     * @var Money
+     */
+    protected $price = null;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -265,8 +250,7 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
-    
-    
+
     /**
      * Searchable fields
      *
@@ -434,10 +418,11 @@ class SilvercartProduct extends DataObject {
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
-     * @author Roland Lehmann
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.10.2011
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
+        
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -466,37 +451,54 @@ class SilvercartProduct extends DataObject {
         if (!$sort) {
             $sort = 'SilvercartProduct.SortOrder ASC';
         }
-        $products = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
-        if ($products) {
-            return $products;
+        
+        $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        
+        if (in_array('Price', $requiredAttributes) &&
+            !is_null($databaseFilteredProducts)) {
+            foreach ($databaseFilteredProducts as $product) {
+                if ($product->getPrice()->getAmount() <= 0) {
+                    $databaseFilteredProducts->remove($product);
+                }
+            }
         }
-
-        return false;
+        
+        return $databaseFilteredProducts;
     }
 
     /**
      * Customizes the backend popup for Products.
      *
      * @return FieldSet the editible fields
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2011
      */
     public function getCMSFields_forPopup() {
         $fields = $this->getCMSFields();
         $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
         $fields->removeByName('SilvercartShoppingCartPositions');//There is not enough space for so many tabs
         //Get all products that have no master
-        $var = sprintf("\"SilvercartMasterProductID\" = '%s'", "0");
+        $var = sprintf("`SilvercartMasterProductID` = '%s'", "0");
         $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
+        $silvercartMasterProductMap = array();
+        if ($silvercartMasterProducts) {
+            $silvercartMasterProductMap = $silvercartMasterProducts->map();
+        }
         $dropdownField = new DropdownField(
             'SilvercartMasterProductID',
             _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-            $silvercartMasterProducts->toDropDownMap(),
+            $silvercartMasterProductMap,
             null,
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-        $fields->addFieldToTab('Root.Main', $dropdownField);
+        
+        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            $targetTab = 'Root.Main';
+        } else {
+            $targetTab = 'Root.Main.Content';
+        }
+        $fields->addFieldToTab($targetTab, $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
@@ -554,6 +556,7 @@ class SilvercartProduct extends DataObject {
 
     /**
      * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
+     * Be aware that new properties/relations will not be scaffolded any more.
      *
      * @param array $params See {@link scaffoldFormFields()}
      *
@@ -561,204 +564,464 @@ class SilvercartProduct extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        // remove GoogleSitemap Priority
-        $fields->removeByName('Priority');
-        $fields->removeByName('GoogleSitemapIntro');
-        // --------------------------------------------------------------------
-        // Fields for the main tab
-        // --------------------------------------------------------------------
-        $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
-
-        $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
-        $fields->removeByName('PurchaseMinDuration');
-        $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
-        $fields->removeByName('PurchaseMaxDuration');
-        $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
-        $source = $purchaseTimeUnitField->getSource();
-        $source['Days'] = _t('Silvercart.DAYS','Days');
-        $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
-        $source['Months'] = _t('Silvercart.MONTHS','Months');
-        $purchaseTimeUnitField->setSource($source);
-        $fields->removeByName('PurchaseTimeUnit');
-        $availabilityStatusField = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
-        $fields->removeByName('SilvercartAvailabilityStatusID');
-        $productNumberField = new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER'));
-        $manufacturerNumberField = new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'));
-
-        $fields->addFieldToTab('Root.Main', $productNumberField, 'Title');
-        $fields->addFieldToTab('Root.Main', $manufacturerNumberField, 'Title');
-        $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
-        $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
-
-        $amountUnitField = clone $fields->dataFieldByName('SilvercartQuantityUnitID');
-        $fields->removeByName('SilvercartQuantityUnitID');
-        $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('PackagingQuantity'), 'SilvercartTaxID');
-        $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
-        
-        $conditionMap   = array();
-        $conditions     = DataObject::get(
-            'SilvercartProductCondition'
-        );
-            
-        if ($conditions) {
-            $conditionMap = $conditions->map('ID', 'Title');
-        }
-        
-        $conditionField = new DropdownField(
-            'SilvercartProductConditionID',
-            _t('SilvercartProductCondition.TITLE'),
-            $conditionMap,
-            $this->SilvercartProductConditionID,
-            null,
-            _t('SilvercartProductCondition.PLEASECHOOSE')
-        );
-        
-        $fields->addFieldToTab('Root.Main', $conditionField);
-        
-        // --------------------------------------------------------------------
-        // Image tab
-        // --------------------------------------------------------------------
-        $fields->findOrMakeTab('Root.SilvercartImages', _t('SilvercartImage.PLURALNAME', 'Images'));
-        if ($this->ID) {
-            $silvercartImagesTable = new ImageDataObjectManager($this, 'SilvercartImages', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
-            $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
-        } else {
-            $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
-                    _t('FileIFrameField.ATTACHONCESAVED'),
-                    _t('SilvercartImage.SINGULARNAME', 'Image')));
-            $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageInformation);
-        }
-        
-        // --------------------------------------------------------------------
-        // SEO tab
-        // --------------------------------------------------------------------
-        $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO', 'SEO'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
-        
-        
-        // --------------------------------------------------------------------
-        // Product group pages tab
-        // --------------------------------------------------------------------
-        $productGroupTable = new HasOneComplexTableField(
-            $this,
-            'SilvercartProductGroup',
-            'SilvercartProductGroupPage',
-            array(
-                'Breadcrumbs'   => 'Breadcrumbs'
-            ),
-            null,
-            null,
-            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
-        );
-        
-        $productGroupTable->pageSize = 1000;
-        
-        $fields->addFieldToTab('Root.SilvercartProductGroup', $productGroupTable);
-        
-        // set tab title
-        $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
-        $tab->title = _t('SilvercartProductGroupPage.SINGULARNAME', 'product group');
-
-        // --------------------------------------------------------------------
-        // Mirror product group pages tab
-        // --------------------------------------------------------------------
-        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
-            $this,
-            'SilvercartProductGroupMirrorPages',
-            'SilvercartProductGroupPage',
-            array(
-                'Breadcrumbs'   => 'Breadcrumbs'
-            ),
-            null,
-            sprintf(
-                "SiteTree.ID != %d",
-                $this->SilvercartProductGroup()->ID
-            ),
-            'SiteTree.ParentID ASC, SiteTree.Sort ASC'
-        );
-        $productGroupMirrorPagesTable->pageSize = 1000;
-
-        $fields->findOrMakeTab('Root.SilvercartProductGroupMirrorPages', _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'));
-        $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
-        
-        
-        
-        // --------------------------------------------------------------------
-        // Reorder tabs
-        // --------------------------------------------------------------------
-            $tabset = false;
-
-        foreach ($fields as $i => $field) {
-            if (is_object($field) && $field instanceof TabSet) {
-                $tabset = $field;
-                break;
-            }
-        }
-
-        if ($tabset) {
-            $tabs = array();
-            
-            foreach ($tabset->children as $child) {
-                $tabs[$child->name] = $child;
-                $tabset->removeByName($child->name);
-            }
-            
-            $tabset->push($tabs['Main']); // Main
-            $tabset->push($tabs['SilvercartProductGroup']); // Product groups
-            $tabset->push($tabs['SilvercartProductGroupMirrorPages']); // Mirror product groups
-            if (array_key_exists('SilvercartOrders', $tabs)) {
-                $tabset->push($tabs['SilvercartOrders']); // Orders
-            }
-
-            unset($tabs['Main']);
-            unset($tabs['SilvercartProductGroup']);
-            unset($tabs['SilvercartProductGroupMirrorPages']);
-            
-            if (array_key_exists('SilvercartOrders', $tabs)) {
-                unset($tabs['SilvercartOrders']);
-            }
-            
-            foreach ($tabs as $tabName => $tab) {
-                $tabset->push($tab);
-            }
-        }
-        
-        $this->extend('updateCMSFields', $fields);
-        
-        // remove GoogleSitemap Priority again
-        if ($fields->dataFieldByName('Priority')) {
-            $priority = clone $fields->dataFieldByName('Priority');
+        // there are two ways to display the products CMS fields (set in Backend)
+        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            // remove GoogleSitemap Priority
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
-            $fields->removeByName('Content');
-            $fields->addFieldToTab('Root.SEO', $priority);
-        }
-        //add a tab for deeplinks
-        $fields->findOrMakeTab('Root.Deeplinks');
-        $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
-        if ($this->canView()) {
-            $deeplinks = DataObject::get('SilvercartDeeplink', '`isActive` = 1');
-            if ($deeplinks) {
-                $idx = 1;
-                foreach ($deeplinks as $deeplink) {
-                    if (isset($deeplink->productAttribute)) {
-                        $attribute = $deeplink->productAttribute;
-                        if (isset($this->{$attribute})) {
-                            $this->deeplinkValue = (string)$this->{$attribute};
-                            $productDeeplink = $deeplink->getDeeplinkUrl() . $this->deeplinkValue;
-                            $fieldName = sprintf(_t('SilvercartProduct.DEEPLINK_FOR'), $attribute);
-                            $fields->addFieldToTab('Root.Deeplinks', new ReadonlyField($attribute.$idx, $fieldName, $productDeeplink));
-                            $idx++;
+            // --------------------------------------------------------------------
+            // Fields for the main tab
+            // --------------------------------------------------------------------
+            $fields->addFieldToTab('Root.Main', new GroupedDropdownField('SilvercartProductGroupID', _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'), SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray()),'SilvercartMasterProductID');
+
+            $purchaseMinDurationField   = clone $fields->dataFieldByName('PurchaseMinDuration');
+            $fields->removeByName('PurchaseMinDuration');
+            $purchaseMaxDurationField   = clone $fields->dataFieldByName('PurchaseMaxDuration');
+            $fields->removeByName('PurchaseMaxDuration');
+            $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
+            $source = $purchaseTimeUnitField->getSource();
+            $source['Days'] = _t('Silvercart.DAYS','Days');
+            $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
+            $source['Months'] = _t('Silvercart.MONTHS','Months');
+            $purchaseTimeUnitField->setSource($source);
+            $fields->removeByName('PurchaseTimeUnit');
+            $availabilityStatusField = clone $fields->dataFieldByName('SilvercartAvailabilityStatusID');
+            $fields->removeByName('SilvercartAvailabilityStatusID');
+            $productNumberField = new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER'));
+            $manufacturerNumberField = new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'));
+
+            $fields->addFieldToTab('Root.Main', $productNumberField, 'Title');
+            $fields->addFieldToTab('Root.Main', $manufacturerNumberField, 'Title');
+            $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
+            $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
+            $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
+            $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
+
+            $amountUnitField = clone $fields->dataFieldByName('SilvercartQuantityUnitID');
+            $fields->removeByName('SilvercartQuantityUnitID');
+            $fields->addFieldToTab('Root.Main', $fields->dataFieldByName('PackagingQuantity'), 'SilvercartTaxID');
+            $fields->addFieldToTab('Root.Main', $amountUnitField, 'SilvercartTaxID');
+
+            $conditionMap   = array();
+            $conditions     = DataObject::get(
+                'SilvercartProductCondition'
+            );
+
+            if ($conditions) {
+                $conditionMap = $conditions->map('ID', 'Title');
+            }
+
+            $conditionField = new DropdownField(
+                'SilvercartProductConditionID',
+                _t('SilvercartProductCondition.TITLE'),
+                $conditionMap,
+                $this->SilvercartProductConditionID,
+                null,
+                _t('SilvercartProductCondition.PLEASECHOOSE')
+            );
+
+            $fields->addFieldToTab('Root.Main', $conditionField);
+
+            // --------------------------------------------------------------------
+            // Image tab
+            // --------------------------------------------------------------------
+            $fields->findOrMakeTab('Root.SilvercartImages', _t('SilvercartImage.PLURALNAME', 'Images'));
+            if ($this->ID) {
+                $silvercartImagesTable = new ImageDataObjectManager($this, 'SilvercartImages', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
+                $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
+            } else {
+                $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
+                        _t('FileIFrameField.ATTACHONCESAVED'),
+                        _t('SilvercartImage.SINGULARNAME', 'Image')));
+                $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageInformation);
+            }
+
+            // --------------------------------------------------------------------
+            // SEO tab
+            // --------------------------------------------------------------------
+            $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO', 'SEO'));
+            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
+            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
+            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
+
+
+            // --------------------------------------------------------------------
+            // Product group pages tab
+            // --------------------------------------------------------------------
+            $productGroupTable = new HasOneComplexTableField(
+                $this,
+                'SilvercartProductGroup',
+                'SilvercartProductGroupPage',
+                array(
+                    'Breadcrumbs'   => 'Breadcrumbs'
+                ),
+                null,
+                null,
+                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+            );
+
+            $productGroupTable->pageSize = 1000;
+
+            $fields->addFieldToTab('Root.SilvercartProductGroup', $productGroupTable);
+
+            // set tab title
+            $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
+            $tab->title = _t('SilvercartProductGroupPage.SINGULARNAME', 'product group');
+
+            // --------------------------------------------------------------------
+            // Mirror product group pages tab
+            // --------------------------------------------------------------------
+            $productGroupMirrorPagesTable = new ManyManyComplexTableField(
+                $this,
+                'SilvercartProductGroupMirrorPages',
+                'SilvercartProductGroupPage',
+                array(
+                    'Breadcrumbs'   => 'Breadcrumbs'
+                ),
+                null,
+                sprintf(
+                    "SiteTree.ID != %d",
+                    $this->SilvercartProductGroup()->ID
+                ),
+                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+            );
+            $productGroupMirrorPagesTable->pageSize = 1000;
+
+            $fields->findOrMakeTab('Root.SilvercartProductGroupMirrorPages', _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'));
+            $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
+
+
+
+            // --------------------------------------------------------------------
+            // Reorder tabs
+            // --------------------------------------------------------------------
+            $tabset = false;
+
+            foreach ($fields as $i => $field) {
+                if (is_object($field) && $field instanceof TabSet) {
+                    $tabset = $field;
+                    break;
+                }
+            }
+
+            if ($tabset) {
+                $tabs = array();
+
+                foreach ($tabset->children as $child) {
+                    $tabs[$child->name] = $child;
+                    $tabset->removeByName($child->name);
+                }
+
+                $tabset->push($tabs['Main']); // Main
+                $tabset->push($tabs['SilvercartProductGroup']); // Product groups
+                $tabset->push($tabs['SilvercartProductGroupMirrorPages']); // Mirror product groups
+                if (array_key_exists('SilvercartOrders', $tabs)) {
+                    $tabset->push($tabs['SilvercartOrders']); // Orders
+                }
+
+                unset($tabs['Main']);
+                unset($tabs['SilvercartProductGroup']);
+                unset($tabs['SilvercartProductGroupMirrorPages']);
+
+                if (array_key_exists('SilvercartOrders', $tabs)) {
+                    unset($tabs['SilvercartOrders']);
+                }
+
+                foreach ($tabs as $tabName => $tab) {
+                    $tabset->push($tab);
+                }
+            }
+
+            // remove GoogleSitemap Priority again
+            if ($fields->dataFieldByName('Priority')) {
+                $priority = clone $fields->dataFieldByName('Priority');
+                $fields->removeByName('Priority');
+                $fields->removeByName('GoogleSitemapIntro');
+                $fields->removeByName('Content');
+                $fields->addFieldToTab('Root.SEO', $priority);
+            }
+            //add a tab for deeplinks
+            $fields->findOrMakeTab('Root.Deeplinks');
+            $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
+            if ($this->canView()) {
+                $deeplinks = DataObject::get('SilvercartDeeplink', '`isActive` = 1');
+                if ($deeplinks) {
+                    $idx = 1;
+                    foreach ($deeplinks as $deeplink) {
+                        if (isset($deeplink->productAttribute)) {
+                            $attribute = $deeplink->productAttribute;
+                            if (isset($this->{$attribute})) {
+                                $this->deeplinkValue = (string)$this->{$attribute};
+                                $productDeeplink = $deeplink->getDeeplinkUrl() . $this->deeplinkValue;
+                                $fieldName = sprintf(_t('SilvercartProduct.DEEPLINK_FOR'), $attribute);
+                                $fields->addFieldToTab('Root.Deeplinks', new ReadonlyField($attribute.$idx, $fieldName, $productDeeplink));
+                                $idx++;
+                            }
                         }
                     }
                 }
             }
+            $CMSFields = $fields;
+        } else {
+            //define the new tabset
+            $CMSFields = new FieldSet(
+                $rootTab = new TabSet(
+                    'Root',
+                    $mainTab = new TabSet(
+                        'Main',
+                        $contentTab = new Tab('Content'),
+                        $pricesTab = new Tab('Prices'),
+                        $manufacturerTab = new Tab('Manufacturer')
+                    ),
+                    $seoTab = new TabSet(
+                        'SEO',
+                        $metadataTab = new Tab('MetaData')
+                    ),
+                    $linksTab = new TabSet(
+                        'Links',
+                        $mirrorProductGroupsTab = new Tab('MirrorProductGroups'),
+                        $productGroupsTab = new Tab('ProductGroups'),
+                        $deeplinksTab = new Tab('Deeplinks')
+                    ),
+                    $stockTab = new TabSet(
+                        'Stock',
+                        $dataTab = new Tab('Data'),
+                        $timeTab = new Tab('Time'),
+                        $configTab = new Tab('Config')
+                    ),
+                    $filesTab = new TabSet(
+                        'Files',
+                        $attachmentsTab = new Tab('Attachments'),
+                        $imagesTab = new Tab('Images')
+                    )
+                )
+            );
+
+            // i18n for the tabs
+            $mainTab->setTitle(                 _t('SiteTree.TABMAIN'));
+            $contentTab->setTitle(              _t('Silvercart.CONTENT',                                'Content'));
+            $pricesTab->setTitle(               _t('SilvercartPrice.PLURALNAME'));
+            $manufacturerTab->setTitle(         _t('SilvercartManufacturer.PLURALNAME'));
+
+            $seoTab->setTitle(                  _t('Silvercart.SEO',                                    'SEO'));
+            $metadataTab->setTitle(             _t('SilvercartProduct.METADATA',                        'Meta Data'));
+
+            $linksTab->setTitle(                _t('Silvercart.LINKS',                                  'Links'));
+            $mirrorProductGroupsTab->setTitle(  _t('SilvercartProductGroupMirrorPage.PLURALNAME'));
+            $productGroupsTab->setTitle(        _t('SilvercartProductGroupPage.SINGULARNAME'));
+            $deeplinksTab->setTitle(            _t('Silvercart.DEEPLINKS',                              'Deeplinks'));
+
+            $stockTab->setTitle(                _t('SilvercartConfig.STOCK'));
+            $dataTab->setTitle(                 _t('Silvercart.DATA'));
+            $timeTab->setTitle(                 _t('Silvercart.TIMES'));
+            $configTab->setTitle(               _t('Silvercart.MISC_CONFIG'));
+
+            $filesTab->setTitle(                _t('SilvercartFile.PLURALNAME'));
+            $attachmentsTab->setTitle(          _t('SilvercartFile.FILE_ATTACHMENTS'));
+            $imagesTab->setTitle(               _t('SilvercartImage.PLURALNAME'));
+
+            //fill the tab Root.Main.Content
+            $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('isActive'));
+            $CMSFields->addFieldToTab('Root.Main.Content', new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER')));
+            $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Title'));
+            $textFieldShortDescription = $fields->dataFieldByName('ShortDescription');
+            $textFieldShortDescription->setRows(2);
+            $CMSFields->addFieldToTab('Root.Main.Content', $textFieldShortDescription);
+            $htmlEditorFieldLongDescription = $fields->dataFieldByName('LongDescription');
+            $htmlEditorFieldLongDescription->setRows(15);
+            $CMSFields->addFieldToTab('Root.Main.Content', $htmlEditorFieldLongDescription);
+            $taxRates = DataObject::get('SilvercartTax');
+            $taxRateMap = array();
+            if ($taxRates) {
+                $taxRateMap = $taxRates->map();
+            }
+            $CMSFields->addFieldToTab('Root.Main.Content', new DropdownField('SilvercartTaxID', _t('SilvercartTax.SINGULARNAME'), $taxRateMap, $this->SilvercartTaxID, null, ''));
+            $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Weight'));
+            $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('EANCode'));
+            $conditionMap   = array();
+            $conditions     = DataObject::get(
+                'SilvercartProductCondition'
+            );
+
+            if ($conditions) {
+                $conditionMap = $conditions->map('ID', 'Title');
+            }
+
+            $conditionField = new DropdownField(
+                'SilvercartProductConditionID',
+                _t('SilvercartProductCondition.TITLE'),
+                $conditionMap,
+                $this->SilvercartProductConditionID,
+                null,
+                _t('SilvercartProductCondition.PLEASECHOOSE')
+            );
+
+            $CMSFields->addFieldToTab('Root.Main.Content', $conditionField);
+
+            //fill the tab Root.Main.Prices
+            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PurchasePrice'));
+            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('MSRPrice'));
+            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PriceGross'));
+            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PriceNet'));
+            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('isFreeOfCharge'));
+
+            //fill the tab Root.Main.Manufacturer
+            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'), $this->ProductNumberManufacturer));
+            $manufacturers = DataObject::get('SilvercartManufacturer');
+            $manufacturerMap = array();
+            if ($manufacturers) {
+                $manufacturerMap = $manufacturers->map();
+            }
+            $CMSFields->addFieldToTab('Root.Main.Manufacturer', new DropdownField(
+                    'SilvercartManufacturerID',
+                    _t('SilvercartManufacturer.SINGULARNAME'),
+                    $manufacturerMap,
+                    $this->SilvercartManufacturerID,
+                    null,
+                    _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                    )
+                );
+
+            //fill the tab Root.SEO.MetaData
+            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaTitle'));
+            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaDescription'));
+            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaKeywords'));
+
+            //fill the tab Root.Links.MirrorProductGroups
+            $productGroupMirrorPagesTable = new ManyManyComplexTableField(
+                $this,
+                'SilvercartProductGroupMirrorPages',
+                'SilvercartProductGroupPage',
+                array(
+                    'Breadcrumbs'   => 'Breadcrumbs'
+                ),
+                null,
+                sprintf(
+                    "SiteTree.ID != %d",
+                    $this->SilvercartProductGroup()->ID
+                ),
+                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+            );
+            $productGroupMirrorPagesTable->pageSize = 1000;
+            $CMSFields->addFieldToTab('Root.Links.MirrorProductGroups', $productGroupMirrorPagesTable);
+
+            //fill the tab Root.Links.ProductGroup
+            $productGroupTable = new HasOneComplexTableField(
+                $this,
+                'SilvercartProductGroup',
+                'SilvercartProductGroupPage',
+                array(
+                    'Breadcrumbs'   => _t('SilvercartProductGroupPage.SINGULARNAME')
+                ),
+                null,
+                null,
+                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+            );
+            $productGroupTable->pageSize = 1000;
+            $CMSFields->addFieldToTab('Root.Links.ProductGroups', $productGroupTable);
+
+            //fill the tab Root.Links.Deeplinks
+            $CMSFields->addFieldToTab('Root.Links.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
+            if ($this->canView()) {
+                $deeplinks = DataObject::get('SilvercartDeeplink', '`isActive` = 1');
+                if ($deeplinks) {
+                    $idx = 1;
+                    foreach ($deeplinks as $deeplink) {
+                        if (isset($deeplink->productAttribute)) {
+                            $attribute = $deeplink->productAttribute;
+                            if (isset($this->{$attribute}) && $this->{$attribute} != "") {
+                                $this->deeplinkValue = (string)$this->{$attribute};
+                                $productDeeplink = $deeplink->getDeeplinkUrl() . $this->deeplinkValue;
+                                $fieldName = sprintf(_t('SilvercartProduct.DEEPLINK_FOR'), $attribute);
+                                $CMSFields->addFieldToTab('Root.Links.Deeplinks', new ReadonlyField($attribute.$idx, $fieldName, $productDeeplink));
+                                $idx++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //fill the tab Root.Stock.Data
+            $CMSFields->addFieldToTab('Root.Stock.Data', $fields->dataFieldByName('StockQuantity'));
+            $CMSFields->addFieldToTab('Root.Stock.Data', $fields->dataFieldByName('PackagingQuantity'));
+
+            //fill the tab Root.Stock.Time
+            $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseMinDuration'));
+            $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseMaxDuration'));
+            $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseTimeUnit'));
+
+            //fill the tab Root.Stock.Config
+            $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
+            $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('StockQuantityOverbookable'));
+            
+            //fill the tab Root.Files.Images
+            if ($this->ID) {
+                $silvercartImagesTable = new ImageDataObjectManager(
+                        $this,
+                        'SilvercartImages',
+                        'SilvercartImage',
+                        'Image',
+                        null,
+                        null,
+                        sprintf("`SilvercartProductID`='%d'", $this->ID));
+                $CMSFields->addFieldToTab('Root.Files.Images', $silvercartImagesTable);
+            } else {
+                $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
+                        _t('FileIFrameField.ATTACHONCESAVED'),
+                        _t('SilvercartImage.SINGULARNAME', 'Image')));
+                $CMSFields->addFieldToTab('Root.Files.Images', $silvercartImageInformation);
+            }
+
+            //fill the tab Root.Files.Attachments
+            if ($this->ID) {
+                $filesTable = new FileDataObjectManager(
+                        $this,
+                        'SilvercartFiles',
+                        'SilvercartFile',
+                        'File',
+                        null,
+                        null,
+                        sprintf("`SilvercartProductID`='%d'", $this->ID)
+                );
+                $CMSFields->addFieldToTab('Root.Files.Attachments', $filesTable);
+            } else {
+                $silvercartFileInformation = new LiteralField('SilvercartFileInformation', sprintf(
+                        _t('FileIFrameField.ATTACHONCESAVED'),
+                        _t('SilvercartImage.SINGULARNAME', 'Image')));
+                $CMSFields->addFieldToTab('Root.Files.Attachments', $silvercartFileInformation);
+            }
         }
-        return $fields;
+        
+        $this->extend('updateCMSFields', $CMSFields);
+        // here is another extension to prevend multiple loadings of updateCMSFields
+        $this->extend('updateSilvercartCMSFields', $CMSFields);
+        return $CMSFields;
+    }
+
+    /**
+     * Returns an HTML encoded long description, preserving HTML tags.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.11.2011
+     */
+    public function getHtmlEncodedLongDescription() {
+        $output = htmlspecialchars($this->LongDescription);
+        
+        $output = str_replace(
+            array(
+                '&lt;',
+                '&gt;'
+            ),
+            array(
+                '<',
+                '>'
+            ),
+            $output
+        );
+
+        return $output;
     }
 
     /**
@@ -767,24 +1030,30 @@ class SilvercartProduct extends DataObject {
      *
      * @return Money price dependent on customer class and configuration
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.3.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2011
      */
     public function getPrice() {
-       $pricetype = SilvercartConfig::Pricetype();
-        if ($pricetype =="net") {
-            $price = $this->PriceNet;
-        } elseif ($pricetype == "gross") {
-            $price = $this->PriceGross;
-        } else {
-            $price = $this->PriceGross;
+        if (is_null($this->price)) {
+            $pricetype = SilvercartConfig::Pricetype();
+            if ($pricetype =="net") {
+                $price = clone $this->PriceNet;
+            } elseif ($pricetype == "gross") {
+                $price = clone $this->PriceGross;
+            } else {
+                $price = clone $this->PriceGross;
+            }
+            
+            $price->setAmount(round($price->getAmount(), 2));
+            
+            if ($price->getAmount() < 0) {
+                $price->setAmount(0);
+            }
+            //overwrite the price in a decorator
+            $this->extend('updatePrice', $price);
+            $this->price = $price;
         }
-        if ($price->getAmount() < 0) {
-            $price->setAmount(0);
-        }
-        //overwrite the price in a decorator
-        $this->extend('updatePrice', $price);
-        return $price; 
+        return $this->price; 
     }
     
     /**
@@ -905,8 +1174,8 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     private function title2urlSegment() {
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ', '%');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '',  '');
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ', '%', '"', '<', '>');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '',  '',  '',  '',  '');
         $string = str_replace($remove, $replace, $this->Title);
         return $string;
     }
@@ -930,7 +1199,15 @@ class SilvercartProduct extends DataObject {
      * @return bool
      */
     public function addToCart($cartID, $quantity = 1) {
+        $addToCartAllowed = true;
+
+        $this->extend('updateAddToCart', $addToCartAllowed);
+
         if ($quantity == 0 || $cartID == 0) {
+            return false;
+        }
+
+        if (!$addToCartAllowed) {
             return false;
         }
 
@@ -1003,10 +1280,26 @@ class SilvercartProduct extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 25.11.2010
      */
-    public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100);
-
+    public function getTaxAmount() {        
+        if (Member::currentUser()->showPricesGross()) {
+            $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100); 
+        } else {
+            $taxRate = $this->Price->getAmount() * ($this->getTaxRate() / 100);
+        }
         return $taxRate;
+    }
+    
+    /**
+     * return the tax amount nice with only 2 decimal places and replaced . in , 
+     * includes currency symbol from current locale
+     * 
+     * @return string 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 02.09.2011
+     */
+    public function getTaxAmountNice() {
+        return str_replace('.', ',', number_format($this->getTaxAmount(),2)) . ' ' . $this->Price->getSymbol();
     }
 
     /**
@@ -1595,6 +1888,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     public function importImages($data, $form, $request) {
+        $this->Log('', 'importImages');
+        $this->Log('', 'importImages');
+        $this->Log('starting import', 'importImages');
         $resultsForm                = $this->ResultsForm(array_merge($form->getData(), $data));
         $consecutiveNumberSeparator = '__';
         $fileNamesToSearchFiltered  = array();
@@ -1638,7 +1934,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                     $fileNamesToSearchFiltered[] = $fileNameToSearch;
                 }
             } else {
-                $fileNameElements = explode($consecutiveNumberSeparator, $fileName);
+                $fileNameElements = explode($consecutiveNumberSeparator, $fileNameToSearch);
                 
                 if (!in_array($fileNameElements[0], $fileNamesToSearchFiltered)) {
                     $fileNamesToSearchFiltered[] = $fileNameElements[0];
@@ -1674,27 +1970,45 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             foreach ($products as $product) {
                 
                 foreach ($product['fileName'] as $fileName) {
-                    
+                    // disable caching to prevent duplicated image objects
                     $existingImage = DataObject::get_one(
                         'Image',
                         sprintf(
                             "Filename = 'assets/Uploads/%s'",
                             $fileName
-                        )
+                        ),
+                        false
                     );
                     
                     if ($existingImage) {
+                        $this->Log('using an existing image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // overwrite existing image
                         $image       = $existingImage;
-                        $newFilePath = Director::baseFolder().'/assets/Uploads/'.$fileName;
+                        $newFilePath = $image->getFullPath();
 
                         if (!copy($data['imageDirectory'].$fileName, $newFilePath)) {
                             continue;
                         }
                         
+                        $silvercartImage = DataObject::get_one('SilvercartImage', sprintf("`ImageID` = '%s' AND `SilvercartProductID` = '%s'", $image->ID, $product['ID']));
+                        if (!$silvercartImage) {
+                            $silvercartImage = $this->createSilvercartImage(
+                                $product['ID'],
+                                $image->ID,
+                                $fileName
+                            );
+                        }
+                        
                         $image->deleteFormattedImages();
                         $importedFiles++;
                     } else {
+                        $this->Log('creating new image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // Create new image
                         $image = $this->createImageObject(
                             $data['imageDirectory'].$fileName,
@@ -1738,6 +2052,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $importedFiles
         );
         print "</div>";
+        $this->Log('end', 'importImages');
     }
     
     /**
@@ -2121,6 +2436,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * Write a log message.
      * 
      * @param string $logString String to log
+     * @param string $filename  Name of logfile
      *
      * @return void
      *
@@ -2128,7 +2444,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @copyright 2011 pixeltricks GmbH
      * @since 16.08.2011
      */
-    protected function Log($logString) {
+    protected function Log($logString, $filename = 'importProducts') {
         $logDirectory = Director::baseFolder();
 
         $logDirectory = explode('/', $logDirectory);
@@ -2136,15 +2452,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         array_pop($logDirectory);
         $logDirectory = implode('/', $logDirectory);
 
-        if ($fp = fopen($logDirectory.'/log/importProducts.log', 'a')) {
-
-            fwrite(
-                $fp,
-                "=== ".date('d.m.Y H:i:s').":\n".
-                "    ".$logString."\n"
-            );
-
-            fclose($fp);
-        }
+        $data  = date('d.m.Y H:i:s').":\t".$logString."\n";
+        $filename = $logDirectory.'/log/' . $filename . '.log';
+        file_put_contents($filename, $data, FILE_APPEND);
     }
 }

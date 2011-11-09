@@ -369,6 +369,21 @@ class SilvercartShippingMethod extends DataObject {
             return false;
         }
     }
+    
+    /**
+     * pseudo attribute
+     *
+     * @return false|string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.10.2011
+     */
+    public function getTitleWithCarrier() {
+        if ($this->SilvercartCarrier()) {
+            return $this->SilvercartCarrier()->Title . "-" . $this->Title;
+        }
+        return false;
+    }
 
     /**
      * Returns the attributed zones as string (limited to 150 chars).

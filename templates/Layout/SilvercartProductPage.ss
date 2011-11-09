@@ -9,7 +9,7 @@
                 <div class="silvercart-product-page_content">
                     
                     <div class="silvercart-product-title">
-                        <h2>$Title</h2>
+                        <h2>$Title.HTML</h2>
                         <div class="silvercart-product-meta-info">
                             <p><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</p>
                         </div>
@@ -49,7 +49,7 @@
                         <div class="c33l">
                             <div class="subcl">
                                 <div class="silvercart-product-text-info">
-                                    <p>$ShortDescription.RAW</p>
+                                    <p>$ShortDescription.HTML</p>
                                     <% if PackagingQuantity %>
                                     <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
                                     <% end_if %>
@@ -64,9 +64,9 @@
                                     </p>
                                     <p>
                                         <small>
-                                            <% if showPricesGross %>
+                                            <% if CurrentPage.showPricesGross %>
                                                 <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                                            <% else_if showPricesNet %>
+                                            <% else_if CurrentPage.showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
                                             <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
@@ -106,7 +106,7 @@
                         </ul>
                         <div class="tab_container">
                             <div id="tab1" class="tab_content">
-                                $LongDescription
+                                $HtmlEncodedLongDescription
                             </div>
                             <% if SilvercartFiles %>
                                 <div id="tab2" class="tab_content">

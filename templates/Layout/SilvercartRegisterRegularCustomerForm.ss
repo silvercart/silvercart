@@ -85,28 +85,30 @@
 
     </fieldset>
 
-    <fieldset>
-        <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
+    <% if demandBirthdayDate %>
+        <fieldset>
+            <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
 
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
-                 </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+            <div class="subcolumns">
+                <div class="c33l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
+                     </div>
+                </div>
+                <div class="c33l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+                    </div>
+                </div>
+                <div class="c33r">
+                    <div class="subcr">
+                        $CustomHtmlFormFieldByName(BirthdayYear)
+                    </div>
                 </div>
             </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(BirthdayYear)
-                </div>
-            </div>
-        </div>
 
-    </fieldset>
+        </fieldset>
+    <% end_if %>
 
     <fieldset>
         <legend><% _t('SilvercartPage.PASSWORD') %></legend>
@@ -127,10 +129,8 @@
     </fieldset>
 
     <fieldset>
-        <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
+        <legend><% _t('SilvercartRegistrationPage.OTHERITEMS') %></legend>
 
-        $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
-        $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
 
     </fieldset>

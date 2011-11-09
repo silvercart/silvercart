@@ -1,20 +1,56 @@
+var preventAutoloadFor = [
+    $PreventAutoLoadForManagedModels
+];
+var enableFirstEntryAutoLoadFor = [
+    $EnabledFirstEntryAutoLoadForManagedModels
+];
 
 (function($) {
     $(document).ready(function() {
+        var managedModelClass;
+        
         if ($('#ModelClassSelector select').length > 0) {
             $('#ModelClassSelector select').change(function(){
-                $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                managedModelClass = $(this).val().replace('Form_', '');
+                
+                if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                    $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                    if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                        loadFirstEntry(managedModelClass);
+                    }
+                } else {
+                    $('#Form_ResultsForm').html(' ');
+                }
             });
         }
         if ($('#SearchForm_holder .tabstrip').length > 0) {
             $('#SearchForm_holder .tabstrip a').click(function(){
                 var index = $(this).attr('href').indexOf('#') + 1;
                 var FormID = $(this).attr('href').substring(index).replace('Form_','Form_SearchForm_');
-                $('#' + FormID).triggerHandler('submit');
+                
+                managedModelClass = FormID.replace('Form_SearchForm_', '');
+                
+                if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                    $('#' + FormID).triggerHandler('submit');
+                    if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                        loadFirstEntry(managedModelClass);
+                    }
+                } else {
+                    $('#Form_ResultsForm').html(' ');
+                }
             });
         }
         if ($('.Actions input[name="action_search"]:visible').length > 0) {
-            $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+            managedModelClass = '' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','').replace('Form_SearchForm_', '');
+            
+            if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
+                $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
+                    loadFirstEntry(managedModelClass);
+                }
+            } else {
+                $('#Form_ResultsForm').html(' ');
+            }
         }
     });
 	
@@ -49,4 +85,40 @@
 
         return false;
     });
+    $('#right input[name=action_cleanDataBase]').live('click', function(){
+        return triggerCleanDataBase(0);
+    });
+    
+    var triggerCleanDataBase = function(start) {
+        $('#right input[name=action_cleanDataBase]').addClass('loading')
+        var cleanDataBaseButton = $('#right input[name=action_cleanDataBase]');
+        var cleanDataBaseStartIndex = $('#right input[name=cleanDataBaseStartIndex]');
+        var form = $('#right form');
+        var formAction = form.attr('action') + '?' + $(cleanDataBaseButton).attr('name').replace('action_', '') + '&start=' + $(cleanDataBaseStartIndex).val();
+
+        // Post the data to save
+        $.post(formAction, form.formToArray(), function(result){
+
+            $('#right #ModelAdminPanel').html(result);
+
+            statusMessage(ss.i18n._t('SilvercartConfig.CLEANED_DATABASE'), 'good');
+            $(cleanDataBaseButton).removeClass('loading');
+            
+            Behaviour.apply(); // refreshes ComplexTableField
+            if(window.onresize) window.onresize();
+        }, 'html');
+
+        return false;
+    }
+    
+    var loadFirstEntry = function(managedModelClass) {
+        if ($('#Form_ResultsForm_' + managedModelClass + ' table.data').length == 0) {
+            setTimeout(loadFirstEntry, 500, managedModelClass);
+        } else {
+            var table = jQuery('#Form_ResultsForm_' + managedModelClass + ' table.data');
+            var td = jQuery('tbody td:first', table);
+            var a = jQuery('a', td);
+            a.trigger('click');
+        }
+    };
 })(jQuery);

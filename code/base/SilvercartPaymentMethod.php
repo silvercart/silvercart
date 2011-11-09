@@ -672,10 +672,10 @@ class SilvercartPaymentMethod extends DataObject {
                     break;
                 }
             }
-        }
-        
-        if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
-            $isActivationByOrderRestrictionsPossible = true;
+            
+            if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+                $isActivationByOrderRestrictionsPossible = true;
+            }
         }
         
         return $isActivationByOrderRestrictionsPossible;
@@ -1001,11 +1001,12 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
-
+        $paymentLogosTable = new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID));
+        $paymentLogosTable->setTitle(_t('SilvercartImage.PLURALNAME'));
         $tabLogos->setChildren(
             new FieldSet(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
-                new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID))
+                $paymentLogosTable
             )
         );
         
@@ -1042,8 +1043,7 @@ class SilvercartPaymentMethod extends DataObject {
             'ShowOnlyForUsers',
             'Member',
             null,
-            null,
-            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+            null
         );
         $showOnlyForUsersTable->setPermissions(array('show'));
         $showNotForUsersTable = new ManyManyComplexTableField(
@@ -1051,8 +1051,7 @@ class SilvercartPaymentMethod extends DataObject {
             'ShowNotForUsers',
             'Member',
             null,
-            null,
-            "Member.ClassName != 'SilvercartAnonymousCustomer'"
+            null
         );
         $showNotForUsersTable->setPermissions(array('show'));
         
@@ -1531,4 +1530,28 @@ class SilvercartPaymentMethod extends DataObject {
         return false;
     }
 
+}
+
+/**
+ * Used to redefine some form fields in the search box.
+ *
+ * @package Silvercart
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2011 pixeltricks GmbH
+ * @since 10.03.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartPaymentMethod_CollectionController extends ModelAdmin_CollectionController {
+    
+    /**
+     * Removes the field "create order" from the model admin
+     * 
+     * @return bool false
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 01.10.2011
+     */
+    public function CreateForm() {
+        return false;
+    }
 }

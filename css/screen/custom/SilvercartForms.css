@@ -3,7 +3,8 @@
 form.yform input,
 form.yform textarea,
 form.yform select {
-    font-family:                    arial, sans-serif;
+    font-family:                    verdana, sans-serif;
+    line-height:                    100%;
 }
 
 form.yform .type-button {
@@ -15,10 +16,10 @@ form.yform .type-button input[type="submit"],
 form.yform .type-button input.action[type="submit"],
 form.yform .type-button input.submit {
     float:                          right;
+    height:                         30px;
     margin:                         0px 0px 0px 4px;
     padding:                        4px 10px;
-    
-    font-size:                      12px;
+    font-size:                      11px;
     color:                          #fff;
     background:                     #407e95;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#407e95), to(#175072)); /* for webkit browsers */
@@ -49,7 +50,14 @@ form.yform input[type="text"] {
     padding:                        2px 4px;
 }
 form.yform .type-button .silvercart-button {
-    margin:                         7px 0px 0px 0px;
+    margin:                         0px;
+}
+form.yform .type-button .silvercart-button a {
+    line-height:                    28px;
+    height:                         28px;
+    padding-top:                    0px;
+    padding-bottom:                 0px;
+    vertical-align:                 middle;
 }
 
 /* Quicksearch form -------------------------------------------------------- */
@@ -74,7 +82,7 @@ form.yform .type-button .silvercart-button {
     padding:                        0px;
 }
 #silvercart-quicksearch-form form.yform div.type-text input { /* Search query field */
-    width:                          90%;
+    width:                          14em;
     padding:                        4px 4px 3px 4px;
     
     font-size:                      12px;
@@ -97,9 +105,8 @@ form.yform .type-button .silvercart-button {
     float:                          left;
 }
 #silvercart-quicksearch-form form.yform input.action { /* Submit button */
-    padding:                        3px 10px 3px 10px;
-    
-    font-size:                      12px;
+    height:                         25px;
+    font-size:                      11px;
     color:                          #fff;
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#42403e), to(#302e2d)); /* for webkit browsers */
@@ -110,6 +117,7 @@ form.yform .type-button .silvercart-button {
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    padding:                        0px 10px;
 }
 #silvercart-quicksearch-form form.yform input.action:hover {
     cursor:                         pointer;
@@ -130,7 +138,6 @@ form.yform .type-button .silvercart-button {
     position:                       absolute;
     top:                            35px;
     left:                           466px;
-    
     color:                          #fff;
     border:                         1px #9f9a96 solid;
     border-top:                     none;
@@ -146,6 +153,24 @@ form.yform .type-button .silvercart-button {
     background:                     -o-linear-gradient(top,  #252223,  #000000); /* for opera 11.10+ */
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#252223', endColorstr='#000000'); /* for IE */
     box-shadow:                     0px 0px 9px #252223;
+}
+#silvercart-quicklogin-form .yform div.error,
+#silvercart-quicklogin-form .yform div.note {
+    background-color:               #451515;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#451515), to(#752323)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top, #451515, #752323); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #451515,  #752323); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#451515', endColorstr='#752323'); /* for IE */
+    border:                         1px #752323 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+    margin:                         0px 4px 4px 0px;
+}
+#silvercart-quicklogin-form  .yform div.error .message,
+#silvercart-quicklogin-form  .yform div.note .message {
+    font-weight:                    normal;
+    color:                          #ff9a9a;
 }
 #silvercart-quicklogin-form_content {
     padding:                        4px 5px 8px 10px;
@@ -163,7 +188,7 @@ form.yform .type-button .silvercart-button {
     color:                          #fff;
 }
 #silvercart-quicklogin-form form.yform .type-text {
-    padding:                        0px 0px 4px 0px;
+    padding:                        0px 4px 4px 4px;
 }
 #silvercart-quicklogin-form form.yform .type-text input { /* Input[text] fields */
     width:                          90%;
@@ -186,9 +211,9 @@ form.yform .type-button .silvercart-button {
     text-align:                     right;
     padding:                        0px 6px 0px 0px;
 }
-#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit button */
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit and cancel buttons */
+    height:                         30px;
     padding:                        3px 10px 3px 10px;
-    
     font-size:                      12px;
     color:                          #fff;
     background-color:               #42403e;

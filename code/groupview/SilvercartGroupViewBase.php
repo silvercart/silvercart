@@ -35,14 +35,14 @@ class SilvercartGroupViewBase extends DataObject {
 
     protected $Code;
     protected $Image;
-    protected $Label;
 
     protected $active = null;
     protected $activeHolder = null;
     protected $defaultPreferences = array(
         'code' => '',
         'image' => '',
-        'label' => '',
+        'i18n_key' => '',
+        'i18n_default' => '',
     );
     protected $preferences = array();
 
@@ -66,7 +66,6 @@ class SilvercartGroupViewBase extends DataObject {
         $this->preferences = $this->preferences();
         
         $this->setCode($this->preferences['code']);
-        $this->setLabel($this->preferences['label']);
     }
 
     /**
@@ -106,6 +105,9 @@ class SilvercartGroupViewBase extends DataObject {
      * returns the group views image
      *
      * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2011
      */
     public function Image() {
         global $project;
@@ -118,9 +120,9 @@ class SilvercartGroupViewBase extends DataObject {
             }
 
             if (is_file(Director::baseFolder() . '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
-                $this->preferences['image'] = '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+                $this->preferences['image'] = Director::absoluteBaseURL() . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } elseif (is_file(Director::baseFolder() . '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
-                $this->preferences['image'] = '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+                $this->preferences['image'] = Director::absoluteBaseURL() . 'silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } else {
                 $this->preferences['image'] = '';
             }
@@ -148,18 +150,7 @@ class SilvercartGroupViewBase extends DataObject {
      * @return string
      */
     public function getLabel() {
-        return $this->Label;
-    }
-
-    /**
-     * sets the group views label
-     *
-     * @param string $Label the group views label
-     *
-     * @return void
-     */
-    public function setLabel($Label) {
-        $this->Label = $Label;
+        return _t($this->preferences['i18n_key'], $this->preferences['i18n_default']);;
     }
 
     /**

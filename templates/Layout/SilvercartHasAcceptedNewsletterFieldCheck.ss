@@ -9,5 +9,5 @@
         </div>
     <% end_if %>
     $FieldTag
-    <label for="{$FormName}_{$FieldName}">{$Label} </label>
+    <label for="{$FormName}_{$FieldName}">{$Label}<% if CurrentMember %><% control CurrentMember %><% if hasFinishedNewsletterOptIn %><% else %><br /><span class="silvercart-message highlighted vdistance info16"><% _t('SilvercartNewsletter.OPTIN_NOT_FINISHED_MESSAGE') %></span><% end_if %><% end_control %><% end_if %></label>
 </div>

@@ -22,7 +22,7 @@
  */
 
 /**
- * abstract for a product
+ * abstract for an availibility status
  *
  * @package Silvercart
  * @subpackage Products
@@ -88,6 +88,7 @@ class SilvercartAvailabilityStatus extends DataObject {
             parent::fieldLabels($includerelations),
             array(
                 'Title' => _t('SilvercartAvailabilityStatus.TITLE'),
+                'Code' => _t('SilvercartNumberRange.IDENTIFIER')
             )
         );
 

@@ -58,15 +58,23 @@ class SilvercartUpdate1_1__1 extends SilvercartUpdate {
      * @since 26.08.2011
      */
     public function executeUpdate() {
-        $members = DataObject::get('SilvercartRegularCustomer');
+        if (class_exists('SilvercartRegularCustomer')) {
+            $className = 'SilvercartRegularCustomer';
+        } else {
+            $className = 'Member';
+        }
+        $members = DataObject::get($className);
         
         // Set the newsletter opt-in status according to the class of the customers
-        foreach ($members as $member) {
-            if ($member->ClassName == 'SilvercartRegularCustomer' &&
-                $member->OptInStatus) {
-                
-                $member->NewsletterOptInStatus = 1;
-                $member->write();
+        if ($members) {
+            foreach ($members as $member) {
+                if ($member->hasField('OptInStatus') &&
+                    $member->ClassName == $className &&
+                    $member->OptInStatus) {
+
+                    $member->NewsletterOptInStatus = 1;
+                    $member->write();
+                }
             }
         }
         

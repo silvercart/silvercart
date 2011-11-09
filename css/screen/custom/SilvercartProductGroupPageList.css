@@ -1,11 +1,6 @@
 .silvercart-product-group-page-box-list {
     padding:                        0px 0px 9px 0px;
-    
     color:                          #333;
-    border-bottom:                  1px #d1d1d1 dotted;
-}
-.silvercart-product-group-page-box-list.last {
-    border-bottom:                  none;
 }
 .silvercart-product-group-page-box-list p {
     margin:                         0px 0px 4px 0px;
@@ -25,6 +20,10 @@
     border:                         none;
     background:                     none;
 }
+#col1 .silvercart-product-group-page-box-list h3 {
+    border-bottom:                  1px #e2e2e2 solid;
+    padding:                        0px 0px 4px 0px;
+}
 .silvercart-product-group-page-box-list h3 a,
 .silvercart-product-group-page-box-list h3 a:visited {
     font-size:                      14px;
@@ -34,6 +33,20 @@
 }
 .silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
+    height:                         28px;
+    padding:                        0px 8px;
+    line-height:                    28px;
+    vertical-align:                 middle;
+    font-size:                      11px;
+    border:                         1px #333 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form input.text:hover,
+.silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form input.text:focus {
+    color:                          #000;
+    background-color:               #ddd;
 }
 .silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form form.yform {
     background:                     none;
@@ -46,10 +59,16 @@
 }
 .silvercart-product-group-page-box-list .silvercart-product-group-add-cart-form_content {
     padding:                        4px;
-    
     text-align:                     right;
 }
 
+.silvercart-product-group-page-box-list .silvercart-button a {
+    height:                         28px;
+    line-height:                    28px;
+    vertical-align:                 middle;
+    padding-top:                    0px;
+    padding-bottom:                 0px;
+}
 .silvercart-product-group-page-box-list .silvercart-product-group-page-box-image a {
     display:                        block;
     

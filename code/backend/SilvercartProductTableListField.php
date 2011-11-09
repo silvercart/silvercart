@@ -97,25 +97,26 @@ class SilvercartProductTableListField extends TableListField {
      * We have to replace some field contents here to gain real CSV
      * compatibility.
      *
-     * @return void
+     * @param int &$numColumns Number of columns
+     * @param int &$numRows    Number of rows
      *
-     * @param 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.07.2011
      */
-    function generateExportFileData(&$numColumns, &$numRows) {
+    public function generateExportFileData(&$numColumns, &$numRows) {
         
         $separator = $this->csvSeparator;
         $fileData = '';
         $columnData = array();
 
-        if($this->csvHasHeader) {
+        if ($this->csvHasHeader) {
             $fileData .= "\"" . implode("\"{$separator}\"", array_values($this->fieldListCsvSpecial)) . "\"";
             $fileData .= "\n";
         }
 
-        if(isset($this->customSourceItems)) {
+        if (isset($this->customSourceItems)) {
             $items = $this->customSourceItems;
         } else {
             $dataQuery = $this->getCsvQuery();
@@ -125,10 +126,10 @@ class SilvercartProductTableListField extends TableListField {
         // temporary override to adjust TableListField_Item behaviour
         $this->setFieldFormatting(array());
 
-        if($items) {
-            foreach($items as $item) {
+        if ($items) {
+            foreach ($items as $item) {
                 
-                if(is_array($item)) {
+                if (is_array($item)) {
                     $className = isset($item['RecordClassName']) ? $item['RecordClassName'] : $item['ClassName'];
                     $item = new $className($item);
                 }
@@ -136,21 +137,23 @@ class SilvercartProductTableListField extends TableListField {
                 $fields = $this->fieldListCsvSpecial;
                 $columnData = array();
 
-                if($fields) foreach($fields as $fieldName => $fieldTitle) {
-                    $value = str_replace(
-                        array(
-                            "\n",
-                            '"'
-                        ),
-                        array(
-                            "<br />",
-                            '""'
-                        ),
-                        $item->$fieldName
-                    );
+                if ($fields) {
+                    foreach ($fields as $fieldName => $fieldTitle) {
+                        $value = str_replace(
+                            array(
+                                "\n",
+                                '"'
+                            ),
+                            array(
+                                "<br />",
+                                '""'
+                            ),
+                            $item->$fieldName
+                        );
 
-                    $tmpColumnData = '"' . $value . '"';
-                    $columnData[] = $tmpColumnData;
+                        $tmpColumnData = '"' . $value . '"';
+                        $columnData[] = $tmpColumnData;
+                    }
                 }
 
                 $fileData .= implode($separator, $columnData)."\n";

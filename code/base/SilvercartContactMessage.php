@@ -101,6 +101,7 @@ class SilvercartContactMessage extends DataObject {
                     'FirstName'     => _t('Member.FIRSTNAME'),
                     'Surname'       => _t('Member.SURNAME'),
                     'Email'         => _t('Member.EMAIL'),
+                    'Message'       => _t('SilvercartContactMessage.MESSAGE')
                 )
         );
     }
@@ -165,32 +166,5 @@ class SilvercartContactMessage extends DataObject {
                     'Message'   => str_replace('\r\n', '<br/>', nl2br($this->Message)),
                 )
         );
-    }
-}
-
-/**
- * Modifies the model admin search panel.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 08.04.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartContactMessageAdmin_CollectionController extends ModelAdmin_CollectionController {
-
-    public $showImportForm = false;
-
-    /**
-     * Disable the creation of SilvercartContactMessage DataObjects.
-     *
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
-     */
-    public function alternatePermissionCheck() {
-        return false;
     }
 }

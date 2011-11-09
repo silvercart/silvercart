@@ -114,10 +114,11 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
             $customerNote = '';
         }
         
-        if (Member::currentUser() instanceof SilvercartAnonymousCustomer) {
+        $anonymousCustomer = SilvercartCustomer::currentAnonymousCustomer();
+        if ($anonymousCustomer) {
             // add a customer number to anonymous customer when ordering
-            Member::currentUser()->CustomerNumber = SilvercartNumberRange::useReservedNumberByIdentifier('CustomerNumber');
-            Member::currentUser()->write();
+            $anonymousCustomer->CustomerNumber = SilvercartNumberRange::useReservedNumberByIdentifier('CustomerNumber');
+            $anonymousCustomer->write();
         }
 
         $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
@@ -129,6 +130,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         $order->setPaymentMethod($checkoutData['PaymentMethod']);
         $order->setNote($customerNote);
         $order->setWeight();
+        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions']);
+        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction']);
         $order->createFromShoppingCart();
 
         $order->createShippingAddress($shippingData);

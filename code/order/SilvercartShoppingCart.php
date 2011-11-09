@@ -152,7 +152,11 @@ class SilvercartShoppingCart extends DataObject {
         if (!self::$loadModules) {
             SilvercartShoppingCartPosition::setCreateForms(false);
         }
-        $this->SilvercartShoppingCartPositions();
+        foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
+            if ($cartPosition->SilvercartProduct()->ID == 0) {
+                $cartPosition->delete();
+            }
+        }
 
         $this->SilvercartShippingMethodID = 0;
         $this->SilvercartPaymentMethodID = 0;
@@ -162,7 +166,7 @@ class SilvercartShoppingCart extends DataObject {
         //  
         // Check if the installation is complete. If it's not complete we
         // can't call the method "Member::currentUser()", since it tries to
-        // get the decorated fields from SilvercartCustomerRole that are not
+        // get the decorated fields from SilvercartCustomer that are not
         // yet created in the database
         if (!SapphireTest::is_running_test() && 
             SilvercartConfig::isInstallationCompleted() &&
@@ -231,7 +235,7 @@ class SilvercartShoppingCart extends DataObject {
             
             $member = Member::currentUser();
             if (!$member) {
-                $member = SilvercartCustomerRole::createAnonymousCustomer();
+                $member = SilvercartCustomer::createAnonymousCustomer();
             }
 
             if ($member) {
@@ -352,18 +356,19 @@ class SilvercartShoppingCart extends DataObject {
         $amount = 0;
 
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions', array(
-                    $this,
-                    Member::currentUser(),
-                    true,
-                    $excludeShoppingCartPosition,
-                    false
-                        ), $excludeModules
+            'ShoppingCartPositions', array(
+                $this,
+                Member::currentUser(),
+                true,
+                $excludeShoppingCartPosition,
+                false
+            ),
+            $excludeModules
         );
 
         // products
         foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += (float) $position->SilvercartProduct()->Price->getAmount() * $position->Quantity;
+            $amount += (float) $position->SilvercartProduct()->getPrice()->getAmount() * $position->Quantity;
         }
 
         // Registered Modules
@@ -618,6 +623,12 @@ class SilvercartShoppingCart extends DataObject {
     public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false) {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
+        
+        if (SilvercartConfig::Pricetype() == "net") {
+            foreach ($this->getTaxRatesWithFees() as $taxRate) {
+                $amount += (float) $taxRate->Amount->getAmount();
+            }
+        }
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);

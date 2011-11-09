@@ -1,11 +1,34 @@
 <?php
+/**
+ * Copyright 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Base
+ */
 
 /**
  * Contains a couple of static methods for shopping cart related notices for the
  * customer. They are manages via the session.
  *
+ * @package Silvercart
+ * @subpackage Base
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
+ * @copyright 2011 pixeltricks GmbH
  * @since 07.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -15,7 +38,7 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
      * Holds an array with possible notices that are selected with a $code
      * A notice can have a type: hint, error, warning
      * 
-     * @param string $code
+     * @param string $code Code to identify the notice text
      * 
      * @return array|false the translated notice and a notice type
      * 
@@ -42,10 +65,10 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
     /**
      * adds a notice to a position
      * 
-     * @return void
-     * 
      * @param integer $positionID object id of the position
      * @param string  $code       message identifier 
+     * 
+     * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 7.8.2011
@@ -67,10 +90,10 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
     /**
      * deletes only one specific position notice.
      * 
-     * @return boolean Was the notice unset?
-     * 
      * @param integer $positionID the positions id
      * @param string  $code       the code to identify the message 
+     * 
+     * @return boolean Was the notice unset?
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 7.8.2011
@@ -89,9 +112,9 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
     /**
      * deletes all notices of a position.
      * 
-     * @return void
-     * 
      * @param integer $positionID the positions id
+     * 
+     * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 7.8.2011

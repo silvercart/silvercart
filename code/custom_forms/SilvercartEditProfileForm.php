@@ -158,7 +158,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE');
 
         $member = Member::currentUser();
-        #var_dump(date('d', strtotime($member->Birthday)));die();
+        
         if ($member) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
             $this->formFields['FirstName']['value'] = $member->FirstName;
@@ -177,6 +177,24 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             $this->formFields['SubscribedToNewsletter']['value'] = $member->SubscribedToNewsletter;
 
         }
+        
+        if (!$this->demandBirthdayDate()) {
+            unset($this->formFields['BirthdayDay']);
+            unset($this->formFields['BirthdayMonth']);
+            unset($this->formFields['BirthdayYear']);
+        }
+    }
+    
+    /**
+     * Indicates wether the birthday date has to be entered.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function demandBirthdayDate() {
+        return SilvercartConfig::demandBirthdayDateOnRegistration();
     }
 
     /**
@@ -204,12 +222,14 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         }
 
         // birthday
-        if (!empty($registrationData['BirthdayDay']) &&
-            !empty($registrationData['BirthdayMonth']) &&
-            !empty($registrationData['BirthdayYear'])) {
-            $registrationData['Birthday'] = $registrationData['BirthdayYear'] . '-' .
-                $registrationData['BirthdayMonth'] . '-' .
-                $registrationData['BirthdayDay'];
+        if ($this->demandBirthdayDate()) {
+            if (!empty($registrationData['BirthdayDay']) &&
+                !empty($registrationData['BirthdayMonth']) &&
+                !empty($registrationData['BirthdayYear'])) {
+                $registrationData['Birthday'] = $registrationData['BirthdayYear'] . '-' .
+                    $registrationData['BirthdayMonth'] . '-' .
+                    $registrationData['BirthdayDay'];
+            }
         }
 
         $member->castedUpdate($registrationData);

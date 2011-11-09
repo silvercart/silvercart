@@ -25,7 +25,7 @@
  * Handles the configuration for the prefilled shopping carts mechanism.
  *
  * @package Silvercart
- * @subpacke Order
+ * @subpackage Order
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 01.08.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -130,7 +130,7 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
             array(
                 'Title'                             => _t('SilvercartInboundShoppingCartTransfer.TITLE'),
                 'refererIdentifier'                 => _t('SilvercartInboundShoppingCartTransfer.REFERER_IDENTIFIER'),
-                'useSharedSecret'                   => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET'),
+                'useSharedSecret'                   => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET_ACTIVATION'),
                 'sharedSecret'                      => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET'),
                 'sharedSecretIdentifier'            => _t('SilvercartInboundShoppingCartTransfer.SHARED_SECRET_IDENTIFIER'),
                 'transferMethod'                    => _t('SilvercartInboundShoppingCartTransfer.TRANSFER_METHOD'),

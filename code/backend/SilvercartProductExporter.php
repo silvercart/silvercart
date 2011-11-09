@@ -151,7 +151,8 @@ class SilvercartProductExporter extends DataObject {
         'pushEnabled'                           => 'Boolean',
         'pushToUrl'                             => 'VarChar(255)',
         'activateCsvHeaders'                    => 'Boolean',
-        'lastExportDateTime'                    => 'SS_Datetime'
+        'lastExportDateTime'                    => 'SS_Datetime',
+        'createTimestampFile'                   => 'Boolean(0)'
     );
     
     /**
@@ -212,7 +213,8 @@ class SilvercartProductExporter extends DataObject {
                 'updateIntervalPeriod'                  => _t('SilvercartProductExport.FIELD_UPDATE_INTERVAL_PERIOD'),
                 'pushEnabled'                           => _t('SilvercartProductExport.FIELD_PUSH_ENABLED'),
                 'pushToUrl'                             => _t('SilvercartProductExport.FIELD_PUSH_TO_URL'),
-                'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS')
+                'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS'),
+                'createTimestampFile'                   => _t('SilvercartProductExport.CREATE_TIMESTAMP_FILE')
             )
         );
         
@@ -298,6 +300,7 @@ class SilvercartProductExporter extends DataObject {
                 $fields->dataFieldByName('isActive'),
                 $fields->dataFieldByName('name'),
                 $fields->dataFieldByName('csvSeparator'),
+                $fields->dataFieldByName('createTimestampFile'),
                 $fields->dataFieldByName('updateInterval'),
                 $fields->dataFieldByName('updateIntervalPeriod'),
                 $fields->dataFieldByName('pushEnabled'),
@@ -438,6 +441,17 @@ class SilvercartProductExporter extends DataObject {
         }
         $this->setField('lastExportDateTime', date('Y-m-d H:i:s', $exportTimeStamp));
         $this->write();
+        
+        // Create timestamp file according to configuration
+        if ($this->createTimestampFile) {
+            $timestampFileName = $this->name.'_timestamp.txt';
+            
+            if ($fp = fopen($this->exportDirectory.$timestampFileName, 'w')) {
+
+                fwrite($fp, $exportTimeStamp);
+                fclose($fp);
+            }
+        }
     }
     
     /**

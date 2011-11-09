@@ -36,7 +36,15 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
     public static $singular_name = "";
     public static $can_be_root = false;
     
-    public static $icon = "silvercart/images/page_icons/address_details";
+    /**
+     * The icon to use for this page in the storeadmin sitetree.
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public static $icon = "silvercart/images/page_icons/my_account_holder";
 
     /**
      * configure the class name of the DataObjects to be shown on this page
@@ -84,8 +92,13 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
 
         // get the address to check whether it is related to the actual customer or not.
         $address = DataObject::get_by_id('SilvercartAddress', $addressId);
-        if ($address->Member()->ID != Member::currentUserID()) {
-            // the address is not related to the customer, redirect elsewhere...
+        
+        if ($address->MemberID > 0) {
+            if ($address->Member()->ID != Member::currentUserID()) {
+                // the address is not related to the customer, redirect elsewhere...
+                Director::redirect($this->PageByIdentifierCode()->Link());
+            }
+        } else {
             Director::redirect($this->PageByIdentifierCode()->Link());
         }
 

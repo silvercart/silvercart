@@ -32,16 +32,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrder extends DataObject {
-
-    /**
-     * Contains all registered plugins for this DataObject.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    protected static $registeredSilvercartOrderPlugins = array();
     
     /**
      * attributes
@@ -53,20 +43,20 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public static $db = array(
-        'AmountTotal'                   => 'Money', // value of all products
-        'AmountGrossTotal'              => 'Money', // value of all products + transaction fee
-        'HandlingCostPayment'           => 'Money',
-        'HandlingCostShipment'          => 'Money',
-        'TaxRatePayment'                => 'Int',
-        'TaxRateShipment'               => 'Int',
-        'TaxAmountPayment'              => 'Float',
-        'TaxAmountShipment'             => 'Float',
-        'Note'                          => 'Text',
-        'WeightTotal'                   => 'Int', //unit is gramm
-        'CarrierAndShippingMethodTitle' => 'VarChar(100)',
-        'PaymentMethodTitle'            => 'VarChar(100)',
-        'CustomersEmail'                => 'VarChar(60)',
-        'OrderNumber'                   => 'VarChar(128)',
+        'AmountTotal'                       => 'Money', // value of all products
+        'AmountGrossTotal'                  => 'Money', // value of all products + transaction fee
+        'HandlingCostPayment'               => 'Money',
+        'HandlingCostShipment'              => 'Money',
+        'TaxRatePayment'                    => 'Int',
+        'TaxRateShipment'                   => 'Int',
+        'TaxAmountPayment'                  => 'Float',
+        'TaxAmountShipment'                 => 'Float',
+        'Note'                              => 'Text',
+        'WeightTotal'                       => 'Int', //unit is gramm
+        'CustomersEmail'                    => 'VarChar(60)',
+        'OrderNumber'                       => 'VarChar(128)',
+        'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
+        'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
     );
 
     /**
@@ -156,46 +146,6 @@ class SilvercartOrder extends DataObject {
     );
     
     /**
-     * Registered plugins get initialised here.
-     *
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
-	 *                                field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-	 *                                don't have their defaults set.
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function __construct($record = null, $isSingleton = false) {
-        parent::__construct($record, $isSingleton);
-        
-        if (!empty(self::$registeredSilvercartOrderPlugins)) {
-            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-                if (method_exists($silvercartOrderPlugin, 'init')) {
-                    $silvercartOrderPlugin::init($this);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Registers a plugin for this DataObject.
-     *
-     * @return void
-     *
-     * @param string $objectName The name of the object on which the method
-     *                           calls should be done
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public static function registerSilvercartOrderPlugin($objectName) {
-       self::$registeredSilvercartOrderPlugins[] = $objectName;
-    }
-    
-    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -269,28 +219,30 @@ class SilvercartOrder extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ID'                            => _t('SilvercartOrder.ORDER_ID'),
-                'Created'                       => _t('SilvercartPage.ORDER_DATE'),
-                'OrderNumber'                   => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
-                'SilvercartShippingFee'         => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                          => _t('SilvercartPage.REMARKS'),
-                'Member'                        => _t('SilvercartOrder.CUSTOMER', 'customer'),
-                'SilvercartShippingAddress'     => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'SilvercartInvoiceAddress'      => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'SilvercartOrderStatus'         => _t('SilvercartOrder.STATUS', 'order status'),
-                'AmountTotal'                   => _t('SilvercartOrder.AMOUNTTOTAL'),
-                'AmountGrossTotal'              => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
-                'HandlingCostPayment'           => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
-                'HandlingCostShipment'          => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
-                'TaxRatePayment'                => _t('SilvercartOrder.TAXRATEPAYMENT'),
-                'TaxRateShipment'               => _t('SilvercartOrder.TAXRATESHIPMENT'),
-                'TaxAmountPayment'              => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
-                'TaxAmountShipment'             => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
-                'Note'                          => _t('SilvercartOrder.NOTE'),
-                'WeightTotal'                   => _t('SilvercartOrder.WEIGHTTOTAL'),
-                'CarrierAndShippingMethodTitle' => _t('SilvercartOrder.CARRIERANDSHIPPINGMETHODTITLE'),
-                'PaymentMethodTitle'            => _t('SilvercartOrder.PAYMENTMETHODTITLE'),
-                'CustomersEmail'                => _t('SilvercartOrder.CUSTOMERSEMAIL')
+                'ID'                                => _t('SilvercartOrder.ORDER_ID'),
+                'Created'                           => _t('SilvercartPage.ORDER_DATE'),
+                'OrderNumber'                       => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+                'SilvercartShippingFee'             => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+                'Note'                              => _t('SilvercartPage.REMARKS'),
+                'Member'                            => _t('SilvercartOrder.CUSTOMER', 'customer'),
+                'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'SilvercartOrderStatus'             => _t('SilvercartOrder.STATUS', 'order status'),
+                'AmountTotal'                       => _t('SilvercartOrder.AMOUNTTOTAL'),
+                'AmountGrossTotal'                  => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCostPayment'               => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
+                'HandlingCostShipment'              => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
+                'TaxRatePayment'                    => _t('SilvercartOrder.TAXRATEPAYMENT'),
+                'TaxRateShipment'                   => _t('SilvercartOrder.TAXRATESHIPMENT'),
+                'TaxAmountPayment'                  => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
+                'TaxAmountShipment'                 => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
+                'Note'                              => _t('SilvercartOrder.NOTE'),
+                'WeightTotal'                       => _t('SilvercartOrder.WEIGHTTOTAL'),
+                'CustomersEmail'                    => _t('SilvercartOrder.CUSTOMERSEMAIL'),
+                'SilvercartPaymentMethod'           => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartShippingMethod'          => _t('SilvercartShippingMethod.SINGULARNAME'),
+                'HasAcceptedTermsAndConditions'     => _t('SilvercartOrder.HASACCEPTEDTERMSANDCONDITIONS'),
+                'HasAcceptedRevocationInstruction'  => _t('SilvercartOrder.HASACCEPTEDREVOCATIONINSTRUCTION')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -337,30 +289,6 @@ class SilvercartOrder extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
-    }
-    
-    /**
-     * Returns the cumulated output of all registered SilvercartOrderPlugins
-     *
-     * @return string
-     *
-     * @param string $section The section for which the output is requested for.
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.08.2011
-     */
-    public function SilvercartOrderPlugin($section) {
-        $output = '';
-        
-        if (!empty(self::$registeredSilvercartOrderPlugins)) {
-            foreach (self::$registeredSilvercartOrderPlugins as $silvercartOrderPlugin) {
-                if (method_exists($silvercartOrderPlugin, $section)) {
-                    $output .= $silvercartOrderPlugin::$section();
-                }
-            }
-        }
-        
-        return $output;
     }
 
     /**
@@ -424,6 +352,22 @@ class SilvercartOrder extends DataObject {
         $fields->removeByName('Silvercart Products');
         $fields->removeByName(_t('SilvercartOrder.CUSTOMER'));
         $fields->removeByName('SilvercartAddresses');
+        $fields->removeByName(_t('SilvercartShippingMethod.SINGULARNAME'));
+        
+        //shipping fee dropdown
+        $fields->removeByName('SilvercartShippingFeeID');
+        $shippingFees = DataObject::get('SilvercartShippingFee');
+        if ($shippingFees) {
+            $shippingFeesDropdown = new DropdownField(
+                    'SilvercartShippingFeeID',
+                    _t('SilvercartShippingFee.SINGULARNAME'),
+                    $shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'),
+                    $this->SilvercartShippingFeeID,
+                    null,
+                    _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                    );
+            $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
+        }
         $fields->makeFieldReadonly('OrderNumber');
         $fields->makeFieldReadonly('Version');
 
@@ -499,7 +443,7 @@ class SilvercartOrder extends DataObject {
     public function createFromShoppingCart() {
         $member = Member::currentUser();
         $this->MemberID = $member->ID;
-
+        
         // VAT tax for shipping and payment fees
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
         if ($shippingMethod) {
@@ -538,7 +482,7 @@ class SilvercartOrder extends DataObject {
         $this->AmountTotal->setAmount(
             $totalAmount
         );
-        $this->AmountGrossTotal->setCurrency('EUR');
+        $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
         $paymentObj = DataObject::get_by_id(
@@ -555,8 +499,11 @@ class SilvercartOrder extends DataObject {
         if ($orderStatus) {
             $this->SilvercartOrderStatusID = $orderStatus->ID;
         }
+        
         // write order to have an id
         $this->write();
+        
+        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $member->SilvercartShoppingCart()));
 
         // Convert shopping cart positions
         $this->convertShoppingCartPositionsToOrderPositions();
@@ -719,7 +666,6 @@ class SilvercartOrder extends DataObject {
 
         if ($paymentMethodObj) {
             $this->SilvercartPaymentMethodID = $paymentMethodObj->ID;
-            $this->PaymentMethodTitle = $paymentMethodObj->Name;
             $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->getAmount());
             $this->HandlingCostPayment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
@@ -856,6 +802,42 @@ class SilvercartOrder extends DataObject {
         }
         $this->CustomersEmail = $email;
     }
+    
+    /**
+     * Set the status of the revocation instructions checkbox field.
+     *
+     * @return void
+     *
+     * @param boolean $status The status of the field
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function setHasAcceptedRevocationInstruction($status) {
+        if ($status == 1) {
+            $status = true;
+        }
+        
+        $this->setField('HasAcceptedRevocationInstruction', $status);
+    }
+    
+    /**
+     * Set the status of the terms and conditions checkbox field.
+     *
+     * @return void
+     *
+     * @param boolean $status The status of the field
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.10.2011
+     */
+    public function setHasAcceptedTermsAndConditions($status) {
+        if ($status == 1) {
+            $status = true;
+        }
+        
+        $this->setField('HasAcceptedTermsAndConditions', $status);
+    }
 
     /**
      * The shipping method is a relation + an attribte of the order
@@ -875,7 +857,6 @@ class SilvercartOrder extends DataObject {
 
         if ($selectedShippingMethod) {
             $this->SilvercartShippingMethodID    = $selectedShippingMethod->ID;
-            $this->CarrierAndShippingMethodTitle = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
             $this->SilvercartShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->Price->getAmount());
             $this->HandlingCostShipment->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -1170,7 +1151,7 @@ class SilvercartOrder extends DataObject {
     /**
      * returns handling fee for choosen payment method
      *
-     * @return float
+     * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -1192,6 +1173,18 @@ class SilvercartOrder extends DataObject {
         $handlingCostsObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCostsObj;
+    }
+    
+    /**
+     * Returns plugin output.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.09.2011
+     */
+    public function OrderDetailInformation() {
+        return SilvercartPlugin::call($this, 'OrderDetailInformation', array($this));
     }
 
     /**
@@ -1269,23 +1262,36 @@ class SilvercartOrder extends DataObject {
     }
 
     /**
-     * Set a new/reserved ordernumber before writing
+     * Set a new/reserved ordernumber before writing and send attributed
+     * ShopEmails.
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.04.2011
      */
-    protected function  onBeforeWrite() {
+    protected function onBeforeWrite() {
         parent::onBeforeWrite();
+        
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
-        if ($this->isChanged('SilvercartOrderStatusID')) {
+        if ($this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
+            $newOrderStatus = DataObject::get_by_id('SilvercartOrderStatus', $this->SilvercartOrderStatusID);
+            
+            if ($newOrderStatus) {
+                if ($this->AmountTotalAmount > 0) {
+                    $this->AmountTotal->setAmount($this->AmountTotalAmount);
+                    $this->AmountTotal->setCurrency($this->AmountTotalCurrency);
+                }
+                
+                $newOrderStatus->sendMailFor($this);
+            }
         }
+        $this->extend('updateOnBeforeWrite');
     }
 
     /**
@@ -1440,7 +1446,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
     }
     
     /**
-     * Removes the field "create order" from the model admin
+     * Removes the button "create order" from the model admin
      * 
      * @return bool false
      * 

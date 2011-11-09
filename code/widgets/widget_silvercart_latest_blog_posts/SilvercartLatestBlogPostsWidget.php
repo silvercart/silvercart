@@ -120,40 +120,45 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     
     /**
      * Returns a configured number of blog posts.
+     * Returns false if the blog module is not installed
      *
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.08.2011
      */
     public function BlogPosts() {
-        $blogEntries = DataObject::get(
+        if (class_exists('BlogEntry')) {
+            $blogEntries = DataObject::get(
             'BlogEntry',
             '',
             'Sort DESC',
             '',
             $this->numberOfPostsToShow
-        );
+            );
 
-        return $blogEntries;
+            return $blogEntries;
+        }
+        return false;
+        
     }
     
     /**
      * We set checkbox field values here to false if they are not in the post
      * data array.
      *
-     * @return void
-     *
      * @param array $data The post data array
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.08.2011
      */
-    function populateFromPostData($data) {
+    public function populateFromPostData($data) {
         if (!array_key_exists('isContentView', $data)) {
             $this->isContentView = 0;
         }
         
         parent::populateFromPostData($data);
-	}
+    }
 }

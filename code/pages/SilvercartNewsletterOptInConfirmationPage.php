@@ -87,9 +87,9 @@ class SilvercartNewsletterOptInConfirmationPage extends Page {
      * @var string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
+     * @since 27.10.2011
      */
-    public static $icon = "silvercart/images/page_icons/registration_confirmation";
+    public static $icon = "silvercart/images/page_icons/metanavigation_page";
 
     /**
      * Return all fields of the backend

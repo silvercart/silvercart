@@ -43,6 +43,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             'type' => 'TextField',
             'title' => '',
             'value' => '',
+            'maxLength' => '30',
             'checkRequirements' => array(
             )
         )
@@ -78,6 +79,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle']         = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
         $this->preferences['doJsValidationScrolling']   = false;
         $this->formFields['quickSearchQuery']['value']  = _t('SilvercartQuickSearchForm.SEARCHBOXLABEL');
+        $this->formFields['quickSearchQuery']['title']  = _t('SilvercartQuickSearchForm.TITLE');
 
         parent::preferences();
     }

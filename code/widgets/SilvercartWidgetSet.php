@@ -134,20 +134,35 @@ class SilvercartWidgetSet extends DataObject {
      * @since 27.05.2011
      */
     public function getCMSFields($params = null) {
-        $fields           = parent::getCMSFields($params);
-        $widgetAreaEditor = new WidgetAreaEditor('WidgetArea');
+        $fields = parent::getCMSFields($params);
         
-        $fields->removeByName('WidgetAreaID');
-        $fields->removeFieldFromTab('Root', 'SilvercartPages');
-        $fields->addFieldToTab('Root.Main', $widgetAreaEditor);
-        
-        $pagesTableField = new ManyManyDataObjectManager(
-            $this,
-            'SilvercartPages',
-            'SilvercartPage'
-        );
-        
-        $fields->addFieldToTab('Root.SilvercartPages', $pagesTableField);
+        if ($this->ID > 0) {
+            $fields->removeByName('WidgetAreaID');
+            $fields->removeFieldFromTab('Root', 'SilvercartPages');
+            $availableWidgets = array();
+
+            $classes = ClassInfo::subclassesFor('Widget');
+            array_shift($classes);
+            foreach($classes as $class) {
+                if ($class == 'SilvercartWidget') {
+                    continue;
+                }
+                $widgetClass        = singleton($class);
+                $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
+            }
+
+            $widgetAreaField = new SilvercartHasManyOrderField(
+                $this->WidgetArea(),
+                'Widgets',
+                'WidgetArea',
+                'Widget Konfiguration',
+                $availableWidgets
+            );
+
+            $fields->addFieldToTab('Root.Main', $widgetAreaField);
+        } else {
+            $fields->removeByName('WidgetAreaID');
+        }
         
         return $fields;
     }
@@ -166,5 +181,65 @@ class SilvercartWidgetSet extends DataObject {
         );
         
         return $fields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 02.10.2011
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title' => _t('SilvercartAvailabilityStatus.TITLE')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * We have to create a WdgetArea object if there's none attributed yet.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        
+        if ($this->WidgetAreaID == 0) {
+            $widgetArea = new WidgetArea();
+            $widgetArea->write();
+            
+            $this->WidgetAreaID = $widgetArea->ID;
+            $this->write();
+        }
+    }
+    
+    /**
+     * We want to delete all attributed WidgetAreas and Widgets before deletion.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.10.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        foreach ($this->WidgetArea()->Widgets() as $widget) {
+            $widget->delete();
+        }
+        
+        $this->WidgetArea()->delete();
     }
 }

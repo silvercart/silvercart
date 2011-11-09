@@ -41,6 +41,19 @@ class SilvercartShopEmail extends DataObject {
     public static $many_many = array(
         'AdditionalReceipients' => 'SilvercartEmailAddress'
     );
+    
+    /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 27.10.2011
+     */
+    public static $belongs_many_many = array(
+        'SilvercartOrderStatus' => 'SilvercartOrderStatus'
+    );
 
     /**
      * classes attributes
@@ -85,10 +98,11 @@ class SilvercartShopEmail extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Identifier']  = _t('SilvercartShopEmail.IDENTIFIER', 'identifier');
-        $fieldLabels['Subject']     = _t('SilvercartShopEmail.SUBJECT', 'subject');
-        $fieldLabels['EmailText']   = _t('SilvercartShopEmail.EMAILTEXT', 'message');
-        $fieldLabels['Variables']   = _t('SilvercartShopEmail.VARIABLES', 'variables');
+        $fieldLabels['Identifier']  = _t('SilvercartShopEmail.IDENTIFIER');
+        $fieldLabels['Subject']     = _t('SilvercartShopEmail.SUBJECT');
+        $fieldLabels['EmailText']   = _t('SilvercartShopEmail.EMAILTEXT');
+        $fieldLabels['Variables']   = _t('SilvercartShopEmail.VARIABLES');
+        $fieldLabels['AdditionalReceipients'] = _t('SilvercartShopEmail.ADDITIONALS_RECEIPIENTS');
         return $fieldLabels;
     }
 

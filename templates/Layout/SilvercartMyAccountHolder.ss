@@ -103,7 +103,7 @@
 
                     <% control CurrentRegisteredCustomer %>
                         <p>
-                            $Salutation $FirstName $Surname
+                            $TranslatedSalutation $FirstName $Surname
                         </p>
                         <table>
                             <colgroup>
@@ -112,11 +112,11 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <td><strong>Kundennr.:</strong></td>
+                                    <td><strong><% _t('SilvercartCustomer.CUSTOMERNUMBER_SHORT') %>:</strong></td>
                                     <td>$CustomerNumber</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Email: </strong></td>
+                                    <td><strong><% _t('SilvercartAddress.EMAIL') %>: </strong></td>
                                     <td>$Email</td>
                                 </tr>
                             </tbody>

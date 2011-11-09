@@ -33,7 +33,7 @@
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
-    public static $icon = "silvercart/images/page_icons/checkout";
+    public static $icon = "silvercart/images/page_icons/checkout_page";
     
 }
 
@@ -78,6 +78,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 09.11.2010
+     * 
+     * @todo SilvercartShoppingCart ShippingMethod and PaymentMethod must be set earlier
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
@@ -96,10 +98,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             // If minimum order value is set and shoppingcart value is below we
             // have to redirect the customer to the shoppingcart page and set
             // an appropriate error message.
-            if ($this->getCurrentStep() < 5 &&
-                SilvercartConfig::UseMinimumOrderValue() &&
-                SilvercartConfig::MinimumOrderValue() &&
-                SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
+            if ( $this->getCurrentStep() < 5 &&
+                 SilvercartConfig::UseMinimumOrderValue() &&
+                 SilvercartConfig::MinimumOrderValue() &&
+                !SilvercartConfig::DisregardMinimumOrderValue() &&
+                 SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
                 
                 $_SESSION['Silvercart']['errors'][] = sprintf(
                     _t('SilvercartShoppingCart.ERROR_MINIMUMORDERVALUE_NOT_REACHED'),
@@ -109,6 +112,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
             }
 
+            // TODO: this is too late to set the shipping and payment method IDs
+            // Some payment methods will access this data before in parent::init()
+            // when custom form steps are loaded
             if (isset($stepData['ShippingMethod'])) {
                 $shoppingCart->setShippingMethodID($stepData['ShippingMethod']);
             }

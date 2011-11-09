@@ -151,23 +151,25 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
         // --------------------------------------------------------------------
         // Fill selected field list
         // --------------------------------------------------------------------
-        $selectedRelationFields = $this->dataObj->$relationName();
-        $selectedRelationFields->sort('sortOrder', 'ASC');
-        
-        foreach ($selectedRelationFields as $selectedRelationField) {
-            $selectedItems['item_'.$selectedItemIdx] = new ArrayData(
-                array(
-                    'value' => $selectedRelationField->name,
-                    'label' => $selectedRelationField->name
-                )
-            );
-            $selectedItemIdx++;
+        if ($this->dataObj) {
+            $selectedRelationFields = $this->dataObj->$relationName();
+            $selectedRelationFields->sort('sortOrder', 'ASC');
+
+            foreach ($selectedRelationFields as $selectedRelationField) {
+                $selectedItems['item_'.$selectedItemIdx] = new ArrayData(
+                    array(
+                        'value' => $selectedRelationField->name,
+                        'label' => $selectedRelationField->name
+                    )
+                );
+                $selectedItemIdx++;
+            }
+
+            $templateVars['available_items'] = new DataObjectSet($availableItems);
+            $templateVars['selected_items']  = new DataObjectSet($selectedItems);
+            $output                          = $this->customise($templateVars)->renderWith('SilvercartMultiSelectAndOrderField');
         }
         
-        $templateVars['available_items'] = new DataObjectSet($availableItems);
-        $templateVars['selected_items']  = new DataObjectSet($selectedItems);
-        $output                          = $this->customise($templateVars)->renderWith('SilvercartMultiSelectAndOrderField');
-
         return $output;
     }
 }

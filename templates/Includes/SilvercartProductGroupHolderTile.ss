@@ -10,7 +10,7 @@
                     <div class="subcolumns equalize">
                         <div class="c50l">
                             <div class="subcl">
-                                <h3><a href="$Link" title="$Title">$MenuTitle</a></h3>
+                                <h3><a href="$Link" title="$Title">$MenuTitle.HTML</a></h3>
                             </div>
                         </div>
                         <div class="c50r product-group-holder-entry-link">

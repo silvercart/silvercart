@@ -38,7 +38,15 @@ class SilvercartSearchResultsPage extends Page {
         'none'
     );
     
-    public static $icon = "silvercart/images/page_icons/search";
+    /**
+     * We set a custom icon for this page type here
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.10.2011
+     */
+    public static $icon = "silvercart/images/page_icons/metanavigation_page_search";
 
     /**
      * Attributes.
@@ -150,6 +158,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      *
+     * @param Object $object The filter plugin object
+     *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -188,7 +198,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
-        $searchQuery            = Convert::raw2sql($this->getSearchQuery());
+        $searchQuery            = Convert::raw2sql(Session::get('searchQuery'));
         $searchResultProducts   = $this->searchResultProducts;
         $productsPerPage        = $this->getProductsPerPageSetting();
 
@@ -398,6 +408,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
     /**
      * Returns the SQL filter statement for the current query.
      *
+     * @param boolean $excludeFilter Optionally the name of the filter to exclude
+     *
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -442,6 +454,8 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * Indicates wether the resultset of the product query returns more
      * products than the number given (defaults to 10).
      *
+     * @param int $maxResults The number of results to check
+     *
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -464,8 +478,12 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.11.10
      */
-    public function getSearchQuery() {
-        return stripslashes(Session::get('searchQuery'));
+    public function getEncodedSearchQuery() {
+        return htmlentities(
+            stripslashes(Session::get('searchQuery')),
+            ENT_COMPAT,
+            'UTF-8'
+        );
     }
     
     /**
@@ -505,7 +523,6 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         if ($member &&
             $member->getSilvercartCustomerConfig() &&
             $member->getSilvercartCustomerConfig()->productsPerPage !== null) {
-            
             $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
             
             if ($productsPerPage == 0) {

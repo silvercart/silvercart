@@ -127,7 +127,7 @@
             </div>
         </div>
         <div class="page_margins">
-            <div class="page">
+            <div class="page clearfix">
                 <div id="silvercart-header">
                     <div class="subcolumns">
                         <div class="c80l">
@@ -167,28 +167,28 @@
                         <% include SilvercartNavigation %>
                     </div>
                 </div>
-                <div id="main">
+                <div id="main" class="clearfix">
                     <a id="content" name="content"></a>
                     $Layout
                 </div>
-                <div class="clearfix">&nbsp;</div>
+                <div class="clearfix"></div>
+                <div id="silvercart-footer">
+                    <div id="silvercart-footer_content">
+                        <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
+                            <% control Children %>
+                                <% if Last %>
+                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
+                                <% else %>
+                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
+                                <% end_if %>
+                            <% end_control %>
+                        <% end_control %>
+                        <br/>
+                        <br/>
+                        <a href="http://www.silvercart.org" target="_blank">SilverCart. eCommerce software. Open-source. You'll love it.</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <p/>
-        <div id="silvercart-footer">
-            <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
-                <% control Children %>
-                    <% if Last %>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
-                    <% else %>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
-                    <% end_if %>
-                <% end_control %>
-            <% end_control %>
-            <br/>
-            <br/>
-            Layout based on <a href="http://www.yaml.de" target="_blank">YAML</a>
-        </div>
-        <p/>
     </body>
 </html>

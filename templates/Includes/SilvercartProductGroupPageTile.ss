@@ -10,7 +10,7 @@
                 <div class="silvercart-product-group-page-box-tile_frame">
                     <div class="silvercart-product-title">
                         <h3>
-                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a>
+                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title.HTML</a>
                         </h3>
                     </div>
                     <div class="subcolumns clearfix equalize product-group-page-info">
@@ -27,9 +27,9 @@
                                     </p>
                                     <p class="silvercart-price-notes">
                                         <small>
-                                            <% if showPricesGross %>
+                                            <% if CurrentPage.showPricesGross %>
                                                 <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                                            <% else %>
+                                            <% else_if CurrentPage.showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
                                             <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
@@ -63,19 +63,20 @@
                     </div>
 
                     <div class="clearfix">
-                        <div class="silvercart-button right">
+                        <div class="silvercart-button left">
                             <div class="silvercart-button_content">
                                 <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                             </div>
                         </div>
-                    </div>
-                    <div class="silvercart-product-group-add-cart-form">
-                        <div class="silvercart-product-group-add-cart-form_content">
-                            <% if isBuyableDueToStockManagementSettings %>
-                                $productAddCartForm
-                            <% else %>
-                                <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
-                            <% end_if %>
+
+                        <div class="silvercart-product-group-add-cart-form">
+                            <div class="silvercart-product-group-add-cart-form_content">
+                                <% if isBuyableDueToStockManagementSettings %>
+                                    $productAddCartForm
+                                <% else %>
+                                    <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
+                                <% end_if %>
+                            </div>
                         </div>
                     </div>
                 </div>

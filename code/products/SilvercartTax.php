@@ -141,7 +141,8 @@ class SilvercartTax extends DataObject {
                 array(
                         'Title'                 => _t('SilvercartTax.LABEL'),
                         'Rate'                  => _t('SilvercartTax.RATE_IN_PERCENT'),
-                        'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME')
+                        'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME'),
+                        'Identifier'            => _t('SilvercartNumberRange.IDENTIFIER')
                     )
                 );
     }

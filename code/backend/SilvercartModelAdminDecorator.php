@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartModelAdminDecorator extends DataObjectDecorator {
-
+    
     /**
      * Injects some custom javascript to provide instant loading of DataObject
      * tables.
@@ -43,7 +43,74 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
      * @since 13.01.2011
      */
     public function onAfterInit() {
-        Requirements::javascript('silvercart/script/SilvercartModelAdminDecorator.js');
-        Requirements::add_i18n_javascript('silvercart/javascript/lang');
+        if (Director::is_ajax()) {
+            return true;
+        }
+        
+        $preventAutoLoadingClassNames           = $this->getPreventAutoLoadForManagedModels();
+        $enabledFirstEntryAutoLoadClassNames    = $this->getEnabledFirstEntryAutoLoadForManagedModels();
+
+        RequirementsEngine::registerJsVariable('PreventAutoLoadForManagedModels',           $preventAutoLoadingClassNames);
+        RequirementsEngine::registerJsVariable('EnabledFirstEntryAutoLoadForManagedModels', $enabledFirstEntryAutoLoadClassNames);
+        RequirementsEngine::parse('SilvercartModelAdminDecorator.js', array('silvercart/script/SilvercartModelAdminDecorator.js'));
+        
+        RequirementsEngine::add_i18n_javascript('silvercart/javascript/lang');
+    }
+    
+    /**
+     * Returns a string of comma separated class names for which the table list field autoload should be prevented.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.10.2011
+     */
+    public function getPreventAutoLoadForManagedModels() {
+        $classNames     = '';
+        $ownerClass     = $this->owner->class;
+        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
+        
+        foreach ($managedModels as $managedModel => $modelDefinitions) {
+            if (is_array($modelDefinitions) &&
+                array_key_exists('preventTableListFieldAutoLoad', $modelDefinitions) &&
+                $modelDefinitions['preventTableListFieldAutoLoad']) {
+             
+                if (!empty($classNames)) {
+                    $classNames .= ',';
+                }
+                $classNames .= "'".$managedModel."'";
+            }
+        }
+        
+        return $classNames;
+    }
+    
+    /**
+     * Returns a string of comma separated class names for which the autoload of
+     * the first table entry should be provided.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2011
+     */
+    public function getEnabledFirstEntryAutoLoadForManagedModels() {
+        $classNames     = '';
+        $ownerClass     = $this->owner->class;
+        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
+        
+        foreach ($managedModels as $managedModel => $modelDefinitions) {
+            if (is_array($modelDefinitions) &&
+                array_key_exists('enableFirstEntryAutoLoad', $modelDefinitions) &&
+                $modelDefinitions['enableFirstEntryAutoLoad']) {
+             
+                if (!empty($classNames)) {
+                    $classNames .= ',';
+                }
+                $classNames .= "'".$managedModel."'";
+            }
+        }
+        
+        return $classNames;
     }
 }

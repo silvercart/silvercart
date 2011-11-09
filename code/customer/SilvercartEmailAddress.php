@@ -24,8 +24,10 @@
 /**
  * Abstract for an email address; For a more comfortable view a name can be added.
  *
+ * @package Silvercart
+ * @subpackage Customer
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
+ * @copyright 2011 pixeltricks GmbH
  * @since 30.06.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
