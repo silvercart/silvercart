@@ -1308,7 +1308,8 @@ class SilvercartOrder extends DataObject {
     protected function onAfterWrite() {
         parent::onAfterWrite();
         if ($this->AmountGrossTotal->hasAmount() === false) {
-            $price = $this->AmountTotal->getAmount();
+            $price = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount();
+            
             $this->AmountGrossTotal->setAmount($price);
             $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
             $this->write();
