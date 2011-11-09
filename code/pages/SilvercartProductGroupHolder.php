@@ -102,6 +102,16 @@ class SilvercartProductGroupHolder extends Page {
 class SilvercartProductGroupHolder_Controller extends Page_Controller {
 
     protected $groupProducts;
+    
+    /**
+     * Contains the viewable children of this page for caching purposes.
+     *
+     * @var mixed null|DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.11.2011
+     */
+    protected $viewableChildren = null;
 
     /**
      * statements to be called on oject instantiation
@@ -140,7 +150,8 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *
      * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
-     * @param boolean  $allChildren ???
+     * @param boolean  $allChildren Indicate wether all children or only the visible ones should be included
+     * @param boolean  $withParent  Indicate wether the parent should be included
      *
      * @return array
      */
@@ -185,31 +196,54 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * @since 04.07.2011
      */
     public function getViewableChildren($numberOfProductGroups = false) {
-        $viewableChildren = array();
-        foreach ($this->Children() as $child) {
-            if ($child->hasProductsOrChildren()) {
-                $viewableChildren[] = $child;
+        if ($this->viewableChildren === null) {
+            $viewableChildren = array();
+            foreach ($this->Children() as $child) {
+                if ($child->hasProductsOrChildren()) {
+                    $viewableChildren[] = $child;
+                }
             }
-        }
-        
-        if ($numberOfProductGroups == false) {
-            if ($this->productGroupsPerPage) {
-                $pageLength = $this->productGroupsPerPage;
+
+            if ($numberOfProductGroups == false) {
+                if ($this->productGroupsPerPage) {
+                    $pageLength = $this->productGroupsPerPage;
+                } else {
+                    $pageLength = SilvercartConfig::ProductGroupsPerPage();
+                }
             } else {
-                $pageLength = SilvercartConfig::ProductGroupsPerPage();
+                $pageLength = $numberOfProductGroups;
             }
-        } else {
-            $pageLength = $numberOfProductGroups;
+
+            $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
+
+            $viewableChildrenSet = new DataObjectSet($viewableChildren);
+            $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
+            $viewableChildrenPage->setPaginationGetVar('groupStart');
+            $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
+            
+            $this->viewableChildren = $viewableChildrenPage;
         }
         
-        $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
+        return $this->viewableChildren;
+    }
+    
+    /**
+     * Indicates wether there are more viewable product groups than the given
+     * number.
+     *
+     * @param int $nrOfViewableChildren The number to check against
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.11.2011
+     */
+    public function HasMoreViewableChildrenThan($nrOfViewableChildren) {
+        if ($this->getViewableChildren()->Count() > $nrOfViewableChildren) {
+            return true;
+        }
         
-        $viewableChildrenSet = new DataObjectSet($viewableChildren);
-        $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
-        $viewableChildrenPage->setPaginationGetVar('groupStart');
-        $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
-        
-        return $viewableChildrenPage;
+        return false;
     }
     
     /**

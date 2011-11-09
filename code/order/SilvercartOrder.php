@@ -806,9 +806,9 @@ class SilvercartOrder extends DataObject {
     /**
      * Set the status of the revocation instructions checkbox field.
      *
-     * @return void
-     *
      * @param boolean $status The status of the field
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.10.2011
@@ -824,9 +824,9 @@ class SilvercartOrder extends DataObject {
     /**
      * Set the status of the terms and conditions checkbox field.
      *
-     * @return void
-     *
      * @param boolean $status The status of the field
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.10.2011
@@ -940,11 +940,15 @@ class SilvercartOrder extends DataObject {
      * @since 24.11.2010
      */
     public function getPriceNet() {
+        /*
         $priceNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
+        */
+        $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax()->getAmount();
+
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
         $priceNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
+        
         return $priceNetObj;
     }
 

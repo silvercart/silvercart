@@ -1,4 +1,4 @@
-<% if ViewableChildren %>
+<% if HasMoreViewableChildrenThan(4) %>
 <div class="silvercart-product-group-page-controls">
     <div class="silvercart-product-group-page-controls_content">
         <div class="subcolumns">

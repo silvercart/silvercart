@@ -58,7 +58,8 @@
     background:                     none;
 }
 .silvercart-product-page .silvercart-product-availability {
-    text-align:                     left;
+    text-align:                     right;
+    margin:                         0px 0px 8px 0px;
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form input.text {
     width:                          2em;
