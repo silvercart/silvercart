@@ -209,8 +209,8 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public static $casting = array(
         'AttributedCountries' => 'Varchar(255)',
-        'AttributedZones' => 'Varchar(255)',
-        'activatedStatus' => 'Varchar(255)'
+        'AttributedZones'     => 'Varchar(255)',
+        'activatedStatus'     => 'Varchar(255)'
     );
     /**
      * Default values for new PaymentMethods
@@ -218,7 +218,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @var array
      */
     public static $defaults = array(
-        'showPaymentLogos' => true,
+        'showPaymentLogos'                 => true,
         'ShowFormFieldsOnPaymentSelection' => false,
     );
     /**
@@ -317,27 +317,27 @@ class SilvercartPaymentMethod extends DataObject {
     public function searchableFields() {
         $searchableFields = array(
             'Name' => array(
-                'title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'title'  => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter' => 'PartialMatchFilter'
             ),
             'isActive' => array(
-                'title' => _t("SilvercartShopAdmin.PAYMENT_ISACTIVE"),
+                'title'  => _t("SilvercartShopAdmin.PAYMENT_ISACTIVE"),
                 'filter' => 'ExactMatchFilter'
             ),
             'minAmountForActivation' => array(
-                'title' => _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION'),
+                'title'  => _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION'),
                 'filter' => 'GreaterThanFilter'
             ),
             'maxAmountForActivation' => array(
-                'title' => _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION'),
+                'title'  => _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION'),
                 'filter' => 'LessThanFilter'
             ),
             'SilvercartZone.ID' => array(
-                'title' => _t("SilvercartCountry.ATTRIBUTED_ZONES"),
+                'title'  => _t("SilvercartCountry.ATTRIBUTED_ZONES"),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartCountries.ID' => array(
-                'title' => _t("SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES"),
+                'title'  => _t("SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES"),
                 'filter' => 'ExactMatchFilter'
             )
         );
@@ -359,13 +359,13 @@ class SilvercartPaymentMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Name' => 'Name',
-                    'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                    'AttributedZones' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                    'AttributedCountries' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
-                    'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-                    'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
-                    'ShowFormFieldsOnPaymentSelection'  => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
+                    'Name'                             => 'Name',
+                    'activatedStatus'                  => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                    'AttributedZones'                  => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                    'AttributedCountries'              => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+                    'minAmountForActivation'           => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+                    'maxAmountForActivation'           => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
+                    'ShowFormFieldsOnPaymentSelection' => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
                 )
         );
     }
@@ -380,10 +380,10 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function summaryFields() {
         return array(
-            'Name' => _t('SilvercartPaymentMethod.NAME'),
-            'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-            'AttributedZones' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-            'AttributedCountries' => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+            'Name'                   => _t('SilvercartPaymentMethod.NAME'),
+            'activatedStatus'        => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+            'AttributedZones'        => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+            'AttributedCountries'    => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
             'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE'),
             'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE'),
         );
@@ -884,8 +884,8 @@ class SilvercartPaymentMethod extends DataObject {
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
                     if (!DataObject::get_one($className, sprintf("`PaymentChannel`='%s'", $channel))) {
                         $paymentMethod = new $className();
-                        $paymentMethod->isActive = 0;
-                        $paymentMethod->Name = $name;
+                        $paymentMethod->isActive       = 0;
+                        $paymentMethod->Name           = $name;
                         $paymentMethod->PaymentChannel = $channel;
                         $paymentMethod->write();
                     }
@@ -927,11 +927,11 @@ class SilvercartPaymentMethod extends DataObject {
          * add ability to set the relation to ShippingMethod with checkboxes
          */
         $shippingMethodsTable = new ManyManyComplexTableField(
-                        $this,
-                        'SilvercartShippingMethods',
-                        'SilvercartShippingMethod',
-                        array('Title' => 'Title'),
-                        'getCMSFields_forPopup'
+            $this,
+            'SilvercartShippingMethods',
+            'SilvercartShippingMethod',
+            array('Title' => 'Title'),
+            'getCMSFields_forPopup'
         );
         $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
@@ -1201,8 +1201,8 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function AttributedZones() {
         $attributedZonesStr = '';
-        $attributedZones = array();
-        $maxLength = 150;
+        $attributedZones    = array();
+        $maxLength          = 150;
 
         foreach ($this->SilvercartZone() as $zone) {
             $attributedZones[] = $zone->Title;
@@ -1249,7 +1249,7 @@ class SilvercartPaymentMethod extends DataObject {
     public function Log($context, $text) {
         $path = Director::baseFolder() . '/silvercart/log/' . $this->ClassName . '.log';
         $text = sprintf(
-                "%s - Method: '%s' - %s\n", date('Y-m-d H:i:s'), $context, $text
+            "%s - Method: '%s' - %s\n", date('Y-m-d H:i:s'), $context, $text
         );
         file_put_contents($path, $text, FILE_APPEND);
     }
@@ -1423,10 +1423,10 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setCustomerDetailsByCheckoutData($checkoutData) {
         $customerDetails = new Member();
-        $customerDetails->Email = isset($checkoutData['Email']) ? $checkoutData['Email'] : '';
+        $customerDetails->Email      = isset($checkoutData['Email']) ? $checkoutData['Email'] : '';
         $customerDetails->Salutation = isset($checkoutData['Invoice_Salutation']) ? $checkoutData['Invoice_Salutation'] : '';
-        $customerDetails->FirstName = isset($checkoutData['Invoice_FirstName']) ? $checkoutData['Invoice_FirstName'] : '';
-        $customerDetails->Surname = isset($checkoutData['Invoice_Surname']) ? $checkoutData['Invoice_Surname'] : '';
+        $customerDetails->FirstName  = isset($checkoutData['Invoice_FirstName']) ? $checkoutData['Invoice_FirstName'] : '';
+        $customerDetails->Surname    = isset($checkoutData['Invoice_Surname']) ? $checkoutData['Invoice_Surname'] : '';
         $this->setCustomerDetails($customerDetails);
     }
 
@@ -1439,16 +1439,16 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setInvoiceAddressByCheckoutData($checkoutData) {
         $invoiceAddress = new SilvercartAddress();
-        $invoiceAddress->Salutation = isset($checkoutData['Invoice_Salutation']) ? $checkoutData['Invoice_Salutation'] : '';
-        $invoiceAddress->FirstName = isset($checkoutData['Invoice_FirstName']) ? $checkoutData['Invoice_FirstName'] : '';
-        $invoiceAddress->Surname = isset($checkoutData['Invoice_Surname']) ? $checkoutData['Invoice_Surname'] : '';
-        $invoiceAddress->Street = isset($checkoutData['Invoice_Street']) ? $checkoutData['Invoice_Street'] : '';
-        $invoiceAddress->StreetNumber = isset($checkoutData['Invoice_StreetNumber']) ? $checkoutData['Invoice_StreetNumber'] : '';
-        $invoiceAddress->Postcode = isset($checkoutData['Invoice_Postcode']) ? $checkoutData['Invoice_Postcode'] : '';
-        $invoiceAddress->City = isset($checkoutData['Invoice_City']) ? $checkoutData['Invoice_City'] : '';
-        $invoiceAddress->CountryID = isset($checkoutData['Invoice_Country']) ? $checkoutData['Invoice_Country'] : '';
+        $invoiceAddress->Salutation    = isset($checkoutData['Invoice_Salutation']) ? $checkoutData['Invoice_Salutation'] : '';
+        $invoiceAddress->FirstName     = isset($checkoutData['Invoice_FirstName']) ? $checkoutData['Invoice_FirstName'] : '';
+        $invoiceAddress->Surname       = isset($checkoutData['Invoice_Surname']) ? $checkoutData['Invoice_Surname'] : '';
+        $invoiceAddress->Street        = isset($checkoutData['Invoice_Street']) ? $checkoutData['Invoice_Street'] : '';
+        $invoiceAddress->StreetNumber  = isset($checkoutData['Invoice_StreetNumber']) ? $checkoutData['Invoice_StreetNumber'] : '';
+        $invoiceAddress->Postcode      = isset($checkoutData['Invoice_Postcode']) ? $checkoutData['Invoice_Postcode'] : '';
+        $invoiceAddress->City          = isset($checkoutData['Invoice_City']) ? $checkoutData['Invoice_City'] : '';
+        $invoiceAddress->CountryID     = isset($checkoutData['Invoice_Country']) ? $checkoutData['Invoice_Country'] : '';
         $invoiceAddress->PhoneAreaCode = isset($checkoutData['Invoice_PhoneAreaCode']) ? $checkoutData['Invoice_PhoneAreaCode'] : '';
-        $invoiceAddress->Phone = isset($checkoutData['Invoice_Phone']) ? $checkoutData['Invoice_Phone'] : '';
+        $invoiceAddress->Phone         = isset($checkoutData['Invoice_Phone']) ? $checkoutData['Invoice_Phone'] : '';
 
         // Insert SilvercartCountry object
         $invoiceAddress->Country = DataObject::get_by_id('SilvercartCountry', $invoiceAddress->CountryID);
@@ -1465,16 +1465,16 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setShippingAddressByCheckoutData($checkoutData) {
         $shippingAddress = new SilvercartAddress();
-        $shippingAddress->Salutation = isset($checkoutData['Shipping_Salutation']) ? $checkoutData['Shipping_Salutation'] : '';
-        $shippingAddress->FirstName = isset($checkoutData['Shipping_FirstName']) ? $checkoutData['Shipping_FirstName'] : '';
-        $shippingAddress->Surname = isset($checkoutData['Shipping_Surname']) ? $checkoutData['Shipping_Surname'] : '';
-        $shippingAddress->Street = isset($checkoutData['Shipping_Street']) ? $checkoutData['Shipping_Street'] : '';
-        $shippingAddress->StreetNumber = isset($checkoutData['Shipping_StreetNumber']) ? $checkoutData['Shipping_StreetNumber'] : '';
-        $shippingAddress->Postcode = isset($checkoutData['Shipping_Postcode']) ? $checkoutData['Shipping_Postcode'] : '';
-        $shippingAddress->City = isset($checkoutData['Shipping_City']) ? $checkoutData['Shipping_City'] : '';
-        $shippingAddress->CountryID = isset($checkoutData['Shipping_Country']) ? $checkoutData['Shipping_Country'] : '';
+        $shippingAddress->Salutation    = isset($checkoutData['Shipping_Salutation']) ? $checkoutData['Shipping_Salutation'] : '';
+        $shippingAddress->FirstName     = isset($checkoutData['Shipping_FirstName']) ? $checkoutData['Shipping_FirstName'] : '';
+        $shippingAddress->Surname       = isset($checkoutData['Shipping_Surname']) ? $checkoutData['Shipping_Surname'] : '';
+        $shippingAddress->Street        = isset($checkoutData['Shipping_Street']) ? $checkoutData['Shipping_Street'] : '';
+        $shippingAddress->StreetNumber  = isset($checkoutData['Shipping_StreetNumber']) ? $checkoutData['Shipping_StreetNumber'] : '';
+        $shippingAddress->Postcode      = isset($checkoutData['Shipping_Postcode']) ? $checkoutData['Shipping_Postcode'] : '';
+        $shippingAddress->City          = isset($checkoutData['Shipping_City']) ? $checkoutData['Shipping_City'] : '';
+        $shippingAddress->CountryID     = isset($checkoutData['Shipping_Country']) ? $checkoutData['Shipping_Country'] : '';
         $shippingAddress->PhoneAreaCode = isset($checkoutData['Shipping_PhoneAreaCode']) ? $checkoutData['Shipping_PhoneAreaCode'] : '';
-        $shippingAddress->Phone = isset($checkoutData['Shipping_Phone']) ? $checkoutData['Shipping_Phone'] : '';
+        $shippingAddress->Phone         = isset($checkoutData['Shipping_Phone']) ? $checkoutData['Shipping_Phone'] : '';
 
         // Insert SilvercartCountry object
         $shippingAddress->Country = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
@@ -1501,7 +1501,7 @@ class SilvercartPaymentMethod extends DataObject {
         $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
         $possible_payment_channels = eval('return ' . $className . '::$possible_payment_channels;');
         if ($has_multiple_payment_channels == false
-                || count($possible_payment_channels) == 0) {
+            || count($possible_payment_channels) == 0) {
             return array();
         }
         foreach ($possible_payment_channels as $key => $value) {
