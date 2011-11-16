@@ -134,20 +134,25 @@ class SilvercartPlugin extends Object {
      * The central method. Every Silvercart object calls this method to invoke
      * a plugin action.
      *
-     * @param mixed  $callingObject The object that performs the call
-     * @param string $methodName    The name of the method to call
-     * @param array  $arguments     The arguments to pass
+     * @param mixed   $callingObject            The object that performs the call
+     * @param string  $methodName               The name of the method to call
+     * @param array   $arguments                The arguments to pass
+     * @param boolean $passArgumentsByReference Indicate wether the arguments should be passed by reference
+     * @param mixed   $returnContainer          The container to gather the output. This can be e.g. a string if you want concatenated strings,
+     *                                          an array or a DataObjectSet
      *
      * @return mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public static function call($callingObject, $methodName, $arguments = array()) {
-        $output = '';
-        
+    public static function call($callingObject, $methodName, $arguments = array(), $passArgumentsByReference = false, $returnContainer = '') {
         if (!is_array($arguments)) {
-            $arguments = array($arguments);
+            if ($passArgumentsByReference) {
+                $arguments = array(&$arguments);
+            } else {
+                $arguments = array($arguments);
+            }
         }
         
         $pluginProviders = self::getPluginProvidersForObject($callingObject);
@@ -155,12 +160,32 @@ class SilvercartPlugin extends Object {
         if ($pluginProviders) {
             foreach ($pluginProviders as $pluginProvider) {
                 if (method_exists($pluginProvider, $methodName)) {
-                    $output .= $pluginProvider->$methodName($arguments);
+                    if ($passArgumentsByReference) {
+                        if (is_array($returnContainer)) {
+                            $returnContainer[] = $pluginProvider->$methodName(&$arguments, $callingObject);
+                        } else if ($returnContainer instanceof DataObjectSet) {
+                            $returnContainer->push($pluginProvider->$methodName(&$arguments, $callingObject));
+                        } else if ($returnContainer == 'boolean') {
+                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                        } else {
+                            $returnContainer .= $pluginProvider->$methodName(&$arguments,$callingObject);
+                        }
+                    } else {
+                        if (is_array($returnContainer)) {
+                            $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
+                        } else if ($returnContainer instanceof DataObjectSet) {
+                            $returnContainer->push($pluginProvider->$methodName($arguments, $callingObject));
+                        } else if ($returnContainer == 'boolean') {
+                            $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
+                        } else {
+                            $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
+                        }
+                    }
                 }
             }
         }
         
-        return $output;
+        return $returnContainer;
     }
     
     /**

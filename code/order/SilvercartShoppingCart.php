@@ -229,16 +229,19 @@ class SilvercartShoppingCart extends DataObject {
      * @since 21.12.2010
      */
     public static function addProduct($formData) {
-        $error = true;
+        $error  = true;
+        $member = Member::currentUser();
         
-        if ($formData['productID'] && $formData['productQuantity']) {
-            
-            $member = Member::currentUser();
-            if (!$member) {
-                $member = SilvercartCustomer::createAnonymousCustomer();
-            }
-
-            if ($member) {
+        if (!$member) {
+            $member = SilvercartCustomer::createAnonymousCustomer();
+        }
+        
+        $overwriteAddProduct = SilvercartPlugin::call($member->getCart(), 'overwriteAddProduct', array($formData), false, 'boolean');
+        
+        if ($overwriteAddProduct) {
+            $error = false;
+        } else {
+            if ($formData['productID'] && $formData['productQuantity']) {
                 $cart = $member->getCart();
                 if ($cart) {
                     $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
@@ -252,6 +255,7 @@ class SilvercartShoppingCart extends DataObject {
                 }
             }
         }
+        
         return !$error;
     }
 

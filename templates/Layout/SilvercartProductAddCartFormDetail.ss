@@ -3,6 +3,8 @@
 
     <fieldset>
         <legend></legend>
+        $AddCartFormDetailAdditionalFields
+        
         $CustomHtmlFormFieldByName(productQuantity,SilvercartProductAddCartFormField)
     </fieldset>
 </form>

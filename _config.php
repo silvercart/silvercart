@@ -64,8 +64,12 @@ SortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
-Object::add_extension('SilvercartOrder', 'SilvercartPluginObjectExtension');
-SilvercartPlugin::registerPluginProvider('SilvercartOrder', 'SilvercartOrderPluginProvider');
+Object::add_extension('SilvercartOrder',                    'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductAddCartFormDetail', 'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartShoppingCart',             'SilvercartPluginObjectExtension');
+SilvercartPlugin::registerPluginProvider('SilvercartOrder',                     'SilvercartOrderPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormDetail',  'SilvercartProductAddCartFormDetailPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',              'SilvercartShoppingCartPluginProvider');
 
 // ----------------------------------------------------------------------------
 // Register TaskNotificationChannels

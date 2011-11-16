@@ -22,69 +22,55 @@
  */
 
 /**
- * Plugin-Provider for the order object.
+ * Plugin-Provider for the SilvercartShoppingCart object.
  *
  * @package Silvercart
  * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 22.09.2011
+ * @since 16.11.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartOrderPluginProvider extends SilvercartPlugin {
-
+class SilvercartShoppingCartPluginProvider extends SilvercartPlugin {
+    
     /**
      * Initialisation for plugin providers.
      *
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @since 16.11.2011
      */
     public function init(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginInit', $arguments);
+        $result = $this->extend('pluginInit', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }
     
     /**
-     * This method gets called after the order object has been created from the
-     * shoppingcart object and before the order positions get created.
+     * This method will replace SilvercartShoppingCart's method "addProduct".
+     * In order to not execute the original "addProduct" method you have to
+     * return boolean true in your plugin method.
      *
      * @param array &$arguments     The arguments to pass
-     *                              $arguments[0] = SilvercartOrder
-     *                              $arguments[1] = SilvercartShoppingCart
      * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @since 16.11.2011
      */
-    public function createFromShoppingCart(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginCreateFromShoppingCart', $arguments);
+    public function overwriteAddProduct(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOverwriteAddProduct', $arguments, $callingObject);
+
+        if (is_array($result)) {
+            $result = $result[0];
+        }
         
-        return $this->returnExtensionResultAsString($result);
+        return $result;
     }
     
-    /**
-     * Use this method to return additional information on the order in the
-     * section "My Account" for the customer.
-     *
-     * @param array &$arguments     The arguments to pass
-     * @param mixed &$callingObject The calling object
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
-     */
-    public function OrderDetailInformation(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOrderDetailInformation', $arguments);
-        
-        return $this->returnExtensionResultAsString($result);
-    }
 }
