@@ -22,36 +22,51 @@
  */
 
 /**
- * Plugin-Provider for the SilvercartProductAddCartFormDetail object.
+ * Plugin-Provider for the the SilvercartProduct object.
  *
  * @package Silvercart
  * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 16.11.2011
+ * @since 17.11.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductAddCartFormDetailPluginProvider extends SilvercartProductAddCartFormPluginProvider {
+class SilvercartProductPluginProvider extends SilvercartPlugin {
 
     /**
-     * Use this method to insert additional fields into the
-     * SilvercartProductAddCartFormDetail form.
+     * Initialisation for plugin providers.
      *
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return string
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.11.2011
+     * @since 22.09.2011
      */
-    public function AddCartFormDetailAdditionalFields(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginAddCartFormDetailAdditionalFields', $arguments, $callingObject);
+    public function init(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginInit', $arguments);
         
-        if (is_array($result)) {
-            return $result[0];
-        } else {
-            return $result;
-        }
+        return $this->returnExtensionResultAsString($result);
+    }
+    
+    /**
+     * This method gets called after a product has been added to the
+     * SilvercartShoppingCart. The arguments contain the
+     * SilvercartShoppingCartPosition that was created.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartShoppingCartPosition
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.09.2011
+     */
+    public function onAfterAddToCart(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOnAfterAddToCart', $arguments);
+        
+        return $result;
     }
 }

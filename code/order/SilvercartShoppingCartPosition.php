@@ -297,4 +297,60 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
         return false;
     }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterDelete() {
+        parent::onAfterDelete();
+        
+        $this->extend('updateOnAfterDelete');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        $this->extend('updateOnBeforeDelete');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        
+        $this->extend('updateOnAfterWrite');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        
+        $this->extend('updateOnBeforeWrite');
+    }
 }

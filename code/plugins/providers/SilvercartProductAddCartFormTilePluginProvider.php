@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductAddCartFormDetailPluginProvider extends SilvercartProductAddCartFormPluginProvider {
+class SilvercartProductAddCartFormTilePluginProvider extends SilvercartProductAddCartFormPluginProvider {
 
     /**
      * Use this method to insert additional fields into the
@@ -45,8 +45,8 @@ class SilvercartProductAddCartFormDetailPluginProvider extends SilvercartProduct
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.11.2011
      */
-    public function AddCartFormDetailAdditionalFields(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginAddCartFormDetailAdditionalFields', $arguments, $callingObject);
+    public function AddCartFormTileAdditionalFields(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginAddCartFormTileAdditionalFields', $arguments, $callingObject);
         
         if (is_array($result)) {
             return $result[0];

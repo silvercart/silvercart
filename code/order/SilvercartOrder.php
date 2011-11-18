@@ -555,6 +555,13 @@ class SilvercartOrder extends DataObject {
                     if (SilvercartConfig::EnableStockManagement()) {
                         $product->decrementStockQuantity($shoppingCartPosition->Quantity);
                     }
+                    
+                    $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
+                    
+                    if (!empty($result)) {
+                        $orderPosition = $result[0];
+                    }
+                    
                     $orderPosition->write();
                     unset($orderPosition);
                 }

@@ -286,13 +286,14 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                     foreach ($productPage as $elementHolder) {
                         foreach ($elementHolder->Elements as $element) {
                             $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+                            $productAddCartForm = new $productAddCartFormName(
+                                $controller,
+                                array('productID' => $element->ID)
+                            );
 
                             $controller->registerCustomHtmlForm(
                                 $formIdentifier,
-                                new $productAddCartFormName(
-                                    $controller,
-                                    array('productID' => $element->ID)
-                                )
+                                $productAddCartForm
                             );
 
                             $element->productAddCartForm = $controller->InsertCustomHtmlForm(
@@ -301,20 +302,22 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                                     $element
                                 )
                             );
+                            $element->productAddCartFormObj = $productAddCartForm;
                             $elementIdx++;
                         }
                     }
                 }
             } else {
                 foreach ($this->elements as $element) {
-                    $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+                    $formIdentifier     = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+                    $productAddCartForm = new $productAddCartFormName(
+                        $controller,
+                        array('productID' => $element->ID)
+                    );
 
                     $controller->registerCustomHtmlForm(
                         $formIdentifier,
-                        new $productAddCartFormName(
-                            $controller,
-                            array('productID' => $element->ID)
-                        )
+                        $productAddCartForm
                     );
 
                     $element->productAddCartForm = $controller->InsertCustomHtmlForm(
@@ -323,6 +326,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                             $element
                         )
                     );
+                    $element->productAddCartFormObj = $productAddCartForm;
                     $elementIdx++;
                 }
             }

@@ -1079,6 +1079,7 @@ class SilvercartProduct extends DataObject {
      * define the searchable fields and search methods for the frontend
      *
      * @return SearchContext ???
+     * 
      * @author Roland Lehmann
      * @since 23.10.2010
      */
@@ -1128,6 +1129,7 @@ class SilvercartProduct extends DataObject {
      * @param boolean $masterProduct Should only master products be returned?
      *
      * @return array DataObjectSet of random products
+     * 
      * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
      * @since 23.10.2010
@@ -1144,6 +1146,7 @@ class SilvercartProduct extends DataObject {
      * get all required attributes as an array.
      *
      * @return array the attributes required to display an product in the frontend
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -1156,8 +1159,9 @@ class SilvercartProduct extends DataObject {
      *
      * @param string $concatinatedAttributesString a string with all attribute names, seperated by comma, with or without whitespaces
      *
-     * @since 23.10.2010
      * @return void
+     * 
+     * @since 23.10.2010
      * @author Roland Lehmann
      */
     public static function setRequiredAttributes($concatinatedAttributesString) {
@@ -1193,10 +1197,10 @@ class SilvercartProduct extends DataObject {
      * @param int $cartID   ID of the users shopping cart
      * @param int $quantity Amount of products to be added
      *
+     * @return mixed SilvercartShoppingCartPosition|boolean false
+     * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 22.11.2010
-     *
-     * @return bool
      */
     public function addToCart($cartID, $quantity = 1) {
         $addToCartAllowed = true;
@@ -1239,7 +1243,10 @@ class SilvercartProduct extends DataObject {
             }
         }
         $shoppingCartPosition->write();
-        return true;
+        
+        SilvercartPlugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
+        
+        return $shoppingCartPosition;
     }
 
     /**
@@ -1247,6 +1254,7 @@ class SilvercartProduct extends DataObject {
      * An product has a unique URL
      *
      * @return string URL of $this
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -1380,6 +1388,20 @@ class SilvercartProduct extends DataObject {
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
     }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        $this->extend('updateOnBeforeDelete');
+    }
 
     /**
      * We check if the SortOrder field has changed. If the change originated
@@ -1422,6 +1444,20 @@ class SilvercartProduct extends DataObject {
                 }
             }
         }
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterDelete() {
+        parent::onAfterDelete();
+        
+        $this->extend('updateOnAfterDelete');
     }
 
     /**

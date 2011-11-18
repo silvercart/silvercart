@@ -1,6 +1,6 @@
 <% if Elements %>
     <% control Elements %>
-        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast">
+        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast $productAddCartFormObj.FormName">
             <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
                     <h3>

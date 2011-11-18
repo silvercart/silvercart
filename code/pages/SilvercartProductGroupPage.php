@@ -688,13 +688,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $productAddCartForm = $this->getCartFormName();
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
-                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
+                    $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
+                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
                             $product
                         )
                     );
+                    $product->productAddCartFormObj = $productAddCartForm;
                     $productIdx++;
                 }
             }

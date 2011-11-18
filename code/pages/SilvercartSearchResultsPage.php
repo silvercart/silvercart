@@ -324,16 +324,18 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
         
         $productIdx                 = 0;
         if ($searchResultProducts) {
-            $productAddCartForm = $this->getCartFormName();
+            $productAddCartFormName = $this->getCartFormName();
             foreach ($searchResultProducts as $product) {
                 $backlink = $this->Link()."?start=".  $this->SQL_start;
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
+                $productAddCartForm = new $productAddCartFormName($this, array('productID' => $product->ID, 'backLink' => $backlink));
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
                 $product->productAddCartForm = $this->InsertCustomHtmlForm(
                     'ProductAddCartForm' . $productIdx,
                     array(
                         $product
                     )
                 );
+                $product->productAddCartFormObj = $productAddCartForm;
                 $productIdx++;
             }
         }

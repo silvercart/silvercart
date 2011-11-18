@@ -27,13 +27,7 @@
                     </tfoot>
                     <tbody>
                         <% control SilvercartShoppingCartPositions %>
-                            <tr>
-                                <td>
-                                    <a href="$SilvercartProduct.Link">$SilvercartProduct.Title</a>
-                                </td>
-                                <td class="right">$Quantity</td>
-                                <td class="right">$Price.Nice</td>
-                            </tr>
+                            <% include SilvercartShoppingcartWidgetPosition %>
                         <% end_control %>
                     </tbody>
                 <% end_control %>

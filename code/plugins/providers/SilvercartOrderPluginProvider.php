@@ -45,7 +45,7 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * @since 22.09.2011
      */
     public function init(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginInit', $arguments);
+        $result = $this->extend('pluginInit', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }
@@ -65,9 +65,29 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * @since 22.09.2011
      */
     public function createFromShoppingCart(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginCreateFromShoppingCart', $arguments);
+        $result = $this->extend('pluginCreateFromShoppingCart', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
+    }
+    
+    /**
+     * This method gets called while the SilvercartShoppingCartPositions are
+     * converted to SilvercartOrderPositions.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartShoppingCartPosition
+     *                              $arguments[1] = SilvercartOrderPosition
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function convertShoppingCartPositionToOrderPosition(&$arguments = array(), &$callingObject) {
+        $this->extend('pluginConvertShoppingCartPositionToOrderPosition', $arguments[0], $arguments[1], $callingObject);
+        
+        return $arguments[1];
     }
     
     /**
@@ -83,7 +103,7 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * @since 22.09.2011
      */
     public function OrderDetailInformation(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOrderDetailInformation', $arguments);
+        $result = $this->extend('pluginOrderDetailInformation', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }

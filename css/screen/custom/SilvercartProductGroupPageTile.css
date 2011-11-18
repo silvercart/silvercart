@@ -6,6 +6,7 @@
     color:                          #333;
 }
 .silvercart-product-group-page-box-tile .silvercart-product-group-page-box-tile_frame {
+    position:                       relative;
     padding:                        4px;
     
     border:                         1px #e1e1e1 solid;
