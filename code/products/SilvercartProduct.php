@@ -1007,7 +1007,7 @@ class SilvercartProduct extends DataObject {
      * @since 08.11.2011
      */
     public function getHtmlEncodedLongDescription() {
-        $output = htmlspecialchars($this->LongDescription);
+        $output = htmlentities($this->LongDescription, ENT_NOQUOTES, 'UTF-8', false);
         
         $output = str_replace(
             array(

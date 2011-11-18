@@ -47,3 +47,6 @@
 .silvercart-product-group-page-selectors form.yform div.type-button {
     padding:                        16px 0px 0px 0px;
 }
+.silvercart-product-group-page-selectors form.yform label {
+    padding:                        5px 0px 0px 0px;
+}

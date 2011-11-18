@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <% if HasMoreProductsThan(5) %>
+            <% if HasMoreProductsThan(4) %>
                 <div class="silvercart-product-group-page-selectors">
                     <div class="silvercart-product-group-page-selectors_content">
                         $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
