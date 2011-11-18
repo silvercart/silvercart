@@ -999,6 +999,32 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns an HTML encoded long description, preserving HTML tags.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.11.2011
+     */
+    public function getHtmlEncodedLongDescription() {
+        $output = htmlspecialchars($this->LongDescription);
+        
+        $output = str_replace(
+            array(
+                '&lt;',
+                '&gt;'
+            ),
+            array(
+                '<',
+                '>'
+            ),
+            $output
+        );
+
+        return $output;
+    }
+
+    /**
      * Getter for product price
      * May be decorated by the module silvercart_graduatedprices
      *

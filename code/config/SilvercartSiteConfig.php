@@ -62,9 +62,10 @@ class SilvercartSiteConfig extends DataObjectDecorator {
             $dashboardTestDataField = new LiteralField(
                 'silvercartDashboardTestDataField',
                 sprintf(
-                    "<br /><h3>%s</h3><p>%s</p><p><a href=\"/admin/silvercart-configuration/#Root_General_set_TestData\">%s</a></p>",
+                    "<br /><h3>%s</h3><p>%s</p><p><a href=\"%sadmin/silvercart-configuration/#Root_General_set_TestData\">%s</a></p>",
                     _t('SilvercartSiteConfig.TESTDATA_HEADLINE'),
                     _t('SilvercartSiteConfig.TESTDATA_TEXT'),
+                    Director::absoluteBaseURL(),
                     _t('SilvercartSiteConfig.TESTDATA_LINKTEXT')
                 )
             );

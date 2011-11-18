@@ -174,17 +174,15 @@
                 <div class="clearfix"></div>
                 <div id="silvercart-footer">
                     <div id="silvercart-footer_content">
-                        <% cached 'SilvercartMetaNavigation', Aggregate(PageByIdentifierCode(SilvercartMetaNavigationHolder).Children.Max(LastEdited))  %>
-                            <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
-                                <% control Children %>
-                                    <% if Last %>
-                                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
-                                    <% else %>
-                                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
-                                    <% end_if %>
-                                <% end_control %>
+                        <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
+                            <% control Children %>
+                                <% if Last %>
+                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
+                                <% else %>
+                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
+                                <% end_if %>
                             <% end_control %>
-                        <% end_cached %>
+                        <% end_control %>
                         <br/>
                         <br/>
                         <a href="http://www.silvercart.org" target="_blank">SilverCart. eCommerce software. Open-source. You'll love it.</a>

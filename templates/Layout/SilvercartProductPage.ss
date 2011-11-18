@@ -106,7 +106,7 @@
                         </ul>
                         <div class="tab_container">
                             <div id="tab1" class="tab_content">
-                                $LongDescription.RAW
+                                $HtmlEncodedLongDescription
                             </div>
                             <% if SilvercartFiles %>
                                 <div id="tab2" class="tab_content">
