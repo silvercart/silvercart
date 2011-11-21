@@ -19,7 +19,7 @@
  *
  * @package Silvercart
  * @subpackage Config
- * @ignore
+ * @ignore 
  */
 
 // requirenments for PHP 5.3
