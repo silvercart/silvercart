@@ -22,27 +22,27 @@
  */
 
 /**
- * Plugin-Provider for the order object.
+ * Plugin-Provider for the contact message object.
  *
  * @package Silvercart
  * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 22.09.2011
+ * @since 21.11.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartOrderPluginProvider extends SilvercartPlugin {
-
+class SilvercartContactMessagePluginProvider extends SilvercartPlugin {
+    
     /**
      * Initialisation for plugin providers.
      *
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return sring
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @since 21.11.2011
      */
     public function init(&$arguments = array(), &$callingObject) {
         $result = $this->extend('pluginInit', $arguments, $callingObject);
@@ -51,60 +51,59 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
     }
     
     /**
-     * This method gets called after the order object has been created from the
-     * shoppingcart object and before the order positions get created.
+     * This method gets called after the field labels have been defined by the
+     * SilvercartContactMessage object, so you can alter them to your needs.
      *
      * @param array &$arguments     The arguments to pass
-     *                              $arguments[0] = SilvercartOrder
-     *                              $arguments[1] = SilvercartShoppingCart
+     *                              $arguments[0] = associative array of fields
      * @param mixed &$callingObject The calling object
      * 
-     * @return sring
+     * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @since 21.11.2011
      */
-    public function createFromShoppingCart(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginCreateFromShoppingCart', $arguments, $callingObject);
+    public function fieldLabels(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginFieldLabels', $arguments, $callingObject);
         
-        return $this->returnExtensionResultAsString($result);
+        return $result;
     }
     
     /**
-     * This method gets called while the SilvercartShoppingCartPositions are
-     * converted to SilvercartOrderPositions.
+     * This method gets called after the summary fields have been defined by the
+     * SilvercartContactMessage object, so you can alter them to your needs.
      *
      * @param array &$arguments     The arguments to pass
-     *                              $arguments[0] = SilvercartShoppingCartPosition
-     *                              $arguments[1] = SilvercartOrderPosition
+     *                              $arguments[0] = associative array of fields
      * @param mixed &$callingObject The calling object
      * 
-     * @return mixed
+     * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
+     * @since 21.11.2011
      */
-    public function convertShoppingCartPositionToOrderPosition(&$arguments = array(), &$callingObject) {
-        $this->extend('pluginConvertShoppingCartPositionToOrderPosition', $arguments[0], $arguments[1], $callingObject);
+    public function summaryFields(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginSummaryFields', $arguments, $callingObject);
         
-        return $arguments[1];
+        return $result;
     }
     
     /**
-     * Use this method to return additional information on the order in the
-     * section "My Account" for the customer.
+     * This method can replace the original send method of the
+     * SilvercartContactMessage object; just return true for that.
      *
      * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = associative array of fields
      * @param mixed &$callingObject The calling object
      * 
-     * @return string
+     * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @since 21.11.2011
      */
-    public function OrderDetailInformation(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOrderDetailInformation', $arguments, $callingObject);
+    public function send(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginSend', $callingObject);
         
-        return $this->returnExtensionResultAsString($result);
+        return $result;
     }
 }

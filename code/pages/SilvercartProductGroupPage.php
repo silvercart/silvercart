@@ -116,6 +116,17 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     protected $manufacturers = null;
+    
+    /**
+     * Contains the number of all active SilvercartProducts for this page for
+     * caching purposes.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.11.2011
+     */
+    protected $activeSilvercartProducts = null;
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -383,8 +394,9 @@ class SilvercartProductGroupPage extends Page {
      * @since 01.02.2011
      */
     public function hasProductsOrChildren() {
-        if ($this->ActiveSilvercartProducts()->Count() > 0
+        if ($this->ActiveSilvercartProducts()->Count > 0
          || count($this->Children()) > 0) {
+            
             return true;
         }
         return false;
@@ -401,7 +413,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 14.02.2011
      */
     public function hasProductCount($count) {
-        if ($this->ActiveSilvercartProducts()->Count() == $count) {
+        if ($this->ActiveSilvercartProducts()->Count == $count) {
             return true;
         }
         return false;
@@ -417,15 +429,33 @@ class SilvercartProductGroupPage extends Page {
      * @since 25.02.2011
      */
     public function ActiveSilvercartProducts() {
-        $activeProducts = array();
+        if (is_null($this->activeSilvercartProducts)) {
+            $activeProducts = array();
+            $records = DB::query(
+                sprintf(
+                    "SELECT
+                        ID
+                     FROM
+                        SilvercartProduct
+                     WHERE
+                        isActive = 1 AND SilvercartProductGroupID = %s",
+                    $this->ID
+                )
+            );
 
-        foreach ($this->SilvercartProducts() as $product) {
-            if ($product->isActive) {
-                $activeProducts[] = $product;
+            foreach ($records as $record) {
+                $activeProducts[] = $record['ID'];
             }
+            
+            $this->activeSilvercartProducts = $activeProducts;
         }
-
-        return new DataObjectSet($activeProducts);
+        
+        return new DataObject(
+            array(
+                'ID'    => 0,
+                'Count' => count($this->activeSilvercartProducts)
+            )
+        );
     }
 
     /**
@@ -1194,12 +1224,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function getViewableChildren($numberOfProductGroups = false) {
         if ($this->viewableChildren === null) {
             $viewableChildren = array();
+            
             foreach ($this->Children() as $child) {
                 if ($child->hasProductsOrChildren()) {
                     $viewableChildren[] = $child;
                 }
             }
-
+            
             if ($numberOfProductGroups == false) {
                 if ($this->productGroupsPerPage) {
                     $pageLength = $this->productGroupsPerPage;

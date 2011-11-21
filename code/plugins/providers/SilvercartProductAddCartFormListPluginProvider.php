@@ -49,7 +49,11 @@ class SilvercartProductAddCartFormListPluginProvider extends SilvercartProductAd
         $result = $this->extend('pluginAddCartFormListAdditionalFields', $arguments, $callingObject);
         
         if (is_array($result)) {
-            return $result[0];
+            if (count($result) > 0) {
+                return $result[0];
+            } else {
+                return false;
+            }
         } else {
             return $result;
         }

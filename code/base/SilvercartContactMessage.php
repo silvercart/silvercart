@@ -22,8 +22,7 @@
  */
 
 /**
- * abstract for a single position of an order
- * they are not changeable after creation and serve as a history
+ * A contact message object. There's a storeadmin view for this object, too.
  *
  * @package Silvercart
  * @subpackage Base
@@ -34,18 +33,45 @@
  */
 class SilvercartContactMessage extends DataObject {
 
+    /**
+     * Attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.11.2011
+     */
     public static $db = array(
-        'Salutation' => 'VarChar(16)',
-        'FirstName' => 'VarChar(255)',
-        'Surname' => 'VarChar(128)',
-        'Email' => 'VarChar(255)',
-        'Message' => 'Text',
+        'Salutation'    => 'VarChar(16)',
+        'FirstName'     => 'VarChar(255)',
+        'Surname'       => 'VarChar(128)',
+        'Email'         => 'VarChar(255)',
+        'Message'       => 'Text',
     );
 
+    /**
+     * Casting.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.11.2011
+     */
     public static $casting = array(
         'CreatedNice' => 'VarChar',
     );
 
+    /**
+     * Default SQL sort statement.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 21.11.2011
+     */
     public static $default_sort = 'Created DESC';
     
     /**
@@ -93,17 +119,21 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.04.2011
      */
     public function fieldLabels($includerelations = true) {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'CreatedNice'   => _t('Silvercart.DATE'),
-                    'Salutation'    => _t('SilvercartAddress.SALUTATION'),
-                    'FirstName'     => _t('Member.FIRSTNAME'),
-                    'Surname'       => _t('Member.SURNAME'),
-                    'Email'         => _t('Member.EMAIL'),
-                    'Message'       => _t('SilvercartContactMessage.MESSAGE')
-                )
+        $fields = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'CreatedNice'   => _t('Silvercart.DATE'),
+                'Salutation'    => _t('SilvercartAddress.SALUTATION'),
+                'FirstName'     => _t('Member.FIRSTNAME'),
+                'Surname'       => _t('Member.SURNAME'),
+                'Email'         => _t('Member.EMAIL'),
+                'Message'       => _t('SilvercartContactMessage.MESSAGE')
+            )
         );
+        
+        SilvercartPlugin::call($this, 'fieldLabels', array($fields), true);
+        
+        return $fields;
     }
 
     /**
@@ -115,13 +145,17 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.04.2011
      */
     public function summaryFields() {
-        return array(
+        $fields = array(
             'CreatedNice'   => _t('Silvercart.DATE'),
             'Salutation'    => _t('SilvercartAddress.SALUTATION'),
             'FirstName'     => _t('Member.FIRSTNAME'),
             'Surname'       => _t('Member.SURNAME'),
             'Email'         => _t('Member.EMAIL'),
         );
+        
+        SilvercartPlugin::call($this, 'summaryFields', array($fields), true);
+            
+        return $fields;
     }
 
     /**
@@ -156,7 +190,8 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.04.2011
      */
     public function send() {
-        SilvercartShopEmail::send(
+        if (!SilvercartPlugin::call($this, 'send')) {
+            SilvercartShopEmail::send(
                 'ContactMessage',
                 Email::getAdminEmail(),
                 array(
@@ -165,6 +200,7 @@ class SilvercartContactMessage extends DataObject {
                     'Email'     => $this->Email,
                     'Message'   => str_replace('\r\n', '<br/>', nl2br($this->Message)),
                 )
-        );
+            );
+        }
     }
 }
