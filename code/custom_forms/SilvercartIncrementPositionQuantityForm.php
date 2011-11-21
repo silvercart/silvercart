@@ -66,10 +66,8 @@ class SilvercartIncrementPositionQuantityForm extends CustomHtmlForm {
             $member = Member::currentUser();
             $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
             if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
-                if ($position->isQuantityIncrementableBy()) {
-                    $position->Quantity++;
-                }
-                $position->write();
+                $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1);
+                
                 Director::redirect($this->controller->Link());
             }
         }

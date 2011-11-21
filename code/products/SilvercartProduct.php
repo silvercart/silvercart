@@ -1232,12 +1232,24 @@ class SilvercartProduct extends DataObject {
         }
         
         if ($shoppingCartPosition->isQuantityIncrementableBy($quantity)) {
-            $shoppingCartPosition->Quantity += $quantity;
+            if ($shoppingCartPosition->Quantity + $quantity > SilvercartConfig::addToCartMaxQuantity()) {
+                $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
+                $shoppingCartPosition->write(); //we have to write because we need the ID
+                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");  
+            } else {
+                $shoppingCartPosition->Quantity += $quantity;
+            }
         } else {
             if ($this->StockQuantity > 0) {
-                $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
-                $shoppingCartPosition->write(); //we have to write because we need the ID
-                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");  
+                if ($shoppingCartPosition->Quantity + $this->StockQuantity > SilvercartConfig::addToCartMaxQuantity()) {
+                    $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
+                    $shoppingCartPosition->write(); //we have to write because we need the ID
+                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");  
+                } else {
+                    $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
+                    $shoppingCartPosition->write(); //we have to write because we need the ID
+                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");  
+                }
             } else {
                 return false;
             }

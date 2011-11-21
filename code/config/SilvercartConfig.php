@@ -133,6 +133,7 @@ class SilvercartConfig extends DataObject {
         'isStockManagementOverbookable'     => 'Boolean(0)',
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
+        'addToCartMaxQuantity'              => 'Int(999)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -170,10 +171,11 @@ class SilvercartConfig extends DataObject {
         'PricetypeAdmins'               => 'net',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
-        'productsPerPage'               => 15,
+        'productsPerPage'               => 20,
         'productGroupsPerPage'          => 6,
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
+        'addToCartMaxQuantity'          => 999
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -199,6 +201,7 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
+    public static $addToCartMaxQuantity             = null;
     public static $apacheSolrPort                   = null;
     public static $apacheSolrUrl                    = null;
     public static $defaultCurrency                  = null;
@@ -458,6 +461,7 @@ class SilvercartConfig extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels['addToCartMaxQuantity']                = _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart');
         $fieldLabels['DefaultCurrency']                     = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender']                         = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient']                = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
@@ -1104,6 +1108,22 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupHolderView($groupHolderView) {
         SilvercartGroupViewHandler::removeGroupHolderView($groupHolderView);
+    }
+    
+    /**
+     * Returns the maximum number of products that can be added to cart for one
+     * product.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.11.2011
+     */
+    public static function addToCartMaxQuantity() {
+        if (is_null(self::$addToCartMaxQuantity)) {
+            self::$addToCartMaxQuantity = self::getConfig()->addToCartMaxQuantity;
+        }
+        return self::$addToCartMaxQuantity;
     }
     
     /**

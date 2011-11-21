@@ -40,7 +40,7 @@ class SilvercartProductAddCartFormTilePluginProvider extends SilvercartProductAd
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return string
+     * @return mixed
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.11.2011
