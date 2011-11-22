@@ -1023,6 +1023,32 @@ class SilvercartProduct extends DataObject {
 
         return $output;
     }
+    
+    /**
+     * Returns an HTML encoded short description, preserving HTML tags.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.2011
+     */
+    public function getHtmlEncodedShortDescription() {
+        $output = htmlentities($this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false);
+        
+        $output = str_replace(
+            array(
+                '&lt;',
+                '&gt;'
+            ),
+            array(
+                '<',
+                '>'
+            ),
+            $output
+        );
+
+        return $output;
+    }
 
     /**
      * Getter for product price
@@ -1716,104 +1742,55 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 16.08.2011
      */
     public function import($data, $form, $request) {
-        $pidFile    = Director::baseFolder();
-        $uploadFile = $_FILES['_CsvFile']['tmp_name'];
-        
-        if (!file_exists($uploadFile)) {
+        $modelName = $data['ClassName'];
+
+        if (!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) {
+            return false;
+        }
+        $importers = $this->parentController->getModelImporters();
+        $importerClass = $importers[$modelName];
+
+        $loader = new $importerClass($data['ClassName']);
+
+        // File wasn't properly uploaded, show a reminder to the user
+        if (empty($_FILES['_CsvFile']['tmp_name']) ||
+            file_get_contents($_FILES['_CsvFile']['tmp_name']) == '') {
+            
             $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
             Director::redirectBack();
             return false;
         }
-        
-        system(
-            sprintf(
-                'sake /SilvercartProductImport -i="%s"',
-                $uploadFile
-            ),
-            $returnValue
-        );
 
-        $form->sessionMessage($returnValue, 'good');
-
-        /*
-        return new SS_HTTPResponse(
-            $form->forTemplate(), 
-            200, 
-            sprintf(
-                _t('ModelAdmin.FOUNDRESULTS',"Your search found %s matching items"), 
-                $numResults
-            )
-        );
-        */
-
-        Director::redirectBack();
-        
-        
-        /*
-		$modelName = $data['ClassName'];
-
-		if(!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) return false;
-		$importers = $this->parentController->getModelImporters();
-		$importerClass = $importers[$modelName];
-
-		$loader = new $importerClass($data['ClassName']);
-
-		// File wasn't properly uploaded, show a reminder to the user
-		if(
-			empty($_FILES['_CsvFile']['tmp_name']) ||
-			file_get_contents($_FILES['_CsvFile']['tmp_name']) == ''
-		) {
-			$form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
-			Director::redirectBack();
-			return false;
-		}
-
-		if (!empty($data['EmptyBeforeImport']) && $data['EmptyBeforeImport']) { //clear database before import
-			$loader->deleteExistingRecords = true;
-		}
-        
-        $processingResult        = '1';
-        $cStr                    = $this->doCurlLogin();
-        $csvFileProcessorLoopIdx = 0;
-        
-        // Segmented processing of each file
-        while ($processingResult == '1') {
-            $url                     = Director::absoluteURL(
-                Controller::curr()->Link.
-                'admin/silvercart-administration/SilvercartProduct/customFormAction'
-            );
-            $offset = $csvFileProcessorLoopIdx;
-            
-            // Trigger processor via CURL
-            $ch = curl_init();
-            curl_setopt($ch,CURLOPT_COOKIE, $cStr);
-            curl_setopt($ch, CURLOPT_VERBOSE, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-                    'action'    => 'importCsvSlice',
-                    'offset'    => $offset,
-                    'csvFile'   => urlencode($_FILES['_CsvFile']['tmp_name'])
-                )
-            );
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-
-            $processingResult = curl_exec($ch);
-            $processingResult = ''.$processingResult;
-            $this->Log('Processing Result is '.$processingResult);
-
-            curl_close($ch);
-            unset($ch);
-            unset($url);
-
-            $csvFileProcessorLoopIdx++;
+        if (!empty($data['EmptyBeforeImport']) && $data['EmptyBeforeImport']) { //clear database before import
+            $loader->deleteExistingRecords = true;
         }
-        unlink($_FILES['_CsvFile']['tmp_name']);
-        
+        $results = $loader->load($_FILES['_CsvFile']['tmp_name']);
+
+        $message = '';
+        if ($results->CreatedCount()) {
+                $message .= sprintf(
+                _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
+                $results->CreatedCount()
+            );
+        }
+        if ($results->UpdatedCount()) {
+            $message .= sprintf(
+                _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
+                $results->UpdatedCount()
+            );
+        }
+        if ($results->DeletedCount()) {
+            $message .= sprintf(
+                _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
+                $results->DeletedCount()
+            );
+        }
+        if (!$results->CreatedCount() && !$results->UpdatedCount()) {
+            $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+        }
+
+        $form->sessionMessage($message, 'good');
         Director::redirectBack();
-        */
     }
     
     /**

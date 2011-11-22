@@ -71,6 +71,7 @@ Object::add_extension('SilvercartProductAddCartFormList',   'SilvercartPluginObj
 Object::add_extension('SilvercartProductAddCartFormTile',   'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartShoppingCart',             'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartContactMessage',           'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductCsvBulkLoader',     'SilvercartPluginObjectExtension');
 
 SilvercartPlugin::registerPluginProvider('SilvercartOrder',                     'SilvercartOrderPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartProduct',                   'SilvercartProductPluginProvider');
@@ -80,6 +81,7 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormTile',    
 SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartForm',        'SilvercartProductAddCartFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',              'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',            'SilvercartContactMessagePluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductCsvBulkLoader',      'SilvercartProductCsvBulkLoaderPluginProvider');
 
 // ----------------------------------------------------------------------------
 // Register TaskNotificationChannels

@@ -167,6 +167,8 @@ class SilvercartPlugin extends Object {
                             $returnContainer->push($pluginProvider->$methodName(&$arguments, $callingObject));
                         } else if ($returnContainer == 'boolean') {
                             $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                        } else if ($returnContainer == 'DataObject') {
+                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName(&$arguments,$callingObject);
                         }
@@ -176,6 +178,8 @@ class SilvercartPlugin extends Object {
                         } else if ($returnContainer instanceof DataObjectSet) {
                             $returnContainer->push($pluginProvider->$methodName($arguments, $callingObject));
                         } else if ($returnContainer == 'boolean') {
+                            $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
+                        } else if ($returnContainer == 'DataObject') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);

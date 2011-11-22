@@ -36,6 +36,16 @@
 class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
     
     /**
+     * Delimiter character
+     *
+     * @var string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.2011
+     */
+    public $delimiter = ';';
+    
+    /**
      * Load the given file via {@link self::processAll()} and {@link self::processRecord()}.
      * Optionally truncates (clear) the table before it imports. 
      * 
@@ -47,26 +57,28 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @since 20.07.2011
      */
     public function load($filepath) {
-        ini_set('max_execution_time', 3600);
-        increase_memory_limit_to('256M');
+        if (!SilvercartPlugin::call($this, 'overwriteLoad', array($filepath), false, 'DataObject')) {
+            ini_set('max_execution_time', 3600);
+            increase_memory_limit_to('256M');
 
-        //get all instances of the to be imported data object 
-        if ($this->deleteExistingRecords) {
-            $q = singleton($this->objectClass)->buildSQL();
-            
-            if (!empty($this->objectClass)) {
-                $idSelector = $this->objectClass.'."ID"';
-            } else {
-                $idSelector = '"ID"';
-            }
-            
-            $q->select = array($idSelector); $ids = $q->execute()->column('ID');
-            
-            foreach ($ids as $id) {
-                $obj = DataObject::get_by_id($this->objectClass, $id); $obj->delete(); $obj->destroy(); unset($obj);
-            }
-        } 
-        return $this->processAll($filepath);
+            //get all instances of the to be imported data object 
+            if ($this->deleteExistingRecords) {
+                $q = singleton($this->objectClass)->buildSQL();
+
+                if (!empty($this->objectClass)) {
+                    $idSelector = $this->objectClass.'."ID"';
+                } else {
+                    $idSelector = '"ID"';
+                }
+
+                $q->select = array($idSelector); $ids = $q->execute()->column('ID');
+
+                foreach ($ids as $id) {
+                    $obj = DataObject::get_by_id($this->objectClass, $id); $obj->delete(); $obj->destroy(); unset($obj);
+                }
+            } 
+            return $this->processAll($filepath);
+        }
     }
     
     /**
@@ -82,41 +94,52 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @since 16.08.2011
      */
     public function processAll($filepath, $preview = false) {
+        $pluginResult = SilvercartPlugin::call($this, 'overwriteProcessAll', array($filepath, $preview), false, 'DataObject');
+
+        if ($pluginResult) {
+            return $pluginResult;
+        }
+        
         $results                = new BulkLoader_Result();
         $result                 = 0;
         $currPointer            = 0;
         $csvParser              = new CSVParser($filepath, $this->delimiter, $this->enclosure);
-        
+
         $this->Log('product import start ---------------------------------------------------------------------');
-        
+
         // --------------------------------------------------------------------
         // Insert header row if configured so
         // --------------------------------------------------------------------
         if ($this->columnMap) {
             if ($this->hasHeaderRow) {
-                $csv->mapColumns($this->columnMap);
+                $csvParser->mapColumns($this->columnMap);
             } else {
-                $csv->provideHeaderRow($this->columnMap);
+                $csvParser->provideHeaderRow($this->columnMap);
             }
         }
+        
         // --------------------------------------------------------------------
         // Process data range
         // --------------------------------------------------------------------
         foreach ($csvParser as $row) {
-            $this->processRecord(
+            $status = $this->processRecord(
                 $row,
                 $this->columnMap,
                 $results,
                 $preview
             );
             
+            if ($status) {
+                $results->addCreated($status);
+            }
+
             $currPointer++;
             usleep(1000);
         }
-        
+
         $this->Log('product import end ---------------------------------------------------------------------');
-        
-        return $result;
+
+        return $results;
     }
     
     /**
@@ -133,6 +156,14 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @since 15.08.2011
      */
     protected function processRecord($record, $columnMap, &$results, $preview = false) {
+        $pluginResult = SilvercartPlugin::call($this, 'overwriteProcessRecord', array($record, $columnMap, $results, $preview), false, 'DataObject');
+        
+        if ($pluginResult &&
+            is_array($pluginResult)) {
+            
+            return $pluginResult[0];
+        }
+        
         $silvercartProduct   = false;
         $silvercartProductID = 0;
         $action              = '';
@@ -269,12 +300,11 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             }
         }
         
-        unset($silvercartProduct);
         unset($sqlQuery);
         unset($insertID);
         unset($action);
         
-        return $silvercartProductID;
+        return $silvercartProduct;
     }
     
     /**

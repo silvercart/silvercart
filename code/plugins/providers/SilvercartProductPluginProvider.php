@@ -39,7 +39,7 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
@@ -59,7 +59,7 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
      *                              $arguments[0] = SilvercartShoppingCartPosition
      * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return mixed
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
