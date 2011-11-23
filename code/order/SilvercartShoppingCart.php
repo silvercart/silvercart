@@ -372,7 +372,7 @@ class SilvercartShoppingCart extends DataObject {
 
         // products
         foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += (float) $position->SilvercartProduct()->getPrice()->getAmount() * $position->Quantity;
+            $amount += $position->getPrice()->getAmount();
         }
 
         // Registered Modules
@@ -677,14 +677,14 @@ class SilvercartShoppingCart extends DataObject {
      * @since 01.02.2011
      */
     public function getTaxRatesWithoutFees() {
-        $positions = $this->SilvercartShoppingCartPositions();
-        $taxes = new DataObjectSet;
-        $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions', array(
-                    Member::currentUser()->SilvercartShoppingCart(),
-                    Member::currentUser(),
-                    true
-                        )
+        $positions          = $this->SilvercartShoppingCartPositions();
+        $taxes              = new DataObjectSet;
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions', array(
+                Member::currentUser()->SilvercartShoppingCart(),
+                Member::currentUser(),
+                true
+            )
         );
 
         // products
@@ -693,16 +693,16 @@ class SilvercartShoppingCart extends DataObject {
 
             if (!$taxes->find('Rate', $taxRate)) {
                 $taxes->push(
-                        new DataObject(
-                                array(
-                                    'Rate' => $taxRate,
-                                    'AmountRaw' => 0.0,
-                                )
+                    new DataObject(
+                        array(
+                            'Rate' => $taxRate,
+                            'AmountRaw' => 0.0,
                         )
+                    )
                 );
             }
             $taxSection = $taxes->find('Rate', $taxRate);
-            $taxSection->AmountRaw += $position->SilvercartProduct()->getTaxAmount() * $position->Quantity;
+            $taxSection->AmountRaw += $position->getTaxAmount();
         }
 
         // Registered Modules
@@ -711,12 +711,12 @@ class SilvercartShoppingCart extends DataObject {
                 $taxRate = $modulePosition->TaxRate;
                 if (!$taxes->find('Rate', $taxRate)) {
                     $taxes->push(
-                            new DataObject(
-                                    array(
-                                        'Rate' => $taxRate,
-                                        'AmountRaw' => 0.0,
-                                    )
+                        new DataObject(
+                            array(
+                                'Rate' => $taxRate,
+                                'AmountRaw' => 0.0,
                             )
+                        )
                     );
                 }
                 $taxSection = $taxes->find('Rate', $taxRate);

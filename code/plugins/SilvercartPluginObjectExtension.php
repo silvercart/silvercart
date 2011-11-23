@@ -64,7 +64,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function onAfterSubmitFailure(&$data, &$form) {
-        SilvercartPlugin::call($this->owner, 'onAfterSubmitFailure', array($data, $form), true, array());
     }
     
     /**
@@ -81,7 +80,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function onAfterSubmitSuccess(&$data, &$form, &$formData) {
-        SilvercartPlugin::call($this->owner, 'onAfterSubmitSuccess', array($data, $form, $formData), true, array());
     }
     
     /**
@@ -97,7 +95,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function onBeforeSubmitFailure(&$data, &$form) {
-        SilvercartPlugin::call($this->owner, 'onBeforeSubmitFailure', array($data, $form), true, array());
     }
     
     /**
@@ -114,7 +111,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function onBeforeSubmitSuccess(&$data, &$form, &$formData) {
-        SilvercartPlugin::call($this->owner, 'onBeforeSubmitSuccess', array($data, $form, $formData), true, array());
     }
     
     /**
@@ -134,7 +130,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function overwriteSubmitFailure(&$data, &$form) {
-        SilvercartPlugin::call($this->owner, 'overwriteSubmitFailure', array($data, $form), true, array());
     }
     
     /**
@@ -155,7 +150,6 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * @since 10.11.2011
      */
     public function overwriteSubmitSuccess(&$data, &$form, &$formData) {
-        SilvercartPlugin::call($this->owner, 'overwriteSubmitSuccess', array($data, $form, $formData), true, array());
     }
     
     /**
@@ -171,6 +165,12 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      */
     public function updateFormFields(&$formFields) {
         $formFields = SilvercartPlugin::call($this->owner, 'updateFormFields', $formFields, true, array());
-        $formFields = $formFields[0];
+        
+        if ($formFields &&
+            is_array($formFields) &&
+            count($formFields) > 0) {
+            
+            $formFields = $formFields[0];
+        }
     }
 }

@@ -1328,9 +1328,9 @@ class SilvercartProduct extends DataObject {
      */
     public function getTaxAmount() {        
         if (Member::currentUser()->showPricesGross()) {
-            $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100); 
+            $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100); 
         } else {
-            $taxRate = $this->Price->getAmount() * ($this->getTaxRate() / 100);
+            $taxRate = $this->getPrice()->getAmount() * ($this->getTaxRate() / 100);
         }
         return $taxRate;
     }

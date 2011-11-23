@@ -60,15 +60,17 @@ class SilvercartIncrementPositionQuantityForm extends CustomHtmlForm {
      * @return void
      */
     protected function submitSuccess($data, $form, $formData) {
-        if ($formData['positionID']) {
-            
-            //check if the position belongs to this user. Malicious people could manipulate it.
-            $member = Member::currentUser();
-            $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
-            if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
-                $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1);
-                
-                Director::redirect($this->controller->Link());
+        $overwrite = SilvercartPlugin::call($this, 'overwriteSubmitSuccess', array($data, $form, $formData), null, 'boolean');
+        
+        if (!$overwrite) {
+            if ($formData['positionID']) {
+                //check if the position belongs to this user. Malicious people could manipulate it.
+                $member = Member::currentUser();
+                $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
+                if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
+                    $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1);
+                    Director::redirect($this->controller->Link());
+                }
             }
         }
     }

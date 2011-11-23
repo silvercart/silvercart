@@ -137,13 +137,13 @@ class SilvercartShoppingCartPosition extends DataObject {
             foreach ($positionForms as $positionForm) {
                 if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
                     $controller->registerCustomHtmlForm(
-                            $positionForm . $this->ID,
-                            new $positionForm(
-                                    $controller,
-                                    array(
-                                        'positionID' => $this->ID
-                                    )
+                        $positionForm . $this->ID,
+                        new $positionForm(
+                            $controller,
+                            array(
+                                'positionID' => $this->ID
                             )
+                        )
                     );
                 }
             }
@@ -160,11 +160,17 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 22.10.2010
      */
     public function getPrice() {
+        $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array(), false, 'DataObject');
+        
+        if ($pluginPriceObj !== false) {
+            return $pluginPriceObj;
+        }
+        
         $product = $this->SilvercartProduct();
         $price = 0;
 
-        if ($product && $product->Price->getAmount()) {
-            $price = $product->Price->getAmount() * $this->Quantity;
+        if ($product && $product->getPrice()->getAmount()) {
+            $price = $product->getPrice()->getAmount() * $this->Quantity;
         }
 
         $priceObj = new Money();
@@ -256,6 +262,24 @@ class SilvercartShoppingCartPosition extends DataObject {
             return $text;
         }
         return false;
+    }
+    
+    /**
+     * returns the tax amount included in $this
+     *
+     * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 25.11.2010
+     */
+    public function getTaxAmount() {        
+        if (Member::currentUser()->showPricesGross()) {
+            $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
+        } else {
+            $taxRate = $this->getPrice()->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
+        }
+        return $taxRate;
     }
 
     /**

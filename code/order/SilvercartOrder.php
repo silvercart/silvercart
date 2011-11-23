@@ -1255,7 +1255,7 @@ class SilvercartOrder extends DataObject {
             ),
         );
                 
-        $result = $this->extend('updateConfimationMail', $params);
+        $result = $this->extend('updateConfirmationMail', $params);
         
         SilvercartShopEmail::send(
             $params['MailOrderConfirmation']['Template'],

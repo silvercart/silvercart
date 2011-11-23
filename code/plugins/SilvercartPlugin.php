@@ -185,6 +185,12 @@ class SilvercartPlugin extends Object {
                             $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
                         }
                     }
+                } else {
+                    if ($returnContainer == 'boolean') {
+                        $returnContainer = false;
+                    } else if ($returnContainer == 'DataObject') {
+                        $returnContainer = new DataObject();
+                    }
                 }
             }
         }
