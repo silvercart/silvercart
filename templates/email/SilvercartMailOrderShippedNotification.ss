@@ -1,4 +1,5 @@
 <style type="text/css">
+    body, table td { font-size: 12px; }
     table { width:auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
     table caption { font-variant:small-caps; }
     table.full { width:100%; }

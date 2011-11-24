@@ -153,14 +153,18 @@ class SilvercartShoppingCartPosition extends DataObject {
     /**
      * price sum of this position
      *
+     * @param boolean $forSingleProduct Indicates wether the price for the total
+     *                                  quantity of products should be returned
+     *                                  or for one product only.
+     * 
      * @return Money the price sum
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 22.10.2010
      */
-    public function getPrice() {
-        $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array(), false, 'DataObject');
+    public function getPrice($forSingleProduct = false) {
+        $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
         
         if ($pluginPriceObj !== false) {
             return $pluginPriceObj;
@@ -170,7 +174,11 @@ class SilvercartShoppingCartPosition extends DataObject {
         $price = 0;
 
         if ($product && $product->getPrice()->getAmount()) {
-            $price = $product->getPrice()->getAmount() * $this->Quantity;
+            if ($forSingleProduct) {
+                $price = $product->getPrice()->getAmount();
+            } else {
+                $price = $product->getPrice()->getAmount() * $this->Quantity;
+            }
         }
 
         $priceObj = new Money();
@@ -267,17 +275,21 @@ class SilvercartShoppingCartPosition extends DataObject {
     /**
      * returns the tax amount included in $this
      *
+     * @param boolean $forSingleProduct Indicates wether the price for the total
+     *                                  quantity of products should be returned
+     *                                  or for one product only.
+     * 
      * @return float
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 25.11.2010
      */
-    public function getTaxAmount() {        
+    public function getTaxAmount($forSingleProduct = false) {        
         if (Member::currentUser()->showPricesGross()) {
-            $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() - ($this->getPrice($forSingleProduct)->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
         } else {
-            $taxRate = $this->getPrice()->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
         }
         return $taxRate;
     }

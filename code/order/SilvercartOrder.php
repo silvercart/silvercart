@@ -533,12 +533,12 @@ class SilvercartOrder extends DataObject {
 
                 if ($product) {
                     $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($product->Price->getAmount());
-                    $orderPosition->Price->setCurrency($product->Price->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($product->Price->getAmount() * $shoppingCartPosition->Quantity);
-                    $orderPosition->PriceTotal->setCurrency($product->Price->getCurrency());
-                    $orderPosition->Tax                 = $product->getTaxAmount();
-                    $orderPosition->TaxTotal            = $product->getTaxAmount() * $shoppingCartPosition->Quantity;
+                    $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
+                    $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
+                    $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
+                    $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
+                    $orderPosition->Tax                 = $shoppingCartPosition->getTaxAmount(true);
+                    $orderPosition->TaxTotal            = $shoppingCartPosition->getTaxAmount();
                     $orderPosition->TaxRate             = $product->getTaxRate();
                     $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;

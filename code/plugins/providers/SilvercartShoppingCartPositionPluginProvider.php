@@ -55,7 +55,8 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * In order to not execute the original "addProduct" method you have to
      * return something other than boolean false in your plugin method.
      *
-     * @param array &$arguments     The arguments to pass
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
      * @param mixed &$callingObject The calling object
      * 
      * @return mixed
