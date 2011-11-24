@@ -1027,12 +1027,15 @@ class SilvercartProduct extends DataObject {
     /**
      * Returns an HTML encoded short description, preserving HTML tags.
      * 
+     * @param int $cutToLength Limit the length of the result to the given
+     *                         number of characters.
+     * 
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.11.2011
      */
-    public function getHtmlEncodedShortDescription() {
+    public function getHtmlEncodedShortDescription($cutToLength = false) {
         $output = htmlentities($this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false);
         
         $output = str_replace(
@@ -1047,6 +1050,15 @@ class SilvercartProduct extends DataObject {
             $output
         );
 
+        if ($cutToLength !== false) {
+            $line = $output;
+            if (preg_match('/^.{1,'.$cutToLength.'}\b/s', $output, $match)) {
+                $line = $match[0];
+            }
+
+            $output = $line;
+        }
+        
         return $output;
     }
 
