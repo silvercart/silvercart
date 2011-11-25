@@ -22,7 +22,7 @@
  */
 
 /**
- * Provides a navigation of the current section and their childs.
+ * Provides a navigation of the current section and their children.
  *
  * @package Silvercart
  * @subpackage Widgets
