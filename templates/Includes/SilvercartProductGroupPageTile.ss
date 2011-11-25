@@ -48,7 +48,7 @@
                         <div class="c66r">
                             <div class="subcr">
                                 <div class="silvercart-product-text-info">
-                                    <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                    <p>$getHtmlEncodedShortDescription</p>
                                     <% if PackagingQuantity %>
                                     <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
                                     <% end_if %>

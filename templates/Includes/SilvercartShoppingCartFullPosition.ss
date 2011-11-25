@@ -12,7 +12,7 @@
         </div>
     </td>
     <td><a href="$silvercartProduct.Link">$SilvercartProduct.Title</a></td>
-    <td class="right">$SilvercartProduct.Price.Nice</td>
+    <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
     <td class="right">
         <% if Top.EditableShoppingCart %>
