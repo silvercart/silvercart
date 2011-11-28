@@ -47,16 +47,42 @@ class SilvercartRemovePositionForm extends CustomHtmlForm {
         'submitButtonTitle' => 'remove',
         'doJsValidationScrolling' => false
     );
-
+    
     /**
-     * Fill the form with default values
+     * Alternative method to define form fields.
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.2.11
      * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2011
      */
-    protected function fillInFieldValues() {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartPage.REMOVE_FROM_CART');
+    public function getFormFields() {
+        SilvercartPlugin::call($this, 'updateFormFields', array($this->formFields), true);
+        
+        return $this->formFields;
+    }
+    
+    /**
+     * Alternative method to set preferences.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2011
+     */
+    public function preferences() {
+        $this->preferences['submitButtonTitle']     = _t('SilvercartPage.REMOVE_FROM_CART');
+        $this->preferences['submitButtonToolTip']   = _t('SilvercartPage.REMOVE_FROM_CART');
+        
+        $preferences = SilvercartPlugin::call($this, 'updatePreferences', array($this->preferences), true, array());
+        
+        if (is_array($preferences) &&
+            count($preferences) > 0) {
+            
+            $this->preferences = $preferences[0];
+        }
+        
+        return $this->preferences;
     }
 
     /**

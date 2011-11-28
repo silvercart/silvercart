@@ -173,4 +173,26 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
             $formFields = $formFields[0];
         }
     }
+    
+    /**
+     * This method is called before CustomHtmlForm set the preferences. You 
+     * can manipulate the default preferences here.
+     * 
+     * @param array &$preferences Preferences to manipulate
+     * 
+     * @return bool
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2011
+     */
+    public function updatePreferences(&$preferences) {
+        $preferences = SilvercartPlugin::call($this->owner, 'updatePreferences', $preferences, true, array());
+        
+        if ($preferences &&
+            is_array($preferences) &&
+            count($preferences) > 0) {
+            
+            $preferences = $preferences[0];
+        }
+    }
 }
