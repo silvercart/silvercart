@@ -2005,7 +2005,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         // to the respective SilvercartProduct
         if ($products) {
             foreach ($products as $product) {
-                
+                if (!array_key_exists('fileName', $product)) {
+                    continue;
+                }
                 foreach ($product['fileName'] as $fileName) {
                     // disable caching to prevent duplicated image objects
                     $existingImage = DataObject::get_one(
@@ -2042,10 +2044,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                         $image->deleteFormattedImages();
                         $importedFiles++;
                     } else {
-                        $this->Log('creating new image', 'importImages');
-                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
-                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
-                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // Create new image
                         $image = $this->createImageObject(
                             $data['imageDirectory'].$fileName,
@@ -2053,6 +2051,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                             $fileName,
                             'Image'
                         );
+                        
+                        $this->Log('creating new image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $image->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         
                         if ($image) {
                             // Create Image object
@@ -2076,6 +2079,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             // this in a separated loop because one image can be used for
             // many products.
             foreach ($products as $product) {
+                if (!array_key_exists('fileName', $product)) {
+                    continue;
+                }
                 if (file_exists($data['imageDirectory'].$product['fileName'])) {
                     unlink($data['imageDirectory'].$product['fileName']);
                 }
@@ -2234,6 +2240,13 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     protected function findProductsByNumbers($numbers, $mapNames) {
+        $resultSet = SilvercartPlugin::call($this, 'overwriteFindProductsByNumbers', array($numbers, $mapNames), true, array());
+        
+        if (is_array($resultSet) &&
+            count($resultSet) > 0) {
+            return $resultSet[0];
+        }
+        
         $resultSet  = array();
         $query      = DB::query(
             sprintf("

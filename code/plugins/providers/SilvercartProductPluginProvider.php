@@ -70,3 +70,42 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
         return $result;
     }
 }
+
+/**
+ * Plugin-Provider for the the SilvercartProduct_CollectionController object.
+ *
+ * @package Silvercart
+ * @subpackage Plugins
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 28.11.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2011 pixeltricks GmbH
+ */
+class SilvercartProduct_CollectionControllerPluginProvider extends SilvercartPlugin {
+    
+    /**
+     * Overwrites the findProductsbyNumbers method.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              [0]: string $numbers  The number to search for
+     *                              [1]: $mapNames
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2011
+     */
+    public function overwriteFindProductsByNumbers(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOverwriteFindProductsByNumbers', $arguments);
+        
+        if (is_array($result) &&
+            count($result) > 0) {
+            
+            $result = $result[0];
+        }
+        
+        return $result;
+    }
+    
+}
