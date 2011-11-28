@@ -261,6 +261,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
+            Requirements::add_i18n_javascript('silvercart/javascript/lang');
         }
         
         if ($controller == $this || $controller->forceLoadOfWidgets) {

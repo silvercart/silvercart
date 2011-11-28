@@ -54,6 +54,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             'type' => 'TextField',
             'title' => 'Anzahl',
             'value' => '1',
+            'maxLength' => 3,
             'checkRequirements' => array(
                 'isFilledIn' => true,
                 'isNumbersOnly' => true
