@@ -710,7 +710,7 @@ class SilvercartShoppingCart extends DataObject {
         // Registered Modules
         foreach ($registeredModules as $moduleName => $moduleOutput) {
             foreach ($moduleOutput as $modulePosition) {
-                $taxRate = $modulePosition->TaxRate;
+                $taxRate = $modulePosition->SilvercartTaxRate;
                 if (!$taxes->find('Rate', $taxRate)) {
                     $taxes->push(
                         new DataObject(
@@ -722,7 +722,7 @@ class SilvercartShoppingCart extends DataObject {
                     );
                 }
                 $taxSection = $taxes->find('Rate', $taxRate);
-                $taxSection->AmountRaw += $modulePosition->TaxAmount;
+                $taxSection->AmountRaw += $modulePosition->SilvercartTaxAmount;
             }
         }
 
