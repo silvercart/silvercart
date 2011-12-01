@@ -304,7 +304,8 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the price of the cart positions + fees, including taxes.
      *
-     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted;
+     *                                            can contain the ID or the className of the position
      *
      * @return string a price amount
      *
@@ -348,7 +349,8 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @param array $excludeModules              An array of registered modules that shall not
      *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
      *
      * @return Money a price amount
      *
@@ -947,7 +949,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array  $parameters                   Additional parameters for the method call
      * @param array  $excludeModules               An array of registered modules that shall not
      *                                             be taken into account.
-     * @param array  $excludeShoppingCartPositions Positions that shall not be counted
+     * @param array  $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      *
      * @return array Associative array:
      *      'ModuleName' => DataObjectSet (ModulePositions)
@@ -959,7 +961,7 @@ class SilvercartShoppingCart extends DataObject {
     public function callMethodOnRegisteredModules($methodName, $parameters = array(), $excludeModules = array(), $excludeShoppingCartPositions = false) {
         $registeredModules = self::$registeredModules;
         $outputOfModules = array();
-
+        
         if (!is_array($excludeModules)) {
             $excludeModules = array($excludeModules);
         }
@@ -989,10 +991,10 @@ class SilvercartShoppingCart extends DataObject {
                     $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
 
                     $outputOfModules[$registeredModule] = call_user_func_array(
-                            array(
-                        $registeredModuleObj,
-                        $methodName
-                            ), $parameters
+                        array(
+                            $registeredModuleObj,
+                            $methodName
+                        ), $parameters
                     );
                 }
             }
