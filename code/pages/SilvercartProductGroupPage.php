@@ -273,7 +273,7 @@ class SilvercartProductGroupPage extends Page {
         }
 
         if ($this->drawCMSFields()) {
-            $productsTableField = new HasManyDataObjectManager(
+            $productsTableField = new HasManyComplexTableField(
                 $this,
                 'SilvercartProducts',
                 'SilvercartProduct',
@@ -420,6 +420,29 @@ class SilvercartProductGroupPage extends Page {
     }
 
     /**
+     * Returns a flat array containing the ID of all child pages of the given page.
+     *
+     * @param int $pageId The root page ID
+     *
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.12.2011
+     */
+    public static function getFlatChildPageIDsForPage($pageId) {
+        $pageIDs = array($pageId);
+        $pageObj = DataObject::get_by_id('SiteTree', $pageId);
+        
+        if ($pageObj) {
+            foreach ($pageObj->Children() as $pageChild) {
+                $pageIDs = array_merge($pageIDs, self::getFlatChildPageIDsForPage($pageChild->ID));
+            }
+        }
+        
+        return $pageIDs;
+    }
+    
+    /**
      * Returns the active products for this page.
      *
      * @return DataObjectSet
@@ -430,7 +453,9 @@ class SilvercartProductGroupPage extends Page {
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
-            $activeProducts = array();
+            $activeProducts  = array();
+            $productGroupIDs = self::getFlatChildPageIDsForPage($this->ID);
+            
             $records = DB::query(
                 sprintf(
                     "SELECT
@@ -438,8 +463,8 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1 AND SilvercartProductGroupID = %s",
-                    $this->ID
+                        isActive = 1 AND SilvercartProductGroupID IN (%s)",
+                    implode(',', $productGroupIDs)
                 )
             );
 
@@ -1266,7 +1291,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 09.11.2011
      */
     public function HasMoreViewableChildrenThan($nrOfViewableChildren) {
-        if ($this->getViewableChildren()->Count() > $nrOfViewableChildren) {
+        if ($this->getViewableChildren()->TotalItems() > $nrOfViewableChildren) {
             return true;
         }
         
