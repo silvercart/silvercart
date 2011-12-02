@@ -1274,4 +1274,31 @@ class SilvercartConfig extends DataObject {
         
         return $installationComplete;
     }
+    
+    /**
+     * check if a url is reachable
+     * This can be used to timeout SOAP connection
+     * An http code between 200 and 299 is considered a valid connection.
+     *
+     * @param string  $url              the URL to check
+     * @param integer $conectionTimeout connection timeout in seconds; if set to zero timeout is deactivated
+     *
+     * @return bool 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.11.2011
+     */
+    public static function isValidUrl($url, $conectionTimeout = 5) { 
+        $curl = curl_init($url);  
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $conectionTimeout);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5); //The maximum number of seconds to allow cURL functions to execute.
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  
+        curl_exec($curl);  
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);  
+        curl_close($curl);  
+        if ($httpcode >= 200 && $httpcode < 300) {  
+            return true;  
+        }  
+        return false; 
+    }
 }
