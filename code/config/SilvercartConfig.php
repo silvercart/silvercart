@@ -565,9 +565,11 @@ class SilvercartConfig extends DataObject {
                 if (empty($requiredField) || is_null($requiredField)) {
                     continue;
                 }
+                
                 if (method_exists('SilvercartConfig', 'check' . $requiredField)) {
                     $method = 'check' . $requiredField;
                     $result = $config->$method();
+                    
                     if ($result['status'] === false) {
                         $errorMessage = $result['message'];
                         self::triggerError($errorMessage);
@@ -966,6 +968,7 @@ class SilvercartConfig extends DataObject {
      */
     public function checkActiveCountries() {
         $hasActiveCountries = false;
+        
         if (DataObject::get_one('SilvercartCountry', "`Active`=1")) {
             $hasActiveCountries = true;
         }
