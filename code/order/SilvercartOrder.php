@@ -469,10 +469,6 @@ class SilvercartOrder extends DataObject {
             }
         }
 
-        // price sum of all positions
-        $this->AmountTotal->setAmount($member->SilvercartShoppingCart()->getAmountTotal()->getAmount());
-        $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-
         // amount of all positions + handling fee of the payment method + shipping fee
         $totalAmount = 
             $this->HandlingCostPayment->getAmount() +
@@ -482,6 +478,7 @@ class SilvercartOrder extends DataObject {
         $this->AmountTotal->setAmount(
             $totalAmount
         );
+        
         $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status

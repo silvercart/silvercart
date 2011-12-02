@@ -473,9 +473,10 @@ p.silvercart-message.vdistance {
     margin:                         8px 0px;
     
     background:                     #fafafa;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ffffff)); /* for webkit browsers */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffd3d3), to(#f2e8e8)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #ffd3d3,  #f2e8e8); /* for firefox 3.6+ */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#ffffff'); /* for IE */
+    background:                     -o-linear-gradient(top,  #ffd3d3,  #f2e8e8); /* for opera */ 
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd3d3', endColorstr='#f2e8e8'); /* for IE */
     border:                         1px #ce0000 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
