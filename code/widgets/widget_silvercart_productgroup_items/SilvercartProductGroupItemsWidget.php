@@ -486,21 +486,23 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             $PageProductIdx = 1;
             $isFirst        = true;
 
-            foreach ($products as $product) {
-                $pageProducts[] = $product;
-                $PageProductIdx++;
+            if ($products) {
+                foreach ($products as $product) {
+                    $pageProducts[] = $product;
+                    $PageProductIdx++;
 
-                if ($pageNr > 0) {
-                    $isFirst = false;
-                }
-                if ($PageProductIdx > $this->numberOfProductsToShow) {
-                    $pages['Page'.$pageNr] = array(
-                        'Elements' => new DataObjectSet($pageProducts),
-                        'IsFirst'    => $isFirst
-                    );
-                    $PageProductIdx = 1;
-                    $pageProducts   = array();
-                    $pageNr++;
+                    if ($pageNr > 0) {
+                        $isFirst = false;
+                    }
+                    if ($PageProductIdx > $this->numberOfProductsToShow) {
+                        $pages['Page'.$pageNr] = array(
+                            'Elements' => new DataObjectSet($pageProducts),
+                            'IsFirst'    => $isFirst
+                        );
+                        $PageProductIdx = 1;
+                        $pageProducts   = array();
+                        $pageNr++;
+                    }
                 }
             }
 
