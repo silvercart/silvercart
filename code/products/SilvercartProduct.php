@@ -1601,14 +1601,16 @@ class SilvercartProduct extends DataObject {
      * visualitation defined in SilvercartConfig and returns the defined image
      * as DataObjectSet. As last resort boolean false is returned.
      *
+     * @param string $filter An optional sql filter statement
+     * 
      * @return mixed DataObjectSet|bool false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 27.06.2011
      */
-    public function getSilvercartImages() {
-        $images = $this->SilvercartImages();
+    public function getSilvercartImages($filter = '') {
+        $images = $this->SilvercartImages($filter);
 
         $this->extend('updateGetSilvercartImages', $images);
         
