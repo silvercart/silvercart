@@ -64,15 +64,16 @@ jQuery(document).ready(function(){
         jQuery(".tab_content:first").show(); //Show first tab content
 
         jQuery("ul.tabs li").click(function() {
-
+            var lastActiveTabId = jQuery("ul.tabs li.active a").attr('href');
+            var lastActiveTab   = lastActiveTabId.substr(lastActiveTabId.indexOf('#'));
             jQuery("ul.tabs li").removeClass("active"); //Remove any "active" class
             jQuery(this).addClass("active"); //Add "active" class to selected tab
-            tabContent.hide(); //Hide all tab content
 
             var activeTab = jQuery(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
             activeTab     = activeTab.substr(activeTab.indexOf('#'));
 
             jQuery(activeTab).fadeIn(); //Fade in the active ID content
+            jQuery(lastActiveTab).hide();
             return false;
         });
     }
