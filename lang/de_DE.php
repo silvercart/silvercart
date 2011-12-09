@@ -265,6 +265,8 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 $lang['de_DE']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Artikelexporte';
 $lang['de_DE']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Artikelexport';
+$lang['de_DE']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Artikelexporter';
+$lang['de_DE']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Artikelexporter';
 
 $lang['de_DE']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Push aktivieren';
 $lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Aktualisierungsinterval';

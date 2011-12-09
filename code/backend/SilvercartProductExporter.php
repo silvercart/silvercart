@@ -76,26 +76,6 @@ class SilvercartProductExporter extends DataObject {
     protected $dataObjects = array();
     
     /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $singular_name = "Silvercart product exporter";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
-     */
-    public static $plural_name = "Silvercart product exporters";
-    
-    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -105,8 +85,8 @@ class SilvercartProductExporter extends DataObject {
      * @since 08.08.2011
      */
     public function singular_name() {
-        if (_t('SilvercartProductExport.SINGULARNAME')) {
-            return _t('SilvercartProductExport.SINGULARNAME');
+        if (_t('SilvercartProductExporter.SINGULAR_NAME')) {
+            return _t('SilvercartProductExporter.SINGULAR_NAME');
         } else {
             return parent::singular_name();
         } 
@@ -122,8 +102,8 @@ class SilvercartProductExporter extends DataObject {
      * @since 08.08.2011 
      */
     public function plural_name() {
-        if (_t('SilvercartProductExport.PLURALNAME')) {
-            return _t('SilvercartProductExport.PLURALNAME');
+        if (_t('SilvercartProductExporter.PLURAL_NAME')) {
+            return _t('SilvercartProductExporter.PLURAL_NAME');
         } else {
             return parent::plural_name();
         }   
@@ -335,7 +315,7 @@ class SilvercartProductExporter extends DataObject {
         $attributedFields   = array();
         $availableFields    = array();
         
-        foreach($dbFields as $fieldName => $fieldType) {
+        foreach ($dbFields as $fieldName => $fieldType) {
             $availableFields[$fieldName] = $fieldName;
         }
         
@@ -377,7 +357,7 @@ class SilvercartProductExporter extends DataObject {
         $exporterFields = $this->SilvercartProductExporterFields();
         $exporterFields->sort('sortOrder', 'ASC');
         
-        foreach($exporterFields as $exporterField) {
+        foreach ($exporterFields as $exporterField) {
             if (empty($exporterField->headerTitle)) {
                 $headerTitle = $exporterField->name;
             } else {
@@ -398,7 +378,7 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Create an export file.
      *
-     * @param Int $referenceCurrentTimeStamp The timestamp to use as last
+     * @param Int $exportTimeStamp The timestamp to use as last
      *                                       export date.
      * 
      * @return void
@@ -487,7 +467,7 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Returns a string in CSV format from the given product's data.
      *
-     * @param SilvercartProduct $productObj The product to extract the data from
+     * @param SilvercartProduct $record The product to extract the data from
      * 
      * @return string
      * 
@@ -598,9 +578,9 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Quote a field value according to the csv specifications.
      *
+     * @param mixed $value ???
+     * 
      * @return string
-     *
-     * @param mixed
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.08.2011
@@ -620,6 +600,8 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Returns the DataObject for the current record
      *
+     * @param DataObject $record ???
+     * 
      * @return DataObject
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
