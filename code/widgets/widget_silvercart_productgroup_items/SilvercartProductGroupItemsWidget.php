@@ -59,7 +59,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'slideDelay'                    => 'Int',
         'stopAtEnd'                     => 'Boolean(0)',
         'transitionEffect'              => "Enum('fade,horizontalSlide,verticalSlide','fade')",
-        'useSlider'                     => "Boolean(0)"
+        'useSlider'                     => "Boolean(0)",
+        'useRoundabout'                 => "Boolean(0)"
     );
     
     /**
@@ -108,6 +109,41 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         );
         $useListViewField           = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
         $isContentView              = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        
+        $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
+        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($basicTab);
+        
+        $basicTab->push($titleField);
+        $basicTab->push($contentField);
+        $basicTab->push($productGroupField);
+        $basicTab->push($numberOfProductsShowField);
+        $basicTab->push($numberOfProductsFetchField);
+        $basicTab->push($fetchMethod);
+        $basicTab->push($useListViewField);
+        $basicTab->push($isContentView);
+        
+        $this->getCMSFieldsSliderTab($fields, $rootTabSet);
+        $this->getCMSFieldsRoundaboutTab($fields, $rootTabSet);
+        
+        return $fields;
+    }
+    
+    /**
+     * Returns the slider tab input fields for this widget.
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.12.2011
+     */
+    public function getCMSFieldsSliderTab(&$fields, $rootTabSet) {
+        $sliderTab = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
+        
+        $rootTabSet->push($sliderTab);
+        
         $useSlider                  = new CheckboxField('useSlider', _t('SilvercartProductGroupItemsWidget.USE_SLIDER'));
         $autoplay                   = new CheckboxField('Autoplay', _t('SilvercartProductGroupItemsWidget.AUTOPLAY'));
         $slideDelay                 = new TextField('slideDelay', _t('SilvercartProductGroupItemsWidget.SLIDEDELAY'));
@@ -127,23 +163,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             )
         );
         
-        $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
-        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
-        $sliderTab  = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
-        
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $rootTabSet->push($sliderTab);
-        
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
-        $basicTab->push($productGroupField);
-        $basicTab->push($numberOfProductsShowField);
-        $basicTab->push($numberOfProductsFetchField);
-        $basicTab->push($fetchMethod);
-        $basicTab->push($useListViewField);
-        $basicTab->push($isContentView);
-        
         $sliderTab->push($useSlider);
         $sliderTab->push($autoplay);
         $sliderTab->push($slideDelay);
@@ -154,8 +173,24 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         $sliderTab->push($autoPlayLocked);
         $sliderTab->push($stopAtEnd);
         $sliderTab->push($transitionEffect);
+    }
+    
+    /**
+     * Returns the slider tab input fields for this widget.
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.12.2011
+     */
+    public function getCMSFieldsRoundaboutTab(&$fields, $rootTabSet) {
+        $tab = new Tab('roundabout', _t('SilvercartProductGroupItemsWidget.CMS_ROUNDABOUTTABNAME'));
         
-        return $fields;
+        $useSlider = new CheckboxField('useRoundabout', _t('SilvercartProductGroupItemsWidget.USE_ROUNDABOUT'));
+        
+        $tab->push($useSlider);
+        
+        $rootTabSet->push($tab);
     }
     
     /**
@@ -267,6 +302,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
     public function init() {
         if ($this->useSlider) {
             $this->elements = $this->ProductPages();
+        } else if ($this->useRoundabout) {
+            $this->elements = $this->ProductPages();
         } else {
             $this->elements = $this->Elements();
         }
@@ -277,11 +314,45 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
 
             if ($this->useListView) {
                 $productAddCartFormName = 'SilvercartProductAddCartFormList';
+            } else if ($this->useRoundabout) {
+                $productAddCartFormName = 'SilvercartProductAddCartFormList';
             } else {
                 $productAddCartFormName = 'SilvercartProductAddCartFormTile';
             }
 
             if ($this->useSlider) {
+                // ------------------------------------------------------------
+                // Anything Slider
+                // ------------------------------------------------------------
+                foreach ($this->elements as $productPage) {
+                    foreach ($productPage as $elementHolder) {
+                        foreach ($elementHolder->Elements as $element) {
+                            $formIdentifier = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
+                            $productAddCartForm = new $productAddCartFormName(
+                                $controller,
+                                array('productID' => $element->ID)
+                            );
+
+                            $controller->registerCustomHtmlForm(
+                                $formIdentifier,
+                                $productAddCartForm
+                            );
+
+                            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
+                                $formIdentifier,
+                                array(
+                                    $element
+                                )
+                            );
+                            $element->productAddCartFormObj = $productAddCartForm;
+                            $elementIdx++;
+                        }
+                    }
+                }
+            } else if ($this->useRoundabout) {
+                // ------------------------------------------------------------
+                // Roundabout Slider
+                // ------------------------------------------------------------
                 foreach ($this->elements as $productPage) {
                     foreach ($productPage as $elementHolder) {
                         foreach ($elementHolder->Elements as $element) {
@@ -308,6 +379,9 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                     }
                 }
             } else {
+                // ------------------------------------------------------------
+                // Standard view
+                // ------------------------------------------------------------
                 foreach ($this->elements as $element) {
                     $formIdentifier     = 'ProductAddCartForm'.$this->ID.'_'.$elementIdx;
                     $productAddCartForm = new $productAddCartFormName(
@@ -333,104 +407,146 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         }
         
         if ($this->useSlider) {
-            $autoplay           = 'false';
-            $autoPlayDelayed    = 'false';
-            $autoPlayLocked     = 'true';
-            $stopAtEnd          = 'false';
-            $buildArrows        = 'false';
-            $buildStartStop     = 'false';
-            $buildNavigation    = 'false';
-
-            if ($this->Autoplay) {
-                $autoplay = 'true';
-            }
-            if ($this->buildArrows) {
-                $buildArrows = 'true';
-            }
-            if ($this->buildNavigation) {
-                $buildNavigation = 'true';
-            }
-            if ($this->buildStartStop) {
-                $buildStartStop = 'true';
-            }
-            if ($this->autoPlayDelayed) {
-                $autoPlayDelayed = 'true';
-            }
-            if ($this->autoPlayLocked) {
-                $autoPlayLocked = 'false';
-            }
-            if ($this->stopAtEnd) {
-                $stopAtEnd = 'true';
-            }
-
-            switch ($this->transitionEffect) {
-                case 'horizontalSlide':
-                    $vertical           = 'false';
-                    $animationTime      = 500;
-                    $delayBeforeAnimate = 0;
-                    $effect             = 'swing';
-                    break;
-                case 'verticalSlide':
-                    $vertical           = 'true';
-                    $animationTime      = 500;
-                    $delayBeforeAnimate = 0;
-                    $effect             = 'swing';
-                    break;
-                case 'fade':
-                default:
-                    $vertical           = 'false';
-                    $animationTime      = 0;
-                    $delayBeforeAnimate = 500;
-                    $effect             = 'fade';
-            }
-
-            Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
-            Requirements::customScript(
-                sprintf('
-                    $(document).ready(function() {
-                        $("#SilvercartProductGroupItemsWidgetSlider%d")
-                        .anythingSlider({
-                            autoPlay:           %s,
-                            autoPlayDelayed:    %s,
-                            autoPlayLocked:     %s,
-                            stopAtEnd:          %s,
-                            buildArrows:        %s,
-                            buildNavigation:    %s,
-                            buildStartStop:     %s,
-                            delay:              %d,
-                            animationTime:      %s,
-                            delayBeforeAnimate: %d,
-                            theme:              \'silvercart-default\',
-                            vertical:           %s,
-                            navigationFormatter: function(index, panel){
-                                panel.css("display", "block");
-                                return index;
-                            }
-                        })
-                        .anythingSliderFx({
-                            // base FX definitions
-                            // ".selector" : [ "effect(s)", "size", "time", "easing" ]
-                            // "size", "time" and "easing" are optional parameters, but must be kept in order if added
-                            \'.panel\' : [ \'%s\', \'\', 500, \'easeInOutCirc\' ]
-                        });
-                    });
-                    ',
-                    $this->ID,
-                    $autoplay,
-                    $autoPlayDelayed,
-                    $autoPlayLocked,
-                    $stopAtEnd,
-                    $buildArrows,
-                    $buildNavigation,
-                    $buildStartStop,
-                    $this->slideDelay,
-                    $animationTime,
-                    $delayBeforeAnimate,
-                    $vertical,
-                    $effect
-                )
-            );
+            $this->initAnythingSlider();
+        } else if ($this->useRoundabout) {
+            $this->initRoundabout();
         }
+    }
+    
+    /**
+     * Insert the javascript necessary for the anything slider.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.12.2011
+     */
+    protected function initAnythingSlider() {
+        $autoplay           = 'false';
+        $autoPlayDelayed    = 'false';
+        $autoPlayLocked     = 'true';
+        $stopAtEnd          = 'false';
+        $buildArrows        = 'false';
+        $buildStartStop     = 'false';
+        $buildNavigation    = 'false';
+
+        if ($this->Autoplay) {
+            $autoplay = 'true';
+        }
+        if ($this->buildArrows) {
+            $buildArrows = 'true';
+        }
+        if ($this->buildNavigation) {
+            $buildNavigation = 'true';
+        }
+        if ($this->buildStartStop) {
+            $buildStartStop = 'true';
+        }
+        if ($this->autoPlayDelayed) {
+            $autoPlayDelayed = 'true';
+        }
+        if ($this->autoPlayLocked) {
+            $autoPlayLocked = 'false';
+        }
+        if ($this->stopAtEnd) {
+            $stopAtEnd = 'true';
+        }
+
+        switch ($this->transitionEffect) {
+            case 'horizontalSlide':
+                $vertical           = 'false';
+                $animationTime      = 500;
+                $delayBeforeAnimate = 0;
+                $effect             = 'swing';
+                break;
+            case 'verticalSlide':
+                $vertical           = 'true';
+                $animationTime      = 500;
+                $delayBeforeAnimate = 0;
+                $effect             = 'swing';
+                break;
+            case 'fade':
+            default:
+                $vertical           = 'false';
+                $animationTime      = 0;
+                $delayBeforeAnimate = 500;
+                $effect             = 'fade';
+        }
+
+        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
+        Requirements::customScript(
+            sprintf('
+                $(document).ready(function() {
+                    $("#SilvercartProductGroupItemsWidgetSlider%d")
+                    .anythingSlider({
+                        autoPlay:           %s,
+                        autoPlayDelayed:    %s,
+                        autoPlayLocked:     %s,
+                        stopAtEnd:          %s,
+                        buildArrows:        %s,
+                        buildNavigation:    %s,
+                        buildStartStop:     %s,
+                        delay:              %d,
+                        animationTime:      %s,
+                        delayBeforeAnimate: %d,
+                        theme:              \'silvercart-default\',
+                        vertical:           %s,
+                        navigationFormatter: function(index, panel){
+                            panel.css("display", "block");
+                            return index;
+                        }
+                    })
+                    .anythingSliderFx({
+                        // base FX definitions
+                        // ".selector" : [ "effect(s)", "size", "time", "easing" ]
+                        // "size", "time" and "easing" are optional parameters, but must be kept in order if added
+                        \'.panel\' : [ \'%s\', \'\', 500, \'easeInOutCirc\' ]
+                    });
+                });
+                ',
+                $this->ID,
+                $autoplay,
+                $autoPlayDelayed,
+                $autoPlayLocked,
+                $stopAtEnd,
+                $buildArrows,
+                $buildNavigation,
+                $buildStartStop,
+                $this->slideDelay,
+                $animationTime,
+                $delayBeforeAnimate,
+                $vertical,
+                $effect
+            )
+        );
+    }
+    
+    /**
+     * Insert the javascript necessary for the roundabout slider.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.12.2011
+     */
+    protected function initRoundabout() {
+        Requirements::customScript(
+            sprintf('
+                $(document).ready(function() {
+                    $("#SilvercartProductGroupItemsWidgetSlider%d").roundabout({
+                        shape:        "square",
+                        duration:     500,
+                        minScale:     1.0,
+                        maxScale:     1.0,
+                        minOpacity:   0.9,
+                        tilt:         0.0,
+                        degree:       0
+                    });
+                });
+                ',
+                $this->ID
+            )
+        );
     }
     
     /**

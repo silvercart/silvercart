@@ -1322,6 +1322,7 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']             
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
@@ -1333,6 +1334,7 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']          
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']           = 'Horizontal schieben';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertikal schieben';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Listendarstellung verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Slider verwenden';
 
 $lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';

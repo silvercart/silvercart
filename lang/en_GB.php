@@ -1322,6 +1322,7 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']             
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
@@ -1333,6 +1334,7 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']          
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']           = 'Horizontal slide';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertical slide';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Use listview';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Use slider';
 
 $lang['en_GB']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
