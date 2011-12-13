@@ -1,0 +1,58 @@
+.silvercart-productgroup-slider {
+    position:                       relative;
+    clear:                          both;
+    height:                         400px;
+}
+.silvercart-productgroup-slider img {
+    border:                         none;
+}
+.silvercart-productgroup-slider-presentation-panel {
+    position:                       absolute;
+    left:                           50%;
+    width:                          600px;
+    margin-left:                    -300px;
+}
+.silvercart-productgroup-slider-presentation-panel h3 {
+    font-size:                      26px;
+    text-align:                     center;
+}
+.silvercart-productgroup-slider-presentation-panel h3 a {
+    color:                          #000;
+}
+.silvercart-productgroup-slider-presentation-panel_content {
+    background:                     #fff;
+}
+.silvercart-productgroup-slider-navigation-blind-left {
+    z-index:                        3;
+    position:                       absolute;
+    left:                           80px;
+    top:                            100px;
+    height:                         192px;
+    width:                          192px;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/productgroupslider_blind_left.png") left center no-repeat;
+}
+.silvercart-productgroup-slider-navigation-blind-right {
+    z-index:                        3;
+    position:                       absolute;
+    right:                          80px;
+    top:                            100px;
+    height:                         192px;
+    width:                          192px;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/productgroupslider_blind_right.png") left center no-repeat;
+}
+.silvercart-productgroup-slider-navigation-panel-left {
+    z-index:                        1;
+    position:                       absolute;
+    left:                           0px;
+    top:                            164px;
+    width:                          100px;
+    height:                         100px;
+}
+.silvercart-productgroup-slider-navigation-panel-right {
+    z-index:                        1;
+    position:                       absolute;
+    right:                          0px;
+    top:                            164px;
+    width:                          100px;
+    height:                         100px;
+}

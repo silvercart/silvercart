@@ -542,8 +542,49 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                         tilt:         0.0,
                         degree:       0
                     });
+                    $("#SilvercartProductGroupItemsWidgetSlider%d .roundabout-in-focus").css({
+                        width: \'670px\',
+                        height: \'252px\',
+                        margin: \'-13px 0px 0px -150px\'
+                    });
+                    $("#SilvercartProductGroupItemsWidgetSlider%d .roundabout-in-focus .c20r").css("display", "block");
+                    $("#SilvercartProductGroupItemsWidgetSlider%d .roundabout-in-focus .c30l").css("display", "block");
+                    
+                    $("#SilvercartProductGroupItemsWidgetSlider%d .roundabout-moveable-item").bind("focus", function() {
+                        $(this).animate({
+                                width: \'+=335\',
+                                height: \'+=26\',
+                                marginLeft: \'-=150\',
+                                marginTop: \'-=13\'
+                            },
+                            400,
+                            ""
+                        );
+                        $(this).find(".c20r").show();
+                        $(this).find(".c30l").show();
+                        
+                        return true;
+                    });
+                    $("#SilvercartProductGroupItemsWidgetSlider%d .roundabout-moveable-item").bind("blur", function() {
+                        $(this).find(".c20r").hide();
+                        $(this).find(".c30l").hide();
+                        
+                        $(this).css({
+                            width: \'-=335\',
+                            height: \'-=26\',
+                            marginLeft: \'+=150\',
+                            marginTop: \'+=13\'
+                        });
+                        
+                        return true;
+                    });
                 });
                 ',
+                $this->ID,
+                $this->ID,
+                $this->ID,
+                $this->ID,
+                $this->ID,
                 $this->ID
             )
         );

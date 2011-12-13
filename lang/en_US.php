@@ -1340,6 +1340,10 @@ $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']             
 $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Use slider';
 
+$lang['en_US']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider for product groups';
+$lang['en_US']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Creates a slider that displays all product groups.';
+$lang['en_US']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider for product groups';
+
 $lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'Silvercart search';
 $lang['en_US']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widget shows a form for the product search.';
