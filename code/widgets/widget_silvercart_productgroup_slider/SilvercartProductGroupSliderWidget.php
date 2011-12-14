@@ -215,6 +215,7 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
         
         Requirements::css('silvercart/css/screen/sliders/SilvercartProductGroupSliderWidget.css');
         Requirements::javascript('silvercart/script/SilvercartProductGroupSliderWidget.js');
+        Requirements::javascript('silvercart/script/reflection.js');
         
         if ($productGroupObjects) {
             foreach ($productGroupObjects as $productGroupObject) {

@@ -48,13 +48,17 @@ var ProductRotator = function () {
         var productEl = $('<img/>')
             .attr('src', product.img)
             .attr('alt', product.img_alt)
+            .addClass('reflect')
+            .addClass('silvercart-productgroup-slider-image')
             .appendTo(link);
+        productEl.reflect({opacity: 0.1});
         return productEl;
     };
     self.setLeft = function(i) {
         var product = self.products[i];
         var productEl = $('<img/>')
             .attr('src', product.thumb)
+            .addClass('silvercart-productgroup-slider-image')
             .appendTo(self.el.leftContainer)
             .click(function(){ self.goTo(i, -1) });
         return productEl;
@@ -63,6 +67,7 @@ var ProductRotator = function () {
         var product = self.products[i];
         var productEl = $('<img/>')
             .attr('src', product.thumb)
+            .addClass('silvercart-productgroup-slider-image')
             .appendTo(self.el.rightContainer)
             .click(function(){ self.goTo(i, 1) });
         return productEl;
@@ -70,7 +75,8 @@ var ProductRotator = function () {
     
     self.goTo = function(i, dir) {
         // hero
-        self.el.heroContainer.find('img, div').empty();
+        //self.el.heroContainer.find('img, div').empty();
+        self.el.heroContainer.html('');
         self.setHero(i).hide().fadeIn('slow');
         self.el.leftContainer.find('img')
             .animate({

@@ -3,10 +3,12 @@
     clear:                          both;
     height:                         400px;
 }
-.silvercart-productgroup-slider img {
+.silvercart-productgroup-slider-image {
+    position:                       absolute;
     border:                         none;
 }
 .silvercart-productgroup-slider-presentation-panel {
+    z-index:                        4;
     position:                       absolute;
     left:                           50%;
     width:                          600px;
@@ -39,6 +41,10 @@
     height:                         192px;
     width:                          192px;
     background:                     url("{$CurrentController.baseHref}silvercart/images/productgroupslider_blind_right.png") left center no-repeat;
+}
+.silvercart-productgroup-slider-navigation-panel-left img,
+.silvercart-productgroup-slider-navigation-panel-right img {
+    cursor:                         pointer;
 }
 .silvercart-productgroup-slider-navigation-panel-left {
     z-index:                        1;
