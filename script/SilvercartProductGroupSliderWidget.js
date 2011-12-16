@@ -48,10 +48,8 @@ var ProductRotator = function () {
         var productEl = $('<img/>')
             .attr('src', product.img)
             .attr('alt', product.img_alt)
-            .addClass('reflect')
             .addClass('silvercart-productgroup-slider-image')
             .appendTo(link);
-        productEl.reflect({opacity: 0.1});
         return productEl;
     };
     self.setLeft = function(i) {
