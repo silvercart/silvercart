@@ -25,7 +25,8 @@
  * Bugfix for the Zend Locale Format class.
  *
  * Altered line 141: substr => iconv_substr
- * Altered line 153: and ($rest != '¤')
+ * Altered line 196: and ($rest != '¤')
+ * Altered line 207: commented
  *
  * @package Silvercart
  * @subpackage BugfixTemplates
@@ -204,7 +205,7 @@ class SilvercartZendLocaleFormatDecorator extends Zend_Locale_Format {
         }
 
         if (($value < 0) and ($rest != '0') and ($rest != '#') and ($rest != '¤')) {
-            $format .= $rest;
+            //$format .= $rest;
         }
 
         // Add seperation

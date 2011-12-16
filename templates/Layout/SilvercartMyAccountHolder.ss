@@ -17,7 +17,7 @@
                                 <tr>
                                     <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
                                     <th><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></th>
-                                    <th><% _t('SilvercartPage.ORDERD_PRODUCTS','ordered products') %></th>
+                                    <th><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
                                     <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
                                     <th>&nbsp;</th>
                                 </tr>

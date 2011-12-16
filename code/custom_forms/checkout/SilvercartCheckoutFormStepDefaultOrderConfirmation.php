@@ -44,7 +44,7 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm 
      * @copyright 2011 pixeltricks GmbH
      * @since 31.03.2011
      */
-    public function  preferences() {
+    public function preferences() {
         $this->preferences['stepIsVisible']                    = false;
         $this->preferences['ShowCustomHtmlFormStepNavigation'] = false;
         $this->preferences['createShoppingcartForms']          = false;
@@ -63,6 +63,8 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm 
      * @since 18.04.2011
      */
     public function defaultOrderConfirmation() {
+        
+        
         return $this->renderWith('SilvercartCheckoutFormStepDefaultOrderConfirmation');
     }
 }
