@@ -134,12 +134,15 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     /**
      * Returns the slider tab input fields for this widget.
      * 
+     * @param FieldSet &$fields     The FieldSet
+     * @param TabSet   &$rootTabSet The root tab set
+     * 
      * @return FieldSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 11.12.2011
      */
-    public function getCMSFieldsSliderTab(&$fields, $rootTabSet) {
+    public function getCMSFieldsSliderTab(&$fields, &$rootTabSet) {
         $sliderTab = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
         
         $rootTabSet->push($sliderTab);
@@ -178,12 +181,15 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     /**
      * Returns the slider tab input fields for this widget.
      * 
+     * @param FieldSet &$fields     The FieldSet
+     * @param TabSet   &$rootTabSet The root tab set
+     * 
      * @return FieldSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 11.12.2011
      */
-    public function getCMSFieldsRoundaboutTab(&$fields, $rootTabSet) {
+    public function getCMSFieldsRoundaboutTab(&$fields, &$rootTabSet) {
         $tab = new Tab('roundabout', _t('SilvercartProductGroupItemsWidget.CMS_ROUNDABOUTTABNAME'));
         
         $useSlider = new CheckboxField('useRoundabout', _t('SilvercartProductGroupItemsWidget.USE_ROUNDABOUT'));
