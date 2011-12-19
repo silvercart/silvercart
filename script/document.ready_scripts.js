@@ -90,7 +90,4 @@ jQuery(document).ready(function(){
         jQuery(".silvercart-product-group-page-selectors input[type=submit]").hide();
         jQuery(".silvercart-product-group-page-selectors select").bind('change', function() { this.form.submit(); });
     }
-    
-    // Set reflection on images
-    $("img.reflect").reflect({});
 });
