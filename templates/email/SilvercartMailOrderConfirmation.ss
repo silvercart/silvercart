@@ -198,6 +198,7 @@
             </tr>
         <% end_control %>
 
+        
         <!-- tax rates for sub total without fees and charges -->
         <% control getTaxRatesWithoutFees(false,false) %>
             <tr class="new-block">
@@ -210,40 +211,42 @@
             </tr>
         <% end_control %>
         
-        <!-- charges and discounts for product value -->
-        <% control SilvercartOrderChargePositionsProduct %>
-            <tr class="$EvenOrOdd">
-                <td colspan="2">$Title</td>
-                <td class="right">$Price.Nice</td>
-                <td class="right">{$TaxRate}%</td>
-                <td class="right">$Quantity</td>
-                <td class="right">$PriceTotal.Nice</td>
-            </tr>
-        <% end_control %>
-        
-        <!-- sub total without fees with product charges -->
-        <% control getTaxableAmountGrossWithoutFees(true,false) %>
-            <tr class="new-block">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-                <td class="right">$Amount.Nice</td>
-            </tr>
-        <% end_control %>
-        
-        <!-- tax rates for sub total without fees -->
-        <% control getTaxRatesWithoutFees(true,false) %>
-            <tr class="new-block">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
-                <td class="right">$Amount.Nice</td>
-            </tr>
-        <% end_control %>
+        <% if HasChargePositionsForProduct %>
+            <!-- charges and discounts for product value -->
+            <% control SilvercartOrderChargePositionsProduct %>
+                <tr class="$EvenOrOdd">
+                    <td colspan="2">$Title</td>
+                    <td class="right">$Price.Nice</td>
+                    <td class="right">{$TaxRate}%</td>
+                    <td class="right">$Quantity</td>
+                    <td class="right">$PriceTotal.Nice</td>
+                </tr>
+            <% end_control %>
+
+            <!-- sub total without fees with product charges -->
+            <% control getTaxableAmountGrossWithoutFees(true,false) %>
+                <tr class="new-block">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
+                    <td class="right">$Amount.Nice</td>
+                </tr>
+            <% end_control %>
+
+            <!-- tax rates for sub total without fees -->
+            <% control getTaxRatesWithoutFees(true,false) %>
+                <tr class="new-block">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
+                    <td class="right">$Amount.Nice</td>
+                </tr>
+            <% end_control %>
+        <% end_if %>
 
         <!-- fees -->
         <tr>
