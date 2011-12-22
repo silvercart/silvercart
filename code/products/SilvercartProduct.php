@@ -1667,9 +1667,14 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.08.2011
      */
-    public function import($data, $form, $request) {
+    public function import($data, $form, $request) {        
         $pidFile    = Director::baseFolder();
         $uploadFile = $_FILES['_CsvFile']['tmp_name'];
+        $bulkLoader = $_REQUEST["BulkLoader"];
+                
+        if (empty($bulkLoader) || !class_exists($bulkLoader)) {
+            $bulkLoader = 'SilvercartProductCsvBulkLoader';
+        }
         
         if (!file_exists($uploadFile)) {
             $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
@@ -1679,93 +1684,16 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         
         system(
             sprintf(
-                'sake /SilvercartProductImport -i="%s"',
-                $uploadFile
+                'sake /SilvercartProductImport -i="%s" -l="%s"',
+                $uploadFile,
+                $bulkLoader                  
             ),
             $returnValue
         );
 
         $form->sessionMessage($returnValue, 'good');
-
-        /*
-        return new SS_HTTPResponse(
-            $form->forTemplate(), 
-            200, 
-            sprintf(
-                _t('ModelAdmin.FOUNDRESULTS',"Your search found %s matching items"), 
-                $numResults
-            )
-        );
-        */
-
-        Director::redirectBack();
-        
-        
-        /*
-		$modelName = $data['ClassName'];
-
-		if(!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) return false;
-		$importers = $this->parentController->getModelImporters();
-		$importerClass = $importers[$modelName];
-
-		$loader = new $importerClass($data['ClassName']);
-
-		// File wasn't properly uploaded, show a reminder to the user
-		if(
-			empty($_FILES['_CsvFile']['tmp_name']) ||
-			file_get_contents($_FILES['_CsvFile']['tmp_name']) == ''
-		) {
-			$form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
-			Director::redirectBack();
-			return false;
-		}
-
-		if (!empty($data['EmptyBeforeImport']) && $data['EmptyBeforeImport']) { //clear database before import
-			$loader->deleteExistingRecords = true;
-		}
-        
-        $processingResult        = '1';
-        $cStr                    = $this->doCurlLogin();
-        $csvFileProcessorLoopIdx = 0;
-        
-        // Segmented processing of each file
-        while ($processingResult == '1') {
-            $url                     = Director::absoluteURL(
-                Controller::curr()->Link.
-                'admin/silvercart-administration/SilvercartProduct/customFormAction'
-            );
-            $offset = $csvFileProcessorLoopIdx;
-            
-            // Trigger processor via CURL
-            $ch = curl_init();
-            curl_setopt($ch,CURLOPT_COOKIE, $cStr);
-            curl_setopt($ch, CURLOPT_VERBOSE, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-                    'action'    => 'importCsvSlice',
-                    'offset'    => $offset,
-                    'csvFile'   => urlencode($_FILES['_CsvFile']['tmp_name'])
-                )
-            );
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-
-            $processingResult = curl_exec($ch);
-            $processingResult = ''.$processingResult;
-            $this->Log('Processing Result is '.$processingResult);
-
-            curl_close($ch);
-            unset($ch);
-            unset($url);
-
-            $csvFileProcessorLoopIdx++;
-        }
-        unlink($_FILES['_CsvFile']['tmp_name']);
         
         Director::redirectBack();
-        */
     }
     
     /**
@@ -2269,10 +2197,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function CustomForm($formIdentifier) {
         $form = '';
-
-        if (method_exists($this, $formIdentifier)) {
-            $form = $this->$formIdentifier();
-        }
+        $form = $this->$formIdentifier();
         
         $this->extend('updateCustomForm', $form, $formIdentifier);
 
@@ -2294,7 +2219,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function customFormAction($data, $form = null, $request = null) {
         $output = '';
-
+        
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
         
         if (method_exists($this, $data['action'])) {

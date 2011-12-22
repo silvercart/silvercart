@@ -1247,11 +1247,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 17.11.2010
      */
     public function Log($context, $text) {
-        $path = Director::baseFolder() . '/silvercart/log/' . $this->ClassName . '.log';
-        $text = sprintf(
-            "%s - Method: '%s' - %s\n", date('Y-m-d H:i:s'), $context, $text
-        );
-        file_put_contents($path, $text, FILE_APPEND);
+        SilvercartConfig::Log($context, $text, $this->ClassName);
     }
 
     /**
