@@ -36,15 +36,16 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
     /**
      * Initialisation for plugin providers.
      *
-     * @param array &$arguments The arguments to pass
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return sring
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function init(&$arguments = array()) {
-        $result = $this->extend('pluginInit', $arguments);
+    public function init(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginInit', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }
@@ -53,34 +54,56 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
      * This method gets called after the order object has been created from the
      * shoppingcart object and before the order positions get created.
      *
-     * @param array &$arguments The arguments to pass
-     *                          $arguments[0] = SilvercartOrder
-     *                          $arguments[1] = SilvercartShoppingCart
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartOrder
+     *                              $arguments[1] = SilvercartShoppingCart
+     * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return sring
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function createFromShoppingCart(&$arguments = array()) {
-        $result = $this->extend('pluginCreateFromShoppingCart', $arguments);
+    public function createFromShoppingCart(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginCreateFromShoppingCart', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
+    }
+    
+    /**
+     * This method gets called while the SilvercartShoppingCartPositions are
+     * converted to SilvercartOrderPositions.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartShoppingCartPosition
+     *                              $arguments[1] = SilvercartOrderPosition
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function convertShoppingCartPositionToOrderPosition(&$arguments = array(), &$callingObject) {
+        $this->extend('pluginConvertShoppingCartPositionToOrderPosition', $arguments[0], $arguments[1], $callingObject);
+        
+        return $arguments[1];
     }
     
     /**
      * Use this method to return additional information on the order in the
      * section "My Account" for the customer.
      *
-     * @param array &$arguments The arguments to pass
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
      * 
-     * @return void
+     * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function OrderDetailInformation(&$arguments = array()) {
-        $result = $this->extend('pluginOrderDetailInformation', $arguments);
+    public function OrderDetailInformation(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOrderDetailInformation', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }

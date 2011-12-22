@@ -441,8 +441,16 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public function createFromShoppingCart() {
-        $member = Member::currentUser();
-        $this->MemberID = $member->ID;
+        $member                 = Member::currentUser();
+        $silvercartShoppingCart = $member->SilvercartShoppingCart();
+        $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
+        $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
+        $this->MemberID         = $member->ID;
+
+        $paymentObj = DataObject::get_by_id(
+            'SilvercartPaymentMethod',
+            $this->SilvercartPaymentMethodID
+        );
         
         // VAT tax for shipping and payment fees
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
@@ -469,26 +477,17 @@ class SilvercartOrder extends DataObject {
             }
         }
 
-        // price sum of all positions
-        $this->AmountTotal->setAmount($member->SilvercartShoppingCart()->getAmountTotal()->getAmount());
-        $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-
         // amount of all positions + handling fee of the payment method + shipping fee
-        $totalAmount = 
-            $this->HandlingCostPayment->getAmount() +
-            $this->HandlingCostShipment->getAmount() +
-            $member->SilvercartShoppingCart()->getAmountTotal()->getAmount();
-
+        $totalAmount = $member->SilvercartShoppingCart()->getAmountTotal()->getAmount();
+        
         $this->AmountTotal->setAmount(
             $totalAmount
         );
+        $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
+        
         $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
-        $paymentObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $this->SilvercartPaymentMethodID
-        );
         $orderStatus = DataObject::get_one(
             'SilvercartOrderStatus',
             sprintf(
@@ -503,7 +502,7 @@ class SilvercartOrder extends DataObject {
         // write order to have an id
         $this->write();
         
-        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $member->SilvercartShoppingCart()));
+        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $silvercartShoppingCart));
 
         // Convert shopping cart positions
         $this->convertShoppingCartPositionsToOrderPositions();
@@ -525,6 +524,9 @@ class SilvercartOrder extends DataObject {
         
         $member = Member::currentUser();
         $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID);
+        $silvercartShoppingCart = $member->SilvercartShoppingCart();
+        $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
+        $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
         $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
 
         if ($shoppingCartPositions) {
@@ -533,12 +535,12 @@ class SilvercartOrder extends DataObject {
 
                 if ($product) {
                     $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($product->Price->getAmount());
-                    $orderPosition->Price->setCurrency($product->Price->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($product->Price->getAmount() * $shoppingCartPosition->Quantity);
-                    $orderPosition->PriceTotal->setCurrency($product->Price->getCurrency());
-                    $orderPosition->Tax                 = $product->getTaxAmount();
-                    $orderPosition->TaxTotal            = $product->getTaxAmount() * $shoppingCartPosition->Quantity;
+                    $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
+                    $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
+                    $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
+                    $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
+                    $orderPosition->Tax                 = $shoppingCartPosition->getTaxAmount(true);
+                    $orderPosition->TaxTotal            = $shoppingCartPosition->getTaxAmount();
                     $orderPosition->TaxRate             = $product->getTaxRate();
                     $orderPosition->ProductDescription  = $product->LongDescription;
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
@@ -551,15 +553,48 @@ class SilvercartOrder extends DataObject {
                     if ($product->hasMethod('ShoppingCartConvert')) {
                         $product->ShoppingCartConvert($this, $orderPosition);
                     }
-                    // decrement stock qunatity of the product
+                    // decrement stock quantity of the product
                     if (SilvercartConfig::EnableStockManagement()) {
                         $product->decrementStockQuantity($shoppingCartPosition->Quantity);
                     }
+                    
+                    $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
+                    
+                    if (!empty($result)) {
+                        $orderPosition = $result[0];
+                    }
+                    
                     $orderPosition->write();
                     unset($orderPosition);
                 }
             }
 
+            // Get charges and discounts for product values
+            if ($silvercartShoppingCart->HasChargesAndDiscountsForProducts()) {
+                $chargesAndDiscountsForProducts = $silvercartShoppingCart->ChargesAndDiscountsForProducts();
+                
+                foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
+                    $orderPosition = new SilvercartOrderPosition();
+                    $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                    $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                    $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                    $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                    $orderPosition->isChargeOrDiscount = true;
+                    $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
+                    $orderPosition->Tax                 = $chargeAndDiscountForProduct->SilvercartTax->Title;
+                    $orderPosition->TaxTotal            = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate) * 100);
+                    $orderPosition->TaxRate             = $chargeAndDiscountForProduct->SilvercartTax->Rate;
+                    $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
+                    $orderPosition->Quantity            = 1;
+                    $orderPosition->ProductNumber       = '';
+                    $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
+                    $orderPosition->SilvercartOrderID   = $this->ID;
+                    $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->write();
+                    unset($orderPosition);
+                }
+            }
+            
             // Get taxable positions from registered modules
             $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
@@ -617,6 +652,32 @@ class SilvercartOrder extends DataObject {
                     unset($orderPosition);
                 }
             }
+            
+            // Get charges and discounts for shopping cart total
+            if ($silvercartShoppingCart->HasChargesAndDiscountsForTotal()) {
+                $chargesAndDiscountsForTotal = $silvercartShoppingCart->ChargesAndDiscountsForTotal();
+                
+                foreach ($chargesAndDiscountsForTotal as $chargeAndDiscountForTotal) {
+                    $orderPosition = new SilvercartOrderPosition();
+                    $orderPosition->Price->setAmount($chargeAndDiscountForTotal->Price->getAmount());
+                    $orderPosition->Price->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
+                    $orderPosition->PriceTotal->setAmount($chargeAndDiscountForTotal->Price->getAmount());
+                    $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
+                    $orderPosition->isChargeOrDiscount = true;
+                    $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForTotal->sumModificationImpact;
+                    $orderPosition->Tax                 = $chargeAndDiscountForTotal->SilvercartTax->Title;
+                    $orderPosition->TaxTotal            = $chargeAndDiscountForTotal->Price->getAmount() - ($chargeAndDiscountForTotal->Price->getAmount() / (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate) * 100);
+                    $orderPosition->TaxRate             = $chargeAndDiscountForTotal->SilvercartTax->Rate;
+                    $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
+                    $orderPosition->Quantity            = 1;
+                    $orderPosition->ProductNumber       = '';
+                    $orderPosition->Title               = $chargeAndDiscountForTotal->Name;
+                    $orderPosition->SilvercartOrderID   = $this->ID;
+                    $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->write();
+                    unset($orderPosition);
+                }
+            }
 
             // Convert positions of registered modules
             $member->currentUser()->SilvercartShoppingCart()->callMethodOnRegisteredModules(
@@ -626,7 +687,7 @@ class SilvercartOrder extends DataObject {
                     Member::currentUser()
                 )
             );
-
+            
             // Delete the shoppingcart positions
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
                 $shoppingCartPosition->delete();
@@ -943,7 +1004,7 @@ class SilvercartOrder extends DataObject {
         /*
         $priceNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
         */
-        $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax()->getAmount();
+        $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
 
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
@@ -964,56 +1025,177 @@ class SilvercartOrder extends DataObject {
     public function getPriceGross() {
         return $this->AmountTotal;
     }
-
+    
+    /**
+     * Returns all order positions without a tax value.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.12.2011
+     */
+    public function SilvercartOrderPositionsWithoutTax() {
+        $orderPositions = new DataObjectSet();
+        
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if (!$orderPosition->isChargeOrDiscount &&
+                 $orderPosition->TaxRate == 0) {
+                
+                $orderPositions->push($orderPosition);
+            }
+        }
+        
+        return $orderPositions;
+    }
+    
+    /**
+     * Returns all regular order positions.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.12.2011
+     */
+    public function SilvercartOrderListPositions() {
+        $orderPositions = new DataObjectSet();
+        
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if (!$orderPosition->isChargeOrDiscount &&
+                 $orderPosition->TaxRate > 0) {
+                
+                $orderPositions->push($orderPosition);
+            }
+        }
+        
+        return $orderPositions;
+    }
+    
+    /**
+     * Returns all order positions that contain charges and discounts for the 
+     * shopping cart value.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.12.2011
+     */
+    public function SilvercartOrderChargePositionsTotal() {
+        $chargePositions = new DataObjectSet();
+        
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ($orderPosition->isChargeOrDiscount &&
+                $orderPosition->chargeOrDiscountModificationImpact == 'totalValue') {
+                
+                $chargePositions->push($orderPosition);
+            }
+        }
+        
+        return $chargePositions;
+    }
+    
+    /**
+     * Returns all order positions that contain charges and discounts for
+     * product values.
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.12.2011
+     */
+    public function SilvercartOrderChargePositionsProduct() {
+        $chargePositions = new DataObjectSet();
+        
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ($orderPosition->isChargeOrDiscount &&
+                $orderPosition->chargeOrDiscountModificationImpact == 'productValue') {
+                
+                $chargePositions->push($orderPosition);
+            }
+        }
+        
+        return $chargePositions;
+    }
+    
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
-     * fees.
+     * fees and charges.
      *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
      * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 16.12.2011
      */
-    public function getTaxableAmountGross() {
+    public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         $priceGross = new Money();
         $priceGross->setAmount(0);
         $priceGross->setCurrency(SilvercartConfig::DefaultCurrency());
-
+        
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
+        }
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
         foreach ($this->SilvercartOrderPositions() as $position) {
+            if ((
+                    !$includeChargesForProducts &&
+                     $position->isChargeOrDiscount &&
+                     $position->chargeOrDiscountModificationImpact == 'productValue'
+                ) || (
+                    !$includeChargesForTotal &&
+                     $position->isChargeOrDiscount &&
+                     $position->chargeOrDiscountModificationImpact == 'totalValue'
+                )
+               ) {
+                continue;
+            }
+            
             if ($position->TaxRate > 0) {
                 $priceGross->setAmount(
                     $priceGross->getAmount() + $position->PriceTotal->getAmount()
                 );
             }
         }
-
-        return $priceGross;
+        
+        return new DataObject(
+            array(
+                'Amount' => $priceGross
+            )
+        );
     }
-
+    
     /**
-     * Returns the order value of all positions with a tax rate > 0 including
-     * all fees.
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees and charges.
      *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
      * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
+     * @since 16.12.2011
      */
-    public function getTaxableAmountGrossWithFees() {
-        $priceGross = new Money();
-        $priceGross->setAmount(0);
-        $priceGross->setCurrency(SilvercartConfig::DefaultCurrency());
-
-        foreach ($this->SilvercartOrderPositions() as $position) {
-            if ($position->TaxRate > 0) {
-                $priceGross->setAmount(
-                    $priceGross->getAmount() + $position->PriceTotal->getAmount()
-                );
-            }
+    public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
         }
-
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
+        $priceGross = $this->getTaxableAmountGrossWithoutFees($includeChargesForProducts, $includeChargesForTotal)->Amount;
+        
         $priceGross->setAmount(
             $priceGross->getAmount() +
             $this->HandlingCostPayment->getAmount()
@@ -1023,24 +1205,53 @@ class SilvercartOrder extends DataObject {
             $priceGross->getAmount() +
             $this->HandlingCostShipment->getAmount()
         );
-
-        return $priceGross;
+        
+        return new DataObject(
+            array(
+                'Amount' => $priceGross
+            )
+        );
     }
 
     /**
      * Returns the sum of tax amounts grouped by tax rates for the products
      * of the order.
      *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 03.02.2011
+     * @since 16.12.2011
      */
-    public function getTaxRatesWithoutFees() {
+    public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
+        }
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
         $taxes = new DataObjectSet;
-
+        
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ((
+                    !$includeChargesForProducts &&
+                     $orderPosition->isChargeOrDiscount &&
+                     $orderPosition->chargeOrDiscountModificationImpact == 'productValue'
+                ) || (
+                    !$includeChargesForTotal &&
+                     $orderPosition->isChargeOrDiscount &&
+                     $orderPosition->chargeOrDiscountModificationImpact == 'totalValue'
+                )
+               ) {
+                continue;
+            }
+            
             $taxRate = $orderPosition->TaxRate;
             if ($taxRate > 0 &&
                 !$taxes->find('Rate', $taxRate)) {
@@ -1065,23 +1276,35 @@ class SilvercartOrder extends DataObject {
 
             $tax->Amount = $taxObj;
         }
-
+        
         return $taxes;
     }
-
+    
     /**
      * Returns the sum of tax amounts grouped by tax rates for the products
-     * and all fees of the order.
+     * of the order.
      *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 03.02.2011
+     * @since 16.12.2011
      */
-    public function getTaxRatesWithFees() {
-        $taxes = $this->getTaxRatesWithoutFees();
-
+    public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
+        }
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
+        $taxes = $this->getTaxRatesWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        
         // Shipping cost tax
         $taxRate = $this->TaxRateShipment;
         if ($taxRate > 0 &&
@@ -1123,7 +1346,7 @@ class SilvercartOrder extends DataObject {
 
             $tax->Amount = $taxObj;
         }
-
+        
         return $taxes;
     }
 
@@ -1190,6 +1413,29 @@ class SilvercartOrder extends DataObject {
     public function OrderDetailInformation() {
         return SilvercartPlugin::call($this, 'OrderDetailInformation', array($this));
     }
+    
+    /**
+     * Indicates wether there are positions that are charges or discounts for
+     * the product value.
+     *
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.12.2011
+     */
+    public function HasChargePositionsForProduct() {
+        $hasChargePositionsForProduct = false;
+
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ($orderPosition->isChargeOrDiscount &&
+                $orderPosition->chargeOrDiscountModificationImpact == 'productValue') {
+
+                $hasChargePositionsForProduct = true;
+            }
+        }
+        
+        return $hasChargePositionsForProduct;
+    }
 
     /**
      * writes a log entry
@@ -1248,7 +1494,7 @@ class SilvercartOrder extends DataObject {
             ),
         );
                 
-        $result = $this->extend('updateConfimationMail', $params);
+        $result = $this->extend('updateConfirmationMail', $params);
         
         SilvercartShopEmail::send(
             $params['MailOrderConfirmation']['Template'],

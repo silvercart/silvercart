@@ -54,7 +54,11 @@ class SilvercartShoppingCartPositionNotice extends SilvercartNotice {
             'remaining' => array(
                 'text' => _t('SilvercartShoppingCartPosition.REMAINING_QUANTITY_ADDED_MESSAGE'),
                 'type' => 'hint'
-            )
+            ),
+            'maxQuantityReached' => array(
+                'text' => _t('SilvercartShoppingCartPosition.MAX_QUANTITY_REACHED_MESSAGE'),
+                'type' => 'hint'
+            ),
         );
         if (array_key_exists($code, $notices)) {
             return $notices[$code]['text'];

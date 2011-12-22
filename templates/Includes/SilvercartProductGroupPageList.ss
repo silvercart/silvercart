@@ -1,6 +1,6 @@
 <% if Elements %>
     <% control Elements %>
-        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast">
+        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast $productAddCartFormObj.FormName">
             <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
                     <h3>
@@ -20,7 +20,7 @@
                     <div class="c45l">
                         <div class="subcl">
                             <div class="silvercart-product-text-info">
-                                <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                <p>$getHtmlEncodedShortDescription</p>
                                 <% if PackagingQuantity %>
                                 <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
                                 <% end_if %>

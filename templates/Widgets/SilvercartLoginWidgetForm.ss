@@ -1,6 +1,13 @@
 <form class="yform full" $FormAttributes>
     $CustomHtmlFormMetadata
-    $CustomHtmlFormErrorMessages
+    
+    <% if HasCustomHtmlFormErrorMessages %>
+        <div class="silvercart-error-list">
+            <div class="silvercart-error-list_content">
+                $CustomHtmlFormErrorMessages
+            </div>
+        </div>
+    <% end_if %>
 
     $CustomHtmlFormFieldByName(emailaddress)
     $CustomHtmlFormFieldByName(password)

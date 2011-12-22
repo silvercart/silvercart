@@ -1023,6 +1023,44 @@ class SilvercartProduct extends DataObject {
 
         return $output;
     }
+    
+    /**
+     * Returns an HTML encoded short description, preserving HTML tags.
+     * 
+     * @param int $cutToLength Limit the length of the result to the given
+     *                         number of characters.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.2011
+     */
+    public function getHtmlEncodedShortDescription($cutToLength = false) {
+        $output = htmlentities($this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false);
+        
+        $output = str_replace(
+            array(
+                '&lt;',
+                '&gt;'
+            ),
+            array(
+                '<',
+                '>'
+            ),
+            $output
+        );
+
+        if ($cutToLength !== false) {
+            $line = $output;
+            if (preg_match('/^.{1,'.$cutToLength.'}\b/s', $output, $match)) {
+                $line = $match[0];
+            }
+
+            $output = $line;
+        }
+        
+        return $output;
+    }
 
     /**
      * Getter for product price
@@ -1079,6 +1117,7 @@ class SilvercartProduct extends DataObject {
      * define the searchable fields and search methods for the frontend
      *
      * @return SearchContext ???
+     * 
      * @author Roland Lehmann
      * @since 23.10.2010
      */
@@ -1128,6 +1167,7 @@ class SilvercartProduct extends DataObject {
      * @param boolean $masterProduct Should only master products be returned?
      *
      * @return array DataObjectSet of random products
+     * 
      * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
      * @since 23.10.2010
@@ -1144,6 +1184,7 @@ class SilvercartProduct extends DataObject {
      * get all required attributes as an array.
      *
      * @return array the attributes required to display an product in the frontend
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -1156,8 +1197,9 @@ class SilvercartProduct extends DataObject {
      *
      * @param string $concatinatedAttributesString a string with all attribute names, seperated by comma, with or without whitespaces
      *
-     * @since 23.10.2010
      * @return void
+     * 
+     * @since 23.10.2010
      * @author Roland Lehmann
      */
     public static function setRequiredAttributes($concatinatedAttributesString) {
@@ -1193,10 +1235,10 @@ class SilvercartProduct extends DataObject {
      * @param int $cartID   ID of the users shopping cart
      * @param int $quantity Amount of products to be added
      *
+     * @return mixed SilvercartShoppingCartPosition|boolean false
+     * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 22.11.2010
-     *
-     * @return bool
      */
     public function addToCart($cartID, $quantity = 1) {
         $addToCartAllowed = true;
@@ -1228,18 +1270,33 @@ class SilvercartProduct extends DataObject {
         }
         
         if ($shoppingCartPosition->isQuantityIncrementableBy($quantity)) {
-            $shoppingCartPosition->Quantity += $quantity;
+            if ($shoppingCartPosition->Quantity + $quantity > SilvercartConfig::addToCartMaxQuantity()) {
+                $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
+                $shoppingCartPosition->write(); //we have to write because we need the ID
+                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");  
+            } else {
+                $shoppingCartPosition->Quantity += $quantity;
+            }
         } else {
             if ($this->StockQuantity > 0) {
-                $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
-                $shoppingCartPosition->write(); //we have to write because we need the ID
-                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");  
+                if ($shoppingCartPosition->Quantity + $this->StockQuantity > SilvercartConfig::addToCartMaxQuantity()) {
+                    $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
+                    $shoppingCartPosition->write(); //we have to write because we need the ID
+                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");  
+                } else {
+                    $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
+                    $shoppingCartPosition->write(); //we have to write because we need the ID
+                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");  
+                }
             } else {
                 return false;
             }
         }
         $shoppingCartPosition->write();
-        return true;
+        
+        SilvercartPlugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
+        
+        return $shoppingCartPosition;
     }
 
     /**
@@ -1247,6 +1304,7 @@ class SilvercartProduct extends DataObject {
      * An product has a unique URL
      *
      * @return string URL of $this
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -1282,9 +1340,9 @@ class SilvercartProduct extends DataObject {
      */
     public function getTaxAmount() {        
         if (Member::currentUser()->showPricesGross()) {
-            $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->getTaxRate()) * 100); 
+            $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100); 
         } else {
-            $taxRate = $this->Price->getAmount() * ($this->getTaxRate() / 100);
+            $taxRate = $this->getPrice()->getAmount() * ($this->getTaxRate() / 100);
         }
         return $taxRate;
     }
@@ -1380,6 +1438,20 @@ class SilvercartProduct extends DataObject {
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
     }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        $this->extend('updateOnBeforeDelete');
+    }
 
     /**
      * We check if the SortOrder field has changed. If the change originated
@@ -1422,6 +1494,20 @@ class SilvercartProduct extends DataObject {
                 }
             }
         }
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterDelete() {
+        parent::onAfterDelete();
+        
+        $this->extend('updateOnAfterDelete');
     }
 
     /**
@@ -1515,14 +1601,16 @@ class SilvercartProduct extends DataObject {
      * visualitation defined in SilvercartConfig and returns the defined image
      * as DataObjectSet. As last resort boolean false is returned.
      *
+     * @param string $filter An optional sql filter statement
+     * 
      * @return mixed DataObjectSet|bool false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 27.06.2011
      */
-    public function getSilvercartImages() {
-        $images = $this->SilvercartImages();
+    public function getSilvercartImages($filter = '') {
+        $images = $this->SilvercartImages($filter);
 
         $this->extend('updateGetSilvercartImages', $images);
         
@@ -1667,32 +1755,55 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.08.2011
      */
-    public function import($data, $form, $request) {        
-        $pidFile    = Director::baseFolder();
-        $uploadFile = $_FILES['_CsvFile']['tmp_name'];
-        $bulkLoader = $_REQUEST["BulkLoader"];
-                
-        if (empty($bulkLoader) || !class_exists($bulkLoader)) {
-            $bulkLoader = 'SilvercartProductCsvBulkLoader';
+    public function import($data, $form, $request) {
+        $modelName = $data['ClassName'];
+
+        if (!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) {
+            return false;
         }
-        
-        if (!file_exists($uploadFile)) {
+        $importers = $this->parentController->getModelImporters();
+        $importerClass = $importers[$modelName];
+
+        $loader = new $importerClass($data['ClassName']);
+
+        // File wasn't properly uploaded, show a reminder to the user
+        if (empty($_FILES['_CsvFile']['tmp_name']) ||
+            file_get_contents($_FILES['_CsvFile']['tmp_name']) == '') {
+            
             $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
             Director::redirectBack();
             return false;
         }
-        
-        system(
-            sprintf(
-                'sake /SilvercartProductImport -i="%s" -l="%s"',
-                $uploadFile,
-                $bulkLoader                  
-            ),
-            $returnValue
-        );
 
-        $form->sessionMessage($returnValue, 'good');
-        
+        if (!empty($data['EmptyBeforeImport']) && $data['EmptyBeforeImport']) { //clear database before import
+            $loader->deleteExistingRecords = true;
+        }
+        $results = $loader->load($_FILES['_CsvFile']['tmp_name']);
+
+        $message = '';
+        if ($results->CreatedCount()) {
+                $message .= sprintf(
+                _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
+                $results->CreatedCount()
+            );
+        }
+        if ($results->UpdatedCount()) {
+            $message .= sprintf(
+                _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
+                $results->UpdatedCount()
+            );
+        }
+        if ($results->DeletedCount()) {
+            $message .= sprintf(
+                _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
+                $results->DeletedCount()
+            );
+        }
+        if (!$results->CreatedCount() && !$results->UpdatedCount()) {
+            $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+        }
+
+        $form->sessionMessage($message, 'good');
         Director::redirectBack();
     }
     
@@ -1896,7 +2007,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         // to the respective SilvercartProduct
         if ($products) {
             foreach ($products as $product) {
-                
+                if (!array_key_exists('fileName', $product)) {
+                    continue;
+                }
                 foreach ($product['fileName'] as $fileName) {
                     // disable caching to prevent duplicated image objects
                     $existingImage = DataObject::get_one(
@@ -1933,10 +2046,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                         $image->deleteFormattedImages();
                         $importedFiles++;
                     } else {
-                        $this->Log('creating new image', 'importImages');
-                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
-                        $this->Log("\t" . 'ImageID:   ' . $existingImage->ID, 'importImages');
-                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         // Create new image
                         $image = $this->createImageObject(
                             $data['imageDirectory'].$fileName,
@@ -1944,6 +2053,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                             $fileName,
                             'Image'
                         );
+                        
+                        $this->Log('creating new image', 'importImages');
+                        $this->Log("\t" . 'ProductID: ' . $product['ID'], 'importImages');
+                        $this->Log("\t" . 'ImageID:   ' . $image->ID, 'importImages');
+                        $this->Log("\t" . 'Filename:   ' . $fileName, 'importImages');
                         
                         if ($image) {
                             // Create Image object
@@ -1967,6 +2081,9 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             // this in a separated loop because one image can be used for
             // many products.
             foreach ($products as $product) {
+                if (!array_key_exists('fileName', $product)) {
+                    continue;
+                }
                 if (file_exists($data['imageDirectory'].$product['fileName'])) {
                     unlink($data['imageDirectory'].$product['fileName']);
                 }
@@ -2125,6 +2242,13 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 26.08.2011
      */
     protected function findProductsByNumbers($numbers, $mapNames) {
+        $resultSet = SilvercartPlugin::call($this, 'overwriteFindProductsByNumbers', array($numbers, $mapNames), true, array());
+        
+        if (is_array($resultSet) &&
+            count($resultSet) > 0) {
+            return $resultSet[0];
+        }
+        
         $resultSet  = array();
         $query      = DB::query(
             sprintf("
@@ -2197,7 +2321,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function CustomForm($formIdentifier) {
         $form = '';
-        $form = $this->$formIdentifier();
+
+        if (method_exists($this, $formIdentifier)) {
+            $form = $this->$formIdentifier();
+        }
         
         $this->extend('updateCustomForm', $form, $formIdentifier);
 
@@ -2219,7 +2346,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function customFormAction($data, $form = null, $request = null) {
         $output = '';
-        
+
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
         
         if (method_exists($this, $data['action'])) {

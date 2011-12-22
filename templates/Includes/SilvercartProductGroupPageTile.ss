@@ -1,10 +1,10 @@
 <% if Elements %>
     <% control Elements %>
         <% if MultipleOf(2) %>
-            <div class="c50r silvercart-product-group-page-box-tile tile $EvenOdd">
+            <div class="c50r silvercart-product-group-page-box-tile tile $EvenOdd $productAddCartFormObj.FormName">
         <% else %>
             <div class="subcolumns equalize clearfix">
-                <div class="c50l silvercart-product-group-page-box-tile tile $EvenOdd">
+                <div class="c50l silvercart-product-group-page-box-tile tile $EvenOdd $productAddCartFormObj.FormName">
         <% end_if %>
             <div class="silvercart-product-group-page-box-tile_content">
                 <div class="silvercart-product-group-page-box-tile_frame">
@@ -48,7 +48,7 @@
                         <div class="c66r">
                             <div class="subcr">
                                 <div class="silvercart-product-text-info">
-                                    <p>$ShortDescription.LimitWordCountXML(35)</p>
+                                    <p>$getHtmlEncodedShortDescription</p>
                                     <% if PackagingQuantity %>
                                     <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
                                     <% end_if %>

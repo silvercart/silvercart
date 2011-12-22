@@ -15,7 +15,7 @@
                     </div>
                     <div class="c66r">
                         <div class="subcr">
-                            <p>$ShortDescription</p>
+                            <p>$getHtmlEncodedShortDescription</p>
 
                             <div class="silvercart-product-price-details">
                                 <p class="silvercart-price">

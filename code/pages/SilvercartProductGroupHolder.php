@@ -239,7 +239,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * @since 09.11.2011
      */
     public function HasMoreViewableChildrenThan($nrOfViewableChildren) {
-        if ($this->getViewableChildren()->Count() > $nrOfViewableChildren) {
+        if ($this->getViewableChildren()->TotalItems() > $nrOfViewableChildren) {
             return true;
         }
         

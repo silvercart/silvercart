@@ -116,6 +116,17 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     protected $manufacturers = null;
+    
+    /**
+     * Contains the number of all active SilvercartProducts for this page for
+     * caching purposes.
+     *
+     * @var int
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.11.2011
+     */
+    protected $activeSilvercartProducts = null;
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -262,7 +273,7 @@ class SilvercartProductGroupPage extends Page {
         }
 
         if ($this->drawCMSFields()) {
-            $productsTableField = new HasManyDataObjectManager(
+            $productsTableField = new HasManyComplexTableField(
                 $this,
                 'SilvercartProducts',
                 'SilvercartProduct',
@@ -383,8 +394,9 @@ class SilvercartProductGroupPage extends Page {
      * @since 01.02.2011
      */
     public function hasProductsOrChildren() {
-        if ($this->ActiveSilvercartProducts()->Count() > 0
+        if ($this->ActiveSilvercartProducts()->Count > 0
          || count($this->Children()) > 0) {
+            
             return true;
         }
         return false;
@@ -401,12 +413,35 @@ class SilvercartProductGroupPage extends Page {
      * @since 14.02.2011
      */
     public function hasProductCount($count) {
-        if ($this->ActiveSilvercartProducts()->Count() == $count) {
+        if ($this->ActiveSilvercartProducts()->Count == $count) {
             return true;
         }
         return false;
     }
 
+    /**
+     * Returns a flat array containing the ID of all child pages of the given page.
+     *
+     * @param int $pageId The root page ID
+     *
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.12.2011
+     */
+    public static function getFlatChildPageIDsForPage($pageId) {
+        $pageIDs = array($pageId);
+        $pageObj = DataObject::get_by_id('SiteTree', $pageId);
+        
+        if ($pageObj) {
+            foreach ($pageObj->Children() as $pageChild) {
+                $pageIDs = array_merge($pageIDs, self::getFlatChildPageIDsForPage($pageChild->ID));
+            }
+        }
+        
+        return $pageIDs;
+    }
+    
     /**
      * Returns the active products for this page.
      *
@@ -417,15 +452,35 @@ class SilvercartProductGroupPage extends Page {
      * @since 25.02.2011
      */
     public function ActiveSilvercartProducts() {
-        $activeProducts = array();
+        if (is_null($this->activeSilvercartProducts)) {
+            $activeProducts  = array();
+            $productGroupIDs = self::getFlatChildPageIDsForPage($this->ID);
+            
+            $records = DB::query(
+                sprintf(
+                    "SELECT
+                        ID
+                     FROM
+                        SilvercartProduct
+                     WHERE
+                        isActive = 1 AND SilvercartProductGroupID IN (%s)",
+                    implode(',', $productGroupIDs)
+                )
+            );
 
-        foreach ($this->SilvercartProducts() as $product) {
-            if ($product->isActive) {
-                $activeProducts[] = $product;
+            foreach ($records as $record) {
+                $activeProducts[] = $record['ID'];
             }
+            
+            $this->activeSilvercartProducts = $activeProducts;
         }
-
-        return new DataObjectSet($activeProducts);
+        
+        return new DataObject(
+            array(
+                'ID'    => 0,
+                'Count' => count($this->activeSilvercartProducts)
+            )
+        );
     }
 
     /**
@@ -688,13 +743,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $productAddCartForm = $this->getCartFormName();
                 foreach ($products as $product) {
                     $backlink = $this->Link()."?start=".$this->SQL_start;
-                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink)));
+                    $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
+                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
                     $product->productAddCartForm = $this->InsertCustomHtmlForm(
                         'ProductAddCartForm'.$productIdx,
                         array(
                             $product
                         )
                     );
+                    $product->productAddCartFormObj = $productAddCartForm;
                     $productIdx++;
                 }
             }
@@ -1192,12 +1249,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function getViewableChildren($numberOfProductGroups = false) {
         if ($this->viewableChildren === null) {
             $viewableChildren = array();
+            
             foreach ($this->Children() as $child) {
                 if ($child->hasProductsOrChildren()) {
                     $viewableChildren[] = $child;
                 }
             }
-
+            
             if ($numberOfProductGroups == false) {
                 if ($this->productGroupsPerPage) {
                     $pageLength = $this->productGroupsPerPage;
@@ -1233,7 +1291,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 09.11.2011
      */
     public function HasMoreViewableChildrenThan($nrOfViewableChildren) {
-        if ($this->getViewableChildren()->Count() > $nrOfViewableChildren) {
+        if ($this->getViewableChildren()->TotalItems() > $nrOfViewableChildren) {
             return true;
         }
         

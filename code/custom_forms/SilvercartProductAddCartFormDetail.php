@@ -35,4 +35,15 @@
  */
 class SilvercartProductAddCartFormDetail extends SilvercartProductAddCartForm {
 
+    /**
+     * Insert additional fields for this form from registered plugins.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.11.2011
+     */
+    public function AddCartFormDetailAdditionalFields() {
+        return SilvercartPlugin::call($this, 'AddCartFormDetailAdditionalFields', array($this));
+    }
 }

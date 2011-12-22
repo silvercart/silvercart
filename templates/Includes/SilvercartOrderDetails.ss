@@ -76,35 +76,29 @@
         </thead>
         <tbody>
             <% control SilvercartOrderPositions %>
-            <tr>
-                <td>$Title</td>
-                <td>$ProductDescription.LimitWordCount(12)</td>
-                <td>$PriceNice</td>
-                <td>$Quantity</td>
-                <td>$PriceTotalNice</td>
-            </tr>
-            <% if SilvercartVoucherCode %>
-                <tr class="subrow">
-                    <td colspan="5">
+                <% include SilvercartOrderDetailsPosition %>
+                <% if SilvercartVoucherCode %>
+                    <tr class="subrow">
+                        <td colspan="5">
 
-                        <% if MoreThanOneProduct %>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
-                            <ul>
-                                <% control VoucherCodes %>
-                                    <li>"<strong>$code</strong>"</li>
-                                <% end_control %>
-                            </ul>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
-                        <% else %>
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
-                            "<strong>$SilvercartVoucherCode</strong>".<br />
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
-                        <% end_if %>
-                    </td>
-                </tr>
-            <% end_if %>
+                            <% if MoreThanOneProduct %>
+                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
+                                <ul>
+                                    <% control VoucherCodes %>
+                                        <li>"<strong>$code</strong>"</li>
+                                    <% end_control %>
+                                </ul>
+                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
+                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
+                            <% else %>
+                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
+                                "<strong>$SilvercartVoucherCode</strong>".<br />
+                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
+                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
+                            <% end_if %>
+                        </td>
+                    </tr>
+                <% end_if %>
             <% end_control %>
         </tbody>
     </table>

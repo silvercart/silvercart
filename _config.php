@@ -19,7 +19,7 @@
  *
  * @package Silvercart
  * @subpackage Config
- * @ignore
+ * @ignore 
  */
 
 // requirenments for PHP 5.3
@@ -64,8 +64,32 @@ SortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
-Object::add_extension('SilvercartOrder', 'SilvercartPluginObjectExtension');
-SilvercartPlugin::registerPluginProvider('SilvercartOrder', 'SilvercartOrderPluginProvider');
+Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartOrder',                            'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProduct',                          'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProduct_CollectionController',     'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductAddCartFormDetail',         'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductAddCartFormList',           'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductAddCartFormTile',           'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductCsvBulkLoader',             'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartRemovePositionForm',               'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectExtension');
+
+SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartIncrementPositionQuantityForm', 'SilvercartIncrementPositionQuantityFormPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartOrder',                         'SilvercartOrderPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProduct',                       'SilvercartProductPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProduct_CollectionController',  'SilvercartProduct_CollectionControllerPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormDetail',      'SilvercartProductAddCartFormDetailPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormList',        'SilvercartProductAddCartFormListPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormTile',        'SilvercartProductAddCartFormTilePluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartForm',            'SilvercartProductAddCartFormPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductCsvBulkLoader',          'SilvercartProductCsvBulkLoaderPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
 
 // ----------------------------------------------------------------------------
 // Register TaskNotificationChannels

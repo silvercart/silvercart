@@ -137,13 +137,13 @@ class SilvercartShoppingCartPosition extends DataObject {
             foreach ($positionForms as $positionForm) {
                 if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
                     $controller->registerCustomHtmlForm(
-                            $positionForm . $this->ID,
-                            new $positionForm(
-                                    $controller,
-                                    array(
-                                        'positionID' => $this->ID
-                                    )
+                        $positionForm . $this->ID,
+                        new $positionForm(
+                            $controller,
+                            array(
+                                'positionID' => $this->ID
                             )
+                        )
                     );
                 }
             }
@@ -153,18 +153,32 @@ class SilvercartShoppingCartPosition extends DataObject {
     /**
      * price sum of this position
      *
+     * @param boolean $forSingleProduct Indicates wether the price for the total
+     *                                  quantity of products should be returned
+     *                                  or for one product only.
+     * 
      * @return Money the price sum
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 22.10.2010
      */
-    public function getPrice() {
+    public function getPrice($forSingleProduct = false) {
+        $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
+        
+        if ($pluginPriceObj !== false) {
+            return $pluginPriceObj;
+        }
+        
         $product = $this->SilvercartProduct();
         $price = 0;
 
-        if ($product && $product->Price->getAmount()) {
-            $price = $product->Price->getAmount() * $this->Quantity;
+        if ($product && $product->getPrice()->getAmount()) {
+            if ($forSingleProduct) {
+                $price = $product->getPrice()->getAmount();
+            } else {
+                $price = $product->getPrice()->getAmount() * $this->Quantity;
+            }
         }
 
         $priceObj = new Money();
@@ -257,6 +271,28 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
         return false;
     }
+    
+    /**
+     * returns the tax amount included in $this
+     *
+     * @param boolean $forSingleProduct Indicates wether the price for the total
+     *                                  quantity of products should be returned
+     *                                  or for one product only.
+     * 
+     * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 25.11.2010
+     */
+    public function getTaxAmount($forSingleProduct = false) {        
+        if (Member::currentUser()->showPricesGross()) {
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() - ($this->getPrice($forSingleProduct)->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
+        } else {
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
+        }
+        return $taxRate;
+    }
 
     /**
      * Decrement the positions quantity if it is higher than the stock quantity.
@@ -296,5 +332,61 @@ class SilvercartShoppingCartPosition extends DataObject {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterDelete() {
+        parent::onAfterDelete();
+        
+        $this->extend('updateOnAfterDelete');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        $this->extend('updateOnBeforeDelete');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        
+        $this->extend('updateOnAfterWrite');
+    }
+    
+    /**
+     * We make this method extendable here.
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        
+        $this->extend('updateOnBeforeWrite');
     }
 }

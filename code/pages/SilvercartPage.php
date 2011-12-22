@@ -261,6 +261,10 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
+            Requirements::javascript("silvercart/script/jquery.roundabout.min.js");
+            Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
+            Requirements::javascript("silvercart/script/jquery.easing.1.3.js");
+            Requirements::add_i18n_javascript('silvercart/javascript/lang');
         }
         
         if ($controller == $this || $controller->forceLoadOfWidgets) {
@@ -332,15 +336,17 @@ class SilvercartPage_Controller extends ContentController {
 
         // check the SilverCart configuration
         $checkConfiguration = true;
+        
         if (array_key_exists('url', $_REQUEST)) {
             if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
                 $checkConfiguration = false;
             }
-        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false) {
+        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
             $checkConfiguration = false;
         } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
             $checkConfiguration = false;
         }
+        
         if ($checkConfiguration) {
             SilvercartConfig::Check();
         }
@@ -349,7 +355,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->extend('updateInit');
 
         SilvercartPlugin::call($this, 'init', array($this));
-        
+            
         parent::init();
     }
     

@@ -133,6 +133,7 @@ class SilvercartConfig extends DataObject {
         'isStockManagementOverbookable'     => 'Boolean(0)',
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
+        'addToCartMaxQuantity'              => 'Int(999)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -170,10 +171,11 @@ class SilvercartConfig extends DataObject {
         'PricetypeAdmins'               => 'net',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
-        'productsPerPage'               => 15,
+        'productsPerPage'               => 20,
         'productGroupsPerPage'          => 6,
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
+        'addToCartMaxQuantity'          => 999
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -199,6 +201,7 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
+    public static $addToCartMaxQuantity             = null;
     public static $apacheSolrPort                   = null;
     public static $apacheSolrUrl                    = null;
     public static $defaultCurrency                  = null;
@@ -458,6 +461,7 @@ class SilvercartConfig extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels['addToCartMaxQuantity']                = _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart');
         $fieldLabels['DefaultCurrency']                     = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender']                         = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient']                = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
@@ -561,9 +565,11 @@ class SilvercartConfig extends DataObject {
                 if (empty($requiredField) || is_null($requiredField)) {
                     continue;
                 }
+                
                 if (method_exists('SilvercartConfig', 'check' . $requiredField)) {
                     $method = 'check' . $requiredField;
                     $result = $config->$method();
+                    
                     if ($result['status'] === false) {
                         $errorMessage = $result['message'];
                         self::triggerError($errorMessage);
@@ -962,6 +968,7 @@ class SilvercartConfig extends DataObject {
      */
     public function checkActiveCountries() {
         $hasActiveCountries = false;
+        
         if (DataObject::get_one('SilvercartCountry', "`Active`=1")) {
             $hasActiveCountries = true;
         }
@@ -1104,6 +1111,22 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupHolderView($groupHolderView) {
         SilvercartGroupViewHandler::removeGroupHolderView($groupHolderView);
+    }
+    
+    /**
+     * Returns the maximum number of products that can be added to cart for one
+     * product.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.11.2011
+     */
+    public static function addToCartMaxQuantity() {
+        if (is_null(self::$addToCartMaxQuantity)) {
+            self::$addToCartMaxQuantity = self::getConfig()->addToCartMaxQuantity;
+        }
+        return self::$addToCartMaxQuantity;
     }
     
     /**
@@ -1254,6 +1277,33 @@ class SilvercartConfig extends DataObject {
         
         return $installationComplete;
     }
+    
+    /**
+     * check if a url is reachable
+     * This can be used to timeout SOAP connection
+     * An http code between 200 and 299 is considered a valid connection.
+     *
+     * @param string  $url              the URL to check
+     * @param integer $conectionTimeout connection timeout in seconds; if set to zero timeout is deactivated
+     *
+     * @return bool 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.11.2011
+     */
+    public static function isValidUrl($url, $conectionTimeout = 5) { 
+        $curl = curl_init($url);  
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $conectionTimeout);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5); //The maximum number of seconds to allow cURL functions to execute.
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  
+        curl_exec($curl);  
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);  
+        curl_close($curl);  
+        if ($httpcode >= 200 && $httpcode < 300) {  
+            return true;  
+        }  
+        return false; 
+    }
 
     /**
      * writes a log entry
@@ -1271,7 +1321,7 @@ class SilvercartConfig extends DataObject {
     public static function Log($context, $text, $filename = 'default') {
         $path = Director::baseFolder() . '/silvercart/log/' . $filename . '.log';
         $text = sprintf(
-                "%s - %s - %s\n",
+                "%s - %s - %s" . PHP_EOL,
                 date('Y-m-d H:i:s'),
                 $context,
                 $text

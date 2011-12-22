@@ -265,6 +265,8 @@ $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_GB']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
 $lang['en_GB']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
+$lang['en_GB']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Product exporters';
+$lang['en_GB']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Product exporter';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
 $lang['en_GB']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
@@ -358,6 +360,7 @@ $lang['en_GB']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_GB']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_GB']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
 
+$lang['en_GB']['SilvercartConfig']['ADDTOCARTMAXQUANTITY'] = 'Maximum allowed quantity of a single product in the shopping cart';
 $lang['en_GB']['SilvercartConfig']['ADD_EXAMPLE_DATA'] = 'Add Example Data';
 $lang['en_GB']['SilvercartConfig']['ADD_EXAMPLE_DATA_DESCRIPTION'] = 'The action "Add Example Data" will create an example manufaturer and four productgroups with 50 products.<br/><strong>CAUTION: This action can take a few minutes!</strong>';
 $lang['en_GB']['SilvercartConfig']['ADD_EXAMPLE_CONFIGURATION'] = 'Add Example Configuration';
@@ -976,7 +979,7 @@ $lang['en_GB']['SilvercartPage']['NOVEMBER'] = 'November';
 $lang['en_GB']['SilvercartPage']['NO_ORDERS'] = 'You do not have any orders yet';
 $lang['en_GB']['SilvercartPage']['NO_RESULTS'] = 'Sorry, but your query did not return any results.';
 $lang['en_GB']['SilvercartPage']['OCTOBER'] = 'October';
-$lang['en_GB']['SilvercartPage']['ORDERD_PRODUCTS'] = 'Ordered products';
+$lang['en_GB']['SilvercartPage']['ORDERED_PRODUCTS'] = 'Ordered products';
 $lang['en_GB']['SilvercartPage']['ORDER_COMPLETED'] = 'Your order is complete';
 $lang['en_GB']['SilvercartPage']['ORDER_DATE'] = 'Order date';
 $lang['en_GB']['SilvercartPage']['ORDERS_EMAIL_INFORMATION_TEXT'] = 'Please check your email inbox for the order confirmation.';
@@ -1024,6 +1027,7 @@ $lang['en_GB']['SilvercartPage']['URL_SEGMENT_IMPRINT'] = 'imprint';
 $lang['en_GB']['SilvercartPage']['URL_SEGMENT_TERMS'] = 'terms-of-service';
 $lang['en_GB']['SilvercartPage']['USER_NOT_EXISTING'] = 'This user does not exist.';
 $lang['en_GB']['SilvercartPage']['VIEW_ORDERS_TEXT'] = 'You can check the status of your order any time in your';
+$lang['en_GB']['SilvercartPage']['VALUE_OF_GOODS'] = 'Value of goods';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['YEAR'] = 'Year';
@@ -1039,7 +1043,20 @@ $lang['en_GB']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'From purchas
 $lang['en_GB']['SilvercartPaymentMethod']['MODE'] = 'mode';
 $lang['en_GB']['SilvercartPaymentMethod']['NAME'] = 'Name';
 $lang['en_GB']['SilvercartPaymentMethod']['NO_PAYMENT_METHOD_AVAILABLE'] = 'No payment method available.';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE'] = 'The value is';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_IMPACT_TYPE_ABSOLUTE'] = 'Absolute';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_IMPACT_TYPE_PERCENT'] = 'In percent';
 $lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_LOGOS'] = 'Logos';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_MODIFY_PRODUCTVALUE'] = 'Product value';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_MODIFY_TOTALVALUE'] = 'Total value';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_MODIFY_TYPE_DISCOUNT'] = 'Charge';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACT'] = 'Discount';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONLABELFIELD'] = 'Label for shopping cart/order';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACT'] = 'Affects';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACTTYPE'] = 'Type';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONVALUE'] = 'Value';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFIERS'] = 'Charges/Discounts';
+$lang['en_GB']['SilvercartPaymentMethod']['PAYMENT_USE_SUMMODIFICATION'] = 'Activate';
 $lang['en_GB']['SilvercartPaymentMethod']['PLURALNAME'] = 'Payment methods';
 $lang['en_GB']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_QUANTITY'] = 'The customer must have completed the following number of orders';
 $lang['en_GB']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_STATUS'] = 'whose order status is marked in the following list';
@@ -1173,6 +1190,7 @@ $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] 
 $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
 $lang['en_GB']['SilvercartShoppingCart']['SINGULARNAME'] = 'Cart';
 
+$lang['en_GB']['SilvercartShoppingCartPosition']['MAX_QUANTITY_REACHED_MESSAGE'] = 'The maximum quantity of products for this position has been reached.';
 $lang['en_GB']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Cart positions';
 $lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'The product(s) were added to your cart.';
 $lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'The quantity of this position was adjusted to the currently available stock quantity.';
@@ -1320,6 +1338,7 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']             
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
@@ -1331,7 +1350,12 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_FADE']          
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE']           = 'Horizontal slide';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertical slide';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Use listview';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Use slider';
+
+$lang['en_GB']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider for product groups';
+$lang['en_GB']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Creates a slider that displays all product groups.';
+$lang['en_GB']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider for product groups';
 
 $lang['en_GB']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_GB']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart search';
