@@ -53,11 +53,16 @@ class SilvercartProductImport extends ScheduledTask {
      */
     public function process() {
         $file = false;
+        $bulkLoader = 'SilvercartProductCsvBulkLoader';
 
         foreach ($_GET as $key => $argument) {
             if ($key === '-i') {
                 $file = $argument;
-                break;
+                continue;
+            }
+            if ($key === '-l') {
+                $bulkLoader = $argument;
+                continue;
             }
         }
 
@@ -69,7 +74,7 @@ class SilvercartProductImport extends ScheduledTask {
             return false;
         }
         
-        $this->importFile($file);
+        $this->importFile($file, $bulkLoader);
         
         return true;
     }
@@ -77,15 +82,16 @@ class SilvercartProductImport extends ScheduledTask {
     /**
      * Imports a CSV file.
      * 
-     * @param string $file The filepath to use
+     * @param string $file       The filepath to use
+     * @param string $bulkLoader given bulkloader for import
      *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 17.08.2011
      */
-    protected function importFile($file) {
-        $loader = new SilvercartProductCsvBulkLoader('SilvercartProduct');
+    protected function importFile($file, $bulkLoader) {        
+        $loader = new $bulkLoader('SilvercartProduct');
         
         $result = $loader->load($file);
     }
