@@ -73,7 +73,11 @@ jQuery(document).ready(function(){
             activeTab     = activeTab.substr(activeTab.indexOf('#'));
 
             jQuery(activeTab).fadeIn(); //Fade in the active ID content
-            jQuery(lastActiveTab).hide();
+            
+            if (activeTab != lastActiveTab) {
+                jQuery(lastActiveTab).hide();
+            }
+            
             return false;
         });
     }
