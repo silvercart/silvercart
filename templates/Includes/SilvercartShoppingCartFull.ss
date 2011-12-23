@@ -71,38 +71,15 @@
                     <% end_if %>
                 <% end_control %>
 
-                    <tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="4" class="right"><strong><% if Top.showPricesGross %><% _t('SilvercartPage.SUBTOTAL','subtotal') %><% else %><% _t('SilvercartPage.SUBTOTAL_NET','subtotal (net)') %><% end_if %></strong></td>
+                    <td class="right"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
+                    <% if Top.EditableShoppingCart %>
                         <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td colspan="4" class="right"><strong><% if Top.showPricesGross %><% _t('SilvercartPage.SUBTOTAL','subtotal') %><% else %><% _t('SilvercartPage.SUBTOTAL_NET','subtotal (net)') %><% end_if %></strong></td>
-                        <td class="right"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
-                        <% if Top.EditableShoppingCart %>
-                            <td>&nbsp;</td>
-                        <% end_if %>
-                    </tr>
-
-                <% if Top.EditableShoppingCart %>
-                    <% if TaxRatesWithoutFees %>
-                        <% control TaxRatesWithoutFees %>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td colspan="4" class="right">
-                            <% if Top.showPricesGross %>
-                                <% _t('SilvercartPage.INCLUDED_VAT','included VAT') %>
-                            <% else %>
-                                <% _t('SilvercartPage.ADDITIONAL_VAT','additional VAT') %>
-                            <% end_if %> ({$Rate}%)
-                        </td>
-                        <td class="right">$Amount.Nice</td>
-
-                        <% if Top.EditableShoppingCart %>
-                            <td>&nbsp;</td>
-                        <% end_if %>
-                    </tr>
-                        <% end_control %>
                     <% end_if %>
-                <% end_if %>
+                </tr>
 
                 <% if ShowFees %>
                     <tr>

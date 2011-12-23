@@ -60,9 +60,10 @@ class SilvercartAddressOptionsetField extends OptionsetField {
             $address = DataObject::get_by_id('SilvercartAddress', $key);
 
             if ($address) {
-                $odd        = ($odd + 1) % 2;
-                $extraClass = $odd ? "odd" : "even";
-                $checked    = false;
+                $odd                = ($odd + 1) % 2;
+                $extraClass         = $odd ? "odd" : "even";
+                $checked            = false;
+                $isCompanyAddress   = $address->isCompanyAddress();
                 
                 // check if field should be checked
                 if ($this->value == $key) {
@@ -83,6 +84,7 @@ class SilvercartAddressOptionsetField extends OptionsetField {
                             'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
                             'isInvoiceAddress'  => $address->isInvoiceAddress(),
                             'isShippingAddress' => $address->isShippingAddress(),
+                            'isCompanyAddress'  => $isCompanyAddress,
                         ),
                         $address->toMap()
                     )

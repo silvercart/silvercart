@@ -5,9 +5,11 @@
         $PageContent
         $InsertWidgetArea(Content)
         
+        <% if ViewableChildren.MoreThanOnePage %>
         <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupHolderControls %>
         </div>
+        <% end_if %>
 
         <div class="silvercart-product-group-page">
             $RenderProductGroupHolderGroupView
@@ -21,9 +23,11 @@
             $RenderProductGroupPageGroupView
         </div>
 	
+        <% if ViewableChildren.MoreThanOnePage %>
         <div class="silvercart-product-group-page-control-bottom">
             <% include SilvercartProductGroupHolderControls %>
         </div>
+        <% end_if %>
     </div>
 </div>
 <div id="col3">

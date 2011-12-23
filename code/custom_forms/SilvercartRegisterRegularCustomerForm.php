@@ -39,151 +39,181 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @var array
      */
     protected $formFields = array(
+        'IsBusinessAccount' => array(
+            'type'      => 'CheckboxField',
+            'title'     => 'Is business account'
+        ),
+        'TaxIdNumber' => array(
+            'type'      => 'TextField',
+            'title'     => 'Tax ID Number',
+            'maxLength' => 30,
+            'checkRequirements' => array(
+                'isFilledInDependantOn' => array(
+                    'field'     => 'IsBusinessAccount',
+                    'hasValue'  => '1'
+                )
+            )
+        ),
+        'Company' => array(
+            'type'      => 'TextField',
+            'title'     => 'Company',
+            'maxLength' => 50,
+            'checkRequirements' => array(
+                'isFilledInDependantOn' => array(
+                    'field'     => 'IsBusinessAccount',
+                    'hasValue'  => '1'
+                )
+            )
+        ),
         'Salutation' => array(
-            'type' => 'DropdownField',
+            'type'  => 'DropdownField',
             'title' => 'Anrede',
             'value' => array(
-                '' => 'Bitte wählen',
-                'Frau' => 'Frau',
-                'Herr' => 'Herr'
+                ''      => 'Bitte wählen',
+                'Frau'  => 'Frau',
+                'Herr'  => 'Herr'
             ),
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'FirstName' => array(
-            'type' => 'TextField',
-            'title' => 'Vorname',
+            'type'              => 'TextField',
+            'title'             => 'Vorname',
             'checkRequirements' => array(
-                'isFilledIn' => true,
-                'hasMinLength' => 3
+                'isFilledIn'    => true,
+                'hasMinLength'  => 3
             )
         ),
         'Surname' => array(
-            'type' => 'TextField',
-            'title' => 'Nachname',
+            'type'              => 'TextField',
+            'title'             => 'Nachname',
             'checkRequirements' => array(
-                'isFilledIn' => true,
-                'hasMinLength' => 3
+                'isFilledIn'    => true,
+                'hasMinLength'  => 3
             )
         ),
         'Street' => array(
-            'type' => 'TextField',
-            'title' => 'Straße',
+            'type'              => 'TextField',
+            'title'             => 'Straße',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'StreetNumber' => array(
-            'type' => 'TextField',
-            'title' => 'Hausnummer',
-            'maxLength' => 10,
+            'type'              => 'TextField',
+            'title'             => 'Hausnummer',
+            'maxLength'         => 10,
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Postcode' => array(
-            'type' => 'TextField',
-            'title' => 'PLZ',
-            'maxLength' => 10,
+            'type'              => 'TextField',
+            'title'             => 'PLZ',
+            'maxLength'         => 10,
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'City' => array(
-            'type' => 'TextField',
-            'title' => 'Stadt',
+            'type'              => 'TextField',
+            'title'             => 'Stadt',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Country' => array(
-            'type' => 'DropdownField',
-            'title' => 'Land',
+            'type'              => 'DropdownField',
+            'title'             => 'Land',
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'Email' => array(
-            'type' => 'TextField',
-            'title' => 'Email Adresse',
+            'type'              => 'TextField',
+            'title'             => 'Email Adresse',
             'checkRequirements' => array(
-                'isEmailAddress' => true,
-                'isFilledIn' => true,
-                'callBack'      => 'doesEmailExistAlready'
+                'isEmailAddress'    => true,
+                'isFilledIn'        => true,
+                'callBack'          => 'doesEmailExistAlready'
             )
         ),
         'EmailCheck' => array(
-            'type' => 'TextField',
-            'title' => 'E-Mail-Adresse Gegenprüfung',
+            'type'              => 'TextField',
+            'title'             => 'E-Mail-Adresse Gegenprüfung',
             'checkRequirements' => array(
                'mustEqual' => 'Email',
             )
         ),
         'PhoneAreaCode' => array(
-            'type' => 'TextField',
-            'title' => 'Telefon Vorwahl',
+            'type'              => 'TextField',
+            'title'             => 'Telefon Vorwahl',
             'checkRequirements' => array(
-                'isFilledIn' => true,
+                'isFilledIn'    => true,
                 'isNumbersOnly' => true
             )
         ),
         'Phone' => array(
-            'type' => 'TextField',
-            'title' => 'Telefon Nummer.',
+            'type'              => 'TextField',
+            'title'             => 'Telefon Nummer.',
             'checkRequirements' => array(
-                'isFilledIn' => true,
+                'isFilledIn'    => true,
                 'isNumbersOnly' => true
             )
         ),
+        'Fax' => array(
+            'type'  => 'TextField',
+            'title' => 'Fax'
+        ),
         'BirthdayDay' => array(
-            'type' => 'DropdownField',
-            'title' => 'Tag',
-            'value' => array(),
+            'type'              => 'DropdownField',
+            'title'             => 'Tag',
+            'value'             => array(),
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'BirthdayMonth' => array(
-            'type' => 'DropdownField',
-            'title' => 'Monat',
-            'value' => array(),
+            'type'              => 'DropdownField',
+            'title'             => 'Monat',
+            'value'             => array(),
             'checkRequirements' => array(
                 'isFilledIn' => true
             )
         ),
         'BirthdayYear' => array(
-            'type' => 'TextField',
-            'title' => 'Jahr',
-            'maxLength' => 4,
+            'type'              => 'TextField',
+            'title'             => 'Jahr',
+            'maxLength'         => 4,
             'checkRequirements' => array(
-                'isFilledIn' => true,
+                'isFilledIn'    => true,
                 'isNumbersOnly' => true,
-                'hasLength' => 4
+                'hasLength'     => 4
             )
         ),
         'Password' => array(
-            'type' => 'PasswordField',
-            'title' => 'Passwort',
+            'type'              => 'PasswordField',
+            'title'             => 'Passwort',
             'checkRequirements' => array(
-                'isFilledIn' => true,
-                'hasMinLength' => 6,
-                'mustNotEqual' => 'Email',
+                'isFilledIn'    => true,
+                'hasMinLength'  => 6,
+                'mustNotEqual'  => 'Email',
             )
         ),
         'PasswordCheck' => array(
-            'type' => 'PasswordField',
-            'title' => 'Passwort Gegenprüfung',
+            'type'              => 'PasswordField',
+            'title'             => 'Passwort Gegenprüfung',
             'checkRequirements' => array(
                 'mustEqual' => 'Password'
             )
         ),
         'SubscribedToNewsletter' => array(
-            'type' => 'CheckboxField',
+            'type'  => 'CheckboxField',
             'title' => 'Ich möchte den Newsletter abonnieren'
         ),
         'backlink' => array(
-            'type' => 'HiddenField',
+            'type'  => 'HiddenField',
             'value' => ''
         )
     );
@@ -225,30 +255,34 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
-        $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
-        $this->formFields['Salutation']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
-        $this->formFields['FirstName']['title'] = _t('SilvercartAddress.FIRSTNAME', 'firstname');
-        $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
-        $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL', 'email address');
-        $this->formFields['EmailCheck']['title'] = _t('SilvercartAddress.EMAIL_CHECK', 'email address check');
-        $this->formFields['Street']['title'] = _t('SilvercartAddress.STREET', 'street');
-        $this->formFields['StreetNumber']['title'] = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
-        $this->formFields['Postcode']['title'] = _t('SilvercartAddress.POSTCODE', 'postcode');
-        $this->formFields['City']['title'] = _t('SilvercartAddress.CITY', 'city');
-        $this->formFields['Phone']['title'] = _t('SilvercartAddress.PHONE', 'phone');
-        $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
-        $this->formFields['Country']['title'] = _t('SilvercartCountry.SINGULARNAME');
-        $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY');
-        $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH');
-        $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR');
-        $this->formFields['Password']['title'] = _t('SilvercartPage.PASSWORD');
-        $this->formFields['PasswordCheck']['title'] = _t('SilvercartPage.PASSWORD_CHECK');
-        $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
+        $this->formFields['IsBusinessAccount']['title']         = _t('SilvercartCustomer.ISBUSINESSACCOUNT');
+        $this->formFields['TaxIdNumber']['title']               = _t('SilvercartAddress.TAXIDNUMBER');
+        $this->formFields['Company']['title']                   = _t('SilvercartAddress.COMPANY');
+        $this->formFields['Salutation']['title']                = _t('SilvercartAddress.SALUTATION');
+        $this->formFields['Salutation']['value']                = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
+        $this->formFields['FirstName']['title']                 = _t('SilvercartAddress.FIRSTNAME', 'firstname');
+        $this->formFields['Surname']['title']                   = _t('SilvercartAddress.SURNAME', 'surname');
+        $this->formFields['Email']['title']                     = _t('SilvercartAddress.EMAIL', 'email address');
+        $this->formFields['EmailCheck']['title']                = _t('SilvercartAddress.EMAIL_CHECK', 'email address check');
+        $this->formFields['Street']['title']                    = _t('SilvercartAddress.STREET', 'street');
+        $this->formFields['StreetNumber']['title']              = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
+        $this->formFields['Postcode']['title']                  = _t('SilvercartAddress.POSTCODE', 'postcode');
+        $this->formFields['City']['title']                      = _t('SilvercartAddress.CITY', 'city');
+        $this->formFields['Phone']['title']                     = _t('SilvercartAddress.PHONE', 'phone');
+        $this->formFields['PhoneAreaCode']['title']             = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
+        $this->formFields['Fax']['title']                       = _t('SilvercartAddress.FAX');
+        $this->formFields['Country']['title']                   = _t('SilvercartCountry.SINGULARNAME');
+        $this->formFields['BirthdayDay']['title']               = _t('SilvercartPage.DAY');
+        $this->formFields['BirthdayMonth']['title']             = _t('SilvercartPage.MONTH');
+        $this->formFields['BirthdayYear']['title']              = _t('SilvercartPage.YEAR');
+        $this->formFields['Password']['title']                  = _t('SilvercartPage.PASSWORD');
+        $this->formFields['PasswordCheck']['title']             = _t('SilvercartPage.PASSWORD_CHECK');
+        $this->formFields['SubscribedToNewsletter']['title']    = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
         $birthdayDays = array(
             '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
         );
         $birthdayMonths = array(
-            '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            ''  => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
             '1' => _t('SilvercartPage.JANUARY'),
             '2' => _t('SilvercartPage.FEBRUARY'),
             '3' => _t('SilvercartPage.MARCH'),
@@ -281,6 +315,12 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             unset($this->formFields['BirthdayMonth']);
             unset($this->formFields['BirthdayYear']);
         }
+        
+        if (!$this->EnableBusinessCustomers()) {
+            unset($this->formFields['IsBusinessAccount']);
+            unset($this->formFields['TaxIdNumber']);
+            unset($this->formFields['Company']);
+        }
     }
 
     /**
@@ -308,6 +348,19 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'success' => !$emailExistsAlready,
             'errorMessage' => _t('SilvercartPage.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
         );
+    }
+    
+    /**
+     * Indicates wether the registration fields specific to business customers
+     * should be shown.
+     *
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.12.2011
+     */
+    public function EnableBusinessCustomers() {
+        return SilvercartConfig::enableBusinessCustomers();
     }
     
     /**
@@ -378,10 +431,20 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $customer->changePassword($formData['Password']);
 
         // Add customer to intermediate group
-        $customerGroup = DataObject::get_one(
-            'Group',
-            "`Code` = 'b2c'"
-        );
+        
+        if (array_key_exists('IsBusinessAccount', $formData) &&
+            $formData['IsBusinessAccount'] == '1') {
+            
+            $customerGroup = DataObject::get_one(
+                'Group',
+                "`Code` = 'b2b'"
+            );
+        } else {
+            $customerGroup = DataObject::get_one(
+                'Group',
+                "`Code` = 'b2c'"
+            );
+        }
         if ($customerGroup) {
             $customer->Groups()->add($customerGroup);
         }

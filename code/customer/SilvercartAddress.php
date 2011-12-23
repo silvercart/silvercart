@@ -34,44 +34,119 @@
  */
 class SilvercartAddress extends DataObject {
 
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $singular_name = 'address';
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $plural_name = 'addresses';
+    
+    /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $db = array(
-        'Salutation' => 'Enum("Herr,Frau","Herr")',
-        'FirstName' => 'VarChar(50)',
-        'Surname' => 'VarChar(50)',
-        'Addition' => 'VarChar(255)',
-        'Street' => 'VarChar(255)',
-        'StreetNumber' => 'VarChar(15)',
-        'Postcode' => 'VarChar',
-        'City' => 'VarChar(100)',
-        'PhoneAreaCode' => 'VarChar(10)',
-        'Phone' => 'VarChar(50)'
+        'TaxIdNumber'       => 'VarChar(30)',
+        'Company'           => 'VarChar(255)',
+        'Salutation'        => 'Enum("Herr,Frau","Herr")',
+        'FirstName'         => 'VarChar(50)',
+        'Surname'           => 'VarChar(50)',
+        'Addition'          => 'VarChar(255)',
+        'Street'            => 'VarChar(255)',
+        'StreetNumber'      => 'VarChar(15)',
+        'Postcode'          => 'VarChar',
+        'City'              => 'VarChar(100)',
+        'PhoneAreaCode'     => 'VarChar(10)',
+        'Phone'             => 'VarChar(50)',
+        'Fax'               => 'VarChar(50)'
     );
+    
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $has_one = array(
-        'Member' => 'Member',
+        'Member'            => 'Member',
         'SilvercartCountry' => 'SilvercartCountry'
     );
+    
+    /**
+     * Summary fields for display in table views.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $summary_fields = array(
-        'Street' => 'Strasse',
-        'City' => 'Stadt'
+        'Street'    => 'Strasse',
+        'City'      => 'Stadt'
     );
+    
+    /**
+     * Labels.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $field_labels = array(
-        'Street' => 'Strasse',
-        'StreetNumber' => 'Hausnummer',
-        'Postcode' => 'PLZ',
-        'City' => 'Ort',
-        'PhoneAreaCode' => 'Vorwahl',
-        'Phone' => 'Telefonnummer',
+        'Street'            => 'Strasse',
+        'StreetNumber'      => 'Hausnummer',
+        'Postcode'          => 'PLZ',
+        'City'              => 'Ort',
+        'PhoneAreaCode'     => 'Vorwahl',
+        'Phone'             => 'Telefonnummer',
         'SilvercartCountry' => 'Land',
-        'Addition' => 'Adresszusatz',
-        'FirstName' => 'Vorname',
-        'Surname' => 'Nachname'
+        'Addition'          => 'Adresszusatz',
+        'FirstName'         => 'Vorname',
+        'Surname'           => 'Nachname'
     );
+    
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $casting = array(
         'SalutationText' => 'VarChar',
     );
     
+    /**
+     * Belongs-many-many relationships.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
     public static $belongs_many_many = array(
         'SilvercartOrders' => 'SilvercartOrder'
     );
@@ -173,6 +248,27 @@ class SilvercartAddress extends DataObject {
         }
         
         return $hasAddressData;
+    }
+    
+    /**
+     * Indicates wether this address is the address of a company. The fields
+     * "Company" and "TaxIdNumber" must be filled in to conform that.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.12.2011
+     */
+    public function isCompanyAddress() {
+        $isCompanyAddress = false;
+        
+        if (!empty($this->TaxIdNumber) &&
+            !empty($this->Company)) {
+            
+            $isCompanyAddress = true;
+        }
+        
+        return $isCompanyAddress;
     }
 
     /**

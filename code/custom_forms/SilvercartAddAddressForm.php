@@ -34,6 +34,16 @@
 class SilvercartAddAddressForm extends CustomHtmlForm {
 
     protected $formFields = array(
+        'TaxIdNumber' => array(
+            'type'      => 'TextField',
+            'title'     => 'Tax ID Number',
+            'maxLength' => 30
+        ),
+        'Company' => array(
+            'type'      => 'TextField',
+            'title'     => 'Company',
+            'maxLength' => 50
+        ),
         'Salutation' => array(
             'type' => 'DropdownField',
             'title' => 'Anrede',
@@ -106,6 +116,10 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
                 'isFilledIn' => true
             )
         ),
+        'Fax' => array(
+            'type'  => 'TextField',
+            'title' => 'Fax'
+        ),
         'Country' => array(
             'type'      => 'DropdownField',
             'title'     => 'Country',
@@ -134,6 +148,8 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->CancelLink = $this->controller->Link();
+        $this->formFields['TaxIdNumber']['title']   = _t('SilvercartAddress.TAXIDNUMBER');
+        $this->formFields['Company']['title']       = _t('SilvercartAddress.COMPANY');
         $this->formFields['Salutation']['title']    = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value']    = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME');
@@ -145,6 +161,7 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
         $this->formFields['City']['title']          = _t('SilvercartAddress.CITY');
         $this->formFields['Phone']['title']         = _t('SilvercartAddress.PHONE');
         $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
+        $this->formFields['Fax']['title']           = _t('SilvercartAddress.FAX');
         $this->formFields['Country']['title']       = _t('SilvercartCountry.SINGULARNAME');
         $this->formFields['Country']['value']       = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
         $this->preferences['submitButtonTitle']     = _t('SilvercartPage.SAVE', 'save');
