@@ -45,7 +45,7 @@ class SilvercartProductCsvBulkLoaderPluginProvider extends SilvercartPlugin {
      * @since 22.11.2011
      */
     public function init(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginInit', $arguments);
+        $result = $this->extend('pluginInit', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
     }
@@ -63,7 +63,7 @@ class SilvercartProductCsvBulkLoaderPluginProvider extends SilvercartPlugin {
      * @since 22.11.2011
      */
     public function overwriteLoad(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOverwriteLoad', $arguments);
+        $result = $this->extend('pluginOverwriteLoad', $arguments, $callingObject);
         
         if (empty($result)) {
             return false;
@@ -86,7 +86,7 @@ class SilvercartProductCsvBulkLoaderPluginProvider extends SilvercartPlugin {
      * @since 22.11.2011
      */
     public function overwriteProcessAll(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOverwriteProcessAll', $arguments);
+        $result = $this->extend('pluginOverwriteProcessAll', $arguments, $callingObject);
         
         if (empty($result)) {
             return false;
@@ -111,7 +111,7 @@ class SilvercartProductCsvBulkLoaderPluginProvider extends SilvercartPlugin {
      * @since 22.11.2011
      */
     public function overwriteProcessRecord(&$arguments = array(), &$callingObject) {
-        $result = $this->extend('pluginOverwriteProcessRecord', $arguments);
+        $result = $this->extend('pluginOverwriteProcessRecord', $arguments, $callingObject);
         
         if (empty($result)) {
             return false;

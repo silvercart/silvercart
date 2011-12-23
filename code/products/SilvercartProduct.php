@@ -1757,7 +1757,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function import($data, $form, $request) {
         $modelName = $data['ClassName'];
-
+        
         if (!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) {
             return false;
         }
@@ -1781,26 +1781,28 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $results = $loader->load($_FILES['_CsvFile']['tmp_name']);
 
         $message = '';
-        if ($results->CreatedCount()) {
+        if ($results instanceof BulkLoader_Result) {
+            if ($results->CreatedCount()) {
+                    $message .= sprintf(
+                    _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
+                    $results->CreatedCount()
+                );
+            }
+            if ($results->UpdatedCount()) {
                 $message .= sprintf(
-                _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
-                $results->CreatedCount()
-            );
-        }
-        if ($results->UpdatedCount()) {
-            $message .= sprintf(
-                _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
-                $results->UpdatedCount()
-            );
-        }
-        if ($results->DeletedCount()) {
-            $message .= sprintf(
-                _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
-                $results->DeletedCount()
-            );
-        }
-        if (!$results->CreatedCount() && !$results->UpdatedCount()) {
-            $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+                    _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
+                    $results->UpdatedCount()
+                );
+            }
+            if ($results->DeletedCount()) {
+                $message .= sprintf(
+                    _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
+                    $results->DeletedCount()
+                );
+            }
+            if (!$results->CreatedCount() && !$results->UpdatedCount()) {
+                $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+            }
         }
 
         $form->sessionMessage($message, 'good');
