@@ -129,6 +129,7 @@ class SilvercartConfig extends DataObject {
         'useApacheSolrSearch'               => 'Boolean(0)',
         'apacheSolrUrl'                     => 'VarChar(255)',
         'apacheSolrPort'                    => 'Int',
+        'enableBusinessCustomers'           => 'Boolean(0)',
         'enableStockManagement'             => 'Boolean(0)',
         'isStockManagementOverbookable'     => 'Boolean(0)',
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
@@ -206,6 +207,7 @@ class SilvercartConfig extends DataObject {
     public static $apacheSolrUrl                    = null;
     public static $defaultCurrency                  = null;
     public static $emailSender                      = null;
+    public static $enableBusinessCustomers          = null;
     public static $globalEmailRecipient             = null;
     public static $priceType                        = null;
     public static $config                           = null;
@@ -465,6 +467,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['DefaultCurrency']                     = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
         $fieldLabels['EmailSender']                         = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
         $fieldLabels['GlobalEmailRecipient']                = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $fieldLabels['enableBusinessCustomers']             = _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers');
         $fieldLabels['enableSSL']                           = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
         $fieldLabels['enableStockManagement']               = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
         $fieldLabels['minimumOrderValue']                   = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
@@ -798,7 +801,7 @@ class SilvercartConfig extends DataObject {
 
     /**
      * determins weather a customer gets prices shown gross or net dependent on
-     * customer's class
+     * customer's invoice address or class
      *
      * @return string returns "gross" or "net"
      * 
@@ -806,23 +809,65 @@ class SilvercartConfig extends DataObject {
      * @since 18.3.2011
      */
     public static function Pricetype() {
-        $member         = Member::currentUser();
-        $configObject   = self::getConfig();
+        $member             = Member::currentUser();
+        $configObject       = self::getConfig();
 
         if ($member) {
-            if ($member->Groups()->find('Code', 'anonymous')) {
-                self::$priceType = $configObject->PricetypeAnonymousCustomers;
-            } else if ($member->Groups()->find('Code', 'b2b')) {
-                self::$priceType = $configObject->PricetypeBusinessCustomers;
-            } else if ($member->Groups()->find('Code', 'b2c')) {
-                self::$priceType = $configObject->PricetypeRegularCustomers;
+            // ----------------------------------------------------------------
+            // Determine price type by customer's chosen invoice address during
+            // the checkout process
+            // ----------------------------------------------------------------
+            if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+                $checkoutData       = Controller::curr()->getCombinedStepData();
+                $invoiceAddress     = Controller::curr()->extractAddressDataFrom('Invoice', $checkoutData);
+                
+                if ($invoiceAddress['isCompanyAddress']) {
+                    self::$priceType = $configObject->PricetypeBusinessCustomers;
+                } else {
+                    if ($member->Groups()->find('Code', 'anonymous')) {
+                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
+                    } else {
+                        self::$priceType = $configObject->PricetypeRegularCustomers;
+                    }
+                }
             } else {
-                self::$priceType = $configObject->PricetypeAnonymousCustomers;
+                // ----------------------------------------------------------------
+                // Determine price type by customer's standard invoice address
+                // ----------------------------------------------------------------
+                if ($member->SilvercartInvoiceAddressID > 0) {
+
+                    if ($member->SilvercartInvoiceAddress()->isCompanyAddress()) {
+                        if (self::enableBusinessCustomers()) {
+                            self::$priceType = $configObject->PricetypeBusinessCustomers;
+                        } else {
+                            self::$priceType = $configObject->PricetypeRegularCustomers;
+                        }
+                    } else {
+                        self::$priceType = $configObject->PricetypeRegularCustomers;
+                    }
+                } else {
+                    // ----------------------------------------------------------------
+                    // Determine price type by customer's class
+                    // ----------------------------------------------------------------
+                    if ($member->Groups()->find('Code', 'anonymous')) {
+                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
+                    } else if ($member->Groups()->find('Code', 'b2b')) {
+                        if (self::enableBusinessCustomers()) {
+                            self::$priceType = $configObject->PricetypeBusinessCustomers;
+                        } else {
+                            self::$priceType = $configObject->PricetypeRegularCustomers;
+                        }
+                    } else if ($member->Groups()->find('Code', 'b2c')) {
+                        self::$priceType = $configObject->PricetypeRegularCustomers;
+                    } else {
+                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
+                    }
+                }
             }
         } else {
             self::$priceType = $configObject->PricetypeAnonymousCustomers;
         }
-            
+        
         return self::$priceType;
     }
 
@@ -1157,6 +1202,21 @@ class SilvercartConfig extends DataObject {
             self::$apacheSolrPort = self::getConfig()->apacheSolrPort;
         }
         return self::$apacheSolrPort;
+    }
+    
+    /**
+     * Returns wether to enable business customers or not.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.12.2011
+     */
+    public static function enableBusinessCustomers() {
+        if (is_null(self::$enableBusinessCustomers)) {
+            self::$enableBusinessCustomers = self::getConfig()->enableBusinessCustomers;
+        }
+        return self::$enableBusinessCustomers;
     }
     
     /**

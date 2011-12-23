@@ -2,6 +2,20 @@
     $CustomHtmlFormMetadata
     <fieldset>
         <legend><% _t('SilvercartAddressHolder.ADD') %></legend>
+        
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(TaxIdNumber)
+                </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(Company)
+                </div>
+            </div>
+        </div>
+        
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -61,14 +75,19 @@
             </div>
         </div>
         <div class="subcolumns">
-            <div class="c50l">
+            <div class="c33l">
                 <div class="subcl">
                     $CustomHtmlFormFieldByName(PhoneAreaCode)
                  </div>
             </div>
-            <div class="c50r">
-                <div class="subcr">
+            <div class="c33l">
+                <div class="subcl">
                     $CustomHtmlFormFieldByName(Phone)
+                </div>
+            </div>
+            <div class="c33r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(Fax)
                 </div>
             </div>
         </div>

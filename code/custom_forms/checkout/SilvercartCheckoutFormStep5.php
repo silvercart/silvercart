@@ -217,6 +217,22 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
                 $invoiceAddress['isInvoiceAndShippingAddress'] = true;
             }
         }
+
+        if (!empty($shippingAddress['TaxIdNumber']) &&
+            !empty($shippingAddress['Company'])) {
+
+            $shippingAddress['isCompanyAddress'] = true;
+        } else {
+            $shippingAddress['isCompanyAddress'] = false;
+        }
+        
+        if (!empty($invoiceAddress['TaxIdNumber']) &&
+            !empty($invoiceAddress['Company'])) {
+
+            $invoiceAddress['isCompanyAddress'] = true;
+        } else {
+            $invoiceAddress['isCompanyAddress'] = false;
+        }
         
         $addressData = new ArrayData(
             array(

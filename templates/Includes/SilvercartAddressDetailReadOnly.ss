@@ -10,9 +10,22 @@
                 <strong><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
             <% end_if %>
         <% end_if %>
+        
+        <% if isCompanyAddress %>
+            <br /><em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
+        <% else %>
+            <br /><em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+        <% end_if %>
 
         <% if hasAddressData %>
             <br />
+            <% if isCompanyAddress %>
+                <div class="silvercart-address-company-section">
+                    <% _t('SilvercartAddress.TAXIDNUMBER','Tax ID number') %>: $TaxIdNumber<br />
+                    <% _t('SilvercartAddress.COMPANY','Company') %>: $Company<br />
+                </div>
+            <% end_if %>
+        
             $SalutationText $FirstName $Surname<br/>
             $Street $StreetNumber<br/>
             $Postcode $City<br/>

@@ -819,7 +819,40 @@ class SilvercartShoppingCart extends DataObject {
                 $amount += (float) $taxRate->Amount->getAmount();
             }
         }
+        
+        // Handling costs for payment and shipment
+        if (!$excludeCharges &&
+             $this->ChargesAndDiscountsForTotal()) {
+            
+            $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
+        }
+        
+        $amountObj = new Money;
+        $amountObj->setAmount($amount);
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
+        return $amountObj;
+    }
+    
+    /**
+     * Returns the end sum of the cart (taxable positions + nontaxable
+     * positions + fees) without any taxes.
+     *
+     * @param array   $excludeModules               An array of registered modules that shall not
+     *                                              be taken into account.
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
+     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * 
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 04.02.2011
+     */
+    public function getAmountTotalWithoutTaxes($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+        $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
+        $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
+        
         // Handling costs for payment and shipment
         if (!$excludeCharges &&
              $this->ChargesAndDiscountsForTotal()) {
@@ -860,150 +893,6 @@ class SilvercartShoppingCart extends DataObject {
         return $amountObj;
     }
     
-    /**
-     * Returns tax amounts included in the shoppingcart separated by tax rates
-     * without fee taxes.
-     *
-     * @return DataObjectSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.02.2011
-     */
-    public function getTaxRatesWithoutFeesAndCharges() {
-        $positions          = $this->SilvercartShoppingCartPositions();
-        $taxes              = new DataObjectSet;
-        $registeredModules  = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions', array(
-                Member::currentUser()->SilvercartShoppingCart(),
-                Member::currentUser(),
-                true
-            )
-        );
-
-        // products
-        foreach ($positions as $position) {
-            $taxRate = $position->SilvercartProduct()->getTaxRate();
-
-            if (!$taxes->find('Rate', $taxRate)) {
-                $taxes->push(
-                    new DataObject(
-                        array(
-                            'Rate' => $taxRate,
-                            'AmountRaw' => 0.0,
-                        )
-                    )
-                );
-            }
-            $taxSection = $taxes->find('Rate', $taxRate);
-            $taxSection->AmountRaw += $position->getTaxAmount();
-        }
-
-        // Registered Modules
-        foreach ($registeredModules as $moduleName => $moduleOutput) {
-            foreach ($moduleOutput as $modulePosition) {
-                $taxRate = $modulePosition->TaxRate;
-                if (!$taxes->find('Rate', $taxRate)) {
-                    $taxes->push(
-                        new DataObject(
-                            array(
-                                'Rate' => $taxRate,
-                                'AmountRaw' => 0.0,
-                            )
-                        )
-                    );
-                }
-                $taxSection = $taxes->find('Rate', $taxRate);
-                $taxSection->AmountRaw += $modulePosition->TaxAmount;
-            }
-        }
-        
-        foreach ($taxes as $tax) {
-            $taxObj = new Money;
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
-        }
-
-        return $taxes;
-    }
-
-    /**
-     * Returns tax amounts included in the shoppingcart separated by tax rates
-     * without fee taxes.
-     *
-     * @return DataObjectSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.02.2011
-     */
-    public function getTaxRatesWithoutFees() {
-        $taxes = $this->getTaxRatesWithoutFeesAndCharges();
-        
-        // Charges and disounts
-        $chargesAndDiscounts = $this->ChargesAndDiscountsForProducts();
-        
-        if ($this->HasChargesAndDiscountsForProducts()) {
-            $mostValuableTaxRate = $this->getMostValuableTaxRate($taxes);
-            
-            if ($mostValuableTaxRate) {
-                $taxSection = $taxes->find('Rate', $mostValuableTaxRate->Rate);
-                $chargeAndDiscountAmount = $chargesAndDiscounts->Price->getAmount();
-                $taxSection->AmountRaw += $chargeAndDiscountAmount - ($chargeAndDiscountAmount / (100 + $taxSection->Rate) * 100);
-            }
-        }
-
-        foreach ($taxes as $tax) {
-            $taxObj = new Money;
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
-        }
-
-        return $taxes;
-    }
-    
-    /**
-     * Returns the SilvercartTax object with the highest tax value for the
-     * given taxes.
-     *
-     * @param array $taxes The tax rates array (associative)
-     *
-     * @return SilvercartTax
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    protected function getMostValuableTaxRate($taxes) {
-        $highestTaxValue        = 0;
-        $mostValuableTaxRate    = null;
-        
-        foreach ($taxes as $tax) {
-            if ($tax->AmountRaw > $highestTaxValue) {
-                $mostValuableTaxRate = $tax->Rate;
-            }
-        }
-        
-        if ($mostValuableTaxRate) {
-            $silvercartTax = DataObject::get_one(
-                'SilvercartTax',
-                sprintf(
-                    "Rate = %f",
-                    $mostValuableTaxRate
-                )
-            );
-            
-            if ($silvercartTax) {
-                return $silvercartTax;
-            }
-        }
-        
-        return false;
-    }
-
     /**
      * Returns tax amounts included in the shoppingcart separated by tax rates
      * with fee taxes.
@@ -1078,6 +967,150 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         return $taxes;
+    }
+    
+    /**
+     * Returns tax amounts included in the shoppingcart separated by tax rates
+     * without fee taxes.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.02.2011
+     */
+    public function getTaxRatesWithoutFees() {
+        $taxes = $this->getTaxRatesWithoutFeesAndCharges();
+        
+        // Charges and disounts
+        $chargesAndDiscounts = $this->ChargesAndDiscountsForProducts();
+        
+        if ($this->HasChargesAndDiscountsForProducts()) {
+            $mostValuableTaxRate = $this->getMostValuableTaxRate($taxes);
+            
+            if ($mostValuableTaxRate) {
+                $taxSection = $taxes->find('Rate', $mostValuableTaxRate->Rate);
+                $chargeAndDiscountAmount = $chargesAndDiscounts->Price->getAmount();
+                $taxSection->AmountRaw += $chargeAndDiscountAmount - ($chargeAndDiscountAmount / (100 + $taxSection->Rate) * 100);
+            }
+        }
+
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
+
+            $tax->Amount = $taxObj;
+        }
+
+        return $taxes;
+    }
+    
+    /**
+     * Returns tax amounts included in the shoppingcart separated by tax rates
+     * without fee taxes.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.02.2011
+     */
+    public function getTaxRatesWithoutFeesAndCharges() {
+        $positions          = $this->SilvercartShoppingCartPositions();
+        $taxes              = new DataObjectSet;
+        $registeredModules  = $this->callMethodOnRegisteredModules(
+            'ShoppingCartPositions', array(
+                Member::currentUser()->SilvercartShoppingCart(),
+                Member::currentUser(),
+                true
+            )
+        );
+
+        // products
+        foreach ($positions as $position) {
+            $taxRate = $position->SilvercartProduct()->getTaxRate();
+
+            if (!$taxes->find('Rate', $taxRate)) {
+                $taxes->push(
+                    new DataObject(
+                        array(
+                            'Rate' => $taxRate,
+                            'AmountRaw' => 0.0,
+                        )
+                    )
+                );
+            }
+            $taxSection = $taxes->find('Rate', $taxRate);
+            $taxSection->AmountRaw += $position->getTaxAmount();
+        }
+
+        // Registered Modules
+        foreach ($registeredModules as $moduleName => $moduleOutput) {
+            foreach ($moduleOutput as $modulePosition) {
+                $taxRate = $modulePosition->TaxRate;
+                if (!$taxes->find('Rate', $taxRate)) {
+                    $taxes->push(
+                        new DataObject(
+                            array(
+                                'Rate' => $taxRate,
+                                'AmountRaw' => 0.0,
+                            )
+                        )
+                    );
+                }
+                $taxSection = $taxes->find('Rate', $taxRate);
+                $taxSection->AmountRaw += $modulePosition->TaxAmount;
+            }
+        }
+        
+        foreach ($taxes as $tax) {
+            $taxObj = new Money;
+            $taxObj->setAmount($tax->AmountRaw);
+            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
+
+            $tax->Amount = $taxObj;
+        }
+
+        return $taxes;
+    }
+    
+    /**
+     * Returns the SilvercartTax object with the highest tax value for the
+     * given taxes.
+     *
+     * @param array $taxes The tax rates array (associative)
+     *
+     * @return SilvercartTax
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.12.2011
+     */
+    protected function getMostValuableTaxRate($taxes) {
+        $highestTaxValue        = 0;
+        $mostValuableTaxRate    = null;
+        
+        foreach ($taxes as $tax) {
+            if ($tax->AmountRaw > $highestTaxValue) {
+                $mostValuableTaxRate = $tax->Rate;
+            }
+        }
+        
+        if ($mostValuableTaxRate) {
+            $silvercartTax = DataObject::get_one(
+                'SilvercartTax',
+                sprintf(
+                    "Rate = %f",
+                    $mostValuableTaxRate
+                )
+            );
+            
+            if ($silvercartTax) {
+                return $silvercartTax;
+            }
+        }
+        
+        return false;
     }
 
     /**

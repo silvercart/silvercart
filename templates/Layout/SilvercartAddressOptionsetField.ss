@@ -13,26 +13,40 @@
                     <div class="c50l">
                         <div class="subcl">
                             <label for="$htmlId" class="silvercart-address">
-                                <div class="silvercart-address-field_content">
-                                    <% if isInvoiceAddress && isShippingAddress %>
-                                                <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %> &amp; <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
-                                    <% else %>
-                                        <% if name = InvoiceAddress %>
-                                            <% if isInvoiceAddress %>
-                                                    <strong><% _t('SilvercartAddressHolder.DEFAULT_INVOICEADDRESS','invoice address') %></strong>
-                                            <% end_if %>
+                                <% if isInvoiceAddress && isShippingAddress %>
+                                    <div class="silvercart-address-field_content">
+                                        <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %> &amp; <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
+                                    </div>
+                                <% else %>
+                                    <% if name = InvoiceAddress %>
+                                        <% if isInvoiceAddress %>
+                                            <div class="silvercart-address-field_content">
+                                                <strong><% _t('SilvercartAddressHolder.DEFAULT_INVOICEADDRESS','invoice address') %></strong>
+                                            </div>
                                         <% end_if %>
-                                        <% if name = ShippingAddress %>
-                                            <% if isShippingAddress %>
-                                                    <strong><% _t('SilvercartAddressHolder.DEFAULT_SHIPPINGADDRESS','shipping address') %></strong>
-                                            <% end_if %>
+                                    <% end_if %>
+                                    <% if name = ShippingAddress %>
+                                        <% if isShippingAddress %>
+                                            <div class="silvercart-address-field_content">
+                                                <strong><% _t('SilvercartAddressHolder.DEFAULT_SHIPPINGADDRESS','shipping address') %></strong>
+                                            </div>
                                         <% end_if %>
-                                    <% end_if %><br/>
-                                </div>
+                                    <% end_if %>
+                                <% end_if %>
                                 <div class="subcolumns">
                                     <div class="c66l">
                                         <div class="silvercart-address-field_content">
-                                            $SalutaionText $FirstName $Surname<br/>
+                                            <% if isCompanyAddress %>
+                                                <div class="silvercart-address-company-section">
+                                                    <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
+                                                    <% _t('SilvercartAddress.TAXIDNUMBER','Tax ID number') %>: $TaxIdNumber<br />
+                                                    <% _t('SilvercartAddress.COMPANY','Company') %>: $Company<br />
+                                                </div>
+                                            <% else %>
+                                                <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+                                            <% end_if %>
+                                            
+                                            $SalutationText $FirstName $Surname<br/>
                                             $Street $StreetNumber<br/>
                                             $Postcode $City<br/>
                                             $SilvercartCountry.Title<br/>
