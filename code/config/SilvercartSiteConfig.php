@@ -37,6 +37,8 @@ class SilvercartSiteConfig extends DataObjectDecorator {
     /**
      * Adds a dashboard section
      *
+     * @param FieldSet &$fields The FieldSet
+     * 
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
