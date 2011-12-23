@@ -311,6 +311,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * Write a log message.
      * 
      * @param string $logString string to log
+     * @param string $filename  filename to log into
      *
      * @return void
      *
@@ -318,23 +319,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @copyright 2011 pixeltricks GmbH
      * @since 16.08.2011
      */
-    protected function Log($logString) {
-        $logDirectory = Director::baseFolder();
-
-        $logDirectory = explode('/', $logDirectory);
-        array_pop($logDirectory);
-        array_pop($logDirectory);
-        $logDirectory = implode('/', $logDirectory);
-
-        if ($fp = fopen($logDirectory.'/log/importProducts.log', 'a')) {
-
-            fwrite(
-                $fp,
-                "=== ".date('d.m.Y H:i:s').":\n".
-                "    ".$logString."\n"
-            );
-
-            fclose($fp);
-        }
+    protected function Log($logString, $filename = 'importProducts') {
+        SilvercartConfig::Log('CSV Import', $logString, $filename);
     }
 }

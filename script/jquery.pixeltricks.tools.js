@@ -181,6 +181,11 @@ function activateShippingAddressValidation() {
  * @since 28.05.2011
  */
 function SilvercartToggleQuickLoginBox() {
+    if (updateSilvercartToggleQuickLoginBox !== undefined) {
+        updateSilvercartToggleQuickLoginBox();
+        
+        return false;
+    }
     
     var loginFormContainer = $('#silvercart-quicklogin-form');
     

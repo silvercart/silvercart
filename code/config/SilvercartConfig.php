@@ -1364,4 +1364,28 @@ class SilvercartConfig extends DataObject {
         }  
         return false; 
     }
+
+    /**
+     * writes a log entry
+     *
+     * @param string $context  the context for the log entry
+     * @param string $text     the text for the log entry
+     * @param string $filename filename to log into
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 17.11.2010
+     */
+    public static function Log($context, $text, $filename = 'default') {
+        $path = Director::baseFolder() . '/silvercart/log/' . $filename . '.log';
+        $text = sprintf(
+                "%s - %s - %s" . PHP_EOL,
+                date('Y-m-d H:i:s'),
+                $context,
+                $text
+        );
+        file_put_contents($path, $text, FILE_APPEND);
+    }
 }
