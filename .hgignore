@@ -9,4 +9,5 @@
 silverstripe-cache/.*
 nbproject/.*
 product_exports/.*
+.*~$
 
