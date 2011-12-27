@@ -1,0 +1,16 @@
+SilvercartFile:
+  testfile:
+    Title: Testfile
+    Filename: testfile.pdf
+SilvercartConfig:
+    SilvercartConfig:
+        DefaultCurrency: EUR
+        EmailSender: test@silvercart.org
+        GlobalEmailRecipient: test@silvercart.org
+        allowCartWeightToBeZero: 1
+        PricetypeAnonymousCustomers: gross
+        PricetypeRegularCustomers: gross
+        PricetypeBusinessCustomers: net
+        PricetypeAdmins: net
+    
+      

@@ -35,15 +35,27 @@
  */
 class SilvercartFile extends DataObject {
 
-    public static $singular_name = 'File';
-
-    public static $plural_name = 'Files';
-
+    /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.12.2011
+     */
     public static $db = array(
         'Title' => 'VarChar',
         'Description' => 'HTMLText',
     );
 
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.12.2011
+     */
     public static $has_one = array(
         'SilvercartProduct' => 'SilvercartProduct',
         'File' => 'File',
