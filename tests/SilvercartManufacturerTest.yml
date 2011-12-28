@@ -1,0 +1,6 @@
+SilvercartManufacturer:
+  testmanufacturer:
+    Title: testmanufacturer
+    URLSegment: testmanufacturer
+  manufacturerWithUmlaut:
+    Title: äöüÄÖÜ /&?#

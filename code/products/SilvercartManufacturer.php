@@ -231,7 +231,7 @@ class SilvercartManufacturer extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.03.2011
      */
-    public function  onBeforeWrite() {
+    public function onBeforeWrite() {
         parent::onBeforeWrite();
         if (empty ($this->Title)) {
             return;
