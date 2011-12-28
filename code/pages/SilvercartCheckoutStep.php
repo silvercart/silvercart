@@ -211,6 +211,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function extractAddressDataFrom($prefix, $data) {
         $addressData = array();
         $shippingDataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
             $prefix.'_Salutation'       => 'Salutation',
             $prefix.'_FirstName'        => 'FirstName',
             $prefix.'_Surname'          => 'Surname',
@@ -221,7 +223,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_City'             => 'City',
             $prefix.'_Phone'            => 'Phone',
             $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
-            $prefix.'_Country'          => 'CountryID'
+            $prefix.'_Fax'              => 'Fax',
+            $prefix.'_Country'          => 'CountryID',
         );
         
         if (is_array($data)) {
@@ -230,6 +233,16 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                     $addressData[$dataFieldName] = $data[$shippingFieldName];
                 }
             }
+        }
+        
+        if (array_key_exists('TaxIdNumber', $addressData) &&
+            array_key_exists('Company', $addressData) &&
+            !empty($addressData['TaxIdNumber']) &&
+            !empty($addressData['Company'])) {
+            
+            $addressData['isCompanyAddress'] = true;
+        } else {
+            $addressData['isCompanyAddress'] = false;
         }
 
         return $addressData;
@@ -249,6 +262,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function joinAddressDataTo($prefix, $data) {
         $addressData = array();
         $checkoutDataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
             $prefix.'_Salutation'       => 'Salutation',
             $prefix.'_FirstName'        => 'FirstName',
             $prefix.'_Surname'          => 'Surname',
@@ -259,6 +274,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_City'             => 'City',
             $prefix.'_Phone'            => 'Phone',
             $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Fax'              => 'Fax',
             $prefix.'_Country'          => 'CountryID',
             $prefix.'_Country'          => 'SilvercartCountryID',
         );

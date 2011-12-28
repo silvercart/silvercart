@@ -45,7 +45,6 @@ class SilvercartCustomer extends DataObjectDecorator {
     public function extraStatics() {
         return array(
             'db' => array(
-                'taxIdNumber'                       => 'VarChar(30)',
                 'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
                 'NewsletterOptInStatus'             => 'Boolean(0)',
                 'NewsletterConfirmationHash'        => 'VarChar(50)',

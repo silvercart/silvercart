@@ -13,6 +13,16 @@
                     <div class="subcolumns">
                         <div class="c66l">
                             <div class="silvercart-address-field_content">
+                                <% if isCompanyAddress %>
+                                    <div class="silvercart-address-company-section">
+                                        <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
+                                        <% _t('SilvercartAddress.TAXIDNUMBER','Tax ID number') %>: $TaxIdNumber<br />
+                                        <% _t('SilvercartAddress.COMPANY','Company') %>: $Company<br />
+                                    </div>
+                                <% else %>
+                                    <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+                                <% end_if %>
+                                
                                 $SalutationText $FirstName $Surname<br/>
                                 $Street $StreetNumber<br/>
                                 $Postcode $City<br/>

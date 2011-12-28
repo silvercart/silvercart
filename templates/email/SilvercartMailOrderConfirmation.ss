@@ -50,6 +50,16 @@
                 <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
                 <% control SilvercartShippingAddress %>
                 <table>
+                    <% if isCompanyAddress %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
+                            <td>$TaxIdNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.COMPANY') %></td>
+                            <td>$Company</td>
+                        </tr>
+                    <% end_if %>
                     <tr>
                         <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
                         <td>$FirstName</td>
@@ -83,6 +93,10 @@
                     <tr>
                         <td><% _t('SilvercartAddress.PHONE') %></td>
                         <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                    </tr>
+                    <tr>
+                        <td><% _t('SilvercartAddress.FAX') %></td>
+                        <td>$Fax</td>
                     </tr>
                     <tr>
                         <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
@@ -95,6 +109,16 @@
                 <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
                 <% control SilvercartInvoiceAddress %>
                 <table>
+                    <% if isCompanyAddress %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
+                            <td>$TaxIdNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.COMPANY') %></td>
+                            <td>$Company</td>
+                        </tr>
+                    <% end_if %>
                     <tr>
                         <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
                         <td>$FirstName</td>
@@ -128,6 +152,10 @@
                     <tr>
                         <td><% _t('SilvercartAddress.PHONE') %></td>
                         <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                    </tr>
+                    <tr>
+                        <td><% _t('SilvercartAddress.FAX') %></td>
+                        <td>$Fax</td>
                     </tr>
                     <tr>
                         <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
