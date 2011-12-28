@@ -34,10 +34,6 @@
  */
 class SilvercartImage extends DataObject {
 
-    public static $singular_name = 'Image';
-
-    public static $plural_name = 'Images';
-
     public static $db = array(
         'Title' => 'VarChar',
     );

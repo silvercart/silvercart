@@ -24,7 +24,7 @@ class SilvercartFileTest extends SapphireTest {
      */
     public function testGetFileIcon() {
         $testfile = $this->objFromFixture("SilvercartFile", "testfile");
-        $this->assertEquals('<img src="'.SAPPHIRE_DIR . '/images/app_icons/pdf_32.gif" alt="Adobe Acrobat PDF file" title="Testfile">', $testfile->getFileIcon());
+        $this->assertEquals('<img src="'.SAPPHIRE_DIR . '/images/app_icons/pdf_32.gif" alt="Adobe Acrobat PDF file" title="Testfile" />', $testfile->getFileIcon());
     }
 }
 

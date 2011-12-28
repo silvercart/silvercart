@@ -1,0 +1,8 @@
+Image:
+    testimage:
+      Title: testimage
+      Filename: testimage.jpg
+SilvercartImage:
+  testimage:
+    Title: testimage
+    Image: =>Image.testimage
