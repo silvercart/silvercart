@@ -141,7 +141,13 @@ class SilvercartPaymentMethod extends DataObject {
         'showPaymentLogos'                      => 'Boolean',
         'orderRestrictionMinQuantity'           => 'Int',
         'enableActivationByOrderRestrictions'   => 'Boolean',
-        'ShowFormFieldsOnPaymentSelection' => 'Boolean',
+        'ShowFormFieldsOnPaymentSelection'      => 'Boolean',
+        'sumModificationImpact'                 => "enum('productValue,totalValue','productValue')",
+        'sumModificationImpactType'             => "enum('charge,discount','charge')",
+        'sumModificationValue'                  => 'Float',
+        'sumModificationValueType'              => "enum('absolute,percent','absolute')",
+        'sumModificationLabel'                  => 'VarChar(255)',
+        'useSumModification'                    => 'Boolean(0)'
     );
     /**
      * Defines 1:1 relations
@@ -474,7 +480,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
+     * @since 14.12.2011
      */
     public function getHandlingCost() {
         $handlingCosts = new Money;
@@ -482,6 +488,90 @@ class SilvercartPaymentMethod extends DataObject {
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCosts;
+    }
+    
+    /**
+     * Returns the charges and discounts for the product values for this 
+     * payment method.
+     * 
+     * @param SilvercartShoppingCart $silvercartShoppingCart The shopping cart object
+     *
+     * @return mixed boolean|DataObject
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.12.2011
+     */
+    public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart) {
+        $handlingCosts = new Money;
+        $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        if ($this->useSumModification &&
+            $this->sumModificationImpact == 'productValue') {
+            
+            switch ($this->sumModificationValueType) {
+                case 'percent':
+                    $amount = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
+                    $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    break;
+                case 'absolute':
+                default:
+                    $modificationValue = $this->sumModificationValue;
+            }
+            
+            if ($this->sumModificationImpactType == 'charge') {
+                $handlingCostAmount = $modificationValue;
+            } else {
+                $handlingCostAmount = "-".$modificationValue;
+            }
+            $handlingCosts->setAmount($handlingCostAmount);
+
+            return $handlingCosts;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Returns the charges and discounts for the shopping cart total for
+     * this payment method.
+     * 
+     * @param SilvercartShoppingCart $silvercartShoppingCart The shopping cart object
+     *
+     * @return mixed boolean|DataObject
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.12.2011
+     */
+    public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart) {
+        $handlingCosts = new Money;
+        $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        if ($this->useSumModification &&
+            $this->sumModificationImpact == 'totalValue') {
+            
+            switch ($this->sumModificationValueType) {
+                case 'percent':
+                    $amount            = $silvercartShoppingCart->getAmountTotal(array(), false, true);
+                    $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    break;
+                case 'absolute':
+                default:
+                    $modificationValue = $this->sumModificationValue;
+            }
+            
+            if ($this->sumModificationImpactType == 'charge') {
+                $handlingCostAmount = $modificationValue;
+            } else {
+                $handlingCostAmount = "-".$modificationValue;
+            }
+            $handlingCosts->setAmount($handlingCostAmount);
+
+            return $handlingCosts;
+        }
+        
+        return false;
     }
 
     /**
@@ -1103,6 +1193,43 @@ class SilvercartPaymentMethod extends DataObject {
             new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL').':', 2)
         );
         $tabAccessManagementUser->push($showNotForUsersTable);
+        
+        // --------------------------------------------------------------------
+        // GUI for additional charges / discounts
+        // --------------------------------------------------------------------
+        $tabSumModifiers = new Tab('SumModifiers', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFIERS'));
+        $tabset->push($tabSumModifiers);
+        
+        $useSumModificationField = new CheckboxField('useSumModification', _t('SilvercartPaymentMethod.PAYMENT_USE_SUMMODIFICATION'));
+        
+        $impactFieldValues = array(
+            'productValue'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_PRODUCTVALUE'),
+            'totalValue'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TOTALVALUE')
+        );
+        $impactField = new OptionsetField('sumModificationImpact', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACT').':', $impactFieldValues);
+        
+        $impactTypeValues = array(
+            'charge'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_CHARGE'),
+            'discount'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_DISCOUNT')
+        );
+        $impactTypeField = new OptionsetField('sumModificationImpactType', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTTYPE').':', $impactTypeValues);
+
+        $impactValueField = new TextField('sumModificationValue', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONVALUE').':');
+
+        $impactValueTypeValues = array(
+            'absolute'  => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_ABSOLUTE'),
+            'percent'   => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_PERCENT')
+        );
+        $impactValueTypeField = new OptionsetField('sumModificationValueType', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE').':', $impactValueTypeValues);
+        
+        $impactLabelField = new TextField('sumModificationLabel', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONLABELFIELD'));
+        
+        $tabSumModifiers->push($useSumModificationField);
+        $tabSumModifiers->push($impactField);
+        $tabSumModifiers->push($impactTypeField);
+        $tabSumModifiers->push($impactValueField);
+        $tabSumModifiers->push($impactValueTypeField);
+        $tabSumModifiers->push($impactLabelField);
         
         return new FieldSet($tabset);
     }
