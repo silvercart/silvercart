@@ -1,37 +1,36 @@
 <?php
+/**
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Order
+ */
 
 /**
-* Copyright 2010, 2011 pixeltricks GmbH
-*
-* This file is part of SilverCart.
-*
-* SilverCart is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* SilverCart is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public License
-* along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
-*
-* @package Silvercart
-* @subpackage Order
-*/
-
-/**
-* abstract for shopping cart
-*
-* @package Silvercart
-* @subpackage Order
-* @author Sascha Koehler <skoehler@pixeltricks.de>
-* @copyright 2010 pixeltricks GmbH
-* @since 22.11.2010
-* @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
-*/
+ * abstract for shopping cart
+ *
+ * @package Silvercart
+ * @subpackage Order
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2010 pixeltricks GmbH
+ * @since 22.11.2010
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
 class SilvercartShoppingCart extends DataObject {
 
     /**
@@ -127,28 +126,6 @@ class SilvercartShoppingCart extends DataObject {
      * @since 07.02.2011
      */
     protected $shippingMethodID;
-    
-    /**
-     * Contains the calculated charges and discounts for product values for
-     * caching purposes.
-     *
-     * @var DataObject
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    protected $chargesAndDiscountsForProducts = null;
-    
-    /**
-     * Contains the calculated charges and discounts for the shopping cart
-     * total for caching purposes.
-     *
-     * @var DataObject
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    protected $chargesAndDiscountsForTotal = null;
 
     /**
      * default constructor
@@ -207,130 +184,6 @@ class SilvercartShoppingCart extends DataObject {
             $this->callMethodOnRegisteredModules(
                 'ShoppingCartInit'
             );
-        }
-    }
-    
-    /**
-     * Indicates wether the cart has charges and discounts for the product
-     * values.
-     *
-     * @return boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    public function HasChargesAndDiscountsForProducts() {
-        if ($this->ChargesAndDiscountsForProducts()) {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Indicates wether the cart has charges and discounts for the total
-     * shopping cart value.
-     *
-     * @return boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    public function HasChargesAndDiscountsForTotal() {
-        if ($this->ChargesAndDiscountsForTotal()) {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Returns the charges and discounts for product values.
-     *
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.12.2011
-     */
-    public function ChargesAndDiscountsForProducts() {
-        if ($this->chargesAndDiscountsForProducts !== null) {
-            return $this->chargesAndDiscountsForProducts;
-        } else {
-            $paymentMethodObj = DataObject::get_by_id(
-                'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-            );
-
-            if ($paymentMethodObj) {
-                $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForProducts($this);
-                
-                if ($handlingCostPayment === false) {
-                    return false;
-                } else {
-                    $taxes          = $this->getTaxRatesWithoutFeesAndCharges();
-                    $silvercartTax  = $this->getMostValuableTaxRate($taxes);
-
-                    $chargesAndDiscounts = new DataObject(
-                        array(
-                            'Name'                  => $paymentMethodObj->sumModificationLabel,
-                            'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                            'PriceFormatted'        => $handlingCostPayment->Nice(),
-                            'Price'                 => $handlingCostPayment,
-                            'SilvercartTax'         => $silvercartTax
-                        )
-                    );
-
-                    $this->chargesAndDiscountsForProducts = $chargesAndDiscounts;
-
-                    return $chargesAndDiscounts;
-                }
-            }
-
-            return false;
-        }
-    }
-    
-    /**
-     * Returns the charges and discounts for the shopping cart total.
-     *
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    public function ChargesAndDiscountsForTotal() {
-        if ($this->chargesAndDiscountsForTotal !== null) {
-            return $this->chargesAndDiscountsForTotal;
-        } else {
-            $paymentMethodObj = DataObject::get_by_id(
-                'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-            );
-
-            if ($paymentMethodObj) {
-                $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForTotal($this);
-                
-                if ($handlingCostPayment === false) {
-                    return false;
-                } else {
-                    $taxes          = $this->getTaxRatesWithFees();
-                    $silvercartTax  = $this->getMostValuableTaxRate($taxes);
-
-                    $chargesAndDiscounts = new DataObject(
-                        array(
-                            'Name'                  => $paymentMethodObj->sumModificationLabel,
-                            'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                            'PriceFormatted'        => $handlingCostPayment->Nice(),
-                            'Price'                 => $handlingCostPayment,
-                            'SilvercartTax'         => $silvercartTax
-                        )
-                    );
-
-                    $this->chargesAndDiscountsForTotal = $chargesAndDiscounts;
-
-                    return $chargesAndDiscounts;
-                }
-            }
-
-            return false;
         }
     }
 
@@ -453,7 +306,6 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
      *                                              can contain the ID or the className of the position
-     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
      *
      * @return string a price amount
      *
@@ -461,11 +313,11 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false) {
         $member = Member::currentUser();
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
         $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
-        $amountTotal = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
+        $amountTotal = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions)->getAmount();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
@@ -495,38 +347,6 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the price of the cart positions, including taxes.
      *
-     * @param array   $excludeModules              An array of registered modules that shall not
-     *                                             be taken into account.
-     * @param array   $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                             can contain the ID or the className of the position
-     * @param boolean $excludeCharges              Indicates wether charges and discounts should be calculated
-     * 
-     * @return Money a price amount
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
-     */
-    public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
-        $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition, $excludeCharges)->getAmount();
-        
-        // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->ChargesAndDiscountsForProducts()) {
-            
-            $amount += $this->ChargesAndDiscountsForProducts()->Price->getAmount();
-        }
-        
-        $amountObj = new Money;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-        return $amountObj;
-    }
-    
-    /**
-     * Returns the price of the cart positions, including taxes.
-     *
      * @param array $excludeModules              An array of registered modules that shall not
      *                                           be taken into account.
      * @param array $excludeShoppingCartPosition Positions that shall not be counted;
@@ -538,7 +358,7 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 15.12.2011
      */
-    public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
+    public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
 
         $registeredModules = $this->callMethodOnRegisteredModules(
@@ -802,7 +622,6 @@ class SilvercartShoppingCart extends DataObject {
      * @param array   $excludeModules               An array of registered modules that shall not
      *                                              be taken into account.
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return string a price amount
      *
@@ -810,7 +629,7 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 04.02.2011
      */
-    public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false) {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
         
@@ -818,13 +637,6 @@ class SilvercartShoppingCart extends DataObject {
             foreach ($this->getTaxRatesWithFees() as $taxRate) {
                 $amount += (float) $taxRate->Amount->getAmount();
             }
-        }
-
-        // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->ChargesAndDiscountsForTotal()) {
-            
-            $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
         }
         
         $amountObj = new Money;
@@ -841,7 +653,6 @@ class SilvercartShoppingCart extends DataObject {
      * @param array   $excludeModules               An array of registered modules that shall not
      *                                              be taken into account.
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return string a price amount
      *
@@ -849,8 +660,8 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 12.05.2011
      */
-    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
-        $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
+    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false) {
+        $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
         $amountObj = new Money;
@@ -870,7 +681,7 @@ class SilvercartShoppingCart extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 01.02.2011
      */
-    public function getTaxRatesWithoutFeesAndCharges() {
+    public function getTaxRatesWithoutFees() {
         $positions          = $this->SilvercartShoppingCartPositions();
         $taxes              = new DataObjectSet;
         $registeredModules  = $this->callMethodOnRegisteredModules(
@@ -927,81 +738,6 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         return $taxes;
-    }
-
-    /**
-     * Returns tax amounts included in the shoppingcart separated by tax rates
-     * without fee taxes.
-     *
-     * @return DataObjectSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.02.2011
-     */
-    public function getTaxRatesWithoutFees() {
-        $taxes = $this->getTaxRatesWithoutFeesAndCharges();
-        
-        // Charges and disounts
-        $chargesAndDiscounts = $this->ChargesAndDiscountsForProducts();
-        
-        if ($this->HasChargesAndDiscountsForProducts()) {
-            $mostValuableTaxRate = $this->getMostValuableTaxRate($taxes);
-            
-            if ($mostValuableTaxRate) {
-                $taxSection = $taxes->find('Rate', $mostValuableTaxRate->Rate);
-                $chargeAndDiscountAmount = $chargesAndDiscounts->Price->getAmount();
-                $taxSection->AmountRaw += $chargeAndDiscountAmount - ($chargeAndDiscountAmount / (100 + $taxSection->Rate) * 100);
-            }
-        }
-
-        foreach ($taxes as $tax) {
-            $taxObj = new Money;
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
-        }
-
-        return $taxes;
-    }
-    
-    /**
-     * Returns the SilvercartTax object with the highest tax value for the
-     * given taxes.
-     *
-     * @param array $taxes The tax rates array (associative)
-     *
-     * @return SilvercartTax
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
-     */
-    protected function getMostValuableTaxRate($taxes) {
-        $highestTaxValue        = 0;
-        $mostValuableTaxRate    = null;
-        
-        foreach ($taxes as $tax) {
-            if ($tax->AmountRaw > $highestTaxValue) {
-                $mostValuableTaxRate = $tax->Rate;
-            }
-        }
-        
-        if ($mostValuableTaxRate) {
-            $silvercartTax = DataObject::get_one(
-                'SilvercartTax',
-                sprintf(
-                    "Rate = %f",
-                    $mostValuableTaxRate
-                )
-            );
-            
-            if ($silvercartTax) {
-                return $silvercartTax;
-            }
-        }
-        
-        return false;
     }
 
     /**

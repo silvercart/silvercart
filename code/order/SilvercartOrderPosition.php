@@ -46,8 +46,6 @@ class SilvercartOrderPosition extends DataObject {
     public static $db = array(
         'Price'                              => 'Money',
         'PriceTotal'                         => 'Money',
-        'isChargeOrDiscount'                 => 'Boolean(0)',
-        'chargeOrDiscountModificationImpact' => "enum('none,productValue,totalValue','none')",
         'Tax'                                => 'Float',
         'TaxTotal'                           => 'Float',
         'TaxRate'                            => 'Float',
