@@ -90,7 +90,7 @@ class SilvercartProductTest extends SapphireTest {
         var_dump(SilvercartConfig::Pricetype());
         
         //check price for admins
-        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount(), 'Admins get gross prices shown');
+        $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount(), 'Error: A admin user without address gets net prices shown.');
         
         //check for anonymous users, test runner makes an auto login, so we have to log out first
         $member = Member::currentUser();

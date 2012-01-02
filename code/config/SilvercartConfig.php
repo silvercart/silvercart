@@ -118,7 +118,6 @@ class SilvercartConfig extends DataObject {
         'PricetypeAnonymousCustomers'       => 'VarChar(6)',
         'PricetypeRegularCustomers'         => 'VarChar(6)',
         'PricetypeBusinessCustomers'        => 'VarChar(6)',
-        'PricetypeAdmins'                   => 'VarChar(6)',
         'enableSSL'                         => 'Boolean(0)',
         'productsPerPage'                   => 'Int',
         'productGroupsPerPage'              => 'Int',
@@ -169,7 +168,6 @@ class SilvercartConfig extends DataObject {
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
         'PricetypeBusinessCustomers'    => 'net',
-        'PricetypeAdmins'               => 'net',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
         'productsPerPage'               => 20,
@@ -189,7 +187,6 @@ class SilvercartConfig extends DataObject {
         'PricetypeAnonymousCustomers',
         'PricetypeRegularCustomers',
         'PricetypeBusinessCustomers',
-        'PricetypeAdmins',
         'ActiveCountries',
     );
 
@@ -354,8 +351,7 @@ class SilvercartConfig extends DataObject {
         $pricetypes = array(
             'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
             'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
-            'PricetypeBusinessCustomers' => _t('SilvercartConfig.PRICETYPE_BUSINESS', 'Pricetype business customers'),
-            'PricetypeAdmins' => _t('SilvercartConfig.PRICETYPE_ADMINS', 'Pricetype administrators')
+            'PricetypeBusinessCustomers' => _t('SilvercartConfig.PRICETYPE_BUSINESS', 'Pricetype business customers')
         );
         $pricetypeDropdownValues = array(
             'gross' => _t('SilvercartCustomer.GROSS'),
