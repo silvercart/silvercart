@@ -434,7 +434,7 @@ class SilvercartProduct extends DataObject {
                     if ($pricetype == "net") {
                         $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
                     } else {
-                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
+                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceGrossAmount` != 0.0) AND ");
                     }
                 } else {
                     $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
