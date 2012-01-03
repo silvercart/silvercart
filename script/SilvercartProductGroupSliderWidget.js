@@ -164,55 +164,75 @@ var ProductRotator = function () {
     /**
      * Set the given index of the queue as main display and animate accordingly.
      * 
+     * @param int i   The index of the queue to go to
+     * @param int dir The direction to scroll
+     * 
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 03.01.2012
      */
     self.goTo = function(i, dir) {
-        // hero
-        //self.el.heroContainer.find('img, div').empty();
-        self.el.heroContainer.html('');
+        
+        // Delete main image and fade in the new main image
+        self.el.heroContainer.find('img').fadeOut('slow');
         self.setHero(i).hide().fadeIn('slow');
+        
+        var leftDisplay  = self.getPrev(i);
+        var rightDisplay = self.getNext(i);
+        
+        // Fade out left display image
         self.el.leftContainer.find('img')
             .animate({
-                'left': -150*dir,
-                'opacity': 0
+                'left':     -150*dir,
+                'opacity':  0
             }, {
                 duration: self.v.ani.duration,
                 complete: function(){ $(this).remove(); }
             });
-        self.setLeft(self.getPrev(i))
-            .css({
-                'left': 150*dir,
-                'opacity': 0
-            })
-            .animate({
-                'left': 0,
-                'opacity': 1
+            
+        // Fade in left display new image
+        self.setLeft(leftDisplay).css(
+            {
+                'left':     150*dir,
+                'opacity':  0
+            }
+        ).animate(
+            {
+                'left':     0,
+                'opacity':  1
             }, {
                 duration: self.v.ani.duration
-            });
-        // right
+            }
+        );
+        
+        // Fade out right display image
         self.el.rightContainer.find('img')
             .animate({
-                'right': 150*dir,
-                'opacity': 0
+                'right':    150*dir,
+                'opacity':  0
             }, {
                 duration: self.v.ani.duration,
                 complete: function(){ $(this).remove(); }
             });
-        self.setRight(self.getNext(i))
-            .css({
-                'right': -150*dir,
-                'opacity': 0
-            })
-            .animate({
-                'right': 0,
-                'opacity': 1
+        
+        // Fade in right display new image
+        self.setRight(rightDisplay).css(
+            {
+                'right':    -150*dir,
+                'opacity':  0
+            }
+        ).animate(
+            {
+                'right':    0,
+                'opacity':  1
             }, {
                 duration: self.v.ani.duration
-            });
+            }
+        );
+        
+        delete(leftDisplay);
+        delete(rightDisplay);
     };
     
     /**
@@ -227,6 +247,8 @@ var ProductRotator = function () {
         self.setHero(0).hide().fadeIn('slow');
         self.setLeft(self.getPrev(0)).hide().fadeIn('slow');
         self.setRight(self.getNext(0)).hide().fadeIn('slow');
+        
+        ProductRotatorResetAnimation();
         return self;
     };
     
@@ -265,7 +287,7 @@ function ProductRotatorResetAnimation(ProductRotator) {
     window.clearInterval(productRotatorAnimation);
     
     productRotatorAnimation = window.setInterval(
-        "ProductRotatorAnimation(pr)", 5000
+        "ProductRotatorAnimation(pr)", 7000
     );
 }
 
