@@ -39,26 +39,6 @@
  * @license LGPL
  */
 class SilvercartConfig extends DataObject {
-
-    /**
-     * Singular name for the backend..
-     *
-     * @var string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
-     */
-    public static $singular_name = "General configuration";
-    
-    /**
-     * Plural name for the backend..
-     *
-     * @var string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
-     */
-    public static $plural_name = "General configurations";
     
     /**
      * Contains the possible values for products per page selectors for
