@@ -307,7 +307,8 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function adjustQuantityToStockQuantity() {
         if (array_key_exists('url', $_REQUEST)) {
-            if (strpos($_REQUEST['url'], 'dev/build') === false) {
+            //must not be executed on a dev/build and dev/tests because a SilvercartConfig instance does not exist
+            if (strpos($_REQUEST['url'], 'dev/build') === false && strpos($_REQUEST['url'], 'dev/tests') === false) {
                 if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
                     if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
                         $this->Quantity = $this->SilvercartProduct()->StockQuantity;

@@ -1,0 +1,8 @@
+File:
+  testfile:
+    Title: Testfile
+    Filename: testfile.pdf
+SilvercartFile:
+  testfile:
+    Title: Testfile
+    File: =>File.testfile

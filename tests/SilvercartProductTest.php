@@ -22,7 +22,7 @@
  */
 
 /**
- * test for product behaviour
+ * tests for methods of the class SilvercartProduct
  *
  * @package Silvercart
  * @subpackage Tests
@@ -51,7 +51,8 @@ class SilvercartProductTest extends SapphireTest {
         //Only active products with a price or free of charge must be loaded. 
         SilvercartProduct::setRequiredAttributes("Price");
         $products = SilvercartProduct::get();
-        $this->assertEquals(5, $products->Count(), "The quantity of products with a price is not correct.");
+        $this->assertDOSContains(array(array('Title' => 'Product with price')), $products);
+        $this->assertEquals(5, $products->Count(), "The quantity of products with a price or free of charge is not correct.");
         
         //Only active products with short description and price defined as required attributes must be loaded
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription");
@@ -60,15 +61,15 @@ class SilvercartProductTest extends SapphireTest {
         
         //Only one specific product with Title = 'product with price'
         $products = SilvercartProduct::get("`Title` = 'Product with price'");
-        $this->assertTrue(1 == $products->Count(), "Quantity of products with Title 'product with price' not correct");
+        $this->assertTrue($products->Count() == 1, "Quantity of products with Title 'product with price' not correct");
         
         //inactive products must not be loaded
         $products = SilvercartProduct::get("`Title` = 'inactive product'");
-        $this->assertTrue(false === $products, "An inactive product can be loaded via SilvercartProduct::get()");
+        $this->assertNull($products, "An inactive product can be loaded via SilvercartProduct::get()");
         
         //products free of charge must be loaded with and without price
         $products = SilvercartProduct::get("`isFreeOfCharge` = 1");
-        $this->assertTrue(2 == $products->Count(), "The number of products free of charge is not correct");
+        $this->assertTrue($products->Count() == 2, "The number of products free of charge is not correct");
         
         //load products with three required attributes defined
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription, LongDescription");
@@ -86,9 +87,10 @@ class SilvercartProductTest extends SapphireTest {
      */
     public function testGetPrice() {
         $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
+        var_dump(SilvercartConfig::Pricetype());
         
         //check price for admins
-        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount());
+        $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount(), 'Error: A admin user without address gets net prices shown.');
         
         //check for anonymous users, test runner makes an auto login, so we have to log out first
         $member = Member::currentUser();
@@ -98,13 +100,13 @@ class SilvercartProductTest extends SapphireTest {
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
         
         //check price for business customers
-        $businessCustomer = $this->objFromFixture("SilvercartBusinessCustomer", "BusinessCustomer");
+        $businessCustomer = $this->objFromFixture("Member", "BusinessCustomer");
         $businessCustomer->logIn();
         $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount(), "business customers price is not correct.");
         $businessCustomer->logOut();
         
         //check price for regular customers
-        $regularCustomer = $this->objFromFixture("SilvercartRegularCustomer", "RegularCustomer");
+        $regularCustomer = $this->objFromFixture("Member", "RegularCustomer");
         $regularCustomer->logIn();
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
         $regularCustomer->logOut();

@@ -432,9 +432,9 @@ class SilvercartProduct extends DataObject {
                 if ($requiredAttribute == "Price") {
                     // Gross price as default if not defined
                     if ($pricetype == "net") {
-                        $filter .= sprintf("(`PriceNetAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
                     } else {
-                        $filter .= sprintf("(`PriceGrossAmount` !='' OR `isFreeOfCharge` = '1') AND ");
+                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
                     }
                 } else {
                     $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
@@ -453,15 +453,6 @@ class SilvercartProduct extends DataObject {
         }
         
         $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
-        
-        if (in_array('Price', $requiredAttributes) &&
-            !is_null($databaseFilteredProducts)) {
-            foreach ($databaseFilteredProducts as $product) {
-                if ($product->getPrice()->getAmount() <= 0) {
-                    $databaseFilteredProducts->remove($product);
-                }
-            }
-        }
         
         return $databaseFilteredProducts;
     }

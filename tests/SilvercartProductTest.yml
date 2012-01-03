@@ -60,7 +60,7 @@ SilvercartProduct:
         SilvercartTax: =>SilvercartTax.VAT19
     ProductWithPriceWithoutLongDescription:
         isFreeOfCharge: 0
-        Title: Product with price without short description
+        Title: Product with price without long description
         ShortDescription: This is the short description of the product with price without long description
         LongDescription: 
         isActive: 1
@@ -80,18 +80,29 @@ SilvercartConfig:
         PricetypeRegularCustomers: gross
         PricetypeBusinessCustomers: net
         PricetypeAdmins: net
+     
+Group:
+  b2b:
+    Title: Business customers
+    Code: b2b
+  b2c:
+    Title: regular customers
+    Code: b2c
+  anonymous:
+    Title: anonymous customers
+    Code: anonymous
         
-SilvercartBusinessCustomer:
+Member:
     BusinessCustomer:
         FirstName: John
         Surname: Doe
         Email: john@doe.org
-        
-SilvercartRegularCustomer:
+        Group: =>Group.b2b
     RegularCustomer:
         FirstName: Jonny
         Surname: Depp
         Email: jonny@depp.org
+        Group: =>Group.b2c
         
 SilvercartShoppingCart:
     ShoppingCart:
