@@ -86,23 +86,20 @@ class SilvercartProductTest extends SapphireTest {
      * @return void
      */
     public function testGetPrice() {
-        $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
-        var_dump(SilvercartConfig::Pricetype());
-        
-        //check price for admins
-        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount(), 'Admins get gross prices shown');
-        
+
         //check for anonymous users, test runner makes an auto login, so we have to log out first
         $member = Member::currentUser();
         if ($member) {
             $member->logOut();
         }
+        $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
         
         //check price for business customers
         $businessCustomer = $this->objFromFixture("Member", "BusinessCustomer");
         $businessCustomer->logIn();
-        $this->assertEquals(90.00, $productWithPrice->getPrice()->getAmount(), "business customers price is not correct.");
+        $productWithPriceWithoutShortDescription = $this->objFromFixture("SilvercartProduct", "ProductWithPriceWithoutShortDescription");
+        $this->assertEquals(9.00, $productWithPriceWithoutShortDescription->getPrice()->getAmount(), "business customers price is not correct.");
         $businessCustomer->logOut();
         
         //check price for regular customers
@@ -110,9 +107,6 @@ class SilvercartProductTest extends SapphireTest {
         $regularCustomer->logIn();
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
         $regularCustomer->logOut();
-        
-        //log in admin again
-        $member->logIn();
     }
     
     /**
@@ -129,13 +123,13 @@ class SilvercartProductTest extends SapphireTest {
         $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
         
         //existing position
-        $this->assertTrue($productWithPrice->addToCart($cart->ID, 2), "The return value of addToCart() is not correct if an existing position is overwritten.");
+        $productWithPrice->addToCart($cart->ID, 2);
         $position = DataObject::get_by_id("SilvercartShoppingCartPosition", $cartPosition->ID);
         $this->assertEquals(3, $position->Quantity, "The quantity of the overwritten shopping cart position is incorrect.");
         
         //new position
         $productWithPriceWithoutLongDescription = $this->objFromFixture("SilvercartProduct", "ProductWithPriceWithoutLongDescription");
-        $this->assertTrue($productWithPriceWithoutLongDescription->addToCart($cart->ID), "The return value of addToCart() is not correct if a new position is created.");
+        $productWithPriceWithoutLongDescription->addToCart($cart->ID);
         $position = DataObject::get_one("SilvercartShoppingCartPosition", "`SilvercartProductID` = $productWithPriceWithoutLongDescription->ID");
         $this->assertEquals(1, $position->Quantity, "The quantity of the newly created shopping cart position is incorrect.");
         
@@ -186,8 +180,6 @@ class SilvercartProductTest extends SapphireTest {
         
         //admin is logged in
         $admin = Member::currentUser();
-        $this->assertEquals("Member", $admin->ClassName);
-        $this->assertTrue(false === $product->showPricesGross(), "Admins get prices shown net.");
         
         //admin logged out
         $admin->logOut();
