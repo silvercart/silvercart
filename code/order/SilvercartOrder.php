@@ -690,7 +690,7 @@ class SilvercartOrder extends DataObject {
             
             // Delete the shoppingcart positions
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                //$shoppingCartPosition->delete();
+                $shoppingCartPosition->delete();
             }
         }
     }
