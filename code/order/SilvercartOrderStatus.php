@@ -186,7 +186,6 @@ class SilvercartOrderStatus extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('Code'); //Code values are used for some getters and must not be changed via backend
         $fields->removeByName('SilvercartShopEmails');
 
         // Add shop email field
@@ -213,11 +212,11 @@ class SilvercartOrderStatus extends DataObject {
     
     /**
      * Sends a mail with the given SilvercartOrder object as data provider.
-     *
-     * @return void
-     *
+     * 
      * @param SilvercartOrder $order The order object that is used to fill the
      *                               mail template variables.
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.10.2011
