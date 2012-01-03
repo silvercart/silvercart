@@ -33,28 +33,6 @@
  * @since 22.10.2010
  */
 class SilvercartAddress extends DataObject {
-
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $singular_name = 'address';
-    
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $plural_name = 'addresses';
     
     /**
      * Attributes.

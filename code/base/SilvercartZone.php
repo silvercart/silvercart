@@ -36,26 +36,6 @@
 class SilvercartZone extends DataObject {
 
     /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $singular_name = "zone";
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $plural_name = "zones";
-    /**
      * Attributes.
      *
      * @var array

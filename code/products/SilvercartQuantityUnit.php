@@ -44,7 +44,7 @@ class SilvercartQuantityUnit extends DataObject {
      * @since 29.03.2011
      */
     public static $db = array(
-        'Name' => 'VarChar(50)',
+        'Title' => 'VarChar(50)',
         'Abbreviation' => 'VarChar(5)'
     );
     

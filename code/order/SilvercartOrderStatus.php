@@ -34,28 +34,6 @@
 class SilvercartOrderStatus extends DataObject {
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    static $singular_name = "order status";
-
-    /**
-     * Plural-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    static $plural_name = "order status";
-
-    /**
      * attributes
      *
      * @var array
