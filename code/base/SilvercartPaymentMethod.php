@@ -562,7 +562,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $containedInGroup       = false;
                 $containedInUsers       = false;
                 $doAccessChecks         = true;
-                
+        
                 // ------------------------------------------------------------
                 // Basic checks
                 // ------------------------------------------------------------

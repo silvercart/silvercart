@@ -817,7 +817,8 @@ class SilvercartConfig extends DataObject {
                 $checkoutData       = Controller::curr()->getCombinedStepData();
                 $invoiceAddress     = Controller::curr()->extractAddressDataFrom('Invoice', $checkoutData);
                 
-                if ($invoiceAddress['isCompanyAddress']) {
+                if (array_key_exists('isCompanyAddress', $invoiceAddress) &&
+                    $invoiceAddress['isCompanyAddress']) {
                     self::$priceType = $configObject->PricetypeBusinessCustomers;
                 } else {
                     if ($member->Groups()->find('Code', 'anonymous')) {
