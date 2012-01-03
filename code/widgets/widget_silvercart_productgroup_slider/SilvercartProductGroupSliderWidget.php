@@ -240,12 +240,16 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
         
         Requirements::customScript(
             sprintf('
+                var pr;
+                var productRotatorAnimation;
+                
                 $(document).ready(function() {
                     pr = new ProductRotator();
                     
                     %s
 
                     pr.start();
+                    ProductRotatorResetAnimation(pr);
                 });
             ',
             implode("\n", $productGroups)

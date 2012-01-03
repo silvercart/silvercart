@@ -1,10 +1,30 @@
+/**
+ * Slider for product group images.
+ * 
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 03.01.2012
+ */
 var ProductRotator = function () {
-    var self = this;
-    self.v = {ani: {duration:600} };
-    self.el = {};
-    self.products = [];
+    var self        = this;
+    self.v          = {ani: {duration:600} };
+    self.el         = {};
+    self.products   = [];
     
-    // Product
+    /**
+     * Creates a product object and returns it
+     * 
+     * @param string name      The name of the product group
+     * @param string url       The url to the product group page
+     * @param string img       The image file path
+     * @param string thumb     The thumbnail file path
+     * @param string img_alt   The alt text for the image
+     * @param string thumb_alt The alt text for the thumbnail
+     * 
+     * @return Object Product
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.Product = function (name, url, img, thumb, img_alt, thumb_alt) {
         var product = this;
         //
@@ -20,11 +40,36 @@ var ProductRotator = function () {
         };
         return product.init(name, url, img, thumb, img_alt, thumb_alt);
     };
+    
+    /**
+     * Add a product to the queue.
+     *
+     * @param string name      The name of the product group
+     * @param string url       The url to the product group page
+     * @param string img       The image file path
+     * @param string thumb     The thumbnail file path
+     * @param string img_alt   The alt text for the image
+     * @param string thumb_alt The alt text for the thumbnail
+     *
+     * @return Object ProductRotator
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.addProduct = function (name, url, img, thumb, img_alt, thumb_alt) {
         var product = new self.Product(name, url, img, thumb, img_alt, thumb_alt);
         self.products.push(product);
         return self;
     };
+    
+    /**
+     * Returns the next index of the queue.
+     * 
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.getNext = function(i) {
         if (++i >= self.products.length) {
             return 0;
@@ -32,6 +77,15 @@ var ProductRotator = function () {
             return i;
         }
     };
+    
+    /**
+     * Returns the previous index of the queue.
+     * 
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.getPrev = function(i) {
         if (--i < 0) {
             return self.products.length - 1;
@@ -40,6 +94,14 @@ var ProductRotator = function () {
         }
     };
     
+    /**
+     * Sets the given index of the queue as main display.
+     * 
+     * @return Object
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.setHero = function(i) {
         var product = self.products[i];
         var link = $('<a/>')
@@ -52,25 +114,61 @@ var ProductRotator = function () {
             .appendTo(link);
         return productEl;
     };
+    
+    /**
+     * Set the given index of the queue as preceding display
+     * 
+     * @return Object
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.setLeft = function(i) {
         var product = self.products[i];
         var productEl = $('<img/>')
             .attr('src', product.thumb)
             .addClass('silvercart-productgroup-slider-image')
             .appendTo(self.el.leftContainer)
-            .click(function(){ self.goTo(i, -1) });
+            .click(
+                function() {
+                    ProductRotatorResetAnimation(pr);
+                    self.goTo(i, -1);
+                }
+            );
         return productEl;
     };
+    
+    /**
+     * Set the given index of the queue as consecutive display
+     * 
+     * @return Object
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.setRight = function(i) {
         var product = self.products[i];
         var productEl = $('<img/>')
             .attr('src', product.thumb)
             .addClass('silvercart-productgroup-slider-image')
             .appendTo(self.el.rightContainer)
-            .click(function(){ self.goTo(i, 1) });
+            .click(
+                function() {
+                    ProductRotatorResetAnimation(pr);
+                    self.goTo(i, 1);
+                }
+            );
         return productEl;
     };
     
+    /**
+     * Set the given index of the queue as main display and animate accordingly.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.goTo = function(i, dir) {
         // hero
         //self.el.heroContainer.find('img, div').empty();
@@ -116,16 +214,30 @@ var ProductRotator = function () {
                 duration: self.v.ani.duration
             });
     };
-    //
-    // Start
+    
+    /**
+     * Set the initial displays.
+     * 
+     * @return Object ProductRotator
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.start = function(){
         self.setHero(0).hide().fadeIn('slow');
         self.setLeft(self.getPrev(0)).hide().fadeIn('slow');
         self.setRight(self.getNext(0)).hide().fadeIn('slow');
         return self;
     };
-    //
-    // Init
+    
+    /**
+     * Initialise the ProductRotator.
+     * 
+     * @return Object ProductRotator
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.01.2012
+     */
     self.init = function(){
         self.el.leftContainer = $('.silvercart-productgroup-slider-navigation-panel-left');
         self.el.rightContainer = $('.silvercart-productgroup-slider-navigation-panel-right');
@@ -135,5 +247,40 @@ var ProductRotator = function () {
         self.el.productRotator = $('.silvercart-productgroup-slider');
         return self;
     };
+    
     return self.init();
 };
+
+/**
+ * Switch to the next element of the product rotator
+ * 
+ * @param Object ProductRotator The ProductRotator object
+ * 
+ * @return void
+ * 
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 03.01.2012
+ */
+function ProductRotatorResetAnimation(ProductRotator) {
+    window.clearInterval(productRotatorAnimation);
+    
+    productRotatorAnimation = window.setInterval(
+        "ProductRotatorAnimation(pr)", 5000
+    );
+}
+
+/**
+ * Switch to the next element of the product rotator
+ * 
+ * @param Object ProductRotator The ProductRotator object
+ * 
+ * @return void
+ * 
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 03.01.2012
+ */
+function ProductRotatorAnimation(ProductRotator) {
+    ProductRotator.el.rightContainer.find('img').click();
+    
+    return true;
+}
