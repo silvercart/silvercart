@@ -1994,7 +1994,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $data['imageDirectory'] .= '/';
         }
         
-        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);
+        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);        
         
         // Create Image object and SilvercartImage objects and connect them
         // to the respective SilvercartProduct
@@ -2077,8 +2077,10 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                 if (!array_key_exists('fileName', $product)) {
                     continue;
                 }
-                if (file_exists($data['imageDirectory'].$product['fileName'])) {
-                    unlink($data['imageDirectory'].$product['fileName']);
+                foreach ($product['fileName'] as $fileName) {
+                    if (file_exists($data['imageDirectory'] . $fileName)) {
+                        unlink($data['imageDirectory'] . $fileName);
+                    }
                 }
             }
         }
@@ -2238,7 +2240,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $resultSet = SilvercartPlugin::call($this, 'overwriteFindProductsByNumbers', array($numbers, $mapNames), true, array());
         
         if (is_array($resultSet) &&
-            count($resultSet) > 0) {
+            count($resultSet) > 0
+            && !empty($resultSet[0])) {
             return $resultSet[0];
         }
         
