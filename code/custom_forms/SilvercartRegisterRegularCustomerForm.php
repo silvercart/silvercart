@@ -143,7 +143,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'type'              => 'TextField',
             'title'             => 'E-Mail-Adresse Gegenprüfung',
             'checkRequirements' => array(
-               'mustEqual' => 'Email',
+               'isFilledIn' => true,
+               'mustEqual'  => 'Email',
             )
         ),
         'PhoneAreaCode' => array(
@@ -205,7 +206,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             'type'              => 'PasswordField',
             'title'             => 'Passwort Gegenprüfung',
             'checkRequirements' => array(
-                'mustEqual' => 'Password'
+                'isFilledIn'    => true,
+                'mustEqual'     => 'Password'
             )
         ),
         'SubscribedToNewsletter' => array(
