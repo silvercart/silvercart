@@ -456,6 +456,12 @@ class SilvercartProductGroupPage extends Page {
             $activeProducts  = array();
             $productGroupIDs = self::getFlatChildPageIDsForPage($this->ID);
             
+            if (SilvercartConfig::Pricetype() == 'net') {
+                $priceTypeFilter = 'PriceNetAmount > 0';
+            } else {
+                $priceTypeFilter = 'PriceGrossAmount > 0';
+            }
+            
             $records = DB::query(
                 sprintf(
                     "SELECT
@@ -463,8 +469,12 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1 AND SilvercartProductGroupID IN (%s)",
-                    implode(',', $productGroupIDs)
+                        isActive = 1 AND
+                        SilvercartProductGroupID IN (%s) AND
+                        %s
+                    ",
+                    implode(',', $productGroupIDs),
+                    $priceTypeFilter
                 )
             );
 
