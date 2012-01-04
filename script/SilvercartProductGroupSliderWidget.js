@@ -6,9 +6,19 @@
  */
 var ProductRotator = function () {
     var self        = this;
-    self.v          = {ani: {duration:600} };
     self.el         = {};
     self.products   = [];
+    self.name       = '';
+    self.url        = '';
+    self.img        = '';
+    self.thumb      = '';
+    self.img_alt    = '';
+    self.thumb_alt  = '';
+    self.v          = {
+        ani: {
+            duration: 600
+        }
+    };
     
     /**
      * Creates a product object and returns it
@@ -27,15 +37,15 @@ var ProductRotator = function () {
      */
     self.Product = function (name, url, img, thumb, img_alt, thumb_alt) {
         var product = this;
-        //
-        // Init
+        
         product.init = function (name, url, img, thumb, img_alt, thumb_alt) {
-            product.name = name;
-            product.url = url;
-            product.img = img;
-            product.thumb = thumb;
-            product.img_alt = img_alt;
-            product.thumb_alt = thumb_alt;
+            product.name        = name;
+            product.url         = url;
+            product.img         = img;
+            product.thumb       = thumb;
+            product.img_alt     = img_alt;
+            product.thumb_alt   = thumb_alt;
+            
             return product;
         };
         return product.init(name, url, img, thumb, img_alt, thumb_alt);
@@ -71,7 +81,9 @@ var ProductRotator = function () {
      * @since 03.01.2012
      */
     self.getNext = function(i) {
-        if (++i >= self.products.length) {
+        i += 1;
+        
+        if (i >= self.products.length) {
             return 0;
         } else {
             return i;
@@ -87,7 +99,9 @@ var ProductRotator = function () {
      * @since 03.01.2012
      */
     self.getPrev = function(i) {
-        if (--i < 0) {
+        i -= 1;
+        
+        if (i < 0) {
             return self.products.length - 1;
         } else {
             return i;
@@ -112,6 +126,8 @@ var ProductRotator = function () {
             .attr('alt', product.img_alt)
             .addClass('silvercart-productgroup-slider-image')
             .appendTo(link);
+        delete(product);
+        delete(link);
         return productEl;
     };
     
@@ -135,6 +151,7 @@ var ProductRotator = function () {
                     self.goTo(i, -1);
                 }
             );
+        delete(product);
         return productEl;
     };
     
@@ -158,6 +175,7 @@ var ProductRotator = function () {
                     self.goTo(i, 1);
                 }
             );
+        delete(product);
         return productEl;
     };
     
@@ -184,7 +202,7 @@ var ProductRotator = function () {
         // Fade out left display image
         self.el.leftContainer.find('img')
             .animate({
-                'left':     -150*dir,
+                'left':     -150 * dir,
                 'opacity':  0
             }, {
                 duration: self.v.ani.duration,
@@ -194,7 +212,7 @@ var ProductRotator = function () {
         // Fade in left display new image
         self.setLeft(leftDisplay).css(
             {
-                'left':     150*dir,
+                'left':     150 * dir,
                 'opacity':  0
             }
         ).animate(
@@ -209,7 +227,7 @@ var ProductRotator = function () {
         // Fade out right display image
         self.el.rightContainer.find('img')
             .animate({
-                'right':    150*dir,
+                'right':    150 * dir,
                 'opacity':  0
             }, {
                 duration: self.v.ani.duration,
@@ -219,7 +237,7 @@ var ProductRotator = function () {
         // Fade in right display new image
         self.setRight(rightDisplay).css(
             {
-                'right':    -150*dir,
+                'right':    -150 * dir,
                 'opacity':  0
             }
         ).animate(
@@ -249,6 +267,12 @@ var ProductRotator = function () {
         self.setRight(self.getNext(0)).hide().fadeIn('slow');
         
         ProductRotatorResetAnimation();
+        $(document).bind('focusout', function() {
+            window.clearInterval(productRotatorAnimation);
+        });
+        $(document).bind('focusin', function() {
+            ProductRotatorResetAnimation();
+        });
         return self;
     };
     
