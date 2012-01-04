@@ -114,6 +114,8 @@ class SilvercartConfig extends DataObject {
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
         'addToCartMaxQuantity'              => 'Int(999)',
+        'DefaultLanguage'                   => 'DBLocale',
+        'useDefaultLanguageAsFallback'      => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -154,7 +156,8 @@ class SilvercartConfig extends DataObject {
         'productGroupsPerPage'          => 6,
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
-        'addToCartMaxQuantity'          => 999
+        'addToCartMaxQuantity'          => 999,
+        'DefaultLanguage'               => 'de_DE'
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -199,6 +202,7 @@ class SilvercartConfig extends DataObject {
     public static $isStockManagementOverbookable    = null;
     public static $redirectToCartAfterAddToCart     = null;
     public static $demandBirthdayDateOnRegistration = null;
+    public static $useDefaultLanguageAsFallback     = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -264,7 +268,12 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('StandardProductCondition');
         $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
-
+        
+        //Make the field DefaultLanguage a Dropdown
+        $defaultCMSFields->removeByName('DefaultLanguage');
+        $defaultLanguageDropdown = new DropdownField('DefaultLanguage', _t('SilvercartConfig.DEFAULT_LANGUAGE'), self::decodeNativeCommonLocales(), self::getConfig()->DefaultLanguage);
+        $defaultCMSFields->push($defaultLanguageDropdown);
+        
         // Building the general tab structure
         $CMSFields = new FieldSet(
             $rootTab = new TabSet(
@@ -459,6 +468,9 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['GeoNamesActive']                      = _t('SilvercartConfig.GEONAMES_ACTIVE');
         $fieldLabels['GeoNamesUserName']                    = _t('SilvercartConfig.GEONAMES_USERNAME');
         $fieldLabels['GeoNamesAPI']                         = _t('SilvercartConfig.GEONAMES_API');
+        $fieldLabels['DefaultLanguage']                     = _t('SilvercartConfig.DEFAULT_LANGUAGE');
+        $fieldLabels['useDefaultLanguageAsFallback']        = _t('SilvercartConfig.USE_DEFAULT_LANGUAGE');
+        
         return $fieldLabels;
     }
 
@@ -1364,5 +1376,36 @@ class SilvercartConfig extends DataObject {
                 $text
         );
         file_put_contents($path, $text, FILE_APPEND);
+    }
+    
+    /**
+     * getter for the default language
+     * Returns a default locale for multilingual DataObjects
+     *
+     * @return string $locale a locale eg. "de_DE", "en_NZ", ...
+     *                        Only locales from i18n::get_common_locales() are possible values.
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public static function DefaultLanguage() {
+        $defaultLanguage = self::getConfig()->DefaultLanguage;
+        return $defaultLanguage;
+    }
+    
+    /**
+     * Determin wether the default language should be used for multilingual DataObjects
+     * in case a translation does not exist.
+     *
+     * @return bool 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public static function useDefaultLanguageAsFallback() {
+        if (is_null(self::$useDefaultLanguageAsFallback)) {
+            self::$useDefaultLanguageAsFallback = self::getConfig()->useDefaultLanguageAsFallback;
+        }
+        return self::$useDefaultLanguageAsFallback;
     }
 }

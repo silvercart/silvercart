@@ -431,6 +431,10 @@ $lang['de_DE']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Apache Solr Such
 $lang['de_DE']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Mindestbestellwert aktivieren';
 $lang['de_DE']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Mindestbestellwert ignorieren';
 $lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Mindestbestellwert';
+$lang['de_DE']['SilvercartConfig']['DEFAULT_LANGUAGE'] = 'Standardsprache';
+$lang['de_DE']['SilvercartConfig']['USE_DEFAULT_LANGUAGE'] = 'Standardsprache benutzen, wenn die passende Sprache fehlt?';
+$lang['de_DE']['SilvercartConfig']['TRANSLATION'] = 'Übersetzung';
+$lang['de_DE']['SilvercartConfig']['TRANSLATIONS'] = 'Übersetzungen';
 
 $lang['de_DE']['SilvercartContactFormPage']['PLURALNAME'] = 'Kontaktformularseiten';
 $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kontaktformular';
@@ -1359,6 +1363,8 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']               
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider für Warengruppen';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Erzeugt einen Slider, der alle Warengruppen anzeigt.';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider für Warengruppen';
+$lang['de_DE']['SilvercartProductLanguage']['SINGULARNAME']                                 = 'Artikelübersetzung';
+$lang['de_DE']['SilvercartProductLanguage']['PLURALNAME']                                   = 'Artikelübersetzungen';
 
 $lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';
 $lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart Suche';

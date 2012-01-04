@@ -463,7 +463,16 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1 AND SilvercartProductGroupID IN (%s)",
+                        isActive = 1
+                        AND (SilvercartProductGroupID IN (%s)
+                             OR (
+                                SELECT
+                                    COUNT(SilvercartProductID)
+                                FROM
+                                    SilvercartProduct_SilvercartProductGroupMirrorPages
+                                WHERE
+                                    SilvercartProductGroupPageID IN (%s)) > 0)",
+                    implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs)
                 )
             );

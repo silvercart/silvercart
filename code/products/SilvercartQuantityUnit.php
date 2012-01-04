@@ -95,7 +95,7 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                    'Name' => _t('SilvercartQuantityUnit.NAME'),
+                    'Title' => _t('SilvercartQuantityUnit.NAME'),
                     'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
                 )
         );
@@ -114,7 +114,7 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::fieldLabels(),
                 array(
-                    'Name' => _t('SilvercartQuantityUnit.NAME'),
+                    'Title' => _t('SilvercartQuantityUnit.NAME'),
                     'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
                 )
         );

@@ -193,6 +193,7 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        i18n::set_default_locale(Translatable::get_current_locale());
         $controller = Controller::curr();
         
         if ($this != $controller &&

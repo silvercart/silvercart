@@ -51,7 +51,7 @@
                                 <div class="silvercart-product-text-info">
                                     <p>$HtmlEncodedShortDescription</p>
                                     <% if PackagingQuantity %>
-                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Title</p>
                                     <% end_if %>
                                 </div>
                             </div>
