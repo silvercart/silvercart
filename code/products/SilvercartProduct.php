@@ -2485,20 +2485,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 04.01.2012
      */
     protected function Log($logString, $filename = 'importProducts') {
-        $logDirectory = Director::baseFolder();
-
-        $logDirectory = explode('/', $logDirectory);
-        array_pop($logDirectory);
-        array_pop($logDirectory);
-        $logDirectory = implode('/', $logDirectory);
-
-        $data  = date('d.m.Y H:i:s').":\t".$logString."\n";
-        $filename = $logDirectory.'/log/' . $filename . '.log';
-        file_put_contents($filename, $data, FILE_APPEND);
+        SilvercartConfig::Log('SilvercartProduct', $logString, 'importProducts');
     }
 }
