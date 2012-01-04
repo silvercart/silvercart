@@ -209,7 +209,7 @@ $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID'] 
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN'] = 'No directory specified';
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Import images subsequently';
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Directory';
-$lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
+$lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located (e.g. /var/www/silvercart/images/)';
 $lang['en_US']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
 $lang['en_US']['SilvercartProduct']['LIST_PRICE'] = 'list price';
 $lang['en_US']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
