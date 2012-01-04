@@ -2490,6 +2490,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      * @since 04.01.2012
      */
     protected function Log($logString, $filename = 'importProducts') {
-        SilvercartConfig::Log('SilvercartProduct', $logString, 'importProducts');
+        SilvercartConfig::Log('SilvercartProduct', $logString, $filename);
     }
 }
