@@ -48,4 +48,18 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
             )
         );
     }
+    
+    /**
+     * Adds or removes GUI elements for the backend editing mask.
+     *
+     * @param FieldSet &$fields The original FieldSet
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public function updateCMSFields(FieldSet &$fields) {
+        $fields->addFieldToTab('Root.Members', new TextField('Code', _t('Group.CODE')));
+    }
 }

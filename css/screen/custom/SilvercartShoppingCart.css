@@ -19,6 +19,16 @@
     margin:                         0px;
     padding:                        0px;
 }
+.silvercart-shopping-cart-full tbody td form.yform .type-button input[type="submit"]{
+    height:                         auto;
+    padding:                        2px 5px;
+}
+.silvercart-shopping-cart-full tbody td .silvercart-quantity-value div {
+    padding:                        4px 0px 0px 0px;
+}
+.silvercart-shopping-cart-full tbody td form.yform input[type="text"] {
+    padding:                        2px 4px;
+}
 
 .silvercart-shopping-cart-full .left {
     text-align:                     left;
