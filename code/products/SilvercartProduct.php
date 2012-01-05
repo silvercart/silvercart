@@ -31,7 +31,7 @@
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProduct extends DataObject {
+class SilvercartProduct extends DataObject implements SilvercartMultilingualInterface {
 
     /**
      * attributes

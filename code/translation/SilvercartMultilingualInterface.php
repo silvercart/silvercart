@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2012 pixeltricks GmbH
  *
@@ -19,57 +18,50 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage Translation
+ * @subpackage translation
  */
 
 /**
- * Defines reqired methods for language classes eg SilvercartProductLanguage
+ * Classes with multilingual fields implement this interface
  *
  * @package Silvercart
  * @subpackage translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since DD.MM.2011
+ * @since 05.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-interface SilvercartLanguageInterface {
+interface SilvercartMultilingualInterface {
     
     /**
-     * must return true to work with the Translatable extension
+     * retrives the right language object for the current locale
      *
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @since 05.01.2012
      */
-    public function canTranslate();
+    public function getLanguage();
     
     /**
-     * The relation to the SilvercartProduct must be removed and the Locale should be a dropdown
+     * translatable values must be saved with the object;
+     * The method SilvercartLanguageHelper::writeLanguageObject() helps
      *
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @since 05.01.2012
      */
-    public function getCMSFields_forPopup();
+    public function onAfterWrite();
     
     /**
-     * The summary fields should contain the Locale
+     * adjust the CMS fields to the new language fields
      *
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @since 05.01.2012
      */
-    public function summaryFields();
+    public function getCMSFields();
     
-    /**
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since DD.MM.2012
-     */
-    public function fieldLabels();
 }
