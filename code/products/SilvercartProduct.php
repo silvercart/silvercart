@@ -376,15 +376,15 @@ class SilvercartProduct extends DataObject {
                 'title'     => _t('SilvercartProduct.PRODUCTNUMBER'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'Title' => array(
+            'SilvercartProductLanguages.Title' => array(
                 'title'     => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'ShortDescription' => array(
+            'SilvercartProductLanguages.ShortDescription' => array(
                 'title'     => _t('SilvercartProduct.SHORTDESCRIPTION'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'LongDescription' => array(
+            'SilvercartProductLanguages.LongDescription' => array(
                 'title'     => _t('SilvercartProduct.DESCRIPTION'),
                 'filter'    => 'PartialMatchFilter'
             ),
@@ -927,7 +927,11 @@ class SilvercartProduct extends DataObject {
             //fill the tab Root.Main.Content
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('isActive'));
             $CMSFields->addFieldToTab('Root.Main.Content', new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER')));
-            $CMSFields->addFieldsToTab('Root.Main.Content', SilvercartLanguageHelper::prepareCMSFields($this->getLanguage()));
+            
+            //Inject the fields that come from the language object
+            //They are added to the content tab for the users comfort.
+            $languageFields = $this->getLanguageFields();
+            $CMSFields->addFieldsToTab('Root.Main.Content', $languageFields);
             $productLanguagesTable = new ComplexTableField($this, 'SilvercartProductLanguages', 'SilvercartProductLanguage', null, 'getCMSFields_forPopup');
             $CMSFields->addFieldToTab('Root.Main.Translations', $productLanguagesTable);
             $taxRates = DataObject::get('SilvercartTax');
@@ -1096,6 +1100,27 @@ class SilvercartProduct extends DataObject {
         // here is another extension to prevend multiple loadings of updateCMSFields
         $this->extend('updateSilvercartCMSFields', $CMSFields);
         return $CMSFields;
+    }
+    
+    /**
+     * Get the fields with multilingual attributes of the current set language
+     * The relation SilvercartProduct() gets removed
+     *
+     * @return FieldSet 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since DD.MM.2012
+     */
+    public function getLanguageFields() {
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields->renameField('Title', _t('SilvercartProduct.COLUMN_TITLE'));
+        $languageFields->renameField('ShortDescription', _t('SilvercartProduct.SHORTDESCRIPTION'));
+        $languageFields->renameField('LongDescription', _t('SilvercartProduct.DESCRIPTION'));
+        $languageFields->renameField('MetaDescription', _t('SilvercartProduct.METADESCRIPTION'));
+        $languageFields->renameField('MetaKeywords', _t('SilvercartProduct.METAKEYWORDS'));
+        $languageFields->renameField('MetaTitle', _t('SilvercartProduct.METATITLE')); 
+        $languageFields->removeByName('SilvercartProductID');
+        return $languageFields;
     }
 
     /**

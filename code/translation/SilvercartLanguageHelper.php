@@ -80,6 +80,9 @@ class SilvercartLanguageHelper {
                 )
         );
         $languageFields->removeByName('Locale');
+        foreach ($dataobject->has_one() as $has_oneName => $has_oneObject) {
+            $languageFields->removeByName($has_oneName . 'ID');
+        }
         return $languageFields;
     }
 
@@ -99,18 +102,23 @@ class SilvercartLanguageHelper {
         foreach ($dataobject->has_one() as $has_oneName => $has_oneObject) {
             $fields->removeByName($has_oneName . 'ID');
         }
-        $alreadyTranslatedLocales = array();
-        $localeDropdown = new LanguageDropdownField(
-            "Locale", 
-            _t('SilvercartConfig.DEFAULT_LANGUAGE'), 
-            $alreadyTranslatedLocales,
-            $dataobject->ClassName,
-            'Locale-Native',
-            $dataobject
-        );
+        $localeDropdown = self::prepareLanguageDropdownField($dataobject);
         $fields->insertBefore($localeDropdown, 'Title');
         $dataobject->extend('updateCMSFields_forPopup', $fields);
         return $fields;
+    }
+    
+    public static function prepareLanguageDropdownField($dataObj) {
+        $alreadyTranslatedLocales = array();
+        $localeDropdown = new LanguageDropdownField(
+            'Locale', 
+            _t('SilvercartConfig.DEFAULT_LANGUAGE'), 
+            $alreadyTranslatedLocales,
+            $dataObj->ClassName,
+            'Locale-Native',
+            $dataObj
+        );
+        return $localeDropdown;
     }
     
     /**

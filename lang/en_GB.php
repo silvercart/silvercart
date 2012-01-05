@@ -1079,6 +1079,9 @@ $lang['en_GB']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard o
 $lang['en_GB']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_GB']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
 
+$lang['en_GB']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'payment method translation';
+$lang['en_GB']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'payment method translations';
+
 $lang['en_GB']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Payment translations';
 $lang['en_GB']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Payment translation';
 

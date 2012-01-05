@@ -114,7 +114,7 @@ class SilvercartConfig extends DataObject {
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
         'addToCartMaxQuantity'              => 'Int(999)',
-        'DefaultLanguage'                   => 'DBLocale',
+        'Locale'                            => 'DBLocale',
         'useDefaultLanguageAsFallback'      => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
@@ -157,7 +157,7 @@ class SilvercartConfig extends DataObject {
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
         'addToCartMaxQuantity'          => 999,
-        'DefaultLanguage'               => 'de_DE'
+        'Locale'                        => 'de_DE'
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -238,7 +238,11 @@ class SilvercartConfig extends DataObject {
         }   
     }
 
-    /**
+    public function canTranslate() {
+        return true;
+    }
+
+        /**
      * Add notes to the CMS fields.
      *
      * @param array $params custom params
@@ -270,8 +274,8 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
         
         //Make the field DefaultLanguage a Dropdown
-        $defaultCMSFields->removeByName('DefaultLanguage');
-        $defaultLanguageDropdown = new DropdownField('DefaultLanguage', _t('SilvercartConfig.DEFAULT_LANGUAGE'), self::decodeNativeCommonLocales(), self::getConfig()->DefaultLanguage);
+        $defaultCMSFields->removeByName('Locale');
+        $defaultLanguageDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this);
         $defaultCMSFields->push($defaultLanguageDropdown);
         
         // Building the general tab structure
@@ -468,7 +472,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['GeoNamesActive']                      = _t('SilvercartConfig.GEONAMES_ACTIVE');
         $fieldLabels['GeoNamesUserName']                    = _t('SilvercartConfig.GEONAMES_USERNAME');
         $fieldLabels['GeoNamesAPI']                         = _t('SilvercartConfig.GEONAMES_API');
-        $fieldLabels['DefaultLanguage']                     = _t('SilvercartConfig.DEFAULT_LANGUAGE');
+        $fieldLabels['Locale']                              = _t('SilvercartConfig.DEFAULT_LANGUAGE');
         $fieldLabels['useDefaultLanguageAsFallback']        = _t('SilvercartConfig.USE_DEFAULT_LANGUAGE');
         
         return $fieldLabels;
@@ -1389,8 +1393,11 @@ class SilvercartConfig extends DataObject {
      * @since 04.01.2012
      */
     public static function DefaultLanguage() {
-        $defaultLanguage = self::getConfig()->DefaultLanguage;
-        return $defaultLanguage;
+        return self::Locale();
+    }
+    
+    public static function Locale() {
+        return self::getConfig()->Locale;
     }
     
     /**

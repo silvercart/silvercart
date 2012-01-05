@@ -1079,6 +1079,9 @@ $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard B
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
 
+$lang['de_DE']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'Zahlartübersetzung';
+$lang['de_DE']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'Zahlartübersetzungen';
+
 $lang['de_DE']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Bezahlartübersetzungen';
 $lang['de_DE']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Bezahlartübersetzung';
 
