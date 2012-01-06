@@ -103,8 +103,7 @@ class SilvercartLanguageHelper {
             $fields->removeByName($has_oneName . 'ID');
         }
         $localeDropdown = self::prepareLanguageDropdownField($dataobject);
-        $fields->insertBefore($localeDropdown, 'Title');
-        $dataobject->extend('updateCMSFields_forPopup', $fields);
+        $fields->insertFirst($localeDropdown);
         return $fields;
     }
     

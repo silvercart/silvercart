@@ -54,6 +54,7 @@ DataObject::add_extension('SilvercartProductGroupPage_Controller',      'Silverc
 DataObject::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 DataObject::add_extension('Image',                                      'SilvercartImageExtension');
+DataObject::add_extension('SilvercartProductLanguage',                  'SilvercartLanguageDecorator');
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",

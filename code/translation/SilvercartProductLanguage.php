@@ -29,7 +29,7 @@
  * @since 03.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProductLanguage extends DataObject implements SilvercartLanguageInterface {
+class SilvercartProductLanguage extends DataObject {
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -68,7 +68,6 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
     }
     
     public static $db = array(
-        'Locale'            => 'DBLocale',
         'Title'             => 'VarChar(255)',
         'ShortDescription'  => 'Text',
         'LongDescription'   => 'HTMLText',
@@ -89,34 +88,6 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
         'SilvercartProduct' => 'SilvercartProduct'
     );
     
-    public static $casting = array(
-        'NativeNameForLocale' => 'Text'
-    );
-    
-    /**
-     * must return true
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
-     */
-    public function canTranslate() {
-        return true;
-    }
-
-    /**
-     * Converts Locale field to a dropdown and removes dropdown for product relation
-     *
-     * @return FieldSet 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
-     */
-    public function getCMSFields_forPopup() {
-        return SilvercartLanguageHelper::prepareCMSFields_forPopup($this);
-    }
-    
     /**
      * columns for table overview
      *
@@ -127,7 +98,6 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
      */
     public function summaryFields() {
         $summaryFields = array(
-            'NativeNameForLocale' => _t('SilvercartConfig.TRANSLATION'),
             'Title'               => _t('SilvercartProduct.COLUMN_TITLE')
         );
         
@@ -149,7 +119,6 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-            'Locale'           => _t('SilvercartProductLanguage.LOCALE'),
             'Title'            => _t('SilvercartProduct.TITLE'),
             'ShortDescription' => _t('SilvercartProduct.SHORTDESCRIPTION'),
             'LongDescription'  => _t('SilvercartProduct.DESCRIPTION'),
@@ -163,16 +132,11 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
         return $fieldLabels;
     }
     
-    /**
-     * return the locale as native name
-     *
-     * @return string native name for the locale 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
-     */
-    public function getNativeNameForLocale() {
-        return $this->dbObject('Locale')->getNativeName();
+    
+    public function getCMSFields_forPopup() {
+        $fields = $this->getCMSFields();
+        $this->extend('updateCMSFields_forPopup', $fields);
+        return $fields;
     }
 }
 
