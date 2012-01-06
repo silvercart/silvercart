@@ -249,7 +249,6 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
                     %s
 
                     pr.start();
-                    ProductRotatorResetAnimation(pr);
                 });
             ',
             implode("\n", $productGroups)

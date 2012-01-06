@@ -184,10 +184,32 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
         $requestVars = $request->requestVars();
         
         if (!array_key_exists($inboundShoppingCartTransfer->combinedStringKey, $requestVars)) {
-            return $this->combinedStringKeyNotFound();
+            $action                 = $this->urlParams['ID'];
+            $actionElements         = explode('&', $action);
+            $validCombinedKeyFound  = false;
+            
+            foreach ($actionElements as $actionElement) {
+                if (strpos($actionElement, '=') === false) {
+                    continue;
+                }
+                
+                list($combinedStringKey, $combinedStringEntities) = explode('=', $actionElement);
+                
+                if ($combinedStringKey == $inboundShoppingCartTransfer->combinedStringKey) {
+                    $validCombinedKeyFound = true;
+                    
+                    $combinedString = Convert::raw2sql($combinedStringKey);
+                    $entities       = explode($inboundShoppingCartTransfer->combinedStringEntitySeparator, $combinedStringEntities);
+                }
+            }
+            
+            if (!$validCombinedKeyFound) {
+                return $this->combinedStringKeyNotFound();
+            }
+        } else {
+            $combinedString = Convert::raw2sql($requestVars[$inboundShoppingCartTransfer->combinedStringKey]);
+            $entities       = explode($inboundShoppingCartTransfer->combinedStringEntitySeparator, $combinedString);
         }
-        $combinedString = Convert::raw2sql($requestVars[$inboundShoppingCartTransfer->combinedStringKey]);
-        $entities       = explode($inboundShoppingCartTransfer->combinedStringEntitySeparator, $combinedString);
         
         if (is_array($entities)) {
             foreach ($entities as $entity) {

@@ -397,12 +397,20 @@ class SilvercartOrder extends DataObject {
      * @since 16.11.2010
      * @return void
      */
-    public function createInvoiceAddress($registrationData = "") {
-        $member = Member::currentUser();
+    public function createInvoiceAddress($registrationData = array()) {
+        $member              = Member::currentUser();
         $orderInvoiceAddress = new SilvercartOrderInvoiceAddress();
         
-        $orderInvoiceAddress->castedUpdate($registrationData);
-        $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
+        if (empty($registrationData)) {
+            $addressData = $member->SilvercartInvoiceAddress()->toMap();
+            unset($addressData['ID']);
+            unset($addressData['ClassName']);
+            unset($addressData['RecordClassName']);
+            $orderInvoiceAddress->castedUpdate($addressData);
+        } else {
+            $orderInvoiceAddress->castedUpdate($registrationData);
+            $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
+        }
         $orderInvoiceAddress->write();
         $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         
@@ -419,12 +427,21 @@ class SilvercartOrder extends DataObject {
      * @since 16.11.2010
      * @return void
      */
-    public function createShippingAddress($registrationData = "") {
-        $member = Member::currentUser();
+    public function createShippingAddress($registrationData = array()) {
+        $member               = Member::currentUser();
         $orderShippingAddress = new SilvercartOrderShippingAddress();
        
-        $orderShippingAddress->castedUpdate($registrationData);
-        $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
+        if (empty($registrationData)) {
+            $addressData = $member->SilvercartShippingAddress()->toMap();
+            unset($addressData['ID']);
+            unset($addressData['ClassName']);
+            unset($addressData['RecordClassName']);
+            $orderShippingAddress->castedUpdate($addressData);
+        } else {
+            $orderShippingAddress->castedUpdate($registrationData);
+            $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
+        }
+
         $orderShippingAddress->write(); //write here to have an object ID
         $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
        
@@ -517,7 +534,7 @@ class SilvercartOrder extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
-    protected function convertShoppingCartPositionsToOrderPositions() {
+    public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
             return true;
         }

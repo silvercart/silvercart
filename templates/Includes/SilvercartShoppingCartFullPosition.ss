@@ -1,5 +1,4 @@
 <tr<% if Last %> class="separator"<% end_if %>>
-    <td><a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a></td>
     <td>
         <div class="silvercart-product-group-page-box-image">
             <% if SilvercartProduct.getSilvercartImages %>
@@ -8,21 +7,26 @@
             <a href="$silvercartProduct.Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(60,60)</a>
                     <% end_if %>
                 <% end_control %>
-            <% end_if %>                                
+            <% end_if %>
         </div>
     </td>
-    <td><a href="$silvercartProduct.Link">$SilvercartProduct.Title</a></td>
+    <td>
+        <a href="$silvercartProduct.Link">$SilvercartProduct.Title</a><br />
+        <a href="$silvercartProduct.Link">(<% _t('SilvercartProduct.PRODUCTNUMBER', 'product number') %> $SilvercartProduct.ProductNumberShop)</a>
+    </td>
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
-    <td class="right">
+    <td class="right borderlr"<% if Top.EditableShoppingCart %> colspan="3"<% end_if %>>
         <% if Top.EditableShoppingCart %>
         <div class="subcolumns">
             <div class="c33l">
-                $DecrementPositionQuantityForm                                
+                $DecrementPositionQuantityForm
             </div>
         <div class="c33l">
         <% end_if %>
-            $Quantity
+        <div class="silvercart-quantity-value">
+            <div>$Quantity</div>
+        </div>
         <% if Top.EditableShoppingCart %>
             </div>
             <div class="c33r">

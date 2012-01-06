@@ -171,10 +171,8 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
-    public function NativeNameForLocale() {
-        $locale = new DBLocale('test');
-        $locale->setValue($this->Locale);
-        return $locale->getNativeName();
+    public function getNativeNameForLocale() {
+        return $this->dbObject('Locale')->getNativeName();
     }
 }
 

@@ -82,5 +82,5 @@ interface SilvercartLanguageInterface {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
-    public function NativeNameForLocale();
+    public function getNativeNameForLocale();
 }

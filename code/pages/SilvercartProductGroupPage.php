@@ -456,6 +456,12 @@ class SilvercartProductGroupPage extends Page {
             $activeProducts  = array();
             $productGroupIDs = self::getFlatChildPageIDsForPage($this->ID);
             
+            if (SilvercartConfig::Pricetype() == 'net') {
+                $priceTypeFilter = 'PriceNetAmount > 0';
+            } else {
+                $priceTypeFilter = 'PriceGrossAmount > 0';
+            }
+            
             $records = DB::query(
                 sprintf(
                     "SELECT
