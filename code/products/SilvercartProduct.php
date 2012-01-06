@@ -247,8 +247,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the LongDescription, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The LongDescription from the translation object or an empty string
      * 
@@ -265,8 +263,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the MetaDescription, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The MetaDescription from the translation object or an empty string
      * 
@@ -283,8 +279,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the MetaTitle, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The MetaTitle from the translation object or an empty string
      * 
@@ -301,8 +295,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the MetaKeywords, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The MetaKeywords from the translation object or an empty string
      * 
@@ -938,7 +930,7 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
             //They are added to the content tab for the users comfort.
             $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
             $CMSFields->addFieldsToTab('Root.Main.Content', $languageFields);
-            $productLanguagesTable = new ComplexTableField($this, 'SilvercartProductLanguages', 'SilvercartProductLanguage', null, 'getCMSFields_forPopup');
+            $productLanguagesTable = new ComplexTableField($this, 'SilvercartProductLanguages', 'SilvercartProductLanguage', null);
             $CMSFields->addFieldToTab('Root.Main.Translations', $productLanguagesTable);
             $taxRates = DataObject::get('SilvercartTax');
             $taxRateMap = array();
@@ -991,11 +983,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
                     _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
                     )
                 );
-
-            //fill the tab Root.SEO.MetaData
-//            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaTitle'));
-//            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaDescription'));
-//            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaKeywords'));
 
             //fill the tab Root.Links.MirrorProductGroups
             $productGroupMirrorPagesTable = new ManyManyComplexTableField(
@@ -1576,7 +1563,7 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-
+        
         // We want to prevent that sorting with the dataobjectmanager module
         // for mirrored products saves the false SortOrder value.
         $request                      = Controller::curr()->request;
@@ -1677,10 +1664,17 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
                 $newProductGroupMirrorSortOrder->write();
             }
         }
-        
-        SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->record);
     }
     
+    /**
+     * Getter for the related language object depending on the set language
+     * Always returns a SilvercartProductLanguage
+     *
+     * @return SilvercartProductLanguage
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.01.2012
+     */
     public function getLanguage() {
         if (!isset ($this->languageObj)) {
             $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartProductLanguages());
@@ -1689,12 +1683,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
             }
         }
         return $this->languageObj;
-    }
-    
-    public function saveLongDescription($value) {
-        $languageObj = $this->getLanguage();
-        $languageObj->LongDescription = $value;
-        $languageObj->write();
     }
 
     /**

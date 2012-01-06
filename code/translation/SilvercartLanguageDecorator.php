@@ -91,20 +91,18 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
         );
     }
     
-    public function updateCMSFields(FieldSet &$fields) {
-        $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner);
-    }
-    
     /**
-     * Converts Locale field to a dropdown and removes dropdown for product relation
+     * adjust CMS fields for display in the popup window
      *
-     * @return FieldSet 
+     * @param FieldSet &$fields the FieldSet from getCMSFields()
+     *
+     * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @since 06.01.2012
      */
-    public function updateCMSFields_forPopup(FieldSet &$fields) {
-        $fields->removeByName('Locale');
+    public function updateCMSFields(FieldSet &$fields) {
+        $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner);
         foreach ($this->owner->has_one() as $has_oneName => $has_oneObject) {
             $fields->removeByName($has_oneName . 'ID');
         }

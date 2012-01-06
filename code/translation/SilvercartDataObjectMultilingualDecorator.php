@@ -17,40 +17,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage translation
  */
 
 /**
- * Classes with multilingual fields implement this interface
+ * decorates DataObjects to make them multilingual eg SilvercartProduct
  *
- * @package Silvercart
- * @subpackage translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 05.01.2011
+ * @copyright Pixeltricks GmbH
+ * @since 06.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2012 pixeltricks GmbH
  */
-interface SilvercartMultilingualInterface {
+class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     
     /**
-     * retrives the right language object for the current locale
+     * augments the hook of the decorated object so that the input in the fields
+     * that are multilingual gets written to the related language object
      *
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.01.2012
+     * @since 06.01.2012
      */
-    public function getLanguage();
-    
-    /**
-     * adjust the CMS fields to the new language fields
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.01.2012
-     */
-    public function getCMSFields();
-    
+    public function onAfterWrite() {
+         SilvercartLanguageHelper::writeLanguageObject($this->owner->getLanguage(), $this->owner->toMap());
+    }
 }
+

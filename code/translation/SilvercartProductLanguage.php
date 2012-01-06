@@ -66,7 +66,14 @@ class SilvercartProductLanguage extends DataObject {
         }
 
     }
-    
+    /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.01.2012
+     */
     public static $db = array(
         'Title'             => 'VarChar(255)',
         'ShortDescription'  => 'Text',
@@ -130,13 +137,6 @@ class SilvercartProductLanguage extends DataObject {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    
-    public function getCMSFields_forPopup() {
-        $fields = $this->getCMSFields();
-        $this->extend('updateCMSFields_forPopup', $fields);
-        return $fields;
     }
 }
 
