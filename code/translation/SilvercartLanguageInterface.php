@@ -65,11 +65,22 @@ interface SilvercartLanguageInterface {
     public function summaryFields();
     
     /**
-     *
+     * As we are in to i18n we need multilingual field labels
+     * 
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since DD.MM.2012
      */
     public function fieldLabels();
+    
+    /**
+     * return the locale as native name, eg "deutsch" in stead of "de_DE"
+     *
+     * @return string native name for the locale 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.01.2012
+     */
+    public function NativeNameForLocale();
 }

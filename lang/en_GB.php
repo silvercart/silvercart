@@ -1079,12 +1079,6 @@ $lang['en_GB']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard o
 $lang['en_GB']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_GB']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
 
-$lang['en_GB']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'payment method translation';
-$lang['en_GB']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'payment method translations';
-
-$lang['en_GB']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Payment translations';
-$lang['en_GB']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Payment translation';
-
 $lang['en_GB']['SilvercartPaymentNotification']['PLURALNAME'] = 'Payment Notifications';
 $lang['en_GB']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Payment Notification';
 $lang['en_GB']['SilvercartPaymentNotification']['TITLE'] = 'Payment notification';
@@ -1366,8 +1360,10 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']               
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider for product groups';
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Creates a slider that displays all product groups.';
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider for product groups';
+
 $lang['en_GB']['SilvercartProductLanguage']['SINGULARNAME']                                 = 'product translation';
 $lang['en_GB']['SilvercartProductLanguage']['PLURALNAME']                                   = 'product translations';
+$lang['en_GB']['SilvercartProductLanguage']['LOCALE']                                       = 'Language';
 
 $lang['en_GB']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
 $lang['en_GB']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart search';

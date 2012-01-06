@@ -668,6 +668,12 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
         $fields = parent::getCMSFields($params);
         // there are two ways to display the products CMS fields (set in Backend)
         if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            //Inject the fields that come from the language object
+            //They are added to the content tab for the users comfort.
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $fields->insertBefore($languageField, 'PurchasePrice');
+            }
             // remove GoogleSitemap Priority
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
@@ -930,7 +936,7 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
             
             //Inject the fields that come from the language object
             //They are added to the content tab for the users comfort.
-            $languageFields = $this->getLanguageFields();
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
             $CMSFields->addFieldsToTab('Root.Main.Content', $languageFields);
             $productLanguagesTable = new ComplexTableField($this, 'SilvercartProductLanguages', 'SilvercartProductLanguage', null, 'getCMSFields_forPopup');
             $CMSFields->addFieldToTab('Root.Main.Translations', $productLanguagesTable);
@@ -1100,27 +1106,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
         // here is another extension to prevend multiple loadings of updateCMSFields
         $this->extend('updateSilvercartCMSFields', $CMSFields);
         return $CMSFields;
-    }
-    
-    /**
-     * Get the fields with multilingual attributes of the current set language
-     * The relation SilvercartProduct() gets removed
-     *
-     * @return FieldSet 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since DD.MM.2012
-     */
-    public function getLanguageFields() {
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
-        $languageFields->renameField('Title', _t('SilvercartProduct.COLUMN_TITLE'));
-        $languageFields->renameField('ShortDescription', _t('SilvercartProduct.SHORTDESCRIPTION'));
-        $languageFields->renameField('LongDescription', _t('SilvercartProduct.DESCRIPTION'));
-        $languageFields->renameField('MetaDescription', _t('SilvercartProduct.METADESCRIPTION'));
-        $languageFields->renameField('MetaKeywords', _t('SilvercartProduct.METAKEYWORDS'));
-        $languageFields->renameField('MetaTitle', _t('SilvercartProduct.METATITLE')); 
-        $languageFields->removeByName('SilvercartProductID');
-        return $languageFields;
     }
 
     /**

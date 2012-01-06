@@ -1079,12 +1079,6 @@ $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard B
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
 
-$lang['de_DE']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'Zahlartübersetzung';
-$lang['de_DE']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'Zahlartübersetzungen';
-
-$lang['de_DE']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Bezahlartübersetzungen';
-$lang['de_DE']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Bezahlartübersetzung';
-
 $lang['de_DE']['SilvercartPaymentNotification']['PLURALNAME'] = 'Zahlungsbenachrichtigungen';
 $lang['de_DE']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Zahlungsbenachrichtigung';
 $lang['de_DE']['SilvercartPaymentNotification']['TITLE'] = 'Zahlungsbenachrichtigung';
@@ -1366,8 +1360,10 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']               
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider für Warengruppen';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Erzeugt einen Slider, der alle Warengruppen anzeigt.';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider für Warengruppen';
+
 $lang['de_DE']['SilvercartProductLanguage']['SINGULARNAME']                                 = 'Artikelübersetzung';
 $lang['de_DE']['SilvercartProductLanguage']['PLURALNAME']                                   = 'Artikelübersetzungen';
+$lang['de_DE']['SilvercartProductLanguage']['LOCALE']                                       = 'Sprache';
 
 $lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';
 $lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart Suche';

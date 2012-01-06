@@ -89,6 +89,10 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
         'SilvercartProduct' => 'SilvercartProduct'
     );
     
+    public static $casting = array(
+        'NativeNameForLocale' => 'Text'
+    );
+    
     /**
      * must return true
      *
@@ -123,12 +127,54 @@ class SilvercartProductLanguage extends DataObject implements SilvercartLanguage
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Locale' => _t('SilvercartConfig.TRANSLATION'),
-            'Title'  => _t('SilvercartProduct.COLUMN_TITLE')
+            'NativeNameForLocale' => _t('SilvercartConfig.TRANSLATION'),
+            'Title'               => _t('SilvercartProduct.COLUMN_TITLE')
         );
         
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 05.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'Locale'           => _t('SilvercartProductLanguage.LOCALE'),
+            'Title'            => _t('SilvercartProduct.TITLE'),
+            'ShortDescription' => _t('SilvercartProduct.SHORTDESCRIPTION'),
+            'LongDescription'  => _t('SilvercartProduct.DESCRIPTION'),
+            'MetaDescription'  => _t('SilvercartProduct.METADESCRIPTION'),
+            'MetaKeywords'     => _t('SilvercartProduct.METAKEYWORDS'),
+            'MetaTitle'        => _t('SilvercartProduct.METATITLE')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * return the locale as native name
+     *
+     * @return string native name for the locale 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.01.2012
+     */
+    public function NativeNameForLocale() {
+        $locale = new DBLocale('test');
+        $locale->setValue($this->Locale);
+        return $locale->getNativeName();
     }
 }
 
