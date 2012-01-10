@@ -73,6 +73,7 @@ Object::add_extension('SilvercartProductAddCartFormDetail',         'SilvercartP
 Object::add_extension('SilvercartProductAddCartFormList',           'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartProductAddCartFormTile',           'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartProductCsvBulkLoader',             'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartRemovePositionForm',               'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectExtension');
@@ -87,6 +88,7 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormList',    
 SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormTile',        'SilvercartProductAddCartFormTilePluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartForm',            'SilvercartProductAddCartFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartProductCsvBulkLoader',          'SilvercartProductCsvBulkLoaderPluginProvider');
+SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller',   'SilvercartProductGroupPage_ControllerPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');

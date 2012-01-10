@@ -169,6 +169,8 @@ class SilvercartPlugin extends Object {
                             $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
                         } else if ($returnContainer == 'DataObject') {
                             $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                        } else if ($returnContainer == 'DataObjectSet') {
+                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName(&$arguments,$callingObject);
                         }
@@ -181,6 +183,8 @@ class SilvercartPlugin extends Object {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer == 'DataObject') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
+                        } else if ($returnContainer == 'DataObjectSet') {
+                            $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
                         }
@@ -190,6 +194,8 @@ class SilvercartPlugin extends Object {
                         $returnContainer = false;
                     } else if ($returnContainer == 'DataObject') {
                         $returnContainer = new DataObject();
+                    } else if ($returnContainer == 'DataObjectSet') {
+                        $returnContainer = new DataObjectSet();
                     }
                 }
             }
