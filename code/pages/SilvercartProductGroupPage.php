@@ -1376,8 +1376,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.04.2011
      */
     public function HasMorePagesThan($maxResults = 10) {
-        $items = $this->getProducts()->Pages()->TotalItems();
+        $products       = $this->getProducts();
+        $items          = 0;
         $hasMoreResults = false;
+
+        if ($products) {
+            $items = $products->Pages()->TotalItems();
+        }
 
         if ($items > $maxResults) {
             $hasMoreResults = true;

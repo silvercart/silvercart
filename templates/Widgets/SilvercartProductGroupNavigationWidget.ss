@@ -2,18 +2,20 @@
     <% if hasProductsOrChildren %>
         <% if Children %>
             <h2>
-                <a class="active" href="$Link"  title="$Title.XML">$MenuTitle.XML</a>
+                $MenuTitle.XML
             </h2>
 
             <div class="vlist">
                 <ul>
-                    <li class="$LinkingMode">
-                        <ul>
-                            <% control Children %>
-                                <li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
-                            <% end_control %>
-                        </ul>
-                    </li>
+                    <% control Children %>
+                        <li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a>
+                            <ul>
+                                <% control Children %>
+                                    <li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
+                                <% end_control %>
+                            </ul>
+                        </li>
+                    <% end_control %>
                 </ul>
             </div>
         <% end_if %>
