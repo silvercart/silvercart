@@ -15,9 +15,11 @@
             $RenderProductGroupHolderGroupView
         </div>
         
-        <div class="silvercart-product-group-page-control-top">
-            <% include SilvercartProductGroupPageControls %>
-        </div>
+        <% if HasMorePagesThan(1) %>
+            <div class="silvercart-product-group-page-control-top">
+                <% include SilvercartProductGroupPageControls %>
+            </div>
+        <% end_if %>
         
         <div class="silvercart-product-group-page">
             $RenderProductGroupPageGroupView

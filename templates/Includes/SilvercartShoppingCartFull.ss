@@ -32,8 +32,11 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th class="left" colspan="2">
-                            Artikel
+                        <th class="left">
+                            <% _t('SilvercartProduct.IMAGE', 'Product image') %>
+                        </th>
+                        <th class="left">
+                            <% _t('SilvercartProduct.TITLE', 'Product') %>
                         </th>
                         <th class="right"><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
                         <th class="right"><% _t('SilvercartProduct.VAT','VAT') %></th>
@@ -50,35 +53,7 @@
 
                 <tbody>
                 <% control SilvercartShoppingCartPositions %>
-                    <tr class="<% if Last %>separator<% end_if %><% if hasNotice %> noSeparator<% end_if %>">
-                        <td colspan="2">
-                            Art-Nr. <a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a><br />
-                            <a href="$silvercartProduct.Link">$SilvercartProduct.Title</a>
-                        </td>
-                        <td class="right">$SilvercartProduct.Price.Nice</td>
-                        <td class="right">{$SilvercartProduct.TaxRate}%</td>
-                        
-                        <% if Top.EditableShoppingCart %>
-                            <td>$DecrementPositionQuantityForm</td>
-                        <% end_if %>
-                        
-                        <td class="right">
-                            $Quantity
-                        </td>
-                        <% if Top.EditableShoppingCart %>
-                            <% if isQuantityIncrementableBy %>
-                                <td>$IncrementPositionQuantityForm</td>
-                            <% else %>
-                                <td>&nbsp;</td>
-                            <% end_if %>
-                        <% end_if %>
-                       <td class="right">$Price.Nice</td>
-
-                        <% if Top.EditableShoppingCart %>
-                            
-                            <td>$RemovePositionForm</td>
-                        <% end_if %>
-                    </tr>
+                    <% include SilvercartShoppingCartFullPosition %>
                     
                     <% if hasNotice %>
                     <tr>
