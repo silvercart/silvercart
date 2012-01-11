@@ -164,7 +164,11 @@ class SilvercartPlugin extends Object {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName(&$arguments, $callingObject);
                         } else if ($returnContainer instanceof DataObjectSet) {
-                            $returnContainer->push($pluginProvider->$methodName(&$arguments, $callingObject));
+                            if ($returnContainer->TotalItems() === 0) {
+                                $returnContainer = $pluginProvider->$methodName(&$arguments, $callingObject);
+                            } else {
+                                $returnContainer->merge($pluginProvider->$methodName(&$arguments, $callingObject));
+                            }
                         } else if ($returnContainer == 'boolean') {
                             $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
                         } else if ($returnContainer == 'DataObject') {
@@ -178,7 +182,11 @@ class SilvercartPlugin extends Object {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer instanceof DataObjectSet) {
-                            $returnContainer->push($pluginProvider->$methodName($arguments, $callingObject));
+                            if ($returnContainer->TotalItems() === 0) {
+                                $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
+                            } else {
+                                $returnContainer->merge($pluginProvider->$methodName($arguments, $callingObject));
+                            }
                         } else if ($returnContainer == 'boolean') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer == 'DataObject') {

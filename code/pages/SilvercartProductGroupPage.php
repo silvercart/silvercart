@@ -1003,8 +1003,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());
 
             if (!empty($pluginProducts)) {
-                $this->groupProducts = $pluginProducts->First();
-                $this->groupProducts = $this->groupProducts[0];
+                $this->groupProducts = $pluginProducts;
             } else {
                 $this->listFilters = array();
                 $filter            = '';
@@ -1181,17 +1180,18 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         if ($member &&
             $member->getSilvercartCustomerConfig() &&
-            $member->getSilvercartCustomerConfig()->productsPerPage !== null) {
-            
+            $member->getSilvercartCustomerConfig()->productsPerPage !== null &&
+            array_key_exists($member->getSilvercartCustomerConfig()->productsPerPage, SilvercartConfig::$productsPerPageOptions)) {
+
             $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
-            
-            if ($productsPerPage == 0) {
-                $productsPerPage = SilvercartConfig::getProductsPerPageUnlimitedNumber();
-            }
         } else if ($this->productsPerPage) {
             $productsPerPage = $this->productsPerPage;
         } else {
             $productsPerPage = SilvercartConfig::ProductsPerPage();
+        }
+
+        if ($productsPerPage == 0) {
+            $productsPerPage = SilvercartConfig::getProductsPerPageUnlimitedNumber();
         }
         
         return $productsPerPage;
