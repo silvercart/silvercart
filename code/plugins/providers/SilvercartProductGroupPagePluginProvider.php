@@ -70,7 +70,8 @@ class SilvercartProductGroupPage_ControllerPluginProvider extends SilvercartPlug
     public function overwriteGetProducts(&$arguments = array(), &$callingObject) {
         $result = $this->extend('pluginOverwriteGetProducts', $arguments, $callingObject);
         
-        if (is_array($result)) {
+        if (is_array($result) &&
+            !empty($result)) {
             $result = $result[0];
         }
 
