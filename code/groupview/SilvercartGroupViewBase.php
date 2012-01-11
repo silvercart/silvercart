@@ -41,6 +41,8 @@ class SilvercartGroupViewBase extends DataObject {
     protected $defaultPreferences = array(
         'code' => '',
         'image' => '',
+        'image_active' => '',
+        'image_inactive' => '',
         'i18n_key' => '',
         'i18n_default' => '',
     );
@@ -118,8 +120,10 @@ class SilvercartGroupViewBase extends DataObject {
             } else {
                 $highlightStatus = 'inactive';
             }
-
-            if (is_file(Director::baseFolder() . '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
+            
+            if (is_file(Director::baseFolder() . '/' . $this->preferences['image_' . $highlightStatus])) {
+                $this->preferences['image'] = Director::absoluteBaseURL() . '/' . $this->preferences['image_' . $highlightStatus];
+            } elseif (is_file(Director::baseFolder() . '/' . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
                 $this->preferences['image'] = Director::absoluteBaseURL() . $project . '/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } elseif (is_file(Director::baseFolder() . '/silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
                 $this->preferences['image'] = Director::absoluteBaseURL() . 'silvercart/images/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
