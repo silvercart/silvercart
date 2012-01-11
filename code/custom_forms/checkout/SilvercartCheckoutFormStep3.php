@@ -113,7 +113,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 3.1.2011
      */
     protected function fillInFieldValues() {
-        $this->controller->fillFormFields(&$this->formFields);
+        $this->controller->fillFormFields($this->formFields);
         $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
                     
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods();
