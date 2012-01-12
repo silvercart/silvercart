@@ -31,28 +31,8 @@
  * @since 20.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShippingMethod extends DataObject {
-
-    /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $singular_name = "shipping method";
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $plural_name = "shipping methods";
+class SilvercartShippingMethod extends DataObject implements SilvercartMultilingualInterface {
+    
     /**
      * Attributes.
      *
@@ -63,7 +43,6 @@ class SilvercartShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'Title' => 'VarChar',
         'isActive' => 'Boolean'
     );
     /**
@@ -89,7 +68,8 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder',
-        'SilvercartShippingFees' => 'SilvercartShippingFee'
+        'SilvercartShippingFees' => 'SilvercartShippingFee',
+        'SilvercartShippingMethodLanguages' => 'SilvercartShippingMethodLanguage'
     );
     /**
      * Many-many relationships.
@@ -155,7 +135,8 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $casting = array(
         'AttributedCountries' => 'Varchar(255)',
-        'activatedStatus' => 'Varchar(255)'
+        'activatedStatus' => 'Varchar(255)',
+        'Title' => 'Text'
     );
     /**
      * List of searchable fields for the model admin
@@ -167,7 +148,6 @@ class SilvercartShippingMethod extends DataObject {
      * @since 31.01.2011
      */
     public static $searchable_fields = array(
-        'Title',
         'isActive',
         'SilvercartCarrier.ID' => array(
             'title' => 'Frachtführer'
@@ -188,7 +168,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Title' => array(
+            'SilvercartShippingMethodLanguages.Title' => array(
                 'title' => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter' => 'PartialMatchFilter'
             ),
@@ -223,13 +203,13 @@ class SilvercartShippingMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
                         'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
                         'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
                         'isActive' => _t('SilvercartPage.ISACTIVE', 'active'),
                         'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
                         'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones' => _t('SilvercartZone.PLURALNAME', 'zones')
+                        'SilvercartZones' => _t('SilvercartZone.PLURALNAME', 'zones'),
+                        'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION')
                     )
                 );
     }
@@ -300,7 +280,12 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-
+        
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'isActive');
+        }
         $fields->removeByName('SilvercartCountries');
         $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartOrders');
@@ -345,6 +330,22 @@ class SilvercartShippingMethod extends DataObject {
         }
         
         return $fee;
+    }
+    
+    /**
+     * getter for the shipping methods title
+     *
+     * @return string the title in the corresponding front end language 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
     }
 
     /**
@@ -483,6 +484,28 @@ class SilvercartShippingMethod extends DataObject {
         $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
         
         return $allowedShippingMethods;
+    }
+    
+    /**
+     * Getter for the related language object depending on the set language
+     * Always returns a SilvercartShippingMethodLanguage
+     *
+     * @return SilvercartShippingMethodLanguage
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.01.2012
+     */
+    public function getLanguage() {
+        if (!isset ($this->languageObj)) {
+            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartShippingMethodLanguages());
+            if (!$this->languageObj) {
+                $this->languageObj = new SilvercartShippingMethodLanguage();
+                $this->languageObj->Locale = Translatable::get_current_locale();
+                $this->languageObj->SilvercartShippingMethodID = $this->ID;
+                $this->languageObj->write();
+            }
+        }
+        return $this->languageObj;
     }
 
 }

@@ -1160,8 +1160,8 @@ $lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
 
-$lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
-$lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
+$lang['en_US']['SilvercartShippingMethodLanguage']['SINGULARNAME'] = 'Shipping method translation';
+$lang['en_US']['SilvercartShippingMethodLanguage']['PLURALNAME'] = 'Shipping method translations';
 
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'Activated';
