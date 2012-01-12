@@ -447,9 +447,9 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 25.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 12.01.2012
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
@@ -463,11 +463,20 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1 AND SilvercartProductGroupID IN (%s)",
+                        isActive = 1
+                        AND (SilvercartProductGroupID IN (%s)
+                             OR ID IN (
+                                SELECT
+                                    SilvercartProductID
+                                FROM
+                                    SilvercartProduct_SilvercartProductGroupMirrorPages
+                                WHERE
+                                    SilvercartProductGroupPageID IN (%s)))",
+                    implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs)
                 )
             );
-
+            
             foreach ($records as $record) {
                 $activeProducts[] = $record['ID'];
             }
