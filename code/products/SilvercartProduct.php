@@ -1606,7 +1606,22 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateGetSilvercartImages', $images);
         
         if ($images->Count() > 0) {
-            return $images;
+            $existingImages = new DataObjectSet();
+            foreach ($images as $image) {
+                if (!file_exists($image->Image()->getFullPath())) {
+                    $noImageObj = SilvercartConfig::getNoImage();
+                    
+                    if ($noImageObj) {
+                        $noImageObj->setField('Title', 'No Image');
+                        
+                        $image = new SilvercartImage();
+                        $image->ImageID             = $noImageObj->ID;
+                        $image->SilvercartProductID = $this->ID;
+                    }
+                }
+                $existingImages->push($image);
+            }
+            return $existingImages;
         } else {
             $noImageObj = SilvercartConfig::getNoImage();
             
