@@ -1,3 +1,3 @@
-<div id="silvercart-breadcrumbs-id" class="silvercart-breadcrumbs clearfix">
+<div class="silvercart-breadcrumbs clearfix">
     <p>$Breadcrumbs</p>
 </div>
