@@ -31,7 +31,7 @@
  * @since 20.10.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShippingMethod extends DataObject implements SilvercartMultilingualInterface {
+class SilvercartShippingMethod extends DataObject {
     
     /**
      * Attributes.
@@ -485,26 +485,4 @@ class SilvercartShippingMethod extends DataObject implements SilvercartMultiling
         
         return $allowedShippingMethods;
     }
-    
-    /**
-     * Getter for the related language object depending on the set language
-     * Always returns a SilvercartShippingMethodLanguage
-     *
-     * @return SilvercartShippingMethodLanguage
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
-     */
-    public function getLanguage() {
-        if (!isset ($this->languageObj)) {
-            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartShippingMethodLanguages());
-            if (!$this->languageObj) {
-                $this->languageObj = new SilvercartShippingMethodLanguage();
-                $this->languageObj->Locale = Translatable::get_current_locale();
-                $this->languageObj->SilvercartShippingMethodID = $this->ID;
-            }
-        }
-        return $this->languageObj;
-    }
-
 }

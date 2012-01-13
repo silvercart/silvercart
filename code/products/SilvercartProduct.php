@@ -31,7 +31,7 @@
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProduct extends DataObject implements SilvercartMultilingualInterface {
+class SilvercartProduct extends DataObject {
 
     /**
      * attributes
@@ -211,8 +211,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the Title, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The Title from the translation object or an empty string
      * 
@@ -229,8 +227,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
     
     /**
      * getter for the ShortDescription, looks for set translation
-     *
-     * @param string $locale ???
      * 
      * @return string The ShortDescription from the translation object or an empty string
      * 
@@ -740,9 +736,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
             // SEO tab
             // --------------------------------------------------------------------
             $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO', 'SEO'));
-//            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
-//            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
-//            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
 
 
             // --------------------------------------------------------------------
@@ -1666,25 +1659,21 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
         }
     }
     
+    
     /**
-     * Getter for the related language object depending on the set language
-     * Always returns a SilvercartProductLanguage
+     * saves the value of the field LongDescription correctly into HTMLText
+     * 
+     * @param string $value the field value
      *
-     * @return SilvercartProductLanguage
+     * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @since 13.01.2012
      */
-    public function getLanguage() {
-        if (!isset ($this->languageObj)) {
-            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartProductLanguages());
-            if (!$this->languageObj) {
-                $this->languageObj = new SilvercartProductLanguage();
-                $this->languageObj->Locale = Translatable::get_current_locale();
-                $this->languageObj->SilvercartShippingMethodID = $this->ID;
-            }
-        }
-        return $this->languageObj;
+    public function saveLongDescription($value) {
+        $languageObj = $this->getLanguage();
+        $languageObj->LongDescription = $value;
+        $languageObj->write();
     }
 
     /**

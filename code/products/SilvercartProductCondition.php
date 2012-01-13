@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductCondition extends DataObject implements SilvercartMultilingualInterface {
+class SilvercartProductCondition extends DataObject {
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -79,8 +79,23 @@ class SilvercartProductCondition extends DataObject implements SilvercartMultili
     );
     
     public static $casting = array(
-        'Title' => 'VarChar(255)'
+        'Title' => 'VarChar(255)',
+        'TableIndicator' => 'Text'
     );
+    
+    /**
+     * helper attribute for table fields
+     *
+     * @param
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function getTableIndicator() {
+        return _t('SilvercartConfig.OPEN_RECORD');
+    }
     
     /**
      * n:m relations
@@ -154,27 +169,6 @@ class SilvercartProductCondition extends DataObject implements SilvercartMultili
     }
     
     /**
-     * Getter for the related language object depending on the set language
-     * Always returns a SilvercartProductConditionLanguage
-     *
-     * @return SilvercartShippingMethodLanguage neither an existing or newly created one
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
-     */
-    public function getLanguage() {
-        if (!isset ($this->languageObj)) {
-            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartProductConditionLanguages());
-            if (!$this->languageObj) {
-                $this->languageObj = new SilvercartProductConditionLanguage();
-                $this->languageObj->Locale = Translatable::get_current_locale();
-                $this->languageObj->SilvercartProductConditionID = $this->ID;
-            }
-        }
-        return $this->languageObj;
-    }
-    
-    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -210,8 +204,8 @@ class SilvercartProductCondition extends DataObject implements SilvercartMultili
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => _t('SilvercartProductCondition.TITLE'),
-            'ID' => 'ID'
+            'TableIndicator' => '',
+            'Title' => _t('SilvercartProductCondition.TITLE')
         );
         
         $this->extend('updateSummaryFields', $summaryFields);

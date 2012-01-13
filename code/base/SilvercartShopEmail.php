@@ -70,6 +70,42 @@ class SilvercartShopEmail extends DataObject {
         'EmailText'     => 'Text',
         'Variables'     => 'Text'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function singular_name() {
+        if (_t('SilvercartShopEmail.SINGULARNAME')) {
+            return _t('SilvercartShopEmail.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function plural_name() {
+        if (_t('SilvercartShopEmail.PLURALNAME')) {
+            return _t('SilvercartShopEmail.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }
+
+    }
 
     /**
      * Get any user defined searchable fields labels that

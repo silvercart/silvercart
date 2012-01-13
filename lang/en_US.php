@@ -436,6 +436,7 @@ $lang['en_US']['SilvercartConfig']['DEFAULT_LANGUAGE'] = 'default language';
 $lang['en_US']['SilvercartConfig']['USE_DEFAULT_LANGUAGE'] = 'Use default language if no translation is found?';
 $lang['en_US']['SilvercartConfig']['TRANSLATION'] = 'Translation';
 $lang['en_US']['SilvercartConfig']['TRANSLATIONS'] = 'Translations';
+$lang['en_US']['SilvercartConfig']['OPEN_RECORD'] = 'open record';
 
 $lang['en_US']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
@@ -1179,6 +1180,8 @@ $lang['en_US']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
 $lang['en_US']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Config';
 
+$lang['en_US']['SilvercartShopEmail']['SINGULARNAME'] = 'shop email';
+$lang['en_US']['SilvercartShopEmail']['PLURALNAME'] = 'shop emails';
 $lang['en_US']['SilvercartShopEmail']['EMAILTEXT'] = 'Message';
 $lang['en_US']['SilvercartShopEmail']['IDENTIFIER'] = 'Identifier';
 $lang['en_US']['SilvercartShopEmail']['PLURALNAME'] = 'Shop Emails';
