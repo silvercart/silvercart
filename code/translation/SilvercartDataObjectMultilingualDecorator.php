@@ -69,5 +69,17 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
         }
         return $this->languageObj;
     }
+    
+    /**
+     * helper attribute for table fields
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function getTableIndicator() {
+        return _t('SilvercartConfig.OPEN_RECORD');
+    }
 }
 

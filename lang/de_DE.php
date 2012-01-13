@@ -915,8 +915,9 @@ $lang['de_DE']['SilvercartOrderStatus']['SHIPPED'] = 'Bestellung versendet';
 $lang['de_DE']['SilvercartOrderStatus']['SINGULARNAME'] = 'Bestellstatus';
 $lang['de_DE']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Auf Zahlungseingang wird gewartet';
 
-$lang['de_DE']['SilvercartOrderStatusTexts']['PLURALNAME'] = 'Bestellstatustexte';
-$lang['de_DE']['SilvercartOrderStatusTexts']['SINGULARNAME'] = 'Bestellstatustext';
+$lang['de_DE']['SilvercartOrderStatusLanguage']['PLURALNAME'] = 'Bestellstatusübersetzungen';
+$lang['de_DE']['SilvercartOrderStatusLanguage']['SINGULARNAME'] = 'Bestellstatusübersetzung';
+$lang['de_DE']['SilvercartOrderStatusLanguage']['TITLE'] = 'Bezeichnung';
 
 $lang['de_DE']['SilvercartPage']['ABOUT_US'] = 'über uns';
 $lang['de_DE']['SilvercartPage']['ABOUT_US_URL_SEGMENT'] = 'ueber-uns';

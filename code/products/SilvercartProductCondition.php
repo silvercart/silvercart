@@ -33,6 +33,11 @@
  */
 class SilvercartProductCondition extends DataObject {
     
+    public static $casting = array(
+        'Title' => 'VarChar(255)',
+        'TableIndicator' => 'Text'
+    );
+    
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -65,36 +70,6 @@ class SilvercartProductCondition extends DataObject {
         } else {
             return parent::plural_name();
         }   
-    }
-    
-    /**
-     * Attributes
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
-     */
-    public static $db = array(
-    );
-    
-    public static $casting = array(
-        'Title' => 'VarChar(255)',
-        'TableIndicator' => 'Text'
-    );
-    
-    /**
-     * helper attribute for table fields
-     *
-     * @param
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
-     */
-    public function getTableIndicator() {
-        return _t('SilvercartConfig.OPEN_RECORD');
     }
     
     /**
