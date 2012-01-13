@@ -502,7 +502,6 @@ class SilvercartShippingMethod extends DataObject implements SilvercartMultiling
                 $this->languageObj = new SilvercartShippingMethodLanguage();
                 $this->languageObj->Locale = Translatable::get_current_locale();
                 $this->languageObj->SilvercartShippingMethodID = $this->ID;
-                $this->languageObj->write();
             }
         }
         return $this->languageObj;

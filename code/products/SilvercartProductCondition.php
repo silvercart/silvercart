@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductCondition extends DataObject {
+class SilvercartProductCondition extends DataObject implements SilvercartMultilingualInterface {
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -76,6 +76,9 @@ class SilvercartProductCondition extends DataObject {
      * @since 09.08.2011
      */
     public static $db = array(
+    );
+    
+    public static $casting = array(
         'Title' => 'VarChar(255)'
     );
     
@@ -88,8 +91,45 @@ class SilvercartProductCondition extends DataObject {
      * @since 09.08.2011
      */
     public static $has_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
+        'SilvercartProducts'                  => 'SilvercartProduct',
+        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
     );
+    
+    /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
+    /**
+     * define the CMS ields
+     *
+     * @param
+     *
+     * @return FieldSet 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
+     */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
     
     /**
      * Returns a string with HTML Code for a selector box that lets the user
@@ -114,6 +154,27 @@ class SilvercartProductCondition extends DataObject {
     }
     
     /**
+     * Getter for the related language object depending on the set language
+     * Always returns a SilvercartProductConditionLanguage
+     *
+     * @return SilvercartShippingMethodLanguage neither an existing or newly created one
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.01.2012
+     */
+    public function getLanguage() {
+        if (!isset ($this->languageObj)) {
+            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->SilvercartProductConditionLanguages());
+            if (!$this->languageObj) {
+                $this->languageObj = new SilvercartProductConditionLanguage();
+                $this->languageObj->Locale = Translatable::get_current_locale();
+                $this->languageObj->SilvercartProductConditionID = $this->ID;
+            }
+        }
+        return $this->languageObj;
+    }
+    
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -129,7 +190,8 @@ class SilvercartProductCondition extends DataObject {
             parent::fieldLabels($includerelations),
             array(
                 'Title' => _t('SilvercartProductCondition.TITLE'),
-                'SilvercartProducts' => _t('SilvercartProduct.PLURALNAME')
+                'SilvercartProducts' => _t('SilvercartProduct.PLURALNAME'),
+                'SilvercartProductConditionLanguages' => _t('SilvercartProductConditionLanguage.PLURALNAME')
             )
         );
         
@@ -148,7 +210,8 @@ class SilvercartProductCondition extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => _t('SilvercartProductCondition.TITLE')
+            'Title' => _t('SilvercartProductCondition.TITLE'),
+            'ID' => 'ID'
         );
         
         $this->extend('updateSummaryFields', $summaryFields);

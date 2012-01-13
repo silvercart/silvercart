@@ -1093,6 +1093,9 @@ $lang['en_GB']['SilvercartProductCondition']['SINGULARNAME']                = 'P
 $lang['en_GB']['SilvercartProductCondition']['TITLE']                       = 'Condition';
 $lang['en_GB']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Use as default condition if not defined at the product';
 
+$lang['en_GB']['SilvercartProductConditionLanguage']['SINGULARNAME']   = 'product condition translation';
+$lang['en_GB']['SilvercartProductConditionLanguage']['PLURALNAME']   = 'product condition translations';
+
 $lang['en_GB']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
 $lang['en_GB']['SilvercartRating']['SINGULARNAME'] = 'rating';

@@ -35,28 +35,6 @@
 class SilvercartShippingFee extends DataObject {
 
     /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    static $singular_name = "shipping fee";
-
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    static $plural_name = "shipping fees";
-
-    /**
      * Attributes.
      *
      * @var array

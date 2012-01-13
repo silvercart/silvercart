@@ -1682,7 +1682,6 @@ class SilvercartProduct extends DataObject implements SilvercartMultilingualInte
                 $this->languageObj = new SilvercartProductLanguage();
                 $this->languageObj->Locale = Translatable::get_current_locale();
                 $this->languageObj->SilvercartShippingMethodID = $this->ID;
-                $this->languageObj->write();
             }
         }
         return $this->languageObj;

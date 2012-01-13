@@ -1093,6 +1093,9 @@ $lang['de_DE']['SilvercartProductCondition']['SINGULARNAME']                = 'A
 $lang['de_DE']['SilvercartProductCondition']['TITLE']                       = 'Zustand';
 $lang['de_DE']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']   = 'Als Vorgabe-Zustand verwenden, wenn nichts am Artikel definiert ist';
 
+$lang['de_DE']['SilvercartProductConditionLanguage']['SINGULARNAME']   = 'Artikelzustandübersetzung';
+$lang['de_DE']['SilvercartProductConditionLanguage']['PLURALNAME']   = 'Artikelzustandübersetzungen';
+
 $lang['de_DE']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Suchen';
 
 $lang['de_DE']['SilvercartRating']['SINGULARNAME'] = 'Bewertung';
