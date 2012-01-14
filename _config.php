@@ -6,8 +6,7 @@
  *
  * SilverCart is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * the Free Software Foundation, either version 3 of the License, or * (at your option) any later version.
  *
  * SilverCart is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,6 +46,7 @@ Object::add_extension('Member',             'SilvercartCustomer');
 Object::add_extension('Group',              'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');
 Object::add_extension('CMSMain',            'SilvercartMain');
+Object::add_extension('LeftAndMain',        'SilvercartLeftAndMain');
 Object::add_extension('Security',           'SilvercartSecurityController');
 Object::add_extension('Security',           'CustomHtmlFormPage_Controller');
 DataObject::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
