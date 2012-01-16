@@ -2317,10 +2317,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function CustomForm($formIdentifier) {
         $form = '';
-
-        if (method_exists($this, $formIdentifier)) {
-            $form = $this->$formIdentifier();
-        }
+        $form = $this->$formIdentifier();
         
         $this->extend('updateCustomForm', $form, $formIdentifier);
 
@@ -2345,9 +2342,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
 
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
         
-        if (method_exists($this, $data['action'])) {
-            $this->$data['action']($data, $form, $request, $output);
-        }
+        $this->$data['action']($data, $form, $request, $output);
         
         return $output;
     }
