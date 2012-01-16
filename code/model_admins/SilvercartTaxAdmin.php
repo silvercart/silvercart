@@ -41,7 +41,17 @@ class SilvercartTaxAdmin extends ModelAdmin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.01.2012
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'products';
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSortIndex = 60;
 
     /**
      * The URL segment

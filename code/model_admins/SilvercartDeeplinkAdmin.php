@@ -44,6 +44,26 @@ class SilvercartDeepLinkAdmin extends ModelAdmin {
     public static $menuCode = 'config';
 
     /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSortIndex = 110;
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSection = 'externalConnections';
+
+    /**
      * The URL segment
      *
      * @var string
@@ -87,7 +107,7 @@ class SilvercartDeepLinkAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartDeeplink.PLURALNAME');
+        self::$menu_title = _t('Silvercart.DEEPLINKS');
         
         parent::__construct();
     }

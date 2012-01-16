@@ -94,11 +94,6 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',              
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
 
 // ----------------------------------------------------------------------------
-// Register TaskNotificationChannels
-// ----------------------------------------------------------------------------
-SilvercartTaskNotificationHandler::registerNotificationChannel('SilvercartProductPriceUpdate');
-
-// ----------------------------------------------------------------------------
 // Define path constants
 // ----------------------------------------------------------------------------
 $path = dirname(__FILE__) . '/';

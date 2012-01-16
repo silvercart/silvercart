@@ -44,6 +44,26 @@ class SilvercartShippingMethodAdmin extends ModelAdmin {
     public static $menuCode = 'config';
 
     /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSortIndex = 50;
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSection = 'shipping';
+
+    /**
      * The URL segment
      *
      * @var string

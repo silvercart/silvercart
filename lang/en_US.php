@@ -152,6 +152,11 @@ $lang['en_US']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
 $lang['en_US']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['en_US']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an image slider for displaying multiple images in a slide show.';
 
+$lang['en_US']['SilvercartMenu']['SECTION_payment']             = 'Payment';
+$lang['en_US']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
+$lang['en_US']['SilvercartMenu']['SECTION_externalConnections'] = 'External connections';
+$lang['en_US']['SilvercartMenu']['SECTION_others']              = 'Others';
+
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';

@@ -44,6 +44,16 @@ class SilvercartConfigAdmin extends ModelAdmin {
     public static $menuCode = 'config';
 
     /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuSortIndex = 10;
+
+    /**
      * The URL segment
      *
      * @var string
@@ -128,7 +138,7 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartConfig.PLURALNAME');
+        self::$menu_title = _t('SilvercartConfig.SINGULARNAME');
         
         parent::__construct();
     }

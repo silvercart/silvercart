@@ -123,7 +123,9 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
         $menuItems       = CMSMenu::get_viewable_menu_items();
 
         foreach (SilvercartConfig::getRegisteredMenus() as $menu) {
-            $modelAdmins = new DataObjectSet();
+            $menuSectionIndicator = '';
+            $modelAdmins          = new DataObjectSet();
+            $groupedModelAdmins   = new DataObjectSet();
 
             foreach ($menuItems as $code => $menuItem) {
                 if (
@@ -160,12 +162,33 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                         }
                     }
 
+                    // Get the menu section
+                    $menuSection = singleton($menuItem->controller)->stat('menuSection');
+
+                    if (empty($menuSection)) {
+                        $menuSection = 'base';
+                    }
+
+                    // Get the menu sort index
+                    $menuSortIndex = singleton($menuItem->controller)->stat('menuSortIndex');
+
+                    if (empty($menuSortIndex )) {
+                        $menuSortIndex = 1000;
+                    }
+
+                    if ($title == $this->owner->SectionTitle()) {
+                        $menuSectionIndicator = ': '.$title;
+                    }
+
                     $modelAdmins->push(
                         new ArrayData(
                             array(
                                 "MenuItem"    => $menuItem,
                                 "Title"       => Convert::raw2xml($title),
                                 "Code"        => $code,
+                                "IsSection"   => false,
+                                "Section"     => $menuSection,
+                                "SortIndex"   => $menuSortIndex,
                                 "Link"        => $menuItem->url,
                                 "LinkingMode" => $linkingmode
                             )
@@ -174,12 +197,35 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 }
             }
 
+            $modelAdmins->sort('SortIndex', 'ASC');
+            $currentSection = '';
+
+            foreach ($modelAdmins as $modelAdmin) {
+                if ($modelAdmin->Section != $currentSection) {
+                    $currentSection = $modelAdmin->Section;
+
+                    if ($modelAdmin->Section != 'base') {
+                        $groupedModelAdmins->push(
+                            new DataObject(
+                                array(
+                                    "IsSection" => true,
+                                    "name"      => _t('SilvercartMenu.SECTION_'.$currentSection, $currentSection)
+                                )
+                            )
+                        );
+                    }
+                }
+
+                $groupedModelAdmins->push($modelAdmin);
+            }
+
             $silvercartMenus->push(
                 new DataObject(
                     array(
                         'name'        => $menu['name'],
+                        'MenuSection' => $menuSectionIndicator,
                         'code'        => $menu['code'],
-                        'ModelAdmins' => $modelAdmins
+                        'ModelAdmins' => $groupedModelAdmins
                     )
                 )
             );
@@ -198,7 +244,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      */
     public function getCmsSection() {
         $section = '';
-        $urlSegment = $this->owner->stat('url_segment')."<br />";
+        $urlSegment = $this->owner->stat('url_segment');
 
         if (substr($urlSegment, 0, 10) !== 'silvercart') {
             $section = ': '.$this->owner->SectionTitle();
