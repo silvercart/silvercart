@@ -268,8 +268,8 @@ $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_US']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
 $lang['en_US']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
-$lang['en_US']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Product exporters';
-$lang['en_US']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Product exporter';
+$lang['en_US']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Price portal exporters';
+$lang['en_US']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Price portal exporter';
 
 
 $lang['en_US']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
@@ -1375,6 +1375,11 @@ $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This 
 $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
+
+$lang['en_US']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
+$lang['en_US']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
+$lang['en_US']['SilvercartStoreAdminMenu']['ORDERS'] = 'Orders';
+$lang['en_US']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
 
 $lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';

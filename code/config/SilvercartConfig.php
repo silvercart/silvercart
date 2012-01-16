@@ -80,6 +80,16 @@ class SilvercartConfig extends DataObject {
      * @since 23.08.2011
      */
     public static $productsPerPageUnlimitedNumber = 999999;
+
+    /**
+     * Contains all registered menus for the storeadmin.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $registeredMenus = array();
     
     /**
      * Attributes.
@@ -865,6 +875,18 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
+     * Returns all registered menus for the storeadmin.
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static function getRegisteredMenus() {
+        return self::$registeredMenus;
+    }
+
+    /**
      * Returns the default no-image visualisation.
      * 
      * @return mixed Image|bool false
@@ -1119,6 +1141,26 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupView($groupView) {
         SilvercartGroupViewHandler::removeGroupView($groupView);
+    }
+
+    /**
+     * Registers a menu.
+     * 
+     * @param string $code      The identifier code for this menu
+     * @param string $menuTitle The menu title
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static function registerMenu($code, $menuTitle) {
+        if (!in_array($menuTitle, self::$registeredMenus)) {
+            self::$registeredMenus[] = array(
+                'code' => $code,
+                'name' => $menuTitle
+            );
+        }
     }
 
     /**

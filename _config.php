@@ -159,13 +159,21 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_logo_text = 'SilverStripe') {
     LeftAndMain::setApplicationName(
         'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
-        '<p style="font-size: 11px; line-height: 11px;">eCommerce software.<br/>Open-source. You\'ll love it.</p>',
+        'SilverCart<br />eCommerce software',
         'http://www.silvercart.org'
     );
     LeftAndMain::set_loading_image(
         '/silvercart/images/logo.jpg'
     );
 }
+
+// ----------------------------------------------------------------------------
+// Register menus for the storeadmin
+// ----------------------------------------------------------------------------
+SilvercartConfig::registerMenu('orders', _t('SilvercartStoreAdminMenu.ORDERS'));
+SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS'));
+SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
+SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
