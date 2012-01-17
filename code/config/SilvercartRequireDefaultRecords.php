@@ -146,16 +146,34 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // create availability status
         if (!DataObject::get_one('SilvercartAvailabilityStatus')) {
 
-            $defaultStatusEntries = array(
-                'available'     => _t('SilvercartAvailabilityStatus.STATUS_AVAILABLE', 'available'),
-                'not-available' => _t('SilvercartAvailabilityStatus.STATUS_NOT_AVAILABLE', 'not available')
+            $defaults = array(
+                'available'     => array(
+                    'en_US' => 'available',
+                    'en_GB' => 'available',
+                    'de_DE' => 'verfügbar'
+                ),
+                'not-available' => array(
+                    'en_US' => 'unavailable',
+                    'en_GB' => 'unavailable',
+                    'de_DE' => 'nicht verfügbar'
+                )
             );
-
-            foreach ($defaultStatusEntries as $code => $title) {
+            
+            foreach ($defaults as $code => $languages) {
                 $obj = new SilvercartAvailabilityStatus();
-                $obj->Title = $title;
                 $obj->Code = $code;
                 $obj->write();
+                foreach ($languages as $locale => $title) {
+                    $filter = sprintf("`Locale` = '%s' AND `SilvercartAvailabilityStatusID` = '%s'", $locale, $obj->ID);
+                    $objLanguage = DataObject::get_one('SilvercartAvailabilityStatusLanguage', $filter);
+                    if (!$objLanguage) {
+                        $objLanguage = new SilvercartAvailabilityStatusLanguage();
+                        $objLanguage->Locale = $locale;
+                        $objLanguage->SilvercartAvailabilityStatusID = $obj->ID;
+                    }
+                    $objLanguage->Title = $title;
+                    $objLanguage->write();
+                }
             }
         }
 

@@ -134,6 +134,9 @@ $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not av
 $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
 $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
 
+$lang['en_US']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME'] = 'availability translation';
+$lang['en_US']['SilvercartAvailabilityStatusLanguage']['PLURALNAME'] = 'availability translations';
+
 $lang['en_US']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
 $lang['en_US']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
 
