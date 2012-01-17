@@ -6,8 +6,7 @@
  *
  * SilverCart is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * the Free Software Foundation, either version 3 of the License, or * (at your option) any later version.
  *
  * SilverCart is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,6 +46,7 @@ Object::add_extension('Member',             'SilvercartCustomer');
 Object::add_extension('Group',              'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');
 Object::add_extension('CMSMain',            'SilvercartMain');
+Object::add_extension('LeftAndMain',        'SilvercartLeftAndMain');
 Object::add_extension('Security',           'SilvercartSecurityController');
 Object::add_extension('Security',           'CustomHtmlFormPage_Controller');
 DataObject::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
@@ -92,11 +92,6 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller'
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
-
-// ----------------------------------------------------------------------------
-// Register TaskNotificationChannels
-// ----------------------------------------------------------------------------
-SilvercartTaskNotificationHandler::registerNotificationChannel('SilvercartProductPriceUpdate');
 
 // ----------------------------------------------------------------------------
 // Define path constants
@@ -159,13 +154,21 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_logo_text = 'SilverStripe') {
     LeftAndMain::setApplicationName(
         'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
-        '<p style="font-size: 11px; line-height: 11px;">eCommerce software.<br/>Open-source. You\'ll love it.</p>',
+        'SilverCart<br />eCommerce software',
         'http://www.silvercart.org'
     );
     LeftAndMain::set_loading_image(
         '/silvercart/images/logo.jpg'
     );
 }
+
+// ----------------------------------------------------------------------------
+// Register menus for the storeadmin
+// ----------------------------------------------------------------------------
+SilvercartConfig::registerMenu('orders', _t('SilvercartStoreAdminMenu.ORDERS'));
+SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS'));
+SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
+SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!

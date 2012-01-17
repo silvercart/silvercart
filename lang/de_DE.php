@@ -152,6 +152,11 @@ $lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Stellt einen Imageslider zur Verfügung, das mehrere Bilder in einer Slideshow darstellt.';
 
+$lang['de_DE']['SilvercartMenu']['SECTION_payment']             = 'Zahlung';
+$lang['de_DE']['SilvercartMenu']['SECTION_shipping']            = 'Versand';
+$lang['de_DE']['SilvercartMenu']['SECTION_externalConnections'] = 'Externe Anbindung';
+$lang['de_DE']['SilvercartMenu']['SECTION_others']              = 'Anderes';
+
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV Trennzeichen';
@@ -268,8 +273,8 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 $lang['de_DE']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Artikelexporte';
 $lang['de_DE']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Artikelexport';
-$lang['de_DE']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Artikelexporter';
-$lang['de_DE']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Artikelexporter';
+$lang['de_DE']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Preisportal Exporte';
+$lang['de_DE']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Preisportal Export';
 
 $lang['de_DE']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Push aktivieren';
 $lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Aktualisierungsinterval';
@@ -905,7 +910,7 @@ $lang['de_DE']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_DESC'] = 'D
 $lang['de_DE']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'] = 'Zugeordnete Emails';
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'Bezahlt';
-$lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstati';
+$lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstatus';
 $lang['de_DE']['SilvercartOrderStatus']['SHIPPED'] = 'Bestellung versendet';
 $lang['de_DE']['SilvercartOrderStatus']['SINGULARNAME'] = 'Bestellstatus';
 $lang['de_DE']['SilvercartOrderStatus']['WAITING_FOR_PAYMENT'] = 'Auf Zahlungseingang wird gewartet';
@@ -1374,6 +1379,11 @@ $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Diese
 $lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
+
+$lang['de_DE']['SilvercartStoreAdminMenu']['CONFIG'] = 'Einstellungen';
+$lang['de_DE']['SilvercartStoreAdminMenu']['MODULES'] = 'Module';
+$lang['de_DE']['SilvercartStoreAdminMenu']['ORDERS'] = 'Bestellungen';
+$lang['de_DE']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Artikel';
 
 $lang['de_DE']['SilvercartText']['TITLE']               = 'Freitext';
 $lang['de_DE']['SilvercartText']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2012 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -18,81 +18,41 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Backend
+ * @subpackage ModelAdmins
  */
 
 /**
- * The Silvercart configuration backend.
- *
+ * ModelAdmin for SilvercartConfig.
+ * 
  * @package Silvercart
- * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 31.01.2011
+ * @subpackage ModelAdmins
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShopConfigurationAdmin extends ModelAdmin {
-    
+class SilvercartConfigAdmin extends ModelAdmin {
+
     /**
-     * We use a custom result table class name.
-     *
-     * @var string
+     * The code of the menu under which this admin should be shown.
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.10.2011
-     */
-    protected $resultsTableClassName = 'SilvercartTableListField';
-    
-    /**
-     * Managed models
-     *
-     * @var array
+     * @var string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @since 16.01.2012
      */
-    public static $managed_models = array(
-        'SilvercartConfig' => array(
-            'enableFirstEntryAutoLoad' => true
-        ),
-        'SilvercartPaymentMethod' => array(
-            'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
-        ),
-        'SilvercartShippingMethod',
-        'SilvercartCarrier',
-        'SilvercartShopEmail',
-        'SilvercartWidgetSet' => array(
-            'record_controller' => 'SilvercartHasManyOrderField_RecordController'
-        ),
-        'SilvercartCountry',
-        'SilvercartZone',
-        'SilvercartTax',
-        'SilvercartOrderStatus',
-        'SilvercartAvailabilityStatus',
-        'SilvercartProductCondition',
-        'SilvercartNumberRange',
-        'SilvercartQuantityUnit',
-        'SilvercartDeeplink',
-        'SilvercartInboundShoppingCartTransfer',
-        'SilvercartWidget'
-    );
+    public static $menuCode = 'config';
+
     /**
-     * List of managed models with disabled creation and import form
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
      *
-     * @var array
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
      */
-    public static $disable_creation_and_import_for = array(
-        'SilvercartConfig',
-    );
-    /**
-     * List of managed models with resetted search form
-     *
-     * @var array
-     */
-    public static $reset_search_form_for = array(
-        'SilvercartConfig',
-    );
+    public static $menuSortIndex = 10;
+
     /**
      * The URL segment
      *
@@ -100,9 +60,10 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @since 01.08.2011
      */
-    public static $url_segment = 'silvercart-configuration';
+    public static $url_segment = 'silvercart-config';
+
     /**
      * The menu title
      *
@@ -112,7 +73,23 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $menu_title = 'Silvercart Konfiguration';
+    public static $menu_title = 'Silvercart carriers';
+
+    /**
+     * Managed models
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.08.2011
+     */
+    public static $managed_models = array(
+        'SilvercartConfig' => array(
+            'enableFirstEntryAutoLoad' => true
+        ),
+    );
+
     /**
      * The collection controller class to use for the shop configuration.
      *
@@ -122,7 +99,8 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.01.2011
      */
-    public static $collection_controller_class = 'SilvercartShopConfigurationAdmin_CollectionController';
+    public static $collection_controller_class = 'SilvercartConfigAdmin_CollectionController';
+
     /**
      * The record controller class to use for the shop configuration.
      *
@@ -131,35 +109,56 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.07.2011
      */
-    public static $record_controller_class = 'SilvercartShopConfigurationAdmin_RecordController';
-
-    public static $menu_priority = -1;
+    public static $record_controller_class = 'SilvercartConfigAdmin_RecordController';
 
     /**
-     * constructor
+     * List of managed models with disabled creation and import form
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 02.02.2011
+     * @var array
+     */
+    public static $disable_creation_and_import_for = array(
+        'SilvercartConfig',
+    );
+
+    /**
+     * List of managed models with resetted search form
+     *
+     * @var array
+     */
+    public static $reset_search_form_for = array(
+        'SilvercartConfig',
+    );
+
+    /**
+     * Constructor
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartShopConfigurationAdmin.SILVERCART_CONFIG', 'SilverCart Konfiguration');
+        self::$menu_title = _t('SilvercartConfig.SINGULARNAME');
+        
         parent::__construct();
     }
-
+    
     /**
-     * We load some additional javascript and css files here.
+     * Provides hook for decorators, so that they can overwrite css
+     * and other definitions.
      * 
      * @return void
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
+     * @since 01.08.2011
      */
     public function init() {
         parent::init();
-        
+
         Requirements::css(CMS_DIR . '/css/WidgetAreaEditor.css');
         Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
+
+        $this->extend('updateInit');
     }
 }
 
@@ -173,7 +172,7 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
  * @since 31.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_CollectionController {
+class SilvercartConfigAdmin_CollectionController extends ModelAdmin_CollectionController {
 
     /**
      * Return a modified search form.
@@ -186,7 +185,7 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
      */
     public function SearchForm() {
         $form = parent::SearchForm();
-        if (in_array($this->getModelClass(), SilvercartShopConfigurationAdmin::$reset_search_form_for)) {
+        if (in_array($this->getModelClass(), SilvercartConfigAdmin::$reset_search_form_for)) {
             $form->setFields(new FieldSet());
             $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
             $form->Actions()->removeByName('action_clearsearch');
@@ -204,7 +203,7 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
      */
     public function alternatePermissionCheck() {
         $result = true;
-        if (in_array($this->getModelClass(), SilvercartShopConfigurationAdmin::$disable_creation_and_import_for)) {
+        if (in_array($this->getModelClass(), SilvercartConfigAdmin::$disable_creation_and_import_for)) {
             $result = false;
             $this->showImportForm = false;
         }
@@ -224,7 +223,7 @@ class SilvercartShopConfigurationAdmin_CollectionController extends ModelAdmin_C
  * @since 02.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_RecordController {
+class SilvercartConfigAdmin_RecordController extends ModelAdmin_RecordController {
     
     /**
      * Adds the abillity to execute additional actions to the model admin's
@@ -527,3 +526,4 @@ class SilvercartShopConfigurationAdmin_RecordController extends ModelAdmin_Recor
         }
     }
 }
+
