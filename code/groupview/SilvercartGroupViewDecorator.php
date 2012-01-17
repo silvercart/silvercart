@@ -211,6 +211,10 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     public function getCartFormName() {
-        return 'SilvercartProductAddCartForm' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        $cartFormName = 'SilvercartProductAddCartForm' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        if (!class_exists($cartFormName)) {
+            $cartFormName = 'SilvercartProductAddCartForm';
+        }
+        return $cartFormName;
     }
 }

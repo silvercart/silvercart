@@ -79,7 +79,6 @@ SilvercartConfig:
         PricetypeAnonymousCustomers: gross
         PricetypeRegularCustomers: gross
         PricetypeBusinessCustomers: net
-        PricetypeAdmins: net
      
 Group:
   b2b:
@@ -97,12 +96,12 @@ Member:
         FirstName: John
         Surname: Doe
         Email: john@doe.org
-        Group: =>Group.b2b
+        Groups: =>Group.b2b
     RegularCustomer:
         FirstName: Jonny
         Surname: Depp
         Email: jonny@depp.org
-        Group: =>Group.b2c
+        Groups: =>Group.b2c
         
 SilvercartShoppingCart:
     ShoppingCart:
