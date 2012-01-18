@@ -32,149 +32,59 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShippingMethod extends DataObject {
-
-    /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $singular_name = "shipping method";
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $plural_name = "shipping methods";
+    
     /**
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $db = array(
-        'Title' => 'VarChar',
-        'isActive' => 'Boolean'
+        'Title'     => 'VarChar',
+        'isActive'  => 'Boolean',
     );
     /**
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_one = array(
-        'SilvercartCarrier'   => 'SilvercartCarrier'
+        'SilvercartCarrier'   => 'SilvercartCarrier',
     );
     /**
      * Has-many relationship.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_many = array(
-        'SilvercartOrders' => 'SilvercartOrder',
-        'SilvercartShippingFees' => 'SilvercartShippingFee'
+        'SilvercartOrders'          => 'SilvercartOrder',
+        'SilvercartShippingFees'    => 'SilvercartShippingFee',
     );
     /**
      * Many-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $many_many = array(
-        'SilvercartZones' => 'SilvercartZone'
+        'SilvercartZones' => 'SilvercartZone',
     );
     /**
      * Belongs-many-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $belongs_many_many = array(
-        'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
-    );
-    /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $summary_fields = array(
-        'Title' => 'Bezeichnung',
-        'activatedStatus' => 'Aktiviert',
-        'AttributedZones' => 'Für Zonen',
-        'SilvercartCarrier.Title' => 'Frachtführer'
-    );
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $field_labels = array(
-        'Title' => 'Bezeichnung',
-        'activatedStatus' => 'Aktiviert',
-        'AttributedZones' => 'Für Zonen'
+        'SilvercartPaymentMethods' => 'SilvercartPaymentMethod',
     );
     /**
      * Virtual database columns.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedCountries' => 'Varchar(255)',
-        'activatedStatus' => 'Varchar(255)'
-    );
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $searchable_fields = array(
-        'Title',
-        'isActive',
-        'SilvercartCarrier.ID' => array(
-            'title' => 'Frachtführer'
-        ),
-        'SilvercartZones.ID' => array(
-            'title' => 'Für Zonen'
-        )
+        'AttributedCountries'   => 'Varchar(255)',
+        'activatedStatus'       => 'Varchar(255)',
+        'AttributedZones'       => 'Text',
+        'AttributedZoneIDs'     => 'Text',
     );
     
     /**
@@ -306,6 +216,27 @@ class SilvercartShippingMethod extends DataObject {
         $fields->removeByName('SilvercartOrders');
         $fields->removeByName('SilvercartZones');
 
+        $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
+        $permissions = array_merge(
+                $feeTable->getPermissions(),
+                array(
+                    'export',
+                )
+        );
+        $feeTable->setPermissions($permissions);
+        $feeTable->setFieldListCsv(
+                array(
+                    'ID'                            => 'ID',
+                    'MaximumWeight'                 => 'MaximumWeight',
+                    'UnlimitedWeight'               => 'UnlimitedWeight',
+                    'PriceAmount'                   => 'PriceAmount',
+                    'PriceCurrency'                 => 'PriceCurrency',
+                    'SilvercartZoneID'              => 'SilvercartZoneID',
+                    'SilvercartShippingMethodID'    => 'SilvercartShippingMethodID',
+                    'SilvercartTaxID'               => 'SilvercartTaxID',
+                )
+        );
+        
         $zonesTable = new ManyManyComplexTableField(
             $this,
             'SilvercartZones',
@@ -387,20 +318,22 @@ class SilvercartShippingMethod extends DataObject {
 
     /**
      * Returns the attributed zones as string (limited to 150 chars).
+     * 
+     * @param string $dbField Db field to use to display
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 17.01.2012
      */
-    public function AttributedZones() {
+    public function AttributedZones($dbField = "Title") {
         $attributedZonesStr = '';
         $attributedZones = array();
         $maxLength = 150;
 
         foreach ($this->SilvercartZones() as $SilvercartZone) {
-            $attributedZones[] = $SilvercartZone->Title;
+            $attributedZones[] = $SilvercartZone->{$dbField};
         }
 
         if (!empty($attributedZones)) {
@@ -412,6 +345,19 @@ class SilvercartShippingMethod extends DataObject {
         }
 
         return $attributedZonesStr;
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 17.01.2012
+     */
+    public function AttributedZoneIDs() {
+        return $this->AttributedZones('ID');
     }
 
     /**
@@ -485,4 +431,65 @@ class SilvercartShippingMethod extends DataObject {
         return $allowedShippingMethods;
     }
 
+}
+
+/**
+ * Collection controller for shipping methods
+ * 
+ * @package Silvercart
+ * @subpackage Base
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 17.01.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartShippingMethod_CollectionController extends ModelAdmin_CollectionController {
+    
+    
+    /**
+     * Extends the CSV field list of the results table
+     *
+     * @param array $searchCriteria passed through from ResultsForm 
+     * 
+     * @return TableListField 
+     */
+    public function getResultsTable($searchCriteria) {
+        $tf = parent::getResultsTable($searchCriteria);
+        $tf->setFieldListCsv(
+                array(
+                    'ID'                    => 'ID',
+                    'Title'                 => 'Title',
+                    'isActive'              => 'isActive',
+                    'SilvercartCarrierID'   => 'SilvercartCarrierID',
+                    'AttributedZoneIDs'     => 'AttributedZoneIDs',
+                )
+        );
+        return $tf;
+    }
+    
+    /**
+     * Generate a CSV import form for a single {@link DataObject} subclass.
+     *
+     * @return Form
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2011
+     */
+    public function ImportForm() {
+        $form = parent::ImportForm();
+        if ($form instanceof Form) {
+            $optionsetField = new OptionsetField(
+                    'ObjectClass',
+                    _t('SilvercartShippingMethod.CHOOSE_DATAOBJECT_TO_IMPORT', 'Choose DataObject to import'),
+                    array(
+                        'SilvercartShippingMethod'  => _t('SilvercartShippingMethod.PLURALNAME'),
+                        'SilvercartShippingFee'     => _t('SilvercartShippingFee.PLURALNAME'),
+                    ),
+                    ''
+            );
+            $form->Fields()->push($optionsetField);
+        }
+        return $form;
+    }
+    
 }

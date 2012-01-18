@@ -59,7 +59,9 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartPaymentMethod' => array(
             'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
         ),
-        'SilvercartShippingMethod',
+        'SilvercartShippingMethod' => array(
+            'collection_controller' => 'SilvercartShippingMethod_CollectionController'
+        ),
         'SilvercartCarrier',
         'SilvercartShopEmail',
         'SilvercartWidgetSet' => array(
@@ -76,6 +78,15 @@ class SilvercartShopConfigurationAdmin extends ModelAdmin {
         'SilvercartDeeplink',
         'SilvercartInboundShoppingCartTransfer',
         'SilvercartWidget'
+    );
+    
+    /**
+     * Definition of the Importers for the managed model.
+     *
+     * @var array
+     */
+    public static $model_importers = array(
+        'SilvercartShippingMethod'  => 'SilvercartShippingMethodCsvBulkLoader',
     );
     /**
      * List of managed models with disabled creation and import form
