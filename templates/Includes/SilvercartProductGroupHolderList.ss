@@ -13,7 +13,7 @@
             </div>
             <div class="c66r">
                 <div class="subcr">
-                    $Content.HTML
+                    $Content.Raw
                 </div>
             </div>
         </div>

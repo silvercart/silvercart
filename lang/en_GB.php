@@ -156,6 +156,7 @@ $lang['en_GB']['SilvercartMenu']['SECTION_payment']             = 'Payment';
 $lang['en_GB']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
 $lang['en_GB']['SilvercartMenu']['SECTION_externalConnections'] = 'External connections';
 $lang['en_GB']['SilvercartMenu']['SECTION_others']              = 'Others';
+$lang['en_GB']['SilvercartMenu']['SECTION_maintenance']         = 'Maintenance';
 
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
@@ -217,7 +218,7 @@ $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID'] 
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN'] = 'No directory specified';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Import images subsequently';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Directory on the webserver where the images are located';
-$lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
+$lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located (e.g. /var/www/silvercart/images/)';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
 $lang['en_GB']['SilvercartProduct']['LIST_PRICE'] = 'list price';
 $lang['en_GB']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
@@ -1162,6 +1163,7 @@ $lang['en_GB']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_GB']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_GB']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_GB']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
+$lang['en_GB']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'What do you want to import?';
 
 $lang['en_GB']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
 $lang['en_GB']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
@@ -1288,7 +1290,7 @@ $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is al
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage to existing data.';
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
 
-$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
+$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'Updates';
 
 $lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 

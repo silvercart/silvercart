@@ -262,11 +262,11 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             }
             
             $silvercartProduct->castedUpdate($record);
-            $this->Log('Mirror IDs are to be set');
             // ----------------------------------------------------------------
             // Update product group mirror pages
             // ----------------------------------------------------------------
             if (array_key_exists('SilvercartProductMirrorGroupIDs', $record)) {
+                $this->Log('Mirror IDs are to be set');
                 
                 // Delete existing relations
                 if ($silvercartProduct->SilvercartProductGroupMirrorPages()) {
@@ -287,8 +287,9 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     unset($silvercartProductGroupMirrorPage);
                 }
                 unset($silvercartProductMirrorGroupIDs);
+                
+                $this->Log('Mirror IDs set');
             }
-            $this->Log('Mirror IDs set');
             $silvercartProduct->write();
             
             $silvercartProductID = $silvercartProduct->ID;
@@ -319,7 +320,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @copyright 2011 pixeltricks GmbH
      * @since 16.08.2011
      */
-    protected function Log($logString, $filename = 'importProducts') {
+    public function Log($logString, $filename = 'importProducts') {
         SilvercartConfig::Log('CSV Import', $logString, $filename);
     }
 }

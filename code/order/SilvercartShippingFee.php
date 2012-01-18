@@ -35,35 +35,9 @@
 class SilvercartShippingFee extends DataObject {
 
     /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    static $singular_name = "shipping fee";
-
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    static $plural_name = "shipping fees";
-
-    /**
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $db = array(
         'MaximumWeight'     => 'Int',   //gramms
@@ -75,10 +49,6 @@ class SilvercartShippingFee extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_one = array(
         'SilvercartZone'              => 'SilvercartZone',
@@ -90,10 +60,6 @@ class SilvercartShippingFee extends DataObject {
      * Has-many Relationship.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder'
@@ -103,15 +69,13 @@ class SilvercartShippingFee extends DataObject {
      * Virtual database fields.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
         'PriceFormatted'                => 'Varchar(20)',
         'AttributedShippingMethods'     => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'    => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
+        'PriceAmount'                   => 'Varchar(255)',
+        'PriceCurrency'                 => 'Varchar(255)',
     );
     
     
@@ -193,8 +157,8 @@ class SilvercartShippingFee extends DataObject {
                 )
         );
     }
-    
-    /**
+
+        /**
      * Returns the maximum weight or a hint, that this fee is unlimited.
      *
      * @return string
@@ -339,6 +303,24 @@ class SilvercartShippingFee extends DataObject {
             return $carrier . "-" . $shippingMethod . "(+" . $shippingFeeAmountAsString . ")";
         }
         return false;
+    }
+    
+    /**
+     * Returns the prices amount
+     *
+     * @return float
+     */
+    public function getPriceAmount() {
+        return (float) $this->Price->getAmount();
+    }
+    
+    /**
+     * Returns the prices currency
+     *
+     * @return string
+     */
+    public function getPriceCurrency() {
+        return $this->Price->getCurrency();
     }
 }
 

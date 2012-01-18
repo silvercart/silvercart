@@ -1,37 +1,36 @@
 <?php
+/**
+ * Copyright 2010, 2011 pixeltricks GmbH
+ *
+ * This file is part of SilverCart.
+ *
+ * SilverCart is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SilverCart is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package Silvercart
+ * @subpackage Order
+ */
 
 /**
-* Copyright 2010, 2011 pixeltricks GmbH
-*
-* This file is part of SilverCart.
-*
-* SilverCart is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* SilverCart is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public License
-* along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
-*
-* @package Silvercart
-* @subpackage Order
-*/
-
-/**
-* abstract for shopping cart
-*
-* @package Silvercart
-* @subpackage Order
-* @author Sascha Koehler <skoehler@pixeltricks.de>
-* @copyright 2010 pixeltricks GmbH
-* @since 22.11.2010
-* @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
-*/
+ * abstract for shopping cart
+ *
+ * @package Silvercart
+ * @subpackage Order
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2010 pixeltricks GmbH
+ * @since 22.11.2010
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
 class SilvercartShoppingCart extends DataObject {
 
     /**
@@ -127,7 +126,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 07.02.2011
      */
     protected $shippingMethodID;
-    
+
     /**
      * Contains the calculated charges and discounts for product values for
      * caching purposes.
@@ -209,7 +208,7 @@ class SilvercartShoppingCart extends DataObject {
             );
         }
     }
-    
+
     /**
      * Indicates wether the cart has charges and discounts for the product
      * values.
@@ -833,7 +832,7 @@ class SilvercartShoppingCart extends DataObject {
 
         return $amountObj;
     }
-    
+
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees) without any taxes.
@@ -1074,7 +1073,7 @@ class SilvercartShoppingCart extends DataObject {
 
         return $taxes;
     }
-    
+
     /**
      * Returns the SilvercartTax object with the highest tax value for the
      * given taxes.
@@ -1089,13 +1088,13 @@ class SilvercartShoppingCart extends DataObject {
     protected function getMostValuableTaxRate($taxes) {
         $highestTaxValue        = 0;
         $mostValuableTaxRate    = null;
-        
+
         foreach ($taxes as $tax) {
             if ($tax->AmountRaw > $highestTaxValue) {
                 $mostValuableTaxRate = $tax->Rate;
             }
         }
-        
+
         if ($mostValuableTaxRate) {
             $silvercartTax = DataObject::get_one(
                 'SilvercartTax',
@@ -1109,7 +1108,7 @@ class SilvercartShoppingCart extends DataObject {
                 return $silvercartTax;
             }
         }
-        
+
         return false;
     }
 
