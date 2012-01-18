@@ -95,7 +95,18 @@ class SilvercartShippingMethodAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public static $managed_models = array(
-        'SilvercartShippingMethod',
+        'SilvercartShippingMethod' => array(
+            'collection_controller' => 'SilvercartShippingMethod_CollectionController'
+        ),
+    );
+    
+    /**
+     * Definition of the Importers for the managed model.
+     *
+     * @var array
+     */
+    public static $model_importers = array(
+        'SilvercartShippingMethod'  => 'SilvercartShippingMethodCsvBulkLoader',
     );
 
     /**

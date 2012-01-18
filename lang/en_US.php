@@ -1164,6 +1164,7 @@ $lang['en_US']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_US']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_US']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_US']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
+$lang['en_US']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'What do you want to import?';
 
 $lang['en_US']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
 $lang['en_US']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';
