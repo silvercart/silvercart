@@ -156,6 +156,7 @@ $lang['de_DE']['SilvercartMenu']['SECTION_payment']             = 'Zahlung';
 $lang['de_DE']['SilvercartMenu']['SECTION_shipping']            = 'Versand';
 $lang['de_DE']['SilvercartMenu']['SECTION_externalConnections'] = 'Externe Anbindung';
 $lang['de_DE']['SilvercartMenu']['SECTION_others']              = 'Anderes';
+$lang['de_DE']['SilvercartMenu']['SECTION_maintenance']         = 'Wartung';
 
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
@@ -1288,7 +1289,7 @@ $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'Dieses Update ist
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manuelle Änderungen wurden gefunden. Dieses Update wurde übersprungen, um Schäden an der Datenhaltung zu vermeiden.';
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'Es ist ein unbekannter Fehler aufgetreten.';
 
-$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
+$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'Updates';
 
 $lang['de_DE']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sortierung';
 

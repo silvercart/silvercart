@@ -34,6 +34,27 @@
 class SilvercartUpdateAdmin extends ModelAdmin {
 
     /**
+     * The code of the menu under which this admin should be shown.
+     * 
+     * @var string
+     */
+    public static $menuCode = 'config';
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     */
+    public static $menuSortIndex = 140;
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     */
+    public static $menuSection = 'maintenance';
+
+    /**
      * Managed models
      *
      * @var array
@@ -83,7 +104,7 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * @since 29.03.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartUpdateAdmin.SILVERCART_UPDATE', 'Silvercart Updates');
+        self::$menu_title = _t('SilvercartUpdateAdmin.SILVERCART_UPDATE', 'Updates');
         if (DataObject::get('SilvercartUpdate',"`Status`='remaining'")) {
             self::$menu_title .= ' (' . DataObject::get('SilvercartUpdate',"`Status`='remaining'")->Count() . ')';
         }
