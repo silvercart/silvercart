@@ -334,6 +334,7 @@ class SilvercartProduct extends DataObject {
                 'PurchasePrice'                     => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'PurchasePriceAmount'               => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'MSRPrice'                          => _t('SilvercartProduct.MSRP', 'MSR price'),
+                'MSRPriceAmount'                    => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'PriceGross'                        => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossAmount'                  => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceNet'                          => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
