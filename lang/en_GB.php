@@ -1273,6 +1273,9 @@ $lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
 $lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';
 $lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME'] = 'quantity units';
 
+$lang['en_GB']['SilvercartQuantityUnitLanguage']['PLURALNAME'] = 'quantity unit translations';
+$lang['en_GB']['SilvercartQuantityUnitLanguage']['SINGULARNAME'] = 'quantity unit translation';
+
 // Widgets ----------------------------------------------------------------- */
 
 $lang['en_GB']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Show latest blog posts';

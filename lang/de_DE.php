@@ -1273,6 +1273,9 @@ $lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abkürzung';
 $lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
 $lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';
 
+$lang['de_DE']['SilvercartQuantityUnitLanguage']['PLURALNAME'] = 'Übersetzung einer Verkaufsmengeneinheit';
+$lang['de_DE']['SilvercartQuantityUnitLanguage']['SINGULARNAME'] = 'Übersetzungen einer Verkaufsmengeneinheit';
+
 // Widgets ----------------------------------------------------------------- */
 
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Neueste Blogeinträge anzeigen';
