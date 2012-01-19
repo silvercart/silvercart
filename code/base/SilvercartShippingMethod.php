@@ -216,26 +216,30 @@ class SilvercartShippingMethod extends DataObject {
         $fields->removeByName('SilvercartOrders');
         $fields->removeByName('SilvercartZones');
 
-        $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
-        $permissions = array_merge(
-                $feeTable->getPermissions(),
-                array(
-                    'export',
-                )
-        );
-        $feeTable->setPermissions($permissions);
-        $feeTable->setFieldListCsv(
-                array(
-                    'ID'                            => 'ID',
-                    'MaximumWeight'                 => 'MaximumWeight',
-                    'UnlimitedWeight'               => 'UnlimitedWeight',
-                    'PriceAmount'                   => 'PriceAmount',
-                    'PriceCurrency'                 => 'PriceCurrency',
-                    'SilvercartZoneID'              => 'SilvercartZoneID',
-                    'SilvercartShippingMethodID'    => 'SilvercartShippingMethodID',
-                    'SilvercartTaxID'               => 'SilvercartTaxID',
-                )
-        );
+        if ($this->ID > 0) {
+            $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
+            if ($feeTable) {
+                $permissions = array_merge(
+                        $feeTable->getPermissions(),
+                        array(
+                            'export',
+                        )
+                );
+                $feeTable->setPermissions($permissions);
+                $feeTable->setFieldListCsv(
+                        array(
+                            'ID'                            => 'ID',
+                            'MaximumWeight'                 => 'MaximumWeight',
+                            'UnlimitedWeight'               => 'UnlimitedWeight',
+                            'PriceAmount'                   => 'PriceAmount',
+                            'PriceCurrency'                 => 'PriceCurrency',
+                            'SilvercartZoneID'              => 'SilvercartZoneID',
+                            'SilvercartShippingMethodID'    => 'SilvercartShippingMethodID',
+                            'SilvercartTaxID'               => 'SilvercartTaxID',
+                        )
+                );
+            }
+        }
         
         $zonesTable = new ManyManyComplexTableField(
             $this,
