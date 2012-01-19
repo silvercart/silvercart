@@ -558,7 +558,7 @@ class SilvercartProduct extends DataObject {
      * @return FieldSet
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
+        $fields = $this->scaffoldFormFields();
         // there are two ways to display the products CMS fields (set in Backend)
         if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
             // remove GoogleSitemap Priority
@@ -988,8 +988,7 @@ class SilvercartProduct extends DataObject {
         }
         
         $this->extend('updateCMSFields', $CMSFields);
-        // here is another extension to prevend multiple loadings of updateCMSFields
-        $this->extend('updateSilvercartCMSFields', $CMSFields);
+
         return $CMSFields;
     }
 
