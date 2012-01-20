@@ -44,6 +44,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 21.01.2011
      */
     public static $registeredModules = array();
+
     /**
      * Singular-Beschreibung zur Darstellung im Backend.
      *
@@ -461,10 +462,10 @@ class SilvercartShoppingCart extends DataObject {
      * @since 04.02.2011
      */
     public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
-        $member = Member::currentUser();
+        $member         = Member::currentUser();
         $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
-        $amountTotal = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
+        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
@@ -490,6 +491,30 @@ class SilvercartShoppingCart extends DataObject {
 
         return $amountTotalObj;
     }
+
+    /**
+     * Returns the net price of the cart positions + fees, including taxes.
+     *
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
+     *                                              can contain the ID or the className of the position
+     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
+     *
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+        $amountObj = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions, $excludeCharges);
+
+        $taxRate     = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+        $amountTotal = round(($amountObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+
+        $amountObj->setAmount($amountTotal);
+
+        return $amountObj;
+    }
     
     /**
      * Returns the price of the cart positions, including taxes.
@@ -507,7 +532,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 15.12.2011
      */
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
-        $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition, $excludeCharges)->getAmount();
+        $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
         
         // Handling costs for payment and shipment
         if (!$excludeCharges &&
@@ -524,6 +549,29 @@ class SilvercartShoppingCart extends DataObject {
     }
     
     /**
+     * Returns the price of the cart positions, including taxes, without modules.
+     *
+     * @return Money a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 15.12.2011
+     */
+    public function getTaxableAmountGrossWithoutModules() {
+        $amount = 0;
+
+        // products
+        foreach ($this->SilvercartShoppingCartPositions() as $position) {
+            $amount += $position->getPrice()->getAmount();
+        }
+
+        $amountObj = new Money;
+        $amountObj->setAmount($amount);
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        return $amountObj;
+    }
+    /**
      * Returns the price of the cart positions, including taxes.
      *
      * @param array $excludeModules              An array of registered modules that shall not
@@ -538,7 +586,8 @@ class SilvercartShoppingCart extends DataObject {
      * @since 15.12.2011
      */
     public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
-        $amount = 0;
+        $amountObj = $this->getTaxableAmountGrossWithoutModules();
+        $amount    = $amountObj->getAmount();
 
         $registeredModules = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
@@ -549,13 +598,9 @@ class SilvercartShoppingCart extends DataObject {
                 $excludeShoppingCartPosition,
                 false
             ),
-            $excludeModules
+            $excludeModules,
+            $excludeShoppingCartPosition
         );
-
-        // products
-        foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += $position->getPrice()->getAmount();
-        }
 
         // Registered Modules
         if ($registeredModules) {
@@ -565,11 +610,9 @@ class SilvercartShoppingCart extends DataObject {
                 }
             }
         }
-        
-        $amountObj = new Money;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
+        $amountObj->setAmount($amount);
+    
         return $amountObj;
     }
 
@@ -614,12 +657,15 @@ class SilvercartShoppingCart extends DataObject {
     public function getNonTaxableAmount($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
-                        'ShoppingCartPositions', array(
-                    $this,
-                    Member::currentUser(),
-                    false,
-                    $excludeShoppingCartPosition
-                        ), $excludeModules
+            'ShoppingCartPositions',
+            array(
+                $this,
+                Member::currentUser(),
+                false,
+                $excludeShoppingCartPosition
+            ),
+            $excludeModules,
+            $excludeShoppingCartPosition
         );
 
         // Registered Modules
@@ -659,6 +705,13 @@ class SilvercartShoppingCart extends DataObject {
             $handlingCostPaymentObj->setCurrency(SilvercartConfig::DefaultCurrency());
         }
 
+        if (SilvercartConfig::PriceType() == 'net') {
+            $taxRate             = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+            $handlingCostPayment = round(($handlingCostPaymentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+
+            $handlingCostPaymentObj->setAmount($handlingCostPayment);
+        }
+
         return $handlingCostPaymentObj;
     }
 
@@ -674,7 +727,7 @@ class SilvercartShoppingCart extends DataObject {
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
         $selectedShippingMethod = DataObject::get_by_id(
-                        'SilvercartShippingMethod', $this->SilvercartShippingMethodID
+            'SilvercartShippingMethod', $this->SilvercartShippingMethodID
         );
 
         if ($selectedShippingMethod) {
@@ -683,6 +736,13 @@ class SilvercartShoppingCart extends DataObject {
             $handlingCostShipmentObj = new Money();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
             $handlingCostShipmentObj->setCurrency(SilvercartConfig::DefaultCurrency());
+        }
+
+        if (SilvercartConfig::PriceType() == 'net') {
+            $taxRate              = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+            $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+
+            $handlingCostShipmentObj->setAmount($handlingCostShipment);
         }
 
         return $handlingCostShipmentObj;
@@ -812,12 +872,6 @@ class SilvercartShoppingCart extends DataObject {
     public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-        
-        if (SilvercartConfig::Pricetype() == "net") {
-            foreach ($this->getTaxRatesWithFees() as $taxRate) {
-                $amount += (float) $taxRate->Amount->getAmount();
-            }
-        }
         
         // Handling costs for payment and shipment
         if (!$excludeCharges &&
@@ -1009,21 +1063,28 @@ class SilvercartShoppingCart extends DataObject {
      * Returns tax amounts included in the shoppingcart separated by tax rates
      * without fee taxes.
      *
+     * @param array $excludeModules              An array of registered modules that shall not
+     *                                           be taken into account.
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted
+     *
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
      * @since 01.02.2011
      */
-    public function getTaxRatesWithoutFeesAndCharges() {
+    public function getTaxRatesWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $positions          = $this->SilvercartShoppingCartPositions();
         $taxes              = new DataObjectSet;
         $registeredModules  = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions', array(
+            'ShoppingCartPositions',
+            array(
                 Member::currentUser()->SilvercartShoppingCart(),
                 Member::currentUser(),
                 true
-            )
+            ),
+            $excludeModules,
+            $excludeShoppingCartPosition
         );
 
         // products
@@ -1035,7 +1096,7 @@ class SilvercartShoppingCart extends DataObject {
                     new DataObject(
                         array(
                             'Rate' => $taxRate,
-                            'AmountRaw' => 0.0,
+                            'AmountRaw' => (float) 0.0,
                         )
                     )
                 );
@@ -1053,13 +1114,16 @@ class SilvercartShoppingCart extends DataObject {
                         new DataObject(
                             array(
                                 'Rate' => $taxRate,
-                                'AmountRaw' => 0.0,
+                                'AmountRaw' => (float) 0.0,
                             )
                         )
                     );
                 }
+
+
                 $taxSection = $taxes->find('Rate', $taxRate);
-                $taxSection->AmountRaw += $modulePosition->TaxAmount;
+                $taxAmount = $modulePosition->TaxAmount;
+                $taxSection->AmountRaw = round($taxSection->AmountRaw + $taxAmount, 4);
             }
         }
         

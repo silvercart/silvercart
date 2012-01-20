@@ -524,6 +524,18 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 $handlingCostAmount = "-".$modificationValue;
             }
+
+            $shoppingCartTotal = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
+
+            if ($handlingCostAmount < 0 &&
+                $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
+
+                if ($shoppingCartTotal->getAmount == 0.0) {
+                    $handlingCostAmount = 0.0;
+                } else {
+                    $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
+                }
+            }
             $handlingCosts->setAmount($handlingCostAmount);
 
             return $handlingCosts;
@@ -566,6 +578,15 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 $handlingCostAmount = "-".$modificationValue;
             }
+
+            $shoppingCartTotal = $silvercartShoppingCart->getAmountTotal(array(), false, true);
+
+            if ($handlingCostAmount < 0 &&
+                $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
+
+                $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
+            }
+
             $handlingCosts->setAmount($handlingCostAmount);
 
             return $handlingCosts;
