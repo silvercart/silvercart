@@ -190,7 +190,9 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.04.2011
      */
     public function send() {
-        if (!SilvercartPlugin::call($this, 'send')) {
+        $silvercartPluginCall = SilvercartPlugin::call($this, 'send');
+
+        if (!$silvercartPluginCall) {
             SilvercartShopEmail::send(
                 'ContactMessage',
                 Email::getAdminEmail(),

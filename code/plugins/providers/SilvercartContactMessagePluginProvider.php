@@ -103,7 +103,13 @@ class SilvercartContactMessagePluginProvider extends SilvercartPlugin {
      */
     public function send(&$arguments = array(), &$callingObject) {
         $result = $this->extend('pluginSend', $callingObject);
+
+        if (is_array($result) &&
+            count($result) == 0) {
+
+            return false;
+        }
         
-        return $result;
+        return true;
     }
 }
