@@ -156,19 +156,21 @@
 
         <% if Top.showPricesGross %>
         <% else %>
-            <% if TaxRatesWithFees %>
-                <% control TaxRatesWithFees %>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
-                        <td class="right">$Amount.Nice</td>
-
-                        <% if Top.EditableShoppingCart %>
+            <% if ShowFees %>
+                <% if TaxRatesWithFees %>
+                    <% control TaxRatesWithFees %>
+                        <tr>
                             <td>&nbsp;</td>
-                        <% end_if %>
-                    </tr>
-                <% end_control %>
+                            <td>&nbsp;</td>
+                            <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
+                            <td class="right">$Amount.Nice</td>
+
+                            <% if Top.EditableShoppingCart %>
+                                <td>&nbsp;</td>
+                            <% end_if %>
+                        </tr>
+                    <% end_control %>
+                <% end_if %>
             <% end_if %>
 
             <% if HasChargesAndDiscountsForTotal %>

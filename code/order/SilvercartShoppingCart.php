@@ -873,6 +873,12 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
         
+        if (SilvercartConfig::Pricetype() == "net") {
+            foreach ($this->getTaxRatesWithFees() as $taxRate) {
+                $amount += (float) $taxRate->Amount->getAmount();
+            }
+        }
+        
         // Handling costs for payment and shipment
         if (!$excludeCharges &&
              $this->ChargesAndDiscountsForTotal()) {
