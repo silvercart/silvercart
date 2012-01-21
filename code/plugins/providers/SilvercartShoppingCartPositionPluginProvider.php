@@ -77,5 +77,33 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
         
         return $result;
     }
+
+    /**
+     * This method will replace SilvercartShoppingCartPosition's method "getTitle".
+     * In order to not execute the original "addProduct" method you have to
+     * return something other than an empty string in your plugin method.
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2011
+     */
+    public function overwriteGetTitle(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOverwriteGetTitle', $arguments, $callingObject);
+
+        if (is_array($result)) {
+            if (count($result) > 0) {
+                return $result[0];
+            } else {
+                return '';
+            }
+        }
+        
+        return $result;
+    }
     
 }

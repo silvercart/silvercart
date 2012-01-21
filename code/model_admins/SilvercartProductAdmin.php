@@ -86,8 +86,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $managed_models = array(
         'SilvercartProduct' => array(
-            'collection_controller'         => 'SilvercartProduct_CollectionController',
-            'preventTableListFieldAutoLoad' => true
+            'collection_controller' => 'SilvercartProduct_CollectionController'
         ),
     );
 

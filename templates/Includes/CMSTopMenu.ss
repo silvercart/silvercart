@@ -1,6 +1,20 @@
 <style type="text/css">
-    body.ModelAdmin #left {
-        width: 300px;
+    body {
+        background:                     #999;
+    }
+    body.ModelAdmin #left,
+    #left {
+        width: 280px;
+        border-color:                   #fff;
+        border-radius:                  3px;
+        -moz-border-radius:             3px;
+        -webkit-border-radius:          3px;
+    }
+    #right {
+        border-color:                   #fff;
+        border-radius:                  3px;
+        -moz-border-radius:             3px;
+        -webkit-border-radius:          3px;
     }
     #top {
         background:                     #f1f1f1;
@@ -9,6 +23,22 @@
         background:                     -o-linear-gradient(top, #ffffff,  #b9b9b9); /* for opera */
         filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#b9b9b9'); /* for IE */
         border-bottom: 1px #fff solid;
+    }
+    #bottom {
+        background:                     #4687a4;
+        background:                     -webkit-gradient(linear, left top, left bottom, from(#1c587a), to(#4687a4)); /* for webkit browsers */
+        background:                     -moz-linear-gradient(top, #1c587a, #4687a4); /* for firefox 3.6+ */
+        background:                     -o-linear-gradient(top, #1c587a, #4687a4); /* for opera */
+        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#1c587a', endColorstr='#4687a4'); /* for IE */
+        border-top:                     1px #fff solid;
+    }
+    #left h2,
+    #contentPanel h2 {
+        background:                     #4687a4;
+        background:                     -webkit-gradient(linear, left top, left bottom, from(#4687a4), to(#1c587a)); /* for webkit browsers */
+        background:                     -moz-linear-gradient(top, #4687a4, #1c587a); /* for firefox 3.6+ */
+        background:                     -o-linear-gradient(top, #4687a4, #1c587a); /* for opera */
+        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#4687a4', endColorstr='#1c587a'); /* for IE */
     }
     #silvercart-cms-mainmenu-logo {
         float: left;
@@ -56,14 +86,18 @@
     }
     #silvercart-cms-mainmenu ul li:hover,
     #silvercart-cms-mainmenu ul li.active:hover {
-        background: #1c587a;
+        background:                     #4687a4;
+        background:                     -webkit-gradient(linear, left top, left bottom, from(#4687a4), to(#1c587a)); /* for webkit browsers */
+        background:                     -moz-linear-gradient(top, #4687a4, #1c587a); /* for firefox 3.6+ */
+        background:                     -o-linear-gradient(top, #4687a4, #1c587a); /* for opera */
+        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#4687a4', endColorstr='#1c587a'); /* for IE */
     }
     #silvercart-cms-mainmenu ul li.active {
-        background:                     #777;
-        background:                     -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#777)); /* for webkit browsers */
-        background:                     -moz-linear-gradient(top, #aaa,  #777); /* for firefox 3.6+ */
-        background:                     -o-linear-gradient(top, #aaa,  #777); /* for opera */
-        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#aaaaaa', endColorstr='#777777'); /* for IE */
+        background:                     #555;
+        background:                     -webkit-gradient(linear, left top, left bottom, from(#888), to(#555)); /* for webkit browsers */
+        background:                     -moz-linear-gradient(top, #888, #555); /* for firefox 3.6+ */
+        background:                     -o-linear-gradient(top, #888, #555); /* for opera */
+        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#555555'); /* for IE */
     }
     #silvercart-cms-mainmenu ul li:hover a {
         color: #fff;
@@ -73,7 +107,11 @@
     }
     #silvercart-cms-mainmenu ul li a:hover {
         text-decoration: none;
-        background: #4687a4;
+        background:                     #4687a4;
+        background:                     -webkit-gradient(linear, left top, left bottom, from(#4687a4), to(#1c587a)); /* for webkit browsers */
+        background:                     -moz-linear-gradient(top, #4687a4, #1c587a); /* for firefox 3.6+ */
+        background:                     -o-linear-gradient(top, #4687a4, #1c587a); /* for opera */
+        filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#4687a4', endColorstr='#1c587a'); /* for IE */
     }
     #silvercart-cms-mainmenu ul li ul {
         z-index: 99;
@@ -130,7 +168,8 @@
     <ul>
         <% control SilvercartMenus %>
             <li<% if MenuSection %> class="active"<% end_if %>>
-                <a href="#">$name{$MenuSection}</a>
+                <% control ModelAdmins.First %><a href="$Link"><% end_control %>
+                    $name{$MenuSection}</a>
                 <ul>
                     <% control ModelAdmins %>
                         <% if IsSection %>
@@ -145,7 +184,9 @@
             </li>
         <% end_control %>
         <li<% if CmsSection %> class="active"<% end_if %>>
-            <a href="#">CMS{$CmsSection}</a>
+            <% control SilvercartMainMenu.First %>
+                <a href="$Link">CMS{$Top.CmsSection}</a>
+            <% end_control %>
             <ul>
                 <% control SilvercartMainMenu %>
                     <li class="$LinkingMode" id="Menu-$Code"><a href="$Link">$Title</a></li>

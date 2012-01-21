@@ -151,6 +151,24 @@ class SilvercartShoppingCartPosition extends DataObject {
     }
 
     /**
+     * Returns the title of the shopping cart position.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.01.2012
+     */
+    public function getTitle() {
+        $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
+        
+        if ($pluginTitle !== '') {
+            return $pluginTitle;
+        }
+
+        return $this->SilvercartProduct()->Title;
+    }
+
+    /**
      * price sum of this position
      *
      * @param boolean $forSingleProduct Indicates wether the price for the total
