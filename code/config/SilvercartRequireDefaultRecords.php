@@ -1443,7 +1443,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 'de_DE' => 'SilverCart Teaser'
             );
             foreach ($sliderImageTranslations as $locale => $translation) {
-                $filter = sprintf("`Locale` = '%s'");
+                $filter = sprintf("`Locale` = '%s'", $locale);
                 $translationObj = DataObject::get_one("SilvercartImageSliderImageLanguage", $filter);
                 if (!$translationObj) {
                     $translationObj = new SilvercartImageSliderImageLanguage();
@@ -1674,15 +1674,35 @@ class SilvercartRequireDefaultRecords extends DataObject {
             );
 
             if (!$taxRate) {
-                $lowerTaxRate = new SilvercartTax();
-                $lowerTaxRate->setField('Rate', 7);
-                $lowerTaxRate->setField('Title', '7%');
-                $lowerTaxRate->write();
-
-                $higherTaxRate = new SilvercartTax();
-                $higherTaxRate->setField('Rate', 19);
-                $higherTaxRate->setField('Title', '19%');
-                $higherTaxRate->write();
+                $taxrates = array(
+                    '19' => array(
+                        'en_US' => '19%',
+                        'en_GB' => '19%',
+                        'de_DE' => '19%'
+                    ),
+                    '7' => array(
+                        'en_US' => '7%',
+                        'en_GB' => '7%',
+                        'de_DE' => '7%'
+                    )
+                );
+                
+                foreach ($taxrates as $taxrate => $languages) {
+                    $rateObj = new SilvercartTax();
+                    $rateObj->Rate = $taxrate;
+                    $rateObj->write();
+                    foreach ($languages as $locale => $title) {
+                        $filter = sprintf("`Locale` = '%s' AND `SilvercartTaxID` = '%s'", $locale, $rateObj->ID);
+                        $rateLanguage = DataObject::get_one('SilvercartTaxLanguage', $filter);
+                        if (!$rateLanguage) {
+                            $rateLanguage = new SilvercartTaxLanguage();
+                            $rateLanguage->Locale = $locale;
+                            $rateLanguage->SilvercartTaxID = $rateObj->ID;
+                        }
+                        $rateLanguage->Title = $title;
+                        $rateLanguage->write();
+                    }
+                }
             }
         }
     }

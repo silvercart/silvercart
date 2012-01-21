@@ -1225,6 +1225,9 @@ $lang['de_DE']['SilvercartTax']['PLURALNAME'] = 'Steuersätze';
 $lang['de_DE']['SilvercartTax']['RATE_IN_PERCENT'] = 'Steuersatz in %';
 $lang['de_DE']['SilvercartTax']['SINGULARNAME'] = 'Steuersatz';
 
+$lang['de_DE']['SilvercartTaxLanguage']['SINGULARNAME'] = 'Steuersatzübersetzung';
+$lang['de_DE']['SilvercartTaxLanguage']['PLURALNAME'] = 'Steuersatzübersetzungen';
+
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'AGB Seiten';
 $lang['de_DE']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'AGB Seite';
 

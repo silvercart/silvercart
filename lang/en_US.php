@@ -1224,6 +1224,9 @@ $lang['en_US']['SilvercartTax']['PLURALNAME'] = 'Rates';
 $lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
 $lang['en_US']['SilvercartTax']['SINGULARNAME'] = 'Rate';
 
+$lang['en_US']['SilvercartTaxLanguage']['SINGULARNAME'] = 'tax rate translation';
+$lang['en_US']['SilvercartTaxLanguage']['PLURALNAME'] = 'tax rate translations';
+
 $lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pags';
 $lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
