@@ -50,7 +50,8 @@ class SilvercartFile extends DataObject {
     
     public static $casting = array(
         'Title' => 'VarChar',
-        'Description' => 'Text'
+        'Description' => 'Text',
+        'TableIndicator' => 'VarChar'
     );
     
     /**
@@ -152,6 +153,25 @@ class SilvercartFile extends DataObject {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'TableIndicator' => ''
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 
     /**

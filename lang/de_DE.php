@@ -794,6 +794,9 @@ $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
 $lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';
 $lang['de_DE']['SilvercartImage']['TITLE'] = 'Anzeigename';
 
+$lang['de_DE']['SilvercartImageLanguage']['PLURALNAME'] = 'Bildübersetzungen';
+$lang['de_DE']['SilvercartImageLanguage']['SINGULARNAME'] = 'Bildübersetzung';
+
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING']                       = 'Zeichenkette mit Trennern';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_KEY']                   = 'Name der Variable, in der die Zeichenkette gespeichert ist';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_ENTITY_SEPARATOR']      = 'Entitätentrennzeichen in der Zeichenkette';

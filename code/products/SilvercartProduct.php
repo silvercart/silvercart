@@ -1737,7 +1737,6 @@ class SilvercartProduct extends DataObject {
             $noImageObj = SilvercartConfig::getNoImage();
             
             if ($noImageObj) {
-                $noImageObj->setField('Title', 'No Image');
                 
                 $silvercartImageObj = new SilvercartImage();
                 $silvercartImageObj->ImageID             = $noImageObj->ID;
