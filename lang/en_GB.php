@@ -1268,6 +1268,9 @@ $lang['en_GB']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
 $lang['en_GB']['SilvercartZone']['PLURALNAME'] = 'Zones';
 $lang['en_GB']['SilvercartZone']['SINGULARNAME'] = 'Zone';
 
+$lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME'] = 'translation of a zone';
+$lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME'] = 'translations of a zone';
+
 $lang['en_GB']['SilvercartQuantityUnit']['NAME'] = 'Name';
 $lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
 $lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';

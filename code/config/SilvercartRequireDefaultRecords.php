@@ -1524,22 +1524,39 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $carrier->write();
 
                 //relate carrier to zones
-                $zoneDomestic = DataObject::get_one("SilvercartZone", sprintf("`Title` = '%s'", _t('SilvercartZone.DOMESTIC', 'domestic')));
+                $zoneDomestic = DataObject::get_one("SilvercartZone");
                 if (!$zoneDomestic) {
-                    $zoneDomestic = new SilvercartZone();
-                    $zoneDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
+                    $zones = array(
+                        array(
+                            'en_GB' => 'domestic',
+                            'en_US' => 'domestic',
+                            'de_DE' => 'Inland'
+                        ),
+                        array(
+                            'en_GB' => 'EU',
+                            'en_US' => 'European Union',
+                            'de_DE' => 'EU'
+                        )
+                    );
+                    
+                    foreach ($zones as $zone) {
+                        $zoneObj = new SilvercartZone();
+                        $zoneObj->SilvercartCarrierID = $carrier->ID;
+                        $zoneObj->write();
+                        foreach ($zone as $locale => $title) {
+                            $filter = sprintf("`SilvercartZoneID` = '%s' AND `Locale` = '%s'", $zoneObj->ID, $locale);
+                            $zoneLanguage = DataObject::get_one('SilvercartZoneLanguage', $filter);
+                            if (!$zoneLanguage) {
+                                $zoneLanguage = new SilvercartZoneLanguage();
+                                $zoneLanguage->SilvercartZoneID = $zoneObj->ID;
+                                $zoneLanguage->Locale = $locale;
+                            }
+                            $zoneLanguage->Title = $title;
+                            $zoneLanguage->write();
+                        }
+                    }
+                    
                 }
-                $zoneDomestic->SilvercartCarrierID = $carrier->ID;
-                $zoneDomestic->write();
-
-                $ZoneEu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
-                if (!$ZoneEu) {
-                    $ZoneEu = new SilvercartZone();
-                    $ZoneEu->Title = 'EU';
-                }
-                $ZoneEu->SilvercartCarrierID = $carrier->ID;
-                $ZoneEu->write();
-
                 //Retrieve the active country if exists
                 $country = DataObject::get_one('SilvercartCountry', "`Active` = 1");
                 if (!$country) {
@@ -1556,6 +1573,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $country->Active = true;
                     $country->write();
                 }
+                
+                $zoneDomestic = DataObject::get_by_id('SilvercartZone', 1);
                 $zoneDomestic->SilvercartCountries()->add($country);
                 
                 // create if not exists, activate and relate payment method

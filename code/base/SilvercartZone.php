@@ -36,18 +36,6 @@
 class SilvercartZone extends DataObject {
 
     /**
-     * Attributes.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $db = array(
-        'Title' => 'VarChar'
-    );
-    /**
      * Has-one relationships.
      *
      * @var array
@@ -69,7 +57,8 @@ class SilvercartZone extends DataObject {
      * @since 31.01.2011
      */
     public static $has_many = array(
-        'SilvercartShippingFees' => 'SilvercartShippingFee'
+        'SilvercartShippingFees'  => 'SilvercartShippingFee',
+        'SilvercartZoneLanguages' => 'SilvercartZoneLanguage'
     );
     /**
      * Many-many relationships.
@@ -95,36 +84,7 @@ class SilvercartZone extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
-    /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $summary_fields = array(
-        'Title',
-        'SilvercartCarrier.Title',
-        'AttributedCountries',
-        'AttributedShippingMethods'
-    );
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $field_labels = array(
-        'Title' => 'Name',
-        'SilvercartCarrier.Title' => 'Frachtführer',
-        'AttributedCountries' => 'Für Länder',
-        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
-    );
+    
     /**
      * Virtual database columns.
      *
@@ -136,28 +96,8 @@ class SilvercartZone extends DataObject {
      */
     public static $casting = array(
         'AttributedCountries' => 'Varchar(255)',
-        'AttributedShippingMethods' => 'Varchar(255)'
-    );
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $searchable_fields = array(
-        'Title',
-        'SilvercartCarrier.ID' => array(
-            'title' => 'Frachtführer'
-        ),
-        'SilvercartCountries.ID' => array(
-            'title' => 'Für Länder'
-        ),
-        'SilvercartShippingMethods.ID' => array(
-            'title' => 'Zugeordnete Versandarten'
-        )
+        'AttributedShippingMethods' => 'Varchar(255)',
+        'Title' => 'VarChar'
     );
     
     /**
@@ -171,7 +111,7 @@ class SilvercartZone extends DataObject {
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Title' => array(
+            'SilvercartZoneLanguages.Title' => array(
                 'title' => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter' => 'PartialMatchFilter'
             ),
@@ -213,7 +153,8 @@ class SilvercartZone extends DataObject {
                         'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
                         'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods'),
                         'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME'),
-                        'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME')
+                        'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
+                        'SilvercartZoneLanguages' => _t('SilvercartZoneLanguage.PLURALNAME')
                     )
                 );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -253,6 +194,22 @@ class SilvercartZone extends DataObject {
             return parent::plural_name();
         }   
     }
+    
+    /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
@@ -275,6 +232,11 @@ class SilvercartZone extends DataObject {
         );
         $tabParam = "Root." . _t('SilvercartZone.COUNTRIES', 'countries');
         $fields->addFieldToTab($tabParam, $countriesTable);
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
         return $fields;
     }
 
@@ -334,6 +296,28 @@ class SilvercartZone extends DataObject {
         }
 
         return $attributedShippingMethodsStr;
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 18.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'Title' => _t('SilvercartZone.SINGULARNAME'),
+            'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
+            'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES'),
+            'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS')
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 
 }
