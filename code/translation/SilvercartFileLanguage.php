@@ -29,15 +29,56 @@
  * @since 21.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartZoneLanguage extends DataObject {
-   
+class SilvercartFileLanguage extends DataObject {
+    
+    /**
+     * Attributes.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title' => 'VarChar',
+        'Description' => 'HTMLText'
     );
-
+    
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.11.2012
+     */
     public static $has_one = array(
-        'SilvercartZone' => 'SilvercartZone'
+        'SilvercartFile' => 'SilvercartFile'
     );
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.11.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'Description' => _t('SilvercartFile.DESCRIPTION'),
+                    'SilvercartFile' => _t('SilvercartFile.SINGULARNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -49,8 +90,8 @@ class SilvercartZoneLanguage extends DataObject {
      * @since 20.01.2012
      */
     public function singular_name() {
-        if (_t('SilvercartZoneLanguage.SINGULARNAME')) {
-            return _t('SilvercartZoneLanguage.SINGULARNAME');
+        if (_t('SilvercartFileLanguage.SINGULARNAME')) {
+            return _t('SilvercartFileLanguage.SINGULARNAME');
         } else {
             return parent::singular_name();
         } 
@@ -67,35 +108,12 @@ class SilvercartZoneLanguage extends DataObject {
      * @since 20.01.2012
      */
     public function plural_name() {
-        if (_t('SilvercartZoneLanguage.PLURALNAME')) {
-            return _t('SilvercartZoneLanguage.PLURALNAME');
+        if (_t('SilvercartFileLanguage.PLURALNAME')) {
+            return _t('SilvercartFileLanguage.PLURALNAME');
         } else {
             return parent::plural_name();
         }
 
-    }
-    
-    /**
-     * Field labels for display in tables.
-     *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
-     *
-     * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
-     */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'SilvercartZone' => _t('SilvercartZone.PLURALNAME'),
-            'Title'          => _t('SilvercartProduct.COLUMN_TITLE')
-                )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
     }
 }
 

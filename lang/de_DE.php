@@ -765,6 +765,9 @@ $lang['de_DE']['SilvercartFile']['PLURALNAME'] = 'Dateien';
 $lang['de_DE']['SilvercartFile']['SINGULARNAME'] = 'Datei';
 $lang['de_DE']['SilvercartFile']['TITLE'] = 'Anzeigename';
 
+$lang['de_DE']['SilvercartFileLanguage']['PLURALNAME'] = 'Übersetzungen für Datei';
+$lang['de_DE']['SilvercartFileLanguage']['SINGULARNAME'] = 'Übersetzung für Datei';
+
 $lang['de_DE']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footernavigationsübersichten';
 $lang['de_DE']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footernavigationsübersichten';
 $lang['de_DE']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
