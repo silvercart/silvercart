@@ -150,6 +150,11 @@ $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google Ta
 $lang['de_DE']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google Taxonomie';
 
 $lang['de_DE']['SilvercartImageSliderImage']['LINKPAGE'] = 'Seite, zu der verlinkt werden soll';
+$lang['de_DE']['SilvercartImageSliderImage']['SINGULARNAME'] = 'Sliderbild';
+$lang['de_DE']['SilvercartImageSliderImage']['PLURALNAME'] = 'Sliderbilder';
+
+$lang['de_DE']['SilvercartImageSliderImageLanguage']['PLURALNAME'] = 'Sliderbildübersetzungen';
+$lang['de_DE']['SilvercartImageSliderImageLanguage']['SINGULARNAME'] = 'Sliderbildübersetzung';
 
 $lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';

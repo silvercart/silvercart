@@ -34,16 +34,9 @@
  */
 class SilvercartImageSliderImage extends DataObject {
     
-    /**
-     * Attributes.
-     * 
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
-     */
-    public static $db = array(
+    public static $casting = array(
         'Title' => 'VarChar',
+        'TableIndicator' => 'Text'
     );
     
     /**
@@ -60,6 +53,18 @@ class SilvercartImageSliderImage extends DataObject {
     );
     
     /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartImageSliderImageLanguages' => 'SilvercartImageSliderImageLanguage'
+    );
+    
+    /**
      * Belongs-many-many relationships.
      * 
      * @var array
@@ -70,6 +75,22 @@ class SilvercartImageSliderImage extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartImageSliderWidgets' => 'SilvercartImageSliderWidget'
     );
+    
+    /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return string The Title from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
     
     /**
      * Returns the input fields for this widget.
@@ -90,12 +111,59 @@ class SilvercartImageSliderImage extends DataObject {
             'Title',
             false
         );
-        
+        //Inject the fields that come from the language object
+        //They are added to the content tab for the users comfort.
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'SortOrder');
+        }
         $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
         $fields->removeByName('SilvercartImageSliderWidgets');
         $fields->removeByName('SortOrder');
         
         return $fields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'SilvercartImageSliderImageLanguages' => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
+                    'Image' => _t("Image.SINGULARNAME")
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'TableIndicator' => ''
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
     
     /**

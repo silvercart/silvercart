@@ -1434,9 +1434,25 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $teaserImage->write();
             
             $slideImage = new SilvercartImageSliderImage();
-            $slideImage->setField('Title',   'Silvercart Teaser');
+            #$slideImage->setField('Title',   'Silvercart Teaser');
             $slideImage->setField('ImageID', $teaserImage->ID);
             $slideImage->write();
+            $sliderImageTranslations = array(
+                'en_GB' => 'SilverCart Teaser',
+                'en_US' => 'SilverCart Teaser',
+                'de_DE' => 'SilverCart Teaser'
+            );
+            foreach ($sliderImageTranslations as $locale => $translation) {
+                $filter = sprintf("`Locale` = '%s'");
+                $translationObj = DataObject::get_one("SilvercartImageSliderImageLanguage", $filter);
+                if (!$translationObj) {
+                    $translationObj = new SilvercartImageSliderImageLanguage();
+                    $translationObj->Locale = $locale;
+                    $translationObj->SilvercartImageSliderImageID = $slideImage->ID;
+                }
+                $translationObj->Title = $translation;
+                $translationObj->write();
+            }
             
             $widgetFrontPageContent3->slideImages()->add($slideImage);
 
