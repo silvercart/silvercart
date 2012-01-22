@@ -33,7 +33,7 @@
  * @license LGPL
  */
 class SilvercartSiteConfig extends DataObjectDecorator {
-    
+
     /**
      * Adds a dashboard section
      *
@@ -73,5 +73,24 @@ class SilvercartSiteConfig extends DataObjectDecorator {
             );
             $dashboardTab->push($dashboardTestDataField);
         }
+
+        $this->displayShopMetrics($fields, $dashboardTab);
+    }
+
+    /**
+     * Displays statistical information about the shop.
+     * 
+     * @param FieldSet &$fields       The FieldSet
+     * @param Tab      &$dashboardTab The dashboard Tab
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function displayShopMetrics(&$fields, &$dashboardTab) {
+        $ordersByDayField = new SilvercartMetricsFieldOrdersByDay('SilvercartMetricsFieldOrdersByDay');
+
+        $dashboardTab->push($ordersByDayField);
     }
 }

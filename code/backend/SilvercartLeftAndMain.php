@@ -34,6 +34,22 @@
 class SilvercartLeftAndMain extends DataObjectDecorator {
 
     /**
+     * Load additional scripts and styles
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function onAfterInit() {
+        Requirements::javascript('silvercart/script/jqplot/jquery.jqplot.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.cursor.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.highlighter.min.js');
+        Requirements::css('silvercart/script/jqplot/jquery.jqplot.css');
+    }
+
+    /**
      * The new main menu routine.
      * 
      * @return DataObjectSet
