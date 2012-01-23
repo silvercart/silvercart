@@ -331,6 +331,9 @@ $lang['en_US']['SilvercartCarrier']['FULL_NAME'] = 'Full name';
 $lang['en_US']['SilvercartCarrier']['PLURALNAME'] = 'Carriers';
 $lang['en_US']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
 
+$lang['en_US']['SilvercartCarrierLanguage']['SINGULARNAME'] = 'translation for a carrier';
+$lang['en_US']['SilvercartCarrierLanguage']['PLURALNAME'] = 'translations for a carrier';
+
 $lang['en_US']['SilvercartCartPage']['CART_EMPTY'] = 'Your cart is empty.';
 $lang['en_US']['SilvercartCartPage']['PLURALNAME'] = 'Cart pages';
 $lang['en_US']['SilvercartCartPage']['SINGULARNAME'] = 'Cart page';

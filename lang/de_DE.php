@@ -330,6 +330,9 @@ $lang['de_DE']['SilvercartCarrier']['FULL_NAME'] = 'voller Name';
 $lang['de_DE']['SilvercartCarrier']['PLURALNAME'] = 'Frachtführer';
 $lang['de_DE']['SilvercartCarrier']['SINGULARNAME'] = 'Frachtführer';
 
+$lang['de_DE']['SilvercartCarrierLanguage']['SINGULARNAME'] = 'Übersetzung für Frachtführer';
+$lang['de_DE']['SilvercartCarrierLanguage']['PLURALNAME'] = 'Übersetzungen für Frachtführer';
+
 $lang['de_DE']['SilvercartCartPage']['CART_EMPTY'] = 'Der Warenkorb ist leer.';
 $lang['de_DE']['SilvercartCartPage']['PLURALNAME'] = 'Warenkorbseiten';
 $lang['de_DE']['SilvercartCartPage']['SINGULARNAME'] = 'Warenkorbseiten';

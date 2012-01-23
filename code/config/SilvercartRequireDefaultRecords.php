@@ -1538,7 +1538,34 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $carrier->Title = 'DHL';
                 $carrier->FullTitle = 'DHL International GmbH';
                 $carrier->write();
-
+                $carrierLanguages = array(
+                    'en_GB' => array(
+                        'Title' => 'DHL',
+                        'FullTitle' => 'DHL International GmbH'
+                    ),
+                    'en_US' => array(
+                        'Title' => 'DHL',
+                        'FullTitle' => 'DHL International GmbH'
+                    ),
+                    'de_DE' => array(
+                        'Title' => 'DHL',
+                        'FullTitle' => 'DHL International GmbH'
+                    )
+                );
+                foreach ($carrierLanguages as $locale => $attributes) {
+                    $filter = sprintf("`SilvercartCarrierID` = '%s' AND `Locale` = '%s'", $carrier->ID, $locale);
+                    $languageObj = DataObject::get_one('SilvercartCarrierLanguage', $filter);
+                    if (!$languageObj) {
+                        $languageObj = new SilvercartCarrierLanguage();
+                        $languageObj->Locale = $locale;
+                        $languageObj->SilvercartCarrierID = $carrier->ID;
+                    }
+                    foreach ($attributes as $attribute => $value) {
+                        $languageObj->{$attribute} = $value;
+                    }
+                    $languageObj->write();
+                    
+                }
                 //relate carrier to zones
                 $zoneDomestic = DataObject::get_one("SilvercartZone");
                 if (!$zoneDomestic) {
