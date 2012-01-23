@@ -536,6 +536,12 @@ class SilvercartPaymentMethod extends DataObject {
                     $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
                 }
             }
+
+            if (SilvercartConfig::PriceType() == 'net') {
+                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+            }
+
             $handlingCosts->setAmount($handlingCostAmount);
 
             return $handlingCosts;
@@ -549,16 +555,21 @@ class SilvercartPaymentMethod extends DataObject {
      * this payment method.
      * 
      * @param SilvercartShoppingCart $silvercartShoppingCart The shopping cart object
+     * @param string                 $priceType              'gross' or 'net'
      *
      * @return mixed boolean|DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 14.12.2011
      */
-    public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart) {
+    public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        if ($priceType === false) {
+            $priceType = SilvercartConfig::PriceType();
+        }
 
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'totalValue') {
@@ -585,6 +596,11 @@ class SilvercartPaymentMethod extends DataObject {
                 $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
 
                 $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
+            }
+
+            if ($priceType == 'net') {
+                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
             }
 
             $handlingCosts->setAmount($handlingCostAmount);

@@ -236,7 +236,11 @@ class SilvercartShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public function PriceFormatted() {
-        return $this->Price->Nice();
+        $priceObj = new Money();
+        $priceObj->setAmount($this->getPriceAmount());
+        $priceObj->setCurrency($this->price->getCurrency());
+
+        return $priceObj->Nice();
     }
 
     /**
@@ -311,7 +315,13 @@ class SilvercartShippingFee extends DataObject {
      * @return float
      */
     public function getPriceAmount() {
-        return (float) $this->Price->getAmount();
+        $price = (float) $this->Price->getAmount();
+
+        if (SilvercartConfig::PriceType() == 'net') {
+            $price = $price - $this->getTaxAmount();
+        }
+
+        return $price;
     }
     
     /**

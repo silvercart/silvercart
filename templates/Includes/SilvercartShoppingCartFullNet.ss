@@ -118,7 +118,7 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-                <td class="right" id="Sum"><strong>$TaxableAmountNetWithFees.Nice</strong></td>
+                <td class="right" id="Sum"><strong>$TaxableAmountGrossWithFees.Nice</strong></td>
 
                 <% if Top.EditableShoppingCart %>
                     <td>&nbsp;</td>
