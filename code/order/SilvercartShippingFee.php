@@ -273,6 +273,34 @@ class SilvercartShippingFee extends DataObject {
     }
 
     /**
+     * Returns the tax rate for this fee.
+     * 
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function getTaxRate() {
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
+
+            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+
+            $taxRate = $silvercartShoppingCart->getMostValuableTaxRate(
+                $silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher')
+            );
+
+            if ($taxRate) {
+                $taxRate = $taxRate->Rate;
+            }
+        } else {
+            $taxRate = $this->SilvercartTax()->getTaxRate();
+        }
+
+        return $taxRate;
+    }
+
+    /**
      * returns the tax amount included in $this
      *
      * @return float
@@ -282,9 +310,10 @@ class SilvercartShippingFee extends DataObject {
      * @since 07.02.2011
      */
     public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->getTaxRate()) * 100);
+        $taxRate   = $this->getTaxRate();
+        $taxAmount = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $taxRate) * 100);
 
-        return $taxRate;
+        return $taxAmount;
     }
     
     /**
@@ -320,6 +349,8 @@ class SilvercartShippingFee extends DataObject {
         if (SilvercartConfig::PriceType() == 'net') {
             $price = $price - $this->getTaxAmount();
         }
+
+        $price = round($price, 2);
 
         return $price;
     }
