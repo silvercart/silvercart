@@ -134,6 +134,9 @@ $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not av
 $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
 $lang['en_US']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
 
+$lang['en_US']['SilvercartDashboard']['NEWS_HEADLINE'] = 'News';
+$lang['en_US']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Read more';
+
 $lang['en_US']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
 $lang['en_US']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
 
@@ -157,6 +160,10 @@ $lang['en_US']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
 $lang['en_US']['SilvercartMenu']['SECTION_externalConnections'] = 'External connections';
 $lang['en_US']['SilvercartMenu']['SECTION_others']              = 'Others';
 $lang['en_US']['SilvercartMenu']['SECTION_maintenance']         = 'Maintenance';
+
+$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'There are no orders yet.';
+$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Number of orders per day';
+$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Order time line';
 
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';

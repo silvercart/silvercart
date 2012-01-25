@@ -158,7 +158,7 @@
 
 <div id="silvercart-cms-mainmenu">
     <div id="silvercart-cms-mainmenu-logo">
-        <a href="#">
+        <a href="/admin/silvercart-dashboard">
             <img src="/silvercart/images/logo_storeadmin.png" width="25" height="33" alt="SilverCart" />
             <% if ApplicationLogoText %>
                 <span>$ApplicationLogoText</span>

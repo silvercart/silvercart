@@ -1,63 +1,61 @@
-<h3>Bestellverlauf</h3>
+<h3>$FieldHeadline</h3>
 
-<div id="chart1" style="height:300px; width:650px;"></div>
+<% if HasOrderLine %>
+    <div id="chart1" style="height:300px; width:650px;"></div>
 
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        var line1 = [
-            ['2012-01-03 0:00PM', 4],
-            ['2012-01-05 0:00PM', 6],
-            ['2012-01-09 0:00PM', 9],
-            ['2012-01-12 0:00PM', 6],
-            ['2012-01-13 0:00PM', 12],
-            ['2012-01-17 0:00PM', 17]
-        ];
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var line1 = [
+                $OrderLine
+            ];
 
-        var plot1 = jQuery.jqplot(
-            'chart1',
-            [line1],
-            {
-                title: 'Bestellverlauf tageweise',
-                axes:  {
-                    xaxis: {
-                        renderer: jQuery.jqplot.DateAxisRenderer,
-                        tickOptions: {
-                            formatString: '%b&nbsp;%#d'
+            var SilvercartMetricsFieldOrdersByDay = jQuery.jqplot(
+                'chart1',
+                [line1],
+                {
+                    title: '$ChartHeadline',
+                    axes:  {
+                        xaxis: {
+                            renderer: jQuery.jqplot.DateAxisRenderer,
+                            tickOptions: {
+                                formatString: '%b&nbsp;%#d'
+                            }
+                        },
+                        yaxis: {
+                            tickOptions: {
+                                formatString: '%d'
+                            }
                         }
                     },
-                    yaxis: {
-                        tickOptions: {
-                            formatString: '%d'
+                    series: [
+                        {
+                            color: '#1C587A',
+                            lineWidth: 1.5,
+                            shadow: false,
+                            markerOptions: {
+                                style: 'filledCircle',
+                                shadow: false
+                            }
                         }
+                    ],
+                    grid: {
+                        background: '#fbfbfb',
+                        gridLineColor: '#eeeeee',
+                        borderColor: '#999999',
+                        borderWidth: 0.6,
+                        shadow: false
+                    },
+                    highlighter: {
+                        show: true,
+                        sizeAdjust: 7.5
+                    },
+                    cursor: {
+                        show: false
                     }
-                },
-                series: [
-                    {
-                        color: '#1C587A',
-                        lineWidth: 1.5,
-                        shadow: false,
-                        markerOptions: {
-                            style: 'filledCircle',
-                            shadow: false
-                        }
-                    }
-                ],
-                grid: {
-                    background: '#fbfbfb',
-                    gridLineColor: '#eeeeee',
-                    borderColor: '#dddddd',
-                    borderWidth: 1.0,
-                    shadow: false
-                },
-                highlighter: {
-                    show: true,
-                    sizeAdjust: 7.5
-                },
-                cursor: {
-                    show: false
                 }
-            }
-        );
-    });
-</script>
-
+            );
+        });
+    </script>
+<% else %>
+    <p><% _t('SilvercartMetricsFieldOrdersByDay.NO_ORDERS_YET') %></p>
+<% end_if %>
