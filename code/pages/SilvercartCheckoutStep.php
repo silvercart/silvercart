@@ -359,4 +359,41 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function currentStepIsPaymentStep() {
         return $this->stepMapping[$this->getCurrentStep()]['class'] == 'SilvercartCheckoutFormStep4';
     }
+    
+    /**
+     * Returns the invoice address set in checkout
+     *
+     * @return SilvercartAddress 
+     */
+    public function getInvoiceAddress() {
+        return $this->getAddress('Invoice');
+    }
+    
+    /**
+     * Returns the shipping address set in checkout
+     *
+     * @return SilvercartAddress 
+     */
+    public function getShippingAddress() {
+        return $this->getAddress('Shipping');
+    }
+    
+    /**
+     * Returns the shipping or invoice address set in checkout
+     *
+     * @return SilvercartAddress 
+     */
+    public function getAddress($prefix) {
+        $address    = false;
+        $stepData   = $this->getCombinedStepData();
+        if ($stepData != false) {
+            $addressData = $this->extractAddressDataFrom($prefix, $stepData);
+            if (!empty($addressData) &&
+                array_key_exists('CountryID', $addressData)) {
+                $address = new SilvercartAddress($addressData);
+                $address->SilvercartCountryID = $addressData['CountryID'];
+            }
+        }
+        return $address;
+    }
 }
