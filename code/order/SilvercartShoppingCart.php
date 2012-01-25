@@ -291,7 +291,7 @@ class SilvercartShoppingCart extends DataObject {
             if ($handlingCostPayment === false) {
                 return false;
             } else {
-                $taxes          = $this->getTaxRatesWithoutFeesAndCharges();
+                $taxes          = $this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher');
                 $silvercartTax  = $this->getMostValuableTaxRate($taxes);
 
                 $chargesAndDiscounts = new DataObject(

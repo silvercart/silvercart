@@ -1430,6 +1430,28 @@ class SilvercartOrder extends DataObject {
     public function OrderDetailInformation() {
         return SilvercartPlugin::call($this, 'OrderDetailInformation', array($this));
     }
+
+    /**
+     * Returns the order positions, shipping method, payment method etc. as
+     * HTML table.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function OrderDetailTable() {
+        $viewableData = new ViewableData();
+        $template     = '';
+
+        if ($this->IsPriceTypeGross()) {
+            $template = $viewableData->customise($this)->renderWith('SilvercartOrderDetailsGross');
+        } else {
+            $template = $viewableData->customise($this)->renderWith('SilvercartOrderDetailsNet');
+        }
+
+        return $template;
+    }
     
     /**
      * Indicates wether there are positions that are charges or discounts for
@@ -1452,6 +1474,42 @@ class SilvercartOrder extends DataObject {
         }
         
         return $hasChargePositionsForProduct;
+    }
+
+    /**
+     * Indicates wether this order is gross calculated or not.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function IsPriceTypeGross() {
+        $isPriceTypeGross = false;
+
+        if ($this->SilvercartInvoiceAddress()->isCompanyAddress() === false) {
+            $isPriceTypeGross = true;
+        }
+
+        return $isPriceTypeGross;
+    }
+
+    /**
+     * Indicates wether this order is net calculated or not.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function IsPriceTypeNet() {
+        $isPriceTypeNet = false;
+
+        if ($this->SilvercartInvoiceAddress()->isCompanyAddress()) {
+            $isPriceTypeNet = true;
+        }
+
+        return $isPriceTypeNet;
     }
 
     /**
@@ -1485,7 +1543,6 @@ class SilvercartOrder extends DataObject {
      * @return void
      */
     public function sendConfirmationMail() {
-        
         $params = array(
             'MailOrderConfirmation' => array(
                 'Template'      => 'MailOrderConfirmation',
@@ -1570,6 +1627,7 @@ class SilvercartOrder extends DataObject {
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
+        /*
         if ($this->AmountGrossTotal->hasAmount() === false) {
             $price = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount();
             
@@ -1577,6 +1635,7 @@ class SilvercartOrder extends DataObject {
             $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
             $this->write();
         }
+        */
     }
 }
 
