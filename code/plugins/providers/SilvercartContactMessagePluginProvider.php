@@ -98,11 +98,16 @@ class SilvercartContactMessagePluginProvider extends SilvercartPlugin {
      * 
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.01.2012
      */
     public function send(&$arguments = array(), &$callingObject) {
         $result = $this->extend('pluginSend', $callingObject);
+        
+        if (is_array($result) &&
+            count($result) == 0) {
+            $result = false;
+        }
         
         return $result;
     }
