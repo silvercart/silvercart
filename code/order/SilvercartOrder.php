@@ -329,6 +329,40 @@ class SilvercartOrder extends DataObject {
     }
 
     /**
+     * Returns a limited number of order positions.
+     * 
+     * @param int $numberOfPositions The number of positions to get.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.01.2012
+     */
+    public function getLimitedSilvercartOrderPositions($numberOfPositions = 2) {
+        return $this->SilvercartOrderPositions()->getRange(0, $numberOfPositions);
+    }
+
+    /**
+     * Returns a limited number of order positions.
+     * 
+     * @param int $numberOfPositions The number of positions to check for.
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.01.2012
+     */
+    public function hasMoreSilvercartOrderPositionsThan($numberOfPositions = 2) {
+        $hasMorePositions = false;
+
+        if ($this->SilvercartOrderPositions()->Count() > $numberOfPositions) {
+            $hasMorePositions = true;
+        }
+
+        return $hasMorePositions;
+    }
+
+    /**
      * returns the orders total amount as string incl. currency.
      *
      * @return string
