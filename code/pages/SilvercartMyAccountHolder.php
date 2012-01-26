@@ -189,4 +189,16 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
     public function setBreadcrumbElementID($breadcrumbElementID) {
         $this->breadcrumbElementID = $breadcrumbElementID;
     }
+
+    /**
+     * returns the link to the order detail page (without orderID)
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.02.2011
+     */
+    public function OrderDetailLink() {
+        return $this->PageByIdentifierCode('SilvercartOrderDetailPage')->Link();
+    }
 }
