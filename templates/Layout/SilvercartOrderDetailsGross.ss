@@ -20,7 +20,7 @@
         <% control SilvercartOrderListPositions %>
             <tr class="$EvenOrOdd">
                 <td>$ProductNumber</td>
-                <td>$Title</td>
+                <td>$Title.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
                 <td class="right">$Quantity</td>
@@ -66,7 +66,7 @@
             <!-- charges and discounts for product value -->
             <% control SilvercartOrderChargePositionsProduct %>
                 <tr class="$EvenOrOdd">
-                    <td colspan="2">$Title</td>
+                    <td colspan="2">$Title.RAW</td>
                     <td class="right">$Price.Nice</td>
                     <td class="right">{$TaxRate}%</td>
                     <td class="right">$Quantity</td>
@@ -136,7 +136,7 @@
             <% control SilvercartOrderPositionsWithoutTax %>
                 <tr>
                     <td>&nbsp;</td>
-                    <td>$Title</td>
+                    <td>$Title.RAW</td>
                     <td class="right">$PriceNice</td>
                     <td class="right"></td>
                     <td class="right">$Quantity</td>
@@ -169,7 +169,7 @@
             <!-- charges and discounts for the shopping cart value -->
             <% control SilvercartOrderChargePositionsTotal %>
                 <tr class="$EvenOrOdd">
-                    <td colspan="2">$Title</td>
+                    <td colspan="2">$Title.RAW</td>
                     <td class="right">$Price.Nice</td>
                     <td class="right">{$TaxRate}%</td>
                     <td class="right">$Quantity</td>
