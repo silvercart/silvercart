@@ -125,6 +125,21 @@ class SilvercartHandlingCost extends DataObject {
                     )
                 );
     }
+    
+    /**
+     * Returns the prices amount
+     *
+     * @return float
+     */
+    public function getPriceAmount() {
+        $price = (float) $this->amount->getAmount();
+
+        if (SilvercartConfig::PriceType() == 'net') {
+            $price = $price - $this->getTaxAmount();
+        }
+
+        return $price;
+    }
 
     /**
      * returns the tax amount included in $this
@@ -139,5 +154,22 @@ class SilvercartHandlingCost extends DataObject {
         $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->SilvercartTax()->getTaxRate()) * 100);
 
         return $taxRate;
+    }
+
+    /**
+     * Returns the Price formatted by locale.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public function PriceFormatted() {
+        $priceObj = new Money();
+        $priceObj->setAmount($this->getPriceAmount());
+        $priceObj->setCurrency($this->price->getCurrency());
+
+        return $priceObj->Nice();
     }
 }

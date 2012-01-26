@@ -174,6 +174,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @param boolean $forSingleProduct Indicates wether the price for the total
      *                                  quantity of products should be returned
      *                                  or for one product only.
+     * @param boolean $priceType        'gross' or 'net'. If undefined it'll be automatically chosen.
      * 
      * @return Money the price sum
      * 
@@ -181,7 +182,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 22.10.2010
      */
-    public function getPrice($forSingleProduct = false) {
+    public function getPrice($forSingleProduct = false, $priceType = false) {
         $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
         
         if ($pluginPriceObj !== false) {
@@ -191,11 +192,11 @@ class SilvercartShoppingCartPosition extends DataObject {
         $product = $this->SilvercartProduct();
         $price = 0;
 
-        if ($product && $product->getPrice()->getAmount()) {
+        if ($product && $product->getPrice($priceType)->getAmount()) {
             if ($forSingleProduct) {
-                $price = $product->getPrice()->getAmount();
+                $price = $product->getPrice($priceType)->getAmount();
             } else {
-                $price = $product->getPrice()->getAmount() * $this->Quantity;
+                $price = $product->getPrice($priceType)->getAmount() * $this->Quantity;
             }
         }
 
@@ -304,10 +305,13 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount($forSingleProduct = false) {        
-        if (Member::currentUser()->showPricesGross()) {
-            $taxRate = $this->getPrice($forSingleProduct)->getAmount() - ($this->getPrice($forSingleProduct)->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
+        if (SilvercartConfig::PriceType() == 'gross') {
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
+                       ($this->getPrice($forSingleProduct)->getAmount() /
+                        (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
         } else {
-            $taxRate = $this->getPrice($forSingleProduct)->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() *
+                       ($this->SilvercartProduct()->getTaxRate() / 100);
         }
         return $taxRate;
     }

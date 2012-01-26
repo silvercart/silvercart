@@ -88,6 +88,16 @@ class SilvercartProduct extends DataObject {
     protected $deeplinkValue = null;
 
     /**
+     * Contains hashes for caching.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.01.2012
+     */
+    protected $cacheHashes = array();
+
+    /**
      * 1:n relations
      *
      * @var array
@@ -1060,31 +1070,43 @@ class SilvercartProduct extends DataObject {
      * Getter for product price
      * May be decorated by the module silvercart_graduatedprices
      *
+     * @param boolean $priceType Set to 'gross' or 'net' to get the desired prices.
+     *                           If not given the price type will be automatically determined.
+     *
      * @return Money price dependent on customer class and configuration
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.10.2011
      */
-    public function getPrice() {
-        if (is_null($this->price)) {
-            $pricetype = SilvercartConfig::Pricetype();
-            if ($pricetype =="net") {
-                $price = clone $this->PriceNet;
-            } elseif ($pricetype == "gross") {
-                $price = clone $this->PriceGross;
-            } else {
-                $price = clone $this->PriceGross;
-            }
-            
-            $price->setAmount(round($price->getAmount(), 2));
-            
-            if ($price->getAmount() < 0) {
-                $price->setAmount(0);
-            }
-            //overwrite the price in a decorator
-            $this->extend('updatePrice', $price);
-            $this->price = $price;
+    public function getPrice($priceType = false) {
+        $cacheHash = md5($priceType);
+        $cacheKey = 'getPrice_'.$cacheHash;
+
+        if (array_key_exists($cacheKey, $this->cacheHashes)) {
+            return $this->cacheHashes[$cacheKey];
         }
+
+        if ($priceType === false) {
+            $priceType = SilvercartConfig::priceType();
+        }
+        if ($priceType =="net") {
+            $price = clone $this->PriceNet;
+        } elseif ($priceType == "gross") {
+            $price = clone $this->PriceGross;
+        } else {
+            $price = clone $this->PriceGross;
+        }
+        
+        $price->setAmount(round($price->getAmount(), 2));
+        
+        if ($price->getAmount() < 0) {
+            $price->setAmount(0);
+        }
+        //overwrite the price in a decorator
+        $this->extend('updatePrice', $price);
+        $this->price = $price;
+
+        $this->cacheHashes[$cacheKey] = $this->price;
         return $this->price; 
     }
     

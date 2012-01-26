@@ -254,29 +254,40 @@ class SilvercartShippingMethod extends DataObject {
     }
 
     /**
-     * determins the right shipping fee for a shipping method depending on the cart´s weight
+     * determins the right shipping fee for a shipping method depending on the
+     * cart's weight and the country of the customers shipping address
      *
      * @return ShippingFee the most convenient shipping fee for this shipping method
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 9.11.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 25.01.2012
      */
     public function getShippingFee() {
         $fee             = false;
         $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        $fees            = DataObject::get(
-            'SilvercartShippingFee',
-            sprintf(
-                "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1)",
-                $this->ID,
-                $cartWeightTotal
-            )
-        );
+        $shippingAddress = Controller::curr()->getShippingAddress();
+        if ($shippingAddress) {
+            $zones = SilvercartZone::getZonesFor($shippingAddress->SilvercartCountryID);
+            if ($zones) {
+                $zoneMap            = $zones->map();
+                $zoneIDs            = array_flip($zoneMap);
+                $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
+                $fees               = DataObject::get(
+                    'SilvercartShippingFee',
+                    sprintf(
+                        "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1) AND `SilvercartZoneID` IN (%s)",
+                        $this->ID,
+                        $cartWeightTotal,
+                        $zoneIDsAsString
+                    ),
+                    'PriceAmount'
+                );
 
-        if ($fees) {
-            $fees->sort('PriceAmount');
-            $fee = $fees->First();
+                if ($fees) {
+                    $fee = $fees->First();
+                }
+            }
         }
         
         return $fee;

@@ -495,23 +495,32 @@ class SilvercartPaymentMethod extends DataObject {
      * payment method.
      * 
      * @param SilvercartShoppingCart $silvercartShoppingCart The shopping cart object
+     * @param string                 $priceType              'gross' or 'net'
      *
      * @return mixed boolean|DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 14.12.2011
      */
-    public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart) {
+    public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        if ($priceType === false) {
+            $priceType = SilvercartConfig::PriceType();
+        }
 
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'productValue') {
             
             switch ($this->sumModificationValueType) {
                 case 'percent':
-                    $amount = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
+                    if (SilvercartConfig::PriceType() == 'gross') {
+                        $amount = $silvercartShoppingCart->getAmountTotalGrossWithoutFees(array(), false, true);
+                    } else {
+                        $amount = $silvercartShoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
+                    }
                     $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
                     break;
                 case 'absolute':
@@ -525,7 +534,11 @@ class SilvercartPaymentMethod extends DataObject {
                 $handlingCostAmount = "-".$modificationValue;
             }
 
-            $shoppingCartTotal = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
+            if (SilvercartConfig::PriceType() == 'gross') {
+                $shoppingCartTotal = $silvercartShoppingCart->getAmountTotalGrossWithoutFees(array(), false, true);
+            } else {
+                $shoppingCartTotal = $silvercartShoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
+            }
 
             if ($handlingCostAmount < 0 &&
                 $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
@@ -536,6 +549,15 @@ class SilvercartPaymentMethod extends DataObject {
                     $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
                 }
             }
+
+            if (SilvercartConfig::PriceType() == 'net') {
+                $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+
+                if ($taxRate) {
+                    $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+                }
+            }
+
             $handlingCosts->setAmount($handlingCostAmount);
 
             return $handlingCosts;
@@ -549,16 +571,21 @@ class SilvercartPaymentMethod extends DataObject {
      * this payment method.
      * 
      * @param SilvercartShoppingCart $silvercartShoppingCart The shopping cart object
+     * @param string                 $priceType              'gross' or 'net'
      *
      * @return mixed boolean|DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 14.12.2011
      */
-    public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart) {
+    public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+
+        if ($priceType === false) {
+            $priceType = SilvercartConfig::PriceType();
+        }
 
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'totalValue') {
@@ -579,7 +606,13 @@ class SilvercartPaymentMethod extends DataObject {
                 $handlingCostAmount = "-".$modificationValue;
             }
 
-            $shoppingCartTotal = $silvercartShoppingCart->getAmountTotal(array(), false, true);
+            if (SilvercartConfig::PriceType() == 'gross') {
+                $shoppingCartTotal = $silvercartShoppingCart->getAmountTotal(array(), false, true);
+            } else {
+                $shoppingCartTotal  = $silvercartShoppingCart->getAmountTotalNetWithoutVat(array(), false, true);
+                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+            }
 
             if ($handlingCostAmount < 0 &&
                 $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
@@ -682,7 +715,13 @@ class SilvercartPaymentMethod extends DataObject {
                     $doAccessChecks      = false;
                 }
                 
-                if (!$paymentMethod->isAvailableForAmount($shoppingCart->getAmountTotalWithoutFees()->getAmount())) {
+                if (SilvercartConfig::PriceType() == 'gross') {
+                    $checkAmount = $shoppingCart->getAmountTotalGrossWithoutFees()->getAmount();
+                } else {
+                    $checkAmount = $shoppingCart->getAmountTotalNetWithoutFees()->getAmount();
+                }
+
+                if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
                     $assumePaymentMethod = false;
                     $doAccessChecks      = false;
                 }

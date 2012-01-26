@@ -867,6 +867,9 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$config)) {
             self::$config = DataObject::get_one('SilvercartConfig');
             if (!self::$config) {
+                if (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
+                    return false;
+                }
                 $errorMessage = _t('SilvercartConfig.ERROR_NO_CONFIG', 'SilvercartConfig is missing! Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to add the general configuration. ');
                 self::triggerError($errorMessage);
             }
