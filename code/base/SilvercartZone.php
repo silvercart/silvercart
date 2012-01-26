@@ -335,5 +335,24 @@ class SilvercartZone extends DataObject {
 
         return $attributedShippingMethodsStr;
     }
+    
+    /**
+     * Returns all zones for the given country ID
+     *
+     * @param int $countryID ID of the country to get zones for
+     * 
+     * @return ComponentSet
+     */
+    public static function getZonesFor($countryID) {
+        return DataObject::get(
+                'SilvercartZone',
+                sprintf(
+                        "`SilvercartZone_SilvercartCountries`.`SilvercartCountryID` = '%s'",
+                        $countryID
+                ),
+                '',
+                "LEFT JOIN `SilvercartZone_SilvercartCountries` ON (`SilvercartZone_SilvercartCountries`.`SilvercartZoneID` = `SilvercartZone`.`ID`)"
+        );
+    }
 
 }
