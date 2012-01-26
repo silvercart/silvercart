@@ -520,9 +520,6 @@ class SilvercartOrder extends DataObject {
         $this->write();
         
         SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $silvercartShoppingCart));
-
-        // Convert shopping cart positions
-        $this->convertShoppingCartPositionsToOrderPositions();
     }
 
     /**
@@ -599,7 +596,13 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->isChargeOrDiscount = true;
                     $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
                     $orderPosition->Tax                 = $chargeAndDiscountForProduct->SilvercartTax->Title;
-                    $orderPosition->TaxTotal            = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate) * 100);
+
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->TaxTotal = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate) * 100);
+                    } else {
+                        $orderPosition->TaxTotal = ($chargeAndDiscountForProduct->Price->getAmount() / 100 * (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate)) - $chargeAndDiscountForProduct->Price->getAmount();
+                    }
+
                     $orderPosition->TaxRate             = $chargeAndDiscountForProduct->SilvercartTax->Rate;
                     $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
                     $orderPosition->Quantity            = 1;
@@ -683,7 +686,11 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->isChargeOrDiscount = true;
                     $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForTotal->sumModificationImpact;
                     $orderPosition->Tax                 = $chargeAndDiscountForTotal->SilvercartTax->Title;
-                    $orderPosition->TaxTotal            = $chargeAndDiscountForTotal->Price->getAmount() - ($chargeAndDiscountForTotal->Price->getAmount() / (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate) * 100);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->TaxTotal = $chargeAndDiscountForTotal->Price->getAmount() - ($chargeAndDiscountForTotal->Price->getAmount() / (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate) * 100);
+                    } else {
+                        $orderPosition->TaxTotal = ($chargeAndDiscountForTotal->Price->getAmount() / 100 * (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate)) - $chargeAndDiscountForTotal->Price->getAmount();
+                    }
                     $orderPosition->TaxRate             = $chargeAndDiscountForTotal->SilvercartTax->Rate;
                     $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
                     $orderPosition->Quantity            = 1;
@@ -936,7 +943,7 @@ class SilvercartOrder extends DataObject {
         if ($selectedShippingMethod) {
             $this->SilvercartShippingMethodID    = $selectedShippingMethod->ID;
             $this->SilvercartShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
-            $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->Price->getAmount());
+            $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->getPriceAmount());
             $this->HandlingCostShipment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
     }
@@ -1187,6 +1194,61 @@ class SilvercartOrder extends DataObject {
             )
         );
     }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees and charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.12.2011
+     */
+    public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $priceNet = new Money();
+        $priceNet->setAmount(0);
+        $priceNet->setCurrency(SilvercartConfig::DefaultCurrency());
+        
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
+        }
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
+        foreach ($this->SilvercartOrderPositions() as $position) {
+            if ((
+                    !$includeChargesForProducts &&
+                     $position->isChargeOrDiscount &&
+                     $position->chargeOrDiscountModificationImpact == 'productValue'
+                ) || (
+                    !$includeChargesForTotal &&
+                     $position->isChargeOrDiscount &&
+                     $position->chargeOrDiscountModificationImpact == 'totalValue'
+                )
+               ) {
+                continue;
+            }
+            
+            if ($position->TaxRate > 0) {
+                $priceNet->setAmount(
+                    $priceNet->getAmount() + $position->PriceTotal->getAmount()
+                );
+            }
+        }
+        
+        return new DataObject(
+            array(
+                'Amount' => $priceNet
+            )
+        );
+    }
     
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
@@ -1229,6 +1291,48 @@ class SilvercartOrder extends DataObject {
             )
         );
     }
+    
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees and charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 16.12.2011
+     */
+    public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        if ($includeChargesForTotal == 'false') {
+            $includeChargesForTotal = false;
+        }
+        if ($includeChargesForProducts == 'false') {
+            $includeChargesForProducts = false;
+        }
+        
+        $priceGross = $this->getTaxableAmountNetWithoutFees($includeChargesForProducts, $includeChargesForTotal)->Amount;
+        
+        $priceGross->setAmount(
+            $priceGross->getAmount() +
+            $this->HandlingCostPayment->getAmount()
+        );
+
+        $priceGross->setAmount(
+            $priceGross->getAmount() +
+            $this->HandlingCostShipment->getAmount()
+        );
+        
+        return new DataObject(
+            array(
+                'Amount' => $priceGross
+            )
+        );
+    }
 
     /**
      * Returns the sum of tax amounts grouped by tax rates for the products
@@ -1246,10 +1350,10 @@ class SilvercartOrder extends DataObject {
      * @since 16.12.2011
      */
     public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        if ($includeChargesForTotal == 'false') {
+        if ($includeChargesForTotal === 'false') {
             $includeChargesForTotal = false;
         }
-        if ($includeChargesForProducts == 'false') {
+        if ($includeChargesForProducts === 'false') {
             $includeChargesForProducts = false;
         }
         
@@ -1270,6 +1374,7 @@ class SilvercartOrder extends DataObject {
             }
             
             $taxRate = $orderPosition->TaxRate;
+
             if ($taxRate > 0 &&
                 !$taxes->find('Rate', $taxRate)) {
                 
@@ -1296,6 +1401,39 @@ class SilvercartOrder extends DataObject {
         
         return $taxes;
     }
+
+    /**
+     * Returns the total amount of all taxes.
+     *
+     * @param boolean $excludeCharges Indicates wether to exlude charges and discounts
+     *
+     * @return Money a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 26.01.2012
+     */
+    public function getTaxTotal($excludeCharges = false) {
+        $taxRates = $this->getTaxRatesWithFees(true, false);
+
+        if (!$excludeCharges &&
+             $this->HasChargePositionsForTotal()) {
+
+            foreach ($this->OrderChargePositionsTotal() as $charge) {
+                $taxRate = $taxRates->find('Rate', $charge->TaxRate);
+
+                if ($taxRate) {
+                    $taxRate->Amount += $charge->PriceTotal->getAmount();
+
+                    if (round($taxRate->Amount, 2) === -0.00) {
+                        $taxRate->Amount *= -1;
+                    }
+                }
+            }
+        }
+
+        return $taxRates;
+    }
     
     /**
      * Returns the sum of tax amounts grouped by tax rates for the products
@@ -1313,10 +1451,10 @@ class SilvercartOrder extends DataObject {
      * @since 16.12.2011
      */
     public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        if ($includeChargesForTotal == 'false') {
+        if ($includeChargesForTotal === 'false') {
             $includeChargesForTotal = false;
         }
-        if ($includeChargesForProducts == 'false') {
+        if ($includeChargesForProducts === 'false') {
             $includeChargesForProducts = false;
         }
         
@@ -1430,6 +1568,28 @@ class SilvercartOrder extends DataObject {
     public function OrderDetailInformation() {
         return SilvercartPlugin::call($this, 'OrderDetailInformation', array($this));
     }
+
+    /**
+     * Returns the order positions, shipping method, payment method etc. as
+     * HTML table.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function OrderDetailTable() {
+        $viewableData = new ViewableData();
+        $template     = '';
+
+        if ($this->IsPriceTypeGross()) {
+            $template = $viewableData->customise($this)->renderWith('SilvercartOrderDetailsGross');
+        } else {
+            $template = $viewableData->customise($this)->renderWith('SilvercartOrderDetailsNet');
+        }
+
+        return $template;
+    }
     
     /**
      * Indicates wether there are positions that are charges or discounts for
@@ -1452,6 +1612,65 @@ class SilvercartOrder extends DataObject {
         }
         
         return $hasChargePositionsForProduct;
+    }
+    
+    /**
+     * Indicates wether there are positions that are charges or discounts for
+     * the product value.
+     *
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.12.2011
+     */
+    public function HasChargePositionsForTotal() {
+        $hasChargePositionsForTotal = false;
+
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ($orderPosition->isChargeOrDiscount &&
+                $orderPosition->chargeOrDiscountModificationImpact == 'totalValue') {
+
+                $hasChargePositionsForTotal = true;
+            }
+        }
+        
+        return $hasChargePositionsForTotal;
+    }
+
+    /**
+     * Indicates wether this order is gross calculated or not.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function IsPriceTypeGross() {
+        $isPriceTypeGross = false;
+
+        if ($this->SilvercartInvoiceAddress()->isCompanyAddress() === false) {
+            $isPriceTypeGross = true;
+        }
+
+        return $isPriceTypeGross;
+    }
+
+    /**
+     * Indicates wether this order is net calculated or not.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function IsPriceTypeNet() {
+        $isPriceTypeNet = false;
+
+        if ($this->SilvercartInvoiceAddress()->isCompanyAddress()) {
+            $isPriceTypeNet = true;
+        }
+
+        return $isPriceTypeNet;
     }
 
     /**
@@ -1485,7 +1704,6 @@ class SilvercartOrder extends DataObject {
      * @return void
      */
     public function sendConfirmationMail() {
-        
         $params = array(
             'MailOrderConfirmation' => array(
                 'Template'      => 'MailOrderConfirmation',
@@ -1570,6 +1788,7 @@ class SilvercartOrder extends DataObject {
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
+        /*
         if ($this->AmountGrossTotal->hasAmount() === false) {
             $price = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount();
             
@@ -1577,6 +1796,7 @@ class SilvercartOrder extends DataObject {
             $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
             $this->write();
         }
+        */
     }
 }
 

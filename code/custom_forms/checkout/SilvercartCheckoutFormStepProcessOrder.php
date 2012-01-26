@@ -137,6 +137,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         $order->createShippingAddress($shippingData);
         $order->createInvoiceAddress($invoiceData);
 
+        $order->convertShoppingCartPositionsToOrderPositions();
+
         // send order confirmation mail
         if ($this->sendConfirmationMail) {
             $order->sendConfirmationMail();
