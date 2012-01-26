@@ -57,21 +57,8 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-                <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-                <td class="right">$Amount.Nice</td>
-        </tr>
-        <% end_control %>
-
-
-        <!-- tax rates for sub total without fees and charges -->
-        <% control getTaxRatesWithoutFees(false,false) %>
-            <tr class="new-block">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
-            <td class="right">$Amount.Nice</td>
+                <td><strong><% _t('SilvercartPage.VALUE_OF_GOODS') %></strong></td>
+                <td class="right"><strong>$Amount.Nice</strong></td>
         </tr>
         <% end_control %>
 
@@ -95,7 +82,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-                    <td class="right">$Amount.Nice</td>
+                    <td class="right"><strong>$Amount.Nice</strong></td>
                 </tr>
             <% end_control %>
 
@@ -104,9 +91,7 @@
                 <tr class="new-block">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
+                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
                 </tr>
             <% end_control %>
@@ -124,74 +109,74 @@
             <td class="right">$HandlingCostPayment.Nice</td>
         </tr>
 
-        <!-- sub total -->
-        <% control getTaxableAmountGrossWithFees(true,false) %>
-            <tr class="new-block">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-                <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-                <td class="right">$Amount.Nice</td>
-        </tr>
-        <% end_control %>
-
-        <!-- tax rates for sub total -->
-        <% control getTaxRatesWithFees(true,false) %>
-            <tr class="new-block">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
-            <td class="right">$Amount.Nice</td>
-        </tr>
-        <% end_control %>
-
-        <!-- non-taxable positions -->
-        <% control SilvercartOrderPositionsWithoutTax %>
-            <tr>
-                <td>&nbsp;</td>
-                <td>$Title</td>
-                <td class="right">$PriceNice</td>
-                <td class="right"></td>
-                <td class="right">$Quantity</td>
-                <td class="right">$PriceTotalNice</td>
-            </tr>
-            <% if SilvercartVoucherCode %>
-                <tr class="subrow">
-                    <td colspan="6">
-
-                        <% if MoreThanOneProduct %>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
-                            <ul>
-                                <% control VoucherCodes %>
-                                    <li>"<strong>$code</strong>"</li>
-                                <% end_control %>
-                            </ul>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
-                        <% else %>
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
-                            "<strong>$SilvercartVoucherCode</strong>".<br />
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
-                        <% end_if %>
-                    </td>
+        <% if SilvercartOrderChargePositionsTotal %>
+            <!-- sub total -->
+            <% control getTaxableAmountGrossWithFees(true,false) %>
+                <tr class="new-block">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
+                    <td class="right"><strong>$Amount.Nice</strong></td>
                 </tr>
-            <% end_if %>
-        <% end_control %>
+            <% end_control %>
 
-        <!-- charges and discounts for the shopping cart value -->
-        <% control SilvercartOrderChargePositionsTotal %>
-            <tr class="$EvenOrOdd">
-                <td colspan="2">$Title</td>
-                <td class="right">$Price.Nice</td>
-                <td class="right">{$TaxRate}%</td>
-                <td class="right">$Quantity</td>
-                <td class="right">$PriceTotal.Nice</td>
-            </tr>
-        <% end_control %>
+            <!-- tax rates for sub total -->
+            <% control getTaxRatesWithFees(true,false) %>
+                <tr class="new-block">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                    <td class="right">$Amount.Nice</td>
+                </tr>
+            <% end_control %>
+
+            <!-- non-taxable positions -->
+            <% control SilvercartOrderPositionsWithoutTax %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>$Title</td>
+                    <td class="right">$PriceNice</td>
+                    <td class="right"></td>
+                    <td class="right">$Quantity</td>
+                    <td class="right">$PriceTotalNice</td>
+                </tr>
+                <% if SilvercartVoucherCode %>
+                    <tr class="subrow">
+                        <td colspan="6">
+
+                            <% if MoreThanOneProduct %>
+                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
+                                <ul>
+                                    <% control VoucherCodes %>
+                                        <li>"<strong>$code</strong>"</li>
+                                    <% end_control %>
+                                </ul>
+                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
+                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
+                            <% else %>
+                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
+                                "<strong>$SilvercartVoucherCode</strong>".<br />
+                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
+                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
+                            <% end_if %>
+                        </td>
+                    </tr>
+                <% end_if %>
+            <% end_control %>
+
+            <!-- charges and discounts for the shopping cart value -->
+            <% control SilvercartOrderChargePositionsTotal %>
+                <tr class="$EvenOrOdd">
+                    <td colspan="2">$Title</td>
+                    <td class="right">$Price.Nice</td>
+                    <td class="right">{$TaxRate}%</td>
+                    <td class="right">$Quantity</td>
+                    <td class="right">$PriceTotal.Nice</td>
+                </tr>
+            <% end_control %>
+        <% end_if %>
 
         <tr>
             <td>&nbsp;</td>
@@ -201,5 +186,19 @@
             <td class="right"><strong><% _t('SilvercartPage.TOTAL') %></strong></td>
             <td class="right"><strong>$AmountTotal.Nice</strong></td>
         </tr>
+        <% if TaxTotal %>
+            <% control TaxTotal %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                    <td class="right">$Amount.Nice</td>
+
+                    <% if Top.EditableShoppingCart %>
+                        <td>&nbsp;</td>
+                    <% end_if %>
+                </tr>
+            <% end_control %>
+        <% end_if %>
     </tbody>
 </table>

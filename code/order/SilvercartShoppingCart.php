@@ -1642,6 +1642,30 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
+     * Indicates wether the fees for shipping and payment should be shown.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 07.02.2011
+     */
+    public function getHasFeesOrChargesOrModules() {
+        $hasAnything       = false;
+        $registeredModules = $this->registeredModules();
+
+        if ($this->getShowFees() ||
+            $this->HasChargesAndDiscountsForProducts() ||
+            $this->HasChargesAndDiscountsForTotal() ||
+            $registeredModules->NonTaxableShoppingCartPositions) {
+
+            $hasAnything = true;
+        }
+
+        return $hasAnything;
+    }
+
+    /**
      * deletes all shopping cart positions when cart is deleted
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
