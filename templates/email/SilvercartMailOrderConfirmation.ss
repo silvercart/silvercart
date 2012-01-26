@@ -170,7 +170,7 @@
     </table>
 
     <h2><% _t('SilvercartPage.ORDERED_PRODUCTS') %>:</h2>
-    $OrderMailTemplate
+    $OrderDetailTable
 <% end_control %>
 
 <p><% _t('SilvercartShopEmail.REGARDS', 'Best regards') %>,</p>
