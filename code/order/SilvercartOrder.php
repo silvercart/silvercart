@@ -628,9 +628,17 @@ class SilvercartOrder extends DataObject {
             foreach ($registeredModules as $moduleName => $moduleOutput) {
                 foreach ($moduleOutput as $modulePosition) {
                     $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($modulePosition->Price);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->Price->setAmount($modulePosition->Price);
+                    } else {
+                        $orderPosition->Price->setAmount($modulePosition->PriceNet);
+                    }
                     $orderPosition->Price->setCurrency($modulePosition->Currency);
-                    $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    } else {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
+                    }
                     $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
                     $orderPosition->Tax                 = 0;
                     $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
@@ -657,9 +665,17 @@ class SilvercartOrder extends DataObject {
             foreach ($registeredModules as $moduleName => $moduleOutput) {
                 foreach ($moduleOutput as $modulePosition) {
                     $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($modulePosition->Price);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->Price->setAmount($modulePosition->Price);
+                    } else {
+                        $orderPosition->Price->setAmount($modulePosition->PriceNet);
+                    }
                     $orderPosition->Price->setCurrency($modulePosition->Currency);
-                    $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    } else {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
+                    }
                     $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
                     $orderPosition->Tax                 = 0;
                     $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
