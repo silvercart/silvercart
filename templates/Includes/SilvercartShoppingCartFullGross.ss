@@ -46,16 +46,18 @@
             <% end_if %>
         <% end_control %>
 
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><strong><% _t('SilvercartPage.VALUE_OF_GOODS','Value of goods') %></strong></td>
-            <td class="right" id="Sum"><strong>$TaxableAmountGrossWithoutFeesAndCharges.Nice</strong></td>
-
-            <% if Top.EditableShoppingCart %>
+        <% if HasFeesOrChargesOrModules %>
+            <tr>
                 <td>&nbsp;</td>
-            <% end_if %>
-        </tr>
+                <td>&nbsp;</td>
+                <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><strong><% _t('SilvercartPage.VALUE_OF_GOODS','Value of goods') %></strong></td>
+                <td class="right" id="Sum"><strong>$TaxableAmountGrossWithoutFeesAndCharges.Nice</strong></td>
+
+                <% if Top.EditableShoppingCart %>
+                    <td>&nbsp;</td>
+                <% end_if %>
+            </tr>
+        <% end_if %>
         
         <% if HasChargesAndDiscountsForProducts %>
             <% control ChargesAndDiscountsForProducts %>
@@ -78,23 +80,25 @@
             </tr>
         <% end_if %>
 
-        <% if TaxRatesWithoutFees %>
-            <% control TaxRatesWithoutFees %>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <% if Top.showPricesGross %>
-                        <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
-                    <% else %>
-                        <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
-                    <% end_if %>
-                    <td class="right">$Amount.Nice</td>
-
-                    <% if Top.EditableShoppingCart %>
+        <% if HasFeesOrChargesOrModules %>
+            <% if TaxRatesWithoutFees %>
+                <% control TaxRatesWithoutFees %>
+                    <tr>
                         <td>&nbsp;</td>
-                    <% end_if %>
-                </tr>
-            <% end_control %>
+                        <td>&nbsp;</td>
+                        <% if Top.showPricesGross %>
+                            <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                        <% else %>
+                            <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
+                        <% end_if %>
+                        <td class="right">$Amount.Nice</td>
+
+                        <% if Top.EditableShoppingCart %>
+                            <td>&nbsp;</td>
+                        <% end_if %>
+                    </tr>
+                <% end_control %>
+            <% end_if %>
         <% end_if %>
 
         <% if ShowFees %>
