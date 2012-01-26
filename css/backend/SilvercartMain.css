@@ -14,7 +14,7 @@
 }
 .silvercart-onePane-metrics {
     float:              left;
-    width:              670px;
+    width:              50%;
     padding:            0px 20px 0px 0px;
 }
 .silvercart-onePane-metrics h3 {
@@ -24,7 +24,7 @@
 
 .silvercart-onePane-panels {
     float:              left;
-    width:              300px;
+    width:              48%;
     padding:            50px 0px 0px 0px;
 }
 #silvercart-onePane .silvercart-onePane-panels h2 {

@@ -46,12 +46,14 @@ class SilvercartMetricsFieldOrdersByDay extends SilvercartMetricsField {
     /**
      * Returns all orders for the requested time span.
      * 
+     * @param int $daysToRetrieve The number of days to retrieve
+     *
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.01.2012
      */
-    public function getOrders($daysToRetrieve = 30) {
+    public function getOrders($daysToRetrieve = 360) {
         if ($this->orders !== null) {
             return $this->orders;
         }

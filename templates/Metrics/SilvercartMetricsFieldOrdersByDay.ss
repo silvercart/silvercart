@@ -1,7 +1,7 @@
 <h3>$FieldHeadline</h3>
 
 <% if HasOrderLine %>
-    <div id="chart1" style="height:300px; width:650px;"></div>
+    <div id="chart1" style="height:300px; width:99%;"></div>
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
