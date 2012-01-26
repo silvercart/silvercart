@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2012 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -18,19 +18,30 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Config
+ * @subpackage FormFields
  */
 
 /**
- * This class is used to add a dashboard to the original SiteConfig object in
- * the cms section.
- *
+ * Wrapper for the jqPlot library.
+ * 
  * @package Silvercart
- * @subpackage Config
+ * @subpackage FormFields
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 21.10.2011
- * @license LGPL
+ * @copyright 2012 pixeltricks GmbH
+ * @since 22.01.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartSiteConfig extends DataObjectDecorator {
+class SilvercartMetricsField extends FormField {
+
+    /**
+     * Adds additional Requirements for this field.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.07.2011
+     */
+    public function FieldHolder() {
+        return $this->renderWith($this->class);
+    }
 }
