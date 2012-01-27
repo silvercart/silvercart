@@ -33,18 +33,55 @@
  */
 class SilvercartTextWidget extends SilvercartWidget {
     
-    /**
-     * Attributes.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.06.2011
-     */
-    public static $db = array(
-        'FreeText'  => 'HTMLText'
+    public static $casting = array(
+        'FreeText'  => 'Text'
     );
     
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartTextWidgetLanguages' => 'SilvercartTextWidgetLanguage'
+    );
+    
+    /**
+     * saves the value of the field FreeText correctly into HTMLText
+     * 
+     * @param string $value the field value
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function saveFreeText($value) {
+        $languageObj = $this->getLanguage();
+        $languageObj->FreeText = $value;
+        $languageObj->write();
+    }
+
+    /**
+     * retirieves the attribute FreeText from related language class depending
+     * on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function getFreeText() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->FreeText;
+        }
+        return $title;
+    }
+
     /**
      * Returns the title of this widget.
      * 
@@ -55,6 +92,29 @@ class SilvercartTextWidget extends SilvercartWidget {
      */
     public function Title() {
         return _t('SilvercartText.TITLE');
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 26.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'SilvercartTextWidgetLanguages' => _t('SilvercartTextWidgetLanguage.')
+            )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
     
     /**
@@ -91,11 +151,21 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 09.06.2011
      */
     public function getCMSFields() {
-        $fields     = parent::getCMSFields();
-        $textField  = new TextareaField('FreeText', _t('SilvercartText.FREETEXTFIELD_LABEL'));
-        
-        $fields->push($textField);
-        
+        $fields = new FieldSet();
+        $rootTabSet = new TabSet('RootTabSet');
+        $mainTab = new Tab('Root');
+        $translationsTab = new Tab('TranslationsTab');
+        $translationsTab->push(new ComplexTableField($this, 'SilvercartTextWidgetLanguages', 'SilvercartTextWidgetLanguage'));
+        $mainTab->setTitle(_t('Silvercart.CONTENT'));
+        $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
+        $rootTabSet->push($mainTab);
+        $rootTabSet->push($translationsTab);
+        $fields->push($rootTabSet);
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $mainTab->push($languageField);
+        }
         return $fields;
     }
 }

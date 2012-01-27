@@ -894,7 +894,7 @@ class SilvercartProduct extends DataObject {
             // i18n for the tabs
             $mainTab->setTitle(                 _t('SiteTree.TABMAIN'));
             $contentTab->setTitle(              _t('Silvercart.CONTENT',                                'Content'));
-            $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
+            $translationsTab->setTitle(         _t('SilvercartConfig.TRANSLATIONS'));
             $pricesTab->setTitle(               _t('SilvercartPrice.PLURALNAME'));
             $manufacturerTab->setTitle(         _t('SilvercartManufacturer.PLURALNAME'));
 
