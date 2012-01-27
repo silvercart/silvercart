@@ -68,6 +68,7 @@ DataObject::add_extension('SilvercartTaxLanguage',                      'Silverc
 DataObject::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');
 DataObject::add_extension('SilvercartTextWidgetLanguage',               'SilvercartLanguageDecorator');
 DataObject::add_extension('SilvercartProductGroupItemsWidgetLanguage',  'SilvercartLanguageDecorator');
+DataObject::add_extension('SilvercartLatestBlogPostsWidgetLanguage',    'SilvercartLanguageDecorator');
 DataObject::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartShippingMethod',                   'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartProductCondition',                 'SilvercartDataObjectMultilingualDecorator');
@@ -82,6 +83,7 @@ DataObject::add_extension('SilvercartTax',                              'Silverc
 DataObject::add_extension('SilvercartCarrier',                          'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
+DataObject::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",

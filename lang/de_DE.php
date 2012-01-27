@@ -1306,6 +1306,9 @@ $lang['de_DE']['SilvercartLatestBlogPostsWidget']['STOREADMIN_NUMBEROFPOSTS']   
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['TITLE']                      = 'Neueste Blogeinträge anzeigen';
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['WIDGET_TITLE']               = 'Überschrift für das Widget';
 
+$lang['de_DE']['SilvercartLatestBlogPostsWidgetLanguage']['SINGULARNAME'] = 'Übersetzung des Blog Widget';
+$lang['de_DE']['SilvercartLatestBlogPostsWidgetLanguage']['PLURALNAME']   = 'Übersetzungen des Blog Widget';
+
 $lang['de_DE']['SilvercartLoginWidget']['TITLE']                    = 'Anmeldung';
 $lang['de_DE']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'Mein Konto';
 $lang['de_DE']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Anmeldung';
