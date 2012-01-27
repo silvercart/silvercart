@@ -160,6 +160,9 @@ $lang['en_GB']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
 $lang['en_GB']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['en_GB']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an image slider for displaying multiple images in a slide show.';
 
+$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME'] = 'translation of an ImageSlider widget';
+$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']   = 'translations of an ImageSlider widget';
+
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';

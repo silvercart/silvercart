@@ -153,6 +153,9 @@ $lang['en_US']['SilvercartImageSliderImage']['LINKPAGE'] = 'Page that shall be l
 $lang['en_US']['SilvercartImageSliderImage']['SINGULARNAME'] = 'slider image';
 $lang['en_US']['SilvercartImageSliderImage']['PLURALNAME'] = 'slider images';
 
+$lang['en_US']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME'] = 'translation of an ImageSlider widget';
+$lang['en_US']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']   = 'translations of an ImageSlider widget';
+
 $lang['en_US']['SilvercartImageSliderImageLanguage']['PLURALNAME'] = 'slider image translations';
 $lang['en_US']['SilvercartImageSliderImageLanguage']['SINGULARNAME'] = 'slider image translation';
 

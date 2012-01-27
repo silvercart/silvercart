@@ -42,8 +42,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * @since 20.10.2011
      */
     public static $db = array(
-        'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'HTMLText',
         'Autoplay'                      => 'Boolean(1)',
         'autoPlayDelayed'               => 'Boolean(1)',
         'autoPlayLocked'                => 'Boolean(0)',
@@ -54,6 +52,23 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         'stopAtEnd'                     => 'Boolean(0)',
         'transitionEffect'              => "Enum('fade,horizontalSlide,verticalSlide','fade')",
         'useSlider'                     => "Boolean(0)"
+    );
+    
+    public static $casting = array(
+        'FrontTitle'                    => 'VarChar(255)',
+        'FrontContent'                  => 'Text'
+    );
+    
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartImageSliderWidgetLanguages' => 'SilvercartImageSliderWidgetLanguage'
     );
     
     /**
@@ -67,6 +82,54 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     public static $many_many = array(
         'slideImages' => 'SilvercartImageSliderImage'
     );
+    
+    /**
+     * Getter for the multilingula FrontTitle
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function getFrontTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->FrontTitle;
+        }
+        return $title;
+    }
+    
+    /**
+     * Getter for the multilingula FrontContent
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function getFrontContent() {
+        $content = '';
+        if ($this->getLanguage()) {
+            $content = $this->getLanguage()->FrontContent;
+        }
+        return $content;
+    }
+    
+    /**
+     * HtmlEditorFields need an own save method
+     *
+     * @param string
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function saveFrontContent($value) {
+        $langObj = $this->getLanguage();
+        $langObj->FrontContent = $value;
+        $langObj->write();
+    }
     
     /**
      * Returns the title of this widget.
@@ -116,8 +179,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields = new FieldSet();
         
-        $titleField                 = new TextField('FrontTitle', _t('SilvercartProductGroupItemsWidget.FRONTTITLE'));
-        $contentField               = new TextareaField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'), 10);
         $imageField                 = new ManyManyFileDataObjectManager(
             $this,
             'slideImages',
@@ -145,14 +206,20 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
         $sliderTab  = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
         $imagesTab  = new Tab('slideImages', _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME', 'Images'));
+        $translationsTab = new Tab('TranslationsTab');
+        $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
         $rootTabSet->push($imagesTab);
         $rootTabSet->push($sliderTab);
+        $rootTabSet->push($translationsTab);
         
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $basicTab->push($languageField);
+        }
         
         $sliderTab->push($autoplay);
         $sliderTab->push($slideDelay);
@@ -166,7 +233,31 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         
         $imagesTab->push($imageField);
         
+        $translationsTab->push(new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage'));
+        
         return $fields;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 27.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                'SilvercartImageSliderWidgetLanguages' => _t('SilvercartImageSliderWidgetLanguage.PLURALNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
 }
 
