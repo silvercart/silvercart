@@ -1344,6 +1344,9 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']             
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Slider verwenden';
 
+$lang['de_DE']['SilvercartProductGroupItemsWidgetLanguage']['SINGULARNAME'] = 'Übersetzung eines Warengruppenwidget';
+$lang['de_DE']['SilvercartProductGroupItemsWidgetLanguage']['PLURALNAME']   = 'Übersetzungen eines Warengruppenwidget';
+
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider für Warengruppen';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Erzeugt einen Slider, der alle Warengruppen anzeigt.';
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider für Warengruppen';

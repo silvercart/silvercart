@@ -42,8 +42,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public static $db = array(
-        'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'HTMLText',
         'numberOfProductsToShow'        => 'Int',
         'numberOfProductsToFetch'       => 'Int',
         'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
@@ -63,6 +61,11 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'useRoundabout'                 => "Boolean(0)"
     );
     
+    public static $casting = array(
+        'FrontTitle'                    => 'VarChar(255)',
+        'FrontContent'                  => 'Text',
+    );
+    
     /**
      * Set default values.
      * 
@@ -76,6 +79,68 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'numberOfProductsToFetch'   => 5,
         'slideDelay'                => 5000
     );
+    
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartProductGroupItemsWidgetLanguages' => 'SilvercartProductGroupItemsWidgetLanguage'
+    );
+    
+    /**
+     * Getter for the front title depending on the set language
+     *
+     * @return string  
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function getFrontTitle() {
+        $frontTitle = '';
+        if ($this->getLanguage()) {
+            $frontTitle = $this->getLanguage()->FrontTitle;
+        }
+        return $frontTitle;
+    }
+    
+    /**
+     * Getter for the FrontContent depending on the set language
+     *
+     * @param
+     *
+     * @return string The HTML front content 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function getFrontContent() {
+        $frontContent = '';
+        if ($this->getLanguage()) {
+            $frontContent = $this->getLanguage()->FrontContent;
+        }
+        return $frontContent;
+    }
+    
+    /**
+     * HtmlEditorFields need an own save method
+     *
+     * @param string
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function saveFrontContent($value) {
+        $langObj = $this->getLanguage();
+        $langObj->FrontContent = $value;
+        $langObj->write();
+    }
     
     /**
      * Returns the input fields for this widget.
@@ -94,8 +159,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
-        $titleField                 = new TextField('FrontTitle', _t('SilvercartProductGroupItemsWidget.FRONTTITLE'));
-        $contentField               = new TextareaField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'), 10);
         $numberOfProductsShowField  = new TextField('numberOfProductsToShow', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOSHOW'));
         $numberOfProductsFetchField = new TextField('numberOfProductsToFetch', _t('SilvercartProductGroupItemsWidget.STOREADMIN_NUMBEROFPRODUCTSTOFETCH'));
         $fetchMethod                = new DropdownField(
@@ -112,12 +175,18 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         
         $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
         $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
-        
+        $translationTab = new Tab('Translations');
+        $translationTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
+        $translationsTable = new ComplexTableField($this, 'SilvercartProductGroupItemsWidgetLanguages', 'SilvercartProductGroupItemsWidgetLanguage');
+        $translationTab->push($translationsTable);
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
+        $rootTabSet->push($translationTab);
         
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $basicTab->push($languageField);
+        }
         $basicTab->push($productGroupField);
         $basicTab->push($numberOfProductsShowField);
         $basicTab->push($numberOfProductsFetchField);
@@ -234,6 +303,28 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      */
     public function Description() {
         return _t('SilvercartProductGroupItemsWidget.DESCRIPTION');
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 27.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+            'SilvercartProductGroupItemsWidgetLanguages' => _t('SilvercartProductGroupItemsWidgetLanguage.PLURALNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
     
     /**

@@ -1345,6 +1345,9 @@ $lang['en_GB']['SilvercartProductGroupSliderWidget']['CMSTITLE']                
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['DESCRIPTION']                         = 'Creates a slider that displays all product groups.';
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['TITLE']                               = 'Slider for product groups';
 
+$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['SINGULARNAME'] = 'translation of a product group items widget';
+$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['PLURALNAME']   = 'translations of a product group items widget';
+
 $lang['en_GB']['SilvercartProductLanguage']['SINGULARNAME']                                 = 'product translation';
 $lang['en_GB']['SilvercartProductLanguage']['PLURALNAME']                                   = 'product translations';
 $lang['en_GB']['SilvercartProductLanguage']['LOCALE']                                       = 'Language';

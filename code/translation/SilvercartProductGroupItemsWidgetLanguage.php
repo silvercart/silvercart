@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
- * @subpackage translation
+ * @package translation
+ * @subpackage SilverCart
  */
 
 /**
@@ -26,10 +26,10 @@
  *
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @since 23.01.2012
+ * @since 27.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartTextWidgetLanguage extends DataObject {
+class SilvercartProductGroupItemsWidgetLanguage extends DataObject {
     
     /**
      * Attributes.
@@ -37,10 +37,11 @@ class SilvercartTextWidgetLanguage extends DataObject {
      * @var array
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
+     * @since 27.01.2012
      */
     public static $db = array(
-        'FreeText' => 'HTMLText'
+        'FrontTitle'                    => 'VarChar(255)',
+        'FrontContent'                  => 'HTMLText'
     );
     
     /**
@@ -49,11 +50,12 @@ class SilvercartTextWidgetLanguage extends DataObject {
      * @var array
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
+     * @since 27.01.2012
      */
     public static $has_one = array(
-        'SilvercartTextWidget' => 'SilvercartTextWidget'
+        'SilvercartProductGroupItemsWidget' => 'SilvercartProductGroupItemsWidget'
     );
+    
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -61,11 +63,11 @@ class SilvercartTextWidgetLanguage extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
+     * @since 27.01.2012
      */
     public function singular_name() {
-        if (_t('SilvercartTextWidgetLanguage.SINGULARNAME')) {
-            return _t('SilvercartTextWidgetLanguage.SINGULARNAME');
+        if (_t('SilvercartProductGroupItemsWidgetLanguage.SINGULARNAME')) {
+            return _t('SilvercartProductGroupItemsWidgetLanguage.SINGULARNAME');
         } else {
             return parent::singular_name();
         } 
@@ -79,11 +81,11 @@ class SilvercartTextWidgetLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
+     * @since 27.01.2012
      */
     public function plural_name() {
-        if (_t('SilvercartTextWidgetLanguage.PLURALNAME')) {
-            return _t('SilvercartTextWidgetLanguage.PLURALNAME');
+        if (_t('SilvercartProductGroupItemsWidgetLanguage.PLURALNAME')) {
+            return _t('SilvercartProductGroupItemsWidgetLanguage.PLURALNAME');
         } else {
             return parent::plural_name();
         }
@@ -104,7 +106,9 @@ class SilvercartTextWidgetLanguage extends DataObject {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-            'FreeText' => _t('SilvercartText.FREETEXTFIELD_LABEL')
+                    'FrontTitle' => _t('SilvercartProductGroupItemsWidget.FRONTTITLE'),
+                    'FrontContent' => _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'),
+                    'SilvercartProductGroupItemsWidget' => _t('SilvercartProductGroupItemsWidget.SINGULARNAME')
                 )
         );
 
