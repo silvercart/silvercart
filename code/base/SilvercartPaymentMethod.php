@@ -101,26 +101,7 @@ class SilvercartPaymentMethod extends DataObject {
     // ------------------------------------------------------------------------
     // Attributes and Relations
     // ------------------------------------------------------------------------
-    /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $singular_name = "payment method";
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $plural_name = "payment methods";
+    
     /**
      * Defines the attributes of the class
      *
@@ -134,8 +115,6 @@ class SilvercartPaymentMethod extends DataObject {
         'isActive'                              => 'Boolean',
         'minAmountForActivation'                => 'Float',
         'maxAmountForActivation'                => 'Float',
-        'Name'                                  => 'Varchar(150)',
-        'paymentDescription'                    => 'Text',
         'mode'                                  => "Enum('Live,Dev','Dev')",
         'orderStatus'                           => 'Varchar(50)',
         'showPaymentLogos'                      => 'Boolean',
@@ -172,8 +151,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 16.12.10
      */
     public static $has_many = array(
-        'SilvercartOrders'          => 'SilvercartOrder',
-        'PaymentLogos'              => 'SilvercartImage'
+        'SilvercartOrders'                 => 'SilvercartOrder',
+        'PaymentLogos'                     => 'SilvercartImage'
     );
     /**
      * Defines n:m relations
@@ -216,7 +195,9 @@ class SilvercartPaymentMethod extends DataObject {
     public static $casting = array(
         'AttributedCountries' => 'Varchar(255)',
         'AttributedZones'     => 'Varchar(255)',
-        'activatedStatus'     => 'Varchar(255)'
+        'activatedStatus'     => 'Varchar(255)',
+        'Name'                => 'Varchar(150)',
+        'paymentDescription'  => 'Text'
     );
     /**
      * Default values for new PaymentMethods
@@ -307,6 +288,74 @@ class SilvercartPaymentMethod extends DataObject {
      */
     protected $formID = '';
     
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.01.2012
+     */
+    public function singular_name() {
+        if (_t('SilvercartPaymentMethod.SINGULARNAME')) {
+            return _t('SilvercartPaymentMethod.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.01.2012
+     */
+    public function plural_name() {
+        if (_t('SilvercartPaymentMethod.PLURALNAME')) {
+            return _t('SilvercartPaymentMethod.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }
+
+    }
+    
+    /**
+     * getter for the multilingual attribute name
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.01.2012
+     */
+    public function getName() {
+        $name = '';
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->getLanguage()) {
+            $name = $this->getLanguage()->Name;
+        }
+        return $name;
+    }
+    
+    /**
+     * getter for the multilingual attribute paymentDescription
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.01.2012
+     */
+    public function getpaymentDescription() {
+        $description = '';
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->getLanguage()) {
+            $description = $this->getLanguage()->paymentDescription;
+        }
+        return $description;
+    }
+    
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
@@ -365,13 +414,14 @@ class SilvercartPaymentMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Name'                             => 'Name',
+                    'Name'                             => _t('SilvercartPaymentMethod.NAME'),
                     'activatedStatus'                  => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
                     'AttributedZones'                  => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
                     'AttributedCountries'              => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
                     'minAmountForActivation'           => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
                     'maxAmountForActivation'           => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
                     'ShowFormFieldsOnPaymentSelection' => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
+                    'SilvercartPaymentMethodLanguages' => _t('SilvercartPaymentMethodLanguage.PLURALNAME')
                 )
         );
     }
@@ -419,19 +469,6 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getDefaultOrderStatus() {
         return $this->orderStatus;
-    }
-
-    /**
-     * Returns the payment methods description
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
-     */
-    public function getPaymentDescription() {
-        return $this->getField('paymentDescription');
     }
 
     /**
@@ -999,6 +1036,23 @@ class SilvercartPaymentMethod extends DataObject {
             }
         }
     }
+    
+    /**
+     * find out if we are dealing with an extended class or with SilvercartPaymentMethod.
+     * This is needed for the multilingual feature
+     *
+     * @return boolean 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 29.01.2012
+     */
+    public function isExtendingSilvercartPaymentMethod() {
+        $result = false;
+        if (in_array('SilvercartPaymentMethod', class_parents($this->ClassName))) {
+            $result = true;
+        }
+        return $result;
+    }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
@@ -1026,6 +1080,13 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
         $fields->addFieldToTab($tabParam, $shippingMethodsTable);
+        //multilingual fields, in fact just the title
+        if ($this->isExtendingSilvercartPaymentMethod()) {
+           $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $fields->insertAfter($languageField, 'isActive');
+            } 
+        }
         return $fields;
     }
 

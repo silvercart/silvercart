@@ -1624,7 +1624,11 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $paymentMethod = DataObject::get_one('SilvercartPaymentPrepayment');
                 if (!$paymentMethod) {
                     $paymentMethod = new SilvercartPaymentPrepayment();
-                    $paymentMethod->Name = _t('SilvercartPaymentPrepayment.SINGULARNAME');
+                    $paymentMethod->write();
+                    $trnaslations = array(
+                        'en_GB' => ''
+                    );
+                    #$paymentMethod->Name = _t('SilvercartPaymentPrepayment.SINGULARNAME');
                 }
                 $paymentMethod->isActive = true;
                 $orderStatusPending = DataObject::get_one("SilvercartOrderStatus", "`Code` = 'pending'");

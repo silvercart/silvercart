@@ -1097,6 +1097,14 @@ $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard o
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
 
+$lang['en_US']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'translation of a payment method';
+$lang['en_US']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'translations of a payment method';
+
+$lang['en_US']['SilvercartPaymentPrepaymentLanguage']['SINGULARNAME'] = 'translation for prepayment';
+$lang['en_US']['SilvercartPaymentPrepaymentLanguage']['PLURALNAME'] = 'translation for prepayment';
+$lang['en_US']['SilvercartPaymentPrepaymentLanguage']['TEXTBANKACCOUNTINFO'] = 'informations for payment method prepayment';
+$lang['en_US']['SilvercartPaymentPrepaymentLanguage']['INVOICEINFO'] = 'informations for payment method invoice';
+
 $lang['en_US']['SilvercartPaymentNotification']['PLURALNAME'] = 'Payment Notifications';
 $lang['en_US']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Payment Notification';
 $lang['en_US']['SilvercartPaymentNotification']['TITLE'] = 'Payment notification';

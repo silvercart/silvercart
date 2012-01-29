@@ -1099,6 +1099,14 @@ $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard B
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
 
+$lang['de_DE']['SilvercartPaymentMethodLanguage']['SINGULARNAME'] = 'Übersetzung einer Zahlart';
+$lang['de_DE']['SilvercartPaymentMethodLanguage']['PLURALNAME'] = 'Übersetzungen einer Zahlart';
+
+$lang['de_DE']['SilvercartPaymentPrepaymentLanguage']['SINGULARNAME'] = 'Übersetzung für Zahlart Vorkasse';
+$lang['de_DE']['SilvercartPaymentPrepaymentLanguage']['PLURALNAME'] = 'Übersetzungen für Zahlart Vorkasse';
+$lang['de_DE']['SilvercartPaymentPrepaymentLanguage']['TEXTBANKACCOUNTINFO'] = 'Informationen für Zahlart Vorkasse';
+$lang['de_DE']['SilvercartPaymentPrepaymentLanguage']['INVOICEINFO'] = 'Informationen zur Zahlart Rechnung';
+
 $lang['de_DE']['SilvercartPaymentNotification']['PLURALNAME'] = 'Zahlungsbenachrichtigungen';
 $lang['de_DE']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Zahlungsbenachrichtigung';
 $lang['de_DE']['SilvercartPaymentNotification']['TITLE'] = 'Zahlungsbenachrichtigung';
