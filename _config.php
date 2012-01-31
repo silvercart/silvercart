@@ -87,7 +87,6 @@ DataObject::add_extension('SilvercartTextWidget',                       'Silverc
 DataObject::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualDecorator');
-DataObject::add_extension('SilvercartPaymentPrepayment',                'SilvercartDataObjectMultilingualDecorator');
 SortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",

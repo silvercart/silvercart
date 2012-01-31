@@ -994,7 +994,6 @@ class SilvercartPaymentMethod extends DataObject {
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
 
-        // Es handelt sich nicht um die Basisklasse
         // not a base class
         if ($this->moduleName !== '') {
 
@@ -1012,9 +1011,23 @@ class SilvercartPaymentMethod extends DataObject {
                     if (!DataObject::get_one($className, sprintf("`PaymentChannel`='%s'", $channel))) {
                         $paymentMethod = new $className();
                         $paymentMethod->isActive       = 0;
-                        $paymentMethod->Name           = $name;
+                        #$paymentMethod->Name           = $name;
                         $paymentMethod->PaymentChannel = $channel;
                         $paymentMethod->write();
+                        $languages = array('de_DE', 'en_US', 'en_GB');
+                        $languageClassName = $this->ClassName . 'Language';
+                        foreach ($languages as $language) {
+                            $relationField = $this->ClassName . 'ID';
+                            $filter = sprintf("`Locale` = '%s' AND `%s` = '%s'", $language, $relationField, $paymentMethod->ID);
+                            $langObj = DataObject::get_one($languageClassName, $filter);
+                            if (!$langObj) {
+                                $langObj = new $languageClassName();
+                                $langObj->Locale = $language;
+                            }
+                            $langObj->Name = $name;
+                            $langObj->{$relationField} = $paymentMethod->ID;
+                            $langObj->write();
+                        }
                     }
                 }
             } elseif (!DataObject::get_one($className)) {
@@ -1080,13 +1093,6 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
         $fields->addFieldToTab($tabParam, $shippingMethodsTable);
-        //multilingual fields, in fact just the title
-        if ($this->isExtendingSilvercartPaymentMethod()) {
-           $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
-            foreach ($languageFields as $languageField) {
-                $fields->insertAfter($languageField, 'isActive');
-            } 
-        }
         return $fields;
     }
 
@@ -1120,14 +1126,21 @@ class SilvercartPaymentMethod extends DataObject {
         // Common GUI elements for all payment methods
         // --------------------------------------------------------------------
         $tabBasic = new Tab('Basic', _t('SilvercartPaymentMethod.BASIC_SETTINGS', 'basic settings'));
+        $translationsTab = new Tab('Translations');
+        $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
         $tabset->push($tabBasic);
-        
-        $tabBasic->setChildren(
-            new FieldSet(
-                new TextField('Name', _t('SilvercartPaymentMethod.NAME')),
-                new TextareaField('paymentDescription', _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')),
-                new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')),
-                new DropdownField(
+        $tabset->push($translationsTab);
+        $tabBasicFieldSet = new FieldSet();
+        $tabBasic->setChildren($tabBasicFieldSet);
+        //multilingual fields
+        if ($this->isExtendingSilvercartPaymentMethod()) {
+           $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $tabBasicFieldSet->push($languageField);
+            } 
+        }
+        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
+        $tabBasicFieldSet->push(new DropdownField(
                     'mode',
                     _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'
                     ),
@@ -1136,17 +1149,15 @@ class SilvercartPaymentMethod extends DataObject {
                         'Dev' => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
                     ),
                     $this->mode
-                ),
-                new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')),
-                new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')),
-                new DropdownField(
+                ));
+        $tabBasicFieldSet->push(new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')));
+        $tabBasicFieldSet->push(new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')));
+        $tabBasicFieldSet->push(new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
                     SilvercartOrderStatus::getStatusList()->map('Code', 'Title', _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"))
-                )
-            )
-        );
-
+                ));
+        
         // --------------------------------------------------------------------
         // GUI for management of logo images
         // --------------------------------------------------------------------
