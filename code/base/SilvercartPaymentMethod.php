@@ -1046,6 +1046,18 @@ class SilvercartPaymentMethod extends DataObject {
                 $this->setField('Name', _t($className . '.NAME', $this->moduleName));
                 $this->setField('Title', _t($className . '.TITLE', $this->moduleName));
                 $this->write();
+                $languages = array('de_DE', 'en_US', 'en_GB');
+                foreach ($languages as $language) {
+                   $filter = sprintf("`Locale` = '%s' AND `SilvercartPaymentPaypalID` = '%s'", $language, $this->ID);
+                   $langObj = DataObject::get_one('SilvercartPaymentPaypalLanguage', $filter); 
+                   if (!$langObj) {
+                       $langObj = new SilvercartPaymentPaypalLanguage();
+                       $langObj->Locale = $language;
+                   }
+                   $langObj->Name = $this->moduleName;
+                   $langObj->SilvercartPaymentPaypalID = $this->ID;
+                   $langObj->write();
+                }
             }
         }
     }
