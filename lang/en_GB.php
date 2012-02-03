@@ -932,6 +932,7 @@ $lang['en_GB']['SilvercartPage']['ACCESS_CREDENTIALS_CALL'] = 'Please fill in yo
 $lang['en_GB']['SilvercartPage']['ADDRESS'] = 'Address';
 $lang['en_GB']['SilvercartPage']['ADDRESSINFORMATION'] = 'Address information';
 $lang['en_GB']['SilvercartPage']['ADDRESS_DATA'] = 'Address data';
+$lang['en_GB']['SilvercartPage']['ADMIN_AREA'] = 'Admin Access';
 $lang['en_GB']['SilvercartPage']['ALREADY_REGISTERED'] = 'Hello %s, You have already registered.';
 $lang['en_GB']['SilvercartPage']['API_CREATE'] = 'Can create objects via the API';
 $lang['en_GB']['SilvercartPage']['API_DELETE'] = 'Can delete objects via the API';
