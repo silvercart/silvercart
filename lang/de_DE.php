@@ -196,7 +196,7 @@ $lang['de_DE']['SilvercartNumberRange']['ACTUALCOUNT'] = 'Aktuell';
 $lang['de_DE']['SilvercartNumberRange']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartNumberRange']['END'] = 'Ende';
 $lang['de_DE']['SilvercartNumberRange']['ENDCOUNT'] = 'Ende';
-$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Identifier';
+$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Bezeichner';
 $lang['de_DE']['SilvercartNumberRange']['INVOICENUMBER'] = 'Rechnungsnummer';
 $lang['de_DE']['SilvercartNumberRange']['ORDERNUMBER'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartNumberRange']['PLURALNAME'] = 'Nummernkreise';
@@ -1344,6 +1344,12 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']           
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                          = 'Vor-/Zurück Schaltflächen anzeigen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']                      = 'Seitennavigation anzeigen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']                       = 'Start/Stop Schaltfläche anzeigen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_DISPLAYTABNAME']                   = 'Darstellung';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Warengruppe';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Artikel';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'SilverCart Warengruppenansicht';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                          = 'Dieses Widget zeigt Artikel aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Artikel angezeigt werden sollen.';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD']                          = 'Auswahlmehode für Produkte';
@@ -1353,10 +1359,9 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTTITLE']                           = 'Überschrift';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTGROUP']         = 'Aus Warengruppe';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Produkte von Hand wählen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Anzahl der Artikel, die geladen werden sollen:';
@@ -1368,6 +1373,7 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE'
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertikal schieben';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Listendarstellung verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Produkte';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Slider verwenden';
 
 $lang['de_DE']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider für Warengruppen';

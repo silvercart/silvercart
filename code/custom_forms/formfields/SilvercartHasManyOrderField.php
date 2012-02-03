@@ -81,23 +81,24 @@ class SilvercartHasManyOrderField extends DropdownField {
     protected $relationName;
     
     /**
-	 * Creates a new SilvercartHasManyOrder field.
-	 * 
-	 * @param DataObject   $sourceClass  The source class object
-	 * @param string       $relationName The name of the relation
-	 * @param string       $title        The field title
-	 * @param array        $source       An map of the dropdown items
-	 * @param string|array $value        You can pass an array of values or a single value like a drop down to be selected
-	 * @param int          $size         Optional size of the select element
-	 * @param boolean      $multiple     Indicates wether multiple entries can be selected
-	 * @param form         $form         The parent form
+     * Creates a new SilvercartHasManyOrder field.
+     * 
+     * @param DataObject   $sourceClass  The source class object
+     * @param string       $relationName The name of the relation
+     * @param string       $name         The field name
+     * @param string       $title        The field title
+     * @param array        $source       An map of the dropdown items
+     * @param string|array $value        You can pass an array of values or a single value like a drop down to be selected
+     * @param int          $size         Optional size of the select element
+     * @param boolean      $multiple     Indicates wether multiple entries can be selected
+     * @param form         $form         The parent form
      * 
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
-	 */
-    function __construct($sourceClass, $relationName, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
+     */
+    public function __construct($sourceClass, $relationName, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
         parent::__construct($name, $title, $source, $value, $form);
         
         $this->dataObj      = $sourceClass;
@@ -208,7 +209,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * Adds the abillity to execute additional actions to the model admin's
      * action handling.
      *
-     * @param SS_HTTPRequest $request
+     * @param SS_HTTPRequest $request The request
      * 
      * @return mixed
      * 
@@ -246,7 +247,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      */
     public function doEditItem($vars, SS_HTTPRequest $request) {
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -266,7 +267,6 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * @since 07.07.2011
      */
     public function doSave($data, $form, SS_HTTPRequest $request) {
-
         $dataObj = DataObject::get_by_id(
             $this->currentRecord->ClassName,
             Convert::raw2sql($data['ID'])
@@ -337,7 +337,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -380,7 +380,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -435,7 +435,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -490,7 +490,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();

@@ -158,8 +158,9 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $belongs_many_many = array(
-        'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
-        'SilvercartOrders'                => 'SilvercartOrder'
+        'SilvercartShoppingCarts'            => 'SilvercartShoppingCart',
+        'SilvercartOrders'                   => 'SilvercartOrder',
+        'SilvercartProductGroupItemsWidgets' => 'SilvercartProductGroupItemsWidget'
     );
     
     /**

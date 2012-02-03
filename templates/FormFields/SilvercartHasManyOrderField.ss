@@ -105,7 +105,7 @@
                 Behaviour.apply('SilvercartWidgetEditForm_Form form');
                 openTab('SilvercartProductGroupItemsWidget_basic');
             }, 'html');
-            
+
             return false;
         });
     })(jQuery);
