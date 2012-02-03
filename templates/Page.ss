@@ -52,6 +52,15 @@
                                     <div class="subcl">
                                         <% if CurrentRegisteredCustomer %>
                                             <div class="silvercart-headerbar-actions right">
+                                            <% if CurrentRegisteredCustomer.isAdmin %>
+                                                <div class="silvercart-button">
+                                                    <div class="silvercart-button_content">
+                                                        <a href="{$baseHref}admin">
+                                                            <% _t('SilvercartPage.ADMIN_AREA', 'Admin Access') %>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            <% end_if %>
                                                 <div class="silvercart-button">
                                                     <div class="silvercart-button_content">
                                                         <a id="silvercart-myaccount-link" href="$PageByIdentifierCode(SilvercartMyAccountHolder).Link">
