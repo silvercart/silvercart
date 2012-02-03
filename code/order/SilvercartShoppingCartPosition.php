@@ -122,8 +122,12 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        
-        $this->adjustQuantityToStockQuantity();
+        // Check if the installation is complete. If it's not complete we
+        // can't access the SilvercartConfig data object (out of database)
+        // because it's not build yet
+        if (SilvercartConfig::isInstallationCompleted()) {
+            $this->adjustQuantityToStockQuantity();
+        }
         $controller = Controller::curr();
 
         if ($controller->hasMethod('getRegisteredCustomHtmlForm') &&
