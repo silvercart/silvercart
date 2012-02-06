@@ -90,6 +90,16 @@ class SilvercartConfig extends DataObject {
      * @since 16.01.2012
      */
     public static $registeredMenus = array();
+
+    /**
+     * Contains URL identifiers for Non-CMS menu items.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static $menuNonCmsIdentifiers = array('silvercart');
     
     /**
      * Attributes.
@@ -798,6 +808,16 @@ class SilvercartConfig extends DataObject {
         $member             = Member::currentUser();
         $configObject       = self::getConfig();
 
+        $silvercartPluginResult = SilvercartPlugin::call(
+            $configObject,
+            'overwritePricetype',
+            array()
+        );
+
+        if (!empty($silvercartPluginResult)) {
+            return $silvercartPluginResult;
+        }
+
         if ($member) {
             // ----------------------------------------------------------------
             // Determine price type by customer's chosen invoice address during
@@ -887,6 +907,18 @@ class SilvercartConfig extends DataObject {
      */
     public static function getRegisteredMenus() {
         return self::$registeredMenus;
+    }
+
+    /**
+     * Returns the Non-CMS menu identifiers.
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static function getMenuNonCmsIdentifiers() {
+        return self::$menuNonCmsIdentifiers;
     }
 
     /**
@@ -1076,6 +1108,22 @@ class SilvercartConfig extends DataObject {
      */
     public static function setDefaultLayoutLoaded($loaded) {
         self::$defaultLayoutLoaded = $loaded;
+    }
+
+    /**
+     * Set a Non-CMS menu identifier.
+     *
+     * @param string $identifier The identifier
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static function setMenuNonCmsIdentifier($identifier) {
+        if (!in_array($identifier, self::$menuNonCmsIdentifiers)) {
+            self::$menuNonCmsIdentifiers[] = $identifier;
+        }
     }
 
     /**

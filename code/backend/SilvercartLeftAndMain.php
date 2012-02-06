@@ -65,8 +65,9 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
         }
 
         // Encode into DO set
-        $menu      = new DataObjectSet();
-        $menuItems = CMSMenu::get_viewable_menu_items();
+        $menu                  = new DataObjectSet();
+        $menuItems             = CMSMenu::get_viewable_menu_items();
+        $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
 
         if ($menuItems) {
             foreach ($menuItems as $code => $menuItem) {
@@ -97,8 +98,15 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
 
                 if (!empty($menuItem->controller)) {
                     $urlSegment = singleton($menuItem->controller)->stat('url_segment');
+                    $doSkip     = false;
 
-                    if (substr($urlSegment, 0, 10) === 'silvercart') {
+                    foreach ($menuNonCmsIdentifiers as $identifier) {
+                        if (substr($urlSegment, 0, strlen($identifier)) === $identifier) {
+                            $doSkip = true;
+                        }
+                    }
+
+                    if ($doSkip) {
                         continue;
                     }
                 }
@@ -259,10 +267,18 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * @since 16.01.2012
      */
     public function getCmsSection() {
-        $section = '';
-        $urlSegment = $this->owner->stat('url_segment');
+        $section               = '';
+        $urlSegment            = $this->owner->stat('url_segment');
+        $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
+        $foundCmsSection       = true;
 
-        if (substr($urlSegment, 0, 10) !== 'silvercart') {
+        foreach ($menuNonCmsIdentifiers as $identifier) {
+            if (in_array(substr($urlSegment, 0, strlen($identifier)), $menuNonCmsIdentifiers)) {
+                $foundCmsSection = false;
+            }
+        }
+
+        if ($foundCmsSection) {
             $section = ': '.$this->owner->SectionTitle();
         }
 

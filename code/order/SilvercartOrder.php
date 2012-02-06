@@ -1702,6 +1702,14 @@ class SilvercartOrder extends DataObject {
             $isPriceTypeGross = true;
         }
 
+        $isPriceTypeGross = SilvercartPlugin::call(
+            $this,
+            'IsPriceTypeGross',
+            array(
+                $isPriceTypeGross
+            )
+        );
+
         return $isPriceTypeGross;
     }
 
@@ -1719,6 +1727,14 @@ class SilvercartOrder extends DataObject {
         if ($this->SilvercartInvoiceAddress()->isCompanyAddress()) {
             $isPriceTypeNet = true;
         }
+
+        $isPriceTypeNet = SilvercartPlugin::call(
+            $this,
+            'IsPriceTypeNet',
+            array(
+                $isPriceTypeNet
+            )
+        );
 
         return $isPriceTypeNet;
     }

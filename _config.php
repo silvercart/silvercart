@@ -64,6 +64,7 @@ SortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
+Object::add_extension('SilvercartConfig',                           'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartOrder',                            'SilvercartPluginObjectExtension');
@@ -78,6 +79,7 @@ Object::add_extension('SilvercartRemovePositionForm',               'SilvercartP
 Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectExtension');
 
+SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartIncrementPositionQuantityForm', 'SilvercartIncrementPositionQuantityFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartOrder',                         'SilvercartOrderPluginProvider');
