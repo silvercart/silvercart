@@ -277,7 +277,7 @@ class SilvercartOrder extends DataObject {
                 'title'     => _t('SilvercartAddress.SURNAME'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'SilvercartOrderStatus.Title' => array(
+            'SilvercartOrderStatus.ID' => array(
                 'title'     => _t('SilvercartOrder.STATUS', 'order status'),
                 'filter'    => 'ExactMatchFilter'
             ),
@@ -418,6 +418,8 @@ class SilvercartOrder extends DataObject {
         $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Addition', 'Zusatz', $this->SilvercartInvoiceAddress()->Addition));
         $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_City', 'PLZ/Ort', strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
         $fields->addFieldToTab('Root.'._t('SilvercartAddressHolder.INVOICEADDRESS_TAB'), new ReadonlyField('ia_Phone', 'Telefon', $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+
+        $this->extend('updateCMSFields', $fields);
 
         return $fields;
     }
@@ -1893,10 +1895,10 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         $searchForm         = parent::SearchForm();
 
         if ($orderStatusSet) {
-            $searchForm->Fields()->removeByName('SilvercartOrderStatus__Title');
+            $searchForm->Fields()->removeByName('SilvercartOrderStatus__ID');
 
             $dropdownField = new DropdownField(
-                'SilvercartOrderStatus__Title',
+                'SilvercartOrderStatus__ID',
                 _t('SilvercartOrder.STATUS', 'order status'),
                 $orderStatusSet->map(
                     'ID',
@@ -1905,7 +1907,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                 )
             );
 
-            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartAddresses__Surname');
+            $searchForm->Fields()->push($dropdownField);
         }
         
         if ($paymentMethodSet) {
@@ -1921,7 +1923,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                 )
             );
 
-            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartOrderStatus__Title');
+            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartOrderStatus__ID');
         }
 
         $this->extend('updateSearchForm', $searchForm);
