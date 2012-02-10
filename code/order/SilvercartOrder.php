@@ -2015,3 +2015,16 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         return false;
     }
 }
+
+/**
+ * The Silvercart Order RecordController.
+ *
+ * @package Silvercart
+ * @subpackage Order
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 08.02.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartOrder_RecordController extends ModelAdmin_RecordController {
+}
