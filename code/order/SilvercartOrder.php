@@ -1979,6 +1979,8 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $whereIdx++;
         }
 
+        $this->extend('updateGetSearchQuery', $searchCriteria, $query);
+
         return $query;
     }
 

@@ -563,10 +563,6 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
 
-        if (round($amountTotal, 2) === -0.00) {
-            $amountTotal *= -1;
-        }
-        
         $amountTotalObj = new Money;
         $amountTotalObj->setAmount($amountTotal);
         $amountTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -787,7 +783,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         $cacheHash = md5(
-            implode(',', $excludeModules).
+            implode(',', $excludeModules).'_'.
             implode(',', $excludeShoppingCartPosition)
         );
         $cacheKey = 'getTaxableAmountGrossWithoutFeesAndCharges_'.$cacheHash;
