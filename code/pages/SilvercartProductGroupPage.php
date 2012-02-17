@@ -53,6 +53,14 @@ class SilvercartProductGroupPage extends Page {
      */
     public static $can_be_root = false;
     
+    /**
+     * The icon for this page type in the backend sitetree.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.02.2012
+     */
     public static $icon = "silvercart/images/page_icons/product_group";
 
     /**
@@ -447,9 +455,9 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 25.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 12.01.2012
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
@@ -471,18 +479,20 @@ class SilvercartProductGroupPage extends Page {
                      WHERE
                         isActive = 1
                         AND (SilvercartProductGroupID IN (%s)
-                             OR (
+                             OR ID IN (
                                 SELECT
-                                    COUNT(SilvercartProductID)
+                                    SilvercartProductID
                                 FROM
                                     SilvercartProduct_SilvercartProductGroupMirrorPages
                                 WHERE
-                                    SilvercartProductGroupPageID IN (%s)) > 0)",
+                                    SilvercartProductGroupPageID IN (%s)))
+                        AND %s",
+                    implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs)
                 )
             );
-
+            
             foreach ($records as $record) {
                 $activeProducts[] = $record['ID'];
             }
@@ -492,7 +502,7 @@ class SilvercartProductGroupPage extends Page {
         
         return new DataObject(
             array(
-                'ID'    => 0,
+                'ID'    => count($this->activeSilvercartProducts),
                 'Count' => count($this->activeSilvercartProducts)
             )
         );
@@ -605,7 +615,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    protected $groupProducts = null;
+    protected $groupProducts = array();
 
     /**
      * Contains the SilvercartProduct object that is used for the detail view
@@ -1002,13 +1012,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 20.10.2010
      */
     public function getProducts($numberOfProducts = false, $sort = false) {
-        if (!($this->groupProducts)) {
+        $hashKey = md5($numberOfProducts.'_'.$sort);
+
+        if (!(array_key_exists($hashKey, $this->groupProducts))) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());
 
             if (!empty($pluginProducts)) {
-                $this->groupProducts = $pluginProducts;
+                $this->groupProducts[$hashKey] = $pluginProducts;
             } else {
                 $this->listFilters = array();
                 $filter            = '';
@@ -1085,16 +1097,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $this->ID
                 );
                 
-                $this->groupProducts = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
+                $this->groupProducts[$hashKey] = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
             }
 
             // Inject additional methods into the DataObjectSet
-            if ($this->groupProducts) {
-                $this->groupProducts->HasMorePagesThan = $this->HasMorePagesThan;
+            if ($this->groupProducts[$hashKey]) {
+                $this->groupProducts[$hashKey]->HasMorePagesThan = $this->HasMorePagesThan;
             }
         }
         
-        return $this->groupProducts;
+        return $this->groupProducts[$hashKey];
     }
     
     /**

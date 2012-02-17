@@ -33,45 +33,4 @@
  * @license LGPL
  */
 class SilvercartSiteConfig extends DataObjectDecorator {
-    
-    /**
-     * Adds a dashboard section
-     *
-     * @param FieldSet &$fields The FieldSet
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.10.2011
-     */
-    public function updateCMSFields(&$fields) {
-        $dashboardTab = new Tab('silvercartDashboard', _t('SilvercartSiteConfig.DASHBOARD_TAB'));
-        $fields->addFieldToTab('Root', $dashboardTab, 'Main');
-
-        $dashboardField = new LiteralField(
-            'silvercartDashboardField',
-            sprintf(
-                "<h2>%s</h2>",
-                _t('SilvercartSiteConfig.WELCOME_TO_SILVERCART')
-            )
-        );
-        $dashboardTab->push($dashboardField);
-        
-        // Button for testdata and setting generation
-        $products = DataObject::get_one('SilvercartProduct');
-        
-        if (!$products) {
-            $dashboardTestDataField = new LiteralField(
-                'silvercartDashboardTestDataField',
-                sprintf(
-                    "<br /><h3>%s</h3><p>%s</p><p><a href=\"%sadmin/silvercart-configuration/#Root_General_set_TestData\">%s</a></p>",
-                    _t('SilvercartSiteConfig.TESTDATA_HEADLINE'),
-                    _t('SilvercartSiteConfig.TESTDATA_TEXT'),
-                    Director::absoluteBaseURL(),
-                    _t('SilvercartSiteConfig.TESTDATA_LINKTEXT')
-                )
-            );
-            $dashboardTab->push($dashboardTestDataField);
-        }
-    }
 }

@@ -82,6 +82,16 @@ class SilvercartProduct extends DataObject {
     protected $deeplinkValue = null;
 
     /**
+     * Contains hashes for caching.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.01.2012
+     */
+    protected $cacheHashes = array();
+
+    /**
      * 1:n relations
      *
      * @var array
@@ -143,8 +153,9 @@ class SilvercartProduct extends DataObject {
      * @since 22.11.2010
      */
     public static $belongs_many_many = array(
-        'SilvercartShoppingCarts'         => 'SilvercartShoppingCart',
-        'SilvercartOrders'                => 'SilvercartOrder'
+        'SilvercartShoppingCarts'            => 'SilvercartShoppingCart',
+        'SilvercartOrders'                   => 'SilvercartOrder',
+        'SilvercartProductGroupItemsWidgets' => 'SilvercartProductGroupItemsWidget'
     );
     
     /**
@@ -430,9 +441,13 @@ class SilvercartProduct extends DataObject {
                 'manufacturer.Title'                => _t('SilvercartManufacturer.SINGULARNAME'),
                 'isFreeOfCharge'                    => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
                 'PurchasePrice'                     => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+                'PurchasePriceAmount'               => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'MSRPrice'                          => _t('SilvercartProduct.MSRP', 'MSR price'),
+                'MSRPriceAmount'                    => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'PriceGross'                        => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
+                'PriceGrossAmount'                  => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceNet'                          => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
+                'PriceNetAmount'                    => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
                 'MetaDescription'                   => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
                 'Weight'                            => _t('SilvercartProduct.WEIGHT', 'weight'),
                 'MetaTitle'                         => _t('SilvercartProduct.METATITLE', 'meta title'),
@@ -653,7 +668,7 @@ class SilvercartProduct extends DataObject {
      * @return FieldSet
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
+        $fields = $this->scaffoldFormFields();
         // there are two ways to display the products CMS fields (set in Backend)
         if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
             //Inject the fields that come from the language object
@@ -1083,8 +1098,7 @@ class SilvercartProduct extends DataObject {
         }
         
         $this->extend('updateCMSFields', $CMSFields);
-        // here is another extension to prevend multiple loadings of updateCMSFields
-        $this->extend('updateSilvercartCMSFields', $CMSFields);
+
         return $CMSFields;
     }
 
@@ -1156,31 +1170,43 @@ class SilvercartProduct extends DataObject {
      * Getter for product price
      * May be decorated by the module silvercart_graduatedprices
      *
+     * @param boolean $priceType Set to 'gross' or 'net' to get the desired prices.
+     *                           If not given the price type will be automatically determined.
+     *
      * @return Money price dependent on customer class and configuration
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.10.2011
      */
-    public function getPrice() {
-        if (is_null($this->price)) {
-            $pricetype = SilvercartConfig::Pricetype();
-            if ($pricetype =="net") {
-                $price = clone $this->PriceNet;
-            } elseif ($pricetype == "gross") {
-                $price = clone $this->PriceGross;
-            } else {
-                $price = clone $this->PriceGross;
-            }
-            
-            $price->setAmount(round($price->getAmount(), 2));
-            
-            if ($price->getAmount() < 0) {
-                $price->setAmount(0);
-            }
-            //overwrite the price in a decorator
-            $this->extend('updatePrice', $price);
-            $this->price = $price;
+    public function getPrice($priceType = false) {
+        $cacheHash = md5($priceType);
+        $cacheKey = 'getPrice_'.$cacheHash;
+
+        if (array_key_exists($cacheKey, $this->cacheHashes)) {
+            return $this->cacheHashes[$cacheKey];
         }
+
+        if ($priceType === false) {
+            $priceType = SilvercartConfig::priceType();
+        }
+        if ($priceType =="net") {
+            $price = clone $this->PriceNet;
+        } elseif ($priceType == "gross") {
+            $price = clone $this->PriceGross;
+        } else {
+            $price = clone $this->PriceGross;
+        }
+        
+        $price->setAmount(round($price->getAmount(), 2));
+        
+        if ($price->getAmount() < 0) {
+            $price->setAmount(0);
+        }
+        //overwrite the price in a decorator
+        $this->extend('updatePrice', $price);
+        $this->price = $price;
+
+        $this->cacheHashes[$cacheKey] = $this->price;
         return $this->price; 
     }
     
@@ -1732,7 +1758,22 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateGetSilvercartImages', $images);
         
         if ($images->Count() > 0) {
-            return $images;
+            $existingImages = new DataObjectSet();
+            foreach ($images as $image) {
+                if (!file_exists($image->Image()->getFullPath())) {
+                    $noImageObj = SilvercartConfig::getNoImage();
+                    
+                    if ($noImageObj) {
+                        $noImageObj->setField('Title', 'No Image');
+                        
+                        $image = new SilvercartImage();
+                        $image->ImageID             = $noImageObj->ID;
+                        $image->SilvercartProductID = $this->ID;
+                    }
+                }
+                $existingImages->push($image);
+            }
+            return $existingImages;
         } else {
             $noImageObj = SilvercartConfig::getNoImage();
             
@@ -1873,7 +1914,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function import($data, $form, $request) {
         $modelName = $data['ClassName'];
-
+        
         if (!$this->showImportForm() || (is_array($this->showImportForm()) && !in_array($modelName,$this->showImportForm()))) {
             return false;
         }
@@ -1897,26 +1938,28 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $results = $loader->load($_FILES['_CsvFile']['tmp_name']);
 
         $message = '';
-        if ($results->CreatedCount()) {
+        if ($results instanceof BulkLoader_Result) {
+            if ($results->CreatedCount()) {
+                    $message .= sprintf(
+                    _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
+                    $results->CreatedCount()
+                );
+            }
+            if ($results->UpdatedCount()) {
                 $message .= sprintf(
-                _t('ModelAdmin.IMPORTEDRECORDS', "Imported %s records."),
-                $results->CreatedCount()
-            );
-        }
-        if ($results->UpdatedCount()) {
-            $message .= sprintf(
-                _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
-                $results->UpdatedCount()
-            );
-        }
-        if ($results->DeletedCount()) {
-            $message .= sprintf(
-                _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
-                $results->DeletedCount()
-            );
-        }
-        if (!$results->CreatedCount() && !$results->UpdatedCount()) {
-            $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+                    _t('ModelAdmin.UPDATEDRECORDS', "Updated %s records."),
+                    $results->UpdatedCount()
+                );
+            }
+            if ($results->DeletedCount()) {
+                $message .= sprintf(
+                    _t('ModelAdmin.DELETEDRECORDS', "Deleted %s records."),
+                    $results->DeletedCount()
+                );
+            }
+            if (!$results->CreatedCount() && !$results->UpdatedCount()) {
+                $message .= _t('ModelAdmin.NOIMPORT', "Nothing to import");
+            }
         }
 
         $form->sessionMessage($message, 'good');
@@ -2117,7 +2160,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $data['imageDirectory'] .= '/';
         }
         
-        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);
+        $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);        
         
         // Create Image object and SilvercartImage objects and connect them
         // to the respective SilvercartProduct
@@ -2199,9 +2242,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             foreach ($products as $product) {
                 if (!array_key_exists('fileName', $product)) {
                     continue;
-                }
-                if (file_exists($data['imageDirectory'].$product['fileName'])) {
-                    unlink($data['imageDirectory'].$product['fileName']);
                 }
             }
         }
@@ -2361,7 +2401,8 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $resultSet = SilvercartPlugin::call($this, 'overwriteFindProductsByNumbers', array($numbers, $mapNames), true, array());
         
         if (is_array($resultSet) &&
-            count($resultSet) > 0) {
+            count($resultSet) > 0
+            && !empty($resultSet[0])) {
             return $resultSet[0];
         }
         
@@ -2437,10 +2478,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      */
     public function CustomForm($formIdentifier) {
         $form = '';
-
-        if (method_exists($this, $formIdentifier)) {
-            $form = $this->$formIdentifier();
-        }
+        $form = $this->$formIdentifier();
         
         $this->extend('updateCustomForm', $form, $formIdentifier);
 
@@ -2465,9 +2503,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
 
         $this->extend('updateCustomFormAction', $data, $form, $request, $output);
         
-        if (method_exists($this, $data['action'])) {
-            $this->$data['action']($data, $form, $request, $output);
-        }
+        $this->$data['action']($data, $form, $request, $output);
         
         return $output;
     }
@@ -2608,20 +2644,11 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 04.01.2012
      */
     protected function Log($logString, $filename = 'importProducts') {
-        $logDirectory = Director::baseFolder();
-
-        $logDirectory = explode('/', $logDirectory);
-        array_pop($logDirectory);
-        array_pop($logDirectory);
-        $logDirectory = implode('/', $logDirectory);
-
-        $data  = date('d.m.Y H:i:s').":\t".$logString."\n";
-        $filename = $logDirectory.'/log/' . $filename . '.log';
-        file_put_contents($filename, $data, FILE_APPEND);
+        SilvercartConfig::Log('SilvercartProduct', $logString, $filename);
     }
 }

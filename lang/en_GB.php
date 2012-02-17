@@ -137,6 +137,9 @@ $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 
 $lang['en_GB']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME'] = 'availability translation';
 $lang['en_GB']['SilvercartAvailabilityStatusLanguage']['PLURALNAME'] = 'availability translations';
 
+$lang['en_GB']['SilvercartDashboard']['NEWS_HEADLINE'] = 'News';
+$lang['en_GB']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Read more';
+
 $lang['en_GB']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
 $lang['en_GB']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
 
@@ -162,6 +165,16 @@ $lang['en_GB']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an i
 
 $lang['en_GB']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME'] = 'translation of an ImageSlider widget';
 $lang['en_GB']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']   = 'translations of an ImageSlider widget';
+
+$lang['en_GB']['SilvercartMenu']['SECTION_payment']             = 'Payment';
+$lang['en_GB']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
+$lang['en_GB']['SilvercartMenu']['SECTION_externalConnections'] = 'External connections';
+$lang['en_GB']['SilvercartMenu']['SECTION_others']              = 'Others';
+$lang['en_GB']['SilvercartMenu']['SECTION_maintenance']         = 'Maintenance';
+
+$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'There are no orders yet.';
+$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Number of orders per day';
+$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Order time line';
 
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
@@ -223,7 +236,7 @@ $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID'] 
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN'] = 'No directory specified';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Import images subsequently';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Directory on the webserver where the images are located';
-$lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located';
+$lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absolute path to the directory on the webserver where the images are located (e.g. /var/www/silvercart/images/)';
 $lang['en_GB']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>';
 $lang['en_GB']['SilvercartProduct']['LIST_PRICE'] = 'list price';
 $lang['en_GB']['SilvercartProduct']['MASTERPRODUCT'] = 'Master product';
@@ -279,8 +292,8 @@ $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['en_GB']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_GB']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
 $lang['en_GB']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
-$lang['en_GB']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Product exporters';
-$lang['en_GB']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Product exporter';
+$lang['en_GB']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Price portal exporters';
+$lang['en_GB']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Price portal exporter';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
 $lang['en_GB']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
@@ -940,6 +953,7 @@ $lang['en_GB']['SilvercartPage']['ACCESS_CREDENTIALS_CALL'] = 'Please fill in yo
 $lang['en_GB']['SilvercartPage']['ADDRESS'] = 'Address';
 $lang['en_GB']['SilvercartPage']['ADDRESSINFORMATION'] = 'Address information';
 $lang['en_GB']['SilvercartPage']['ADDRESS_DATA'] = 'Address data';
+$lang['en_GB']['SilvercartPage']['ADMIN_AREA'] = 'Admin Access';
 $lang['en_GB']['SilvercartPage']['ALREADY_REGISTERED'] = 'Hello %s, You have already registered.';
 $lang['en_GB']['SilvercartPage']['API_CREATE'] = 'Can create objects via the API';
 $lang['en_GB']['SilvercartPage']['API_DELETE'] = 'Can delete objects via the API';
@@ -1186,6 +1200,7 @@ $lang['en_GB']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_GB']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_GB']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_GB']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
+$lang['en_GB']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'What do you want to import?';
 
 $lang['en_GB']['SilvercartShippingMethodLanguage']['SINGULARNAME'] = 'Shipping method translation';
 $lang['en_GB']['SilvercartShippingMethodLanguage']['PLURALNAME'] = 'Shipping method translations';
@@ -1273,7 +1288,7 @@ $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'This update is al
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manual changes detected. This update was skipped to prevent damage to existing data.';
 $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error occured.';
 
-$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
+$lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'Updates';
 
 $lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 
@@ -1329,6 +1344,12 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']           
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                          = 'Show next/previous buttons';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']                      = 'Show page navigation';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']                       = 'Show start/stop buttons';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_DISPLAYTABNAME']                   = 'Display';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Product group';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Products';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'SilverCart product group items';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                          = 'This widget displays products of a definable productgroup. You can define how many products from which product group should be shown.';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD']                          = 'Selection method for products';
@@ -1338,10 +1359,9 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTTITLE']                           = 'Headline';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Content';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTGROUP']         = 'From product group';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Choose manually';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
-$lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Number of products to fetch:';
@@ -1353,6 +1373,7 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE'
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertical slide';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Use listview';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
+$lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Selection method for products';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Use slider';
 
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['CMSTITLE']                            = 'Slider for product groups';
@@ -1380,6 +1401,11 @@ $lang['en_GB']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This 
 $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
+
+$lang['en_GB']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
+$lang['en_GB']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
+$lang['en_GB']['SilvercartStoreAdminMenu']['ORDERS'] = 'Orders';
+$lang['en_GB']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
 
 $lang['en_GB']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_GB']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';

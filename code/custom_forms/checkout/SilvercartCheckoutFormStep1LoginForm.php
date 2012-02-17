@@ -69,7 +69,7 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlForm {
      * @since 08.04.2011
      */
     protected function fillInFieldValues() {
-        $this->controller->fillFormFields(&$this->formFields);
+        $this->controller->fillFormFields($this->formFields);
         $this->formFields['Email']['title']     = _t('SilvercartAddress.EMAIL', 'email address');
         $this->formFields['Password']['title']  = _t('SilvercartPage.PASSWORD');
     }

@@ -122,8 +122,12 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        
-        $this->adjustQuantityToStockQuantity();
+        // Check if the installation is complete. If it's not complete we
+        // can't access the SilvercartConfig data object (out of database)
+        // because it's not build yet
+        if (SilvercartConfig::isInstallationCompleted()) {
+            $this->adjustQuantityToStockQuantity();
+        }
         $controller = Controller::curr();
 
         if ($controller->hasMethod('getRegisteredCustomHtmlForm') &&
@@ -151,11 +155,30 @@ class SilvercartShoppingCartPosition extends DataObject {
     }
 
     /**
+     * Returns the title of the shopping cart position.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.01.2012
+     */
+    public function getTitle() {
+        $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
+        
+        if ($pluginTitle !== '') {
+            return $pluginTitle;
+        }
+
+        return $this->SilvercartProduct()->Title;
+    }
+
+    /**
      * price sum of this position
      *
      * @param boolean $forSingleProduct Indicates wether the price for the total
      *                                  quantity of products should be returned
      *                                  or for one product only.
+     * @param boolean $priceType        'gross' or 'net'. If undefined it'll be automatically chosen.
      * 
      * @return Money the price sum
      * 
@@ -163,7 +186,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 22.10.2010
      */
-    public function getPrice($forSingleProduct = false) {
+    public function getPrice($forSingleProduct = false, $priceType = false) {
         $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
         
         if ($pluginPriceObj !== false) {
@@ -173,11 +196,11 @@ class SilvercartShoppingCartPosition extends DataObject {
         $product = $this->SilvercartProduct();
         $price = 0;
 
-        if ($product && $product->getPrice()->getAmount()) {
+        if ($product && $product->getPrice($priceType)->getAmount()) {
             if ($forSingleProduct) {
-                $price = $product->getPrice()->getAmount();
+                $price = $product->getPrice($priceType)->getAmount();
             } else {
-                $price = $product->getPrice()->getAmount() * $this->Quantity;
+                $price = $product->getPrice($priceType)->getAmount() * $this->Quantity;
             }
         }
 
@@ -286,10 +309,13 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount($forSingleProduct = false) {        
-        if (Member::currentUser()->showPricesGross()) {
-            $taxRate = $this->getPrice($forSingleProduct)->getAmount() - ($this->getPrice($forSingleProduct)->getAmount() / (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
+        if (SilvercartConfig::PriceType() == 'gross') {
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
+                       ($this->getPrice($forSingleProduct)->getAmount() /
+                        (100 + $this->SilvercartProduct()->getTaxRate()) * 100); 
         } else {
-            $taxRate = $this->getPrice($forSingleProduct)->getAmount() * ($this->SilvercartProduct()->getTaxRate() / 100);
+            $taxRate = $this->getPrice($forSingleProduct)->getAmount() *
+                       ($this->SilvercartProduct()->getTaxRate() / 100);
         }
         return $taxRate;
     }

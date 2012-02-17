@@ -137,6 +137,9 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME'] = 'Verfügbarkeitsstatusübersetzung';
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['PLURALNAME'] = 'Verfügbarkeitsstatusübersetzungen';
 
+$lang['de_DE']['SilvercartDashboard']['NEWS_HEADLINE'] = 'Neuigkeiten';
+$lang['de_DE']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Weiterlesen';
+
 $lang['de_DE']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attribute';
 $lang['de_DE']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribut';
 
@@ -162,6 +165,16 @@ $lang['de_DE']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Stellt einen 
 
 $lang['de_DE']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME'] = 'Übersetzung eines Imagesliderwidgets';
 $lang['de_DE']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']   = 'Übersetzungen eines Imagesliderwidgets';
+
+$lang['de_DE']['SilvercartMenu']['SECTION_payment']             = 'Zahlung';
+$lang['de_DE']['SilvercartMenu']['SECTION_shipping']            = 'Versand';
+$lang['de_DE']['SilvercartMenu']['SECTION_externalConnections'] = 'Externe Anbindung';
+$lang['de_DE']['SilvercartMenu']['SECTION_others']              = 'Anderes';
+$lang['de_DE']['SilvercartMenu']['SECTION_maintenance']         = 'Wartung';
+
+$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'Es wurden noch keine Bestellungen aufgegeben.';
+$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Bestellungen pro Tag';
+$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Bestellverlauf';
 
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
@@ -194,7 +207,7 @@ $lang['de_DE']['SilvercartNumberRange']['ACTUALCOUNT'] = 'Aktuell';
 $lang['de_DE']['SilvercartNumberRange']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartNumberRange']['END'] = 'Ende';
 $lang['de_DE']['SilvercartNumberRange']['ENDCOUNT'] = 'Ende';
-$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Identifier';
+$lang['de_DE']['SilvercartNumberRange']['IDENTIFIER'] = 'Bezeichner';
 $lang['de_DE']['SilvercartNumberRange']['INVOICENUMBER'] = 'Rechnungsnummer';
 $lang['de_DE']['SilvercartNumberRange']['ORDERNUMBER'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartNumberRange']['PLURALNAME'] = 'Nummernkreise';
@@ -223,7 +236,7 @@ $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID'] 
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN'] = 'Es wurde kein Verzeichnis angegeben';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Bilder nachträglich importieren';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Verzeichnis';
-$lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absoluter Pfad zum Verzeichnis auf dem Webserver, in dem die Bilder liegen';
+$lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absoluter Pfad zum Verzeichnis auf dem Webserver, in dem die Bilder liegen. (Beispiel: /var/www/silvercart/images/)';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Es wurden %d Dateien gefunden.</p><p>%d davon konnten Produkten zugeordnet werden und wurden importiert.</p>';
 $lang['de_DE']['SilvercartProduct']['LIST_PRICE'] = 'Listenpreis';
 $lang['de_DE']['SilvercartProduct']['MASTERPRODUCT'] = 'Basisartikel';
@@ -279,8 +292,8 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 $lang['de_DE']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Artikelexporte';
 $lang['de_DE']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Artikelexport';
-$lang['de_DE']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Artikelexporter';
-$lang['de_DE']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Artikelexporter';
+$lang['de_DE']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Preisportal Exporte';
+$lang['de_DE']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Preisportal Export';
 
 $lang['de_DE']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Push aktivieren';
 $lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Aktualisierungsinterval';
@@ -930,7 +943,8 @@ $lang['de_DE']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_DESC'] = 'D
 $lang['de_DE']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'] = 'Zugeordnete Emails';
 $lang['de_DE']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['de_DE']['SilvercartOrderStatus']['PAYED'] = 'Bezahlt';
-$lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstati';
+$lang['de_DE']['SilvercartOrderStatus']['PLURALNAME'] = 'Bestellstatus';
+$lang['de_DE']['SilvercartOrderStatus']['SHIPPED'] = 'Bestellung versendet';
 $lang['de_DE']['SilvercartOrderStatus']['SINGULARNAME'] = 'Bestellstatus';
 
 $lang['de_DE']['SilvercartOrderStatusLanguage']['PLURALNAME'] = 'Bestellstatusübersetzungen';
@@ -943,6 +957,7 @@ $lang['de_DE']['SilvercartPage']['ACCESS_CREDENTIALS_CALL'] = 'Bitte geben Sie I
 $lang['de_DE']['SilvercartPage']['ADDRESS'] = 'Adresse';
 $lang['de_DE']['SilvercartPage']['ADDRESSINFORMATION'] = 'Adressinformationen';
 $lang['de_DE']['SilvercartPage']['ADDRESS_DATA'] = 'Adressdaten';
+$lang['de_DE']['SilvercartPage']['ADMIN_AREA'] = 'Admin Zugang';
 $lang['de_DE']['SilvercartPage']['ALREADY_REGISTERED'] = 'Hallo %s, Sie haben sich schon registriert.';
 $lang['de_DE']['SilvercartPage']['API_CREATE'] = 'kann über die API Objekte erstellen';
 $lang['de_DE']['SilvercartPage']['API_DELETE'] = 'kann über die API Objekte löschen';
@@ -1189,6 +1204,7 @@ $lang['de_DE']['SilvercartShippingMethod']['FOR_ZONES'] = 'für Zonen';
 $lang['de_DE']['SilvercartShippingMethod']['PACKAGE'] = 'Paket';
 $lang['de_DE']['SilvercartShippingMethod']['PLURALNAME'] = 'Versandarten';
 $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
+$lang['de_DE']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'Was wollen Sie importieren?';
 
 $lang['de_DE']['SilvercartShippingMethodLanguage']['PLURALNAME'] = 'Versandartübersetzungen';
 $lang['de_DE']['SilvercartShippingMethodLanguage']['SINGULARNAME'] = 'Versandartübersetzung';
@@ -1276,7 +1292,7 @@ $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED'] = 'Dieses Update ist
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE'] = 'Manuelle Änderungen wurden gefunden. Dieses Update wurde übersprungen, um Schäden an der Datenhaltung zu vermeiden.';
 $lang['de_DE']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'Es ist ein unbekannter Fehler aufgetreten.';
 
-$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'SC Updates';
+$lang['de_DE']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'Updates';
 
 $lang['de_DE']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sortierung';
 
@@ -1332,6 +1348,12 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['AUTOPLAYLOCKED']           
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDARROWS']                          = 'Vor-/Zurück Schaltflächen anzeigen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDNAVIGATION']                      = 'Seitennavigation anzeigen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['BUILDSTARTSTOP']                       = 'Start/Stop Schaltfläche anzeigen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_DISPLAYTABNAME']                   = 'Darstellung';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Warengruppe';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Artikel';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'SilverCart Warengruppenansicht';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                          = 'Dieses Widget zeigt Artikel aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Artikel angezeigt werden sollen.';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD']                          = 'Auswahlmehode für Produkte';
@@ -1341,10 +1363,9 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTTITLE']                           = 'Überschrift';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTGROUP']         = 'Aus Warengruppe';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Produkte von Hand wählen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_BASICTABNAME']                     = 'Grundeinstellungen';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_NUMBEROFPRODUCTSTOFETCH']   = 'Anzahl der Artikel, die geladen werden sollen:';
@@ -1356,6 +1377,7 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_HORIZONTALSLIDE'
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TRANSITION_VERTICALSLIDE']             = 'Vertikal schieben';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_LISTVIEW']                         = 'Listendarstellung verwenden';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Produkte';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SLIDER']                           = 'Slider verwenden';
 
 $lang['de_DE']['SilvercartProductGroupItemsWidgetLanguage']['SINGULARNAME'] = 'Übersetzung eines Warengruppenwidget';
@@ -1383,6 +1405,11 @@ $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Diese
 $lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
+
+$lang['de_DE']['SilvercartStoreAdminMenu']['CONFIG'] = 'Einstellungen';
+$lang['de_DE']['SilvercartStoreAdminMenu']['MODULES'] = 'Module';
+$lang['de_DE']['SilvercartStoreAdminMenu']['ORDERS'] = 'Bestellungen';
+$lang['de_DE']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Artikel';
 
 $lang['de_DE']['SilvercartText']['TITLE']               = 'Freitext';
 $lang['de_DE']['SilvercartText']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';

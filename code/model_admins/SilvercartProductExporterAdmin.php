@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2012 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -18,31 +18,53 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Backend
+ * @subpackage ModelAdmins
  */
 
 /**
- * The Silvercart administration backend.
- *
+ * ModelAdmin for SilvercartProductExporters
+ * 
  * @package Silvercart
- * @subpackage Backend
+ * @subpackage ModelAdmins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 01.08.2011
+ * @copyright 2012 pixeltricks GmbH
+ * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartShopAdministrationAdmin extends ModelAdmin {
-    
+class SilvercartProductExporterAdmin extends ModelAdmin {
+
     /**
-     * We use a custom result table class name.
+     * The code of the menu under which this admin should be shown.
+     * 
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $menuCode = 'products';
+
+    /**
+     * The URL segment
      *
      * @var string
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.10.2011
+     * @copyright 2011 pixeltricks GmbH
+     * @since 01.08.2011
      */
-    protected $resultsTableClassName = 'SilvercartTableListField';
-    
+    public static $url_segment = 'silvercart-product-exporters';
+
+    /**
+     * The menu title
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2011 pixeltricks GmbH
+     * @since 31.01.2011
+     */
+    public static $menu_title = 'Silvercart product exporters';
+
     /**
      * Managed models
      *
@@ -53,63 +75,23 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public static $managed_models = array(
-        'SilvercartOrder' => array(
-            'collection_controller' => 'SilvercartOrder_CollectionController'
-        ),
-        'SilvercartContactMessage' => array(
-            'collection_controller' => 'SilvercartContactMessageAdmin_CollectionController'
-        ),
-        'SilvercartProduct' => array(
-            'collection_controller'         => 'SilvercartProduct_CollectionController',
-            'preventTableListFieldAutoLoad' => true
-        ),
         'SilvercartProductExporter' => array(
             'collection_controller' => 'SilvercartProductExportAdmin_CollectionController',
             'record_controller'     => 'SilvercartProductExportAdmin_RecordController'
-        ),
-        'SilvercartManufacturer',
-        'SilvercartGoogleMerchantTaxonomy' => array(
-            'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
         )
     );
-    
+
     /**
-     * Definition of the Importers for the managed model.
+     * Constructor
      *
-     * @var array
-     *
-     * @author Sascha Koehler
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
-     */
-    public static $model_importers = array(
-        'SilvercartProduct'                 => 'SilvercartProductCsvBulkLoader',
-        'SilvercartManufacturer'            => 'CsvBulkLoader',
-        'SilvercartGoogleMerchantTaxonomy'  => 'CsvBulkLoader'
-    );
-    
-    /**
-     * The URL segment
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
-     */
-    public static $url_segment = 'silvercart-administration';
-    
-    /**
-     * constructor
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartShopAdministrationAdmin.TITLE');
-        
-        self::$managed_models['SilvercartProductExporter']['title']         = _t('SilvercartProductExport.SINGULAR_NAME');
-        self::$managed_models['SilvercartGoogleMerchantTaxonomy']['title']  = _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME');
+        self::$menu_title = _t('SilvercartProductExporter.PLURAL_NAME');
+        self::$managed_models['SilvercartProductExporter']['title'] = _t('SilvercartProductExport.SINGULAR_NAME');
         
         parent::__construct();
     }
@@ -121,14 +103,13 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 01.08.2011
      */
     public function init() {
         parent::init();
         $this->extend('updateInit');
     }
-    
+
     /**
      * Provides a way to use different result tables for the managed models.
      * 
@@ -142,9 +123,6 @@ class SilvercartShopAdministrationAdmin extends ModelAdmin {
         $className = $this->resultsTableClassName;
 
         if (isset($this->urlParams['Action']) ) {
-            if ($this->urlParams['Action'] == 'SilvercartProduct') {
-                $className = 'SilvercartProductTableListField';
-            }
             if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
                 $className = 'SilvercartProductExportTableListField';
             }
@@ -196,47 +174,4 @@ class SilvercartProductExportAdmin_CollectionController extends ModelAdmin_Colle
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProductExportAdmin_RecordController extends SilvercartMultiSelectAndOrderField_RecordController {
-}
-
-/**
- * Modifies the model admin search panel.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 08.08.2011
- * @copyright 2011 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartGoogleMerchantTaxonomy_CollectionController extends ModelAdmin_CollectionController {
-    
-    public $showImportForm = true;
-
-}
-
-/**
- * Modifies the model admin search panel.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 08.04.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartContactMessageAdmin_CollectionController extends ModelAdmin_CollectionController {
-
-    public $showImportForm = false;
-
-    /**
-     * Disable the creation of SilvercartContactMessage DataObjects.
-     *
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
-     */
-    public function alternatePermissionCheck() {
-        return false;
-    }
 }

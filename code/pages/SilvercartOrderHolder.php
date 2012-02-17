@@ -61,16 +61,4 @@ class SilvercartOrderHolder extends SilvercartMyAccountHolder {
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartOrderHolder_Controller extends SilvercartMyAccountHolder_Controller {
-
-    /**
-     * returns the link to the order detail page (without orderID)
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
-     */
-    public function OrderDetailLink() {
-        return $this->PageByIdentifierCode('SilvercartOrderDetailPage')->Link();
-    }
 }

@@ -196,8 +196,7 @@ class SilvercartOrderStatus extends DataObject {
         $shopEmailLabelField = new LiteralField(
             'shopEmailLabelField',
             sprintf(
-                "<br /><h2>%s</h2><p>%s</p>",
-                _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
+                "<br /><p>%s</p>",
                 _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC')
             )
         );
@@ -207,9 +206,13 @@ class SilvercartOrderStatus extends DataObject {
             'SilvercartShopEmail'
         );
         $shopEmailField->setPageSize(20);
+
+        $fields->findOrMakeTab('Root.shopEmails', _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'));
         
-        $fields->insertAfter($shopEmailLabelField, 'Title');
-        $fields->insertAfter($shopEmailField, 'shopEmailLabelField');
+        $fields->addFieldToTab('Root.shopEmails', $shopEmailLabelField);
+        $fields->addFieldToTab('Root.shopEmails', $shopEmailField);
+
+        $this->extend('updateCMSFields', $fields);
 
         return $fields;
     }
@@ -243,6 +246,7 @@ class SilvercartOrderStatus extends DataObject {
             }
         }
         
+        $this->extend('updateSendMailFor', $order);
     }
 
     /**

@@ -80,6 +80,26 @@ class SilvercartConfig extends DataObject {
      * @since 23.08.2011
      */
     public static $productsPerPageUnlimitedNumber = 999999;
+
+    /**
+     * Contains all registered menus for the storeadmin.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static $registeredMenus = array();
+
+    /**
+     * Contains URL identifiers for Non-CMS menu items.
+     * 
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static $menuNonCmsIdentifiers = array('silvercart');
     
     /**
      * Attributes.
@@ -804,6 +824,16 @@ class SilvercartConfig extends DataObject {
         $member             = Member::currentUser();
         $configObject       = self::getConfig();
 
+        $silvercartPluginResult = SilvercartPlugin::call(
+            $configObject,
+            'overwritePricetype',
+            array()
+        );
+
+        if (!empty($silvercartPluginResult)) {
+            return $silvercartPluginResult;
+        }
+
         if ($member) {
             // ----------------------------------------------------------------
             // Determine price type by customer's chosen invoice address during
@@ -873,11 +903,38 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$config)) {
             self::$config = DataObject::get_one('SilvercartConfig');
             if (!self::$config) {
+                if (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
+                    return false;
+                }
                 $errorMessage = _t('SilvercartConfig.ERROR_NO_CONFIG', 'SilvercartConfig is missing! Please <a href="/admin/silvercart-configuration/">log in</a> and choose "SilverCart Configuration -> general configuration" to add the general configuration. ');
                 self::triggerError($errorMessage);
             }
         }
         return self::$config;
+    }
+
+    /**
+     * Returns all registered menus for the storeadmin.
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static function getRegisteredMenus() {
+        return self::$registeredMenus;
+    }
+
+    /**
+     * Returns the Non-CMS menu identifiers.
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static function getMenuNonCmsIdentifiers() {
+        return self::$menuNonCmsIdentifiers;
     }
 
     /**
@@ -1070,6 +1127,22 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
+     * Set a Non-CMS menu identifier.
+     *
+     * @param string $identifier The identifier
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.02.2012
+     */
+    public static function setMenuNonCmsIdentifier($identifier) {
+        if (!in_array($identifier, self::$menuNonCmsIdentifiers)) {
+            self::$menuNonCmsIdentifiers[] = $identifier;
+        }
+    }
+
+    /**
      * enables the creation of test data on /dev/build
      *
      * @return void
@@ -1135,6 +1208,26 @@ class SilvercartConfig extends DataObject {
      */
     public static function removeGroupView($groupView) {
         SilvercartGroupViewHandler::removeGroupView($groupView);
+    }
+
+    /**
+     * Registers a menu.
+     * 
+     * @param string $code      The identifier code for this menu
+     * @param string $menuTitle The menu title
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static function registerMenu($code, $menuTitle) {
+        if (!in_array($menuTitle, self::$registeredMenus)) {
+            self::$registeredMenus[] = array(
+                'code' => $code,
+                'name' => $menuTitle
+            );
+        }
     }
 
     /**

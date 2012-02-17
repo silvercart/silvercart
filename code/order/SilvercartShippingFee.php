@@ -38,10 +38,6 @@ class SilvercartShippingFee extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $db = array(
         'MaximumWeight'     => 'Int',   //gramms
@@ -53,10 +49,6 @@ class SilvercartShippingFee extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_one = array(
         'SilvercartZone'              => 'SilvercartZone',
@@ -68,10 +60,6 @@ class SilvercartShippingFee extends DataObject {
      * Has-many Relationship.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder'
@@ -81,15 +69,13 @@ class SilvercartShippingFee extends DataObject {
      * Virtual database fields.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
         'PriceFormatted'                => 'Varchar(20)',
         'AttributedShippingMethods'     => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'    => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
+        'PriceAmount'                   => 'Varchar(255)',
+        'PriceCurrency'                 => 'Varchar(255)',
     );
     
     
@@ -171,8 +157,8 @@ class SilvercartShippingFee extends DataObject {
                 )
         );
     }
-    
-    /**
+
+        /**
      * Returns the maximum weight or a hint, that this fee is unlimited.
      *
      * @return string
@@ -250,7 +236,11 @@ class SilvercartShippingFee extends DataObject {
      * @since 31.01.2011
      */
     public function PriceFormatted() {
-        return $this->Price->Nice();
+        $priceObj = new Money();
+        $priceObj->setAmount($this->getPriceAmount());
+        $priceObj->setCurrency($this->price->getCurrency());
+
+        return $priceObj->Nice();
     }
 
     /**
@@ -283,6 +273,34 @@ class SilvercartShippingFee extends DataObject {
     }
 
     /**
+     * Returns the tax rate for this fee.
+     * 
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.01.2012
+     */
+    public function getTaxRate() {
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
+
+            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+
+            $taxRate = $silvercartShoppingCart->getMostValuableTaxRate(
+                $silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher')
+            );
+
+            if ($taxRate) {
+                $taxRate = $taxRate->Rate;
+            }
+        } else {
+            $taxRate = $this->SilvercartTax()->getTaxRate();
+        }
+
+        return $taxRate;
+    }
+
+    /**
      * returns the tax amount included in $this
      *
      * @return float
@@ -292,9 +310,10 @@ class SilvercartShippingFee extends DataObject {
      * @since 07.02.2011
      */
     public function getTaxAmount() {
-        $taxRate = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $this->SilvercartTax()->getTaxRate()) * 100);
+        $taxRate   = $this->getTaxRate();
+        $taxAmount = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $taxRate) * 100);
 
-        return $taxRate;
+        return $taxAmount;
     }
     
     /**
@@ -317,6 +336,32 @@ class SilvercartShippingFee extends DataObject {
             return $carrier . "-" . $shippingMethod . "(+" . $shippingFeeAmountAsString . ")";
         }
         return false;
+    }
+    
+    /**
+     * Returns the prices amount
+     *
+     * @return float
+     */
+    public function getPriceAmount() {
+        $price = (float) $this->Price->getAmount();
+
+        if (SilvercartConfig::PriceType() == 'net') {
+            $price = $price - $this->getTaxAmount();
+        }
+
+        $price = round($price, 2);
+
+        return $price;
+    }
+    
+    /**
+     * Returns the prices currency
+     *
+     * @return string
+     */
+    public function getPriceCurrency() {
+        return $this->Price->getCurrency();
     }
 }
 

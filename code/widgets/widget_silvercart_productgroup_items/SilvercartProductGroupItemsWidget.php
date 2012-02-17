@@ -58,7 +58,20 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         'stopAtEnd'                     => 'Boolean(0)',
         'transitionEffect'              => "Enum('fade,horizontalSlide,verticalSlide','fade')",
         'useSlider'                     => "Boolean(0)",
-        'useRoundabout'                 => "Boolean(0)"
+        'useRoundabout'                 => "Boolean(0)",
+        'useSelectionMethod'            => "Enum('productGroup,products','productGroup')"
+    );
+
+    /**
+     * Has_many relationships.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.02.2012
+     */
+    public static $many_many = array(
+        'SilvercartProducts' => 'SilvercartProduct'
     );
     
     public static $casting = array(
@@ -170,29 +183,61 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
                 'sortOrderDesc' => _t('SilvercartProductGroupItemsWidget.FETCHMETHOD_SORTORDERDESC')
             )
         );
-        $useListViewField           = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
-        $isContentView              = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $useListViewField  = new CheckboxField('useListView', _t('SilvercartProductGroupItemsWidget.USE_LISTVIEW'));
+        $isContentView     = new CheckboxField('isContentView', _t('SilvercartProductGroupItemsWidget.IS_CONTENT_VIEW'));
+        $productTableField = new ManyManyComplexTableField(
+            $this,
+            'SilvercartProducts',
+            'SilvercartProduct'
+        );
+        $selectionMethodField = new OptionsetField(
+            'useSelectionMethod',
+            _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
+            array(
+                'productGroup'  => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
+                'products'      => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
+            )
+        );
         
-        $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
-        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        $rootTabSet    = new TabSet('SilvercartProductGroupItemsWidget');
+        $displayTabSet = new TabSet('SilvercartProductGroupItemsWidgetDisplayTabSet');
+
         $translationTab = new Tab('Translations');
         $translationTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
         $translationsTable = new ComplexTableField($this, 'SilvercartProductGroupItemsWidgetLanguages', 'SilvercartProductGroupItemsWidgetLanguage');
         $translationTab->push($translationsTable);
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $rootTabSet->push($translationTab);
         
+        $basicTab        = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
+        $displayTab      = new Tab('display', _t('SilvercartProductGroupItemsWidget.CMS_DISPLAYTABNAME'));
+        $productGroupTab = new Tab('productgroup', _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'));
+        $productsTab     = new Tab('products', _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'));
+        
+        $rootTabSet->push($translationTab);
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
         foreach ($languageFields as $languageField) {
             $basicTab->push($languageField);
         }
-        $basicTab->push($productGroupField);
-        $basicTab->push($numberOfProductsShowField);
-        $basicTab->push($numberOfProductsFetchField);
-        $basicTab->push($fetchMethod);
-        $basicTab->push($useListViewField);
-        $basicTab->push($isContentView);
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($basicTab);
+        $displayTabSet->push($displayTab);
+        $displayTabSet->push($productGroupTab);
+        $displayTabSet->push($productsTab);
+        
+        $basicTab->push($displayTabSet);
+
+        $displayTab->push($titleField);
+        $displayTab->push($contentField);
+        $displayTab->push($useListViewField);
+        $displayTab->push($isContentView);
+        $displayTab->push($selectionMethodField);
+
+        $productGroupTab->push($productGroupField);
+        $productGroupTab->push($fetchMethod);
+        $productGroupTab->push($numberOfProductsShowField);
+        $productGroupTab->push($numberOfProductsFetchField);
+
+        $productsTab->push($productTableField);
         
         $this->getCMSFieldsSliderTab($fields, $rootTabSet);
         $this->getCMSFieldsRoundaboutTab($fields, $rootTabSet);
@@ -339,6 +384,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
      * @since 28.08.2011
      */
     public function populateFromPostData($data) {
+        $this->write();
         if (!array_key_exists('isContentView', $data)) {
             $this->isContentView = 0;
         }
@@ -369,7 +415,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         if (!array_key_exists('useSlider', $data)) {
             $this->useSlider = 0;
         }
-        
+
         parent::populateFromPostData($data);
     }
 }
@@ -696,87 +742,138 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 26.05.2011
      */
     public function ProductPages() {
+        if ($this->elements !== null) {
+            return $this->elements;
+        }
+        switch ($this->useSelectionMethod) {
+            case 'products':
+                $this->elements = $this->getElementsByProducts();
+                break;
+            case 'productGroup':
+            default:
+                $this->elements = $this->getElementsByProductGroup();
+                break;
+        }
+
         if (!$this->SilvercartProductGroupPageID) {
             return false;
         }
         
-        if (!$this->elements) {
-            if (!$this->numberOfProductsToFetch) {
-                $this->numberOfProductsToFetch = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToFetch'];
-            }
-            if (!$this->numberOfProductsToShow) {
-                $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
-            }
+        if (!$this->numberOfProductsToFetch) {
+            $this->numberOfProductsToFetch = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToFetch'];
+        }
+        if (!$this->numberOfProductsToShow) {
+            $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
+        }
 
-            if ($this->numberOfProductsToFetch < $this->numberOfProductsToShow) {
-                $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
-            }
+        if ($this->numberOfProductsToFetch < $this->numberOfProductsToShow) {
+            $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
+        }
 
-            $productgroupPage = DataObject::get_by_id(
-                'SilvercartProductGroupPage',
-                $this->SilvercartProductGroupPageID
-            );
+        $productgroupPage = DataObject::get_by_id(
+            'SilvercartProductGroupPage',
+            $this->SilvercartProductGroupPageID
+        );
 
-            if (!$productgroupPage) {
-                return false;
-            }
-            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-            
-            switch ($this->fetchMethod) {
-                case 'sortOrderAsc':
-                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
-                    break;
-                case 'sortOrderDesc':
-                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
-                    break;
-                case 'random':
-                default:
-                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'RAND()');
-            } 
+        if (!$productgroupPage) {
+            return false;
+        }
+        $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+        
+        switch ($this->fetchMethod) {
+            case 'sortOrderAsc':
+                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
+                break;
+            case 'sortOrderDesc':
+                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                break;
+            case 'random':
+            default:
+                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'RAND()');
+        } 
 
-            $pages          = array();
-            $pageProducts   = array();
-            $pageNr         = 0;
-            $PageProductIdx = 1;
-            $isFirst        = true;
+        $pages          = array();
+        $pageProducts   = array();
+        $pageNr         = 0;
+        $PageProductIdx = 1;
+        $isFirst        = true;
 
-            if ($products) {
-                foreach ($products as $product) {
-                    $pageProducts[] = $product;
-                    $PageProductIdx++;
-
-                    if ($pageNr > 0) {
-                        $isFirst = false;
-                    }
-                    if ($PageProductIdx > $this->numberOfProductsToShow) {
-                        $pages['Page'.$pageNr] = array(
-                            'Elements' => new DataObjectSet($pageProducts),
-                            'IsFirst'    => $isFirst
-                        );
-                        $PageProductIdx = 1;
-                        $pageProducts   = array();
-                        $pageNr++;
-                    }
-                }
-            }
-
-            if (!array_key_exists('Page'.$pageNr, $pages) &&
-                !empty($pageProducts)) {
+        if ($products) {
+            foreach ($products as $product) {
+                $pageProducts[] = $product;
+                $PageProductIdx++;
 
                 if ($pageNr > 0) {
                     $isFirst = false;
                 }
+                if ($PageProductIdx > $this->numberOfProductsToShow) {
+                    $pages['Page'.$pageNr] = array(
+                        'Elements' => new DataObjectSet($pageProducts),
+                        'IsFirst'    => $isFirst
+                    );
+                    $PageProductIdx = 1;
+                    $pageProducts   = array();
+                    $pageNr++;
+                }
+            }
+        }
 
-                $pages['Page'.$pageNr] = array(
-                    'Elements' => new DataObjectSet($pageProducts),
-                    'IsFirst'  => $isFirst
-                );
+        if (!array_key_exists('Page'.$pageNr, $pages) &&
+            !empty($pageProducts)) {
+
+            if ($pageNr > 0) {
+                $isFirst = false;
             }
 
-            $this->elements = new DataObjectSet($pages);
+            $pages['Page'.$pageNr] = array(
+                'Elements' => new DataObjectSet($pageProducts),
+                'IsFirst'  => $isFirst
+            );
         }
+
+        $this->elements = new DataObjectSet($pages);
         
         return $this->elements;
+    }
+
+    /**
+     * Returns the elements for the static slider view.
+     * 
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.02.2012
+     */
+    public function Elements() {
+        if ($this->elements != null) {
+            return $this->elements;
+        }
+
+        switch ($this->useSelectionMethod) {
+            case 'products':
+                $this->elements = $this->getElementsByProducts();
+                break;
+            case 'productGroup':
+            default:
+                $this->elements = $this->getElementsByProductGroup();
+                break;
+        }
+
+        return $this->elements;
+    }
+
+    /**
+     * Returns the manually chosen products.
+     * 
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.02.2012
+     */
+    public function getElementsByProducts() {
+        $products = $this->SilvercartProducts();
+
+        return $products;
     }
     
     /**
@@ -787,40 +884,40 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
-    public function Elements() {
+    public function getElementsByProductGroup() {
+        $elements = new DataObjectSet();
+
         if (!$this->SilvercartProductGroupPageID) {
+            return $elements;
+        }
+        
+        if (!$this->numberOfProductsToShow) {
+            $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
+        }
+
+        $productgroupPage = DataObject::get_by_id(
+            'SilvercartProductGroupPage',
+            $this->SilvercartProductGroupPageID
+        );
+
+        if (!$productgroupPage) {
             return false;
         }
+        $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
         
-        if (!$this->elements) {
-            if (!$this->numberOfProductsToShow) {
-                $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
-            }
-
-            $productgroupPage = DataObject::get_by_id(
-                'SilvercartProductGroupPage',
-                $this->SilvercartProductGroupPageID
-            );
-
-            if (!$productgroupPage) {
-                return false;
-            }
-            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-            
-            switch ($this->fetchMethod) {
-                case 'sortOrderAsc':
-                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
-                    break;
-                case 'sortOrderDesc':
-                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
-                    break;
-                case 'random':
-                default:
-                    $this->elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
-            } 
-        }
+        switch ($this->fetchMethod) {
+            case 'sortOrderAsc':
+                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
+                break;
+            case 'sortOrderDesc':
+                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                break;
+            case 'random':
+            default:
+                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+        } 
         
-        return $this->elements;
+        return $elements;
     }
     
     /**

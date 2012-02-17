@@ -56,6 +56,25 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
     public function getSection() {
         return 'SilvercartOrder';
     }
+
+    /**
+     * Returns the link to this detail page.
+     * 
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.01.2012
+     */
+    public function Link() {
+        $controller = Controller::curr();
+        $link       = parent::Link();
+
+        if ($controller instanceof SilvercartOrderDetailPage_Controller) {
+            $link .= $controller->getOrderID();
+        }
+
+        return $link;
+    }
 }
 
 /**

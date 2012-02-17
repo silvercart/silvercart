@@ -107,4 +107,44 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
         
         return $this->returnExtensionResultAsString($result);
     }
+
+    /**
+     * This method gets called after the IsPriceTypeGross method has been called
+     * and can alter the result.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartOrder
+     *                              $arguments[1] = IsPriceTypeGross (the original result)
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function IsPriceTypeGross(&$arguments = array(), &$callingObject) {
+       $this->extend('pluginIsPriceTypeGross', $arguments[0], $callingObject);
+        
+        return $arguments[0];
+    }
+
+    /**
+     * This method gets called after the IsPriceTypeNet method has been called
+     * and can alter the result.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartOrder
+     *                              $arguments[1] = IsPriceTypeNet (the original result)
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.11.2011
+     */
+    public function IsPriceTypeNet(&$arguments = array(), &$callingObject) {
+       $this->extend('pluginIsPriceTypeNet', $arguments[0], $callingObject);
+        
+        return $arguments[0];
+    }
 }
