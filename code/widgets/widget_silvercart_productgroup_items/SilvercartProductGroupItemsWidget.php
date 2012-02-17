@@ -76,7 +76,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'Text',
+        'FrontContent'                  => 'HTMLText',
     );
     
     /**
@@ -124,8 +124,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     /**
      * Getter for the FrontContent depending on the set language
      *
-     * @param
-     *
      * @return string The HTML front content 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -142,7 +140,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     /**
      * HtmlEditorFields need an own save method
      *
-     * @param string
+     * @param string $value content
      *
      * @return void 
      * 
@@ -166,6 +164,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields = new FieldSet();
         
+        $titleField                 = new TextField('FrontTitle', _t('SilvercartProductGroupItemsWidget.FRONTTITLE'));
+        $contentField               = new TextareaField('FrontContent', _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'), 10);
         $productGroupField = new SilvercartGroupedDropdownField(
             'SilvercartProductGroupPageID',
             _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
@@ -212,7 +212,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
         $productGroupTab = new Tab('productgroup', _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'));
         $productsTab     = new Tab('products', _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'));
         
-        $rootTabSet->push($translationTab);
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
         foreach ($languageFields as $languageField) {
             $basicTab->push($languageField);
@@ -239,8 +238,11 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget {
 
         $productsTab->push($productTableField);
         
+        $rootTabSet->push($translationTab);
+        
         $this->getCMSFieldsSliderTab($fields, $rootTabSet);
         $this->getCMSFieldsRoundaboutTab($fields, $rootTabSet);
+        
         
         return $fields;
     }

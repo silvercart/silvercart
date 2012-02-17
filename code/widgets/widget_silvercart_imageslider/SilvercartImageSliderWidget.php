@@ -56,7 +56,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'Text'
+        'FrontContent'                  => 'HTMLText'
     );
     
     /**
@@ -118,7 +118,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     /**
      * HtmlEditorFields need an own save method
      *
-     * @param string
+     * @param string $value content
      *
      * @return void 
      * 

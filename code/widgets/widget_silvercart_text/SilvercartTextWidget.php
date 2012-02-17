@@ -34,7 +34,7 @@
 class SilvercartTextWidget extends SilvercartWidget {
     
     public static $casting = array(
-        'FreeText'  => 'Text'
+        'FreeText'  => 'HTMLText'
     );
     
     /**

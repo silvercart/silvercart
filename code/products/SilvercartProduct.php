@@ -172,7 +172,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductMirrorGroupIDs'   => 'Text',
         'Title'                             => 'Text',
         'ShortDescription'                  => 'Text',
-        'LongDescription'                   => 'Text',
+        'LongDescription'                   => 'HTMLText',
         'MetaDescription'                   => 'Text',
         'MetaTitle'                         => 'Text',
         'MetaKeywords'                      => 'Text'

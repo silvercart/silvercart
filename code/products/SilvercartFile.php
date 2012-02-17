@@ -50,7 +50,7 @@ class SilvercartFile extends DataObject {
     
     public static $casting = array(
         'Title' => 'VarChar',
-        'Description' => 'Text',
+        'Description' => 'HTMLText',
         'TableIndicator' => 'VarChar'
     );
     
