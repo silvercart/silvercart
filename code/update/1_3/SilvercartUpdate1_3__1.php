@@ -34,7 +34,7 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
     public static $defaults = array(
         'SilvercartVersion'         => '1.3',
         'SilvercartUpdateVersion'   => '1',
-        'Description'               => 'This update provides all multilingual objects with three translations: british english, american english and german.'
+        'Description'               => 'This update adjust all multilingual objects to the new multilingual feature.'
     );
     
     /**
