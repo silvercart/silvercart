@@ -238,7 +238,7 @@ class SilvercartShippingFee extends DataObject {
     public function PriceFormatted() {
         $priceObj = new Money();
         $priceObj->setAmount($this->getPriceAmount());
-        $priceObj->setCurrency($this->price->getCurrency());
+        $priceObj->setCurrency($this->getPriceCurrency());
 
         return $priceObj->Nice();
     }
