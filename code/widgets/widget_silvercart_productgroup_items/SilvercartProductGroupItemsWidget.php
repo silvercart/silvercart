@@ -651,11 +651,11 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         }
         switch ($this->useSelectionMethod) {
             case 'products':
-                $this->elements = $this->getProductPagesByProducts();
+                $this->elements = $this->getElementsByProducts();
                 break;
             case 'productGroup':
             default:
-                $this->elements = $this->getProductPagesByProductGroup();
+                $this->elements = $this->getElementsByProductGroup();
                 break;
         }
 

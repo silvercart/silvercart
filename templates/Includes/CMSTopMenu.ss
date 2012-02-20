@@ -116,12 +116,14 @@
     #silvercart-cms-mainmenu ul li ul {
         z-index: 99;
         display: none;
+        clear: both;
         position: absolute;
         color: #fff;
         background: #1c587a;
         width: 300px;
         top:   33px;
         left:  auto;
+        margin-left: 0px;
         border-left: 1px #fff solid;
         border-right: 1px #fff solid;
         border-bottom: 1px #fff solid;

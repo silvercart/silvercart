@@ -650,54 +650,6 @@ class SilvercartProduct extends DataObject {
             $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
             $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
 
-
-            // --------------------------------------------------------------------
-            // Product group pages tab
-            // --------------------------------------------------------------------
-            $productGroupTable = new HasOneComplexTableField(
-                $this,
-                'SilvercartProductGroup',
-                'SilvercartProductGroupPage',
-                array(
-                    'Breadcrumbs'   => 'Breadcrumbs'
-                ),
-                null,
-                null,
-                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
-            );
-
-            $productGroupTable->pageSize = 1000;
-
-            $fields->addFieldToTab('Root.SilvercartProductGroup', $productGroupTable);
-
-            // set tab title
-            $tab = $fields->findOrMakeTab('Root.SilvercartProductGroup');
-            $tab->title = _t('SilvercartProductGroupPage.SINGULARNAME', 'product group');
-
-            // --------------------------------------------------------------------
-            // Mirror product group pages tab
-            // --------------------------------------------------------------------
-            $productGroupMirrorPagesTable = new ManyManyComplexTableField(
-                $this,
-                'SilvercartProductGroupMirrorPages',
-                'SilvercartProductGroupPage',
-                array(
-                    'Breadcrumbs'   => 'Breadcrumbs'
-                ),
-                null,
-                sprintf(
-                    "SiteTree.ID != %d",
-                    $this->SilvercartProductGroup()->ID
-                ),
-                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
-            );
-            $productGroupMirrorPagesTable->pageSize = 1000;
-
-            $fields->findOrMakeTab('Root.SilvercartProductGroupMirrorPages', _t('SilvercartProductGroupMirrorPage.PLURALNAME', 'Mirror-Productgroups'));
-            $fields->addFieldToTab('Root.SilvercartProductGroupMirrorPages', $productGroupMirrorPagesTable);
-
-
-
             // --------------------------------------------------------------------
             // Reorder tabs
             // --------------------------------------------------------------------
@@ -719,15 +671,11 @@ class SilvercartProduct extends DataObject {
                 }
 
                 $tabset->push($tabs['Main']); // Main
-                $tabset->push($tabs['SilvercartProductGroup']); // Product groups
-                $tabset->push($tabs['SilvercartProductGroupMirrorPages']); // Mirror product groups
                 if (array_key_exists('SilvercartOrders', $tabs)) {
                     $tabset->push($tabs['SilvercartOrders']); // Orders
                 }
 
                 unset($tabs['Main']);
-                unset($tabs['SilvercartProductGroup']);
-                unset($tabs['SilvercartProductGroupMirrorPages']);
 
                 if (array_key_exists('SilvercartOrders', $tabs)) {
                     unset($tabs['SilvercartOrders']);
