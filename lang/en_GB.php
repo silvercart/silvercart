@@ -418,8 +418,8 @@ $lang['en_GB']['SilvercartConfig']['PRICETYPEREGULARCUSTOMERS'] = 'Price type fo
 $lang['en_GB']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Price type for business customers';
 $lang['en_GB']['SilvercartConfig']['EMAILSENDER_INFO'] = 'The email sender will be the sender address of all emails sent by SilverCart.';
 $lang['en_GB']['SilvercartConfig']['ERROR_TITLE'] = 'An error occured!';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/silvercart-configuration/">log in</a> and choose "SC Config -> general configuration" to edit the missing field.';
-$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/silvercart-configuration/">log in</a> and choose "SC Config -> countries" to activate a country.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE'] = 'Required configuration for "%s" is missing.<br/>Please <a href="%sadmin/' . SilvercartConfigAdmin::$url_segment . '/">log in</a> and choose "SC Config -> general configuration" to edit the missing field.';
+$lang['en_GB']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'No active country found. Please <a href="%s/admin/' . SilvercartConfigAdmin::$url_segment . '/">log in</a> and choose "SC Config -> countries" to activate a country.';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Global email recipient';
 $lang['en_GB']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but appended.';
 $lang['en_GB']['SilvercartConfig']['MINIMUMORDERVALUE'] = 'Minimum order value';
