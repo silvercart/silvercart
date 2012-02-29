@@ -7,7 +7,7 @@
         <ul>
             <% control LimitedSilvercartOrderPositions(2) %>
                 <li>
-                    <a href="{$Top.OrderDetailLink}$ID">
+                    <a href="{$Top.OrderDetailLink}$SilvercartOrder.ID">
                         $Title.RAW
                     </a>
                 </li>
