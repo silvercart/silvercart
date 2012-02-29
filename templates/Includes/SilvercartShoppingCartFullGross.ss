@@ -4,7 +4,7 @@
     <tbody>
         <% control SilvercartShoppingCartPositions %>
             <% include SilvercartShoppingCartFullPosition %>
-            
+
             <% if hasNotice %>
             <tr>
                 <td colspan="<% if Top.EditableShoppingCart %>9<% else %>6<% end_if %>">
@@ -25,17 +25,27 @@
                         </td>
                         <td class="right">$PriceFormatted</td>
                         <td class="right">$Tax.Title</td>
-                        
+
                         <% if Top.EditableShoppingCart %>
-                            <td>&nbsp;</td>
+                            <td class="right borderlr" colspan="3">
+                                <div class="subcolumns">
+                                    <div class="c33l">&nbsp;</div>
+                                    <div class="c33l">
+                                        <div class="silvercart-quantity-value right">
+                                            $Quantity
+                                        </div>
+                                    </div>
+                                    <div class="c33r">&nbsp;</div>
+                                </div>
+                            </td>
+                        <% else %>
+                            <td class="right borderlr">
+                                <div class="silvercart-quantity-value right">
+                                    $Quantity
+                                </div>
+                            </td>
                         <% end_if %>
-                        
-                        <td class="right">$Quantity</td>
-                        
-                        <% if Top.EditableShoppingCart %>
-                            <td>&nbsp;</td>
-                        <% end_if %>
-                        
+
                         <td class="right">$PriceTotalFormatted</td>
 
                         <% if Top.EditableShoppingCart %>

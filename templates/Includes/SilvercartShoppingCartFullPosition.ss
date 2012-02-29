@@ -16,29 +16,34 @@
     </td>
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
-    <td class="right borderlr"<% if Top.EditableShoppingCart %> colspan="3"<% end_if %>>
-        <% if Top.EditableShoppingCart %>
-        <div class="subcolumns">
-            <div class="c33l">
-                $DecrementPositionQuantityForm
+    <% if Top.EditableShoppingCart %>
+        <td class="right borderlr" colspan="3">
+            <div class="subcolumns">
+                <div class="c33l">
+                    $DecrementPositionQuantityForm
+                </div>
+                <div class="c33l">
+                    <div class="silvercart-quantity-value right">
+                        $Quantity
+                    </div>
+                </div>
+                <div class="c33r">
+                    <% if isQuantityIncrementableBy %>
+                        $IncrementPositionQuantityForm
+                    <% else %>
+                        &nbsp;
+                    <% end_if %>
+                </div>
             </div>
-        <div class="c33l">
-        <% end_if %>
-        <div class="silvercart-quantity-value">
-            <div>$Quantity</div>
-        </div>
-        <% if Top.EditableShoppingCart %>
+        </td>
+    <% else %>
+        <td class="right borderlr">
+            <div class="silvercart-quantity-value">
+                <div class="right">$Quantity</div>
             </div>
-            <div class="c33r">
-                <% if isQuantityIncrementableBy %>
-                    $IncrementPositionQuantityForm
-                <% else %>
-                    &nbsp;
-                <% end_if %>
-            </div>
-        </div>
-        <% end_if %>
-    </td>
+        </td>
+    <% end_if %>
+
     <td class="right">$Price.Nice</td>
 
     <% if Top.EditableShoppingCart %>
