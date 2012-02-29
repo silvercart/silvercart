@@ -49,7 +49,7 @@
                 <tr>
                     <td colspan="3">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>6<% else %>3<% end_if %>" class="right">$PriceFormatted</td>
+                    <td colspan="<% if Top.EditableShoppingCart %>6<% else %>2<% end_if %>" class="right">$PriceFormatted</td>
                 </tr>
             <% end_control %>
         <% end_if %>
@@ -129,7 +129,7 @@
                 <tr>
                     <td colspan="3">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>6<% else %>3<% end_if %>" class="right">$PriceFormatted</td>
+                    <td colspan="<% if Top.EditableShoppingCart %>6<% else %>2<% end_if %>" class="right">$PriceFormatted</td>
                 </tr>
             <% end_control %>
             <tr>
