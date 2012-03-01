@@ -1,4 +1,5 @@
 <tr<% if Last %> class="separator"<% end_if %>>
+    <td><a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a></td>
     <td>
         <div class="silvercart-product-group-page-box-image">
             <% if SilvercartProduct.getSilvercartImages %>
@@ -16,34 +17,27 @@
     </td>
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
-    <% if Top.EditableShoppingCart %>
-        <td class="right borderlr" colspan="3">
-            <div class="subcolumns">
-                <div class="c33l">
-                    $DecrementPositionQuantityForm
-                </div>
-                <div class="c33l">
-                    <div class="silvercart-quantity-value right">
-                        $Quantity
-                    </div>
-                </div>
-                <div class="c33r">
-                    <% if isQuantityIncrementableBy %>
-                        $IncrementPositionQuantityForm
-                    <% else %>
-                        &nbsp;
-                    <% end_if %>
-                </div>
+    <td class="right borderlr">
+        <% if Top.EditableShoppingCart %>
+        <div class="subcolumns">
+            <div class="c33l">
+                $DecrementPositionQuantityForm                                
             </div>
-        </td>
-    <% else %>
-        <td class="right borderlr">
-            <div class="silvercart-quantity-value">
-                <div class="right">$Quantity</div>
+        <div class="c33l">
+        <% end_if %>
+            $Quantity
+        <% if Top.EditableShoppingCart %>
             </div>
-        </td>
-    <% end_if %>
-
+            <div class="c33r">
+                <% if isQuantityIncrementableBy %>
+                    $IncrementPositionQuantityForm
+                <% else %>
+                    &nbsp;
+                <% end_if %>
+            </div>
+        </div>
+        <% end_if %>
+    </td>
     <td class="right">$Price.Nice</td>
 
     <% if Top.EditableShoppingCart %>
