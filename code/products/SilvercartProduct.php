@@ -542,17 +542,30 @@ class SilvercartProduct extends DataObject {
         $filter             = "";
 
         if (!empty($requiredAttributes)) {
+            $joinToken = false;
             foreach ($requiredAttributes as $requiredAttribute) {
-                if ($requiredAttribute == "Price") {
-                    // Gross price as default if not defined
-                    if ($pricetype == "net") {
-                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
+                //find out if we are dealing with a real attribute or a multilingual field
+                if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
+                    if ($requiredAttribute == "Price") {
+                        // Gross price as default if not defined
+                        if ($pricetype == "net") {
+                            $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
+                        } else {
+                            $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceGrossAmount` != 0.0) AND ");
+                        }
                     } else {
-                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceGrossAmount` != 0.0) AND ");
+                        $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
                     }
+                //if its a multilingual attribute it comes from a relational class and we have to JOIN
+                //the $joinTaken makes sure that the join clause will be filled if we leave the loop
                 } else {
-                    $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
+                    $joinToken = true;
+                    $filter .= sprintf("SilvercartProductLanguage.%s !='' AND ", $requiredAttribute);
                 }
+                
+            }
+            if ($joinToken) {
+                $join = sprintf("INNER JOIN SilvercartProductLanguage ON SilvercartProductLanguage.SilvercartProductID = SilvercartProduct.ID AND SilvercartProductLanguage.Locale = '%s' ", Translatable::get_current_locale());
             }
         }
 

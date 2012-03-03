@@ -1,75 +1,3 @@
-SilvercartTax:
-    VAT19:
-        Title: 19%
-        Rate: 19
-        
-SilvercartProduct:
-    ProductFreeOfChargeWithoutPrice:
-        isFreeOfCharge: 1
-        Title: free Product
-        ShortDescription: This is the short description of the free product
-        LongDescription: This is the long description of the free product
-        isActive: 1
-    ProductFreeOfChargeWithPrice:
-        isFreeOfCharge: 1
-        Title: Product with price free of charge
-        ShortDescription: This is the short description of the product with price free of charge
-        LongDescription: This is the long description of the product with price free of charge
-        isActive: 1
-        PriceNetAmount: 9.00
-        PriceNetCurrency: EUR
-        PriceGrossAmount: 9.99
-        PriceGrossCurrency: EUR
-    ProductWithPrice:
-        isFreeOfCharge: 0
-        Title: Product with price
-        ShortDescription: This is the short description of the product with price
-        LongDescription: This is the long description of the product with price
-        isActive: 1
-        PriceNetAmount: 90.00
-        PriceNetCurrency: EUR
-        PriceGrossAmount: 99.99
-        PriceGrossCurrency: EUR
-        SilvercartTax: =>SilvercartTax.VAT19
-    ProductWithoutPrice:
-        isFreeOfCharge: 0
-        Title: priceless Product
-        ShortDescription: This is the short description of the priceless product
-        LongDescription: This is the long description of the priceless product
-        isActive: 1
-    ProductInactive:
-        isFreeOfCharge: 0
-        Title: inactive product
-        ShortDescription: This is the short description of the inactive product
-        LongDescription: This is the long description of the inactive product
-        isActive: 0
-        PriceNetAmount: 9.00
-        PriceNetCurrency: EUR
-        PriceGrossAmount: 9.99
-        PriceGrossCurrency: EUR
-    ProductWithPriceWithoutShortDescription:
-        isFreeOfCharge: 0
-        Title: Product with price without short description
-        ShortDescription: 
-        LongDescription: This is the long description of the product with price without short description
-        isActive: 1
-        PriceNetAmount: 9.00
-        PriceNetCurrency: EUR
-        PriceGrossAmount: 9.99
-        PriceGrossCurrency: EUR
-        SilvercartTax: =>SilvercartTax.VAT19
-    ProductWithPriceWithoutLongDescription:
-        isFreeOfCharge: 0
-        Title: Product with price without long description
-        ShortDescription: This is the short description of the product with price without long description
-        LongDescription: 
-        isActive: 1
-        PriceNetAmount: 9.00
-        PriceNetCurrency: EUR
-        PriceGrossAmount: 9.99
-        PriceGrossCurrency: EUR
-        SilvercartTax: =>SilvercartTax.VAT19
-        
 SilvercartConfig:
     SilvercartConfig:
         DefaultCurrency: EUR
@@ -79,6 +7,104 @@ SilvercartConfig:
         PricetypeAnonymousCustomers: gross
         PricetypeRegularCustomers: gross
         PricetypeBusinessCustomers: net
+        useDefaultLanguageAsFallback: 1
+        enableBusinessCustomers: 1
+
+SilvercartTax:
+    VAT19:
+        Title: 19%
+        Rate: 19
+        
+SilvercartProductLanguage:
+    ProductWithPriceLanguage:
+        Title: Product with price
+        ShortDescription: This is the short description of the product with price
+        LongDescription: This is the long description of the product with price
+        Locale: en_US
+    ProductFreeOfChargeWithPriceLanguage:
+        Title: Product with price free of charge
+        ShortDescription: This is the short description of the product with price free of charge
+        LongDescription: This is the long description of the product with price free of charge
+        Locale: en_US
+    ProductFreeOfChargeWithoutPriceLanguage:
+        Title: free Product
+        ShortDescription: This is the short description of the free product
+        LongDescription: This is the long description of the free product
+        Locale: en_US
+    ProductWithoutPriceLanguage:
+        Title: priceless Product
+        ShortDescription: This is the short description of the priceless product
+        LongDescription: This is the long description of the priceless product
+        Locale: en_US
+    ProductInactiveLanguage:
+        Title: inactive product
+        ShortDescription: This is the short description of the inactive product
+        LongDescription: This is the long description of the inactive product
+        Locale: en_US
+    ProductWithPriceWithoutLongDescriptionLanguage:
+        Title: Product with price without long description
+        ShortDescription: This is the short description of the product with price without long description
+        LongDescription:
+        Locale: en_US
+    ProductWithPriceWithoutShortDescriptionLanguage:
+        Title: Product with price without short description
+        ShortDescription: 
+        LongDescription: This is the long description of the product with price without short description
+        Locale: en_US
+  
+SilvercartProduct:
+    ProductFreeOfChargeWithoutPrice:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductFreeOfChargeWithoutPriceLanguage
+        isFreeOfCharge: 1
+        isActive: 1
+    ProductFreeOfChargeWithPrice:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductFreeOfChargeWithPriceLanguage
+        isFreeOfCharge: 1
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+    ProductWithPrice:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductWithPriceLanguage
+        isFreeOfCharge: 0
+        isActive: 1
+        PriceNetAmount: 90.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 99.99
+        PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
+    ProductWithoutPrice:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductWithoutPriceLanguage
+        isFreeOfCharge: 0
+        isActive: 1
+    ProductInactive:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductInactiveLanguage
+        isFreeOfCharge: 0
+        isActive: 0
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+    ProductWithPriceWithoutShortDescription:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductWithPriceWithoutShortDescriptionLanguage
+        isFreeOfCharge: 0
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
+    ProductWithPriceWithoutLongDescription:
+        SilvercartProductLanguages: =>SilvercartProductLanguage.ProductWithPriceWithoutLongDescriptionLanguage
+        isFreeOfCharge: 0
+        isActive: 1
+        PriceNetAmount: 9.00
+        PriceNetCurrency: EUR
+        PriceGrossAmount: 9.99
+        PriceGrossCurrency: EUR
+        SilvercartTax: =>SilvercartTax.VAT19
+        
      
 Group:
   b2b:
@@ -90,9 +116,15 @@ Group:
   anonymous:
     Title: anonymous customers
     Code: anonymous
-        
+
+SilvercartAddress:
+  BusinessCustomerInvoiceAddress:
+    TaxIdNumber: 123456789
+    Company: TestCompanyName
+
 Member:
     BusinessCustomer:
+        SilvercartInvoiceAddress: =>SilvercartAddress.BusinessCustomerInvoiceAddress
         FirstName: John
         Surname: Doe
         Email: john@doe.org
