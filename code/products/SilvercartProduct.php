@@ -528,7 +528,8 @@ class SilvercartProduct extends DataObject {
      *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
-     * @param string  $join        string for a join
+     * @param string  $join        this argument will alway be overwritten, sorry
+     *                             we just keep it for compartibility reasons
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
@@ -537,6 +538,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         
+        $join = "";
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
