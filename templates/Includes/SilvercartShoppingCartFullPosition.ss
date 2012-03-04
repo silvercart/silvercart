@@ -1,4 +1,5 @@
 <tr<% if Last %> class="separator"<% end_if %>>
+    <td><a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a></td>
     <td>
         <div class="silvercart-product-group-page-box-image">
             <% if SilvercartProduct.getSilvercartImages %>
@@ -16,17 +17,15 @@
     </td>
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
-    <td class="right borderlr"<% if Top.EditableShoppingCart %> colspan="3"<% end_if %>>
+    <td class="right borderlr">
         <% if Top.EditableShoppingCart %>
         <div class="subcolumns">
             <div class="c33l">
-                $DecrementPositionQuantityForm
+                $DecrementPositionQuantityForm                                
             </div>
         <div class="c33l">
         <% end_if %>
-        <div class="silvercart-quantity-value">
-            <div>$Quantity</div>
-        </div>
+            $Quantity
         <% if Top.EditableShoppingCart %>
             </div>
             <div class="c33r">
