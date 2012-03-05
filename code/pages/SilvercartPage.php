@@ -347,6 +347,10 @@ class SilvercartPage_Controller extends ContentController {
         } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
             $checkConfiguration = false;
         }
+        //if run through SAKE the config object must not be called
+        if ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php') {
+            $checkConfiguration = false;
+        }
         
         if ($checkConfiguration) {
             SilvercartConfig::Check();

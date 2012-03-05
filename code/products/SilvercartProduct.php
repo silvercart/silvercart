@@ -528,8 +528,7 @@ class SilvercartProduct extends DataObject {
      *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
-     * @param string  $join        this argument will alway be overwritten, sorry
-     *                             we just keep it for compartibility reasons
+     * @param string  $join        string to be used as SQL JOIN clause;
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
@@ -537,8 +536,7 @@ class SilvercartProduct extends DataObject {
      * @since 25.10.2011
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
-        
-        $join = "";
+
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -567,7 +565,7 @@ class SilvercartProduct extends DataObject {
                 
             }
             if ($joinToken) {
-                $join = sprintf("INNER JOIN SilvercartProductLanguage ON SilvercartProductLanguage.SilvercartProductID = SilvercartProduct.ID AND SilvercartProductLanguage.Locale = '%s' ", Translatable::get_current_locale());
+                $join = $join . sprintf(" INNER JOIN SilvercartProductLanguage ON SilvercartProductLanguage.SilvercartProductID = SilvercartProduct.ID AND SilvercartProductLanguage.Locale = '%s' ", Translatable::get_current_locale());
             }
         }
 
