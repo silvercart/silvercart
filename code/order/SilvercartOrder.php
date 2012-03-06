@@ -537,7 +537,6 @@ class SilvercartOrder extends DataObject {
             $totalAmount
         );
         $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-        
         $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
@@ -568,7 +567,18 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public function convertShoppingCartPositionsToOrderPositions() {
+        SilvercartTools::Log(
+            'convertShoppingCartPositionToOrderPositions',
+            'Start -------------------------------------------------------------',
+            $this->class
+        );
+
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
+            SilvercartTools::Log(
+                'convertShoppingCartPositionToOrderPositions',
+                'Extension break!',
+                $this->class
+            );
             return true;
         }
         
@@ -596,15 +606,18 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
                     $orderPosition->ProductNumber       = $product->ProductNumberShop;
                     $orderPosition->Title               = $product->Title;
+                    $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->write();
 
                     SilvercartTools::Log(
                         'convertShoppingCartPositionsToOrderPositions',
-                        'Product ID: '.$orderPosition->SilvercartproductID.' - '.
+                        'Order ID: '.$orderPosition->ID.' - '.
+                        'Product ID: '.$orderPosition->SilvercartProductID.' - '.
                         'Position Title: '.$orderPosition->Title.' - '.
-                        'Quantity: '.$orderPosition->Quantity.' - '
+                        'Quantity: '.$orderPosition->Quantity
                         ,
-                        'SilvercartOrder'
+                        $this->class
                     );
 
                     if ($shoppingCartPosition->ProductVariantAttributes()) {
@@ -646,6 +659,11 @@ class SilvercartOrder extends DataObject {
                     $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
                     
                     if (!empty($result)) {
+                        SilvercartTools::Log(
+                            'convertShoppingCartPositionToOrderPositions',
+                            'Using orderPosition from Plugin Call.',
+                            $this->class
+                        );
                         $orderPosition = $result[0];
                     }
                     

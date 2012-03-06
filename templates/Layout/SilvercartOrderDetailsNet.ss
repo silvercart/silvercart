@@ -26,6 +26,13 @@
                 <td class="right">$Quantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
+            <% if productVariantDefinition %>
+                <tr class="subrow">
+                    <td colspan="6">
+                        $productVariantDefinition
+                    </td>
+                </tr>
+            <% end_if %>
             <% if SilvercartVoucherCode %>
                 <tr class="subrow">
                     <td colspan="6">

@@ -26,6 +26,13 @@
                 <td class="right">$Quantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
+            <% if productVariantDefinition %>
+                <tr class="subrow">
+                    <td colspan="6">
+                        $productVariantDefinition
+                    </td>
+                </tr>
+            <% end_if %>
             <% if SilvercartVoucherCode %>
                 <tr class="subrow">
                     <td colspan="6">
@@ -57,7 +64,7 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-                <td><strong><% _t('SilvercartPage.VALUE_OF_GOODS') %></strong></td>
+                <td class="right"><strong><% _t('SilvercartPage.VALUE_OF_GOODS') %></strong></td>
                 <td class="right"><strong>$Amount.Nice</strong></td>
         </tr>
         <% end_control %>
@@ -81,7 +88,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
+                    <td class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
                     <td class="right"><strong>$Amount.Nice</strong></td>
                 </tr>
             <% end_control %>
@@ -117,7 +124,7 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
+                    <td class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
                     <td class="right"><strong>$Amount.Nice</strong></td>
                 </tr>
             <% end_control %>
