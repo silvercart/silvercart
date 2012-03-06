@@ -22,7 +22,7 @@
         background:                     -moz-linear-gradient(top, #ffffff,  #b9b9b9); /* for firefox 3.6+ */
         background:                     -o-linear-gradient(top, #ffffff,  #b9b9b9); /* for opera */
         filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#b9b9b9'); /* for IE */
-        border-bottom: 1px #fff solid;
+        border-bottom:                  1px #fff solid;
     }
     #bottom {
         background:                     #4687a4;
