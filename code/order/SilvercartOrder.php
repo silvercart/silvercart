@@ -596,8 +596,43 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
                     $orderPosition->ProductNumber       = $product->ProductNumberShop;
                     $orderPosition->Title               = $product->Title;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
+
+                    SilvercartTools::Log(
+                        'convertShoppingCartPositionsToOrderPositions',
+                        'Product ID: '.$orderPosition->SilvercartproductID.' - '.
+                        'Position Title: '.$orderPosition->Title.' - '.
+                        'Quantity: '.$orderPosition->Quantity.' - '
+                        ,
+                        'SilvercartOrder'
+                    );
+
+                    if ($shoppingCartPosition->ProductVariantAttributes()) {
+                        $productVariantDefinition = '';
+                        foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
+
+                            $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
+
+                            if ($silvercartProductVariantAttributeSet) {
+                                $setName            = $silvercartProductVariantAttributeSet->name;
+                                $fieldModifierNotes = $attribute->getFieldModifierNotes();
+
+                                if ($fieldModifierNotes != '') {
+                                    $setName .= ' ('.$fieldModifierNotes.')';
+                                }
+
+                                if (!empty($productVariantDefinition)) {
+                                    $productVariantDefinition .= ', ';
+                                }
+                                $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
+                            }
+                        }
+                        SilvercartTools::Log(
+                            'convertShoppingCartPositionToOrderPositions',
+                            $productVariantDefinition,
+                            $this->class
+                        );
+                    }
 
                     // Call hook method on product if available
                     if ($product->hasMethod('ShoppingCartConvert')) {

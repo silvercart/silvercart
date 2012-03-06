@@ -43,7 +43,17 @@ class SilvercartPlugin extends Object {
      * @since 22.09.2011
      */
     protected $callingObject = null;
-    
+
+    /**
+     * Contains informations about calling objects for caching purposes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    protected static $pluginProvidersForCallingObject = array();
+
     /**
      * Contains all registered plugin providers.
      *
@@ -154,9 +164,14 @@ class SilvercartPlugin extends Object {
                 $arguments = array($arguments);
             }
         }
-        
-        $pluginProviders = self::getPluginProvidersForObject($callingObject);
-        
+
+        if (array_key_exists($callingObject->class, self::$pluginProvidersForCallingObject)) {
+            $pluginProviders = self::$pluginProvidersForCallingObject[$callingObject->class];
+        } else {
+            $pluginProviders = self::getPluginProvidersForObject($callingObject);
+            self::$pluginProvidersForCallingObject[$callingObject->class] = $pluginProviders;
+        }
+
         if ($pluginProviders) {
             foreach ($pluginProviders as $pluginProvider) {
                 if (method_exists($pluginProvider, $methodName)) {
