@@ -98,6 +98,16 @@ class SilvercartProduct extends DataObject {
     protected $cacheHashes = array();
 
     /**
+     * The default sorting.
+     *
+     * @var string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    public static $default_sort = 'ProductNumberShop ASC';
+
+    /**
      * 1:n relations
      *
      * @var array
@@ -424,6 +434,20 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns the default sort order and direction.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    public static function getDefaultSort() {
+        $sort = 'SilvercartProduct.'.Object::get_static('SilvercartProduct', 'default_sort');
+
+        return $sort;
+    }
+
+    /**
      * Getter similar to DataObject::get(); returns a DataObectSet of products filtered by the requirements in self::getRequiredAttributes();
      * If an product is free of charge, it can have no price. This is for giveaways and gifts.
      *
@@ -463,12 +487,11 @@ class SilvercartProduct extends DataObject {
 
         $filter .= 'isActive = 1';
 
-        if (!$sort) {
-            $sort = 'SilvercartProduct.SortOrder ASC';
+        if ($sort === null) {
+            $sort = SilvercartProduct::getDefaultSort();
         }
-        
         $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
-        
+
         return $databaseFilteredProducts;
     }
 
@@ -1833,6 +1856,24 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $this->extend('getUpdatedModelSidebar', $sidebarHtml);
         return $sidebarHtml;
     }
+
+    /**
+     * Set the sort order specifically.
+     *
+     * @param array $searchCriteria The search criteria
+     *
+     * @return SQLQuery
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    public function getSearchQuery($searchCriteria) {
+        $query = parent::getSearchQuery($searchCriteria);
+
+        $query->orderby(SilvercartProduct::getDefaultSort());
+
+        return $query;
+    } 
 
     /**
      * Generate a CSV import form for a single {@link DataObject} subclass.
