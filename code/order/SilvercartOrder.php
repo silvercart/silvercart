@@ -31,8 +31,60 @@
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartOrder extends DataObject {
-    
+class SilvercartOrder extends DataObject implements PermissionProvider {
+
+    /**
+     * Set permissions.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function providePermissions() {
+        return array(
+            'SILVERCART_ORDER_VIEW'   => _t('SilvercartOrder.SILVERCART_ORDER_VIEW'),
+            'SILVERCART_ORDER_EDIT'   => _t('SilvercartOrder.SILVERCART_ORDER_EDIT'),
+            'SILVERCART_ORDER_DELETE' => _t('SilvercartOrder.SILVERCART_ORDER_DELETE')
+        );
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanView() {
+        return Permission::check('SILVERCART_ORDER_VIEW');
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanEdit() {
+        return Permission::check('SILVERCART_ORDER_EDIT');
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanDelete() {
+        return Permission::check('SILVERCART_ORDER_DELETE');
+    }
+
     /**
      * attributes
      *
@@ -263,7 +315,7 @@ class SilvercartOrder extends DataObject {
         $searchableFields = array(
             'Created' => array(
                 'title'     => _t('SilvercartPage.ORDER_DATE'),
-                'filter'    => 'PartialMatchFilter'
+                'filter'    => 'DateRangeSearchFilter'
             ),
             'OrderNumber' => array(
                 'title'     => _t('SilvercartOrder.ORDERNUMBER'),
@@ -289,6 +341,22 @@ class SilvercartOrder extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
+    }
+
+    /**
+     * Set the default search context for this field
+     * 
+     * @return return_value
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.02.2012
+     */
+    public function getDefaultSearchContext() {
+        return new DateRangeSearchContext(
+            $this->owner->class,
+            $this->owner->scaffoldSearchFields(),
+            $this->owner->defaultSearchFilters()
+        );
     }
 
     /**

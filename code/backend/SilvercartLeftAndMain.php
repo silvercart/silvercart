@@ -243,16 +243,18 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 $groupedModelAdmins->push($modelAdmin);
             }
 
-            $silvercartMenus->push(
-                new DataObject(
-                    array(
-                        'name'        => $menu['name'],
-                        'MenuSection' => $menuSectionIndicator,
-                        'code'        => $menu['code'],
-                        'ModelAdmins' => $groupedModelAdmins
+            if ($groupedModelAdmins->Count() > 0) {
+                $silvercartMenus->push(
+                    new DataObject(
+                        array(
+                            'name'        => $menu['name'],
+                            'MenuSection' => $menuSectionIndicator,
+                            'code'        => $menu['code'],
+                            'ModelAdmins' => $groupedModelAdmins
+                        )
                     )
-                )
-            );
+                );
+            }
         }
 
         return $silvercartMenus;
