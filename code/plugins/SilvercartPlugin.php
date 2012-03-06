@@ -222,6 +222,8 @@ class SilvercartPlugin extends Object {
                     }
                 }
             }
+        } else {
+            $returnContainer = false;
         }
         
         return $returnContainer;

@@ -32,12 +32,12 @@
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
-    
+
     /**
      * Attributes.
-     * 
+     *
      * @var array
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
@@ -46,78 +46,111 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
         'numberOfPostsToShow'           => 'Int',
         'isContentView'                 => 'Boolean'
     );
-    
+
     /**
      * Set default values.
-     * 
+     *
      * @var array
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
     public static $defaults = array(
         'numberOfPostsToShow' => 5
     );
-    
+
     /**
      * Returns the input fields for this widget.
-     * 
+     *
      * @return FieldSet
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        
+
         $widgetTitleField    = new TextField('WidgetTitle', _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE'));
         $numberOfPostsField  = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
         $isContentView       = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
-        
+
         $fields->push($widgetTitleField);
         $fields->push($numberOfPostsField);
         $fields->push($isContentView);
-        
+
         return $fields;
     }
-    
+
     /**
      * Returns the title of this widget.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
     public function Title() {
         return _t('SilvercartLatestBlogPostsWidget.TITLE');
     }
-    
+
     /**
      * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
     public function CMSTitle() {
         return _t('SilvercartLatestBlogPostsWidget.CMSTITLE');
     }
-    
+
     /**
      * Returns the description of what this template does for display in the
      * WidgetArea GUI.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.08.2011
      */
     public function Description() {
         return _t('SilvercartLatestBlogPostsWidget.DESCRIPTION');
     }
-    
+
+    /**
+     * We set checkbox field values here to false if they are not in the post
+     * data array.
+     *
+     * @param array $data The post data array
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.08.2011
+     */
+    public function populateFromPostData($data) {
+        if (!array_key_exists('isContentView', $data)) {
+            $this->isContentView = 0;
+        }
+
+        parent::populateFromPostData($data);
+    }
+}
+
+
+/**
+ * Provides a view of the latest blog posts.
+ *
+ * @package Silvercart
+ * @subpackage Widgets
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 29.02.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
+ */
+class SilvercartLatestBlogPostsWidget_Controller extends SilvercartWidget_Controller {
+
     /**
      * Returns a configured number of blog posts.
      * Returns false if the blog module is not installed
@@ -130,35 +163,15 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     public function BlogPosts() {
         if (class_exists('BlogEntry')) {
             $blogEntries = DataObject::get(
-            'BlogEntry',
-            '',
-            'Sort DESC',
-            '',
-            $this->numberOfPostsToShow
+                'BlogEntry',
+                '',
+                'Sort DESC',
+                '',
+                $this->numberOfPostsToShow
             );
 
             return $blogEntries;
         }
         return false;
-        
-    }
-    
-    /**
-     * We set checkbox field values here to false if they are not in the post
-     * data array.
-     *
-     * @param array $data The post data array
-     * 
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
-     */
-    public function populateFromPostData($data) {
-        if (!array_key_exists('isContentView', $data)) {
-            $this->isContentView = 0;
-        }
-        
-        parent::populateFromPostData($data);
     }
 }

@@ -1506,14 +1506,16 @@ class SilvercartOrder extends DataObject {
         if (!$excludeCharges &&
              $this->HasChargePositionsForTotal()) {
 
-            foreach ($this->OrderChargePositionsTotal() as $charge) {
+            foreach ($this->SilvercartOrderChargePositionsTotal() as $charge) {
                 $taxRate = $taxRates->find('Rate', $charge->TaxRate);
 
                 if ($taxRate) {
-                    $taxRate->Amount += $charge->PriceTotal->getAmount();
+                    $taxRateAmount   = $taxRate->Amount->getAmount();
+                    $chargeTaxAmount = $charge->TaxTotal;
+                    $taxRate->Amount->setAmount($taxRateAmount + $chargeTaxAmount);
 
-                    if (round($taxRate->Amount, 2) === -0.00) {
-                        $taxRate->Amount *= -1;
+                    if (round($taxRate->Amount->getAmount(), 2) === -0.00) {
+                        $taxRate->Amount->setAmount($taxRate->Amount->getAmount() * -1);
                     }
                 }
             }
@@ -1891,15 +1893,8 @@ class SilvercartOrder extends DataObject {
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
-        /*
-        if ($this->AmountGrossTotal->hasAmount() === false) {
-            $price = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount();
-            
-            $this->AmountGrossTotal->setAmount($price);
-            $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-            $this->write();
-        }
-        */
+
+        $this->extend('updateOnAfterWrite');
     }
 }
 
