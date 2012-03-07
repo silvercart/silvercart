@@ -156,6 +156,22 @@
         border-left: none;
         padding: 6px 6px;
     }
+    @media print {
+        #silvercart-cms-mainmenu,
+        #separator,
+        #left {
+            display: none;
+        }
+        #right {
+            left: 0px !important;
+        }
+    }
+</style>
+
+<style type="text/css" media="print">
+    #left {
+        display: none;
+    }
 </style>
 
 <div id="silvercart-cms-mainmenu">

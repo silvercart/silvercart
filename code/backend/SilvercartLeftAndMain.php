@@ -43,9 +43,14 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      */
     public function onAfterInit() {
         Requirements::javascript('silvercart/script/jqplot/jquery.jqplot.min.js');
-        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.barRenderer.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.canvasTextRenderer.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.categoryAxisRenderer.min.js');
         Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.cursor.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js');
         Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.highlighter.min.js');
+        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.pointLabels.min.js');
         Requirements::css('silvercart/script/jqplot/jquery.jqplot.css');
     }
 
