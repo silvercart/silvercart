@@ -34,19 +34,6 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     protected $languageObj = null;
     
     /**
-     * augments the hook of the decorated object so that the input in the fields
-     * that are multilingual gets written to the related language object
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
-     */
-    public function onAfterWrite() {
-         SilvercartLanguageHelper::writeLanguageObject($this->owner->getLanguage(), $this->owner->toMap());
-    }
-    
-    /**
      * Getter for the related language object depending on the set language
      * Always returns a SilvercartProductLanguage
      *
@@ -57,10 +44,10 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      */
     public function getLanguage() {
         if (is_null($this->languageObj)) {
-            $relationFieldName      = $this->owner->ClassName . 'ID';
-            $languageClassName      = $this->owner->ClassName . 'Language';
-            $languageRelationName   = $languageClassName . 's';
-            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->owner->{$languageRelationName}());
+            $relationFieldName      = $this->getRelationFieldName();
+            $languageClassName      = $this->getLanguageClassName();
+            $languageRelationName   = $this->getLanguageRelationName();
+            $this->languageObj = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation());
             if (!$this->languageObj) {
                 $this->languageObj = new $languageClassName();
                 $this->languageObj->Locale = Translatable::get_current_locale();
@@ -68,6 +55,45 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
             }
         }
         return $this->languageObj;
+    }
+    
+    /**
+     * Returns the language class name
+     *
+     * @return string
+     */
+    public function getLanguageClassName() {
+        $languageClassName      = $this->owner->ClassName . 'Language';
+        return $languageClassName;
+    }
+    
+    /**
+     * Returns the language relation as a ComponentSet
+     *
+     * @return ComponentSet
+     */
+    public function getLanguageRelation() {
+        return $this->owner->{$this->getLanguageRelationName()}();
+    }
+    
+    /**
+     * Returns the language class relation name
+     *
+     * @return string 
+     */
+    public function getLanguageRelationName() {
+        $languageRelationName   = $this->getLanguageClassName() . 's';
+        return $languageRelationName;
+    }
+    
+    /**
+     * Returns the language class relation field name
+     *
+     * @return string 
+     */
+    public function getRelationFieldName() {
+        $relationFieldName = $this->owner->ClassName . 'ID';
+        return $relationFieldName;
     }
     
     /**
@@ -80,6 +106,41 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      */
     public function getTableIndicator() {
         return _t('SilvercartConfig.OPEN_RECORD');
+    }
+    
+    /**
+     * Checks whether the translation with the given locale exists
+     *
+     * @param string $locale Locale to check
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2012
+     */
+    public function hasLanguage($locale) {
+        $hasLanguage                                    = false;
+        $useDefaultLanguageAsFallback                   = SilvercartConfig::$useDefaultLanguageAsFallback;
+        SilvercartConfig::$useDefaultLanguageAsFallback = false;
+        $language = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation(), $locale);
+        SilvercartConfig::$useDefaultLanguageAsFallback = $useDefaultLanguageAsFallback;
+        if ($language) {
+            $hasLanguage = true;
+        }
+        return $hasLanguage;
+    }
+    
+    /**
+     * augments the hook of the decorated object so that the input in the fields
+     * that are multilingual gets written to the related language object
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.01.2012
+     */
+    public function onAfterWrite() {
+         SilvercartLanguageHelper::writeLanguageObject($this->owner->getLanguage(), $this->owner->toMap());
     }
 }
 
