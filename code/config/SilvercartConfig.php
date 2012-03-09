@@ -165,7 +165,7 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.2',
+        'SilvercartVersion'             => '1.3',
         'SilvercartUpdateVersion'       => '1',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
@@ -258,6 +258,14 @@ class SilvercartConfig extends DataObject {
         }   
     }
 
+    /**
+     * Indicates that the config is translatable
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2012
+     */
     public function canTranslate() {
         return true;
     }
@@ -1489,6 +1497,14 @@ class SilvercartConfig extends DataObject {
         return self::Locale();
     }
     
+    /**
+     * Returns the configs locale
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2012
+     */
     public static function Locale() {
         return self::getConfig()->Locale;
     }
