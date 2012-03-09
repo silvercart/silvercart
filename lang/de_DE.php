@@ -942,6 +942,7 @@ $lang['de_DE']['SilvercartPage']['API_DELETE'] = 'kann über die API Objekte lö
 $lang['de_DE']['SilvercartPage']['API_EDIT'] = 'kann über die API Objete verändern';
 $lang['de_DE']['SilvercartPage']['API_VIEW'] = 'kann Objekte über die API lesen';
 $lang['de_DE']['SilvercartPage']['APRIL'] = 'April';
+$lang['de_DE']['SilvercartPage']['BACK'] = 'Zurück';
 $lang['de_DE']['SilvercartPage']['PRODUCTNAME'] = 'Artikelbezeichnung';
 $lang['de_DE']['SilvercartPage']['AUGUST'] = 'August';
 $lang['de_DE']['SilvercartPage']['BILLING_ADDRESS'] = 'Rechnungsadresse';

@@ -44,7 +44,7 @@ class SilvercartProduct extends DataObject {
      */
     public static $db = array(
         'Title'                       => 'VarChar(255)',
-        'ShortDescription'            => 'Text',
+        'ShortDescription'            => 'HTMLText',
         'LongDescription'             => 'HTMLText',
         'MetaDescription'             => 'VarChar(255)',
         'MetaTitle'                   => 'VarChar(64)', //search engines use only 64 chars

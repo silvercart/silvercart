@@ -942,6 +942,7 @@ $lang['en_GB']['SilvercartPage']['API_DELETE'] = 'Can delete objects via the API
 $lang['en_GB']['SilvercartPage']['API_EDIT'] = 'Can edit objects via the API';
 $lang['en_GB']['SilvercartPage']['API_VIEW'] = 'Can read objects via the API';
 $lang['en_GB']['SilvercartPage']['APRIL'] = 'April';
+$lang['en_GB']['SilvercartPage']['BACK'] = 'Back';
 $lang['en_GB']['SilvercartPage']['PRODUCTNAME'] = 'Product name';
 $lang['en_GB']['SilvercartPage']['AUGUST'] = 'August';
 $lang['en_GB']['SilvercartPage']['BILLING_ADDRESS'] = 'Invoice address';
