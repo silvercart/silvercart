@@ -22,268 +22,126 @@
 <p><% _t('SilvercartShopEmail.ORDER_SHIPPED_MESSAGE', 'Your order has been shipped.') %></p>
 <p><% _t('SilvercartOrderDetailPage.TITLE') %>:</p>
 <% control SilvercartOrder %>
-<table>
-    <tr>
-        <td><% _t('SilvercartPage.ORDER_DATE') %></td>
-        <td>$Created.Nice</td>
-    </tr>
-    <tr>
-        <td><% _t('SilvercartNumberRange.ORDERNUMBER') %></td>
-        <td>$OrderNumber</td>
-    </tr>
-    <tr>
-        <td><% _t('SilvercartOrder.STATUS') %></td>
-        <td>$SilvercartOrderStatus.Title</td>
-    </tr>
-    <% if Note %>
-    <tr>
-        <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>
-        <td>$FormattedNote</td>
-    </tr>
-    <% end_if %>
-</table>
-
-<table>
-    <tbody>
+    <table>
         <tr>
-            <td>
-                <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
-                <% control SilvercartShippingAddress %>
-                <table>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
-                        <td>$FirstName</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.SURNAME') %></td>
-                        <td>$Surname</td>
-                    </tr>
-                    <% if Addition %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.ADDITION') %></td>
-                        <td>$Addition</td>
-                    </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREET') %></td>
-                        <td>$Street</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
-                        <td>$StreetNumber</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.POSTCODE') %></td>
-                        <td>$Postcode</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.CITY') %></td>
-                        <td>$City</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.PHONE') %></td>
-                        <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
-                        <td>$SilvercartCountry.Title</td>
-                    </tr>
-                </table>
-                <% end_control %>
-            </td>
-            <td>
-                <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
-                <% control SilvercartInvoiceAddress %>
-                <table>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
-                        <td>$FirstName</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.SURNAME') %></td>
-                        <td>$Surname</td>
-                    </tr>
-                    <% if Addition %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.ADDITION') %></td>
-                        <td>$Addition</td>
-                    </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREET') %></td>
-                        <td>$Street</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
-                        <td>$StreetNumber</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.POSTCODE') %></td>
-                        <td>$Postcode</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.CITY') %></td>
-                        <td>$City</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.PHONE') %></td>
-                        <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
-                        <td>$SilvercartCountry.Title</td>
-                    </tr>
-                </table>
-                <% end_control %>
-            </td>
+            <td><% _t('SilvercartPage.ORDER_DATE') %></td>
+            <td>$Created.Nice</td>
         </tr>
-    </tbody>
-</table>
-
-<h2><% _t('SilvercartPage.ORDERD_PRODUCTS') %>:</h2>
-<table>
-    <thead>
         <tr>
-            <th><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %></th>
-            <th><% _t('SilvercartProduct.COLUMN_TITLE') %></th>
-            <th class="right"><% _t('SilvercartProduct.PRICE_SINGLE') %></th>
-            <th class="right"><% _t('SilvercartPage.INCLUDED_VAT') %></th>
-            <th class="right"><% _t('SilvercartProduct.QUANTITY') %></th>
-            <th class="right"><% _t('SilvercartPrice.SINGULARNAME') %></th>
+            <td><% _t('SilvercartNumberRange.ORDERNUMBER') %></td>
+            <td>$OrderNumber</td>
         </tr>
-    </thead>
-    <tbody>
-        <% control SilvercartOrderPositions(TaxRate > 0) %>
-        <tr class="$EvenOrOdd">
-            <td>$ProductNumber</td>
-            <td>$Title</td>
-            <td class="right">$Price.Nice</td>
-            <td class="right">{$TaxRate}%</td>
-            <td class="right">$Quantity</td>
-            <td class="right">$PriceTotal.Nice</td>
-        </tr>
-            <% if SilvercartVoucherCode %>
-                <tr class="subrow">
-                    <td colspan="6">
-
-                        <% if MoreThanOneProduct %>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
-                            <ul>
-                                <% control VoucherCodes %>
-                                    <li>"<strong>$code</strong>"</li>
-                                <% end_control %>
-                            </ul>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
-                        <% else %>
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
-                            "<strong>$SilvercartVoucherCode</strong>".<br />
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
-                        <% end_if %>
-                    </td>
-                </tr>
-            <% end_if %>
-        <% end_control %>
-
-        <tr class="new-block">
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-            <td class="right"><strong>$TaxableAmountGross.Nice</strong></td>
-        </tr>
-
-        <% if TaxRatesWithoutFees %>
-        <% control TaxRatesWithoutFees %>
         <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
-            <td class="right">$Amount.Nice</td>
+            <td><% _t('SilvercartOrder.STATUS') %></td>
+            <td>$SilvercartOrderStatus.Title</td>
         </tr>
-        <% end_control %>
+        <% if Note %>
+        <tr>
+            <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>
+            <td>$FormattedNote</td>
+        </tr>
         <% end_if %>
+    </table>
 
-        <tr>
-            <td colspan="2"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></td>
-            <td colspan="3"><strong>$SilvercartShippingMethod.TitleWithCarrier</strong></td>
-            <td class="right">$HandlingCostShipment.Nice</td>
-        </tr>
-        <tr>
-            <td colspan="2"><% _t('SilvercartOrder.PAYMENTMETHODTITLE') %></td>
-            <td colspan="3"><strong>$SilvercartPaymentMethod.Name</strong></td>
-            <td class="right">$HandlingCostPayment.Nice</td>
-        </tr>
-
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
-            <td class="right"><strong>$TaxableAmountGrossWithFees.Nice</strong></td>
-        </tr>
-
-        <% if TaxRatesWithFees %>
-        <% control TaxRatesWithFees %>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><% _t('SilvercartPage.INCLUDED_VAT') %> ({$Rate}%)</td>
-            <td class="right">$Amount.Nice</td>
-        </tr>
-        <% end_control %>
-        <% end_if %>
-
-        <% control SilvercartOrderPositions(TaxRate = 0) %>
-        <tr>
-            <td>&nbsp;</td>
-            <td>$Title</td>
-            <td class="right">$PriceNice</td>
-            <td class="right"></td>
-            <td class="right">$Quantity</td>
-            <td class="right">$PriceTotalNice</td>
-        </tr>
-            <% if SilvercartVoucherCode %>
-                <tr class="subrow">
-                    <td colspan="6">
-
-                        <% if MoreThanOneProduct %>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
-                            <ul>
-                                <% control VoucherCodes %>
-                                    <li>"<strong>$code</strong>"</li>
-                                <% end_control %>
-                            </ul>
-                            <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
-                        <% else %>
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
-                            "<strong>$SilvercartVoucherCode</strong>".<br />
-                            <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                            <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
+                    <% control SilvercartShippingAddress %>
+                    <table>
+                        <tr>
+                            <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
+                            <td>$FirstName</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.SURNAME') %></td>
+                            <td>$Surname</td>
+                        </tr>
+                        <% if Addition %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.ADDITION') %></td>
+                            <td>$Addition</td>
+                        </tr>
                         <% end_if %>
-                    </td>
-                </tr>
-            <% end_if %>
-        <% end_control %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.STREET') %></td>
+                            <td>$Street</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
+                            <td>$StreetNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.POSTCODE') %></td>
+                            <td>$Postcode</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.CITY') %></td>
+                            <td>$City</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.PHONE') %></td>
+                            <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
+                            <td>$SilvercartCountry.Title</td>
+                        </tr>
+                    </table>
+                    <% end_control %>
+                </td>
+                <td>
+                    <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
+                    <% control SilvercartInvoiceAddress %>
+                    <table>
+                        <tr>
+                            <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
+                            <td>$FirstName</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.SURNAME') %></td>
+                            <td>$Surname</td>
+                        </tr>
+                        <% if Addition %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.ADDITION') %></td>
+                            <td>$Addition</td>
+                        </tr>
+                        <% end_if %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.STREET') %></td>
+                            <td>$Street</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
+                            <td>$StreetNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.POSTCODE') %></td>
+                            <td>$Postcode</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.CITY') %></td>
+                            <td>$City</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.PHONE') %></td>
+                            <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
+                            <td>$SilvercartCountry.Title</td>
+                        </tr>
+                    </table>
+                    <% end_control %>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="right"><strong><% _t('SilvercartPage.TOTAL') %></strong></td>
-            <td class="right"><strong>$AmountTotal.Nice</strong></td>
-        </tr>
-    </tbody>
-</table>
+    <h2><% _t('SilvercartPage.ORDERED_PRODUCTS') %>:</h2>
+    $OrderDetailTable
 <% end_control %>
 
 <p><% _t('SilvercartShopEmail.REGARDS', 'Best regards') %>,</p>

@@ -31,8 +31,60 @@
  * @since 22.11.2010
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartOrder extends DataObject {
-    
+class SilvercartOrder extends DataObject implements PermissionProvider {
+
+    /**
+     * Set permissions.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function providePermissions() {
+        return array(
+            'SILVERCART_ORDER_VIEW'   => _t('SilvercartOrder.SILVERCART_ORDER_VIEW'),
+            'SILVERCART_ORDER_EDIT'   => _t('SilvercartOrder.SILVERCART_ORDER_EDIT'),
+            'SILVERCART_ORDER_DELETE' => _t('SilvercartOrder.SILVERCART_ORDER_DELETE')
+        );
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanView() {
+        return Permission::check('SILVERCART_ORDER_VIEW');
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanEdit() {
+        return Permission::check('SILVERCART_ORDER_EDIT');
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.02.2012
+     */
+    public function CanDelete() {
+        return Permission::check('SILVERCART_ORDER_DELETE');
+    }
+
     /**
      * attributes
      *
@@ -263,7 +315,7 @@ class SilvercartOrder extends DataObject {
         $searchableFields = array(
             'Created' => array(
                 'title'     => _t('SilvercartPage.ORDER_DATE'),
-                'filter'    => 'PartialMatchFilter'
+                'filter'    => 'DateRangeSearchFilter'
             ),
             'OrderNumber' => array(
                 'title'     => _t('SilvercartOrder.ORDERNUMBER'),
@@ -289,6 +341,22 @@ class SilvercartOrder extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
+    }
+
+    /**
+     * Set the default search context for this field
+     * 
+     * @return return_value
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.02.2012
+     */
+    public function getDefaultSearchContext() {
+        return new DateRangeSearchContext(
+            $this->owner->class,
+            $this->owner->scaffoldSearchFields(),
+            $this->owner->defaultSearchFilters()
+        );
     }
 
     /**
@@ -537,7 +605,6 @@ class SilvercartOrder extends DataObject {
             $totalAmount
         );
         $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-        
         $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
 
         // adjust orders standard status
@@ -568,7 +635,18 @@ class SilvercartOrder extends DataObject {
      * @since 22.11.2010
      */
     public function convertShoppingCartPositionsToOrderPositions() {
+        SilvercartTools::Log(
+            'convertShoppingCartPositionToOrderPositions',
+            'Start -------------------------------------------------------------',
+            $this->class
+        );
+
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
+            SilvercartTools::Log(
+                'convertShoppingCartPositionToOrderPositions',
+                'Extension break!',
+                $this->class
+            );
             return true;
         }
         
@@ -598,6 +676,46 @@ class SilvercartOrder extends DataObject {
                     $orderPosition->Title               = $product->Title;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->write();
+
+                    SilvercartTools::Log(
+                        'convertShoppingCartPositionsToOrderPositions',
+                        'Order ID: '.$orderPosition->ID.' - '.
+                        'Product ID: '.$orderPosition->SilvercartProductID.' - '.
+                        'Position Title: '.$orderPosition->Title.' - '.
+                        'Quantity: '.$orderPosition->Quantity
+                        ,
+                        $this->class
+                    );
+
+                    if (class_exists('SilvercartProductVariantAttribute')) {
+                        if ($shoppingCartPosition->ProductVariantAttributes()) {
+                            $productVariantDefinition = '';
+                            foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
+
+                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
+
+                                if ($silvercartProductVariantAttributeSet) {
+                                    $setName            = $silvercartProductVariantAttributeSet->name;
+                                    $fieldModifierNotes = $attribute->getFieldModifierNotes();
+
+                                    if ($fieldModifierNotes != '') {
+                                        $setName .= ' ('.$fieldModifierNotes.')';
+                                    }
+
+                                    if (!empty($productVariantDefinition)) {
+                                        $productVariantDefinition .= ', ';
+                                    }
+                                    $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
+                                }
+                            }
+                            SilvercartTools::Log(
+                                'convertShoppingCartPositionToOrderPositions',
+                                $productVariantDefinition,
+                                $this->class
+                            );
+                        }
+                    }
 
                     // Call hook method on product if available
                     if ($product->hasMethod('ShoppingCartConvert')) {
@@ -611,6 +729,11 @@ class SilvercartOrder extends DataObject {
                     $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
                     
                     if (!empty($result)) {
+                        SilvercartTools::Log(
+                            'convertShoppingCartPositionToOrderPositions',
+                            'Using orderPosition from Plugin Call.',
+                            $this->class
+                        );
                         $orderPosition = $result[0];
                     }
                     
@@ -1471,14 +1594,16 @@ class SilvercartOrder extends DataObject {
         if (!$excludeCharges &&
              $this->HasChargePositionsForTotal()) {
 
-            foreach ($this->OrderChargePositionsTotal() as $charge) {
+            foreach ($this->SilvercartOrderChargePositionsTotal() as $charge) {
                 $taxRate = $taxRates->find('Rate', $charge->TaxRate);
 
                 if ($taxRate) {
-                    $taxRate->Amount += $charge->PriceTotal->getAmount();
+                    $taxRateAmount   = $taxRate->Amount->getAmount();
+                    $chargeTaxAmount = $charge->TaxTotal;
+                    $taxRate->Amount->setAmount($taxRateAmount + $chargeTaxAmount);
 
-                    if (round($taxRate->Amount, 2) === -0.00) {
-                        $taxRate->Amount *= -1;
+                    if (round($taxRate->Amount->getAmount(), 2) === -0.00) {
+                        $taxRate->Amount->setAmount($taxRate->Amount->getAmount() * -1);
                     }
                 }
             }
@@ -1856,15 +1981,8 @@ class SilvercartOrder extends DataObject {
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
-        /*
-        if ($this->AmountGrossTotal->hasAmount() === false) {
-            $price = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount();
-            
-            $this->AmountGrossTotal->setAmount($price);
-            $this->AmountGrossTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-            $this->write();
-        }
-        */
+
+        $this->extend('updateOnAfterWrite');
     }
 }
 

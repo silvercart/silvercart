@@ -57,4 +57,27 @@ class SilvercartTools extends Object {
 
         return $baseUrl;
     }
+
+    /**
+     * Writes a log entry
+     *
+     * @param string $method The method name of the caller
+     * @param string $text   The text to log
+     * @param string $class  The class name of the caller
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    public static function Log($method, $text, $class = 'undefined') {
+        $path = Director::baseFolder() . '/silvercart/log/' . $class . '.log';
+        $text = sprintf(
+            "%s - Method: '%s' - %s\n",
+            date('Y-m-d H:i:s'),
+            $method,
+            $text
+        );
+        file_put_contents($path, $text, FILE_APPEND);
+    }
 }

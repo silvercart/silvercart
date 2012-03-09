@@ -22,7 +22,7 @@
         background:                     -moz-linear-gradient(top, #ffffff,  #b9b9b9); /* for firefox 3.6+ */
         background:                     -o-linear-gradient(top, #ffffff,  #b9b9b9); /* for opera */
         filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#b9b9b9'); /* for IE */
-        border-bottom: 1px #fff solid;
+        border-bottom:                  1px #fff solid;
     }
     #bottom {
         background:                     #4687a4;
@@ -116,12 +116,14 @@
     #silvercart-cms-mainmenu ul li ul {
         z-index: 99;
         display: none;
+        clear: both;
         position: absolute;
         color: #fff;
         background: #1c587a;
         width: 300px;
         top:   33px;
         left:  auto;
+        margin-left: 0px;
         border-left: 1px #fff solid;
         border-right: 1px #fff solid;
         border-bottom: 1px #fff solid;
@@ -153,6 +155,22 @@
         line-height: 100%;
         border-left: none;
         padding: 6px 6px;
+    }
+    @media print {
+        #silvercart-cms-mainmenu,
+        #separator,
+        #left {
+            display: none;
+        }
+        #right {
+            left: 0px !important;
+        }
+    }
+</style>
+
+<style type="text/css" media="print">
+    #left {
+        display: none;
     }
 </style>
 

@@ -1,6 +1,6 @@
 var silvercartQuickLoginBoxVisibility = 'hidden';
 
-jQuery(document).ready(function(){
+(function($) {jQuery(document).ready(function(){
 
     /* Toggling the quick login box if available */
     var quickLoginBoxLink = $('#silvercart-login-link');
@@ -94,4 +94,4 @@ jQuery(document).ready(function(){
         jQuery(".silvercart-product-group-page-selectors input[type=submit]").hide();
         jQuery(".silvercart-product-group-page-selectors select").bind('change', function() { this.form.submit(); });
     }
-});
+})})(jQuery);

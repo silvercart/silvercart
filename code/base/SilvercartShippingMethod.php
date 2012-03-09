@@ -289,6 +289,13 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getShippingFee() {
         $fee             = false;
+
+        if (!Member::currentUser() ||
+            !Member::currentUser()->SilvercartShoppingCart()) {
+
+            return $fee;
+        }
+
         $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
         $shippingAddress = Controller::curr()->getShippingAddress();
         if ($shippingAddress) {
