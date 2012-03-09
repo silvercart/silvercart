@@ -688,31 +688,33 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                         $this->class
                     );
 
-                    if ($shoppingCartPosition->ProductVariantAttributes()) {
-                        $productVariantDefinition = '';
-                        foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
+                    if (class_exists('SilvercartProductVariantAttribute')) {
+                        if ($shoppingCartPosition->ProductVariantAttributes()) {
+                            $productVariantDefinition = '';
+                            foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
 
-                            $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
+                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
 
-                            if ($silvercartProductVariantAttributeSet) {
-                                $setName            = $silvercartProductVariantAttributeSet->name;
-                                $fieldModifierNotes = $attribute->getFieldModifierNotes();
+                                if ($silvercartProductVariantAttributeSet) {
+                                    $setName            = $silvercartProductVariantAttributeSet->name;
+                                    $fieldModifierNotes = $attribute->getFieldModifierNotes();
 
-                                if ($fieldModifierNotes != '') {
-                                    $setName .= ' ('.$fieldModifierNotes.')';
+                                    if ($fieldModifierNotes != '') {
+                                        $setName .= ' ('.$fieldModifierNotes.')';
+                                    }
+
+                                    if (!empty($productVariantDefinition)) {
+                                        $productVariantDefinition .= ', ';
+                                    }
+                                    $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
                                 }
-
-                                if (!empty($productVariantDefinition)) {
-                                    $productVariantDefinition .= ', ';
-                                }
-                                $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
                             }
+                            SilvercartTools::Log(
+                                'convertShoppingCartPositionToOrderPositions',
+                                $productVariantDefinition,
+                                $this->class
+                            );
                         }
-                        SilvercartTools::Log(
-                            'convertShoppingCartPositionToOrderPositions',
-                            $productVariantDefinition,
-                            $this->class
-                        );
                     }
 
                     // Call hook method on product if available
