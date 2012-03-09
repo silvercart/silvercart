@@ -73,24 +73,55 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
      * @since 05.02.2012
      */
     public function updateMultilingualObject($className, $attributes = array('Title')) {
-        //SilvercartOrderStatus
-        $objects = DataObject::get($className);
-        if ($objects) {
-            $relationName = $className . "Languages";
-            $languageClassName = $className . "Language";
-            foreach ($objects as $object) {
-                $languageClass = new $languageClassName();
-                $languageClass->Locale = Translatable::get_current_locale();
-                foreach ($attributes as $attribute) {
-                    $languageClass->{$attribute} = $object->{$attribute};
+        /**/
+        $locale             = Translatable::get_current_locale();
+        $fields             = array();
+        $selectAttributes   = array_merge(
+            array(
+                'ID'
+            ),
+            $attributes
+        );
+        foreach ($selectAttributes as $attribute) {
+            $fields[] = sprintf(
+                "`%s`.`%s`",
+                $className,
+                $attribute
+            );
+        }
+        $fieldsAsString = implode(',', $fields);
+        $query = DB::query(
+            sprintf(
+                "SELECT %s FROM %s",
+                $fieldsAsString,
+                $className
+            )
+        );
+        if ($query) {
+            foreach ($query as $result) {
+                $object = DataObject::get_by_id($className, $result['ID']);
+                if ($object) {
+                    $languageClassName = $object->getLanguageClassName();
+                    if (!$object->hasLanguage($locale)) {
+                        $languageClass          = new $languageClassName();
+                        $languageClass->Locale  = $locale;
+                        foreach ($result as $fieldName => $fieldValue) {
+                            $languageClass->{$fieldName} = $fieldValue;
+                        }
+                        $languageClass->write();
+                        $object->getLanguageRelation()->add($languageClass);
+                    }
                 }
-                $languageClass->write();
-                $object->{$relationName}()->add($languageClass);
             }
-            foreach ($attributes as $attribute) {
-                $sql = sprintf("ALTER TABLE %s DROP %s", $className, $attribute);
-                DB::query($sql);
-            }
+        }
+        foreach ($attributes as $attribute) {
+            DB::query(
+                sprintf(
+                    "ALTER TABLE %s DROP %s",
+                    $className,
+                    $attribute
+                )
+            );
         }
     }
 }
