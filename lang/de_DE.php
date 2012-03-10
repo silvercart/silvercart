@@ -791,6 +791,12 @@ $lang['de_DE']['SilvercartHasManyOrderField']['MOVE_UP']                    = 'N
 $lang['de_DE']['SilvercartHasManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Verfügbare Widgets';
 $lang['de_DE']['SilvercartHasManyOrderField']['EDIT']                       = 'Bearbeiten';
 
+$lang['de_DE']['SilvercartManyManyOrderField']['ATTRIBUTED_FIELDS']          = 'Zugewiesen';
+$lang['de_DE']['SilvercartManyManyOrderField']['MOVE_DOWN']                  = 'Nach unten schieben';
+$lang['de_DE']['SilvercartManyManyOrderField']['MOVE_UP']                    = 'Nach oben schieben';
+$lang['de_DE']['SilvercartManyManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Verfügbar';
+$lang['de_DE']['SilvercartManyManyOrderField']['EDIT']                       = 'Bearbeiten';
+
 $lang['de_DE']['SilvercartImage']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
 $lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';

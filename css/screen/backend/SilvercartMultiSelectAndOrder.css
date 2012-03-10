@@ -49,3 +49,33 @@
 .silvercart-multiselectandorder-field-action-row input {
     padding:                            4px 8px;
 }
+
+.action_doAttributeItems,
+.action_doRemoveItems,
+.action_doMoveDownItems,
+.action_doMoveUpItems {
+    width:                              26px;
+    height:                             26px;
+    border:                             1px #ddd solid;
+    padding:                            0px;
+}
+
+.silvercart-multiselectandorder-field .c10l {
+    text-align:                         center;
+}
+.action_doAttributeItems {
+    background:                         url("../../../images/icons/cheser/16x16_go-next.png") center center no-repeat;
+    margin-bottom:                      4px;
+}
+.action_doRemoveItems {
+    background:                         url("../../../images/icons/cheser/16x16_go-previous.png") center center no-repeat;
+}
+.action_doEditItem {
+    background:                         url("../../../images/icons/cheser/16x16_edit.png") center center no-repeat;
+}
+.action_doMoveUpItems {
+    background:                         url("../../../images/icons/cheser/16x16_go-up.png") center center no-repeat;
+}
+.action_doMoveDownItems {
+    background:                         url("../../../images/icons/cheser/16x16_go-down.png") center center no-repeat;
+}

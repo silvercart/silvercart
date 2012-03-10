@@ -99,7 +99,7 @@ class SilvercartShippingMethodAdmin extends ModelAdmin {
             'collection_controller' => 'SilvercartShippingMethod_CollectionController'
         ),
     );
-    
+
     /**
      * Definition of the Importers for the managed model.
      *
@@ -119,10 +119,10 @@ class SilvercartShippingMethodAdmin extends ModelAdmin {
      */
     public function __construct() {
         self::$menu_title = _t('SilvercartShippingMethod.PLURALNAME');
-        
+
         parent::__construct();
     }
-    
+
     /**
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
