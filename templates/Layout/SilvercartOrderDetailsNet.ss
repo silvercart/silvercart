@@ -29,7 +29,7 @@
             <% if productVariantDefinition %>
                 <tr class="subrow">
                     <td colspan="6">
-                        $productVariantDefinition
+                        $productVariantDefinition.RAW
                     </td>
                 </tr>
             <% end_if %>

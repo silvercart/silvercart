@@ -116,6 +116,28 @@ class SilvercartOrderAdmin extends ModelAdmin {
      */
     public function init() {
         parent::init();
+        $baseUrl = SilvercartTools::getBaseURLSegment();
+
+        Requirements::javascript($baseUrl.'sapphire/thirdparty/jquery-ui/jquery-ui-1.8rc3.custom.js');
+        Requirements::javascript($baseUrl.'sapphire/thirdparty/jquery-ui/jquery.datepicker.js');
+        Requirements::css($baseUrl.'sapphire/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
+
+        Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/date.js');
+        Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js');
+        Requirements::css($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css');
+
+        Requirements::customScript("
+            (function($) { 
+                $(document).ready(function() { 
+                    //Date picker
+                    $('#Form_SearchForm_SilvercartOrder_Created').daterangepicker({
+                        arrows: false,
+                        dateFormat: 'dd.mm.yy'
+                    });
+                });
+            })(jQuery);
+        ");
+
         $this->extend('updateInit');
     }
 }
