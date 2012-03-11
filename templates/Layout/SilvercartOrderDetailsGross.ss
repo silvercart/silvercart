@@ -8,8 +8,8 @@
     </colgroup>
     <thead>
         <tr>
-            <th><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %></th>
-            <th><% _t('SilvercartProduct.COLUMN_TITLE') %></th>
+            <th class="left"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %></th>
+            <th class="left"><% _t('SilvercartProduct.COLUMN_TITLE') %></th>
             <th class="right"><% _t('SilvercartProduct.PRICE_SINGLE') %></th>
             <th class="right"><% _t('SilvercartProduct.VAT') %></th>
             <th class="right"><% _t('SilvercartProduct.QUANTITY') %></th>
@@ -19,8 +19,8 @@
     <tbody>
         <% control SilvercartOrderListPositions %>
             <tr class="$EvenOrOdd">
-                <td>$ProductNumber</td>
-                <td>$Title.RAW</td>
+                <td class="left">$ProductNumber</td>
+                <td class="left">$Title.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
                 <td class="right">$Quantity</td>

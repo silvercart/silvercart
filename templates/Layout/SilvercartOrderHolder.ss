@@ -11,44 +11,25 @@
             $PageComments
             <% if CurrentMembersOrders %>
             <table id="silvercart-order-holder-table-id" class="full">
+                <colgroup>
+                    <col width="20%"></col>
+                    <col width="40%"></col>
+                    <col width="15%"></col>
+                    <col width="15%"></col>
+                    <col width="10%"></col>
+                </colgroup>
                 <thead>
                     <tr>
-                        <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
-                        <th><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></th>
-                        <th><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
-                        <th><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
+                        <th class="left"><% _t('SilvercartPage.ORDER_DATE','order date') %> /<br /><% _t('SilvercartOrder.ORDERNUMBER') %></th>
+                        <th class="left"><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
+                        <th class="left"><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
+                        <th class="left"><% _t('SilvercartOrder.AMOUNTTOTAL') %></th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% control CurrentMembersOrders %>
-                    <tr>
-                        <td>
-                            <a href="{$Top.OrderDetailLink}$ID">$Created.Nice</a>
-                        </td>
-                        <td>
-                            <a href="{$Top.OrderDetailLink}$ID">$OrderNumber</a>
-                        </td>
-                        <td>
-                            <a href="{$Top.OrderDetailLink}$ID">
-                            <% control SilvercartOrderPositions %>
-                                $Title <% if Last %><% else %> | <% end_if %>
-                            <% end_control %>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{$Top.OrderDetailLink}$ID">
-                                $SilvercartOrderStatus.Title
-                            </a>
-                        </td>
-                        <td>
-                            <div class="silvercart-button">
-                                <div class="silvercart-button_content">
-                                    <a href="{$Top.OrderDetailLink}$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                        <% include SilvercartOrderHolderOrderListEntry %>
                     <% end_control %>
                 </tbody>
             </table>

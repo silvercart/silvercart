@@ -877,6 +877,7 @@ $lang['de_DE']['SilvercartOrder']['INVOICENUMBER_SHORT'] = 'Rechnungs-Nr.';
 $lang['de_DE']['SilvercartOrder']['NOTE'] = 'Bemerkung';
 $lang['de_DE']['SilvercartOrder']['ORDER_ID'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartOrder']['ORDERNUMBER'] = 'Bestellnummer';
+$lang['de_DE']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-nummer';
 $lang['de_DE']['SilvercartOrder']['ORDER_VALUE'] = 'Gesamtbetrag';
 $lang['de_DE']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Bezahlart';
 $lang['de_DE']['SilvercartOrder']['PLURALNAME'] = 'Bestellungen';
