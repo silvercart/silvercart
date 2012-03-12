@@ -689,11 +689,27 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     );
 
                     if (class_exists('SilvercartProductVariantAttribute')) {
-                        if ($shoppingCartPosition->ProductVariantAttributes()) {
-                            $productVariantDefinition = '';
-                            foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
+                        $productVariantDefinition = '';
 
-                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
+                        $records = DB::query(
+                            sprintf(
+                                "
+                                SELECT
+                                    SilvercartProductVariantAttributeID,
+                                    SilvercartProductVariantAttributeSet
+                                FROM
+                                    SilvercartShoppingCartPosition_ProductVariantAttributes
+                                WHERE
+                                    SilvercartShoppingCartPositionID = %d
+                                ",
+                                $shoppingCartPosition->ID
+                            )
+                        );
+
+                        if ($records) {
+                            foreach ($records as $record) {
+                                $attribute = DataObject::get_by_id('SilvercartProductVariantAttribute', $record['SilvercartProductVariantAttributeID']);
+                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $record['SilvercartProductVariantAttributeSet']);
 
                                 if ($silvercartProductVariantAttributeSet) {
                                     $setName            = $silvercartProductVariantAttributeSet->name;
@@ -709,12 +725,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                                     $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
                                 }
                             }
-                            SilvercartTools::Log(
-                                'convertShoppingCartPositionToOrderPositions',
-                                $productVariantDefinition,
-                                $this->class
-                            );
                         }
+
+                        SilvercartTools::Log(
+                            'convertShoppingCartPositionToOrderPositions',
+                            $productVariantDefinition,
+                            $this->class
+                        );
                     }
 
                     // Call hook method on product if available
