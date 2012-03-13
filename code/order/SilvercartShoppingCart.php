@@ -505,7 +505,7 @@ class SilvercartShoppingCart extends DataObject {
             $shippingFee = $shippingMethod->getShippingFee();
 
             if ($shippingFee !== false) {
-                $shippingFeeAmount = $shippingFee->Price->getAmount();
+                $shippingFeeAmount = $shippingFee->getPriceAmount();
                 $amountTotal = $shippingFeeAmount + $amountTotal;
             }
         }
@@ -966,7 +966,7 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         if ($selectedShippingMethod) {
-            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
+            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
             $handlingCostShipmentObj = new Money();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
