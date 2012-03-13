@@ -136,10 +136,10 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 // set default group view if not existant
 // ----------------------------------------------------------------------------
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupView())) {
-    SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');    
+    SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 }
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
-    SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');    
+    SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 }
 
 if (method_exists('GoogleSitemap', 'register_dataobject')) {

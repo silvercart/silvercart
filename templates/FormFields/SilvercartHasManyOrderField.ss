@@ -16,8 +16,8 @@
         </div>
         <div class="c10l">
             <p>&nbsp;</p>
-            <input type="submit" id="{$ID}_action_doAttributeItems" name="action_doAttributeItems" value="&gt;" class="silvercart-hasmanyorder-field-middle-button action_doAttributeItems" /><br />
-            <input type="submit" id="{$ID}_action_doRemoveItems" name="action_doRemoveItems" value="&lt;" class="silvercart-hasmanyorder-field-middle-button action_doRemoveItems" />
+            <input type="submit" id="{$ID}_action_doAttributeItems" class="action_doAttributeItems" name="action_doAttributeItems" value="" class="silvercart-hasmanyorder-field-middle-button action_doAttributeItems" /><br />
+            <input type="submit" id="{$ID}_action_doRemoveItems" class="action_doRemoveItems" name="action_doRemoveItems" value="" class="silvercart-hasmanyorder-field-middle-button action_doRemoveItems" />
         </div>
         <div class="c45r">
             <p>
@@ -30,9 +30,9 @@
             </select>
             
             <div class="silvercart-hasmanyorder-field-action-row">
-                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="<% _t('SilvercartHasManyOrderField.MOVE_UP') %>" />
-                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="<% _t('SilvercartHasManyOrderField.MOVE_DOWN') %>" />
-                <input id="{$ID}_action_editItem" class="action_doEditItem" type="submit" name="action_doEditItem" value="<% _t('SilvercartHasManyOrderField.EDIT') %>" />
+                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" title="<% _t('SilvercartHasManyOrderField.MOVE_UP') %>" value="" />
+                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" title="<% _t('SilvercartHasManyOrderField.MOVE_DOWN') %>" value="" />
+                <input id="{$ID}_action_editItem" class="action_doEditItem" type="submit" name="action_doEditItem" title="<% _t('SilvercartHasManyOrderField.EDIT') %>" value="" />
             </div>
         </div>
     </div>

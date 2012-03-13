@@ -795,6 +795,12 @@ $lang['en_US']['SilvercartHasManyOrderField']['MOVE_UP']                    = 'M
 $lang['en_US']['SilvercartHasManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Available widgets';
 $lang['en_US']['SilvercartHasManyOrderField']['EDIT']                       = 'Edit';
 
+$lang['en_US']['SilvercartManyManyOrderField']['ATTRIBUTED_FIELDS']          = 'Attributed';
+$lang['en_US']['SilvercartManyManyOrderField']['MOVE_DOWN']                  = 'Move down';
+$lang['en_US']['SilvercartManyManyOrderField']['MOVE_UP']                    = 'Move up';
+$lang['en_US']['SilvercartManyManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Available';
+$lang['en_US']['SilvercartManyManyOrderField']['EDIT']                       = 'Edit';
+
 $lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartImage']['PLURALNAME'] = 'Images';
 $lang['en_US']['SilvercartImage']['SINGULARNAME'] = 'Image';
@@ -875,6 +881,7 @@ $lang['en_US']['SilvercartOrder']['INVOICENUMBER_SHORT'] = 'Invoice-No.';
 $lang['en_US']['SilvercartOrder']['NOTE'] = 'Note';
 $lang['en_US']['SilvercartOrder']['ORDER_ID'] = 'Ordernumber';
 $lang['en_US']['SilvercartOrder']['ORDERNUMBER'] = 'Ordernumber';
+$lang['en_US']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-number';
 $lang['en_US']['SilvercartOrder']['ORDER_VALUE'] = 'Orderamount';
 $lang['en_US']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Payment method';
 $lang['en_US']['SilvercartOrder']['PLURALNAME'] = 'Orders';

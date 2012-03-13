@@ -16,7 +16,7 @@
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#c9c9c9'); /* for IE */
 }
 .silvercart-product-actions .silvercart-button.back a {
-    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/back.png") 2px center no-repeat;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/cheser/16x16_go-previous.png") 2px center no-repeat;
     padding-left:                   20px;
 }
 
