@@ -416,4 +416,19 @@ class SilvercartShoppingCartPosition extends DataObject {
         
         $this->extend('updateOnBeforeWrite');
     }
+
+    /**
+     * This method gets called when the shopping cart of a customer gets
+     * transferred to a new cart (e.g. during the registration process).
+     *
+     * @param SilvercartShoppingCartPosition $newShoppingCartPosition The new cart position
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.03.2012
+     */
+    public function transferToNewPosition($newShoppingCartPosition) {
+        $this->extend('updateTransferToNewPosition', $newShoppingCartPosition);
+    }
 }
