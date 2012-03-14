@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -44,8 +43,8 @@ class SilvercartQuantityUnit extends DataObject {
      * @since 29.03.2011
      */
     public static $db = array(
-        'Title' => 'VarChar(50)',
-        'Abbreviation' => 'VarChar(5)'
+        'Title'         => 'VarChar(50)',
+        'Abbreviation'  => 'VarChar(12)'
     );
     
     /**
@@ -95,8 +94,8 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                    'Title' => _t('SilvercartQuantityUnit.TITLE'),
-                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
+                    'Title'         => $this->fieldLabel('Title'),
+                    'Abbreviation'  => $this->fieldLabel('Abbreviation'),
                 )
         );
     }
@@ -114,8 +113,8 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::fieldLabels(),
                 array(
-                    'Title' => _t('SilvercartQuantityUnit.TITLE'),
-                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
+                    'Title'         => _t('SilvercartQuantityUnit.NAME'),
+                    'Abbreviation'  => _t('SilvercartQuantityUnit.ABBREVIATION')
                 )
         );
     }
