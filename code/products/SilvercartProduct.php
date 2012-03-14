@@ -598,6 +598,8 @@ class SilvercartProduct extends DataObject {
             // remove GoogleSitemap Priority
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
+            // remove waste fields
+            $fields->removeByName('SilvercartProductGroupItemsWidgets');
             // --------------------------------------------------------------------
             // Fields for the main tab
             // --------------------------------------------------------------------
