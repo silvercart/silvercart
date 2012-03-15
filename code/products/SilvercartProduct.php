@@ -2549,7 +2549,7 @@ class SilvercartProduct_RecordController extends ModelAdmin_RecordController {
             count($extensionResults) > 0) {
             foreach ($extensionResults as $extensionResult) {
                 if ($extensionResult !== false) {
-                    $request = $extensionResult;
+                    $result = $extensionResult;
                     break;
                 }
             }
