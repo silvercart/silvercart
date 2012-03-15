@@ -445,6 +445,7 @@ $lang['en_US']['SilvercartConfig']['TABBED'] = 'tabbed';
 $lang['en_US']['SilvercartConfig']['FLAT'] = 'flat';
 $lang['en_US']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is the stock quantity of a product generally overbookable?';
 $lang['en_US']['SilvercartConfig']['USE_APACHE_SOLR_SEARCH'] = 'Use Apache Solr search';
+$lang['en_US']['SilvercartConfig']['USEFREEOFSHIPPINGCOSTSFROM'] = 'Use settings for "free of shipping costs"';
 $lang['en_US']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activate minimum  order value';
 $lang['en_US']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Disregard minimum order value';
 $lang['en_US']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimum order value';

@@ -126,6 +126,7 @@ class SilvercartConfig extends DataObject {
         'useMinimumOrderValue'              => 'Boolean(0)',
         'disregardMinimumOrderValue'        => 'Boolean(0)',
         'freeOfShippingCostsFrom'           => 'Money',
+        'useFreeOfShippingCostsFrom'        => 'Boolean(0)',
         'useApacheSolrSearch'               => 'Boolean(0)',
         'apacheSolrUrl'                     => 'VarChar(255)',
         'apacheSolrPort'                    => 'Int',
@@ -212,6 +213,7 @@ class SilvercartConfig extends DataObject {
     public static $enableSSL                        = null;
     public static $minimumOrderValue                = null;
     public static $freeOfShippingCostsFrom          = null;
+    public static $useFreeOfShippingCostsFrom       = null;
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
@@ -410,6 +412,7 @@ class SilvercartConfig extends DataObject {
         $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
         $minimumOrderValueTab->push(new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
 
+        $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
         $freeOfShippingCostsTab->push(new MoneyField('freeOfShippingCostsFrom', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM')));
         
         // FormFields for Test Data right here
@@ -694,6 +697,22 @@ class SilvercartConfig extends DataObject {
             self::$minimumOrderValue = self::getConfig()->minimumOrderValue;
         }
         return self::$minimumOrderValue;
+    }
+
+    /**
+     * Returns if the free of shipping costs from setting should be used.
+     *
+     * @return Boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 15.03.2012
+     */
+    public static function UseFreeOfShippingCostsFrom() {
+        if (is_null(self::$useFreeOfShippingCostsFrom)) {
+            self::$useFreeOfShippingCostsFrom = self::getConfig()->useFreeOfShippingCostsFrom;
+        }
+        return self::$useFreeOfShippingCostsFrom;
     }
 
     /**

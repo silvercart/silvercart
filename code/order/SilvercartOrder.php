@@ -635,18 +635,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 22.11.2010
      */
     public function convertShoppingCartPositionsToOrderPositions() {
-        SilvercartTools::Log(
-            'convertShoppingCartPositionToOrderPositions',
-            'Start -------------------------------------------------------------',
-            $this->class
-        );
-
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
-            SilvercartTools::Log(
-                'convertShoppingCartPositionToOrderPositions',
-                'Extension break!',
-                $this->class
-            );
             return true;
         }
         
@@ -678,62 +667,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->SilvercartProductID = $product->ID;
                     $orderPosition->write();
 
-                    SilvercartTools::Log(
-                        'convertShoppingCartPositionsToOrderPositions',
-                        'Order ID: '.$orderPosition->ID.' - '.
-                        'Product ID: '.$orderPosition->SilvercartProductID.' - '.
-                        'Position Title: '.$orderPosition->Title.' - '.
-                        'Quantity: '.$orderPosition->Quantity
-                        ,
-                        $this->class
-                    );
-
-                    if (class_exists('SilvercartProductVariantAttribute')) {
-                        $productVariantDefinition = '';
-
-                        $records = DB::query(
-                            sprintf(
-                                "
-                                SELECT
-                                    SilvercartProductVariantAttributeID,
-                                    SilvercartProductVariantAttributeSet
-                                FROM
-                                    SilvercartShoppingCartPosition_ProductVariantAttributes
-                                WHERE
-                                    SilvercartShoppingCartPositionID = %d
-                                ",
-                                $shoppingCartPosition->ID
-                            )
-                        );
-
-                        if ($records) {
-                            foreach ($records as $record) {
-                                $attribute = DataObject::get_by_id('SilvercartProductVariantAttribute', $record['SilvercartProductVariantAttributeID']);
-                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $record['SilvercartProductVariantAttributeSet']);
-
-                                if ($silvercartProductVariantAttributeSet) {
-                                    $setName            = $silvercartProductVariantAttributeSet->name;
-                                    $fieldModifierNotes = $attribute->getFieldModifierNotes();
-
-                                    if ($fieldModifierNotes != '') {
-                                        $setName .= ' ('.$fieldModifierNotes.')';
-                                    }
-
-                                    if (!empty($productVariantDefinition)) {
-                                        $productVariantDefinition .= ', ';
-                                    }
-                                    $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
-                                }
-                            }
-                        }
-
-                        SilvercartTools::Log(
-                            'convertShoppingCartPositionToOrderPositions',
-                            $productVariantDefinition,
-                            $this->class
-                        );
-                    }
-
                     // Call hook method on product if available
                     if ($product->hasMethod('ShoppingCartConvert')) {
                         $product->ShoppingCartConvert($this, $orderPosition);
@@ -746,11 +679,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
                     
                     if (!empty($result)) {
-                        SilvercartTools::Log(
-                            'convertShoppingCartPositionToOrderPositions',
-                            'Using orderPosition from Plugin Call.',
-                            $this->class
-                        );
                         $orderPosition = $result[0];
                     }
                     
