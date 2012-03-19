@@ -125,6 +125,8 @@ class SilvercartConfig extends DataObject {
         'minimumOrderValue'                 => 'Money',
         'useMinimumOrderValue'              => 'Boolean(0)',
         'disregardMinimumOrderValue'        => 'Boolean(0)',
+        'freeOfShippingCostsFrom'           => 'Money',
+        'useFreeOfShippingCostsFrom'        => 'Boolean(0)',
         'useApacheSolrSearch'               => 'Boolean(0)',
         'apacheSolrUrl'                     => 'VarChar(255)',
         'apacheSolrPort'                    => 'Int',
@@ -210,6 +212,8 @@ class SilvercartConfig extends DataObject {
     public static $config                           = null;
     public static $enableSSL                        = null;
     public static $minimumOrderValue                = null;
+    public static $freeOfShippingCostsFrom          = null;
+    public static $useFreeOfShippingCostsFrom       = null;
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
@@ -297,7 +301,7 @@ class SilvercartConfig extends DataObject {
                     $tabLayoutMain = new Tab('Layout'),
                     $tabServerMain = new Tab('Server'),
                     $tabStockMain = new Tab('Stock'),
-                    $tabCkechoutMain = new Tab('Checkout'),
+                    $tabCheckoutMain = new Tab('Checkout'),
                     $tabCleanMain = new Tab('Clean')
                 ),
                 $interfacesTab = new TabSet(
@@ -310,14 +314,13 @@ class SilvercartConfig extends DataObject {
         // General Form Fields right here
         $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
         
-        // General Main
         $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
         $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
         $tabLayoutMain->setTitle(_t('SilvercartConfig.LAYOUT'));
         $tabServerMain->setTitle(_t('SilvercartConfig.SERVER'));
         $tabStockMain->setTitle(_t('SilvercartConfig.STOCK'));
-        $tabCkechoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
+        $tabCheckoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
         $tabCleanMain->setTitle(_t('SilvercartConfig.CLEAN'));
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
@@ -392,23 +395,25 @@ class SilvercartConfig extends DataObject {
         /*
          * Root.General.Checkout tab
          */
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
-        $CMSFields->addFieldToTab(
-            'Root.General.Checkout',
-            new LiteralField(
-                'MinimumOrderValueTitle',
-                sprintf(
-                    '<h3>%s</h3>',
-                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
-                )
-            )
+        $basicCheckoutTab = new Tab('basicCheckoutTab', _t('SilvercartConfig.BASICCHECKOUT'));
+        $minimumOrderValueTab = new Tab('minimumOrderValueTab', _t('SilvercartConfig.MINIMUMORDERVALUE'));
+        $freeOfShippingCostsTab = new Tab('freeOfShippingCostsTab', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSTAB'));
+        $tabCheckoutMain->push(
+            $tabCheckoutMainTabSet = new TabSet('tabsetCheckout')
         );
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
-        
-        
+        $tabCheckoutMainTabSet->push($basicCheckoutTab);
+        $tabCheckoutMainTabSet->push($minimumOrderValueTab);
+        $tabCheckoutMainTabSet->push($freeOfShippingCostsTab);
+
+        $basicCheckoutTab->push(new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
+        $basicCheckoutTab->push(new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
+
+        $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
+        $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
+        $minimumOrderValueTab->push(new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+
+        $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
+        $freeOfShippingCostsTab->push(new MoneyField('freeOfShippingCostsFrom', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM')));
         
         // FormFields for Test Data right here
         $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
@@ -469,6 +474,7 @@ class SilvercartConfig extends DataObject {
         $fieldLabels['minimumOrderValue']                   = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
         $fieldLabels['disregardMinimumOrderValue']          = _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value');
         $fieldLabels['useMinimumOrderValue']                = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
+        $fieldLabels['freeOfShippingCostsFrom']             = _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM');
         $fieldLabels['productsPerPage']                     = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
         $fieldLabels['productGroupsPerPage']                = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
         $fieldLabels['useApacheSolrSearch']                 = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
@@ -677,7 +683,6 @@ class SilvercartConfig extends DataObject {
         return self::$isStockManagementOverbookable;
     }
 
-
     /**
      * Returns the minimum order value if specified
      *
@@ -693,7 +698,39 @@ class SilvercartConfig extends DataObject {
         }
         return self::$minimumOrderValue;
     }
-    
+
+    /**
+     * Returns if the free of shipping costs from setting should be used.
+     *
+     * @return Boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 15.03.2012
+     */
+    public static function UseFreeOfShippingCostsFrom() {
+        if (is_null(self::$useFreeOfShippingCostsFrom)) {
+            self::$useFreeOfShippingCostsFrom = self::getConfig()->useFreeOfShippingCostsFrom;
+        }
+        return self::$useFreeOfShippingCostsFrom;
+    }
+
+    /**
+     * Returns the free of shipping costs from value if specified.
+     *
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.03.2012
+     */
+    public static function FreeOfShippingCostsFrom() {
+        if (is_null(self::$freeOfShippingCostsFrom)) {
+            self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
+        }
+        return self::$freeOfShippingCostsFrom;
+    }
+
     /**
      * Returns the minimum order value if specified
      *

@@ -44,7 +44,7 @@ class SilvercartProduct extends DataObject {
      */
     public static $db = array(
         'Title'                       => 'VarChar(255)',
-        'ShortDescription'            => 'Text',
+        'ShortDescription'            => 'HTMLText',
         'LongDescription'             => 'HTMLText',
         'MetaDescription'             => 'VarChar(255)',
         'MetaTitle'                   => 'VarChar(64)', //search engines use only 64 chars
@@ -598,6 +598,8 @@ class SilvercartProduct extends DataObject {
             // remove GoogleSitemap Priority
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
+            // remove waste fields
+            $fields->removeByName('SilvercartProductGroupItemsWidgets');
             // --------------------------------------------------------------------
             // Fields for the main tab
             // --------------------------------------------------------------------
@@ -2515,4 +2517,48 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     protected function Log($logString, $filename = 'importProducts') {
         SilvercartConfig::Log('SilvercartProduct', $logString, $filename);
     }
+}
+
+/**
+ * Default record controller for products
+ *
+ * @package Silvercart
+ * @subpackage Products
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 14.03.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartProduct_RecordController extends ModelAdmin_RecordController {
+    
+    /**
+     * Makes the record controller decoratable
+     *
+     * @param HttpRequest $request Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2012
+     */
+    public function handleAction($request) {
+        $this->extend('onBeforeHandleAction', $request);
+        $result             = false;
+        $extensionResults   = $this->extend('handleAction', $request);
+        if (is_array($extensionResults) &&
+            count($extensionResults) > 0) {
+            foreach ($extensionResults as $extensionResult) {
+                if ($extensionResult !== false) {
+                    $result = $extensionResult;
+                    break;
+                }
+            }
+        }
+        if ($result === false) {
+            $result = parent::handleAction($request);
+        }
+        $this->extend('onAfterHandleAction', $request);
+        return $result;
+    }
+    
 }

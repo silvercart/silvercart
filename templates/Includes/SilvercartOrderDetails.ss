@@ -2,8 +2,8 @@
     <h3><% _t('SilvercartOrderDetailPage.TITLE') %></h3>
         <table>
             <colgroup>
-                <col width="35%"></col>
-                <col width="65%"></col>
+                <col width="25%"></col>
+                <col width="75%"></col>
             </colgroup>
             <tbody>
                 <tr>

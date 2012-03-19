@@ -313,6 +313,17 @@ class SilvercartShippingFee extends DataObject {
         $taxRate   = $this->getTaxRate();
         $taxAmount = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $taxRate) * 100);
 
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
+
+            $silvercartShoppingCart  = Member::currentUser()->SilvercartShoppingCart();
+            $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom();
+
+            if ((float) $freeOfShippingCostsFrom->getAmount() <= $silvercartShoppingCart->getAmountTotal()->getAmount()) {
+                $taxAmount = 0.0;
+            }
+        }
+
         return $taxAmount;
     }
     
@@ -330,8 +341,8 @@ class SilvercartShippingFee extends DataObject {
             if ($this->SilvercartShippingMethod()->SilvercartCarrier()) {
                 $carrier = $this->SilvercartShippingMethod()->SilvercartCarrier()->Title;
             }
-            $shippingMethod = $this->SilvercartShippingMethod()->Title;
-            $shippingFeeAmountAsString = number_format($this->Price->getAmount(), 2, ',', '') .$this->Price->getCurrency();
+            $shippingMethod            = $this->SilvercartShippingMethod()->Title;
+            $shippingFeeAmountAsString = number_format($this->getPriceAmount(), 2, ',', '') .$this->getPriceCurrency();
             
             return $carrier . "-" . $shippingMethod . "(+" . $shippingFeeAmountAsString . ")";
         }
@@ -339,15 +350,54 @@ class SilvercartShippingFee extends DataObject {
     }
     
     /**
+     * Returns the price for this shipping fee.
+     * 
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 13.03.2012
+     */
+    public function getCalculatedPrice() {
+        $priceObj = new Money();
+        $priceObj->setAmount($this->getPriceAmount());
+        $priceObj->setCurrency($this->getPriceCurrency());
+
+        return $priceObj;
+    }
+
+    /**
      * Returns the prices amount
      *
      * @return float
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 13.03.2012
      */
     public function getPriceAmount() {
         $price = (float) $this->Price->getAmount();
 
         if (SilvercartConfig::PriceType() == 'net') {
             $price = $price - $this->getTaxAmount();
+        }
+
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
+
+            $silvercartShoppingCart     = Member::currentUser()->SilvercartShoppingCart();
+            $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
+            $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom();
+
+            if (SilvercartConfig::PriceType() == 'gross') {
+                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
+            } else {
+                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
+            }
+
+            if ($useFreeOfShippingCostsFrom &&
+                (float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
+
+                $price = 0.0;
+            }
         }
 
         $price = round($price, 2);
