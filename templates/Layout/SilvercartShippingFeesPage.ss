@@ -11,6 +11,7 @@
     <% control Carriers %>
         <h3>$Title</h3>
         <% control SilvercartShippingMethods %>
+            <% isActive %>
         <div class="subcolumns">
             <div class="c20l">
                 <h4>$Title</h4>
@@ -34,6 +35,7 @@
                 </table>
             </div>
         </div>
+            <% end_if %>
         <% end_control %>
     <% end_control %>
     </div>
