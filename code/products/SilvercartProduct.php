@@ -490,7 +490,82 @@ class SilvercartProduct extends DataObject {
         if ($sort === null) {
             $sort = SilvercartProduct::getDefaultSort();
         }
-        $databaseFilteredProducts = DataObject::get('SilvercartProduct', $filter, $sort, $join, $limit);
+        
+        $productCount = null;
+        if (!is_null($limit)) {
+            // get count for paging
+            $query = sprintf(
+                    "SELECT
+                        COUNT(`SilvercartProduct`.`ID`) AS ProductCount
+                        FROM
+                        `SilvercartProduct`
+                        %s
+                        WHERE
+                            %s
+                        ORDER BY
+                            %s",
+                    $join,
+                    $filter,
+                    $sort
+            );
+            $records = DB::query($query);
+            foreach ($records as $record) {
+                $productCount = $record['ProductCount'];
+            }
+            
+            if (is_array($limit)) {
+                $length = $limit['limit'];
+                $start  = $limit['start'];
+            } elseif (stripos($limit, 'OFFSET')) {
+                list($length, $start) = preg_split("/ +OFFSET +/i", trim($limit));
+            } else {
+                $result = preg_split("/ *, */", trim($limit));
+                $start  = $result[0];
+                $length = isset($result[1]) ? $result[1] : null;
+            }
+            if (!$length) {
+                $length = $start;
+                $start = 0;
+            }
+        }
+        $query = sprintf(
+                "SELECT
+                    `SilvercartProduct`.`ID`
+                    FROM
+                    `SilvercartProduct`
+                    %s
+                    WHERE
+                        %s
+                    ORDER BY
+                        %s
+                    %s",
+                $join,
+                $filter,
+                $sort,
+                is_null($limit) ? "" : "LIMIT " . $limit
+        );
+        $records = DB::query($query);
+        $recordsArray = array();
+        foreach ($records as $record) {
+            $recordsArray[] = $record['ID'];
+        }
+        if (count($recordsArray) > 0) {
+            $productIDs = implode(',', $recordsArray);
+            $databaseFilteredProducts = DataObject::get(
+                    'SilvercartProduct',
+                    sprintf(
+                            "ID IN (%s)",
+                            $productIDs
+                    )
+            );
+        } else {
+            $databaseFilteredProducts = new DataObjectSet();
+        }
+        if (!is_null($productCount) &&
+            Controller::curr()->hasMethod('getProductsPerPageSetting')) {
+            $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
+            $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
+        }
 
         return $databaseFilteredProducts;
     }
@@ -1206,8 +1281,8 @@ class SilvercartProduct extends DataObject {
      * @since 23.10.2010
      */
     private function title2urlSegment() {
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ', '%', '"', '<', '>');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '',  '',  '',  '',  '');
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', '<', '>');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '');
         $string = str_replace($remove, $replace, $this->Title);
         return $string;
     }
