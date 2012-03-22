@@ -567,18 +567,22 @@ class SilvercartProductGroupPage extends Page {
     /**
      * All products of this group
      * 
-     * @param int|bool $numberOfProducts The number of products to return
-     * @param bool     $random           Indicates wether the result set should be randomized
+     * @param bool|int    $numberOfProducts The number of products to return
+     * @param bool|string $sort             An SQL sort statement
+     * @param bool        $disableLimit     Disables the product limitation
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.03.2012
      */
-    public function getProducts($numberOfProducts = false, $random = false) {
-        $controller = new SilvercartProductGroupPage_Controller($this);
-        
-        return $controller->getProducts($numberOfProducts, $random);
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false) {
+        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller) {
+            $controller = Controller::curr();
+        } else {
+            $controller = new SilvercartProductGroupPage_Controller($this);
+        }
+        return $controller->getProducts($numberOfProducts, $sort, $disableLimit);
     }
 }
 
@@ -731,7 +735,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         $reflectionClass = new ReflectionClass($object);
         
         if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = $object;
+            self::$registeredFilterPlugins[] = new $object();
         }
     }
     
@@ -1005,16 +1009,17 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * 
      * @param bool|int    $numberOfProducts The number of products to return
      * @param bool|string $sort             An SQL sort statement
+     * @param bool        $disableLimit     Disables the product limitation
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
      */
-    public function getProducts($numberOfProducts = false, $sort = false) {
-        $hashKey = md5($numberOfProducts.'_'.$sort);
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false) {
+        $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit);
 
-        if (!(array_key_exists($hashKey, $this->groupProducts))) {
+        if (!array_key_exists($hashKey, $this->groupProducts)) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());
@@ -1097,7 +1102,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $this->ID
                 );
                 
-                $this->groupProducts[$hashKey] = SilvercartProduct::get($filter, $sort, $join, sprintf("%d,%d", $SQL_start, $productsPerPage));
+                if ($disableLimit) {
+                    $limit = null;
+                } else {
+                    $limit = sprintf("%d,%d", $SQL_start, $productsPerPage);
+                }
+                
+                $groupProducts = SilvercartProduct::get($filter, $sort, $join, $limit);
+                $this->extend('onAfterGetProducts', $groupProducts);
+                $this->groupProducts[$hashKey] = $groupProducts;
             }
 
             // Inject additional methods into the DataObjectSet
@@ -1109,6 +1122,40 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         return $this->groupProducts[$hashKey];
     }
     
+    /**
+     * Returns the products (all or by the given hash key)
+     *
+     * @param string $hashKey Hash key to get products for
+     * 
+     * @return array 
+     */
+    public function getGroupProducts($hashKey = null) {
+        if (is_null($hashKey)) {
+            $groupProducts = $this->groupProducts;
+        } elseif (array_key_exists($hashKey, $this->groupProducts)) {
+            $groupProducts = $this->groupProducts[$hashKey];
+        } else {
+            $groupProducts = array();
+        }
+        return $groupProducts;
+    }
+    
+    /**
+     * Sets the products (all or by the given hash key)
+     *
+     * @param array  $groupProducts Products to set
+     * @param string $hashKey       Hash key to set products for
+     * 
+     * @return void 
+     */
+    public function setGroupProducts($groupProducts, $hashKey = null) {
+        if (is_null($hashKey)) {
+            $this->groupProducts = $groupProducts;
+        } else {
+            $this->groupProducts[$hashKey] = $groupProducts;
+        }
+    }
+
     /**
      * All products of this group
      * 
