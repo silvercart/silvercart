@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartPluginObjectExtension extends DataObjectDecorator implements CustomHtmlFormDecorator {
+class SilvercartPluginObjectExtension extends DataObjectDecorator {
     
     /**
      * Passes through calls to SilvercartPlugins.
