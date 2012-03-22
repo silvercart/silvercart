@@ -26,8 +26,8 @@
     margin:                         0px;
     padding:                        4px 10px;
 }
-#silvercart-productgroup-navigation .hlist ul li a:focus,
-#silvercart-productgroup-navigation .hlist ul li a:hover {
+#silvercart-productgroup-navigation .hlist ul li:focus a,
+#silvercart-productgroup-navigation .hlist ul li:hover a {
     background-color:               #e4e1dd;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#3f7d94), to(#4d98b4)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top,  #3f7d94,  #4d98b4); /* for firefox 3.6+ */ 
