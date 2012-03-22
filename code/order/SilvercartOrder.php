@@ -1929,6 +1929,28 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         $this->extend('updateOnAfterWrite');
     }
+
+    /**
+     * Recalculates the order totals for the attributed positions.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function recalculate() {
+        $totalAmount = 0.0;
+
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            $totalAmount += $orderPosition->PriceTotal->getAmount();
+        }
+
+        $this->AmountTotal->setAmount(
+            $totalAmount
+        );
+
+        $this->write();
+    }
 }
 
 /**

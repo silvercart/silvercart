@@ -256,6 +256,7 @@ $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';
 $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand dieses Artikels überbuchbar?';
+$lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY_EXPIRATION_DATE'] = 'Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist';
 $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
@@ -919,9 +920,20 @@ $lang['de_DE']['SilvercartOrderHolder']['URL_SEGMENT'] = 'meine-bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen der Bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse der Bestellung';
 
-$lang['de_DE']['SilvercartOrderPosition']['PLURALNAME'] = 'Bestellpositionen';
-$lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME'] = 'Bestellposition';
-$lang['de_DE']['SilvercartOrderPosition']['SHORT'] = 'Pos.';
+$lang['de_DE']['SilvercartOrderPosition']['PLURALNAME']         = 'Bestellpositionen';
+$lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME']       = 'Bestellposition';
+$lang['de_DE']['SilvercartOrderPosition']['SHORT']              = 'Pos.';
+$lang['de_DE']['SilvercartOrderPosition']['SILVERCARTPRODUCT']  = 'Artikel';
+$lang['de_DE']['SilvercartOrderPosition']['PRICE']              = 'Preis';
+$lang['de_DE']['SilvercartOrderPosition']['PRICETOTAL']         = 'Preis gesamt';
+$lang['de_DE']['SilvercartOrderPosition']['ISCHARGEORDISCOUNT'] = 'Ist Auf-/Abschlag';
+$lang['de_DE']['SilvercartOrderPosition']['TAX']                = 'MwSt.';
+$lang['de_DE']['SilvercartOrderPosition']['TAXTOTAL']           = 'MwSt. gesamt';
+$lang['de_DE']['SilvercartOrderPosition']['TAXRATE']            = 'Steuersatz';
+$lang['de_DE']['SilvercartOrderPosition']['PRODUCTDESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartOrderPosition']['QUANTITY']           = 'Menge';
+$lang['de_DE']['SilvercartOrderPosition']['TITLE']              = 'Name';
+$lang['de_DE']['SilvercartOrderPosition']['PRODUCTNUMBER']      = 'Artikelnr.';
 
 $lang['de_DE']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Bitte wählen';
 

@@ -64,6 +64,7 @@ class SilvercartProduct extends DataObject {
         'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
         'StockQuantity'               => 'Int',
         'StockQuantityOverbookable'   => 'Boolean(0)',
+        'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
     );
 
@@ -386,6 +387,7 @@ class SilvercartProduct extends DataObject {
                 'isActive'                          => _t('SilvercartProduct.IS_ACTIVE'),
                 'StockQuantity'                     => _t('SilvercartProduct.STOCKQUANTITY', 'stock quantity'),
                 'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
+                'StockQuantityExpirationDate'       => _t('SilvercartProduct.STOCK_QUANTITY_EXPIRATION_DATE'),
                 'PackagingQuantity'                 => _t('SilvercartProduct.PACKAGING_QUANTITY', 'purchase quantity'),
                 'ID'                                => 'ID' //needed for the deeplink feature
             )
@@ -573,6 +575,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartOrders',
                 'StockQuantity',
                 'StockQuantityOverbookable',
+                'StockQuantityExpirationDate',
                 'PackagingQuantity',
             ),
             'includeRelations' => true
@@ -627,6 +630,10 @@ class SilvercartProduct extends DataObject {
             $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
             $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
             $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
+            $fields->dataFieldByName('StockQuantityExpirationDate')->setConfig('showcalendar', true);
+            if (SilvercartConfig::isStockManagementOverbookable()) {
+                $fields->dataFieldByName('StockQuantityOverbookable')->remove();
+            }
 
             $amountUnitField = clone $fields->dataFieldByName('SilvercartQuantityUnitID');
             $fields->removeByName('SilvercartQuantityUnitID');
@@ -930,8 +937,15 @@ class SilvercartProduct extends DataObject {
             $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseTimeUnit'));
 
             //fill the tab Root.Stock.Config
+            $stockQuantityExpirationDateField = $fields->dataFieldByName('StockQuantityExpirationDate');
+            $stockQuantityExpirationDateField->setConfig('showcalendar', true);
+
             $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
-            $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('StockQuantityOverbookable'));
+
+            if (!SilvercartConfig::isStockManagementOverbookable()) {
+                $CMSFields->addFieldToTab('Root.Stock.Config', $fields->dataFieldByName('StockQuantityOverbookable'));
+            }
+            $CMSFields->addFieldToTab('Root.Stock.Config', $stockQuantityExpirationDateField);
             
             //fill the tab Root.Files.Images
             if ($this->ID) {
@@ -1699,10 +1713,24 @@ class SilvercartProduct extends DataObject {
         if (Member::currentUser() && Member::currentUser()->SilvercartShoppingCart()) {
             $cartPositionQuantity = Member::currentUser()->SilvercartShoppingCart()->getQuantity($this->ID);
         }
-        if (SilvercartConfig::EnableStockManagement()
-                && !$this->isStockQuantityOverbookable() 
-                && ($this->StockQuantity - $cartPositionQuantity) <= 0) {
-            return false;
+        if (SilvercartConfig::EnableStockManagement()) {
+            if (!$this->isStockQuantityOverbookable() &&
+                ($this->StockQuantity - $cartPositionQuantity) <= 0) {
+
+                return false;
+            }
+
+            if ($this->StockQuantityExpirationDate) {
+                $curDate        = new DateTime();
+                $expirationDate = new DateTime(strftime($this->StockQuantityExpirationDate));
+
+                if ( $this->isStockQuantityOverbookable() &&
+                    ($this->StockQuantity - $cartPositionQuantity) <= 0 &&
+                     $expirationDate < $curDate) {
+
+                    return false;
+                }
+            }
         }
         return true;
     }
