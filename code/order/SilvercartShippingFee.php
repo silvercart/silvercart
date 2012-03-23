@@ -319,7 +319,13 @@ class SilvercartShippingFee extends DataObject {
             $silvercartShoppingCart  = Member::currentUser()->SilvercartShoppingCart();
             $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom();
 
-            if ((float) $freeOfShippingCostsFrom->getAmount() <= $silvercartShoppingCart->getAmountTotal()->getAmount()) {
+            if (SilvercartConfig::PriceType() == 'gross') {
+                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
+            } else {
+                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
+            }
+
+            if ((float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
                 $taxAmount = 0.0;
             }
         }
