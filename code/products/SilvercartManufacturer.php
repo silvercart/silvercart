@@ -248,9 +248,6 @@ class SilvercartManufacturer extends DataObject {
      * @since 16.03.2011
      */
     public function title2urlSegment() {
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '');
-        $string = str_replace($remove, $replace, $this->Title);
-        return $string;
+        return SilvercartTools::string2urlSegment($this->Title);
     }
 }

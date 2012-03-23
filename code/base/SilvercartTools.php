@@ -59,6 +59,23 @@ class SilvercartTools extends Object {
     }
 
     /**
+     * Remove chars from the given string that are not appropriate for an url
+     *
+     * @param string $string String to convert
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public static function string2urlSegment($string) {
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', "'", '<', '>');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '',  '');
+        $string     = str_replace($remove, $replace, $string);
+        return strtolower(urlencode($string));
+    }
+
+    /**
      * Writes a log entry
      *
      * @param string $method The method name of the caller
