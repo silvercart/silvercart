@@ -33,8 +33,6 @@
  */
 class SilvercartOrder extends DataObject implements PermissionProvider {
 
-    public static $api_access = true;
-
     /**
      * Set permissions.
      *
