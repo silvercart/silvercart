@@ -34,6 +34,17 @@
 class SilvercartOrderPosition extends DataObject {
 
     /**
+     * Indicates whether changes and creations of order positions should
+     * be logged or not.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $log = true;
+
+    /**
      * Indicates wether the order should be recalculated in method
      * "onAfterWrite".
      *
@@ -43,6 +54,26 @@ class SilvercartOrderPosition extends DataObject {
      * @since 21.03.2012
      */
     protected $doRecalculate = false;
+
+    /**
+     * Indicates wether the position has been created. Used in onBeforeWrite.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $objectCreated = false;
+
+    /**
+     * Indicates wether the position has been deleted. Used in onBeforeDelete.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $objectDeleted = false;
 
     /**
      * attributes
@@ -324,9 +355,11 @@ class SilvercartOrderPosition extends DataObject {
     public function onBeforeWrite() {
         $changedFields = $this->getChangedFields();
 
-        if (array_key_exists('SilvercartOrderID', $changedFields)) {
+        if (!$this->objectCreated &&
+             array_key_exists('SilvercartOrderID', $changedFields)) {
             $this->saveNew($changedFields);
-        } else {
+            $this->objectCreated = true;
+        } else if (!$this->objectCreated) {
             $this->saveChanges($changedFields);
         }
 
@@ -391,6 +424,7 @@ class SilvercartOrderPosition extends DataObject {
                 }
             }
         }
+        $this->extend('updateSaveChanges', $changedFields, $price, $this->doRecalculate);
     }
 
     /**
@@ -430,37 +464,8 @@ class SilvercartOrderPosition extends DataObject {
                 $this->setField('Title', $silvercartProduct->Title);
                 $this->setField('ProductNumber', $silvercartProduct->ProductNumberShop);
                 $this->doRecalculate = true;
-
-                $comment = sprintf(
-                    "
-                    Feld Title: %s<br />
-                    Feld ProductNumber: %s<br />
-                    Feld Price: %s<br />
-                    Feld PriceTotal: %s<br />
-                    Feld Quantity: %s<br />
-                    Feld Tax: %s<br />
-                    Feld TaxTotal: %s<br />
-                    Feld TaxRate: %s<br />
-                    Feld ProductDescription: %s<br />
-                    ",
-                    $this->Title,
-                    $this->ProductNumber,
-                    $this->Price->Nice(),
-                    $this->PriceTotal->Nice(),
-                    $this->Quantity,
-                    $this->Tax,
-                    $this->TaxTotal,
-                    $this->TaxRate,
-                    $this->ProductDescription
-                );
-
-                DemandoActionHistoryEntry::create(
-                    $changedFields['SilvercartOrderID']['after'],
-                    Member::currentUserID(),
-                    'orderPositionAdded',
-                    $comment
-                );
             }
+            $this->extend('updateSaveNew', $changedFields, $price, $this->doRecalculate);
         }
     }
 
@@ -504,7 +509,10 @@ class SilvercartOrderPosition extends DataObject {
      * @since 21.03.2012
      */
     public function onBeforeDelete() {
-        $this->extend('updateOnBeforeDelete');
+        if (!$this->objectDeleted) {
+            $this->extend('updateOnBeforeDelete');
+            $this->objectDeleted = true;
+        }
 
         parent::onBeforeDelete();
     }

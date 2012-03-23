@@ -33,6 +33,8 @@
  */
 class SilvercartOrder extends DataObject implements PermissionProvider {
 
+    public static $api_access = true;
+
     /**
      * Set permissions.
      *
@@ -665,6 +667,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->Title               = $product->Title;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->log                 = false;
                     $orderPosition->write();
 
                     // Call hook method on product if available

@@ -1746,6 +1746,21 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * increments the products stock quantity of this product
+     *
+     * @param integer $quantity the amount to add to the current stock quantity
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     *
+     * @return void
+     */
+    public function incrementStockQuantity($quantity) {
+        $this->StockQuantity = $this->StockQuantity + $quantity;
+        $this->write();
+    }
+
+    /**
      * Is this products stock quantity overbookable?
      * If this product does not have overbookablility set the general setting of
      * the config object is choosen.
@@ -2040,21 +2055,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
         $form->disableSecurityToken();
 
         return $form;
-    }
-
-    /**
-     * increments the products stock quantity of this product
-     *
-     * @param integer $quantity the amount to add to the current stock quantity
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.03.2012
-     *
-     * @return void
-     */
-    public function incrementStockQuantity($quantity) {
-        $this->StockQuantity = $this->StockQuantity + $quantity;
-        $this->write();
     }
 
     /**
