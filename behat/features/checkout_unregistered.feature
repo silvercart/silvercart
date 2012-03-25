@@ -1,4 +1,4 @@
-Feature: Perform the checkout process
+Feature: Perform the checkout process as an unregistered customer
     In order to buy a product
     As an unregistered customer
     I need to be able to finish the checkout process
@@ -22,7 +22,7 @@ Feature: Perform the checkout process
     @javascript
     Scenario: Choose the "don't register" option and continue
         Given I should see "No, I don't want to register."
-         When I fill in "SilvercartCheckoutFormStep1NewCustomerForm_customHtmlFormSubmit_1_AnonymousOptions_2" with "2"
+        Given I fill in "SilvercartCheckoutFormStep1NewCustomerForm_customHtmlFormSubmit_1_AnonymousOptions_2" with "2"
          When I press "SilvercartCheckoutFormStep1NewCustomerForm_customHtmlFormSubmit_1_action_customHtmlFormSubmit"
          Then I should see "Email address"
           And I should see "Invoice address"
