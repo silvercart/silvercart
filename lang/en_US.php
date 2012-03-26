@@ -285,7 +285,6 @@ $lang['en_US']['SilvercartProductExport']['SINGULAR_NAME']                      
 $lang['en_US']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Price portal exporters';
 $lang['en_US']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Price portal exporter';
 
-
 $lang['en_US']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
 $lang['en_US']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
 $lang['en_US']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_PERIOD_LABEL']          = 'Update interval period';
@@ -1000,6 +999,7 @@ $lang['en_US']['SilvercartPage']['GOTO'] = 'Go to %s page';
 $lang['en_US']['SilvercartPage']['GOTO_CART'] = 'Go to cart';
 $lang['en_US']['SilvercartPage']['GOTO_CART_SHORT'] = 'Cart';
 $lang['en_US']['SilvercartPage']['GOTO_CONTACT_LINK'] = 'Go to contact page';
+$lang['en_US']['SilvercartPage']['GOTO_PAGE'] = 'Go to page %s ';
 $lang['en_US']['SilvercartPage']['HEADERPICTURE'] = 'Header picture';
 $lang['en_US']['SilvercartPage']['INCLUDED_VAT'] = 'included VAT';
 $lang['en_US']['SilvercartPage']['ADDITIONAL_VAT'] = 'additional VAT';
