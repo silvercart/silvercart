@@ -557,7 +557,7 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts = DataObject::get(
                     'SilvercartProduct',
                     sprintf(
-                            "ID IN (%s)",
+                            "`SilvercartProduct`.`ID` IN (%s)",
                             $productIDs
                     )
             );
