@@ -67,6 +67,16 @@ class SilvercartProduct extends DataObject {
         'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
     );
+    
+     /**
+     * Adds fulltext index for Title attribute, used for better
+     * search results
+     * 
+     * @var array 
+     */
+    public static $indexes = array(
+        'Title' => 'Fulltext (Title)'
+    );
 
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.

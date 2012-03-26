@@ -257,6 +257,15 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                         $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);
                     }
                 } else {
+                    $searchTerms                  = explode(' ', $searchQuery);
+                    $filteredQuerySearchQuery     = '';
+                    // remove words with less than 3 chars
+                    foreach ($searchTerms as $value) {
+                        if (strlen($value) >= 3) {
+                            $filteredQuerySearchQuery .= '+' . $value;
+                        }
+                    } 
+                    
                     // --------------------------------------------------------
                     // Regular search
                     // --------------------------------------------------------
@@ -266,6 +275,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                         `SilvercartProductGroupID` > 0 AND
                         `isActive` = 1 AND (
                             `Title` LIKE '%%%s%%' OR
+                            MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
                             `ShortDescription` LIKE '%%%s%%' OR
                             `LongDescription` LIKE '%%%s%%' OR
                             `MetaKeywords` LIKE '%%%s%%' OR
@@ -276,6 +286,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
                         )
                         ",
                         $searchQuery,// Title
+                        $filteredQuerySearchQuery, // Title via Match Against
                         $searchQuery,// ShortDescription
                         $searchQuery,// LongDescription
                         $searchQuery,// MetaKeywords
