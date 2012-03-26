@@ -184,8 +184,9 @@ class SilvercartProduct extends DataObject {
      * @since 27.06.2011
      */
     public static $casting = array(
-        'isActiveString'    => 'VarChar(8)',
-        'SilvercartProductMirrorGroupIDs'   => 'Text'
+        'isActiveString'                    => 'VarChar(8)',
+        'SilvercartProductMirrorGroupIDs'   => 'Text',
+        'PriceIsLowerThanMsr'               => 'Boolean',
     );
 
     /**
@@ -1847,6 +1848,21 @@ class SilvercartProduct extends DataObject {
         }
 
         return $idList;
+    }
+    
+    /**
+     * Checks whether price is lower than MSR
+     *
+     * @return boolean 
+     */
+    public function getPriceIsLowerThanMsr() {
+        $priceIsLowerThanMsr    = false;
+        $price                  = $this->getPrice();
+        $msr                    = $this->MSRPrice;
+        if ($price->getAmount() < $msr->getAmount()) {
+            $priceIsLowerThanMsr = true;
+        }
+        return $priceIsLowerThanMsr;
     }
 }
 
