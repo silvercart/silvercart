@@ -652,6 +652,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
                 if ($product) {
                     $orderPosition = new SilvercartOrderPosition();
+                    $orderPosition->objectCreated = true;
                     $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
                     $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
                     $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
