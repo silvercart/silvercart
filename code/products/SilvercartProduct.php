@@ -454,7 +454,23 @@ class SilvercartProduct extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.03.2012
      */
-    public static function getDefaultSort() {
+    public function getDefaultSort() {
+        $sort = self::defaultSort();
+
+        $this->extend('updateGetDefaultSort', $sort);
+
+        return $sort;
+    }
+
+    /**
+     * Returns the default sort order and direction.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.03.2012
+     */
+    public static function defaultSort() {
         $sort = 'SilvercartProduct.'.Object::get_static('SilvercartProduct', 'default_sort');
 
         return $sort;
@@ -474,7 +490,6 @@ class SilvercartProduct extends DataObject {
      * @since 25.10.2011
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
-
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -501,7 +516,7 @@ class SilvercartProduct extends DataObject {
         $filter .= 'isActive = 1';
 
         if ($sort === null) {
-            $sort = SilvercartProduct::getDefaultSort();
+            $sort = self::defaultSort();
         }
 
         $productCount = null;
@@ -2013,7 +2028,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     public function getSearchQuery($searchCriteria) {
         $query = parent::getSearchQuery($searchCriteria);
 
-        $query->orderby(SilvercartProduct::getDefaultSort());
+        $query->orderby(SilvercartProduct::defaultSort());
 
         return $query;
     }
