@@ -1060,7 +1060,7 @@ class SilvercartShoppingCart extends DataObject {
 
             return false;
         }
-
+        
         return true;
     }
     
@@ -1244,6 +1244,28 @@ class SilvercartShoppingCart extends DataObject {
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
+        return $amountObj;
+    }
+    
+    /**
+     * Returns the end sum of the cart without fees based on shop settings for net or gross price type
+     * 
+     * @param array   $excludeModules               An array of registered modules that shall not
+     *                                              be taken into account.
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
+     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * 
+     * @return Money money object with amount 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 26.03.2012
+     */
+    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+        if (SilvercartConfig::Pricetype() == 'gross') {
+            $amountObj = $this->getAmountTotalGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);                        
+        } else {
+            $amountObj = $this->getAmountTotalNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+        }       
         return $amountObj;
     }
 
