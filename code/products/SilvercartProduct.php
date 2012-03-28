@@ -56,7 +56,6 @@ class SilvercartProduct extends DataObject {
         'PriceGross'                  => 'Money', //price taxes including
         'PriceNet'                    => 'Money', //price taxes excluded
         'Weight'                      => 'Int', //unit is gramm
-        'isFreeOfCharge'              => 'Boolean', //evades filter mechanism
         'EANCode'                     => 'VarChar(13)',
         'isActive'                    => 'Boolean(1)',
         'PurchaseMinDuration'         => 'Int',
@@ -88,6 +87,16 @@ class SilvercartProduct extends DataObject {
      * @since 02.02.2011
      */
     protected static $requiredAttributes = array();
+
+    /**
+     * Blacklist of attributes that may not be set as required attributes.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    protected static $blacklistedRequiredAttributes = array();
 
     /**
      * Wee have to save the deeplink value this way because the framework will
@@ -319,10 +328,6 @@ class SilvercartProduct extends DataObject {
                 'title'     => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'filter'    => 'PartialMatchFilter'
              ),
-            'isFreeOfCharge' => array(
-                'title'     => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
-                'filter'    => 'PartialMatchFilter'
-            ),
             'isActive' => array(
                 'title'     => _t('SilvercartProduct.IS_ACTIVE', 'is active'),
                 'filter'    => 'PartialMatchFilter'
@@ -363,7 +368,6 @@ class SilvercartProduct extends DataObject {
                 'LongDescription'                   => _t('SilvercartProduct.DESCRIPTION'),
                 'ShortDescription'                  => _t('SilvercartProduct.SHORTDESCRIPTION'),
                 'manufacturer.Title'                => _t('SilvercartManufacturer.SINGULARNAME'),
-                'isFreeOfCharge'                    => _t('SilvercartProduct.FREE_OF_CHARGE', 'free of charge'),
                 'PurchasePrice'                     => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'PurchasePriceAmount'               => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'MSRPrice'                          => _t('SilvercartProduct.MSRP', 'MSR price'),
@@ -499,9 +503,9 @@ class SilvercartProduct extends DataObject {
                 if ($requiredAttribute == "Price") {
                     // Gross price as default if not defined
                     if ($pricetype == "net") {
-                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceNetAmount` != 0.0) AND ");
+                        $filter .= sprintf("(`PriceNetAmount` != 0.0) AND ");
                     } else {
-                        $filter .= sprintf("(`isFreeOfCharge` = 1 OR `PriceGrossAmount` != 0.0) AND ");
+                        $filter .= sprintf("(`PriceGrossAmount` != 0.0) AND ");
                     }
                 } else {
                     $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
@@ -662,7 +666,6 @@ class SilvercartProduct extends DataObject {
                 'PriceGross',
                 'PriceNet',
                 'Weight',
-                'isFreeOfCharge',
                 'EANCode',
                 'isActive',
                 'PurchaseMinDuration',
@@ -727,10 +730,10 @@ class SilvercartProduct extends DataObject {
 
             $fields->addFieldToTab('Root.Main', $productNumberField, 'Title');
             $fields->addFieldToTab('Root.Main', $manufacturerNumberField, 'Title');
-            $fields->addFieldToTab('Root.Main', $availabilityStatusField, 'isFreeOfCharge');
-            $fields->addFieldToTab('Root.Main', $purchaseMinDurationField, 'isFreeOfCharge');
-            $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField, 'isFreeOfCharge');
-            $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField, 'isFreeOfCharge');
+            $fields->addFieldToTab('Root.Main', $availabilityStatusField);
+            $fields->addFieldToTab('Root.Main', $purchaseMinDurationField);
+            $fields->addFieldToTab('Root.Main', $purchaseMaxDurationField);
+            $fields->addFieldToTab('Root.Main', $purchaseTimeUnitField);
             $fields->dataFieldByName('StockQuantityExpirationDate')->setConfig('showcalendar', true);
             if (SilvercartConfig::isStockManagementOverbookable()) {
                 $fields->dataFieldByName('StockQuantityOverbookable')->remove();
@@ -950,7 +953,6 @@ class SilvercartProduct extends DataObject {
             $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('MSRPrice'));
             $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PriceGross'));
             $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('PriceNet'));
-            $CMSFields->addFieldToTab('Root.Main.Prices', $fields->dataFieldByName('isFreeOfCharge'));
 
             //fill the tab Root.Main.Manufacturer
             $CMSFields->addFieldToTab('Root.Main.Manufacturer', new TextField('ProductNumberManufacturer', _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER'), $this->ProductNumberManufacturer));
@@ -1308,9 +1310,48 @@ class SilvercartProduct extends DataObject {
      * @author Roland Lehmann
      */
     public static function setRequiredAttributes($concatinatedAttributesString) {
-        $requiredAttributesArray = array();
+        $requiredAttributes      = array();
         $requiredAttributesArray = explode(",", str_replace(" ", "", $concatinatedAttributesString));
-        self::$requiredAttributes = $requiredAttributesArray;
+
+        foreach ($requiredAttributesArray as $attribute) {
+            if (!in_array($attribute, self::$blacklistedRequiredAttributes)) {
+                $requiredAttributes[] = $attribute;
+            }
+        }
+
+        self::$requiredAttributes = $requiredAttributes;
+    }
+
+    /**
+     * Blacklists a required attribute.
+     *
+     * @param string $attributeName The name of the attribute to blacklist
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    public static function blacklistRequiredAttribute($attributeName) {
+        if (!in_array($attributeName, self::$blacklistedRequiredAttributes)) {
+            self::$blacklistedRequiredAttributes[] = $attributeName;
+        }
+    }
+
+    /**
+     * Removes an attribute from the required attributes list.
+     *
+     * @param string $attributeName The name of the attribute to remove
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    public static function removeRequiredAttribute($attributeName) {
+        if (in_array($attributeName, self::$requiredAttributes)) {
+            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes));
+        }
     }
 
     /**
@@ -2579,7 +2620,6 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             'PriceNetAmount'                        => 'PriceNetAmount',
             'PriceNetCurrency'                      => 'PriceNetCurrency',
             'Weight'                                => 'Weight',
-            'isFreeOfCharge'                        => 'isFreeOfCharge',
             'EANCode'                               => 'EANCode',
             'isActive'                              => 'isActive',
             'PurchaseMinDuration'                   => 'PurchaseMinDuration',
