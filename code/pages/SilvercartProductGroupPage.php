@@ -461,13 +461,25 @@ class SilvercartProductGroupPage extends Page {
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
-            $activeProducts  = array();
-            $productGroupIDs = self::getFlatChildPageIDsForPage($this->ID);
+            $requiredAttributes = SilvercartProduct::getRequiredAttributes();
+            $activeProducts     = array();
+            $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
+            $priceTypeFilter    = '';
             
-            if (SilvercartConfig::Pricetype() == 'net') {
-                $priceTypeFilter = 'PriceNetAmount > 0';
-            } else {
-                $priceTypeFilter = 'PriceGrossAmount > 0';
+            if (!empty($requiredAttributes)) {
+                foreach ($requiredAttributes as $requiredAttribute) {
+                    if ($requiredAttribute == "Price") {
+                        if (SilvercartConfig::Pricetype() == 'net') {
+                            $priceTypeFilter = 'PriceNetAmount > 0';
+                        } else {
+                            $priceTypeFilter = 'PriceGrossAmount > 0';
+                        }
+                    }
+                }
+            }
+
+            if (!empty($priceTypeFilter)) {
+                $priceTypeFilter = ' AND '.$priceTypeFilter;
             }
             
             $records = DB::query(
@@ -486,7 +498,7 @@ class SilvercartProductGroupPage extends Page {
                                     SilvercartProduct_SilvercartProductGroupMirrorPages
                                 WHERE
                                     SilvercartProductGroupPageID IN (%s)))
-                        AND %s",
+                        %s",
                     implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs),
                     $priceTypeFilter
