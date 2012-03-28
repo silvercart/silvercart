@@ -38,7 +38,7 @@ class SilvercartDebugHelper {
      *
      * @var float
      */
-    public static $starttime;
+    public static $starttime = null;
 
     /**
      * Starts the timer to debug some processing durations
@@ -50,6 +50,18 @@ class SilvercartDebugHelper {
      */
     public static function startTimer() {
         self::setStarttime(microtime(true));
+    }
+
+    /**
+     * Clears the timer
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.03.2012
+     */
+    public static function clearTimer() {
+        self::setStarttime(null);
     }
     
     /**
@@ -65,12 +77,26 @@ class SilvercartDebugHelper {
     public static function getTimeDifference($print = true) {
         $timeDifference = microtime(true) - self::getStarttime();
         if ($print) {
-            print $timeDifference;
-            print "<br/>" . PHP_EOL;
+            self::printString($timeDifference);
         }
         return $timeDifference;
     }
     
+    /**
+     * Prints the given string to default output.
+     *
+     * @param string $string String to print
+     * 
+     * @return void 
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    public static function printString($string) {
+        print $string;
+        print "<br/>" . PHP_EOL;
+    }
+
     /**
      * Prints the current time difference to default output. Timer has to be 
      * started with self::startTimer().
@@ -83,10 +109,25 @@ class SilvercartDebugHelper {
      * @since 22.03.2012
      */
     public static function printTimeDifference($label) {
-        print $label;
-        print "<br/>" . PHP_EOL;
+        self::printString($label);
         self::getTimeDifference();
-        print "<hr/>" . PHP_EOL;
+        self::printString("<hr/>");
+    }
+    
+    /**
+     * Checks whether the timer is already started
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    public static function timerIsStarted() {
+        $timerIsStarted = false;
+        if (!is_null(self::$starttime)) {
+            $timerIsStarted = true;
+        }
+        return $timerIsStarted;
     }
     
     ////////////////////////////////////////////////////////////////////////////
