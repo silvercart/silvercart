@@ -362,15 +362,16 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
+                $sort = "CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC";
                 break;
             case 'sortOrderDesc':
-                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                $sort = "CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC";
                 break;
             case 'random':
             default:
-                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, 'RAND()');
+                $sort = "RAND()";
         } 
+        $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, $sort);
 
         $pages          = array();
         $pageProducts   = array();
