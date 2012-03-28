@@ -358,6 +358,18 @@ class SilvercartPage_Controller extends ContentController {
             
         parent::init();
     }
+
+    /**
+     * Indicates wether the site is in live mode.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.01.2012
+     */
+    public function isLive() {
+        return Director::isLive();
+    }
     
     /**
      * template function: returns customers orders
