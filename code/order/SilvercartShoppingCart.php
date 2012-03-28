@@ -1199,8 +1199,8 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal('net')->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;
@@ -1236,8 +1236,8 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
         
         $amountObj = new Money;
@@ -1288,9 +1288,9 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
-        }
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
+        }       
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
@@ -1318,8 +1318,8 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;
