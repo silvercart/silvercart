@@ -33,7 +33,7 @@
                 <% if Note %>
                 <tr>
                     <td><% _t('SilvercartOrder.YOUR_REMARK','Your remark') %></td>
-                    <td>$Note</td>
+                    <td>$getFormattedNote</td>
                 </tr>
                 <% end_if %>
 
