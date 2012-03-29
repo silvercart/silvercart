@@ -60,11 +60,12 @@
                                             <span class="silvercart-icon-button_content">
                                                 &nbsp;
                                             </span>
-                                        </a><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
+                                        </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
                                             <span class="silvercart-icon-button_content">
                                                 &nbsp;
                                             </span>
                                         </a>
+                                        <% end_if %>
                                     </div>
                                 </div>
                             </label>

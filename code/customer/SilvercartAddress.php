@@ -238,6 +238,26 @@ class SilvercartAddress extends DataObject {
     }
 
     /**
+     * Indicates wether this is the last address of the customer.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function isLastAddress() {
+        $isLastAddress = false;
+
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartAddresses()->Count() < 2) {
+
+            $isLastAddress = true;
+        }
+
+        return $isLastAddress;
+    }
+
+    /**
      * Returns the localized salutation string.
      *
      * @return string

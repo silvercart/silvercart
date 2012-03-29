@@ -1037,7 +1037,14 @@ class SilvercartProduct extends DataObject {
             //fill the tab Root.Stock.Time
             $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseMinDuration'));
             $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseMaxDuration'));
-            $CMSFields->addFieldToTab('Root.Stock.Time', $fields->dataFieldByName('PurchaseTimeUnit'));
+            $purchaseTimeUnitField      = clone $fields->dataFieldByName('PurchaseTimeUnit');
+            $source = $purchaseTimeUnitField->getSource();
+            $source['Days'] = _t('Silvercart.DAYS','Days');
+            $source['Weeks'] = _t('Silvercart.WEEKS','Weeks');
+            $source['Months'] = _t('Silvercart.MONTHS','Months');
+            $purchaseTimeUnitField->setSource($source);
+            $fields->removeByName('PurchaseTimeUnit');
+            $CMSFields->addFieldToTab('Root.Stock.Time', $purchaseTimeUnitField);
 
             //fill the tab Root.Stock.Config
             $stockQuantityExpirationDateField = $fields->dataFieldByName('StockQuantityExpirationDate');

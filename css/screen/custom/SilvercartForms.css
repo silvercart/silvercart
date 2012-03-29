@@ -1,5 +1,10 @@
 /* General settings -------------------------------------------------------- */
 
+form.yform span.required-field {
+    font-size:                      smaller;
+    color:                          #aaa;
+}
+
 form.yform input,
 form.yform textarea,
 form.yform select {

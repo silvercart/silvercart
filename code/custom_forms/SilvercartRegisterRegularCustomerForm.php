@@ -227,7 +227,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 26.1.2011
      */
     protected $preferences = array(
-        'submitButtonTitle' => 'Abschicken',
+        'submitButtonTitle'  => 'Abschicken',
+        'markRequiredFields' => true
     );
 
     /**

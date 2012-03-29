@@ -98,8 +98,6 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
                 // the address is not related to the customer, redirect elsewhere...
                 Director::redirect($this->PageByIdentifierCode()->Link());
             }
-        } else {
-            Director::redirect($this->PageByIdentifierCode()->Link());
         }
 
         $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressId)));
