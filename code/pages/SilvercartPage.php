@@ -259,7 +259,6 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
-            Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
             Requirements::javascript("silvercart/script/jquery.roundabout.min.js");
             Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
