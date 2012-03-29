@@ -421,6 +421,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 $newShoppingCartPosition = $shoppingCartPosition->duplicate(false);
                 $newShoppingCartPosition->SilvercartShoppingCartID = $newShoppingCart->ID;
                 $newShoppingCartPosition->write();
+
+                $shoppingCartPosition->transferToNewPosition($newShoppingCartPosition);
             }
 
             $customer->SilvercartShoppingCartID = $newShoppingCart->ID;

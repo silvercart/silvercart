@@ -3,6 +3,16 @@
         <% include SilvercartBreadCrumbs %>
         
         $InsertWidgetArea(Content)
+
+        <div class="silvercart-product-actions clearfix">
+            <div class="silvercart-button left back">
+                <div class="silvercart-button_content">
+                    <div class="silvercart-button_inner-content">
+                        <a href="$OriginalLink"><% _t('SilvercartPage.BACK') %></a>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <% control getProduct %>
             <div class="silvercart-product-page clearfix">

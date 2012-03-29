@@ -118,18 +118,6 @@ class SilvercartAddress extends DataObject {
     );
     
     /**
-     * Belongs-many-many relationships.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $belongs_many_many = array(
-        'SilvercartOrders' => 'SilvercartOrder'
-    );
-    
-    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 

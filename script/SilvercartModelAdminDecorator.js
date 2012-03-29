@@ -44,7 +44,11 @@ var enableFirstEntryAutoLoadFor = [
             managedModelClass = '' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','').replace('Form_SearchForm_', '');
             
             if (jQuery.inArray(managedModelClass, preventAutoloadFor) === -1) {
-                $('#' + $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','')).triggerHandler('submit');
+                var formId = $('.Actions input[name="action_search"]:visible').attr('id').replace('_action_search','');
+
+                if ($('#' + formId)) {
+                    $('#' + formId).triggerHandler('submit');
+                }
                 if (jQuery.inArray(managedModelClass, enableFirstEntryAutoLoadFor) >= 0) {
                     loadFirstEntry(managedModelClass);
                 }

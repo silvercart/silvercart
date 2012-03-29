@@ -72,20 +72,6 @@ class SilvercartCustomer extends DataObjectDecorator {
                     'Email'
                 )
             ),
-            'field_labels' => array(
-                'Salutation'                        => _t('SilvercartCustomer.SALUTATION', 'salutation'),
-                'SubscribedToNewsletter'            => _t('SilvercartCustomer.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
-                'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomer.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
-                'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomer.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
-                'Birthday'                          => _t('SilvercartCustomer.BIRTHDAY', 'birthday'),
-                'ClassName'                         => _t('SilvercartCustomer.TYPE', 'type'),
-                'CustomerNumber'                    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
-                'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
-                'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
-                'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
-                'SilvercartAddress'                 => _t('SilvercartAddress.PLURALNAME', 'addresses'),
-                'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
-            ),
             'casting' => array(
                 'GroupNames' => 'Text',
             ),
@@ -114,8 +100,39 @@ class SilvercartCustomer extends DataObjectDecorator {
             'Herr' => _t('SilvercartAddress.MISTER'),
             'Frau' => _t('SilvercartAddress.MISSES')
         );
-        $salutationDropdown = new DropdownField('Salutation', _t('SilvercartCustomer.SALUTATION'), $values);
+        $salutationDropdown = new DropdownField('Salutation', $this->owner->fieldLabel('Salutation'), $values);
         $fields->insertBefore($salutationDropdown, 'FirstName');
+    }
+    
+    /**
+     * manipulate the field labels of the decorated class
+     *
+     * @param array &$labels The labels of cms fields
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.03.2012
+     */
+    public function updateFieldLabels(&$labels) {
+        $labels = array_merge(
+                $labels,
+                array(
+                    'Salutation'                        => _t('SilvercartCustomer.SALUTATION', 'salutation'),
+                    'SubscribedToNewsletter'            => _t('SilvercartCustomer.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
+                    'HasAcceptedTermsAndConditions'     => _t('SilvercartCustomer.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
+                    'HasAcceptedRevocationInstruction'  => _t('SilvercartCustomer.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
+                    'Birthday'                          => _t('SilvercartCustomer.BIRTHDAY', 'birthday'),
+                    'ClassName'                         => _t('SilvercartCustomer.TYPE', 'type'),
+                    'CustomerNumber'                    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
+                    'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
+                    'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
+                    'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
+                    'SilvercartAddresses'               => _t('SilvercartAddress.PLURALNAME', 'addresses'),
+                    'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
+                    'SilvercartPaymentMethods'          => _t('SilvercartPaymentMethod.PLURALNAME'),
+                )
+        );
     }
     
     /**
@@ -130,11 +147,11 @@ class SilvercartCustomer extends DataObjectDecorator {
      */
     public function updateSearchableFields(&$fields) {
         $fields['CustomerNumber'] = array(
-            'title'     => _t('SilvercartCustomer.CUSTOMERNUMBER'),
+            'title'     => $this->owner->fieldLabel('CustomerNumber'),
             'filter'    => 'PartialMatchFilter'
         );
         $fields['FirstName'] = array(
-            'title'     => _t('SilvercartCustomer.FIRSTNAME'),
+            'title'     => $this->owner->fieldLabel('FirstName'),
             'filter'    => 'PartialMatchFilter'
         );
     }
@@ -151,9 +168,9 @@ class SilvercartCustomer extends DataObjectDecorator {
      */
     public function updateSummaryFields(&$fields) {
         $fields = array(
-            'CustomerNumber'    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
-            'FirstName'         => _t('Member.FIRSTNAME'),
-            'Surname'           => _t('Member.SURNAME'),
+            'CustomerNumber'    => $this->owner->fieldLabel('CustomerNumber'),
+            'FirstName'         => $this->owner->fieldLabel('FirstName'),
+            'Surname'           => $this->owner->fieldLabel('Surname'),
             'GroupNames'        => _t('SilvercartCustomer.TYPE', 'type'),
         );
     }

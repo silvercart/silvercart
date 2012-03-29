@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartPluginObjectExtension extends DataObjectDecorator implements CustomHtmlFormDecorator {
+class SilvercartPluginObjectExtension extends DataObjectDecorator {
     
     /**
      * Passes through calls to SilvercartPlugins.
@@ -182,16 +182,15 @@ class SilvercartPluginObjectExtension extends DataObjectDecorator implements Cus
      * 
      * @return bool
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.03.2012
      */
     public function updatePreferences(&$preferences) {
-        $preferences = SilvercartPlugin::call($this->owner, 'updatePreferences', $preferences, true, array());
+        $extendedPreferences = SilvercartPlugin::call($this->owner, 'updatePreferences', $preferences, true, array());
         
-        if ($preferences &&
-            is_array($preferences) &&
-            count($preferences) > 0) {
-            
+        if ($extendedPreferences &&
+            is_array($extendedPreferences) &&
+            count($extendedPreferences) > 0) {
             $preferences = $preferences[0];
         }
     }

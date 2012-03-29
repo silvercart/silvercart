@@ -505,7 +505,7 @@ class SilvercartShoppingCart extends DataObject {
             $shippingFee = $shippingMethod->getShippingFee();
 
             if ($shippingFee !== false) {
-                $shippingFeeAmount = $shippingFee->Price->getAmount();
+                $shippingFeeAmount = $shippingFee->getPriceAmount();
                 $amountTotal = $shippingFeeAmount + $amountTotal;
             }
         }
@@ -966,7 +966,7 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         if ($selectedShippingMethod) {
-            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
+            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
             $handlingCostShipmentObj = new Money();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
@@ -1060,7 +1060,7 @@ class SilvercartShoppingCart extends DataObject {
 
             return false;
         }
-
+        
         return true;
     }
     
@@ -1199,8 +1199,8 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal('net')->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;
@@ -1236,14 +1236,36 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
         
         $amountObj = new Money;
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
+        return $amountObj;
+    }
+    
+    /**
+     * Returns the end sum of the cart without fees based on shop settings for net or gross price type
+     * 
+     * @param array   $excludeModules               An array of registered modules that shall not
+     *                                              be taken into account.
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
+     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * 
+     * @return Money money object with amount 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 26.03.2012
+     */
+    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+        if (SilvercartConfig::Pricetype() == 'gross') {
+            $amountObj = $this->getAmountTotalGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);                        
+        } else {
+            $amountObj = $this->getAmountTotalNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+        }       
         return $amountObj;
     }
 
@@ -1266,9 +1288,9 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
-        }
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
+        }       
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
@@ -1296,8 +1318,8 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;

@@ -54,7 +54,7 @@ DataObject::add_extension('SilvercartProductGroupPage_Controller',      'Silverc
 DataObject::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 DataObject::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 DataObject::add_extension('Image',                                      'SilvercartImageExtension');
-SortableDataObject::add_sortable_classes(array(
+SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",
     "SilvercartImageSliderImage",
@@ -136,10 +136,10 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 // set default group view if not existant
 // ----------------------------------------------------------------------------
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupView())) {
-    SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');    
+    SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 }
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
-    SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');    
+    SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 }
 
 if (method_exists('GoogleSitemap', 'register_dataobject')) {

@@ -42,11 +42,44 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * @since 22.01.2012
      */
     public function onAfterInit() {
-        Requirements::javascript('silvercart/script/jqplot/jquery.jqplot.min.js');
-        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js');
-        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.cursor.min.js');
-        Requirements::javascript('silvercart/script/jqplot/plugins/jqplot.highlighter.min.js');
+        $jqplotFiles = array(
+            'silvercart/script/jqplot/jquery.jqplot.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.barRenderer.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.cursor.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.highlighter.min.js',
+            'silvercart/script/jqplot/plugins/jqplot.pointLabels.min.js',
+        );
+        $cssFiles = array(
+            'cms/css/typography.css',
+            'cms/css/layout.css',
+            'cms/css/cms_left.css',
+            'cms/css/cms_right.css',
+            'sapphire/css/Form.css',
+            'sapphire/thirdparty/greybox/greybox.css',
+            'sapphire/css/SilverStripeNavigator.css',
+            'cms/css/ModelAdmin.css',
+            'cms/css/silverstripe.tabs.css',
+            'silvercart/script/jqplot/jquery.jqplot.css',
+            'sapphire/thirdparty/tabstrip/tabstrip.css',
+            'sapphire/javascript/tree/tree.css',
+            'sapphire/css/TreeDropdownField.css',
+        );
         Requirements::css('silvercart/script/jqplot/jquery.jqplot.css');
+
+        foreach ($jqplotFiles as $jqplotFile) {
+            Requirements::javascript($jqplotFile);
+        }
+
+        Requirements::insertHeadTags('<!--[if lt IE 9]>', 'silvercart_jqplot_begin');
+        Requirements::insertHeadTags('<script language="javascript" type="text/javascript" src="silvercart/script/jqplot/excanvas.min.js"></script>',   'silvercart_jqplot');
+        Requirements::insertHeadTags('<![endif]-->', 'silvercart_jqplot_end');
+
+        //Requirements::combine_files('jqplot.js', $jqplotFiles);
+        //Requirements::combine_files('demando.css', $cssFiles);
     }
 
     /**
@@ -243,16 +276,18 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 $groupedModelAdmins->push($modelAdmin);
             }
 
-            $silvercartMenus->push(
-                new DataObject(
-                    array(
-                        'name'        => $menu['name'],
-                        'MenuSection' => $menuSectionIndicator,
-                        'code'        => $menu['code'],
-                        'ModelAdmins' => $groupedModelAdmins
+            if ($groupedModelAdmins->Count() > 0) {
+                $silvercartMenus->push(
+                    new DataObject(
+                        array(
+                            'name'        => $menu['name'],
+                            'MenuSection' => $menuSectionIndicator,
+                            'code'        => $menu['code'],
+                            'ModelAdmins' => $groupedModelAdmins
+                        )
                     )
-                )
-            );
+                );
+            }
         }
 
         return $silvercartMenus;

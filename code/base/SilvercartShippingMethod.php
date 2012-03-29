@@ -311,13 +311,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getTitleWithCarrierAndFee() {
         if ($this->getShippingFee()) {
-            $titleWithCarrierAndFee = $this->SilvercartCarrier()->Title . "-" .
-                $this->Title . " (+" .
-                number_format($this->getShippingFee()->Price->getAmount(), 2, ',', '') .
-                $this->getShippingFee()->Price->getSymbol() .
-                ")";
-
-            return $titleWithCarrierAndFee;
+            return $this->getShippingFee()->getFeeWithCarrierAndShippingMethod();
         } else {
             return false;
         }

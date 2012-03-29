@@ -95,4 +95,22 @@ class SilvercartAvailabilityStatus extends DataObject {
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'Title' => $this->fieldLabel('Title'),
+            'Code'  => $this->fieldLabel('Code'),
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
 }
