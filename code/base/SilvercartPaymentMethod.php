@@ -483,9 +483,13 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 14.12.2011
      */
     public function getHandlingCost() {
-        $handlingCosts = new Money;
-        $handlingCosts->setAmount(0);
-        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        if ($this->SilvercartHandlingCostID === 0) {
+            $handlingCosts = new Money;
+            $handlingCosts->setAmount(0);
+            $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        } else {
+            $handlingCosts = $this->SilvercartHandlingCost()->amount;
+        }
 
         return $handlingCosts;
     }
@@ -1142,6 +1146,22 @@ class SilvercartPaymentMethod extends DataObject {
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
                     SilvercartOrderStatus::getStatusList()->map('Code', 'Title', _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"))
+                )
+            )
+        );
+
+        // --------------------------------------------------------------------
+        // Handling cost table
+        // --------------------------------------------------------------------
+        $tabHandlingCosts= new Tab('HandlingCosts', _t('SilvercartPaymentMethod.HANDLINGCOSTS_SETTINGS'));
+        $tabset->push($tabHandlingCosts);
+
+        $tabHandlingCosts->setChildren(
+            new FieldSet(
+                new HasOneComplexTableField(
+                    $this,
+                    'SilvercartHandlingCost',
+                    'SilvercartHandlingCost'
                 )
             )
         );

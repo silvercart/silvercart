@@ -110,7 +110,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $defaultStatusEntries = array(
                 'pending' => _t('SilvercartOrderStatus.WAITING_FOR_PAYMENT', 'waiting for payment'),
                 'payed' => _t('SilvercartOrderStatus.PAYED', 'payed'),
-                'shipped' => _t('SilvercartOrderStatus.SHIPPED', 'shipped')
+                'shipped' => _t('SilvercartOrderStatus.SHIPPED', 'shipped'),
+                'inwork' => _t('SilvercartOrderStatus.INWORK', 'In work'),
             );
 
             foreach ($defaultStatusEntries as $code => $title) {
