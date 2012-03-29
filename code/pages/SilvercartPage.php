@@ -564,7 +564,7 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.2.11
-     * @return DataObject | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
         $page = DataObject::get_one(
