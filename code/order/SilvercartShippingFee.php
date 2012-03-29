@@ -125,10 +125,10 @@ class SilvercartShippingFee extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                    'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
-                    'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD', 'attributed shipping method'),
-                    'MaximumWeightLimitedOrNot' => _t('SilvercartShippingFee.MAXIMUM_WEIGHT', 'maximum weight (g)', null, 'Maximalgewicht (g)'),
-                    'PriceFormatted'            => _t('SilvercartShippingFee.COSTS', 'costs')
+                    'SilvercartZone.Title'      => $this->fieldLabel('SilvercartZone'),
+                    'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
+                    'MaximumWeightLimitedOrNot' => $this->fieldLabel('MaximumWeight'),
+                    'PriceFormatted'            => $this->fieldLabel('Price'),
                 )
         );
     }
@@ -150,6 +150,7 @@ class SilvercartShippingFee extends DataObject {
                     'MaximumWeight'             => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
                     'UnlimitedWeight'           => _t('SilvercartShippingFee.UNLIMITED_WEIGHT_LABEL'),
                     'Price'                     => _t('SilvercartShippingFee.COSTS'),
+                    'SilvercartZone'            => _t('SilvercartShippingMethod.FOR_ZONES'),
                     'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
                     'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
                     'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
@@ -199,31 +200,33 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return FieldSet the fields for the backend
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 8.11.10
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012
      */
     public function getCMSFields() {
-       $fields = parent::getCMSFields();
-
-       /**
-        * only the carriers zones must be selectable
-        */
-       $fields->removeByName('SilvercartZone');
-       $filter  = sprintf("`SilvercartCarrierID` = %s", $this->SilvercartShippingMethod()->SilvercartCarrier()->ID);
-       $zones   = DataObject::get('SilvercartZone', $filter);
-       if ($zones) {
-           $fields->addFieldToTab(
+        $fields = parent::getCMSFields();
+        // only the carriers zones must be selectable
+        $zones  = DataObject::get(
+                'SilvercartZone',
+                sprintf(
+                        "`SilvercartZone_SilvercartCarriers`.`SilvercartCarrierID` = %s",
+                        $this->SilvercartShippingMethod()->SilvercartCarrier()->ID
+                ),
+                "`SilvercartZone`.`Title`",
+                "LEFT JOIN `SilvercartZone_SilvercartCarriers` ON (`SilvercartZone`.`ID` = `SilvercartZone_SilvercartCarriers`.`SilvercartZoneID`)"
+        );
+        if ($zones) {
+            $fields->addFieldToTab(
                 "Root.Main",
                 new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                   $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
+                    $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
                 )
-           );
+            );
         }
 
-       return $fields;
+        return $fields;
     }
 
     /**

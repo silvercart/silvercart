@@ -58,38 +58,15 @@ class SilvercartCarrier extends DataObject {
      */
     public static $has_many = array(
         'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
-        'SilvercartZones'             => 'SilvercartZone'
     );
-
+    
     /**
-     * Summaryfields for display in tables.
+     * Many to many relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
-    public static $summary_fields = array(
-        'Title'                     => 'Name',
-        'AttributedZones'           => 'Zugeordnete Zonen',
-        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
-    );
-
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $field_labels = array(
-        'Title'                     => 'Name',
-        'FullTitle'                 => 'voller Name',
-        'AttributedZones'           => 'Zugeordnete Zonen',
-        'AttributedShippingMethods' => 'Zugeordnete Versandarten'
+    public static $belongs_many_many = array(
+        'SilvercartZones'   => 'SilvercartZone',
     );
 
     /**
@@ -111,26 +88,45 @@ class SilvercartCarrier extends DataObject {
      * 
      * @return array seach fields definition
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012
      */
     public function searchableFields() {
-        $seachableFields = array(
+        $searchableFields = array(
             'Title' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+                'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
             'SilvercartZones.ID' => array(
-                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'title' => $this->fieldLabel('SilvercartZones'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+                'title' => $this->fieldLabel('SilvercartShippingMethods'),
                 'filter' => 'ExactMatchFilter'
             )
         );
         $this->extend('updateSearchableFields', $searchableFields);
-        return $seachableFields;
+        return $searchableFields;
+    }
+
+    /**
+     * CMS fields
+     *
+     * @param array $params Params to use
+     *
+     * @return FieldSet
+     */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        $zonesTable = new SilvercartManyManyComplexTableField(
+                        $this,
+                        'SilvercartZones',
+                        'SilvercartZone'
+        );
+        $zonesTable->pageSize = 50;
+        $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
+        return $fields;
     }
 
     /**
@@ -162,16 +158,16 @@ class SilvercartCarrier extends DataObject {
      *
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012
      */
     public function summaryFields() {
         return array_merge(
             parent::summaryFields(),
             array(
-                'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+                'Title'                     => $this->fieldLabel('Title'),
+                'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+                'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
             )
         );
     }

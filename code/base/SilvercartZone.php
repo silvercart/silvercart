@@ -44,14 +44,6 @@ class SilvercartZone extends DataObject {
         'Title' => 'VarChar'
     );
     /**
-     * Has-one relationships.
-     *
-     * @var array
-     */
-    public static $has_one = array(
-        'SilvercartCarrier' => 'SilvercartCarrier'
-    );
-    /**
      * Has-many relationship.
      *
      * @var array
@@ -65,7 +57,8 @@ class SilvercartZone extends DataObject {
      * @var array
      */
     public static $many_many = array(
-        'SilvercartCountries' => 'SilvercartCountry'
+        'SilvercartCountries'   => 'SilvercartCountry',
+        'SilvercartCarriers'    => 'SilvercartCarrier',
     );
     /**
      * Belongs-many-many relationships.
@@ -76,24 +69,14 @@ class SilvercartZone extends DataObject {
         'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
     /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     */
-    public static $summary_fields = array(
-        'Title',
-        'SilvercartCarrier.Title',
-        'AttributedCountries',
-        'AttributedShippingMethods'
-    );
-    /**
      * Virtual database columns.
      *
      * @var array
      */
     public static $casting = array(
-        'AttributedCountries' => 'Varchar(255)',
-        'AttributedShippingMethods' => 'Varchar(255)'
+        'AttributedCountries'           => 'Varchar(255)',
+        'AttributedShippingMethods'     => 'Varchar(255)',
+        'SilvercartCarriersAsString'    => 'Text',
     );
     
     /**
@@ -111,13 +94,13 @@ class SilvercartZone extends DataObject {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title' => _t('SilvercartPage.TITLE', 'title'),
-                        'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-                        'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME'),
-                        'AttributedCountries' => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
+                        'Title'                     => _t('SilvercartPage.TITLE', 'title'),
+                        'SilvercartCarriers'        => _t('SilvercartCarrier.PLURALNAME'),
+                        'AttributedCountries'       => _t('SilvercartZone.ATTRIBUTED_COUNTRIES', 'attributed countries'),
                         'AttributedShippingMethods' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods'),
-                        'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME'),
-                        'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME')
+                        'SilvercartShippingFees'    => _t('SilvercartShippingFee.PLURALNAME'),
+                        'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
+                        'SilvercartCountries'       => _t('SilvercartCountry.PLURALNAME'),
                     )
                 );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -133,7 +116,6 @@ class SilvercartZone extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('SilvercartCountries');
         $countriesTable = new ManyManyComplexTableField(
                         $this,
                         'SilvercartCountries',
@@ -144,8 +126,30 @@ class SilvercartZone extends DataObject {
                         'Title'
         );
         $countriesTable->pageSize = 50;
-        $tabParam = "Root." . _t('SilvercartZone.COUNTRIES', 'countries');
-        $fields->addFieldToTab($tabParam, $countriesTable);
+        $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
+        
+        $carriersTable = new ManyManyComplexTableField(
+                        $this,
+                        'SilvercartCarriers',
+                        'SilvercartCarrier',
+                        null,
+                        'getCMSFields_forPopup',
+                        null,
+                        'Title'
+        );
+        $fields->addFieldToTab('Root.SilvercartCarriers', $carriersTable);
+        
+        $shippingTable = new SilvercartManyManyComplexTableField(
+                        $this,
+                        'SilvercartShippingMethods',
+                        'SilvercartShippingMethod',
+                        null,
+                        'getCMSFields_forPopup',
+                        null,
+                        'Title'
+        );
+        $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
+        
         return $fields;
     }
     
@@ -195,19 +199,19 @@ class SilvercartZone extends DataObject {
     public function searchableFields() {
         $searchableFields = array(
             'Title' => array(
-                'title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
-            'SilvercartCarrier.ID' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+            'SilvercartCarriers.ID' => array(
+                'title' => $this->fieldLabel('SilvercartCarriers'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartCountries.ID' => array(
-                'title' => _t('SilvercartZone.FOR_COUNTRIES', 'for countries'),
+                'title' => $this->fieldLabel('SilvercartCountries'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartZone.ATTRIBUTED_SHIPPINGMETHODS'),
+                'title' => $this->fieldLabel('SilvercartShippingMethods'),
                 'filter' => 'ExactMatchFilter'
             )
         );
@@ -225,10 +229,10 @@ class SilvercartZone extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title'                     => $this->fieldLabel('Title'),
-            'SilvercartCarrier.Title'   => $this->fieldLabel('SilvercartCarrier.Title'),
-            'AttributedCountries'       => $this->fieldLabel('AttributedCountries'),
-            'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
+            'Title'                         => $this->fieldLabel('Title'),
+            'SilvercartCarriersAsString'    => $this->fieldLabel('SilvercartCarriers'),
+            'AttributedCountries'           => $this->fieldLabel('AttributedCountries'),
+            'AttributedShippingMethods'     => $this->fieldLabel('AttributedShippingMethods'),
         );
         
         $this->extend('updateSummaryFields', $summaryFields);
@@ -291,6 +295,23 @@ class SilvercartZone extends DataObject {
         }
 
         return $attributedShippingMethodsStr;
+    }
+    
+    /**
+     * Returns the carriers as a comma separated string
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012 
+     */
+    public function getSilvercartCarriersAsString() {
+        $silvercartCarriersAsString    = '---';
+        $silvercartCarriersAsArray     = $this->SilvercartCarriers()->map();
+        if (count($silvercartCarriersAsArray) > 0) {
+            $silvercartCarriersAsString = implode(',', $silvercartCarriersAsArray);
+        }
+        return $silvercartCarriersAsString;
     }
     
     /**

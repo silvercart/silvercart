@@ -1273,7 +1273,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $zoneDomestic = new SilvercartZone();
                     $zoneDomestic->Title = _t('SilvercartZone.DOMESTIC', 'domestic');
                 }
-                $zoneDomestic->SilvercartCarrierID = $carrier->ID;
+                $zoneDomestic->SilvercartCarriers()->add($carrier);
                 $zoneDomestic->write();
 
                 $ZoneEu = DataObject::get_one("SilvercartZone", "`Title` = 'EU'");
@@ -1281,7 +1281,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $ZoneEu = new SilvercartZone();
                     $ZoneEu->Title = 'EU';
                 }
-                $ZoneEu->SilvercartCarrierID = $carrier->ID;
+                $ZoneEu->SilvercartCarriers()->add($carrier);
                 $ZoneEu->write();
 
                 //Retrieve the active country if exists

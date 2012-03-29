@@ -166,7 +166,7 @@ class SilvercartConfig extends DataObject {
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.2',
-        'SilvercartUpdateVersion'       => '1',
+        'SilvercartUpdateVersion'       => '2',
         'PricetypeAnonymousCustomers'   => 'gross',
         'PricetypeRegularCustomers'     => 'gross',
         'PricetypeBusinessCustomers'    => 'net',
