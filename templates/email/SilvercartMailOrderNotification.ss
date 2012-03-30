@@ -25,6 +25,10 @@
 <% control SilvercartOrder %>
     <table>
         <tr>
+            <td><% _t('SilvercartAddress.EMAIL') %></td>
+            <td>$Member.Email</td>
+        </tr>
+        <tr>
             <td><% _t('SilvercartPage.ORDER_DATE') %></td>
             <td>$Created.Nice</td>
         </tr>
