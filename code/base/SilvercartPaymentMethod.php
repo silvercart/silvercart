@@ -483,7 +483,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 14.12.2011
      */
     public function getHandlingCost() {
-        if ($this->SilvercartHandlingCostID === 0) {
+        if ((int) $this->SilvercartHandlingCostID === 0) {
             $handlingCosts = new Money;
             $handlingCosts->setAmount(0);
             $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
