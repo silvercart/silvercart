@@ -429,6 +429,8 @@ class SilvercartShippingMethod extends DataObject {
      * @since 11.07.2011
      */
     public static function getAllowedShippingMethods() {
+        $extendableShippingMethod = singleton('SilvercartShippingMethod');
+        
         $allowedShippingMethods = array();
         $shippingMethods        = DataObject::get('SilvercartShippingMethod', 'isActive = 1');
 
@@ -443,6 +445,8 @@ class SilvercartShippingMethod extends DataObject {
         }
         
         $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
+        
+        $extendableShippingMethod->extend('updateAllowedShippingMethods', $allowedShippingMethods);
         
         return $allowedShippingMethods;
     }
