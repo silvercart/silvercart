@@ -904,8 +904,9 @@ $lang['en_US']['SilvercartOrderAddress']['SINGULARNAME'] = 'Order address';
 
 $lang['en_US']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Order Confirmation Pags';
 $lang['en_US']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Order Confirmation Page';
-$lang['en_US']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-conirmation';
+$lang['en_US']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-confirmation';
 $lang['en_US']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'order confirmation';
+$lang['en_US']['SilvercartOrderConfirmationPage']['ORDERNOTIFICATION'] = 'Order notification';
 
 $lang['en_US']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Order Detail Pags';
 $lang['en_US']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page';

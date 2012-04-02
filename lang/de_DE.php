@@ -906,6 +906,7 @@ $lang['de_DE']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Bestellbestä
 $lang['de_DE']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Bestellbestätigungsseite';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'bestellbestaetigung';
 $lang['de_DE']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'Bestellbestätigung';
+$lang['de_DE']['SilvercartOrderConfirmationPage']['ORDERNOTIFICATION'] = 'Bestellbenachrichtigung';
 
 $lang['de_DE']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Bestelldetailsseiten';
 $lang['de_DE']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Bestelldetailsseite';
