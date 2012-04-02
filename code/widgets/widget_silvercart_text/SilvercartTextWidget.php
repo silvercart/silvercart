@@ -99,3 +99,38 @@ class SilvercartTextWidget extends SilvercartWidget {
         return $fields;
     }
 }
+
+/**
+ * Provides a free text widget.
+ * 
+ * @package Silvercart
+ * @subpackage Widgets
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 09.06.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2011 pixeltricks GmbH
+ */
+class SilvercartTextWidget_Controller extends SilvercartWidget_Controller {
+    
+    /**
+     * Overloaded from {@link Widget->Content()}
+     * to allow for controller/form linking.
+     * 
+     * @return string HTML
+     */
+    function Content() {
+        $renderData = array(
+            'Controller' => $this
+        );
+        $template = new SSViewer_FromString($this->getField('FreeText'));
+        $freeText = HTTP::absoluteURLs($template->process(new ArrayData($renderData)));
+
+        $data = new ArrayData(
+            array(
+                'FreeText' => $freeText
+            )
+        );
+
+        return $this->customise($data)->renderWith(array_reverse(ClassInfo::ancestry($this->widget->class)));
+    }
+}
