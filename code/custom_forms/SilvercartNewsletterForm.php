@@ -128,6 +128,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
             "Frau"  => _t('SilvercartAddress.MISSES'),
             "Herr"  => _t('SilvercartAddress.MISTER')
         );
+        $this->formFields['Salutation']['title']            = _t('SilvercartAddress.SALUTATION');
         $this->formFields['FirstName']['title']             = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title']               = _t('SilvercartAddress.SURNAME');
         $this->formFields['Email']['title']                 = _t('SilvercartAddress.EMAIL', 'email address');
