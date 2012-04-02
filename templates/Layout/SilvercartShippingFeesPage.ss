@@ -11,7 +11,7 @@
     <% control Carriers %>
         <h3>$Title</h3>
         <% control SilvercartShippingMethods %>
-            <% isActive %>
+            <% if isActive %>
         <div class="subcolumns">
             <div class="c20l">
                 <h4>$Title</h4>
