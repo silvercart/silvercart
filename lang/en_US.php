@@ -1441,7 +1441,9 @@ $lang['en_US']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
 
 $lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';
+$lang['en_US']['SilvercartText']['CSSFIELD_LABEL']      = 'Extra CSS classes (optional):';
 $lang['en_US']['SilvercartText']['FREETEXTFIELD_LABEL'] = 'Your text:';
+$lang['en_US']['SilvercartText']['HEADLINEFIELD_LABEL'] = 'Headline (optional):';
 
 $lang['en_US']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topsellers';
 $lang['en_US']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'SilverCart topseller products';

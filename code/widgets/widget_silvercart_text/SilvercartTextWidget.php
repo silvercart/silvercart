@@ -42,7 +42,9 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 09.06.2011
      */
     public static $db = array(
-        'FreeText'  => 'HTMLText'
+        'Headline'        => 'VarChar(255)',
+        'FreeText'        => 'HTMLText',
+        'ExtraCssClasses' => 'VarChar(255)'
     );
     
     /**
@@ -91,11 +93,16 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 09.06.2011
      */
     public function getCMSFields() {
-        $fields     = parent::getCMSFields();
-        $textField  = new TextareaField('FreeText', _t('SilvercartText.FREETEXTFIELD_LABEL'));
-        
+        $fields          = parent::getCMSFields();
+        $headlineField   = new TextField('Headline', _t('SilvercartText.HEADLINEFIELD_LABEL'));
+        $textField       = new TextareaField('FreeText', _t('SilvercartText.FREETEXTFIELD_LABEL'));
+        $textField->rows = 25;
+        $cssField        = new TextField('ExtraCssClasses', _t('SilvercartText.CSSFIELD_LABEL'));
+
+        $fields->push($headlineField);
         $fields->push($textField);
-        
+        $fields->push($cssField);
+
         return $fields;
     }
 }
