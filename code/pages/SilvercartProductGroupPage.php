@@ -1719,10 +1719,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         $charset = ContentNegotiator::get_encoding();
         $tags .= "<meta http-equiv=\"Content-type\" content=\"text/html; charset=$charset\" />\n";
-        if ($this->urlParams['ID'] > 0) {
+        if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
             if ($product->MetaKeywords) {
                 $tags .= "<meta name=\"keywords\" content=\"" . Convert::raw2att($product->MetaKeywords) . "\" />\n";
+            } else {
+                $tags .= "<meta name=\"keywords\" content=\"" . implode(',', explode(' ', Convert::raw2att($product->Title))) . "\" />\n";
             }
             if ($product->MetaDescription) {
                 $tags .= "<meta name=\"description\" content=\"" . Convert::raw2att($product->MetaDescription) . "\" />\n";
