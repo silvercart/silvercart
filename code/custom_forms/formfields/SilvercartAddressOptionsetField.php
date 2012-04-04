@@ -86,6 +86,7 @@ class SilvercartAddressOptionsetField extends OptionsetField {
                             'isShippingAddress' => $address->isShippingAddress(),
                             'isCompanyAddress'  => $isCompanyAddress,
                             'isLastAddress'     => $address->isLastAddress(),
+                            'address'           => $address,
                         ),
                         $address->toMap()
                     )

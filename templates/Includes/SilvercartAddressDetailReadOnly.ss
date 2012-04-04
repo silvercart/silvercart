@@ -21,8 +21,8 @@
             <br />
             <% if isCompanyAddress %>
                 <div class="silvercart-address-company-section">
-                    <% _t('SilvercartAddress.TAXIDNUMBER','Tax ID number') %>: $TaxIdNumber<br />
-                    <% _t('SilvercartAddress.COMPANY','Company') %>: $Company<br />
+                    <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
+                    <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
                 </div>
             <% end_if %>
         
@@ -31,7 +31,7 @@
             $Postcode $City<br/>
             $SilvercartCountry.Title<br/>
             <% if Phone %>
-                <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
+                $fieldLabel(PhoneShort): $PhoneAreaCode/$Phone
             <% end_if %>
         <% else %>
             <p class="silvercart-message">
