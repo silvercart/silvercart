@@ -41,7 +41,7 @@ class SilvercartZone extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'=> 'VarChar',
     );
     /**
      * Has-many relationship.
@@ -80,6 +80,13 @@ class SilvercartZone extends DataObject {
     );
     
     /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "`Title` ASC";
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -101,8 +108,9 @@ class SilvercartZone extends DataObject {
                         'SilvercartShippingFees'    => _t('SilvercartShippingFee.PLURALNAME'),
                         'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
                         'SilvercartCountries'       => _t('SilvercartCountry.PLURALNAME'),
-                    )
-                );
+                        'UseAllCountries'           => _t('SilvercartZone.USE_ALL_COUNTRIES'),
+                )
+        );
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
@@ -126,7 +134,7 @@ class SilvercartZone extends DataObject {
                             null,
                             'Title'
             );
-            $countriesTable->pageSize = 300;
+            $countriesTable->pageSize = 100;
             $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
 
             $carriersTable = new ManyManyComplexTableField(
@@ -150,6 +158,9 @@ class SilvercartZone extends DataObject {
                             'Title'
             );
             $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
+        
+            $useAllCountries = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
+            $fields->addFieldToTab('Root.Main', $useAllCountries);
         }
         
         return $fields;
@@ -239,6 +250,24 @@ class SilvercartZone extends DataObject {
         
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Processing hook before writing the DataObject
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012 
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (array_key_exists('UseAllCountries', $_POST)) {
+            $countries = DataObject::get('SilvercartCountry');
+            foreach ($countries as $country) {
+                $this->SilvercartCountries()->add($country);
+            }
+        }
     }
 
     /**

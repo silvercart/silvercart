@@ -1187,6 +1187,8 @@ $lang['de_DE']['SilvercartShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--Zone wäh
 $lang['de_DE']['SilvercartShippingFee']['FOR_SHIPPINGMETHOD'] = 'für Versandart';
 $lang['de_DE']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximalgewicht (g)';
 $lang['de_DE']['SilvercartShippingFee']['PLURALNAME'] = 'Versandgebühren';
+$lang['de_DE']['SilvercartShippingFee']['POST_PRICING'] = 'Nachträgliche Preisermittlung';
+$lang['de_DE']['SilvercartShippingFee']['POST_PRICING_INFO'] = 'Versandpreise können erst nach Auftragseingang manuell ermittelt werden.';
 $lang['de_DE']['SilvercartShippingFee']['SINGULARNAME'] = 'Versandgebühr';
 $lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unbegrenzt';
 $lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unbegrenztes Maximalgewicht';
@@ -1351,6 +1353,7 @@ $lang['de_DE']['SilvercartZone']['DOMESTIC'] = 'Inland';
 $lang['de_DE']['SilvercartZone']['FOR_COUNTRIES'] = 'für Länder';
 $lang['de_DE']['SilvercartZone']['PLURALNAME'] = 'Zonen';
 $lang['de_DE']['SilvercartZone']['SINGULARNAME'] = 'Zone';
+$lang['de_DE']['SilvercartZone']['USE_ALL_COUNTRIES'] = 'Nach dem Speichern dynamisch alle Länder aufnehmen';
 
 $lang['de_DE']['SilvercartQuantityUnit']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abkürzung';

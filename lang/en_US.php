@@ -1187,6 +1187,8 @@ $lang['en_US']['SilvercartShippingFee']['EMPTYSTRING_CHOOSEZONE'] = '--choose zo
 $lang['en_US']['SilvercartShippingFee']['FOR_SHIPPINGMETHOD'] = 'For shipping method';
 $lang['en_US']['SilvercartShippingFee']['MAXIMUM_WEIGHT'] = 'Maximum weight (g)';
 $lang['en_US']['SilvercartShippingFee']['PLURALNAME'] = 'Shipping fees';
+$lang['en_US']['SilvercartShippingFee']['POST_PRICING'] = 'Pricing after order';
+$lang['en_US']['SilvercartShippingFee']['POST_PRICING_INFO'] = 'Manual calculation of shipping fees after order.';
 $lang['en_US']['SilvercartShippingFee']['SINGULARNAME'] = 'Shipping fee';
 $lang['en_US']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unlimited';
 $lang['en_US']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unlimited Maximum Weight';
@@ -1351,6 +1353,7 @@ $lang['en_US']['SilvercartZone']['DOMESTIC'] = 'Domestic';
 $lang['en_US']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
 $lang['en_US']['SilvercartZone']['PLURALNAME'] = 'Zones';
 $lang['en_US']['SilvercartZone']['SINGULARNAME'] = 'Zone';
+$lang['en_US']['SilvercartZone']['USE_ALL_COUNTRIES'] = 'Relate all countries after saving';
 
 $lang['en_US']['SilvercartQuantityUnit']['NAME'] = 'Name';
 $lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
