@@ -116,39 +116,41 @@ class SilvercartZone extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $countriesTable = new ManyManyComplexTableField(
-                        $this,
-                        'SilvercartCountries',
-                        'SilvercartCountry',
-                        null,
-                        'getCMSFields_forPopup',
-                        null,
-                        'Title'
-        );
-        $countriesTable->pageSize = 50;
-        $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
-        
-        $carriersTable = new ManyManyComplexTableField(
-                        $this,
-                        'SilvercartCarriers',
-                        'SilvercartCarrier',
-                        null,
-                        'getCMSFields_forPopup',
-                        null,
-                        'Title'
-        );
-        $fields->addFieldToTab('Root.SilvercartCarriers', $carriersTable);
-        
-        $shippingTable = new SilvercartManyManyComplexTableField(
-                        $this,
-                        'SilvercartShippingMethods',
-                        'SilvercartShippingMethod',
-                        null,
-                        'getCMSFields_forPopup',
-                        null,
-                        'Title'
-        );
-        $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
+        if ($this->ID) {
+            $countriesTable = new ManyManyComplexTableField(
+                            $this,
+                            'SilvercartCountries',
+                            'SilvercartCountry',
+                            null,
+                            'getCMSFields_forPopup',
+                            null,
+                            'Title'
+            );
+            $countriesTable->pageSize = 300;
+            $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
+
+            $carriersTable = new ManyManyComplexTableField(
+                            $this,
+                            'SilvercartCarriers',
+                            'SilvercartCarrier',
+                            null,
+                            'getCMSFields_forPopup',
+                            null,
+                            'Title'
+            );
+            $fields->addFieldToTab('Root.SilvercartCarriers', $carriersTable);
+
+            $shippingTable = new SilvercartManyManyComplexTableField(
+                            $this,
+                            'SilvercartShippingMethods',
+                            'SilvercartShippingMethod',
+                            null,
+                            'getCMSFields_forPopup',
+                            null,
+                            'Title'
+            );
+            $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
+        }
         
         return $fields;
     }
