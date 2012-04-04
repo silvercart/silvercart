@@ -75,6 +75,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
         
         $this->formFields['emailaddress']['title']  = _t('SilvercartPage.EMAIL_ADDRESS').':';
         $this->formFields['password']['title']      = _t('SilvercartPage.PASSWORD').':';
+        parent::preferences();
     }
 
     /**
