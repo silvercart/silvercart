@@ -1199,10 +1199,13 @@ $lang['en_GB']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
 
 $lang['en_GB']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'For payment methods';
 $lang['en_GB']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
+$lang['en_GB']['SilvercartShippingMethod']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_GB']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_GB']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';
 $lang['en_GB']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'What do you want to import?';
+$lang['en_GB']['SilvercartShippingMethod']['NO_SHIPPING_METHOD_AVAILABLE'] = 'No shipping method available.';
+$lang['en_GB']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Please choose a shipping method';
 
 $lang['en_GB']['SilvercartShippingMethodTexts']['PLURALNAME'] = 'Shipping method translations';
 $lang['en_GB']['SilvercartShippingMethodTexts']['SINGULARNAME'] = 'Shipping method translation';

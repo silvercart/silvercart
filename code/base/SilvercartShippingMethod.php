@@ -39,8 +39,9 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title'     => 'VarChar',
-        'isActive'  => 'Boolean',
+        'Title'         => 'VarChar',
+        'Description'   => 'Text',
+        'isActive'      => 'Boolean',
     );
     /**
      * Has-one relationships.
@@ -99,19 +100,19 @@ class SilvercartShippingMethod extends DataObject {
     public function searchableFields() {
         $searchableFields = array(
             'Title' => array(
-                'title' => _t('SilvercartProduct.COLUMN_TITLE'),
+                'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
             'isActive' => array(
-                'title' => _t('SilvercartProduct.IS_ACTIVE'),
+                'title' => $this->fieldLabel('isActive'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartCarrier.ID' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+                'title' => $this->fieldLabel('SilvercartCarrier'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartZones.ID' => array(
-                'title' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+                'title' => $this->fieldLabel('SilvercartZones'),
                 'filter'    => 'ExactMatchFilter'
             )
         );
@@ -133,13 +134,14 @@ class SilvercartShippingMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                        'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                        'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-                        'isActive' => _t('SilvercartPage.ISACTIVE', 'active'),
-                        'SilvercartCarrier' => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-                        'SilvercartShippingFees' => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones' => _t('SilvercartZone.PLURALNAME', 'zones')
+                        'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
+                        'Description'               => _t('SilvercartShippingMethod.DESCRIPTION'),
+                        'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                        'AttributedZones'           => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+                        'isActive'                  => _t('SilvercartPage.ISACTIVE', 'active'),
+                        'SilvercartCarrier'         => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+                        'SilvercartShippingFees'    => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
+                        'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones')
                     )
                 );
     }
@@ -156,10 +158,10 @@ class SilvercartShippingMethod extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                        'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                        'activatedStatus' => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                        'AttributedZones' => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-                        'SilvercartCarrier.Title' => _t('SilvercartCarrier.SINGULARNAME')
+                        'Title'                     => $this->fieldLabel('Title'),
+                        'activatedStatus'           => $this->fieldLabel('activatedStatus'),
+                        'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+                        'SilvercartCarrier.Title'   => $this->fieldLabel('SilvercartCarrier'),
                     )
                 );
         
@@ -239,16 +241,17 @@ class SilvercartShippingMethod extends DataObject {
                         )
                 );
             }
-        }
         
-        $zonesTable = new ManyManyComplexTableField(
-            $this,
-            'SilvercartZones',
-            'SilvercartZone',
-            null,
-            'getCMSFields_forPopup'
-        );
-        $fields->addFieldToTab('Root.' . _t('SilvercartZone.PLURALNAME', 'zones'), $zonesTable);
+            $zonesTable = new ManyManyComplexTableField(
+                $this,
+                'SilvercartZones',
+                'SilvercartZone',
+                null,
+                'getCMSFields_forPopup'
+            );
+            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
+            $fields->addFieldToTab('Root.SilvercartZones', $zonesTable);
+        }
 
         return $fields;
     }

@@ -17,7 +17,15 @@
                 <h4>$Title</h4>
             </div>
             <div class="c80r">
+                <% if Description %>
+                $Description
+                <% end_if %>
                 <table class="full">
+                    <colgroup>
+                        <col width="20%"></col>
+                        <col width="65%"></col>
+                        <col width="15%"></col>
+                    </colgroup>
                     <tr>
                         <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>

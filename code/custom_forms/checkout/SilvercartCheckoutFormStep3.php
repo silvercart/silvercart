@@ -43,7 +43,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     protected $formFields = array(
         'ShippingMethod' => array(
-            'type'              => 'DropdownField',
+            'type'              => 'SilvercartShippingOptionsetField',
             'title'             => 'Versandart',
             'checkRequirements' => array(
                 'isFilledIn' => true
@@ -114,11 +114,11 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields($this->formFields);
-        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.SINGULARNAME');
+        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.CHOOSE_SHIPPING_METHOD');
                     
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods();
         if ($shippingMethods) {
-            $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee', _t('SilvercartCheckoutFormStep3.EMPTYSTRING_SHIPPINGMETHOD', '--choose shipping method--'));
+            $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
         }
     }
 
