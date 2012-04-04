@@ -119,13 +119,16 @@ class SilvercartCarrier extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        $zonesTable = new SilvercartManyManyComplexTableField(
-                        $this,
-                        'SilvercartZones',
-                        'SilvercartZone'
-        );
-        $zonesTable->pageSize = 50;
-        $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
+        if ($this->ID) {
+            $zonesTable = new SilvercartManyManyComplexTableField(
+                            $this,
+                            'SilvercartZones',
+                            'SilvercartZone'
+            );
+            $zonesTable->pageSize = 50;
+            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
+            $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
+        }
         return $fields;
     }
 
