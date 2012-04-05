@@ -1578,15 +1578,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
 
-            if (!empty($this->urlParams['OtherID']) &&
-                    $this->hasMethod($this->urlParams['OtherID'])) {
-
-                $methodName = $this->urlParams['OtherID'];
-                
-                if (method_exists($this, $methodName)) {
-                    return $this->$methodName($request);
-                } else {
-                    $this->$methodName($request);
+            if (!empty($this->urlParams['OtherID'])) {
+                $secondaryAction = $this->urlParams['OtherID'];
+                if ($this->hasMethod($secondaryAction) &&
+                    $this->hasAction($secondaryAction)) {
+                    $result = $this->{$secondaryAction}($request);
+                    if (is_array($result)) {
+                        return $this->getViewer($this->action)->process($this->customise($result));
+                    } else {
+                        return $result;
+                    }
                 }
             }
 

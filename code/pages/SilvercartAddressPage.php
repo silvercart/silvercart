@@ -57,6 +57,25 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
     public function getSection() {
         return 'SilvercartAddress';
     }
+
+    /**
+     * Returns the link to this detail page.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public function Link() {
+        $controller = Controller::curr();
+        $link       = parent::Link();
+
+        if ($controller instanceof SilvercartAddressPage_Controller) {
+            $link .= $controller->getAddressID();
+        }
+
+        return $link;
+    }
 }
 
 /**
@@ -72,6 +91,13 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
 class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Controller {
 
     /**
+     * ID of the requested address
+     *
+     * @var int 
+     */
+    protected $addressID;
+
+    /**
      * statements to be called on instanciation
      *
      * @return void
@@ -80,18 +106,18 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @since 22.02.2011
      */
     public function init() {
-        $addressId = false;
+        $addressID = false;
         
         if (isset($_POST['addressID'])) {
-            $addressId = Convert::raw2sql($_POST['addressID']);
+            $addressID = Convert::raw2sql($_POST['addressID']);
         } else {
-            $addressId = $this->urlParams['Action'];
+            $addressID = $this->urlParams['Action'];
         }
-
-        $this->setBreadcrumbElementID($addressId);
+        $this->setAddressID($addressID);
+        $this->setBreadcrumbElementID($addressID);
 
         // get the address to check whether it is related to the actual customer or not.
-        $address = DataObject::get_by_id('SilvercartAddress', $addressId);
+        $address = DataObject::get_by_id('SilvercartAddress', $addressID);
         
         if ($address->MemberID > 0) {
             if ($address->Member()->ID != Member::currentUserID()) {
@@ -100,7 +126,7 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
             }
         }
 
-        $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressId)));
+        $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressID)));
         
         parent::init();
     }
@@ -114,15 +140,23 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
+     * @since 05.04.2012
      */
     public function handleAction($request) {
         if (!$this->hasMethod($this->urlParams['Action'])) {
-            if (is_numeric($this->urlParams['Action'])) {
+            $secondaryAction = $this->urlParams['ID'];
+            if ($this->hasMethod($secondaryAction) &&
+                $this->hasAction($secondaryAction)) {
+                $result = $this->{$secondaryAction}($request);
+                if (is_array($result)) {
+                    return $this->getViewer($this->action)->process($this->customise($result));
+                } else {
+                    return $result;
+                }
+            } elseif (is_numeric($this->urlParams['Action'])) {
                 return $this->getViewer('index')->process($this);
             }
         }
-        
         return parent::handleAction($request);
     }
     
@@ -137,6 +171,26 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      */
     public function CancelLink() {
         return $this->Parent()->Link();
+    }
+
+    /**
+     * returns the id of the address requested by the Action.
+     *
+     * @return int
+     */
+    public function getAddressID() {
+        return $this->addressID;
+    }
+
+    /**
+     * sets the id of the address requested by the Action.
+     *
+     * @param int $addressID addressID
+     *
+     * @return void
+     */
+    public function setAddressID($addressID) {
+        $this->addressID = $addressID;
     }
     
 }
