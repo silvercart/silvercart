@@ -172,41 +172,33 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
     }
 
     /**
-     * returns address data as ArrayData
+     * returns address data as ArrayData to control in template
      *
      * @return ArrayData
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AddressData() {
-        $checkoutData    = $this->controller->getCombinedStepData();
-        $shippingAddress = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceAddress  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
-
-        $shippingCountry = DataObject::get_by_id(
-            'SilvercartCountry',
-            $shippingAddress['CountryID']
-        );
-
-        if ($shippingCountry) {
-            $shippingAddress['country']             = $shippingCountry;
-            $shippingAddress['SilvercartCountry']   = $shippingCountry;
-            $shippingAddress['isShippingAddress']   = true;
-            $shippingAddress['hasAddressData']      = true;
+        $checkoutData       = $this->controller->getCombinedStepData();
+        
+        if (Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress'])) {
+            $shippingAddress    = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress']);
+        } else {
+            /**
+             * @deprecated Fallback for potential dependencies 
+             */
+            $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
+            $shippingAddress    = $this->getAssociativeAddressData($shippingAddress);
         }
-
-        $invoiceCountry = DataObject::get_by_id(
-            'SilvercartCountry',
-            $invoiceAddress['CountryID']
-        );
-
-        if ($invoiceCountry) {
-            $invoiceAddress['country']              = $invoiceCountry;
-            $invoiceAddress['SilvercartCountry']    = $invoiceCountry;
-            $invoiceAddress['isInvoiceAddress']     = true;
-            $invoiceAddress['hasAddressData']       = true;
+        if (Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
+            $invoiceAddress = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress']);
+        } else {
+            /**
+             * @deprecated Fallback for potential dependencies 
+             */
+            $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+            $invoiceAddress = $this->getAssociativeAddressData($invoiceAddress, 'Invoice');
         }
         
         if (array_key_exists('InvoiceAddress',$checkoutData) &&
@@ -214,24 +206,16 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             
         
             if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
-                $invoiceAddress['isInvoiceAndShippingAddress'] = true;
+                if (is_array($invoiceAddress)) {
+                    /**
+                     * @deprecated Fallback for potential dependencies 
+                     */
+                    $invoiceAddress['isInvoiceAndShippingAddress'] = true;
+                } else {
+                    Member::currentUser()->SilvercartShippingAddressID  = $checkoutData['ShippingAddress'];
+                    Member::currentUser()->SilvercartInvoiceAddressID   = $checkoutData['InvoiceAddress'];
+                }
             }
-        }
-
-        if (!empty($shippingAddress['TaxIdNumber']) &&
-            !empty($shippingAddress['Company'])) {
-
-            $shippingAddress['isCompanyAddress'] = true;
-        } else {
-            $shippingAddress['isCompanyAddress'] = false;
-        }
-        
-        if (!empty($invoiceAddress['TaxIdNumber']) &&
-            !empty($invoiceAddress['Company'])) {
-
-            $invoiceAddress['isCompanyAddress'] = true;
-        } else {
-            $invoiceAddress['isCompanyAddress'] = false;
         }
         
         $addressData = new ArrayData(
@@ -242,6 +226,40 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         );
         
         return $addressData;
+    }
+    
+    /**
+     * Sets some context specific fields in an associative address array
+     *
+     * @param array  $associativeAddress Associative address array
+     * @param string $type               Type of address (Shipping or Invoice)
+     * 
+     * @return array 
+     */
+    public function getAssociativeAddressData($associativeAddress, $type = 'Shipping') {
+        $country = DataObject::get_by_id(
+            'SilvercartCountry',
+            $associativeAddress['CountryID']
+        );
+
+        if ($country) {
+            $associativeAddress['country']             = $country;
+            $associativeAddress['SilvercartCountry']   = $country;
+            $associativeAddress['hasAddressData']      = true;
+            if ($type == 'Shipping') {
+                $associativeAddress['isShippingAddress']    = true;
+            } else {
+                $associativeAddress['isInvoiceAddress']    = true;
+            }
+        }
+        if (!empty($associativeAddress['TaxIdNumber']) &&
+            !empty($associativeAddress['Company'])) {
+
+            $associativeAddress['isCompanyAddress'] = true;
+        } else {
+            $associativeAddress['isCompanyAddress'] = false;
+        }
+        return $associativeAddress;
     }
     
     /**
