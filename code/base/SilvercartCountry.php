@@ -280,28 +280,11 @@ class SilvercartCountry extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedZones() {
-        $attributedZonesStr = '';
-        $attributedZones = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartZones() as $zone) {
-            $attributedZones[] = $zone->Title;
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZones());
     }
 
     /**
@@ -309,27 +292,10 @@ class SilvercartCountry extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedPaymentMethods() {
-        $attributedPaymentMethodsStr = '';
-        $attributedPaymentMethods = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartPaymentMethods() as $paymentMethod) {
-            $attributedPaymentMethods[] = $paymentMethod->Name;
-        }
-
-        if (!empty($attributedPaymentMethods)) {
-            $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
-
-            if (strlen($attributedPaymentMethodsStr) > $maxLength) {
-                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedPaymentMethodsStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartPaymentMethods());
     }
 }

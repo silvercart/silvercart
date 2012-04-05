@@ -80,7 +80,7 @@ class SilvercartCarrier extends DataObject {
      */
     public static $casting = array(
         'AttributedZones'           => 'Varchar(255)',
-        'AttributedShippingMethods' => 'Varchar(255)'
+        'AttributedShippingMethods' => 'Varchar(255)',
     );
     
     /**
@@ -214,28 +214,11 @@ class SilvercartCarrier extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedZones() {
-        $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartZones() as $zone) {
-            $attributedZones[] = $zone->Title;
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZones());
     }
 
     /**
@@ -243,27 +226,11 @@ class SilvercartCarrier extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedShippingMethods() {
-        $attributedShippingMethodsStr = '';
-        $attributedShippingMethods    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartShippingMethods() as $shippingMethod) {
-            $attributedShippingMethods[] = $shippingMethod->Title;
-        }
-
-        if (!empty($attributedShippingMethods)) {
-            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
-
-            if (strlen($attributedShippingMethodsStr) > $maxLength) {
-                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
-            }
-        }
-
-        return $attributedShippingMethodsStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartShippingMethods());
     }
+    
 }

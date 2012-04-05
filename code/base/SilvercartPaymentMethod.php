@@ -1373,28 +1373,11 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedCountries() {
-        $attributedCountriesStr = '';
-        $attributedCountries = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartCountries() as $country) {
-            $attributedCountries[] = $country->Title;
-        }
-
-        if (!empty($attributedCountries)) {
-            $attributedCountriesStr = implode(', ', $attributedCountries);
-
-            if (strlen($attributedCountriesStr) > $maxLength) {
-                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedCountriesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartCountries());
     }
 
     /**
@@ -1402,28 +1385,11 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedZones() {
-        $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartZone() as $zone) {
-            $attributedZones[] = $zone->Title;
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZone());
     }
 
     /**

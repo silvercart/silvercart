@@ -97,4 +97,36 @@ class SilvercartTools extends Object {
         );
         file_put_contents($path, $text, FILE_APPEND);
     }
+
+    /**
+     * Returns the attributed DataObjects as string (limited to 150 chars) by
+     * the given ComponentSet.
+     * 
+     * @param ComponentSet $componentSet ComponentSet to get list for
+     * @param string       $dbField      Db field to use to display
+     * @param int          $maxLength    Maximum string length
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function AttributedDataObject($componentSet, $dbField = "Title", $maxLength = 150) {
+        $attributedDataObjectStr    = '';
+        $attributedDataObjects      = array();
+
+        foreach ($componentSet as $component) {
+            $attributedDataObjects[] = $component->{$dbField};
+        }
+        
+        if (!empty($attributedDataObjects)) {
+            $attributedDataObjectStr = implode(', ', $attributedDataObjects);
+
+            if (strlen($attributedDataObjectStr) > $maxLength) {
+                $attributedDataObjectStr = substr($attributedDataObjectStr, 0, $maxLength) . '...';
+            }
+        }
+
+        return $attributedDataObjectStr;
+    }
 }
