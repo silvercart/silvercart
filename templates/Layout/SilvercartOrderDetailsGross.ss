@@ -107,7 +107,7 @@
         <!-- fees -->
         <tr>
             <td colspan="2"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></td>
-            <td colspan="3"><strong>$SilvercartShippingMethod.TitleWithCarrier</strong></td>
+            <td colspan="3"><strong>$SilvercartShippingMethod.TitleWithCarrier <% control SilvercartShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
             <td class="right">$HandlingCostShipment.Nice</td>
         </tr>
         <tr>
@@ -209,3 +209,4 @@
         <% end_if %>
     </tbody>
 </table>
+<% control SilvercartShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_control %>

@@ -44,10 +44,11 @@
                                 <% end_control %>
                             <% end_control %>
                         </td>
-                        <td class="align_right align_top">$PriceFormatted</td>
+                        <td class="align_right align_top">$PriceFormatted <% if PostPricing %>*<% end_if %></td>
                     </tr>
                     <% end_control %>
                 </table>
+                <% if hasFeeWithPostPricing %>* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %><% end_if %>
             </div>
         </div>
                 <% end_if %>

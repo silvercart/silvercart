@@ -41,8 +41,9 @@ class SilvercartShippingFee extends DataObject {
      */
     public static $db = array(
         'MaximumWeight'     => 'Int',   //gramms
-        'UnlimitedWeight'  => 'Boolean',
+        'UnlimitedWeight'   => 'Boolean',
         'Price'             => 'Money',
+        'PostPricing'       => 'Boolean',
     );
 
     /**
@@ -154,7 +155,8 @@ class SilvercartShippingFee extends DataObject {
                     'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
                     'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
                     'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
-                    ''
+                    'PostPricing'               => _t('SilvercartShippingFee.POST_PRICING'),
+                    'SilvercartOrders'          => _t('SilvercartOrder.PLURALNAME'),
                 )
         );
     }
@@ -225,6 +227,9 @@ class SilvercartShippingFee extends DataObject {
                 )
             );
         }
+        
+        $postPricingField = $fields->dataFieldByName('PostPricing');
+        $postPricingField->setTitle($postPricingField->Title() . ' (' . _t('SilvercartShippingFee.POST_PRICING_INFO') . ')');
 
         return $fields;
     }
@@ -234,16 +239,21 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
      */
     public function PriceFormatted() {
-        $priceObj = new Money();
-        $priceObj->setAmount($this->getPriceAmount());
-        $priceObj->setCurrency($this->getPriceCurrency());
+        $priceFormatted = '';
+        if ($this->PostPricing) {
+            $priceFormatted = '---';
+        } else {
+            $priceObj = new Money();
+            $priceObj->setAmount($this->getPriceAmount());
+            $priceObj->setCurrency($this->getPriceCurrency());
 
-        return $priceObj->Nice();
+            $priceFormatted = $priceObj->Nice();
+        }
+        return $priceFormatted;
     }
 
     /**
@@ -251,28 +261,11 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedShippingMethods() {
-        $attributedShippingMethodsStr = '';
-        $attributedShippingMethods    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartShippingMethod() as $shippingMethod) {
-            $attributedShippingMethods[] = $shippingMethod->Title;
-        }
-
-        if (!empty($attributedShippingMethods)) {
-            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
-
-            if (strlen($attributedShippingMethodsStr) > $maxLength) {
-                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
-            }
-        }
-
-        return $attributedShippingMethodsStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartShippingMethod());
     }
 
     /**
@@ -341,8 +334,8 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return false|string [carrier] - [shipping method] (+[fee amount][currency])
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.10.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
      */
     public function getFeeWithCarrierAndShippingMethod() {
         if ($this->SilvercartShippingMethod()) {
@@ -351,9 +344,13 @@ class SilvercartShippingFee extends DataObject {
                 $carrier = $this->SilvercartShippingMethod()->SilvercartCarrier()->Title;
             }
             $shippingMethod            = $this->SilvercartShippingMethod()->Title;
-            $shippingFeeAmountAsString = number_format($this->getPriceAmount(), 2, ',', '') .$this->getPriceCurrency();
-            
-            return $carrier . "-" . $shippingMethod . "(+" . $shippingFeeAmountAsString . ")";
+            $shippingFeeAmountAsString = $this->PriceFormatted();
+            if ($this->PostPricing) {
+                $shippingFeeAmountAsString = $this->fieldLabel('PostPricing');
+            } else {
+                $shippingFeeAmountAsString = '+ ' . $this->PriceFormatted();
+            }
+            return $carrier . ' - ' . $shippingMethod . ' (' . $shippingFeeAmountAsString . ')';
         }
         return false;
     }
