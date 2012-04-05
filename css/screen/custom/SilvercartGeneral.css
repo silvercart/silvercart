@@ -87,6 +87,18 @@ h1 {
     text-align:                     right;
 }
 
+.align_top {
+    vertical-align:                 top;
+}
+
+.align_bottom {
+    vertical-align:                 bottom;
+}
+
+.padding_right {
+    padding-right:                  12px;
+}
+
 .page {
     background:                     #fff;
     border:                         1px #aeaaa1 solid;
@@ -152,6 +164,17 @@ table th.right,
 table td.right {
     text-align:                     right;
 }
+
+.silvercart-default-table {
+    
+}
+.silvercart-default-table tr.even td {
+    background-color: #f9f9f9;
+}
+.silvercart-default-table tr.odd td {
+    
+}
+
 #silvercart-order-holder-table-id td {
     vertical-align:                 top;
     padding:                        3px 4px;
