@@ -281,9 +281,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForProducts($this, $priceType);
@@ -332,9 +330,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForTotal($this, $priceType);
@@ -497,8 +493,8 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
         $member         = Member::currentUser();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
 
         if ($shippingMethod) {
@@ -541,8 +537,8 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
         $member         = Member::currentUser();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = round($this->getTaxableAmountNetWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount(), 2);
 
         if ($shippingMethod) {
@@ -928,9 +924,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function HandlingCostPayment() {
         $handlingCostPayment = 0;
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
@@ -961,9 +955,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
-        $selectedShippingMethod = DataObject::get_by_id(
-            'SilvercartShippingMethod', $this->SilvercartShippingMethodID
-        );
+        $selectedShippingMethod = $this->getShippingMethod();
 
         if ($selectedShippingMethod) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
@@ -994,12 +986,10 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function CarrierAndShippingMethodTitle() {
         $title = '';
-        $selectedShippingMethod = DataObject::get_by_id(
-                        'SilvercartShippingMethod', $this->SilvercartShippingMethodID
-        );
+        $selectedShippingMethod = $this->getShippingMethod();
 
         if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
+            $title = $selectedShippingMethod->SilvercartCarrier()->Title . ' - ' . $selectedShippingMethod->Title;
         }
 
         return $title;
@@ -1008,18 +998,31 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the payment method object.
      *
-     * @return PaymentMethod
+     * @return SilvercartPaymentMethod
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
+     * @deprecated
      */
     public function getPayment() {
-        $paymentMethodObj = DataObject::get_by_id(
-                        'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
-
-        return $paymentMethodObj;
+        return $this->getPaymentMethod();
+    }
+    
+    /**
+     * Returns the shipping method
+     *
+     * @return SilvercartShippingMethod
+     */
+    public function getShippingMethod() {
+        return DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+    }
+    
+    /**
+     * Returns the payment method
+     *
+     * @return SilvercartPaymentMethod
+     */
+    public function getPaymentMethod() {
+        return DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
     }
 
     /**
@@ -1340,8 +1343,8 @@ class SilvercartShoppingCart extends DataObject {
     public function getTaxRatesForFees() {
         $taxes          = new DataObjectSet;
         $taxAmount      = 0;
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
@@ -1395,8 +1398,8 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxRatesWithFees() {
         $taxes          = $this->getTaxRatesWithoutFees();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
