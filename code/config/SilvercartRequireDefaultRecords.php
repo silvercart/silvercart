@@ -59,27 +59,30 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // Create an own group for anonymous customers
         $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
         if (!$anonymousGroup) {
-            $anonymousGroup = new Group();
-            $anonymousGroup->Title = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
-            $anonymousGroup->Code = "anonymous";
+            $anonymousGroup             = new Group();
+            $anonymousGroup->Title      = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
+            $anonymousGroup->Code       = "anonymous";
+            $anonymousGroup->Pricetype  = "gross";
             $anonymousGroup->write();
         }
 
         // Create an own group for b2b customers
         $B2Bgroup = DataObject::get_one('Group', "`Code` = 'b2b'");
         if (!$B2Bgroup) {
-            $B2Bgroup = new Group();
-            $B2Bgroup->Title = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
-            $B2Bgroup->Code = "b2b";
+            $B2Bgroup               = new Group();
+            $B2Bgroup->Title        = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
+            $B2Bgroup->Code         = "b2b";
+            $B2Bgroup->Pricetype    = "net";
             $B2Bgroup->write();
         }
 
         //create a group for b2c customers
         $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2c'");
         if (!$B2Cgroup) {
-            $B2Cgroup = new Group();
-            $B2Cgroup->Title = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
-            $B2Cgroup->Code = "b2c";
+            $B2Cgroup               = new Group();
+            $B2Cgroup->Title        = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
+            $B2Cgroup->Code         = "b2c";
+            $B2Cgroup->Pricetype    = "gross";
             $B2Cgroup->write();
         }
 

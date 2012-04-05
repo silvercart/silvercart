@@ -396,6 +396,7 @@ $lang['en_US']['SilvercartConfig']['CLEAN_DATABASE_INPROGRESS'] = 'Optimization 
 $lang['en_US']['SilvercartConfig']['CLEANED_DATABASE'] = 'Database was optimized.';
 $lang['en_US']['SilvercartConfig']['CLEANED_DATABASE_REPORT'] = '<br/><hr/><br/><h3>%s</h3><strong><br/>%s images were deleted.<br/>&nbsp;&nbsp;%s because of a destroyed product relation<br/>&nbsp;&nbsp;%s because of a missing image file<br/>&nbsp;&nbsp;%s because of a destroyed image relation<br/>%s images were reassigned.</strong><br/><br/><hr/>';
 $lang['en_US']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Default currency';
+$lang['en_US']['SilvercartConfig']['DEFAULTPRICETYPE'] = 'Default price type';
 $lang['en_US']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Default product image';
 $lang['en_US']['SilvercartConfig']['DEMAND_BIRTHDAY_DATE_ON_REGISTRATION'] = 'Demand birthday date on registration?';
 $lang['en_US']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Display type of product administration';
@@ -739,6 +740,7 @@ $lang['en_US']['SilvercartCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymous customer'
 $lang['en_US']['SilvercartCustomer']['BUSINESSCUSTOMER'] = 'Business customer';
 $lang['en_US']['SilvercartCustomer']['CUSTOMERNUMBER'] = 'Customernumber';
 $lang['en_US']['SilvercartCustomer']['CUSTOMERNUMBER_SHORT'] = 'Customer-No.';
+$lang['en_US']['SilvercartCustomer']['ERROR_MULTIPLE_PRICETYPES'] = 'Customer groups with different pricetypes are invalid!';
 $lang['en_US']['SilvercartCustomer']['GROSS'] = 'gross';
 $lang['en_US']['SilvercartCustomer']['ISBUSINESSACCOUNT'] = 'Is business account';
 $lang['en_US']['SilvercartCustomer']['NET'] = 'net';
@@ -750,6 +752,9 @@ $lang['en_US']['SilvercartCustomer']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Has 
 $lang['en_US']['SilvercartCustomer']['BIRTHDAY'] = 'Birthday';
 $lang['en_US']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Regular customer';
 $lang['en_US']['SilvercartCustomer']['TYPE'] = 'Type';
+
+$lang['en_US']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
+$lang['en_US']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 
 $lang['en_US']['SilvercartDataPage']['PLURALNAME'] = 'Data Pags';
 $lang['en_US']['SilvercartDataPage']['SINGULARNAME'] = 'Data Page';

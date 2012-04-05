@@ -43,6 +43,7 @@ Object::add_extension('SiteTree',           'Translatable');
 Object::add_extension('SiteConfig',         'Translatable');
 Object::add_extension('SiteConfig',         'SilvercartSiteConfig');
 Object::add_extension('Member',             'SilvercartCustomer');
+Object::add_extension('Member_Validator',   'SilvercartCustomer_Validator');
 Object::add_extension('Group',              'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');
 Object::add_extension('CMSMain',            'SilvercartMain');
@@ -93,6 +94,11 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller'
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
+
+// ----------------------------------------------------------------------------
+// Enable DataObject validation
+// ----------------------------------------------------------------------------
+Member::set_validation_enabled(true);
 
 // ----------------------------------------------------------------------------
 // Define path constants

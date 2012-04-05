@@ -396,6 +396,7 @@ $lang['de_DE']['SilvercartConfig']['CLEAN_DATABASE_INPROGRESS'] = 'Die Datenbank
 $lang['de_DE']['SilvercartConfig']['CLEANED_DATABASE'] = 'Die Datenbank wurde optimiert.';
 $lang['de_DE']['SilvercartConfig']['CLEANED_DATABASE_REPORT'] = '<br/><hr/><br/><h3>%s</h3><strong><br/>%s Bilder wurden gelöscht.<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Artikelzuordnung<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Bilddatei<br/>&nbsp;&nbsp;davon %s auf Grund einer fehlerhaften Dateizuordnung<br/>%s Bilder wurden neu zugeordnet.</strong><br/><br/><hr/>';
 $lang['de_DE']['SilvercartConfig']['DEFAULTCURRENCY'] = 'Standard Währung';
+$lang['de_DE']['SilvercartConfig']['DEFAULTPRICETYPE'] = 'Standard Preistyp';
 $lang['de_DE']['SilvercartConfig']['DEFAULT_IMAGE'] = 'Standard Artikelbild';
 $lang['de_DE']['SilvercartConfig']['DEMAND_BIRTHDAY_DATE_ON_REGISTRATION'] = 'Geburtsdatum bei Registrierung abfragen?';
 $lang['de_DE']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Anzeigeart der Artikelverwaltung';
@@ -739,6 +740,7 @@ $lang['de_DE']['SilvercartCustomer']['ANONYMOUSCUSTOMER'] = 'Anonymer Kunde';
 $lang['de_DE']['SilvercartCustomer']['BUSINESSCUSTOMER'] = 'Geschäftskunde';
 $lang['de_DE']['SilvercartCustomer']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartCustomer']['CUSTOMERNUMBER_SHORT'] = 'Kunden-Nr.';
+$lang['de_DE']['SilvercartCustomer']['ERROR_MULTIPLE_PRICETYPES'] = 'Kundengruppen mit unterschiedlichen Preistypen sind nicht zulässig!';
 $lang['de_DE']['SilvercartCustomer']['GROSS'] = 'Brutto';
 $lang['de_DE']['SilvercartCustomer']['ISBUSINESSACCOUNT'] = 'Ist Geschäftskunden Konto';
 $lang['de_DE']['SilvercartCustomer']['NET'] = 'Netto';
@@ -750,6 +752,9 @@ $lang['de_DE']['SilvercartCustomer']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Hat 
 $lang['de_DE']['SilvercartCustomer']['BIRTHDAY'] = 'Geburtstag';
 $lang['de_DE']['SilvercartCustomer']['TYPE'] = 'Typ';
 $lang['de_DE']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Endkunde';
+
+$lang['de_DE']['SilvercartGroupDecorator']['PRICETYPE'] = 'Preistyp';
+$lang['de_DE']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 
 $lang['de_DE']['SilvercartDataPage']['PLURALNAME'] = 'Datenseiten';
 $lang['de_DE']['SilvercartDataPage']['SINGULARNAME'] = 'Datenseite';

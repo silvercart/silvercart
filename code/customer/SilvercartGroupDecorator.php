@@ -43,6 +43,9 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
      */
     public function extraStatics() {
         return array(
+            'db' => array(
+                'Pricetype' => 'Enum("---,gross,net","---")',
+            ),
             'belongs_many_many' => array(
                 'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
                 'SilvercartShippingMethods' => 'SilvercartShippingMethod',
@@ -72,6 +75,20 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
             $fields->findOrMakeTab('Root.SilvercartShippingMethod', $this->owner->fieldLabel('SilvercartShippingMethods'));
             $fields->addFieldToTab("Root.SilvercartShippingMethod", $shippingMethodsTable);
         }
+        
+        $enumValues = $this->owner->dbObject('Pricetype')->enumValues();
+        $i18nSource = array();
+        foreach ($enumValues as $value => $label) {
+            $i18nSource[$value] = _t('SilvercartCustomer.' . strtoupper($label), $label);
+        }
+        $pricetypeField = new DropdownField(
+                'Pricetype',
+                $this->owner->fieldLabel('Pricetype'),
+                $i18nSource,
+                $this->owner->Pricetype
+        );
+        $fields->addFieldToTab("Root.Members", $pricetypeField, 'Members');
+        
     }
     
     /**
@@ -88,6 +105,7 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
         $labels = array_merge(
                 $labels,
                 array(
+                    'Pricetype'                 => _t('SilvercartGroupDecorator.PRICETYPE'),
                     'SilvercartPaymentMethods'  => _t('SilvercartPaymentMethod.PLURALNAME'),
                     'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
                 )

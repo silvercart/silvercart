@@ -462,7 +462,7 @@ class SilvercartCustomer extends DataObjectDecorator {
     // ------------------------------------------------------------------------
     // Hooks
     // ------------------------------------------------------------------------
-    
+
     /**
      * If the user is not anonymous a customer number is attributed to the
      * Member if none is yet given.
@@ -519,4 +519,75 @@ class SilvercartCustomer extends DataObjectDecorator {
             }
         }
     }
+}
+
+/**
+ * Validator for Customers
+ *
+ * @package Silvercart
+ * @subpackage Validator
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 05.04.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
+ */
+class SilvercartCustomer_Validator extends DataObjectDecorator {
+    
+    /**
+     * Return TRUE if a method exists on this object
+     *
+     * @param string $method Method to check
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public function hasMethod($method) {
+        return method_exists($this, $method);
+    }
+    
+    /**
+     * validate form data
+     *
+     * @param array $data Data to validate
+     * @param Form  $form Form
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public function updatePHP($data, $form) {
+        $valid = true;
+        
+        $groups = $data['Groups'];
+        if (!empty($groups)) {
+            $groupObjects   = DataObject::get(
+                    'Group',
+                    sprintf(
+                            "`Group`.`ID` IN (%s)",
+                            $groups
+                    )
+            );
+            $pricetypes = array();
+            foreach ($groupObjects as $group) {
+                if (!empty($group->Pricetype) &&
+                    $group->Pricetype != '---') {
+                    $pricetypes[$group->Pricetype] = true;
+                }
+            }
+
+            if (count($pricetypes) > 1) {
+                $form->getValidator()->validationError(
+                        'Groups',
+                        _t('SilvercartCustomer.ERROR_MULTIPLE_PRICETYPES'),
+                        'bad'
+                );
+                $valid = false;
+            }
+        }
+        return $valid;
+    }
+
 }

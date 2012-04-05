@@ -96,6 +96,20 @@ class SilvercartDebugHelper {
         print $string;
         print "<br/>" . PHP_EOL;
     }
+    
+    /**
+     * Exports the given var to default output
+     *
+     * @param mixed $var Var to export
+     * 
+     * @return void 
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public static function varExport($var) {
+        self::printString(var_export($var, true));
+    }
 
     /**
      * Prints the current time difference to default output. Timer has to be 
