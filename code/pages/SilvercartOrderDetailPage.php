@@ -194,4 +194,22 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
     public function OrderHolderLink() {
         return $this->Parent()->Link();
     }
+    
+    /**
+     * Returns the invoice address of the customers order
+     *
+     * @return SilvercartOrderInvoiceAddress 
+     */
+    public function getInvoiceAddress() {
+        return $this->CustomersOrder()->SilvercartInvoiceAddress();
+    }
+    
+    /**
+     * Returns the shipping address of the customers order
+     *
+     * @return SilvercartOrderShippingAddress 
+     */
+    public function getShippingAddress() {
+        return $this->CustomersOrder()->SilvercartShippingAddress();
+    }
 }
