@@ -129,4 +129,49 @@ class SilvercartTools extends Object {
 
         return $attributedDataObjectStr;
     }
+
+    /**
+     * returns a single page by IdentifierCode
+     * used to retrieve links dynamically
+     *
+     * @param string $identifierCode the classes name
+     * 
+     * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
+        $page = DataObject::get_one(
+            "SiteTree",
+            sprintf(
+                "`IdentifierCode` = '%s'",
+                $identifierCode
+            )
+        );
+
+        if ($page) {
+            return $page;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
+        $page = self::PageByIdentifierCode($identifierCode);
+        if ($page === false) {
+            return '';
+        }
+        return $page->Link();
+    }
 }

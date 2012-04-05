@@ -561,25 +561,14 @@ class SilvercartPage_Controller extends ContentController {
      * used to retrieve links dynamically
      *
      * @param string $identifierCode the classes name
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.2.11
+     * 
      * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = DataObject::get_one(
-            "SiteTree",
-            sprintf(
-                "`IdentifierCode` = '%s'",
-                $identifierCode
-            )
-        );
-
-        if ($page) {
-            return $page;
-        } else {
-            return false;
-        }
+        return SilvercartTools::PageByIdentifierCode($identifierCode);
     }
 
     /**
@@ -590,14 +579,10 @@ class SilvercartPage_Controller extends ContentController {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
+     * @since 05.04.2012
      */
     public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
-        $page = self::PageByIdentifierCode($identifierCode);
-        if ($page === false) {
-            return '';
-        }
-        return $page->Link();
+        return SilvercartTools::PageByIdentifierCodeLink($identifierCode);
     }
 
     /**
