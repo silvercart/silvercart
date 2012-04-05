@@ -8,19 +8,21 @@
         $Form
         $PageComments
 
+<% if Carriers %>
     <% control Carriers %>
+        <% if AllowedSilvercartShippingMethods %>
         <h3>$Title</h3>
-        <% control SilvercartShippingMethods %>
-            <% if isActive %>
+            <% control AllowedSilvercartShippingMethods %>
+                <% if isActive %>
         <div class="subcolumns">
             <div class="c20l">
                 <h4>$Title</h4>
             </div>
             <div class="c80r">
-                <% if Description %>
-                $Description
-                <% end_if %>
-                <table class="full">
+                    <% if Description %>
+                        $Description
+                    <% end_if %>
+                <table class="full silvercart-default-table">
                     <colgroup>
                         <col width="20%"></col>
                         <col width="65%"></col>
@@ -30,22 +32,29 @@
                         <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
                     <% control SilvercartShippingFees %>
-                    <tr>
-                        <td><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
+                    <tr class="$EvenOdd">
+                        <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
                         <td>
                             <% control SilvercartZone %>
-                                $Title ( <% control SilvercartCountries %><% if First %><% else %>, <% end_if %>$Title<% end_control %> )
+                                <b>$Title:</b><br/>
+                                <% control SilvercartCountries %>
+                                    <% if Active %>
+                                        $Title<br/>
+                                    <% end_if %>
+                                <% end_control %>
                             <% end_control %>
                         </td>
-                        <td>$Price.Nice</td>
+                        <td class="align_right align_top">$PriceFormatted</td>
                     </tr>
                     <% end_control %>
                 </table>
             </div>
         </div>
-            <% end_if %>
-        <% end_control %>
+                <% end_if %>
+            <% end_control %>
+        <% end_if %>
     <% end_control %>
+<% end_if %>
     </div>
 </div>
 <div id="col3">

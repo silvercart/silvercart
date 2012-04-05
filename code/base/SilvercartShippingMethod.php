@@ -66,7 +66,8 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $many_many = array(
-        'SilvercartZones' => 'SilvercartZone',
+        'SilvercartZones'           => 'SilvercartZone',
+        'SilvercartCustomerGroups'  => 'Group',
     );
     /**
      * Belongs-many-many relationships.
@@ -82,11 +83,19 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'AttributedCountries'   => 'Varchar(255)',
-        'activatedStatus'       => 'Varchar(255)',
-        'AttributedZones'       => 'Text',
-        'AttributedZoneIDs'     => 'Text',
+        'AttributedCountries'       => 'Varchar(255)',
+        'activatedStatus'           => 'Varchar(255)',
+        'AttributedCustomerGroups'  => 'Text',
+        'AttributedZones'           => 'Text',
+        'AttributedZoneIDs'         => 'Text',
     );
+    
+    /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "`SilvercartCarrierID`, `Title` ASC";
     
     /**
      * Searchable fields
@@ -113,6 +122,10 @@ class SilvercartShippingMethod extends DataObject {
             ),
             'SilvercartZones.ID' => array(
                 'title' => $this->fieldLabel('SilvercartZones'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartCustomerGroups.ID' => array(
+                'title' => $this->fieldLabel('SilvercartCustomerGroups'),
                 'filter'    => 'ExactMatchFilter'
             )
         );
@@ -141,7 +154,8 @@ class SilvercartShippingMethod extends DataObject {
                         'isActive'                  => _t('SilvercartPage.ISACTIVE', 'active'),
                         'SilvercartCarrier'         => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
                         'SilvercartShippingFees'    => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones')
+                        'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones'),
+                        'SilvercartCustomerGroups'  => _t('Group.PLURALNAME'),
                     )
                 );
     }
@@ -151,20 +165,19 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
      */
     public function summaryFields() {
-        return array_merge(
-                parent::summaryFields(),
-                array(
-                        'Title'                     => $this->fieldLabel('Title'),
-                        'activatedStatus'           => $this->fieldLabel('activatedStatus'),
-                        'AttributedZones'           => $this->fieldLabel('AttributedZones'),
-                        'SilvercartCarrier.Title'   => $this->fieldLabel('SilvercartCarrier'),
-                    )
-                );
-        
+        $summaryFields = array(
+            'SilvercartCarrier.Title'   => $this->fieldLabel('SilvercartCarrier'),
+            'Title'                     => $this->fieldLabel('Title'),
+            'activatedStatus'           => $this->fieldLabel('activatedStatus'),
+            'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+            'AttributedCustomerGroups'  => $this->fieldLabel('SilvercartCustomerGroups'),
+        );
+        $this->extend("updateSummaryFields", $summaryFields);
+        return $summaryFields;
     }
     
     /**
@@ -251,6 +264,16 @@ class SilvercartShippingMethod extends DataObject {
             );
             $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
             $fields->addFieldToTab('Root.SilvercartZones', $zonesTable);
+        
+            $groupsTable = new ManyManyComplexTableField(
+                $this,
+                'SilvercartCustomerGroups',
+                'Group',
+                null,
+                'getCMSFields_forPopup'
+            );
+            $fields->findOrMakeTab('Root.SilvercartCustomerGroups', $this->fieldLabel('SilvercartCustomerGroups'));
+            $fields->addFieldToTab('Root.SilvercartCustomerGroups', $groupsTable);
         }
 
         return $fields;
@@ -260,11 +283,10 @@ class SilvercartShippingMethod extends DataObject {
      * determins the right shipping fee for a shipping method depending on the
      * cart's weight and the country of the customers shipping address
      *
-     * @return ShippingFee the most convenient shipping fee for this shipping method
+     * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 25.01.2012
+     * @since 04.04.2012
      */
     public function getShippingFee() {
         $fee             = false;
@@ -336,6 +358,20 @@ class SilvercartShippingMethod extends DataObject {
     }
 
     /**
+     * Returns the attributed customer groups as string (limited to 150 chars).
+     * 
+     * @param string $dbField Db field to use to display
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public function AttributedCustomerGroups($dbField = "Title") {
+        return SilvercartTools::AttributedDataObject($this->SilvercartCustomerGroups(), $dbField);
+    }
+
+    /**
      * Returns the attributed zones as string (limited to 150 chars).
      * 
      * @param string $dbField Db field to use to display
@@ -343,27 +379,10 @@ class SilvercartShippingMethod extends DataObject {
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 17.01.2012
+     * @since 04.04.2012
      */
     public function AttributedZones($dbField = "Title") {
-        $attributedZonesStr = '';
-        $attributedZones = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartZones() as $SilvercartZone) {
-            $attributedZones[] = $SilvercartZone->{$dbField};
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZones(), $dbField);
     }
 
     /**
@@ -384,28 +403,11 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedPaymentMethods() {
-        $attributedPaymentMethodsStr = '';
-        $attributedPaymentMethods = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartPaymentMethods() as $SilvercartPaymentMethod) {
-            $attributedPaymentMethods[] = $SilvercartPaymentMethod->Title;
-        }
-
-        if (!empty($attributedPaymentMethods)) {
-            $attributedPaymentMethodsStr = implode(', ', $attributedPaymentMethods);
-
-            if (strlen($attributedPaymentMethodsStr) > $maxLength) {
-                $attributedPaymentMethodsStr = substr($attributedPaymentMethodsStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedPaymentMethodsStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartPaymentMethods());
     }
 
     /**
@@ -424,18 +426,38 @@ class SilvercartShippingMethod extends DataObject {
     }
 
     /**
+     * Checks whether this shipping method has a fee with activated post pricing
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public function hasFeeWithPostPricing() {
+        $hasFeeWithPostPricing = false;
+        foreach ($this->SilvercartShippingFees() as $shippingFee) {
+            if ($shippingFee->PostPricing) {
+                $hasFeeWithPostPricing = true;
+                break;
+            }
+        }
+        return $hasFeeWithPostPricing;
+    }
+    
+    /**
      * Returns allowed shipping methods. Those are active
+     * 
+     * @param SilvercartCarrier $carrier Carrier to get shipping methods for
      *
      * @return DataObjectSet
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.07.2011
      */
-    public static function getAllowedShippingMethods() {
-        $extendableShippingMethod = singleton('SilvercartShippingMethod');
-        
-        $allowedShippingMethods = array();
-        $shippingMethods        = DataObject::get('SilvercartShippingMethod', 'isActive = 1');
+    public static function getAllowedShippingMethods($carrier = null) {
+        $extendableShippingMethod   = singleton('SilvercartShippingMethod');
+        $allowedShippingMethods     = array();
+        $shippingMethods            = self::getAllowedShippingMethodsBase($carrier);
 
         if ($shippingMethods) {
             foreach ($shippingMethods as $shippingMethod) {                
@@ -452,6 +474,64 @@ class SilvercartShippingMethod extends DataObject {
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $allowedShippingMethods);
         
         return $allowedShippingMethods;
+    }
+    
+    /**
+     * Returns allowed shipping methods. Those are active
+     * 
+     * @param SilvercartCarrier $carrier Carrier to get shipping methods for
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public static function getAllowedShippingMethodsForOverview($carrier = null) {
+        $shippingMethods = self::getAllowedShippingMethodsBase($carrier);
+        return $shippingMethods;
+    }
+    
+    /**
+     * Returns allowed shipping methods. Those are active
+     * 
+     * @param SilvercartCarrier $carrier Carrier to get shipping methods for
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public static function getAllowedShippingMethodsBase($carrier = null) {
+        $extendedFilter = "";
+        if (!is_null($carrier)) {
+            $extendedFilter = sprintf(
+                    " AND `SilvercartShippingMethod`.`SilvercartCarrierID` = '%s'",
+                    $carrier->ID
+            );
+        }
+        
+        if (Member::currentUser()) {
+            $customerGroups     = Member::currentUser()->Groups();
+            $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
+            $filter = sprintf(
+                "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
+                $customerGroupIDs,
+                "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`",
+                $extendedFilter
+            );
+            $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
+        } else {
+            $filter = "`SilvercartShippingMethod`.`isActive` = 1" . $extendedFilter;
+            $join   = "";
+        }
+        
+        $shippingMethods        = DataObject::get(
+                'SilvercartShippingMethod',
+                $filter,
+                "",
+                $join
+        );
+        return $shippingMethods;
     }
 
 }

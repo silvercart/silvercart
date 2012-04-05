@@ -233,4 +233,13 @@ class SilvercartCarrier extends DataObject {
         return SilvercartTools::AttributedDataObject($this->SilvercartShippingMethods());
     }
     
+    /**
+     * Returns all allowed shipping methods for the this carrier
+     *
+     * @return SilvercartShippingMethod 
+     */
+    public function getAllowedSilvercartShippingMethods() {
+        return SilvercartShippingMethod::getAllowedShippingMethodsForOverview($this);
+    }
+    
 }
