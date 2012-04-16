@@ -510,8 +510,8 @@ class SilvercartShippingMethod extends DataObject {
             );
         }
         
-        if (Member::currentUser()) {
-            $customerGroups     = Member::currentUser()->Groups();
+        $customerGroups = SilvercartCustomer::getCustomerGroups();
+        if ($customerGroups) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
                 "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
@@ -521,7 +521,11 @@ class SilvercartShippingMethod extends DataObject {
             );
             $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
         } else {
-            $filter = "`SilvercartShippingMethod`.`isActive` = 1" . $extendedFilter;
+            $filter = sprintf(
+                "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
+                "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`",
+                $extendedFilter
+            );
             $join   = "";
         }
         
