@@ -1851,7 +1851,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->getSalutationText(),
                     'SilvercartOrder'   => $this
                 ),
                 'Attachments'   => null,
@@ -1862,7 +1862,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->getSalutationText(),
                     'SilvercartOrder'   => $this
                 ),
                 'Attachments'   => null,
