@@ -1238,7 +1238,7 @@ $lang['en_GB']['SilvercartShopEmail']['VARIABLES'] = 'Variables';
 $lang['en_GB']['SilvercartShopEmail']['REGARDS'] = 'Best regards';
 $lang['en_GB']['SilvercartShopEmail']['YOUR_TEAM'] = 'Your SilverCart ecommerce team';
 $lang['en_GB']['SilvercartShopEmail']['HELLO'] = 'Hello';
-$lang['en_GB']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'additional receipients';
+$lang['en_GB']['SilvercartShopEmail']['ADDITIONALS_RECEIPIENTS'] = 'Additional recipients';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED'] = 'We just received your order, many thanks.';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your order in our online store';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_SHIPPED_MESSAGE'] = 'Your order has just been sent.';
@@ -1265,7 +1265,7 @@ $lang['en_GB']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and co
 $lang['en_GB']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
 $lang['en_GB']['SilvercartTestData']['CURRENCY']                                    = 'EUR';
-$lang['en_GB']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Beispieldaten';
+$lang['en_GB']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Image folder name';
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_CONTENT_TITLE']           = 'Frontpage content area';
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_FRONTPAGE_SIDEBAR_TITLE']           = 'Frontpage sidebar area';
 $lang['en_GB']['SilvercartTestData']['WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE']   = 'product group pages sidebar area';
