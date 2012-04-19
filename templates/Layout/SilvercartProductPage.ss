@@ -123,7 +123,7 @@
                             <% if PluggedInTabs %>
                                 <% control PluggedInTabs %>
                                 <li>
-                                    <a href="#pluggedInTab{$key}">$Name</a>
+                                    <a href="#pluggedInTab{$Pos}">$Name</a>
                                 </li>
                                 <% end_control %>
                             <% end_if %>
@@ -148,7 +148,7 @@
                             <% end_if %>
                             <% if getPluggedInTabs %>
                                 <% control PluggedInTabs %>
-                                <div id="pluggedInTab{$key}" class="tab_content">$Content</div>
+                                <div id="pluggedInTab{$Pos}" class="tab_content">$Content</div>
                                 <% end_control %>
                             <% end_if %>
                         </div>
