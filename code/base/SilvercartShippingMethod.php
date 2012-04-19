@@ -551,6 +551,30 @@ class SilvercartShippingMethod extends DataObject {
     }
     
     /**
+     * Filters the given shipping methods by default permission criteria
+     * 
+     * @param SilvercartShippingMethod $shippingMethods Shipping methods to filter
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public static function filterShippingMethods($shippingMethods) {
+        $allowedShippingMethods = new DataObjectSet();
+        $customerGroups         = SilvercartCustomer::getCustomerGroups();
+        foreach ($shippingMethods as $shippingMethod) {
+            foreach ($customerGroups as $customerGroup) {
+                if ($shippingMethod->SilvercartCustomerGroups()->find('ID', $customerGroup->ID)) {
+                    $allowedShippingMethods->push($shippingMethod);
+                    break;
+                }
+            }
+        }
+        return $allowedShippingMethods;
+    }
+    
+    /**
      * Returns the shipping address
      *
      * @return SilvercartAddress 
