@@ -54,6 +54,9 @@ Object::add_extension('Member_Validator',                           'SilvercartC
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('ModelAdmin_RecordController',                'SilvercartModelAdmin_RecordControllerDecorator');
+Object::add_extension('TableListField',                             'SilvercartTableListFieldDecorator');
+Object::add_extension('TableListField_Item',                        'SilvercartTableListField_ItemDecorator');
+Object::add_extension('TableListField_ItemRequest',                 'SilvercartTableListField_ItemRequestDecorator');
 Object::add_extension('CMSMain',                                    'SilvercartMain');
 Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
@@ -102,6 +105,10 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller'
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
+
+if (is_null(TableListField_ItemRequest::$allowed_actions)) {
+    TableListField_ItemRequest::$allowed_actions = array('printDataObject');
+}
 
 // ----------------------------------------------------------------------------
 // Enable DataObject validation
