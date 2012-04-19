@@ -44,7 +44,7 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.11.2011
      */
-    public function init(&$arguments = array(), &$callingObject) {
+    public function init(&$arguments, &$callingObject) {
         $result = $this->extend('pluginInit', $arguments, $callingObject);
         
         return $this->returnExtensionResultAsString($result);
@@ -64,7 +64,7 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.11.2011
      */
-    public function overwriteGetPrice(&$arguments = array(), &$callingObject) {
+    public function overwriteGetPrice(&$arguments, &$callingObject) {
         $result = $this->extend('pluginOverwriteGetPrice', $arguments, $callingObject);
 
         if (is_array($result)) {
@@ -89,21 +89,31 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * 
      * @return mixed
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@üixeltricks.de>
+     * @since 19.04.2012
      */
-    public function overwriteGetTitle(&$arguments = array(), &$callingObject) {
+    public function overwriteGetTitle(&$arguments, &$callingObject) {
         $result = $this->extend('pluginOverwriteGetTitle', $arguments, $callingObject);
+        return $this->returnExtensionResultAsHtmlString($result);
+    }
 
-        if (is_array($result)) {
-            if (count($result) > 0) {
-                return $result[0];
-            } else {
-                return '';
-            }
-        }
-        
-        return $result;
+    /**
+     * This method will replace SilvercartShoppingCartPosition's method "getTitle".
+     * In order to not execute the original "addProduct" method you have to
+     * return something other than an empty string in your plugin method.
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@üixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function addToTitle(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginAddToTitle', $callingObject);
+        return $this->returnExtensionResultAsHtmlString($result);
     }
     
 }

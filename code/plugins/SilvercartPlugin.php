@@ -298,6 +298,32 @@ class SilvercartPlugin extends Object {
     
     /**
      * Extension results consist of arrays. This method concatenates all array
+     * entries into a string, separated by <br/>.
+     *
+     * @param array $extensionResultSet The result delivered by an extension
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function returnExtensionResultAsHtmlString($extensionResultSet) {
+        $result = '';
+        if (is_array($extensionResultSet)) {
+            foreach ($extensionResultSet as $key => $extensionResult) {
+                if (!is_string($extensionResult) ||
+                    strlen($extensionResult) == 0 ||
+                    empty($extensionResult)) {
+                    unset($extensionResultSet[$key]);
+                }
+            }
+            $result = implode('<br/>', $extensionResultSet);
+        }
+        return $result;
+    }
+    
+    /**
+     * Extension results consist of arrays. This method concatenates all array
      * entries into a DataObjectSet.
      *
      * @param array $extensionResultSet The result delivered by an extension

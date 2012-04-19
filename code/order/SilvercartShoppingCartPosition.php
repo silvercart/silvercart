@@ -164,12 +164,23 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function getTitle() {
         $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
-        
-        if ($pluginTitle !== '') {
-            return $pluginTitle;
+        if ($pluginTitle == '') {
+            $pluginTitle = $this->SilvercartProduct()->Title;
         }
+        return $pluginTitle;
+    }
 
-        return $this->SilvercartProduct()->Title;
+    /**
+     * Returns additional tile information provided by plugins
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function addToTitle() {
+        $addToTitle = SilvercartPlugin::call($this, 'addToTitle', null, false, '');
+        return $addToTitle;
     }
 
     /**
