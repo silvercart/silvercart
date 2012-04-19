@@ -46,22 +46,23 @@ Director::addRules(50, array(
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-Object::add_extension('SiteTree',           'Translatable');
-Object::add_extension('SiteConfig',         'Translatable');
-Object::add_extension('SiteConfig',         'SilvercartSiteConfig');
-Object::add_extension('Member',             'SilvercartCustomer');
-Object::add_extension('Member_Validator',   'SilvercartCustomer_Validator');
-Object::add_extension('Group',              'SilvercartGroupDecorator');
-Object::add_extension('ModelAdmin',         'SilvercartModelAdminDecorator');
-Object::add_extension('CMSMain',            'SilvercartMain');
-Object::add_extension('LeftAndMain',        'SilvercartLeftAndMain');
-Object::add_extension('Security',           'SilvercartSecurityController');
-Object::add_extension('Security',           'CustomHtmlFormPage_Controller');
-DataObject::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
-DataObject::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
-DataObject::add_extension('Image',                                      'SilvercartImageExtension');
+Object::add_extension('SiteTree',                                   'Translatable');
+Object::add_extension('SiteConfig',                                 'Translatable');
+Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
+Object::add_extension('Member',                                     'SilvercartCustomer');
+Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
+Object::add_extension('Group',                                      'SilvercartGroupDecorator');
+Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
+Object::add_extension('ModelAdmin_RecordController',                'SilvercartModelAdmin_RecordControllerDecorator');
+Object::add_extension('CMSMain',                                    'SilvercartMain');
+Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
+Object::add_extension('Security',                                   'SilvercartSecurityController');
+Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
+Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
+Object::add_extension('Image',                                      'SilvercartImageExtension');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartProduct",
     "SilvercartImage",
