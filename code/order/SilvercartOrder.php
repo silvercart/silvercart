@@ -58,7 +58,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 29.02.2012
      */
     public function CanView() {
-        return Permission::check('SILVERCART_ORDER_VIEW');
+        $canView = false;
+        if (Member::currentUserID() == $this->MemberID ||
+            Permission::check('SILVERCART_ORDER_VIEW')) {
+            $canView = true;
+        }
+        return $canView;
     }
 
     /**
@@ -1953,6 +1958,23 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         $this->write();
     }
+
+    /**
+     * Returns the shipping method of this order and injects the shipping address
+     *
+     * @return SilvercartShippingMethod
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function SilvercartShippingMethod() {
+        $silvercartShippingMethod = null;
+        if ($this->getComponent('SilvercartShippingMethod')) {
+            $silvercartShippingMethod = $this->getComponent('SilvercartShippingMethod');
+            $silvercartShippingMethod->setShippingAddress($this->SilvercartShippingAddress());
+        }
+        return $silvercartShippingMethod;
+    }
 }
 
 /**
@@ -2078,15 +2100,13 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      *
      * @return TableListField
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
      */
     public function getResultsTable($searchCriteria) {
         $tableField = parent::getResultsTable($searchCriteria);
-
+        $tableField->addPrintAction();
         $this->extend('getResultsTable', $tableField, $searchCriteria);
-        
         return $tableField;
     }
     
@@ -2114,4 +2134,20 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrder_RecordController extends ModelAdmin_RecordController {
+    
+    /**
+     * EditForm
+     *
+     * @return Form
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
+     */
+    public function EditForm() {
+        $form = parent::EditForm();
+        $actions = $form->Actions();
+        $actions->push($this->addFormAction("printDataObject", _t('SilvercartOrder.PRINT', 'Print order')));
+        return $form;
+    }
+    
 }
