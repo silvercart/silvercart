@@ -56,6 +56,22 @@ var enableFirstEntryAutoLoadFor = [
                 $('#Form_ResultsForm').html(' ');
             }
         }
+        
+        $('#right input.silvercartModelAdminAction,#right input.silvercartModelAdminCollectionAction,#right input.silvercartModelAdminRecordAction').live('click', function(){
+
+            var that = this;
+
+            var form = $('#right form');
+            var formAction = form.attr('action') + '?' + $(this).fieldSerialize();
+
+            // Post the data to save
+            $.post(formAction, form.formToArray(), function(result){
+                eval(result);
+                $(that).removeClass('loading');
+            }, 'html');
+
+            return false;
+        });
     });
 	
     /**
