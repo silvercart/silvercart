@@ -162,6 +162,29 @@
     .note { background:#efe; color:#040; border:2px #484 solid; padding:10px; margin-bottom:1em; }
     .important { background:#ffe; color:#440; border:2px #884 solid; padding:10px; margin-bottom:1em; }
     .warning { background:#fee; color:#400; border:2px #844 solid; padding:10px; margin-bottom:1em; }
+    
+    .box {
+        border-color: rgba(0, 0, 0, 0.3);
+        border-radius: 0.3em 0.3em 0.3em 0.3em;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2) inset;
+        color: rgba(0, 0, 0, 0.8);
+        margin: 1.5em 0 0;
+        padding: 1.4286em;
+    }
+    .box.error {
+        background: none repeat scroll 0 0 #CC8888;
+    }
+    .box.info {
+        background: none repeat scroll 0 0 #F4F4F4;
+    }
+    .box.success {
+        background: none repeat scroll 0 0 #88CC88;
+    }
+    .box.warning {
+        background: none repeat scroll 0 0 #CCCC88;
+    }
 
     .float_left { float:left; display:inline; margin-right:1em; margin-bottom:0.15em; }
     .float_right { float:right; display:inline; margin-left:1em; margin-bottom:0.15em; }
