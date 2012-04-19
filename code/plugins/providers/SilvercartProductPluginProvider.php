@@ -44,7 +44,7 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function init(&$arguments = array(), &$callingObject) {
+    public function init(&$arguments, &$callingObject) {
         $result = $this->extend('pluginInit', $arguments);
         
         return $this->returnExtensionResultAsString($result);
@@ -64,10 +64,36 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function onAfterAddToCart(&$arguments = array(), &$callingObject) {
+    public function onAfterAddToCart(&$arguments, &$callingObject) {
         $result = $this->extend('pluginOnAfterAddToCart', $arguments);
         
         return $result;
+    }
+    
+    /**
+     * returns a dataobjectset with all plugged in tabs 
+     * 
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return DataObjectSet
+     */
+    public function getPluggedInTabs(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginGetPluggedInTabs', $callingObject);
+        return $this->returnExtensionResultAsDataObjectSet($result);
+    }
+    
+    /**
+     * returns a dataobjectset with all plugged in meta data for a product 
+     * 
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return DataObjectSet
+     */
+    public function getPluggedInProductMetaData(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginGetPluggedInProductMetaData', $callingObject);
+        return $this->returnExtensionResultAsDataObjectSet($result);
     }
 }
 
@@ -96,7 +122,7 @@ class SilvercartProduct_CollectionControllerPluginProvider extends SilvercartPlu
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.11.2011
      */
-    public function overwriteFindProductsByNumbers(&$arguments = array(), &$callingObject) {
+    public function overwriteFindProductsByNumbers(&$arguments, &$callingObject) {
         $result = $this->extend('pluginOverwriteFindProductsByNumbers', $arguments);
         
         if (is_array($result) &&

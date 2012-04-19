@@ -215,6 +215,21 @@ class SilvercartProduct extends DataObject {
      * @var Money
      */
     protected $price = null;
+    
+    /**
+     * All added product tabs via module
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInTabs = null;
+    
+    /**
+     * All added product information via module
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInProductMetaData = null;
+    
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1936,6 +1951,30 @@ class SilvercartProduct extends DataObject {
             $priceIsLowerThanMsr = true;
         }
         return $priceIsLowerThanMsr;
+    }
+
+    /**
+     * returns all additional product tabs
+     * 
+     * @return DataObjectSet  
+     */
+    public function getPluggedInTabs() {
+        if (is_null($this->pluggedInTabs)) {
+            $this->pluggedInTabs = SilvercartPlugin::call($this, 'getPluggedInTabs', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInTabs;
+    }
+    
+    /**
+     * returns all additional information about a product
+     * 
+     * @return DataObjectSet 
+     */
+    public function getPluggedInProductMetaData() {
+        if (is_null($this->pluggedInProductMetaData)) {
+            $this->pluggedInProductMetaData = SilvercartPlugin::call($this, 'getPluggedInProductMetaData', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInProductMetaData;
     }
 }
 

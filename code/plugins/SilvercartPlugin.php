@@ -295,4 +295,26 @@ class SilvercartPlugin extends Object {
         
         return $result;
     }
+    
+    /**
+     * Extension results consist of arrays. This method concatenates all array
+     * entries into a DataObjectSet.
+     *
+     * @param array $extensionResultSet The result delivered by an extension
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.04.2012
+     */
+    public function returnExtensionResultAsDataObjectSet($extensionResultSet) {
+        $result = new DataObjectSet();
+        
+        if (is_array($extensionResultSet)) {
+            foreach ($extensionResultSet as $extensionResult) {
+                $result->push($extensionResult);
+            }
+        }
+        return $result;
+    }
 }

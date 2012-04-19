@@ -79,7 +79,8 @@
     border:                         none;
     background:                     none;
 }
-.silvercart-product-page .silvercart-product-availability {
+.silvercart-product-page .silvercart-product-availability,
+.silvercart-product-page .silvercart-product-meta-data {
     text-align:                     right;
     margin:                         0px 0px 8px 0px;
 }

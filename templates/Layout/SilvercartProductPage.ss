@@ -90,6 +90,13 @@
                                 <div class="silvercart-product-availability">
                                     $Availability
                                 </div>
+                                <% if PluggedInProductMetaData %>
+                                <div class="silvercart-product-meta-data">
+                                    <% control PluggedInProductMetaData %>
+                                        $MetaData<br/>
+                                    <% end_control %>
+                                </div>
+                                <% end_if %>                                
                                 <div class="silvercart-product-group-add-cart-form">
                                     <div class="silvercart-product-group-add-cart-form_content">
                                         <% if isBuyableDueToStockManagementSettings %>
@@ -113,6 +120,13 @@
                                     <a href="#tab2"><% _t('SilvercartProduct.DOWNLOADS','Downloads') %></a>
                                 </li>
                             <% end_if %>
+                            <% if PluggedInTabs %>
+                                <% control PluggedInTabs %>
+                                <li>
+                                    <a href="#pluggedInTab{$key}">$Name</a>
+                                </li>
+                                <% end_control %>
+                            <% end_if %>
                         </ul>
                         <div class="tab_container">
                             <div id="tab1" class="tab_content">
@@ -131,6 +145,11 @@
                                         </div>
                                     <% end_control %>
                                 </div>
+                            <% end_if %>
+                            <% if getPluggedInTabs %>
+                                <% control PluggedInTabs %>
+                                <div id="pluggedInTab{$key}" class="tab_content">$Content</div>
+                                <% end_control %>
                             <% end_if %>
                         </div>
                     </div>
