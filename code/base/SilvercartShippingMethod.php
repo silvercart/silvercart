@@ -98,6 +98,13 @@ class SilvercartShippingMethod extends DataObject {
     public static $default_sort = "`SilvercartCarrierID`, `Title` ASC";
     
     /**
+     * Shipping address
+     *
+     * @var SilvercartAddress
+     */
+    protected $shippingAddress = null;
+    
+    /**
      * Searchable fields
      *
      * @return array
@@ -278,7 +285,7 @@ class SilvercartShippingMethod extends DataObject {
 
         return $fields;
     }
-
+    
     /**
      * determins the right shipping fee for a shipping method depending on the
      * cart's weight and the country of the customers shipping address
@@ -298,7 +305,12 @@ class SilvercartShippingMethod extends DataObject {
         }
 
         $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        $shippingAddress = Controller::curr()->getShippingAddress();
+        $shippingAddress = $this->getShippingAddress();
+        if (is_null($shippingAddress)) {
+            $shippingAddress = Controller::curr()->getShippingAddress();
+            $this->setShippingAddress($shippingAddress);
+            SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
+        }
         if ($shippingAddress) {
             $zones = SilvercartZone::getZonesFor($shippingAddress->SilvercartCountryID);
             if ($zones) {
@@ -352,7 +364,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getTitleWithCarrier() {
         if ($this->SilvercartCarrier()) {
-            return $this->SilvercartCarrier()->Title . "-" . $this->Title;
+            return $this->SilvercartCarrier()->Title . " - " . $this->Title;
         }
         return false;
     }
@@ -536,6 +548,26 @@ class SilvercartShippingMethod extends DataObject {
                 $join
         );
         return $shippingMethods;
+    }
+    
+    /**
+     * Returns the shipping address
+     *
+     * @return SilvercartAddress 
+     */
+    public function getShippingAddress() {
+        return $this->shippingAddress;
+    }
+
+    /**
+     * Sets the shipping address
+     *
+     * @param SilvercartAddress $shippingAddress Shipping address
+     * 
+     * @return void
+     */
+    public function setShippingAddress($shippingAddress) {
+        $this->shippingAddress = $shippingAddress;
     }
 
 }
