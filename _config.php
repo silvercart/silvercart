@@ -37,6 +37,13 @@ SilvercartProduct::setRequiredAttributes("Price");
 SiteTree::set_create_default_pages(false);
 
 // ----------------------------------------------------------------------------
+// Add some URL rules for custom controllers
+// ----------------------------------------------------------------------------
+Director::addRules(50, array(
+    'silvercart-print/$DataObjectName/$DataObjectID'    => 'SilvercartPrint_Controller',
+));
+
+// ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
 Object::add_extension('SiteTree',           'Translatable');
