@@ -125,7 +125,7 @@
                 <tr>
                     <td colspan="3">&nbsp;</td>
                     <td colspan="3" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
-                    <td class="right">$Amount.Nice</td>
+                    <td class="right">$Amount.Nice<% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></td>
 
                     <% if Top.EditableShoppingCart %>
                         <td>&nbsp;</td>

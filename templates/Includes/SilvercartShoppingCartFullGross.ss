@@ -180,7 +180,7 @@
             <tr>
                 <td colspan="3">&nbsp;</td>
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
-                <td class="right"><strong>$AmountTotal.Nice</strong></td>
+                <td class="right"><strong>$AmountTotal.Nice<% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
 
                 <% if Top.EditableShoppingCart %>
                     <td>&nbsp;</td>
