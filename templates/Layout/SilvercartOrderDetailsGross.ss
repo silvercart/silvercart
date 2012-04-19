@@ -191,7 +191,7 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td class="right"><strong><% _t('SilvercartPage.TOTAL') %></strong></td>
-            <td class="right"><strong>$AmountTotal.Nice</strong></td>
+            <td class="right"><strong>$AmountTotal.Nice<% control SilvercartShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
         </tr>
         <% if TaxTotal %>
             <% control TaxTotal %>
