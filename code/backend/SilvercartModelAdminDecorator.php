@@ -126,6 +126,10 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartModelAdmin_RecordControllerDecorator extends DataObjectDecorator {
+    
+    public static $allowed_actions = array(
+        'printDataObject',
+    );
 
     /**
      * Liefert eine FormAction mit der CSS-Klasse customModelAdminRecordAction
@@ -160,5 +164,30 @@ class SilvercartModelAdmin_RecordControllerDecorator extends DataObjectDecorator
         FormResponse::status_message(sprintf($message), $status);
         FormResponse::add('var success=' . ($success == true ? 'true' : (is_string($success) ? $success : 'false')) . ';' . $additionalJavaScript);
         return FormResponse::respond();
+    }
+
+    /**
+     * Defaut action to trigger printing the current record
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
+     */
+    public function printDataObject() {
+        $message                = _t('Silvercart.NOT_ALLOWED_TO_PRINT', "You are not allowed to print this object!");
+        $status                 = 'bad';
+        $success                = false;
+        $additionalJavaScript   = '';
+        if ($this->owner->currentRecord->canView()) {
+            $message                = _t('Silvercart.LOADING_PRINT_VIEW', "Loading print view.");
+            $status                 = 'good';
+            $success                = true;
+            $additionalJavaScript   = sprintf(
+                    "window.open('%s');",
+                    SilvercartPrint::getPrintURL($this->owner->currentRecord)
+            );
+        }
+        return $this->getFormResponse($message, $status, $success, $additionalJavaScript);
     }
 }

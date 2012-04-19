@@ -61,6 +61,9 @@ $lang['de_DE']['Silvercart']['MORE'] = 'Mehr';
 $lang['de_DE']['Silvercart']['SEO'] = 'SEO';
 $lang['de_DE']['Silvercart']['YES'] = 'Ja';
 $lang['de_DE']['Silvercart']['NO'] = 'Nein';
+$lang['de_DE']['Silvercart']['PRINT'] = 'Drucken';
+$lang['de_DE']['Silvercart']['LOADING_PRINT_VIEW'] = 'Druckansicht wird geladen';
+$lang['de_DE']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'Sie haben keine Berechtigung, um dieses Objekt zu drucken!';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
@@ -891,6 +894,7 @@ $lang['de_DE']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-nummer';
 $lang['de_DE']['SilvercartOrder']['ORDER_VALUE'] = 'Gesamtbetrag';
 $lang['de_DE']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Bezahlart';
 $lang['de_DE']['SilvercartOrder']['PLURALNAME'] = 'Bestellungen';
+$lang['de_DE']['SilvercartOrder']['PRINT'] = 'Bestellung drucken';
 $lang['de_DE']['SilvercartOrder']['SHIPPINGRATE'] = 'Versandkosten';
 $lang['de_DE']['SilvercartOrder']['SINGULARNAME'] = 'Bestellung';
 $lang['de_DE']['SilvercartOrder']['SILVERCART_ORDER_DELETE'] = 'Bestellung löschen';

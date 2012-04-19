@@ -58,6 +58,7 @@ $lang['nl_NL']['Silvercart']['MORE'] = 'Meer';
 $lang['nl_NL']['Silvercart']['SEO'] = 'SEO';
 $lang['nl_NL']['Silvercart']['YES'] = 'Ja';
 $lang['nl_NL']['Silvercart']['NO'] = 'Nee';
+$lang['nl_NL']['Silvercart']['PRINT'] = 'Afdrukken';
 
 $lang['nl_NL']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Gebruik factuuradres als verzendadres';
 $lang['nl_NL']['SilvercartAddress']['ADDITION'] = 'Toevoeging';
@@ -855,6 +856,7 @@ $lang['nl_NL']['SilvercartOrder']['ORDERNUMBER'] = 'Bestelnummer';
 $lang['nl_NL']['SilvercartOrder']['ORDER_VALUE'] = 'Totaal opdracht';
 $lang['nl_NL']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Betaal methode';
 $lang['nl_NL']['SilvercartOrder']['PLURALNAME'] = 'Bestellingen';
+$lang['nl_NL']['SilvercartOrder']['PRINT'] = 'Afdrukken';
 $lang['nl_NL']['SilvercartOrder']['SHIPPINGRATE'] = 'Verzendtarief';
 $lang['nl_NL']['SilvercartOrder']['SINGULARNAME'] = 'Bestelling';
 $lang['nl_NL']['SilvercartOrder']['STATUS'] = 'Status bestelling';

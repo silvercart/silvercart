@@ -61,6 +61,9 @@ $lang['en_GB']['Silvercart']['MORE'] = 'More';
 $lang['en_GB']['Silvercart']['SEO'] = 'SEO';
 $lang['en_GB']['Silvercart']['YES'] = 'Yes';
 $lang['en_GB']['Silvercart']['NO'] = 'No';
+$lang['en_GB']['Silvercart']['PRINT'] = 'Print';
+$lang['en_GB']['Silvercart']['LOADING_PRINT_VIEW'] = 'Loading print view';
+$lang['en_GB']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'You are not allowed to print this object!';
 
 $lang['en_GB']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_GB']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -891,6 +894,7 @@ $lang['en_GB']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-number';
 $lang['en_GB']['SilvercartOrder']['ORDER_VALUE'] = 'Order amount';
 $lang['en_GB']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Payment method';
 $lang['en_GB']['SilvercartOrder']['PLURALNAME'] = 'Orders';
+$lang['en_GB']['SilvercartOrder']['PRINT'] = 'Print order';
 $lang['en_GB']['SilvercartOrder']['SHIPPINGRATE'] = 'Shipping rate';
 $lang['en_GB']['SilvercartOrder']['SINGULARNAME'] = 'Order';
 $lang['en_GB']['SilvercartOrder']['SILVERCART_ORDER_DELETE'] = 'Delete order';
