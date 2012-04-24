@@ -40,7 +40,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      */
     protected $formFields = array(
         'quickSearchQuery' => array(
-            'type' => 'TextField',
+            'type' => 'SilvercartTextField',
             'title' => '',
             'value' => '',
             'maxLength' => '30',
