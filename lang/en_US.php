@@ -182,9 +182,13 @@ $lang['en_US']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You a
 $lang['en_US']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
 $lang['en_US']['SilvercartNewsletterPage']['TITLE']                     = 'Newsletter';
 $lang['en_US']['SilvercartNewsletterPage']['URL_SEGMENT']               = 'newsletter_en_us';
+$lang['en_US']['SilvercartNewsletterPage']['PLURALNAME']                = 'Newsletter pages';
+$lang['en_US']['SilvercartNewsletterPage']['SINGULARNAME']              = 'Newsletter page';
 $lang['en_US']['SilvercartNewsletterResponsePage']['TITLE']             = 'Newsletter Status';
 $lang['en_US']['SilvercartNewsletterResponsePage']['URL_SEGMENT']       = 'newsletter_status_en_us';
 $lang['en_US']['SilvercartNewsletterResponsePage']['STATUS_TITLE']      = 'Your newsletter settings';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['PLURALNAME']        = 'Newsletter response pages';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['SINGULARNAME']      = 'Newsletter response page';
 $lang['en_US']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']         = 'What do you want to do?';
 $lang['en_US']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']     = 'I want to subscribe to the newsletter';
 $lang['en_US']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']   = 'I want to unsubscribe from the newsletter';
@@ -784,10 +788,6 @@ $lang['en_US']['SilvercartFile']['PLURALNAME'] = 'Files';
 $lang['en_US']['SilvercartFile']['SINGULARNAME'] = 'File';
 $lang['en_US']['SilvercartFile']['TITLE'] = 'Display name';
 
-$lang['en_US']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Footer Navigation Holders';
-$lang['en_US']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Footer Navigation Holder';
-$lang['en_US']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'footernavigation';
-
 $lang['en_US']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>';
 $lang['en_US']['SilvercartFrontPage']['PLURALNAME'] = 'Front pages';
 $lang['en_US']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
@@ -849,6 +849,12 @@ $lang['en_US']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 $lang['en_US']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigations';
 $lang['en_US']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Metanavigation';
 $lang['en_US']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
+
+$lang['en_US']['SilvercartMetaNavigationPage']['PLURALNAME'] = 'Meta informations pages';
+$lang['en_US']['SilvercartMetaNavigationPage']['SINGULARNAME'] = 'Meta informations page';
+
+$lang['en_US']['SilvercartSiteMapPage']['PLURALNAME'] = 'SiteMaps';
+$lang['en_US']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
 $lang['en_US']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT'] = 'Do you already have an account?';
 $lang['en_US']['SilvercartMyAccountHolder']['GOTO_REGISTRATION'] = 'Go to the registration form';
@@ -1266,9 +1272,6 @@ $lang['en_US']['SilvercartTax']['LABEL'] = 'label';
 $lang['en_US']['SilvercartTax']['PLURALNAME'] = 'Rates';
 $lang['en_US']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
 $lang['en_US']['SilvercartTax']['SINGULARNAME'] = 'Rate';
-
-$lang['en_US']['SilvercartTermsAndConditionsPage']['PLURALNAME'] = 'Terms and conditions pags';
-$lang['en_US']['SilvercartTermsAndConditionsPage']['SINGULARNAME'] = 'Terms and conditions page';
 
 $lang['en_US']['SilvercartTestData']['CURRENCY']                                    = 'EUR';
 $lang['en_US']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Image folder name';

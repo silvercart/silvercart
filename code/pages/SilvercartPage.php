@@ -266,6 +266,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartProductGroupViewNavigation');
             Requirements::themedCSS('SilvercartProductPage');
             Requirements::themedCSS('SilvercartShoppingCart');
+            Requirements::themedCSS('SilvercartSiteMap');
             Requirements::themedCSS('SilvercartWidget');        
             Requirements::themedCSS('jquery.fancybox-1.3.4');
             Requirements::themedCSS('anythingslider');

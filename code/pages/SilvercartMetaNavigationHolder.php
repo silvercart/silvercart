@@ -37,6 +37,14 @@ class SilvercartMetaNavigationHolder extends Page {
 
     public static $singular_name = "Metanavigation";
     
+    public static $allowed_children = array(
+        'SilvercartContactFormPage',
+        'SilvercartNewsletterPage',
+        'SilvercartMetaNavigationPage',
+        'SilvercartShippingFeesPage',
+        'SilvercartSiteMapPage',
+    );
+    
     /**
      * We set a custom icon for this page type here
      *
@@ -67,14 +75,27 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
      * @return string
      */
     public function getSubNavigation() {
-        $elements = array(
-            'SubElements' => $this->PageByIdentifierCode('SilvercartMetaNavigationHolder')->Children(),
-        );
-        $output = $this->customise($elements)->renderWith(
-            array(
-                'SilvercartSubNavigation',
-            )
-        );
+        $root   = $this->dataRecord;
+        $output = '';
+        if ($root->ClassName != 'SilvercartMetaNavigationHolder') {
+            while ($root->ClassName != 'SilvercartMetaNavigationHolder') {
+                $root = $this->dataRecord->Parent();
+                if ($root->ParentID == 0) {
+                    $root = null;
+                    break;
+                }
+            }
+        }
+        if (!is_null($root)) {
+            $elements = array(
+                'SubElements' => $root->Children(),
+            );
+            $output = $this->customise($elements)->renderWith(
+                array(
+                    'SilvercartSubNavigation',
+                )
+            );
+        }
         return $output;
     }
 }

@@ -374,27 +374,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shippingFeesPage->write();
             $shippingFeesPage->publish("Stage", "Live");
 
-            // create SilvercartFooterNavigationHolder and a about page as child
-            $footerNavigationHolder = new SilvercartFooterNavigationHolder();
-            $footerNavigationHolder->Title = _t('SilvercartFooterNavigationHolder.SINGULARNAME');
-            $footerNavigationHolder->URLSegment = _t('SilvercartFooterNavigationHolder.URL_SEGMENT', 'footernavigation');
-            $footerNavigationHolder->Status = "Published";
-            $footerNavigationHolder->ShowInMenus = 0;
-            $footerNavigationHolder->IdentifierCode = "FooterNavigationHolder";
-            $footerNavigationHolder->ParentID = $rootPage->ID;
-            $footerNavigationHolder->write();
-            $footerNavigationHolder->publish("Stage", "Live");
-
-            $aboutPage = new Page();
-            $aboutPage->Title = _t('SilvercartPage.ABOUT_US', 'about us');
-            $aboutPage->URLSegment = _t('SilvercartPage.ABOUT_US_URL_SEGMENT', 'about-us');
-            $aboutPage->Status = "Published";
-            $aboutPage->ShowInMenus = 1;
-            $aboutPage->ParentID = $footerNavigationHolder->ID;
-            $aboutPage->IdentifierCode = "AboutPage";
-            $aboutPage->write();
-            $aboutPage->publish("Stage", "Live");
-
             //create a contact form response page
             $contactFormResponsePage = new SilvercartContactFormResponsePage();
             $contactFormResponsePage->Title = _t('SilvercartContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
@@ -403,7 +382,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactFormResponsePage->ShowInMenus = false;
             $contactFormResponsePage->ShowInSearch = false;
             $contactFormResponsePage->IdentifierCode = "SilvercartContactFormResponsePage";
-            $contactFormResponsePage->ParentID = $rootPage->ID;
+            $contactFormResponsePage->ParentID = $contactPage->ID;
             $contactFormResponsePage->Content = _t('SilvercartContactFormResponsePage.CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
             $contactFormResponsePage->write();
             $contactFormResponsePage->publish("Stage", "Live");

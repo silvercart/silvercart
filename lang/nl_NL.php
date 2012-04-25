@@ -752,10 +752,6 @@ $lang['nl_NL']['SilvercartFile']['PLURALNAME'] = 'Bestanden';
 $lang['nl_NL']['SilvercartFile']['SINGULARNAME'] = 'Bestand';
 $lang['nl_NL']['SilvercartFile']['TITLE'] = 'Toon naam';
 
-$lang['nl_NL']['SilvercartFooterNavigationHolder']['PLURALNAME'] = 'Voettekstnavigatie Houders';
-$lang['nl_NL']['SilvercartFooterNavigationHolder']['SINGULARNAME'] = 'Voettekstnavigatie Houder';
-$lang['nl_NL']['SilvercartFooterNavigationHolder']['URL_SEGMENT'] = 'voettekstnavigatie';
-
 $lang['nl_NL']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welkom bij <strong>SilverCart</ strong> Webshop!</h2>';
 $lang['nl_NL']['SilvercartFrontPage']['PLURALNAME'] = 'Voorpagina\'s';
 $lang['nl_NL']['SilvercartFrontPage']['SINGULARNAME'] = 'voorpagina';
