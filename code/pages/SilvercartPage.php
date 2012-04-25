@@ -139,6 +139,22 @@ class SilvercartPage extends SiteTree {
     public function getSection() {
         return 'SilvercartAddress';
     }
+    
+    /**
+     * Return the title, description, keywords and language metatags.
+     * 
+     * @param bool $includeTitle Show default <title>-tag, set to false for custom templating
+     * 
+     * @return string The XHTML metatags
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2012
+     */
+    public function MetaTags($includeTitle = true) {
+        $tags = parent::MetaTags($includeTitle);
+        $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $tags);
+        return $tags;
+    }
 }
 
 /**
