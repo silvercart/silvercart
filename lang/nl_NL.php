@@ -965,6 +965,7 @@ $lang['nl_NL']['SilvercartPage']['JANUARY'] = 'Januari';
 $lang['nl_NL']['SilvercartPage']['JUNE'] = 'Juni';
 $lang['nl_NL']['SilvercartPage']['JULY'] = 'Juli';
 $lang['nl_NL']['SilvercartPage']['LOGIN'] = 'Login';
+$lang['nl_NL']['SilvercartPage']['LOGOUT'] = 'Logout';
 $lang['nl_NL']['SilvercartPage']['LOGO'] = 'Logo';
 $lang['nl_NL']['SilvercartPage']['MARCH'] = 'Maart';
 $lang['nl_NL']['SilvercartPage']['MAY'] = 'Mei';

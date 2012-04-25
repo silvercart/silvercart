@@ -39,6 +39,7 @@ global $lang;
 
 
 
+$lang['en_US']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_US']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_US']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
 $lang['en_US']['Silvercart']['DATA'] = 'Data';
@@ -1021,6 +1022,7 @@ $lang['en_US']['SilvercartPage']['JANUARY'] = 'January';
 $lang['en_US']['SilvercartPage']['JUNE'] = 'June';
 $lang['en_US']['SilvercartPage']['JULY'] = 'July';
 $lang['en_US']['SilvercartPage']['LOGIN'] = 'Login';
+$lang['en_US']['SilvercartPage']['LOGOUT'] = 'Logout';
 $lang['en_US']['SilvercartPage']['LOGO'] = 'Logo';
 $lang['en_US']['SilvercartPage']['MARCH'] = 'March';
 $lang['en_US']['SilvercartPage']['MAY'] = 'May';

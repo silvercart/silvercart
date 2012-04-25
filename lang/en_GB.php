@@ -39,6 +39,7 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 
 
 
+$lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_GB']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
 $lang['en_GB']['Silvercart']['DATA'] = 'Data';
@@ -1021,6 +1022,7 @@ $lang['en_GB']['SilvercartPage']['JANUARY'] = 'January';
 $lang['en_GB']['SilvercartPage']['JUNE'] = 'June';
 $lang['en_GB']['SilvercartPage']['JULY'] = 'July';
 $lang['en_GB']['SilvercartPage']['LOGIN'] = 'Login';
+$lang['en_GB']['SilvercartPage']['LOGOUT'] = 'Logout';
 $lang['en_GB']['SilvercartPage']['LOGO'] = 'Logo';
 $lang['en_GB']['SilvercartPage']['MARCH'] = 'March';
 $lang['en_GB']['SilvercartPage']['MAY'] = 'May';

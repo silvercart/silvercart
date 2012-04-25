@@ -39,6 +39,7 @@ if (file_exists(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php')) 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
 
+$lang['de_DE']['Silvercart']['CLEAR_CACHE'] = 'Cache leeren';
 $lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';
 $lang['de_DE']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
 $lang['de_DE']['Silvercart']['DATA'] = 'Daten';
@@ -1021,6 +1022,7 @@ $lang['de_DE']['SilvercartPage']['JANUARY'] = 'Januar';
 $lang['de_DE']['SilvercartPage']['JUNE'] = 'Juni';
 $lang['de_DE']['SilvercartPage']['JULY'] = 'Juli';
 $lang['de_DE']['SilvercartPage']['LOGIN'] = 'Anmelden';
+$lang['de_DE']['SilvercartPage']['LOGOUT'] = 'Abmelden';
 $lang['de_DE']['SilvercartPage']['LOGO'] = 'Logo';
 $lang['de_DE']['SilvercartPage']['MARCH'] = 'März';
 $lang['de_DE']['SilvercartPage']['MAY'] = 'Mai';
