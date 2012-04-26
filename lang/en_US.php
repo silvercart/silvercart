@@ -511,6 +511,9 @@ $lang['en_US']['SilvercartCountry']['ISON'] = 'ISO numeric';
 $lang['en_US']['SilvercartCountry']['PLURALNAME'] = 'Countries';
 $lang['en_US']['SilvercartCountry']['SINGULARNAME'] = 'Country';
 
+$lang['en_US']['SilvercartCountryLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
+$lang['en_US']['SilvercartCountryLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
+
 $lang['en_US']['SilvercartCountry']['TITLE_AD'] = 'Andorra';
 $lang['en_US']['SilvercartCountry']['TITLE_AE'] = 'United Arab Emirates';
 $lang['en_US']['SilvercartCountry']['TITLE_AF'] = 'Afghanistan';
