@@ -18,14 +18,16 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
  * Language class for shipping methods
  *
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
+ * @package SilverCart
+ * @subpackage Translation
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright pixeltricks GmbH
  * @since 11.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -36,11 +38,12 @@ class SilvercartShippingMethodLanguage extends DataObject {
      *
      * @var array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public static $db = array(
-        'Title' => 'VarChar(255)'
+        'Title'         => 'VarChar(255)',
+        'Description'   => 'Text',
     );
     
     /**
@@ -98,14 +101,15 @@ class SilvercartShippingMethodLanguage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 11.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'         => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'Description'   => _t('SilvercartShippingMethod.DESCRIPTION'),
                 )
         );
 

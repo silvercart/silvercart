@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
  * translation class for SilvercartOrderStatus
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 13.01.2012

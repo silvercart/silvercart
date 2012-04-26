@@ -148,9 +148,12 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      */
     public function deleteAddress(SS_HTTPRequest $request) {
         $params = $request->allParams();
-        if (array_key_exists('ID', $params)
-         && !empty ($params['ID'])) {
+
+        if ( array_key_exists('ID', $params) &&
+            !empty ($params['ID'])) {
+
             $addressID = (int) $params['ID'];
+
             if (Member::currentUser()->SilvercartAddresses()->Count() == 1) {
                 // address can't be deleted because it's the only one
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));

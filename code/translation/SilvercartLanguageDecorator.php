@@ -24,6 +24,8 @@
 /**
  * Adds methods that are common to all language classes eg SilvercartProductLanguage
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 06.01.2012

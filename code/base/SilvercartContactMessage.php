@@ -131,6 +131,7 @@ class SilvercartContactMessage extends DataObject {
             )
         );
         
+        $this->extend('updateFieldLabels', $fields);
         SilvercartPlugin::call($this, 'fieldLabels', array($fields), true);
         
         return $fields;
@@ -153,6 +154,7 @@ class SilvercartContactMessage extends DataObject {
             'Email'         => _t('Member.EMAIL'),
         );
         
+        $this->extend('updateSummaryFields', $fields);
         SilvercartPlugin::call($this, 'summaryFields', array($fields), true);
             
         return $fields;

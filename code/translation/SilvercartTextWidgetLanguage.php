@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
+ * Translation object of SilvercartTextWidget
  * 
- *
+ * @package SilverCart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 23.01.2012
@@ -40,7 +42,8 @@ class SilvercartTextWidgetLanguage extends DataObject {
      * @since 22.01.2012
      */
     public static $db = array(
-        'FreeText' => 'HTMLText'
+        'Headline'          => 'VarChar(255)',
+        'FreeText'          => 'HTMLText',
     );
     
     /**
@@ -103,13 +106,35 @@ class SilvercartTextWidgetLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'FreeText' => _t('SilvercartText.FREETEXTFIELD_LABEL')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Headline' => _t('SilvercartText.HEADLINEFIELD_LABEL'),
+                    'FreeText' => _t('SilvercartText.FREETEXTFIELD_LABEL'),
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+
+    /**
+     * Summary fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+                parent::summaryFields(),
+                array(
+                    'Headline'  => $this->fieldLabel('Headline'),
+                )
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 }
 

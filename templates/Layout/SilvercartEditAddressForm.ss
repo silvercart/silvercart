@@ -3,6 +3,7 @@
     $CustomHtmlErrorMessages
     <fieldset>
         <legend><% _t('SilvercartAddress.EDITADDRESS') %></legend>
+        <% if EnableBusinessCustomers %>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
@@ -15,6 +16,7 @@
                 </div>
             </div>
         </div>
+        <% end_if %>
         
         <div class="subcolumns">
             <div class="c50l">

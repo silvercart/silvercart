@@ -22,8 +22,7 @@
  */
 
 /**
- * abstract for a single position of an order
- * they are not changeable after creation and serve as a history
+ * The SilvercartOrderPosition object.
  *
  * @package Silvercart
  * @subpackage Order
@@ -33,6 +32,48 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrderPosition extends DataObject {
+
+    /**
+     * Indicates whether changes and creations of order positions should
+     * be logged or not.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $log = true;
+
+    /**
+     * Indicates wether the order should be recalculated in method
+     * "onAfterWrite".
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    protected $doRecalculate = false;
+
+    /**
+     * Indicates wether the position has been created. Used in onBeforeWrite.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $objectCreated = false;
+
+    /**
+     * Indicates wether the position has been deleted. Used in onBeforeDelete.
+     *
+     * @var boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public $objectDeleted = false;
 
     /**
      * attributes
@@ -56,6 +97,7 @@ class SilvercartOrderPosition extends DataObject {
         'Title'                              => 'VarChar(255)',
         'ProductNumber'                      => 'VarChar',
     );
+
     /**
      * 1:n relations
      *
@@ -73,7 +115,39 @@ class SilvercartOrderPosition extends DataObject {
         'PriceNice' => 'VarChar(255)',
         'PriceTotalNice' => 'VarChar(255)',
     );
-    
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * 
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'SilvercartProduct'  => _t('SilvercartOrderPosition.SILVERCARTPRODUCT'),
+                'Price'              => _t('SilvercartOrderPosition.PRICE'),
+                'PriceTotal'         => _t('SilvercartOrderPosition.PRICETOTAL'),
+                'isChargeOrDiscount' => _t('SilvercartOrderPosition.ISCHARGEORDISCOUNT'),
+                'Tax'                => _t('SilvercartOrderPosition.TAX'),
+                'TaxTotal'           => _t('SilvercartOrderPosition.TAXTOTAL'),
+                'TaxRate'            => _t('SilvercartOrderPosition.TAXRATE'),
+                'ProductDescription' => _t('SilvercartOrderPosition.PRODUCTDESCRIPTION'),
+                'Quantity'           => _t('SilvercartOrderPosition.QUANTITY'),
+                'Title'              => _t('SilvercartOrderPosition.TITLE'),
+                'ProductNumber'      => _t('SilvercartOrderPosition.PRODUCTNUMBER')
+            )
+        );
+        $this->extend('updateFieldLabels', $fieldLabels);
+
+        return $fieldLabels;
+    }
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -163,5 +237,283 @@ class SilvercartOrderPosition extends DataObject {
         }
 
         return $moreThanOneProduct;
+    }
+
+    /**
+     * Customize scaffolding fields for the backend
+     *
+     * @return FieldSet the form fields for the backend
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function getCMSFields() {
+        if ($this->ID === 0) {
+            return $this->getCMSFields_forPopup();
+        }
+
+        $fields = parent::getCMSFields();
+
+        $fields->removeByName('isChargeOrDiscount');
+        $fields->removeByName('chargeOrDiscountModificationImpact');
+        $fields->removeByName('Tax');
+        $fields->removeByName('TaxTotal');
+        $fields->removeByName('TaxRate');
+        $fields->removeByName('SilvercartOrderID');
+        $fields->removeByName('SilvercartProductGroupID');
+
+        $productDescriptionField = $fields->dataFieldByName('ProductDescription');
+        if ($productDescriptionField) {
+            $productDescriptionField->setReadonly(true);
+        }
+
+        $productNumberField = $fields->dataFieldByName('ProductNumber');
+        if ($productNumberField) {
+            $productNumberField->setReadonly(true);
+            $productNumberField->disabled = true;
+        }
+
+        $titleField = $fields->dataFieldByName('Title');
+        if ($titleField) {
+            $titleField->setReadonly(true);
+            $titleField->disabled = true;
+        }
+
+        $priceTotalField = $fields->dataFieldByName('PriceTotal');
+        if ($priceTotalField) {
+            $priceTotalField->setReadonly(true);
+            $priceTotalField->disabled = true;
+        }
+
+        if ($this->owner->SilvercartOrder()->ID > 0) {
+            $link = sprintf(
+                "javascript:jQuery('#ModelAdminPanel').fn('loadForm', '%sadmin/silvercart-orders/SilvercartOrder/%d/edit',function() {openTab('Root_SilvercartOrderPositions');});",
+                SilvercartTools::getBaseURLSegment(),
+                $this->owner->SilvercartOrder()->ID
+            );
+            $backToOrderLinkField = new LiteralField(
+                'BackToOrderLinkField',
+                '<p><a href="'.$link.'" class="action">Zur Bestellung</a></p>'
+            );
+
+            $fields->insertBefore($backToOrderLinkField, 'Root');
+        }
+
+        $this->extend('updateCMSFields', $fields);
+
+        return $fields;
+    }
+
+    /**
+     * Return fields for popup.
+     *
+     * @return FieldSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function getCMSFields_forPopup() {
+        $fields  = new FieldSet();
+        $orderId = 0;
+
+        $fields->push(
+            new HiddenField(
+                'SilvercartOrderID',
+                '',
+                $orderId
+            )
+        );
+        $fields->push(
+            new DropdownField(
+                'SilvercartProductID',
+                $this->fieldLabel('SilvercartProduct'),
+                SilvercartProduct::get()->map('ID', 'Title')
+            )
+        );
+        $fields->push(
+            new TextField(
+                'Quantity',
+                $this->fieldLabel('Quantity'),
+                '1'
+            )
+        );
+
+        $this->extend('updateGetCMSFields_forPopup', $fields);
+
+        return $fields;
+    }
+
+    /**
+     * If the attributed product gets changed we adjust all order position
+     * fields accordingly.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function onBeforeWrite() {
+        $changedFields = $this->getChangedFields();
+
+        if (!$this->objectCreated &&
+             array_key_exists('SilvercartOrderID', $changedFields)) {
+            $this->saveNew($changedFields);
+            $this->objectCreated = true;
+        } else if (!$this->objectCreated) {
+            $this->saveChanges($changedFields);
+        }
+
+        $this->extend('updateOnBeforeWrite', $changedFields, $price, $this->doRecalculate);
+
+        parent::onBeforeWrite();
+    }
+
+    /**
+     * Saves changes on an existing position.
+     *
+     * @param array $changedFields The changed fields
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function saveChanges($changedFields) {
+        $price = $this->Price->getAmount();
+
+        if (array_key_exists('Price', $changedFields)) {
+            if (($changedFields['Price']['before']) !==
+                ($changedFields['Price']['after'])) {
+
+                $newPrice = $changedFields['Price']['after'];
+                $this->Price->setAmount($newPrice->getAmount());
+                $this->PriceTotal->setAmount($newPrice->getAmount() * $this->Quantity);
+                $price = $newPrice->getAmount();
+                $this->doRecalculate = true;
+            }
+        }
+
+        if (array_key_exists('Quantity', $changedFields)) {
+            if (($changedFields['Quantity']['before']) !==
+                ($changedFields['Quantity']['after'])) {
+
+                $this->PriceTotal->setAmount($price * $changedFields['Quantity']['after']);
+                $this->doRecalculate = true;
+            }
+        }
+
+        if (array_key_exists('SilvercartProductID', $changedFields)) {
+            if (($changedFields['SilvercartProductID']['before']) !==
+                ($changedFields['SilvercartProductID']['after'])) {
+
+                $newProduct = DataObject::get_by_id(
+                    'SilvercartProduct',
+                    $changedFields['SilvercartProductID']['after']
+                );
+
+                if ($newProduct) {
+                    $this->Price->setAmount($newProduct->getPrice()->getAmount());
+                    $this->PriceTotal->setAmount($newProduct->getPrice()->getAmount() * $this->Quantity);
+                    $this->setField('Tax', $newProduct->getTaxAmount());
+                    $this->setField('TaxTotal', $newProduct->getTaxAmount() * $this->Quantity);
+                    $this->setField('TaxRate', $newProduct->getTaxRate());
+                    $this->setField('ProductDescription', $newProduct->LongDescription);
+                    $this->setField('Title', $newProduct->Title);
+                    $this->setField('ProductNumber', $newProduct->ProductNumber);
+                    $this->doRecalculate = true;
+                }
+            }
+        }
+        $this->extend('updateSaveChanges', $changedFields, $price, $this->doRecalculate);
+    }
+
+    /**
+     * Saves changes for a new position.
+     *
+     * @param array $changedFields The changed fields
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function saveNew($changedFields) {
+        if (array_key_exists('SilvercartProductID', $changedFields)) {
+            $productId = $changedFields['SilvercartProductID']['after'];
+
+            $silvercartProduct = DataObject::get_by_id('SilvercartProduct', $productId);
+
+            if ($silvercartProduct) {
+                if (array_key_exists('Quantity', $changedFields) &&
+                    (int) $changedFields['Quantity']['after'] > 0) {
+
+                    $quantity = (int) $changedFields['Quantity']['after'];
+                } else {
+                    $quantity = 1;
+                }
+
+                $this->Price->setAmount($silvercartProduct->getPrice()->getAmount());
+                $this->Price->setCurrency($silvercartProduct->getPrice()->getCurrency());
+                $this->PriceTotal->setAmount($silvercartProduct->getPrice()->getAmount() * $quantity);
+                $this->PriceTotal->setCurrency($silvercartProduct->getPrice()->getCurrency());
+                $this->setField('Quantity', $quantity);
+                $this->setField('Tax', $silvercartProduct->getTaxAmount());
+                $this->setField('TaxTotal', $silvercartProduct->getTaxAmount() * $quantity);
+                $this->setField('TaxRate', $silvercartProduct->getTaxRate());
+                $this->setField('ProductDescription', $silvercartProduct->LongDescription);
+                $this->setField('Title', $silvercartProduct->Title);
+                $this->setField('ProductNumber', $silvercartProduct->ProductNumberShop);
+                $this->doRecalculate = true;
+            }
+            $this->extend('updateSaveNew', $changedFields, $price, $this->doRecalculate);
+        }
+    }
+
+    /**
+     * Recalculate the order if necessary.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+
+        if ($this->doRecalculate) {
+            $this->SilvercartOrder()->recalculate();
+            $this->doRecalculate = false;
+        }
+    }
+
+    /**
+     * Make onAfterDelete extendable.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function onAfterDelete() {
+        $this->extend('updateOnAfterDelete');
+
+        parent::onAfterDelete();
+    }
+
+    /**
+     * Make onBeforeDelete extendable.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function onBeforeDelete() {
+        if (!$this->objectDeleted) {
+            $this->extend('updateOnBeforeDelete');
+            $this->objectDeleted = true;
+        }
+
+        parent::onBeforeDelete();
     }
 }

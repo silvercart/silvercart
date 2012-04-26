@@ -99,22 +99,28 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      * @since 18.08.2011
      */
     public function getCMSFields() {
-        $fields = new FieldSet();
-        $rootTabSet = new TabSet('RootTabSet');
-        $mainTab = new Tab('Root');
-        $translationsTab = new Tab('TranslationsTab');
-        $numberOfPostsField  = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
-        $isContentView       = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
-        //multilingual fields, in fact just the title
+        $fields             = new FieldSet();
+        
+        $rootTabSet         = new TabSet('RootTabSet');
+        $mainTab            = new Tab('Root',               _t('Silvercart.CONTENT'));
+        $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
+        
+        $numberOfPostsField     = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
+        $isContentView          = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
+        $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
+        
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($mainTab);
+        $rootTabSet->push($translationsTab);
         $mainTab->push($numberOfPostsField);
         $mainTab->push($isContentView);
-        $translationsTab->push(new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage'));
-        $mainTab->setTitle(_t('Silvercart.CONTENT'));
-        $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
+        $translationsTab->push($translationsTableField);
+        
         return $fields;
     }
 

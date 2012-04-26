@@ -43,9 +43,9 @@ class SilvercartManufacturer extends DataObject {
      * @since 02.02.2011
      */
     public static $db = array(
-        'Title' => 'VarChar',
-        'URL'   => 'VarChar',
-        'URLSegment'   => 'VarChar'
+        'Title'         => 'VarChar',
+        'URL'           => 'VarChar',
+        'URLSegment'    => 'VarChar'
     );
     /**
      * Has-one relationships.
@@ -71,17 +71,14 @@ class SilvercartManufacturer extends DataObject {
     public static $has_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
+    
     /**
-     * Summaryfields for display in tables.
+     * Casted attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
-    public static $summary_fields = array(
-        'Title' => 'Name'
+    public static $casting = array(
+        'LogoForTable'  => 'HtmlText'
     );
 
     /**
@@ -161,9 +158,12 @@ class SilvercartManufacturer extends DataObject {
      * @since 16.02.2011
      */
     public function  summaryFields() {
-        $summaryFields = parent::summaryFields();
-        $summaryFields['Title'] = _t('SilvercartPage.TITLE', 'title');
-        $summaryFields['URL']   = _t('SilvercartPage.URL', 'URL');
+        $summaryFields = array(
+                    'LogoForTable'  => $this->fieldLabel('logo'),
+                    'Title'         => $this->fieldLabel('Title'),
+                    'URL'           => $this->fieldLabel('URL'),
+        );
+        $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
 
@@ -248,9 +248,23 @@ class SilvercartManufacturer extends DataObject {
      * @since 16.03.2011
      */
     public function title2urlSegment() {
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    ' ');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '');
-        $string = str_replace($remove, $replace, $this->Title);
-        return $string;
+        return SilvercartTools::string2urlSegment($this->Title);
+    }
+    
+    /**
+     * Returns the logo to display in a TableListField
+     *
+     * @return string
+     */
+    public function getLogoForTable() {
+        $logoForTable = '';
+        if ($this->logo()->ID > 0) {
+            $logoForTable = sprintf(
+                    '<img src="%s" alt="%s" />',
+                    $this->logo()->SetRatioSize(200,25)->Link(),
+                    $this->logo()->Name
+            );
+        }
+        return $logoForTable;
     }
 }

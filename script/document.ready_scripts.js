@@ -92,6 +92,6 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
     // ------------------------------------------------------------------------
     if (jQuery(".silvercart-product-group-page-selectors")) {
         jQuery(".silvercart-product-group-page-selectors input[type=submit]").hide();
-        jQuery(".silvercart-product-group-page-selectors select").bind('change', function() { this.form.submit(); });
+        jQuery(".silvercart-product-group-page-selectors select").live('change', function() { this.form.submit(); });
     }
 })})(jQuery);

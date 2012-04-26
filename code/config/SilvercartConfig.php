@@ -113,11 +113,9 @@ class SilvercartConfig extends DataObject {
         'SilvercartVersion'                 => 'VarChar(16)',
         'SilvercartUpdateVersion'           => 'VarChar(16)',
         'DefaultCurrency'                   => 'VarChar(16)',
+        'DefaultPriceType'                  => 'Enum("gross,net","gross")',
         'EmailSender'                       => 'VarChar(255)',
         'GlobalEmailRecipient'              => 'VarChar(255)',
-        'PricetypeAnonymousCustomers'       => 'VarChar(6)',
-        'PricetypeRegularCustomers'         => 'VarChar(6)',
-        'PricetypeBusinessCustomers'        => 'VarChar(6)',
         'enableSSL'                         => 'Boolean(0)',
         'productsPerPage'                   => 'Int',
         'productGroupsPerPage'              => 'Int',
@@ -125,6 +123,8 @@ class SilvercartConfig extends DataObject {
         'minimumOrderValue'                 => 'Money',
         'useMinimumOrderValue'              => 'Boolean(0)',
         'disregardMinimumOrderValue'        => 'Boolean(0)',
+        'freeOfShippingCostsFrom'           => 'Money',
+        'useFreeOfShippingCostsFrom'        => 'Boolean(0)',
         'useApacheSolrSearch'               => 'Boolean(0)',
         'apacheSolrUrl'                     => 'VarChar(255)',
         'apacheSolrPort'                    => 'Int',
@@ -167,9 +167,7 @@ class SilvercartConfig extends DataObject {
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
         'SilvercartUpdateVersion'       => '1',
-        'PricetypeAnonymousCustomers'   => 'gross',
-        'PricetypeRegularCustomers'     => 'gross',
-        'PricetypeBusinessCustomers'    => 'net',
+        'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
         'productsPerPage'               => 20,
@@ -187,9 +185,7 @@ class SilvercartConfig extends DataObject {
      */
     public static $required_configuration_fields = array(
         'EmailSender',
-        'PricetypeAnonymousCustomers',
-        'PricetypeRegularCustomers',
-        'PricetypeBusinessCustomers',
+        'DefaultPriceType',
         'ActiveCountries',
     );
 
@@ -206,6 +202,7 @@ class SilvercartConfig extends DataObject {
     public static $apacheSolrPort                   = null;
     public static $apacheSolrUrl                    = null;
     public static $defaultCurrency                  = null;
+    public static $defaultPricetype                 = null;
     public static $emailSender                      = null;
     public static $enableBusinessCustomers          = null;
     public static $globalEmailRecipient             = null;
@@ -213,6 +210,8 @@ class SilvercartConfig extends DataObject {
     public static $config                           = null;
     public static $enableSSL                        = null;
     public static $minimumOrderValue                = null;
+    public static $freeOfShippingCostsFrom          = null;
+    public static $useFreeOfShippingCostsFrom       = null;
     public static $disregardMinimumOrderValue       = null;
     public static $useMinimumOrderValue             = null;
     public static $productsPerPage                  = null;
@@ -312,34 +311,25 @@ class SilvercartConfig extends DataObject {
                 'Root',
                 $generalTab = new TabSet(
                     'General',
-                    $tabGeneralMain = new Tab('Main'),
-                    $tabGeneralTestData = new Tab('TestData'),
-                    $tabPricesMain = new Tab('Prices'),
-                    $tabLayoutMain = new Tab('Layout'),
-                    $tabServerMain = new Tab('Server'),
-                    $tabStockMain = new Tab('Stock'),
-                    $tabCkechoutMain = new Tab('Checkout'),
-                    $tabCleanMain = new Tab('Clean')
+                    _t('SilvercartConfig.GENERAL'),
+                    $tabGeneralMain     = new Tab('Main',       _t('SilvercartConfig.GENERAL_MAIN')),
+                    $tabGeneralTestData = new Tab('TestData',   _t('SilvercartConfig.GENERAL_TEST_DATA')),
+                    $tabPricesMain      = new Tab('Prices',     _t('SilvercartPrice.PLURALNAME')),
+                    $tabLayoutMain      = new Tab('Layout',     _t('SilvercartConfig.LAYOUT')),
+                    $tabServerMain      = new Tab('Server',     _t('SilvercartConfig.SERVER')),
+                    $tabStockMain       = new Tab('Stock',      _t('SilvercartConfig.STOCK')),
+                    $tabCheckoutMain    = new Tab('Checkout',   _t('SilvercartPage.CHECKOUT')),
+                    $tabCleanMain       = new Tab('Clean',      _t('SilvercartConfig.CLEAN'))
                 ),
                 $interfacesTab = new TabSet(
                     'Interfaces',
-                    $tabInterfacesGeoNames  = new Tab('GeoNames')
+                    _t('SilvercartConfig.INTERFACES'),
+                    $tabInterfacesGeoNames  = new Tab('GeoNames',   _t('SilvercartConfig.INTERFACES_GEONAMES'))
                 )
             )
         );
 
         // General Form Fields right here
-        $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
-        
-        // General Main
-        $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
-        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
-        $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
-        $tabLayoutMain->setTitle(_t('SilvercartConfig.LAYOUT'));
-        $tabServerMain->setTitle(_t('SilvercartConfig.SERVER'));
-        $tabStockMain->setTitle(_t('SilvercartConfig.STOCK'));
-        $tabCkechoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
-        $tabCleanMain->setTitle(_t('SilvercartConfig.CLEAN'));
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
@@ -369,19 +359,13 @@ class SilvercartConfig extends DataObject {
                 )
             )
         );
-        $pricetypes = array(
-            'PricetypeAnonymousCustomers' => _t('SilvercartConfig.PRICETYPE_ANONYMOUS', 'Pricetype anonymous customers'),
-            'PricetypeRegularCustomers' => _t('SilvercartConfig.PRICETYPE_REGULAR', 'Pricetype regular customers'),
-            'PricetypeBusinessCustomers' => _t('SilvercartConfig.PRICETYPE_BUSINESS', 'Pricetype business customers')
-        );
-        $pricetypeDropdownValues = array(
-            'gross' => _t('SilvercartCustomer.GROSS'),
-            'net' => _t('SilvercartCustomer.NET')
-        );
-        foreach ($pricetypes as $name => $title) {
-            $CMSFields->removeByName($name);
-            $CMSFields->addFieldToTab('Root.General.Prices', new DropdownField($name, $title, $pricetypeDropdownValues));
+        
+        $originalSource = $CMSFields->dataFieldByName('DefaultPriceType')->getSource();
+        $i18nSource     = array();
+        foreach ($originalSource as $value => $label) {
+            $i18nSource[$value] = _t('SilvercartCustomer.' . strtoupper($label), $label);
         }
+        $CMSFields->addFieldToTab('Root.General.Prices', new DropdownField('DefaultPriceType', $this->fieldLabel('DefaultPriceType'), $i18nSource));
         
         /*
          * Root.General.Layout tab
@@ -413,27 +397,27 @@ class SilvercartConfig extends DataObject {
         /*
          * Root.General.Checkout tab
          */
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
-        $CMSFields->addFieldToTab(
-            'Root.General.Checkout',
-            new LiteralField(
-                'MinimumOrderValueTitle',
-                sprintf(
-                    '<h3>%s</h3>',
-                    _t('SilvercartConfig.MINIMUMORDERVALUE_HEADLINE')
-                )
-            )
+        $basicCheckoutTab = new Tab('basicCheckoutTab', _t('SilvercartConfig.BASICCHECKOUT'));
+        $minimumOrderValueTab = new Tab('minimumOrderValueTab', _t('SilvercartConfig.MINIMUMORDERVALUE'));
+        $freeOfShippingCostsTab = new Tab('freeOfShippingCostsTab', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSTAB'));
+        $tabCheckoutMain->push(
+            $tabCheckoutMainTabSet = new TabSet('tabsetCheckout')
         );
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
-        $CMSFields->addFieldToTab('Root.General.Checkout', new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+        $tabCheckoutMainTabSet->push($basicCheckoutTab);
+        $tabCheckoutMainTabSet->push($minimumOrderValueTab);
+        $tabCheckoutMainTabSet->push($freeOfShippingCostsTab);
+
+        $basicCheckoutTab->push(new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
+        $basicCheckoutTab->push(new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
+
+        $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
+        $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
+        $minimumOrderValueTab->push(new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+
+        $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
+        $freeOfShippingCostsTab->push(new MoneyField('freeOfShippingCostsFrom', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM')));
         
-        
-        
-        // FormFields for Test Data right here
-        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
-        
+        // FormFields for Test Data right here        
         $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
         $addExampleData->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_DATA_DESCRIPTION'));
         $CMSFields->addFieldToTab('Root.General.TestData', $addExampleData);
@@ -453,10 +437,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBase);
         
         // FormFields for Interfaces right here
-        $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
         // GeoNames
-        $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
-
         $geoNamesDescriptionValue = '';
         $geoNamesDescriptionValue = _t('SilvercartConfig.GEONAMES_DESCRIPTION');
         $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
@@ -479,31 +460,35 @@ class SilvercartConfig extends DataObject {
      * @since 24.02.2011
      */
     public function fieldLabels($includerelations = true) {
-        $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['addToCartMaxQuantity']                = _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart');
-        $fieldLabels['DefaultCurrency']                     = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
-        $fieldLabels['EmailSender']                         = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
-        $fieldLabels['GlobalEmailRecipient']                = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
-        $fieldLabels['enableBusinessCustomers']             = _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers');
-        $fieldLabels['enableSSL']                           = _t('SilvercartConfig.ENABLESSL', 'Enable SSL');
-        $fieldLabels['enableStockManagement']               = _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management');
-        $fieldLabels['minimumOrderValue']                   = _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value');
-        $fieldLabels['disregardMinimumOrderValue']          = _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value');
-        $fieldLabels['useMinimumOrderValue']                = _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value');
-        $fieldLabels['productsPerPage']                     = _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page');
-        $fieldLabels['productGroupsPerPage']                = _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page');
-        $fieldLabels['useApacheSolrSearch']                 = _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search');
-        $fieldLabels['apacheSolrPort']                      = _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port');
-        $fieldLabels['apacheSolrUrl']                       = _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url');
-        $fieldLabels['isStockManagementOverbookable']       = _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?');
-        $fieldLabels['demandBirthdayDateOnRegistration']    = _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?');
-        $fieldLabels['GeoNamesActive']                      = _t('SilvercartConfig.GEONAMES_ACTIVE');
-        $fieldLabels['GeoNamesUserName']                    = _t('SilvercartConfig.GEONAMES_USERNAME');
-        $fieldLabels['GeoNamesAPI']                         = _t('SilvercartConfig.GEONAMES_API');
-        $fieldLabels['Locale']                              = _t('SilvercartConfig.DEFAULT_LANGUAGE');
-        $fieldLabels['useDefaultLanguageAsFallback']        = _t('SilvercartConfig.USE_DEFAULT_LANGUAGE');
-        
-        return $fieldLabels;
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'addToCartMaxQuantity'              => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
+                    'DefaultCurrency'                   => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
+                    'DefaultPriceType'                  => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
+                    'EmailSender'                       => _t('SilvercartConfig.EMAILSENDER', 'Email sender'),
+                    'GlobalEmailRecipient'              => _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient'),
+                    'enableBusinessCustomers'           => _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
+                    'enableSSL'                         => _t('SilvercartConfig.ENABLESSL', 'Enable SSL'),
+                    'enableStockManagement'             => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
+                    'minimumOrderValue'                 => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
+                    'disregardMinimumOrderValue'        => _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value'),
+                    'useMinimumOrderValue'              => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
+                    'freeOfShippingCostsFrom'           => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
+                    'productsPerPage'                   => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
+                    'productGroupsPerPage'              => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
+                    'useApacheSolrSearch'               => _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search'),
+                    'apacheSolrPort'                    => _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port'),
+                    'apacheSolrUrl'                     => _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url'),
+                    'isStockManagementOverbookable'     => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
+                    'demandBirthdayDateOnRegistration'  => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
+                    'GeoNamesActive'                    => _t('SilvercartConfig.GEONAMES_ACTIVE'),
+                    'GeoNamesUserName'                  => _t('SilvercartConfig.GEONAMES_USERNAME'),
+                    'GeoNamesAPI'                       => _t('SilvercartConfig.GEONAMES_API'),
+                    'Locale'                            => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
+                    'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
+                )
+        );
     }
 
     /**
@@ -620,6 +605,21 @@ class SilvercartConfig extends DataObject {
         }
         return self::$defaultCurrency;
     }
+
+    /**
+     * Returns the configured default price type.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function DefaultPricetype() {
+        if (is_null(self::$defaultPricetype)) {
+            self::$defaultPricetype = self::getConfig()->DefaultPricetype;
+        }
+        return self::$defaultPricetype;
+    }
     
     /**
      * Indicates wether the birthday date should be demanded on registration.
@@ -701,7 +701,6 @@ class SilvercartConfig extends DataObject {
         return self::$isStockManagementOverbookable;
     }
 
-
     /**
      * Returns the minimum order value if specified
      *
@@ -717,7 +716,39 @@ class SilvercartConfig extends DataObject {
         }
         return self::$minimumOrderValue;
     }
-    
+
+    /**
+     * Returns if the free of shipping costs from setting should be used.
+     *
+     * @return Boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 15.03.2012
+     */
+    public static function UseFreeOfShippingCostsFrom() {
+        if (is_null(self::$useFreeOfShippingCostsFrom)) {
+            self::$useFreeOfShippingCostsFrom = self::getConfig()->useFreeOfShippingCostsFrom;
+        }
+        return self::$useFreeOfShippingCostsFrom;
+    }
+
+    /**
+     * Returns the free of shipping costs from value if specified.
+     *
+     * @return Money
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.03.2012
+     */
+    public static function FreeOfShippingCostsFrom() {
+        if (is_null(self::$freeOfShippingCostsFrom)) {
+            self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
+        }
+        return self::$freeOfShippingCostsFrom;
+    }
+
     /**
      * Returns the minimum order value if specified
      *
@@ -825,8 +856,8 @@ class SilvercartConfig extends DataObject {
      *
      * @return string returns "gross" or "net"
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.3.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public static function Pricetype() {
         $member             = Member::currentUser();
@@ -843,62 +874,19 @@ class SilvercartConfig extends DataObject {
         }
 
         if ($member) {
-            // ----------------------------------------------------------------
-            // Determine price type by customer's chosen invoice address during
-            // the checkout process
-            // ----------------------------------------------------------------
-            if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
-                $checkoutData       = Controller::curr()->getCombinedStepData();
-                $invoiceAddress     = Controller::curr()->extractAddressDataFrom('Invoice', $checkoutData);
-                
-                if (array_key_exists('isCompanyAddress', $invoiceAddress) &&
-                    $invoiceAddress['isCompanyAddress']) {
-                    self::$priceType = $configObject->PricetypeBusinessCustomers;
-                } else {
-                    if ($member->Groups()->find('Code', 'anonymous')) {
-                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
-                    } else {
-                        self::$priceType = $configObject->PricetypeRegularCustomers;
-                    }
-                }
-            } else {
-                // ----------------------------------------------------------------
-                // Determine price type by customer's standard invoice address
-                // ----------------------------------------------------------------
-                if ($member->SilvercartInvoiceAddressID > 0) {
-
-                    if ($member->SilvercartInvoiceAddress()->isCompanyAddress()) {
-                        if (self::enableBusinessCustomers()) {
-                            self::$priceType = $configObject->PricetypeBusinessCustomers;
-                        } else {
-                            self::$priceType = $configObject->PricetypeRegularCustomers;
-                        }
-                    } else {
-                        self::$priceType = $configObject->PricetypeRegularCustomers;
-                    }
-                } else {
-                    // ----------------------------------------------------------------
-                    // Determine price type by customer's class
-                    // ----------------------------------------------------------------
-                    if ($member->Groups()->find('Code', 'anonymous')) {
-                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
-                    } else if ($member->Groups()->find('Code', 'b2b')) {
-                        if (self::enableBusinessCustomers()) {
-                            self::$priceType = $configObject->PricetypeBusinessCustomers;
-                        } else {
-                            self::$priceType = $configObject->PricetypeRegularCustomers;
-                        }
-                    } else if ($member->Groups()->find('Code', 'b2c')) {
-                        self::$priceType = $configObject->PricetypeRegularCustomers;
-                    } else {
-                        self::$priceType = $configObject->PricetypeAnonymousCustomers;
-                    }
+            foreach ($member->Groups() as $group) {
+                if (!empty($group->Pricetype) &&
+                    $group->Pricetype != '---') {
+                    self::$priceType = $group->Pricetype;
+                    break;
                 }
             }
+            if (is_null(self::$priceType)) {
+                self::$priceType = self::DefaultPricetype();
+            }
         } else {
-            self::$priceType = $configObject->PricetypeAnonymousCustomers;
+            self::$priceType = self::DefaultPricetype();
         }
-        
         return self::$priceType;
     }
 

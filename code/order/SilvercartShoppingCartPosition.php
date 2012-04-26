@@ -164,12 +164,23 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function getTitle() {
         $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
-        
-        if ($pluginTitle !== '') {
-            return $pluginTitle;
+        if ($pluginTitle == '') {
+            $pluginTitle = $this->SilvercartProduct()->Title;
         }
+        return $pluginTitle;
+    }
 
-        return $this->SilvercartProduct()->Title;
+    /**
+     * Returns additional tile information provided by plugins
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function addToTitle() {
+        $addToTitle = SilvercartPlugin::call($this, 'addToTitle', null, false, '');
+        return $addToTitle;
     }
 
     /**
@@ -415,5 +426,20 @@ class SilvercartShoppingCartPosition extends DataObject {
         parent::onBeforeWrite();
         
         $this->extend('updateOnBeforeWrite');
+    }
+
+    /**
+     * This method gets called when the shopping cart of a customer gets
+     * transferred to a new cart (e.g. during the registration process).
+     *
+     * @param SilvercartShoppingCartPosition $newShoppingCartPosition The new cart position
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.03.2012
+     */
+    public function transferToNewPosition($newShoppingCartPosition) {
+        $this->extend('updateTransferToNewPosition', $newShoppingCartPosition);
     }
 }

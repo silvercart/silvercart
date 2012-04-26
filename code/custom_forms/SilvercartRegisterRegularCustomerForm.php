@@ -227,7 +227,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 26.1.2011
      */
     protected $preferences = array(
-        'submitButtonTitle' => 'Abschicken',
+        'submitButtonTitle'  => 'Abschicken',
+        'markRequiredFields' => true
     );
 
     /**
@@ -421,6 +422,8 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 $newShoppingCartPosition = $shoppingCartPosition->duplicate(false);
                 $newShoppingCartPosition->SilvercartShoppingCartID = $newShoppingCart->ID;
                 $newShoppingCartPosition->write();
+
+                $shoppingCartPosition->transferToNewPosition($newShoppingCartPosition);
             }
 
             $customer->SilvercartShoppingCartID = $newShoppingCart->ID;

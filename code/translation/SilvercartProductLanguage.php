@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
  * Translations for a product
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 03.01.2012
@@ -31,41 +33,6 @@
  */
 class SilvercartProductLanguage extends DataObject {
     
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
-     */
-    public function singular_name() {
-        if (_t('SilvercartProductLanguage.SINGULARNAME')) {
-            return _t('SilvercartProductLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
-     */
-    public function plural_name() {
-        if (_t('SilvercartProductLanguage.PLURALNAME')) {
-            return _t('SilvercartProductLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
-    }
     /**
      * Attributes.
      *
@@ -96,21 +63,14 @@ class SilvercartProductLanguage extends DataObject {
     );
     
     /**
-     * columns for table overview
-     *
-     * @return array $summaryFields 
+     * Adds fulltext index for Title attribute, used for better
+     * search results
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @var array 
      */
-    public function summaryFields() {
-        $summaryFields = array(
-            'Title'               => _t('SilvercartProduct.COLUMN_TITLE')
-        );
-        
-        $this->extend('updateSummaryFields', $summaryFields);
-        return $summaryFields;
-    }
+    public static $indexes = array(
+        'Title' => 'Fulltext (Title)'
+    );
     
     /**
      * Field labels for display in tables.
@@ -125,18 +85,72 @@ class SilvercartProductLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'Title'            => _t('SilvercartProduct.TITLE'),
-            'ShortDescription' => _t('SilvercartProduct.SHORTDESCRIPTION'),
-            'LongDescription'  => _t('SilvercartProduct.DESCRIPTION'),
-            'MetaDescription'  => _t('SilvercartProduct.METADESCRIPTION'),
-            'MetaKeywords'     => _t('SilvercartProduct.METAKEYWORDS'),
-            'MetaTitle'        => _t('SilvercartProduct.METATITLE')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'             => _t('SilvercartProduct.TITLE'),
+                    'ShortDescription'  => _t('SilvercartProduct.SHORTDESCRIPTION'),
+                    'LongDescription'   => _t('SilvercartProduct.DESCRIPTION'),
+                    'MetaDescription'   => _t('SilvercartProduct.METADESCRIPTION'),
+                    'MetaKeywords'      => _t('SilvercartProduct.METAKEYWORDS'),
+                    'MetaTitle'         => _t('SilvercartProduct.METATITLE')
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public function plural_name() {
+        if (_t('SilvercartProductLanguage.PLURALNAME')) {
+            return _t('SilvercartProductLanguage.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }
+
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public function singular_name() {
+        if (_t('SilvercartProductLanguage.SINGULARNAME')) {
+            return _t('SilvercartProductLanguage.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+    
+    /**
+     * columns for table overview
+     *
+     * @return array $summaryFields 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'Title'               => $this->fieldLabel('Title'),
+        );
+        
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
+
 }
 

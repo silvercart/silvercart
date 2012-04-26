@@ -168,11 +168,11 @@
     }
 </style>
 
-<style type="text/css" media="print">
-    #left {
-        display: none;
+<script type="text/javascript">
+    function activateOrderPositionTab() {
+        alert("Call ok");
     }
-</style>
+</script>
 
 <div id="silvercart-cms-mainmenu">
     <div id="silvercart-cms-mainmenu-logo">

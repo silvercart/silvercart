@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
+ * Translations for a zone
  * 
- *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 21.01.2012
@@ -88,9 +90,10 @@ class SilvercartZoneLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'SilvercartZone' => _t('SilvercartZone.PLURALNAME'),
-            'Title'          => _t('SilvercartProduct.COLUMN_TITLE')
+                parent::fieldLabels($includerelations),
+                array(
+                    'SilvercartZone' => _t('SilvercartZone.PLURALNAME'),
+                    'Title'          => _t('SilvercartProduct.COLUMN_TITLE')
                 )
         );
 

@@ -281,9 +281,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForProducts($this, $priceType);
@@ -332,9 +330,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPayment = $paymentMethodObj->getChargesAndDiscountsForTotal($this, $priceType);
@@ -497,15 +493,15 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
         $member         = Member::currentUser();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
 
             if ($shippingFee !== false) {
-                $shippingFeeAmount = $shippingFee->Price->getAmount();
+                $shippingFeeAmount = $shippingFee->getPriceAmount();
                 $amountTotal = $shippingFeeAmount + $amountTotal;
             }
         }
@@ -541,8 +537,8 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
         $member         = Member::currentUser();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = round($this->getTaxableAmountNetWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount(), 2);
 
         if ($shippingMethod) {
@@ -928,9 +924,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function HandlingCostPayment() {
         $handlingCostPayment = 0;
-        $paymentMethodObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
+        $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
@@ -961,12 +955,10 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
-        $selectedShippingMethod = DataObject::get_by_id(
-            'SilvercartShippingMethod', $this->SilvercartShippingMethodID
-        );
+        $selectedShippingMethod = $this->getShippingMethod();
 
         if ($selectedShippingMethod) {
-            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->Price;
+            $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
             $handlingCostShipmentObj = new Money();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
@@ -994,12 +986,10 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function CarrierAndShippingMethodTitle() {
         $title = '';
-        $selectedShippingMethod = DataObject::get_by_id(
-                        'SilvercartShippingMethod', $this->SilvercartShippingMethodID
-        );
+        $selectedShippingMethod = $this->getShippingMethod();
 
         if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->SilvercartCarrier()->Title . "-" . $selectedShippingMethod->Title;
+            $title = $selectedShippingMethod->SilvercartCarrier()->Title . ' - ' . $selectedShippingMethod->Title;
         }
 
         return $title;
@@ -1008,18 +998,31 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the payment method object.
      *
-     * @return PaymentMethod
+     * @return SilvercartPaymentMethod
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
+     * @deprecated
      */
     public function getPayment() {
-        $paymentMethodObj = DataObject::get_by_id(
-                        'SilvercartPaymentMethod', $this->SilvercartPaymentMethodID
-        );
-
-        return $paymentMethodObj;
+        return $this->getPaymentMethod();
+    }
+    
+    /**
+     * Returns the shipping method
+     *
+     * @return SilvercartShippingMethod
+     */
+    public function getShippingMethod() {
+        return DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+    }
+    
+    /**
+     * Returns the payment method
+     *
+     * @return SilvercartPaymentMethod
+     */
+    public function getPaymentMethod() {
+        return DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
     }
 
     /**
@@ -1060,7 +1063,7 @@ class SilvercartShoppingCart extends DataObject {
 
             return false;
         }
-
+        
         return true;
     }
     
@@ -1199,8 +1202,8 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal('net')->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;
@@ -1236,14 +1239,36 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
         
         $amountObj = new Money;
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
+        return $amountObj;
+    }
+    
+    /**
+     * Returns the end sum of the cart without fees based on shop settings for net or gross price type
+     * 
+     * @param array   $excludeModules               An array of registered modules that shall not
+     *                                              be taken into account.
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
+     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * 
+     * @return Money money object with amount 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 26.03.2012
+     */
+    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+        if (SilvercartConfig::Pricetype() == 'gross') {
+            $amountObj = $this->getAmountTotalGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);                        
+        } else {
+            $amountObj = $this->getAmountTotalNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+        }       
         return $amountObj;
     }
 
@@ -1266,9 +1291,9 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
-        }
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
+        }       
 
         $amountObj = new Money;
         $amountObj->setAmount($amount);
@@ -1296,8 +1321,8 @@ class SilvercartShoppingCart extends DataObject {
         $amount  = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        if (round($amount, 2) === 0.00) {
+            $amount = round($amount, 2);
         }
 
         $amountObj = new Money;
@@ -1318,8 +1343,8 @@ class SilvercartShoppingCart extends DataObject {
     public function getTaxRatesForFees() {
         $taxes          = new DataObjectSet;
         $taxAmount      = 0;
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
@@ -1373,8 +1398,8 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxRatesWithFees() {
         $taxes          = $this->getTaxRatesWithoutFees();
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        $paymentMethod  = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $shippingMethod = $this->getShippingMethod();
+        $paymentMethod  = $this->getPaymentMethod();
 
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();

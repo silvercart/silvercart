@@ -83,8 +83,8 @@
 
         <% if ShowFees %>
             <tr>
-                <td colspan="3"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>:</td>
-                <td colspan="3" class="right"><strong>$CarrierAndShippingMethodTitle</strong></td>
+                <td colspan="2"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>:</td>
+                <td colspan="4" class="right"><strong>$CarrierAndShippingMethodTitle <% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
                 <td class="right">$HandlingCostShipment.Nice</td>
 
                 <% if Top.EditableShoppingCart %>
@@ -92,8 +92,8 @@
                 <% end_if %>
             </tr>
             <tr>
-                <td colspan="3"><% _t('SilvercartPaymentMethod.SINGULARNAME') %>:</td>
-                <td colspan="3" class="right"><strong>$payment.Name</strong></td>
+                <td colspan="2"><% _t('SilvercartPaymentMethod.SINGULARNAME') %>:</td>
+                <td colspan="4" class="right"><strong>$payment.Name</strong></td>
                 <td class="right">$HandlingCostPayment.Nice</td>
 
                 <% if Top.EditableShoppingCart %>
@@ -180,7 +180,7 @@
             <tr>
                 <td colspan="3">&nbsp;</td>
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
-                <td class="right"><strong>$AmountTotal.Nice</strong></td>
+                <td class="right"><strong>$AmountTotal.Nice<% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
 
                 <% if Top.EditableShoppingCart %>
                     <td>&nbsp;</td>
@@ -203,4 +203,4 @@
         <% end_if %>
     </tbody>
 </table>
-
+<% control ShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_control %>

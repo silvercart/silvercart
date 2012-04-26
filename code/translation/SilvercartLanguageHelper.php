@@ -107,11 +107,21 @@ class SilvercartLanguageHelper {
         return $fields;
     }
     
+    /**
+     * Creates and returns the language dropdown field
+     *
+     * @param DataObject $dataObj DataObject to get dropdown for
+     * 
+     * @return LanguageDropdownField 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
     public static function prepareLanguageDropdownField($dataObj) {
         $alreadyTranslatedLocales = array();
         $localeDropdown = new LanguageDropdownField(
             'Locale', 
-            _t('SilvercartConfig.DEFAULT_LANGUAGE'), 
+            _t('SilvercartConfig.TRANSLATION'), 
             $alreadyTranslatedLocales,
             $dataObj->ClassName,
             'Locale-Native',

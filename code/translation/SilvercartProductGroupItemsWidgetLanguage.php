@@ -17,13 +17,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package translation
- * @subpackage SilverCart
+ * @package SilverCart
+ * @subpackage Translation
  */
 
 /**
+ * Translation object of SilvercartProductGroupItemsWidget
  * 
- *
+ * @package SilverCart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 27.01.2012
@@ -105,15 +107,36 @@ class SilvercartProductGroupItemsWidgetLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'FrontTitle' => _t('SilvercartProductGroupItemsWidget.FRONTTITLE'),
-                    'FrontContent' => _t('SilvercartProductGroupItemsWidget.FRONTCONTENT'),
+                parent::fieldLabels($includerelations),
+                array(
+                    'FrontTitle'                        => _t('SilvercartWidget.FRONTTITLE'),
+                    'FrontContent'                      => _t('SilvercartWidget.FRONTCONTENT'),
                     'SilvercartProductGroupItemsWidget' => _t('SilvercartProductGroupItemsWidget.SINGULARNAME')
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+
+    /**
+     * Summary fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+                parent::summaryFields(),
+                array(
+                    'FrontTitle'    => $this->fieldLabel('FrontTitle'),
+                )
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 }
 

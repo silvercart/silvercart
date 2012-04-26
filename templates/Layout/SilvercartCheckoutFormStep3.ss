@@ -2,9 +2,9 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
     <fieldset>
-        <legend><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %></legend>
+        <legend><% _t('SilvercartShippingMethod.SINGULARNAME') %></legend>
         <div class="subcolumns">
-            $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldSelect)
+            $CustomHtmlFormFieldByName(ShippingMethod)
         </div>
     </fieldset>
     <div class="actionRow">

@@ -17,6 +17,7 @@ div.anythingSlider-silvercart-default .anythingWindow .panel {
 }
 
 /* Active State */
+div.anythingSlider-silvercart-default .anythingWindow
 div.anythingSlider-silvercart-default.activeSlider .anythingWindow {
     border:                         none;
 }
@@ -71,7 +72,7 @@ div.anythingSlider-silvercart-default .back a.hover {
 /* Navigation Links */
 div.anythingSlider-silvercart-default .anythingControls {
     float:                      none;
-    width:                      658px;
+    width:                      600px;
     position:                   absolute;
     top:                        0px;
     left:                       52px;
@@ -80,7 +81,7 @@ div.anythingSlider-silvercart-default .anythingControls {
 div.anythingSlider-silvercart-default .anythingControls ul {
     float:                      none;
     display:                    inline-block;
-    width:                      80%;
+    width:                      88%;
     text-align:                 center;
 }
 div.anythingSlider-silvercart-default .anythingControls ul li {
@@ -116,6 +117,7 @@ div.anythingSlider-silvercart-default .anythingControls ul a.cur span {
     color:                      #333;
     background:                 #333;
 }
+div.anythingSlider-silvercart-default .anythingControls ul a,
 div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a {
     color:                      #333;
     background:                 none;
@@ -126,6 +128,8 @@ div.anythingSlider-silvercart-default .anythingControls ul a.cur {
     background:                 #fff;
     margin:                     0px 2px 0px 0px;
 }
+div.anythingSlider-silvercart-default .anythingControls ul a:hover,
+div.anythingSlider-silvercart-default .anythingControls ul a.cur,
 div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a:hover,
 div.anythingSlider-silvercart-default.activeSlider .anythingControls ul a.cur {
     background:                 #fff;
@@ -152,7 +156,7 @@ div.anythingSlider-silvercart-default.rtl .anythingControls ul {
 /* Autoplay Start/Stop button */
 div.anythingSlider-silvercart-default .start-stop {
     display:                    inline-block;
-    width:                      18%;
+    width:                      10%;
     color:                      #333;
     background:                 #fff;
     border:                     1px #ccc solid;
@@ -166,7 +170,20 @@ div.anythingSlider-silvercart-default .start-stop.hover {
     color:                      #333;
     background:                 #fff;
 }
+div.anythingSlider-silvercart-default .start-stop.playing,
 div.anythingSlider-silvercart-default.activeSlider .start-stop.playing {
     color:                      #333;
     background:                 #fff;
+}
+
+/* Sidebar Widget */
+.silvercart-widget div.anythingSlider-silvercart-default .anythingControls {
+    width:                      215px;
+}
+.silvercart-widget div.anythingSlider-silvercart-default .anythingControls ul {
+    margin:                     4px 0px 0px 0px;
+    width:                      160px;
+}
+.silvercart-widget div.anythingSlider-silvercart-default .start-stop {
+    width:                      43px;
 }

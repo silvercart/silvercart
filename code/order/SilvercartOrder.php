@@ -58,7 +58,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 29.02.2012
      */
     public function CanView() {
-        return Permission::check('SILVERCART_ORDER_VIEW');
+        $canView = false;
+        if (Member::currentUserID() == $this->MemberID ||
+            Permission::check('SILVERCART_ORDER_VIEW')) {
+            $canView = true;
+        }
+        return $canView;
     }
 
     /**
@@ -635,18 +640,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 22.11.2010
      */
     public function convertShoppingCartPositionsToOrderPositions() {
-        SilvercartTools::Log(
-            'convertShoppingCartPositionToOrderPositions',
-            'Start -------------------------------------------------------------',
-            $this->class
-        );
-
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
-            SilvercartTools::Log(
-                'convertShoppingCartPositionToOrderPositions',
-                'Extension break!',
-                $this->class
-            );
             return true;
         }
         
@@ -663,6 +657,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
                 if ($product) {
                     $orderPosition = new SilvercartOrderPosition();
+                    $orderPosition->objectCreated = true;
                     $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
                     $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
                     $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
@@ -676,46 +671,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->Title               = $product->Title;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->SilvercartProductID = $product->ID;
+                    $orderPosition->log                 = false;
                     $orderPosition->write();
-
-                    SilvercartTools::Log(
-                        'convertShoppingCartPositionsToOrderPositions',
-                        'Order ID: '.$orderPosition->ID.' - '.
-                        'Product ID: '.$orderPosition->SilvercartProductID.' - '.
-                        'Position Title: '.$orderPosition->Title.' - '.
-                        'Quantity: '.$orderPosition->Quantity
-                        ,
-                        $this->class
-                    );
-
-                    if (class_exists('SilvercartProductVariantAttribute')) {
-                        if ($shoppingCartPosition->ProductVariantAttributes()) {
-                            $productVariantDefinition = '';
-                            foreach ($shoppingCartPosition->ProductVariantAttributes() as $attribute) {
-
-                                $silvercartProductVariantAttributeSet = DataObject::get_by_id('SilvercartProductVariantAttributeSet', $attribute->SilvercartProductVariantAttributeSet);
-
-                                if ($silvercartProductVariantAttributeSet) {
-                                    $setName            = $silvercartProductVariantAttributeSet->name;
-                                    $fieldModifierNotes = $attribute->getFieldModifierNotes();
-
-                                    if ($fieldModifierNotes != '') {
-                                        $setName .= ' ('.$fieldModifierNotes.')';
-                                    }
-
-                                    if (!empty($productVariantDefinition)) {
-                                        $productVariantDefinition .= ', ';
-                                    }
-                                    $productVariantDefinition .= str_replace('<br />', ' ', $setName).': '.str_replace('<br />', ' ',$attribute->name);
-                                }
-                            }
-                            SilvercartTools::Log(
-                                'convertShoppingCartPositionToOrderPositions',
-                                $productVariantDefinition,
-                                $this->class
-                            );
-                        }
-                    }
 
                     // Call hook method on product if available
                     if ($product->hasMethod('ShoppingCartConvert')) {
@@ -729,11 +686,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
                     
                     if (!empty($result)) {
-                        SilvercartTools::Log(
-                            'convertShoppingCartPositionToOrderPositions',
-                            'Using orderPosition from Plugin Call.',
-                            $this->class
-                        );
                         $orderPosition = $result[0];
                     }
                     
@@ -1904,7 +1856,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->getSalutationText(),
                     'SilvercartOrder'   => $this
                 ),
                 'Attachments'   => null,
@@ -1915,7 +1867,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
-                    'Salutation'        => $this->SilvercartInvoiceAddress()->Salutation,
+                    'Salutation'        => $this->SilvercartInvoiceAddress()->getSalutationText(),
                     'SilvercartOrder'   => $this
                 ),
                 'Attachments'   => null,
@@ -1983,6 +1935,45 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         parent::onAfterWrite();
 
         $this->extend('updateOnAfterWrite');
+    }
+
+    /**
+     * Recalculates the order totals for the attributed positions.
+     * 
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function recalculate() {
+        $totalAmount = 0.0;
+
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            $totalAmount += $orderPosition->PriceTotal->getAmount();
+        }
+
+        $this->AmountTotal->setAmount(
+            $totalAmount
+        );
+
+        $this->write();
+    }
+
+    /**
+     * Returns the shipping method of this order and injects the shipping address
+     *
+     * @return SilvercartShippingMethod
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public function SilvercartShippingMethod() {
+        $silvercartShippingMethod = null;
+        if ($this->getComponent('SilvercartShippingMethod')) {
+            $silvercartShippingMethod = $this->getComponent('SilvercartShippingMethod');
+            $silvercartShippingMethod->setShippingAddress($this->SilvercartShippingAddress());
+        }
+        return $silvercartShippingMethod;
     }
 }
 
@@ -2109,15 +2100,13 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      *
      * @return TableListField
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
      */
     public function getResultsTable($searchCriteria) {
         $tableField = parent::getResultsTable($searchCriteria);
-
+        $tableField->addPrintAction();
         $this->extend('getResultsTable', $tableField, $searchCriteria);
-        
         return $tableField;
     }
     
@@ -2145,4 +2134,20 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrder_RecordController extends ModelAdmin_RecordController {
+    
+    /**
+     * EditForm
+     *
+     * @return Form
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
+     */
+    public function EditForm() {
+        $form = parent::EditForm();
+        $actions = $form->Actions();
+        $actions->push($this->addFormAction("printDataObject", _t('SilvercartOrder.PRINT', 'Print order')));
+        return $form;
+    }
+    
 }

@@ -114,3 +114,80 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
         return $classNames;
     }
 }
+
+/**
+ * Decorates the default ModelAdmin_RecordController to inject some custom Actions.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 13.01.2011
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartModelAdmin_RecordControllerDecorator extends DataObjectDecorator {
+    
+    public static $allowed_actions = array(
+        'printDataObject',
+    );
+
+    /**
+     * Liefert eine FormAction mit der CSS-Klasse customModelAdminRecordAction
+     *
+     * @param string $action     Method to call after clicking the button (server side)
+     * @param string $title      Button label
+     * @param Form   $form       Parent form. Will be set automatically when the action is set into an existing form
+     * @param string $extraData  Extra Data
+     * @param string $extraClass CSS class to use
+     *
+     * @return FormAction
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2011
+     */
+    public function addFormAction($action, $title = "", $form = null, $extraData = null, $extraClass = '') {
+        $extraClass = 'silvercartModelAdminRecordAction' . ($extraClass == '' ? '' : ' ' . $extraClass);
+        return new FormAction($action, $title, $form, $extraData, $extraClass);
+    }
+
+    /**
+     * Generiert und liefert eine FormResponse.
+     *
+     * @param string $message              Success-/Errormessage
+     * @param string $status               Status 'good'/'bad'/'unknown'
+     * @param bool   $success              true on success, else false
+     * @param bool   $additionalJavaScript Additional JavaScipt
+     *
+     * @return string
+     */
+    public function getFormResponse($message, $status, $success, $additionalJavaScript = '') {
+        FormResponse::status_message(sprintf($message), $status);
+        FormResponse::add('var success=' . ($success == true ? 'true' : (is_string($success) ? $success : 'false')) . ';' . $additionalJavaScript);
+        return FormResponse::respond();
+    }
+
+    /**
+     * Defaut action to trigger printing the current record
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2012
+     */
+    public function printDataObject() {
+        $message                = _t('Silvercart.NOT_ALLOWED_TO_PRINT', "You are not allowed to print this object!");
+        $status                 = 'bad';
+        $success                = false;
+        $additionalJavaScript   = '';
+        if ($this->owner->currentRecord->canView()) {
+            $message                = _t('Silvercart.LOADING_PRINT_VIEW', "Loading print view.");
+            $status                 = 'good';
+            $success                = true;
+            $additionalJavaScript   = sprintf(
+                    "window.open('%s');",
+                    SilvercartPrint::getPrintURL($this->owner->currentRecord)
+            );
+        }
+        return $this->getFormResponse($message, $status, $success, $additionalJavaScript);
+    }
+}

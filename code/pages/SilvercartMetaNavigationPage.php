@@ -33,9 +33,10 @@
  */
 class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
 
-    public static $singular_name = "privacy policy page";
+    public static $singular_name = "MetanavigationPage";
+    
     public static $allowed_children = array(
-        'none'
+        'SilvercartMetaNavigationPage'
     );
 
     /**

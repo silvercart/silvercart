@@ -520,9 +520,13 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 14.12.2011
      */
     public function getHandlingCost() {
-        $handlingCosts = new Money;
-        $handlingCosts->setAmount(0);
-        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        if ((int) $this->SilvercartHandlingCostID === 0) {
+            $handlingCosts = new Money;
+            $handlingCosts->setAmount(0);
+            $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        } else {
+            $handlingCosts = $this->SilvercartHandlingCost()->amount;
+        }
 
         return $handlingCosts;
     }
@@ -1231,6 +1235,22 @@ class SilvercartPaymentMethod extends DataObject {
                 ));
         
         // --------------------------------------------------------------------
+        // Handling cost table
+        // --------------------------------------------------------------------
+        $tabHandlingCosts= new Tab('HandlingCosts', _t('SilvercartPaymentMethod.HANDLINGCOSTS_SETTINGS'));
+        $tabset->push($tabHandlingCosts);
+
+        $tabHandlingCosts->setChildren(
+            new FieldSet(
+                new HasOneComplexTableField(
+                    $this,
+                    'SilvercartHandlingCost',
+                    'SilvercartHandlingCost'
+                )
+            )
+        );
+
+        // --------------------------------------------------------------------
         // GUI for management of logo images
         // --------------------------------------------------------------------
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
@@ -1437,28 +1457,11 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedCountries() {
-        $attributedCountriesStr = '';
-        $attributedCountries = array();
-        $maxLength = 150;
-
-        foreach ($this->SilvercartCountries() as $country) {
-            $attributedCountries[] = $country->Title;
-        }
-
-        if (!empty($attributedCountries)) {
-            $attributedCountriesStr = implode(', ', $attributedCountries);
-
-            if (strlen($attributedCountriesStr) > $maxLength) {
-                $attributedCountriesStr = substr($attributedCountriesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedCountriesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartCountries());
     }
 
     /**
@@ -1466,28 +1469,11 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedZones() {
-        $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartZone() as $zone) {
-            $attributedZones[] = $zone->Title;
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength) . '...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZone());
     }
 
     /**

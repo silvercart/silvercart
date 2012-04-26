@@ -139,6 +139,22 @@ class SilvercartPage extends SiteTree {
     public function getSection() {
         return 'SilvercartAddress';
     }
+    
+    /**
+     * Return the title, description, keywords and language metatags.
+     * 
+     * @param bool $includeTitle Show default <title>-tag, set to false for custom templating
+     * 
+     * @return string The XHTML metatags
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2012
+     */
+    public function MetaTags($includeTitle = true) {
+        $tags = parent::MetaTags($includeTitle);
+        $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $tags);
+        return $tags;
+    }
 }
 
 /**
@@ -183,6 +199,12 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected $WidgetSetContentControllers;
     
+    public function __construct($dataRecord = null) {
+        i18n::set_default_locale(Translatable::get_current_locale());
+        i18n::set_locale(Translatable::get_current_locale());
+        parent::__construct($dataRecord);
+    }
+    
     /**
      * standard page controller
      *
@@ -193,7 +215,6 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
-        i18n::set_default_locale(Translatable::get_current_locale());
         $controller = Controller::curr();
         
         if ($this != $controller &&
@@ -251,6 +272,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartProductGroupViewNavigation');
             Requirements::themedCSS('SilvercartProductPage');
             Requirements::themedCSS('SilvercartShoppingCart');
+            Requirements::themedCSS('SilvercartSiteMap');
             Requirements::themedCSS('SilvercartWidget');        
             Requirements::themedCSS('jquery.fancybox-1.3.4');
             Requirements::themedCSS('anythingslider');
@@ -260,7 +282,6 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.min.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
-            Requirements::javascript("silvercart/script/anythingslider/js/jquery.anythingslider.video.js");
             Requirements::javascript("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
             Requirements::javascript("silvercart/script/jquery.roundabout.min.js");
             Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
@@ -362,6 +383,18 @@ class SilvercartPage_Controller extends ContentController {
         SilvercartPlugin::call($this, 'init', array($this));
             
         parent::init();
+    }
+
+    /**
+     * Indicates wether the site is in live mode.
+     * 
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.01.2012
+     */
+    public function isLive() {
+        return Director::isLive();
     }
     
     /**
@@ -555,25 +588,14 @@ class SilvercartPage_Controller extends ContentController {
      * used to retrieve links dynamically
      *
      * @param string $identifierCode the classes name
+     * 
+     * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.2.11
-     * @return DataObject | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = DataObject::get_one(
-            "SiteTree",
-            sprintf(
-                "`IdentifierCode` = '%s'",
-                $identifierCode
-            )
-        );
-
-        if ($page) {
-            return $page;
-        } else {
-            return false;
-        }
+        return SilvercartTools::PageByIdentifierCode($identifierCode);
     }
 
     /**
@@ -584,14 +606,10 @@ class SilvercartPage_Controller extends ContentController {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
+     * @since 05.04.2012
      */
     public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
-        $page = self::PageByIdentifierCode($identifierCode);
-        if ($page === false) {
-            return '';
-        }
-        return $page->Link();
+        return SilvercartTools::PageByIdentifierCodeLink($identifierCode);
     }
 
     /**

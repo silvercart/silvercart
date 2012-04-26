@@ -133,10 +133,23 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
      * configure submit button
      */
     protected $preferences = array(
-        'submitButtonTitle' => 'Speichern'
+        'submitButtonTitle'  => 'Speichern',
+        'markRequiredFields' => true
     );
     
     public $submitSuccess = false;
+
+    /**
+     * Indicates wether business customers should be enabled.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function EnableBusinessCustomers() {
+        return SilvercartConfig::enableBusinessCustomers();
+    }
 
     /**
      * Fill the form with default values

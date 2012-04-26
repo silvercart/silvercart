@@ -72,40 +72,6 @@ class SilvercartAddress extends DataObject {
     );
     
     /**
-     * Summary fields for display in table views.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $summary_fields = array(
-        'Street'    => 'Strasse',
-        'City'      => 'Stadt'
-    );
-    
-    /**
-     * Labels.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $field_labels = array(
-        'Street'            => 'Strasse',
-        'StreetNumber'      => 'Hausnummer',
-        'Postcode'          => 'PLZ',
-        'City'              => 'Ort',
-        'PhoneAreaCode'     => 'Vorwahl',
-        'Phone'             => 'Telefonnummer',
-        'SilvercartCountry' => 'Land',
-        'Addition'          => 'Adresszusatz',
-        'FirstName'         => 'Vorname',
-        'Surname'           => 'Nachname'
-    );
-    
-    /**
      * Has-one relationships.
      *
      * @var array
@@ -115,18 +81,6 @@ class SilvercartAddress extends DataObject {
      */
     public static $casting = array(
         'SalutationText' => 'VarChar',
-    );
-    
-    /**
-     * Belongs-many-many relationships.
-     *
-     * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
-     */
-    public static $belongs_many_many = array(
-        'SilvercartOrders' => 'SilvercartOrder'
     );
     
     /**
@@ -169,14 +123,14 @@ class SilvercartAddress extends DataObject {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.06.2011
+     * @since 05.04.2012
      */
     public function summaryFields() {
         return array_merge(
             parent::summaryFields(),
             array(
-                'Street' => _t('SilvercartAddress.STREET'),
-                'City' => _t('SilvercartAddress.CITY'),
+                'Street'    => $this->fieldLabel('Street'),
+                'City'      => $this->fieldLabel('City'),
             )
         );
     }
@@ -189,22 +143,25 @@ class SilvercartAddress extends DataObject {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.06.2011
+     * @since 04.04.2012
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Street' => _t('SilvercartAddress.STREET'),
-                'StreetNumber' => _t('SilvercartAddress.STREETNUMBER'),
-                'Postcode' => _t('SilvercartAddress.POSTCODE'),
-                'City' => _t('SilvercartAddress.CITY'),
-                'PhoneAreaCode' => _t('SilvercartAddress.PHONEAREACODE'),
-                'Phone' => _t('SilvercartAddress.PHONE'),
+                'Street'            => _t('SilvercartAddress.STREET'),
+                'StreetNumber'      => _t('SilvercartAddress.STREETNUMBER'),
+                'Postcode'          => _t('SilvercartAddress.POSTCODE'),
+                'City'              => _t('SilvercartAddress.CITY'),
+                'PhoneAreaCode'     => _t('SilvercartAddress.PHONEAREACODE'),
+                'Phone'             => _t('SilvercartAddress.PHONE'),
+                'PhoneShort'        => _t('SilvercartAddress.PHONE_SHORT'),
                 'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
-                'Addition' => _t('SilvercartAddress.ADDITION'),
-                'FirstName' => _t('SilvercartAddress.FIRSTNAME'),
-                'Surname' => _t('SilvercartAddress.SURNAME'),
+                'Addition'          => _t('SilvercartAddress.ADDITION'),
+                'FirstName'         => _t('SilvercartAddress.FIRSTNAME'),
+                'Surname'           => _t('SilvercartAddress.SURNAME'),
+                'TaxIdNumber'       => _t('SilvercartAddress.TAXIDNUMBER'),
+                'Company'           => _t('SilvercartAddress.COMPANY'),
             )
         );
     }
@@ -247,6 +204,26 @@ class SilvercartAddress extends DataObject {
         }
         
         return $isCompanyAddress;
+    }
+
+    /**
+     * Indicates wether this is the last address of the customer.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function isLastAddress() {
+        $isLastAddress = false;
+
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartAddresses()->Count() < 2) {
+
+            $isLastAddress = true;
+        }
+
+        return $isLastAddress;
     }
 
     /**

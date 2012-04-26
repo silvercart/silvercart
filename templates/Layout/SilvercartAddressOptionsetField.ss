@@ -39,8 +39,8 @@
                                             <% if isCompanyAddress %>
                                                 <div class="silvercart-address-company-section">
                                                     <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
-                                                    <% _t('SilvercartAddress.TAXIDNUMBER','Tax ID number') %>: $TaxIdNumber<br />
-                                                    <% _t('SilvercartAddress.COMPANY','Company') %>: $Company<br />
+                                                    <% if TaxIdNumber %>$address.fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
+                                                    <% if Company %>$address.fieldLabel(Company): $Company<br /><% end_if %>
                                                 </div>
                                             <% else %>
                                                 <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
@@ -51,7 +51,7 @@
                                             $Postcode $City<br/>
                                             $SilvercartCountry.Title<br/>
                                             <% if Phone %>
-                                                <% _t('SilvercartAddress.PHONE_SHORT','Phone') %>: $PhoneAreaCode/$Phone
+                                                $address.fieldLabel(PhoneShort): $PhoneAreaCode/$Phone
                                             <% end_if %>
                                         </div>
                                     </div>
@@ -60,11 +60,12 @@
                                             <span class="silvercart-icon-button_content">
                                                 &nbsp;
                                             </span>
-                                        </a><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
+                                        </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
                                             <span class="silvercart-icon-button_content">
                                                 &nbsp;
                                             </span>
                                         </a>
+                                        <% end_if %>
                                     </div>
                                 </div>
                             </label>

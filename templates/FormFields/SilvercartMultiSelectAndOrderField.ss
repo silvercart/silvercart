@@ -25,8 +25,8 @@
         </div>
         <div class="c10l">
             <p>&nbsp;</p>
-            <input type="submit" id="{$ID}_action_doAttributeItems" name="action_doAttributeItems" value="&gt;" class="silvercart-multiselectandorder-field-middle-button action_doAttributeItems" /><br />
-            <input type="submit" id="{$ID}_action_doRemoveItems" name="action_doRemoveItems" value="&lt;" class="silvercart-multiselectandorder-field-middle-button action_doRemoveItems" />
+            <input type="submit" id="{$ID}_action_doAttributeItems" name="action_doAttributeItems" value="" class="silvercart-multiselectandorder-field-middle-button action_doAttributeItems" /><br />
+            <input type="submit" id="{$ID}_action_doRemoveItems" name="action_doRemoveItems" value="" class="silvercart-multiselectandorder-field-middle-button action_doRemoveItems" />
         </div>
         <div class="c45r">
             <p>
@@ -39,8 +39,8 @@
             </select>
             
             <div class="silvercart-multiselectandorder-field-action-row">
-                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" value="<% _t('SilvercartMultiSelectAndOrderField.MOVE_UP') %>" />
-                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" value="<% _t('SilvercartMultiSelectAndOrderField.MOVE_DOWN') %>" />
+                <input id="{$ID}_action_doMoveUpItems" class="action_doMoveUpItems" type="submit" name="action_doMoveUpItems" title="<% _t('SilvercartMultiSelectAndOrderField.MOVE_UP') %>" value="" />
+                <input id="{$ID}_action_doMoveDownItems" class="action_doMoveDownItems" type="submit" name="action_doMoveDownItems" title="<% _t('SilvercartMultiSelectAndOrderField.MOVE_DOWN') %>" value="" />
             </div>
         </div>
     </div>

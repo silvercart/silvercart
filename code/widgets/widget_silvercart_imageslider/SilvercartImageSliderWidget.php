@@ -179,63 +179,39 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields = new FieldSet();
         
-        $imageField                 = new ManyManyFileDataObjectManager(
-            $this,
-            'slideImages',
-            'SilvercartImageSliderImage'
-        );
-        $autoplay                   = new CheckboxField('Autoplay', _t('SilvercartProductGroupItemsWidget.AUTOPLAY'));
-        $slideDelay                 = new TextField('slideDelay', _t('SilvercartProductGroupItemsWidget.SLIDEDELAY'));
-        $buildArrows                = new CheckboxField('buildArrows', _t('SilvercartProductGroupItemsWidget.BUILDARROWS'));
-        $buildNavigation            = new CheckboxField('buildNavigation', _t('SilvercartProductGroupItemsWidget.BUILDNAVIGATION'));
-        $buildStartStop             = new CheckboxField('buildStartStop', _t('SilvercartProductGroupItemsWidget.BUILDSTARTSTOP'));
-        $autoPlayDelayed            = new CheckboxField('autoPlayDelayed', _t('SilvercartProductGroupItemsWidget.AUTOPLAYDELAYED'));
-        $autoPlayLocked             = new CheckboxField('autoPlayLocked', _t('SilvercartProductGroupItemsWidget.AUTOPLAYLOCKED'));
-        $stopAtEnd                  = new CheckboxField('stopAtEnd', _t('SilvercartProductGroupItemsWidget.STOPATEND'));
-        $transitionEffect           = new DropdownField(
-            'transitionEffect',
-            _t('SilvercartProductGroupItemsWidget.TRANSITIONEFFECT'),
-            array(
-                'fade'              => _t('SilvercartProductGroupItemsWidget.TRANSITION_FADE'),
-                'horizontalSlide'   => _t('SilvercartProductGroupItemsWidget.TRANSITION_HORIZONTALSLIDE'),
-                'verticalSlide'     => _t('SilvercartProductGroupItemsWidget.TRANSITION_VERTICALSLIDE')
-            )
-        );
+        $rootTabSet         = new TabSet('Root');
+        $basicTab           = new Tab('Basic',              $this->fieldLabel('BasicTab'));
+        $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
         
-        $rootTabSet = new TabSet('SilvercartProductGroupItemsWidget');
-        $basicTab   = new Tab('basic', _t('SilvercartProductGroupItemsWidget.CMS_BASICTABNAME'));
-        $sliderTab  = new Tab('anythingSlider', _t('SilvercartProductGroupItemsWidget.CMS_SLIDERTABNAME'));
-        $imagesTab  = new Tab('slideImages', _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME', 'Images'));
-        $translationsTab = new Tab('TranslationsTab');
-        $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
+        $translationsTableField = new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage');
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
-        $rootTabSet->push($imagesTab);
-        $rootTabSet->push($sliderTab);
+        $this->getCMSFieldsSliderTab($rootTabSet);
         $rootTabSet->push($translationsTab);
         
-        //multilingual fields, in fact just the title
+        $translationsTab->push($translationsTableField);
+                
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
         foreach ($languageFields as $languageField) {
-            $basicTab->push($languageField);
+            $fields->addFieldToTab('Root.Basic', $languageField);
         }
         
-        $sliderTab->push($autoplay);
-        $sliderTab->push($slideDelay);
-        $sliderTab->push($buildArrows);
-        $sliderTab->push($buildNavigation);
-        $sliderTab->push($buildStartStop);
-        $sliderTab->push($autoPlayDelayed);
-        $sliderTab->push($autoPlayLocked);
-        $sliderTab->push($stopAtEnd);
-        $sliderTab->push($transitionEffect);
-        
-        $imagesTab->push($imageField);
-        
-        $translationsTab->push(new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage'));
-        
         return $fields;
+    }
+    
+    /**
+     * Returns the slider tab input fields for this widget.
+     * 
+     * @param TabSet &$rootTabSet The root tab set
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.03.2012
+     */
+    public function getCMSFieldsSliderTab(&$rootTabSet) {
+        SilvercartWidgetTools::getCMSFieldsSliderTabForProductSliderWidget($this, $rootTabSet);
     }
     
     /**
@@ -251,8 +227,12 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                'SilvercartImageSliderWidgetLanguages' => _t('SilvercartImageSliderWidgetLanguage.PLURALNAME')
+                parent::fieldLabels($includerelations),
+                SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
+                array(
+                    'SilvercartImageSliderWidgetLanguages'  => _t('SilvercartImageSliderWidgetLanguage.PLURALNAME'),
+                    'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
+                    'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                 )
         );
 

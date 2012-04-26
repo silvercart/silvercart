@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2010, 2011 pixeltricks GmbH
  *
@@ -82,9 +81,8 @@ class SilvercartQuantityUnit extends DataObject {
      * @return FieldSet the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 17.01.2012
- */
+     */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
@@ -143,9 +141,9 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::summaryFields(),
                 array(
-                    'TableIndicator' => '',
-                    'Title' => _t('SilvercartQuantityUnit.NAME'),
-                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION')
+                    'TableIndicator'    => '',
+                    'Title'             => $this->fieldLabel('Title'),
+                    'Abbreviation'      => $this->fieldLabel('Abbreviation'),
                 )
         );
     }
@@ -163,9 +161,9 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
                 parent::fieldLabels(),
                 array(
-                    'Title' => _t('SilvercartQuantityUnit.NAME'),
-                    'Abbreviation' => _t('SilvercartQuantityUnit.ABBREVIATION'),
-                    'SilvercartQuantityUnitLanguages' => _t('SilvercartQuantityUnitLanguage.PLURALNAME')
+                    'Title'                             => _t('SilvercartQuantityUnit.NAME'),
+                    'Abbreviation'                      => _t('SilvercartQuantityUnit.ABBREVIATION'),
+                    'SilvercartQuantityUnitLanguages'   => _t('SilvercartQuantityUnitLanguage.PLURALNAME'),
                 )
         );
     }

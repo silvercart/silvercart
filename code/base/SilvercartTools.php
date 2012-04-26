@@ -59,6 +59,23 @@ class SilvercartTools extends Object {
     }
 
     /**
+     * Remove chars from the given string that are not appropriate for an url
+     *
+     * @param string $string String to convert
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.03.2012
+     */
+    public static function string2urlSegment($string) {
+        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', "'", '<', '>');
+        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '',  '');
+        $string     = str_replace($remove, $replace, $string);
+        return strtolower(urlencode($string));
+    }
+
+    /**
      * Writes a log entry
      *
      * @param string $method The method name of the caller
@@ -79,5 +96,82 @@ class SilvercartTools extends Object {
             $text
         );
         file_put_contents($path, $text, FILE_APPEND);
+    }
+
+    /**
+     * Returns the attributed DataObjects as string (limited to 150 chars) by
+     * the given ComponentSet.
+     * 
+     * @param ComponentSet $componentSet ComponentSet to get list for
+     * @param string       $dbField      Db field to use to display
+     * @param int          $maxLength    Maximum string length
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function AttributedDataObject($componentSet, $dbField = "Title", $maxLength = 150) {
+        $attributedDataObjectStr    = '';
+        $attributedDataObjects      = array();
+
+        foreach ($componentSet as $component) {
+            $attributedDataObjects[] = $component->{$dbField};
+        }
+        
+        if (!empty($attributedDataObjects)) {
+            $attributedDataObjectStr = implode(', ', $attributedDataObjects);
+
+            if (strlen($attributedDataObjectStr) > $maxLength) {
+                $attributedDataObjectStr = substr($attributedDataObjectStr, 0, $maxLength) . '...';
+            }
+        }
+
+        return $attributedDataObjectStr;
+    }
+
+    /**
+     * returns a single page by IdentifierCode
+     * used to retrieve links dynamically
+     *
+     * @param string $identifierCode the classes name
+     * 
+     * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
+        $page = DataObject::get_one(
+            "SiteTree",
+            sprintf(
+                "`IdentifierCode` = '%s'",
+                $identifierCode
+            )
+        );
+
+        if ($page) {
+            return $page;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
+        $page = self::PageByIdentifierCode($identifierCode);
+        if ($page === false) {
+            return '';
+        }
+        return $page->Link();
     }
 }

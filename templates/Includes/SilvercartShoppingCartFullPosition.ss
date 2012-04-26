@@ -11,10 +11,7 @@
             <% end_if %>
         </div>
     </td>
-    <td>
-        <a href="$silvercartProduct.Link">$SilvercartProduct.Title</a><br />
-        <a href="$silvercartProduct.Link">(<% _t('SilvercartProduct.PRODUCTNUMBER', 'product number') %> $SilvercartProduct.ProductNumberShop)</a>
-    </td>
+    <td><a href="$silvercartProduct.Link">$getTitle</a><br/>$addToTitle</td>
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
     <td class="right borderlr">

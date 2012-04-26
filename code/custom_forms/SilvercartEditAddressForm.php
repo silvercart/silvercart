@@ -140,6 +140,19 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
     );
 
     /**
+     * form settings
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    protected $preferences = array(
+        'submitButtonTitle'  => 'Speichern',
+        'markRequiredFields' => true
+    );
+
+    /**
      * Fill the form with default values
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -198,11 +211,16 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
     }
 
     /**
-     * configure submit button
+     * Indicates wether business customers should be enabled.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
      */
-    protected $preferences = array(
-        'submitButtonTitle' => 'Speichern'
-    );
+    public function EnableBusinessCustomers() {
+        return SilvercartConfig::enableBusinessCustomers();
+    }
 
     /**
      * executed if there are no valdation errors on submit

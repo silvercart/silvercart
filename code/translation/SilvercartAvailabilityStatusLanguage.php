@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
- * translations for SilvercartAvailabilityStatus
+ * Translations for SilvercartAvailabilityStatus
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 14.01.2012
@@ -104,8 +106,9 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'Title' => _t('SilvercartAvailabilityStatus.SINGULARNAME')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title' => _t('SilvercartAvailabilityStatus.SINGULARNAME')
                 )
         );
 

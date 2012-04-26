@@ -87,6 +87,18 @@ h1 {
     text-align:                     right;
 }
 
+.align_top {
+    vertical-align:                 top;
+}
+
+.align_bottom {
+    vertical-align:                 bottom;
+}
+
+.padding_right {
+    padding-right:                  12px;
+}
+
 .page {
     background:                     #fff;
     border:                         1px #aeaaa1 solid;
@@ -144,11 +156,40 @@ table th {
 table td {
     padding:                        3px 4px;
 }
+table th.left,
+table td.left {
+    text-align:                     left;
+}
+table th.right,
+table td.right {
+    text-align:                     right;
+}
+
+.silvercart-default-table {
+    
+}
+.silvercart-default-table tr.even td {
+    background-color: #f9f9f9;
+}
+.silvercart-default-table tr.odd td {
+    
+}
+
 #silvercart-order-holder-table-id td {
+    vertical-align:                 top;
     padding:                        3px 4px;
 }
 #silvercart-order-holder-table-id .silvercart-button a {
     margin:                         2px 0px 0px 0px;
+}
+#silvercart-order-holder-table-id ul {
+    list-style:                     disc outside;
+    margin:                         0px;
+    padding:                        0px 0px 0px 16px;
+}
+#silvercart-order-holder-table-id ul li {
+    margin:                         0px;
+    padding:                        0px;
 }
 
 /* Helper classes ---------------------------------------------------------- */

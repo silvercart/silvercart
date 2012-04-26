@@ -71,7 +71,7 @@
                                                 <div class="silvercart-button">
                                                     <div class="silvercart-button_content">
                                                         <a id="silvercart-logout-link" href="{$baseHref}Security/logout/">
-                                                            Logout
+                                                            <% _t('SilvercartPage.LOGOUT', 'Logout') %>
                                                         </a>
                                                     </div>
                                                 </div>

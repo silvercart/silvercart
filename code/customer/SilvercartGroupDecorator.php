@@ -43,8 +43,12 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
      */
     public function extraStatics() {
         return array(
+            'db' => array(
+                'Pricetype' => 'Enum("---,gross,net","---")',
+            ),
             'belongs_many_many' => array(
-                'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
+                'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
+                'SilvercartShippingMethods' => 'SilvercartShippingMethod',
             )
         );
     }
@@ -56,10 +60,55 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 04.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
      */
     public function updateCMSFields(FieldSet &$fields) {
         $fields->addFieldToTab('Root.Members', new TextField('Code', _t('Group.CODE')));
+        if ($this->owner->ID) {
+            $shippingMethodsTable = new SilvercartManyManyComplexTableField(
+                            $this->owner,
+                            'SilvercartShippingMethods',
+                            'SilvercartShippingMethod'
+            );
+            $shippingMethodsTable->pageSize = 50;
+            $fields->findOrMakeTab('Root.SilvercartShippingMethod', $this->owner->fieldLabel('SilvercartShippingMethods'));
+            $fields->addFieldToTab("Root.SilvercartShippingMethod", $shippingMethodsTable);
+        }
+        
+        $enumValues = $this->owner->dbObject('Pricetype')->enumValues();
+        $i18nSource = array();
+        foreach ($enumValues as $value => $label) {
+            $i18nSource[$value] = _t('SilvercartCustomer.' . strtoupper($label), $label);
+        }
+        $pricetypeField = new DropdownField(
+                'Pricetype',
+                $this->owner->fieldLabel('Pricetype'),
+                $i18nSource,
+                $this->owner->Pricetype
+        );
+        $fields->addFieldToTab("Root.Members", $pricetypeField, 'Members');
+        
+    }
+    
+    /**
+     * Updates the field labels
+     *
+     * @param array &$labels The original labels
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2012
+     */
+    public function updateFieldLabels(&$labels) {
+        $labels = array_merge(
+                $labels,
+                array(
+                    'Pricetype'                 => _t('SilvercartGroupDecorator.PRICETYPE'),
+                    'SilvercartPaymentMethods'  => _t('SilvercartPaymentMethod.PLURALNAME'),
+                    'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
+                )
+        );
     }
 }

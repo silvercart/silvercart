@@ -18,11 +18,13 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 /**
+ * Translation object of SilvercartLatestBlogPostsWidget
  * 
- *
+ * @package SilverCart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 27.01.2012
@@ -103,13 +105,34 @@ class SilvercartLatestBlogPostsWidgetLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'WidgetTitle' => _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE')
+                parent::fieldLabels($includerelations),
+                array(
+                    'WidgetTitle' => _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE')
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+
+    /**
+     * Summary fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+                parent::summaryFields(),
+                array(
+                    'WidgetTitle'   => $this->fieldLabel('WidgetTitle'),
+                )
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 }
 

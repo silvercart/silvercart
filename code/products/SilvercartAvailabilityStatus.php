@@ -103,6 +103,7 @@ class SilvercartAvailabilityStatus extends DataObject {
             parent::fieldLabels($includerelations),
             array(
                 'Code'                                  => _t('SilvercartOrderStatus.CODE'),
+                'Title'                                 => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
                 'SilvercartAvailabilityStatusLanguages' => _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME')
             )
         );
@@ -119,7 +120,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 15.01.2012
- */
+     */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
@@ -130,25 +131,46 @@ class SilvercartAvailabilityStatus extends DataObject {
         }
         return $fields;
     }
-    
+
     /**
      * Summaryfields for display in tables.
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 15.01.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Code' => _t('SilvercartOrderStatus.CODE'),
-            'Title' => _t('SilvercartAvailabilityStatus.SINGULARNAME')
+            'Title' => $this->fieldLabel('Title'),
+            'Code'  => $this->fieldLabel('Code'),
         );
-
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Defines the form fields for the search in ModelAdmin
+     * 
+     * @return array seach fields definition
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartAvailabilityStatusLanguages.Title' => array(
+                'title' => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            ),
+            'Code' => array(
+                'title' => $this->fieldLabel('Code'),
+                'filter' => 'PartialMatchFilter'
+            ),
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
     }
     
     /**
@@ -166,4 +188,5 @@ class SilvercartAvailabilityStatus extends DataObject {
         }
         return $title;
     }
+    
 }

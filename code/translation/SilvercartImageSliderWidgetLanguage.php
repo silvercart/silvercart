@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
+ * Translation object of SilvercartImageSliderWidget
  * 
- *
+ * @package SilverCart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 27.01.2012
@@ -105,14 +107,35 @@ class SilvercartImageSliderWidgetLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'FrontTitle' => _t('SilvercartProductGroupItemsWidget.FRONTTITLE'),
-                    'FrontContent' => _t('SilvercartProductGroupItemsWidget.FRONTCONTENT')
+                parent::fieldLabels($includerelations),
+                array(
+                    'FrontTitle'    => _t('SilvercartWidget.FRONTTITLE'),
+                    'FrontContent'  => _t('SilvercartWidget.FRONTCONTENT'),
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+
+    /**
+     * Summary fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+                parent::summaryFields(),
+                array(
+                    'FrontTitle'    => $this->fieldLabel('FrontTitle'),
+                )
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 }
 

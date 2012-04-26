@@ -78,7 +78,6 @@ class SilvercartProductTableListField extends TableListField {
         'PriceNetAmount'                        => 'PriceNetAmount',
         'PriceNetCurrency'                      => 'PriceNetCurrency',
         'Weight'                                => 'Weight',
-        'isFreeOfCharge'                        => 'isFreeOfCharge',
         'EANCode'                               => 'EANCode',
         'isActive'                              => 'isActive',
         'PurchaseMinDuration'                   => 'PurchaseMinDuration',

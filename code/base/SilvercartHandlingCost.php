@@ -34,28 +34,6 @@
 class SilvercartHandlingCost extends DataObject {
 
     /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $singular_name = "handling cost";
-
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $plural_name = "handling costs";
-
-    /**
      * Attributes.
      *
      * @var array
@@ -69,6 +47,18 @@ class SilvercartHandlingCost extends DataObject {
     );
 
     /**
+     * Casting.
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public static $casting = array(
+        'handlingcosts' => 'Text'
+    );
+
+    /**
      * Has-one relationships.
      *
      * @var array
@@ -79,32 +69,6 @@ class SilvercartHandlingCost extends DataObject {
      */
     public static $has_one = array(
         'SilvercartTax' => 'SilvercartTax'
-    );
-
-    /**
-     * Summary fields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $summary_fields = array(
-        'amount'
-    );
-
-    /**
-     * Labels for the columns in tables.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $field_labels = array(
-        'amount' => 'Betrag'
     );
     
     /**
@@ -125,7 +89,58 @@ class SilvercartHandlingCost extends DataObject {
                     )
                 );
     }
-    
+
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function singular_name() {
+        if (_t('SilvercartHandlingCost.SINGULARNAME')) {
+            return _t('SilvercartHandlingCost.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        }
+    }
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects plural name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function plural_name() {
+        if (_t('SilvercartHandlingCost.PLURALNAME')) {
+            return _t('SilvercartHandlingCost.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'handlingcosts' => _t('SilvercartHandlingCost.AMOUNT'),
+        );
+        $this->extend('updateSummaryFields', $summaryFields);
+
+        return $summaryFields;
+    }
+
     /**
      * Returns the prices amount
      *
@@ -171,5 +186,17 @@ class SilvercartHandlingCost extends DataObject {
         $priceObj->setCurrency($this->price->getCurrency());
 
         return $priceObj->Nice();
+    }
+
+    /**
+     * Returns the handling costs for display in tables.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.03.2012
+     */
+    public function handlingcosts() {
+        return $this->amount->Nice();
     }
 }

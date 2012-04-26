@@ -84,6 +84,7 @@ class SilvercartContactForm extends CustomHtmlForm {
             )
         )
     );
+
     /**
      * form settings, mainly submit button´s name
      *
@@ -91,10 +92,10 @@ class SilvercartContactForm extends CustomHtmlForm {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 02.02.2011
-     * @return void
      */
     protected $preferences = array(
-        'submitButtonTitle' => 'Nachricht senden'
+        'submitButtonTitle'  => 'Nachricht senden',
+        'markRequiredFields' => true
     );
 
     /**

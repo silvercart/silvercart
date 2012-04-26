@@ -59,27 +59,30 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // Create an own group for anonymous customers
         $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
         if (!$anonymousGroup) {
-            $anonymousGroup = new Group();
-            $anonymousGroup->Title = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
-            $anonymousGroup->Code = "anonymous";
+            $anonymousGroup             = new Group();
+            $anonymousGroup->Title      = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
+            $anonymousGroup->Code       = "anonymous";
+            $anonymousGroup->Pricetype  = "gross";
             $anonymousGroup->write();
         }
 
         // Create an own group for b2b customers
         $B2Bgroup = DataObject::get_one('Group', "`Code` = 'b2b'");
         if (!$B2Bgroup) {
-            $B2Bgroup = new Group();
-            $B2Bgroup->Title = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
-            $B2Bgroup->Code = "b2b";
+            $B2Bgroup               = new Group();
+            $B2Bgroup->Title        = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
+            $B2Bgroup->Code         = "b2b";
+            $B2Bgroup->Pricetype    = "net";
             $B2Bgroup->write();
         }
 
         //create a group for b2c customers
         $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2c'");
         if (!$B2Cgroup) {
-            $B2Cgroup = new Group();
-            $B2Cgroup->Title = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
-            $B2Cgroup->Code = "b2c";
+            $B2Cgroup               = new Group();
+            $B2Cgroup->Title        = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
+            $B2Cgroup->Code         = "b2c";
+            $B2Cgroup->Pricetype    = "gross";
             $B2Cgroup->write();
         }
 
@@ -109,20 +112,25 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             $defaultStatusEntries = array(
                 'pending' => array(
-                    'en_US' => 'waiting for payment',
-                    'en_GB' => 'waiting for payment',
-                    'de_DE' => 'Auf Zahlungseingang wird gewartet'
+                    'en_US' => 'Waiting for payment',
+                    'en_GB' => 'Waiting for payment',
+                    'de_DE' => 'Auf Zahlungseingang wird gewartet',
                 ),
                 'payed' => array(
-                    'en_US' => 'payed',
-                    'en_GB' => 'payed',
-                    'de_DE' => 'bezahlt'
+                    'en_US' => 'Payed',
+                    'en_GB' => 'Payed',
+                    'de_DE' => 'Bezahlt',
                 ),
                 'shipped' => array(
-                    'en_US' => 'order shipped',
-                    'en_GB' => 'order shipped',
-                    'de_DE' => 'Bestellung versendet'
-                )
+                    'en_US' => 'Order shipped',
+                    'en_GB' => 'Order shipped',
+                    'de_DE' => 'Bestellung versendet',
+                ),
+                'inwork' => array(
+                    'en_US' => 'In work',
+                    'en_GB' => 'In work',
+                    'de_DE' => 'Bestellung in Arbeit',
+                ),
             );
             
             foreach ($defaultStatusEntries as $code => $languages) {
@@ -410,27 +418,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shippingFeesPage->write();
             $shippingFeesPage->publish("Stage", "Live");
 
-            // create SilvercartFooterNavigationHolder and a about page as child
-            $footerNavigationHolder = new SilvercartFooterNavigationHolder();
-            $footerNavigationHolder->Title = _t('SilvercartFooterNavigationHolder.SINGULARNAME');
-            $footerNavigationHolder->URLSegment = _t('SilvercartFooterNavigationHolder.URL_SEGMENT', 'footernavigation');
-            $footerNavigationHolder->Status = "Published";
-            $footerNavigationHolder->ShowInMenus = 0;
-            $footerNavigationHolder->IdentifierCode = "FooterNavigationHolder";
-            $footerNavigationHolder->ParentID = $rootPage->ID;
-            $footerNavigationHolder->write();
-            $footerNavigationHolder->publish("Stage", "Live");
-
-            $aboutPage = new Page();
-            $aboutPage->Title = _t('SilvercartPage.ABOUT_US', 'about us');
-            $aboutPage->URLSegment = _t('SilvercartPage.ABOUT_US_URL_SEGMENT', 'about-us');
-            $aboutPage->Status = "Published";
-            $aboutPage->ShowInMenus = 1;
-            $aboutPage->ParentID = $footerNavigationHolder->ID;
-            $aboutPage->IdentifierCode = "AboutPage";
-            $aboutPage->write();
-            $aboutPage->publish("Stage", "Live");
-
             //create a contact form response page
             $contactFormResponsePage = new SilvercartContactFormResponsePage();
             $contactFormResponsePage->Title = _t('SilvercartContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
@@ -439,7 +426,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactFormResponsePage->ShowInMenus = false;
             $contactFormResponsePage->ShowInSearch = false;
             $contactFormResponsePage->IdentifierCode = "SilvercartContactFormResponsePage";
-            $contactFormResponsePage->ParentID = $rootPage->ID;
+            $contactFormResponsePage->ParentID = $contactPage->ID;
             $contactFormResponsePage->Content = _t('SilvercartContactFormResponsePage.CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
             $contactFormResponsePage->write();
             $contactFormResponsePage->publish("Stage", "Live");
@@ -1571,8 +1558,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 if (!$zoneDomestic) {
                     $zones = array(
                         array(
-                            'en_GB' => 'domestic',
-                            'en_US' => 'domestic',
+                            'en_GB' => 'Domestic',
+                            'en_US' => 'Domestic',
                             'de_DE' => 'Inland'
                         ),
                         array(
@@ -1584,7 +1571,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     
                     foreach ($zones as $zone) {
                         $zoneObj = new SilvercartZone();
-                        $zoneObj->SilvercartCarrierID = $carrier->ID;
+                        $zoneObj->write();
+                        $zoneObj->SilvercartCarriers()->add($carrier);
                         $zoneObj->write();
                         foreach ($zone as $locale => $title) {
                             $filter = sprintf("`SilvercartZoneID` = '%s' AND `Locale` = '%s'", $zoneObj->ID, $locale);

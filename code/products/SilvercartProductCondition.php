@@ -33,9 +33,22 @@
  */
 class SilvercartProductCondition extends DataObject {
     
+    /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    public static $has_many = array(
+        'SilvercartProducts'                  => 'SilvercartProduct',
+        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
+    );
+    
     public static $casting = array(
-        'Title' => 'VarChar(255)',
-        'TableIndicator' => 'Text'
+        'Title'             => 'VarChar(255)',
+        'TableIndicator'    => 'Text'
     );
     
     /**
@@ -69,21 +82,8 @@ class SilvercartProductCondition extends DataObject {
             return _t('SilvercartProductCondition.PLURALNAME');
         } else {
             return parent::plural_name();
-        }   
+        }
     }
-    
-    /**
-     * n:m relations
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
-     */
-    public static $has_many = array(
-        'SilvercartProducts'                  => 'SilvercartProduct',
-        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
-    );
     
     /**
      * retirieves title from related language class depending on the set locale
@@ -100,7 +100,7 @@ class SilvercartProductCondition extends DataObject {
         }
         return $title;
     }
-    
+
     /**
      * define the CMS ields
      *
@@ -158,14 +158,33 @@ class SilvercartProductCondition extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title' => _t('SilvercartProductCondition.TITLE'),
-                'SilvercartProducts' => _t('SilvercartProduct.PLURALNAME'),
-                'SilvercartProductConditionLanguages' => _t('SilvercartProductConditionLanguage.PLURALNAME')
+                'Title'                                 => _t('SilvercartProductCondition.TITLE'),
+                'SilvercartProducts'                    => _t('SilvercartProduct.PLURALNAME'),
+                'SilvercartProductConditionLanguages'   => _t('SilvercartProductConditionLanguage.PLURALNAME')
             )
         );
         
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Defines the form fields for the search in ModelAdmin
+     * 
+     * @return array seach fields definition
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartProductConditionLanguages.Title' => array(
+                'title' => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            ),
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
     }
     
     /**
@@ -179,8 +198,8 @@ class SilvercartProductCondition extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'TableIndicator' => '',
-            'Title' => _t('SilvercartProductCondition.TITLE')
+            'TableIndicator'    => '',
+            'Title'             => $this->fieldLabel('Title'),
         );
         
         $this->extend('updateSummaryFields', $summaryFields);

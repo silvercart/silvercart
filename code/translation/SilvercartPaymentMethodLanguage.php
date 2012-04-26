@@ -18,7 +18,7 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package SilverCart
- * @subpackage translation
+ * @subpackage Translation
  */
 
 /**
@@ -27,6 +27,8 @@
  * SilvercartLanguageDecorator like the other language classes because it has to
  * be extended by the language class of a payment module
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 28.01.2012
@@ -96,9 +98,10 @@ class SilvercartPaymentMethodLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'Name'               => _t('SilvercartPaymentMethod.NAME'),
-            'paymentDescription' => _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Name'               => _t('SilvercartPaymentMethod.NAME'),
+                    'paymentDescription' => _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')
                 )
         );
 

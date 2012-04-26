@@ -36,6 +36,19 @@
 class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
     
     /**
+     * List of field names to check existing records for.
+     *
+     * @var array
+     */
+    public static $match_existing_fields = array(
+        'ID',
+        'EANCode',
+        'ProductNumberManufacturer',
+        'ProductNumberShop',
+    );
+
+
+    /**
      * Delimiter character
      *
      * @var string
@@ -170,44 +183,22 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         $updateIdentifier    = '';
         
         // ----------------------------------------------------------------
-        // Use existing object:
-        // We look for an ID, GTIN or manufacturers product number
+        // Check for an existing record
         // ----------------------------------------------------------------
-        if (!$silvercartProduct &&
-             array_key_exists('ID', $record)) {
-            
-            $silvercartProduct = DataObject::get_by_id(
-                'SilvercartProduct',
-                $record['ID']
-            );
-            $action             = 'update';
-            $updateIdentifier   = 'ID';
-        }
-        if (!$silvercartProduct &&
-             array_key_exists('EANCode', $record)) {
-            
-            $silvercartProduct = DataObject::get_one(
-                'SilvercartProduct',
-                sprintf(
-                    "`SilvercartProduct`.`EANCode` = '%s'",
-                    $record['EANCode']
-                )
-            );
-            $action             = 'update';
-            $updateIdentifier   = 'EAN';
-        }
-        if (!$silvercartProduct &&
-             array_key_exists('ProductNumberManufacturer', $record)) {
-            
-            $silvercartProduct = DataObject::get_one(
-                'SilvercartProduct',
-                sprintf(
-                    "`SilvercartProduct`.`ProductNumberManufacturer` = '%s'",
-                    $record['ProductNumberManufacturer']
-                )
-            );
-            $action             = 'update';
-            $updateIdentifier   = 'Manufacturer product number';
+        foreach (self::$match_existing_fields as $field) {
+            if (!$silvercartProduct &&
+                 array_key_exists($field, $record)) {
+                $silvercartProduct = DataObject::get_one(
+                    'SilvercartProduct',
+                    sprintf(
+                        "`SilvercartProduct`.`%s` = '%s'",
+                        $field,
+                        $record[$field]
+                    )
+                );
+                $action             = 'update';
+                $updateIdentifier   = $field;
+            }
         }
         
         if (!$silvercartProduct) {
@@ -261,7 +252,22 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 unset($record['ID']);
             }
             
-            $silvercartProduct->castedUpdate($record);
+            // ----------------------------------------------------------------
+            // save data
+            // ----------------------------------------------------------------
+            foreach ($record as $fieldName => $val) {
+                if ($this->isNullValue($val, $fieldName)) {
+                    continue;
+                }
+                if (strpos($fieldName, '->') !== false) {
+                    $funcName = substr($fieldName, 2);
+                    $this->$funcName($silvercartProduct, $val, $record);
+                } elseif ($silvercartProduct->hasMethod("import" . $fieldName)) {
+                    $silvercartProduct->{"import{$fieldName}"}($val, $record);
+                } else {
+                    $silvercartProduct->update(array($fieldName => $val));
+                }
+            }
             // ----------------------------------------------------------------
             // Update product group mirror pages
             // ----------------------------------------------------------------

@@ -44,24 +44,26 @@ class SilvercartCarrier extends DataObject {
      */
     public static $has_many = array(
         'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
-        'SilvercartZones'             => 'SilvercartZone',
-        'SilvercartCarrierLanguages'  => 'SilvercartCarrierLanguage'
+        'SilvercartCarrierLanguages'  => 'SilvercartCarrierLanguage',
     );
-
+    /**
+     * Many to many relations
+     * 
+     * @var array
+     */
+    public static $belongs_many_many = array(
+        'SilvercartZones'   => 'SilvercartZone',
+    );
     /**
      * Virtual database fields.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)',
         'Title'                     => 'VarChar(25)',
-        'FullTitle'                 => 'VarChar(60)'
+        'FullTitle'                 => 'VarChar(60)',
     );
     
     /**
@@ -101,26 +103,53 @@ class SilvercartCarrier extends DataObject {
      * 
      * @return array seach fields definition
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012
      */
     public function searchableFields() {
-        $seachableFields = array(
+        $searchableFields = array(
             'SilvercartCarrierLanguages.Title' => array(
-                'title' => _t('SilvercartCarrier.SINGULARNAME'),
+                'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
             'SilvercartZones.ID' => array(
-                'title' => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'title' => $this->fieldLabel('SilvercartZones'),
                 'filter' => 'ExactMatchFilter'
             ),
             'SilvercartShippingMethods.ID' => array(
-                'title' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+                'title' => $this->fieldLabel('SilvercartShippingMethods'),
                 'filter' => 'ExactMatchFilter'
             )
         );
         $this->extend('updateSearchableFields', $searchableFields);
-        return $seachableFields;
+        return $searchableFields;
+    }
+
+    /**
+     * CMS fields
+     *
+     * @param array $params Params to use
+     *
+     * @return FieldSet
+     */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        if ($this->ID) {
+            $zonesTable = new SilvercartManyManyComplexTableField(
+                            $this,
+                            'SilvercartZones',
+                            'SilvercartZone'
+            );
+            $zonesTable->pageSize = 50;
+            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
+            $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
+        }
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
     }
 
     /**
@@ -151,16 +180,16 @@ class SilvercartCarrier extends DataObject {
      *
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.03.2012
      */
     public function summaryFields() {
         return array_merge(
             parent::summaryFields(),
             array(
-                'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS', 'attributed shipping methods')
+                'Title'                     => $this->fieldLabel('Title'),
+                'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+                'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
             )
         );
     }
@@ -198,52 +227,17 @@ class SilvercartCarrier extends DataObject {
             return parent::plural_name();
         }   
     }
-    
-    /**
-     * customizes the backends fields, mainly for ModelAdmin
-     *
-     * @return FieldSet the fields for the backend
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.01.2012
-    */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
-        return $fields;
-    }
 
     /**
      * Returns the attributed zones as string (limited to 150 chars).
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedZones() {
-        $attributedZonesStr = '';
-        $attributedZones    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartZones() as $zone) {
-            $attributedZones[] = $zone->Title;
-        }
-
-        if (!empty($attributedZones)) {
-            $attributedZonesStr = implode(', ', $attributedZones);
-
-            if (strlen($attributedZonesStr) > $maxLength) {
-                $attributedZonesStr = substr($attributedZonesStr, 0, $maxLength).'...';
-            }
-        }
-
-        return $attributedZonesStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartZones());
     }
 
     /**
@@ -251,27 +245,20 @@ class SilvercartCarrier extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
      */
     public function AttributedShippingMethods() {
-        $attributedShippingMethodsStr = '';
-        $attributedShippingMethods    = array();
-        $maxLength          = 150;
-
-        foreach ($this->SilvercartShippingMethods() as $shippingMethod) {
-            $attributedShippingMethods[] = $shippingMethod->Title;
-        }
-
-        if (!empty($attributedShippingMethods)) {
-            $attributedShippingMethodsStr = implode(', ', $attributedShippingMethods);
-
-            if (strlen($attributedShippingMethodsStr) > $maxLength) {
-                $attributedShippingMethodsStr = substr($attributedShippingMethodsStr, 0, $maxLength).'...';
-            }
-        }
-
-        return $attributedShippingMethodsStr;
+        return SilvercartTools::AttributedDataObject($this->SilvercartShippingMethods());
     }
+    
+    /**
+     * Returns all allowed shipping methods for the this carrier
+     *
+     * @return SilvercartShippingMethod 
+     */
+    public function getAllowedSilvercartShippingMethods() {
+        return SilvercartShippingMethod::getAllowedShippingMethodsForOverview($this);
+    }
+    
 }

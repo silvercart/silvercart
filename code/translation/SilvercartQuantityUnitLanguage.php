@@ -24,6 +24,8 @@
 /**
  * translation for multilingual quantity unit fields
  *
+ * @package Silvercart
+ * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 17.01.2012

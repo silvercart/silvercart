@@ -1,0 +1,30 @@
+.silvercart-sitemap {
+}
+.silvercart-sitemap ul {
+    list-style-type: none;
+}
+.silvercart-sitemap ul li {
+    font-size:                      16px;
+    font-weight:                    bold;
+}
+.silvercart-sitemap ul li ul {
+    list-style-type: disc;
+}
+.silvercart-sitemap ul li ul li {
+    font-size:                      14px;
+    font-weight:                    normal;
+}
+.silvercart-sitemap ul li ul li ul {
+    list-style-type: circle;
+}
+.silvercart-sitemap ul li ul li ul li {
+    font-size:                      12px;
+    font-weight:                    normal;
+}
+.silvercart-sitemap ul li ul li ul li ul {
+    list-style-type: square;
+}
+.silvercart-sitemap ul li ul li ul li ul li {
+    font-size:                      12px;
+    font-weight:                    normal;
+}

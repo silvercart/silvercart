@@ -27,7 +27,7 @@
                     <% else %>
                         <div class="silvercart-pagination-link">
                             <div class="silvercart-pagination-link_content">
-                                <a href="$Link" title="Go to page $PageNum">
+                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO_PAGE', 'go to page %s'),$PageNum) %>">
                                     <span>
                                         $PageNum
                                     </span>

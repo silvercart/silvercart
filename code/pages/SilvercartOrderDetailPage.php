@@ -89,6 +89,11 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
  */
 class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Controller {
 
+    /**
+     * ID of the requested order
+     *
+     * @var int 
+     */
     protected $orderID;
 
     /**
@@ -151,11 +156,20 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
+     * @since 05.04.2012
      */
     public function handleAction($request) {
         if (!$this->hasMethod($this->urlParams['Action'])) {
-            if (is_numeric($this->urlParams['Action'])) {
+            $secondaryAction = $this->urlParams['ID'];
+            if ($this->hasMethod($secondaryAction) &&
+                $this->hasAction($secondaryAction)) {
+                $result = $this->{$secondaryAction}($request);
+                if (is_array($result)) {
+                    return $this->getViewer($this->action)->process($this->customise($result));
+                } else {
+                    return $result;
+                }
+            } elseif (is_numeric($this->urlParams['Action'])) {
                 return $this->getViewer('index')->process($this);
             }
         }
@@ -193,5 +207,23 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      */
     public function OrderHolderLink() {
         return $this->Parent()->Link();
+    }
+    
+    /**
+     * Returns the invoice address of the customers order
+     *
+     * @return SilvercartOrderInvoiceAddress 
+     */
+    public function getInvoiceAddress() {
+        return $this->CustomersOrder()->SilvercartInvoiceAddress();
+    }
+    
+    /**
+     * Returns the shipping address of the customers order
+     *
+     * @return SilvercartOrderShippingAddress 
+     */
+    public function getShippingAddress() {
+        return $this->CustomersOrder()->SilvercartShippingAddress();
     }
 }
