@@ -363,7 +363,9 @@ class SilvercartPage_Controller extends ContentController {
         if (empty($registeredCustomHtmlForms)) {
             $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
             $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
-            $this->registerCustomHtmlForm('SilvercartChangeLanguageForm',  new SilvercartChangeLanguageForm($this));
+            if ($this->getTranslations()) {
+                $this->registerCustomHtmlForm('SilvercartChangeLanguageForm',  new SilvercartChangeLanguageForm($this));
+            }
         } else {
             $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
         }

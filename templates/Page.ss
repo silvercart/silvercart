@@ -157,7 +157,9 @@
                         </div>
                         <div class="c33r">
                             <div class="subcr">
-                                $InsertCustomHtmlForm(SilvercartChangeLanguageForm)
+                                <% if Translations %>
+                                    $InsertCustomHtmlForm(SilvercartChangeLanguageForm)
+                                <% end_if %>
                             </div>
                         </div>
                     </div>
