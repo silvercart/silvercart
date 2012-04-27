@@ -1297,6 +1297,9 @@ $lang['de_DE']['SilvercartShopEmail']['ORDER_SHIPPED_MESSAGE'] = 'Ihre Bestellun
 $lang['de_DE']['SilvercartShopEmail']['ORDER_SHIPPED_NOTIFICATION_SUBJECT'] = 'Ihre Bestellung wurde soeben von uns versendet.';
 $lang['de_DE']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'Eine neue Bestellung wurde aufgegeben';
 
+$lang['de_DE']['SilvercartShopEmailLanguage']['PLURALNAME']                     = _t('Silvercart.TRANSLATIONS');
+$lang['de_DE']['SilvercartShopEmailLanguage']['SINGULARNAME']                   = _t('Silvercart.TRANSLATION');
+
 $lang['de_DE']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'Der Mindestbestellwert beträgt %s';
 $lang['de_DE']['SilvercartShoppingCart']['PLURALNAME'] = 'Warenkörbe';
 $lang['de_DE']['SilvercartShoppingCart']['SINGULARNAME'] = 'Warenkorb';
