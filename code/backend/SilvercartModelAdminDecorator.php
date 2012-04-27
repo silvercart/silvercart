@@ -43,6 +43,7 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
      * @since 13.01.2011
      */
     public function onAfterInit() {
+        Translatable::set_current_locale(i18n::get_locale());
         if (Director::is_ajax()) {
             return true;
         }
