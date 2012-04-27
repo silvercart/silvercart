@@ -135,7 +135,7 @@ class SilvercartConfig extends DataObject {
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
         'addToCartMaxQuantity'              => 'Int(999)',
         'Locale'                            => 'DBLocale',
-        'useDefaultLanguageAsFallback'      => 'Boolean(0)',
+        'useDefaultLanguageAsFallback'      => 'Boolean(1)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -302,7 +302,8 @@ class SilvercartConfig extends DataObject {
         
         //Make the field DefaultLanguage a Dropdown
         $defaultCMSFields->removeByName('Locale');
-        $defaultLanguageDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this);
+        $defaultLanguageDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this, 'SiteTree');
+        $defaultLanguageDropdown->setTitle(_t('SilvercartConfig.DEFAULT_LANGUAGE'));
         $defaultCMSFields->push($defaultLanguageDropdown);
         
         // Building the general tab structure
