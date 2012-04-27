@@ -39,6 +39,7 @@ if (file_exists(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php')) 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
 
+$lang['de_DE']['Silvercart']['CHOOSE'] = 'wählen';
 $lang['de_DE']['Silvercart']['CLEAR_CACHE'] = 'Cache leeren';
 $lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';
 $lang['de_DE']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
@@ -65,6 +66,7 @@ $lang['de_DE']['Silvercart']['NO'] = 'Nein';
 $lang['de_DE']['Silvercart']['PRINT'] = 'Drucken';
 $lang['de_DE']['Silvercart']['LOADING_PRINT_VIEW'] = 'Druckansicht wird geladen';
 $lang['de_DE']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'Sie haben keine Berechtigung, um dieses Objekt zu drucken!';
+$lang['de_DE']['Silvercart']['LANGUAGE'] = 'Sprache';
 $lang['de_DE']['Silvercart']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['Silvercart']['TRANSLATIONS'] = 'Übersetzungen';
 

@@ -39,6 +39,7 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 
 
 
+$lang['en_GB']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_GB']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
@@ -65,6 +66,7 @@ $lang['en_GB']['Silvercart']['NO'] = 'No';
 $lang['en_GB']['Silvercart']['PRINT'] = 'Print';
 $lang['en_GB']['Silvercart']['LOADING_PRINT_VIEW'] = 'Loading print view';
 $lang['en_GB']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'You are not allowed to print this object!';
+$lang['en_GB']['Silvercart']['LANGUAGE'] = 'Language';
 $lang['en_GB']['Silvercart']['TRANSLATION'] = 'Translation';
 $lang['en_GB']['Silvercart']['TRANSLATIONS'] = 'Translations';
 

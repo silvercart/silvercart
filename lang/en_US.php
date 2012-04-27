@@ -39,6 +39,7 @@ global $lang;
 
 
 
+$lang['en_US']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_US']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_US']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_US']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
@@ -65,6 +66,7 @@ $lang['en_US']['Silvercart']['NO'] = 'No';
 $lang['en_US']['Silvercart']['PRINT'] = 'Print';
 $lang['en_US']['Silvercart']['LOADING_PRINT_VIEW'] = 'Loading print view';
 $lang['en_US']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'You are not allowed to print this object!';
+$lang['en_US']['Silvercart']['LANGUAGE'] = 'Language';
 $lang['en_US']['Silvercart']['TRANSLATION'] = 'Translation';
 $lang['en_US']['Silvercart']['TRANSLATIONS'] = 'Translations';
 

@@ -199,6 +199,16 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected $WidgetSetContentControllers;
     
+    /**
+     * Creates a SilvercartPage_Controller
+     *
+     * @param array $dataRecord Data record
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.04.2012
+     */
     public function __construct($dataRecord = null) {
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
@@ -262,6 +272,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartForms');
             Requirements::themedCSS('SilvercartGeneral');
             Requirements::themedCSS('SilvercartHeaderbar');
+            Requirements::themedCSS('SilvercartLanguageDropdownField');
             Requirements::themedCSS('SilvercartPagination');
             Requirements::themedCSS('SilvercartProductGroupNavigation');
             Requirements::themedCSS('SilvercartProductGroupPageControls');
@@ -352,6 +363,7 @@ class SilvercartPage_Controller extends ContentController {
         if (empty($registeredCustomHtmlForms)) {
             $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
             $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
+            $this->registerCustomHtmlForm('SilvercartChangeLanguageForm',  new SilvercartChangeLanguageForm($this));
         } else {
             $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
         }
