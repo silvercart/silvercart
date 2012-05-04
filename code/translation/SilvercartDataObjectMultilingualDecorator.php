@@ -36,6 +36,24 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     protected $languageObj = null;
     
     /**
+     * Returns the current language context field value
+     * 
+     * @param string $fieldName The name of the field to get out of language context
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
+     */
+    public function getLanguageFieldValue($fieldName) {
+        $fieldValue = '';
+        if ($this->getLanguage()) {
+            $fieldValue = $this->getLanguage()->{$fieldName};
+        }
+        return $fieldValue;
+    }
+    
+    /**
      * Getter for the related language object depending on the set language
      * Always returns a SilvercartProductLanguage
      *
