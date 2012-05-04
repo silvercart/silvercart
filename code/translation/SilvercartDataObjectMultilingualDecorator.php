@@ -36,6 +36,37 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     protected $languageObj = null;
     
     /**
+     * Manipulates the SQL query
+     *
+     * @param SQLQuery &$query Query to manipulate
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
+     */
+    public function augmentSQL(SQLQuery &$query) {
+        if (!$query->isJoinedTo($this->getLanguageClassName())) {
+            $query->leftJoin(
+                    $this->getLanguageClassName(),
+                    sprintf(
+                            "(`%s`.`ID` = `%s`.`%s`)",
+                            $this->owner->ClassName,
+                            $this->getLanguageClassName(),
+                            $this->getRelationFieldName()
+                    )
+            );
+            $query->where(
+                    sprintf(
+                            "`%s`.`Locale` = '%s'",
+                            $this->getLanguageClassName(),
+                            Translatable::get_current_locale()
+                    )
+            );
+        }
+    }
+    
+    /**
      * Returns the current language context field value
      * 
      * @param string $fieldName The name of the field to get out of language context
