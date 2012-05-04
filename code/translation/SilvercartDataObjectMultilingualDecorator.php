@@ -46,21 +46,39 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @since 04.05.2012
      */
     public function augmentSQL(SQLQuery &$query) {
-        if (!$query->isJoinedTo($this->getLanguageClassName())) {
+        if (!$query->isJoinedTo($this->getLanguageClassName()) &&
+            !$query->filtersOnID()) {
             $query->leftJoin(
                     $this->getLanguageClassName(),
                     sprintf(
                             "(`%s`.`ID` = `%s`.`%s`)",
-                            $this->owner->ClassName,
+                            $this->getBaseClassName(),
                             $this->getLanguageClassName(),
                             $this->getRelationFieldName()
                     )
             );
+            $addToWhere = '';
+            if ($this->getBaseLanguageClassName() != $this->getLanguageClassName()) {
+                $query->leftJoin(
+                        $this->getBaseLanguageClassName(),
+                        sprintf(
+                                "(`%s`.`ID` = `%s`.`ID`)",
+                                $this->getLanguageClassName(),
+                                $this->getBaseLanguageClassName()
+                        )
+                );
+                $addToWhere = sprintf(
+                        "AND `%s`.`ID` = `%s`.`ID`",
+                        $this->getBaseLanguageClassName(),
+                        $this->getLanguageClassName()
+                );
+            }
             $query->where(
                     sprintf(
-                            "`%s`.`Locale` = '%s'",
-                            $this->getLanguageClassName(),
-                            Translatable::get_current_locale()
+                            "`%s`.`Locale` = '%s' %s",
+                            $this->getBaseLanguageClassName(),
+                            Translatable::get_current_locale(),
+                            $addToWhere
                     )
             );
         }
@@ -109,15 +127,49 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     }
     
     /**
+     * Returns the base class name of the owner used for SQL
+     *
+     * @return string
+     */
+    public function getBaseClassName() {
+        $tableClasses   = ClassInfo::dataClassesFor($this->owner->class);
+        $baseClassName  = array_shift($tableClasses);
+        return $baseClassName;
+    }
+
+
+    /**
      * Returns the language class name
      *
      * @return string
      */
     public function getLanguageClassName() {
-        $languageClassName      = $this->owner->ClassName . 'Language';
+        $languageClassName = $this->owner->ClassName . 'Language';
         return $languageClassName;
     }
     
+    /**
+     * Returns the language base class 
+     *
+     * @param string $languageClassName Class name to check
+     * 
+     * @return string
+     */
+    public function getBaseLanguageClassName($languageClassName = '') {
+        if (empty($languageClassName)) {
+            $languageClassName = $this->getLanguageClassName();
+        }
+        $parents = class_parents($languageClassName);
+        if ($parents !== false) {
+            $directParent   = array_shift($parents);
+            if ($directParent != 'DataObject') {
+                $languageClassName = $this->getBaseLanguageClassName($directParent);
+            }
+        }
+        return $languageClassName;
+    }
+
+
     /**
      * Returns the language relation as a ComponentSet
      *
