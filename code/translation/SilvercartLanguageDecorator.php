@@ -26,9 +26,9 @@
  *
  * @package Silvercart
  * @subpackage Translation
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 06.01.2012
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 04.05.2012
+ * @copyright pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartLanguageDecorator extends DataObjectDecorator {
@@ -37,7 +37,7 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      * Extends the database fields and relations of the decorated class.
      *
      * @return array
-     *
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
@@ -52,16 +52,16 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
     /**
      * Field lable for Locale should always be multilingual
      *
-     * @param
+     * @param array &$labels Lables to update
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since DD.MM.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
      */
-    public function updateFieldLabels(&$lables) {
-        parent::updateFieldLabels($lables);
-        $lables['Locale'] = _t('SilvercartProductLanguage.LOCALE');
+    public function updateFieldLabels(&$labels) {
+        parent::updateFieldLabels($labels);
+        $labels['Locale'] = _t('SilvercartProductLanguage.LOCALE');
     }
     
     /**
@@ -69,8 +69,8 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
      */
     public function canTranslate() {
         return true;
@@ -78,11 +78,13 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
     
     /**
      * The summary fields should at least show the locale
+     * 
+     * @param array &$fields Fields to update
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
      */
     public function updateSummaryFields(&$fields) {
         $fields = array_merge(
@@ -116,12 +118,71 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      * return the locale as native name
      *
      * @return string native name for the locale 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
      */
     public function getNativeNameForLocale() {
         return $this->owner->dbObject('Locale')->getNativeName();
+    }
+    
+    /**
+     * Returns the language class relation field name
+     *
+     * @return string 
+     */
+    public function getRelationClassName() {
+        $relationClassName = substr($this->owner->ClassName, 0, -8);
+        return $relationClassName;
+    }
+    
+    /**
+     * Returns the language class relation field name
+     *
+     * @return string 
+     */
+    public function getRelationFieldName() {
+        $relationFieldName = $this->getRelationClassName() . 'ID';
+        return $relationFieldName;
+    }
+    
+    /**
+     * Returns all translations for this DataObject as an array.
+     * Example:
+     * <code>
+     * array(
+     *      'de_DE' => 'de_DE',
+     *      'en_US' => 'en_US',
+     *      'en_GB' => 'en_GB'
+     * );
+     * </code>
+     * 
+     * @return array
+     */
+    public function getTranslatedLocales() {
+        $langs        = array();
+        $translations = $this->getTranslations();
+        if ($translations) {
+            foreach ($translations as $translation) {
+                $langs[$translation->Locale] = $translation->Locale;
+            }
+        }
+        return $langs;
+    }
+    
+    /**
+     * Returns all translations for this DataObject as DataObjectSet
+     *
+     * @return DataObjectSet 
+     */
+    public function getTranslations() {
+        $relationFieldName  = $this->getRelationFieldName();
+        $translations       = DataObject::get(
+                $this->owner->ClassName,
+                sprintf(
+                        "`%s` = '%s'",
+                        $relationFieldName,
+                        $this->owner->{$relationFieldName}
+                )
+        );
+        return $translations;
     }
 }
 

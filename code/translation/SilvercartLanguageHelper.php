@@ -116,11 +116,11 @@ class SilvercartLanguageHelper {
      * @return LanguageDropdownField 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @since 04.05.2012
      */
     public static function prepareLanguageDropdownField($dataObj, $translatingClass = null) {
         $instance                   = null;
-        $alreadyTranslatedLocales   = array();
+        $alreadyTranslatedLocales   = $dataObj->getTranslatedLocales();
         if (is_null($translatingClass)) {
             $translatingClass   = $dataObj->ClassName;
             $instance           = $dataObj;
@@ -133,6 +133,34 @@ class SilvercartLanguageHelper {
             'Locale-Native',
             $instance
         );
+        $currentLocale          = Translatable::get_current_locale();
+        $languageList           = $localeDropdown->getSource();
+        $usedLocalesWithTitle   = Translatable::get_existing_content_languages('SiteTree');
+        $usedLanguageList       = array();
+        foreach ($languageList as $locale => $title) {
+            $title = sprintf(
+                    "%s  [ %s ]",
+                    Locale::getDisplayName($locale, $currentLocale),
+                    Locale::getDisplayName($locale, $locale)
+            );
+            if (array_key_exists($locale, $usedLocalesWithTitle)) {
+                $usedLanguageList[$locale] = $title;
+                unset($languageList[$locale]);
+            } else {
+                $languageList[$locale] = $title;
+            }
+        }
+        asort($languageList);
+        
+        if (count($usedLanguageList)) {
+            asort($usedLanguageList);
+            $languageList = array(
+                _t('Form.LANGAVAIL', "Available languages") => $usedLanguageList,
+                _t('Form.LANGAOTHER', "Other languages")    => $languageList
+            );
+        }
+        
+        $localeDropdown->setSource($languageList);
         return $localeDropdown;
     }
     
