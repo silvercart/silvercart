@@ -73,15 +73,48 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
                         $this->getLanguageClassName()
                 );
             }
-            $query->where(
-                    sprintf(
-                            "`%s`.`Locale` = '%s' %s",
-                            $this->getBaseLanguageClassName(),
-                            Translatable::get_current_locale(),
-                            $addToWhere
-                    )
-            );
+            if (SilvercartConfig::useDefaultLanguageAsFallback()) {
+                $query->where(
+                        sprintf(
+                                "`%s`.`Locale` = IFNULL((%s), (%s)) %s",
+                                $this->getBaseLanguageClassName(),
+                                $this->getLocaleDependantSelect(Translatable::get_current_locale()),
+                                $this->getLocaleDependantSelect(SilvercartConfig::Locale()),
+                                $addToWhere
+                        )
+                );
+            } else {
+                $query->where(
+                        sprintf(
+                                "`%s`.`Locale` = '%s' %s",
+                                $this->getBaseLanguageClassName(),
+                                Translatable::get_current_locale(),
+                                $addToWhere
+                        )
+                );
+            }
         }
+    }
+    
+    /**
+     * Returns a locale dependant select statement (SQL)
+     *
+     * @param string $locale Locale to get statement for
+     * 
+     * @return string
+     */
+    public function getLocaleDependantSelect($locale) {
+        $localeDependantSelect = sprintf(
+                "SELECT `%s`.`Locale` FROM `%s` WHERE `%s`.`Locale` = '%s' AND `%s`.`ID` = `%s`.`%s`",
+                $this->getBaseLanguageClassName(),
+                $this->getBaseLanguageClassName(),
+                $this->getBaseLanguageClassName(),
+                $locale,
+                $this->getBaseClassName(),
+                $this->getLanguageClassName(),
+                $this->getRelationFieldName()
+        );
+        return $localeDependantSelect;
     }
     
     /**
