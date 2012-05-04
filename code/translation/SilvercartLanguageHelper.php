@@ -121,6 +121,7 @@ class SilvercartLanguageHelper {
     public static function prepareLanguageDropdownField($dataObj, $translatingClass = null) {
         $instance                   = null;
         $alreadyTranslatedLocales   = $dataObj->getTranslatedLocales();
+        unset($alreadyTranslatedLocales[$dataObj->Locale]);
         if (is_null($translatingClass)) {
             $translatingClass   = $dataObj->ClassName;
             $instance           = $dataObj;
@@ -134,20 +135,29 @@ class SilvercartLanguageHelper {
             $instance
         );
         $currentLocale          = Translatable::get_current_locale();
-        $languageList           = $localeDropdown->getSource();
+        $localesWithTitle       = $localeDropdown->getSource();
         $usedLocalesWithTitle   = Translatable::get_existing_content_languages('SiteTree');
+        $languageList           = array();
         $usedLanguageList       = array();
-        foreach ($languageList as $locale => $title) {
-            $title = sprintf(
-                    "%s  [ %s ]",
-                    Locale::getDisplayName($locale, $currentLocale),
-                    Locale::getDisplayName($locale, $locale)
-            );
-            if (array_key_exists($locale, $usedLocalesWithTitle)) {
-                $usedLanguageList[$locale] = $title;
-                unset($languageList[$locale]);
+        foreach ($localesWithTitle as $locale => $title) {
+            if (is_array($title)) {
+                foreach ($title as $locale2 => $title2) {
+                    $title2 = self::getLanguageDisplayTitle($locale2, $currentLocale);
+                    if (array_key_exists($locale2, $usedLocalesWithTitle)) {
+                        $usedLanguageList[$locale2] = $title2;
+                        unset($languageList[$locale2]);
+                    } else {
+                        $languageList[$locale2] = $title2;
+                    }
+                }
             } else {
-                $languageList[$locale] = $title;
+                $title = self::getLanguageDisplayTitle($locale, $currentLocale);
+                if (array_key_exists($locale, $usedLocalesWithTitle)) {
+                    $usedLanguageList[$locale] = $title;
+                    unset($languageList[$locale]);
+                } else {
+                    $languageList[$locale] = $title;
+                }
             }
         }
         asort($languageList);
@@ -161,7 +171,25 @@ class SilvercartLanguageHelper {
         }
         
         $localeDropdown->setSource($languageList);
+        $localeDropdown->setValue($dataObj->Locale);
         return $localeDropdown;
+    }
+    
+    /**
+     * Returns the display title of a LanguageDropdownFields option
+     *
+     * @param string $locale        Locale to get title for
+     * @param string $currentLocale Locale to get translated title for
+     * 
+     * @return string
+     */
+    public static function getLanguageDisplayTitle($locale, $currentLocale) {
+        $title = sprintf(
+                "%s  [ %s ]",
+                Locale::getDisplayName($locale, $currentLocale),
+                Locale::getDisplayName($locale, $locale)
+        );
+        return $title;
     }
     
     /**
