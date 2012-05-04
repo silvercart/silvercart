@@ -17,16 +17,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
- * @subpackage update
+ * @package Silvercart
+ * @subpackage Update
  */
 
 /**
  * Prepares objects for the new multilingual feature
  *
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 03.02.2012
+ * @package Silvercart
+ * @subpackage Update
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 04.05.2012
+ * @copyright pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartUpdate1_3__1 extends SilvercartUpdate {
@@ -36,46 +38,61 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
         'SilvercartUpdateVersion'   => '1',
         'Description'               => 'This update adjust all multilingual objects to the new multilingual feature.'
     );
-    
+
+
     /**
      * Executes the update logic.
      *
      * @return boolean true
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 03.02.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
      */
     public function executeUpdate() {
-        $this->updateMultilingualObject('SilvercartOrderStatus');
-        $this->updateMultilingualObject('SilvercartProduct', array('MetaTitle', 'Title', 'MetaKeywords', 'MetaDescription', 'ShortDescription', 'LongDescription'));
-        $this->updateMultilingualObject('SilvercartShippingMethod');
-        $this->updateMultilingualObject('SilvercartQuantityUnit');
-        $this->updateMultilingualObject('SilvercartProductCondition');
-        $this->updateMultilingualObject('SilvercartZone');
-        $this->updateMultilingualObject('SilvercartFile', array('Title', 'Description'));
-        $this->updateMultilingualObject('SilvercartImage');
-        $this->updateMultilingualObject('SilvercartImageSliderWidget', array('FrontTitle', 'FrontContent'));
-        $this->updateMultilingualObject('SilvercartLatestBlogPostsWidget', array('WidgetTitle'));
-        $this->updateMultilingualObject('SilvercartProductGroupItemsWidget', array('FrontTitle', 'FrontContent'));
-        $this->updateMultilingualObject('SilvercartTextWidget', array('FreeText'));
+        foreach (SilvercartLanguageHelper::getTranslatableDataObjects() as $translatableDataObject) {
+            $this->updateMultilingualObject($translatableDataObject);
+        }
         return true;
     }
     
     /**
      * encapsulate all updates regarding the multilingual feature
      * 
-     * @param string $className  the class to update
-     * @param array  $attributes an array of attributes
+     * @param string $className The class to update
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.02.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
      */
-    public function updateMultilingualObject($className, $attributes = array('Title')) {
-        /**/
+    public function updateMultilingualObject($className) {
         $locale             = Translatable::get_current_locale();
         $fields             = array();
+        $db                 = Object::get_static($className . 'Language', 'db');
+        $attributes         = array();
+        foreach ($db as $fieldName => $fieldType) {
+            if ($fieldName == 'Locale') {
+                continue;
+            }
+        
+            $query = DB::query(
+                sprintf(
+                    "SELECT COUNT(*) AS ColumnCount FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' AND COLUMN_NAME = '%s'",
+                    DB::getConn()->currentDatabase(),
+                    $className,
+                    $fieldName
+                )
+            );
+            if ($query) {
+                foreach ($query as $result) {
+                    if ($result['ColumnCount'] > 0) {
+                        $attributes[] = $fieldName;
+                        break;
+                    }
+                }
+            }
+        }
+        
         $selectAttributes   = array_merge(
             array(
                 'ID'
