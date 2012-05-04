@@ -1098,17 +1098,17 @@ class SilvercartPaymentMethod extends DataObject {
                 // entry does not exist yet
                 //prepayment's default record gets activated if test data is enabled
                 if ($this->moduleName == "Prepayment" && SilvercartRequireDefaultRecords::isEnabledTestData()) {
-                    $this->setField('isActive', 1);
+                    $this->isActive = 1;
                     //As we do not know if the country is instanciated yet we do write this relation in the country class too.
                     $germany = DataObject::get_one('SilvercartCountry', "`ISO2` = 'DE'");
                     if ($germany) {
                         $this->SilvercartCountries()->add($germany);
                     }
                 } else {
-                    $this->setField('isActive', 0);
+                    $this->isActive = 0;
                 }
-                $this->setField('Name', _t($className . '.NAME', $this->moduleName));
-                $this->setField('Title', _t($className . '.TITLE', $this->moduleName));
+                $this->Name     = _t($className . '.NAME',  $this->moduleName);
+                $this->Title    = _t($className . '.TITLE', $this->moduleName);
                 $this->write();
                 $languages = array('de_DE', 'en_US', 'en_GB');
                 foreach ($languages as $language) {
