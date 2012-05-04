@@ -23,9 +23,7 @@
  * @subpackage i18n
  * @ignore
  */
-
-
-i18n::include_locale_file('silvercart', 'nl_NL');
+i18n::include_locale_file('silvercart', 'en_US');
 
 global $lang;
 
@@ -34,6 +32,11 @@ if (array_key_exists('nl_NL', $lang) && is_array($lang['nl_NL'])) {
 } else {
     $lang['nl_NL'] = $lang['en_US'];
 }
+
+
+
+
+
 
 
 $lang['nl_NL']['Silvercart']['CONTENT'] = 'Inhoud';
@@ -92,6 +95,8 @@ $lang['nl_NL']['SilvercartAddressHolder']['ADDRESS_CANT_BE_DELETED'] = "Sorry, u
 $lang['nl_NL']['SilvercartAddressHolder']['ADDRESS_NOT_FOUND'] = 'Sorry, maar het opgegeven adres is niet gevonden.';
 $lang['nl_NL']['SilvercartAddressHolder']['ADDRESS_SUCCESSFULLY_DELETED'] = 'Uw adres is verwijderd.';
 $lang['nl_NL']['SilvercartAddressHolder']['CURRENT_DEFAULT_ADDRESSES'] = 'Uw standaard factuur- en verzendadres';
+$lang['nl_NL']['SilvercartAddressHolder']['DEFAULT_TITLE'] = 'Adres overzicht';
+$lang['nl_NL']['SilvercartAddressHolder']['DEFAULT_URLSEGMENT'] = 'adres-overzicht';
 $lang['nl_NL']['SilvercartAddressHolder']['DEFAULT_INVOICE'] = 'Dit is uw factuuradres';
 $lang['nl_NL']['SilvercartAddressHolder']['DEFAULT_SHIPPING'] = 'Dit is uw verzendadres';
 $lang['nl_NL']['SilvercartAddressHolder']['DEFAULT_INVOICEADDRESS'] = 'Standaard factuuradres';
@@ -116,6 +121,8 @@ $lang['nl_NL']['SilvercartAddressHolder']['UPDATED_INVOICE_ADDRESS'] = 'Uw factu
 $lang['nl_NL']['SilvercartAddressHolder']['UPDATED_SHIPPING_ADDRESS'] = 'Uw verzendadres is bijgewerkt.';
 $lang['nl_NL']['SilvercartAddressHolder']['URL_SEGMENT'] = 'adres-overzicht';
 
+$lang['nl_NL']['SilvercartAddressPage']['DEFAULT_TITLE'] = 'Adresgegevens';
+$lang['nl_NL']['SilvercartAddressPage']['DEFAULT_URLSEGMENT'] = 'adres-gegevens';
 $lang['nl_NL']['SilvercartAddressPage']['PLURALNAME'] = 'Adres Pagina\'s';
 $lang['nl_NL']['SilvercartAddressPage']['SINGULARNAME'] = 'Adres pagina';
 $lang['nl_NL']['SilvercartAddressPage']['TITLE'] = 'adresgegevens';
@@ -155,17 +162,21 @@ $lang['nl_NL']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               
 $lang['nl_NL']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Naar boven';
 $lang['nl_NL']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Geen toegekende velden';
 
-$lang['nl_NL']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']    = 'U ontvangt een bericht dat u moet bevestigen, waarna u toegevoegd wordt aan onze nieuwsbrief.';
-$lang['nl_NL']['SilvercartNewsletter']['SUBSCRIBED']                    = 'U bent geabonneerd op de nieuwsbrief';
-$lang['nl_NL']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'U bent niet geabonneerd op de nieuwsbrief';
-$lang['nl_NL']['SilvercartNewsletterPage']['TITLE']                     = 'Nieuwsbrief';
-$lang['nl_NL']['SilvercartNewsletterPage']['URL_SEGMENT']               = 'nieuwsbrief_nl_nl';
-$lang['nl_NL']['SilvercartNewsletterResponsePage']['TITLE']             = 'Nieuwsbrief Status';
-$lang['nl_NL']['SilvercartNewsletterResponsePage']['URL_SEGMENT']       = 'nieuwsbrief_status_nl_nl';
-$lang['nl_NL']['SilvercartNewsletterResponsePage']['STATUS_TITLE']      = 'Uw nieuwsbrief instellingen';
-$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']         = 'Wat wilt u doen?';
-$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']     = 'Ik wil mij inschrijven voor de nieuwsbrief';
-$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']   = 'Ik wil me uitschrijven voor de nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']        = 'U ontvangt een bericht dat u moet bevestigen, waarna u toegevoegd wordt aan onze nieuwsbrief.';
+$lang['nl_NL']['SilvercartNewsletter']['SUBSCRIBED']                        = 'U bent geabonneerd op de nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'U bent niet geabonneerd op de nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletterPage']['DEFAULT_TITLE']                 = 'Nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletterPage']['DEFAULT_URLSEGMENT']            = 'nieuwsbrief_nl_nl';
+$lang['nl_NL']['SilvercartNewsletterPage']['TITLE']                         = 'Nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletterPage']['URL_SEGMENT']                   = 'nieuwsbrief_nl_nl';
+$lang['nl_NL']['SilvercartNewsletterResponsePage']['DEFAULT_TITLE']         = 'Nieuwsbrief Status';
+$lang['nl_NL']['SilvercartNewsletterResponsePage']['DEFAULT_URLSEGMENT']    = 'nieuwsbrief_status_nl_nl';
+$lang['nl_NL']['SilvercartNewsletterResponsePage']['TITLE']                 = 'Nieuwsbrief Status';
+$lang['nl_NL']['SilvercartNewsletterResponsePage']['URL_SEGMENT']           = 'nieuwsbrief_status_nl_nl';
+$lang['nl_NL']['SilvercartNewsletterResponsePage']['STATUS_TITLE']          = 'Uw nieuwsbrief instellingen';
+$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']             = 'Wat wilt u doen?';
+$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']         = 'Ik wil mij inschrijven voor de nieuwsbrief';
+$lang['nl_NL']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']       = 'Ik wil me uitschrijven voor de nieuwsbrief';
 $lang['nl_NL']['SilvercartNewsletterStatus']['ALREADY_SUBSCRIBED']          = 'Het e-mailadres "%s" is al ingeschreven.';
 $lang['nl_NL']['SilvercartNewsletterStatus']['REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS'] = 'Er is al een geregistreerde klant met het e-mailadres "%s". Log eerst in om vervolgens met de voorkeursinstellingen voor de nieuwsbrief verder te gaan: <a href="%s"> Ga naar de login pagina </ a>.';
 $lang['nl_NL']['SilvercartNewsletterStatus']['NO_EMAIL_FOUND']              = 'Wij kunnen het emailadres "%s" niet vinden.';
@@ -275,13 +286,15 @@ $lang['nl_NL']['SilvercartProductExportAdmin']['TAB_PRODUCT_SELECTION']         
 $lang['nl_NL']['SilvercartProductExportAdmin']['TAB_EXPORT_FIELD_DEFINITIONS']          = 'CSV veld defenities';
 $lang['nl_NL']['SilvercartProductExportAdmin']['TAB_HEADER_CONFIGURATION']              = 'CSV headers';
 
-$lang['nl_NL']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Productgroepen';
-$lang['nl_NL']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Productgroep Houders';
-$lang['nl_NL']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = 'Laat %s producten zien';
+$lang['nl_NL']['SilvercartProductGroupHolder']['DEFAULT_TITLE']                     = 'Productgroepen';
+$lang['nl_NL']['SilvercartProductGroupHolder']['DEFAULT_URLSEGMENT']                = 'productgroepen';
+$lang['nl_NL']['SilvercartProductGroupHolder']['PAGE_TITLE']                        = 'Productgroepen';
+$lang['nl_NL']['SilvercartProductGroupHolder']['PLURALNAME']                        = 'Productgroep Houders';
+$lang['nl_NL']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL']   = 'Laat %s producten zien';
 $lang['nl_NL']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_SINGULAR'] = 'Laat %s producten zien';
-$lang['nl_NL']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Productgroep houder';
-$lang['nl_NL']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroepen van ';
-$lang['nl_NL']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroepen';
+$lang['nl_NL']['SilvercartProductGroupHolder']['SINGULARNAME']                      = 'Productgroep houder';
+$lang['nl_NL']['SilvercartProductGroupHolder']['SUBGROUPS_OF']                      = 'Subgroepen van ';
+$lang['nl_NL']['SilvercartProductGroupHolder']['URL_SEGMENT']                       = 'productgroepen';
 
 $lang['nl_NL']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Gekoppelde-Productgroep';
 $lang['nl_NL']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Gekoppelde-Productgroepen';
@@ -317,10 +330,12 @@ $lang['nl_NL']['SilvercartCarrier']['FULL_NAME'] = 'Volledige naam';
 $lang['nl_NL']['SilvercartCarrier']['PLURALNAME'] = 'Vervoerders';
 $lang['nl_NL']['SilvercartCarrier']['SINGULARNAME'] = 'Vervoerder';
 
-$lang['nl_NL']['SilvercartCartPage']['CART_EMPTY'] = 'Uw winkelwagen is nog leeg.';
-$lang['nl_NL']['SilvercartCartPage']['PLURALNAME'] = 'Winkelwagen pagina\'s';
-$lang['nl_NL']['SilvercartCartPage']['SINGULARNAME'] = 'Winkelwagen pagina';
-$lang['nl_NL']['SilvercartCartPage']['URL_SEGMENT'] = 'winkelwagen';
+$lang['nl_NL']['SilvercartCartPage']['DEFAULT_TITLE']                           = 'Winkelwagen';
+$lang['nl_NL']['SilvercartCartPage']['DEFAULT_URLSEGMENT']                      = 'winkelwagen';
+$lang['nl_NL']['SilvercartCartPage']['CART_EMPTY']                              = 'Uw winkelwagen is nog leeg.';
+$lang['nl_NL']['SilvercartCartPage']['PLURALNAME']                              = 'Winkelwagen pagina\'s';
+$lang['nl_NL']['SilvercartCartPage']['SINGULARNAME']                            = 'Winkelwagen pagina';
+$lang['nl_NL']['SilvercartCartPage']['URL_SEGMENT']                             = 'winkelwagen';
 
 $lang['nl_NL']['SilvercartCheckoutFormStep']['CHOOSEN_PAYMENT'] = 'Gekozen betaalmethode';
 $lang['nl_NL']['SilvercartCheckoutFormStep']['CHOOSEN_SHIPPING'] = 'Gekozen verzendmethode';
@@ -353,10 +368,12 @@ $lang['nl_NL']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Kies de gewenste 
 $lang['nl_NL']['SilvercartCheckoutFormStep4']['TITLE'] = 'Betalen';
 $lang['nl_NL']['SilvercartCheckoutFormStep5']['TITLE'] = 'Overzicht';
 
+$lang['nl_NL']['SilvercartCheckoutStep']['DEFAULT_TITLE'] = 'Afrekenen';
+$lang['nl_NL']['SilvercartCheckoutStep']['DEFAULT_URLSEGMENT'] = 'afrekenen';
 $lang['nl_NL']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Terug naar de winkelwagen';
 $lang['nl_NL']['SilvercartCheckoutStep']['PLURALNAME'] = 'Afrekenen Stappen';
 $lang['nl_NL']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Afrekenen Stap';
-$lang['nl_NL']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'Afrekenen';
+$lang['nl_NL']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'afrekenen';
 
 $lang['nl_NL']['SilvercartConfig']['ADDTOCARTMAXQUANTITY'] = 'Maximaal toegestane hoeveelheid van een enkel product in de winkelwagen';
 $lang['nl_NL']['SilvercartConfig']['ADD_EXAMPLE_DATA'] = 'Voorbeeld data toevoegen';
@@ -428,12 +445,17 @@ $lang['nl_NL']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activeer minimale 
 $lang['nl_NL']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Negeer minimale orderwaarde';
 $lang['nl_NL']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimale orderwaarde';
 
+$lang['nl_NL']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
+$lang['nl_NL']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'contact';
 $lang['nl_NL']['SilvercartContactFormPage']['PLURALNAME'] = 'Contactformulier pagina\'s';
 $lang['nl_NL']['SilvercartContactFormPage']['REQUEST'] = 'Vraag via het contact formulier';
 $lang['nl_NL']['SilvercartContactFormPage']['SINGULARNAME'] = 'Contactformulier pagina';
 $lang['nl_NL']['SilvercartContactFormPage']['TITLE'] = 'Contact';
 $lang['nl_NL']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
 
+$lang['nl_NL']['SilvercartContactFormResponsePage']['DEFAULT_TITLE'] = 'Contact bevestiging';
+$lang['nl_NL']['SilvercartContactFormResponsePage']['DEFAULT_CONTENT'] = 'Hartelijk dank voor uw bericht. Uw aanvraag zal zo snel mogelijk worden beantwoord.';
+$lang['nl_NL']['SilvercartContactFormResponsePage']['DEFAULT_URLSEGMENT'] = 'contactbevestiging';
 $lang['nl_NL']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Contact bevestiging';
 $lang['nl_NL']['SilvercartContactFormResponsePage']['CONTENT'] = 'Hartelijk dank voor uw bericht. Uw aanvraag zal zo snel mogelijk worden beantwoord.';
 $lang['nl_NL']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact formulier reactie\'s';
@@ -728,6 +750,8 @@ $lang['nl_NL']['SilvercartCustomer']['BIRTHDAY'] = 'Geboortedag';
 $lang['nl_NL']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Vaste klant';
 $lang['nl_NL']['SilvercartCustomer']['TYPE'] = 'Type';
 
+$lang['nl_NL']['SilvercartDataPage']['DEFAULT_TITLE'] = 'Mijn Gegevens';
+$lang['nl_NL']['SilvercartDataPage']['DEFAULT_URLSEGMENT'] = 'mijn-gegevens';
 $lang['nl_NL']['SilvercartDataPage']['PLURALNAME'] = 'Gegevens pagina\'s';
 $lang['nl_NL']['SilvercartDataPage']['SINGULARNAME'] = 'Gegevens pagina';
 $lang['nl_NL']['SilvercartDataPage']['TITLE'] = 'Mijn Gegevens';
@@ -740,6 +764,7 @@ $lang['nl_NL']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'] = 'verklarin
 
 $lang['nl_NL']['SilvercartDeeplinkPage']['SINGULARNAME'] = 'doellink pagina';
 $lang['nl_NL']['SilvercartDeeplinkPage']['PLURALNAME'] = 'doellink pagina\'s';
+$lang['nl_NL']['SilvercartDeeplinkPage']['DEFAULT_TITLE'] = 'deeplink page';
 
 $lang['nl_NL']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--kies aub--';
 
@@ -752,7 +777,8 @@ $lang['nl_NL']['SilvercartFile']['PLURALNAME'] = 'Bestanden';
 $lang['nl_NL']['SilvercartFile']['SINGULARNAME'] = 'Bestand';
 $lang['nl_NL']['SilvercartFile']['TITLE'] = 'Toon naam';
 
-$lang['nl_NL']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welkom bij <strong>SilverCart</ strong> Webshop!</h2>';
+$lang['nl_NL']['SilvercartFrontPage']['CONTENT'] = '<h2>Welkom bij <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
+$lang['nl_NL']['SilvercartFrontPage']['DEFAULT_CONTENT'] = $lang['nl_NL']['SilvercartFrontPage']['CONTENT'];
 $lang['nl_NL']['SilvercartFrontPage']['PLURALNAME'] = 'Voorpagina\'s';
 $lang['nl_NL']['SilvercartFrontPage']['SINGULARNAME'] = 'voorpagina';
 
@@ -804,30 +830,40 @@ $lang['nl_NL']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Factuur adres';
 $lang['nl_NL']['SilvercartManufacturer']['PLURALNAME'] = 'Fabrikanten';
 $lang['nl_NL']['SilvercartManufacturer']['SINGULARNAME'] = 'Fabrikant';
 
+$lang['nl_NL']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Meta navigatie';
+$lang['nl_NL']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigatie';
 $lang['nl_NL']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Meta navigatie';
 $lang['nl_NL']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Meta navigatie';
 $lang['nl_NL']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigatie';
 
-$lang['nl_NL']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT'] = 'Heeft u al een account?';
-$lang['nl_NL']['SilvercartMyAccountHolder']['GOTO_REGISTRATION'] = 'Ga naar het aanmeldformulier';
-$lang['nl_NL']['SilvercartMyAccountHolder']['PLURALNAME'] = 'Accounthouders';
-$lang['nl_NL']['SilvercartMyAccountHolder']['REGISTER_ADVANTAGES_TEXT'] = 'Door te registreren kunt u opnieuw uw gegevens, zoals factuur of levering adressen gebruiken bij uw volgende aankoop.';
-$lang['nl_NL']['SilvercartMyAccountHolder']['SINGULARNAME'] = 'Accounthouder';
-$lang['nl_NL']['SilvercartMyAccountHolder']['TITLE'] = 'Mijn account';
-$lang['nl_NL']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'mijn-account';
-$lang['nl_NL']['SilvercartMyAccountHolder']['WANTTOREGISTER'] = 'Wilt u zich registreren?';
-$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Uw klantnummer';
-$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES'] = 'Uw huidige factuur en verzendadres';
-$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS'] = 'Uw meest recente opdrachten';
-$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Uw persoonlijke gegevens';
+$lang['nl_NL']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Heeft u al een account?';
+$lang['nl_NL']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'Mijn account';
+$lang['nl_NL']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'mijn-account';
+$lang['nl_NL']['SilvercartMyAccountHolder']['GOTO_REGISTRATION']                = 'Ga naar het aanmeldformulier';
+$lang['nl_NL']['SilvercartMyAccountHolder']['PLURALNAME']                       = 'Accounthouders';
+$lang['nl_NL']['SilvercartMyAccountHolder']['REGISTER_ADVANTAGES_TEXT']         = 'Door te registreren kunt u opnieuw uw gegevens, zoals factuur of levering adressen gebruiken bij uw volgende aankoop.';
+$lang['nl_NL']['SilvercartMyAccountHolder']['SINGULARNAME']                     = 'Accounthouder';
+$lang['nl_NL']['SilvercartMyAccountHolder']['TITLE']                            = 'Mijn account';
+$lang['nl_NL']['SilvercartMyAccountHolder']['URL_SEGMENT']                      = 'mijn-account';
+$lang['nl_NL']['SilvercartMyAccountHolder']['WANTTOREGISTER']                   = 'Wilt u zich registreren?';
+$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER']              = 'Uw klantnummer';
+$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES']           = 'Uw huidige factuur en verzendadres';
+$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS']         = 'Uw meest recente opdrachten';
+$lang['nl_NL']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA']               = 'Uw persoonlijke gegevens';
 
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONFIRMATIONFAILUREMESSAGE']   = '<p>Uw nieuwsbrief registratie kan niet worden voltooid.</p>';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONFIRMATIONSUCCESSMESSAGE']   = '<p>Uw nieuwsbrief registratie is geslaagd!</p><p>Hopelijk zijn onze aanbiedingen nuttig voor u.</p>';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_ALREADYCONFIRMEDMESSAGE']      = '<p>Uw nieuwsbrief inschrijving is reeds afgerond.</p>';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONTENT']                      = '';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_URLSEGMENT']                   = 'nieuwsbrief-opt-in-bevestiging';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_TITLE']                        = 'Volledige nieuwsbrief registratie';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['ALREADY_CONFIRMED_MESSAGE_TEXT']   = 'Bericht: de gebruiker voltooide opt-in reeds';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['FAILURE_MESSAGE_TEXT']             = 'Foutmelding';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['PLURALNAME']                       = 'Newsletter opt-in bevestigingspagina';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['SINGULARNAME']                     = 'Newsletter opt-in bevestigingspagina\'s';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['SUCCESS_MESSAGE_TEXT']             = 'Succes bericht';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONFAILUREMESSAGE']       = '<p>Uw nieuwsbrief registratie kan niet worden voltooid.</p>';
-$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE']       = '<p>Uw nieuwsbrief registratie is geslaagd! </P> Hopelijk zijn onze aanbiedingen nuttig voor u.</p>';
+$lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['CONFIRMATIONSUCCESSMESSAGE']       = '<p>Uw nieuwsbrief registratie is geslaagd!</p><p>Hopelijk zijn onze aanbiedingen nuttig voor u.</p>';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['ALREADYCONFIRMEDMESSAGE']          = '<p>Uw nieuwsbrief inschrijving is reeds afgerond.</p>';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['CONTENT']                          = '';
 $lang['nl_NL']['SilvercartNewsletterOptInConfirmationPage']['URL_SEGMENT']                      = 'nieuwsbrief-opt-in-bevestiging';
@@ -866,16 +902,22 @@ $lang['nl_NL']['SilvercartOrder']['YOUR_REMARK'] = 'Uw kenmerk';
 $lang['nl_NL']['SilvercartOrderAddress']['PLURALNAME'] = 'Bestel adressen';
 $lang['nl_NL']['SilvercartOrderAddress']['SINGULARNAME'] = 'Bestel adres';
 
+$lang['nl_NL']['SilvercartOrderConfirmationPage']['DEFAULT_TITLE'] = 'Bestelbevestiging';
+$lang['nl_NL']['SilvercartOrderConfirmationPage']['DEFAULT_URLSEGMENT'] = 'bestelbevestiging';
 $lang['nl_NL']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Bestelbevestiging Pagina\'s';
 $lang['nl_NL']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Bestelbevestiging Pagina';
 $lang['nl_NL']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'bestelbevestiging';
 $lang['nl_NL']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'Bestelbevestiging';
 
+$lang['nl_NL']['SilvercartOrderDetailPage']['DEFAULT_TITLE'] = 'Bestelling details';
+$lang['nl_NL']['SilvercartOrderDetailPage']['DEFAULT_URLSEGMENT'] = 'bestelling-details';
 $lang['nl_NL']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Detailpagina\'s bestellingen';
 $lang['nl_NL']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Detailpagina bestelling';
 $lang['nl_NL']['SilvercartOrderDetailPage']['TITLE'] = 'Bestelling details';
 $lang['nl_NL']['SilvercartOrderDetailPage']['URL_SEGMENT'] = 'bestelling-details';
 
+$lang['nl_NL']['SilvercartOrderHolder']['DEFAULT_TITLE'] = 'Mijn bestellingen';
+$lang['nl_NL']['SilvercartOrderHolder']['DEFAULT_URLSEGMENT'] = 'mijn-bestellingen';
 $lang['nl_NL']['SilvercartOrderHolder']['PLURALNAME'] = 'Overzicht bestellingen';
 $lang['nl_NL']['SilvercartOrderHolder']['SINGULARNAME'] = 'Overzicht bestelling';
 $lang['nl_NL']['SilvercartOrderHolder']['TITLE'] = 'Mijn bestellingen';
@@ -1072,10 +1114,12 @@ $lang['nl_NL']['SilvercartPaymentMethod']['TITLE'] = 'Betaalwijze';
 $lang['nl_NL']['SilvercartPaymentMethodTexts']['PLURALNAME'] = 'Betaalmogelijkheden vertalingen';
 $lang['nl_NL']['SilvercartPaymentMethodTexts']['SINGULARNAME'] = 'Betaalmogelijkheden vertaling';
 
+$lang['nl_NL']['SilvercartPaymentNotification']['DEFAULT_TITLE'] = 'Betaalmogelijkheden melding';
+$lang['nl_NL']['SilvercartPaymentNotification']['DEFAULT_URLSEGMENT'] = 'betaalmogelijkheden-melding';
 $lang['nl_NL']['SilvercartPaymentNotification']['PLURALNAME'] = 'Betaalmogelijkheden Meldingen';
 $lang['nl_NL']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Betaalmogelijkheden Melding';
 $lang['nl_NL']['SilvercartPaymentNotification']['TITLE'] = 'Betaalmogelijkheden melding';
-$lang['nl_NL']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'betaalmogelijkheden-meldingen';
+$lang['nl_NL']['SilvercartPaymentNotification']['URL_SEGMENT'] = 'betaalmogelijkheden-melding';
 
 $lang['nl_NL']['SilvercartPrice']['PLURALNAME'] = 'Tarieven';
 $lang['nl_NL']['SilvercartPrice']['SINGULARNAME'] = 'Terief';
@@ -1098,6 +1142,9 @@ $lang['nl_NL']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT']
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Bevestigings e-mail: tekst';
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'Bevestigings e-mail';
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['CONTENT'] = '<p>Beste klant,</p><p>voor uw gemak, u bent al ingelogd</p><p>Veel plezier! </p>';
+$lang['nl_NL']['SilvercartRegisterConfirmationPage']['DEFAULT_CONTENT'] = '<p>Beste klant,</p><p>voor uw gemak, u bent al ingelogd</p><p>Veel plezier! </p>';
+$lang['nl_NL']['SilvercartRegisterConfirmationPage']['DEFAULT_TITLE'] = 'Registreer bevestiging';
+$lang['nl_NL']['SilvercartRegisterConfirmationPage']['DEFAULT_URLSEGMENT'] = 'registreer-bevestiging';
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'Foutmelding';
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = 'Registreer bevestigingspagina\'s';
 $lang['nl_NL']['SilvercartRegisterConfirmationPage']['SINGULARNAME'] = 'Registreer bevestigingspagina';
@@ -1110,6 +1157,8 @@ $lang['nl_NL']['SilvercartRegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'Actie
 $lang['nl_NL']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Activatie email tekst';
 $lang['nl_NL']['SilvercartRegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Volledige registratie</h1><p>Bevestig de activering of kopiëer de link naar uw browser.</p><p><a href="$ConfirmationLink">Bevestig de registratie</a></p><p>In het geval dat u zich niet hebt geregistreerd, kunt u deze mail. negeren</p><p>Uw webwinkel team</p>';
 $lang['nl_NL']['SilvercartRegistrationPage']['CUSTOMER_SALUTATION'] = 'Geachte klant\,';
+$lang['nl_NL']['SilvercartRegistrationPage']['DEFAULT_TITLE'] = 'Registratie';
+$lang['nl_NL']['SilvercartRegistrationPage']['DEFAULT_URLSEGMENT'] = 'registratie';
 $lang['nl_NL']['SilvercartRegistrationPage']['EMAIL_EXISTS_ALREADY'] = 'Dit email adres bestaat reeds.';
 $lang['nl_NL']['SilvercartRegistrationPage']['OTHERITEMS'] = 'Diversen';
 $lang['nl_NL']['SilvercartRegistrationPage']['PLEASE_COFIRM'] = 'AUB bevestig uw registratie';
@@ -1117,10 +1166,12 @@ $lang['nl_NL']['SilvercartRegistrationPage']['PLURALNAME'] = 'Registratie Pagina
 $lang['nl_NL']['SilvercartRegistrationPage']['SINGULARNAME'] = 'Registratie Pagina';
 $lang['nl_NL']['SilvercartRegistrationPage']['SUCCESS_TEXT'] = '<h1>Registratie is voltooid!</h1><p>Hartelijk dank voor uw registratie.</p><p>Veel plezier op onze website!</p><p>Uw webwinkel team</p>';
 $lang['nl_NL']['SilvercartRegistrationPage']['THANKS'] = 'Hartelijk dank voor uw registratie.';
-$lang['nl_NL']['SilvercartRegistrationPage']['TITLE'] = 'Registratie Pagina';
-$lang['nl_NL']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'Registratie';
+$lang['nl_NL']['SilvercartRegistrationPage']['TITLE'] = 'Registratie';
+$lang['nl_NL']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'registratie';
 $lang['nl_NL']['SilvercartRegistrationPage']['YOUR_REGISTRATION'] = 'Uw registratie';
 
+$lang['nl_NL']['SilvercartSearchResultsPage']['DEFAULT_TITLE'] = 'Zoekresultaten';
+$lang['nl_NL']['SilvercartSearchResultsPage']['DEFAULT_URLSEGMENT'] = 'zoekresultaten';
 $lang['nl_NL']['SilvercartSearchResultsPage']['PLURALNAME'] = 'Zoekresultaten Pagina';
 $lang['nl_NL']['SilvercartSearchResultsPage']['SINGULARNAME'] = 'Pagina met zoekresultaten';
 $lang['nl_NL']['SilvercartSearchResultsPage']['TITLE'] = 'Zoekresultaten';
@@ -1141,10 +1192,12 @@ $lang['nl_NL']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'onbeperkt';
 $lang['nl_NL']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Onbeperkt Maximaal Gewicht';
 $lang['nl_NL']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (alleen vervoerders zones beschikbaar)';
 
+$lang['nl_NL']['SilvercartShippingFeesPage']['DEFAULT_TITLE'] = 'Verzendkosten';
+$lang['nl_NL']['SilvercartShippingFeesPage']['DEFAULT_URLSEGMENT'] = 'verzendkosten';
 $lang['nl_NL']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Verzendkosten Pagina\'s';
 $lang['nl_NL']['SilvercartShippingFeesPage']['SINGULARNAME'] = 'Verzendkosten Pagina';
 $lang['nl_NL']['SilvercartShippingFeesPage']['TITLE'] = 'Verzendkosten';
-$lang['nl_NL']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'Verzendkosten';
+$lang['nl_NL']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'verzendkosten';
 
 $lang['nl_NL']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'Voor betalingsmethoden';
 $lang['nl_NL']['SilvercartShippingMethod']['FOR_ZONES'] = 'Voor zones';
@@ -1314,6 +1367,15 @@ $lang['nl_NL']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Spring na
 
 $lang['nl_NL']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
 $lang['nl_NL']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. Je zult het geweldig vinden.';
+
+$lang['nl_NL']['TermsOfServicePage']['DEFAULT_TITLE']                           = $lang['nl_NL']['SilvercartPage']['TITLE_TERMS'];
+$lang['nl_NL']['TermsOfServicePage']['DEFAULT_URLSEGMENT']                      = $lang['nl_NL']['SilvercartPage']['URL_SEGMENT_TERMS'];
+
+$lang['nl_NL']['ImprintPage']['DEFAULT_TITLE']                                  = $lang['nl_NL']['SilvercartPage']['TITLE_IMPRINT'];
+$lang['nl_NL']['ImprintPage']['DEFAULT_URLSEGMENT']                             = $lang['nl_NL']['SilvercartPage']['URL_SEGMENT_IMPRINT'];
+
+$lang['nl_NL']['SilvercartDataPrivacyStatementPage']['DEFAULT_TITLE']           = $lang['nl_NL']['SilvercartDataPrivacyStatementPage']['TITLE'];
+$lang['nl_NL']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      = $lang['nl_NL']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'];
 
 
 

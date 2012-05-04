@@ -32,6 +32,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartMain extends DataObjectDecorator {
+    
+    public static $allowed_actions = array(
+        'createsitetreetranslation',
+        'publishsitetree',
+    );
 
     /**
      * Here we load additional stylesheets so that we can modify the look of
@@ -45,5 +50,70 @@ class SilvercartMain extends DataObjectDecorator {
      */
     public function OnBeforeInit() {
         Requirements::css('silvercart/css/screen/silvercart_main.css');
+    }
+    
+    /**
+     * This action will create a translation template for all pages of the 
+     * SiteTree for the given language.
+     * 
+     * @param array $request Request data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public function createsitetreetranslation($request) {
+        // Protect against CSRF on destructive action
+        if (!SecurityToken::inst()->checkRequest($this->owner->getRequest())) {
+            return $this->owner->httpError(400);
+        }
+
+        $langCode               = Convert::raw2sql($request['NewTransLang']);
+        $this->owner->Locale    = $langCode;
+
+        SilvercartRequireDefaultRecords::doTranslateSiteTree($langCode);
+        
+        $url = sprintf(
+                "%s/root/?locale=%s", 
+                $this->owner->Link('show'),
+                $langCode
+        );
+        
+        Director::redirect($url);
+        FormResponse::add(sprintf('window.location.href = "%s";', $url));
+        return FormResponse::respond();
+    }
+    
+    /**
+     * This action will publish all pages for the given language
+     * 
+     * @param array $request Request data
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public function publishsitetree($request) {
+        // Protect against CSRF on destructive action
+        if (!SecurityToken::inst()->checkRequest($this->owner->getRequest())) {
+            return $this->owner->httpError(400);
+        }
+
+        $langCode               = Convert::raw2sql($request['Locale']);
+        $this->owner->Locale    = $langCode;
+
+        SilvercartRequireDefaultRecords::doPublishSiteTree($langCode);
+        
+        $url = sprintf(
+                "%s/root/?locale=%s", 
+                $this->owner->Link('show'),
+                $langCode
+        );
+        
+        Director::redirect($url);
+        FormResponse::add(sprintf('window.location.href = "%s";', $url));
+        return FormResponse::respond();
     }
 }

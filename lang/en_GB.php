@@ -105,6 +105,8 @@ $lang['en_GB']['SilvercartAddressHolder']['ADDRESS_CANT_BE_DELETED'] = "Sorry, b
 $lang['en_GB']['SilvercartAddressHolder']['ADDRESS_NOT_FOUND'] = 'Sorry, but the given address was not found.';
 $lang['en_GB']['SilvercartAddressHolder']['ADDRESS_SUCCESSFULLY_DELETED'] = 'Your address was successfully deleted.';
 $lang['en_GB']['SilvercartAddressHolder']['CURRENT_DEFAULT_ADDRESSES'] = 'Your default invoice and shipping addresses';
+$lang['en_GB']['SilvercartAddressHolder']['DEFAULT_TITLE'] = 'Address overview';
+$lang['en_GB']['SilvercartAddressHolder']['DEFAULT_URLSEGMENT'] = 'address-overview';
 $lang['en_GB']['SilvercartAddressHolder']['DEFAULT_INVOICE'] = 'This is your invoice address';
 $lang['en_GB']['SilvercartAddressHolder']['DEFAULT_SHIPPING'] = 'This is your shipping address';
 $lang['en_GB']['SilvercartAddressHolder']['DEFAULT_INVOICEADDRESS'] = 'Default invoice address';
@@ -129,6 +131,8 @@ $lang['en_GB']['SilvercartAddressHolder']['UPDATED_INVOICE_ADDRESS'] = 'Your inv
 $lang['en_GB']['SilvercartAddressHolder']['UPDATED_SHIPPING_ADDRESS'] = 'Your shipping address was successfully updated.';
 $lang['en_GB']['SilvercartAddressHolder']['URL_SEGMENT'] = 'address-overview';
 
+$lang['en_GB']['SilvercartAddressPage']['DEFAULT_TITLE'] = 'Address details';
+$lang['en_GB']['SilvercartAddressPage']['DEFAULT_URLSEGMENT'] = 'address-details';
 $lang['en_GB']['SilvercartAddressPage']['PLURALNAME'] = 'Address Pages';
 $lang['en_GB']['SilvercartAddressPage']['SINGULARNAME'] = 'Address Page';
 $lang['en_GB']['SilvercartAddressPage']['TITLE'] = 'Address details';
@@ -192,21 +196,25 @@ $lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN']               
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['MOVE_UP']                 = 'Move up';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   = 'Not attributed fields';
 
-$lang['en_GB']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']    = 'You\'ll be on the newsletter recipients list after clicking on the link in the opt-in mail we sent you.';
-$lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                    = 'You are subscribed to the newsletter';
-$lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                  = 'You are not subscribed to the newsletter';
-$lang['en_GB']['SilvercartNewsletterPage']['TITLE']                     = 'Newsletter';
-$lang['en_GB']['SilvercartNewsletterPage']['URL_SEGMENT']               = 'newsletter_en_us';
-$lang['en_GB']['SilvercartNewsletterPage']['PLURALNAME']                = 'Newsletter pages';
-$lang['en_GB']['SilvercartNewsletterPage']['SINGULARNAME']              = 'Newsletter page';
-$lang['en_GB']['SilvercartNewsletterResponsePage']['TITLE']             = 'Newsletter Status';
-$lang['en_GB']['SilvercartNewsletterResponsePage']['URL_SEGMENT']       = 'newsletter_status_en_us';
-$lang['en_GB']['SilvercartNewsletterResponsePage']['STATUS_TITLE']      = 'Your newsletter settings';
-$lang['en_GB']['SilvercartNewsletterResponsePage']['PLURALNAME']        = 'Newsletter response pages';
-$lang['en_GB']['SilvercartNewsletterResponsePage']['SINGULARNAME']      = 'Newsletter response page';
-$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']         = 'What do you want to do?';
-$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']     = 'I want to subscribe to the newsletter';
-$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']   = 'I want to unsubscribe from the newsletter';
+$lang['en_GB']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']        = 'You\'ll be on the newsletter recipients list after clicking on the link in the opt-in mail we sent you.';
+$lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                        = 'You are subscribed to the newsletter';
+$lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'You are not subscribed to the newsletter';
+$lang['en_GB']['SilvercartNewsletterPage']['DEFAULT_TITLE']                 = 'Newsletter';
+$lang['en_GB']['SilvercartNewsletterPage']['DEFAULT_URLSEGMENT']            = 'newsletter_en_gb';
+$lang['en_GB']['SilvercartNewsletterPage']['TITLE']                         = 'Newsletter';
+$lang['en_GB']['SilvercartNewsletterPage']['URL_SEGMENT']                   = 'newsletter_en_gb';
+$lang['en_GB']['SilvercartNewsletterPage']['PLURALNAME']                    = 'Newsletter pages';
+$lang['en_GB']['SilvercartNewsletterPage']['SINGULARNAME']                  = 'Newsletter page';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['DEFAULT_TITLE']         = 'Newsletter Status';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['DEFAULT_URLSEGMENT']    = 'newsletter_status_en_gb';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['TITLE']                 = 'Newsletter Status';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['URL_SEGMENT']           = 'newsletter_status_en_gb';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['STATUS_TITLE']          = 'Your newsletter settings';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['PLURALNAME']            = 'Newsletter response pages';
+$lang['en_GB']['SilvercartNewsletterResponsePage']['SINGULARNAME']          = 'Newsletter response page';
+$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_TITLE']             = 'What do you want to do?';
+$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_SUBSCRIBE']         = 'I want to subscribe to the newsletter';
+$lang['en_GB']['SilvercartNewsletterForm']['ACTIONFIELD_UNSUBSCRIBE']       = 'I want to unsubscribe from the newsletter';
 $lang['en_GB']['SilvercartNewsletterStatus']['ALREADY_SUBSCRIBED']          = 'The email address "%s" is already subscribed.';
 $lang['en_GB']['SilvercartNewsletterStatus']['REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS'] = 'There\'s already a registered customer with the email address "%s". Please log in first and proceed then with the newsletter preferences: <a href="%s">Go to the login page</a>.';
 $lang['en_GB']['SilvercartNewsletterStatus']['NO_EMAIL_FOUND']              = 'We could not find the email address "%s".';
@@ -317,13 +325,15 @@ $lang['en_GB']['SilvercartProductExportAdmin']['TAB_PRODUCT_SELECTION']         
 $lang['en_GB']['SilvercartProductExportAdmin']['TAB_EXPORT_FIELD_DEFINITIONS']          = 'CSV field definitions';
 $lang['en_GB']['SilvercartProductExportAdmin']['TAB_HEADER_CONFIGURATION']              = 'CSV headers';
 
-$lang['en_GB']['SilvercartProductGroupHolder']['PAGE_TITLE'] = 'Product groups';
-$lang['en_GB']['SilvercartProductGroupHolder']['PLURALNAME'] = 'Product Group Holders';
-$lang['en_GB']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL'] = 'Show %s products';
+$lang['en_GB']['SilvercartProductGroupHolder']['DEFAULT_TITLE']                     = 'Product groups';
+$lang['en_GB']['SilvercartProductGroupHolder']['DEFAULT_URLSEGMENT']                = 'productgroups';
+$lang['en_GB']['SilvercartProductGroupHolder']['PAGE_TITLE']                        = 'Product groups';
+$lang['en_GB']['SilvercartProductGroupHolder']['PLURALNAME']                        = 'Product Group Holders';
+$lang['en_GB']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_PLURAL']   = 'Show %s products';
 $lang['en_GB']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_SINGULAR'] = 'Show %s product';
-$lang['en_GB']['SilvercartProductGroupHolder']['SINGULARNAME'] = 'Product Group Holder';
-$lang['en_GB']['SilvercartProductGroupHolder']['SUBGROUPS_OF'] = 'Subgroups of ';
-$lang['en_GB']['SilvercartProductGroupHolder']['URL_SEGMENT'] = 'productgroups';
+$lang['en_GB']['SilvercartProductGroupHolder']['SINGULARNAME']                      = 'Product Group Holder';
+$lang['en_GB']['SilvercartProductGroupHolder']['SUBGROUPS_OF']                      = 'Subgroups of ';
+$lang['en_GB']['SilvercartProductGroupHolder']['URL_SEGMENT']                       = 'productgroups';
 
 $lang['en_GB']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Mirror-Productgroup';
 $lang['en_GB']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Mirror-Productgroups';
@@ -362,10 +372,12 @@ $lang['en_GB']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
 $lang['en_GB']['SilvercartCarrierLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartCarrierLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_GB']['SilvercartCartPage']['CART_EMPTY'] = 'Your cart is empty.';
-$lang['en_GB']['SilvercartCartPage']['PLURALNAME'] = 'Cart pages';
-$lang['en_GB']['SilvercartCartPage']['SINGULARNAME'] = 'Cart page';
-$lang['en_GB']['SilvercartCartPage']['URL_SEGMENT'] = 'cart';
+$lang['en_GB']['SilvercartCartPage']['DEFAULT_TITLE']                           = 'Cart';
+$lang['en_GB']['SilvercartCartPage']['DEFAULT_URLSEGMENT']                      = 'cart';
+$lang['en_GB']['SilvercartCartPage']['CART_EMPTY']                              = 'Your cart is empty.';
+$lang['en_GB']['SilvercartCartPage']['PLURALNAME']                              = 'Cart pages';
+$lang['en_GB']['SilvercartCartPage']['SINGULARNAME']                            = 'Cart page';
+$lang['en_GB']['SilvercartCartPage']['URL_SEGMENT']                             = 'cart';
 
 $lang['en_GB']['SilvercartCheckoutFormStep']['CHOOSEN_PAYMENT'] = 'Chosen payment method';
 $lang['en_GB']['SilvercartCheckoutFormStep']['CHOOSEN_SHIPPING'] = 'Chosen shipping method';
@@ -398,6 +410,8 @@ $lang['en_GB']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Please choose you
 $lang['en_GB']['SilvercartCheckoutFormStep4']['TITLE'] = 'Payment';
 $lang['en_GB']['SilvercartCheckoutFormStep5']['TITLE'] = 'Overview';
 
+$lang['en_GB']['SilvercartCheckoutStep']['DEFAULT_TITLE'] = 'Checkout';
+$lang['en_GB']['SilvercartCheckoutStep']['DEFAULT_URLSEGMENT'] = 'checkout';
 $lang['en_GB']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Back to the shopping cart';
 $lang['en_GB']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_GB']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
@@ -482,12 +496,17 @@ $lang['en_GB']['SilvercartConfig']['TRANSLATION'] = 'Translation';
 $lang['en_GB']['SilvercartConfig']['TRANSLATIONS'] = 'Translations';
 $lang['en_GB']['SilvercartConfig']['OPEN_RECORD'] = 'open record';
 
+$lang['en_GB']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
+$lang['en_GB']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'contact';
 $lang['en_GB']['SilvercartContactFormPage']['PLURALNAME'] = 'Contact form pages';
 $lang['en_GB']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact form';
 $lang['en_GB']['SilvercartContactFormPage']['SINGULARNAME'] = 'Contact form page';
 $lang['en_GB']['SilvercartContactFormPage']['TITLE'] = 'Contact';
 $lang['en_GB']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
 
+$lang['en_GB']['SilvercartContactFormResponsePage']['DEFAULT_TITLE'] = 'Contact confirmation';
+$lang['en_GB']['SilvercartContactFormResponsePage']['DEFAULT_CONTENT'] = 'Many thanks for your message. Your request will be answered as soon as possible.';
+$lang['en_GB']['SilvercartContactFormResponsePage']['DEFAULT_URLSEGMENT'] = 'contactconfirmation';
 $lang['en_GB']['SilvercartContactFormResponsePage']['CONTACT_CONFIRMATION'] = 'Contact confirmation';
 $lang['en_GB']['SilvercartContactFormResponsePage']['CONTENT'] = 'Many thanks for your message. Your request will be answered as soon as possible.';
 $lang['en_GB']['SilvercartContactFormResponsePage']['PLURALNAME'] = 'Contact form response pages';
@@ -790,6 +809,8 @@ $lang['en_GB']['SilvercartCustomer']['TYPE'] = 'Type';
 $lang['en_GB']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_GB']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 
+$lang['en_GB']['SilvercartDataPage']['DEFAULT_TITLE'] = 'My data';
+$lang['en_GB']['SilvercartDataPage']['DEFAULT_URLSEGMENT'] = 'my-data';
 $lang['en_GB']['SilvercartDataPage']['PLURALNAME'] = 'Data pages';
 $lang['en_GB']['SilvercartDataPage']['SINGULARNAME'] = 'Data Page';
 $lang['en_GB']['SilvercartDataPage']['TITLE'] = 'My data';
@@ -802,6 +823,7 @@ $lang['en_GB']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'] = 'data-priv
 
 $lang['en_GB']['SilvercartDeeplinkPage']['SINGULARNAME'] = 'deeplink page';
 $lang['en_GB']['SilvercartDeeplinkPage']['PLURALNAME'] = 'deeplink pages';
+$lang['en_GB']['SilvercartDeeplinkPage']['DEFAULT_TITLE'] = 'deeplink page';
 
 $lang['en_GB']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
 
@@ -817,7 +839,8 @@ $lang['en_GB']['SilvercartFile']['TITLE'] = 'Display name';
 $lang['en_GB']['SilvercartFileLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 $lang['en_GB']['SilvercartFileLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 
-$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
+$lang['en_GB']['SilvercartFrontPage']['CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
+$lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = $lang['en_GB']['SilvercartFrontPage']['CONTENT'];
 $lang['en_GB']['SilvercartFrontPage']['PLURALNAME'] = 'Front pages';
 $lang['en_GB']['SilvercartFrontPage']['SINGULARNAME'] = 'Front page';
 
@@ -878,6 +901,8 @@ $lang['en_GB']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
 $lang['en_GB']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
 $lang['en_GB']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
+$lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigation';
+$lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigations';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Metanavigation';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
@@ -888,19 +913,27 @@ $lang['en_GB']['SilvercartMetaNavigationPage']['SINGULARNAME'] = 'Meta informati
 $lang['en_GB']['SilvercartSiteMapPage']['PLURALNAME'] = 'SiteMaps';
 $lang['en_GB']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
-$lang['en_GB']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT'] = 'Do you already have an account?';
-$lang['en_GB']['SilvercartMyAccountHolder']['GOTO_REGISTRATION'] = 'Go to the registration form';
-$lang['en_GB']['SilvercartMyAccountHolder']['PLURALNAME'] = 'Account holders';
-$lang['en_GB']['SilvercartMyAccountHolder']['REGISTER_ADVANTAGES_TEXT'] = 'By registering you can reuse your data like invoice or delivery addresses on your next purchase.';
-$lang['en_GB']['SilvercartMyAccountHolder']['SINGULARNAME'] = 'Account holder';
-$lang['en_GB']['SilvercartMyAccountHolder']['TITLE'] = 'My account';
-$lang['en_GB']['SilvercartMyAccountHolder']['URL_SEGMENT'] = 'my-account';
-$lang['en_GB']['SilvercartMyAccountHolder']['WANTTOREGISTER'] = 'Do you want to register?';
-$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER'] = 'Your customer number';
-$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES'] = 'Your current invoice and delivery address';
-$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS'] = 'Your most current orders';
-$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA'] = 'Your personal data';
+$lang['en_GB']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
+$lang['en_GB']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
+$lang['en_GB']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'my-account';
+$lang['en_GB']['SilvercartMyAccountHolder']['GOTO_REGISTRATION']                = 'Go to the registration form';
+$lang['en_GB']['SilvercartMyAccountHolder']['PLURALNAME']                       = 'Account holders';
+$lang['en_GB']['SilvercartMyAccountHolder']['REGISTER_ADVANTAGES_TEXT']         = 'By registering you can reuse your data like invoice or delivery addresses on your next purchase.';
+$lang['en_GB']['SilvercartMyAccountHolder']['SINGULARNAME']                     = 'Account holder';
+$lang['en_GB']['SilvercartMyAccountHolder']['TITLE']                            = 'My account';
+$lang['en_GB']['SilvercartMyAccountHolder']['URL_SEGMENT']                      = 'my-account';
+$lang['en_GB']['SilvercartMyAccountHolder']['WANTTOREGISTER']                   = 'Do you want to register?';
+$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CUSTOMERNUMBER']              = 'Your customer number';
+$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_CURRENT_ADDRESSES']           = 'Your current invoice and delivery address';
+$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_MOST_CURRENT_ORDERS']         = 'Your most current orders';
+$lang['en_GB']['SilvercartMyAccountHolder']['YOUR_PERSONAL_DATA']               = 'Your personal data';
 
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONFIRMATIONFAILUREMESSAGE']   = '<p>Your newsletter registration couldn\'t be completed.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONFIRMATIONSUCCESSMESSAGE']   = '<p>Your newsletter registration was successful!</p><p>Hopefully our offers will be of good use to you.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_ALREADYCONFIRMEDMESSAGE']      = '<p>Your newsletter registration has been completed already.</p>';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_CONTENT']                      = '';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_URLSEGMENT']                   = 'newsletter-opt-in-confirmation';
+$lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['DEFAULT_TITLE']                        = 'Complete newsletter registration';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['ALREADY_CONFIRMED_MESSAGE_TEXT']   = 'Message: user completed opt-in already';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['FAILURE_MESSAGE_TEXT']             = 'Failure message';
 $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['PLURALNAME']                       = 'Newsletter opt-in confirmation page';
@@ -950,17 +983,23 @@ $lang['en_GB']['SilvercartOrder']['YOUR_REMARK'] = 'Your remark';
 $lang['en_GB']['SilvercartOrderAddress']['PLURALNAME'] = 'Order addresses';
 $lang['en_GB']['SilvercartOrderAddress']['SINGULARNAME'] = 'Order address';
 
+$lang['en_GB']['SilvercartOrderConfirmationPage']['DEFAULT_TITLE'] = 'Order Confirmation Page';
+$lang['en_GB']['SilvercartOrderConfirmationPage']['DEFAULT_URLSEGMENT'] = 'order-confirmation';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['PLURALNAME'] = 'Order Confirmation pages';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['SINGULARNAME'] = 'Order Confirmation Page';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['URL_SEGMENT'] = 'order-confirmation';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['ORDERCONFIRMATION'] = 'Order confirmation';
 $lang['en_GB']['SilvercartOrderConfirmationPage']['ORDERNOTIFICATION'] = 'Order notification';
 
+$lang['en_GB']['SilvercartOrderDetailPage']['DEFAULT_TITLE'] = 'Order details';
+$lang['en_GB']['SilvercartOrderDetailPage']['DEFAULT_URLSEGMENT'] = 'order-details';
 $lang['en_GB']['SilvercartOrderDetailPage']['PLURALNAME'] = 'Order Detail pages';
 $lang['en_GB']['SilvercartOrderDetailPage']['SINGULARNAME'] = 'Order Detail Page';
 $lang['en_GB']['SilvercartOrderDetailPage']['TITLE'] = 'Order details';
 $lang['en_GB']['SilvercartOrderDetailPage']['URL_SEGMENT'] = 'order-details';
 
+$lang['en_GB']['SilvercartOrderHolder']['DEFAULT_TITLE'] = 'My orders';
+$lang['en_GB']['SilvercartOrderHolder']['DEFAULT_URLSEGMENT'] = 'my-orders';
 $lang['en_GB']['SilvercartOrderHolder']['PLURALNAME'] = 'Order overview';
 $lang['en_GB']['SilvercartOrderHolder']['SINGULARNAME'] = 'Order overview';
 $lang['en_GB']['SilvercartOrderHolder']['TITLE'] = 'My orders';
@@ -1177,6 +1216,8 @@ $lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['PLURALNAME']             
 $lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['TEXTBANKACCOUNTINFO']    = 'informations for payment method prepayment';
 $lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['INVOICEINFO']            = 'informations for payment method invoice';
 
+$lang['en_GB']['SilvercartPaymentNotification']['DEFAULT_TITLE'] = 'Payment notification';
+$lang['en_GB']['SilvercartPaymentNotification']['DEFAULT_URLSEGMENT'] = 'payment-notification';
 $lang['en_GB']['SilvercartPaymentNotification']['PLURALNAME'] = 'Payment Notifications';
 $lang['en_GB']['SilvercartPaymentNotification']['SINGULARNAME'] = 'Payment Notification';
 $lang['en_GB']['SilvercartPaymentNotification']['TITLE'] = 'Payment notification';
@@ -1206,6 +1247,9 @@ $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_SUBJECT']
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONFIRMATIONMAIL_TEXT'] = 'Confirmation mail: text';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONFIRMATION_MAIL'] = 'Confirmation mail';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['CONTENT'] = '<p>Dear customer,</p><p>for your comfort you are already logged in.</p><p>Have fun!</p>';
+$lang['en_GB']['SilvercartRegisterConfirmationPage']['DEFAULT_CONTENT'] = '<p>Dear customer,</p><p>for your comfort you are already logged in.</p><p>Have fun!</p>';
+$lang['en_GB']['SilvercartRegisterConfirmationPage']['DEFAULT_TITLE'] = 'Register confirmation page';
+$lang['en_GB']['SilvercartRegisterConfirmationPage']['DEFAULT_URLSEGMENT'] = 'register-confirmation';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['FAILURE_MESSAGE_TEXT'] = 'Failure message';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['PLURALNAME'] = 'Register confirmation pages';
 $lang['en_GB']['SilvercartRegisterConfirmationPage']['SINGULARNAME'] = 'Register confirmation page';
@@ -1218,6 +1262,8 @@ $lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL_SUBJECT'] = 'Activ
 $lang['en_GB']['SilvercartRegistrationPage']['ACTIVATION_MAIL_TEXT'] = 'Activation mail text';
 $lang['en_GB']['SilvercartRegistrationPage']['CONFIRMATION_TEXT'] = '<h1>Complete registration</h1><p>Please confirm your activation or copy the link to your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>';
 $lang['en_GB']['SilvercartRegistrationPage']['CUSTOMER_SALUTATION'] = 'Dear customer\,';
+$lang['en_GB']['SilvercartRegistrationPage']['DEFAULT_TITLE'] = 'Registration page';
+$lang['en_GB']['SilvercartRegistrationPage']['DEFAULT_URLSEGMENT'] = 'registration';
 $lang['en_GB']['SilvercartRegistrationPage']['EMAIL_EXISTS_ALREADY'] = 'This email address already exists.';
 $lang['en_GB']['SilvercartRegistrationPage']['OTHERITEMS'] = 'Miscellaneous';
 $lang['en_GB']['SilvercartRegistrationPage']['PLEASE_COFIRM'] = 'Please confirm your registration';
@@ -1229,6 +1275,8 @@ $lang['en_GB']['SilvercartRegistrationPage']['TITLE'] = 'Registration page';
 $lang['en_GB']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'registration';
 $lang['en_GB']['SilvercartRegistrationPage']['YOUR_REGISTRATION'] = 'Your registration';
 
+$lang['en_GB']['SilvercartSearchResultsPage']['DEFAULT_TITLE'] = 'Search results';
+$lang['en_GB']['SilvercartSearchResultsPage']['DEFAULT_URLSEGMENT'] = 'search-results';
 $lang['en_GB']['SilvercartSearchResultsPage']['PLURALNAME'] = 'Search Results pages';
 $lang['en_GB']['SilvercartSearchResultsPage']['SINGULARNAME'] = 'Search Results Page';
 $lang['en_GB']['SilvercartSearchResultsPage']['TITLE'] = 'Search results';
@@ -1251,6 +1299,8 @@ $lang['en_GB']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unlimited';
 $lang['en_GB']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unlimited Maximum Weight';
 $lang['en_GB']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only carrier\'s zones available)';
 
+$lang['en_GB']['SilvercartShippingFeesPage']['DEFAULT_TITLE'] = 'Shipping fees';
+$lang['en_GB']['SilvercartShippingFeesPage']['DEFAULT_URLSEGMENT'] = 'shipping-fees';
 $lang['en_GB']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees pages';
 $lang['en_GB']['SilvercartShippingFeesPage']['SINGULARNAME'] = 'Shipping Fees Page';
 $lang['en_GB']['SilvercartShippingFeesPage']['TITLE'] = 'Shipping fees';
@@ -1503,7 +1553,9 @@ $lang['en_GB']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'P
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'SilverCart product group navigation';
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for product groups. You can define what productgroup should be used as root.';
 
+$lang['en_GB']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
 $lang['en_GB']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';
+$lang['en_GB']['SilvercartSiteConfig']['PUBLISHBUTTON']             = 'Publish all pages of this translation';
 $lang['en_GB']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Welcome to SilverCart';
 $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata';
 $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'There are no products yet; if you want to create some testdata just click on the following link:';
@@ -1511,4 +1563,13 @@ $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Jump to t
 
 $lang['en_GB']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
 $lang['en_GB']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it.';
+
+$lang['en_GB']['TermsOfServicePage']['DEFAULT_TITLE']                           = $lang['en_GB']['SilvercartPage']['TITLE_TERMS'];
+$lang['en_GB']['TermsOfServicePage']['DEFAULT_URLSEGMENT']                      = $lang['en_GB']['SilvercartPage']['URL_SEGMENT_TERMS'];
+
+$lang['en_GB']['ImprintPage']['DEFAULT_TITLE']                                  = $lang['en_GB']['SilvercartPage']['TITLE_IMPRINT'];
+$lang['en_GB']['ImprintPage']['DEFAULT_URLSEGMENT']                             = $lang['en_GB']['SilvercartPage']['URL_SEGMENT_IMPRINT'];
+
+$lang['en_GB']['SilvercartDataPrivacyStatementPage']['DEFAULT_TITLE']           = $lang['en_GB']['SilvercartDataPrivacyStatementPage']['TITLE'];
+$lang['en_GB']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      = $lang['en_GB']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'];
 

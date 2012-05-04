@@ -43,19 +43,43 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 16.02.2011
      */
     protected static $enableTestData = false;
+    
+    /**
+     * Translation locale
+     *
+     * @var string 
+     */
+    protected $translationLocale = null;
+    
+    /**
+     * Returns the translation locale
+     *
+     * @return string 
+     */
+    public function getTranslationLocale() {
+        return $this->translationLocale;
+    }
 
     /**
-     * create default records
+     * Sets the translation locale
+     *
+     * @param string $translationLocale Translation locale
      * 
      * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.02.2011
      */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
+    public function setTranslationLocale($translationLocale) {
+        $this->translationLocale = $translationLocale;
+    }
+    
+    /**
+     * Creates the default groups used in SilverCart
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012 
+     */
+    public function createDefaultGroups() {
         // Create an own group for anonymous customers
         $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
         if (!$anonymousGroup) {
@@ -85,7 +109,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $B2Cgroup->Pricetype    = "gross";
             $B2Cgroup->write();
         }
-
+    }
+    
+    /**
+     * Creates the default SilvercartConfig if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultConfig() {
         // create a SilvercartConfig if not exist
         if (!DataObject::get_one('SilvercartConfig')) {
             $silvercartConfig = new SilvercartConfig();
@@ -96,95 +130,140 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
             $silvercartConfig->write();
         }
-
-        // create countries
-        $this->requireOrUpdateCountries();
-        if (!DataObject::get_one('SilvercartCountry', "`Active`=1")) {
-            $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2`='%s'", substr(i18n::get_locale(), 3)));
-            if ($country) {
-                $country->Active = true;
-                $country->write();
-            }
-        }
-
+    }
+    
+    /**
+     * Creates the default SilvercartOrderStatus if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultOrderStatus() {
         // create order status
-        if (!DataObject::get_one('SilvercartOrderStatus')) {
-
-            $defaultStatusEntries = array(
-                'pending' => array(
-                    'en_US' => 'Waiting for payment',
-                    'en_GB' => 'Waiting for payment',
-                    'de_DE' => 'Auf Zahlungseingang wird gewartet',
-                ),
-                'payed' => array(
-                    'en_US' => 'Payed',
-                    'en_GB' => 'Payed',
-                    'de_DE' => 'Bezahlt',
-                ),
-                'shipped' => array(
-                    'en_US' => 'Order shipped',
-                    'en_GB' => 'Order shipped',
-                    'de_DE' => 'Bestellung versendet',
-                ),
-                'inwork' => array(
-                    'en_US' => 'In work',
-                    'en_GB' => 'In work',
-                    'de_DE' => 'Bestellung in Arbeit',
-                ),
+        $defaultStatusEntries = array(
+            'pending' => array(
+                'en_US' => 'Waiting for payment',
+                'en_GB' => 'Waiting for payment',
+                'de_DE' => 'Auf Zahlungseingang wird gewartet',
+            ),
+            'payed' => array(
+                'en_US' => 'Payed',
+                'en_GB' => 'Payed',
+                'de_DE' => 'Bezahlt',
+            ),
+            'shipped' => array(
+                'en_US' => 'Order shipped',
+                'en_GB' => 'Order shipped',
+                'de_DE' => 'Bestellung versendet',
+            ),
+            'inwork' => array(
+                'en_US' => 'In work',
+                'en_GB' => 'In work',
+                'de_DE' => 'Bestellung in Arbeit',
+            ),
+        );
+        $this->createDefaultTranslatableDataObject($defaultStatusEntries, 'SilvercartOrderStatus');
+    }
+    
+    /**
+     * Creates the default SilvercartAvailabilityStatus if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultAvailabilityStatus() {
+        $defaults = array(
+            'available'     => array(
+                'en_US' => 'available',
+                'en_GB' => 'available',
+                'de_DE' => 'verfügbar'
+            ),
+            'not-available' => array(
+                'en_US' => 'unavailable',
+                'en_GB' => 'unavailable',
+                'de_DE' => 'nicht verfügbar'
+            )
+        );
+        $this->createDefaultTranslatableDataObject($defaults, 'SilvercartAvailabilityStatus');
+    }
+    
+    /**
+     * Creates a translatable DataObject by the given entries and for the current 
+     * locale.
+     *
+     * @param array  $translatableDataObjectEntries      Entries to create
+     * @param string $translatableDataObjectName         Name of DataObject to create entries for
+     * @param string $translatableDataObjectLanguageName Name of DataObjectLanguage to create entries for (if not default)
+     * @param string $translatableDataObjectRelationName Name of relation name DataObjectLanguage -> DataObject (if not default)
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultTranslatableDataObject($translatableDataObjectEntries, $translatableDataObjectName, $translatableDataObjectLanguageName = '', $translatableDataObjectRelationName = '') {
+        if (empty($translatableDataObjectLanguageName)) {
+            $translatableDataObjectLanguageName = $translatableDataObjectName . 'Language';
+        }
+        if (empty($translatableDataObjectRelationName)) {
+            $translatableDataObjectRelationName = $translatableDataObjectName . 'ID';
+        }
+        $translationLocale = $this->getTranslationLocale();
+        foreach ($translatableDataObjectEntries as $code => $languages) {
+            $obj = DataObject::get_one(
+                    $translatableDataObjectName,
+                    sprintf(
+                            "`%s`.`Code` = '%s'",
+                            $translatableDataObjectName,
+                            $code
+                    )
             );
-            
-            foreach ($defaultStatusEntries as $code => $languages) {
-                $obj = new SilvercartOrderStatus();
+            if (!$obj) {
+                $obj = new $translatableDataObjectName();
                 $obj->Code = $code;
                 $obj->write();
-                foreach ($languages as $locale => $title) {
-                    $filter = sprintf("`Locale` = '%s' AND `SilvercartOrderStatusID` = '%s'", $locale, $obj->ID);
-                    $objLanguage = DataObject::get_one('SilvercartOrderStatusLanguage', $filter);
-                    if (!$objLanguage) {
-                        $objLanguage = new SilvercartOrderStatusLanguage();
-                        $objLanguage->Locale = $locale;
-                        $objLanguage->SilvercartOrderStatusID = $obj->ID;
-                    }
-                    $objLanguage->Title = $title;
+            }
+            if (!array_key_exists($translationLocale, $languages) &&
+                array_key_exists('en_US', $languages)) {
+                $languages[$translationLocale] = $languages['en_US'];
+            }
+            foreach ($languages as $locale => $title) {
+                $objLanguage    = DataObject::get_one(
+                        $translatableDataObjectLanguageName,
+                        sprintf(
+                                "`Locale` = '%s' AND `%s` = '%s'",
+                                $locale,
+                                $translatableDataObjectRelationName,
+                                $obj->ID
+                        )
+                );
+                if (!$objLanguage) {
+                    $objLanguage = new $translatableDataObjectLanguageName();
+                    $objLanguage->Locale                                = $locale;
+                    $objLanguage->{$translatableDataObjectRelationName} = $obj->ID;
+                    $objLanguage->Title                                 = $title;
+                    $objLanguage->write();
+                } elseif (empty($objLanguage->Title)) {
+                    $objLanguage->Title                                 = $title;
                     $objLanguage->write();
                 }
             }
         }
-
-        // create availability status
-        if (!DataObject::get_one('SilvercartAvailabilityStatus')) {
-
-            $defaults = array(
-                'available'     => array(
-                    'en_US' => 'available',
-                    'en_GB' => 'available',
-                    'de_DE' => 'verfügbar'
-                ),
-                'not-available' => array(
-                    'en_US' => 'unavailable',
-                    'en_GB' => 'unavailable',
-                    'de_DE' => 'nicht verfügbar'
-                )
-            );
-            
-            foreach ($defaults as $code => $languages) {
-                $obj = new SilvercartAvailabilityStatus();
-                $obj->Code = $code;
-                $obj->write();
-                foreach ($languages as $locale => $title) {
-                    $filter = sprintf("`Locale` = '%s' AND `SilvercartAvailabilityStatusID` = '%s'", $locale, $obj->ID);
-                    $objLanguage = DataObject::get_one('SilvercartAvailabilityStatusLanguage', $filter);
-                    if (!$objLanguage) {
-                        $objLanguage = new SilvercartAvailabilityStatusLanguage();
-                        $objLanguage->Locale = $locale;
-                        $objLanguage->SilvercartAvailabilityStatusID = $obj->ID;
-                    }
-                    $objLanguage->Title = $title;
-                    $objLanguage->write();
-                }
-            }
-        }
-
+    }
+    
+    /**
+     * Creates the default SilvercartNumberRanges if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultNumberRanges() {
         // create number ranges
         $orderNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='OrderNumber'");
         if (!$orderNumbers) {
@@ -200,304 +279,310 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $customerNumbers->Title = _t('SilvercartNumberRange.CUSTOMERNUMBER', 'Customernumber');
             $customerNumbers->write();
         }
-
-        /*
-         * and now the whole site tree
-         */
-
+    }
+    
+    /**
+     * Creates the default SiteTree if not exists
+     * 
+     * @return SilvercartFrontPage
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultSiteTree() {
         $rootPage = DataObject::get_one('SilvercartPage',"`IdentifierCode` = 'SilvercartCartPage'");
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
-            $rootPage = new SilvercartFrontPage();
-            $rootPage->IdentifierCode = "SilvercartFrontPage";
-            $rootPage->Title = 'SilverCart';
-            $rootPage->MenuTitle = "SilverCart";
+            $rootPage                   = new SilvercartFrontPage();
+            $rootPage->IdentifierCode   = "SilvercartFrontPage";
+            $rootPage->Title            = 'SilverCart';
+            $rootPage->MenuTitle        = "SilverCart";
             if (SiteTree::get_by_link('home')) {
-                $rootPage->URLSegment = 'webshop';
+                $rootPage->URLSegment   = 'webshop';
             } else {
-                $rootPage->URLSegment = 'home';
+                $rootPage->URLSegment   = 'home';
             }
-            $rootPage->ShowInMenus = false;
-            $rootPage->ShowInSearch = false;
-            $rootPage->Status = "Published";
-            $rootPage->CanViewType = "Anyone";
-            $rootPage->Content = _t('SilvercartFrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
+            $rootPage->ShowInMenus      = false;
+            $rootPage->ShowInSearch     = false;
+            $rootPage->Status           = "Published";
+            $rootPage->CanViewType      = "Anyone";
+            $rootPage->Content          = _t('SilvercartFrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
             $rootPage->write();
             $rootPage->publish("Stage", "Live");
             
             //create a deeplink page as child of the silvercart root
-            $deeplinkPage = new SilvercartDeeplinkPage();
-            $deeplinkPage->IdentifierCode = "SilvercartDeeplinkPage";
-            $deeplinkPage->Title = _t('SilvercartDeeplinkPage.SINGULARNAME');
-            $deeplinkPage->URLSegment = 'deeplink';
-            $deeplinkPage->Status = 'Published';
-            $deeplinkPage->ParentID = $rootPage->ID;
-            $deeplinkPage->ShowInMenus = false;
-            $deeplinkPage->ShowInSearch = false;
-            $deeplinkPage->CanViewType = "Anyone";
+            $deeplinkPage                   = new SilvercartDeeplinkPage();
+            $deeplinkPage->IdentifierCode   = "SilvercartDeeplinkPage";
+            $deeplinkPage->Title            = _t('SilvercartDeeplinkPage.DEFAULT_TITLE');
+            $deeplinkPage->URLSegment       = 'deeplink';
+            $deeplinkPage->Status           = 'Published';
+            $deeplinkPage->ParentID         = $rootPage->ID;
+            $deeplinkPage->ShowInMenus      = false;
+            $deeplinkPage->ShowInSearch     = false;
+            $deeplinkPage->CanViewType      = "Anyone";
             $deeplinkPage->write();
             $deeplinkPage->publish("Stage", "Live");
 
             //create a silvercart product group holder as a child af the silvercart root
-            $productGroupHolder = new SilvercartProductGroupHolder();
-            $productGroupHolder->Title = _t('SilvercartProductGroupHolder.PAGE_TITLE', 'product groups');
-            $productGroupHolder->URLSegment = _t('SilvercartProductGroupHolder.URL_SEGMENT', 'productgroups');
-            $productGroupHolder->Status = "Published";
-            $productGroupHolder->ParentID = $rootPage->ID;
+            $productGroupHolder                 = new SilvercartProductGroupHolder();
+            $productGroupHolder->Title          = _t('SilvercartProductGroupHolder.DEFAULT_TITLE',      'product groups');
+            $productGroupHolder->URLSegment     = _t('SilvercartProductGroupHolder.DEFAULT_URLSEGMENT', 'productgroups');
+            $productGroupHolder->Status         = "Published";
+            $productGroupHolder->ParentID       = $rootPage->ID;
             $productGroupHolder->IdentifierCode = "SilvercartProductGroupHolder";
             $productGroupHolder->write();
             $productGroupHolder->publish("Stage", "Live");
 
             //create a cart page
-            $cartPage = new SilvercartCartPage();
-            $cartPage->Title = _t('SilvercartPage.CART');
-            $cartPage->URLSegment = _t('SilvercartCartPage.URL_SEGMENT', 'cart');
-            $cartPage->Status = "Published";
-            $cartPage->ShowInMenus = true;
-            $cartPage->ShowInSearch = false;
-            $cartPage->IdentifierCode = "SilvercartCartPage";
-            $cartPage->ParentID = $rootPage->ID;
+            $cartPage                   = new SilvercartCartPage();
+            $cartPage->Title            = _t('SilvercartCartPage.DEFAULT_TITLE');
+            $cartPage->URLSegment       = _t('SilvercartCartPage.DEFAULT_URLSEGMENT', 'cart');
+            $cartPage->Status           = "Published";
+            $cartPage->ShowInMenus      = true;
+            $cartPage->ShowInSearch     = false;
+            $cartPage->IdentifierCode   = "SilvercartCartPage";
+            $cartPage->ParentID         = $rootPage->ID;
             $cartPage->write();
             $cartPage->publish("Stage", "Live");
 
             //create a silvercart checkout step (checkout) as achild of the silvercart root
-            $checkoutStep = new SilvercartCheckoutStep();
-            $checkoutStep->Title = _t('SilvercartPage.CHECKOUT');
-            $checkoutStep->URLSegment = _t('SilvercartCheckoutStep.URL_SEGMENT', 'checkout');
-            $checkoutStep->Status = "Published";
-            $checkoutStep->ShowInMenus = true;
-            $checkoutStep->ShowInSearch = true;
-            $checkoutStep->basename = 'SilvercartCheckoutFormStep';
-            $checkoutStep->showCancelLink = true;
-            $checkoutStep->cancelPageID = $cartPage->ID;
-            $checkoutStep->ParentID = $rootPage->ID;
-            $checkoutStep->IdentifierCode = "SilvercartCheckoutStep";
+            $checkoutStep                   = new SilvercartCheckoutStep();
+            $checkoutStep->Title            = _t('SilvercartCheckoutStep.DEFAULT_TITLE');
+            $checkoutStep->URLSegment       = _t('SilvercartCheckoutStep.DEFAULT_URLSEGMENT', 'checkout');
+            $checkoutStep->Status           = "Published";
+            $checkoutStep->ShowInMenus      = true;
+            $checkoutStep->ShowInSearch     = true;
+            $checkoutStep->basename         = 'SilvercartCheckoutFormStep';
+            $checkoutStep->showCancelLink   = true;
+            $checkoutStep->cancelPageID     = $cartPage->ID;
+            $checkoutStep->ParentID         = $rootPage->ID;
+            $checkoutStep->IdentifierCode   = "SilvercartCheckoutStep";
             $checkoutStep->write();
             $checkoutStep->publish("Stage", "Live");
 
             //create a my account holder page as child of the silvercart root
-            $myAccountHolder = new SilvercartMyAccountHolder();
-            $myAccountHolder->Title = _t('SilvercartMyAccountHolder.TITLE', 'my account');
-            $myAccountHolder->URLSegment = _t('SilvercartMyAccountHolder.URL_SEGMENT', 'my-account');
-            $myAccountHolder->Status = "Published";
-            $myAccountHolder->ShowInMenus = false;
-            $myAccountHolder->ShowInSearch = false;
-            $myAccountHolder->ParentID = $rootPage->ID;
-            $myAccountHolder->IdentifierCode = "SilvercartMyAccountHolder";
+            $myAccountHolder                    = new SilvercartMyAccountHolder();
+            $myAccountHolder->Title             = _t('SilvercartMyAccountHolder.DEFAULT_TITLE', 'my account');
+            $myAccountHolder->URLSegment        = _t('SilvercartMyAccountHolder.DEFAULT_URLSEGMENT', 'my-account');
+            $myAccountHolder->Status            = "Published";
+            $myAccountHolder->ShowInMenus       = false;
+            $myAccountHolder->ShowInSearch      = false;
+            $myAccountHolder->ParentID          = $rootPage->ID;
+            $myAccountHolder->IdentifierCode    = "SilvercartMyAccountHolder";
             $myAccountHolder->write();
             $myAccountHolder->publish("Stage", "Live");
 
             //create a silvercart data page as a child of silvercart my account holder
-            $dataPage = new SilvercartDataPage();
-            $dataPage->Title = _t('SilvercartDataPage.TITLE', 'my data');
-            $dataPage->URLSegment = _t('SilvercartDataPage.URL_SEGMENT', 'my-data');
-            $dataPage->Status = "Published";
-            $dataPage->ShowInMenus = true;
-            $dataPage->ShowInSearch = false;
-            $dataPage->CanViewType = "Inherit";
-            $dataPage->ParentID = $myAccountHolder->ID;
-            $dataPage->IdentifierCode = "SilvercartDataPage";
+            $dataPage                   = new SilvercartDataPage();
+            $dataPage->Title            = _t('SilvercartDataPage.DEFAULT_TITLE', 'my data');
+            $dataPage->URLSegment       = _t('SilvercartDataPage.DEFAULT_URLSEGMENT', 'my-data');
+            $dataPage->Status           = "Published";
+            $dataPage->ShowInMenus      = true;
+            $dataPage->ShowInSearch     = false;
+            $dataPage->CanViewType      = "Inherit";
+            $dataPage->ParentID         = $myAccountHolder->ID;
+            $dataPage->IdentifierCode   = "SilvercartDataPage";
             $dataPage->write();
             $dataPage->publish("Stage", "Live");
 
             //create a silvercart order holder as a child of silvercart my account holder
-            $orderHolder = new SilvercartOrderHolder();
-            $orderHolder->Title = _t('SilvercartOrderHolder.TITLE', 'my orders');
-            $orderHolder->URLSegment = 'my-orders';
-            $orderHolder->Status = "Published";
-            $orderHolder->ShowInMenus = true;
-            $orderHolder->ShowInSearch = false;
-            $orderHolder->CanViewType = "Inherit";
-            $orderHolder->ParentID = $myAccountHolder->ID;
-            $orderHolder->IdentifierCode = "SilvercartOrderHolder";
+            $orderHolder                    = new SilvercartOrderHolder();
+            $orderHolder->Title             = _t('SilvercartOrderHolder.DEFAULT_TITLE', 'my orders');
+            $orderHolder->URLSegment        = _t('SilvercartOrderHolder.DEFAULT_URLSEGMENT', 'my-orders');
+            $orderHolder->Status            = "Published";
+            $orderHolder->ShowInMenus       = true;
+            $orderHolder->ShowInSearch      = false;
+            $orderHolder->CanViewType       = "Inherit";
+            $orderHolder->ParentID          = $myAccountHolder->ID;
+            $orderHolder->IdentifierCode    = "SilvercartOrderHolder";
             $orderHolder->write();
             $orderHolder->publish("Stage", "Live");
 
             //create an order detail page as a child of the order holder
-            $orderDetailPage = new SilvercartOrderDetailPage();
-            $orderDetailPage->Title = _t('SilvercartOrderDetailPage.TITLE', 'order details');
-            $orderDetailPage->URLSegment = 'order-details';
-            $orderDetailPage->Status = "Published";
-            $orderDetailPage->ShowInMenus = false;
-            $orderDetailPage->ShowInSearch = false;
-            $orderDetailPage->CanViewType = "Inherit";
-            $orderDetailPage->ParentID = $orderHolder->ID;
-            $orderDetailPage->IdentifierCode = "SilvercartOrderDetailPage";
+            $orderDetailPage                    = new SilvercartOrderDetailPage();
+            $orderDetailPage->Title             = _t('SilvercartOrderDetailPage.DEFAULT_TITLE', 'order details');
+            $orderDetailPage->URLSegment        = _t('SilvercartOrderDetailPage.DEFAULT_URLSEGMENT', 'order-details');
+            $orderDetailPage->Status            = "Published";
+            $orderDetailPage->ShowInMenus       = false;
+            $orderDetailPage->ShowInSearch      = false;
+            $orderDetailPage->CanViewType       = "Inherit";
+            $orderDetailPage->ParentID          = $orderHolder->ID;
+            $orderDetailPage->IdentifierCode    = "SilvercartOrderDetailPage";
             $orderDetailPage->write();
             $orderDetailPage->publish("Stage", "Live");
 
             //create a silvercart address holder as a child of silvercart my account holder
-            $addressHolder = new SilvercartAddressHolder();
-            $addressHolder->Title = _t('SilvercartAddressHolder.TITLE', 'address overview');
-            $addressHolder->URLSegment = 'address-overview';
-            $addressHolder->Status = "Published";
-            $addressHolder->ShowInMenus = true;
-            $addressHolder->ShowInSearch = false;
-            $addressHolder->CanViewType = "Inherit";
-            $addressHolder->ParentID = $myAccountHolder->ID;
-            $addressHolder->IdentifierCode = "SilvercartAddressHolder";
+            $addressHolder                  = new SilvercartAddressHolder();
+            $addressHolder->Title           = _t('SilvercartAddressHolder.DEFAULT_TITLE', 'address overview');
+            $addressHolder->URLSegment      = _t('SilvercartAddressHolder.DEFAULT_URLSEGMENT', 'address-overview');
+            $addressHolder->Status          = "Published";
+            $addressHolder->ShowInMenus     = true;
+            $addressHolder->ShowInSearch    = false;
+            $addressHolder->CanViewType     = "Inherit";
+            $addressHolder->ParentID        = $myAccountHolder->ID;
+            $addressHolder->IdentifierCode  = "SilvercartAddressHolder";
             $addressHolder->write();
             $addressHolder->publish("Stage", "Live");
 
             //create a silvercart address page as a child of silvercart my account holder
-            $addressPage = new SilvercartAddressPage();
-            $addressPage->Title = _t('SilvercartAddressPage.TITLE', 'address details');
-            $addressPage->URLSegment = 'address-details';
-            $addressPage->Status = "Published";
-            $addressPage->ShowInMenus = false;
-            $addressPage->ShowInSearch = false;
-            $addressPage->CanViewType = "Inherit";
-            $addressPage->ParentID = $addressHolder->ID;
-            $addressPage->IdentifierCode = "SilvercartAddressPage";
+            $addressPage                    = new SilvercartAddressPage();
+            $addressPage->Title             = _t('SilvercartAddressPage.DEFAULT_TITLE', 'address details');
+            $addressPage->URLSegment        = _t('SilvercartAddressPage.DEFAULT_URLSEGMENT', 'address-details');
+            $addressPage->Status            = "Published";
+            $addressPage->ShowInMenus       = false;
+            $addressPage->ShowInSearch      = false;
+            $addressPage->CanViewType       = "Inherit";
+            $addressPage->ParentID          = $addressHolder->ID;
+            $addressPage->IdentifierCode    = "SilvercartAddressPage";
             $addressPage->write();
             $addressPage->publish("Stage", "Live");
 
             //create a meta navigation holder
-            $metaNavigationHolder = new SilvercartMetaNavigationHolder();
-            $metaNavigationHolder->Title = _t('SilvercartMetaNavigationHolder.SINGULARNAME');
-            $metaNavigationHolder->URLSegment = _t('SilvercartMetaNavigationHolder.URL_SEGMENT', 'metanavigation');
-            $metaNavigationHolder->Status = "Published";
-            $metaNavigationHolder->ShowInMenus = 0;
-            $metaNavigationHolder->IdentifierCode = "SilvercartMetaNavigationHolder";
-            $metaNavigationHolder->ParentID = $rootPage->ID;
+            $metaNavigationHolder                   = new SilvercartMetaNavigationHolder();
+            $metaNavigationHolder->Title            = _t('SilvercartMetaNavigationHolder.DEFAULT_TITLE');
+            $metaNavigationHolder->URLSegment       = _t('SilvercartMetaNavigationHolder.DEFAULT_URLSEGMENT', 'metanavigation');
+            $metaNavigationHolder->Status           = "Published";
+            $metaNavigationHolder->ShowInMenus      = 0;
+            $metaNavigationHolder->IdentifierCode   = "SilvercartMetaNavigationHolder";
+            $metaNavigationHolder->ParentID         = $rootPage->ID;
             $metaNavigationHolder->write();
             $metaNavigationHolder->publish("Stage", "Live");
 
             //create a contact form page as a child of the meta navigation holder
-            $contactPage = new SilvercartContactFormPage();
-            $contactPage->Title = _t('SilvercartContactFormPage.TITLE', 'contact');
-            $contactPage->URLSegment = _t('SilvercartContactFormPage.URL_SEGMENT', 'contact');
-            $contactPage->Status = "Published";
-            $contactPage->ShowInMenus = 1;
-            $contactPage->IdentifierCode = "SilvercartContactFormPage";
-            $contactPage->ParentID = $metaNavigationHolder->ID;
+            $contactPage                    = new SilvercartContactFormPage();
+            $contactPage->Title             = _t('SilvercartContactFormPage.DEFAULT_TITLE', 'contact');
+            $contactPage->URLSegment        = _t('SilvercartContactFormPage.DEFAULT_URLSEGMENT', 'contact');
+            $contactPage->Status            = "Published";
+            $contactPage->ShowInMenus       = 1;
+            $contactPage->IdentifierCode    = "SilvercartContactFormPage";
+            $contactPage->ParentID          = $metaNavigationHolder->ID;
             $contactPage->write();
             $contactPage->publish("Stage", "Live");
 
             //create a terms of service page as a child of the meta navigation holder
-            $termsOfServicePage = new SilvercartMetaNavigationPage();
-            $termsOfServicePage->Title = _t('SilvercartPage.TITLE_TERMS', 'terms of service');
-            $termsOfServicePage->URLSegment = _t('SilvercartPage.URL_SEGMENT_TERMS', 'terms-of-service');
-            $termsOfServicePage->Status = "Published";
-            $termsOfServicePage->ShowInMenus = 1;
-            $termsOfServicePage->ParentID = $metaNavigationHolder->ID;
+            $termsOfServicePage                 = new SilvercartMetaNavigationPage();
+            $termsOfServicePage->Title          = _t('TermsOfServicePage.DEFAULT_TITLE', 'terms of service');
+            $termsOfServicePage->URLSegment     = _t('TermsOfServicePage.DEFAULT_URLSEGMENT', 'terms-of-service');
+            $termsOfServicePage->Status         = "Published";
+            $termsOfServicePage->ShowInMenus    = 1;
+            $termsOfServicePage->ParentID       = $metaNavigationHolder->ID;
             $termsOfServicePage->IdentifierCode = "TermsOfServicePage";
             $termsOfServicePage->write();
             $termsOfServicePage->publish("Stage", "Live");
 
             //create an imprint page as a child of the meta navigation holder
-            $imprintPage = new SilvercartMetaNavigationPage();
-            $imprintPage->Title = _t('SilvercartPage.TITLE_IMPRINT', 'imprint');
-            $imprintPage->URLSegment = _t('SilvercartPage.URL_SEGMENT_IMPRINT', 'imprint');
-            $imprintPage->Status = "Published";
-            $imprintPage->ShowInMenus = 1;
-            $imprintPage->ParentID = $metaNavigationHolder->ID;
-            $imprintPage->IdentifierCode = "ImprintPage";
+            $imprintPage                    = new SilvercartMetaNavigationPage();
+            $imprintPage->Title             = _t('ImprintPage.DEFAULT_TITLE', 'imprint');
+            $imprintPage->URLSegment        = _t('ImprintPage.DEFAULT_URLSEGMENT', 'imprint');
+            $imprintPage->Status            = "Published";
+            $imprintPage->ShowInMenus       = 1;
+            $imprintPage->ParentID          = $metaNavigationHolder->ID;
+            $imprintPage->IdentifierCode    = "ImprintPage";
             $imprintPage->write();
             $imprintPage->publish("Stage", "Live");
 
             //create a data privacy statement page as a child of the meta navigation holder
-            $dataPrivacyStatementPage = new SilvercartMetaNavigationPage();
-            $dataPrivacyStatementPage->Title = _t('SilvercartDataPrivacyStatementPage.TITLE', 'data privacy statement');
-            $dataPrivacyStatementPage->URLSegment = _t('SilvercartDataPrivacyStatementPage.URL_SEGMENT', 'data-privacy-statement');
-            $dataPrivacyStatementPage->Status = "Published";
-            $dataPrivacyStatementPage->ShowInMenus = 1;
-            $dataPrivacyStatementPage->IdentifierCode = "SilvercartDataPrivacyStatementPage";
-            $dataPrivacyStatementPage->ParentID = $metaNavigationHolder->ID;
+            $dataPrivacyStatementPage                   = new SilvercartMetaNavigationPage();
+            $dataPrivacyStatementPage->Title            = _t('SilvercartDataPrivacyStatementPage.DEFAULT_TITLE', 'data privacy statement');
+            $dataPrivacyStatementPage->URLSegment       = _t('SilvercartDataPrivacyStatementPage.DEFAULT_URLSEGMENT', 'data-privacy-statement');
+            $dataPrivacyStatementPage->Status           = "Published";
+            $dataPrivacyStatementPage->ShowInMenus      = 1;
+            $dataPrivacyStatementPage->IdentifierCode   = "SilvercartDataPrivacyStatementPage";
+            $dataPrivacyStatementPage->ParentID         = $metaNavigationHolder->ID;
             $dataPrivacyStatementPage->write();
             $dataPrivacyStatementPage->publish("Stage", "Live");
 
             //create a silvercart shipping fees page as child of the meta navigation holder
-            $shippingFeesPage = new SilvercartShippingFeesPage();
-            $shippingFeesPage->Title = _t('SilvercartShippingFeesPage.TITLE', 'shipping fees');
-            $shippingFeesPage->URLSegment = _t('SilvercartShippingFeesPage.URL_SEGMENT', 'shipping-fees');
-            $shippingFeesPage->Status = "Published";
-            $shippingFeesPage->ShowInMenus = 1;
-            $shippingFeesPage->ParentID = $metaNavigationHolder->ID;
-            $shippingFeesPage->IdentifierCode = "SilvercartShippingFeesPage";
+            $shippingFeesPage                   = new SilvercartShippingFeesPage();
+            $shippingFeesPage->Title            = _t('SilvercartShippingFeesPage.DEFAULT_TITLE', 'shipping fees');
+            $shippingFeesPage->URLSegment       = _t('SilvercartShippingFeesPage.DEFAULT_URLSEGMENT', 'shipping-fees');
+            $shippingFeesPage->Status           = "Published";
+            $shippingFeesPage->ShowInMenus      = 1;
+            $shippingFeesPage->ParentID         = $metaNavigationHolder->ID;
+            $shippingFeesPage->IdentifierCode   = "SilvercartShippingFeesPage";
             $shippingFeesPage->write();
             $shippingFeesPage->publish("Stage", "Live");
 
             //create a contact form response page
             $contactFormResponsePage = new SilvercartContactFormResponsePage();
-            $contactFormResponsePage->Title = _t('SilvercartContactFormResponsePage.CONTACT_CONFIRMATION', 'contact confirmation');
-            $contactFormResponsePage->URLSegment = _t('SilvercartContactFormResponsePage.URL_SEGMENT', 'contactconfirmation');
-            $contactFormResponsePage->Status = "Published";
-            $contactFormResponsePage->ShowInMenus = false;
-            $contactFormResponsePage->ShowInSearch = false;
-            $contactFormResponsePage->IdentifierCode = "SilvercartContactFormResponsePage";
-            $contactFormResponsePage->ParentID = $contactPage->ID;
-            $contactFormResponsePage->Content = _t('SilvercartContactFormResponsePage.CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
+            $contactFormResponsePage->Title             = _t('SilvercartContactFormResponsePage.DEFAULT_TITLE', 'contact confirmation');
+            $contactFormResponsePage->URLSegment        = _t('SilvercartContactFormResponsePage.DEFAULT_URLSEGMENT', 'contactconfirmation');
+            $contactFormResponsePage->Status            = "Published";
+            $contactFormResponsePage->ShowInMenus       = false;
+            $contactFormResponsePage->ShowInSearch      = false;
+            $contactFormResponsePage->IdentifierCode    = "SilvercartContactFormResponsePage";
+            $contactFormResponsePage->ParentID          = $contactPage->ID;
+            $contactFormResponsePage->Content           = _t('SilvercartContactFormResponsePage.DEFAULT_CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
             $contactFormResponsePage->write();
             $contactFormResponsePage->publish("Stage", "Live");
 
             //create a silvercart order confirmation page as a child of the silvercart root
-            $orderConfirmationPage = new SilvercartOrderConfirmationPage();
-            $orderConfirmationPage->Title = _t('SilvercartOrderConfirmationPage.SINGULARNAME', 'order conirmation page');
-            $orderConfirmationPage->URLSegment = _t('SilvercartOrderConfirmationPage.URL_SEGMENT', 'order-conirmation');
-            $orderConfirmationPage->Status = "Published";
-            $orderConfirmationPage->ShowInMenus = false;
-            $orderConfirmationPage->ShowInSearch = false;
-            $orderConfirmationPage->CanViewType = "LoggedInUsers";
-            $orderConfirmationPage->IdentifierCode = "SilvercartOrderConfirmationPage";
-            $orderConfirmationPage->ParentID = $rootPage->ID;
+            $orderConfirmationPage                  = new SilvercartOrderConfirmationPage();
+            $orderConfirmationPage->Title           = _t('SilvercartOrderConfirmationPage.DEFAULT_TITLE', 'order conirmation page');
+            $orderConfirmationPage->URLSegment      = _t('SilvercartOrderConfirmationPage.DEFAULT_URLSEGMENT', 'order-conirmation');
+            $orderConfirmationPage->Status          = "Published";
+            $orderConfirmationPage->ShowInMenus     = false;
+            $orderConfirmationPage->ShowInSearch    = false;
+            $orderConfirmationPage->CanViewType     = "LoggedInUsers";
+            $orderConfirmationPage->IdentifierCode  = "SilvercartOrderConfirmationPage";
+            $orderConfirmationPage->ParentID        = $rootPage->ID;
             $orderConfirmationPage->write();
             $orderConfirmationPage->publish("Stage", "Live");
 
             //create a payment notification page as a child of the silvercart root
-            $paymentNotification = new SilvercartPaymentNotification();
-            $paymentNotification->URLSegment = _t('SilvercartPaymentNotification.URL_SEGMENT');
-            $paymentNotification->Title = _t('SilvercartPaymentNotification.TITLE', 'payment notification');
-            $paymentNotification->Status = 'Published';
-            $paymentNotification->ShowInMenus = 0;
-            $paymentNotification->ShowInSearch = 0;
-            $paymentNotification->ParentID = $rootPage->ID;
-            $paymentNotification->IdentifierCode = "SilvercartPaymentNotification";
+            $paymentNotification                    = new SilvercartPaymentNotification();
+            $paymentNotification->Title             = _t('SilvercartPaymentNotification.DEFAULT_TITLE', 'payment notification');
+            $paymentNotification->URLSegment        = _t('SilvercartPaymentNotification.DEFAULT_URLSEGMENT', 'payment-notification');
+            $paymentNotification->Status            = 'Published';
+            $paymentNotification->ShowInMenus       = 0;
+            $paymentNotification->ShowInSearch      = 0;
+            $paymentNotification->ParentID          = $rootPage->ID;
+            $paymentNotification->IdentifierCode    = "SilvercartPaymentNotification";
             $paymentNotification->write();
             $paymentNotification->publish('Stage', 'Live');
             DB::alteration_message('SilvercartPaymentNotification Page created', 'created');
 
             //create a silvercart registration page as a child of silvercart root
-            $registrationPage = new SilvercartRegistrationPage();
-            $registrationPage->Title = _t('SilvercartRegistrationPage.TITLE', 'registration page');
-            $registrationPage->URLSegment = _t('SilvercartRegistrationPage.URL_SEGMENT', 'registration');
-            $registrationPage->Status = "Published";
-            $registrationPage->ShowInMenus = false;
-            $registrationPage->ShowInSearch = true;
-            $registrationPage->ParentID = $rootPage->ID;
-            $registrationPage->IdentifierCode = "SilvercartRegistrationPage";
+            $registrationPage                   = new SilvercartRegistrationPage();
+            $registrationPage->Title            = _t('SilvercartRegistrationPage.DEFAULT_TITLE', 'registration page');
+            $registrationPage->URLSegment       = _t('SilvercartRegistrationPage.DEFAULT_URLSEGMENT', 'registration');
+            $registrationPage->Status           = "Published";
+            $registrationPage->ShowInMenus      = false;
+            $registrationPage->ShowInSearch     = true;
+            $registrationPage->ParentID         = $rootPage->ID;
+            $registrationPage->IdentifierCode   = "SilvercartRegistrationPage";
             $registrationPage->write();
             $registrationPage->publish("Stage", "Live");
 
             //create a silvercart registration confirmation page as a child the silvercart registration page
-            $registerConfirmationPage = new SilvercartRegisterConfirmationPage();
-            $registerConfirmationPage->Title = _t('SilvercartRegisterConfirmationPage.TITLE', 'register confirmation page');
-            $registerConfirmationPage->URLSegment = _t('SilvercartRegisterConfirmationPage.URL_SEGMENT', 'register-confirmation');
-            $registerConfirmationPage->Content = _t('SilvercartRegisterConfirmationPage.CONTENT');
-            $registerConfirmationPage->Status = "Published";
-            $registerConfirmationPage->ParentID = $registrationPage->ID;
-            $registerConfirmationPage->ShowInMenus = false;
-            $registerConfirmationPage->ShowInSearch = false;
-            $registerConfirmationPage->IdentifierCode = "SilvercartRegisterConfirmationPage";
+            $registerConfirmationPage                   = new SilvercartRegisterConfirmationPage();
+            $registerConfirmationPage->Title            = _t('SilvercartRegisterConfirmationPage.DEFAULT_TITLE', 'register confirmation page');
+            $registerConfirmationPage->URLSegment       = _t('SilvercartRegisterConfirmationPage.DEFAULT_URLSEGMENT', 'register-confirmation');
+            $registerConfirmationPage->Content          = _t('SilvercartRegisterConfirmationPage.DEFAULT_CONTENT');
+            $registerConfirmationPage->Status           = "Published";
+            $registerConfirmationPage->ParentID         = $registrationPage->ID;
+            $registerConfirmationPage->ShowInMenus      = false;
+            $registerConfirmationPage->ShowInSearch     = false;
+            $registerConfirmationPage->IdentifierCode   = "SilvercartRegisterConfirmationPage";
             $registerConfirmationPage->write();
             $registerConfirmationPage->publish("Stage", "Live");
 
             //create a silvercart search results page as a child of the silvercart root
-            $searchResultsPage = new SilvercartSearchResultsPage();
-            $searchResultsPage->Title = _t('SilvercartSearchResultsPage.TITLE', 'search results');
-            $searchResultsPage->URLSegment = _t('SilvercartSearchResultsPage.URL_SEGMENT', 'search-results');
-            $searchResultsPage->Status = "Published";
-            $searchResultsPage->ShowInMenus = false;
-            $searchResultsPage->ShowInSearch = false;
-            $searchResultsPage->ParentID = $rootPage->ID;
-            $searchResultsPage->IdentifierCode = "SilvercartSearchResultsPage";
+            $searchResultsPage                  = new SilvercartSearchResultsPage();
+            $searchResultsPage->Title           = _t('SilvercartSearchResultsPage.DEFAULT_TITLE', 'search results');
+            $searchResultsPage->URLSegment      = _t('SilvercartSearchResultsPage.DEFAULT_URLSEGMENT', 'search-results');
+            $searchResultsPage->Status          = "Published";
+            $searchResultsPage->ShowInMenus     = false;
+            $searchResultsPage->ShowInSearch    = false;
+            $searchResultsPage->ParentID        = $rootPage->ID;
+            $searchResultsPage->IdentifierCode  = "SilvercartSearchResultsPage";
             $searchResultsPage->write();
             $searchResultsPage->publish("Stage", "Live");
 
             // Create a SilvercartNewsletterPage as a child of the Silvercart root node.
             $newsletterPage                 = new SilvercartNewsletterPage();
-            $newsletterPage->Title          = _t('SilvercartNewsletterPage.TITLE', 'Newsletter');
-            $newsletterPage->URLSegment     = _t('SilvercartNewsletterPage.URL_SEGMENT', 'newsletter');
+            $newsletterPage->Title          = _t('SilvercartNewsletterPage.DEFAULT_TITLE', 'Newsletter');
+            $newsletterPage->URLSegment     = _t('SilvercartNewsletterPage.DEFAULT_URLSEGMENT', 'newsletter');
             $newsletterPage->Status         = "Published";
             $newsletterPage->ShowInMenus    = true;
             $newsletterPage->ShowInSearch   = true;
@@ -508,8 +593,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             // Create a SilvercartNewsletterResponsePage as a child of the SilvercartNewsletterPage node.
             $newsletterResponsePage                 = new SilvercartNewsletterResponsePage();
-            $newsletterResponsePage->Title          = _t('SilvercartNewsletterResponsePage.TITLE', 'Newsletter Status');
-            $newsletterResponsePage->URLSegment     = _t('SilvercartNewsletterResponsePage.URL_SEGMENT', 'newsletter_status');
+            $newsletterResponsePage->Title          = _t('SilvercartNewsletterResponsePage.DEFAULT_TITLE', 'Newsletter Status');
+            $newsletterResponsePage->URLSegment     = _t('SilvercartNewsletterResponsePage.DEFAULT_URLSEGMENT', 'newsletter_status');
             $newsletterResponsePage->Status         = "Published";
             $newsletterResponsePage->ShowInMenus    = false;
             $newsletterResponsePage->ShowInSearch   = false;
@@ -519,25 +604,33 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $newsletterResponsePage->publish("Stage", "Live");
             
             //create a silvercart newsletter opt-in confirmation page
-            $newsletterOptInConfirmationPage = new SilvercartNewsletterOptInConfirmationPage();
-            $newsletterOptInConfirmationPage->Title = _t('SilvercartNewsletterOptInConfirmationPage.TITLE', 'register confirmation page');
-            $newsletterOptInConfirmationPage->URLSegment = _t('SilvercartNewsletterOptInConfirmationPage.URL_SEGMENT', 'register-confirmation');
-            $newsletterOptInConfirmationPage->Content = _t('SilvercartNewsletterOptInConfirmationPage.CONTENT');
-            $newsletterOptInConfirmationPage->ConfirmationFailureMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONFAILUREMESSAGE');
-            $newsletterOptInConfirmationPage->ConfirmationSuccessMessage = _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE');
-            $newsletterOptInConfirmationPage->AlreadyConfirmedMessage = _t('SilvercartNewsletterOptInConfirmationPage.ALREADYCONFIRMEDMESSAGE');
-            $newsletterOptInConfirmationPage->Status = "Published";
-            $newsletterOptInConfirmationPage->ParentID = $newsletterPage->ID;
-            $newsletterOptInConfirmationPage->ShowInMenus = false;
-            $newsletterOptInConfirmationPage->ShowInSearch = false;
-            $newsletterOptInConfirmationPage->IdentifierCode = "SilvercartNewsletterOptInConfirmationPage";
+            $newsletterOptInConfirmationPage                                = new SilvercartNewsletterOptInConfirmationPage();
+            $newsletterOptInConfirmationPage->Title                         = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_TITLE', 'register confirmation page');
+            $newsletterOptInConfirmationPage->URLSegment                    = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_URLSEGMENT', 'register-confirmation');
+            $newsletterOptInConfirmationPage->Content                       = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_CONTENT');
+            $newsletterOptInConfirmationPage->ConfirmationFailureMessage    = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_CONFIRMATIONFAILUREMESSAGE');
+            $newsletterOptInConfirmationPage->ConfirmationSuccessMessage    = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_CONFIRMATIONSUCCESSMESSAGE');
+            $newsletterOptInConfirmationPage->AlreadyConfirmedMessage       = _t('SilvercartNewsletterOptInConfirmationPage.DEFAULT_ALREADYCONFIRMEDMESSAGE');
+            $newsletterOptInConfirmationPage->Status                        = "Published";
+            $newsletterOptInConfirmationPage->ParentID                      = $newsletterPage->ID;
+            $newsletterOptInConfirmationPage->ShowInMenus                   = false;
+            $newsletterOptInConfirmationPage->ShowInSearch                  = false;
+            $newsletterOptInConfirmationPage->IdentifierCode                = "SilvercartNewsletterOptInConfirmationPage";
             $newsletterOptInConfirmationPage->write();
             $newsletterOptInConfirmationPage->publish("Stage", "Live");
         }
-
-        /*
-         * create shop emails
-         */
+        return $rootPage;
+    }
+    
+    /**
+     * Creates the default SilvercartShopEmails if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function createDefaultShopEmails() {
         $shopEmailRegistrationOptIn = DataObject::get_one(
                         'SilvercartShopEmail',
                         "Identifier = 'RegistrationOptIn'"
@@ -659,11 +752,174 @@ class SilvercartRequireDefaultRecords extends DataObject {
         if ($orderStatus && $orderEmail) {
             $orderStatus->SilvercartShopEmails()->add($orderEmail);
         }
+    }
+
+    /**
+     * create default records.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function requireDefaultRecords() {
+        parent::requireDefaultRecords();
+        // create groups
+        $this->createDefaultGroups();
+        // create config
+        $this->createDefaultConfig();
+        // create countries
+        $this->requireOrUpdateCountries();
+        // create order status
+        $this->createDefaultOrderStatus();
+        // create availability status
+        $this->createDefaultAvailabilityStatus();
+        // create number ranges
+        $this->createDefaultNumberRanges();
+        // and now the whole site tree
+        $rootPage = $this->createDefaultSiteTree();
+        // create shop emails
+        $this->createDefaultShopEmails();
 
         $this->extend('updateDefaultRecords', $rootPage);
 
         self::createTestConfiguration();
         self::createTestData();
+    }
+    
+    /**
+     * Will create a translation of all pages of the SiteTree for the defined
+     * translationLocale
+     *
+     * @param int $parentID ID of the parent to get pages for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public function translateSiteTree($parentID = 0) {
+        $translatableFieldTypes = array(
+            'varchar',
+            'htmltext',
+            'text',
+        );
+        
+        $translationLocale = $this->getTranslationLocale();
+        $pages = DataObject::get(
+                'SiteTree',
+                sprintf(
+                    "`ParentID` = '%s'",
+                    $parentID
+                )
+        );
+        if ($pages) {
+            foreach ($pages as $page) {
+                if (!$page->getTranslation($translationLocale)) {
+                    $translation = $page->createTranslation($translationLocale);
+                    
+                    foreach ($translation->db() as $name => $type) {
+                        $isTranslatable = false;
+                        foreach ($translatableFieldTypes as $translatableFieldType) {
+                            if (strpos(strtolower($type), $translatableFieldType) === 0) {
+                                $isTranslatable = true;
+                                break;
+                            }
+                        }
+                        if ($isTranslatable) {
+                            i18n::set_locale($translationLocale);
+                            $translation->{$name} = _t($translation->ClassName . '.DEFAULT_' . strtoupper($name), _t($translation->IdentifierCode . '.DEFAULT_' . strtoupper($name), $translation->{$name}));
+                        }
+                    }
+                    $translation->write();
+                }
+                $this->translateSiteTree($page->ID);
+            }
+        }
+    }
+    
+    /**
+     * Will publish all pages of the SiteTree for the defined translationLocale
+     *
+     * @param int $parentID ID of the parent to get pages for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public function publishSiteTree($parentID = 0) {
+        $translationLocale = $this->getTranslationLocale();
+        $pages = DataObject::get(
+                'SiteTree',
+                sprintf(
+                    "`ParentID` = '%s' AND `Locale` = '%s'",
+                    $parentID,
+                    $translationLocale
+                )
+        );
+        if ($pages) {
+            foreach ($pages as $page) {
+                $page->publish("Stage", "Live");
+                $this->publishSiteTree($page->ID);
+            }
+        }
+    }
+    
+    /**
+     * Static accessor to trigger SiteTree translation
+     *
+     * @param string $locale Locale to translate SiteTree for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public static function doTranslateSiteTree($locale) {
+        $obj = new SilvercartRequireDefaultRecords();
+        $obj->requireDefaultTranslations($locale);
+    }
+    
+    /**
+     * Static accessor to trigger SiteTree publishing
+     *
+     * @param string $locale Locale to publish SiteTree for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2012
+     */
+    public static function doPublishSiteTree($locale) {
+        $obj = new SilvercartRequireDefaultRecords();
+        $obj->setTranslationLocale($locale);
+        $obj->publishSiteTree();
+    }
+
+    /**
+     * create default records dependant on the given locale.
+     * 
+     * @param string $locale The locale to get records for
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2012
+     */
+    public function requireDefaultTranslations($locale) {
+        $originalLocale = i18n::get_locale();
+        i18n::set_locale($locale);
+        $this->setTranslationLocale($locale);
+        // create order status
+        $this->createDefaultOrderStatus();
+        // create availability status
+        $this->createDefaultAvailabilityStatus();
+        // and now the whole site tree
+        $this->translateSiteTree();
+        // create shop emails
+        //$this->translateShopEmails();
+        i18n::set_locale($originalLocale);
     }
 
     /**
@@ -672,7 +928,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2011
+     * @since 02.05.2012
      */
     public function requireOrUpdateCountries() {
         $config = SilvercartConfig::getConfig();
@@ -681,6 +937,13 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $geoNames->countryInfo();
         } elseif (!DataObject::get('SilvercartCountry')) {
             require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');
+        }
+        if (!DataObject::get_one('SilvercartCountry', "`Active`=1")) {
+            $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2`='%s'", substr(i18n::get_locale(), 3)));
+            if ($country) {
+                $country->Active = true;
+                $country->write();
+            }
         }
     }
 
