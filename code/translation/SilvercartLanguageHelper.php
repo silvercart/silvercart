@@ -120,11 +120,14 @@ class SilvercartLanguageHelper {
      */
     public static function prepareLanguageDropdownField($dataObj, $translatingClass = null) {
         $instance                   = null;
-        $alreadyTranslatedLocales   = $dataObj->getTranslatedLocales();
-        unset($alreadyTranslatedLocales[$dataObj->Locale]);
+        $alreadyTranslatedLocales   = array();
         if (is_null($translatingClass)) {
             $translatingClass   = $dataObj->ClassName;
             $instance           = $dataObj;
+        }
+        if ($instance) {
+            $alreadyTranslatedLocales   = $instance->getTranslatedLocales();
+            unset($alreadyTranslatedLocales[$instance->Locale]);
         }
         $localeDropdown = new LanguageDropdownField(
             'Locale', 
