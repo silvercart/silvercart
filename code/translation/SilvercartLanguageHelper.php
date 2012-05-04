@@ -216,5 +216,26 @@ class SilvercartLanguageHelper {
         $languageObj->update($record);
         $languageObj->write();
     }
+    
+    /**
+     * Returns all translatable DataObjects as an array
+     * 
+     * @return array
+     * 
+     * @global array $_ALL_CLASSES A map of all classes, their type and ancestry
+     */
+    public static function getTranslatableDataObjects() {
+        global $_ALL_CLASSES;
+        $translatableDataObjects = array();
+        foreach ($_ALL_CLASSES['parents'] as $className => $ancestry) {
+            $extensions = Object::get_static($className, 'extensions');
+            if (!is_null($extensions) &&
+                is_array($extensions) &&
+                in_array('SilvercartDataObjectMultilingualDecorator', $extensions)) {
+                $translatableDataObjects[] = $className;
+            }
+        }
+        return $translatableDataObjects;
+    }
 }
 
