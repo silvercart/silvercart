@@ -137,8 +137,8 @@
         </div>
         <div class="page_margins">
             <div class="page clearfix">
-                <div id="silvercart-header">
-                    <div class="subcolumns">
+                <div id="silvercart-header" class="clearfix">
+                    <div class="subcolumns overflow-visible clearfix">
                         <div class="c66l">
                             <div id="silvercart-shop-claim" class="clearfix">
                                 <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">

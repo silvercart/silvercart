@@ -98,6 +98,12 @@ h1 {
 .padding_right {
     padding-right:                  12px;
 }
+.overflow-visible {
+    overflow:                     visible;
+}
+.position-relative {
+    position:                     relative;
+}
 
 .page {
     background:                     #fff;
