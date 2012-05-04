@@ -174,4 +174,44 @@ class SilvercartTools extends Object {
         }
         return $page->Link();
     }
+    
+    /**
+     * Returns the translated singular name of the given object. If no 
+     * translation exists the class name will be returned.
+     * 
+     * @param DataObject $dataObject DataObject to get singular name for
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
+     */
+    public static function singular_name_for($dataObject) {
+        if (_t($dataObject->ClassName . '.SINGULARNAME')) {
+            return _t($dataObject->ClassName . '.SINGULARNAME');
+        } else {
+            return parent::singular_name();
+        } 
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @param DataObject $dataObject DataObject to get plural name for
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.05.2012
+     */
+    public static function plural_name_for($dataObject) {
+        if (_t($dataObject->ClassName . '.PLURALNAME')) {
+            return _t($dataObject->ClassName . '.PLURALNAME');
+        } else {
+            return parent::plural_name();
+        }
+
+    }
 }
