@@ -73,7 +73,8 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
                         $this->getLanguageClassName()
                 );
             }
-            if (SilvercartConfig::useDefaultLanguageAsFallback()) {
+            if (SilvercartConfig::useDefaultLanguageAsFallback() &&
+                Translatable::get_current_locale() != SilvercartConfig::Locale()) {
                 $query->where(
                         sprintf(
                                 "`%s`.`Locale` = IFNULL((%s), (%s)) %s",
