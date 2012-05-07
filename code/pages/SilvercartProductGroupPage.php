@@ -231,7 +231,7 @@ class SilvercartProductGroupPage extends Page {
     public function Link($action = null) {
         if (Controller::curr()->hasMethod('isProductDetailView') &&
             Controller::curr()->isProductDetailView()) {
-            return parent::Link($action) . $this->urlParams['Action'] . '/' . $this->urlParams['ID'];
+            return parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . Controller::curr()->urlParams['ID'];
         }
         return parent::Link($action);
     }
@@ -784,18 +784,18 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      * 
-     * @param string $object Name of the filter plugin
+     * @param string $plugin Name of the filter plugin
      *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static function registerFilterPlugin($object) {
-        $reflectionClass = new ReflectionClass($object);
+    public static function registerFilterPlugin($plugin) {
+        $reflectionClass = new ReflectionClass($plugin);
         
         if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = new $object();
+            self::$registeredFilterPlugins[] = new $plugin();
         }
     }
     
