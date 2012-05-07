@@ -34,49 +34,6 @@
 class SilvercartChangeLanguageForm extends CustomHtmlForm {
     
     /**
-     * custom redirect action to handle special sites like product detail page, 
-     * order detail page, address forms, etc.
-     *
-     * @var string
-     */
-    protected $customRedirectAction = null;
-
-    /**
-     * creates a form object with a free configurable markup
-     *
-     * @param ContentController $controller  the calling controller instance
-     * @param array             $params      optional parameters
-     * @param array             $preferences optional preferences
-     * @param bool              $barebone    defines if a form should only be instanciated or be used too
-     *
-     * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
-     */
-    public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        parent::__construct($controller, $params, $preferences, $barebone);
-        
-        // this is needed to handle special translation site (product detail, order detail, address detail)
-        $request = $controller->getRequest();
-        if ($request) {
-            $customRedirectAction   = false;
-            $params                 = $request->allParams();
-            $action                 = $params['Action'];
-            if (is_numeric($action)) {
-                $customRedirectAction = $action;
-            } elseif (empty ($action)) {
-                $customRedirectAction = null;
-            } elseif ($action != 'customHtmlFormSubmit') {
-                $customRedirectAction = $action;
-            }
-            if ($customRedirectAction !== false) {
-                $this->setCustomRedirectAction($customRedirectAction);
-            }
-        }
-    }
-    
-    /**
      * Returns the preferences for this form
      *
      * @return array
@@ -129,35 +86,10 @@ class SilvercartChangeLanguageForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
         $translation = $this->Controller()->getTranslation($formData['Language']);
         if ($translation) {
-            Director::redirect($translation->Link($this->getCustomRedirectAction()));
+            Director::redirect($translation->Link());
         } else {
             Director::redirectBack();
         }
-    }
-    
-    /**
-     * returns the custom redirect action
-     *
-     * @return string
-     */
-    public function getCustomRedirectAction() {
-        if (is_null($this->customRedirectAction)) {
-            $this->customRedirectAction = Session::get('SilvercartChangeLanguageForm.CustomRedirectAction');
-        }
-        return $this->customRedirectAction;
-    }
-
-    /**
-     * Sets the custom redirect action
-     *
-     * @param string $customRedirectAction custom redirect action
-     * 
-     * @return void
-     */
-    public function setCustomRedirectAction($customRedirectAction) {
-        $this->customRedirectAction = $customRedirectAction;
-        Session::set('SilvercartChangeLanguageForm.CustomRedirectAction', $customRedirectAction);
-        Session::save();
     }
     
 }
