@@ -34,15 +34,44 @@
  */
 class SilvercartImage extends DataObject {
 
-    public static $db = array(
-        'Title' => 'VarChar',
-    );
-
     public static $has_one = array(
         'SilvercartProduct'         => 'SilvercartProduct',
         'SilvercartPaymentMethod'   => 'SilvercartPaymentMethod',
         'Image'                     => 'Image',
     );
+    
+    public static $casting = array(
+        'Title' => 'VarChar',
+        'TableIndicator' => 'Text'
+    );
+    
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartImageLanguages' => 'SilvercartImageLanguage'
+    );
+    
+    /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return string The Title from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -77,6 +106,24 @@ class SilvercartImage extends DataObject {
             return parent::plural_name();
         }   
     }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 20.01.2012
+ */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $fields->insertBefore($languageField, 'SortOrder');
+            }
+        return $fields;
+    }
 
     /**
      * Field labels for display in tables.
@@ -93,7 +140,10 @@ class SilvercartImage extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                     => _t('SilvercartImage.TITLE'),
+                'Title'                    => _t('SilvercartImage.TITLE'),
+                'SilvercartImageLanguages' => _t('SilvercartImageLanguage.PLURALNAME'),
+                'SilvercartPaymentMethod'  => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartProduct'        => _t('SilvercartProduct.SINGULARNAME')
             )
         );
 
@@ -101,6 +151,25 @@ class SilvercartImage extends DataObject {
         return $fieldLabels;
     }
 
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'TableIndicator' => ''
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
+    
     /**
      * Returns a HTML snippet for the related Files icon.
      *

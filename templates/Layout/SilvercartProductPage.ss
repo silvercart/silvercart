@@ -61,7 +61,7 @@
                                 <div class="silvercart-product-text-info">
                                     <p>$HtmlEncodedShortDescription</p>
                                     <% if PackagingQuantity %>
-                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Title</p>
                                     <% end_if %>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                         $MetaData<br/>
                                     <% end_control %>
                                 </div>
-                                <% end_if %>                                
+                                <% end_if %>
                                 <div class="silvercart-product-group-add-cart-form">
                                     <div class="silvercart-product-group-add-cart-form_content">
                                         <% if isBuyableDueToStockManagementSettings %>
@@ -112,18 +112,18 @@
                     
                     <div class="silvercart-product-page-product-info">
                         <ul class="tabs">
-                            <li>
+                            <li rel="tab1">
                                 <a href="#tab1"><% _t('SilvercartProduct.DESCRIPTION','product description') %></a>
                             </li>
                             <% if SilvercartFiles %>
-                                <li>
+                                <li rel="tab2">
                                     <a href="#tab2"><% _t('SilvercartProduct.DOWNLOADS','Downloads') %></a>
                                 </li>
                             <% end_if %>
                             <% if PluggedInTabs %>
                                 <% control PluggedInTabs %>
-                                <li>
-                                    <a href="#pluggedInTab{$Pos}">$Name</a>
+                                <li rel="<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>">
+                                    <a href="#<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>">$Name</a>
                                 </li>
                                 <% end_control %>
                             <% end_if %>
@@ -148,7 +148,7 @@
                             <% end_if %>
                             <% if getPluggedInTabs %>
                                 <% control PluggedInTabs %>
-                                <div id="pluggedInTab{$Pos}" class="tab_content">$Content</div>
+                                <div id="<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>" class="tab_content">$Content</div>
                                 <% end_control %>
                             <% end_if %>
                         </div>

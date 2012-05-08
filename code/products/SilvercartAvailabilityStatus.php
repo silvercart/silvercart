@@ -34,8 +34,23 @@
 class SilvercartAvailabilityStatus extends DataObject {
 
     public static $db = array(
-        'Title' => 'VarChar',
         'Code' => 'VarChar',
+    );
+    
+    public static $casting = array(
+        'Title' => 'Text'
+    );
+    
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartAvailabilityStatusLanguages' => 'SilvercartAvailabilityStatusLanguage'
     );
     
     /**
@@ -87,13 +102,34 @@ class SilvercartAvailabilityStatus extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title' => _t('SilvercartAvailabilityStatus.TITLE'),
-                'Code' => _t('SilvercartNumberRange.IDENTIFIER')
+                'Code'                                  => _t('SilvercartOrderStatus.CODE'),
+                'Title'                                 => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+                'SilvercartAvailabilityStatusLanguages' => _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME')
             )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 15.01.2012
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'Code');
+        }
+        return $fields;
     }
 
     /**
@@ -113,4 +149,44 @@ class SilvercartAvailabilityStatus extends DataObject {
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
+    
+    /**
+     * Defines the form fields for the search in ModelAdmin
+     * 
+     * @return array seach fields definition
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartAvailabilityStatusLanguages.Title' => array(
+                'title' => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            ),
+            'Code' => array(
+                'title' => $this->fieldLabel('Code'),
+                'filter' => 'PartialMatchFilter'
+            ),
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
+    }
+    
+    /**
+     * getter for the pseudo attribute title
+     *
+     * @return string the title in the corresponding frontend language 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
 }

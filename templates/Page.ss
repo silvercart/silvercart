@@ -137,9 +137,9 @@
         </div>
         <div class="page_margins">
             <div class="page clearfix">
-                <div id="silvercart-header">
-                    <div class="subcolumns">
-                        <div class="c80l">
+                <div id="silvercart-header" class="clearfix">
+                    <div class="subcolumns overflow-visible clearfix">
+                        <div class="c66l">
                             <div id="silvercart-shop-claim" class="clearfix">
                                 <a href="{$PageByIdentifierCode(SilvercartFrontPage).Link}">
                                     <img src="{$BaseHref}silvercart/images/logo.png" alt="site logo" />
@@ -155,16 +155,10 @@
                             </div>
                             
                         </div>
-                        <div class="c20r">
+                        <div class="c33r">
                             <div class="subcr">
                                 <% if Translations %>
-                                <ul class="translations">
-                                    <% control Translations %>
-                                    <li class="$Locale.RFC1766">
-                                        <a href="$Link" hreflang="$Locale.RFC1766" title="<% sprintf(_t('SilvercartPage.SHOWINPAGE','set language to %s'),$Locale.Nice) %>"><img alt="$Locale.Nice" src="{$BaseHref}silvercart/images/icons/flags/{$Locale}.png" /></a>
-                                    </li>
-                                    <% end_control %>
-                                </ul>
+                                    $InsertCustomHtmlForm(SilvercartChangeLanguageForm)
                                 <% end_if %>
                             </div>
                         </div>

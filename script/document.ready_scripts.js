@@ -60,26 +60,37 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
     
     if (tabContent.length > 0) {
         tabContent.hide(); //Hide all content
-        jQuery("ul.tabs li:first").addClass("active").show(); //Activate first tab
-        jQuery(".tab_content:first").show(); //Show first tab content
 
-        jQuery("ul.tabs li").click(function() {
+        jQuery("ul.tabs li, a.tab-trigger").click(function() {
             var lastActiveTabId = jQuery("ul.tabs li.active a").attr('href');
             var lastActiveTab   = lastActiveTabId.substr(lastActiveTabId.indexOf('#'));
             jQuery("ul.tabs li").removeClass("active"); //Remove any "active" class
-            jQuery(this).addClass("active"); //Add "active" class to selected tab
-
+            
             var activeTab = jQuery(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-            activeTab     = activeTab.substr(activeTab.indexOf('#'));
+            if (activeTab == undefined) {
+                activeTab = jQuery(this).attr("href");
+            }
+            activeTab   = activeTab.substr(activeTab.indexOf('#'));
+            var tabID   = activeTab.replace('#','');
+            jQuery('ul.tabs li[rel="' + tabID + '"]').addClass("active"); //Add "active" class to selected tab
 
             jQuery(activeTab).fadeIn(); //Fade in the active ID content
             
             if (activeTab != lastActiveTab) {
                 jQuery(lastActiveTab).hide();
             }
-            
-            return false;
         });
+        
+        var tabID = window.location.hash.replace('#','');
+        if ($('ul.tabs li[rel="' + tabID + '"]').length > 0) {
+            //Activate tab by url call
+            $('ul.tabs li[rel="' + tabID + '"]').addClass("active").show();
+            $('.tab_content#' + tabID).show();
+        } else {
+            //Activate first tab
+            jQuery("ul.tabs li:first").addClass("active").show();
+            jQuery(".tab_content:first").show();
+        }
     }
     
     // ------------------------------------------------------------------------

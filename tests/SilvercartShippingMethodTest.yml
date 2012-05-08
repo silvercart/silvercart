@@ -1,0 +1,91 @@
+SilvercartConfig:
+  SilvercartConfig:
+    DefaultCurrency: EUR
+    EmailSender: test@silvercart.org
+    GlobalEmailRecipient: test@silvercart.org
+    allowCartWeightToBeZero: 1
+    PricetypeAnonymousCustomers: gross
+    PricetypeRegularCustomers: gross
+    PricetypeBusinessCustomers: net
+    useDefaultLanguageAsFallback: 1
+    enableBusinessCustomers: 1
+  
+SilvercartProduct:
+  product100g:
+    isActive: 1
+    PriceNetAmount: 9.00
+    PriceNetCurrency: EUR
+    PriceGrossAmount: 9.99
+    PriceGrossCurrency: EUR
+  product500g:
+    isActive: 1
+    PriceNetAmount: 9.00
+    PriceNetCurrency: EUR
+    PriceGrossAmount: 9.99
+    PriceGrossCurrency: EUR
+
+SilvercartShoppingCart:
+  AnonymousCart:
+
+Member:
+  AnonymousCustomer:
+    SilvercartShoppingCart: =>SilvercartShoppingCart.AnonymousCart
+
+SilvercartShoppingCartPosition:
+  position1:
+    SilvercartProduct: =>SilvercartProduct.product100g
+    SilvercartShoppingCart: =>SilvercartShoppingCart.AnonymousCart
+    Quantity: 2
+  position2:
+    SilvercartProduct: =>SilvercartProduct.product500g
+    SilvercartShoppingCart: =>SilvercartShoppingCart.AnonymousCart
+    Quantity: 2
+
+SilvercartCarrierLanguage:
+  DHLLanguage:
+    Locale: en_US
+    Title: DHL
+
+SilvercartCarrier:
+  DHL:
+    SilvercartCarrierLanguages: =>SilvercartCarrierLanguage.DHLLanguage
+
+SilvercartShippingFee:
+  ShippingFee200:
+  ShippingFee1000:
+  ShippingFee3000:
+    
+SilvercartZoneLanguage:
+  domestic:
+    Locale: en_US
+    Title: domestic
+  EU:
+    Locale: en_US
+    Title: EU
+    
+SilvercartZone:
+  domestic:
+    SilvercartZoneLanguages: =>SilvercartZoneLanguage.domestic
+  EU:
+    SilvercartZoneLanguages: =>SilvercartZoneLanguage.EU
+
+SilvercartShippingMethodLanguage:
+  ActiveShippingMethodLanguage:
+    Locale: en_US
+    Title: Package
+  InactiveShippingMethodLanguage:
+    Locale: en_US
+    Title: express Package
+
+SilvercartShippingMethod:
+  ActiveShippingMethod:
+    isActive: 1
+    SilvercartCarrier: =>SilvercartCarrier.DHL
+    SilvercartShippingMethodLanguages: =>SilvercartShippingMethodLanguage.ActiveShippingMethodLanguage
+    SilvercartZones: =>SilvercartZone.domestic,=>SilvercartZone.EU
+  InactiveShippingMethod:
+    isActive: 0
+    SilvercartCarrier: =>SilvercartCarrier.DHL
+    SilvercartShippingMethodLanguages: =>SilvercartShippingMethodLanguage.InactiveShippingMethodLanguage
+    SilvercartZones: =>SilvercartZone.domestic,=>SilvercartZone.EU
+    

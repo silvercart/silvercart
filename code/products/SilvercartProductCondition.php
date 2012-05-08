@@ -34,6 +34,24 @@
 class SilvercartProductCondition extends DataObject {
     
     /**
+     * n:m relations
+     *
+     * @var array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2011
+     */
+    public static $has_many = array(
+        'SilvercartProducts'                  => 'SilvercartProduct',
+        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
+    );
+    
+    public static $casting = array(
+        'Title'             => 'VarChar(255)',
+        'TableIndicator'    => 'Text'
+    );
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -64,32 +82,44 @@ class SilvercartProductCondition extends DataObject {
             return _t('SilvercartProductCondition.PLURALNAME');
         } else {
             return parent::plural_name();
-        }   
+        }
     }
     
     /**
-     * Attributes
+     * retirieves title from related language class depending on the set locale
      *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
      */
-    public static $db = array(
-        'Title' => 'VarChar(255)'
-    );
-    
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+
     /**
-     * n:m relations
+     * define the CMS ields
      *
-     * @var array
+     * @param
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
+     * @return FieldSet 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
      */
-    public static $has_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
-    );
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
     
     /**
      * Returns a string with HTML Code for a selector box that lets the user
@@ -128,13 +158,33 @@ class SilvercartProductCondition extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title' => _t('SilvercartProductCondition.TITLE'),
-                'SilvercartProducts' => _t('SilvercartProduct.PLURALNAME')
+                'Title'                                 => _t('SilvercartProductCondition.TITLE'),
+                'SilvercartProducts'                    => _t('SilvercartProduct.PLURALNAME'),
+                'SilvercartProductConditionLanguages'   => _t('SilvercartProductConditionLanguage.PLURALNAME')
             )
         );
         
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Defines the form fields for the search in ModelAdmin
+     * 
+     * @return array seach fields definition
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartProductConditionLanguages.Title' => array(
+                'title' => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            ),
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
     }
     
     /**
@@ -148,7 +198,8 @@ class SilvercartProductCondition extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => _t('SilvercartProductCondition.TITLE')
+            'TableIndicator'    => '',
+            'Title'             => $this->fieldLabel('Title'),
         );
         
         $this->extend('updateSummaryFields', $summaryFields);

@@ -42,7 +42,6 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      * @since 18.08.2011
      */
     public static $db = array(
-        'WidgetTitle'                   => 'VarChar(255)',
         'numberOfPostsToShow'           => 'Int',
         'isContentView'                 => 'Boolean'
     );
@@ -58,7 +57,39 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     public static $defaults = array(
         'numberOfPostsToShow' => 5
     );
-
+    
+    public static $casting = array(
+        'WidgetTitle' => 'VarChar(255)'
+    );
+    
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartLatestBlogPostsWidgetLanguages' => 'SilvercartLatestBlogPostsWidgetLanguage'
+    );
+    
+    /**
+     * Getter for the widgets title depending on the set language
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.01.2012
+     */
+    public function getWidgetTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->WidgetTitle;
+        }
+        return $title;
+    }
+    
     /**
      * Returns the input fields for this widget.
      *
@@ -68,16 +99,28 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      * @since 18.08.2011
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-
-        $widgetTitleField    = new TextField('WidgetTitle', _t('SilvercartLatestBlogPostsWidget.WIDGET_TITLE'));
-        $numberOfPostsField  = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
-        $isContentView       = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
-
-        $fields->push($widgetTitleField);
-        $fields->push($numberOfPostsField);
-        $fields->push($isContentView);
-
+        $fields             = new FieldSet();
+        
+        $rootTabSet         = new TabSet('RootTabSet');
+        $mainTab            = new Tab('Root',               _t('Silvercart.CONTENT'));
+        $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
+        
+        $numberOfPostsField     = new TextField('numberOfPostsToShow', _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'));
+        $isContentView          = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
+        $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $mainTab->push($languageField);
+        }
+        
+        $fields->push($rootTabSet);
+        $rootTabSet->push($mainTab);
+        $rootTabSet->push($translationsTab);
+        $mainTab->push($numberOfPostsField);
+        $mainTab->push($isContentView);
+        $translationsTab->push($translationsTableField);
+        
         return $fields;
     }
 
@@ -173,5 +216,27 @@ class SilvercartLatestBlogPostsWidget_Controller extends SilvercartWidget_Contro
             return $blogEntries;
         }
         return false;
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 27.01.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                'SilvercartLatestBlogPostsWidgetLanguages' => _t('SilvercartLatestBlogPostsWidgetLanguage.PLURALNAME')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
 }

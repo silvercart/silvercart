@@ -134,6 +134,8 @@ class SilvercartConfig extends DataObject {
         'redirectToCartAfterAddToCart'      => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
         'addToCartMaxQuantity'              => 'Int(999)',
+        'Locale'                            => 'DBLocale',
+        'useDefaultLanguageAsFallback'      => 'Boolean(1)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -163,8 +165,8 @@ class SilvercartConfig extends DataObject {
      * @since 11.07.2011
      */
     public static $defaults = array(
-        'SilvercartVersion'             => '1.2',
-        'SilvercartUpdateVersion'       => '3',
+        'SilvercartVersion'             => '1.3',
+        'SilvercartUpdateVersion'       => '1',
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
@@ -172,7 +174,8 @@ class SilvercartConfig extends DataObject {
         'productGroupsPerPage'          => 6,
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
-        'addToCartMaxQuantity'          => 999
+        'addToCartMaxQuantity'          => 999,
+        'Locale'                        => 'de_DE'
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -218,6 +221,7 @@ class SilvercartConfig extends DataObject {
     public static $isStockManagementOverbookable    = null;
     public static $redirectToCartAfterAddToCart     = null;
     public static $demandBirthdayDateOnRegistration = null;
+    public static $useDefaultLanguageAsFallback     = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -254,6 +258,18 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
+     * Indicates that the config is translatable
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2012
+     */
+    public function canTranslate() {
+        return true;
+    }
+
+        /**
      * Add notes to the CMS fields.
      *
      * @param array $params custom params
@@ -283,40 +299,38 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('StandardProductCondition');
         $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
-
+        
+        //Make the field DefaultLanguage a Dropdown
+        $defaultCMSFields->removeByName('Locale');
+        $defaultLanguageDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this, 'SiteTree');
+        $defaultLanguageDropdown->setTitle(_t('SilvercartConfig.DEFAULT_LANGUAGE'));
+        $defaultCMSFields->push($defaultLanguageDropdown);
+        
         // Building the general tab structure
         $CMSFields = new FieldSet(
             $rootTab = new TabSet(
                 'Root',
                 $generalTab = new TabSet(
                     'General',
-                    $tabGeneralMain = new Tab('Main'),
-                    $tabGeneralTestData = new Tab('TestData'),
-                    $tabPricesMain = new Tab('Prices'),
-                    $tabLayoutMain = new Tab('Layout'),
-                    $tabServerMain = new Tab('Server'),
-                    $tabStockMain = new Tab('Stock'),
-                    $tabCheckoutMain = new Tab('Checkout'),
-                    $tabCleanMain = new Tab('Clean')
+                    _t('SilvercartConfig.GENERAL'),
+                    $tabGeneralMain     = new Tab('Main',       _t('SilvercartConfig.GENERAL_MAIN')),
+                    $tabGeneralTestData = new Tab('TestData',   _t('SilvercartConfig.GENERAL_TEST_DATA')),
+                    $tabPricesMain      = new Tab('Prices',     _t('SilvercartPrice.PLURALNAME')),
+                    $tabLayoutMain      = new Tab('Layout',     _t('SilvercartConfig.LAYOUT')),
+                    $tabServerMain      = new Tab('Server',     _t('SilvercartConfig.SERVER')),
+                    $tabStockMain       = new Tab('Stock',      _t('SilvercartConfig.STOCK')),
+                    $tabCheckoutMain    = new Tab('Checkout',   _t('SilvercartPage.CHECKOUT')),
+                    $tabCleanMain       = new Tab('Clean',      _t('SilvercartConfig.CLEAN'))
                 ),
                 $interfacesTab = new TabSet(
                     'Interfaces',
-                    $tabInterfacesGeoNames  = new Tab('GeoNames')
+                    _t('SilvercartConfig.INTERFACES'),
+                    $tabInterfacesGeoNames  = new Tab('GeoNames',   _t('SilvercartConfig.INTERFACES_GEONAMES'))
                 )
             )
         );
 
         // General Form Fields right here
-        $generalTab->setTitle(_t('SilvercartConfig.GENERAL'));
-        
-        $tabGeneralMain->setTitle(_t('SilvercartConfig.GENERAL_MAIN'));
-        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
-        $tabPricesMain->setTitle(_t('SilvercartPrice.PLURALNAME'));
-        $tabLayoutMain->setTitle(_t('SilvercartConfig.LAYOUT'));
-        $tabServerMain->setTitle(_t('SilvercartConfig.SERVER'));
-        $tabStockMain->setTitle(_t('SilvercartConfig.STOCK'));
-        $tabCheckoutMain->setTitle(_t('SilvercartPage.CHECKOUT'));
-        $tabCleanMain->setTitle(_t('SilvercartConfig.CLEAN'));
 
         $CMSFields->addFieldsToTab('Root.General.Main', $defaultCMSFields->dataFields());
         $CMSFields->addFieldToTab('Root.General.Main', new LabelField('ForEmailSender', _t('SilvercartConfig.EMAILSENDER_INFO')), 'GlobalEmailRecipient');
@@ -404,9 +418,7 @@ class SilvercartConfig extends DataObject {
         $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
         $freeOfShippingCostsTab->push(new MoneyField('freeOfShippingCostsFrom', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM')));
         
-        // FormFields for Test Data right here
-        $tabGeneralTestData->setTitle(_t('SilvercartConfig.GENERAL_TEST_DATA'));
-        
+        // FormFields for Test Data right here        
         $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
         $addExampleData->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_DATA_DESCRIPTION'));
         $CMSFields->addFieldToTab('Root.General.TestData', $addExampleData);
@@ -426,10 +438,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Clean', $cleanDataBase);
         
         // FormFields for Interfaces right here
-        $interfacesTab->setTitle(_t('SilvercartConfig.INTERFACES'));
         // GeoNames
-        $tabInterfacesGeoNames->setTitle(_t('SilvercartConfig.INTERFACES_GEONAMES'));
-
         $geoNamesDescriptionValue = '';
         $geoNamesDescriptionValue = _t('SilvercartConfig.GEONAMES_DESCRIPTION');
         $geoNamesDescription = new LiteralField('GeoNamesDescription', $geoNamesDescriptionValue);
@@ -477,6 +486,8 @@ class SilvercartConfig extends DataObject {
                     'GeoNamesActive'                    => _t('SilvercartConfig.GEONAMES_ACTIVE'),
                     'GeoNamesUserName'                  => _t('SilvercartConfig.GEONAMES_USERNAME'),
                     'GeoNamesAPI'                       => _t('SilvercartConfig.GEONAMES_API'),
+                    'Locale'                            => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
+                    'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
                 )
         );
     }
@@ -1459,5 +1470,47 @@ class SilvercartConfig extends DataObject {
                 $text
         );
         file_put_contents($path, $text, FILE_APPEND);
+    }
+    
+    /**
+     * getter for the default language
+     * Returns a default locale for multilingual DataObjects
+     *
+     * @return string $locale a locale eg. "de_DE", "en_NZ", ...
+     *                        Only locales from i18n::get_common_locales() are possible values.
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public static function DefaultLanguage() {
+        return self::Locale();
+    }
+    
+    /**
+     * Returns the configs locale
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.03.2012
+     */
+    public static function Locale() {
+        return self::getConfig()->Locale;
+    }
+    
+    /**
+     * Determin wether the default language should be used for multilingual DataObjects
+     * in case a translation does not exist.
+     *
+     * @return bool 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2012
+     */
+    public static function useDefaultLanguageAsFallback() {
+        if (is_null(self::$useDefaultLanguageAsFallback)) {
+            self::$useDefaultLanguageAsFallback = self::getConfig()->useDefaultLanguageAsFallback;
+        }
+        return self::$useDefaultLanguageAsFallback;
     }
 }

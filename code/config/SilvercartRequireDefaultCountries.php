@@ -3533,4 +3533,24 @@
             $country->Currency  = "ZWL";
             $country->Locale    = Translatable::get_current_locale();
             $country->write();
-       }
+        }
+
+        global $lang;
+        $countries = DataObject::get('SilvercartCountry');
+        foreach ($countries as $country) {
+            foreach ($lang as $locale => $data) {
+                if ($country->hasLanguage($locale)) {
+                    continue;
+                }
+                
+                $key = 'TITLE_' . strtoupper($country->ISO2);
+                if (array_key_exists('SilvercartCountry', $data) &&
+                    array_key_exists($key, $data['SilvercartCountry'])) {
+                    $translation = new SilvercartCountryLanguage();
+                    $translation->Locale    = $locale;
+                    $translation->Title     = $data['SilvercartCountry'][$key];
+                    $translation->write();
+                    $country->SilvercartCountryLanguages()->add($translation);
+                }
+            }
+        }

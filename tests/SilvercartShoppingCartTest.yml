@@ -1,16 +1,28 @@
+SilvercartConfig:
+    SilvercartConfig:
+        DefaultCurrency: EUR
+        EmailSender: test@silvercart.org
+        GlobalEmailRecipient: test@silvercart.org
+        allowCartWeightToBeZero: 1
+        PricetypeAnonymousCustomers: gross
+        PricetypeRegularCustomers: gross
+        PricetypeBusinessCustomers: net
+        PricetypeAdmins: net
+        useDefaultLanguageAsFallback: 1
+
 SilvercartProduct:
     product:
-        PriceNetAmount: 5.99
-        PriceNetCurrency: EUR
+        PriceGrossAmount: 5.99
+        PriceGrossCurrency: EUR
     product2:
-        PriceNetAmount: 6.59
-        PriceNetCurrency: EUR
+        PriceGrossAmount: 6.59
+        PriceGrossCurrency: EUR
     product3:
-        PriceNetAmount: 499
-        PriceNetCurrency: EUR
+        PriceGrossAmount: 499
+        PriceGrossCurrency: EUR
     product4:
-        PriceNetAmount: 199
-        PriceNetCurrency: EUR
+        PriceGrossAmount: 199
+        PriceGrossCurrency: EUR
         Weight: 0
 
 SilvercartShippingMethod:
@@ -47,16 +59,5 @@ SilvercartShoppingCartPosition:
         Quantity: 12
         SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCartWithShippingCosts
         SilvercartProduct: =>SilvercartProduct.product4
-        
-SilvercartConfig:
-    SilvercartConfig:
-        DefaultCurrency: EUR
-        EmailSender: test@silvercart.org
-        GlobalEmailRecipient: test@silvercart.org
-        allowCartWeightToBeZero: 1
-        PricetypeAnonymousCustomers: gross
-        PricetypeRegularCustomers: gross
-        PricetypeBusinessCustomers: net
-        PricetypeAdmins: net
     
         

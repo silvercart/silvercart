@@ -36,19 +36,6 @@
 class SilvercartFile extends DataObject {
 
     /**
-     * Attributes.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.12.2011
-     */
-    public static $db = array(
-        'Title' => 'VarChar',
-        'Description' => 'HTMLText',
-    );
-
-    /**
      * 1:1 or 1:n relationships.
      *
      * @var array
@@ -60,6 +47,56 @@ class SilvercartFile extends DataObject {
         'SilvercartProduct' => 'SilvercartProduct',
         'File' => 'File',
     );
+    
+    public static $casting = array(
+        'Title' => 'VarChar',
+        'Description' => 'HTMLText',
+        'TableIndicator' => 'VarChar'
+    );
+    
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public static $has_many = array(
+        'SilvercartFileLanguages' => 'SilvercartFileLanguage'
+    );
+    
+    /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return string The Title from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
+    /**
+     * getter for the Description, looks for set translation
+     * 
+     * @return string The description from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public function getDescription() {
+        $description = '';
+        if ($this->getLanguage()) {
+            $description = $this->getLanguage()->Description;
+        }
+        return $description;
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -110,13 +147,31 @@ class SilvercartFile extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                     => _t('SilvercartFile.TITLE'),
-                'Description'               => _t('SilvercartFile.DESCRIPTION'),
+                'SilvercartFileLanguages' => _t('SilvercartFileLanguage.PLURALNAME')
             )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 20.01.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'TableIndicator' => ''
+        );
+
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 
     /**
@@ -126,5 +181,39 @@ class SilvercartFile extends DataObject {
      */
     public function getFileIcon() {
         return '<img src="' . $this->File()->Icon() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />';
+    }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 20.01.2012
+ */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+    
+    /**
+     * saves the value of the field LongDescription correctly into HTMLText
+     * 
+     * @param string $value the field value
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function saveDescription($value) {
+        $languageObj = $this->getLanguage();
+        $languageObj->Description = $value;
+        $languageObj->write();
     }
 }

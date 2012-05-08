@@ -1101,7 +1101,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted
      * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
      * 
-     * @return string a price amount
+     * @return Money a money object with the calculated amount and the default currency
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1124,7 +1124,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted
      * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
      * 
-     * @return string a price amount
+     * @return Money a money object with the calculated amount and the default currency
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1157,7 +1157,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted
      * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
      * 
-     * @return string a price amount
+     * @return Money a money object with the calculated amount and the default currency
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

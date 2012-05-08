@@ -34,28 +34,6 @@
 class SilvercartHandlingCost extends DataObject {
 
     /**
-     * Singular name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $singular_name = "handling cost";
-
-    /**
-     * Plural name
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $plural_name = "handling costs";
-
-    /**
      * Attributes.
      *
      * @var array
@@ -91,32 +69,6 @@ class SilvercartHandlingCost extends DataObject {
      */
     public static $has_one = array(
         'SilvercartTax' => 'SilvercartTax'
-    );
-
-    /**
-     * Summary fields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $summary_fields = array(
-        'handlingcosts'
-    );
-
-    /**
-     * Labels for the columns in tables.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
-     */
-    public static $field_labels = array(
-        'amount' => 'Betrag'
     );
     
     /**

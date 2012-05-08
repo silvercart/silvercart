@@ -39,9 +39,7 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title'         => 'VarChar',
-        'Description'   => 'Text',
-        'isActive'      => 'Boolean',
+        'isActive' => 'Boolean'
     );
     /**
      * Has-one relationships.
@@ -57,8 +55,9 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartOrders'          => 'SilvercartOrder',
-        'SilvercartShippingFees'    => 'SilvercartShippingFee',
+        'SilvercartOrders' => 'SilvercartOrder',
+        'SilvercartShippingFees' => 'SilvercartShippingFee',
+        'SilvercartShippingMethodLanguages' => 'SilvercartShippingMethodLanguage'
     );
     /**
      * Many-many relationships.
@@ -88,6 +87,8 @@ class SilvercartShippingMethod extends DataObject {
         'AttributedCustomerGroups'  => 'Text',
         'AttributedZones'           => 'Text',
         'AttributedZoneIDs'         => 'Text',
+        'Title'                     => 'Text',
+        'Description'               => 'Text',
     );
     
     /**
@@ -95,7 +96,7 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "`SilvercartCarrierID`, `Title` ASC";
+    public static $default_sort = "`SilvercartCarrierID`";
     
     /**
      * Shipping address
@@ -109,13 +110,12 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Title' => array(
+            'SilvercartShippingMethodLanguages.Title' => array(
                 'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
@@ -147,22 +147,23 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.07.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-                        'Description'               => _t('SilvercartShippingMethod.DESCRIPTION'),
-                        'activatedStatus'           => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                        'AttributedZones'           => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-                        'isActive'                  => _t('SilvercartPage.ISACTIVE', 'active'),
-                        'SilvercartCarrier'         => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-                        'SilvercartShippingFees'    => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones'),
-                        'SilvercartCustomerGroups'  => _t('Group.PLURALNAME'),
+                        'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
+                        'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                        'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                        'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+                        'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
+                        'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+                        'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
+                        'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
+                        'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
+                        'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
                     )
                 );
     }
@@ -173,7 +174,7 @@ class SilvercartShippingMethod extends DataObject {
      * @return array
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 26.04.2012
      */
     public function summaryFields() {
         $summaryFields = array(
@@ -232,7 +233,12 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-
+        
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'isActive');
+        }
         $fields->removeByName('SilvercartCountries');
         $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartOrders');
@@ -335,6 +341,38 @@ class SilvercartShippingMethod extends DataObject {
         }
         
         return $fee;
+    }
+    
+    /**
+     * getter for the shipping methods title
+     *
+     * @return string the title in the corresponding front end language 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function getDescription() {
+        $description = '';
+        if ($this->getLanguage()) {
+            $description = $this->getLanguage()->Description;
+        }
+        return $description;
+    }
+    
+    /**
+     * getter for the shipping methods title
+     *
+     * @return string the title in the corresponding front end language 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
     }
 
     /**

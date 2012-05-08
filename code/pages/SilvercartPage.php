@@ -200,6 +200,22 @@ class SilvercartPage_Controller extends ContentController {
     protected $WidgetSetContentControllers;
     
     /**
+     * Creates a SilvercartPage_Controller
+     *
+     * @param array $dataRecord Data record
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.04.2012
+     */
+    public function __construct($dataRecord = null) {
+        i18n::set_default_locale(Translatable::get_current_locale());
+        i18n::set_locale(Translatable::get_current_locale());
+        parent::__construct($dataRecord);
+    }
+    
+    /**
      * standard page controller
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -256,6 +272,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartForms');
             Requirements::themedCSS('SilvercartGeneral');
             Requirements::themedCSS('SilvercartHeaderbar');
+            Requirements::themedCSS('SilvercartLanguageDropdownField');
             Requirements::themedCSS('SilvercartPagination');
             Requirements::themedCSS('SilvercartProductGroupNavigation');
             Requirements::themedCSS('SilvercartProductGroupPageControls');
@@ -346,6 +363,9 @@ class SilvercartPage_Controller extends ContentController {
         if (empty($registeredCustomHtmlForms)) {
             $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
             $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
+            if ($this->getTranslations()) {
+                $this->registerCustomHtmlForm('SilvercartChangeLanguageForm',  new SilvercartChangeLanguageForm($this));
+            }
         } else {
             $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
         }
@@ -360,6 +380,10 @@ class SilvercartPage_Controller extends ContentController {
         } elseif (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
             $checkConfiguration = false;
         } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
+            $checkConfiguration = false;
+        }
+        //if run through SAKE the config object must not be called
+        if ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php') {
             $checkConfiguration = false;
         }
         

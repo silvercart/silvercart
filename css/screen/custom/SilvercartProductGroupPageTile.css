@@ -80,7 +80,7 @@
 }
 
 .silvercart-product-group-page-box-tile .silvercart-product-text-info {
-    height:                         130px;
+    height:                         140px;
     padding:                        0px 0px 8px 0px;
     
     overflow:                       hidden;
@@ -96,6 +96,14 @@
 .silvercart-product-group-page-box-tile .silvercart-product-page-box-price small {
     font-size:                      10px;
     line-height:                    130%;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-availability,
+.silvercart-product-group-page-box-tile .silvercart-product-meta-data {
+    margin:                         0 0 6px 0;
+}
+.silvercart-product-group-page-box-tile .silvercart-product-meta-data span.right {
+    float:                          right;
+    display:                        block;
 }
 
 .silvercart-product-group-page-box-tile h3 a {

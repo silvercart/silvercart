@@ -51,7 +51,6 @@ class SilvercartProductTest extends SapphireTest {
         //Only active products with a price or free of charge must be loaded. 
         SilvercartProduct::setRequiredAttributes("Price");
         $products = SilvercartProduct::get();
-        $this->assertDOSContains(array(array('Title' => 'Product with price')), $products);
         $this->assertEquals(5, $products->Count(), "The quantity of products with a price or free of charge is not correct.");
         
         //Only active products with short description and price defined as required attributes must be loaded
@@ -87,7 +86,6 @@ class SilvercartProductTest extends SapphireTest {
      */
     public function testGetPrice() {
         $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
-        var_dump(SilvercartConfig::Pricetype());
         
         //check price for admins
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount(), 'Error: A admin user without address gets net prices shown.');

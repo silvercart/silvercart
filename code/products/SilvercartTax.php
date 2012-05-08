@@ -34,28 +34,6 @@
 class SilvercartTax extends DataObject {
 
     /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
-     */
-    static $singular_name = "rate";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
-     */
-    static $plural_name = "rates";
-
-    /**
      * attributes
      *
      * @var array
@@ -65,7 +43,6 @@ class SilvercartTax extends DataObject {
      * @since 24.11.2010
      */
     public static $db = array(
-        'Title' => 'VarChar',
         'Rate'  => 'Float',
         'Identifier' => 'VarChar(30)'
     );
@@ -80,35 +57,8 @@ class SilvercartTax extends DataObject {
      * @since 24.11.2010
      */
     public static $has_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
-    );
-
-    /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $summary_fields = array(
-        'Title' => 'Label',
-        'Rate'  => 'Steuersatz in %'
-    );
-
-    /**
-     * Column labels for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
-     */
-    public static $field_labels = array(
-        'Title' => 'Label',
-        'Rate'  => 'Steuersatz in %'
+        'SilvercartProducts'     => 'SilvercartProduct',
+        'SilvercartTaxLanguages' => 'SilvercartTaxLanguage'
     );
 
     /**
@@ -122,6 +72,10 @@ class SilvercartTax extends DataObject {
      */
     public static $searchable_fields = array(
         'Rate'
+    );
+    
+    public static $casting = array(
+        'Title' => 'VarChar'
     );
     
     /**
@@ -139,10 +93,11 @@ class SilvercartTax extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title'                 => _t('SilvercartTax.LABEL'),
-                        'Rate'                  => _t('SilvercartTax.RATE_IN_PERCENT'),
-                        'SilvercartProducts'    => _t('SilvercartProduct.PLURALNAME'),
-                        'Identifier'            => _t('SilvercartNumberRange.IDENTIFIER')
+                        'Title'                  => _t('SilvercartTax.LABEL'),
+                        'Rate'                   => _t('SilvercartTax.RATE_IN_PERCENT'),
+                        'SilvercartProducts'     => _t('SilvercartProduct.PLURALNAME'),
+                        'Identifier'             => _t('SilvercartNumberRange.IDENTIFIER'),
+                        'SilvercartTaxLanguages' => _t('SilvercartTaxLanguage.PLURALNAME')
                     )
                 );
     }
@@ -198,7 +153,41 @@ class SilvercartTax extends DataObject {
             return parent::plural_name();
         }   
     }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 20.01.2012
+ */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
 
+    /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
     /**
      * determine the tax rate. This method can be extended via DataObjectDecorator to implement own behaviour.
      *

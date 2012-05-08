@@ -38,17 +38,10 @@ class SilvercartProduct extends DataObject {
      *
      * @var array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public static $db = array(
-        'Title'                       => 'VarChar(255)',
-        'ShortDescription'            => 'HTMLText',
-        'LongDescription'             => 'HTMLText',
-        'MetaDescription'             => 'VarChar(255)',
-        'MetaTitle'                   => 'VarChar(64)', //search engines use only 64 chars
-        'MetaKeywords'                => 'VarChar',
         'ProductNumberShop'           => 'VarChar(50)',
         'ProductNumberManufacturer'   => 'VarChar(50)',
         'PurchasePrice'               => 'Money', //the price the shop owner bought the product for
@@ -66,16 +59,6 @@ class SilvercartProduct extends DataObject {
         'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
     );
-    
-     /**
-     * Adds fulltext index for Title attribute, used for better
-     * search results
-     * 
-     * @var array 
-     */
-    public static $indexes = array(
-        'Title' => 'Fulltext (Title)'
-    );
 
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
@@ -83,7 +66,6 @@ class SilvercartProduct extends DataObject {
      * @var array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 02.02.2011
      */
     protected static $requiredAttributes = array();
@@ -133,7 +115,6 @@ class SilvercartProduct extends DataObject {
      * @var array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
     public static $has_one = array(
@@ -155,11 +136,11 @@ class SilvercartProduct extends DataObject {
      *
      * @var array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public static $has_many = array(
+        'SilvercartProductLanguages'        => 'SilvercartProductLanguage',
         'SilvercartImages'                  => 'SilvercartImage',
         'SilvercartFiles'                   => 'SilvercartFile',
         'SilvercartShoppingCartPositions'   => 'SilvercartShoppingCartPosition',
@@ -206,6 +187,12 @@ class SilvercartProduct extends DataObject {
         'isActiveString'                    => 'VarChar(8)',
         'SilvercartProductMirrorGroupIDs'   => 'Text',
         'PriceIsLowerThanMsr'               => 'Boolean',
+        'Title'                             => 'Text',
+        'ShortDescription'                  => 'Text',
+        'LongDescription'                   => 'HTMLText',
+        'MetaDescription'                   => 'Text',
+        'MetaTitle'                         => 'Text',
+        'MetaKeywords'                      => 'Text',
     );
 
     /**
@@ -266,6 +253,103 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return string The Title from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
+    /**
+     * getter for the ShortDescription, looks for set translation
+     * 
+     * @return string The ShortDescription from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getShortDescription() {
+        $shortDescription = '';
+        if ($this->getLanguage()) {
+            $shortDescription = $this->getLanguage()->ShortDescription;
+        }
+        return $shortDescription;
+    }
+    
+    /**
+     * getter for the LongDescription, looks for set translation
+     * 
+     * @return string The LongDescription from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getLongDescription() {
+        $longDescription = '';
+        if ($this->getLanguage()) {
+            $longDescription = $this->getLanguage()->LongDescription;
+        }
+        return $longDescription;
+    }
+    
+    /**
+     * getter for the MetaDescription, looks for set translation
+     * 
+     * @return string The MetaDescription from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getMetaDescription() {
+        $metaDescription = '';
+        if ($this->getLanguage()) {
+            $metaDescription = $this->getLanguage()->MetaDescription;
+        }
+        return $metaDescription;
+    }
+    
+    /**
+     * getter for the MetaTitle, looks for set translation
+     * 
+     * @return string The MetaTitle from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getMetaTitle() {
+        $metaTitle = '';
+        if ($this->getLanguage()) {
+            $metaTitle = $this->getLanguage()->MetaTitle;
+        }
+        return $metaTitle;
+    }
+    
+    /**
+     * getter for the MetaKeywords, looks for set translation
+     * 
+     * @return string The MetaKeywords from the translation object or an empty string
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2012
+     */
+    public function getMetaKeywords() {
+        $metaKeywords = '';
+        if ($this->getLanguage()) {
+            $metaKeywords = $this->getLanguage()->MetaKeywords;
+        }
+        return $metaKeywords;
+    }
+
+
+    /**
      * Is this product viewable in the frontend?
      *
      * @param Member $member the current member
@@ -323,15 +407,15 @@ class SilvercartProduct extends DataObject {
                 'title'     => _t('SilvercartProduct.PRODUCTNUMBER'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'Title' => array(
+            'SilvercartProductLanguages.Title' => array(
                 'title'     => _t('SilvercartProduct.COLUMN_TITLE'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'ShortDescription' => array(
+            'SilvercartProductLanguages.ShortDescription' => array(
                 'title'     => _t('SilvercartProduct.SHORTDESCRIPTION'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'LongDescription' => array(
+            'SilvercartProductLanguages.LongDescription' => array(
                 'title'     => _t('SilvercartProduct.DESCRIPTION'),
                 'filter'    => 'PartialMatchFilter'
             ),
@@ -419,7 +503,8 @@ class SilvercartProduct extends DataObject {
                 'StockQuantityOverbookable'         => _t('SilvercartProduct.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
                 'StockQuantityExpirationDate'       => _t('SilvercartProduct.STOCK_QUANTITY_EXPIRATION_DATE'),
                 'PackagingQuantity'                 => _t('SilvercartProduct.PACKAGING_QUANTITY', 'purchase quantity'),
-                'ID'                                => 'ID' //needed for the deeplink feature
+                'ID'                                => 'ID', //needed for the deeplink feature
+                'SilvercartProductLanguages'        => _t('SilvercartConfig.TRANSLATIONS')
             )
         );
 
@@ -501,7 +586,7 @@ class SilvercartProduct extends DataObject {
      *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
-     * @param string  $join        string for a join
+     * @param string  $join        string to be used as SQL JOIN clause;
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
@@ -515,18 +600,27 @@ class SilvercartProduct extends DataObject {
 
         if (!empty($requiredAttributes)) {
             foreach ($requiredAttributes as $requiredAttribute) {
-                if ($requiredAttribute == "Price") {
-                    // Gross price as default if not defined
-                    if ($pricetype == "net") {
-                        $filter .= sprintf("(`PriceNetAmount` != 0.0) AND ");
+                //find out if we are dealing with a real attribute or a multilingual field
+                if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
+                    if ($requiredAttribute == "Price") {
+                        // Gross price as default if not defined
+                        if ($pricetype == "net") {
+                            $filter .= sprintf("(`PriceNetAmount` != 0.0) AND ");
+                        } else {
+                            $filter .= sprintf("(`PriceGrossAmount` != 0.0) AND ");
+                        }
                     } else {
-                        $filter .= sprintf("(`PriceGrossAmount` != 0.0) AND ");
+                        $filter .= sprintf("`%s` != '' AND ", $requiredAttribute);
                     }
                 } else {
-                    $filter .= sprintf("`%s` !='' AND ", $requiredAttribute);
+                    // if its a multilingual attribute it comes from a relational class
+                    $filter .= sprintf("SilvercartProductLanguage.%s != '' AND ", $requiredAttribute);
                 }
+                
             }
         }
+        // Support for translatable fields
+        $join = $join . sprintf(" LEFT JOIN SilvercartProductLanguage ON (SilvercartProductLanguage.SilvercartProductID = SilvercartProduct.ID AND SilvercartProductLanguage.Locale = '%s') ", Translatable::get_current_locale());
 
         if ($whereClause != "") {
             $filter = $filter . $whereClause . ' AND ';
@@ -609,7 +703,8 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts = new DataObjectSet();
         }
         if (!is_null($productCount) &&
-            Controller::curr()->hasMethod('getProductsPerPageSetting')) {
+            Controller::curr()->hasMethod('getProductsPerPageSetting') &&
+            $databaseFilteredProducts) {
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
             $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
         }
@@ -717,6 +812,12 @@ class SilvercartProduct extends DataObject {
         $fields = $this->scaffoldFormFields();
         // there are two ways to display the products CMS fields (set in Backend)
         if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
+            //Inject the fields that come from the language object
+            //They are added to the content tab for the users comfort.
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $fields->insertBefore($languageField, 'PurchasePrice');
+            }
             // remove GoogleSitemap Priority
             $fields->removeByName('Priority');
             $fields->removeByName('GoogleSitemapIntro');
@@ -797,9 +898,6 @@ class SilvercartProduct extends DataObject {
             // SEO tab
             // --------------------------------------------------------------------
             $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO', 'SEO'));
-            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
-            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
-            $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
 
             // --------------------------------------------------------------------
             // Reorder tabs
@@ -874,8 +972,9 @@ class SilvercartProduct extends DataObject {
                     'Root',
                     $mainTab = new TabSet(
                         'Main',
-                        $contentTab = new Tab('Content'),
-                        $pricesTab = new Tab('Prices'),
+                        $contentTab      = new Tab('Content'),
+                        $translationsTab = new Tab('Translations'),
+                        $pricesTab       = new Tab('Prices'),
                         $manufacturerTab = new Tab('Manufacturer')
                     ),
                     $seoTab = new TabSet(
@@ -905,6 +1004,7 @@ class SilvercartProduct extends DataObject {
             // i18n for the tabs
             $mainTab->setTitle(                 _t('SiteTree.TABMAIN'));
             $contentTab->setTitle(              _t('Silvercart.CONTENT',                                'Content'));
+            $translationsTab->setTitle(         _t('SilvercartConfig.TRANSLATIONS'));
             $pricesTab->setTitle(               _t('SilvercartPrice.PLURALNAME'));
             $manufacturerTab->setTitle(         _t('SilvercartManufacturer.PLURALNAME'));
 
@@ -928,13 +1028,13 @@ class SilvercartProduct extends DataObject {
             //fill the tab Root.Main.Content
             $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('isActive'));
             $CMSFields->addFieldToTab('Root.Main.Content', new TextField('ProductNumberShop', _t('SilvercartProduct.PRODUCTNUMBER')));
-            $CMSFields->addFieldToTab('Root.Main.Content', $fields->dataFieldByName('Title'));
-            $textFieldShortDescription = $fields->dataFieldByName('ShortDescription');
-            $textFieldShortDescription->setRows(2);
-            $CMSFields->addFieldToTab('Root.Main.Content', $textFieldShortDescription);
-            $htmlEditorFieldLongDescription = $fields->dataFieldByName('LongDescription');
-            $htmlEditorFieldLongDescription->setRows(15);
-            $CMSFields->addFieldToTab('Root.Main.Content', $htmlEditorFieldLongDescription);
+            
+            //Inject the fields that come from the language object
+            //They are added to the content tab for the users comfort.
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            $CMSFields->addFieldsToTab('Root.Main.Content', $languageFields);
+            $productLanguagesTable = new ComplexTableField($this, 'SilvercartProductLanguages', 'SilvercartProductLanguage', null);
+            $CMSFields->addFieldToTab('Root.Main.Translations', $productLanguagesTable);
             $taxRates = DataObject::get('SilvercartTax');
             $taxRateMap = array();
             if ($taxRates) {
@@ -985,11 +1085,6 @@ class SilvercartProduct extends DataObject {
                     _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
                     )
                 );
-
-            //fill the tab Root.SEO.MetaData
-            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaTitle'));
-            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaDescription'));
-            $CMSFields->addFieldToTab('Root.SEO.MetaData', $fields->dataFieldByName('MetaKeywords'));
 
             //fill the tab Root.Links.MirrorProductGroups
             $productGroupMirrorPagesTable = new ManyManyComplexTableField(
@@ -1465,6 +1560,26 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns the product group of this product dependant on the current locale
+     *
+     * @return SilvercartProductGroupPage
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function SilvercartProductGroup() {
+        $silvercartProductGroup = null;
+        $currentLocale          = Translatable::get_current_locale();
+        if ($this->getComponent('SilvercartProductGroup')) {
+            $silvercartProductGroup = $this->getComponent('SilvercartProductGroup');
+            if ($silvercartProductGroup->Locale != $currentLocale) {
+                $silvercartProductGroup = $silvercartProductGroup->getTranslation($currentLocale);
+            }
+        }
+        return $silvercartProductGroup;
+    }
+
+    /**
      * Link to the controller, that shows this product
      * An product has a unique URL
      *
@@ -1631,7 +1746,7 @@ class SilvercartProduct extends DataObject {
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-
+        
         // We want to prevent that sorting with the dataobjectmanager module
         // for mirrored products saves the false SortOrder value.
         $request                      = Controller::curr()->request;
@@ -1659,6 +1774,16 @@ class SilvercartProduct extends DataObject {
                 }
             }
         }
+        
+        $translations = $this->SilvercartProductGroup()->getTranslations();
+        if ($translations) {
+            foreach ($translations as $translation) {
+            if ($this->SilvercartProductGroupMirrorPages()->find('ID', $translation->ID)) {
+                continue;
+            }
+            $this->SilvercartProductGroupMirrorPages()->add($translation);
+            }   
+        } 
     }
 
     /**
@@ -1724,6 +1849,23 @@ class SilvercartProduct extends DataObject {
                 $newProductGroupMirrorSortOrder->write();
             }
         }
+    }
+    
+    
+    /**
+     * saves the value of the field LongDescription correctly into HTMLText
+     * 
+     * @param string $value the field value
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.01.2012
+     */
+    public function saveLongDescription($value) {
+        $languageObj = $this->getLanguage();
+        $languageObj->LongDescription = $value;
+        $languageObj->write();
     }
 
     /**
@@ -1801,7 +1943,6 @@ class SilvercartProduct extends DataObject {
 
             if ($noImageObj) {
                 $noImageObj->setField('Title', 'No Image');
-
                 $silvercartImageObj = new SilvercartImage();
                 $silvercartImageObj->ImageID             = $noImageObj->ID;
                 $silvercartImageObj->SilvercartProductID = $this->ID;
@@ -1859,7 +2000,6 @@ class SilvercartProduct extends DataObject {
      */
     public function isStockQuantityOverbookable() {
         $overbookable = true;
-
         if (SilvercartConfig::EnableStockManagement()) {
             if (!SilvercartConfig::isStockManagementOverbookable() &&
                 !$this->StockQuantityOverbookable) {
@@ -1867,7 +2007,6 @@ class SilvercartProduct extends DataObject {
                 $overbookable = false;
             }
         }
-
         return $overbookable;
     }
 

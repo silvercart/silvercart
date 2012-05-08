@@ -214,7 +214,7 @@ class SilvercartShippingFee extends DataObject {
                         "`SilvercartZone_SilvercartCarriers`.`SilvercartCarrierID` = %s",
                         $this->SilvercartShippingMethod()->SilvercartCarrier()->ID
                 ),
-                "`SilvercartZone`.`Title`",
+                "",
                 "LEFT JOIN `SilvercartZone_SilvercartCarriers` ON (`SilvercartZone`.`ID` = `SilvercartZone_SilvercartCarriers`.`SilvercartZoneID`)"
         );
         if ($zones) {

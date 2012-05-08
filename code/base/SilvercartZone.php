@@ -36,20 +36,13 @@
 class SilvercartZone extends DataObject {
     
     /**
-     * Attributes.
-     *
-     * @var array
-     */
-    public static $db = array(
-        'Title'=> 'VarChar',
-    );
-    /**
      * Has-many relationship.
      *
      * @var array
      */
     public static $has_many = array(
-        'SilvercartShippingFees' => 'SilvercartShippingFee'
+        'SilvercartShippingFees'  => 'SilvercartShippingFee',
+        'SilvercartZoneLanguages' => 'SilvercartZoneLanguage'
     );
     /**
      * Many-many relationships.
@@ -68,6 +61,7 @@ class SilvercartZone extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
+    
     /**
      * Virtual database columns.
      *
@@ -77,15 +71,9 @@ class SilvercartZone extends DataObject {
         'AttributedCountries'           => 'Varchar(255)',
         'AttributedShippingMethods'     => 'Varchar(255)',
         'SilvercartCarriersAsString'    => 'Text',
+        'Title'                         => 'Text',
     );
     
-    /**
-     * Default sort field and direction
-     *
-     * @var string
-     */
-    public static $default_sort = "`Title` ASC";
-
     /**
      * Field labels for display in tables.
      *
@@ -109,6 +97,7 @@ class SilvercartZone extends DataObject {
                         'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
                         'SilvercartCountries'       => _t('SilvercartCountry.PLURALNAME'),
                         'UseAllCountries'           => _t('SilvercartZone.USE_ALL_COUNTRIES'),
+                        'SilvercartZoneLanguages'   => _t('SilvercartZoneLanguage.PLURALNAME'),
                 )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -132,7 +121,7 @@ class SilvercartZone extends DataObject {
                             null,
                             'getCMSFields_forPopup',
                             null,
-                            'Title'
+                            'ISO2'
             );
             $countriesTable->pageSize = 100;
             $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
@@ -143,8 +132,7 @@ class SilvercartZone extends DataObject {
                             'SilvercartCarrier',
                             null,
                             'getCMSFields_forPopup',
-                            null,
-                            'Title'
+                            null
             );
             $fields->addFieldToTab('Root.SilvercartCarriers', $carriersTable);
 
@@ -154,15 +142,19 @@ class SilvercartZone extends DataObject {
                             'SilvercartShippingMethod',
                             null,
                             'getCMSFields_forPopup',
-                            null,
-                            'Title'
+                            null
             );
             $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
         
             $useAllCountries = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
             $fields->addFieldToTab('Root.Main', $useAllCountries);
+            
+            //multilingual fields, in fact just the title
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            foreach ($languageFields as $languageField) {
+                $fields->addFieldToTab('Root.Main', $languageField);
+            }
         }
-        
         return $fields;
     }
     
@@ -201,17 +193,32 @@ class SilvercartZone extends DataObject {
     }
     
     /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
+    /**
      * Searchable fields
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Title' => array(
+            'SilvercartZoneLanguages.Title' => array(
                 'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),

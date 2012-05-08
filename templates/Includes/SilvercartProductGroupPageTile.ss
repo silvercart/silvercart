@@ -43,6 +43,13 @@
                                 <div class="silvercart-product-availability right">
                                     $Availability
                                 </div>
+                                <% if PluggedInProductMetaData %>
+                                <div class="silvercart-product-meta-data">
+                                    <% control PluggedInProductMetaData %>
+                                        <span class="right">$MetaData</span><br/>
+                                    <% end_control %>
+                                </div>
+                                <% end_if %>
                             </div>
                         </div>
                         <div class="c66r">
@@ -50,7 +57,7 @@
                                 <div class="silvercart-product-text-info">
                                     <p>$getHtmlEncodedShortDescription</p>
                                     <% if PackagingQuantity %>
-                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Name</p>
+                                    <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Title</p>
                                     <% end_if %>
                                 </div>
                                 <div class="silvercart-product-meta-info">

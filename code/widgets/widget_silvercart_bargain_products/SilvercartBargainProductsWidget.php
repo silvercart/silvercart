@@ -41,8 +41,6 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
      * @var array
      */
     public static $db = array(
-        'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'HTMLText',
         'numberOfProductsToShow'        => 'Int',
         'numberOfProductsToFetch'       => 'Int',
         'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
@@ -62,6 +60,15 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     );
     
     /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartBargainProductsWidgetLanguages' => 'SilvercartBargainProductsWidgetLanguage'
+    );
+    
+    /**
      * Set default values.
      * 
      * @var array
@@ -71,6 +78,59 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
         'numberOfProductsToFetch'   => 5,
         'slideDelay'                => 5000
     );
+    
+    public static $casting = array(
+        'FrontTitle'                    => 'Text',
+        'FrontContent'                  => 'HTMLText',
+    );
+    
+    /**
+     * Getter for the front title depending on the set language
+     *
+     * @return string  
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function getFrontTitle() {
+        $frontTitle = '';
+        if ($this->getLanguage()) {
+            $frontTitle = $this->getLanguage()->FrontTitle;
+        }
+        return $frontTitle;
+    }
+    
+    /**
+     * Getter for the FrontContent depending on the set language
+     *
+     * @return string The HTML front content 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function getFrontContent() {
+        $frontContent = '';
+        if ($this->getLanguage()) {
+            $frontContent = $this->getLanguage()->FrontContent;
+        }
+        return $frontContent;
+    }
+    
+    /**
+     * HtmlEditorFields need an own save method
+     *
+     * @param string $value content
+     *
+     * @return void 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function saveFrontContent($value) {
+        $langObj = $this->getLanguage();
+        $langObj->FrontContent = $value;
+        $langObj->write();
+    }
     
     /**
      * Returns the input fields for this widget.
@@ -82,6 +142,13 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
      */
     public function getCMSFields() {
         $fields = SilvercartWidgetTools::getCMSFieldsForProductSliderWidget($this);
+        
+        $translationTab             = new Tab('Translations',   $this->fieldLabel('TranslationsTab'));
+        $translationsTableField     = new ComplexTableField($this, 'SilvercartBargainProductsWidgetLanguages', 'SilvercartBargainProductsWidgetLanguage');
+        
+        $fields->addFieldToTab('Root', $translationTab);
+        $translationTab->push($translationsTableField);
+        
         return $fields;
     }
     
@@ -163,7 +230,17 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     public function fieldLabels($includerelations = true) {
         return array_merge(
                 parent::fieldLabels($includerelations),
-                SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this)
+                SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
+                array(
+                    'SilvercartProductGroupPage'                => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+                    'useSelectionMethod'                        => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
+                    'SelectionMethodProductGroup'               => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
+                    'SelectionMethodProducts'                   => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
+                    'ProductGroupTab'                           => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
+                    'ProductsTab'                               => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
+                    'TranslationsTab'                           => _t('SilvercartConfig.TRANSLATIONS'),
+                    'SilvercartBargainProductsWidgetLanguages'  => _t('SilvercartBargainProductsWidgetLanguage.PLURALNAME'),
+                )
         );
     }
     

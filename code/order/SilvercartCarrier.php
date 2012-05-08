@@ -34,20 +34,6 @@
 class SilvercartCarrier extends DataObject {
 
     /**
-     * Attributes.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $db = array(
-        'Title'             => 'VarChar(25)',
-        'FullTitle'         => 'VarChar(60)'
-    );
-
-    /**
      * Has-many relationship.
      *
      * @var array
@@ -58,30 +44,59 @@ class SilvercartCarrier extends DataObject {
      */
     public static $has_many = array(
         'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
+        'SilvercartCarrierLanguages'  => 'SilvercartCarrierLanguage',
     );
-    
     /**
      * Many to many relations
-     *
+     * 
      * @var array
      */
     public static $belongs_many_many = array(
         'SilvercartZones'   => 'SilvercartZone',
     );
-
     /**
      * Virtual database fields.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)',
+        'Title'                     => 'VarChar(25)',
+        'FullTitle'                 => 'VarChar(60)',
     );
+    
+    /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
+    }
+    
+    /**
+     * retirieves title from related language class depending on the set locale
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.01.2012
+     */
+    public function getFullTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->FullTitle;
+        }
+        return $title;
+    }
     
     /**
      * Defines the form fields for the search in ModelAdmin
@@ -93,7 +108,7 @@ class SilvercartCarrier extends DataObject {
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Title' => array(
+            'SilvercartCarrierLanguages.Title' => array(
                 'title' => $this->fieldLabel('Title'),
                 'filter' => 'PartialMatchFilter'
             ),
@@ -129,6 +144,11 @@ class SilvercartCarrier extends DataObject {
             $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
             $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
         }
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
         return $fields;
     }
 
@@ -146,12 +166,11 @@ class SilvercartCarrier extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Title'                     => _t('SilvercartProduct.COLUMN_TITLE'),
-                    'FullTitle'                 => _t('SilvercartCarrier.FULL_NAME', 'full name'),
-                    'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                    'AttributedShippingMethods' => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
-                    'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
-                    'SilvercartZones'           => _t('SilvercartZone.PLURALNAME', 'zones') 
+                    'AttributedZones'            => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                    'AttributedShippingMethods'  => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
+                    'SilvercartShippingMethods'  => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
+                    'SilvercartZones'            => _t('SilvercartZone.PLURALNAME', 'zones'),
+                    'SilvercartCarrierLanguages' => _t('SilvercartCarrierLanguage.PLURALNAME')
                 )
         );
     }

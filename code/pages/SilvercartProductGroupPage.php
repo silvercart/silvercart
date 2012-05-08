@@ -219,6 +219,43 @@ class SilvercartProductGroupPage extends Page {
     }
 
     /**
+     * builds the ProductPages link according to its custom URL rewriting rule
+     *
+     * @param string $action is ignored
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function Link($action = null) {
+        if (Controller::curr()->hasMethod('isProductDetailView') &&
+            Controller::curr()->isProductDetailView()) {
+            return parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . Controller::curr()->urlParams['ID'];
+        }
+        return parent::Link($action);
+    }
+
+    /**
+     * returns the original page link. This is needed by the breadcrumbs. When
+     * a product detail view is requested, the default method self::Link() will
+     * return a modified link to the products detail view. This controller handles
+     * both (product group views and product detail views), so a product detail
+     * view won't have a related parent to show in breadcrumbs. The controller
+     * itself will be the parent, so there must be two different links for one
+     * controller.
+     *
+     * @return string
+     * 
+     * @see self::Link()
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function OriginalLink() {
+        return parent::Link(null);
+    }
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -457,7 +494,7 @@ class SilvercartProductGroupPage extends Page {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2012 pixeltricks GmbH
-     * @since 12.01.2012
+     * @since 26.04.2012
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
@@ -465,6 +502,17 @@ class SilvercartProductGroupPage extends Page {
             $activeProducts     = array();
             $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
             $priceTypeFilter    = '';
+            $translations       = $this->getTranslations();
+            
+            if ($translations &&
+                $translations->Count() > 0) {
+                foreach ($translations as $translation) {
+                    $productGroupIDs = array_merge(
+                            $productGroupIDs,
+                            self::getFlatChildPageIDsForPage($translation->ID)
+                    );
+                }
+            }
             
             if (!empty($requiredAttributes)) {
                 foreach ($requiredAttributes as $requiredAttribute) {
@@ -736,18 +784,18 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      * 
-     * @param string $object Name of the filter plugin
+     * @param string $plugin Name of the filter plugin
      *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static function registerFilterPlugin($object) {
-        $reflectionClass = new ReflectionClass($object);
+    public static function registerFilterPlugin($plugin) {
+        $reflectionClass = new ReflectionClass($plugin);
         
         if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = new $object();
+            self::$registeredFilterPlugins[] = new $plugin();
         }
     }
     
@@ -891,42 +939,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
-     * builds the ProductPages link according to its custom URL rewriting rule
-     *
-     * @param string $action is ignored
-     *
-     * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
-     */
-    public function Link($action = null) {
-        if ($this->isProductDetailView()) {
-            return parent::Link($action) . $this->urlParams['Action'] . '/' . $this->urlParams['ID'];
-        }
-        return parent::Link($action);
-    }
-
-    /**
-     * returns the original page link. This is needed by the breadcrumbs. When
-     * a product detail view is requested, the default method self::Link() will
-     * return a modified link to the products detail view. This controller handles
-     * both (product group views and product detail views), so a product detail
-     * view won't have a related parent to show in breadcrumbs. The controller
-     * itself will be the parent, so there must be two different links for one
-     * controller.
-     *
-     * @return string
-     * 
-     * @see self::Link()
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
-     */
-    public function OriginalLink() {
-        return parent::Link(null);
-    }
-
-    /**
      * manipulates the defaul logic of building the pages breadcrumbs if a
      * product detail view is requested.
      *
@@ -1049,6 +1061,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if ($numberOfProducts !== false) {
                     $productsPerPage = (int) $numberOfProducts;
                 }
+                
+                $translations               = $this->getTranslations();
+                $translationProductGroupIDs = array(
+                    $this->ID,
+                );
+
+                if ($translations &&
+                    $translations->Count() > 0) {
+                    foreach ($translations as $translation) {
+                        $translationProductGroupIDs[] = $translation->ID;
+                    }
+                }
+                $translationProductGroupIDList  = implode(',', $translationProductGroupIDs);
 
                 $mirroredProductIdList  = '';
                 $mirroredProductIDs     = $this->getMirroredProductIDs();
@@ -1076,14 +1101,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
                 if (empty($mirroredProductIdList)) {
                     $this->listFilters['original'] = sprintf(
-                        "`SilvercartProductGroupID` = '%s'",
-                        $this->ID
+                        "`SilvercartProductGroupID` IN (%s)",
+                        $translationProductGroupIDList
                     );
                 } else {
                     $this->listFilters['original'] = sprintf(
-                        "(`SilvercartProductGroupID` = '%s' OR
+                        "(`SilvercartProductGroupID` IN (%s) OR
                         `SilvercartProduct`.`ID` IN (%s))",
-                        $this->ID,
+                        $translationProductGroupIDList,
                         $mirroredProductIdList
                     );
                 }

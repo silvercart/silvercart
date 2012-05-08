@@ -43,7 +43,6 @@ class SilvercartCountry extends DataObject {
      * @since 31.01.2011
      */
     public static $db = array(
-        'Title' => 'VarChar',
         'ISO2' => 'VarChar',
         'ISO3' => 'VarChar',
         'ISON' => 'Int',
@@ -63,6 +62,14 @@ class SilvercartCountry extends DataObject {
      */
     public static $defaults = array(
         'Active' => false,
+    );
+    /**
+     * Has-many relationship.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartCountryLanguages' => 'SilvercartCountryLanguage'
     );
     /**
      * Many-many relationships.
@@ -89,25 +96,6 @@ class SilvercartCountry extends DataObject {
         'SilvercartZones' => 'SilvercartZone'
     );
     /**
-     * Summaryfields for display in tables.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
-     */
-    public static $summary_fields = array(
-        'Title',
-        'ISO2',
-        'ISO3',
-        'Continent',
-        'Currency',
-        'AttributedZones',
-        'AttributedPaymentMethods',
-        'ActivityText',
-    );
-    /**
      * Virtual database columns.
      *
      * @var array
@@ -117,9 +105,10 @@ class SilvercartCountry extends DataObject {
      * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedZones' => 'Varchar(255)',
-        'AttributedPaymentMethods' => 'Varchar(255)',
-        'ActivityText' => 'VarChar'
+        'AttributedZones'           => 'Varchar(255)',
+        'AttributedPaymentMethods'  => 'Varchar(255)',
+        'ActivityText'              => 'VarChar',
+        'Title'                     => 'Text',
     );
     
     /**
@@ -170,17 +159,18 @@ class SilvercartCountry extends DataObject {
         return array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                     => _t('SilvercartCountry.SINGULARNAME'),
-                'ISO2'                      => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
-                'ISO3'                      => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
-                'ISON'                      => _t('SilvercartCountry.ISON', 'ISO numeric'),
-                'FIPS'                      => _t('SilvercartCountry.FIPS', 'FIPS code'),
-                'Continent'                 => _t('SilvercartCountry.CONTINENT', 'Continent'),
-                'Currency'                  => _t('SilvercartCountry.CURRENCY', 'Currency'),
-                'Active'                    => _t('SilvercartCountry.ACTIVE', 'Active'),
-                'AttributedZones'           => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
-                'AttributedPaymentMethods'  => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
-                'ActivityText'              => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'Title'                         => _t('SilvercartCountry.SINGULARNAME'),
+                'ISO2'                          => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
+                'ISO3'                          => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
+                'ISON'                          => _t('SilvercartCountry.ISON', 'ISO numeric'),
+                'FIPS'                          => _t('SilvercartCountry.FIPS', 'FIPS code'),
+                'Continent'                     => _t('SilvercartCountry.CONTINENT', 'Continent'),
+                'Currency'                      => _t('SilvercartCountry.CURRENCY', 'Currency'),
+                'Active'                        => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'AttributedZones'               => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
+                'AttributedPaymentMethods'      => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
+                'ActivityText'                  => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'SilvercartCountryLanguages'    => _t('SilvercartCountryLanguage.PLURALNAME'),
             )
         );
     }
@@ -195,7 +185,7 @@ class SilvercartCountry extends DataObject {
      */
     public function  searchableFields() {
         return array(
-            'Title' => array(
+            'SilvercartCountryLanguages.Title' => array(
                 'title'     => _t('SilvercartCountry.SINGULARNAME'),
                 'filter'    => 'PartialMatchFilter',
             ),
@@ -233,6 +223,33 @@ class SilvercartCountry extends DataObject {
             )
         );
     }
+    
+    /**
+     * Summary fields
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012 
+     */
+    public function summaryFields() {
+        $summaryFields = array_merge(
+                parent::summaryFields(),
+                array(
+                    'Title'                     => $this->fieldLabel('Title'),
+                    'ISO2'                      => $this->fieldLabel('ISO2'),
+                    'ISO3'                      => $this->fieldLabel('ISO3'),
+                    'Continent'                 => $this->fieldLabel('Continent'),
+                    'Currency'                  => $this->fieldLabel('Currency'),
+                    'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+                    'AttributedPaymentMethods'  => $this->fieldLabel('AttributedPaymentMethods'),
+                    'ActivityText'              => $this->fieldLabel('ActivityText'),
+                )
+        );
+        
+        $this->extend('updateSummary', $summaryFields);
+        return $summaryFields;
+    }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
@@ -259,6 +276,11 @@ class SilvercartCountry extends DataObject {
         $paymentMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.TITLE', 'payment method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'ISO2');
+        }
 
         return $fields;
     }
@@ -297,5 +319,21 @@ class SilvercartCountry extends DataObject {
      */
     public function AttributedPaymentMethods() {
         return SilvercartTools::AttributedDataObject($this->SilvercartPaymentMethods());
+    }
+    
+    /**
+     * Returns the title
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2012
+     */
+    public function getTitle() {
+        $title = '';
+        if ($this->getLanguage()) {
+            $title = $this->getLanguage()->Title;
+        }
+        return $title;
     }
 }
