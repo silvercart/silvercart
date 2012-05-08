@@ -43,6 +43,13 @@
                                 <div class="silvercart-product-availability right">
                                     $Availability
                                 </div>
+                                <% if PluggedInProductMetaData %>
+                                <div class="silvercart-product-meta-data">
+                                    <% control PluggedInProductMetaData %>
+                                        <span class="right">$MetaData</span><br/>
+                                    <% end_control %>
+                                </div>
+                                <% end_if %>
                             </div>
                         </div>
                         <div class="c66r">

@@ -61,6 +61,13 @@
                             <div class="silvercart-product-availability">
                                 $Availability
                             </div>
+                            <% if PluggedInProductMetaData %>
+                            <div class="silvercart-product-meta-data">
+                                <% control PluggedInProductMetaData %>
+                                    <span class="right">$MetaData</span><br/>
+                                <% end_control %>
+                            </div>
+                            <% end_if %>
                             <div class="silvercart-product-group-add-cart-form">
                                 <div class="silvercart-product-group-add-cart-form_content">
                                     <% if isBuyableDueToStockManagementSettings %>

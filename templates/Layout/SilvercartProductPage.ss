@@ -96,7 +96,7 @@
                                         $MetaData<br/>
                                     <% end_control %>
                                 </div>
-                                <% end_if %>                                
+                                <% end_if %>
                                 <div class="silvercart-product-group-add-cart-form">
                                     <div class="silvercart-product-group-add-cart-form_content">
                                         <% if isBuyableDueToStockManagementSettings %>
