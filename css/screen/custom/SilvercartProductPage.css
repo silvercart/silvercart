@@ -1,24 +1,6 @@
 .silvercart-product-actions {
     margin:                         0px 0px 10px 0px;
 }
-.silvercart-product-actions .silvercart-button.back .silvercart-button_inner-content {
-    background:                     #eee;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#fff), to(#d9d9d9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #fff,  #d9d9d9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #fff,  #d9d9d9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
-}
-.silvercart-product-actions .silvercart-button.back:hover .silvercart-button_inner-content {
-    background-color:               #ddd;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#eee), to(#c9c9c9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #eee,  #c9c9c9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #eee,  #c9c9c9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#c9c9c9'); /* for IE */
-}
-.silvercart-product-actions .silvercart-button.back a {
-    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/cheser/16x16_go-previous.png") 2px center no-repeat;
-    padding-left:                   20px;
-}
 
 .silvercart-product-page .silvercart-product-title {
     border-bottom:                  2px #ddd dotted;
@@ -83,6 +65,16 @@
 .silvercart-product-page .silvercart-product-meta-data {
     text-align:                     right;
     margin:                         0px 0px 8px 0px;
+    display:                        block;
+}
+.silvercart-product-page .silvercart-product-availability:after,
+.silvercart-product-page .silvercart-product-meta-data:after {
+    clear:                          both;
+    content:                        ".";
+    display:                        block;
+    font-size:                      0;
+    height:                         0;
+    visibility:                     hidden;
 }
 .silvercart-product-page .silvercart-product-group-add-cart-form input.text {
     width:                          2em;

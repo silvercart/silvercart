@@ -70,17 +70,17 @@
 
   /* active list element */
   .vlist li.current {
-    color:#0f517b;
+    color:$DefaultLinkColor;
     font-weight:bold;
   }
 
    /* active list element */
   .vlist li.current a {
-    color:#0f517b;
+    color:$DefaultLinkColor;
     font-weight:bold;
   }
   .vlist li.section {
-    color:#0f517b;
+    color:$DefaultLinkColor;
     font-weight:bold;
   }
 
@@ -97,7 +97,7 @@
 
   .vlist li a:focus,
   .vlist li a:hover,
-  .vlist li a:active { color:#0f517b; outline: 0 none; }
+  .vlist li a:active { color:$DefaultLinkColor; outline: 0 none; }
 
   /* Level 2 */
   .vlist li ul li a,
@@ -108,7 +108,7 @@
   .vlist li ul li a:visited {  }
   .vlist li ul li a:focus,
   .vlist li ul li a:hover,
-  .vlist li ul li a:active {    color:#0f517b; }
+  .vlist li ul li a:active {    color:$DefaultLinkColor; }
 
   /* Level 3 */
   .vlist li ul li ul li a,
@@ -119,7 +119,7 @@
   .vlist li ul li ul li a:visited{ background-color:#f0f0f0; color:#222; }
   .vlist li ul li ul li a:focus,
   .vlist li ul li ul li a:hover,
-  .vlist li ul li ul li a:active {  color:#0f517b; }
+  .vlist li ul li ul li a:active {  color:$DefaultLinkColor; }
 
   /* Level 4 */
   .vlist li ul li ul li ul li a,

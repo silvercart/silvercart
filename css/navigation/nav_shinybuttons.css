@@ -63,7 +63,7 @@
     .hlist ul li a,
     .hlist ul li strong {
         background:transparent;
-        color:#0f517b;
+        color:$DefaultLinkColor;
         display:block;
         font-size:110%;
         font-weight:bold;

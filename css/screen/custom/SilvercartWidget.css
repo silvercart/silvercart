@@ -1,5 +1,10 @@
 .widget {
     margin:                         0px;
+    width:                          100%; 
+    color:                          #000;
+}
+.widget_content {
+    padding:                        5px;
 }
 .silvercart-widget {
     font-size:                      12px;

@@ -53,11 +53,5 @@
     box-shadow:                     #666 0px -4px 0px -0px -4px;
 }
 #silvercart-productgroup-navigation .hlist ul li.active a {
-    color:                          #0f517b;
-    background:                     #fff;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#d4e2e8), to(#fff)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #d4e2e8,  #fff); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #d4e2e8,  #fff); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d4e2e8', endColorstr='#ffffff'); /* for IE */
-    
+    $DefaultButton.CssActive
 }

@@ -5,13 +5,12 @@
         $InsertWidgetArea(Content)
 
         <div class="silvercart-product-actions clearfix">
-            <div class="silvercart-button left back">
-                <div class="silvercart-button_content">
-                    <div class="silvercart-button_inner-content">
-                        <a href="$OriginalLink"><% _t('SilvercartPage.BACK') %></a>
-                    </div>
-                </div>
-            </div>
+            <a class="silvercart-icon-with-text-button back16 left" href="$OriginalLink">
+                <span class="silvercart-icon-with-text-button_content">
+                    <% _t('SilvercartPage.BACK') %>
+                </span>
+            </a>
+            
         </div>
         
         <% control getProduct %>

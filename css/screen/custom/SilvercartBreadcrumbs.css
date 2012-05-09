@@ -1,6 +1,6 @@
 .silvercart-breadcrumbs {
     font-size:                      11px;
-    color:                          #0f517b;
+    color:                          $DefaultLinkColor;
 }
 .silvercart-breadcrumbs a {
     color:                          #333;

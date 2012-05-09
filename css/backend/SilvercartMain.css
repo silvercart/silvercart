@@ -64,25 +64,14 @@
     margin:             6px 0px 0px 0px;
     padding:            3px 12px;
     line-height:                    100%;
-    color:                          #333;
-    background:                     #eee;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#fff), to(#d9d9d9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #fff,  #d9d9d9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #fff,  #d9d9d9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
-    border:                         1px #999 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    $DefaultButton.Css
 }
 .silvercart-dashboard-news-entry .silvercart-button a:hover {
     text-decoration:                none;
-    color:                          #000;
-    background-color:               #ddd;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#eee), to(#c9c9c9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #eee,  #c9c9c9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #eee,  #c9c9c9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#c9c9c9'); /* for IE */
+    $DefaultButton.CssHover
 }
 .silvercart-widget {
     margin:             0px 0px 10px 0px;

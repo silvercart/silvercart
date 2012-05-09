@@ -62,9 +62,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color:                          #0f517b;
+    color:                          $DefaultLinkColor;
+    background:                     transparent;
+    text-decoration:                none;
 }
 a:focus {
+    outline:                        0 none;
+    text-decoration:                underline;
+    color:                          $DefaultLinkFocusColor;
+}
+a:visited {
+    color:                          $DefaultLinkVisitedColor;
+}
+a:hover,
+a:active {
+    color:                          $DefaultLinkHoverColor;
+    text-decoration:                underline;
     outline:                        0 none;
 }
 
@@ -222,7 +235,7 @@ span.silvercart-message {
 .silvercart-message.info16 {
     padding: 0 0 0 20px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/16x16_info.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info16 {
     padding: 5px 5px 5px 20px;
@@ -233,7 +246,7 @@ span.silvercart-message {
 .silvercart-message.info32 {
     padding: 0 0 0 30px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/32x32_info.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/32x32_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info32 {
     padding: 5px 5px 5px 40px;
@@ -244,7 +257,7 @@ span.silvercart-message {
 .silvercart-message.info48 {
     padding: 0 0 0 60px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/48x48_info.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info48 {
     padding: 5px 5px 5px 60px;
@@ -255,7 +268,7 @@ span.silvercart-message {
 .silvercart-message.error16 {
     padding: 0 0 0 20px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/16x16_error.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error16 {
     padding: 5px 5px 5px 20px;
@@ -266,7 +279,7 @@ span.silvercart-message {
 .silvercart-message.error32 {
     padding: 0 0 0 40px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/32x32_error.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/32x32_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error32 {
     padding: 5px 5px 5px 40px;
@@ -277,7 +290,7 @@ span.silvercart-message {
 .silvercart-message.error48 {
     padding: 0 0 0 60px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/48x48_error.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error48 {
     padding: 5px 5px 5px 60px;
@@ -322,26 +335,15 @@ p.silvercart-message.vdistance {
     line-height:                    100%;
     font-size:                      11px;
     text-align:                     center;
-    color:                          #333;
-    background:                     #eee;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#fff), to(#d9d9d9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #fff,  #d9d9d9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #fff,  #d9d9d9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
-    border:                         1px #999 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    $DefaultButton.Css
 }
 .silvercart-button a:hover,
 .silvercart-button-small a:hover {
     text-decoration:                none;
-    color:                          #000;
-    background-color:               #ddd;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#eee), to(#c9c9c9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #eee,  #c9c9c9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #eee,  #c9c9c9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#c9c9c9'); /* for IE */
+    $DefaultButton.CssHover
 }
 .silvercart-button-small {
     float:                          right;
@@ -369,35 +371,27 @@ p.silvercart-message.vdistance {
 
 /* Icon only buttons ------------------------------------------------------- */
 
+.silvercart-icon-with-text-button,
 .silvercart-icon-button {
     margin:                         4px 4px 0 0;
     display:                        inline-block;
-    
-    color:                          #000;
-    background:                     #d9d9d9;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#d9d9d9)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #ffffff,  #d9d9d9); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #ffffff,  #d9d9d9); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9'); /* for IE */
     text-decoration:                none;
-    border:                         1px #999 solid;
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+    $DefaultButton.Css
 }
+.silvercart-icon-with-text-button:hover,
 .silvercart-icon-button:hover {
-    color:                          #000;
     text-decoration:                none;
-    background-color:               #cecece;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cecece)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #eeeeee,  #cecece); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #eeeeee,  #cecece); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#cecece'); /* for IE */
+    $DefaultButton.CssHover
 }
+.silvercart-icon-with-text-button:visited,
 .silvercart-icon-button:visited {
     color:                          #000;
     text-decoration:                none;
 }
+.silvercart-icon-with-text-button_content,
 .silvercart-icon-button_content {
     display:                        inline-block;
     padding:                        3px;
@@ -406,19 +400,22 @@ p.silvercart-message.vdistance {
     width:                          32px;
     height:                         32px;
     
-    background:                     url({$CurrentController.baseHref}silvercart/images/icons/32x32_notepad.png) no-repeat center center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_notepad.png") no-repeat center center;
 }
 .delete32 .silvercart-icon-button_content {
     width:                          32px;
     height:                         32px;
     
-    background:                     url({$CurrentController.baseHref}silvercart/images/icons/32x32_recycle_bin_empty.png) no-repeat center center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_recycle_bin_empty.png") no-repeat center center;
 }
 
 /* Icon with text buttons -------------------------------------------------- */
 
 .silvercart-icon-with-text-button {
-    
+    padding:                        3px 0px 5px 10px;
+}
+.silvercart-icon-with-text-button.left {
+    padding:                        3px 10px 5px 0px;
 }
 .silvercart-icon-with-text-button.big {
     font-size: 1.5em;
@@ -429,25 +426,30 @@ p.silvercart-message.vdistance {
     
     line-height: 1.5em;
 }
-.silvercart-icon-with-text-button.add16 {
+.silvercart-icon-with-text-button.add16 .silvercart-icon-with-text-button_content {
     padding: 0 0 0 20px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/16x16_add.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_add.png") no-repeat left center;
 }
-.silvercart-icon-with-text-button.set-as16 {
+.silvercart-icon-with-text-button.set-as16 .silvercart-icon-with-text-button_content {
     padding: 0 0 0 20px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/16x16_task.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_task.png") no-repeat left center;
 }
-.silvercart-icon-with-text-button.set-as32 {
+.silvercart-icon-with-text-button.set-as32 .silvercart-icon-with-text-button_content {
     padding: 0 0 0 40px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/32x32_task.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/32x32_task.png") no-repeat left center;
 }
-.silvercart-icon-with-text-button.set-as48 {
+.silvercart-icon-with-text-button.set-as48 .silvercart-icon-with-text-button_content {
     padding: 0 0 0 60px;
     
-    background: url({$CurrentController.baseHref}silvercart/images/icons/48x48_task.png) no-repeat left center;
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_task.png") no-repeat left center;
+}
+.silvercart-icon-with-text-button.back16 .silvercart-icon-with-text-button_content {
+    padding: 0 0 0 20px;
+    
+    background: url("{$CurrentController.baseHref}silvercart/images/icons/cheser/16x16_go-previous.png") 2px center no-repeat;
 }
 
 /* Silvercart header ------------------------------------------------------- */
@@ -480,7 +482,7 @@ p.silvercart-message.vdistance {
     line-height:                    100%;
 }
 #silvercart-shop-claim-text h1 a {
-    color:                          #0f517b;
+    color:                          $DefaultLinkColor;
 }
 #silvercart-shop-claim-text p {
     clear: both;
