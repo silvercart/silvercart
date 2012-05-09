@@ -226,11 +226,13 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 08.05.2012
      */
     public function Link($action = null) {
         if (Controller::curr()->hasMethod('isProductDetailView') &&
-            Controller::curr()->isProductDetailView()) {
+            Controller::curr()->isProductDetailView() &&
+            Controller::curr()->data()->ID == $this->ID &&
+            Controller::curr()->data() === $this) {
             return parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . Controller::curr()->urlParams['ID'];
         }
         return parent::Link($action);
