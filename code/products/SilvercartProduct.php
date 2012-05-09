@@ -1585,13 +1585,16 @@ class SilvercartProduct extends DataObject {
      *
      * @return string URL of $this
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.05.2012
      */
     public function Link() {
         $link = '';
 
-        if ($this->SilvercartProductGroup()) {
+        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+            $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
+            $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
+        } elseif ($this->SilvercartProductGroup()) {
             $link = $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
         }
 

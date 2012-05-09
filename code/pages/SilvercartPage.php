@@ -336,7 +336,6 @@ class SilvercartPage_Controller extends ContentController {
 
             // Combine files
             if (class_exists('RequirementsEngine')) {
-                SilvercartThemeConfig::registerVariables();
                 RequirementsEngine::registerCssVariable('CurrentController', Controller::curr());
                 RequirementsEngine::combine_files('script.js', $combinedJsFiles);
                 RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
