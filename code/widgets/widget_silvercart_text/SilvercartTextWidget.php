@@ -33,10 +33,6 @@
  */
 class SilvercartTextWidget extends SilvercartWidget {
     
-    public static $db = array(
-        'ExtraCssClasses'   => 'VarChar(255)',
-    );
-    
     public static $casting = array(
         'Headline'          => 'Text',
         'FreeText'          => 'HTMLText',

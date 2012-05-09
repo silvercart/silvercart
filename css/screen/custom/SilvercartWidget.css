@@ -26,6 +26,12 @@
     border-top:                     1px #ddd solid;
     padding:                        4px;
 }
+.widget.plain .silvercart-widget_content,
+.silvercart-widget-content_frame.plain {
+    border:                         0px solid transparent;
+    background:                     transparent;
+    box-shadow:                     none;
+}
 .silvercart-widget-content-area {
     margin:                         0px 0px 20px 0px;
 }
