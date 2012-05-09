@@ -5,9 +5,9 @@
         $InsertWidgetArea(Content)
 
         <div class="silvercart-product-actions clearfix">
-            <a class="silvercart-icon-with-text-button back16 left" href="$OriginalLink">
+            <a class="silvercart-icon-with-text-button back16 left" href="$BackLink">
                 <span class="silvercart-icon-with-text-button_content">
-                    <% _t('SilvercartPage.BACK') %>
+                    <% sprintf(_t('SilvercartPage.BACK_TO'),$BackPage.MenuTitle) %>
                 </span>
             </a>
             

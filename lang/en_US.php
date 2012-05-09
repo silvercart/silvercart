@@ -1055,6 +1055,7 @@ $lang['en_US']['SilvercartPage']['API_EDIT'] = 'Can edit objects via the API';
 $lang['en_US']['SilvercartPage']['API_VIEW'] = 'Can read objects via the API';
 $lang['en_US']['SilvercartPage']['APRIL'] = 'April';
 $lang['en_US']['SilvercartPage']['BACK'] = 'Back';
+$lang['en_US']['SilvercartPage']['BACK_TO'] = 'Back to &quot;%s&quot;';
 $lang['en_US']['SilvercartPage']['PRODUCTNAME'] = 'Product name';
 $lang['en_US']['SilvercartPage']['AUGUST'] = 'August';
 $lang['en_US']['SilvercartPage']['BILLING_ADDRESS'] = 'Invoice address';

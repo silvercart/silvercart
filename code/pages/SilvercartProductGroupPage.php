@@ -256,6 +256,70 @@ class SilvercartProductGroupPage extends Page {
     public function OriginalLink() {
         return parent::Link(null);
     }
+    
+    /**
+     * Returns the back link
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.05.2012
+     */
+    public function BackLink() {
+        if (Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL')) {
+            $url = Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL');
+        } elseif (Controller::curr()->getRequest()->getHeader('Referer')) {
+            $url = Controller::curr()->getRequest()->getHeader('Referer');
+        } else {
+            $url = $this->OriginalLink();
+        }
+        if (!$this->isInternalUrl($url) ||
+            $url == $this->Link()) {
+            $url = $this->OriginalLink();
+        }
+        return $url;
+    }
+    
+    /**
+     * Returns the back page
+     *
+     * @return SiteTree
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.05.2012
+     */
+    public function BackPage() {
+        $url            = $this->BackLink();
+        $relativeUrl    = Director::makeRelative($url);
+        if (strpos($relativeUrl, '?') !== false) {
+            $blankUrl   = substr($relativeUrl, 0, strpos($relativeUrl, '?'));
+        } elseif (strpos($relativeUrl, '#') !== false) {
+            $blankUrl   = substr($relativeUrl, 0, strpos($relativeUrl, '#'));
+        } else {
+            $blankUrl   = $relativeUrl;
+        }
+        $backPage = SiteTree::get_by_link($blankUrl);
+        return $backPage;
+    }
+    
+    /**
+     * Returns whether the given url is an internal url
+     * 
+     * @param string $url URL to check
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.05.2012
+     */
+    public function isInternalUrl($url) {
+        $isInternalUrl  = false;
+        if (Director::is_absolute_url($url) &&
+            strpos($url, $_SERVER['SERVER_NAME'])) {
+            $isInternalUrl  = true;
+        }
+        return $isInternalUrl;
+    }
 
     /**
      * Field labels for display in tables.
