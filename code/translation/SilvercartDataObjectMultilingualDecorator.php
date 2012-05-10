@@ -281,5 +281,21 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     public function onAfterWrite() {
          SilvercartLanguageHelper::writeLanguageObject($this->owner->getLanguage(), $this->owner->toMap());
     }
+    
+    /**
+     * Deletes some relations
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.05.2012 
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        
+        foreach ($this->getLanguageRelation() as $language) {
+            $language->delete();
+        }
+    }
 }
 
