@@ -480,7 +480,19 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public function getMirroredProductIDs() {
-        $mirroredProductIDs = array();
+        $mirroredProductIDs         = array();
+        $translations               = $this->getTranslations();
+        $translationProductGroupIDs = array(
+            $this->ID,
+        );
+
+        if ($translations &&
+            $translations->Count() > 0) {
+            foreach ($translations as $translation) {
+                $translationProductGroupIDs[] = $translation->ID;
+            }
+        }
+        $translationProductGroupIDList  = implode(',', $translationProductGroupIDs);
 
         $sqlQuery = new SQLQuery();
         $sqlQuery->select = array(
@@ -491,8 +503,8 @@ class SilvercartProductGroupPage extends Page {
         );
         $sqlQuery->where = array(
             sprintf(
-                "SP_SPGMP.SilvercartProductGroupPageID = %d",
-                $this->ID
+                "SP_SPGMP.SilvercartProductGroupPageID IN (%s)",
+                $translationProductGroupIDList
             )
         );
         $result = $sqlQuery->execute();
@@ -500,7 +512,7 @@ class SilvercartProductGroupPage extends Page {
         foreach ($result as $row) {
             $mirroredProductIDs[] = $row['SilvercartProductID'];
         }
-
+        
         return $mirroredProductIDs;
     }
 
