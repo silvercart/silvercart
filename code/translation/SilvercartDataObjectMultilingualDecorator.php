@@ -180,7 +180,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @return string
      */
     public function getLanguageClassName() {
-        $languageClassName = $this->owner->ClassName . 'Language';
+        $languageClassName = $this->owner->class . 'Language';
         return $languageClassName;
     }
     
@@ -231,7 +231,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @return string 
      */
     public function getRelationFieldName() {
-        $relationFieldName = $this->owner->ClassName . 'ID';
+        $relationFieldName = $this->owner->class . 'ID';
         return $relationFieldName;
     }
     

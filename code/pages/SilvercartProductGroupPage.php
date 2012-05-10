@@ -37,9 +37,6 @@ class SilvercartProductGroupPage extends Page {
      * Set allowed childrens for this page.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $allowed_children = array('SilvercartProductGroupPage');
 
@@ -47,9 +44,6 @@ class SilvercartProductGroupPage extends Page {
      * ???.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $can_be_root = false;
     
@@ -57,9 +51,6 @@ class SilvercartProductGroupPage extends Page {
      * The icon for this page type in the backend sitetree.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.02.2012
      */
     public static $icon = "silvercart/images/page_icons/product_group";
 
@@ -67,23 +58,19 @@ class SilvercartProductGroupPage extends Page {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $db = array(
-        'productsPerPage'       => 'Int',
-        'productGroupsPerPage'  => 'Int',
-        'useContentFromParent'  => 'Boolean(0)'
+        'productsPerPage'           => 'Int',
+        'productGroupsPerPage'      => 'Int',
+        'useContentFromParent'      => 'Boolean(0)',
+        'DefaultGroupView'          => 'VarChar(255)',
+        'UseOnlyDefaultGroupView'   => 'Enum("0,1,2","2")',
     );
 
     /**
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $has_one = array(
         'GroupPicture'                      => 'Image',
@@ -94,9 +81,6 @@ class SilvercartProductGroupPage extends Page {
      * Has-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $has_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
@@ -106,9 +90,6 @@ class SilvercartProductGroupPage extends Page {
      * Belongs-many-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     public static $belongs_many_many = array(
         'SilvercartMirrorProducts'  => 'SilvercartProduct'
@@ -119,9 +100,6 @@ class SilvercartProductGroupPage extends Page {
      * group page.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.03.2011
      */
     protected $manufacturers = null;
     
@@ -130,9 +108,6 @@ class SilvercartProductGroupPage extends Page {
      * caching purposes.
      *
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.11.2011
      */
     protected $activeSilvercartProducts = null;
 
@@ -146,7 +121,6 @@ class SilvercartProductGroupPage extends Page {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 10.02.2011
      */
     public function  __construct($record = null, $isSingleton = false) {
@@ -162,15 +136,10 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.10.2011
+     * @since 10.05.2012
      */
     public function singular_name() {
-        if (_t('SilvercartProductGroupPage.SINGULARNAME')) {
-            $singular_name = _t('SilvercartProductGroupPage.SINGULARNAME');
-        } else {
-            $singular_name = parent::singular_name();
-        }
-        return $singular_name;
+        SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -180,15 +149,10 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.10.2011
+     * @since 10.05.2012
      */
     public function plural_name() {
-        if (_t('SilvercartProductGroupPage.PLURALNAME')) {
-            $plural_name = _t('SilvercartProductGroupPage.PLURALNAME');
-        } else {
-            $plural_name = parent::plural_name();
-        }
-        return $plural_name;
+        SilvercartTools::plural_name_for($this);
     }
     
     /**
@@ -328,16 +292,18 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 20.04.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.10.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'productsPerPage'       => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
-                'useContentFromParent'  => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
+                'productsPerPage'           => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'productGroupsPerPage'      => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
+                'useContentFromParent'      => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
+                'DefaultGroupView'          => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
+                'UseOnlyDefaultGroupView'   => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
             )
         );
 
@@ -401,14 +367,31 @@ class SilvercartProductGroupPage extends Page {
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
-
-        $useContentField = new CheckboxField('useContentFromParent', _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'));
-        $fields->addFieldToTab('Root.Content.Main', $useContentField, 'Content');
         
-        $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
-        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
-        $productGroupsPerPageField = new TextField('productGroupsPerPage', _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'));
-        $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField, 'IdentifierCode');
+        $defaultGroupviewSource = array(
+            '' => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT')
+        );
+        $groupViews             = SilvercartGroupViewHandler::getGroupViews();
+        foreach ($groupViews as $code => $classname) {
+            $gv = new $classname();
+            $defaultGroupviewSource[$code] = $gv->getLabel();
+        }
+        $useOnlydefaultGroupviewSource = array(
+            '2'  => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+            '1' => _t('Silvercart.YES'),
+            '0' => _t('Silvercart.NO'),
+        );
+
+        $useContentField                = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
+        $productsPerPageField           = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
+        $productGroupsPerPageField      = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
+        $defaultGroupViewField          = new DropdownField('DefaultGroupView',         $this->fieldLabel('DefaultGroupView'), $defaultGroupviewSource);
+        $useOnlyDefaultGroupViewField   = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource);
+        $fields->addFieldToTab('Root.Content.Main', $useContentField,               'Content');
+        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField,          'IdentifierCode');
+        $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField,     'IdentifierCode');
+        $fields->addFieldToTab('Root.Content.Main', $defaultGroupViewField,         'IdentifierCode');
+        $fields->addFieldToTab('Root.Content.Main', $useOnlyDefaultGroupViewField,  'IdentifierCode');
         
         // Google taxonomy breadcrumb field
         $cachekey       = SilvercartGoogleMerchantTaxonomy::$cacheKey;
@@ -439,6 +422,51 @@ class SilvercartProductGroupPage extends Page {
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
+    }
+    
+    /**
+     * Returns the inherited DefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $defaultGroupView = $context->DefaultGroupView;
+        if (empty($defaultGroupView) ||
+            SilvercartGroupViewHandler::getGroupView($defaultGroupView) === false) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
+            } else {
+                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            }
+        }
+        return $defaultGroupView;
+    }
+    
+    /**
+     * Returns the inherited UseOnlyDefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $useOnlyDefaultGroupView = $context->UseOnlyDefaultGroupView;
+        if ($useOnlyDefaultGroupView == 2) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
+            } else {
+                $useOnlyDefaultGroupView = false;
+            }
+        }
+        return $useOnlyDefaultGroupView;
     }
 
     /**

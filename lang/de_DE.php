@@ -346,6 +346,9 @@ $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Artikel pro S
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite (wird anstatt der globalen Einstellung verwendet)';
 $lang['de_DE']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Warengruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Inhalte von übergeordneten Seiten übernehmen';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Standard-Produktlisten-Ansicht';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Von der übergeordneten Gruppe oder Standartkonfiguration übernehmen';
+$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Produktlisten-Ansicht verwenden';
 
 $lang['de_DE']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE'] = 'Artikel pro Seite';

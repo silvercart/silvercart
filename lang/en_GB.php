@@ -346,6 +346,9 @@ $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per 
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page (overrides global setting)';
 $lang['en_GB']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 $lang['en_GB']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
+$lang['en_GB']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Default product list view';
+$lang['en_GB']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Use view from parent pages';
+$lang['en_GB']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Allow only default view';
 
 $lang['en_GB']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
 $lang['en_GB']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE'] = 'Products per page';
