@@ -46,7 +46,8 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @since 04.05.2012
      */
     public function augmentSQL(SQLQuery &$query) {
-        if (!$query->isJoinedTo($this->getLanguageClassName())) {
+        if (!$query->isJoinedTo($this->getLanguageClassName()) &&
+            !$query->delete) {
             $silvercartDefaultLocale = SilvercartConfig::Locale();
             $query->leftJoin(
                     $this->getLanguageClassName(),
