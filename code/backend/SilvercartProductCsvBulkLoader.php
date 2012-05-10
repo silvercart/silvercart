@@ -84,10 +84,14 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     $idSelector = '"ID"';
                 }
 
-                $q->select = array($idSelector); $ids = $q->execute()->column('ID');
+                $q->select = array($idSelector);
+                $ids = $q->execute()->column('ID');
 
                 foreach ($ids as $id) {
-                    $obj = DataObject::get_by_id($this->objectClass, $id); $obj->delete(); $obj->destroy(); unset($obj);
+                    $obj = DataObject::get_by_id($this->objectClass, $id);
+                    $obj->delete();
+                    $obj->destroy();
+                    unset($obj);
                 }
             } 
             return $this->processAll($filepath);
@@ -235,6 +239,29 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     date('Y-m-d H:i:s')
                 )
             );
+            DB::query(
+                sprintf("
+                    INSERT INTO
+                        SilvercartProductLanguage(
+                            ID,
+                            ClassName,
+                            Created,
+                            SilvercartProductID,
+                            Locale
+                        ) VALUES(
+                            %d,
+                            'SilvercartProductLanguage',
+                            '%s',
+                            %d,
+                            '%s'
+                        )
+                    ",
+                    $insertID,
+                    date('Y-m-d H:i:s'),
+                    $insertID,
+                    Translatable::get_current_locale()
+                )
+            );
             
             $silvercartProduct = DataObject::get_by_id(
                 'SilvercartProduct',
@@ -247,7 +274,6 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         // Update product fields
         // --------------------------------------------------------------------
         if ($silvercartProduct) {
-            
             if (array_key_exists('ID', $record)) {
                 unset($record['ID']);
             }
