@@ -155,6 +155,52 @@ class SilvercartPage extends SiteTree {
         $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $tags);
         return $tags;
     }
+    
+    /**
+     * Returns all translated locales as a special DataObjectSet
+     *
+     * @return DataObjectSet 
+     */
+    public function getAllTranslations() {
+        $currentLocale      = Translatable::get_current_locale();
+        $translations       = $this->getTranslations();
+        $translationSource  = new DataObjectSet();
+        if ($translations) {
+            $translationSource->push(new DataObject(
+                array(
+                    'Name'          => Locale::getDisplayLanguage($currentLocale, $currentLocale),
+                    'NativeName'    => Locale::getDisplayLanguage($currentLocale, $currentLocale),
+                    'Code'          => $this->getIso2($currentLocale),
+                    'RFC1766'       => i18n::convert_rfc1766($currentLocale),
+                    'Link'          => $this->Link(),
+                )
+            ));
+            foreach ($translations as $translation) {
+                $translationSource->push(new DataObject(
+                    array(
+                        'Name'          => Locale::getDisplayLanguage($translation->Locale, $currentLocale),
+                        'NativeName'    => Locale::getDisplayLanguage($translation->Locale, $translation->Locale),
+                        'Code'          => $this->getIso2($translation->Locale),
+                        'RFC1766'       => i18n::convert_rfc1766($translation->Locale),
+                        'Link'          => $translation->Link(),
+                    )
+                ));
+            }
+        }
+        return $translationSource;
+    }
+    
+    /**
+     * Returns the ISO2 for the given locale
+     *
+     * @param string $locale Locale
+     * 
+     * @return string
+     */
+    public function getIso2($locale) {
+        $parts = explode('_', $locale);
+        return strtolower($parts[1]);
+    }
 }
 
 /**
