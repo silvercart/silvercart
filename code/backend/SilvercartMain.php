@@ -37,20 +37,6 @@ class SilvercartMain extends DataObjectDecorator {
         'createsitetreetranslation',
         'publishsitetree',
     );
-
-    /**
-     * Here we load additional stylesheets so that we can modify the look of
-     * the original Silverstripe CMS.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 22.03.2011
-     */
-    public function OnBeforeInit() {
-        Requirements::css('silvercart/css/screen/silvercart_main.css');
-    }
     
     /**
      * This action will create a translation template for all pages of the 
