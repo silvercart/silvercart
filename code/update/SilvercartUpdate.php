@@ -407,6 +407,27 @@ class SilvercartUpdate extends DataObject {
         }
     }
 
+    /**
+     * prints the given output in cli mode
+     *
+     * @param string $output Output to print
+     * @param int    $level  Print level
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.05.2012
+     */
+    public function cliOutput($output, $level = 2) {
+        if (Director::is_cli()) {
+            $tabs = '';
+            for ($x = 0; $x <= $level; $x++) {
+                $tabs .= "\t";
+            }
+            print $tabs . $output . PHP_EOL;
+        }
+    }
+
 }
 
 /**
@@ -436,7 +457,25 @@ class SilvercartUpdateTask extends ScheduledTask {
         );
         if ($updates) {
             foreach ($updates as $update) {
+                $update->cliOutput(
+                        sprintf(
+                            "Executing update %s.%s%s%s",
+                            $this->SilvercartVersion,
+                            $this->SilvercartUpdateVersion,
+                            PHP_EOL,
+                            $this->Description
+                        ),
+                        0
+                );
                 $update->doUpdate();
+                $update->cliOutput(
+                        sprintf(
+                            "Finished update with status %s%s",
+                            $this->Status,
+                            PHP_EOL
+                        ),
+                        1
+                );
             }
         }
     }

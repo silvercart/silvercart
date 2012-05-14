@@ -77,6 +77,7 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
      * @since 04.05.2012
      */
     public function updateMultilingualObject($className) {
+        $this->cliOutput("Executing " . $className);
         $object         = singleton($className);
         $langClassName  = $object->getLanguageClassName();
         $langObject     = new $langClassName();
