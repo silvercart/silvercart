@@ -459,13 +459,15 @@ class SilvercartUpdateTask extends ScheduledTask {
             foreach ($updates as $update) {
                 $update->cliOutput(
                         sprintf(
-                            "Executing update %s.%s%s%s",
+                            "Executing update %s.%s",
                             $update->SilvercartVersion,
-                            $update->SilvercartUpdateVersion,
-                            PHP_EOL,
-                            $update->Description
+                            $update->SilvercartUpdateVersion
                         ),
                         0
+                );
+                $update->cliOutput(
+                        $update->Description,
+                        1
                 );
                 $update->doUpdate();
                 $update->cliOutput(

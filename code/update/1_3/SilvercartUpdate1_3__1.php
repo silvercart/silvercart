@@ -117,72 +117,80 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
             }
         }
         
-        $selectAttributes   = array_merge(
-            array(
-                'ID'
-            ),
-            $attributes
-        );
-        foreach ($selectAttributes as $attribute) {
-            $fields[] = sprintf(
-                "`%s`.`%s`",
-                $baseClassName,
-                $attribute
+        if (!empty($attributes)) {
+            $this->cliOutput("found columns to update, going on...", 3);
+            $selectAttributes   = array_merge(
+                array(
+                    'ID'
+                ),
+                $attributes
             );
-        }
-        $fieldsAsString = implode(',', $fields);
-        if ($className != $baseClass &&
-            $baseClass != 'Widget') {
-            $query = DB::query(
-                sprintf(
-                    "SELECT %s FROM %s WHERE ClassName = '%s'",
-                    $fieldsAsString,
+            foreach ($selectAttributes as $attribute) {
+                $fields[] = sprintf(
+                    "`%s`.`%s`",
                     $baseClassName,
-                    $className
-                )
-            );
-        } else {
-            $query = DB::query(
-                sprintf(
-                    "SELECT %s FROM %s",
-                    $fieldsAsString,
-                    $baseClassName
-                )
-            );
-        }
-        if ($query) {
-            foreach ($query as $result) {
-                $object = DataObject::get_by_id($className, $result['ID']);
-                
-                if ($object) {
-                    $languageClassName = $object->getLanguageClassName();
-                    if (!$object->hasLanguage($locale)) {
-                        $languageClass          = new $languageClassName();
-                        $languageClass->Locale  = $locale;
-                        foreach ($result as $fieldName => $fieldValue) {
-                            if ($fieldName == 'ID') {
-                                continue;
-                            }
-                            $languageClass->{$fieldName} = $fieldValue;
-                        }
-                        $languageClass->write();
-                        $object->getLanguageRelation()->add($languageClass);
-                    }
-                }
-            }
-        }
-        
-        if ($className == $baseClass ||
-            $baseClass == 'Widget' &&
-            !array_key_exists($baseClass, $this->postCleaningClasses)) {
-            $this->cleanDatabaseTable($className, $attributes);
-        } else {
-            if (!array_key_exists($baseClass, $this->postCleaningClasses)) {
-                $this->postCleaningClasses[$baseClass] = array(
-                    'className'     => $baseClass,
-                    'attributes'    => $attributes,
+                    $attribute
                 );
             }
+            $fieldsAsString = implode(',', $fields);
+            if ($className != $baseClass &&
+                $baseClass != 'Widget') {
+                $query = DB::query(
+                    sprintf(
+                        "SELECT %s FROM %s WHERE ClassName = '%s'",
+                        $fieldsAsString,
+                        $baseClassName,
+                        $className
+                    )
+                );
+            } else {
+                $query = DB::query(
+                    sprintf(
+                        "SELECT %s FROM %s",
+                        $fieldsAsString,
+                        $baseClassName
+                    )
+                );
+            }
+            if ($query) {
+                $count = 0;
+                foreach ($query as $result) {
+                    $count++;
+                    $object = DataObject::get_by_id($className, $result['ID']);
+
+                    if ($object) {
+                        $languageClassName = $object->getLanguageClassName();
+                        if (!$object->hasLanguage($locale)) {
+                            $languageClass          = new $languageClassName();
+                            $languageClass->Locale  = $locale;
+                            foreach ($result as $fieldName => $fieldValue) {
+                                if ($fieldName == 'ID') {
+                                    continue;
+                                }
+                                $languageClass->{$fieldName} = $fieldValue;
+                            }
+                            $languageClass->write();
+                            $object->getLanguageRelation()->add($languageClass);
+                        }
+                    }
+                }
+                $this->cliOutput("updated " . $count . " entries", 3);
+            }
+
+            if ($className == $baseClass ||
+                $baseClass == 'Widget' &&
+                !array_key_exists($baseClass, $this->postCleaningClasses)) {
+                $this->cleanDatabaseTable($className, $attributes);
+            } else {
+                if (!array_key_exists($baseClass, $this->postCleaningClasses)) {
+                    $this->postCleaningClasses[$baseClass] = array(
+                        'className'     => $baseClass,
+                        'attributes'    => $attributes,
+                    );
+                }
+            }
+        } else {
+            $this->cliOutput("skipped, no more columns to update found", 3);
         }
     }
     
