@@ -414,14 +414,16 @@ class SilvercartPaymentMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Name'                             => _t('SilvercartPaymentMethod.NAME'),
-                    'activatedStatus'                  => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                    'AttributedZones'                  => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
-                    'AttributedCountries'              => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
-                    'minAmountForActivation'           => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
-                    'maxAmountForActivation'           => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
-                    'ShowFormFieldsOnPaymentSelection' => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
-                    'SilvercartPaymentMethodLanguages' => _t('SilvercartPaymentMethodLanguage.PLURALNAME')
+                    'Name'                              => _t('SilvercartPaymentMethod.NAME'),
+                    'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                    'AttributedZones'                   => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                    'AttributedCountries'               => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
+                    'minAmountForActivation'            => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE', 'from purchase value'),
+                    'maxAmountForActivation'            => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE', 'till purchase value'),
+                    'ShowFormFieldsOnPaymentSelection'  => _t('SilvercartPaymentMethod.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION'),
+                    'SilvercartPaymentMethodLanguages'  => _t('SilvercartPaymentMethodLanguage.PLURALNAME'),
+                    'SilvercartShippingMethods'         => _t('SilvercartShippingMethod.PLURALNAME'),
+                    'SilvercartCountries'               => _t('SilvercartCountry.PLURALNAME'),
                 )
         );
     }
@@ -1394,6 +1396,15 @@ class SilvercartPaymentMethod extends DataObject {
         $tabSumModifiers->push($impactValueField);
         $tabSumModifiers->push($impactValueTypeField);
         $tabSumModifiers->push($impactLabelField);
+        
+        // --------------------------------------------------------------------
+        // Countries
+        // --------------------------------------------------------------------
+        $countriesTab = new Tab('SilvercartCountries', $this->fieldLabel('SilvercartCountries'));
+        $tabset->push($countriesTab);
+        $countriesTable = new SilvercartManyManyComplexTableField($this, 'SilvercartCountries', 'SilvercartCountry');
+        $countriesTable->pageSize = 50;
+        $countriesTab->push($countriesTable);
         
         return new FieldSet($tabset);
     }
