@@ -69,6 +69,8 @@ $lang['en_US']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'You are not allowed to p
 $lang['en_US']['Silvercart']['LANGUAGE'] = 'Language';
 $lang['en_US']['Silvercart']['TRANSLATION'] = 'Translation';
 $lang['en_US']['Silvercart']['TRANSLATIONS'] = 'Translations';
+$lang['en_US']['Silvercart']['MARK_ALL'] = 'Mark all';
+$lang['en_US']['Silvercart']['UNMARK_ALL'] = 'Unmark all';
 
 $lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';

@@ -56,6 +56,7 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
         RequirementsEngine::parse('SilvercartModelAdminDecorator.js', array('silvercart/script/SilvercartModelAdminDecorator.js'));
         
         RequirementsEngine::add_i18n_javascript('silvercart/javascript/lang');
+        Requirements::javascript(SilvercartTools::getBaseURLSegment() . "silvercart/script/SilvercartManyManyComplexTableField.js");
     }
     
     /**

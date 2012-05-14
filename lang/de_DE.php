@@ -69,6 +69,8 @@ $lang['de_DE']['Silvercart']['NOT_ALLOWED_TO_PRINT'] = 'Sie haben keine Berechti
 $lang['de_DE']['Silvercart']['LANGUAGE'] = 'Sprache';
 $lang['de_DE']['Silvercart']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['Silvercart']['TRANSLATIONS'] = 'Übersetzungen';
+$lang['de_DE']['Silvercart']['MARK_ALL'] = 'Alle markieren';
+$lang['de_DE']['Silvercart']['UNMARK_ALL'] = 'Markierung aufheben';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';

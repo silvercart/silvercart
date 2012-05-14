@@ -84,9 +84,11 @@ class SilvercartManyManyComplexTableField extends HasManyComplexTableField {
                 $manyManySingleton          = singleton($belongsManyManyRelations[$this->name]);
                 $manyManyRelations          = $manyManySingleton->uninherited('many_many', true);
                 $flippedManyManyRelations   = array_flip($manyManyRelations);
-                if (isset($manyManyRelations) && array_key_exists($controller->ClassName, $flippedManyManyRelations)) {
-                    $manyManyTable = $belongsManyManyRelations[$this->name] . '_' . $flippedManyManyRelations[$controller->ClassName];
-                    break;
+                foreach ($classes as $class) {
+                    if (isset($manyManyRelations) && array_key_exists($class, $flippedManyManyRelations)) {
+                        $manyManyTable = $belongsManyManyRelations[$this->name] . '_' . $flippedManyManyRelations[$class];
+                        break 2;
+                    }
                 }
             }
         }
@@ -127,5 +129,24 @@ class SilvercartManyManyComplexTableField extends HasManyComplexTableField {
      */
     public function getParentIdName($parentClass, $childClass) {
         return $this->getParentIdNameRelation($parentClass, $childClass, 'many_many');
+    }
+    
+    /**
+     * Some extra HTML
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.05.2012
+     */
+    public function ExtraData() {
+        $extraData = parent::ExtraData();
+        $extraData .= sprintf(
+                '<a href="javascript:;" class="mark-all" rel="%s">%s / %s</a>',
+                $this->id(),
+                _t('Silvercart.MARK_ALL', 'mark all'),
+                _t('Silvercart.UNMARK_ALL', 'mark all')
+        );
+        return $extraData;
     }
 }
