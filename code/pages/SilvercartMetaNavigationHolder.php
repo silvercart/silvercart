@@ -41,6 +41,7 @@ class SilvercartMetaNavigationHolder extends Page {
         'SilvercartContactFormPage',
         'SilvercartNewsletterPage',
         'SilvercartMetaNavigationPage',
+        'SilvercartPaymentMethodsPage',
         'SilvercartShippingFeesPage',
         'SilvercartSiteMapPage',
     );

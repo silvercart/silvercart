@@ -503,6 +503,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shippingFeesPage->write();
             $shippingFeesPage->publish("Stage", "Live");
 
+            //create a silvercart shipping fees page as child of the meta navigation holder
+            $paymentMethodsPage                 = new SilvercartPaymentMethodsPage();
+            $paymentMethodsPage->Title          = _t('SilvercartPaymentMethodsPage.DEFAULT_TITLE',      'Payment methods');
+            $paymentMethodsPage->URLSegment     = _t('SilvercartPaymentMethodsPage.DEFAULT_URLSEGMENT', 'payment-methods');
+            $paymentMethodsPage->Status         = "Published";
+            $paymentMethodsPage->ShowInMenus    = 1;
+            $paymentMethodsPage->ParentID       = $metaNavigationHolder->ID;
+            $paymentMethodsPage->IdentifierCode = "SilvercartPaymentMethodsPage";
+            $paymentMethodsPage->write();
+            $paymentMethodsPage->publish("Stage", "Live");
+
             //create a contact form response page
             $contactFormResponsePage = new SilvercartContactFormResponsePage();
             $contactFormResponsePage->Title             = _t('SilvercartContactFormResponsePage.DEFAULT_TITLE', 'contact confirmation');

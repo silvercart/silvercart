@@ -1214,6 +1214,11 @@ $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard o
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
 
+$lang['en_US']['SilvercartPaymentMethodsPage']['DEFAULT_TITLE']                 = 'Payment methods';
+$lang['en_US']['SilvercartPaymentMethodsPage']['DEFAULT_URLSEGMENT']            = 'payment-methods';
+$lang['en_US']['SilvercartPaymentMethodsPage']['PLURALNAME']                    = 'Payment method pages';
+$lang['en_US']['SilvercartPaymentMethodsPage']['SINGULARNAME']                  = 'Payment method page';
+
 $lang['en_US']['SilvercartPaymentMethodLanguage']['SINGULARNAME']               = _t('Silvercart.TRANSLATION');
 $lang['en_US']['SilvercartPaymentMethodLanguage']['PLURALNAME']                 = _t('Silvercart.TRANSLATIONS');
 
