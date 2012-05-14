@@ -190,7 +190,7 @@ class SilvercartTools extends Object {
         if (_t($dataObject->ClassName . '.SINGULARNAME')) {
             return _t($dataObject->ClassName . '.SINGULARNAME');
         } else {
-            return parent::singular_name();
+            return ucwords(trim(strtolower(preg_replace('/_?([A-Z])/', ' $1', $dataObject->class))));;
         } 
     }
 
@@ -210,7 +210,13 @@ class SilvercartTools extends Object {
         if (_t($dataObject->ClassName . '.PLURALNAME')) {
             return _t($dataObject->ClassName . '.PLURALNAME');
         } else {
-            return parent::plural_name();
+            $plural_name = self::singular_name_for($dataObject);
+            if (substr($plural_name,-1) == 'e') {
+                $plural_name = substr($plural_name,0,-1);
+            } elseif (substr($plural_name,-1) == 'y') {
+                $plural_name = substr($plural_name,0,-1) . 'ie';
+            }
+            return ucfirst($plural_name . 's');
         }
 
     }
