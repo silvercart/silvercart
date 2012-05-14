@@ -460,10 +460,10 @@ class SilvercartUpdateTask extends ScheduledTask {
                 $update->cliOutput(
                         sprintf(
                             "Executing update %s.%s%s%s",
-                            $this->SilvercartVersion,
-                            $this->SilvercartUpdateVersion,
+                            $update->SilvercartVersion,
+                            $update->SilvercartUpdateVersion,
                             PHP_EOL,
-                            $this->Description
+                            $update->Description
                         ),
                         0
                 );
@@ -471,7 +471,7 @@ class SilvercartUpdateTask extends ScheduledTask {
                 $update->cliOutput(
                         sprintf(
                             "Finished update with status %s%s",
-                            $this->Status,
+                            $update->Status,
                             PHP_EOL
                         ),
                         1
