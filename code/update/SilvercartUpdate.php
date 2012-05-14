@@ -408,3 +408,37 @@ class SilvercartUpdate extends DataObject {
     }
 
 }
+
+/**
+ * Simple CLI task to execute all remaining updates
+ * 
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 14.05.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartUpdateTask extends ScheduledTask {
+    
+    /**
+     * processor to execute the basic task logic
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.05.2012
+     */
+    public function process() {
+        parent::process();
+        $updates = DataObject::get(
+                'SilvercartUpdate',
+                "`Status`='remaining'",
+                "SilvercartVersion ASC, SilvercartUpdateVersion ASC"
+        );
+        if ($updates) {
+            foreach ($updates as $update) {
+                $update->doUpdate();
+            }
+        }
+    }
+    
+}
