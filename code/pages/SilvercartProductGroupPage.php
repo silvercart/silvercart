@@ -908,57 +908,61 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * execute these statements on object call
      *
+     * @param bool $skip When set to true, the init routine will be skipped
+     * 
      * @return void
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 15.05.2012
      */
-    public function init() {
+    public function init($skip = false) {
         parent::init();
-        if (isset($_GET['start'])) {
-            $this->SQL_start = (int)$_GET['start'];
-        }
-        
-        // there must be two way to initialize this controller:
-        if ($this->isProductDetailView()) {
-            $this->registerWidgetAreas();
-            // a product detail view is requested
-            if (!$this->getDetailViewProduct()->isActive) {
-                Director::redirect($this->PageByIdentifierCodeLink());
+        if (!$skip) {
+            if (isset($_GET['start'])) {
+                $this->SQL_start = (int)$_GET['start'];
             }
-            $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
-        } else {
-            // a product group view is requested
-            $this->registerWidgetAreas();
-            $products = $this->getProducts();
-            Session::set("SilvercartProductGroupPageID", $this->ID);
-            Session::save();
-            // Initialise formobjects
-            $productIdx = 0;
-            if ($products) {
-                $productAddCartForm = $this->getCartFormName();
-                foreach ($products as $product) {
-                    $backlink = $this->Link()."?start=".$this->SQL_start;
-                    $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                    $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
-                    $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                        'ProductAddCartForm'.$productIdx,
-                        array(
-                            $product
-                        )
-                    );
-                    $product->productAddCartFormObj = $productAddCartForm;
-                    $productIdx++;
+
+            // there must be two way to initialize this controller:
+            if ($this->isProductDetailView()) {
+                $this->registerWidgetAreas();
+                // a product detail view is requested
+                if (!$this->getDetailViewProduct()->isActive) {
+                    Director::redirect($this->PageByIdentifierCodeLink());
                 }
+                $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
+            } else {
+                // a product group view is requested
+                $this->registerWidgetAreas();
+                $products = $this->getProducts();
+                Session::set("SilvercartProductGroupPageID", $this->ID);
+                Session::save();
+                // Initialise formobjects
+                $productIdx = 0;
+                if ($products) {
+                    $productAddCartForm = $this->getCartFormName();
+                    foreach ($products as $product) {
+                        $backlink = $this->Link()."?start=".$this->SQL_start;
+                        $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
+                        $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
+                        $product->productAddCartForm = $this->InsertCustomHtmlForm(
+                            'ProductAddCartForm'.$productIdx,
+                            array(
+                                $product
+                            )
+                        );
+                        $product->productAddCartFormObj = $productAddCartForm;
+                        $productIdx++;
+                    }
+                }
+
+                // Register selector forms, e.g. the "products per page" selector
+                $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
+                $selectorForm->setSecurityTokenDisabled();
+
+                $this->registerCustomHtmlForm(
+                    'SilvercartProductGroupPageSelectors',
+                    $selectorForm
+                );
             }
-            
-            // Register selector forms, e.g. the "products per page" selector
-            $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
-            $selectorForm->setSecurityTokenDisabled();
-                
-            $this->registerCustomHtmlForm(
-                'SilvercartProductGroupPageSelectors',
-                $selectorForm
-            );
         }
     }
     

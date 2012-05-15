@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2010 pixeltricks GmbH
  */
-class SilvercartSearchResultsPage extends Page {
+class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
 
     public static $singular_name = "";
     public static $allowed_children = array(
@@ -112,7 +112,7 @@ class SilvercartSearchResultsPage extends Page {
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
-class SilvercartSearchResultsPage_Controller extends Page_Controller {
+class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_Controller {
     
     /**
      * Contains a list of all registered filter plugins.
@@ -194,7 +194,7 @@ class SilvercartSearchResultsPage_Controller extends Page_Controller {
      * @since 20.06.2011
      */
     public function init() {
-        parent::init();
+        parent::init(true);
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
