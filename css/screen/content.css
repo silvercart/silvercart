@@ -259,9 +259,12 @@
         padding:5px;
     }
 
-    img.right{
+    img.right {
         float:right;
         padding:5px;
+    }
+    img.right.nopadd {
+        padding: 0;
     }
 
     .note ul, li {
