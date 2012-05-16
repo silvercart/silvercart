@@ -237,5 +237,93 @@ class SilvercartLanguageHelper {
         }
         return $translatableDataObjects;
     }
+
+    /**
+     * Creates the temporary Silvercart cache module for dynamic content.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.05.2012
+     */
+    public static function createSilvercartCacheModule() {
+        $base         = Director::baseFolder();
+        $moduleFolder = $base.'/silvercart-cache';
+        $subDirectories = array(
+            'lang'
+        );
+
+        if (!is_dir($moduleFolder)) {
+            mkdir($moduleFolder);
+
+            // Create sub directories
+            foreach ($subDirectories as $subDirectory) {
+                mkdir($moduleFolder.'/'.$subDirectory);
+            }
+
+            // Create _config.php
+            file_put_contents($moduleFolder.'/_config.php', '<?php'.PHP_EOL);
+        }
+    }
+
+    /**
+     * Creates missing locale files for all modules.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.05.2012
+     */
+    public static function createMissingLocales() {
+        global $lang;
+
+        $base     = Director::baseFolder();
+        $topLevel = scandir($base);
+        $template = file_get_contents($base.'/silvercart/code/base/SilvercartLocaleTemplate.php');
+        $locales  = i18n::get_locale_list();
+
+
+        foreach ($locales as $locale => $localeName) {
+            if ($locale == 'en_US') {
+                continue;
+            }
+
+            $moduleIncludeStr = array();
+
+            foreach ($topLevel as $module) {
+                if ($module[0] == '.' ||
+                    $module    == 'silvercart-cache') {
+
+                    continue;
+                }
+
+                $localeFileName = "$base/silvercart-cache/lang/$locale.php";
+
+                if (    is_dir("$base/$module")
+                    &&  file_exists("$base/$module/_config.php") 
+                    && !file_exists($localeFileName)
+                    &&  file_exists("$base/$module/lang/en_US.php")
+                ) {
+
+                    $moduleIncludeStr[] =  "i18n::include_locale_file('".$module."', 'en_US');";
+                }
+            }
+            $localeContent = str_replace(
+                array(
+                    '__MODULE_INCLUDES__',
+                    '__LOCALE__'
+                ),
+                array(
+                    implode(PHP_EOL, $moduleIncludeStr),
+                    $locale
+                ),
+                $template
+            );
+
+            file_put_contents($localeFileName, $localeContent);
+        }
+
+
+    }
 }
 

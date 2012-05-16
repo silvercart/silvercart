@@ -774,6 +774,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 02.05.2012
      */
     public function requireDefaultRecords() {
+        SilvercartLanguageHelper::createSilvercartCacheModule();
+        SilvercartLanguageHelper::createMissingLocales();
+
         parent::requireDefaultRecords();
         // create groups
         $this->createDefaultGroups();
