@@ -1528,15 +1528,23 @@ class SilvercartRequireDefaultRecords extends DataObject {
             );
             
             // Create folder for product images
-            $exampleDataDir = Director::baseFolder().'/assets/'._t('SilvercartTestData.IMAGEFOLDERNAME');
+            $exampleDataDir = Director::baseFolder().'/assets/test_images/';
             $imageFolder = new Folder();
-            $imageFolder->setName(_t('SilvercartTestData.IMAGEFOLDERNAME'));
+            $imageFolder->setName('test_images');
             $imageFolder->write();
             
             if (!file_exists($exampleDataDir)) {
                 mkdir($exampleDataDir);
             }
             
+            $locales        = array('de_DE', 'en_GB', 'en_US');
+            $fallbackLocale = false;
+
+            if (!in_array(Translatable::get_current_locale(), $locales)) {
+                $locales[]      = Translatable::get_current_locale();
+                $fallbackLocale = Translatable::get_current_locale();
+            }
+
             // Create products
             foreach ($products as $product) {
                 $productItem                            = new SilvercartProduct();
@@ -1557,9 +1565,12 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $productItem->PurchasePriceCurrency     = $product['PurchasePriceCurrency'];
                 $productItem->SortOrder                 = $product['sortOrder'];
                 $productItem->write();
+
+                if ($fallbackLocale !== false) {
+                    $product[$fallbackLocale] = $product['en_US'];
+                }
                 
                 //create the language objects for the locales
-                $locales = array('de_DE', 'en_GB', 'en_US');
                 foreach ($locales as $locale) {
                    /*
                     * We need to check if a language object exists alredy because

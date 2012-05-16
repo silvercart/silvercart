@@ -1778,15 +1778,17 @@ class SilvercartProduct extends DataObject {
             }
         }
         
-        $translations = $this->SilvercartProductGroup()->getTranslations();
-        if ($translations) {
-            foreach ($translations as $translation) {
-            if ($this->SilvercartProductGroupMirrorPages()->find('ID', $translation->ID)) {
-                continue;
+        if ($this->SilvercartProductGroup()) {
+            $translations = $this->SilvercartProductGroup()->getTranslations();
+            if ($translations) {
+                foreach ($translations as $translation) {
+                if ($this->SilvercartProductGroupMirrorPages()->find('ID', $translation->ID)) {
+                    continue;
+                }
+                $this->SilvercartProductGroupMirrorPages()->add($translation);
+                }
             }
-            $this->SilvercartProductGroupMirrorPages()->add($translation);
-            }   
-        } 
+        }
     }
 
     /**
