@@ -319,4 +319,16 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
 
         return $section;
     }
+
+    /**
+     * Returns the base url.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.05.2012
+     */
+    public function BaseUrl() {
+        return Director::baseUrl();
+    }
 }

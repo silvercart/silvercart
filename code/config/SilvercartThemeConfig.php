@@ -21,8 +21,6 @@
  * @subpackage Config
  */
 
-SilvercartThemeConfig::registerObjects();
-
 /**
  * This is a configuration object and can be used to store individual css style
  * informations
@@ -488,3 +486,5 @@ class SilvercartThemeConfigButton extends SilvercartThemeConfig {
     }
     
 }
+
+SilvercartThemeConfig::registerObjects();
