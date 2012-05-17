@@ -928,7 +928,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if (!$this->getDetailViewProduct()->isActive) {
                     Director::redirect($this->PageByIdentifierCodeLink());
                 }
-                $this->registerCustomHtmlForm('SilvercartProductAddCartFormDetail', new SilvercartProductAddCartFormDetail($this, array('productID' => $this->getDetailViewProduct()->ID)));
+                $this->registerCustomHtmlForm(
+                    'SilvercartProductAddCartFormDetail',
+                    new SilvercartProductAddCartFormDetail(
+                        $this,
+                        array(
+                            'productID'          => $this->getDetailViewProduct()->ID,
+                            '_REDIRECT_BACK_URL' => $this->BackLink()
+                        )
+                    )
+                );
             } else {
                 // a product group view is requested
                 $this->registerWidgetAreas();

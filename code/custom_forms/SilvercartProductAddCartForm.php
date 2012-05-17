@@ -106,7 +106,18 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         } else if (isset($formData['backLink'])) {
             $backLink = $formData['backLink'];
         }
-        
+
+        // Preserve back link if available
+        if (array_key_exists('_REDIRECT_BACK_URL', $formData)) {
+            if (strpos('?', $backLink) === -1) {
+                $backLink .= '?';
+            } else {
+                $backLink .= '&';
+            }
+
+            $backLink .= '_REDIRECT_BACK_URL='.$formData['_REDIRECT_BACK_URL'];
+        }
+
         SilvercartShoppingCart::addProduct($formData);
         Director::redirect($backLink, 302);
     }
