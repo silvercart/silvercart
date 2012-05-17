@@ -871,6 +871,7 @@ $lang['en_US']['SilvercartManyManyOrderField']['EDIT']                       = '
 $lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartImage']['PLURALNAME'] = 'Images';
 $lang['en_US']['SilvercartImage']['SINGULARNAME'] = 'Image';
+$lang['en_US']['SilvercartImage']['THUMBNAIL'] = 'Preview';
 $lang['en_US']['SilvercartImage']['TITLE'] = 'Display name';
 
 $lang['en_US']['SilvercartImageLanguage']['PLURALNAME']                         = _t('Silvercart.TRANSLATIONS');

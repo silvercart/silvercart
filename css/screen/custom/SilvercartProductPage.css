@@ -108,6 +108,14 @@
     margin:                         20px 0px 0px 0px;
 }
 
+/* file tab ------------------------------------------------------------ */
+
+.silvercart-product-page-downloads-entry {
+    border-bottom:              1px #eee solid;
+    margin:                     0px 0px 10px 0px;
+    padding:                    0px 0px 10px 0px;
+}
+
 /* Tabs ---------------------------------------------------------------- */
 
 ul.tabs {

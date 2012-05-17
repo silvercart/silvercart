@@ -41,8 +41,9 @@ class SilvercartImage extends DataObject {
     );
     
     public static $casting = array(
-        'Title' => 'VarChar',
-        'TableIndicator' => 'Text'
+        'Title'          => 'VarChar',
+        'TableIndicator' => 'Text',
+        'Thumbnail'      => 'HTMLText'
     );
     
     /**
@@ -140,10 +141,11 @@ class SilvercartImage extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                    => _t('SilvercartImage.TITLE'),
                 'SilvercartImageLanguages' => _t('SilvercartImageLanguage.PLURALNAME'),
                 'SilvercartPaymentMethod'  => _t('SilvercartPaymentMethod.SINGULARNAME'),
-                'SilvercartProduct'        => _t('SilvercartProduct.SINGULARNAME')
+                'SilvercartProduct'        => _t('SilvercartProduct.SINGULARNAME'),
+                'Thumbnail'                => _t('SilvercartImage.THUMBNAIL'),
+                'Title'                    => _t('SilvercartImage.TITLE'),
             )
         );
 
@@ -162,9 +164,10 @@ class SilvercartImage extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'TableIndicator' => ''
+            'Thumbnail'      => $this->fieldLabels['Thumbnail'],
+            'Title'          => $this->fieldLabels['Title'],
+            'TableIndicator' => $this->fieldLabels['TableIndicator']
         );
-
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
@@ -190,5 +193,24 @@ class SilvercartImage extends DataObject {
             $link = $this->SilvercartProduct()->Link();
         }
         return $link;
+    }
+
+    /**
+     * Returns the URL to a thumbnail if an image is assigned.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.05.2012
+     */
+    public function getThumbnail() {
+        $thumbnail = '';
+
+        if ($this->ImageID > 0) {
+            $image     = $this->Image()->SetRatioSize(50, 50);
+            $thumbnail = $image->getTag();
+        }
+
+        return $thumbnail;
     }
 }

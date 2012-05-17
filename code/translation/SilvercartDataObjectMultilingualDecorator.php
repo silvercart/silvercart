@@ -148,6 +148,10 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @since 06.01.2012
      */
     public function getLanguage() {
+        if ($this->owner->ID === 0) {
+            return false;
+        }
+
         if (is_null($this->languageObj)) {
             $relationFieldName      = $this->getRelationFieldName();
             $languageClassName      = $this->getLanguageClassName();
@@ -279,7 +283,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @since 06.01.2012
      */
     public function onAfterWrite() {
-         SilvercartLanguageHelper::writeLanguageObject($this->owner->getLanguage(), $this->owner->toMap());
+         SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->owner->toMap());
     }
     
     /**

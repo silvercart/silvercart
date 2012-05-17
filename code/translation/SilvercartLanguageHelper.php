@@ -72,6 +72,9 @@ class SilvercartLanguageHelper {
      * @since 04.01.2012
      */
     public static function prepareCMSFields($dataobject) {
+        if (!$dataobject) {
+            return false;
+        }
         $languageFields = $dataobject->scaffoldFormFields(
                 array(
                     'includeRelations' => false,
@@ -208,6 +211,8 @@ class SilvercartLanguageHelper {
      */
     public static function writeLanguageObject($languageObj, $mainRecord) {
         $record = array();
+            SilvercartTools::Log('writeLanguageObject', var_export($mainRecord, true));
+            SilvercartTools::Log('writeLanguageObject', var_export($languageObj, true));
         foreach ($languageObj->db() as $dbFieldName => $dbFieldType) {
             if (array_key_exists($dbFieldName, $mainRecord)) {
                 $record[$dbFieldName] = $mainRecord[$dbFieldName];

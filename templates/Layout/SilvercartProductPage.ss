@@ -135,11 +135,22 @@
                                 <div id="tab2" class="tab_content">
                                     <% control SilvercartFiles %>
                                         <div class="silvercart-product-page-downloads-entry clearfix">
-                                            <div class="silvercart-file-icon">
-                                                <a href="$File.Link">$FileIcon</a>
-                                            </div>
-                                            <div class="silvercart-file-description">
-                                                <a href="$File.Link">$Title ($File.Size)</a>
+                                            <div class="subcolumns">
+                                                <div class="c10l">
+                                                    <div class="subcl">
+                                                        <div class="silvercart-file-icon">
+                                                            <a href="$File.Link">$FileIcon</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="c90r">
+                                                    <div class="subcr">
+                                                        <div class="silvercart-file-description">
+                                                            <p><a href="$File.Link">$Title ($File.Size)</a></p>
+                                                            <a href="$File.Link">$Description</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     <% end_control %>

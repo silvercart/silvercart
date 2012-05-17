@@ -166,7 +166,8 @@ class SilvercartFile extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'TableIndicator' => ''
+            'Title'          => $this->fieldLabels['Title'],
+            'TableIndicator' => $this->fieldLabels['TableIndicator']
         );
 
 

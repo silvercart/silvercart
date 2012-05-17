@@ -43,18 +43,24 @@ body {
     padding:                        0px 12px;
 }
 
-.c45l, .c30l {
+.c90l, .c45l, .c30l, .c10l {
     float:                          left;
 }
-.c45r, .c30r {
+.c90r, .c45r, .c30r, .c10r {
     float:                          right;
     margin-left:                    -5px;
+}
+.c10l, .c10r {
+    width:                          10%;
 }
 .c30l, .c30r {
     width:                          30%;
 }
 .c45l, .c45r {
     width:                          45%;
+}
+.c90l, .c90r {
+    width:                          90%;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -885,7 +885,17 @@ class SilvercartProduct extends DataObject {
             // --------------------------------------------------------------------
             $fields->findOrMakeTab('Root.SilvercartImages', _t('SilvercartImage.PLURALNAME', 'Images'));
             if ($this->ID) {
-                $silvercartImagesTable = new ImageDataObjectManager($this, 'SilvercartImages', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartProductID`='%d'", $this->ID));
+                $silvercartImagesTable = new HasManyComplexTableField(
+                    $this,
+                    'SilvercartImages',
+                    'SilvercartImage',
+                    null,
+                    null,
+                    sprintf(
+                        "SilvercartProductID = 0 OR SilvercartProductID = %d",
+                        $this->ID
+                    )
+                );
                 $fields->addFieldToTab('Root.SilvercartImages', $silvercartImagesTable);
             } else {
                 $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
@@ -1169,14 +1179,17 @@ class SilvercartProduct extends DataObject {
 
             //fill the tab Root.Files.Images
             if ($this->ID) {
-                $silvercartImagesTable = new ImageDataObjectManager(
-                        $this,
-                        'SilvercartImages',
-                        'SilvercartImage',
-                        'Image',
-                        null,
-                        null,
-                        sprintf("`SilvercartProductID`='%d'", $this->ID));
+                $silvercartImagesTable = new HasManyComplexTableField(
+                    $this,
+                    'SilvercartImages',
+                    'SilvercartImage',
+                    null,
+                    null,
+                    sprintf(
+                        "SilvercartProductID = 0 OR SilvercartProductID = %d",
+                        $this->ID
+                    )
+                );
                 $CMSFields->addFieldToTab('Root.Files.Images', $silvercartImagesTable);
             } else {
                 $silvercartImageInformation = new LiteralField('SilvercartImageInformation', sprintf(
@@ -1187,14 +1200,16 @@ class SilvercartProduct extends DataObject {
 
             //fill the tab Root.Files.Attachments
             if ($this->ID) {
-                $filesTable = new FileDataObjectManager(
-                        $this,
-                        'SilvercartFiles',
-                        'SilvercartFile',
-                        'File',
-                        null,
-                        null,
-                        sprintf("`SilvercartProductID`='%d'", $this->ID)
+                $filesTable = new HasManyComplexTableField(
+                    $this,
+                    'SilvercartFiles',
+                    'SilvercartFile',
+                    null,
+                    null,
+                    sprintf(
+                        "SilvercartProductID = 0 OR SilvercartProductID = %d",
+                        $this->ID
+                    )
                 );
                 $CMSFields->addFieldToTab('Root.Files.Attachments', $filesTable);
             } else {
