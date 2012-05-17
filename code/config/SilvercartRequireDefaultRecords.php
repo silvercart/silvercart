@@ -164,6 +164,20 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 'de_DE' => 'Bestellung in Arbeit',
             ),
         );
+        $locales        = array('de_DE', 'en_GB', 'en_US');
+        $fallbackLocale = false;
+
+        if (!in_array(Translatable::get_current_locale(), $locales)) {
+            $locales[]      = Translatable::get_current_locale();
+            $fallbackLocale = Translatable::get_current_locale();
+        }
+
+        if ($fallbackLocale !== false) {
+            $defaultStatusEntries['pending'][$fallbackLocale] = $defaultStatusEntries['pending']['en_US'];
+            $defaultStatusEntries['payed'][$fallbackLocale]   = $defaultStatusEntries['payed']['en_US'];
+            $defaultStatusEntries['shipped'][$fallbackLocale] = $defaultStatusEntries['shipped']['en_US'];
+            $defaultStatusEntries['inwork'][$fallbackLocale]  = $defaultStatusEntries['inwork']['en_US'];
+        }
         $this->createDefaultTranslatableDataObject($defaultStatusEntries, 'SilvercartOrderStatus');
     }
     
@@ -188,6 +202,18 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 'de_DE' => 'nicht verfügbar'
             )
         );
+        $locales        = array('de_DE', 'en_GB', 'en_US');
+        $fallbackLocale = false;
+
+        if (!in_array(Translatable::get_current_locale(), $locales)) {
+            $locales[]      = Translatable::get_current_locale();
+            $fallbackLocale = Translatable::get_current_locale();
+        }
+
+        if ($fallbackLocale !== false) {
+            $defaults['available'][$fallbackLocale]     = $defaults['available']['en_US'];
+            $defaults['not-available'][$fallbackLocale] = $defaults['not-available']['en_US'];
+        }
         $this->createDefaultTranslatableDataObject($defaults, 'SilvercartAvailabilityStatus');
     }
     
@@ -1717,6 +1743,18 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 'en_US' => 'SilverCart Teaser',
                 'de_DE' => 'SilverCart Teaser'
             );
+            $locales        = array('de_DE', 'en_GB', 'en_US');
+            $fallbackLocale = false;
+
+            if (!in_array(Translatable::get_current_locale(), $locales)) {
+                $locales[]      = Translatable::get_current_locale();
+                $fallbackLocale = Translatable::get_current_locale();
+            }
+
+            if ($fallbackLocale !== false) {
+                $sliderImageTranslations[$fallbackLocale] = $sliderImageTranslations['en_US'];
+            }
+
             foreach ($sliderImageTranslations as $locale => $translation) {
                 $filter = sprintf("`Locale` = '%s'", $locale);
                 $translationObj = DataObject::get_one("SilvercartImageSliderImageLanguage", $filter);
@@ -1827,6 +1865,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
                         'FullTitle' => 'DHL International GmbH'
                     )
                 );
+            
+                $locales        = array('de_DE', 'en_GB', 'en_US');
+                $fallbackLocale = false;
+
+                if (!in_array(Translatable::get_current_locale(), $locales)) {
+                    $locales[]      = Translatable::get_current_locale();
+                    $fallbackLocale = Translatable::get_current_locale();
+                }
+
+                if ($fallbackLocale !== false) {
+                    $carrierLanguages[$fallbackLocale] = $carrierLanguages['en_US'];
+                }
+
                 foreach ($carrierLanguages as $locale => $attributes) {
                     $filter = sprintf("`SilvercartCarrierID` = '%s' AND `Locale` = '%s'", $carrier->ID, $locale);
                     $languageObj = DataObject::get_one('SilvercartCarrierLanguage', $filter);
@@ -1856,6 +1907,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
                             'de_DE' => 'EU'
                         )
                     );
+
+                    $locales        = array('de_DE', 'en_GB', 'en_US');
+                    $fallbackLocale = false;
+
+                    if (!in_array(Translatable::get_current_locale(), $locales)) {
+                        $locales[]      = Translatable::get_current_locale();
+                        $fallbackLocale = Translatable::get_current_locale();
+                    }
+
+                    if ($fallbackLocale !== false) {
+                        $zones[0][$fallbackLocale] = $zones[0]['en_US'];
+                        $zones[1][$fallbackLocale] = $zones[1]['en_US'];
+                    }
                     
                     foreach ($zones as $zone) {
                         $zoneObj = new SilvercartZone();
@@ -1899,13 +1963,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 // create if not exists, activate and relate payment method
                 $paymentMethod = DataObject::get_one('SilvercartPaymentPrepayment');
                 if (!$paymentMethod) {
-                    $paymentMethod = new SilvercartPaymentPrepayment();
-                    $paymentMethod->write();
-                    $trnaslations = array(
-                        'en_GB' => ''
-                    );
-                    #$paymentMethod->Name = _t('SilvercartPaymentPrepayment.SINGULARNAME');
+                    $paymentMethodHandler = new SilvercartPaymentMethod();
+                    $paymentMethodHandler->requireDefaultRecords();
                 }
+                $paymentMethod = DataObject::get_one('SilvercartPaymentPrepayment');
                 $paymentMethod->isActive = true;
                 $orderStatusPending = DataObject::get_one("SilvercartOrderStatus", "`Code` = 'pending'");
                 if ($orderStatusPending) {
@@ -1932,6 +1993,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'en_GB' => 'Package',
                     'en_US' => 'Package'
                 );
+
+                $locales        = array('de_DE', 'en_GB', 'en_US');
+                $fallbackLocale = false;
+
+                if (!in_array(Translatable::get_current_locale(), $locales)) {
+                    $locales[]      = Translatable::get_current_locale();
+                    $fallbackLocale = Translatable::get_current_locale();
+                }
+
+                if ($fallbackLocale !== false) {
+                    $shippingMethodTranslations[$fallbackLocale] = $shippingMethodTranslations['en_US'];
+                }
+
                 foreach ($shippingMethodTranslations as $locale => $title) {
                     $filter = sprintf("`Locale` = '%s' AND `SilvercartShippingMethodID` = '%s'", $locale, $shippingMethod->ID);
                     $shippingMethodLanguage = DataObject::get_one('SilvercartShippingMethodLanguage', $filter);
@@ -1976,9 +2050,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
     public static function createTestTaxRates() {
         if (self::$enableTestData === true) {
             // create two standard german tax rates if no tax rate exists
-            $taxRate = DataObject::get_one(
-                            'SilvercartTax'
-            );
+            $taxRate = DataObject::get_one('SilvercartTax');
 
             if (!$taxRate) {
                 $taxrates = array(
@@ -1993,6 +2065,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
                         'de_DE' => '7%'
                     )
                 );
+
+                $locales        = array('de_DE', 'en_GB', 'en_US');
+                $fallbackLocale = false;
+
+                if (!in_array(Translatable::get_current_locale(), $locales)) {
+                    $locales[]      = Translatable::get_current_locale();
+                    $fallbackLocale = Translatable::get_current_locale();
+                }
+
+                if ($fallbackLocale !== false) {
+                    $taxrates[0][$fallbackLocale] = $taxrates[0]['en_US'];
+                    $taxrates[1][$fallbackLocale] = $taxrates[1]['en_US'];
+                }
                 
                 foreach ($taxrates as $taxrate => $languages) {
                     $rateObj = new SilvercartTax();

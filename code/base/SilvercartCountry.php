@@ -220,6 +220,10 @@ class SilvercartCountry extends DataObject {
             'SilvercartPaymentMethods.ID' => array(
                 'title'     => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD'),
                 'filter'    => 'PartialMatchFilter',
+            ),
+            'Active' => array(
+                'title'     => _t('SilvercartCountry.ACTIVE'),
+                'filter'    => 'ExactMatchFilter',
             )
         );
     }

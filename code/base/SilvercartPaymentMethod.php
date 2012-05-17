@@ -1081,6 +1081,16 @@ class SilvercartPaymentMethod extends DataObject {
                         $paymentMethod->PaymentChannel = $channel;
                         $paymentMethod->write();
                         $languages = array('de_DE', 'en_US', 'en_GB');
+                        $fallbackLocale = false;
+
+                        if (!in_array(Translatable::get_current_locale(), $languages)) {
+                            $languages[]    = Translatable::get_current_locale();
+                            $fallbackLocale = Translatable::get_current_locale();
+                        }
+
+                        if ($fallbackLocale !== false) {
+                            $languages[$fallbackLocale] = $languages['en_US'];
+                        }
                         $languageClassName = $this->ClassName . 'Language';
                         foreach ($languages as $language) {
                             $relationField = $this->ClassName . 'ID';
