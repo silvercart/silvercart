@@ -126,7 +126,10 @@ class SilvercartProductGroupPage extends Page {
     public function  __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         $this->drawCMSFields = true;
-        $this->GroupPicture()->Title = $this->Title;
+
+        if ($this->GroupPictureID > 0) {
+            $this->GroupPicture()->Title = $this->Title;
+        }
     }
     
     /**
