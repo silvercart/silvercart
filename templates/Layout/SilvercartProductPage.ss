@@ -111,12 +111,12 @@
                     
                     <div class="silvercart-product-page-product-info">
                         <ul class="tabs">
-                            <li rel="tab1">
-                                <a href="#tab1"><% _t('SilvercartProduct.DESCRIPTION','product description') %></a>
+                            <li rel="product_description">
+                                <a href="#product_description"><% _t('SilvercartProduct.DESCRIPTION','product description') %></a>
                             </li>
                             <% if SilvercartFiles %>
-                                <li rel="tab2">
-                                    <a href="#tab2"><% _t('SilvercartProduct.DOWNLOADS','Downloads') %></a>
+                                <li rel="downloads">
+                                    <a href="#downloads"><% _t('SilvercartProduct.DOWNLOADS','Downloads') %></a>
                                 </li>
                             <% end_if %>
                             <% if PluggedInTabs %>
@@ -128,32 +128,38 @@
                             <% end_if %>
                         </ul>
                         <div class="tab_container">
-                            <div id="tab1" class="tab_content">
+                            <div id="product_description" class="tab_content">
                                 $HtmlEncodedLongDescription
                             </div>
                             <% if SilvercartFiles %>
-                                <div id="tab2" class="tab_content">
-                                    <% control SilvercartFiles %>
-                                        <div class="silvercart-product-page-downloads-entry clearfix">
-                                            <div class="subcolumns">
-                                                <div class="c10l">
-                                                    <div class="subcl">
-                                                        <div class="silvercart-file-icon">
-                                                            <a href="$File.Link">$FileIcon</a>
-                                                        </div>
+                                <div id="downloads" class="tab_content">
+                                    <table class="full silvercart-default-table">
+                                        <colgroup>
+                                            <col width="20%"></col>
+                                            <col width="65%"></col>
+                                            <col width="15%"></col>
+                                        </colgroup>
+                                        <tr>
+                                            <th><% _t('SilvercartFile.TYPE') %></th>
+                                            <th><% _t('SilvercartFile.TITLE') %></th>
+                                            <th class="align_right"><% _t('SilvercartFile.SIZE') %></th>
+                                        </tr>
+                                        <% control SilvercartFiles %>
+                                            <tr class="$EvenOdd">
+                                                <td>
+                                                    <div class="silvercart-file-icon">
+                                                        <a href="$File.Link">$FileIcon</a>
                                                     </div>
-                                                </div>
-                                                <div class="c90r">
-                                                    <div class="subcr">
-                                                        <div class="silvercart-file-description">
-                                                            <p><a href="$File.Link">$Title ($File.Size)</a></p>
-                                                            <a href="$File.Link">$Description</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <% end_control %>
+                                                </td>
+                                                <td>
+                                                    <a href="$File.Link">$Title</a>
+                                                </td>
+                                                <td class="align_right">
+                                                    <a href="$File.Link">$File.Size</a>
+                                                </td>
+                                            </tr>
+                                        <% end_control %>
+                                    </table>
                                 </div>
                             <% end_if %>
                             <% if getPluggedInTabs %>

@@ -840,6 +840,8 @@ $lang['de_DE']['SilvercartFile']['FILE_ATTACHMENTS'] = 'Dateianhänge';
 $lang['de_DE']['SilvercartFile']['PLURALNAME'] = 'Dateien';
 $lang['de_DE']['SilvercartFile']['SINGULARNAME'] = 'Datei';
 $lang['de_DE']['SilvercartFile']['TITLE'] = 'Anzeigename';
+$lang['de_DE']['SilvercartFile']['TYPE'] = 'Typ';
+$lang['de_DE']['SilvercartFile']['SIZE'] = 'Größe';
 
 $lang['de_DE']['SilvercartFileLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartFileLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
