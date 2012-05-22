@@ -128,12 +128,13 @@ class SilvercartImage extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'SilvercartImageLanguages' => _t('SilvercartImageLanguage.PLURALNAME'),
-                'SilvercartPaymentMethod'  => _t('SilvercartPaymentMethod.SINGULARNAME'),
-                'SilvercartProduct'        => _t('SilvercartProduct.SINGULARNAME'),
-                'Thumbnail'                => _t('SilvercartImage.THUMBNAIL'),
-                'Title'                    => _t('SilvercartImage.TITLE'),
-                'TableIndicator'           => _t('Silvercart.TABLEINDICATOR'),
+                'SilvercartImageLanguages'  => _t('SilvercartImageLanguage.PLURALNAME'),
+                'SilvercartPaymentMethod'   => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartProduct'         => _t('SilvercartProduct.SINGULARNAME'),
+                'Thumbnail'                 => _t('SilvercartImage.THUMBNAIL'),
+                'Title'                     => _t('SilvercartImage.TITLE'),
+                'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
+                'SortOrder'                 => _t('Silvercart.SORTORDER'),
             )
         );
 
