@@ -194,7 +194,8 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
      * @since 22.05.2012
      */
     public function renderProductGroupNavigation($rootPage, $level = 0) {
-        $renderStr = '';
+        $renderStr      = '';
+        $isActivePage   = false;
         $level++;
         
         if ($this->levelsToShow != 0 &&
@@ -213,12 +214,17 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
                 $childPageStr .= $this->renderProductGroupNavigation($childPage, $level);
             }
         }
+        
+        if (Controller::curr()->ID === $rootPage->ID) {
+            $isActivePage = true;
+        }
          
         $data = array(
-            'MenuTitle'  => $rootPage->getMenuTitle(),
-            'Title'      => $rootPage->getTitle(),
-            'Link'       => $rootPage->Link(),
-            'ChildPages' => $childPageStr
+            'MenuTitle'     => $rootPage->getMenuTitle(),
+            'Title'         => $rootPage->getTitle(),
+            'Link'          => $rootPage->Link(),
+            'ChildPages'    => $childPageStr,
+            'IsActivePage'  => $isActivePage
         );
         
         $parser     = new SSViewer('SilvercartProductGroupNavigationWidgetEntry');
