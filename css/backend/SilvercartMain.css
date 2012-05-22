@@ -77,3 +77,59 @@
     margin:             0px 0px 10px 0px;
 }
 
+
+/*******************************************************************************
+        model admin right part, especially forms
+*******************************************************************************/
+.silvercart-fieldgroup {
+    
+}
+.silvercart-fieldgroup .fieldgroup {
+    
+}
+.silvercart-break {
+    color: #ff0000;
+}
+.silvercart-break:after,
+.silvercart-fieldgroup .fieldgroup:after {
+    clear:both;
+    content:".";
+    display:block;
+    font-size:0;
+    height:0;
+    visibility:hidden;
+}
+.silvercart-fieldgroup .fieldgroupField {
+    float: left;
+    padding: 0 12px 0 0;
+    min-width: 140px;
+}
+.silvercart-fieldgroup .fieldgroupField label {
+    display: block;
+}
+.silvercart-fieldgroup .fieldgroupField select {
+    
+}
+.silvercart-fieldgroup .fieldgroupField input[type="checkbox"] {
+    float: left;
+    margin: 0 4px 0 0;
+    height: 34px;
+}
+.silvercart-fieldgroup .fieldgroupField input[type="checkbox"] ~ label {
+    line-height: 34px;
+}
+.silvercart-form-highlight {
+    background: #E9E9E9;
+    padding:    6px;
+    margin:     6px 0;
+}
+
+.right form .field span.readonly.silvercartmoney,
+.right form input.silvercartmoney,
+.right form .field.silvercartmoney input.text {
+    width: 100px;
+    text-align: right;
+}
+.right form .field span.readonly.silvercartmoney {
+    display: inline-block;
+}
