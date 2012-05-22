@@ -103,6 +103,17 @@ class SilvercartProduct extends DataObject {
         'SilvercartOrders'                   => 'SilvercartOrder',
         'SilvercartProductGroupItemsWidgets' => 'SilvercartProductGroupItemsWidget',
     );
+    
+    /**
+     * Adds database indexes
+     * 
+     * @var array 
+     */
+    public static $indexes = array(
+        'isActive'      => '(isActive)',
+        'PriceGross'    => '(PriceGross)',
+        'PriceNet'      => '(PriceNet)',
+    );
 
     /**
      * Casting.
@@ -985,13 +996,8 @@ class SilvercartProduct extends DataObject {
             null,
             _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
         );
-
-        if (SilvercartConfig::DisplayTypeOfProductAdminFlat()) {
-            $targetTab = 'Root.Main';
-        } else {
-            $targetTab = 'Root.Main.Content';
-        }
-        $fields->addFieldToTab($targetTab, $dropdownField);
+        
+        $fields->addFieldToTab('Root.Main', $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
         return $fields;
