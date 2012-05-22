@@ -34,12 +34,31 @@
  */
 class SilvercartImage extends DataObject {
 
+    /**
+     * Has one relations
+     *
+     * @var array
+     */
     public static $has_one = array(
         'SilvercartProduct'         => 'SilvercartProduct',
         'SilvercartPaymentMethod'   => 'SilvercartPaymentMethod',
         'Image'                     => 'Image',
     );
     
+    /**
+     * 1:n relationships.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartImageLanguages' => 'SilvercartImageLanguage'
+    );
+    
+    /**
+     * Casted properties
+     *
+     * @var array
+     */
     public static $casting = array(
         'Title'          => 'VarChar',
         'TableIndicator' => 'Text',
@@ -47,31 +66,12 @@ class SilvercartImage extends DataObject {
     );
     
     /**
-     * 1:n relationships.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
-     */
-    public static $has_many = array(
-        'SilvercartImageLanguages' => 'SilvercartImageLanguage'
-    );
-    
-    /**
      * getter for the Title, looks for set translation
      * 
      * @return string The Title from the translation object or an empty string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**
@@ -80,15 +80,11 @@ class SilvercartImage extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
     public function singular_name() {
-        if (_t('SilvercartImage.SINGULARNAME')) {
-            return _t('SilvercartImage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -97,32 +93,24 @@ class SilvercartImage extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
     public function plural_name() {
-        if (_t('SilvercartImage.PLURALNAME')) {
-            return _t('SilvercartImage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
     
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldSet the fields for the backend
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 20.01.2012
- */
+     */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
-            foreach ($languageFields as $languageField) {
-                $fields->insertBefore($languageField, 'SortOrder');
-            }
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'SortOrder');
+        }
         return $fields;
     }
 
@@ -134,7 +122,6 @@ class SilvercartImage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 21.03.2011
      */
     public function fieldLabels($includerelations = true) {
@@ -146,6 +133,7 @@ class SilvercartImage extends DataObject {
                 'SilvercartProduct'        => _t('SilvercartProduct.SINGULARNAME'),
                 'Thumbnail'                => _t('SilvercartImage.THUMBNAIL'),
                 'Title'                    => _t('SilvercartImage.TITLE'),
+                'TableIndicator'           => _t('Silvercart.TABLEINDICATOR'),
             )
         );
 
@@ -158,15 +146,14 @@ class SilvercartImage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Thumbnail'      => $this->fieldLabels['Thumbnail'],
-            'Title'          => $this->fieldLabels['Title'],
-            'TableIndicator' => $this->fieldLabels['TableIndicator']
+            'Thumbnail'      => $this->fieldLabel('Thumbnail'),
+            'Title'          => $this->fieldLabel('Title'),
+            'TableIndicator' => $this->fieldLabel('TableIndicator'),
         );
 
         $this->extend('updateSummaryFields', $summaryFields);
@@ -199,9 +186,6 @@ class SilvercartImage extends DataObject {
      * Returns the URL to a thumbnail if an image is assigned.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.05.2012
      */
     public function getThumbnail() {
         $thumbnail = '';
