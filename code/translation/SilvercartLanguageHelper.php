@@ -69,11 +69,11 @@ class SilvercartLanguageHelper {
      * @return FieldSet
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.01.2012
+     * @since 22.05.2012
      */
     public static function prepareCMSFields($dataobject) {
         if (!$dataobject) {
-            return false;
+            return new FieldSet();
         }
         $languageFields = $dataobject->scaffoldFormFields(
                 array(

@@ -71,6 +71,7 @@ $lang['de_DE']['Silvercart']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['Silvercart']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['Silvercart']['MARK_ALL'] = 'Alle markieren';
 $lang['de_DE']['Silvercart']['UNMARK_ALL'] = 'Markierung aufheben';
+$lang['de_DE']['Silvercart']['SORTORDER'] = 'Sortierreihenfolge';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
@@ -289,6 +290,7 @@ $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';
 $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand dieses Artikels überbuchbar?';
+$lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY_SHORT'] = 'Ist überbuchbar?';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY_EXPIRATION_DATE'] = 'Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist';
 $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';

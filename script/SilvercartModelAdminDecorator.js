@@ -141,4 +141,19 @@ var enableFirstEntryAutoLoadFor = [
             a.trigger('click');
         }
     };
+    
+    $('.fieldgroupField input.date').live('click', function() {
+        var config = $(this).metadata();
+        if (!config.showcalendar) {
+            return;
+        }
+
+        if(config.locale && $.datepicker.regional[config.locale]) {
+            config = $.extend(config, $.datepicker.regional[config.locale], {});
+        }
+
+        // Initialize and open a datepicker 
+        $(this).datepicker(config);
+        $(this).datepicker('show');
+    });
 })(jQuery);

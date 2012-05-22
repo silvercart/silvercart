@@ -71,6 +71,7 @@ $lang['en_GB']['Silvercart']['TRANSLATION'] = 'Translation';
 $lang['en_GB']['Silvercart']['TRANSLATIONS'] = 'Translations';
 $lang['en_GB']['Silvercart']['MARK_ALL'] = 'Mark all';
 $lang['en_GB']['Silvercart']['UNMARK_ALL'] = 'Unmark all';
+$lang['en_GB']['Silvercart']['SORTORDER'] = 'Sort order';
 
 $lang['en_GB']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_GB']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -289,6 +290,7 @@ $lang['en_GB']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
 $lang['en_GB']['SilvercartProduct']['SHORTDESCRIPTION'] = 'List description';
 $lang['en_GB']['SilvercartProduct']['SINGULARNAME'] = 'Product';
 $lang['en_GB']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is the stock quantity of this product overbookable?';
+$lang['en_GB']['SilvercartProduct']['STOCK_QUANTITY_SHORT'] = 'Is overbookable?';
 $lang['en_GB']['SilvercartProduct']['STOCK_QUANTITY_EXPIRATION_DATE'] = 'Date from which on the stock quantity is no more overbookable';
 $lang['en_GB']['SilvercartProduct']['TITLE'] = 'Product';
 $lang['en_GB']['SilvercartProduct']['VAT'] = 'VAT';
