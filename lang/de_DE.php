@@ -1568,6 +1568,8 @@ $lang['de_DE']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Warengruppennavigation';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'SilverCart Warengruppennavigation';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll.';
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']  = 'Ebenen bis zu welcher Tiefe anzeigen';
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS'] = 'Alle Ebenen anzeigen';
 
 $lang['de_DE']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.';
 $lang['de_DE']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';

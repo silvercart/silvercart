@@ -1568,6 +1568,8 @@ $lang['en_GB']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'Product group navigation';
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'SilverCart product group navigation';
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for product groups. You can define what productgroup should be used as root.';
+$lang['en_GB']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']  = 'Number of levels to show';
+$lang['en_GB']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS'] = 'Show all levels';
 
 $lang['en_GB']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
 $lang['en_GB']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';

@@ -253,3 +253,13 @@
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+
+/* Product group navigation widget ----------------------------------------- */
+
+.silvercart-widget .silvercart-product-group-navigation-widget li a {
+    background:                     transparent;
+    border:                         none;
+}
+.silvercart-widget .silvercart-product-group-navigation-widget li a {
+    border-bottom:                         none !important;
+}
