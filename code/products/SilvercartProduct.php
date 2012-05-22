@@ -70,6 +70,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
         'SilvercartProductCondition'    => 'SilvercartProductCondition',
         'SilvercartQuantityUnit'        => 'SilvercartQuantityUnit',
+        'WidgetArea'                    => 'WidgetArea',
     );
 
     /**
@@ -110,9 +111,9 @@ class SilvercartProduct extends DataObject {
      * @var array 
      */
     public static $indexes = array(
-        'isActive'      => '(isActive)',
-        'PriceGross'    => '(PriceGross)',
-        'PriceNet'      => '(PriceNet)',
+        'isActive'          => '(isActive)',
+        'PriceGrossAmount'  => '(PriceGrossAmount)',
+        'PriceNetAmount'    => '(PriceNetAmount)',
     );
 
     /**
@@ -757,6 +758,37 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Adds the fields for the Widgets tab
+     *
+     * @param FieldSet $fields FieldSet to add fields to
+     * 
+     * @return void
+     */
+    public function getFieldsForWidgets($fields) {
+        $availableWidgets = array();
+
+        $classes = ClassInfo::subclassesFor('Widget');
+        array_shift($classes);
+        foreach ($classes as $class) {
+            if ($class == 'SilvercartWidget') {
+                continue;
+            }
+            $widgetClass        = singleton($class);
+            $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
+        }
+
+        $widgetAreaField = new SilvercartHasManyOrderField(
+            $this->WidgetArea(),
+            'Widgets',
+            'WidgetArea',
+            'Widget Konfiguration',
+            $availableWidgets
+        );
+
+        $fields->addFieldToTab('Root.Widgets', $widgetAreaField);
+    }
+
+    /**
      * Adds or modifies the fields for the Main tab
      *
      * @param FieldSet $fields FieldSet to add fields to
@@ -939,6 +971,7 @@ class SilvercartProduct extends DataObject {
             $prices                 = $fields->findOrMakeTab('Root.Prices',                 $this->fieldLabel('Prices'));
             $seo                    = $fields->findOrMakeTab('Root.SEO',                    $this->fieldLabel('SEO'));
             $productGroups          = $fields->findOrMakeTab('Root.ProductGroups',          $this->fieldLabel('SilvercartProductGroups'));
+            $widgets                = $fields->findOrMakeTab('Root.Widgets',                $this->fieldLabel('WidgetArea'));
             $deeplinks              = $fields->findOrMakeTab('Root.Deeplinks',              $this->fieldLabel('Deeplinks'));
 
             /***********************************************************************
@@ -963,6 +996,7 @@ class SilvercartProduct extends DataObject {
             $this->getFieldsForPrices($fields);
             $this->getFieldsForSeo($fields);
             $this->getFieldsForProductGroups($fields);
+            $this->getFieldsForWidgets($fields);
             $this->getFieldsForDeeplinks($fields);
         }
         
@@ -1514,18 +1548,22 @@ class SilvercartProduct extends DataObject {
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
     }
-
+    
     /**
-     * We make this method extendable here.
+     * We want to delete all attributed WidgetAreas and Widgets before deletion.
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
-
+        foreach ($this->WidgetArea()->Widgets() as $widget) {
+            $widget->delete();
+        }
+        
+        $this->WidgetArea()->delete();
         $this->extend('updateOnBeforeDelete');
     }
 
@@ -1603,9 +1641,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
@@ -1646,6 +1683,14 @@ class SilvercartProduct extends DataObject {
                 $newProductGroupMirrorSortOrder->setField('SortOrder', $this->original['SortOrder'] ? $this->original['SortOrder'] : $this->record['SortOrder']);
                 $newProductGroupMirrorSortOrder->write();
             }
+        }
+        
+        if ($this->WidgetAreaID == 0) {
+            $widgetArea = new WidgetArea();
+            $widgetArea->write();
+            
+            $this->WidgetAreaID = $widgetArea->ID;
+            $this->write();
         }
     }
     
@@ -2744,7 +2789,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
  * @since 14.03.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProduct_RecordController extends ModelAdmin_RecordController {
+class SilvercartProduct_RecordController extends SilvercartHasManyOrderField_RecordController {
 
     /**
      * Makes the record controller decoratable

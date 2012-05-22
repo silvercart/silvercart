@@ -177,6 +177,13 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
+        <% control getProduct %>
+            <% control WidgetArea %>
+                <% control WidgetControllers %>
+                    $WidgetHolder
+                <% end_control %>
+            <% end_control %>
+        <% end_control %>
         $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>
