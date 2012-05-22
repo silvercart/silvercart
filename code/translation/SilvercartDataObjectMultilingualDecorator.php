@@ -141,18 +141,24 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     /**
      * Getter for the related language object depending on the set language
      * Always returns a SilvercartProductLanguage
+     * 
+     * @param bool $force Force the creation of an language object?
      *
      * @return SilvercartProductLanguage
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2012
      */
-    public function getLanguage() {
+    public function getLanguage($force = false) {
         if ($this->owner->ID === 0) {
-            return false;
-        }
-
-        if (is_null($this->languageObj)) {
+            if ($force) {
+                $languageClassName          = $this->getLanguageClassName();
+                $this->languageObj          = new $languageClassName();
+                $this->languageObj->Locale  = Translatable::get_current_locale();
+            } else {
+                $this->languageObj = null;
+            }
+        } elseif (is_null($this->languageObj)) {
             $relationFieldName      = $this->getRelationFieldName();
             $languageClassName      = $this->getLanguageClassName();
             $languageRelationName   = $this->getLanguageRelationName();
