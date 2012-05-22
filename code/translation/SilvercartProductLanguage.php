@@ -87,7 +87,7 @@ class SilvercartProductLanguage extends DataObject {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Title'             => _t('SilvercartProduct.TITLE'),
+                    'Title'             => _t('SilvercartProduct.COLUMN_TITLE'),
                     'ShortDescription'  => _t('SilvercartProduct.SHORTDESCRIPTION'),
                     'LongDescription'   => _t('SilvercartProduct.DESCRIPTION'),
                     'MetaDescription'   => _t('SilvercartProduct.METADESCRIPTION'),
