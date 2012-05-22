@@ -25,7 +25,7 @@
  * A formfield for changing the frontends language
  *
  * @package Silvercart
- * @subpackage Forms
+ * @subpackage FormFields
  * @copyright pixeltricks GmbH
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.04.2012
