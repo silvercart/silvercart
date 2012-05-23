@@ -256,14 +256,18 @@
 
     /* ------ Everything about the Blog ------ */
     
+    img.padd,
+    img.left,
+    img.right {
+        padding:5px;
+    }
+    
     img.left{
         float:left;
-        padding:5px;
     }
 
     img.right {
         float:right;
-        padding:5px;
     }
     img.right.nopadd {
         padding: 0;
