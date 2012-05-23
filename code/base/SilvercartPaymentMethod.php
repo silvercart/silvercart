@@ -1304,12 +1304,19 @@ class SilvercartPaymentMethod extends DataObject {
             'Group'
         );
         $showNotForGroupsTable->setPermissions(array('show'));
+        $anonymousGroup = Group::get_one('Group', "`Code` = 'anonymous'");
         $showOnlyForUsersTable = new ManyManyComplexTableField(
             $this,
             'ShowOnlyForUsers',
             'Member',
             null,
-            null
+            null,
+            sprintf(
+                    "`Group_Members`.`GroupID` != '%s'",
+                    $anonymousGroup->ID
+            ),
+            "",
+            "LEFT JOIN `Group_Members` ON (`Group_Members`.`MemberID` = `Member`.`ID`)"
         );
         $showOnlyForUsersTable->setPermissions(array('show'));
         $showNotForUsersTable = new ManyManyComplexTableField(
@@ -1317,7 +1324,13 @@ class SilvercartPaymentMethod extends DataObject {
             'ShowNotForUsers',
             'Member',
             null,
-            null
+            null,
+            sprintf(
+                    "`Group_Members`.`GroupID` != '%s'",
+                    $anonymousGroup->ID
+            ),
+            "",
+            "LEFT JOIN `Group_Members` ON (`Group_Members`.`MemberID` = `Member`.`ID`)"
         );
         $showNotForUsersTable->setPermissions(array('show'));
         
