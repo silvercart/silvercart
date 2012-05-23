@@ -187,6 +187,8 @@
     .float_left { float:left; display:inline; margin-right:1em; margin-bottom:0.15em; }
     .float_right { float:right; display:inline; margin-left:1em; margin-bottom:0.15em; }
     .center { display:block; text-align:center; margin:0.5em auto; }
+    .right.clear { clear: right; }
+    .left.clear { clear: left; }
 
     /**
      * ------------------------------------------------------------------------------------------------- #
