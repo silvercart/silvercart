@@ -1419,6 +1419,7 @@ class SilvercartProduct extends DataObject {
         $link = '';
 
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+            !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
             $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
         } elseif ($this->SilvercartProductGroup()) {
