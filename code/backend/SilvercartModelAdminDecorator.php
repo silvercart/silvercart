@@ -48,6 +48,7 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
             return true;
         }
         
+        $baseUrl                                = SilvercartTools::getBaseURLSegment();
         $preventAutoLoadingClassNames           = $this->getPreventAutoLoadForManagedModels();
         $enabledFirstEntryAutoLoadClassNames    = $this->getEnabledFirstEntryAutoLoadForManagedModels();
 
@@ -56,7 +57,12 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
         RequirementsEngine::parse('SilvercartModelAdminDecorator.js', array('silvercart/script/SilvercartModelAdminDecorator.js'));
         
         RequirementsEngine::add_i18n_javascript('silvercart/javascript/lang');
-        Requirements::javascript(SilvercartTools::getBaseURLSegment() . "silvercart/script/SilvercartManyManyComplexTableField.js");
+        Requirements::javascript($baseUrl . "silvercart/script/SilvercartManyManyComplexTableField.js");
+        
+        Requirements::block($baseUrl . 'sapphire/thirdparty/jquery-ui/jquery.ui.core.js');
+        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.core.js');
+        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.position.js');
+        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.widget.js');
         
         Requirements::css('silvercart/css/backend/SilvercartMain.css');
     }
