@@ -95,8 +95,26 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
      * @since 14.05.2012
      */
     public function PaymentMethods() {
-        $PaymentMethods = DataObject::get('SilvercartPaymentMethod');
+        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart());
         return $PaymentMethods;
+    }
+    
+    /**
+     * Returns the current shipping country
+     *
+     * @return SilvercartCountry
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2012
+     */
+    public function ShippingCountry() {
+        $customer = Member::currentUser();
+        if ($customer) {
+            $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();
+        } else {
+            $shippingCountry = DataObject::get_one('SilvercartCountry', "`Active` = 1");
+        }
+        return $shippingCountry;
     }
     
 }
