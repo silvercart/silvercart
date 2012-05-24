@@ -231,8 +231,8 @@ class SilvercartManyManyOrderField extends DropdownField {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2012
      */
     public function getSource() {
         $itemArray = array();
@@ -243,8 +243,8 @@ class SilvercartManyManyOrderField extends DropdownField {
         if ($items) {
             foreach ($items as $item) {
                 $itemArray[] = array(
-                    $item->getField('ID'),
-                    $item->getField('name')
+                    $item->ID,
+                    $item->name,
                 );
             }
         }
