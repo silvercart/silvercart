@@ -83,7 +83,7 @@ class SilvercartUpdate1_2__3 extends SilvercartUpdate {
         DB::query("ALTER TABLE `SilvercartConfig` DROP `PricetypeAnonymousCustomers`");
         
         $config = SilvercartConfig::getConfig();
-        $config->DefaultPricetype = 'gross';
+        $config->DefaultPriceType = 'gross';
         $config->write();
         
         return true;

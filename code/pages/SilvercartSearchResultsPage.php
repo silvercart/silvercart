@@ -158,18 +158,18 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      *
-     * @param Object $object The filter plugin object
+     * @param Object $plugin The filter plugin object
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2012
      */
-    public static function registerFilterPlugin($object) {
-        $reflectionClass = new ReflectionClass($object);
+    public static function registerFilterPlugin($plugin) {
+        $reflectionClass = new ReflectionClass($plugin);
         
         if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = $object;
+            self::$registeredFilterPlugins[] = new $plugin();
         }
     }
     
@@ -429,27 +429,15 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * Returns the products that match the search result in any kind
      *
      * @return DataObjectSet|false the resulting products of the search query
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.11.10
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2012
      */
     public function getProducts() {
         if (is_null($this->searchResultProducts)) {
             $this->buildSearchResultProducts();
         }
         return $this->searchResultProducts;
-    }
-
-    /**
-     * Returns the products that match the search result in any kind
-     *
-     * @return DataObjectSet
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
-     */
-    public function getUnfilteredProducts() {
-        $unfilteredProducts = $this->getProducts();
-        return $unfilteredProducts;
     }
     
     /**
