@@ -429,27 +429,15 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * Returns the products that match the search result in any kind
      *
      * @return DataObjectSet|false the resulting products of the search query
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.11.10
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2012
      */
     public function getProducts() {
         if (is_null($this->searchResultProducts)) {
             $this->buildSearchResultProducts();
         }
         return $this->searchResultProducts;
-    }
-
-    /**
-     * Returns the products that match the search result in any kind
-     *
-     * @return DataObjectSet
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
-     */
-    public function getUnfilteredProducts() {
-        $unfilteredProducts = $this->getProducts();
-        return $unfilteredProducts;
     }
     
     /**

@@ -615,9 +615,10 @@ class SilvercartConfig extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public static function DefaultPricetype() {
-        if (is_null(self::$defaultPricetype)) {
-            self::$defaultPricetype = self::getConfig()->DefaultPricetype;
+    public static function DefaultPriceType() {
+        if (is_null(self::$defaultPricetype) ||
+            empty(self::$defaultPricetype)) {
+            self::$defaultPricetype = self::getConfig()->DefaultPriceType;
         }
         return self::$defaultPricetype;
     }
@@ -883,10 +884,10 @@ class SilvercartConfig extends DataObject {
                 }
             }
             if (is_null(self::$priceType)) {
-                self::$priceType = self::DefaultPricetype();
+                self::$priceType = self::DefaultPriceType();
             }
         } else {
-            self::$priceType = self::DefaultPricetype();
+            self::$priceType = self::DefaultPriceType();
         }
         return self::$priceType;
     }
