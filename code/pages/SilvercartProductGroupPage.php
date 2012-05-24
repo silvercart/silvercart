@@ -266,6 +266,25 @@ class SilvercartProductGroupPage extends Page {
             $blankUrl   = $relativeUrl;
         }
         $backPage = SiteTree::get_by_link($blankUrl);
+        
+        // If no backPage has been found we could come from a product detail
+        // page. Try to get the product title then.
+        if (!$backPage) {
+            $urlElems = explode('/', $blankUrl);
+            array_pop($urlElems);
+            $productId = array_pop($urlElems);
+            
+            $silvercartProduct = DataObject::get_by_id(
+                'SilvercartProduct',
+                Convert::raw2xml($productId)
+            );
+            
+            if ($silvercartProduct) {
+                $backPage = new DataObject();
+                $backPage->MenuTitle = $silvercartProduct->Title;
+            }
+        }
+        
         return $backPage;
     }
     
