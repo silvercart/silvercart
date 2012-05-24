@@ -260,23 +260,23 @@
 
 .silvercart-widget .silvercart-product-group-navigation-widget ul {
     list-style:                     none;
-    margin:                         0px;
+    margin:                         0px 0px 0px 5px;
     padding:                        0px;
 }
 .silvercart-widget .silvercart-product-group-navigation-widget ul li ul {
     list-style-type:                square;
-    list-style-position:            inside;
-    margin:                         0px 0px 0px 0px;
+    margin:                         0px 0px 0px 16px;
     padding:                        0px 0px 0px 0px;
 }
 .silvercart-widget .silvercart-product-group-navigation-widget ul li ul li {
-    margin:                         0px 0px 0px 16px;
+    margin:                         0px 0px 0px 10px;
     padding:                        0px 0px 0px 0px;
 }
 
 .silvercart-widget .silvercart-product-group-navigation-widget li a {
     background:                     transparent;
     border:                         none;
+    padding-left:                   0px;
 }
 .silvercart-widget .silvercart-product-group-navigation-widget li a.active {
     text-decoration:                underline;

@@ -146,7 +146,10 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
 
         // Get address type
         $address = DataObject::get_by_id($context->getSection(), $this->getBreadcrumbElementID());
-        $parts[] = $address->i18n_singular_name();
+        
+        if ($address) {
+            $parts[] = $address->i18n_singular_name();
+        }
 
         $i = 0;
         while (

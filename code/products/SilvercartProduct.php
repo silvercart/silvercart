@@ -1105,15 +1105,15 @@ class SilvercartProduct extends DataObject {
      * Getter for product price
      * May be decorated by the module silvercart_graduatedprices
      *
-     * @param boolean $priceType Set to 'gross' or 'net' to get the desired prices.
-     *                           If not given the price type will be automatically determined.
+     * @param string $priceType Set to 'gross' or 'net' to get the desired prices.
+     *                          If not given the price type will be automatically determined.
      *
      * @return Money price dependent on customer class and configuration
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.10.2011
      */
-    public function getPrice($priceType = false) {
+    public function getPrice($priceType = '') {
         $cacheHash = md5($priceType);
         $cacheKey = 'getPrice_'.$cacheHash;
 
@@ -1121,10 +1121,10 @@ class SilvercartProduct extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        if ($priceType === false) {
+        if ($priceType === '') {
             $priceType = SilvercartConfig::priceType();
         }
-        if ($priceType =="net") {
+        if ($priceType == "net") {
             $price = clone $this->PriceNet;
         } elseif ($priceType == "gross") {
             $price = clone $this->PriceGross;
