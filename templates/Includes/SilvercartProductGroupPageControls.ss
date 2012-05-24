@@ -77,13 +77,11 @@
                 </div>
             </div>
 
-            <% if HasMoreProductsThan(3) %>
-                <div class="silvercart-product-group-page-selectors">
-                    <div class="silvercart-product-group-page-selectors_content">
-                        $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
-                    </div>
+            <div class="silvercart-product-group-page-selectors">
+                <div class="silvercart-product-group-page-selectors_content">
+                    $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
                 </div>
-            <% end_if %>
+            </div>
         </div>
     </div>
 <% end_if %>
