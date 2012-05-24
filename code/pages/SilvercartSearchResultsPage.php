@@ -158,18 +158,18 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      *
-     * @param Object $object The filter plugin object
+     * @param Object $plugin The filter plugin object
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2012
      */
-    public static function registerFilterPlugin($object) {
-        $reflectionClass = new ReflectionClass($object);
+    public static function registerFilterPlugin($plugin) {
+        $reflectionClass = new ReflectionClass($plugin);
         
         if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = $object;
+            self::$registeredFilterPlugins[] = new $plugin();
         }
     }
     
