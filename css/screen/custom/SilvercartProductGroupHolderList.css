@@ -1,3 +1,33 @@
+.silvercart-product-group-holder-list-productlist {
+    width:                          650px;
+    overflow:                       hidden;
+    margin:                         0px 0px 0px 7px;
+}
+.silvercart-product-group-holder-list-productlist_content {
+    padding:                        4px;
+}
+.silvercart-product-group-holder-list-productlist-entry {
+    float:                          left;
+    padding:                        2px;
+}
+.silvercart-product-group-holder-list-productlist-entry_content {
+    display:                        table-cell;
+    width:                          100px;
+    height:                         100px;
+    text-align:                     center;
+    vertical-align:                 middle;
+    border:                         1px #e2e2e2 solid;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
+}
+.silvercart-product-group-holder-list-productlist-entry_content:hover {
+    border-color:                   #666;
+}
+.silvercart-product-group-holder-list-productlist-entry img {
+    display:                        inline;
+}
+
 .product-group-holder-entry {
     margin:                         0px 0px 20px 0px;
 }

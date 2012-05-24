@@ -17,6 +17,21 @@
                 </div>
             </div>
         </div>
+        
+        <div class="silvercart-product-group-holder-list-productlist">
+            <div class="silvercart-product-group-holder-list-productlist_content clearfix">
+                <% control getProducts(6) %>
+                    <a href="$Link" class="silvercart-product-group-holder-list-productlist-entry" title="$Title">
+                        <span class="silvercart-product-group-holder-list-productlist-entry_content">
+                            <% control getSilvercartImages.First %>
+                                $Image.SetRatioSize(90,90)
+                            <% end_control %>
+                        </span>
+                    </a>
+                <% end_control %>
+            </div>
+        </div>
+        
         <div class="product-group-holder-entry-foot">
             <% if hasProductCount(0) %>
             <% else %>

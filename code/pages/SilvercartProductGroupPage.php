@@ -765,11 +765,14 @@ class SilvercartProductGroupPage extends Page {
      * @since 22.03.2012
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false) {
-        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller) {
+        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+            Controller::curr()->data()->ID === $this->ID) {
+            
             $controller = Controller::curr();
         } else {
             $controller = new SilvercartProductGroupPage_Controller($this);
         }
+        
         return $controller->getProducts($numberOfProducts, $sort, $disableLimit);
     }
 }
