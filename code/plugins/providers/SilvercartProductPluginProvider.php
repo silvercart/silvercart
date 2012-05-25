@@ -65,7 +65,7 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
      * @since 22.09.2011
      */
     public function onAfterAddToCart(&$arguments, &$callingObject) {
-        $result = $this->extend('pluginOnAfterAddToCart', $arguments);
+        $result = $this->extend('pluginOnAfterAddToCart', $arguments, $callingObject);
         
         return $result;
     }

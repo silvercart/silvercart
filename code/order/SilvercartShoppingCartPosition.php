@@ -151,6 +151,8 @@ class SilvercartShoppingCartPosition extends DataObject {
                     );
                 }
             }
+            
+            $this->extend('updateCreateForms');
         }
     }
 
