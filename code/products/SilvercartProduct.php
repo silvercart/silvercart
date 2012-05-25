@@ -1121,9 +1121,10 @@ class SilvercartProduct extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        if ($priceType === '') {
+        if (empty($priceType)) {
             $priceType = SilvercartConfig::priceType();
         }
+        
         if ($priceType == "net") {
             $price = clone $this->PriceNet;
         } elseif ($priceType == "gross") {
