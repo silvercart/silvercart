@@ -10,7 +10,11 @@
         <div id="silvercart-slidorion-{$ID}" class="silvercart-widget-slidorion-productgroup-slider">
             <div class="silvercart-slidorion-slider">
                 <% control SCProductGroupPages %>
-                    <div class="silvercart-slidorion-slide">$Content</div>
+                    <div class="silvercart-slidorion-slide">
+                        <% control GroupPicture %>
+                            $SetRatioSize(426,385)
+                        <% end_control %>
+                    </div>
                 <% end_control %>
             </div>
 

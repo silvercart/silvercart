@@ -244,11 +244,14 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         if (array_key_exists('SCProductGroupPages', $_REQUEST) &&
             is_array($_REQUEST['SCProductGroupPages'])) {
             
+            if (array_key_exists('selected', $_REQUEST['SCProductGroupPages'])) {
+                unset($_REQUEST['SCProductGroupPages']['selected']);
+            }
+            
             foreach ($_REQUEST['SCProductGroupPages'] as $idx => $productGroupPageId) {
-                
                 $silvercartProductGroupPage = DataObject::get_by_id(
                     'SilvercartProductGroupPage',
-                    Convert::raw2sql($productGroupPageId)
+                    Convert::raw2sql((int) $productGroupPageId)
                 );
                 
                 if ($silvercartProductGroupPage) {
@@ -290,8 +293,8 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
                 (function($) {jQuery(document).ready(function(){
                     $('#silvercart-slidorion-%d').slidorion({
                         speed:      1000,
-                        interval:   4000,
-                        effect:     'slideDown',
+                        interval:   6000,
+                        effect:     'fade',
                         hoverPause: true,
                         autoPlay:   true
                     });
