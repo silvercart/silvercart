@@ -344,6 +344,11 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
             Requirements::javascript("silvercart/script/jquery.easing.1.3.js");
             Requirements::add_i18n_javascript('silvercart/javascript/lang');
+            
+            Requirements::customScript('
+                jQuery(window).focus(function() {jQuery.fx.off = false;});
+                jQuery(window).blur(function(){jQuery.fx.off = true;});
+            ');
         }
         
         if ($controller == $this || $controller->forceLoadOfWidgets) {

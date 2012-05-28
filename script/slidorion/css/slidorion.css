@@ -6,6 +6,9 @@
 	left: 50%;
 	margin-left: -330px;
 	border: 1px solid #e2e2e2;
+    border-radius:                  3px;
+    -moz-border-radius:             3px;
+    -webkit-border-radius:          3px;
 }
 
 .silvercart-slidorion-slider {
@@ -37,8 +40,8 @@
 }
 
 .silvercart-slidorion-accordeon > .silvercart-slidorion-link-header {
-	padding: 8px 14px;
-	font-size: 12px;
+	padding: 8px 8px;
+	font-size: 11px;
 	color: #333;
     background: white;
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#EDEDED));
@@ -67,7 +70,7 @@
 }
 
 .silvercart-slidorion-accordeon > .silvercart-slidorion-link-content {
-	height: 292px;			/* This height needs to be changed as it depends on the accordion height and number of tabs */
+	height: 295px;			/* This height needs to be changed as it depends on the accordion height and number of tabs */
 	margin: 0;
 	padding: 8px;
 	border: none;

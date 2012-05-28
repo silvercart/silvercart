@@ -75,11 +75,9 @@
 						obj.hover(function(){
 							intervalPause = true;
 							stopAuto();
-							console.log("here");
 						}, function(){
 							intervalPause = false;
 							restartAuto();
-							console.log("here again");
 						});
 					}
 					
