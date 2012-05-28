@@ -33,7 +33,7 @@
  */
 class SilvercartSubNavigationWidget extends SilvercartWidget {
     
-     /**
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -71,9 +71,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     }
     
 }
-
-
-
 
 /**
  * Provides a navigation of the current section and their childs.

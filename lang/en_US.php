@@ -923,6 +923,13 @@ $lang['en_US']['SilvercartMetaNavigationPage']['SINGULARNAME'] = 'Meta informati
 $lang['en_US']['SilvercartSiteMapPage']['PLURALNAME'] = 'SiteMaps';
 $lang['en_US']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['CMS_BASICTABNAME'] = 'Basic preferences';
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['CMSTITLE'] = 'Slidorion product group accordeon';
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION'] = 'Slidorion for product groups - a combination of an image slider and an accordeon';
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['PLURALNAME'] = 'Slidorion product group accordeon';
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['TITLE'] = 'Slidorion product group Accordeon';
+$lang['en_US']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME'] = 'Slidorion product group accordeon';
+
 $lang['en_US']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
 $lang['en_US']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
 $lang['en_US']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'my-account';
@@ -1531,7 +1538,7 @@ $lang['en_US']['SilvercartProductLanguage']['SINGULARNAME']                     
 $lang['en_US']['SilvercartProductLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
 $lang['en_US']['SilvercartProductLanguage']['LOCALE']                           = 'Language';
 
-$lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Are you looking for something?';
+$lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'SilverCart search';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart search';
 $lang['en_US']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widget shows a form for the product search.';
 

@@ -923,6 +923,13 @@ $lang['de_DE']['SilvercartMetaNavigationPage']['SINGULARNAME'] = 'Meta-Informati
 $lang['de_DE']['SilvercartSiteMapPage']['PLURALNAME'] = 'SiteMaps';
 $lang['de_DE']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMS_BASICTABNAME'] = 'Grundeinstellungen';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMSTITLE'] = 'Slidorion Warengruppen Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION'] = 'Slidorion Warengruppen - eine Kombination aus Slider und Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['PLURALNAME'] = 'Slidorion Warengruppen Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['TITLE'] = 'Slidorion Warengruppen Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME'] = 'Slidorion Warengruppen Akkordeon';
+
 $lang['de_DE']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Sie haben schon ein Konto?';
 $lang['de_DE']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'Mein Konto';
 $lang['de_DE']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'mein-konto';

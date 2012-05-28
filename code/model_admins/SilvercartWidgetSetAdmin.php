@@ -89,6 +89,16 @@ class SilvercartWidgetSetAdmin extends ModelAdmin {
             'record_controller' => 'SilvercartHasManyOrderField_RecordController'
         ),
     );
+    
+    /**
+     * We don't want the import form here.
+     *
+     * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2012
+     */
+    public $showImportForm = false;
 
     /**
      * Constructor
