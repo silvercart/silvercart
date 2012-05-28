@@ -18,15 +18,15 @@
                                     <a class="skip" title="skip link" href="#content">Skip to the content</a><span class="hideme">.</span>
 
                                     <div class="silvercart-meta-navigation">
-                                        <div class="silvercart-button-plain">
-                                            <div class="silvercart-button-plain_content">
+                                        <div class="silvercart-button">
+                                            <div class="silvercart-button_content">
                                                 <a id="silvercart-headerbar-home-link" href="$PageByIdentifierCode(SilvercartFrontPage).Link">
                                                     <img src="{$BaseHref}silvercart/images/icon_home.png" alt="home" />
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="silvercart-button-plain">
-                                            <div class="silvercart-button-plain_content">
+                                        <div class="silvercart-button">
+                                            <div class="silvercart-button_content">
                                                 <a id="silvercart-headerbar-contact-link" href="$PageByIdentifierCode(SilvercartContactFormPage).Link">
                                                     <img src="{$BaseHref}silvercart/images/icon_contact.png" alt="<% _t('SilvercartContactFormPage.TITLE') %>" />
                                                 </a>

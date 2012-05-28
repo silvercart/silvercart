@@ -6,11 +6,11 @@ body, html {
 body {
     font-family:                    verdana, sans-serif;
     color:                          #333;
-    background:                     #f1f1f1;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#dbd5cc), to(#f1f1f1)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #dbd5cc,  #f1f1f1); /* for firefox 3.6+ */
-    background:                     -o-linear-gradient(top,  #dbd5cc,  #f1f1f1); /* for opera */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#dbd5cc', endColorstr='#f1f1f1'); /* for IE */
+    background:                     #f3f3f3;
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#f9f9f9)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #f1f1f1,  #f9f9f9); /* for firefox 3.6+ */
+    background:                     -o-linear-gradient(top,  #f1f1f1,  #f9f9f9); /* for opera */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#f9f9f9'); /* for IE */
 }
 
 #col1 {
@@ -90,6 +90,7 @@ a:active {
 h1 {
     font-family:                    georgia, serif;
     font-size:                      28px;
+    text-shadow:                    #f5f8f9 -1px -1px 2px, #f5f8f9 1px 1px 2px;
 }
 
 #main {
@@ -126,9 +127,9 @@ h1 {
 
 .page {
     background:                     #fff;
-    border:                         1px #aeaaa1 solid;
+    border:                         1px #cfcfcf solid;
     border-top:                     none;
-    box-shadow:                     #c4c0b6 0px 0px 14px;
+    box-shadow:                     #dadada 0px 0px 14px;
 }
 .right {
     text-align:                     right;
@@ -469,7 +470,7 @@ p.silvercart-message.vdistance {
 }
 
 #silvercart-shop-claim {
-    padding:                        30px 0px;
+    padding:                        15px 0px;
 }
 #silvercart-shop-claim a {
     float:                          left;
@@ -484,7 +485,6 @@ p.silvercart-message.vdistance {
 }
 #silvercart-shop-claim-text h1 {
     margin:                         0px 0px 4px 0px;
-    
     line-height:                    100%;
 }
 #silvercart-shop-claim-text h1 a {
