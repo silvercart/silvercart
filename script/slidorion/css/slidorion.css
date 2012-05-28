@@ -10,7 +10,7 @@
 
 .silvercart-slidorion-slider {
 	width: 426px;			/* Set to slider width */
-	height: 400px;			/* Set to slider height */
+	height: 384px;			/* Set to slider height */
 	position: relative;
 	float: left;
 	overflow: hidden;		/* Hides the animations */
@@ -19,6 +19,8 @@
 
 .silvercart-slidorion-slider > div {
 	position:absolute;
+    left: 0px;
+    top: 0px;
 	width:100%;
 	height:100%;
 }
@@ -29,7 +31,7 @@
 	font-family: Verdana;
     border-left: 1px #e2e2e2 solid;
 	position: relative;
-	z-index:999;
+	z-index:59;
 	overflow: hidden;
 	float: left;
 }
