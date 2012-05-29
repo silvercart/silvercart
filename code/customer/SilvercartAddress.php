@@ -167,6 +167,18 @@ class SilvercartAddress extends DataObject {
     }
     
     /**
+     * Return field labels as DataObject.
+     *
+     * @return DataObject
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.05.2012
+     */
+    public function fieldLabel() {
+        return new DataObject($this->fieldLabels());
+    }
+    
+    /**
      * Indicates wether this address is set as a standard address for shipping
      * or invoicing.
      *
