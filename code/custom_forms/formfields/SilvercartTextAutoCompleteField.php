@@ -136,9 +136,8 @@ class SilvercartTextAutoCompleteField extends TextField {
      */
     public function saveInto(DataObject $record) {
         $fieldName = $this->name;
-        $saveDest = $record->$fieldName();
 
-        if (!$saveDest) {
+        if (!isset($record->{$fieldName})) {
             user_error(
                 sprintf(
                     "SilvercartTextAutoCompleteField::saveInto() Field '%s' not found on %s.%s",
@@ -154,24 +153,26 @@ class SilvercartTextAutoCompleteField extends TextField {
         $list = $this->value;
         $autoCompleteSourceDataObject = $this->getAutoCompleteSourceDataObject();
         $autoCompleteSourceAttribute = $this->getAutoCompleteSourceAttribute();
-        $relatedIDs = array();
+        $relatedID = 0;
         if ($list) {
             if ($list != 'undefined') {
                 $items = explode(',', $list);
                 foreach ($items as $item) {
                     $item = strtolower(trim($item));
-                    $existingItem = DataObject::get_one($autoCompleteSourceDataObject, sprintf("`Title` = '%s'", $item));
+                    $existingItem = DataObject::get_one($autoCompleteSourceDataObject, sprintf("`%s` = '%s'", $autoCompleteSourceAttribute, $item));
                     if (!$existingItem) {
                         $existingItem = new $autoCompleteSourceDataObject();
                         $existingItem->{$autoCompleteSourceAttribute} = $item;
                         $existingItem->write();
                     }
-                    $relatedIDs[] = $existingItem->ID;
+                    $relatedID = $existingItem->ID;
+                    break;
                 }
             }
         }
 
-        $saveDest->setByIDList($relatedIDs);
+        $record->{$fieldName} = $relatedID;
+        $record->write();
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -192,7 +193,7 @@ class SilvercartTextAutoCompleteField extends TextField {
         $attribute = $this->getAutoCompleteSourceAttribute();
         if ($dataObjectSet) {
             foreach ($dataObjectSet as $dataObject) {
-                $autoCompleteList[] = $dataObject->{$attribute};
+                $autoCompleteList[] = str_replace("'", "\'", $dataObject->{$attribute});
             }
         }
         $this->setAutoCompleteList($autoCompleteList);
@@ -208,11 +209,14 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @since 05.10.2011
      */
     protected function generateAutoCompleteSource() {
-        $fieldname = $this->name;
-        if (strpos($fieldname, 'ID') == strlen($fieldname) - 2) {
-            $autoCompleteSource = substr($fieldname, 0, strlen($fieldname) - 2);
-            $this->setAutoCompleteSource($autoCompleteSource);
-
+        $sourceDataObject = $this->getAutoCompleteSourceDataObject();
+        if (empty($sourceDataObject) ||
+            is_null($sourceDataObject)) {
+            $fieldname = $this->name;
+            if (strpos($fieldname, 'ID') == strlen($fieldname) - 2) {
+                $autoCompleteSource = substr($fieldname, 0, strlen($fieldname) - 2);
+                $this->setAutoCompleteSource($autoCompleteSource);
+            }
         }
     }
     
@@ -226,10 +230,13 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @since 05.10.2011
      */
     protected function generateAutoCompleteValue() {
-        $fieldName = $this->name;
+        $fieldName  = $this->name;
         $controller = $this->getController();
-        $relation = DataObject::get_by_id($this->getAutoCompleteSourceDataObject(), $controller->{$fieldName});
-        $value = $relation->{$this->getAutoCompleteSourceAttribute()};
+        $relation   = DataObject::get_by_id($this->getAutoCompleteSourceDataObject(), $controller->{$fieldName});
+        $value      = '';
+        if ($relation) {
+            $value = $relation->{$this->getAutoCompleteSourceAttribute()};
+        }
         $this->setAutoCompleteValue($value);
     }
 
