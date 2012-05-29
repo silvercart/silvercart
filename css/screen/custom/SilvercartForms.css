@@ -92,7 +92,7 @@ form.yform .type-button .silvercart-button a {
 #silvercart-quicksearch-form form.yform div.type-text input:active,
 #silvercart-quicksearch-form form.yform div.type-text input:focus {
     color:                          #fff;
-    background-color:               #353535;
+    background-color:               #86827f;
     border-color:                   #232323;
 }
 #silvercart-quicksearch-form form.yform input {
@@ -132,7 +132,7 @@ form.yform .type-button .silvercart-button a {
     width:                          320px;
     position:                       absolute;
     top:                            31px;
-    left:                           466px;
+    left:                           508px;
     color:                          #fff;
     border:                         1px #000 solid;
     border-top:                     none;
@@ -143,14 +143,15 @@ form.yform .type-button .silvercart-button a {
     -webkit-border-bottom-right-radius: 3px;
     -webkit-border-bottom-left-radius:  3px;
     background-color:               #363636;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#363636), to(#000000)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top,  #363636,  #000000); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #363636,  #000000); /* for opera 11.10+ */
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#363636', endColorstr='#000000'); /* for IE */
+    background:                     -webkit-gradient(linear, left top, left bottom, from(#363636), to(#222222)); /* for webkit browsers */
+    background:                     -moz-linear-gradient(top,  #363636,  #222222); /* for firefox 3.6+ */ 
+    background:                     -o-linear-gradient(top,  #363636,  #222222); /* for opera 11.10+ */
+    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#363636', endColorstr='#222222'); /* for IE */
     box-shadow:                     0px 0px 9px #363636;
 }
 #silvercart-quicklogin-form .yform div.error,
 #silvercart-quicklogin-form .yform div.note {
+    color:                          #ff9a9a;
     background-color:               #451515;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#451515), to(#752323)); /* for webkit browsers */
     background:                     -moz-linear-gradient(top, #451515, #752323); /* for firefox 3.6+ */ 
@@ -199,7 +200,8 @@ form.yform .type-button .silvercart-button a {
 #silvercart-quicklogin-form form.yform .type-text input:active,
 #silvercart-quicklogin-form form.yform .type-text input:focus {
     color:                          #fff;
-    background-color:               #5f5c5a;
+    background-color:               #86827f;
+    border-color:                   #232323;
 }
 #silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions {
     text-align:                     right;
@@ -208,7 +210,7 @@ form.yform .type-button .silvercart-button a {
 #silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input { /* Submit and cancel buttons */
     height:                         30px;
     padding:                        3px 10px 3px 10px;
-    font-size:                      12px;
+    font-size:                      11px;
     color:                          #fff;
     background-color:               #42403e;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#444444), to(#000000)); /* for webkit browsers */
@@ -220,7 +222,9 @@ form.yform .type-button .silvercart-button a {
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
-#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input:hover {
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input:hover,
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input:active,
+#silvercart-quicklogin-form form.yform #silvercart-quicklogin-form-actions input:focus {
     cursor:                         pointer;
     text-decoration:                none;
     background:                     -webkit-gradient(linear, left top, left bottom, from(#616161), to(#1a1a1a)); /* for webkit browsers */
