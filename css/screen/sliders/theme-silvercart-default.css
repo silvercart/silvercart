@@ -1,8 +1,116 @@
 /*
 	AnythingSlider Silvercart default Theme
 */
+/* Opera width restriction */
+.anythingBase { max-width: 32766px; }
 
 /* Default State */
+div.anythingSlider {
+    display:                    block;
+    overflow:                   visible !important; /* needed for Opera and Safari */
+    position:                   relative;
+}
+div.anythingSlider .anythingWindow {
+    overflow:                   hidden;
+    position:                   relative;
+    height:                     100%;
+}
+.anythingBase {
+    background:                 transparent;
+    list-style:                 none;
+    position:                   absolute;
+    overflow:                   visible !important;
+    top:                        0;
+    left:                       0;
+    margin:                     0;
+    padding:                    0;
+}
+.anythingBase .panel {
+    background:                 transparent;
+    display:                    block;
+    overflow:                   hidden;
+    float:                      left;
+    padding:                    0;
+    margin:                     0;
+}
+.anythingBase .panel.vertical {
+    float:                      none;
+}
+/* Navigation Arrows */
+div.anythingSlider .arrow {
+    position:                   absolute;
+    display:                    block;
+}
+div.anythingSlider .arrow a {
+    display:                    block;
+    text-align:                 center;
+    outline:                    0;
+}
+div.anythingSlider .arrow a span {
+    /**
+    display:                    block;
+    text-indent:                -9999px;
+    /**/
+}
+div.anythingSlider .forward.disabled,
+div.anythingSlider .back.disabled {
+    display:                    none;
+}
+/* Navigation Links */
+div.anythingSlider .anythingControls {
+    outline:                    0;
+    display:                    none;
+}
+div.anythingSlider .anythingControls ul {
+    margin: 0;
+    padding: 0;
+}
+div.anythingSlider .anythingControls ul li {
+    display:                    inline;
+}
+div.anythingSlider .anythingControls ul a {
+    display:                    inline-block;
+    text-decoration:            none;
+    text-align:                 center;
+    outline:                    0;
+}
+/* Navigation size window */
+div.anythingSlider .anythingControls .anythingNavWindow {
+    overflow:                   hidden;
+    float:                      left;
+}
+/* slider autoplay right-to-left, reverse order of nav links to look better */
+div.anythingSlider.rtl .anythingControls ul a {
+    float:                      right;
+}
+div.anythingSlider.rtl .anythingControls ul {
+    float:                      left;
+}
+div.anythingSlider.rtl .anythingWindow {
+    direction:                  ltr;
+    unicode-bidi:               bidi-override;
+}
+/* Autoplay Start/Stop button */
+div.anythingSlider .start-stop {
+    padding:                    2px 5px;
+    text-align:                 center;
+    text-decoration:            none;
+    float:                      right;
+    z-index:                    100;
+    outline:                    0;
+}
+/* probably not necessary, but added just in case */
+div.anythingSlider,
+div.anythingSlider .anythingWindow,
+div.anythingSlider .anythingControls ul a,
+div.anythingSlider .arrow a,
+div.anythingSlider .start-stop {
+    transition-duration:            0;
+    -o-transition-duration:         0;
+    -moz-transition-duration:       0;
+    -webkit-transition-duration:    0;
+}
+/* Specific them styles */
 div.anythingSlider-silvercart-default {
     width:                      100%;
     margin:                     0px;
