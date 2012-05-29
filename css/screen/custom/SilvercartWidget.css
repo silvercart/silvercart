@@ -61,17 +61,8 @@
 #col4 .silvercart-widget-content-area h2 /* Widgets in content area */ {
     font-size:                      12px;
     font-weight:                    normal;
-    color:                          #0f517f;
     border:                         none;
-    background:                     #fcfdfd;
-    background:                     -webkit-gradient(linear, left top, left bottom, from(#d5e3e8), to(#fcfdfd)); /* for webkit browsers */
-    background:                     -moz-linear-gradient(top, #d5e3e8, #fcfdfd); /* for firefox 3.6+ */ 
-    background:                     -o-linear-gradient(top,  #d5e3e8,  #fcfdfd); /* for opera */ 
-    filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#d5e3e8', endColorstr='#fcfdfd'); /* for IE */
-    border-top:                     1px #7aa5c4 solid;
-    border-radius:                  3px;
-    -moz-border-radius:             3px;
-    -webkit-border-radius:          3px;
+    border-bottom:                  1px solid #E2E2E2;
     margin:                         34px 0px 6px 0px;
     padding:                        3px 8px 7px 8px;
 }
