@@ -1080,8 +1080,10 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function isExtendingSilvercartPaymentMethod() {
         $result = false;
-        if (in_array('SilvercartPaymentMethod', class_parents($this->ClassName))) {
-            $result = true;
+        if ($this->ClassName) {
+            if (in_array('SilvercartPaymentMethod', class_parents($this->ClassName))) {
+                $result = true;
+            }
         }
         return $result;
     }
