@@ -165,6 +165,9 @@ class SilvercartImage extends DataObject {
      * Returns a HTML snippet for the related Files icon.
      *
      * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2012
      */
     public function getFileIcon() {
         return '<img src="' . $this->Image()->Icon() . '" alt="' . $this->Image()->FileType . '" title="' . $this->Image()->Title . '" />';
@@ -174,6 +177,9 @@ class SilvercartImage extends DataObject {
      * Returns the products link
      *
      * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2012
      */
     public function getProductLink() {
         $link = "";
@@ -187,6 +193,9 @@ class SilvercartImage extends DataObject {
      * Returns the URL to a thumbnail if an image is assigned.
      *
      * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2012
      */
     public function getThumbnail() {
         $thumbnail = '';

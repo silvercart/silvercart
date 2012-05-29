@@ -34,9 +34,15 @@
  */
 class SilvercartImageSliderImage extends DataObject {
     
+    /**
+     * Casted properties
+     *
+     * @var array
+     */
     public static $casting = array(
-        'Title' => 'VarChar',
-        'TableIndicator' => 'Text'
+        'Title'          => 'VarChar',
+        'TableIndicator' => 'Text',
+        'Thumbnail'      => 'HTMLText'
     );
     
     /**
@@ -158,6 +164,8 @@ class SilvercartImageSliderImage extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
+            'Thumbnail'      => $this->fieldLabel('Thumbnail'),
+            'Title'          => $this->fieldLabel('Title'),
             'TableIndicator' => ''
         );
 
@@ -180,5 +188,27 @@ class SilvercartImageSliderImage extends DataObject {
         }
         
         return false;
+    }
+    
+    /**
+     * Returns the URL to a thumbnail if an image is assigned.
+     *
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.05.2012
+     */
+    public function getThumbnail() {
+        $thumbnail = '';
+
+        if ($this->ImageID > 0) {
+            $image     = $this->Image()->SetRatioSize(50, 50);
+            
+            if ($image) {
+                $thumbnail = $image->getTag();
+            }
+        }
+
+        return $thumbnail;
     }
 }
