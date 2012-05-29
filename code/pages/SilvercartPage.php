@@ -332,7 +332,6 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartSiteMap');
             Requirements::themedCSS('SilvercartWidget');        
             Requirements::themedCSS('jquery.fancybox-1.3.4');
-            Requirements::themedCSS('anythingslider');
             Requirements::javascript("customhtmlform/script/jquery.js");
             Requirements::javascript("silvercart/script/document.ready_scripts.js");
             Requirements::javascript("silvercart/script/jquery.pixeltricks.tools.js");
