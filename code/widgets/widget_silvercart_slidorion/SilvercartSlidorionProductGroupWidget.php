@@ -113,8 +113,8 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * 
      * @return FieldSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function getCMSFields() {
         $fields = new FieldSet();
@@ -124,11 +124,15 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         
         $titleField            = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
         $contentField          = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
-        $productGroupPageTable = new ManyManyComplexTableField(
-            $this,
-            'SCProductGroupPages',
-            'SilvercartProductGroupPage'
+        
+        $productGroupHolder = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
+        $productGroupDropdown = new SilvercartTreeMultiselectField(
+                'SCProductGroupPages',
+                $this->fieldLabel('SCProductGroupPages'),
+                'SiteTree'
         );
+        $productGroupDropdown->setTreeBaseID($productGroupHolder->ID);
+        
         $translationsTableField = new ComplexTableField(
             $this,
             'SilvercartSlidorionProductGroupWidgetLanguages',
@@ -137,7 +141,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         
         $basicTab->push($titleField);
         $basicTab->push($contentField);
-        $basicTab->push($productGroupPageTable);
+        $basicTab->push($productGroupDropdown);
         
         $translationTab->push($translationsTableField);
         
@@ -226,39 +230,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $langObj = $this->getLanguage();
         $langObj->FrontContent = $value;
         $langObj->write();
-    }
-    
-    /**
-     * Save relations
-     *
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
-     */
-    public function onBeforeWrite() {
-        parent::onBeforeWrite();
-        
-        $this->SCProductGroupPages()->removeAll();
-        
-        if (array_key_exists('SCProductGroupPages', $_REQUEST) &&
-            is_array($_REQUEST['SCProductGroupPages'])) {
-            
-            if (array_key_exists('selected', $_REQUEST['SCProductGroupPages'])) {
-                unset($_REQUEST['SCProductGroupPages']['selected']);
-            }
-            
-            foreach ($_REQUEST['SCProductGroupPages'] as $idx => $productGroupPageId) {
-                $silvercartProductGroupPage = DataObject::get_by_id(
-                    'SilvercartProductGroupPage',
-                    Convert::raw2sql((int) $productGroupPageId)
-                );
-                
-                if ($silvercartProductGroupPage) {
-                    $this->SCProductGroupPages()->add($silvercartProductGroupPage);
-                }
-            }
-        }
     }
 }
 
