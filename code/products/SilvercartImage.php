@@ -193,7 +193,10 @@ class SilvercartImage extends DataObject {
 
         if ($this->ImageID > 0) {
             $image     = $this->Image()->SetRatioSize(50, 50);
-            $thumbnail = $image->getTag();
+            
+            if ($image) {
+                $thumbnail = $image->getTag();
+            }
         }
 
         return $thumbnail;
