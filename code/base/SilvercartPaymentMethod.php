@@ -693,11 +693,7 @@ class SilvercartPaymentMethod extends DataObject {
                     $doAccessChecks      = false;
                 }
                 
-                if (SilvercartConfig::PriceType() == 'gross') {
-                    $checkAmount = $shoppingCart->getAmountTotalGrossWithoutFees()->getAmount();
-                } else {
-                    $checkAmount = $shoppingCart->getAmountTotalNetWithoutFees()->getAmount();
-                }
+                $checkAmount = $shoppingCart->getAmountTotalWithoutFees()->getAmount();
 
                 if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
                     $assumePaymentMethod = false;
