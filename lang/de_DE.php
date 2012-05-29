@@ -1194,6 +1194,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Grundeinstellunge
 $lang['de_DE']['SilvercartPaymentMethod']['ENABLE_RESTRICTION_BY_ORDER_LABEL'] = 'Die folgende Regel anwenden';
 $lang['de_DE']['SilvercartPaymentMethod']['FROM_PURCHASE_VALUE'] = 'ab Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['HANDLINGCOSTS_SETTINGS'] = 'Bearbeitungskosten';
+$lang['de_DE']['SilvercartPaymentMethod']['LONG_PAYMENT_DESCRIPTION'] = 'Beschreibung zur Anzeige auf der Zahlungsartseite';
 $lang['de_DE']['SilvercartPaymentMethod']['MODE'] = 'Modus';
 $lang['de_DE']['SilvercartPaymentMethod']['NAME'] = 'Name';
 $lang['de_DE']['SilvercartPaymentMethod']['NO_PAYMENT_METHOD_AVAILABLE'] = 'Keine Zahlarten verfügbar';

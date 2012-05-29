@@ -22,8 +22,8 @@
                     </span>
                 <% end_if %>
             <% end_if %>
-            <% if paymentDescription %>
-                <p>$paymentDescription</p>
+            <% if LongPaymentDescription %>
+                <p>$LongPaymentDescription</p>
             <% end_if %>
             </div>
         <% end_if %>
