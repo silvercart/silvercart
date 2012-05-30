@@ -257,8 +257,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @return string 
      */
     public function getName() {
-        $name = '';
-        if ($this->isExtendingSilvercartPaymentMethod()) {
+        $name = '';     
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
             $name = $this->getLanguageFieldValue('Name');
         }
         return $name;
@@ -271,7 +271,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getpaymentDescription() {
         $paymentDescription = '';
-        if ($this->isExtendingSilvercartPaymentMethod()) {
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
             $paymentDescription = $this->getLanguageFieldValue('paymentDescription');
         }
         return $paymentDescription;
@@ -284,7 +284,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getLongPaymentDescription() {
         $LongPaymentDescription = '';
-        if ($this->isExtendingSilvercartPaymentMethod()) {
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
             $LongPaymentDescription = $this->getLanguageFieldValue('LongPaymentDescription');
         }
         return $LongPaymentDescription;
