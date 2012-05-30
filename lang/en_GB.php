@@ -1411,6 +1411,18 @@ $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_TITLE']             
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPMARKETING_URLSEGMENT']            = 'marketing-modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_TITLE']                    = 'Other Modules';
 $lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOTHERS_URLSEGMENT']               = 'other-modules';
+$lang['en_GB']['SilvercartTestData']['slidorion_productGroupHolder_TITLE']          = 'Advantages of SilverCart';
+$lang['en_GB']['SilvercartTestData']['slidorion_productGroupHolder_URLSEGMENT']     = 'advantages-of-silvercart';
+$lang['en_GB']['SilvercartTestData']['SLIDORION_TITLE']                             = 'Advantages of SilverCart';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPCUSTOMISABLE_TITLE']              = 'Customisable';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPCUSTOMISABLE_URLSEGMENT']         = 'customisable';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPCUSTOMISABLE_CONTENT']            = 'With the help of widgets SilverCart is easily customisable to your likiings.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPEXTENDABLE_TITLE']                = 'Extendable';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPEXTENDABLE_URLSEGMENT']           = 'extendable';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPEXTENDABLE_CONTENT']              = 'Download modules to unleash new functionality for your webshop.';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOPEN_TITLE']                      = 'Open';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOPEN_URLSEGMENT']                 = 'open';
+$lang['en_GB']['SilvercartTestData']['PRODUCTGROUPOPEN_CONTENT']                    = 'SilverCart is open-source. That means you pay for implementation and customisation only.';
 
 $lang['en_GB']['SilvercartUpdate']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartUpdate']['SILVERCARTVERSION'] = 'Version';

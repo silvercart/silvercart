@@ -274,5 +274,23 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
                 $this->ID
             )
         );
+        
+        $slidorionHeight        = 400;
+        $numberOfItems          = $this->SCProductGroupPages()->Count();
+        $accordeonTitleHeight   = 30;
+        $correctionHeight       = 16;
+        $accordeonContentHeight = $slidorionHeight - $numberOfItems * $accordeonTitleHeight - $correctionHeight;
+        
+        Requirements::customCSS(
+            sprintf(
+                "
+                #silvercart-slidorion-%d .silvercart-slidorion-accordeon > .silvercart-slidorion-link-content {
+                    height: %dpx;
+                }
+                ",
+                $this->ID,
+                $accordeonContentHeight
+            )
+        );
     }
 }
