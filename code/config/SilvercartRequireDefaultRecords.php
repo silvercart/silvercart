@@ -1682,7 +1682,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent1->setField('FrontContent', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT1_CONTENT'));
             $widgetFrontPageContent1->setField('numberOfProductsToShow', 4);
             $widgetFrontPageContent1->setField('SilvercartProductGroupPageID', $productGroupPayment->ID);
-            $widgetFrontPageContent1->setField('useListView', 0);
+            $widgetFrontPageContent1->setField('GroupView', 'tile');
             $widgetFrontPageContent1->setField('isContentView', 1);
             $widgetFrontPageContent1->setField('useSlider', 0);
             $widgetFrontPageContent1->setField('buildArrows', 0);
@@ -1701,7 +1701,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent2->setField('numberOfProductsToShow', 1);
             $widgetFrontPageContent2->setField('numberOfProductsToFetch', 4);
             $widgetFrontPageContent2->setField('SilvercartProductGroupPageID', $productGroupOthers->ID);
-            $widgetFrontPageContent2->setField('useListView', 1);
+            $widgetFrontPageContent2->setField('GroupView', 'list');
             $widgetFrontPageContent2->setField('isContentView', 1);
             $widgetFrontPageContent2->setField('useSlider', 1);
             $widgetFrontPageContent2->setField('buildArrows', 0);
@@ -1773,7 +1773,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageSidebar1->setField('numberOfProductsToShow', 3);
             $widgetFrontPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
             $widgetFrontPageSidebar1->setField('useSlider', 0);
-            $widgetFrontPageSidebar1->setField('useListView', 1);
+            $widgetFrontPageSidebar1->setField('GroupView', 'list');
             $widgetFrontPageSidebar1->setField('isContentView', 0);
             $widgetFrontPageSidebar1->setField('buildArrows', 0);
             $widgetFrontPageSidebar1->setField('buildNavigation', 1);
@@ -1803,7 +1803,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetProductGroupPageSidebar1->setField('numberOfProductsToShow', 3);
             $widgetProductGroupPageSidebar1->setField('SilvercartProductGroupPageID', $productGroupMarketing->ID);
             $widgetProductGroupPageSidebar1->setField('useSlider', 0);
-            $widgetProductGroupPageSidebar1->setField('useListView', 1);
+            $widgetProductGroupPageSidebar1->setField('GroupView', 'list');
             $widgetProductGroupPageSidebar1->setField('isContentView', 0);
             $widgetProductGroupPageSidebar1->setField('buildArrows', 0);
             $widgetProductGroupPageSidebar1->setField('buildNavigation', 1);

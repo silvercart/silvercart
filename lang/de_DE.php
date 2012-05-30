@@ -1506,6 +1506,7 @@ $lang['de_DE']['SilvercartProductSliderWidget']['FETCHMETHOD']                  
 $lang['de_DE']['SilvercartProductSliderWidget']['FETCHMETHOD_RANDOM']                   = 'Zufällig';
 $lang['de_DE']['SilvercartProductSliderWidget']['FRONTTITLE']                           = 'Überschrift';
 $lang['de_DE']['SilvercartProductSliderWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
+$lang['de_DE']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Produktlisten-Ansicht';
 $lang['de_DE']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOFETCH']              = 'Anzahl der Artikel, die geladen werden sollen:';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Anzahl der Artikel, die angezeigt werden sollen (nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden):';

@@ -1506,6 +1506,7 @@ $lang['en_GB']['SilvercartProductSliderWidget']['FETCHMETHOD']                  
 $lang['en_GB']['SilvercartProductSliderWidget']['FETCHMETHOD_RANDOM']                   = 'Random';
 $lang['en_GB']['SilvercartProductSliderWidget']['FRONTTITLE']                           = 'Headline';
 $lang['en_GB']['SilvercartProductSliderWidget']['FRONTCONTENT']                         = 'Content';
+$lang['en_GB']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Product list view';
 $lang['en_GB']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
 $lang['en_GB']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOFETCH']              = 'Number of products to fetch:';
 $lang['en_GB']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Number of products to show:';

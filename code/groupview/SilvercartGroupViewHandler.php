@@ -375,4 +375,32 @@ class SilvercartGroupViewHandler {
         }
         return new DropdownField($name, $title, $defaultGroupviewSource);
     }
+
+    /**
+     * returns the required template name
+     * 
+     * @param string $groupView    GroupView to get template name for
+     * @param string $templateBase Base template name to use
+     *
+     * @return string
+     */
+    public static function getProductGroupPageTemplateNameFor($groupView, $templateBase = 'SilvercartProductGroupPage') {
+        $productGroupPageTemplateName = $templateBase . ucfirst(strtolower($groupView));
+        return $productGroupPageTemplateName;
+    }
+
+    /**
+     * returns the required CartFormName
+     * 
+     * @param string $groupView GroupView to get form name for
+     *
+     * @return string
+     */
+    public static function getCartFormNameFor($groupView) {
+        $cartFormName = 'SilvercartProductAddCartForm' . ucfirst(strtolower($groupView));
+        if (!class_exists($cartFormName)) {
+            $cartFormName = 'SilvercartProductAddCartForm';
+        }
+        return $cartFormName;
+    }
 }
