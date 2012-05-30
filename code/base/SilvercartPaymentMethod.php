@@ -658,17 +658,16 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * Returns allowed shipping methods.
      * 
-     * @param string                 $shippingCountry The SilvercartCountry to check the
-     *                                                payment methods for.
-     * @param SilvercartShoppingCart $shoppingCart    The shopping cart object
+     * @param string                 $shippingCountry                  The SilvercartCountry to check the payment methods for.
+     * @param SilvercartShoppingCart $shoppingCart                     The shopping cart object
+     * @param Boolean                $forceAnonymousCustomerIfNotExist When true, an anonymous customer will be created when no customer exists
      * 
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.05.2012
      */
-    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart) {
+    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
         $allowedPaymentMethods  = array();
         
         if (!$shippingCountry) {
@@ -677,6 +676,12 @@ class SilvercartPaymentMethod extends DataObject {
         
         $paymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
         $member         = Member::currentUser();
+        if (!$member &&
+            $forceAnonymousCustomerIfNotExist) {
+            $member = new Member();
+            $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
+            $member->Groups()->push($anonymousGroup);
+        }
         
         if ($paymentMethods) {
             foreach ($paymentMethods as $paymentMethod) {

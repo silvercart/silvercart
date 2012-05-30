@@ -95,7 +95,7 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
      * @since 14.05.2012
      */
     public function PaymentMethods() {
-        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart());
+        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart(), true);
         return $PaymentMethods;
     }
     
