@@ -1720,7 +1720,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageContent3->setField('buildStartStop', 0);
             $widgetFrontPageContent3->setField('slideDelay', 10000);
             $widgetFrontPageContent3->setField('transitionEffect', 'fade');
-            $widgetFrontPageContent3->setField('Sort', 1);
+            $widgetFrontPageContent3->setField('Sort', 0);
             $widgetFrontPageContent3->write();
 
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent3);
@@ -1780,19 +1780,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetFrontPageSidebar1->setField('buildStartStop', 0);
             $widgetFrontPageSidebar1->setField('slideDelay', 4000);
             $widgetFrontPageSidebar1->setField('transitionEffect', 'horizontalSlide');
-            $widgetFrontPageSidebar1->setField('Sort', 1);
+            $widgetFrontPageSidebar1->setField('Sort', 0);
             $widgetFrontPageSidebar1->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar1);
             
             $widgetFrontPageSidebar2 = new SilvercartShoppingCartWidget();
-            $widgetFrontPageSidebar2->setField('Sort', 2);
+            $widgetFrontPageSidebar2->setField('Sort', 1);
             $widgetFrontPageSidebar2->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar2);
             
             $widgetFrontPageSidebar3 = new SilvercartLoginWidget();
-            $widgetFrontPageSidebar3->setField('Sort', 3);
+            $widgetFrontPageSidebar3->setField('Sort', 2);
             $widgetFrontPageSidebar3->write();
 
             $widgetSetFrontPageSidebarArea->Widgets()->add($widgetFrontPageSidebar3);
@@ -1810,25 +1810,103 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetProductGroupPageSidebar1->setField('buildStartStop', 0);
             $widgetProductGroupPageSidebar1->setField('slideDelay', 4000);
             $widgetProductGroupPageSidebar1->setField('transitionEffect', 'horizontalSlide');
-            $widgetProductGroupPageSidebar1->setField('Sort', 1);
+            $widgetProductGroupPageSidebar1->setField('Sort', 0);
             $widgetProductGroupPageSidebar1->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar1);
             
             $widgetProductGroupPageSidebar2 = new SilvercartShoppingCartWidget();
-            $widgetProductGroupPageSidebar2->setField('Sort', 2);
+            $widgetProductGroupPageSidebar2->setField('Sort', 1);
             $widgetProductGroupPageSidebar2->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar2);
             
             $widgetProductGroupPageSidebar3 = new SilvercartLoginWidget();
-            $widgetProductGroupPageSidebar3->setField('Sort', 3);
+            $widgetProductGroupPageSidebar3->setField('Sort', 2);
             $widgetProductGroupPageSidebar3->write();
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar3);
             
+            self::createTestDataSlidorion($widgetSetFrontPageContentArea);
+            
             return true;
         }
+    }
+    
+    /**
+     * Creates all pages and widgets for the slidorion widgets.
+     *
+     * @param WidgetSet $widgetSetFrontPageContentArea The widgetset content area
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.05.2012
+     */
+    public static function createTestDataSlidorion($widgetSetFrontPageContentArea) {
+        $silvercartFrontPage = DataObject::get_one(
+            'SilvercartFrontPage'
+        );
+        $productGroupHolderRoot = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
+        
+        //create product group holder page
+        $productGroupHolder = new SilvercartProductGroupHolder();
+        $productGroupHolder->Title = _t('SilvercartTestData.slidorion_productGroupHolder_TITLE');
+        $productGroupHolder->URLSegment = _t('SilvercartTestData.slidorion_productGroupHolder_URLSEGMENT');
+        $productGroupHolder->Status = "Published";
+        $productGroupHolder->IdentifierCode = 'SilvercartAboutSilvercartSlidorion';
+        $productGroupHolder->ParentID = $productGroupHolderRoot->ID;
+        $productGroupHolder->ShowInMenus = false;
+        $productGroupHolder->ShowInSearch = false;
+        $productGroupHolder->write();
+        $productGroupHolder->publish("Stage", "Live");
+        
+        $productGroupCustomisable = new SilvercartProductGroupPage();
+        $productGroupCustomisable->Title = _t('SilvercartTestData.PRODUCTGROUPCUSTOMISABLE_TITLE');
+        $productGroupCustomisable->URLSegment = _t('SilvercartTestData.PRODUCTGROUPCUSTOMISABLE_URLSEGMENT');
+        $productGroupCustomisable->Content = _t('SilvercartTestData.PRODUCTGROUPCUSTOMISABLE_CONTENT');
+        $productGroupCustomisable->Status = "Published";
+        $productGroupCustomisable->IdentifierCode = 'SilvercartProductGroupCustomisable';
+        $productGroupCustomisable->ParentID = $productGroupHolder->ID;
+        $productGroupCustomisable->ShowInMenus = true;
+        $productGroupCustomisable->ShowInSearch = true;
+        $productGroupCustomisable->write();
+        $productGroupCustomisable->publish("Stage", "Live");
+        
+        $productGroupExtendable = new SilvercartProductGroupPage();
+        $productGroupExtendable->Title = _t('SilvercartTestData.PRODUCTGROUPEXTENDABLE_TITLE');
+        $productGroupExtendable->URLSegment = _t('SilvercartTestData.PRODUCTGROUPEXTENDABLE_URLSEGMENT');
+        $productGroupExtendable->Content = _t('SilvercartTestData.PRODUCTGROUPEXTENDABLE_CONTENT');
+        $productGroupExtendable->Status = "Published";
+        $productGroupExtendable->IdentifierCode = 'SilvercartproductGroupExtendable';
+        $productGroupExtendable->ParentID = $productGroupHolder->ID;
+        $productGroupExtendable->ShowInMenus = true;
+        $productGroupExtendable->ShowInSearch = true;
+        $productGroupExtendable->write();
+        $productGroupExtendable->publish("Stage", "Live");
+        
+        $productGroupOpen = new SilvercartProductGroupPage();
+        $productGroupOpen->Title = _t('SilvercartTestData.PRODUCTGROUPOPEN_TITLE');
+        $productGroupOpen->URLSegment = _t('SilvercartTestData.PRODUCTGROUPOPEN_URLSEGMENT');
+        $productGroupOpen->Content = _t('SilvercartTestData.PRODUCTGROUPOPEN_CONTENT');
+        $productGroupOpen->Status = "Published";
+        $productGroupOpen->IdentifierCode = 'SilvercartProductGroupOpen';
+        $productGroupOpen->ParentID = $productGroupHolder->ID;
+        $productGroupOpen->ShowInMenus = true;
+        $productGroupOpen->ShowInSearch = true;
+        $productGroupOpen->write();
+        $productGroupOpen->publish("Stage", "Live");
+        
+        // Create Widget
+        $widgetSlidorion = new SilvercartSlidorionProductGroupWidget();
+        $widgetSlidorion->setField('Sort', 1);
+        $widgetSlidorion->setField('Title', _t('SilvercartTestData.SLIDORION_TITLE'));
+        $widgetSlidorion->write();
+        $widgetSlidorion->SCProductGroupPages()->add($productGroupCustomisable);
+        $widgetSlidorion->SCProductGroupPages()->add($productGroupExtendable);
+        $widgetSlidorion->SCProductGroupPages()->add($productGroupOpen);
+
+        $widgetSetFrontPageContentArea->Widgets()->add($widgetSlidorion);
     }
 
     /**

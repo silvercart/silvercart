@@ -20,7 +20,7 @@
 
             <div class="silvercart-slidorion-accordeon">
                 <% control SCProductGroupPages %>
-                    <div class="silvercart-slidorion-link-header">$MenuTitle</div>
+                    <div class="silvercart-slidorion-link-header"><span>$MenuTitle</span></div>
                     <div class="silvercart-slidorion-link-content">$Content</div>
                 <% end_control %>
             </div>
