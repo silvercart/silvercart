@@ -352,4 +352,27 @@ class SilvercartGroupViewHandler {
     public static function getActiveGroupHolderViewAsUpperCamelCase() {
         return strtoupper(substr(self::getActiveGroupHolderView(), 0, 1)) . strtolower(substr(self::getActiveGroupHolderView(), 1));
     }
+    
+    /**
+     * Creates and returns a dropdown field to choose an available GroupView
+     *
+     * @param string $name        Name of the field
+     * @param string $title       Title of the field
+     * @param string $value       Value of the field
+     * @param string $emptyString String to use for the empty value
+     * 
+     * @return DropdownField 
+     */
+    public static function getGroupViewDropdownField($name, $title, $value = '', $emptyString = null) {
+        $defaultGroupviewSource = array();
+        $groupViews             = self::getGroupViews();
+        if (!is_null($emptyString)) {
+            $defaultGroupviewSource[''] = $emptyString;
+        }
+        foreach ($groupViews as $code => $classname) {
+            $gv = new $classname();
+            $defaultGroupviewSource[$code] = $gv->getLabel();
+        }
+        return new DropdownField($name, $title, $defaultGroupviewSource);
+    }
 }

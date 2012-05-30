@@ -390,14 +390,6 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
         
-        $defaultGroupviewSource = array(
-            '' => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT')
-        );
-        $groupViews             = SilvercartGroupViewHandler::getGroupViews();
-        foreach ($groupViews as $code => $classname) {
-            $gv = new $classname();
-            $defaultGroupviewSource[$code] = $gv->getLabel();
-        }
         $useOnlydefaultGroupviewSource = array(
             '2'  => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
             '1' => _t('Silvercart.YES'),
@@ -407,7 +399,7 @@ class SilvercartProductGroupPage extends Page {
         $useContentField                = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
         $productsPerPageField           = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
         $productGroupsPerPageField      = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
-        $defaultGroupViewField          = new DropdownField('DefaultGroupView',         $this->fieldLabel('DefaultGroupView'), $defaultGroupviewSource);
+        $defaultGroupViewField          = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
         $useOnlyDefaultGroupViewField   = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource);
         $fields->addFieldToTab('Root.Content.Main', $useContentField,               'Content');
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField,          'IdentifierCode');
