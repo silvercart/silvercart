@@ -61,6 +61,10 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartContactFormPage_Controller extends SilvercartMetaNavigationHolder_Controller {
+    
+    public static $allowed_actions = array(
+        'productQuestion',
+    );
 
     /**
      * initialisation of the form object
@@ -72,5 +76,35 @@ class SilvercartContactFormPage_Controller extends SilvercartMetaNavigationHolde
     public function init() {
         $this->registerCustomHtmlForm('SilvercartContactForm', new SilvercartContactForm($this));
         parent::init();
+    }
+    
+    /**
+     * Fills the contact form with a predefined product question text and renders the template
+     *
+     * @param SS_HTTPRequest $request HTTP request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function productQuestion(SS_HTTPRequest $request) {
+        $params = $request->allParams();
+        if (!empty($params['ID']) &&
+            is_numeric($params['ID'])) {
+            $product = DataObject::get_by_id('SilvercartProduct', $params['ID']);
+            if ($product) {
+                $silvercartContactForm = $this->getRegisteredCustomHtmlForm('SilvercartContactForm');
+                $silvercartContactForm->setFormFieldValue(
+                        'Message',
+                        sprintf(
+                                _t('SilvercartProduct.PRODUCT_QUESTION'),
+                                $product->Title,
+                                $product->ProductNumberShop
+                        )
+                );
+            }
+        }
+        return $this->render();
     }
 }

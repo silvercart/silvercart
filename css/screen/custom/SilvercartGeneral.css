@@ -323,7 +323,9 @@ p.silvercart-message.vdistance {
 .silvercart-button {
     float:                          right;
 }
-.silvercart-button.left {
+.silvercart-button.left,
+.silvercart-icon-button.left,
+.silvercart-icon-with-text-button.left {
     float:                          left;
 }
 .silvercart-button.inline {
@@ -414,6 +416,30 @@ p.silvercart-message.vdistance {
     height:                         32px;
     
     background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_recycle_bin_empty.png") no-repeat center center;
+}
+.print16 .silvercart-icon-button_content {
+    width:                          16px;
+    height:                         16px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_print.png") no-repeat center center;
+}
+.print32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_print.png") no-repeat center center;
+}
+.help16 .silvercart-icon-button_content {
+    width:                          16px;
+    height:                         16px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_help.png") no-repeat center center;
+}
+.help32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_help.png") no-repeat center center;
 }
 
 /* Icon with text buttons -------------------------------------------------- */

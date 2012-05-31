@@ -287,6 +287,7 @@ $lang['en_GB']['SilvercartProduct']['PURCHASE_MAX_DURATION'] = 'Max. purchase du
 $lang['en_GB']['SilvercartProduct']['PURCHASE_TIME_UNIT'] = 'Purchase time unit';
 $lang['en_GB']['SilvercartProduct']['QUANTITY'] = 'Quantity';
 $lang['en_GB']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
+$lang['en_GB']['SilvercartProduct']['PRODUCT_QUESTION'] = 'Please answer the following questions for the product %s (%s):';
 $lang['en_GB']['SilvercartProduct']['SHORTDESCRIPTION'] = 'List description';
 $lang['en_GB']['SilvercartProduct']['SINGULARNAME'] = 'Product';
 $lang['en_GB']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is the stock quantity of this product overbookable?';
