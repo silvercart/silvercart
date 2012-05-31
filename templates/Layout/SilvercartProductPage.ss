@@ -10,7 +10,16 @@
                     <% sprintf(_t('SilvercartPage.BACK_TO'),$BackPage.MenuTitle) %>
                 </span>
             </a>
-            
+            <a class="silvercart-icon-button print16 left" href="javascript:window.print()" title="<% _t('Silvercart.PRINT') %>">
+                <span class="silvercart-icon-button_content">
+                    &nbsp;
+                </span>
+            </a>
+            <a class="silvercart-icon-button help16 left" href="{$getProduct.ProductQuestionLink}" title="<% _t('SilvercartProduct.PRODUCT_QUESTION_LABEL') %>">
+                <span class="silvercart-icon-button_content">
+                    &nbsp;
+                </span>
+            </a>
         </div>
         
         <% control getProduct %>

@@ -320,6 +320,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartHeaderbar');
             Requirements::themedCSS('SilvercartLanguageDropdownField');
             Requirements::themedCSS('SilvercartPagination');
+            Requirements::themedCSS('SilvercartPrint');
             Requirements::themedCSS('SilvercartProductGroupNavigation');
             Requirements::themedCSS('SilvercartProductGroupPageControls');
             Requirements::themedCSS('SilvercartProductGroupHolderList');
