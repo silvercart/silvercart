@@ -167,6 +167,11 @@ $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Level 6';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google taxonomy';
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google taxonomy';
 
+$lang['en_GB']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Product images';
+$lang['en_GB']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Payment method images';
+$lang['en_GB']['SilvercartImageAdmin']['SELECT_OTHER_IMAGES'] = 'Other images';
+$lang['en_GB']['SilvercartImageAdmin']['SELECT_IMAGE_TYPE'] = 'Choose image type';
+
 $lang['en_GB']['SilvercartImageSliderImage']['LINKPAGE'] = 'Page that shall be linked to';
 $lang['en_GB']['SilvercartImageSliderImage']['SINGULARNAME'] = 'slider image';
 $lang['en_GB']['SilvercartImageSliderImage']['PLURALNAME'] = 'slider images';

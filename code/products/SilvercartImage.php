@@ -62,6 +62,7 @@ class SilvercartImage extends DataObject {
     public static $casting = array(
         'Title'          => 'VarChar',
         'Content'        => 'HTMLText',
+        'Description'    => 'HTMLText',
         'TableIndicator' => 'Text',
         'Thumbnail'      => 'HTMLText'
     );
@@ -74,14 +75,23 @@ class SilvercartImage extends DataObject {
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
     }
-        
+    
     /**
-     * getter for the Content, looks for set translation
+     * getter for the content, looks for set translation
      * 
-     * @return string The Content from the translation object or an empty string
+     * @return string The content from the translation object or an empty string
      */
     public function getContent() {
         return $this->getLanguageFieldValue('Content');
+    }
+    
+    /**
+     * getter for the description, looks for set translation
+     * 
+     * @return string The description from the translation object or an empty string
+     */
+    public function getDescription() {
+        return $this->getLanguageFieldValue('Description');
     }
     
     /**
@@ -144,6 +154,7 @@ class SilvercartImage extends DataObject {
                 'Thumbnail'                 => _t('SilvercartImage.THUMBNAIL'),
                 'Title'                     => _t('SilvercartImage.TITLE'),
                 'Content'                   => _t('SilvercartImage.CONTENT'),
+                'Description'               => _t('SilvercartImage.DESCRIPTION'),
                 'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
             )
@@ -170,6 +181,25 @@ class SilvercartImage extends DataObject {
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Searchable fields definition
+     *
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartImageLanguages.Title' => array(
+                'title'  => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            )
+        );
+            
+        return $searchableFields;
     }
     
     /**

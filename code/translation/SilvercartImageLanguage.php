@@ -42,8 +42,9 @@ class SilvercartImageLanguage extends DataObject {
      * @since 20.01.2012
      */
     public static $db = array(
-        'Title'     => 'VarChar',
-        'Content'   => 'HTMLText'
+        'Title'       => 'VarChar',
+        'Content'     => 'HTMLText',
+        'Description' => 'HTMLText'
     );
     
     /**
@@ -91,7 +92,6 @@ class SilvercartImageLanguage extends DataObject {
         } else {
             return parent::plural_name();
         }
-
     }
     
     /**
@@ -107,10 +107,10 @@ class SilvercartImageLanguage extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'SilvercartImage' => _t('SilvercartImage.SINGULARNAME'),
-                    'Title' => _t('SilvercartProduct.COLUMN_TITLE')
-                )
+            parent::fieldLabels($includerelations),             array(
+                'SilvercartImage' => _t('SilvercartImage.SINGULARNAME'),
+                'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+            )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);

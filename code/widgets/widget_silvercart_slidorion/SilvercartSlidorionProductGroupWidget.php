@@ -414,10 +414,11 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
                 $image = $SilvercartImage->Image();
                 $image = $image->SetRatioSize(426, $this->getSliderHeight());
                 $imageTag = $image->getTag();
+                $imageUrl = $image->getURL();
             }
             
-            $list .= '<div class="silvercart-slidorion-slide">';
-            $list .= $imageTag;
+            $list .= '<div class="silvercart-slidorion-slide" style="background: url('.$imageUrl.') no-repeat center;">';
+            $list .= $SilvercartImage->Content;
             $list .= '</div>';
         }
 
