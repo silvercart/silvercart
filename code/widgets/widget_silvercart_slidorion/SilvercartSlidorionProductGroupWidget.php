@@ -410,8 +410,16 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $list = '';
 
         foreach ($this->SCProductGroupPages() as $SCProductGroupPage) {
+            $image      = $SCProductGroupPage->GroupPicture();
+            $imageTag   = '';
+            
+            if ($SCProductGroupPage->GroupPictureID > 0) {
+                $image->SetRatioSize(426, $this->getSliderHeight());
+                $imageTag = $image->getTag();
+            }
+            
             $list .= '<div class="silvercart-slidorion-slide">';
-            $list .= $SCProductGroupPage->GroupPicture()->SetRatioSize(426, $this->getSliderHeight());
+            $list .= $imageTag;
             $list .= '</div>';
         }
 
