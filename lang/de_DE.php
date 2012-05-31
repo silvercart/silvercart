@@ -874,6 +874,7 @@ $lang['de_DE']['SilvercartManyManyOrderField']['MOVE_UP']                    = '
 $lang['de_DE']['SilvercartManyManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Verfügbar';
 $lang['de_DE']['SilvercartManyManyOrderField']['EDIT']                       = 'Bearbeiten';
 
+$lang['de_DE']['SilvercartImage']['CONTENT'] = 'Text Inhalt';
 $lang['de_DE']['SilvercartImage']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartImage']['PLURALNAME'] = 'Bilder';
 $lang['de_DE']['SilvercartImage']['SINGULARNAME'] = 'Bild';
@@ -927,11 +928,11 @@ $lang['de_DE']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMS_ADVANCEDTABNAME'] = 'Erweiterte Einstellungen';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMS_BASICTABNAME']    = 'Grundeinstellungen';
-$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMSTITLE']            = 'Slidorion Warengruppen Akkordeon';
-$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION']         = 'Slidorion Warengruppen - eine Kombination aus Slider und Akkordeon';
-$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['PLURALNAME']          = 'Slidorion Warengruppen Akkordeon';
-$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['TITLE']               = 'Slidorion Warengruppen Akkordeon';
-$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME']        = 'Slidorion Warengruppen Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['CMSTITLE']            = 'Slidorion Akkordeon Slider';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION']         = 'Slidorion - eine Kombination aus Slider und Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['PLURALNAME']          = 'Slidorion Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['TITLE']               = 'Slidorion Akkordeon';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME']        = 'Slidorion Akkordeon';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['SCPRODUCTGROUPPAGES'] = 'Anzuzeigende Slides';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['FRONT_TITLE']         = 'Überschrift';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['FRONT_CONTENT']       = 'Inhalt';

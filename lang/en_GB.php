@@ -874,6 +874,7 @@ $lang['en_GB']['SilvercartManyManyOrderField']['MOVE_UP']                    = '
 $lang['en_GB']['SilvercartManyManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = 'Available';
 $lang['en_GB']['SilvercartManyManyOrderField']['EDIT']                       = 'Edit';
 
+$lang['en_GB']['SilvercartImage']['CONTENT'] = 'Text content';
 $lang['en_GB']['SilvercartImage']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartImage']['PLURALNAME'] = 'Images';
 $lang['en_GB']['SilvercartImage']['SINGULARNAME'] = 'Image';
@@ -927,11 +928,11 @@ $lang['en_GB']['SilvercartSiteMapPage']['SINGULARNAME'] = 'SiteMap';
 
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['CMS_ADVANCEDTABNAME'] = 'Advanced preferences';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['CMS_BASICTABNAME']    = 'Basic preferences';
-$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['CMSTITLE']            = 'Slidorion product group Accordion';
-$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION']         = 'Slidorion for product groups - a combination of an image slider and an accordion';
-$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['PLURALNAME']          = 'Slidorion product group accordion';
-$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['TITLE']               = 'Slidorion product group Accordion';
-$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME']        = 'Slidorion product group accordion';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['CMSTITLE']            = 'Slidorion accordion and slider';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['DESCRIPTION']         = 'Slidorion - a combination of an image slider and an accordion';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['PLURALNAME']          = 'Slidorion accordion';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['TITLE']               = 'Slidorion Accordion';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['SINGULARNAME']        = 'Slidorion accordion';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['SCPRODUCTGROUPPAGES'] = 'Slides to show';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['FRONT_TITLE']         = 'Title';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['FRONT_CONTENT']       = 'Content';

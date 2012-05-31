@@ -72,7 +72,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @since 28.05.2012
      */
     public static $many_many = array(
-        'SCProductGroupPages' => 'SilvercartProductGroupPage'
+        'SilvercartImages' => 'SilvercartImage'
     );
     
     /**
@@ -143,13 +143,11 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $titleField   = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
         $contentField = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
         
-        $productGroupHolder = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
-        $productGroupDropdown = new SilvercartTreeMultiselectField(
-                'SCProductGroupPages',
-                $this->fieldLabel('SCProductGroupPages'),
-                'SiteTree'
+        $productGroupDropdown = new ManyManyComplexTableField(
+            $this,
+            'SilvercartImages',
+            'SilvercartImage'
         );
-        $productGroupDropdown->setTreeBaseID($productGroupHolder->ID);
         
         $translationsTableField = new ComplexTableField(
             $this,
@@ -248,7 +246,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array(
-            'SCProductGroupPages' => _t('SilvercartSlidorionProductGroupWidget.SCPRODUCTGROUPPAGES'),
+            'SilvercartImages   ' => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
             'BasicTab'            => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
             'AdvancedTab'         => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
             'TranslationsTab'     => _t('SilvercartConfig.TRANSLATIONS'),
@@ -409,12 +407,12 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     public function getGroupPictureList() {
         $list = '';
 
-        foreach ($this->SCProductGroupPages() as $SCProductGroupPage) {
-            $image      = $SCProductGroupPage->GroupPicture();
+        foreach ($this->SilvercartImages() as $SilvercartImage) {
             $imageTag   = '&nbsp;';
             
-            if ($SCProductGroupPage->GroupPictureID > 0) {
-                $image->SetRatioSize(426, $this->getSliderHeight());
+            if ($SilvercartImage->ImageID > 0) {
+                $image = $SilvercartImage->Image();
+                $image = $image->SetRatioSize(426, $this->getSliderHeight());
                 $imageTag = $image->getTag();
             }
             
@@ -464,6 +462,39 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $langObj = $this->getLanguage();
         $langObj->FrontContent = $value;
         $langObj->write();
+    }
+    
+    /**
+     * Save relations
+     *
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        
+        $this->SilvercartImages()->removeAll();
+        
+        if (array_key_exists('SilvercartImages', $_REQUEST) &&
+            is_array($_REQUEST['SilvercartImages'])) {
+            
+            if (array_key_exists('selected', $_REQUEST['SilvercartImages'])) {
+                unset($_REQUEST['SilvercartImages']['selected']);
+            }
+            
+            foreach ($_REQUEST['SilvercartImages'] as $idx => $silvercartImageId) {
+                $silvercartImage = DataObject::get_by_id(
+                    'SilvercartImage',
+                    Convert::raw2sql((int) $silvercartImageId)
+                );
+                
+                if ($silvercartImage) {
+                    $this->SilvercartImages()->add($silvercartImage);
+                }
+            }
+        }
     }
 }
 
@@ -515,7 +546,7 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
         );
         
         $slidorionHeight        = $this->getWidgetHeightValue();
-        $numberOfItems          = $this->SCProductGroupPages()->Count();
+        $numberOfItems          = $this->SilvercartImages()->Count();
         $accordeonTitleHeight   = 30;
         $correctionHeight       = 16;
         $accordeonContentHeight = $slidorionHeight - $numberOfItems * $accordeonTitleHeight - $correctionHeight;

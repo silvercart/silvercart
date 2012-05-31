@@ -42,7 +42,8 @@ class SilvercartImageLanguage extends DataObject {
      * @since 20.01.2012
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'     => 'VarChar',
+        'Content'   => 'HTMLText'
     );
     
     /**

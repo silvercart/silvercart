@@ -1,4 +1,4 @@
-<% if SCProductGroupPages %>
+<% if SilvercartImages %>
     <div class="silvercart-widget-slidorion-productgroup">
         <% if FrontTitle %>
             <h2>$FrontTitle</h2>
@@ -13,8 +13,8 @@
             </div>
 
             <div class="silvercart-slidorion-accordeon">
-                <% control SCProductGroupPages %>
-                    <div class="silvercart-slidorion-link-header"><span>$MenuTitle</span></div>
+                <% control SilvercartImages %>
+                    <div class="silvercart-slidorion-link-header"><span>$Title</span></div>
                     <div class="silvercart-slidorion-link-content">$Content</div>
                 <% end_control %>
             </div>

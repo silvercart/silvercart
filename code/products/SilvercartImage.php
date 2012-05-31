@@ -61,6 +61,7 @@ class SilvercartImage extends DataObject {
      */
     public static $casting = array(
         'Title'          => 'VarChar',
+        'Content'        => 'HTMLText',
         'TableIndicator' => 'Text',
         'Thumbnail'      => 'HTMLText'
     );
@@ -72,6 +73,15 @@ class SilvercartImage extends DataObject {
      */
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
+    }
+        
+    /**
+     * getter for the Content, looks for set translation
+     * 
+     * @return string The Content from the translation object or an empty string
+     */
+    public function getContent() {
+        return $this->getLanguageFieldValue('Content');
     }
     
     /**
@@ -133,6 +143,7 @@ class SilvercartImage extends DataObject {
                 'SilvercartProduct'         => _t('SilvercartProduct.SINGULARNAME'),
                 'Thumbnail'                 => _t('SilvercartImage.THUMBNAIL'),
                 'Title'                     => _t('SilvercartImage.TITLE'),
+                'Content'                   => _t('SilvercartImage.CONTENT'),
                 'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
             )
