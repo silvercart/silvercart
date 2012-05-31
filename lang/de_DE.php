@@ -288,6 +288,7 @@ $lang['de_DE']['SilvercartProduct']['PURCHASE_TIME_UNIT'] = 'Einheit (WBZ)';
 $lang['de_DE']['SilvercartProduct']['QUANTITY'] = 'Anzahl';
 $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['PRODUCT_QUESTION'] = 'Bitte beantworten Sie mir die folgenden Fragen zum Artikel %s (%s):';
+$lang['de_DE']['SilvercartProduct']['PRODUCT_QUESTION_LABEL'] = 'Fragen zum Artikel';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';
 $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand dieses Artikels überbuchbar?';
