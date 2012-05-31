@@ -144,7 +144,9 @@
 						prevEffect = effect;
 						switch(effect){
 							case 'fade':
-								$new.css({'z-index':zPos,'top':'0','left':'0','display':'none'}).fadeIn(speed);
+								$current.fadeOut(Math.floor(speed / 2), function() {
+                                    $new.css({'z-index':zPos,'top':'0','left':'0','display':'none'}).fadeIn(Math.floor(speed / 2));
+                                });
 								break;
 							case 'slideLeft':
 								$new.css({'left':currentWidth,'top':'0','opacity':'1','z-index':zPos});
