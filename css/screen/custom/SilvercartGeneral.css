@@ -323,7 +323,9 @@ p.silvercart-message.vdistance {
 .silvercart-button {
     float:                          right;
 }
-.silvercart-button.left {
+.silvercart-button.left,
+.silvercart-icon-button.left,
+.silvercart-icon-with-text-button.left {
     float:                          left;
 }
 .silvercart-button.inline {
@@ -333,11 +335,14 @@ p.silvercart-message.vdistance {
 .silvercart-button.left .silvercart-button_content {
     padding:                        0px 4px 0px 0px;
 }
+a.silvercart-button,
 .silvercart-button a {
     display:                        block;
     padding:                        3px 10px 5px 10px;
 }
+a.silvercart-button,
 .silvercart-button a,
+a.silvercart-button-small,
 .silvercart-button-small a {
     line-height:                    100%;
     font-size:                      11px;
@@ -347,7 +352,9 @@ p.silvercart-message.vdistance {
     -webkit-border-radius:          3px;
     $DefaultButton.Css
 }
+a.silvercart-button:hover,
 .silvercart-button a:hover,
+a.silvercart-button-small:hover,
 .silvercart-button-small a:hover {
     text-decoration:                none;
     $DefaultButton.CssHover
@@ -414,6 +421,30 @@ p.silvercart-message.vdistance {
     height:                         32px;
     
     background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_recycle_bin_empty.png") no-repeat center center;
+}
+.print16 .silvercart-icon-button_content {
+    width:                          16px;
+    height:                         16px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_print.png") no-repeat center center;
+}
+.print32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_print.png") no-repeat center center;
+}
+.help16 .silvercart-icon-button_content {
+    width:                          16px;
+    height:                         16px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_help.png") no-repeat center center;
+}
+.help32 .silvercart-icon-button_content {
+    width:                          32px;
+    height:                         32px;
+    
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_help.png") no-repeat center center;
 }
 
 /* Icon with text buttons -------------------------------------------------- */

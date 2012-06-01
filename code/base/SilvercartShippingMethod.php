@@ -306,7 +306,6 @@ class SilvercartShippingMethod extends DataObject {
 
         if (!Member::currentUser() ||
             !Member::currentUser()->SilvercartShoppingCart()) {
-
             return $fee;
         }
 
@@ -317,8 +316,10 @@ class SilvercartShippingMethod extends DataObject {
             $this->setShippingAddress($shippingAddress);
             SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
         }
+        
         if ($shippingAddress) {
             $zones = SilvercartZone::getZonesFor($shippingAddress->SilvercartCountryID);
+            
             if ($zones) {
                 $zoneMap            = $zones->map();
                 $zoneIDs            = array_flip($zoneMap);

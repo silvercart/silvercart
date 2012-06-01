@@ -177,6 +177,10 @@ class SilvercartThemeConfigButton extends SilvercartThemeConfig {
     protected $ActiveColorStart                                = '#ffffff';
     protected $ActiveColorEnd                                  = '#d4e2e8';
     
+    protected $CustomCss                                        = null;
+    protected $CustomHoverCss                                   = null;
+    protected $CustomActiveCss                                  = null;
+
     /**
      * Returns the buttons default css
      *
@@ -189,6 +193,9 @@ class SilvercartThemeConfigButton extends SilvercartThemeConfig {
             border:                         1px ' . $this->getBorderColor() . ' solid;';
         if ($this->getUseGradient()) {
             $css .= $this->getCssGradient($this->getColorStart(), $this->getColorEnd());
+        }
+        if (!is_null($this->getCustomCss())) {
+            $css .= $this->getCustomCss();
         }
         return $css;
     }
@@ -483,6 +490,117 @@ class SilvercartThemeConfigButton extends SilvercartThemeConfig {
      */
     public function setActiveColorEnd($ActiveColorEnd) {
         $this->ActiveColorEnd = $ActiveColorEnd;
+    }
+    
+    /**
+     * Returns the custom CSS
+     *
+     * @return string
+     */
+    public function getCustomCss() {
+        return $this->CustomCss;
+    }
+
+    /**
+     * Sets the custom CSS
+     *
+     * @param string $CustomCss Custom css
+     * 
+     * @return void
+     */
+    public function setCustomCss($CustomCss) {
+        $this->CustomCss = $CustomCss;
+    }
+
+    /**
+     * Adds custom CSS
+     *
+     * @param string $CustomCss Custom css
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function addCustomCss($CustomCss) {
+        if (strpos($CustomCss, ';') === false) {
+            $CustomCss .= ';';
+        }
+        $this->CustomCss .= $CustomCss;
+    }
+    
+    /**
+     * Returns the custom hover CSS
+     *
+     * @return string
+     */
+    public function getCustomHoverCss() {
+        return $this->CustomHoverCss;
+    }
+
+    /**
+     * Sets the custom hover CSS
+     *
+     * @param string $CustomHoverCss Custom hover css
+     * 
+     * @return void
+     */
+    public function setCustomHoverCss($CustomHoverCss) {
+        $this->CustomHoverCss = $CustomHoverCss;
+    }
+
+    /**
+     * Adds custom hover CSS
+     *
+     * @param string $CustomHoverCss Custom hover css
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function addCustomHoverCss($CustomHoverCss) {
+        if (strpos($CustomHoverCss, ';') === false) {
+            $CustomHoverCss .= ';';
+        }
+        $this->CustomHoverCss .= $CustomHoverCss;
+    }
+    
+    /**
+     * Returns the custom active CSS
+     *
+     * @return string
+     */
+    public function getCustomActiveCss() {
+        return $this->CustomActiveCss;
+    }
+
+    /**
+     * Sets the custom active CSS
+     *
+     * @param string $CustomActiveCss Custom active css
+     * 
+     * @return void
+     */
+    public function setCustomActiveCss($CustomActiveCss) {
+        $this->CustomActiveCss = $CustomActiveCss;
+    }
+
+    /**
+     * Adds custom active CSS
+     *
+     * @param string $CustomActiveCss Custom active css
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function addCustomActiveCss($CustomActiveCss) {
+        if (strpos($CustomActiveCss, ';') === false) {
+            $CustomActiveCss .= ';';
+        }
+        $this->CustomActiveCss .= $CustomActiveCss;
     }
     
 }

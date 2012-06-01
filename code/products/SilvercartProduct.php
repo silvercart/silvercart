@@ -1440,6 +1440,18 @@ class SilvercartProduct extends DataObject {
     public function AbsoluteLink() {
         return Director::absoluteURL($this->Link());
     }
+    
+    /**
+     * Returns the link to send a product question to the shop manager
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2012
+     */
+    public function ProductQuestionLink() {
+        return SilvercartTools::PageByIdentifierCodeLink('SilvercartContactFormPage') . 'productQuestion/' . $this->ID;
+    }
 
     /**
      * returns the tax amount included in $this

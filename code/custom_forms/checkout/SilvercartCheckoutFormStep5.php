@@ -180,9 +180,11 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * @since 05.04.2012
      */
     public function AddressData() {
-        $checkoutData       = $this->controller->getCombinedStepData();
+        $checkoutData = $this->controller->getCombinedStepData();
         
-        if (Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress'])) {
+        if (array_key_exists('ShippingAddress', $checkoutData) &&
+            Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress'])) {
+            
             $shippingAddress    = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress']);
         } else {
             /**
@@ -191,7 +193,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
             $shippingAddress    = $this->getAssociativeAddressData($shippingAddress);
         }
-        if (Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
+        if (array_key_exists('InvoiceAddress', $checkoutData) &&
+            Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
+            
             $invoiceAddress = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress']);
         } else {
             /**
@@ -259,6 +263,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         } else {
             $associativeAddress['isCompanyAddress'] = false;
         }
+        
+        $silvercartAddress = new SilvercartAddress();
+        $associativeAddress['fieldLabel'] = new DataObject($silvercartAddress->fieldLabels());
         return $associativeAddress;
     }
     

@@ -181,3 +181,6 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
     
     font-size:                  12px;
 }
+.tab_content h2.hidden {
+    display: none;
+}

@@ -40,30 +40,24 @@ class SilvercartPaymentMethodLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
      */
     public static $db = array(
-        'Name'               => 'VarChar(150)',
-        'paymentDescription' => 'Text'
+        'Name'                      => 'VarChar(150)',
+        'paymentDescription'        => 'Text',
+        'LongPaymentDescription'    => 'Text',
     );
-    
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function singular_name() {
-        if (_t('SilvercartPaymentMethodLanguage.SINGULARNAME')) {
-            return _t('SilvercartPaymentMethodLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -73,16 +67,11 @@ class SilvercartPaymentMethodLanguage extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function plural_name() {
-        if (_t('SilvercartPaymentMethodLanguage.PLURALNAME')) {
-            return _t('SilvercartPaymentMethodLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this);
     }
     
     /**
@@ -92,16 +81,16 @@ class SilvercartPaymentMethodLanguage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 28.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Name'               => _t('SilvercartPaymentMethod.NAME'),
-                    'paymentDescription' => _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION')
+                    'Name'                      => _t('SilvercartPaymentMethod.NAME'),
+                    'paymentDescription'        => _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION'),
+                    'LongPaymentDescription'    => _t('SilvercartPaymentMethod.LONG_PAYMENT_DESCRIPTION'),
                 )
         );
 

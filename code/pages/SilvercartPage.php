@@ -320,6 +320,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartHeaderbar');
             Requirements::themedCSS('SilvercartLanguageDropdownField');
             Requirements::themedCSS('SilvercartPagination');
+            Requirements::themedCSS('SilvercartPrint');
             Requirements::themedCSS('SilvercartProductGroupNavigation');
             Requirements::themedCSS('SilvercartProductGroupPageControls');
             Requirements::themedCSS('SilvercartProductGroupHolderList');
@@ -691,25 +692,28 @@ class SilvercartPage_Controller extends ContentController {
      * @since 31.03.2011
      */
     public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
-        $items              = array();
-        $output             = '';
-        $productGroupPage   = $this->PageByIdentifierCode($identifierCode);
+        $output = '';
+        $this->extend('updateSubNavigation', $output);
+        if (empty($output)) {
+            $items              = array();
+            $productGroupPage   = $this->PageByIdentifierCode($identifierCode);
 
-        if ($productGroupPage) {
-            foreach ($productGroupPage->Children() as $child) {
-                if ($child->hasmethod('hasProductsOrChildren') &&
-                    $child->hasProductsOrChildren()) {
-                    $items[] = $child;
+            if ($productGroupPage) {
+                foreach ($productGroupPage->Children() as $child) {
+                    if ($child->hasmethod('hasProductsOrChildren') &&
+                        $child->hasProductsOrChildren()) {
+                        $items[] = $child;
+                    }
                 }
+                $elements = array(
+                    'SubElements' => new DataObjectSet($items),
+                );
+                $output = $this->customise($elements)->renderWith(
+                    array(
+                        'SilvercartSubNavigation',
+                    )
+                );
             }
-            $elements = array(
-                'SubElements' => new DataObjectSet($items),
-            );
-            $output = $this->customise($elements)->renderWith(
-                array(
-                    'SilvercartSubNavigation',
-                )
-            );
         }
         return $output;
     }

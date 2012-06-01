@@ -182,14 +182,22 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $rootTabSet         = new TabSet('Root');
         $basicTab           = new Tab('Basic',              $this->fieldLabel('BasicTab'));
         $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
+        $imagesTab          = new Tab('slideImages',        _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME', 'Images'));
         
         $translationsTableField = new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage');
+        $imageField             = new ManyManyComplexTableField(
+            $this,
+            'slideImages',
+            'SilvercartImageSliderImage'
+        );
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
+        $rootTabSet->push($imagesTab);
         $this->getCMSFieldsSliderTab($rootTabSet);
         $rootTabSet->push($translationsTab);
         
+        $imagesTab->push($imageField);
         $translationsTab->push($translationsTableField);
                 
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());

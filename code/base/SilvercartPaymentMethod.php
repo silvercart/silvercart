@@ -35,81 +35,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPaymentMethod extends DataObject {
-    // ------------------------------------------------------------------------
-    // Class attributes
-    // ------------------------------------------------------------------------
-
-    /**
-     * The link to direct after cancelling by user or session expiry.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
-     */
-    protected $cancelLink = '';
-    /**
-     * The link to redirect back into shop after payment.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
-     */
-    protected $returnLink = '';
-    /**
-     * Indicates whether an error occured or not.
-     *
-     * @var bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
-     */
-    protected $errorOccured;
-    /**
-     * A list of errors.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
-     */
-    protected $errorList = array();
-    /**
-     * Indicates whether a payment module has multiple payment channels or not.
-     *
-     * @var bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
-     */
-    public static $has_multiple_payment_channels = false;
-    /**
-     * A list of possible payment channels.
-     *
-     * @var array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
-     */
-    public static $possible_payment_channels = array();
-
-    // ------------------------------------------------------------------------
-    // Attributes and Relations
-    // ------------------------------------------------------------------------
     
     /**
      * Defines the attributes of the class
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public static $db = array(
         'isActive'                              => 'Boolean',
@@ -132,10 +62,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Defines 1:1 relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public static $has_one = array(
         'SilvercartHandlingCost'    => 'SilvercartHandlingCost',
@@ -145,10 +71,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Defines 1:n relations
      *
      * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      */
     public static $has_many = array(
         'SilvercartOrders'                 => 'SilvercartOrder',
@@ -158,10 +80,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Defines n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public static $many_many = array(
         'SilvercartShippingMethods' => 'SilvercartShippingMethod',
@@ -175,10 +93,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Defines m:n relations
      *
      * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      */
     public static $belongs_many_many = array(
         'SilvercartCountries' => 'SilvercartCountry'
@@ -187,17 +101,14 @@ class SilvercartPaymentMethod extends DataObject {
      * Virtual database columns.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
-        'AttributedCountries' => 'Varchar(255)',
-        'AttributedZones'     => 'Varchar(255)',
-        'activatedStatus'     => 'Varchar(255)',
-        'Name'                => 'Varchar(150)',
-        'paymentDescription'  => 'Text'
+        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedZones'           => 'Varchar(255)',
+        'activatedStatus'           => 'Varchar(255)',
+        'Name'                      => 'Varchar(150)',
+        'paymentDescription'        => 'Text',
+        'LongPaymentDescription'    => 'Text',
     );
     /**
      * Default values for new PaymentMethods
@@ -212,10 +123,6 @@ class SilvercartPaymentMethod extends DataObject {
      * List of searchable fields for the model admin
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $searchable_fields = array(
         'Name',
@@ -231,24 +138,53 @@ class SilvercartPaymentMethod extends DataObject {
             'title' => 'Zugeordnete Länder'
         )
     );
+    
+    /**
+     * The link to direct after cancelling by user or session expiry.
+     *
+     * @var string
+     */
+    protected $cancelLink = '';
+    /**
+     * The link to redirect back into shop after payment.
+     *
+     * @var string
+     */
+    protected $returnLink = '';
+    /**
+     * Indicates whether an error occured or not.
+     *
+     * @var bool
+     */
+    protected $errorOccured;
+    /**
+     * A list of errors.
+     *
+     * @var array
+     */
+    protected $errorList = array();
+    /**
+     * Indicates whether a payment module has multiple payment channels or not.
+     *
+     * @var bool
+     */
+    public static $has_multiple_payment_channels = false;
+    /**
+     * A list of possible payment channels.
+     *
+     * @var array
+     */
+    public static $possible_payment_channels = array();
     /**
      * Contains the module name for display in the admin backend
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 03.12.2010
      */
     protected $moduleName = '';
     /**
      * Contains a referer to the order object
      *
      * @var Controller
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 19.11.2010
      */
     protected $controller;
     /**
@@ -294,15 +230,11 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function singular_name() {
-        if (_t('SilvercartPaymentMethod.SINGULARNAME')) {
-            return _t('SilvercartPaymentMethod.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -312,30 +244,22 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
      */
     public function plural_name() {
-        if (_t('SilvercartPaymentMethod.PLURALNAME')) {
-            return _t('SilvercartPaymentMethod.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this);
     }
     
     /**
      * getter for the multilingual attribute name
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
      */
     public function getName() {
-        $name = '';
-        if ($this->isExtendingSilvercartPaymentMethod() && $this->getLanguage()) {
-            $name = $this->getLanguage()->Name;
+        $name = '';     
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
+            $name = $this->getLanguageFieldValue('Name');
         }
         return $name;
     }
@@ -344,16 +268,26 @@ class SilvercartPaymentMethod extends DataObject {
      * getter for the multilingual attribute paymentDescription
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.01.2012
      */
     public function getpaymentDescription() {
-        $description = '';
-        if ($this->isExtendingSilvercartPaymentMethod() && $this->getLanguage()) {
-            $description = $this->getLanguage()->paymentDescription;
+        $paymentDescription = '';
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
+            $paymentDescription = $this->getLanguageFieldValue('paymentDescription');
         }
-        return $description;
+        return $paymentDescription;
+    }
+    
+    /**
+     * getter for the multilingual attribute LongPaymentDescription
+     *
+     * @return string 
+     */
+    public function getLongPaymentDescription() {
+        $LongPaymentDescription = '';
+        if ($this->isExtendingSilvercartPaymentMethod() && $this->hasMethod('getLanguageFieldValue')) {
+            $LongPaymentDescription = $this->getLanguageFieldValue('LongPaymentDescription');
+        }
+        return $LongPaymentDescription;
     }
     
     // ------------------------------------------------------------------------
@@ -424,6 +358,7 @@ class SilvercartPaymentMethod extends DataObject {
                     'SilvercartPaymentMethodLanguages'  => _t('SilvercartPaymentMethodLanguage.PLURALNAME'),
                     'SilvercartShippingMethods'         => _t('SilvercartShippingMethod.PLURALNAME'),
                     'SilvercartCountries'               => _t('SilvercartCountry.PLURALNAME'),
+                    'LongPaymentDescription'            => _t('SilvercartPaymentMethod.LONG_PAYMENT_DESCRIPTION'),
                 )
         );
     }
@@ -723,17 +658,16 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * Returns allowed shipping methods.
      * 
-     * @param string                 $shippingCountry The SilvercartCountry to check the
-     *                                                payment methods for.
-     * @param SilvercartShoppingCart $shoppingCart    The shopping cart object
+     * @param string                 $shippingCountry                  The SilvercartCountry to check the payment methods for.
+     * @param SilvercartShoppingCart $shoppingCart                     The shopping cart object
+     * @param Boolean                $forceAnonymousCustomerIfNotExist When true, an anonymous customer will be created when no customer exists
      * 
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.05.2012
      */
-    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart) {
+    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
         $allowedPaymentMethods  = array();
         
         if (!$shippingCountry) {
@@ -742,6 +676,12 @@ class SilvercartPaymentMethod extends DataObject {
         
         $paymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
         $member         = Member::currentUser();
+        if (!$member &&
+            $forceAnonymousCustomerIfNotExist) {
+            $member = new Member();
+            $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
+            $member->Groups()->push($anonymousGroup);
+        }
         
         if ($paymentMethods) {
             foreach ($paymentMethods as $paymentMethod) {
@@ -758,11 +698,7 @@ class SilvercartPaymentMethod extends DataObject {
                     $doAccessChecks      = false;
                 }
                 
-                if (SilvercartConfig::PriceType() == 'gross') {
-                    $checkAmount = $shoppingCart->getAmountTotalGrossWithoutFees()->getAmount();
-                } else {
-                    $checkAmount = $shoppingCart->getAmountTotalNetWithoutFees()->getAmount();
-                }
+                $checkAmount = $shoppingCart->getAmountTotalWithoutFees()->getAmount();
 
                 if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
                     $assumePaymentMethod = false;
@@ -1149,8 +1085,10 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function isExtendingSilvercartPaymentMethod() {
         $result = false;
-        if (in_array('SilvercartPaymentMethod', class_parents($this->ClassName))) {
-            $result = true;
+        if ($this->ClassName) {
+            if (in_array('SilvercartPaymentMethod', class_parents($this->ClassName))) {
+                $result = true;
+            }
         }
         return $result;
     }

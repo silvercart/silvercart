@@ -205,14 +205,11 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupPageTemplateName() {
-        $productGroupPageTemplateName = '';
         $defaultGroupView = $this->owner->getDefaultGroupViewInherited();
-        if (!empty($defaultGroupView)) {
-            $productGroupPageTemplateName = 'SilvercartProductGroupPage' . ucfirst($defaultGroupView);
-        } else {
-            $productGroupPageTemplateName = 'SilvercartProductGroupPage' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
+        if (empty($defaultGroupView)) {
+            $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
         }
-        return $productGroupPageTemplateName;
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($defaultGroupView);
     }
 
     /**
@@ -222,10 +219,6 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     public function getCartFormName() {
-        $cartFormName = 'SilvercartProductAddCartForm' . SilvercartGroupViewHandler::getActiveGroupViewAsUpperCamelCase();
-        if (!class_exists($cartFormName)) {
-            $cartFormName = 'SilvercartProductAddCartForm';
-        }
-        return $cartFormName;
+        return SilvercartGroupViewHandler::getCartFormNameFor(SilvercartGroupViewHandler::getActiveGroupView());
     }
 }

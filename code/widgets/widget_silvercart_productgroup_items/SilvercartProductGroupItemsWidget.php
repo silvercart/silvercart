@@ -45,7 +45,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
         'numberOfProductsToShow'        => 'Int',
         'numberOfProductsToFetch'       => 'Int',
         'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
-        'useListView'                   => 'Boolean',
+        'GroupView'                     => 'VarChar(255)',
         'isContentView'                 => 'Boolean',
         'Autoplay'                      => 'Boolean(1)',
         'autoPlayDelayed'               => 'Boolean(1)',
@@ -401,6 +401,9 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      */
     public function ProductPages() {
         if ($this->elements !== null) {
+            foreach ($this->elements as $page) {
+                $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
+            }
             return $this->elements;
         }
         switch ($this->useSelectionMethod) {
@@ -519,6 +522,20 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         }
 
         return $this->elements;
+    }
+    
+    /**
+     * Returns the content for non slider widgets
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.05.2012
+     */
+    public function ElementsContent() {
+        return $this->customise(array(
+            'Elements' => $this->Elements(),
+        ))->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
     }
 
     /**

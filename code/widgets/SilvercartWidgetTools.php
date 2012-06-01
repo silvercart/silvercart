@@ -55,9 +55,9 @@ class SilvercartWidgetTools extends Object {
         $contentField               = new TextareaField('FrontContent',         $widget->fieldLabel('FrontContent'), 10);
         $numberOfProductsShowField  = new TextField('numberOfProductsToShow',   $widget->fieldLabel('numberOfProductsToShow'));
         $numberOfProductsFetchField = new TextField('numberOfProductsToFetch',  $widget->fieldLabel('numberOfProductsToFetch'));
-        $useListViewField           = new CheckboxField('useListView',          $widget->fieldLabel('useListView'));
         $isContentView              = new CheckboxField('isContentView',        $widget->fieldLabel('isContentView'));
         $fetchMethod                = new DropdownField('fetchMethod',          $widget->fieldLabel('fetchMethod'), $fetchMethods);
+        $groupViewField             = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView);
         
         $rootTabSet                 = new TabSet('Root');
         $basicTab                   = new Tab('Basic',          $widget->fieldLabel('BasicTab'));
@@ -71,7 +71,7 @@ class SilvercartWidgetTools extends Object {
 
         $displayTab->push($titleField);
         $displayTab->push($contentField);
-        $displayTab->push($useListViewField);
+        $displayTab->push($groupViewField);
         $displayTab->push($isContentView);
         $displayTab->push($fetchMethod);
         $displayTab->push($numberOfProductsShowField);
@@ -377,6 +377,25 @@ class SilvercartWidgetTools extends Object {
     }
     
     /**
+     * Returns the template to render the products with
+     *
+     * @param SilvercartWidget_Controller $widget Widget to get template for
+     * 
+     * @return string
+     */
+    public static function getGroupViewTemplateName(SilvercartWidget_Controller $widget) {
+        if (empty($widget->GroupView)) {
+            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+        }
+        if ($widget->isContentView) {
+            $groupViewTemplateName = SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($widget->GroupView);
+        } else {
+            $groupViewTemplateName = SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($widget->GroupView, 'SilvercartWidgetProductBox');
+        }
+        return $groupViewTemplateName;
+    }
+
+    /**
      * Default form registration routine of a product slider widget
      *
      * @param SilvercartWidget_Controller $widget      Widget to initialize
@@ -389,15 +408,14 @@ class SilvercartWidgetTools extends Object {
      * @since 28.03.2012
      */
     public static function registerAddCartFormForProductSliderWidget(SilvercartWidget_Controller $widget, $element, &$elementIdx) {
-        $controller = Controller::curr();
-        if ($widget->useListView ||
-            $widget->useRoundabout) {
-            $productAddCartFormName = 'SilvercartProductAddCartFormList';
-        } else {
-            $productAddCartFormName = 'SilvercartProductAddCartFormTile';
+        if (empty($widget->GroupView)) {
+            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
         }
-        $formIdentifier     = 'ProductAddCartForm' . $widget->ID . '_' . $elementIdx;
-        $productAddCartForm = new $productAddCartFormName(
+        $controller             = Controller::curr();
+        $groupView              = $widget->GroupView;
+        $productAddCartFormName = SilvercartGroupViewHandler::getCartFormNameFor($groupView);
+        $formIdentifier         = 'ProductAddCartForm' . $widget->ID . '_' . $elementIdx;
+        $productAddCartForm     = new $productAddCartFormName(
             $controller,
             array('productID' => $element->ID)
         );
@@ -434,8 +452,8 @@ class SilvercartWidgetTools extends Object {
         if (!array_key_exists('isContentView', $data)) {
             $widget->isContentView = 0;
         }
-        if (!array_key_exists('useListView', $data)) {
-            $widget->useListView = 0;
+        if (!array_key_exists('GroupView', $data)) {
+            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
         }
         if (!array_key_exists('Autoplay', $data)) {
             $widget->autoplay = 0;
@@ -481,6 +499,7 @@ class SilvercartWidgetTools extends Object {
             'numberOfProductsToFetch'       => _t('SilvercartProductSliderWidget.NUMBEROFPRODUCTSTOFETCH'),
             'fetchMethod'                   => _t('SilvercartProductSliderWidget.FETCHMETHOD'),
             'useListView'                   => _t('SilvercartProductSliderWidget.USE_LISTVIEW'),
+            'GroupView'                     => _t('SilvercartProductSliderWidget.GROUPVIEW'),
             'isContentView'                 => _t('SilvercartProductSliderWidget.IS_CONTENT_VIEW'),
             'Autoplay'                      => _t('SilvercartProductSliderWidget.AUTOPLAY'),
             'autoPlayDelayed'               => _t('SilvercartProductSliderWidget.AUTOPLAYDELAYED'),
