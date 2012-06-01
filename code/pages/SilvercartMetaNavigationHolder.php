@@ -80,7 +80,7 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
         $output = '';
         if ($root->ClassName != 'SilvercartMetaNavigationHolder') {
             while ($root->ClassName != 'SilvercartMetaNavigationHolder') {
-                $root = $this->dataRecord->Parent();
+                $root = $root->Parent();
                 if ($root->ParentID == 0) {
                     $root = null;
                     break;
