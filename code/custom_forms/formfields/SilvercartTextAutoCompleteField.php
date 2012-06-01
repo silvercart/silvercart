@@ -137,7 +137,7 @@ class SilvercartTextAutoCompleteField extends TextField {
     public function saveInto(DataObject $record) {
         $fieldName = $this->name;
 
-        if (!isset($record->{$fieldName})) {
+        if (!$record->hasDatabaseField($fieldName)) {
             user_error(
                 sprintf(
                     "SilvercartTextAutoCompleteField::saveInto() Field '%s' not found on %s.%s",
@@ -232,10 +232,12 @@ class SilvercartTextAutoCompleteField extends TextField {
     protected function generateAutoCompleteValue() {
         $fieldName  = $this->name;
         $controller = $this->getController();
-        $relation   = DataObject::get_by_id($this->getAutoCompleteSourceDataObject(), $controller->{$fieldName});
         $value      = '';
-        if ($relation) {
-            $value = $relation->{$this->getAutoCompleteSourceAttribute()};
+        if ($controller->ID) {
+            $relation   = DataObject::get_by_id($this->getAutoCompleteSourceDataObject(), $controller->{$fieldName});
+            if ($relation) {
+                $value = $relation->{$this->getAutoCompleteSourceAttribute()};
+            }
         }
         $this->setAutoCompleteValue($value);
     }
