@@ -65,6 +65,9 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         $sortableFrontendFields             = $product->sortableFrontendFields();
         $sortableFrontendFieldValues        = array_keys($sortableFrontendFields);
         $sortableFrontendFieldValues        = array_flip($sortableFrontendFieldValues);
+        if (!array_key_exists($product->getDefaultSort(), $sortableFrontendFieldValues)) {
+            $sortableFrontendFieldValues[$product->getDefaultSort()] = 0;
+        }
         $sortOrder                          = $sortableFrontendFieldValues[$product->getDefaultSort()];
         $sortableFrontendFieldsForDropdown  = array_values($sortableFrontendFields);
         asort($sortableFrontendFieldsForDropdown);
