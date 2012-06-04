@@ -251,6 +251,7 @@ $lang['en_US']['SilvercartProduct']['ADD_TO_CART'] = 'Add to cart';
 $lang['en_US']['SilvercartProduct']['AMOUNT_UNIT'] = 'purchase unit';
 $lang['en_US']['SilvercartProduct']['DEEPLINK_FOR'] = 'Deeplink for the attribute "%s"';
 $lang['en_US']['SilvercartProduct']['DEEPLINK_TEXT'] = 'If there are any deeplinks defined all the deeplinks to this product are shown.';
+$lang['en_US']['SilvercartProduct']['CATALOGSORT'] = 'Cataloge sort';
 $lang['en_US']['SilvercartProduct']['CHOOSE_MASTER'] = '-- choose master --';
 $lang['en_US']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['en_US']['SilvercartProduct']['DESCRIPTION'] = 'Product description';
@@ -278,6 +279,8 @@ $lang['en_US']['SilvercartProduct']['PACKAGING_QUANTITY'] = 'purchase quantity';
 $lang['en_US']['SilvercartProduct']['PACKAGING_UNIT'] = 'packaging unit';
 $lang['en_US']['SilvercartProduct']['PLURALNAME'] = 'Products';
 $lang['en_US']['SilvercartProduct']['PRICE'] = 'Price';
+$lang['en_US']['SilvercartProduct']['PRICE_AMOUNT_ASC'] = 'Price ascending';
+$lang['en_US']['SilvercartProduct']['PRICE_AMOUNT_DESC'] = 'Price descending';
 $lang['en_US']['SilvercartProduct']['PRICE_GROSS'] = 'Price (gross)';
 $lang['en_US']['SilvercartProduct']['PRICE_NET'] = 'Price (net)';
 $lang['en_US']['SilvercartProduct']['PRICE_SINGLE'] = 'Price single';
@@ -300,6 +303,8 @@ $lang['en_US']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is the stock quantity o
 $lang['en_US']['SilvercartProduct']['STOCK_QUANTITY_SHORT'] = 'Is overbookable?';
 $lang['en_US']['SilvercartProduct']['STOCK_QUANTITY_EXPIRATION_DATE'] = 'Date from which on the stock quantity is no more overbookable';
 $lang['en_US']['SilvercartProduct']['TITLE'] = 'Product';
+$lang['en_US']['SilvercartProduct']['TITLE_ASC'] = 'Title ascending';
+$lang['en_US']['SilvercartProduct']['TITLE_DESC'] = 'Title descending';
 $lang['en_US']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 
@@ -361,8 +366,9 @@ $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Default prod
 $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Use view from parent pages';
 $lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Allow only default view';
 
-$lang['en_US']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
-$lang['en_US']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE'] = 'Products per page';
+$lang['en_US']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
+$lang['en_US']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Products per page';
+$lang['en_US']['SilvercartProductGroupPageSelector']['SORT_ORDER']              = 'Sort order';
 
 $lang['en_US']['SilvercartProductImageGallery']['PLURALNAME'] = 'Galleries';
 $lang['en_US']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallery';

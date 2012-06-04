@@ -1266,7 +1266,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 }
 
                 if (!$sort) {
-                    $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+                    $sort = SilvercartProduct::defaultSort();
+                    if (empty($sort)) {
+                        $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+                    }
                     $this->extend('updateGetProductsSort', $sort);
                 }
 

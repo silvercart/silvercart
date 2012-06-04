@@ -6,6 +6,7 @@
     <div class="subcolumns">
         <div class="c80l">
             $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
+            $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
         </div>
     
         <div class="c20r">

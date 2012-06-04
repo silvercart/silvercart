@@ -39,14 +39,17 @@
 
 .silvercart-product-group-page-selectors form.yform div.type-select {
     margin-bottom:                  0px;
+    margin-right:                   24px;
     padding-left:                   0px;
+    float:                          left;
 }
 .silvercart-product-group-page-selectors form.yform div.type-select select {
-    width:                          9em;
+    width:                          auto;
 }
 .silvercart-product-group-page-selectors form.yform div.type-button {
     padding:                        16px 0px 0px 0px;
 }
 .silvercart-product-group-page-selectors form.yform label {
-    padding:                        5px 0px 0px 0px;
+    padding:                        5px 5px 0px 0px;
+    width:                          auto;
 }

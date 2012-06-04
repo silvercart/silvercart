@@ -251,6 +251,7 @@ $lang['de_DE']['SilvercartProduct']['ADD_TO_CART'] = 'in den Warenkorb';
 $lang['de_DE']['SilvercartProduct']['AMOUNT_UNIT'] = 'Verkaufsmengeneinheit';
 $lang['de_DE']['SilvercartProduct']['DEEPLINK_FOR'] = 'Deeplink für das Attribut "%s"';
 $lang['de_DE']['SilvercartProduct']['DEEPLINK_TEXT'] = 'Wenn Deeplinks definiert sind, werden alle Deeplinks zu diesem Artikel angezeigt.';
+$lang['de_DE']['SilvercartProduct']['CATALOGSORT'] = 'Katalogsortierung';
 $lang['de_DE']['SilvercartProduct']['CHOOSE_MASTER'] = '-- Master wählen --';
 $lang['de_DE']['SilvercartProduct']['COLUMN_TITLE'] = 'Name';
 $lang['de_DE']['SilvercartProduct']['DESCRIPTION'] = 'Artikelbeschreibung';
@@ -278,6 +279,8 @@ $lang['de_DE']['SilvercartProduct']['PACKAGING_QUANTITY'] = 'Verkaufsmenge';
 $lang['de_DE']['SilvercartProduct']['PACKAGING_UNIT'] = 'Verpackungseinheit';
 $lang['de_DE']['SilvercartProduct']['PLURALNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['PRICE'] = 'Preis';
+$lang['de_DE']['SilvercartProduct']['PRICE_AMOUNT_ASC'] = 'Preis aufsteigend';
+$lang['de_DE']['SilvercartProduct']['PRICE_AMOUNT_DESC'] = 'Preis absteigend';
 $lang['de_DE']['SilvercartProduct']['PRICE_GROSS'] = 'Preis (Brutto)';
 $lang['de_DE']['SilvercartProduct']['PRICE_NET'] = 'Preis (Netto)';
 $lang['de_DE']['SilvercartProduct']['PRICE_SINGLE'] = 'Einzelpreis';
@@ -300,6 +303,8 @@ $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand di
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY_SHORT'] = 'Ist überbuchbar?';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY_EXPIRATION_DATE'] = 'Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist';
 $lang['de_DE']['SilvercartProduct']['TITLE'] = 'Artikel';
+$lang['de_DE']['SilvercartProduct']['TITLE_ASC'] = 'Bezeichnung aufsteigend';
+$lang['de_DE']['SilvercartProduct']['TITLE_DESC'] = 'Bezeichnung absteigend';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 
@@ -361,8 +366,9 @@ $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Standard-Pro
 $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Von der übergeordneten Gruppe oder Standartkonfiguration übernehmen';
 $lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Produktlisten-Ansicht verwenden';
 
-$lang['de_DE']['SilvercartProductGroupPageSelector']['OK'] = 'Ok';
-$lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE'] = 'Artikel pro Seite';
+$lang['de_DE']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
+$lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Artikel pro Seite';
+$lang['de_DE']['SilvercartProductGroupPageSelector']['SORT_ORDER']              = 'Sortierung';
 
 $lang['de_DE']['SilvercartProductImageGallery']['PLURALNAME'] = 'Gallerien';
 $lang['de_DE']['SilvercartProductImageGallery']['SINGULARNAME'] = 'Gallerie';

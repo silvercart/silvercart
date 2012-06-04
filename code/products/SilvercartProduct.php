@@ -386,6 +386,41 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
+    
+    /**
+     * Returns the fields to sort a product by in frontend
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
+     */
+    public function sortableFrontendFields() {
+        $sortableFrontendFields = array(
+            ''                                      => $this->fieldLabel('CatalogSort'),
+            'SilvercartProductLanguages.Title ASC'  => $this->fieldLabel('TitleAsc'),
+            'SilvercartProductLanguages.Title DESC' => $this->fieldLabel('TitleDesc'),
+        );
+        if (SilvercartConfig::Pricetype() == 'gross') {
+            $sortableFrontendFields = array_merge(
+                    $sortableFrontendFields,
+                    array(
+                        'PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
+                        'PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
+                    )
+            );
+        } else {
+            $sortableFrontendFields = array_merge(
+                    $sortableFrontendFields,
+                    array(
+                        'PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
+                        'PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
+                    )
+            );
+        }
+        $this->extend('updateSortableFrontentFields', $sortableFrontendFields);
+        return $sortableFrontendFields;
+    }
 
     /**
      * Field labels for display in tables.
@@ -451,6 +486,11 @@ class SilvercartProduct extends DataObject {
                 'SEO'                                   => _t('Silvercart.SEO'),
                 'SilvercartProductCondition'            => _t('SilvercartProductCondition.SINGULARNAME'),
                 'Deeplinks'                             => _t('Silvercart.Deeplinks'),
+                'TitleAsc'                              => _t('SilvercartProduct.TITLE_ASC'),
+                'TitleDesc'                             => _t('SilvercartProduct.TITLE_DESC'),
+                'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),
+                'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
+                'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
             )
         );
 
@@ -517,13 +557,27 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
      */
     public static function defaultSort() {
-        $sort = 'SilvercartProduct.'.Object::get_static('SilvercartProduct', 'default_sort');
-
+        $sort = Session::get('SilvercartProduct.defaultSort');
+        if (!$sort) {
+            $sort = 'SilvercartProduct.'.Object::get_static('SilvercartProduct', 'default_sort');
+        }
         return $sort;
+    }
+
+    /**
+     * Sets the default sort order and direction.
+     *
+     * @param string $defaultSort Default sort order and direction
+     * 
+     * @return void
+     */
+    public static function setDefaultSort($defaultSort) {
+        Session::set('SilvercartProduct.defaultSort', $defaultSort);
+        Session::save();
     }
 
     /**
@@ -537,7 +591,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return DataObjectSet DataObjectSet of products or false
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.10.2011
+     * @since 04.06.2012
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -643,7 +697,8 @@ class SilvercartProduct extends DataObject {
                     sprintf(
                             "`SilvercartProduct`.`ID` IN (%s)",
                             $productIDs
-                    )
+                    ),
+                    $sort
             );
         } else {
             $databaseFilteredProducts = new DataObjectSet();

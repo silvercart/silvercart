@@ -35,25 +35,6 @@
 class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
     
     /**
-     * Form field definitions.
-     *
-     * @var array 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
-     */
-    public $formFields = array(
-        'productsPerPage' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Products per page',
-            'value'             => array(),
-            'selectedValue'     => 0,
-            'checkRequirements' => array(
-            )
-        )
-    );
-    
-    /**
      * Set some field values and button labels.
      *
      * @return void
@@ -67,27 +48,46 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
     }
     
     /**
-     * Fill form fields.
+     * Returns the form fields for this form
      *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
      */
-    public function fillInFieldValues() {
-        $this->formFields['productsPerPage']['title'] = _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE');
-        $this->formFields['productsPerPage']['value'] = SilvercartConfig::getProductsPerPageOptions();
-        
-        // Get the products per page setting
-        $selectedValue = $this->controller->getProductsPerPageSetting();
-        
-        if ($selectedValue == SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
-            $selectedValue = 0;
+    public function getFormFields() {
+        $productsPerPage = $this->controller->getProductsPerPageSetting();
+        if ($productsPerPage == SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
+            $productsPerPage = 0;
         }
         
-        $this->formFields['productsPerPage']['selectedValue'] = $selectedValue;
+        $product                            = singleton('SilvercartProduct');
+        $sortableFrontendFields             = $product->sortableFrontendFields();
+        $sortableFrontendFieldValues        = array_keys($sortableFrontendFields);
+        $sortableFrontendFieldValues        = array_flip($sortableFrontendFieldValues);
+        $sortOrder                          = $sortableFrontendFieldValues[$product->getDefaultSort()];
+        $sortableFrontendFieldsForDropdown  = array_values($sortableFrontendFields);
+        asort($sortableFrontendFieldsForDropdown);
         
-        parent::fillInFieldValues();
+        $this->formFields = array(
+            'productsPerPage' => array(
+                'type'              => 'DropdownField',
+                'title'             => _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE'),
+                'value'             => SilvercartConfig::getProductsPerPageOptions(),
+                'selectedValue'     => $productsPerPage,
+                'checkRequirements' => array(
+                )
+            ),
+            'SortOrder' => array(
+                'type'              => 'DropdownField',
+                'title'             => _t('SilvercartProductGroupPageSelector.SORT_ORDER'),
+                'value'             => $sortableFrontendFieldsForDropdown,
+                'selectedValue'     => $sortOrder,
+                'checkRequirements' => array(
+                )
+            ),
+        );
+        return parent::getFormFields();
     }
     
     
@@ -108,6 +108,12 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
     public function submitSuccess($data, $form, $formData) {
         $backLink = $this->controller->Link();
         $member   = Member::currentUser();
+        
+        $product                        = singleton('SilvercartProduct');
+        $sortableFrontendFields         = $product->sortableFrontendFields();
+        $sortableFrontendFieldValues    = array_keys($sortableFrontendFields);
+        $sortOrder                      = $sortableFrontendFieldValues[$data['SortOrder']];
+        SilvercartProduct::setDefaultSort($sortOrder);
         
         if (!$member) {
             $member = SilvercartCustomer::createAnonymousCustomer();
