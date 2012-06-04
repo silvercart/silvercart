@@ -398,8 +398,8 @@ class SilvercartProduct extends DataObject {
     public function sortableFrontendFields() {
         $sortableFrontendFields = array(
             ''                                      => $this->fieldLabel('CatalogSort'),
-            'SilvercartProductLanguages.Title ASC'  => $this->fieldLabel('TitleAsc'),
-            'SilvercartProductLanguages.Title DESC' => $this->fieldLabel('TitleDesc'),
+            'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
+            'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
         );
         if (SilvercartConfig::Pricetype() == 'gross') {
             $sortableFrontendFields = array_merge(
