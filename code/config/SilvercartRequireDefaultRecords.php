@@ -790,6 +790,25 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $orderStatus->SilvercartShopEmails()->add($orderEmail);
         }
     }
+    
+    /**
+     * Re-renders the ErrorPage templates
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
+     */
+    public function rerenderErrorPages() {
+        $errorPages = DataObject::get('ErrorPage');
+        if ($errorPages) {
+            SilvercartConfig::$forceLoadingOfDefaultLayout = true;
+            foreach ($errorPages as $errorPage) {
+                $errorPage->doPublish();
+            }
+            SilvercartConfig::$forceLoadingOfDefaultLayout = false;
+        }
+    }
 
     /**
      * create default records.
@@ -797,7 +816,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 04.06.2012
      */
     public function requireDefaultRecords() {
         SilvercartLanguageHelper::createSilvercartCacheModule();
@@ -820,6 +839,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $rootPage = $this->createDefaultSiteTree();
         // create shop emails
         $this->createDefaultShopEmails();
+        // rewrite error page templates
+        $this->rerenderErrorPages();
 
         $this->extend('updateDefaultRecords', $rootPage);
 

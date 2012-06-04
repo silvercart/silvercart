@@ -285,7 +285,8 @@ class SilvercartPage_Controller extends ContentController {
             $_SESSION['Silvercart']['errors'] = array();
         }
 
-        if (!SilvercartConfig::DefaultLayoutLoaded()) {
+        if (!SilvercartConfig::DefaultLayoutLoaded() ||
+            SilvercartConfig::$forceLoadingOfDefaultLayout) {
             // temporary hold preloaded css files to prevent combine changes by 
             // different pages
             $preloadedCssFiles = Requirements::backend()->get_css();
@@ -355,7 +356,8 @@ class SilvercartPage_Controller extends ContentController {
             $this->loadWidgetControllers();
         }
         
-        if (!SilvercartConfig::DefaultLayoutLoaded()) {
+        if (!SilvercartConfig::DefaultLayoutLoaded() ||
+            SilvercartConfig::$forceLoadingOfDefaultLayout) {
             $contentCssFiles = array(
                 'content',
                 'forms',
@@ -423,23 +425,7 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         // check the SilverCart configuration
-        $checkConfiguration = true;
-        
-        if (array_key_exists('url', $_REQUEST)) {
-            if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || SilvercartConfig::isInstallationCompleted() == false) {
-                $checkConfiguration = false;
-            }
-        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
-            $checkConfiguration = false;
-        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
-            $checkConfiguration = false;
-        }
-        //if run through SAKE the config object must not be called
-        if ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php') {
-            $checkConfiguration = false;
-        }
-        
-        if ($checkConfiguration) {
+        if (!SilvercartTools::isIsolatedEnvironment()) {
             SilvercartConfig::Check();
         }
 

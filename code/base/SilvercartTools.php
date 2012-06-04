@@ -220,4 +220,68 @@ class SilvercartTools extends Object {
         }
 
     }
+
+    /**
+     * Checks if the installation is complete. We assume a complete
+     * installation if the Member table has the field "SilvercartShoppingCartID"
+     * that is decorated via "SilvercartCustomer".
+     * 
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
+     */
+    public static function isInstallationCompleted() {
+        $installationComplete   = false;
+        
+        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
+            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
+            $installationComplete = false;
+        } else {
+            $memberFieldList        = array();
+            $queryRes               = DB::query("SHOW TABLES");
+            if ($queryRes->numRecords() > 0) {
+                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+
+                foreach ($queryRes as $key => $value) {
+                    $memberFieldList[] = $value['Field'];
+                }
+
+                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                    $installationComplete = true;
+                }
+            }
+        }
+        
+        return $installationComplete;
+    }
+    
+    /**
+     * Checks whether the current request is a special, isolated environment
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
+     */
+    public static function isIsolatedEnvironment() {
+        $isolatedEnvironment = false;
+        if (array_key_exists('url', $_REQUEST)) {
+            if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false) {
+                $isolatedEnvironment = true;
+            }
+        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
+            $isolatedEnvironment = true;
+        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
+            $isolatedEnvironment = true;
+        }
+        //if run through SAKE the config object must not be called
+        if ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php') {
+            $isolatedEnvironment = true;
+        }
+        return $isolatedEnvironment;
+    }
 }

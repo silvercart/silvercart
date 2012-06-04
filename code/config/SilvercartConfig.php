@@ -222,6 +222,7 @@ class SilvercartConfig extends DataObject {
     public static $redirectToCartAfterAddToCart     = null;
     public static $demandBirthdayDateOnRegistration = null;
     public static $useDefaultLanguageAsFallback     = null;
+    public static $forceLoadingOfDefaultLayout      = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1391,35 +1392,12 @@ class SilvercartConfig extends DataObject {
      * 
      * @return boolean
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2012
+     * @deprecated use SilvercartTools::isInstallationCompleted() instead
      */
     public static function isInstallationCompleted() {
-        $installationComplete   = false;
-        
-        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
-            $installationComplete = false;
-        } else {
-            $memberFieldList        = array();
-            $queryRes               = DB::query("SHOW TABLES");
-            if ($queryRes->numRecords() > 0) {
-                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
-
-                foreach ($queryRes as $key => $value) {
-                    $memberFieldList[] = $value['Field'];
-                }
-
-                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                    $installationComplete = true;
-                }
-            }
-        }
-        
-        return $installationComplete;
+        return SilvercartTools::isInstallationCompleted();
     }
     
     /**
