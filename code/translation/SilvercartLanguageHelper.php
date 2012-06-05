@@ -284,7 +284,7 @@ class SilvercartLanguageHelper {
 
         $base     = Director::baseFolder();
         $topLevel = scandir($base);
-        $template = file_get_contents($base.'/silvercart/code/base/SilvercartLocaleTemplate.php');
+        $template = file_get_contents($base.'/silvercart/code_templates/locale/SilvercartLocaleTemplate.php');
         $locales  = i18n::get_locale_list();
 
 
