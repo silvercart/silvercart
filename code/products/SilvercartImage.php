@@ -68,12 +68,33 @@ class SilvercartImage extends DataObject {
     );
     
     /**
+     * Constructor. Overwrites some basic attributes.
+     *
+     * @param array $record      Record to fill Object with
+     * @param bool  $isSingleton Is this a singleton?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2012
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        $this->Image()->Title = $this->Title;
+    }
+    
+    /**
      * getter for the Title, looks for set translation
      * 
      * @return string The Title from the translation object or an empty string
      */
     public function getTitle() {
-        return $this->getLanguageFieldValue('Title');
+        $title = $this->getLanguageFieldValue('Title');
+        if ($this->SilvercartProduct()->ID &&
+            empty($title)) {
+            $title = $this->SilvercartProduct()->Title;
+        }
+        return $title;
     }
     
     /**
