@@ -580,7 +580,10 @@ class SilvercartProduct extends DataObject {
     public static function defaultSort() {
         $sort = Session::get('SilvercartProduct.defaultSort');
         if (!$sort) {
-            $sort = 'SilvercartProduct.'.Object::get_static('SilvercartProduct', 'default_sort');
+            $sort = Object::get_static('SilvercartProduct', 'default_sort');
+            if (strpos($sort, '.') === false) {
+                $sort = 'SilvercartProduct.' . $sort;
+            }
         }
         return $sort;
     }
