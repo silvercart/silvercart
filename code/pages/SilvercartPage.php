@@ -81,8 +81,12 @@ class SilvercartPage extends SiteTree {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-        $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
+        if (Member::currentUser()->isAdmin()) {
+            $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
+            $fields->addFieldToTab('Root.Content.Main', new LiteralField('ForIdentifierCode', '<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>'));
+        } else {
+            $fields->addFieldToTab('Root.Content.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
+        }
         
         // prevent edit/add/show/delete actions for widget sets in CMS area.
         $permissions = array();
