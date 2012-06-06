@@ -39,6 +39,18 @@ class SilvercartMain extends DataObjectDecorator {
     );
     
     /**
+     * Some extra routines after init
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function onAfterInit() {
+        Requirements::css('silvercart/css/backend/SilvercartMain.css');
+    }
+    
+    /**
      * This action will create a translation template for all pages of the 
      * SiteTree for the given language.
      * 
