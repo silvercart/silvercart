@@ -1868,6 +1868,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $silvercartFrontPage = DataObject::get_one(
             'SilvercartFrontPage'
         );
+        
+        /*
         $productGroupHolderRoot = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
         
         //create product group holder page
@@ -1917,15 +1919,18 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $productGroupOpen->ShowInSearch = true;
         $productGroupOpen->write();
         $productGroupOpen->publish("Stage", "Live");
+        */
         
         // Create Widget
         $widgetSlidorion = new SilvercartSlidorionProductGroupWidget();
         $widgetSlidorion->setField('Sort', 1);
         $widgetSlidorion->setField('Title', _t('SilvercartTestData.SLIDORION_TITLE'));
         $widgetSlidorion->write();
+        /*
         $widgetSlidorion->SCProductGroupPages()->add($productGroupCustomisable);
         $widgetSlidorion->SCProductGroupPages()->add($productGroupExtendable);
         $widgetSlidorion->SCProductGroupPages()->add($productGroupOpen);
+        */
 
         $widgetSetFrontPageContentArea->Widgets()->add($widgetSlidorion);
     }
