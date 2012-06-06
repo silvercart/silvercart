@@ -77,9 +77,6 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
         Requirements::insertHeadTags('<!--[if lt IE 9]>', 'silvercart_jqplot_begin');
         Requirements::insertHeadTags('<script language="javascript" type="text/javascript" src="silvercart/script/jqplot/excanvas.min.js"></script>',   'silvercart_jqplot');
         Requirements::insertHeadTags('<![endif]-->', 'silvercart_jqplot_end');
-
-        //Requirements::combine_files('jqplot.js', $jqplotFiles);
-        //Requirements::combine_files('demando.css', $cssFiles);
     }
 
     /**
