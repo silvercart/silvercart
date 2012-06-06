@@ -877,46 +877,6 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForMain($fields) {
-        $productNumberGroup = new FieldGroup();
-        $productNumberGroup->setName('ProductNumberGroup');
-        $productNumberGroup->addExtraClass('silvercart-fieldgroup');
-        $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
-        $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
-        $productNumberGroup->push($fields->dataFieldByName('EANCode'));
-        $fields->removeByName('ProductNumberShop');
-        $fields->removeByName('ProductNumberManufacturer');
-        $fields->removeByName('EANCode');
-        $fields->insertAfter($productNumberGroup, 'isActive');
-        
-        // Availability section
-        $availabilityStart  = new LiteralField('AvailabilityStart', '<div class="silvercart-form-highlight">');
-        $availabilityEnd    = new LiteralField('AvailabilityEnd',   '</div>');
-        $availabilityLabel  = new HeaderField('AvailabilityLabel',  $this->fieldLabel('SilvercartAvailabilityStatus'));
-        $availabilityGroup  = new FieldGroup();
-        $stockGroup         = new FieldGroup();
-        $availabilityGroup->setName('AvailabilityGroup');
-        $availabilityGroup->addExtraClass('silvercart-fieldgroup');
-        $availabilityGroup->push($fields->dataFieldByName('PurchaseMinDuration'));
-        $availabilityGroup->push($fields->dataFieldByName('PurchaseMaxDuration'));
-        $availabilityGroup->push($fields->dataFieldByName('PurchaseTimeUnit'));
-        $stockGroup->setName('StockGroup');
-        $stockGroup->addExtraClass('silvercart-fieldgroup');
-        $stockGroup->push($fields->dataFieldByName('StockQuantity'));
-        $stockGroup->push($fields->dataFieldByName('StockQuantityOverbookable'));
-        $stockGroup->push($fields->dataFieldByName('StockQuantityExpirationDate'));
-        $fields->removeByName('PurchaseMinDuration');
-        $fields->removeByName('PurchaseMaxDuration');
-        $fields->removeByName('PurchaseTimeUnit');
-        $fields->removeByName('StockQuantity');
-        $fields->removeByName('StockQuantityOverbookable');
-        $fields->removeByName('StockQuantityExpirationDate');
-        $fields->insertAfter($availabilityStart,    'LongDescription');
-        $fields->insertAfter($availabilityEnd,      'AvailabilityStart');
-        $fields->insertBefore($availabilityLabel,   'AvailabilityEnd');
-        $fields->insertBefore($fields->dataFieldByName('SilvercartAvailabilityStatusID'),   'AvailabilityEnd');
-        $fields->insertBefore($availabilityGroup,                                           'AvailabilityEnd');
-        $fields->insertBefore($stockGroup,                                                  'AvailabilityEnd');
-        
         $fields->dataFieldByName('StockQuantityOverbookable')->setTitle($this->fieldLabel('StockQuantityOverbookableShort'));
         $fields->dataFieldByName('StockQuantityExpirationDate')->addExtraClass("date");
         $fields->dataFieldByName('StockQuantityExpirationDate')->setConfig('showcalendar', true);
@@ -928,24 +888,29 @@ class SilvercartProduct extends DataObject {
         );
         $fields->dataFieldByName('PurchaseTimeUnit')->setSource($purchaseTimeUnitSource);
         
-        // Misc section
-        $miscStart      = new LiteralField('MiscStart', '<div class="silvercart-form-highlight">');
-        $miscEnd        = new LiteralField('MiscEnd',   '</div>');
-        $miscLabel      = new HeaderField('MiscLabel',  _t('SilvercartRegistrationPage.OTHERITEMS'));
-        $quantityGroup  = new FieldGroup();
-        $quantityGroup->setName('QuantityGroup');
-        $quantityGroup->addExtraClass('silvercart-fieldgroup');
-        $quantityGroup->push($fields->dataFieldByName('PackagingQuantity'));
-        $quantityGroup->push($fields->dataFieldByName('SilvercartQuantityUnitID'));
-        $fields->removeByName('PackagingQuantity');
-        $fields->removeByName('SilvercartQuantityUnitID');
-        $fields->insertAfter($miscStart,    'AvailabilityEnd');
-        $fields->insertAfter($miscEnd,      'MiscStart');
-        $fields->insertBefore($miscLabel,   'MiscEnd');
-        $fields->insertBefore($fields->dataFieldByName('SilvercartManufacturerID'),   'MiscEnd');
-        $fields->insertBefore($quantityGroup, 'MiscEnd');
-        $fields->insertBefore($fields->dataFieldByName('Weight'),   'MiscEnd');
-        $fields->insertBefore($fields->dataFieldByName('SilvercartProductConditionID'),   'MiscEnd');
+        $productNumberGroup = new SilvercartFieldGroup('ProductNumberGroup', '', $fields);
+        $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
+        $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
+        $productNumberGroup->push($fields->dataFieldByName('EANCode'));
+        $fields->insertAfter($productNumberGroup, 'isActive');
+        
+        $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
+        $availabilityGroup->push($fields->dataFieldByName('SilvercartAvailabilityStatusID'));
+        $availabilityGroup->breakAndPush(   $fields->dataFieldByName('PurchaseMinDuration'));
+        $availabilityGroup->push(           $fields->dataFieldByName('PurchaseMaxDuration'));
+        $availabilityGroup->push(           $fields->dataFieldByName('PurchaseTimeUnit'));
+        $availabilityGroup->breakAndPush(   $fields->dataFieldByName('StockQuantity'));
+        $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityOverbookable'));
+        $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityExpirationDate'));
+        $fields->insertAfter($availabilityGroup, 'LongDescription');
+        
+        $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
+        $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
+        $miscGroup->push(           $fields->dataFieldByName('SilvercartQuantityUnitID'));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('SilvercartProductConditionID'));
+        $fields->insertAfter($miscGroup, 'AvailabilityGroup');
     }
 
     /**
@@ -957,19 +922,12 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForPrices($fields, $addToMain = false) {
-        $pricesGroup  = new FieldGroup();
-        $pricesGroup->setName('PricesGroup');
-        $pricesGroup->addExtraClass('silvercart-fieldgroup');
+        $pricesGroup  = new SilvercartFieldGroup('PricesGroup', '', $fields);
         $pricesGroup->push($fields->dataFieldByName('PriceGross'));
         $pricesGroup->push($fields->dataFieldByName('PriceNet'));
         $pricesGroup->push($fields->dataFieldByName('MSRPrice'));
         $pricesGroup->push($fields->dataFieldByName('PurchasePrice'));
         $pricesGroup->push($fields->dataFieldByName('SilvercartTaxID'));
-        $fields->removeByName('PriceGross');
-        $fields->removeByName('PriceNet');
-        $fields->removeByName('MSRPrice');
-        $fields->removeByName('PurchasePrice');
-        $fields->removeByName('SilvercartTaxID');
         if ($addToMain) {
             $fields->insertBefore($pricesGroup, 'Title');
         } else {
