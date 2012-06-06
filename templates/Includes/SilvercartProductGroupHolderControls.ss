@@ -1,10 +1,13 @@
-<% if HasMoreViewableChildrenThan(4) %>
 <div class="silvercart-product-group-page-controls">
     <div class="silvercart-product-group-page-controls_content">
         <div class="subcolumns">
             <div class="c75l">
                 <div class="subcl">
-                    <% include SilvercartProductGroupPagination %>
+                    <% if ViewableChildren.MoreThanOnePage %>
+                        <% include SilvercartProductGroupPagination %>
+                    <% else %>
+                        &nbsp;
+                    <% end_if %>
                 </div>
             </div>
 
@@ -46,4 +49,3 @@
         </div>
     </div>
 </div>
-<% end_if %>

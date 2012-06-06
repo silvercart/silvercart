@@ -3,24 +3,13 @@
         <% include SilvercartBreadCrumbs %>
         <h2>$Title</h2>
         $Content
-        <% if Children %>
-            <div class="silvercart-product-group-holder-toolbar">
-                <div class="silvercart-product-group-holder-toolbar_content clearfix">
-                    <% if hasMoreGroupHolderViewsThan(1) %>
-                        <ul>
-                            <% control GroupHolderViews %>
-                                <% if isActiveHolder %>
-                                    <li class="active"><strong><img src="$Image" alt="$Label" title="$Label" /></strong></li>
-                                <% else %>
-                                    <li><a href="{$Top.Link}switchGroupHolderView/$Code" title="$Label"><img src="$Image" alt="$Label" title="$Label" /></a></li>
-                                <% end_if %>
-                            <% end_control %>
-                        </ul>
-                    <% end_if %>
-                </div>
-            </div>
+        
+        <% if ViewableChildren %>
+        <div class="silvercart-product-group-page-control-top">
+            <% include SilvercartProductGroupHolderControls %>
+        </div>
+            $RenderProductGroupHolderGroupView
         <% end_if %>
-        $RenderProductGroupHolderGroupView
     </div>
 </div>
 <div id="col3">
