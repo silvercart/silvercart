@@ -205,11 +205,14 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupPageTemplateName() {
-        $defaultGroupView = $this->owner->getDefaultGroupViewInherited();
-        if (empty($defaultGroupView)) {
-            $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+        $groupView = SilvercartGroupViewHandler::getActiveGroupView();
+        if (!$this->owner->isGroupViewAllowed($groupView)) {
+            $groupView = $this->owner->getDefaultGroupViewInherited();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($defaultGroupView);
+        if (empty($groupView)) {
+            $groupView = SilvercartGroupViewHandler::getDefaultGroupView();
+        }
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView);
     }
 
     /**

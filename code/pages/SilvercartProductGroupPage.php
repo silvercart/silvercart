@@ -64,7 +64,7 @@ class SilvercartProductGroupPage extends Page {
         'productGroupsPerPage'      => 'Int',
         'useContentFromParent'      => 'Boolean(0)',
         'DefaultGroupView'          => 'VarChar(255)',
-        'UseOnlyDefaultGroupView'   => 'Enum("0,1,2","2")',
+        'UseOnlyDefaultGroupView'   => 'Enum("no,yes,inherit","inherit")',
     );
 
     /**
@@ -391,16 +391,16 @@ class SilvercartProductGroupPage extends Page {
         }
         
         $useOnlydefaultGroupviewSource = array(
-            '2'  => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
-            '1' => _t('Silvercart.YES'),
-            '0' => _t('Silvercart.NO'),
+            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+            'yes'       => _t('Silvercart.YES'),
+            'no'        => _t('Silvercart.NO'),
         );
 
         $useContentField                = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
         $productsPerPageField           = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
         $productGroupsPerPageField      = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
         $defaultGroupViewField          = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
-        $useOnlyDefaultGroupViewField   = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource);
+        $useOnlyDefaultGroupViewField   = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
         $fields->addFieldToTab('Root.Content.Main', $useContentField,               'Content');
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField,          'IdentifierCode');
         $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField,     'IdentifierCode');
@@ -438,6 +438,25 @@ class SilvercartProductGroupPage extends Page {
         return $fields;
     }
     
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupView GroupView code
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function isGroupViewAllowed($groupView) {
+        $groupViewAllowed = true;
+        if ($this->getUseOnlyDefaultGroupViewInherited() &&
+            $groupView != $this->getDefaultGroupViewInherited()) {
+            $groupViewAllowed = false;
+        }
+        return $groupViewAllowed;
+    }
+
     /**
      * Returns the inherited DefaultGroupView
      *
