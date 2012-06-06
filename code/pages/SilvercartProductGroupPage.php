@@ -60,11 +60,14 @@ class SilvercartProductGroupPage extends Page {
      * @var array
      */
     public static $db = array(
-        'productsPerPage'           => 'Int',
-        'productGroupsPerPage'      => 'Int',
-        'useContentFromParent'      => 'Boolean(0)',
-        'DefaultGroupView'          => 'VarChar(255)',
-        'UseOnlyDefaultGroupView'   => 'Enum("no,yes,inherit","inherit")',
+        'productsPerPage'               => 'Int',
+        'productGroupsPerPage'          => 'Int',
+        'useContentFromParent'          => 'Boolean(0)',
+        'DefaultGroupView'              => 'VarChar(255)',
+        'UseOnlyDefaultGroupView'       => 'Enum("no,yes,inherit","inherit")',
+        'DefaultGroupHolderView'        => 'VarChar(255)',
+        'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
+        'DoNotShowProducts'             => 'Boolean(0)',
     );
 
     /**
@@ -321,11 +324,14 @@ class SilvercartProductGroupPage extends Page {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'productsPerPage'           => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
-                'productGroupsPerPage'      => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
-                'useContentFromParent'      => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
-                'DefaultGroupView'          => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
-                'UseOnlyDefaultGroupView'   => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
+                'productsPerPage'               => _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'),
+                'productGroupsPerPage'          => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
+                'useContentFromParent'          => _t('SilvercartProductGroupPage.USE_CONTENT_FROM_PARENT'),
+                'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
+                'UseOnlyDefaultGroupView'       => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
+                'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
+                'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
+                'DoNotShowProducts'             => _t('SilvercartProductGroupPage.DONOTSHOWPRODUCTS'),
             )
         );
 
@@ -344,6 +350,33 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
+        
+        $useOnlydefaultGroupviewSource  = array(
+            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+            'yes'       => _t('Silvercart.YES'),
+            'no'        => _t('Silvercart.NO'),
+        );
+        
+        $useContentField                    = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
+        $doNotShowProductsField             = new CheckboxField('DoNotShowProducts',        $this->fieldLabel('DoNotShowProducts'));
+        $productsPerPageField               = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
+        $defaultGroupViewField              = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
+        $useOnlyDefaultGroupViewField       = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
+        $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
+        $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
+        $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
+        $productsPerPageHintField           = new LiteralField('ProductsPerPageHint', _t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
+        $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
+        $fieldGroup->push(          $useContentField);
+        $fieldGroup->breakAndPush(  $doNotShowProductsField);
+        $fieldGroup->breakAndPush(  $productsPerPageField);
+        $fieldGroup->push(          $defaultGroupViewField);
+        $fieldGroup->push(          $useOnlyDefaultGroupViewField);
+        $fieldGroup->breakAndPush(  $productGroupsPerPageField);
+        $fieldGroup->push(          $defaultGroupHolderViewField);
+        $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
+        $fieldGroup->breakAndPush(  $productsPerPageHintField);
+        $fields->addFieldToTab('Root.Content.Main', $fieldGroup, 'IdentifierCode');
 
         $mirroredProductIdList  = '';
         $mirroredProductIDs     = $this->getMirroredProductIDs();
@@ -389,23 +422,6 @@ class SilvercartProductGroupPage extends Page {
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
-        
-        $useOnlydefaultGroupviewSource = array(
-            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
-            'yes'       => _t('Silvercart.YES'),
-            'no'        => _t('Silvercart.NO'),
-        );
-
-        $useContentField                = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
-        $productsPerPageField           = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
-        $productGroupsPerPageField      = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
-        $defaultGroupViewField          = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
-        $useOnlyDefaultGroupViewField   = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
-        $fields->addFieldToTab('Root.Content.Main', $useContentField,               'Content');
-        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField,          'IdentifierCode');
-        $fields->addFieldToTab('Root.Content.Main', $productGroupsPerPageField,     'IdentifierCode');
-        $fields->addFieldToTab('Root.Content.Main', $defaultGroupViewField,         'IdentifierCode');
-        $fields->addFieldToTab('Root.Content.Main', $useOnlyDefaultGroupViewField,  'IdentifierCode');
         
         // Google taxonomy breadcrumb field
         $cachekey       = SilvercartGoogleMerchantTaxonomy::$cacheKey;
@@ -492,14 +508,86 @@ class SilvercartProductGroupPage extends Page {
             $context = $this;
         }
         $useOnlyDefaultGroupView = $context->UseOnlyDefaultGroupView;
-        if ($useOnlyDefaultGroupView == 2) {
+        if ($useOnlyDefaultGroupView == 'inherit') {
             if ($context->Parent() instanceof SilvercartProductGroupPage) {
                 $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
             } else {
                 $useOnlyDefaultGroupView = false;
             }
+        } elseif ($useOnlyDefaultGroupView == 'yes') {
+            $useOnlyDefaultGroupView = true;
+        } else {
+            $useOnlyDefaultGroupView = false;
         }
         return $useOnlyDefaultGroupView;
+    }
+    
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupHolderView GroupHolderView code
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function isGroupHolderViewAllowed($groupHolderView) {
+        $groupHolderViewAllowed = true;
+        if ($this->getUseOnlyDefaultGroupHolderViewInherited() &&
+            $groupHolderView != $this->getDefaultGroupHolderViewInherited()) {
+            $groupHolderViewAllowed = false;
+        }
+        return $groupHolderViewAllowed;
+    }
+
+    /**
+     * Returns the inherited DefaultGroupHolderView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getDefaultGroupHolderViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $defaultGroupHolderView = $context->DefaultGroupHolderView;
+        if (empty($defaultGroupHolderView) ||
+            SilvercartGroupViewHandler::getGroupHolderView($defaultGroupHolderView) === false) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $defaultGroupHolderView = $this->getDefaultGroupHolderViewInherited($context->Parent());
+            } else {
+                $defaultGroupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
+            }
+        }
+        return $defaultGroupHolderView;
+    }
+    
+    /**
+     * Returns the inherited UseOnlyDefaultGroupHolderView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupHolderViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
+        if ($useOnlyDefaultGroupHolderView == 'inherit') {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());
+            } else {
+                $useOnlyDefaultGroupHolderView = false;
+            }
+        } elseif ($useOnlyDefaultGroupHolderView == 'yes') {
+            $useOnlyDefaultGroupHolderView = true;
+        } else {
+            $useOnlyDefaultGroupHolderView = false;
+        }
+        return $useOnlyDefaultGroupHolderView;
     }
 
     /**
@@ -763,18 +851,35 @@ class SilvercartProductGroupPage extends Page {
     }
     
     /**
+     * All products of this group forced (independant of DoNotShowProducts setting)
+     * 
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $sort             An SQL sort statement
+     * @param bool   $disableLimit     Disables the product limitation
+     * 
+     * @return DataObjectSet all products of this group or FALSE
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function getProductsForced($numberOfProducts = false, $sort = false, $disableLimit = false) {
+        return $this->getProducts($numberOfProducts, $sort, $disableLimit, true);
+    }
+    
+    /**
      * All products of this group
      * 
-     * @param bool|int    $numberOfProducts The number of products to return
-     * @param bool|string $sort             An SQL sort statement
-     * @param bool        $disableLimit     Disables the product limitation
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $sort             An SQL sort statement
+     * @param bool   $disableLimit     Disables the product limitation
+     * @param bool   $force            Forces to get the products
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.03.2012
+     * @since 06.06.2012
      */
-    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false) {
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
             Controller::curr()->data()->ID === $this->ID) {
             
@@ -783,7 +888,7 @@ class SilvercartProductGroupPage extends Page {
             $controller = new SilvercartProductGroupPage_Controller($this);
         }
         
-        return $controller->getProducts($numberOfProducts, $sort, $disableLimit);
+        return $controller->getProducts($numberOfProducts, $sort, $disableLimit, $force);
     }
     
     /**
@@ -1207,23 +1312,42 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         return $SQL_start;
     }
+    
+    /**
+     * All products of this group forced (independant of DoNotShowProducts setting)
+     * 
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $sort             An SQL sort statement
+     * @param bool   $disableLimit     Disables the product limitation
+     * 
+     * @return DataObjectSet all products of this group or FALSE
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function getProductsForced($numberOfProducts = false, $sort = false, $disableLimit = false) {
+        return $this->getProducts($numberOfProducts, $sort, $disableLimit, true);
+    }
 
     /**
      * All products of this group
      * 
-     * @param bool|int    $numberOfProducts The number of products to return
-     * @param bool|string $sort             An SQL sort statement
-     * @param bool        $disableLimit     Disables the product limitation
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $sort             An SQL sort statement
+     * @param bool   $disableLimit     Disables the product limitation
+     * @param bool   $force            Forces to get the products
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
      */
-    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false) {
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit);
-
-        if (!array_key_exists($hashKey, $this->groupProducts)) {
+        if ($this->data()->DoNotShowProducts &&
+            !$force) {
+            $this->groupProducts[$hashKey] = new DataObjectSet();
+        } elseif (!array_key_exists($hashKey, $this->groupProducts)) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());

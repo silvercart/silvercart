@@ -20,7 +20,7 @@
         
         <div class="silvercart-product-group-holder-list-productlist">
             <div class="silvercart-product-group-holder-list-productlist_content clearfix">
-                <% control getProducts(6) %>
+                <% control getProductsForced(6) %>
                     <a href="$Link" class="silvercart-product-group-holder-list-productlist-entry" title="$Title">
                         <span class="silvercart-product-group-holder-list-productlist-entry_content">
                             <% control getSilvercartImages.First %>

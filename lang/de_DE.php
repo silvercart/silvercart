@@ -355,16 +355,20 @@ $lang['de_DE']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Spiegel-W
 $lang['de_DE']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Spiegel-Warengruppen';
 
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
+$lang['de_DE']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = '<strong>keine</strong> Produkte in der Übersicht anzeigen';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'hersteller';
 $lang['de_DE']['SilvercartProductGroupPage']['PLURALNAME'] = 'Warengruppen';
-$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Artikel pro Seite (wird anstatt der globalen Einstellung verwendet)';
-$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite (wird anstatt der globalen Einstellung verwendet)';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Artikel pro Seite';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGEHINT'] = 'Geben Sie für Artikel oder Warengruppen pro Seite 0 (Null) an, um die Standard-Einstellung zu verwenden.';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite';
 $lang['de_DE']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Warengruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Inhalte von übergeordneten Seiten übernehmen';
 $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Standard-Produktlisten-Ansicht';
-$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Von der übergeordneten Gruppe oder Standartkonfiguration übernehmen';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Übernehmen von übergeordneter Gruppe/Standartkonfiguration';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Standard-Produktgruppen-Ansicht';
 $lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Produktlisten-Ansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Ausschließlich die Standard-Produktgruppen-Ansicht verwenden';
 
 $lang['de_DE']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Artikel pro Seite';

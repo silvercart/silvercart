@@ -99,7 +99,11 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @since 15.02.2011
      */
     public function hasMoreGroupHolderViewsThan($count) {
-        return count(SilvercartGroupViewHandler::getGroupHolderViews()) > $count;
+        $hasMoreGroupHolderViewsThan = false;
+        if (!$this->owner->getUseOnlyDefaultGroupHolderViewInherited()) {
+            $hasMoreGroupHolderViewsThan = count(SilvercartGroupViewHandler::getGroupHolderViews()) > $count;
+        }
+        return $hasMoreGroupHolderViewsThan;
     }
 
     /**
@@ -195,7 +199,14 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupHolderTemplateName() {
-        return 'SilvercartProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupHolderViewAsUpperCamelCase();
+        $groupHolderView = SilvercartGroupViewHandler::getActiveGroupHolderView();
+        if (!$this->owner->isGroupHolderViewAllowed($groupHolderView)) {
+            $groupHolderView = $this->owner->getDefaultGroupHolderViewInherited();
+        }
+        if (empty($groupHolderView)) {
+            $groupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
+        }
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, 'SilvercartProductGroupHolder');
     }
 
     /**
