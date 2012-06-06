@@ -63,6 +63,9 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      */
     protected function submitSuccess($data, $form, $formData) {
         Session::set("searchQuery", $formData['quickSearchQuery']);
+        $searchQuery = SilvercartSearchQuery::get_by_query(Convert::raw2sql($formData['quickSearchQuery']));
+        $searchQuery->Count++;
+        $searchQuery->write();
         $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
         Director::redirect($searchResultsPage->RelativeLink());
     }

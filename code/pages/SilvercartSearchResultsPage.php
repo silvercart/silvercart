@@ -114,6 +114,10 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
  */
 class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_Controller {
     
+    public static $allowed_actions = array(
+        'SearchByQuery',
+    );
+
     /**
      * Contains a list of all registered filter plugins.
      *
@@ -594,6 +598,33 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
         } else {
             $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
+        }
+    }
+    
+    /**
+     * URL action to search by a saved search query
+     *
+     * @param SS_HTTPRequest $request HTTP request
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2012
+     */
+    public function SearchByQuery(SS_HTTPRequest $request) {
+        $redirectBack   = true;
+        $searchQueryID  = $request->param('ID');
+        if (is_numeric($searchQueryID)) {
+            $searchQuery = DataObject::get_by_id('SilvercartSearchQuery', $searchQueryID);
+            if ($searchQuery) {
+                $redirectBack = false;
+                Session::set('searchQuery', $searchQuery->SearchQuery);
+                Session::save();
+                Director::direct($this->Link());
+            }
+        }
+        if ($redirectBack) {
+            Director::redirectBack();
         }
     }
 }

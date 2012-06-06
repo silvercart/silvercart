@@ -1583,6 +1583,12 @@ $lang['en_US']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widg
 $lang['en_US']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Enter your search term:';
 $lang['en_US']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 
+$lang['en_US']['SilvercartSearchCloudWidget']['TITLE']                          = 'Most frequent search terms';
+$lang['en_US']['SilvercartSearchCloudWidget']['CMSTITLE']                       = 'Most frequent search terms';
+$lang['en_US']['SilvercartSearchCloudWidget']['DESCRIPTION']                    = 'This Widget shows a tag cloud with the most frequent search terms.';
+$lang['en_US']['SilvercartSearchCloudWidget']['TAGSPERCLOUD']                   = 'Count of the search queries to show';
+$lang['en_US']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  = 'Count of the font sizes';
+
 $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';

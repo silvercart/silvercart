@@ -1583,6 +1583,12 @@ $lang['de_DE']['SilvercartSearchWidget']['DESCRIPTION']             = 'Dieses Wi
 $lang['de_DE']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Geben Sie bitte Ihren Suchbegriff ein:';
 $lang['de_DE']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Suchen';
 
+$lang['de_DE']['SilvercartSearchCloudWidget']['TITLE']                          = 'Die häufigsten Suchbegriffe';
+$lang['de_DE']['SilvercartSearchCloudWidget']['CMSTITLE']                       = 'Häufigste Suchbegriffe';
+$lang['de_DE']['SilvercartSearchCloudWidget']['DESCRIPTION']                    = 'Dieses Widget zeigt ein TagCloud mit den am häufigsten vorkommenden Suchbegriffen an.';
+$lang['de_DE']['SilvercartSearchCloudWidget']['TAGSPERCLOUD']                   = 'Anzahl der anzuzeigenden Suchbegriffe';
+$lang['de_DE']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  = 'Anzahl der Schriftgrade';
+
 $lang['de_DE']['SilvercartShoppingcartWidget']['TITLE']                 = 'Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt';
