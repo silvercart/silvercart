@@ -199,6 +199,17 @@ class SilvercartShopEmail extends DataObject {
      */
     public function getCMSFields() {
         $fields         = parent::getCMSFields();
+        
+        /*
+         * insert the multilingual fields and fill them with values of the current locale
+         */
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $afterFieldName = 'Identifier';
+        foreach ($languageFields as $languageField) {
+            $fields->insertAfter($languageField, $afterFieldName);
+            $afterFieldName = $languageField->Name();
+        }
+        
         $emailTextField = new TextareaField('EmailText', _t('SilvercartShopEmail.EMAILTEXT', 'message'), 30);
         
         $fields->removeByName('EmailText');
