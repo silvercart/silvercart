@@ -1486,6 +1486,7 @@ $lang['en_GB']['SilvercartZone']['FOR_COUNTRIES'] = 'For countries';
 $lang['en_GB']['SilvercartZone']['PLURALNAME'] = 'Zones';
 $lang['en_GB']['SilvercartZone']['SINGULARNAME'] = 'Zone';
 $lang['en_GB']['SilvercartZone']['USE_ALL_COUNTRIES'] = 'Relate all countries after saving';
+$lang['en_GB']['SilvercartZone']['VALID_FOR_ALL_AVAILABLE'] = 'Valid for all selectable countries';
 
 $lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
