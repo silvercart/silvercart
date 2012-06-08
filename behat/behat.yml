@@ -1,4 +1,10 @@
 default:
     context:
-        parameters:
-            base_url: http://tip.silvercart.praktikant.intern.pixeltricks.de/
+      parameters:
+        base_url: http://tip.silvercart.local/
+    extensions:
+      Behat\MinkExtension\Extension:
+        base_url:  'http://tip.silvercart.local'
+        sahi:      ~
+        goutte:    ~
+        selenium2: ~

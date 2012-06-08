@@ -1,0 +1,6 @@
+default:
+  context:
+    parameters:
+      javascript_session:   sahi
+      base_url:             http://tip.silvercart.local/
+      show_cmd:             open %s

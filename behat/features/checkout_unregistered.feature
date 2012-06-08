@@ -3,13 +3,13 @@ Feature: Perform the checkout process as an unregistered customer
     As an unregistered customer
     I need to be able to finish the checkout process
 
-    @javascript
+    @mink:sahi
     Scenario: Add 1 product to the cart from the frontpage widget group
         Given I am on "/"
          When I press "SilvercartProductAddCartFormTile_customHtmlFormSubmit_1_action_customHtmlFormSubmit"
          Then I should see "Cart (1)"
 
-    @javascript
+    @mink:sahi
     Scenario: Go to the checkout page
         Given I should see "Cart (1)"
          When I follow "silvercart-checkout-link"
@@ -19,7 +19,7 @@ Feature: Perform the checkout process as an unregistered customer
           And I should see "Payment"
           And I should see "Overview"
 
-    @javascript
+    @mink:sahi
     Scenario: Choose the "don't register" option and continue
         Given I should see "No, I don't want to register."
         Given I fill in "SilvercartCheckoutFormStep1NewCustomerForm_customHtmlFormSubmit_1_AnonymousOptions_2" with "2"
@@ -28,7 +28,7 @@ Feature: Perform the checkout process as an unregistered customer
           And I should see "Invoice address"
           And I should see "Shipping address"
 
-    @javascript
+    @mink:sahi
     Scenario: Test javascript validation in registration form
         Given I should see "Email address"
         Given I should see "Invoice address"
@@ -37,7 +37,7 @@ Feature: Perform the checkout process as an unregistered customer
          Then I should see "Please enter a valid email address."
           And I should see "This field may not be empty."
 
-    @javascript
+    @mink:sahi
     Scenario: Fill out the registration form and continue in the checkout process
         Given I fill in "SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1_Email" with "skoehler@pixeltricks.de"
         Given I select "Herr" from "Invoice_Salutation"
@@ -58,13 +58,13 @@ Feature: Perform the checkout process as an unregistered customer
           And I should see "Payment"
           And I should see "Overview"
 
-    @javascript
+    @mink:sahi
     Scenario: Try to skip choosing a shipping method
         Given I should see "Shipping method"
          When I press "SilvercartCheckoutFormStep3_customHtmlFormSubmit_1_action_customHtmlFormSubmit"
          Then I should see "This field may not be empty."
 
-    @javascript
+    @mink:sahi
     Scenario: Choose a shipping method and continue in the checkout process
         Given I select "1" from "SilvercartCheckoutFormStep3_customHtmlFormSubmit_1_ShippingMethod"
          When I press "SilvercartCheckoutFormStep3_customHtmlFormSubmit_1_action_customHtmlFormSubmit"
@@ -75,7 +75,7 @@ Feature: Perform the checkout process as an unregistered customer
           And I should see "Payment"
           And I should see "Overview"
 
-    @javascript
+    @mink:sahi
     Scenario: Choose a prepayment payment method and continue in the checkout process
         Given I should see "Payment method"
          When I press "SilvercartCheckoutFormStep4DefaultPayment_customHtmlFormSubmit_2_action_customHtmlFormSubmit"
@@ -96,13 +96,13 @@ Feature: Perform the checkout process as an unregistered customer
           And I should see "3547720"
           And I should see "United States"
 
-    @javascript
+    @mink:sahi
     Scenario: Try to send the order without accepting terms of service and reading revocation instructions
         Given I should see "Terms of service and privacy statement"
          When I press "SilvercartCheckoutFormStep5_customHtmlFormSubmit_1_action_customHtmlFormSubmit"
          Then I should see "This field may not be empty."
 
-    @javascript
+    @mink:sahi
     Scenario: Send the order
         Given I should see "Terms of service and privacy statement"
         Given I check "SilvercartCheckoutFormStep5_customHtmlFormSubmit_1_HasAcceptedTermsAndConditions"
