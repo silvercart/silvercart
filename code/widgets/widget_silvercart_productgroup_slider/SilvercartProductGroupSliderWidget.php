@@ -218,6 +218,12 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
         Requirements::javascript('silvercart/script/reflection.js');
         
         if ($productGroupObjects) {
+            $groupPictureURL        = '';
+            $groupPictureThumbURL   = '';
+            if ($productGroupObject->GroupPicture()->ID > 0) {
+                $groupPictureURL        = $productGroupObject->GroupPicture()->SetRatioSize(600,400)->URL;
+                $groupPictureThumbURL   = $productGroupObject->GroupPicture()->SetRatioSize(100,100)->URL;
+            }
             foreach ($productGroupObjects as $productGroupObject) {
                 $productGroups[] = sprintf("
                     pr.addProduct(
@@ -230,8 +236,8 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
                     );",
                     $productGroupObject->MenuTitle,
                     $productGroupObject->Link(),
-                    $productGroupObject->GroupPicture()->SetRatioSize(600,400)->URL,
-                    $productGroupObject->GroupPicture()->SetRatioSize(100,100)->URL,
+                    $groupPictureURL,
+                    $groupPictureThumbURL,
                     $productGroupObject->MenuTitle,
                     $productGroupObject->MenuTitle
                 );
