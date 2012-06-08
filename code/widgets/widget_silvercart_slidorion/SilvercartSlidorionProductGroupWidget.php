@@ -521,9 +521,6 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
      * @since 28.05.2012
      */
     public function init() {
-        Requirements::themedCSS("slidorion");
-        Requirements::javascript(SilvercartTools::getBaseURLSegment()."silvercart/script/slidorion/js/jquery.slidorion.js");
-        
         Requirements::customScript(
             sprintf(
                 "

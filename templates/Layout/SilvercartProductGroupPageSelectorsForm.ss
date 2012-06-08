@@ -3,19 +3,12 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
     
-    <div class="subcolumns">
-        <div class="c80l">
-            $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
-            $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
-        </div>
-    
-        <div class="c20r">
-            <div class="type-button clearfix">
-                <% control Actions %>
-                    $Field
-                <% end_control %>
-            </div>
-        </div>
+    $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
+    $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
+    <div class="type-button clearfix">
+        <% control Actions %>
+            $Field
+        <% end_control %>
     </div>
 </form>
 </div>

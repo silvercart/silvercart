@@ -355,16 +355,20 @@ $lang['en_US']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Mirror-Pr
 $lang['en_US']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Mirror-Productgroups';
 
 $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
+$lang['en_US']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = 'do <strong>not</strong> show products of this group';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
 $lang['en_US']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
 $lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
-$lang['en_US']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page (overrides global setting)';
-$lang['en_US']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page (overrides global setting)';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTSPERPAGEHINT'] = 'Set products or product groups per page to 0 (zero) to use the default setting.';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_US']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product group';
 $lang['en_US']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Use content from parent pages';
 $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Default product list view';
 $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Use view from parent pages';
+$lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Default product group view';
 $lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Allow only default view';
+$lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Allow only default view';
 
 $lang['en_US']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['en_US']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Products per page';

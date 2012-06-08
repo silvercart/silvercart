@@ -81,8 +81,12 @@ class SilvercartPage extends SiteTree {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-        $fields->addFieldToTab('Root.Content.Main', new LabelField('ForIdentifierCode', _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!')));
+        if (Member::currentUser()->isAdmin()) {
+            $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
+            $fields->addFieldToTab('Root.Content.Main', new LiteralField('ForIdentifierCode', '<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>'));
+        } else {
+            $fields->addFieldToTab('Root.Content.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
+        }
         
         // prevent edit/add/show/delete actions for widget sets in CMS area.
         $permissions = array();
@@ -332,7 +336,8 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartProductPage');
             Requirements::themedCSS('SilvercartShoppingCart');
             Requirements::themedCSS('SilvercartSiteMap');
-            Requirements::themedCSS('SilvercartWidget');        
+            Requirements::themedCSS('SilvercartWidget');
+            Requirements::themedCSS("slidorion");
             Requirements::themedCSS('jquery.fancybox-1.3.4');
             Requirements::javascript("customhtmlform/script/jquery.js");
             Requirements::javascript("silvercart/script/document.ready_scripts.js");
@@ -344,6 +349,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/jquery.roundabout.min.js");
             Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
             Requirements::javascript("silvercart/script/jquery.easing.1.3.js");
+            Requirements::javascript("silvercart/script/slidorion/js/jquery.slidorion.js");
             Requirements::add_i18n_javascript('silvercart/javascript/lang');
             
             Requirements::customScript('

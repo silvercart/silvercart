@@ -99,7 +99,11 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @since 15.02.2011
      */
     public function hasMoreGroupHolderViewsThan($count) {
-        return count(SilvercartGroupViewHandler::getGroupHolderViews()) > $count;
+        $hasMoreGroupHolderViewsThan = false;
+        if (!$this->owner->getUseOnlyDefaultGroupHolderViewInherited()) {
+            $hasMoreGroupHolderViewsThan = count(SilvercartGroupViewHandler::getGroupHolderViews()) > $count;
+        }
+        return $hasMoreGroupHolderViewsThan;
     }
 
     /**
@@ -195,7 +199,14 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupHolderTemplateName() {
-        return 'SilvercartProductGroupHolder' . SilvercartGroupViewHandler::getActiveGroupHolderViewAsUpperCamelCase();
+        $groupHolderView = SilvercartGroupViewHandler::getActiveGroupHolderView();
+        if (!$this->owner->isGroupHolderViewAllowed($groupHolderView)) {
+            $groupHolderView = $this->owner->getDefaultGroupHolderViewInherited();
+        }
+        if (empty($groupHolderView)) {
+            $groupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
+        }
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, 'SilvercartProductGroupHolder');
     }
 
     /**
@@ -205,11 +216,14 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * @return string
      */
     protected function getProductGroupPageTemplateName() {
-        $defaultGroupView = $this->owner->getDefaultGroupViewInherited();
-        if (empty($defaultGroupView)) {
-            $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+        $groupView = SilvercartGroupViewHandler::getActiveGroupView();
+        if (!$this->owner->isGroupViewAllowed($groupView)) {
+            $groupView = $this->owner->getDefaultGroupViewInherited();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($defaultGroupView);
+        if (empty($groupView)) {
+            $groupView = SilvercartGroupViewHandler::getDefaultGroupView();
+        }
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView);
     }
 
     /**

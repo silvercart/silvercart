@@ -303,8 +303,8 @@ $lang['nl_NL']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Eigenschappen';
 $lang['nl_NL']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Groep afbeelding';
 $lang['nl_NL']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'fabrikant';
 $lang['nl_NL']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groepen';
-$lang['nl_NL']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Producten per pagina (overschrijft algemene instelling)';
-$lang['nl_NL']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Productgroepen per pagina (overschrijft algemene instelling)';
+$lang['nl_NL']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Producten per pagina';
+$lang['nl_NL']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Productgroepen per pagina';
 $lang['nl_NL']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Product groep';
 $lang['nl_NL']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Gebruik de inhoud van de bovenliggende pagina\'s';
 

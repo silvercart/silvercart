@@ -85,7 +85,7 @@
     
 }
 .silvercart-fieldgroup .fieldgroup {
-    
+
 }
 .silvercart-break {
     color: #ff0000;
@@ -101,7 +101,7 @@
 }
 .silvercart-fieldgroup .fieldgroupField {
     float: left;
-    padding: 0 12px 0 0;
+    padding: 6px 12px 6px 0;
     min-width: 140px;
 }
 .silvercart-fieldgroup .fieldgroupField label {
@@ -117,8 +117,10 @@
 }
 .silvercart-fieldgroup .fieldgroupField input[type="checkbox"] ~ label {
     line-height: 34px;
+    white-space: nowrap;
 }
-.silvercart-form-highlight {
+.silvercart-form-highlight,
+.silvercart-field-group {
     background: #E9E9E9;
     padding:    6px;
     margin:     6px 0;
