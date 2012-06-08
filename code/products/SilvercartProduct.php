@@ -191,8 +191,15 @@ class SilvercartProduct extends DataObject {
      */
     protected $pluggedInProductMetaData = null;
     
-
     /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
+
+
+        /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      *
@@ -265,15 +272,17 @@ class SilvercartProduct extends DataObject {
      */
     public function getMetaDescription() {
         $metaDescription = $this->getLanguageFieldValue('MetaDescription');
-        if (empty($metaDescription)) {
-            $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
-                    array(
-                        $this->getTitle(),
-                        $this->getLongDescription(),
-                    )
-            );
+        if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaDescription)) {
+                $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
+                        array(
+                            $this->getTitle(),
+                            $this->getLongDescription(),
+                        )
+                );
+            }
+            $this->extend('updateMetaDescription', $metaDescription);
         }
-        $this->extend('updateMetaDescription', $metaDescription);
         return $metaDescription;
     }
     
@@ -288,10 +297,12 @@ class SilvercartProduct extends DataObject {
      */
     public function getMetaTitle() {
         $metaTitle = $this->getLanguageFieldValue('MetaTitle');
-        if (empty($metaTitle)) {
-            $metaTitle = Convert::raw2att($this->getTitle());
+        if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaTitle)) {
+                $metaTitle = Convert::raw2att($this->getTitle());
+            }
+            $this->extend('updateMetaTitle', $metaDescription);
         }
-        $this->extend('updateMetaTitle', $metaDescription);
         return $metaTitle;
     }
     
@@ -306,10 +317,12 @@ class SilvercartProduct extends DataObject {
      */
     public function getMetaKeywords() {
         $metaKeywords = $this->getLanguageFieldValue('MetaKeywords');
-        if (empty($metaKeywords)) {
-            $metaKeywords = SilvercartSeoTools::extractMetaKeywords($this->getTitle());
+        if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaKeywords)) {
+                $metaKeywords = SilvercartSeoTools::extractMetaKeywords($this->getTitle());
+            }
+            $this->extend('updateMetaKeywords', $metaKeywords);
         }
-        $this->extend('updateMetaKeywords', $metaKeywords);
         return $metaKeywords;
     }
 
@@ -986,6 +999,7 @@ class SilvercartProduct extends DataObject {
      * @return FieldSet
      */
     public function getCMSFields($params = null) {
+        $this->getCMSFieldsIsCalled = true;
         $fields = $this->scaffoldFormFields($params);
         
         /***********************************************************************
@@ -1073,6 +1087,7 @@ class SilvercartProduct extends DataObject {
         $fields->addFieldToTab('Root.Main', $dropdownField);
 
         $this->extend('updateCMSFields_forPopup', $fields);
+        $this->getCMSFieldsIsCalled = false;
         return $fields;
     }
 
