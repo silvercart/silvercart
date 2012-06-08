@@ -1,4 +1,4 @@
 default:
     context:
         parameters:
-            base_url: http://tip.silvercart.skoehler.intern.pixeltricks.de/
+            base_url: http://tip.silvercart.praktikant.intern.pixeltricks.de/

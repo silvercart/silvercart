@@ -124,7 +124,12 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      * @since 05.06.2012
      */
     public function TagsForCloud() {
-        $searchTags         = SilvercartSearchQuery::get_most_searched($this->TagsPerCloud);
+        $searchTags = SilvercartSearchQuery::get_most_searched($this->TagsPerCloud);
+        
+        if (!$searchTags) {
+            return false;
+        }
+        
         $searchTagCounts    = $searchTags->groupBy('Count');
         foreach ($searchTagCounts as $index => $searchTagCount) {
             $searchTagCounts[$index] = $index;
