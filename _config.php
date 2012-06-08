@@ -112,6 +112,7 @@ DataObject::add_extension('SilvercartProductGroupItemsWidget',      'SilvercartD
 DataObject::add_extension('SilvercartSlidorionProductGroupWidget',  'SilvercartDataObjectMultilingualDecorator');
 DataObject::add_extension('SilvercartTextWidget',                   'SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
+    "SilvercartCarrier",
     "SilvercartProduct",
     "SilvercartImage",
     "SilvercartImageSliderImage",
