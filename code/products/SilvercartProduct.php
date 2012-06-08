@@ -441,16 +441,16 @@ class SilvercartProduct extends DataObject {
             $sortableFrontendFields = array_merge(
                     $sortableFrontendFields,
                     array(
-                        'PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
-                        'PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
+                        'SilvercartProduct.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
+                        'SilvercartProduct.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
                     )
             );
         } else {
             $sortableFrontendFields = array_merge(
                     $sortableFrontendFields,
                     array(
-                        'PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
-                        'PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
+                        'SilvercartProduct.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
+                        'SilvercartProduct.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
                     )
             );
         }
