@@ -20,6 +20,9 @@
         <div class="silvercart-product-group-page">
             $RenderProductGroupPageGroupView
         </div>
+        <div class="silvercart-product-group-page-control-top">
+            <% include SilvercartProductGroupPageControls %>
+        </div>
     </div>
 </div>
 <div id="col3">
