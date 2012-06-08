@@ -37,11 +37,15 @@
                         <td>
                             <% control SilvercartZone %>
                                 <b>$Title:</b><br/>
-                                <% control SilvercartCountries %>
-                                    <% if Active %>
-                                        $Title<br/>
-                                    <% end_if %>
-                                <% end_control %>
+                                <% if hasAllCountries %>
+                                    <strong><% _t('SilvercartZone.VALID_FOR_ALL_AVAILABLE') %></strong>
+                                <% else %>
+                                    <% control SilvercartCountries %>
+                                        <% if Active %>
+                                            $Title<br/>
+                                        <% end_if %>
+                                    <% end_control %>
+                                <% end_if %>
                             <% end_control %>
                         </td>
                         <td class="align_right align_top">$PriceFormatted <% if PostPricing %>*<% end_if %></td>

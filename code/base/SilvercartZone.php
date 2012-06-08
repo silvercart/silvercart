@@ -336,5 +336,27 @@ class SilvercartZone extends DataObject {
                 "LEFT JOIN `SilvercartZone_SilvercartCountries` ON (`SilvercartZone_SilvercartCountries`.`SilvercartZoneID` = `SilvercartZone`.`ID`)"
         );
     }
+    
+    /**
+     * Returns whether this zone is related to all active countries
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.06.2012
+     */
+    public function hasAllCountries() {
+        /* @var $countries DataObjectSet */
+        $countries          = $this->SilvercartCountries();
+        $availableCountries = DataObject::get('SilvercartCountry', "`Active` = 1");
+        $hasAllCountries    = true;
+        foreach ($availableCountries as $availableCountry) {
+            if (!$countries->find('ID', $availableCountry->ID)) {
+                $hasAllCountries = false;
+                break;
+            }
+        }
+        return $hasAllCountries;
+    }
 
 }
