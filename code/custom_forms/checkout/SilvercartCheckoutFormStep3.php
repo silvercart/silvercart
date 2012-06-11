@@ -120,6 +120,18 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         if ($shippingMethods) {
             $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
         }
+        
+        $stepData = $this->controller->getCombinedStepData();
+
+        if (isset($stepData['ShippingMethod'])) {
+            $this->formFields['ShippingMethod']['selectedValue'] = $stepData['ShippingMethod'];
+        } else {
+            if (isset($shippingMethods) &&
+                $shippingMethods &&
+                $shippingMethods->Count() > 0) {
+                $this->formFields['ShippingMethod']['selectedValue'] = $shippingMethods->First()->ID;
+            }
+        }
     }
 
     /**
