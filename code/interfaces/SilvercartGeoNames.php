@@ -87,7 +87,7 @@ class SilvercartGeoNames extends SilvercartInterface {
                 $GeoNameId,
             ) = split("\t", $line);
 
-            $country = DataObject::get_one('SilvercartCountry', sprintf("`SilvercartCountry`.`ISO2`='%s' AND `SilvercartCountry`.`Locale`='%s'", $ISO2, $this->getLocale()));
+            $country = DataObject::get_one('SilvercartCountry', sprintf("`SilvercartCountry`.`ISO2`='%s'", $ISO2));
             if (!$country) {
                 $country = new SilvercartCountry();
             }
@@ -95,11 +95,20 @@ class SilvercartGeoNames extends SilvercartInterface {
             $country->ISO3      = $ISO3;
             $country->FIPS      = $FIPS;
             $country->ISON      = $ISON;
-            $country->Title     = $Title;
             $country->Continent = $Continent;
             $country->Currency  = $Currency;
-            $country->Locale    = $this->getLocale();
             $country->write();
+            
+            SilvercartConfig::$useDefaultLanguageAsFallback = false;
+            $language = SilvercartLanguageHelper::getLanguage($country->getLanguageRelation(), $this->getLocale());
+            SilvercartConfig::$useDefaultLanguageAsFallback = true;
+            if (!$language) {
+                $language = new SilvercartCountryLanguage();
+                $language->Locale               = $this->getLocale();
+                $language->SilvercartCountryID  = $country->ID;
+            }
+            $language->Title = $Title;
+            $language->write();
         }
 
     }
