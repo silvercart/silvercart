@@ -13,6 +13,12 @@
 
 /* Layout-dependent adjustments | Layout-abhängige Anpassungen */
 @media screen, projection {
+    
+/* General settings -------------------------------------------------------- */
+
+    .c90l, .c65l, .c45l, .c30l, .c10l,
+    .c90r, .c65r, .c45r, .c30r, .c10r { display:inline; }
+    
 /* SilverCart Headerbar ---------------------------------------------------- */
 
     #silvercart-headerbar {

@@ -43,10 +43,10 @@ body {
     padding:                        0px 12px;
 }
 
-.c90l, .c45l, .c30l, .c10l {
+.c90l, .c65l, .c45l, .c30l, .c10l {
     float:                          left;
 }
-.c90r, .c45r, .c30r, .c10r {
+.c90r, .c65r, .c45r, .c30r, .c10r {
     float:                          right;
     margin-left:                    -5px;
 }
@@ -58,6 +58,9 @@ body {
 }
 .c45l, .c45r {
     width:                          45%;
+}
+.c65l, .c65r {
+    width:                          65%;
 }
 .c90l, .c90r {
     width:                          90%;
