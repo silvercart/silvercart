@@ -4,7 +4,7 @@
     
     <div class="subcolumns">
         <div id="silvercart-checkout-privacy-check" class="c66l">
-            <fieldset  style="height: 150px">
+            <fieldset>
                 <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
                 $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
                 $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
@@ -15,7 +15,7 @@
         </div>
         <div id="silvercart-checkout-note" class="c33r">
             <div class="subcr">
-                <fieldset   style="height: 150px">
+                <fieldset>
                     <legend><% _t('SilvercartPage.REMARKS') %></legend>
                     $CustomHtmlFormFieldByName(Note)
                 </fieldset>

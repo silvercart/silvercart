@@ -47,5 +47,5 @@
 /* step 5 - overview */
 #silvercart-checkout-privacy-check fieldset,
 #silvercart-checkout-note fieldset {
-    height:                         150px;    
+    min-height:                         150px;
 }
