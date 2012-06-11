@@ -22,24 +22,24 @@
 /* step 3 - shipping method */
 .silvercart-checkout-shipping {}
 .silvercart-checkout-shipping li {
-    padding: 12px 0px;
+    padding:                    12px 0px;
 }
 .silvercart-checkout-shipping li:after {
-    clear:both;
-    content:".";
-    display:block;
-    font-size:0;
-    height:0;
-    visibility:hidden;
+    clear:                      both;
+    content:                    ".";
+    display:                    block;
+    font-size:                  0;
+    height:                     0;
+    visibility:                 hidden;
 }
 .silvercart-checkout-shipping-radiofield {
-    float: left;
-    width: 5%;
-    padding: 3px 0px;
+    float:                      left;
+    width:                      5%;
+    padding:                    3px 0px;
 }
 .silvercart-checkout-shipping-additionalInfo {
-    float: left;
-    width: 85%;
+    float:                      left;
+    width:                      85%;
 }
 .silvercart-checkout-shipping-additionalInfo-description {}
 
@@ -47,5 +47,9 @@
 /* step 5 - overview */
 #silvercart-checkout-privacy-check fieldset,
 #silvercart-checkout-note fieldset {
-    min-height:                         150px;
+    min-height:                 150px;
+}
+
+#silvercart-checkout-note textarea {
+    height:                     105px;
 }
