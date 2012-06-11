@@ -9,31 +9,13 @@
         $InsertWidgetArea(Content)
         
         <% if getProducts %>
-            <% if HasMoreProductsThan(5) %>
-                <div class="silvercart-product-group-page-controls">
-                    <div class="silvercart-product-group-page-controls_content">
-                        <% include SilvercartProductPagination %>
-                        <div class="silvercart-product-group-page-selectors">
-                            <div class="silvercart-product-group-page-selectors_content">
-                                $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% end_if %>
+            <div class="silvercart-product-group-page-control-top">
+                <% include SilvercartProductGroupPageControls %>
+            </div>
             $RenderProductGroupPageGroupView
-            <% if HasMoreProductsThan(5) %>
-                <div class="silvercart-product-group-page-controls">
-                    <div class="silvercart-product-group-page-controls_content">
-                        <% include SilvercartProductPagination %>
-                        <div class="silvercart-product-group-page-selectors">
-                            <div class="silvercart-product-group-page-selectors_content">
-                                $InsertCustomHtmlForm(SilvercartProductGroupPageSelectors)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% end_if %>
+            <div class="silvercart-product-group-page-control-top">
+                <% include SilvercartProductGroupPageControls %>
+            </div>
         <% else %>
             <p>
                 <% _t('SilvercartPage.THE_QUERY', 'The query') %>
