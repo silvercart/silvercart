@@ -1,8 +1,27 @@
 <form class="yform full" $FormAttributes >
-    $Top.getSilvercartShoppingCartFull
-
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
+    
+    <div class="subcolumns">
+        <div id="silvercart-checkout-privacy-check" class="c66l">
+            <fieldset  style="height: 150px">
+                <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
+                $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
+                $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
+                <% if Top.showNewsletterCheckbox %>
+                    $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
+                <% end_if %>
+            </fieldset>
+        </div>
+        <div id="silvercart-checkout-note" class="c33r">
+            <div class="subcr">
+                <fieldset   style="height: 150px">
+                    <legend><% _t('SilvercartPage.REMARKS') %></legend>
+                    $CustomHtmlFormFieldByName(Note)
+                </fieldset>
+            </div>
+        </div>
+    </div>
 
     <% if hasOnlyOneStandardAddress %>
         <% control AddressData %>
@@ -32,19 +51,10 @@
                 </div>
             </div>
         </div>
-    <% end_if %>
-    <fieldset>
-          <legend><% _t('SilvercartPage.REMARKS') %></legend>
-          $CustomHtmlFormFieldByName(Note)
-    </fieldset>
-    <fieldset>
-        <legend><% _t('SilvercartPage.TERMSOFSERVICE_PRIVACY') %></legend>
-        $CustomHtmlFormFieldByName(HasAcceptedTermsAndConditions,SilvercartHasAcceptedTermsAndConditionsFieldCheck)
-        $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
-        <% if Top.showNewsletterCheckbox %>
-            $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
-        <% end_if %>
-    </fieldset>
+    <% end_if %>    
+    
+    $Top.getSilvercartShoppingCartFull
+    
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>

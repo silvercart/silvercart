@@ -1,5 +1,5 @@
 .silvercart-address {
-    margin:                         1em 0 1em 1em;
+    margin:                         1em 0 1em 0;
     padding:                        0px;
     
     background:                     #fafafa;
@@ -7,9 +7,6 @@
     -webkit-box-shadow:             0 0 5px rgba(0, 0, 0, 0.3);
     box-shadow:                     0 0 5px rgba(0, 0, 0, 0.3);
     border:                         1px #bbb solid;
-}
-.subcr .silvercart-address {
-    margin:                         1em 1em 1em 0;
 }
 .silvercart-address-field_content {
     padding:                        4px;

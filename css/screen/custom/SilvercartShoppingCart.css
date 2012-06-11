@@ -1,6 +1,7 @@
 .silvercart-shopping-cart-full {
     border:                         1px #e1e1e1 solid;
     border-collapse:                collapse;
+    background-color:               #FAFAFA;
 }
 .silvercart-shopping-cart-full thead th {
     padding:                        6px 8px 6px 8px;

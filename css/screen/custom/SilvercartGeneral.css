@@ -243,70 +243,71 @@ span.silvercart-message {
     display:                        block;
 }
 .silvercart-message.info16 {
-    padding: 0 0 0 20px;
+    padding:                        0 0 0 20px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_info.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info16 {
-    padding: 5px 5px 5px 20px;
+    margin-top:                     4px;
+    padding:                        5px 5px 5px 20px;
     
-    background-color: #efefef;
-    line-height: 16px;
+    background-color:               #efefef;
+    line-height:                    16px;
 }
 .silvercart-message.info32 {
-    padding: 0 0 0 30px;
+    padding:                        0 0 0 30px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/32x32_info.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info32 {
-    padding: 5px 5px 5px 40px;
+    padding:                        5px 5px 5px 40px;
     
-    background-color: #efefef;
-    line-height: 32px;
+    background-color:               #efefef;
+    line-height:                    32px;
 }
 .silvercart-message.info48 {
-    padding: 0 0 0 60px;
+    padding:                        0 0 0 60px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_info.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/48x48_info.png") no-repeat left center;
 }
 .silvercart-message.highlighted.info48 {
-    padding: 5px 5px 5px 60px;
+    padding:                        5px 5px 5px 60px;
     
-    background-color: #efefef;
-    line-height: 48px;
+    background-color:               #efefef;
+    line-height:                    48px;
 }
 .silvercart-message.error16 {
-    padding: 0 0 0 20px;
+    padding:                        0 0 0 20px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/16x16_error.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/16x16_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error16 {
-    padding: 5px 5px 5px 20px;
+    padding:                        5px 5px 5px 20px;
     
-    background-color: #efefef;
-    line-height: 16px;
+    background-color:               #efefef;
+    line-height:                    16px;
 }
 .silvercart-message.error32 {
-    padding: 0 0 0 40px;
+    padding:                        0 0 0 40px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/32x32_error.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/32x32_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error32 {
-    padding: 5px 5px 5px 40px;
+    padding:                        5px 5px 5px 40px;
     
-    background-color: #efefef;
-    line-height: 32px;
+    background-color:               #efefef;
+    line-height:                    32px;
 }
 .silvercart-message.error48 {
-    padding: 0 0 0 60px;
+    padding:                        0 0 0 60px;
     
-    background: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_error.png") no-repeat left center;
+    background:                     url("{$CurrentController.baseHref}silvercart/images/icons/48x48_error.png") no-repeat left center;
 }
 .silvercart-message.highlighted.error48 {
-    padding: 5px 5px 5px 60px;
+    padding:                        5px 5px 5px 60px;
     
-    background-color: #efefef;
-    line-height: 48px;
+    background-color:               #efefef;
+    line-height:                    48px;
 }
 p.silvercart-message.vdistance {
     margin:                         8px 0px;
