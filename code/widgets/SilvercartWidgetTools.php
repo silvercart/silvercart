@@ -256,7 +256,6 @@ class SilvercartWidgetTools extends Object {
         }
 
         $jsID = $widget->ClassName . 'Slider' . $widget->ID;
-        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
         Requirements::customScript(
             sprintf('
                 $(document).ready(function() {
@@ -526,6 +525,18 @@ class SilvercartWidgetTools extends Object {
             'fetchMethodSortOrderAsc'       => _t($widget->ClassName() . '.FETCHMETHOD_SORTORDERASC',   _t('SilvercartProductSliderWidget.FETCHMETHOD_SORTORDERASC')),
             'fetchMethodSortOrderDesc'      => _t($widget->ClassName() . '.FETCHMETHOD_SORTORDERDESC',  _t('SilvercartProductSliderWidget.FETCHMETHOD_SORTORDERDESC')),
         );
+    }
+    
+    /**
+     * Loads the requirements for this object
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.06.2012
+     */
+    public static function loadRequirements() {
+        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
     }
     
 }

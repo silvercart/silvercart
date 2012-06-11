@@ -321,7 +321,6 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
                 $effect             = 'fade';
         }
             
-        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
         Requirements::customScript(
             sprintf('
                 $(document).ready(function() {
@@ -369,7 +368,7 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
             )
         );
     }
-    
+
     /**
      * This widget should always be a content view.
      *

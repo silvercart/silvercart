@@ -337,7 +337,6 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::themedCSS('SilvercartShoppingCart');
             Requirements::themedCSS('SilvercartSiteMap');
             Requirements::themedCSS('SilvercartWidget');
-            Requirements::themedCSS("slidorion");
             Requirements::themedCSS('jquery.fancybox-1.3.4');
             Requirements::javascript("customhtmlform/script/jquery.js");
             Requirements::javascript("silvercart/script/document.ready_scripts.js");
@@ -349,8 +348,11 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::javascript("silvercart/script/jquery.roundabout.min.js");
             Requirements::javascript("silvercart/script/jquery.roundabout-shapes.min.js");
             Requirements::javascript("silvercart/script/jquery.easing.1.3.js");
-            Requirements::javascript("silvercart/script/slidorion/js/jquery.slidorion.js");
             Requirements::add_i18n_javascript('silvercart/javascript/lang');
+            
+            SilvercartProductGroupSliderWidget::loadRequirements();
+            SilvercartSlidorionProductGroupWidget::loadRequirements();
+            SilvercartWidgetTools::loadRequirements();
             
             Requirements::customScript('
                 jQuery(window).focus(function() {jQuery.fx.off = false;});

@@ -184,6 +184,20 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
         
         return $fields;
     }
+    
+    /**
+     * Loads the requirements for this object
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.06.2012
+     */
+    public static function loadRequirements() {
+        Requirements::css('silvercart/css/screen/sliders/SilvercartProductGroupSliderWidget.css');
+        Requirements::javascript('silvercart/script/SilvercartProductGroupSliderWidget.js');
+        Requirements::javascript('silvercart/script/reflection.js');
+    }
 }
 
 /**
@@ -212,10 +226,6 @@ class SilvercartProductGroupSliderWidget_Controller extends SilvercartWidget_Con
             'SilvercartProductGroupPage',
             'ShowInMenus = 1'
         );
-        
-        Requirements::css('silvercart/css/screen/sliders/SilvercartProductGroupSliderWidget.css');
-        Requirements::javascript('silvercart/script/SilvercartProductGroupSliderWidget.js');
-        Requirements::javascript('silvercart/script/reflection.js');
         
         if ($productGroupObjects) {
             foreach ($productGroupObjects as $productGroupObject) {
