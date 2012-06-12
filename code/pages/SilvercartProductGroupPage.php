@@ -2135,5 +2135,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
         }
     }
+    
+    /**
+     * Returns whether the current view is the first page of the product list or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
+     */
+    public function isFirstPage() {
+        $isFirstPage = true;
+        if ($this->getSqlOffset() > 0) {
+            $isFirstPage = false;
+        }
+        return $isFirstPage;
+    }
 
 }

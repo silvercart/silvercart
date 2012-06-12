@@ -2,7 +2,10 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
         
-        $PageContent
+        <% if isFirstPage %>
+            $PageContent
+        <% end_if %>
+        
         $InsertWidgetArea(Content)
         
         <% if ViewableChildren %>
