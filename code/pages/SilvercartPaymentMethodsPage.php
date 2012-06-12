@@ -108,11 +108,20 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
      * @since 23.05.2012
      */
     public function ShippingCountry() {
-        $customer = Member::currentUser();
+        $customer           = Member::currentUser();
+        $shippingCountry    = null;
         if ($customer) {
             $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();
-        } else {
-            $shippingCountry = DataObject::get_one('SilvercartCountry', "`Active` = 1");
+        }
+        if (is_null($shippingCountry) ||
+            $shippingCountry->ID == 0) {
+            $shippingCountry = DataObject::get_one(
+                    'SilvercartCountry',
+                    sprintf(
+                            "`ISO2` = '%s' AND `Active` = 1",
+                            substr(Translatable::get_current_locale(), 3)
+                    )
+            );
         }
         return $shippingCountry;
     }
