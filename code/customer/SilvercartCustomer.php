@@ -105,6 +105,22 @@ class SilvercartCustomer extends DataObjectDecorator {
     }
     
     /**
+     * Updates the CMS fields to use BEFORE the scaffolding is called.
+     *
+     * @param array &$restrictFields Restrict fields 
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
+     */
+    public function updateRestrictCMSFields(&$restrictFields) {
+        foreach ($this->owner->db() as $fieldName => $fieldType) {
+            $restrictFields[] = $fieldName;
+        }
+    }
+
+    /**
      * manipulate the field labels of the decorated class
      *
      * @param array &$labels The labels of cms fields
