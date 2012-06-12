@@ -192,6 +192,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
              */
             $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
             $shippingAddress    = $this->getAssociativeAddressData($shippingAddress);
+            $shippingAddress    = new SilvercartAddress($shippingAddress);
+            $shippingAddress->setIsAnonymousShippingAddress(true);
         }
         if (array_key_exists('InvoiceAddress', $checkoutData) &&
             Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
@@ -203,6 +205,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
              */
             $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
             $invoiceAddress = $this->getAssociativeAddressData($invoiceAddress, 'Invoice');
+            $invoiceAddress = new SilvercartAddress($invoiceAddress);
+            $invoiceAddress->setIsAnonymousInvoiceAddress(true);
         }
         
         if (array_key_exists('InvoiceAddress',$checkoutData) &&
@@ -249,6 +253,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         if ($country) {
             $associativeAddress['country']             = $country;
             $associativeAddress['SilvercartCountry']   = $country;
+            $associativeAddress['SilvercartCountryID'] = $country->ID;
             $associativeAddress['hasAddressData']      = true;
             if ($type == 'Shipping') {
                 $associativeAddress['isShippingAddress']    = true;
@@ -258,14 +263,12 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         }
         if (!empty($associativeAddress['TaxIdNumber']) &&
             !empty($associativeAddress['Company'])) {
-
             $associativeAddress['isCompanyAddress'] = true;
         } else {
             $associativeAddress['isCompanyAddress'] = false;
         }
         
         $silvercartAddress = new SilvercartAddress();
-        $associativeAddress['fieldLabel'] = new DataObject($silvercartAddress->fieldLabels());
         return $associativeAddress;
     }
     

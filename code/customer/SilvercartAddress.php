@@ -84,6 +84,27 @@ class SilvercartAddress extends DataObject {
     );
     
     /**
+     * Property to indicate whether this is an anonymous address
+     *
+     * @var bool
+     */
+    protected $isAnonymous = false;
+    
+    /**
+     * Property to indicate whether this is an anonymous shipping address
+     *
+     * @var bool
+     */
+    protected $isAnonymousShippingAddress = false;
+    
+    /**
+     * Property to indicate whether this is an anonymous invoice address
+     *
+     * @var bool
+     */
+    protected $isAnonymousInvoiceAddress = false;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -167,36 +188,96 @@ class SilvercartAddress extends DataObject {
     }
     
     /**
-     * Return field labels as DataObject.
-     *
-     * @return DataObject
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.05.2012
-     */
-    public function fieldLabel() {
-        return new DataObject($this->fieldLabels());
-    }
-    
-    /**
      * Indicates wether this address is set as a standard address for shipping
      * or invoicing.
      *
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
      */
     public function hasAddressData() {
         $hasAddressData = false;
         
-        if ($this->ID > 0) {
+        if ($this->ID > 0 ||
+            $this->isAnonymous()) {
             $hasAddressData = true;
         }
         
         return $hasAddressData;
     }
+
+    /**
+     * Returns whether this is an anonymous address
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
+     */
+    public function isAnonymous() {
+        return $this->isAnonymous;
+    }
+
+    /**
+     * Returns whether this is an anonymous shipping address
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
+     */
+    public function isAnonymousShippingAddress() {
+        return $this->isAnonymousShippingAddress;
+    }
+
+    /**
+     * Returns whether this is an anonymous invoice address
+     *
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2012
+     */
+    public function isAnonymousInvoiceAddress() {
+        return $this->isAnonymousInvoiceAddress;
+    }
     
+    /**
+     * Sets whether this is an anonymous address
+     *
+     * @param bool $isAnonymous Anonymous?
+     *
+     * @return void
+     */
+    public function setIsAnonymous($isAnonymous) {
+        $this->isAnonymous = $isAnonymous;
+    }
+    
+    /**
+     * Sets whether this is an anonymous shipping address
+     *
+     * @param bool $isAnonymousShippingAddress Anonymous?
+     *
+     * @return void
+     */
+    public function setIsAnonymousShippingAddress($isAnonymousShippingAddress) {
+        $this->isAnonymousShippingAddress = $isAnonymousShippingAddress;
+        $this->setIsAnonymous($isAnonymousShippingAddress);
+    }
+    
+    /**
+     * Sets whether this is an anonymous invoice address
+     *
+     * @param bool $isAnonymousInvoiceAddress Anonymous?
+     *
+     * @return void
+     */
+    public function setIsAnonymousInvoiceAddress($isAnonymousInvoiceAddress) {
+        $this->isAnonymousInvoiceAddress = $isAnonymousInvoiceAddress;
+        $this->setIsAnonymous($isAnonymousInvoiceAddress);
+    }
+
     /**
      * Indicates wether this address is the address of a company. The fields
      * "Company" and "TaxIdNumber" must be filled in to conform that.
@@ -260,10 +341,15 @@ class SilvercartAddress extends DataObject {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 12.06.2012
      */
     public function isInvoiceAddress() {
-        return $this->ID == Member::currentUser()->SilvercartInvoiceAddressID;
+        $isInvoiceAddress = false;
+        if ($this->ID == Member::currentUser()->SilvercartInvoiceAddressID ||
+            $this->isAnonymousInvoiceAddress()) {
+            $isInvoiceAddress = true;
+        }
+        return $isInvoiceAddress;
     }
 
     /**
@@ -272,10 +358,15 @@ class SilvercartAddress extends DataObject {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 12.06.2012
      */
     public function isShippingAddress() {
-        return $this->ID == Member::currentUser()->SilvercartShippingAddressID;
+        $isShippingAddress = false;
+        if ($this->ID == Member::currentUser()->SilvercartShippingAddressID ||
+            $this->isAnonymousShippingAddress()) {
+            $isShippingAddress = true;
+        }
+        return $isShippingAddress;
     }
 
     /**
