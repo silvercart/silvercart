@@ -916,7 +916,7 @@ class SilvercartProductGroupPage extends Page {
                 $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
                         array_merge(
                             array(
-                                $this->Title
+                                utf8_decode($this->Title)
                             ),
                             $products->map()
                         )

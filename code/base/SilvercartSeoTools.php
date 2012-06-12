@@ -105,7 +105,7 @@ class SilvercartSeoTools extends SilvercartTools {
         $metaDescription        = '';
         $metaDescriptionParts   = array();
         foreach ($array as $string) {
-            if (strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
+            if (mb_strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
                 break;
             }
             $metaDescriptionParts[] = self::extractMetaDescription($string);
