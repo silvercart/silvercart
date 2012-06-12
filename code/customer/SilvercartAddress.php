@@ -246,8 +246,10 @@ class SilvercartAddress extends DataObject {
     public function getSalutationText() {
         if ($this->Salutation == 'Herr') {
             $salutation = _t('SilvercartAddress.MISTER', 'Mister');
-        } else {
+        } elseif ($this->Salutation == 'Frau') {
             $salutation = _t('SilvercartAddress.MISSES', 'Misses');
+        } else {
+            $salutation = _t('SilvercartAddress.' . strtoupper($salutation), $salutation);
         }
         return $salutation;
     }
