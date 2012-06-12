@@ -678,9 +678,12 @@ class SilvercartPaymentMethod extends DataObject {
         $member         = Member::currentUser();
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
-            $member = new Member();
+            $member         = new Member();
             $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
-            $member->Groups()->push($anonymousGroup);
+            $memberGroups   = new DataObjectSet();
+            $memberGroups->push($anonymousGroup);
+        } else {
+            $memberGroups = $member->Groups();
         }
         
         if ($paymentMethods) {
@@ -713,7 +716,7 @@ class SilvercartPaymentMethod extends DataObject {
                     // Check if access for groups or is set positively
                     if ($paymentMethod->ShowOnlyForGroups()->Count() > 0) {
                         foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
-                            if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                            if ($memberGroups->find('ID', $paymentGroup->ID)) {
                                 $containedInGroup = true;
                                 break;
                             }
@@ -744,7 +747,7 @@ class SilvercartPaymentMethod extends DataObject {
                     // Check if access for groups is set negatively
                     if ($paymentMethod->ShowNotForGroups()->Count() > 0) {
                         foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
-                            if ($member->Groups()->find('ID', $paymentGroup->ID)) {
+                            if ($memberGroups->find('ID', $paymentGroup->ID)) {
                                 if (!$containedInUsers) {
                                     $assumePaymentMethod = false;
                                 }
