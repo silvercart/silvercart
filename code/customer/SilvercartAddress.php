@@ -144,16 +144,18 @@ class SilvercartAddress extends DataObject {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @since 12.06.2012
      */
     public function summaryFields() {
-        return array_merge(
-            parent::summaryFields(),
-            array(
-                'Street'    => $this->fieldLabel('Street'),
-                'City'      => $this->fieldLabel('City'),
-            )
+        $summaryFields = array(
+                'Street'        => $this->fieldLabel('Street'),
+                'StreetNumber'  => $this->fieldLabel('StreetNumber'),
+                'Postcode'      => $this->fieldLabel('Postcode'),
+                'City'          => $this->fieldLabel('City'),
+                'SilvercartCountry.ISO2'    => $this->fieldLabel('SilvercartCountry'),
         );
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
 
     /**
@@ -164,10 +166,10 @@ class SilvercartAddress extends DataObject {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 12.06.2012
      */
     public function fieldLabels($includerelations = true) {
-        return array_merge(
+        $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
                 'Street'            => _t('SilvercartAddress.STREET'),
@@ -185,6 +187,8 @@ class SilvercartAddress extends DataObject {
                 'Company'           => _t('SilvercartAddress.COMPANY'),
             )
         );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
     
     /**
