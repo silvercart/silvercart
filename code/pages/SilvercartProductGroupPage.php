@@ -113,6 +113,13 @@ class SilvercartProductGroupPage extends Page {
      * @var int
      */
     protected $activeSilvercartProducts = null;
+    
+    /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -349,6 +356,7 @@ class SilvercartProductGroupPage extends Page {
      * @since 24.03.2011
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
         
         $useOnlydefaultGroupviewSource  = array(
@@ -902,18 +910,20 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
-        if (empty($metaDescription)) {
-            $products = $this->getProducts();
-            $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
-                    array_merge(
-                        array(
-                            $this->Title
-                        ),
-                        $products->map()
-                    )
-            );
+        if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaDescription)) {
+                $products = $this->getProducts();
+                $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
+                        array_merge(
+                            array(
+                                $this->Title
+                            ),
+                            $products->map()
+                        )
+                );
+            }
+            $this->extend('updateMetaDescription', $metaDescription);
         }
-        $this->extend('updateMetaDescription', $metaDescription);
         return $metaDescription;
     }
 }
