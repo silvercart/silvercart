@@ -285,8 +285,7 @@ class SilvercartShopEmail extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 26.08.2011
+     * @since 13.06.2012
      */
     public static function send($identifier, $to, $variables = array(), $attachments = null) {
         $mailObj = DataObject::get_one(
@@ -297,7 +296,9 @@ class SilvercartShopEmail extends DataObject {
             )
         );
 
-        if (!$mailObj) {
+        if (!$mailObj ||
+            is_null($mailObj->EmailText) ||
+            empty(trim($mailObj->EmailText))) {
             return false;
         }
 
