@@ -403,7 +403,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
 
         // Aggregate Data and set defaults
         $formData['MemberID']           = Member::currentUserID();
-        $formData['Locale']             = 'de_DE';
+        $formData['Locale']             = Translatable::get_current_locale();
         if ($this->demandBirthdayDate()) {
             $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
                                               $formData['BirthdayMonth'] . '-' .
