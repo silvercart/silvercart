@@ -296,9 +296,12 @@ class SilvercartShopEmail extends DataObject {
             )
         );
 
-        if (!$mailObj ||
-            is_null($mailObj->EmailText) ||
-            empty(trim($mailObj->EmailText))) {
+        if (!$mailObj) {
+            return false;
+        }
+        $emailText = trim($mailObj->EmailText);
+        if (is_null($emailText) ||
+            empty(trim($emailText))) {
             return false;
         }
 
