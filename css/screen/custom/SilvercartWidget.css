@@ -312,3 +312,14 @@
 .silvercart-search-cloud-widget-9 {
     font-size:                      1.9em;
 }
+
+/* Blog widget ----------------------------------------------- */
+
+.silvercart-widget .silvercart-latest-blog-post-widget p {
+    margin-bottom:                  0px;
+}
+
+.silvercart-widget .silvercart-latest-blog-post-widget .silvercart-button-row {
+    padding:                        0px;
+    margin:                         4px 0 6px 0;
+}

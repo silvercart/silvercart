@@ -4,12 +4,12 @@
         <% if Top.isContentView %>
             
         <% else %>
-            <div class="silvercart-widget-content_frame">
+            <div class="silvercart-widget-content_frame silvercart-latest-blog-post-widget">
                 <h3>$Created.format(d.m.Y)</h3>
                 <p>$Title</p>
                 
                 <div class="subcolumns">
-                    <div class="silvercart-button-row">
+                    <div class="silvercart-button-row clearfix">
                         <div class="silvercart-button-small left">
                             <div class="silvercart-button-small_content">
                                 <a href="$Link">
