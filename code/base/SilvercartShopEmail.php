@@ -301,7 +301,7 @@ class SilvercartShopEmail extends DataObject {
         }
         $emailText = trim($mailObj->EmailText);
         if (is_null($emailText) ||
-            empty(trim($emailText))) {
+            empty($emailText)) {
             return false;
         }
 
