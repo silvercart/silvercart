@@ -62,9 +62,6 @@ class SilvercartWidget_Controller extends Widget_Controller {
      * Instances of $this will have a unique ID
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $classInstanceCounter = array();
     
@@ -72,11 +69,15 @@ class SilvercartWidget_Controller extends Widget_Controller {
      * Contains the unique ID of the current class instance
      * 
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     protected $classInstanceIdx = 0;
+
+    /**
+     * Contains a list of all registered filter plugins.
+     *
+     * @var array
+     */
+    public static $registeredFilterPlugins = array();
     
     /**
      * We register the search form on the page controller here.
@@ -125,5 +126,25 @@ class SilvercartWidget_Controller extends Widget_Controller {
      */
     public function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
         return SilvercartPage_Controller::PageByIdentifierCodeLink($identifierCode);
+    }
+
+    /**
+     * Registers an object as a filter plugin. Before getting the result set
+     * the method 'filter' is called on the plugin. It has to return an array
+     * with filters to deploy on the query.
+     *
+     * @param Object $plugin The filter plugin object
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.06.2012
+     */
+    public static function registerFilterPlugin($plugin) {
+        $reflectionClass = new ReflectionClass($plugin);
+        
+        if ($reflectionClass->hasMethod('filter')) {
+            self::$registeredFilterPlugins[] = new $plugin();
+        }
     }
 }

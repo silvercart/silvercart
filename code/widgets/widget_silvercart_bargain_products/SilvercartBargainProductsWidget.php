@@ -281,6 +281,13 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
      * @var DataObjectSet 
      */
     protected $elements = null;
+
+    /**
+     * Plain product elements
+     *
+     * @var DataObjectSet 
+     */
+    protected $products= null;
     
     /**
      * Returns the elements
@@ -376,14 +383,34 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
                     default:
                         $sort = "RAND()";
                 }
+                $this->listFilters = array();
                 
-                $products = SilvercartProduct::get(
-                        sprintf(
+                if (count(self::$registeredFilterPlugins) > 0) {
+                    foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                        $pluginFilters = $registeredPlugin->filter();
+                        
+                        if (is_array($pluginFilters)) {
+                            $this->listFilters = array_merge(
+                                $this->listFilters,
+                                $pluginFilters
+                            );
+                        }
+                    }
+                }
+                
+                $filter = sprintf(
                                 "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL 
                                 AND `SilvercartProduct`.`MSRPriceAmount` > 0
                                 AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
                                 $priceField
-                        ),
+                );
+
+                foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
+                    $filter .= ' ' . $listFilter;
+                }
+                
+                $products = SilvercartProduct::get(
+                        $filter,
                         $sort,
                         null,
                         "0," . $this->numberOfProductsToFetch
@@ -462,5 +489,19 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             }
         }
         return $this->elements;
+    }
+    
+    /**
+     * Returns the products to inject into a product group
+     *
+     * @return DataObjectSet
+     */
+    public function getProducts() {
+        $this->products = new DataObjectSet();
+        if (!$this->useSlider &&
+            !$this->useRoundabout) {
+            $this->products = $this->Elements();
+        }
+        return $this->products;
     }
 }

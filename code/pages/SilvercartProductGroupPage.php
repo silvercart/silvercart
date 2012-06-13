@@ -2151,5 +2151,31 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return $isFirstPage;
     }
+    
+    /**
+     * Returns injected products
+     *
+     * @return DataObjectSet 
+     */
+    public function getInjectedProducts() {
+        $injectedProducts = new DataObjectSet();
+        if ($this->WidgetSetContent()->Count() > 0) {
+            foreach ($this->WidgetSetContent() as $widgetSet) {
+                if ($widgetSet->WidgetArea()->Widgets()->Count() > 0) {
+                    foreach ($widgetSet->WidgetArea()->Widgets() as $widget) {
+                        $controllerClass = $widget->class . '_Controller';
+                        if (method_exists($controllerClass, 'getProducts')) {
+                            $controller = new $controllerClass($widget);
+                            $products   = $controller->getProducts();
+                            if ($products instanceof DataObjectSet) {
+                                $injectedProducts->merge($products);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $injectedProducts;
+    }
 
 }
