@@ -609,7 +609,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 14.06.2012
      */
     public function SearchByQuery(SS_HTTPRequest $request) {
         $redirectBack   = true;
@@ -620,7 +620,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $redirectBack = false;
                 Session::set('searchQuery', $searchQuery->SearchQuery);
                 Session::save();
-                Director::direct($this->Link());
+                Director::redirect($this->Link());
             }
         }
         if ($redirectBack) {
