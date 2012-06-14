@@ -1765,19 +1765,42 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         return $hasChargePositionsForTotal;
     }
+    
+    /**
+     * Returns the price type dependant on the related member
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2012
+     */
+    public function PriceType() {
+        $member     = $this->Member();
+        $priceType  = SilvercartConfig::DefaultPriceType();
+        if ($member) {
+            foreach ($member->Groups() as $group) {
+                if (!empty($group->Pricetype) &&
+                    $group->Pricetype != '---') {
+                    $priceType = $group->Pricetype;
+                    break;
+                }
+            }
+        }
+        return $priceType;
+    }
 
     /**
      * Indicates wether this order is gross calculated or not.
      * 
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2012
      */
     public function IsPriceTypeGross() {
         $isPriceTypeGross = false;
 
-        if ($this->SilvercartInvoiceAddress()->isCompanyAddress() === false) {
+        if ($this->PriceType() == 'gross') {
             $isPriceTypeGross = true;
         }
 
@@ -1797,13 +1820,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2012
      */
     public function IsPriceTypeNet() {
         $isPriceTypeNet = false;
 
-        if ($this->SilvercartInvoiceAddress()->isCompanyAddress()) {
+        if ($this->PriceType() == 'net') {
             $isPriceTypeNet = true;
         }
 
