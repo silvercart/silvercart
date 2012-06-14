@@ -11,6 +11,8 @@
 
     $CustomHtmlFormFieldByName(emailaddress)
     $CustomHtmlFormFieldByName(password)
+    
+    <a  href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
 
     <div class="actionRow">
         <div class="type-button">
@@ -19,5 +21,4 @@
             <% end_control %>
         </div>
     </div>
-
 </form>
