@@ -410,7 +410,7 @@ $lang['en_US']['SilvercartCheckoutFormStep']['I_ACCEPT_REVOCATION'] = 'I accept 
 $lang['en_US']['SilvercartCheckoutFormStep']['I_ACCEPT_TERMS'] = 'I accept the terms and conditions.';
 $lang['en_US']['SilvercartCheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'I want to receive the newsletter';
 $lang['en_US']['SilvercartCheckoutFormStep']['ORDER'] = 'Order';
-$lang['en_US']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Order now';
+$lang['en_US']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Buy now';
 $lang['en_US']['SilvercartCheckoutFormStep']['OVERVIEW'] = 'Overview';
 
 $lang['en_US']['SilvercartCheckoutFormStep1']['LOGIN'] = 'Login';
