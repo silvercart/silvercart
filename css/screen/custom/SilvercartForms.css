@@ -16,6 +16,7 @@ form.yform .type-button {
     text-align:                     right;
 }
 
+.yform.silvercart-system-form .Actions input[type="submit"],
 form.yform input[type="submit"],
 form.yform .type-button input[type="submit"],
 form.yform .type-button input.action[type="submit"],
@@ -33,6 +34,7 @@ form.yform .type-button input.submit {
 form.yform input[type="submit"] {
     padding:                        2px 8px;
 }
+.yform.silvercart-system-form .Actions input[type="submit"]:hover,
 form.yform input[type="submit"]:hover,
 form.yform .type-button input[type="submit"]:hover,
 form.yform .type-button input.action[type="submit"]:hover,
@@ -170,6 +172,15 @@ form.yform .type-button .silvercart-button a {
 }
 #silvercart-quicklogin-form_content {
     padding:                        4px 5px 8px 10px;
+}
+#silvercart-quicklogin-form a,
+#silvercart-quicklogin-form a:hover,
+#silvercart-quicklogin-form a:active,
+#silvercart-quicklogin-form a:focus,
+#silvercart-quicklogin-form a:visited {
+    color:                          #fff;
+    display:                        block;
+    margin-bottom:                  6px;
 }
 #silvercart-quicklogin-form form.yform {
     margin:                         0px;

@@ -56,6 +56,7 @@
     font-family:Arial, Helvetica, sans-serif; /* proportional fonts for all form elements */
   }
 
+  .yform.silvercart-system-form .field input,
   .yform .type-text input,
   .yform .type-text textarea,
   .yform .type-select select {
@@ -63,6 +64,9 @@
   }
 
   /* :hover and :focus status on form fields | Effekt zur Hervorhebung von Formularfeldern bei :hover oder :focus */
+  .yform.silvercart-system-form .field input:focus,
+  .yform.silvercart-system-form .field input:hover,
+  .yform.silvercart-system-form .field input:active,
   .yform div.type-text input:focus,
   .yform div select:focus,
   .yform div textarea:focus,
@@ -152,6 +156,7 @@
   .yform sup { color:#800; font-weight:bold; }
 
   /* styling containing DIV elements | Gestaltung der kapselnden DIV-Elemente */
+  .yform.silvercart-system-form .field,
   .yform div.type-text,
   .yform div.type-select,
   .yform div.type-check,
@@ -167,6 +172,7 @@
   }
   
   /* styling standard form elements with 'almost' equal flexible width | Gestaltung der einzelnen Formularelemente mit annähend gleicher Breite */
+  .yform.silvercart-system-form .field input,
   .yform .type-text input,
   .yform .type-text textarea {
     display:block;
@@ -187,7 +193,10 @@
     font-weight:bold;
   }
 
+  .yform.silvercart-system-form .field.checkbox input { display: inline; width: auto; }
+  .yform.silvercart-system-form .field.checkbox input,
   .yform .type-check input { cursor:pointer; }
+  .yform.silvercart-system-form .field.checkbox label,
   .yform .type-check label { display:inline; }
 
   /* Styling of buttons | Gestaltung von Buttons */
@@ -208,6 +217,9 @@
   .yform div.error .message { color:#800; }
 
   /* avoid jumping checkboxes & radiobuttons in IE8 */
+  .yform.silvercart-system-form .field.checkbox input:focus,
+  .yform.silvercart-system-form .field.checkbox input:hover,
+  .yform.silvercart-system-form .field.checkbox input:active,
   .yform div.type-check input:focus,
   .yform div.type-check input:hover,
   .yform div.type-check input:active { border:0 none; }

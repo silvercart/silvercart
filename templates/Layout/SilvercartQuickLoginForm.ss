@@ -2,16 +2,17 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
 
-	<div class="subcolumns">
-		<div class="c50l">
+    <div class="subcolumns">
+        <div class="c50l">
             $CustomHtmlFormFieldByName(emailaddress)
-		</div>
-
-		<div class="c50r">
+        </div>
+        <div class="c50r">
             $CustomHtmlFormFieldByName(password)
-		</div>
+        </div>
     </div>
 
+    <a href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
+    
     <div id="silvercart-quicklogin-form-actions">
         <input type="reset" id="silvercart-quicklogin-form-cancel" value="<% _t('SilvercartPage.CANCEL') %>" />
         <% control Actions %>

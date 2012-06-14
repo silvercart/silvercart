@@ -21,6 +21,8 @@
             <% control Actions %>
                 $Field
             <% end_control %>
+    
+            <a class="silvercart-button left" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
         </div>
     </div>
 

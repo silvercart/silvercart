@@ -5,7 +5,11 @@
         <h2>$Title</h2>
 
         $Content
-        $Form
+        <% if Form %>
+            <div class="yform silvercart-system-form">
+                $Form
+            </div>
+        <% end_if %>
         
         <div class="silvercartWidgetHolder">
             <div class="silvercartWidgetHolder_content">
