@@ -185,6 +185,7 @@ class SilvercartAddress extends DataObject {
                 'Surname'           => _t('SilvercartAddress.SURNAME'),
                 'TaxIdNumber'       => _t('SilvercartAddress.TAXIDNUMBER'),
                 'Company'           => _t('SilvercartAddress.COMPANY'),
+                'Name'              => _t('SilvercartAddress.NAME'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);

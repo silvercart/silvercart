@@ -38,40 +38,29 @@ class SilvercartOrderPosition extends DataObject {
      * be logged or not.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.03.2012
      */
     public $log = true;
 
     /**
-     * Indicates wether the order should be recalculated in method
+     * Indicates whether the order should be recalculated in method
      * "onAfterWrite".
      *
-     * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @var booleanhler <skoehler@pixeltricks.de>
      * @since 21.03.2012
      */
     protected $doRecalculate = false;
 
     /**
-     * Indicates wether the position has been created. Used in onBeforeWrite.
+     * Indicates whether the position has been created. Used in onBeforeWrite.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.03.2012
      */
     public $objectCreated = false;
 
     /**
-     * Indicates wether the position has been deleted. Used in onBeforeDelete.
+     * Indicates whether the position has been deleted. Used in onBeforeDelete.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.03.2012
      */
     public $objectDeleted = false;
 
@@ -79,10 +68,6 @@ class SilvercartOrderPosition extends DataObject {
      * attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $db = array(
         'Price'                              => 'Money',
@@ -102,15 +87,17 @@ class SilvercartOrderPosition extends DataObject {
      * 1:n relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_one = array(
         'SilvercartOrder' => 'SilvercartOrder',
         'SilvercartProduct' => 'SilvercartProduct'
     );
+
+    /**
+     * casted attributes
+     *
+     * @var array
+     */
     public static $casting = array(
         'PriceNice' => 'VarChar(255)',
         'PriceTotalNice' => 'VarChar(255)',
@@ -154,15 +141,11 @@ class SilvercartOrderPosition extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartOrderPosition.SINGULARNAME')) {
-            return _t('SilvercartOrderPosition.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -171,15 +154,11 @@ class SilvercartOrderPosition extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartOrderPosition.PLURALNAME')) {
-            return _t('SilvercartOrderPosition.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);  
     }
 
     /**
@@ -188,15 +167,16 @@ class SilvercartOrderPosition extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 15.06.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'ProductNumber'         => _t('SilvercartProduct.PRODUCTNUMBER'),
-            'Title'                 => _t('SilvercartPage.PRODUCTNAME'),
-            'ProductDescription'    => _t('SilvercartProduct.DESCRIPTION'),
-            'PriceNice'             => _t('SilvercartProduct.PRICE'),
-            'Quantity'              => _t('SilvercartProduct.QUANTITY'),
+            'ProductNumber'         => $this->fieldLabel('ProductNumber'),
+            'Title'                 => $this->fieldLabel('Title'),
+            'PriceNice'             => $this->fieldLabel('Price'),
+            'TaxRate'               => $this->fieldLabel('TaxRate'),
+            'Quantity'              => $this->fieldLabel('Quantity'),
+            'PriceTotalNice'        => $this->fieldLabel('PriceTotal'),
         );
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;

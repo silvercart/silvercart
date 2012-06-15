@@ -54,17 +54,62 @@ class SilvercartPrint {
     }
     
     /**
+     * Returns the print URL for the given DataObject
+     * (silvercart-print/$DataObjectName/$DataObjectID)
+     *
+     * @param DataObject $dataObject DataObject to get print URL for
+     * 
+     * @return string 
+     */
+    public static function getPrintInlineURL($dataObject) {
+        $printURL = '';
+        if ($dataObject instanceof DataObject) {
+            $printURL = sprintf(
+                    'silvercart-print-inline/%s/%s',
+                    $dataObject->ClassName,
+                    $dataObject->ID
+            );
+        }
+        return $printURL;
+    }
+    
+    /**
      * Clears the already set requirements and loads the default print requirements
+     * 
+     * @param bool $withJavascript Should the JS be loaded?
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012 
      */
-    public static function loadDefaultRequirements() {
+    public static function loadDefaultRequirements($withJavascript = true) {
         Requirements::clear();
         Requirements::themedCSS('SilvercartPrintDefault');
-        Requirements::javascript('silvercart/script/SilvercartPrintDefault.js');
+        if ($withJavascript) {
+            Requirements::javascript('silvercart/script/SilvercartPrintDefault.js');
+        }
+    }
+    
+    /**
+     * Returns the given DataObjects default print template
+     * 
+     * @param DataObject $dataObject DataObject to get print output for
+     * @param bool       $isInline   Is this an inline print preview?
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public static function getPrintOutput($dataObject, $isInline = false) {
+        $printResult = '';
+        if ($dataObject->CanView()) {
+            self::loadDefaultRequirements(!$isInline);
+            Requirements::themedCSS('SilvercartPrint' . $dataObject->ClassName);
+            $printResult = $dataObject->renderWith('SilvercartPrint' . $dataObject->ClassName);
+        }
+        return $printResult;
     }
     
     /**
@@ -77,14 +122,8 @@ class SilvercartPrint {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public static function getPrintOutput($dataObject) {
-        $printResult = '';
-        if ($dataObject->CanView()) {
-            self::loadDefaultRequirements();
-            Requirements::themedCSS('SilvercartPrint' . $dataObject->ClassName);
-            $printResult = $dataObject->renderWith('SilvercartPrint' . $dataObject->ClassName);
-        }
-        return $printResult;
+    public static function getPrintInlineOutput($dataObject) {
+        return self::getPrintOutput($dataObject, true);
     }
     
 }
@@ -125,7 +164,12 @@ class SilvercartPrint_Controller extends SilvercartPage_Controller {
             if ($dataObject->hasMethod('printDataObject')) {
                 print $dataObject->printDataObject();
             } else {
-                print SilvercartPrint::getPrintOutput($dataObject);
+                if (strpos($request->getVar('url'), 'silvercart-print-inline') === false) {
+                    $output = SilvercartPrint::getPrintOutput($dataObject);
+                } else {
+                    $output = SilvercartPrint::getPrintInlineOutput($dataObject);
+                }
+                print $output;
             }
             exit();
         } else {

@@ -40,7 +40,8 @@ SiteTree::set_create_default_pages(false);
 // Add some URL rules for custom controllers
 // ----------------------------------------------------------------------------
 Director::addRules(50, array(
-    'silvercart-print/$DataObjectName/$DataObjectID'    => 'SilvercartPrint_Controller',
+    'silvercart-print/$DataObjectName/$DataObjectID'        => 'SilvercartPrint_Controller',
+    'silvercart-print-inline/$DataObjectName/$DataObjectID' => 'SilvercartPrint_Controller',
 ));
 
 // ----------------------------------------------------------------------------
