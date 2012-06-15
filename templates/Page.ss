@@ -4,7 +4,7 @@
         <% base_tag %>
         <% control SiteConfig %>
             $GoogleWebmasterCode.Raw
-        <% end_if %>
+        <% end_control %>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><% if MetaTitle %>$MetaTitle<% else %>$Title<% end_if %></title>
 		$MetaTags(false)
@@ -199,6 +199,6 @@
         <% control SiteConfig %>
             $GoogleAnalyticsTrackingCode.Raw
             $PiwikTrackingCode.Raw
-        <% end_if %>
+        <% end_control %>
     </body>
 </html>
