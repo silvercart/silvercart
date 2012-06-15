@@ -28,11 +28,50 @@
  * @package Silvercart
  * @subpackage Config
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 03.05.2012
- * @license LGPL
+ * @copyright 2012 pixeltricks GmbH
+ * @since 15.06.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartSiteConfig extends DataObjectDecorator {
+    
+    /**
+     * Returns the extra statice
+     *
+     * @return array 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.06.2012
+     */
+    public function extraStatics() {
+        return array(
+            'db' => array(
+                'GoogleAnalyticsTrackingCode'   => 'Text',
+                'GoogleWebmasterCode'           => 'Text',
+                'PiwikTrackingCode'             => 'Text',
+            ),
+        );
+    }
+    
+    /**
+     * Updates the fields labels
+     *
+     * @param array &$labels Labels to update
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.06.2012
+     */
+    public function updateFieldLabels(&$labels) {
+        $labels = array_merge(
+                $labels,
+                array(
+                    'GoogleAnalyticsTrackingCode'   => _t('SilvercartSiteConfig.GOOGLE_ANALYTICS_TRACKING_CODE'),
+                    'GoogleWebmasterCode'           => _t('SilvercartSiteConfig.GOOGLE_WEBMASTER_CODE'),
+                    'PiwikTrackingCode'             => _t('SilvercartSiteConfig.PIWIK_TRACKING_CODE'),
+                )
+        );
+    }
     
     /**
      * Adds a translation section
@@ -42,9 +81,19 @@ class SilvercartSiteConfig extends DataObjectDecorator {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.05.2012
+     * @since 15.06.2012
      */
-    public function updateCMSFields(&$fields) {
+    public function updateCMSFields(FieldSet &$fields) {
+        $seoTab = $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO'));
+        
+        $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
+        $googleWebmasterCodeField           = new TextareaField('GoogleWebmasterCode',          $this->owner->fieldLabel('GoogleWebmasterCode'));
+        $piwikTrackingCodeField             = new TextareaField('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
+        
+        $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
+        $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
+        $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
+        
         // used in CMSMain->init() to set language state when reading/writing record
         $fields->push(new HiddenField("Locale", "Locale", $this->owner->Locale));
         

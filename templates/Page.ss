@@ -193,5 +193,10 @@
                 </div>
             </div>
         </div>
+        <% control SiteConfig %>
+            $GoogleAnalyticsTrackingCode.Raw
+            $GoogleWebmasterCode.Raw
+            $PiwikTrackingCode.Raw
+        <% end_if %>
     </body>
 </html>
