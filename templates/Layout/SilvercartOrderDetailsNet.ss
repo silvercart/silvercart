@@ -23,7 +23,7 @@
                 <td class="left">$Title.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
-                <td class="right">$Quantity</td>
+                <td class="right quantity">$Quantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
             <% if productVariantDefinition %>

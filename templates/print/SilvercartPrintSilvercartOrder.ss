@@ -19,7 +19,7 @@
                     <table>
                         <tr>
                             <td><% _t('SilvercartAddress.EMAIL') %></td>
-                            <td>$Member.Email</td>
+                            <td>$CustomersEmail</td>
                         </tr>
                         <tr>
                             <td><% _t('SilvercartPage.ORDER_DATE') %></td>

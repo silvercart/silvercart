@@ -58,4 +58,8 @@
     button {
         display: none;
     }
+    
+    td.quantity {
+        font-weight: bold;
+    }
 }

@@ -12,6 +12,7 @@
     tbody th { font-size: 10px; background:#e0e0e0; color:#666; border-bottom:1px solid #fff; text-align:left; }
     tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }
 
+    tbody th { border-bottom:1px solid #fff; text-align:left; }
     tbody td { border-bottom:1px solid #eee; }
 
     tfoot td {border-top: 1px #666 solid; }
@@ -32,7 +33,7 @@
                 <table>
                     <tr>
                         <td><% _t('SilvercartAddress.EMAIL') %></td>
-                        <td>$Member.Email</td>
+                        <td>$CustomersEmail</td>
                     </tr>
                     <tr>
                         <td><% _t('SilvercartPage.ORDER_DATE') %></td>
