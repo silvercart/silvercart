@@ -86,12 +86,12 @@ class SilvercartSiteConfig extends DataObjectDecorator {
     public function updateCMSFields(FieldSet &$fields) {
         $seoTab = $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO'));
         
+        $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
         $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
-        $googleWebmasterCodeField           = new TextareaField('GoogleWebmasterCode',          $this->owner->fieldLabel('GoogleWebmasterCode'));
         $piwikTrackingCodeField             = new TextareaField('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
         
-        $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
+        $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
         
         // used in CMSMain->init() to set language state when reading/writing record

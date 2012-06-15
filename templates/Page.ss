@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$ContentLocale" lang="$ContentLocale">
     <head>
         <% base_tag %>
+        <% control SiteConfig %>
+            $GoogleWebmasterCode.Raw
+        <% end_if %>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><% if MetaTitle %>$MetaTitle<% else %>$Title<% end_if %></title>
 		$MetaTags(false)
@@ -195,7 +198,6 @@
         </div>
         <% control SiteConfig %>
             $GoogleAnalyticsTrackingCode.Raw
-            $GoogleWebmasterCode.Raw
             $PiwikTrackingCode.Raw
         <% end_if %>
     </body>
