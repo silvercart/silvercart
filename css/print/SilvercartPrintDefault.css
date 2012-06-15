@@ -26,6 +26,10 @@
     tbody td { border-bottom:1px solid #eee; }
 
     tfoot td {border-top: 1px #666 solid; }
+    
+    td.quantity {
+        font-weight: bold;
+    }
 }
     
 @media print
