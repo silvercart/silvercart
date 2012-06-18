@@ -76,32 +76,51 @@ class SilvercartUpdate1_3__2 extends SilvercartUpdate {
      * @since 30.05.2012
      */
     public function updateWidget($widgetName) {
-        $query = DB::query(
-                sprintf(
-                        "SELECT `ID`, `useListView` FROM `%s`",
-                        $widgetName
-                )
+        $foundField = false;
+        $query      = DB::query(
+            sprintf(
+                "SELECT COUNT(*) AS ColumnCount FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' AND COLUMN_NAME = '%s'",
+                DB::getConn()->currentDatabase(),
+                $widgetName,
+                'useListView'
+            )
         );
         if ($query) {
             foreach ($query as $result) {
-                $widget         = DataObject::get_by_id($widgetName, $result['ID']);
-                $useListView    = $result['useListView'];
-                
-                $groupView = 'tile';
-                if ($useListView) {
-                    $groupView = 'list';
+                if ($result['ColumnCount'] > 0) {
+                    $foundField = true;
+                    break;
                 }
-                
-                $widget->GroupView = $groupView;
-                $widget->write();
             }
         }
-        DB::query(
-                sprintf(
-                        "ALTER TABLE `%s` DROP `useListView`",
-                        $widgetName
-                )
-        );
+        if ($foundField) {
+            $query = DB::query(
+                    sprintf(
+                            "SELECT `ID`, `useListView` FROM `%s`",
+                            $widgetName
+                    )
+            );
+            if ($query) {
+                foreach ($query as $result) {
+                    $widget         = DataObject::get_by_id($widgetName, $result['ID']);
+                    $useListView    = $result['useListView'];
+
+                    $groupView = 'tile';
+                    if ($useListView) {
+                        $groupView = 'list';
+                    }
+
+                    $widget->GroupView = $groupView;
+                    $widget->write();
+                }
+            }
+            DB::query(
+                    sprintf(
+                            "ALTER TABLE `%s` DROP `useListView`",
+                            $widgetName
+                    )
+            );
+        }
         return true;
     }
 }
