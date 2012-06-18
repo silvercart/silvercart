@@ -47,6 +47,7 @@ Director::addRules(50, array(
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+Object::add_extension('ComponentSet',                               'SilvercartComponentSetDecorator');
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
