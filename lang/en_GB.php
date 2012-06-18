@@ -551,6 +551,7 @@ $lang['en_GB']['SilvercartCountry']['ATTRIBUTED_ZONES'] = 'Attributed zones';
 $lang['en_GB']['SilvercartCountry']['CONTINENT'] = 'Continent';
 $lang['en_GB']['SilvercartCountry']['CURRENCY'] = 'Currency';
 $lang['en_GB']['SilvercartCountry']['FIPS'] = 'FIPS code';
+$lang['en_GB']['SilvercartCountry']['FREEOFSHIPPINGCOSTSFROM'] = 'Free of shipping costs from';
 $lang['en_GB']['SilvercartCountry']['ISO2'] = 'ISO Alpha2';
 $lang['en_GB']['SilvercartCountry']['ISO3'] = 'ISO Alpha3';
 $lang['en_GB']['SilvercartCountry']['ISON'] = 'ISO numeric';

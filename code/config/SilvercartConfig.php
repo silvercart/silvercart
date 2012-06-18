@@ -280,13 +280,22 @@ class SilvercartConfig extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public function getCMSFields($params = null) {
-        $defaultCMSFields = parent::getCMSFields($params);
+    public function getCMSFields($params = array()) {
+        $defaultCMSFields = parent::getCMSFields(
+                array_merge(
+                        $params,
+                        array(
+                            'fieldClasses' => array(
+                                'minimumOrderValue'         => 'SilvercartMoneyField',
+                                'freeOfShippingCostsFrom'   => 'SilvercartMoneyField',
+                            ),
+                        )
+                )
+        );
         // Remove not required fields
         $defaultCMSFields->removeByName('SilvercartVersion');
         $defaultCMSFields->removeByName('SilvercartUpdateVersion');
         $defaultCMSFields->removeByName('DefaultCurrency');
-        $defaultCMSFields->removeByName('minimumOrderValue');
         $defaultCMSFields->removeByName('useMinimumOrderValue');
         $defaultCMSFields->removeByName('productsPerPage');
         $defaultCMSFields->removeByName('productGroupsPerPage');
@@ -414,10 +423,10 @@ class SilvercartConfig extends DataObject {
 
         $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
         $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
-        $minimumOrderValueTab->push(new MoneyField('minimumOrderValue', _t('SilvercartConfig.MINIMUMORDERVALUE')));
+        $minimumOrderValueTab->push($defaultCMSFields->dataFieldByName('minimumOrderValue'));
 
         $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
-        $freeOfShippingCostsTab->push(new MoneyField('freeOfShippingCostsFrom', _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM')));
+        $freeOfShippingCostsTab->push($defaultCMSFields->dataFieldByName('freeOfShippingCostsFrom'));
         
         // FormFields for Test Data right here        
         $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
@@ -748,6 +757,22 @@ class SilvercartConfig extends DataObject {
     public static function FreeOfShippingCostsFrom() {
         if (is_null(self::$freeOfShippingCostsFrom)) {
             self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
+        }
+        if (Controller::curr()->hasMethod('getCombinedStepData')) {
+            $checkoutData       = Controller::curr()->getCombinedStepData();
+            if (array_key_exists('Shipping_Country', $checkoutData)) {
+                $shippingCountryID  = $checkoutData['Shipping_Country'];
+                $shippingCountry    = DataObject::get_by_id(
+                        'SilvercartCountry',
+                        $shippingCountryID
+                );
+                if ($shippingCountry &&
+                    !is_null($shippingCountry->freeOfShippingCostsFrom->getAmount()) &&
+                    is_numeric($shippingCountry->freeOfShippingCostsFrom->getAmount())) {
+                    $shippingCountry->freeOfShippingCostsFrom->getAmount();
+                    self::$freeOfShippingCostsFrom = $shippingCountry->freeOfShippingCostsFrom;
+                }
+            }
         }
         return self::$freeOfShippingCostsFrom;
     }

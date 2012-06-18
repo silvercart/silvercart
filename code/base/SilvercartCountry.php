@@ -37,28 +37,21 @@ class SilvercartCountry extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $db = array(
-        'ISO2' => 'VarChar',
-        'ISO3' => 'VarChar',
-        'ISON' => 'Int',
-        'FIPS' => 'VarChar',
-        'Continent' => 'VarChar',
-        'Currency' => 'VarChar',
-        'Active' => 'Boolean',
+        'ISO2'                      => 'VarChar',
+        'ISO3'                      => 'VarChar',
+        'ISON'                      => 'Int',
+        'FIPS'                      => 'VarChar',
+        'Continent'                 => 'VarChar',
+        'Currency'                  => 'VarChar',
+        'Active'                    => 'Boolean',
+        'freeOfShippingCostsFrom'   => 'Money',
     );
     /**
      * Default values
      *
      * @var array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.03.2011
-     * @copyright 2011 pixeltricks GmbH
      */
     public static $defaults = array(
         'Active' => false,
@@ -75,10 +68,6 @@ class SilvercartCountry extends DataObject {
      * Many-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $many_many = array(
         'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
@@ -87,10 +76,6 @@ class SilvercartCountry extends DataObject {
      * Belongs-many-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $belongs_many_many = array(
         'SilvercartZones' => 'SilvercartZone'
@@ -99,10 +84,6 @@ class SilvercartCountry extends DataObject {
      * Virtual database columns.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $casting = array(
         'AttributedZones'           => 'Varchar(255)',
@@ -117,15 +98,11 @@ class SilvercartCountry extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartCountry.SINGULARNAME')) {
-            return _t('SilvercartCountry.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -134,15 +111,11 @@ class SilvercartCountry extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartCountry.PLURALNAME')) {
-            return _t('SilvercartCountry.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
 
     /**
@@ -151,9 +124,8 @@ class SilvercartCountry extends DataObject {
      * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Seabstian Diel <sdiel@pixeltricks.de>
-     * @since 27.02.2011
-     * @copyright 2010 pixeltricks GmbH
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -171,6 +143,10 @@ class SilvercartCountry extends DataObject {
                 'AttributedPaymentMethods'      => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
                 'ActivityText'                  => _t('SilvercartCountry.ACTIVE', 'Active'),
                 'SilvercartCountryLanguages'    => _t('SilvercartCountryLanguage.PLURALNAME'),
+                'SilvercartZones'               => _t('SilvercartZone.PLURALNAME'),
+                'SilvercartPaymentMethods'      => _t('SilvercartPaymentMethod.PLURALNAME'),
+                'SilvercartZones'               => _t('SilvercartZone.PLURALNAME'),
+                'freeOfShippingCostsFrom'       => _t('SilvercartCountry.FREEOFSHIPPINGCOSTSFROM'),
             )
         );
     }
@@ -181,54 +157,63 @@ class SilvercartCountry extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.03.2011
+     * @since 18.06.2012
      */
     public function  searchableFields() {
         return array(
             'SilvercartCountryLanguages.Title' => array(
-                'title'     => _t('SilvercartCountry.SINGULARNAME'),
+                'title'     => $this->singular_name(),
                 'filter'    => 'PartialMatchFilter',
             ),
             'ISO2' => array(
-                'title'     => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
+                'title'     => $this->fieldLabel('ISO2'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'ISO3' => array(
-                'title'     => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
+                'title'     => $this->fieldLabel('ISO3'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'ISON' => array(
-                'title'     => _t('SilvercartCountry.ISON', 'ISO numeric'),
+                'title'     => $this->fieldLabel('ISON'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'FIPS' => array(
-                'title'     => _t('SilvercartCountry.FIPS', 'FIPS code'),
+                'title'     => $this->fieldLabel('FIPS'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'Continent' => array(
-                'title'     => _t('SilvercartCountry.CONTINENT', 'Continent'),
+                'title'     => $this->fieldLabel('Continent'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'Currency' => array(
-                'title'     => _t('SilvercartCountry.CURRENCY', 'Currency'),
+                'title'     => $this->fieldLabel('Currency'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'SilvercartZones.ID' => array(
-                'title'     => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
+                'title'     => $this->fieldLabel('SilvercartZones'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'SilvercartPaymentMethods.ID' => array(
-                'title'     => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD'),
+                'title'     => $this->fieldLabel('SilvercartPaymentMethods'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'Active' => array(
-                'title'     => _t('SilvercartCountry.ACTIVE'),
+                'title'     => $this->fieldLabel('Active'),
                 'filter'    => 'ExactMatchFilter',
             )
         );
     }
     
     /**
+     * Returns freeOfShippingCostsFrom in a nice format
+     *
+     * @return string
+     */
+    public function getFreeOfShippingCostsFromNice() {
+        return $this->freeOfShippingCostsFrom->Nice();
+    }
+
+        /**
      * Summary fields
      *
      * @return array
@@ -240,14 +225,15 @@ class SilvercartCountry extends DataObject {
         $summaryFields = array_merge(
                 parent::summaryFields(),
                 array(
-                    'Title'                     => $this->fieldLabel('Title'),
-                    'ISO2'                      => $this->fieldLabel('ISO2'),
-                    'ISO3'                      => $this->fieldLabel('ISO3'),
-                    'Continent'                 => $this->fieldLabel('Continent'),
-                    'Currency'                  => $this->fieldLabel('Currency'),
-                    'AttributedZones'           => $this->fieldLabel('AttributedZones'),
-                    'AttributedPaymentMethods'  => $this->fieldLabel('AttributedPaymentMethods'),
-                    'ActivityText'              => $this->fieldLabel('ActivityText'),
+                    'Title'                             => $this->fieldLabel('Title'),
+                    'ISO2'                              => $this->fieldLabel('ISO2'),
+                    'ISO3'                              => $this->fieldLabel('ISO3'),
+                    'Continent'                         => $this->fieldLabel('Continent'),
+                    'Currency'                          => $this->fieldLabel('Currency'),
+                    'AttributedZones'                   => $this->fieldLabel('AttributedZones'),
+                    'AttributedPaymentMethods'          => $this->fieldLabel('AttributedPaymentMethods'),
+                    'ActivityText'                      => $this->fieldLabel('ActivityText'),
+                    'getFreeOfShippingCostsFromNice'    => $this->fieldLabel('freeOfShippingCostsFrom'),
                 )
         );
         
@@ -260,12 +246,17 @@ class SilvercartCountry extends DataObject {
      *
      * @return FieldSet the fields for the backend
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 28.10.10
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
+        $fields = parent::getCMSFields(
+                array(
+                    'fieldClasses' => array(
+                        'freeOfShippingCostsFrom'   => 'SilvercartMoneyField',
+                    ),
+                )
+        );
         $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartZones');
         $fields->removeByName('Locale');//Field comes from Translatable

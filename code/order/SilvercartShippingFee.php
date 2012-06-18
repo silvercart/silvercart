@@ -404,6 +404,8 @@ class SilvercartShippingFee extends DataObject {
             }
 
             if ($useFreeOfShippingCostsFrom &&
+                !is_null($freeOfShippingCostsFrom->getAmount()) &&
+                $freeOfShippingCostsFrom->getAmount() > 0 &&
                 (float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
 
                 $price = 0.0;
