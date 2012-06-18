@@ -1176,7 +1176,7 @@ class SilvercartProduct extends DataObject {
         }
 
         if (empty($priceType)) {
-            $priceType = SilvercartConfig::priceType();
+            $priceType = SilvercartConfig::PriceType();
         }
         
         if ($priceType == "net") {

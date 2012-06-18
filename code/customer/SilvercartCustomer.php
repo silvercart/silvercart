@@ -475,6 +475,23 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
     }
     
+    /**
+     * Returns the members price type
+     *
+     * @return string 
+     */
+    public function getPriceType() {
+        $priceType = SilvercartConfig::DefaultPriceType();
+        foreach ($this->owner->Groups() as $group) {
+            if (!empty($group->Pricetype) &&
+                $group->Pricetype != '---') {
+                $priceType = $group->Pricetype;
+                break;
+            }
+        }
+        return $priceType;
+    }
+    
     // ------------------------------------------------------------------------
     // Hooks
     // ------------------------------------------------------------------------

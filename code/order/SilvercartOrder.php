@@ -101,7 +101,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public static $db = array(
         'AmountTotal'                       => 'Money', // value of all products
-        'AmountGrossTotal'                  => 'Money', // value of all products + transaction fee
+        'PriceType'                         => 'VarChar(24)',
         'HandlingCostPayment'               => 'Money',
         'HandlingCostShipment'              => 'Money',
         'TaxRatePayment'                    => 'Int',
@@ -114,6 +114,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'OrderNumber'                       => 'VarChar(128)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
+        /**
+         * @deprecated
+         */
+        'AmountGrossTotal'                  => 'Money', // value of all products + transaction fee
     );
 
     /**
@@ -176,6 +180,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'ShippingAddressSummary'    => 'VarChar',
         'InvoiceAddressSummary'     => 'VarChar',
         'AmountTotalNice'           => 'VarChar',
+        'PriceTypeText'             => 'VarChar(24)',
     );
 
     /**
@@ -286,6 +291,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME'),
                 'SilvercartOrderStatus'             => _t('SilvercartOrder.STATUS', 'order status'),
                 'AmountTotal'                       => _t('SilvercartOrder.AMOUNTTOTAL'),
+                'PriceType'                         => _t('SilvercartOrder.PRICETYPE'),
                 'AmountGrossTotal'                  => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
                 'HandlingCostPayment'               => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
                 'HandlingCostShipment'              => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
@@ -446,6 +452,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getCMSFields() {
         $ignoreFields = array(
             'AmountGrossTotal',
+            'PriceType',
         );
         
         $restrictFields = array(
@@ -511,6 +518,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
         }
         
+        $priceTypeTextField = new TextField('PriceTypeText', $this->fieldLabel('PriceType'), $this->PriceTypeText);
+        $priceTypeTextField->setReadonly(true);
+        $priceTypeTextField->setDisabled(true);
+        
         $printPreviewField = new LiteralField(
                 'PrintPreviewField',
                 sprintf(
@@ -544,6 +555,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $mainGroup->pushAndBreak(   $fields->dataFieldByName('OrderNumber'));
         $mainGroup->pushAndBreak(   $fields->dataFieldByName('CustomersEmail'));
         $mainGroup->breakAndPush(   $fields->dataFieldByName('AmountTotal'));
+        $mainGroup->push(           $priceTypeTextField);
         $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostPayment'));
         $mainGroup->push(           $fields->dataFieldByName('TaxAmountPayment'));
         $mainGroup->push(           $fields->dataFieldByName('TaxRatePayment'));
@@ -674,6 +686,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $totalAmount
         );
         $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
+        
+        $this->PriceType = $member->getPriceType();
 
         // adjust orders standard status
         $orderStatus = DataObject::get_one(
@@ -1027,7 +1041,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * save the cart´s weight
+     * save the cart¬¥s weight
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -1795,26 +1809,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
-     * Returns the price type dependant on the related member
+     * Returns the i18n text for the price type
      *
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.06.2012
      */
-    public function PriceType() {
-        $member     = $this->Member();
-        $priceType  = SilvercartConfig::DefaultPriceType();
-        if ($member) {
-            foreach ($member->Groups() as $group) {
-                if (!empty($group->Pricetype) &&
-                    $group->Pricetype != '---') {
-                    $priceType = $group->Pricetype;
-                    break;
-                }
-            }
-        }
-        return $priceType;
+    public function getPriceTypeText() {
+        return _t('SilvercartPriceType.' . strtoupper($this->PriceType), $this->PriceType);
     }
 
     /**
@@ -1828,7 +1828,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function IsPriceTypeGross() {
         $isPriceTypeGross = false;
 
-        if ($this->PriceType() == 'gross') {
+        if ($this->PriceType == 'gross') {
             $isPriceTypeGross = true;
         }
 
@@ -1854,7 +1854,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function IsPriceTypeNet() {
         $isPriceTypeNet = false;
 
-        if ($this->PriceType() == 'net') {
+        if ($this->PriceType == 'net') {
             $isPriceTypeNet = true;
         }
 

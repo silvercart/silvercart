@@ -1012,6 +1012,7 @@ $lang['de_DE']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-nummer';
 $lang['de_DE']['SilvercartOrder']['ORDER_VALUE'] = 'Gesamtbetrag';
 $lang['de_DE']['SilvercartOrder']['PAYMENTMETHODTITLE'] = 'Bezahlart';
 $lang['de_DE']['SilvercartOrder']['PLURALNAME'] = 'Bestellungen';
+$lang['de_DE']['SilvercartOrder']['PRICETYPE'] = 'Preis-Anzeige-Typ';
 $lang['de_DE']['SilvercartOrder']['PRINT'] = 'Bestellung drucken';
 $lang['de_DE']['SilvercartOrder']['PRINT_PREVIEW'] = 'Druckvorschau';
 $lang['de_DE']['SilvercartOrder']['SHIPPINGRATE'] = 'Versandkosten';
@@ -1651,3 +1652,6 @@ $lang['de_DE']['ImprintPage']['DEFAULT_URLSEGMENT']                             
 
 $lang['de_DE']['SilvercartDataPrivacyStatementPage']['DEFAULT_TITLE']           = $lang['de_DE']['SilvercartDataPrivacyStatementPage']['TITLE'];
 $lang['de_DE']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      = $lang['de_DE']['SilvercartDataPrivacyStatementPage']['URL_SEGMENT'];
+
+$lang['de_DE']['SilvercartPriceType']['GROSS']                                  = 'Brutto';
+$lang['de_DE']['SilvercartPriceType']['NET']                                    = 'Netto';
