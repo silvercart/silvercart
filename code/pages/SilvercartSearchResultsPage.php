@@ -272,7 +272,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $productsPerPage            = $this->getProductsPerPageSetting();
 
         $SQL_start                  = $this->getSqlOffset();
-        $searchQuery                = Convert::raw2sql(Session::get('searchQuery'));
+        $searchQuery                = trim(Convert::raw2sql(Session::get('searchQuery')));
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $filteredQuerySearchQuery   = '';
