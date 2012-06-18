@@ -1248,6 +1248,7 @@ $lang['en_US']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_QUANTITY'] = 'The c
 $lang['en_US']['SilvercartPaymentMethod']['RESTRICT_BY_ORDER_STATUS'] = 'whose order status is marked in the following list';
 $lang['en_US']['SilvercartPaymentMethod']['RESTRICTION_LABEL'] = 'Activate only, when the following criteria are met';
 $lang['en_US']['SilvercartPaymentMethod']['SHIPPINGMETHOD'] = 'Shipping method';
+$lang['en_US']['SilvercartPaymentMethod']['SHIPPINGMETHOD_DESC'] = 'Bind the payment method to the following shipping methods:';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_GROUPS_LABEL'] = 'Deactivate for the following groups';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_ONLY_FOR_GROUPS_LABEL'] = 'Activate for the following groups';
 $lang['en_US']['SilvercartPaymentMethod']['SHOW_NOT_FOR_USERS_LABEL'] = 'Deactivate for the following users';

@@ -686,6 +686,12 @@ class SilvercartPaymentMethod extends DataObject {
             $memberGroups = $member->Groups();
         }
         
+        $shippingMethodID = null;
+        if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+            $checkoutData       = Controller::curr()->getCombinedStepData();
+            $shippingMethodID   = $checkoutData['ShippingMethod'];
+        }
+        
         if ($paymentMethods) {
             foreach ($paymentMethods as $paymentMethod) {
                 $assumePaymentMethod    = true;
@@ -706,6 +712,16 @@ class SilvercartPaymentMethod extends DataObject {
                 if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
                     $assumePaymentMethod = false;
                     $doAccessChecks      = false;
+                }
+                
+                // ------------------------------------------------------------
+                // Shipping method check
+                // ------------------------------------------------------------
+                if (!is_null($shippingMethodID) &&
+                    $paymentMethod->SilvercartShippingMethods()->Count() > 0 &&
+                    !$paymentMethod->SilvercartShippingMethods()->find('ID', $shippingMethodID)) {
+                    $assumePaymentMethod    = false;
+                    $doAccessChecks         = false;
                 }
                 
                 // ------------------------------------------------------------
@@ -1370,6 +1386,21 @@ class SilvercartPaymentMethod extends DataObject {
         $countriesTable->pageSize = 50;
         $countriesTab->push($countriesTable);
         
+        // --------------------------------------------------------------------
+        // shipping methods
+        // --------------------------------------------------------------------
+        $shippingMethodsTab     = new Tab('SilvercartShippingMethods', $this->fieldLabel('SilvercartShippingMethods'));
+        $shippingMethodsDesc    = new HeaderField('SilvercartShippingMethodsDesc', _t('SilvercartPaymentMethod.SHIPPINGMETHOD_DESC'));
+        $shippingMethodsTable   = new ManyManyComplexTableField(
+            $this,
+            'SilvercartShippingMethods',
+            'SilvercartShippingMethod'
+        );
+        $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
+        $tabset->push($shippingMethodsTab);
+        $shippingMethodsTab->push($shippingMethodsDesc);
+        $shippingMethodsTab->push($shippingMethodsTable);
+        
         return new FieldSet($tabset);
     }
 
@@ -1456,13 +1487,13 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return CheckboxField
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function activatedStatus() {
         $checkboxField = new CheckboxField('isActivated' . $this->ID, 'isActived', $this->isActive);
-
+        $checkboxField->setReadonly(true);
+        $checkboxField->setDisabled(true);
         return $checkboxField;
     }
 

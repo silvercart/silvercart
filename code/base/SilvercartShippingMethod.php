@@ -466,13 +466,13 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return CheckboxField
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
      */
     public function activatedStatus() {
         $checkboxField = new CheckboxField('isActivated' . $this->ID, 'isActived', $this->isActive);
-
+        $checkboxField->setReadonly(true);
+        $checkboxField->setDisabled(true);
         return $checkboxField;
     }
 
