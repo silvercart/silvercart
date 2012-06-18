@@ -431,6 +431,14 @@ class SilvercartPage_Controller extends ContentController {
         } else {
             $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
         }
+        
+        $allParams = Controller::curr()->getRequest()->allParams();
+        if (Controller::curr() instanceof Security &&
+            array_key_exists('Action', $allParams) &&
+            strtolower($allParams['Action']) == 'lostpassword' &&
+            Member::currentUserID() > 0) {
+            Security::logout(false);
+        }
 
         // check the SilverCart configuration
         if (!SilvercartTools::isIsolatedEnvironment()) {
