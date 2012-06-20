@@ -1,3 +1,4 @@
+<% if ShowWidget %>
 <h2><% _t('SilvercartShoppingcartWidget.TITLE') %></h2>
 
 <div class="silvercart-widget-content_frame">
@@ -55,3 +56,4 @@
         </p>
     <% end_if %>
 </div>
+<% end_if %>

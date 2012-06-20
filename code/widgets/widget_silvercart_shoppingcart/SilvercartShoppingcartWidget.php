@@ -34,6 +34,15 @@
 class SilvercartShoppingcartWidget extends SilvercartWidget {
     
     /**
+     * attributes
+     * 
+     * @var array 
+     */
+    public static $db = array(
+        'ShowOnlyWhenFilled'    => 'Boolean(0)',
+    );
+
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -92,5 +101,57 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      */
     public function CartLink() {
         return Controller::curr()->PageByIdentifierCodeLink('SilvercartCartpage');
+    }
+    
+    /**
+     * field label method
+     * 
+     * @param bool $includerelations include relations
+     * 
+     * @return array 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'ShowOnlyWhenFilled'    => _t('SilvercartShoppingcartWidget.SHOWONLYWHENFILLED', 'Show only when filled'),
+                )
+        );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * add checkbox option to the widget
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $fields->push(new CheckboxField('ShowOnlyWhenFilled', $this->fieldLabel('ShowOnlyWhenFilled')));
+        return $fields;
+    }
+    
+    /**
+     * returns true if ShowOnlyWhenFilled is unchecked and neither a shopping cart exists or is filled in
+     * 
+     * @return boolean 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
+     */
+    public function ShowWidget() {
+        $showWidget = true;
+        $member = Member::currentUser();
+        if ($this->ShowOnlyWhenFilled &&
+            (!$member ||
+             $member->SilvercartShoppingCartID == 0 ||
+             !$member->SilvercartShoppingCart()->isFilled())) {
+            $showWidget = false;
+        }
+        return $showWidget;
     }
 }

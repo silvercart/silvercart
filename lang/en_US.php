@@ -1602,6 +1602,7 @@ $lang['en_US']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  
 $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';
+$lang['en_US']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Show only if cart is filled.';
 
 $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
