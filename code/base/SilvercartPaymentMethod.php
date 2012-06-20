@@ -689,7 +689,9 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingMethodID = null;
         if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
             $checkoutData       = Controller::curr()->getCombinedStepData();
-            $shippingMethodID   = $checkoutData['ShippingMethod'];
+            if (array_key_exists('ShippingMethod', $checkoutData)) {
+                $shippingMethodID   = $checkoutData['ShippingMethod'];
+            }
         }
         
         if ($paymentMethods) {
