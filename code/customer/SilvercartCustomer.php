@@ -532,6 +532,29 @@ class SilvercartCustomer extends DataObjectDecorator {
             $this->owner->SilvercartShoppingCartID = $cart->ID;
             $this->owner->write();
         }
+        
+        // check whether to add a member to an administrative group
+        if (Member::currentUser()->isAdmin() &&
+            array_key_exists('Groups', $_POST)) {
+            $groups = explode(',', $_POST['Groups']);
+            if (count($groups) > 0) {
+                foreach ($groups as $group) {
+                    if (!$this->owner->Groups()->find('ID', $group)) {
+                        $groupToAdd = DataObject::get_by_id('Group', $group);
+                        if ($groupToAdd) {
+                            $groupToAdd->Members()->add($this->owner);
+                        }
+                    }
+                }
+                if ($this->owner->Groups()->Count() > count($groups)) {
+                    foreach ($this->owner->Groups() as $group) {
+                        if (!in_array($group->ID, $groups)) {
+                            $group->Members()->remove($this->owner);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**
