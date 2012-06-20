@@ -181,14 +181,14 @@ class SilvercartOrderStatus extends DataObject {
      *
      * @return FieldSet all CMS fields related
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         $fields->removeByName('SilvercartShopEmails');
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

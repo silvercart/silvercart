@@ -50,39 +50,29 @@ class SilvercartProductCondition extends DataObject {
         'Title'             => 'VarChar(255)',
         'TableIndicator'    => 'Text'
     );
-    
+
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name of the object.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartProductCondition.SINGULARNAME')) {
-            return _t('SilvercartProductCondition.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011 
+     * Returns the translated plural name of the object.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartProductCondition.PLURALNAME')) {
-            return _t('SilvercartProductCondition.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
+        return SilvercartTools::plural_name_for($this);
     }
     
     /**
@@ -104,17 +94,17 @@ class SilvercartProductCondition extends DataObject {
     /**
      * define the CMS ields
      *
-     * @param
+     * @param array $params Parameters for scaffolding
      *
      * @return FieldSet 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
         //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

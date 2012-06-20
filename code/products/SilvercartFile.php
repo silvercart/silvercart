@@ -189,13 +189,12 @@ class SilvercartFile extends DataObject {
      *
      * @return FieldSet the fields for the backend
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 20.01.2012
- */
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
+     */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

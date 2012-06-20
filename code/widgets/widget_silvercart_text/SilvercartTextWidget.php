@@ -168,8 +168,8 @@ class SilvercartTextWidget extends SilvercartWidget {
      * 
      * @return FieldSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.06.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields             = new FieldSet();
@@ -187,7 +187,7 @@ class SilvercartTextWidget extends SilvercartWidget {
         $mainTab->push($cssField);
         $translationsTab->push($languageTableField);
         //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }

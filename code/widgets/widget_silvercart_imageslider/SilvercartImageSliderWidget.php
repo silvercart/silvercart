@@ -173,8 +173,8 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * 
      * @return FieldSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = new FieldSet();
@@ -200,7 +200,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $imagesTab->push($imageField);
         $translationsTab->push($translationsTableField);
                 
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Basic', $languageField);
         }

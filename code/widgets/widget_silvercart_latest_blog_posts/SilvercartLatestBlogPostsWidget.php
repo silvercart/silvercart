@@ -95,8 +95,8 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return FieldSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields             = new FieldSet();
@@ -109,7 +109,7 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
         $isContentView          = new CheckboxField('isContentView', _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'));
         $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }

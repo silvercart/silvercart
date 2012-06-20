@@ -148,7 +148,7 @@ class SilvercartImage extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
         }

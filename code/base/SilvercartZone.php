@@ -108,8 +108,9 @@ class SilvercartZone extends DataObject {
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldSet the fields for the backend
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -150,7 +151,7 @@ class SilvercartZone extends DataObject {
             $fields->addFieldToTab('Root.Main', $useAllCountries);
             
             //multilingual fields, in fact just the title
-            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
             foreach ($languageFields as $languageField) {
                 $fields->addFieldToTab('Root.Main', $languageField);
             }

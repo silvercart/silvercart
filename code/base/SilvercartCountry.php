@@ -247,7 +247,7 @@ class SilvercartCountry extends DataObject {
      * @return FieldSet the fields for the backend
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.06.2012
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields(
@@ -272,7 +272,7 @@ class SilvercartCountry extends DataObject {
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'ISO2');
         }

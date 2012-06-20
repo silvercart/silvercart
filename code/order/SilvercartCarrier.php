@@ -145,7 +145,7 @@ class SilvercartCarrier extends DataObject {
             $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
         }
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

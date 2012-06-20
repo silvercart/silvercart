@@ -159,7 +159,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @return FieldSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = SilvercartWidgetTools::getCMSFieldsForProductSliderWidget($this);
@@ -196,7 +196,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
         
         $translationTab->push($translationsTableField);
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $languageField);
         }

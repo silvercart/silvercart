@@ -103,8 +103,8 @@ class SilvercartImageSliderImage extends DataObject {
      * 
      * @return FieldSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -119,7 +119,7 @@ class SilvercartImageSliderImage extends DataObject {
         );
         //Inject the fields that come from the language object
         //They are added to the content tab for the users comfort.
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage());
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
         }
