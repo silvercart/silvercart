@@ -534,7 +534,8 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
         
         // check whether to add a member to an administrative group
-        if (Member::currentUser()->isAdmin() &&
+        if (Member::currentUser() &&
+            Member::currentUser()->isAdmin() &&
             array_key_exists('Groups', $_POST)) {
             $groups = explode(',', $_POST['Groups']);
             if (count($groups) > 0) {
