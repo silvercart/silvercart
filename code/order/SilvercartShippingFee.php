@@ -79,39 +79,28 @@ class SilvercartShippingFee extends DataObject {
         'PriceCurrency'                 => 'Varchar(255)',
     );
     
-    
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name of the object.
      * 
-     * @return string The objects singular name 
+     * @return string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShippingFee.SINGULARNAME')) {
-            return _t('SilvercartShippingFee.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name of the object.
      * 
-     * @return string the objects plural name
+     * @return string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShippingFee.PLURALNAME')) {
-            return _t('SilvercartShippingFee.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
 
     /**
@@ -199,14 +188,35 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * Customizes the backends fields, mainly for ModelAdmin
+     * 
+     * @param array $params Scaffolding parameters
      *
      * @return FieldSet the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2012
      */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
+    public function getCMSFields($params = array()) {
+        $fields = parent::getCMSFields(
+                array_merge(
+                        $params,
+                        array(
+                            'fieldClasses' => array(
+                                'Price' => 'SilvercartMoneyField',
+                            ),
+                        )
+                )
+        );
+        
+        $postPricingField = $fields->dataFieldByName('PostPricing');
+        $postPricingField->setTitle($postPricingField->Title() . ' (' . _t('SilvercartShippingFee.POST_PRICING_INFO') . ')');
+        
+        $fieldGroup = new SilvercartFieldGroup('ShippingFeeGroup', '', $fields);
+        $fieldGroup->push(          $fields->dataFieldByName('MaximumWeight'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('UnlimitedWeight'));
+        $fieldGroup->push(          $fields->dataFieldByName('Price'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('SilvercartTaxID'));
+        $fieldGroup->pushAndBreak(  $postPricingField);
         // only the carriers zones must be selectable
         $zones  = DataObject::get(
                 'SilvercartZone',
@@ -218,18 +228,15 @@ class SilvercartShippingFee extends DataObject {
                 "LEFT JOIN `SilvercartZone_SilvercartCarriers` ON (`SilvercartZone`.`ID` = `SilvercartZone_SilvercartCarriers`.`SilvercartZoneID`)"
         );
         if ($zones) {
-            $fields->addFieldToTab(
-                "Root.Main",
-                new DropdownField(
+            $zonesField = new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
                     $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
-                )
             );
+            $fieldGroup->push($zonesField);
         }
         
-        $postPricingField = $fields->dataFieldByName('PostPricing');
-        $postPricingField->setTitle($postPricingField->Title() . ' (' . _t('SilvercartShippingFee.POST_PRICING_INFO') . ')');
+        $fields->addFieldToTab('Root.Main', $fieldGroup);
 
         return $fields;
     }
