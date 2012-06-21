@@ -110,10 +110,17 @@ class SilvercartZone extends DataObject {
      * @return FieldSet the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 21.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
+            
+        //multilingual fields, in fact just the title
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        
         if ($this->ID) {
             $countriesTable = new ManyManyComplexTableField(
                             $this,
@@ -149,48 +156,32 @@ class SilvercartZone extends DataObject {
         
             $useAllCountries = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
             $fields->addFieldToTab('Root.Main', $useAllCountries);
-            
-            //multilingual fields, in fact just the title
-            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
-            foreach ($languageFields as $languageField) {
-                $fields->addFieldToTab('Root.Main', $languageField);
-            }
         }
         return $fields;
     }
     
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name of the object.
      * 
-     * @return string The objects singular name 
+     * @return string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartZone.SINGULARNAME')) {
-            return _t('SilvercartZone.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name of the object.
      * 
-     * @return string the objects plural name
+     * @return string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartZone.PLURALNAME')) {
-            return _t('SilvercartZone.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
     
     /**
