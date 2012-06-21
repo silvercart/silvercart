@@ -365,9 +365,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getDefaultSearchContext() {
         return new DateRangeSearchContext(
-            $this->owner->class,
-            $this->owner->scaffoldSearchFields(),
-            $this->owner->defaultSearchFilters()
+            $this->class,
+            $this->scaffoldSearchFields(),
+            $this->defaultSearchFilters()
         );
     }
 
