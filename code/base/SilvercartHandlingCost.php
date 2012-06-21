@@ -140,6 +140,31 @@ class SilvercartHandlingCost extends DataObject {
 
         return $summaryFields;
     }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     * 
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 20.06.2012
+ */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields(
+                array_merge(
+                        array(
+                            'fieldClasses' => array(
+                                'amount' => 'SilvercartMoneyField',
+                            ),
+                        ),
+                        (array)$params
+                )
+        );
+        return $fields;
+    }
 
     /**
      * Returns the prices amount

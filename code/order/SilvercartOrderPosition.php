@@ -265,11 +265,11 @@ class SilvercartOrderPosition extends DataObject {
             $priceTotalField->disabled = true;
         }
 
-        if ($this->owner->SilvercartOrder()->ID > 0) {
+        if ($this->SilvercartOrder()->ID > 0) {
             $link = sprintf(
                 "javascript:jQuery('#ModelAdminPanel').fn('loadForm', '%sadmin/silvercart-orders/SilvercartOrder/%d/edit',function() {openTab('Root_SilvercartOrderPositions');});",
                 SilvercartTools::getBaseURLSegment(),
-                $this->owner->SilvercartOrder()->ID
+                $this->SilvercartOrder()->ID
             );
             $backToOrderLinkField = new LiteralField(
                 'BackToOrderLinkField',

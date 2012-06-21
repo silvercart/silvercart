@@ -199,14 +199,25 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * Customizes the backends fields, mainly for ModelAdmin
+     * 
+     * @param array $params configuration parameters
      *
      * @return FieldSet the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2012
      */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields(
+                array_merge(
+                        array(
+                            'fieldClasses' => array(
+                                'Price' => 'SilvercartMoneyField',
+                            ),
+                        ),
+                        (array)$params
+                )
+        );
         // only the carriers zones must be selectable
         $zones  = DataObject::get(
                 'SilvercartZone',
