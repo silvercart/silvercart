@@ -243,20 +243,17 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 sprintf("
                     INSERT INTO
                         SilvercartProductLanguage(
-                            ID,
                             ClassName,
                             Created,
                             SilvercartProductID,
                             Locale
                         ) VALUES(
-                            %d,
                             'SilvercartProductLanguage',
                             '%s',
                             %d,
                             '%s'
                         )
                     ",
-                    $insertID,
                     date('Y-m-d H:i:s'),
                     $insertID,
                     Translatable::get_current_locale()
