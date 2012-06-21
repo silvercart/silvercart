@@ -119,7 +119,6 @@ class SilvercartConfig extends DataObject {
         'enableSSL'                         => 'Boolean(0)',
         'productsPerPage'                   => 'Int',
         'productGroupsPerPage'              => 'Int',
-        'displayTypeOfProductAdmin'         => 'Enum("Flat,Tabbed","Tabbed")',
         'minimumOrderValue'                 => 'Money',
         'useMinimumOrderValue'              => 'Boolean(0)',
         'disregardMinimumOrderValue'        => 'Boolean(0)',
@@ -388,8 +387,6 @@ class SilvercartConfig extends DataObject {
             'Tabbed' => _t('SilvercartConfig.TABBED'),
             'Flat' => _t('SilvercartConfig.FLAT')
         );
-        $displayTypeOfProductAdminDropdown = new DropdownField('displayTypeOfProductAdmin', _t('SilvercartConfig.DISPLAY_TYPE_OF_PRODUCT_ADMIN', 'Display type of product administration'), $source, $this->displayTypeOfProductAdmin);
-        $CMSFields->addFieldToTab('Root.General.Layout', $displayTypeOfProductAdminDropdown);
         
         /*
          * Root.General.Server tab
@@ -1364,50 +1361,6 @@ class SilvercartConfig extends DataObject {
      */
     public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
         SilvercartGroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
-    }
-    
-    /**
-     * Returns the display type of product administration
-     *
-     * @return boolean 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.09.2011
-     */
-    public static function DisplayTypeOfProductAdmin() {
-        return self::getConfig()->displayTypeOfProductAdmin;
-    }
-    
-    /**
-     * Returns whether the display type of product administration is tabbed or not
-     *
-     * @return boolean 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.09.2011
-     */
-    public static function DisplayTypeOfProductAdminTabbed() {
-        $displayTypeOfProductAdminTabbed = false;
-        if (self::getConfig()->displayTypeOfProductAdmin == 'Tabbed' ) {
-            $displayTypeOfProductAdminTabbed = true;
-        }
-        return $displayTypeOfProductAdminTabbed;
-    }
-    
-    /**
-     * Returns whether the display type of product administration is flat or not
-     *
-     * @return boolean 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.09.2011
-     */
-    public static function DisplayTypeOfProductAdminFlat() {
-        $displayTypeOfProductAdminFlat = false;
-        if (self::getConfig()->displayTypeOfProductAdmin == 'Flat' ) {
-            $displayTypeOfProductAdminFlat = true;
-        }
-        return $displayTypeOfProductAdminFlat;
     }
 
     /**

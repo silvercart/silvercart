@@ -93,6 +93,13 @@ class SilvercartCountry extends DataObject {
     );
     
     /**
+     * Default sort order and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "`SilvercartCountry`.`Active` DESC, `SilvercartCountryLanguage`.`Title` ASC";
+
+        /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
