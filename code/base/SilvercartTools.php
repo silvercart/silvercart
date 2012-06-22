@@ -61,18 +61,36 @@ class SilvercartTools extends Object {
     /**
      * Remove chars from the given string that are not appropriate for an url
      *
-     * @param string $string String to convert
+     * @param string $originalString String to convert
      * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.03.2012
+     * @since 21.06.2012
      */
-    public static function string2urlSegment($string) {
+    public static function string2urlSegment($originalString) {
+        if (function_exists('mb_strtolower')) {
+            $string = mb_strtolower($originalString);
+        } else {
+            $string = strtolower($originalString);
+        }
+        $string     = Object::create('Transliterator')->toASCII($string);
+        $string     = str_replace('&amp;','-and-',$string);
+        $string     = str_replace('&','-and-',$string);
+        $string     = ereg_replace('[^A-Za-z0-9]+','-',$string);
+        $string     = ereg_replace('-+','-',$string);
+        if (!$string || $string == '-' || $string == '-1') {
+            if (function_exists('mb_strtolower')) {
+                $string = mb_strtolower($originalString);
+            } else {
+                $string = strtolower($originalString);
+            }
+        }
+        $string     = trim($string, '-');
         $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', "'", '<', '>');
         $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '',  '');
         $string     = str_replace($remove, $replace, $string);
-        return strtolower(urlencode($string));
+        return urlencode($string);
     }
 
     /**
