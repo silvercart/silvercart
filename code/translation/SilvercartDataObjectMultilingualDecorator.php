@@ -140,11 +140,11 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     
     /**
      * Getter for the related language object depending on the set language
-     * Always returns a SilvercartProductLanguage
      * 
      * @param bool $force Force the creation of an language object?
      *
-     * @return SilvercartProductLanguage
+     * @return Language object for the decorated class, by convention class name + 'Language';
+     *         always returns an object
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.05.2012
