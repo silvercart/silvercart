@@ -61,18 +61,19 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
         $this->setValue($value);
         return parent::Field();
     }
-
+    
     /**
-     * Adds a custom JavaScript to the FieldHolder
-     *
+     * Executes the common field holder routine and returns the custom
+     * javascript code
+     * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2011
+     * @since 22.06.2012
      */
-    public function FieldHolder() {
+    public function FieldHolderScript() {
         Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/script/SilvercartHasManyTextAutoCompleteField.js');
-        return parent::FieldHolder();
+        return parent::FieldHolderScript();
     }
     
     /**

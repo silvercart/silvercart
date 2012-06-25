@@ -103,6 +103,31 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @since 05.10.2011
      */
     public function FieldHolder() {
+        return parent::FieldHolder() . $this->FieldHolderScript();
+    }
+    
+    /**
+     * Returns the small fieldholder for field groups
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.06.2012
+     */
+    public function SmallFieldHolder() {
+        return '<div class="silvercarttextautocomplete">' . parent::SmallFieldHolder() . '</div>' . $this->FieldHolderScript();
+    }
+    
+    /**
+     * Executes the common field holder routine and returns the custom
+     * javascript code
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.06.2012
+     */
+    public function FieldHolderScript() {
         $baseUrl = SilvercartTools::getBaseURLSegment();
         Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.autocomplete.js');
         Requirements::javascript($baseUrl . 'silvercart/script/SilvercartTextAutoCompleteField.js');
@@ -120,8 +145,7 @@ class SilvercartTextAutoCompleteField extends TextField {
         $customScript .= implode(',', $autoCompleteList);
         $customScript .= '];';
         $customScript .= '</script>';
-        
-        return parent::FieldHolder() . $customScript;
+        return $customScript;
     }
     
     /**
