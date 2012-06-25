@@ -84,32 +84,37 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
+             SilvercartDebugHelper::printString("Redirect soll ausgeführt werden.");
+                
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
             }
+            
+            if (Member::currentUserID() > 0) {
+            
+                $stepData = $this->controller->getCombinedStepData();
 
-            $stepData = $this->controller->getCombinedStepData();
-
-            if ($stepData) {
-                if ($stepData['Shipping_Country'] != "") {
-                    $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
-                    if ($shippingCountry) {
-                        $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart()));
-                        foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
-                            if ($paymentMethod->getNestedFormName()) {
-                                $formName = $paymentMethod->getNestedFormName();
-                            } else {
-                                $formName = "SilvercartCheckoutFormStep4DefaultPayment";
-                            }
-                            $params = array(
-                                'PaymentMethod'     => $paymentMethod->ID,
-                            );
-                            $preferences = array(
-                                'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
+                if ($stepData) {
+                    if ($stepData['Shipping_Country'] != "") {
+                        $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                        if ($shippingCountry) {
+                            $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart()));
+                            foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
+                                if ($paymentMethod->getNestedFormName()) {
+                                    $formName = $paymentMethod->getNestedFormName();
+                                } else {
+                                    $formName = "SilvercartCheckoutFormStep4DefaultPayment";
+                                }
+                                $params = array(
+                                    'PaymentMethod'     => $paymentMethod->ID,
                                 );
-                            $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
-                            $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
-                            $this->addRegisteredNestedForm($registeredNestedForm);
+                                $preferences = array(
+                                    'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
+                                    );
+                                $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
+                                $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
+                                $this->addRegisteredNestedForm($registeredNestedForm);
+                            }
                         }
                     }
                 }
