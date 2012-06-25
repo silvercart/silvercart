@@ -61,18 +61,45 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * 
      * @return mixed
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2012
      */
     public function overwriteGetPrice(&$arguments, &$callingObject) {
         $result = $this->extend('pluginOverwriteGetPrice', $arguments, $callingObject);
-
+        
         if (is_array($result)) {
             if (count($result) > 0) {
-                return $result[0];
+                return $this->returnFirstNotNull($result);
             } else {
                 return false;
             }
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * This method will replace SilvercartShoppingCartPosition's method 
+     * "isQuantityIncrementableBy".
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2012
+     */
+    public function overwriteIsQuantityIncrementableBy(&$arguments, &$callingObject) {
+        $quantity   = $arguments[0];
+        $result     = $this->extend('pluginOverwriteIsQuantityIncrementableBy', $quantity, $callingObject);
+
+        if (is_array($result) &&
+            count($result) > 0) {
+            $result = $result[0];
+        } else {
+            $result = null;
         }
         
         return $result;

@@ -32,35 +32,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShoppingCartPosition extends DataObject {
-
-    /**
-     * Singular-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $singular_name = "cart position";
-    /**
-     * Plural-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $plural_name = "cart positions";
+    
     /**
      * attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $db = array(
         'Quantity' => 'Int'
@@ -70,10 +46,6 @@ class SilvercartShoppingCartPosition extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_one = array(
         'SilvercartProduct'      => 'SilvercartProduct',
@@ -84,27 +56,8 @@ class SilvercartShoppingCartPosition extends DataObject {
      * Indicates wether the forms should be loaded.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.04.2011
      */
     public static $doCreateForms = true;
-    
-    /**
-     * Sets wether the form objects should be created.
-     *
-     * @param boolean $doCreateForms Indicates wether the forms should be loaded.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.04.2011
-     */
-    public static function setCreateForms($doCreateForms = true) {
-        self::$doCreateForms = $doCreateForms;
-    }
 
     /**
      * Registers the edit-forms for this position.
@@ -154,6 +107,41 @@ class SilvercartShoppingCartPosition extends DataObject {
             
             $this->extend('updateCreateForms');
         }
+    }
+
+    /**
+     * Returns the translated singular name of the object.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+    /**
+     * Returns the translated plural name of the object.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this);
+    }
+    
+    /**
+     * Sets wether the form objects should be created.
+     *
+     * @param boolean $doCreateForms Indicates wether the forms should be loaded.
+     *
+     * @return void
+     */
+    public static function setCreateForms($doCreateForms = true) {
+        self::$doCreateForms = $doCreateForms;
     }
 
     /**
@@ -271,20 +259,26 @@ class SilvercartShoppingCartPosition extends DataObject {
      * 
      * @return bool Can this position be incremented
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2012
      */
     public function isQuantityIncrementableBy($quantity = 1) {
-        if (SilvercartConfig::EnableStockManagement()) {
+        $isQuantityIncrementableBy  = true;
+        $pluginResult               = SilvercartPlugin::call($this, 'overwriteIsQuantityIncrementableBy', $quantity, false, 'DataObject');
+        
+        if (is_null($pluginResult) &&
+            SilvercartConfig::EnableStockManagement()) {
+            $isQuantityIncrementableBy = false;
             if ($this->SilvercartProduct()->isStockQuantityOverbookable()) {
-                return true;
+                $isQuantityIncrementableBy = true;
+            } elseif ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
+                $isQuantityIncrementableBy = true;
             }
-            if ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
-                return true;
-            }
-            return false;
+        } elseif (!is_null($pluginResult) &&
+                  is_bool($pluginResult)) {
+            $isQuantityIncrementableBy = $pluginResult;
         }
-        return true;
+        return $isQuantityIncrementableBy;
     }
     
     /**

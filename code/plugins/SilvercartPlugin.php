@@ -343,4 +343,29 @@ class SilvercartPlugin extends Object {
         }
         return $result;
     }
+    
+    /**
+     * Extension results consist of potential null values. The first not null 
+     * value will be returned.
+     *
+     * @param array $extensionResultSet The result delivered by an extension
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.04.2012
+     */
+    public function returnFirstNotNull($extensionResultSet) {
+        $result = null;
+        
+        if (is_array($extensionResultSet)) {
+            foreach ($extensionResultSet as $extensionResult) {
+                if (!is_null($extensionResult)) {
+                    $result = $extensionResult;
+                    break;
+                }
+            }
+        }
+        return $result;
+    }
 }
