@@ -20,19 +20,12 @@
         <% control SilvercartOrderListPositions %>
             <tr class="$EvenOrOdd">
                 <td class="left">$ProductNumber</td>
-                <td class="left">$Title.RAW</td>
+                <td class="left">$Title.RAW<br/>$addToTitle.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
                 <td class="right quantity">$Quantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
-            <% if productVariantDefinition %>
-                <tr class="subrow">
-                    <td colspan="6">
-                        $productVariantDefinition.RAW
-                    </td>
-                </tr>
-            <% end_if %>
             <% if SilvercartVoucherCode %>
                 <tr class="subrow">
                     <td colspan="6">

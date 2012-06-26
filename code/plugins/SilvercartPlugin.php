@@ -300,14 +300,15 @@ class SilvercartPlugin extends Object {
      * Extension results consist of arrays. This method concatenates all array
      * entries into a string, separated by <br/>.
      *
-     * @param array $extensionResultSet The result delivered by an extension
+     * @param array  $extensionResultSet The result delivered by an extension
+     * @param string $prefix             A prefix string to add
      *
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public function returnExtensionResultAsHtmlString($extensionResultSet) {
+    public function returnExtensionResultAsHtmlString($extensionResultSet, $prefix = '') {
         $result = '';
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $key => $extensionResult) {
@@ -317,7 +318,10 @@ class SilvercartPlugin extends Object {
                     unset($extensionResultSet[$key]);
                 }
             }
-            $result = implode('<br/>', $extensionResultSet);
+            $result = implode('<br/>' . $prefix, $extensionResultSet);
+            if (!empty($result)) {
+                $result = $prefix . $result;
+            }
         }
         return $result;
     }

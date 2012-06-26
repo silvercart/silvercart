@@ -99,8 +99,9 @@ class SilvercartOrderPosition extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'PriceNice' => 'VarChar(255)',
-        'PriceTotalNice' => 'VarChar(255)',
+        'PriceNice'         => 'VarChar(255)',
+        'PriceTotalNice'    => 'VarChar(255)',
+        'FullTitle'         => 'HtmlText',
     );
 
     /**
@@ -172,7 +173,7 @@ class SilvercartOrderPosition extends DataObject {
     public function summaryFields() {
         $summaryFields = array(
             'ProductNumber'         => $this->fieldLabel('ProductNumber'),
-            'Title'                 => $this->fieldLabel('Title'),
+            'FullTitle'             => $this->fieldLabel('Title'),
             'PriceNice'             => $this->fieldLabel('Price'),
             'TaxRate'               => $this->fieldLabel('TaxRate'),
             'Quantity'              => $this->fieldLabel('Quantity'),
@@ -198,6 +199,15 @@ class SilvercartOrderPosition extends DataObject {
      */
     public function getPriceTotalNice() {
         return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
+    }
+
+    /**
+     * returns the order positions Title with extensions
+     *
+     * @return string
+     */
+    public function getFullTitle() {
+        return $this->Title . '<br/>' . $this->addToTitle();
     }
 
     /**
@@ -495,5 +505,18 @@ class SilvercartOrderPosition extends DataObject {
         }
 
         parent::onBeforeDelete();
+    }
+
+    /**
+     * Returns additional tile information provided by plugins
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2012
+     */
+    public function addToTitle() {
+        $addToTitle = SilvercartPlugin::call($this, 'addToTitle', null, false, '');
+        return $addToTitle;
     }
 }
