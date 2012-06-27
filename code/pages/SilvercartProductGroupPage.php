@@ -283,15 +283,19 @@ class SilvercartProductGroupPage extends Page {
             $urlElems = explode('/', $blankUrl);
             array_pop($urlElems);
             $productId = array_pop($urlElems);
-            
-            $silvercartProduct = DataObject::get_by_id(
-                'SilvercartProduct',
-                Convert::raw2xml($productId)
-            );
-            
-            if ($silvercartProduct) {
+            if (is_numeric($productId)) {
+                $silvercartProduct = DataObject::get_by_id(
+                    'SilvercartProduct',
+                    Convert::raw2xml($productId)
+                );
+
+                if ($silvercartProduct) {
+                    $backPage = new DataObject();
+                    $backPage->MenuTitle = $silvercartProduct->Title;
+                }
+            } else {
                 $backPage = new DataObject();
-                $backPage->MenuTitle = $silvercartProduct->Title;
+                $backPage->MenuTitle = _t('SilvercartPage.BACK_TO_DEFAULT');
             }
         }
         
