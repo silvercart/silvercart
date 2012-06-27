@@ -39,28 +39,28 @@ class SilvercartFile extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.12.2011
      */
     public static $has_one = array(
         'SilvercartProduct' => 'SilvercartProduct',
-        'File' => 'File',
+        'File'              => 'File',
     );
     
+    /**
+     * Castings
+     *
+     * @var array
+     */
     public static $casting = array(
-        'Title' => 'VarChar',
-        'Description' => 'HTMLText',
-        'TableIndicator' => 'VarChar'
+        'Title'             => 'VarChar',
+        'Description'       => 'HTMLText',
+        'TableIndicator'    => 'VarChar',
+        'FileIcon'          => 'HTMLText',
     );
     
     /**
      * 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public static $has_many = array(
         'SilvercartFileLanguages' => 'SilvercartFileLanguage'
@@ -70,32 +70,27 @@ class SilvercartFile extends DataObject {
      * getter for the Title, looks for set translation
      * 
      * @return string The Title from the translation object or an empty string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**
      * getter for the Description, looks for set translation
      * 
      * @return string The description from the translation object or an empty string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public function getDescription() {
-        $description = '';
-        if ($this->getLanguage()) {
-            $description = $this->getLanguage()->Description;
-        }
-        return $description;
+        return $this->getLanguageFieldValue('Description');
+    }
+
+    /**
+     * Returns a HTML snippet for the related Files icon.
+     *
+     * @return string
+     */
+    public function getFileIcon() {
+        return '<img src="' . $this->File()->Icon() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />';
     }
     
     /**
@@ -104,15 +99,11 @@ class SilvercartFile extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2012
      */
     public function singular_name() {
-        if (_t('SilvercartFile.SINGULARNAME')) {
-            return _t('SilvercartFile.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -121,15 +112,11 @@ class SilvercartFile extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2012
      */
     public function plural_name() {
-        if (_t('SilvercartFile.PLURALNAME')) {
-            return _t('SilvercartFile.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
 
     /**
@@ -147,7 +134,10 @@ class SilvercartFile extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'SilvercartFileLanguages' => _t('SilvercartFileLanguage.PLURALNAME')
+                'Title'                     => _t('SilvercartFile.TITLE'),
+                'FileIcon'                  => _t('SilvercartFile.FILEICON'),
+                'TableIndicator'            => _t('SilvercartFile.TABLE_INDICATOR'),
+                'SilvercartFileLanguages'   => _t('SilvercartFileLanguage.PLURALNAME'),
             )
         );
 
@@ -160,28 +150,19 @@ class SilvercartFile extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title'          => $this->fieldLabels['Title'],
-            'TableIndicator' => $this->fieldLabels['TableIndicator']
+            'FileIcon'       => $this->fieldLabel('FileIcon'),
+            'Title'          => $this->fieldLabel('Title'),
+            'TableIndicator' => $this->fieldLabel('TableIndicator'),
         );
 
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
-    }
-
-    /**
-     * Returns a HTML snippet for the related Files icon.
-     *
-     * @return string
-     */
-    public function getFileIcon() {
-        return '<img src="' . $this->File()->Icon() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />';
     }
     
     /**
