@@ -420,6 +420,8 @@ class SilvercartShippingFee extends DataObject {
         }
 
         $price = round($price, 2);
+        
+        $this->extend('updatePriceAmount', $price);
 
         return $price;
     }
