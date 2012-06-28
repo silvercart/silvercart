@@ -418,6 +418,8 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             }
             
             $list .= '<div class="silvercart-slidorion-slide" style="background: url('.$imageUrl.') no-repeat center;">';
+            $list .= '<div class="silvercart-slidorion-slide-prev"><div class="arrow"><div></div></div></div>';
+            $list .= '<div class="silvercart-slidorion-slide-next"><div class="arrow_outer"><div class="arrow"><div></div></div></div></div>';
             $list .= $SilvercartImage->Content;
             $list .= '</div>';
         }
@@ -538,12 +540,27 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
             sprintf(
                 "
                 (function($) {jQuery(document).ready(function(){
-                    $('#silvercart-slidorion-%d').slidorion({
+                    var slidorionSelector = '#silvercart-slidorion-%d';
+                    $(slidorionSelector).slidorion({
                         speed:      %d,
                         interval:   %d,
                         effect:     '%s',
                         hoverPause: %s,
                         autoPlay:   %s
+                    });
+                    $(slidorionSelector + ' .silvercart-slidorion-slide-prev').click(function() {
+                        var prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').prevAll('.silvercart-slidorion-link-header');
+                        if (prevObj.length == 0) {
+                            prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').last();
+                        }
+                        prevObj.trigger('click');
+                    });
+                    $(slidorionSelector + ' .silvercart-slidorion-slide-next').click(function() {
+                        var nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').nextAll('.silvercart-slidorion-link-header');
+                        if (nextObj.length == 0) {
+                            nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').first();
+                        }
+                        nextObj.trigger('click');
                     });
                 })})(jQuery);
                 ",
