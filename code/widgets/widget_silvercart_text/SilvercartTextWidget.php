@@ -33,6 +33,10 @@
  */
 class SilvercartTextWidget extends SilvercartWidget {
     
+    public static $db = array(
+        'isContentView'     => 'Boolean',
+    );
+    
     public static $casting = array(
         'Headline'          => 'Text',
         'FreeText'          => 'HTMLText',
@@ -131,6 +135,7 @@ class SilvercartTextWidget extends SilvercartWidget {
                 'SilvercartTextWidgetLanguages' => _t('SilvercartTextWidgetLanguage.PLURALNAME'),
                 'Headline'                      => _t('SilvercartText.HEADLINEFIELD_LABEL'),
                 'FreeText'                      => _t('SilvercartText.FREETEXTFIELD_LABEL'),
+                'isContentView'                 => _t('SilvercartTextWidget.IS_CONTENT_VIEW'),
             )
         );
 
@@ -179,12 +184,14 @@ class SilvercartTextWidget extends SilvercartWidget {
         
         $cssField           = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
         $languageTableField = new ComplexTableField($this, 'SilvercartTextWidgetLanguages', 'SilvercartTextWidgetLanguage');
+        $isContentView      = new CheckboxField('isContentView', $this->fieldLabel('isContentView'));
         
         $fields->push($rootTabSet);
         $rootTabSet->push($mainTab);
         $rootTabSet->push($translationsTab);
         
         $mainTab->push($cssField);
+        $mainTab->push($isContentView);
         $translationsTab->push($languageTableField);
         //multilingual fields, in fact just the title
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));

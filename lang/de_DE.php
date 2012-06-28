@@ -1620,6 +1620,8 @@ $lang['de_DE']['SilvercartText']['CSSFIELD_LABEL']      = 'Zusätzliche CSS Klas
 $lang['de_DE']['SilvercartText']['FREETEXTFIELD_LABEL'] = 'Ihr Text:';
 $lang['de_DE']['SilvercartText']['HEADLINEFIELD_LABEL'] = 'Überschrift (optional):';
 
+$lang['de_DE']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       = 'Inhaltsansicht statt Widgetansicht verwenden';
+
 $lang['de_DE']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = _t('Silvercart.TRANSLATION');
 
