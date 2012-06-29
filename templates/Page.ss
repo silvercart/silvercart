@@ -51,7 +51,7 @@
                         <div class="subcr">
                             
                             <div class="subcolumns">
-                                <div class="c50l">
+                                <div class="c60l">
                                     <div class="subcl">
                                         <% if CurrentRegisteredCustomer %>
                                             <div class="silvercart-headerbar-actions right">
@@ -107,7 +107,7 @@
                                         <% end_if %>
                                     </div>
                                 </div>
-                                <div class="c50r">
+                                <div class="c40r">
                                     <div class="subcr">
                                         <div class="silvercart-headerbar-actions right">
                                             <% if SilvercartShoppingCart %>
