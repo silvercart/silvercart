@@ -304,10 +304,9 @@ class SilvercartLanguageHelper {
 
                 $localeFileName = "$base/silvercart-cache/lang/$locale.php";
 
-                if (    is_dir("$base/$module")
-                    &&  file_exists("$base/$module/_config.php") 
-                    && !file_exists($localeFileName)
-                    &&  file_exists("$base/$module/lang/en_US.php")
+                if (   is_dir("$base/$module")
+                    && file_exists("$base/$module/_config.php") 
+                    && file_exists("$base/$module/lang/en_US.php")
                 ) {
 
                     $moduleIncludeStr[] =  "i18n::include_locale_file('".$module."', 'en_US');";
