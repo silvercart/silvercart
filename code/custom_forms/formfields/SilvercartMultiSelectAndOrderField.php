@@ -81,23 +81,24 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
     protected $relationName;
     
     /**
-	 * Creates a new SilvercartMultiSelectAndOrder field.
-	 * 
-	 * @param DataObject   $sourceClass  The source class object
-	 * @param string       $relationName The name of the relation
-	 * @param string       $title        The field title
-	 * @param array        $source       An map of the dropdown items
-	 * @param string|array $value        You can pass an array of values or a single value like a drop down to be selected
-	 * @param int          $size         Optional size of the select element
-	 * @param boolean      $multiple     Indicates wether multiple entries can be selected
-	 * @param form         $form         The parent form
+     * Creates a new SilvercartMultiSelectAndOrder field.
+     * 
+     * @param DataObject   $sourceClass  The source class object
+     * @param string       $relationName The name of the relation
+     * @param string       $name         The field name
+     * @param string       $title        The field title
+     * @param array        $source       An map of the dropdown items
+     * @param string|array $value        You can pass an array of values or a single value like a drop down to be selected
+     * @param int          $size         Optional size of the select element
+     * @param boolean      $multiple     Indicates wether multiple entries can be selected
+     * @param form         $form         The parent form
      * 
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
-	 */
-    function __construct($sourceClass, $relationName, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function __construct($sourceClass, $relationName, $name, $title = '', $source = array(), $value = '', $size = null, $multiple = false, $form = null) {
         parent::__construct($name, $title, $source, $value, $form);
         
         $this->dataObj      = $sourceClass;
@@ -109,8 +110,8 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function FieldHolder() {
         $source             = $this->getSource();
@@ -139,7 +140,7 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
                 if (!$this->dataObj->$relationName()->find('name', $value)) {
                     $availableItems['item_'.$availableItemIdx] = new ArrayData(
                         array(
-                            'value'             => $value,
+                            'value'             => $key,
                             'label'             => $value
                         )
                     );
@@ -226,7 +227,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * Adds the abillity to execute additional actions to the model admin's
      * action handling.
      *
-     * @param SS_HTTPRequest $request
+     * @param SS_HTTPRequest $request HTTP request
      * 
      * @return mixed
      * 
@@ -307,8 +308,8 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doAddCallbackField($vars, SS_HTTPRequest $request) {
         if (isset($vars['ID'])) {
@@ -336,7 +337,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -351,8 +352,8 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doAttributeItems($vars, SS_HTTPRequest $request) {
 
@@ -384,7 +385,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -399,8 +400,8 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doRemoveItems($vars, SS_HTTPRequest $request) {
 
@@ -435,7 +436,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -450,8 +451,8 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doMoveUpItems($vars, SS_HTTPRequest $request) {
 
@@ -490,7 +491,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();
@@ -505,8 +506,8 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doMoveDownItems($vars, SS_HTTPRequest $request) {
 
@@ -545,7 +546,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
         }
 
         // Behaviour switched on ajax.
-        if(Director::is_ajax()) {
+        if (Director::is_ajax()) {
             return $this->edit($request);
         } else {
             Director::redirectBack();

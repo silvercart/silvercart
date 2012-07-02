@@ -39,9 +39,6 @@ class SilvercartProductExporter extends DataObject {
      * be 'SilvercartProduct'.
      * 
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
      */
     protected $objName;
     
@@ -49,19 +46,20 @@ class SilvercartProductExporter extends DataObject {
      * Contains the path to the export directory.
      * 
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
      */
     protected $exportDirectory;
+    
+    /**
+     * Contains the URL to the export directory.
+     * 
+     * @var string
+     */
+    protected $exportURL;
     
     /**
      * Character to quote a text with special characters.
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
      */    
     protected $quoteCharacter = '"';
     
@@ -69,53 +67,13 @@ class SilvercartProductExporter extends DataObject {
      * Contains the objects we're operating on.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
      */
     protected $dataObjects = array();
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.08.2011
-     */
-    public function singular_name() {
-        if (_t('SilvercartProductExporter.SINGULAR_NAME')) {
-            return _t('SilvercartProductExporter.SINGULAR_NAME');
-        } else {
-            return parent::singular_name();
-        } 
-    }
-    
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.08.2011 
-     */
-    public function plural_name() {
-        if (_t('SilvercartProductExporter.PLURAL_NAME')) {
-            return _t('SilvercartProductExporter.PLURAL_NAME');
-        } else {
-            return parent::plural_name();
-        }   
-    }
     
     /**
      * Attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.07.2011
      */
     public static $db = array(
         'isActive'                              => 'Boolean(0)',
@@ -139,13 +97,36 @@ class SilvercartProductExporter extends DataObject {
      * Has-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
      */
     public static $has_many = array(
         'SilvercartProductExporterFields' => 'SilvercartProductExporterField'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this);
+    }
     
     /**
      * We initialise the obj variable here.
@@ -157,14 +138,15 @@ class SilvercartProductExporter extends DataObject {
      * 
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         
         $this->objName          = 'SilvercartProduct';
         $this->exportDirectory  = Director::baseFolder().'/silvercart/product_exports/';
+        $this->exportUrl        = Director::absoluteBaseURL().'/silvercart/product_exports/';
     }
     
     /**
@@ -207,7 +189,6 @@ class SilvercartProductExporter extends DataObject {
      * @return array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 05.07.2011
      */
     public function searchableFields() {
@@ -256,14 +237,15 @@ class SilvercartProductExporter extends DataObject {
      *
      * @return FieldSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function getCMSFields($params = null) {
-        $fields     = parent::getCMSFields($params);
-        $tabset     = new TabSet('Sections');
-        $dbFields   = DataObject::database_fields('SilvercartProduct');
-        $lastExport = $this->lastExportDateTime;
+        $fields             = parent::getCMSFields($params);
+        $tabset             = new TabSet('Sections');
+        $dbFields           = DataObject::database_fields('SilvercartProduct');
+        $languageDbFields   = DataObject::database_fields('SilvercartProductLanguage');
+        $lastExport         = $this->lastExportDateTime;
         
         if (!$lastExport) {
             $lastExport = '---';
@@ -312,12 +294,24 @@ class SilvercartProductExporter extends DataObject {
         $tabExportFieldDefinitions = new Tab('ExportFieldDefinitions', _t('SilvercartProductExportAdmin.TAB_EXPORT_FIELD_DEFINITIONS', 'Export field definitions'));
         $tabset->push($tabExportFieldDefinitions);
         
-        $attributedFields   = array();
         $availableFields    = array();
+        $product            = singleton('SilvercartProduct');
         
         foreach ($dbFields as $fieldName => $fieldType) {
-            $availableFields[$fieldName] = $fieldName;
+            $fieldLabelTarget = $fieldName;
+            if (substr($fieldName, -2) === 'ID') {
+                $fieldLabelTarget = substr($fieldName, 0, -2);
+            }
+            $availableFields[$fieldName] = $product->fieldLabel($fieldLabelTarget) . ' [' . $fieldName . ']';
         }
+        foreach ($languageDbFields as $fieldName => $fieldType) {
+            if ($fieldName == 'Locale') {
+                continue;
+            }
+            $availableFields[$fieldName] = $product->fieldLabel($fieldName) . ' [' . $fieldName . ']';
+        }
+        
+        asort($availableFields);
         
         $multiSelect2SideField = new SilvercartMultiSelectAndOrderField(
             $this,
@@ -383,36 +377,53 @@ class SilvercartProductExporter extends DataObject {
      * 
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function doExport($exportTimeStamp = null) {
-        $fileName = $this->name.'.csv';
-        $records  = DB::query(
-            sprintf("
+        $obj        = singleton($this->objName);
+        if ($obj->hasExtension('SilvercartDataObjectMultilingualDecorator')) {
+            $query = sprintf("
                 SELECT
                     *
                 FROM
-                    %s
+                    `%s`
+                LEFT JOIN
+                    `%s`
+                    ON (`%s`.`ID` = `%s`.`%sID`)
                 WHERE
                     %s
-            ",
-            $this->objName,
-            $this->getSqlFilter()
-            )
-        );
+                ",
+                $this->objName,
+                $this->objName . 'Language',
+                $this->objName,
+                $this->objName . 'Language',
+                $this->objName,
+                $this->getSqlFilter()
+            );
+        } else {
+            $query = sprintf("
+                SELECT
+                    *
+                FROM
+                    `%s`
+                WHERE
+                    %s
+                ",
+                $this->objName,
+                $this->getSqlFilter()
+            );
+        }
+        $records    = DB::query($query);
         
         if ($records) {
-            if ($fp = fopen($this->exportDirectory.$fileName, 'w')) {
+            file_put_contents($this->getExportFilePath(), '');
+            if ($this->activateCsvHeaders) {
+                file_put_contents($this->getExportFilePath(), $this->getHeaderRow(), FILE_APPEND);
+            }
 
-                if ($this->activateCsvHeaders) {
-                    fwrite($fp, $this->getHeaderRow());
-                }
-
-                foreach ($records as $record) {
-                    fwrite($fp, $this->getCsvRowFromRecord($record));
-                }
-                fclose($fp);
+            foreach ($records as $record) {
+                file_put_contents($this->getExportFilePath(), $this->getCsvRowFromRecord($record), FILE_APPEND);
             }
         }
         
@@ -424,39 +435,69 @@ class SilvercartProductExporter extends DataObject {
         
         // Create timestamp file according to configuration
         if ($this->createTimestampFile) {
-            $timestampFileName = $this->name.'_timestamp.txt';
-            
-            if ($fp = fopen($this->exportDirectory.$timestampFileName, 'w')) {
-
-                fwrite($fp, $exportTimeStamp);
-                fclose($fp);
-            }
+            file_put_contents($this->getTimeStampFilePath(), $exportTimeStamp);
         }
     }
     
+    /**
+     * Returns the export file path
+     *
+     * @return string
+     */
+    public function getExportFilePath() {
+        return $this->exportDirectory . $this->name . '.csv';
+    }
+    
+    /**
+     * Returns the export file URL
+     *
+     * @return string
+     */
+    public function getExportFileURL() {
+        return $this->exportURL . $this->name . '.csv';
+    }
+    
+    /**
+     * Returns the export file path
+     *
+     * @return string
+     */
+    public function getTimeStampFilePath() {
+        return $this->exportDirectory . $this->name . '_timestamp.txt';
+    }
+    
+    /**
+     * Returns the export file URL
+     *
+     * @return string
+     */
+    public function getTimeStampFileURL() {
+        return $this->exportURL . $this->name . '_timestamp.txt';
+    }
+
     /**
      * Returns the filter for the SQL query as string.
      *
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     protected function getSqlFilter() {
-        $filter = "isActive = 1";
+        $filter = "`" . $this->objName . "`.`isActive` = 1";
         
         if ($this->selectOnlyProductsWithProductGroup) {
-            $filter .= " AND SilvercartProductGroupID > 0";
+            $filter .= " AND `" . $this->objName . "`.`SilvercartProductGroupID` > 0";
         }
         if ($this->selectOnlyProductsWithImage) {
             
         }
         if ($this->selectOnlyProductsWithManufacturer) {
-            $filter .= " AND SilvercartManufacturerID > 0";
+            $filter .= " AND `" . $this->objName . "`.`SilvercartManufacturerID` > 0";
         }
         if ($this->selectOnlyProductsWithQuantity) {
             $filter .= sprintf(
-                " AND Quantity > %d",
+                " AND `" . $this->objName . "`.`Quantity` > %d",
                 $this->selectOnlyProductsQuantity
             );
         }

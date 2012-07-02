@@ -69,11 +69,11 @@ class SilvercartProductExportTableListField extends TableListField {
             'class'         => 'exportlink'
         ),
         'delete' => array(
-			'label'         => 'Delete',
-			'icon'          => 'cms/images/delete.gif',
-			'icon_disabled' => 'cms/images/delete_disabled.gif',
-			'class'         => 'deletelink' 
-		)
+            'label'         => 'Delete',
+            'icon'          => 'cms/images/delete.gif',
+            'icon_disabled' => 'cms/images/delete_disabled.gif',
+            'class'         => 'deletelink' 
+        )
     );
     
     /**
@@ -174,8 +174,8 @@ class SilvercartProductExportTableListField_ItemRequest extends TableListField_I
      *
      * @return SilvercartProductExportTableListField
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function export() {
         if ($this->ctf->Can('export') !== true) {
@@ -184,7 +184,7 @@ class SilvercartProductExportTableListField_ItemRequest extends TableListField_I
         $this->dataObj()->doExport();
         
         if (Director::is_ajax()) {
-            $collectionController = new SilvercartProductExportAdmin_CollectionController(new SilvercartShopAdministrationAdmin(), 'SilvercartProductExporter');
+            $collectionController = new SilvercartProductExportAdmin_CollectionController(new SilvercartProductExporterAdmin(), 'SilvercartProductExporter');
             $ResultsForm = $collectionController->ResultsForm(array());
             return $ResultsForm->forAjaxTemplate();
         } else {

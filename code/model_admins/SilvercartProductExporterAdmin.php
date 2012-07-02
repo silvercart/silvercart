@@ -82,6 +82,12 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
     );
 
     /**
+     * Class name of the form field used for the results list.  Overloading this in subclasses
+     * can let you customise the results table field.
+     */
+    protected $resultsTableClassName = 'SilvercartProductExportTableListField';
+
+    /**
      * Constructor
      *
      * @return void
@@ -90,8 +96,8 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartProductExporter.PLURAL_NAME');
-        self::$managed_models['SilvercartProductExporter']['title'] = _t('SilvercartProductExport.SINGULAR_NAME');
+        self::$menu_title = _t('SilvercartProductExporter.PLURALNAME');
+        self::$managed_models['SilvercartProductExporter']['title'] = _t('SilvercartProductExport.SINGULARNAME');
         
         parent::__construct();
     }
@@ -115,19 +121,11 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function resultsTableClassName() {
         $className = $this->resultsTableClassName;
-
-        if (isset($this->urlParams['Action']) ) {
-            if ($this->urlParams['Action'] == 'SilvercartProductExporter') {
-                $className = 'SilvercartProductExportTableListField';
-            }
-        }
-        
         return $className;
     }
 }

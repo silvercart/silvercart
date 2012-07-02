@@ -465,8 +465,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -478,12 +478,16 @@ class SilvercartProduct extends DataObject {
                 'manufacturer.Title'                    => _t('SilvercartManufacturer.SINGULARNAME'),
                 'PurchasePrice'                         => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
                 'PurchasePriceAmount'                   => _t('SilvercartProduct.PURCHASEPRICE', 'purchase price'),
+                'PurchasePriceCurrency'                 => _t('SilvercartProduct.PURCHASEPRICE_CURRENCY', 'purchase currency'),
                 'MSRPrice'                              => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'MSRPriceAmount'                        => _t('SilvercartProduct.MSRP', 'MSR price'),
+                'MSRPriceCurrency'                      => _t('SilvercartProduct.MSRP_CURRENCY', 'MSR currency'),
                 'PriceGross'                            => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossAmount'                      => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
+                'PriceGrossCurrency'                    => _t('SilvercartProduct.PRICE_GROSS_CURRENCY', 'currency (gross)'),
                 'PriceNet'                              => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
                 'PriceNetAmount'                        => _t('SilvercartProduct.PRICE_NET', 'price (net)'),
+                'PriceNetCurrency'                      => _t('SilvercartProduct.PRICE_NET_CURRENCY', 'currency (net)'),
                 'MetaDescription'                       => _t('SilvercartProduct.METADESCRIPTION', 'meta description'),
                 'Weight'                                => _t('SilvercartProduct.WEIGHT', 'weight'),
                 'MetaTitle'                             => _t('SilvercartProduct.METATITLE', 'meta title'),

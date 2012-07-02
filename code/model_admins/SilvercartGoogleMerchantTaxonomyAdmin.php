@@ -132,9 +132,9 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartGoogleMerchantTaxonomy.PLURAL_NAME');
+        self::$menu_title = _t('SilvercartGoogleMerchantTaxonomy.PLURALNAME');
 
-        self::$managed_models['SilvercartGoogleMerchantTaxonomy']['title']  = _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME');
+        self::$managed_models['SilvercartGoogleMerchantTaxonomy']['title']  = _t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME');
         
         parent::__construct();
     }

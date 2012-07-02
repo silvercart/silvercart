@@ -145,8 +145,8 @@ $lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['LEVEL3']    = 'Niveau 3';
 $lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['LEVEL4']    = 'Niveau 4';
 $lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['LEVEL5']    = 'Niveau 5';
 $lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['LEVEL6']    = 'Niveau 6';
-$lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['SINGULAR_NAME'] = 'Google systematiek';
-$lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['PLURAL_NAME']   = 'Google systematiek';
+$lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['SINGULARNAME'] = 'Google systematiek';
+$lang['nl_NL']['SilvercartGoogleMerchantTaxonomy']['PLURALNAME']   = 'Google systematiek';
 
 $lang['nl_NL']['SilvercartImageSliderImage']['LINKPAGE'] = 'Pagina die is gekoppeld aan';
 
@@ -273,9 +273,9 @@ $lang['nl_NL']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANT
 $lang['nl_NL']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['nl_NL']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update periode';
 $lang['nl_NL']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
-$lang['nl_NL']['SilvercartProductExport']['SINGULAR_NAME']                                  = 'Product exporter';
-$lang['nl_NL']['SilvercartProductExporter']['PLURAL_NAME']                                  = 'Product exporters';
-$lang['nl_NL']['SilvercartProductExporter']['SINGULAR_NAME']                                = 'Product exporter';
+$lang['nl_NL']['SilvercartProductExport']['SINGULARNAME']                                   = 'Product exporter';
+$lang['nl_NL']['SilvercartProductExporter']['PLURALNAME']                                   = 'Product exporters';
+$lang['nl_NL']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Product exporter';
 
 $lang['nl_NL']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Overdracth aan';
 $lang['nl_NL']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';

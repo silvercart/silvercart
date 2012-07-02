@@ -458,7 +458,7 @@ class SilvercartProductGroupPage extends Page {
         }
         $fields->addFieldToTab('Root.Content.Metadata', new DropdownField(
             'SilvercartGoogleMerchantTaxonomyID',
-            _t('SilvercartGoogleMerchantTaxonomy.SINGULAR_NAME'),
+            _t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME'),
             $breadcrumbList
         ));
 
