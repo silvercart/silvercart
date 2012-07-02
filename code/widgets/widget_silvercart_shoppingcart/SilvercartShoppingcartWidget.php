@@ -102,6 +102,29 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
     public function CartLink() {
         return Controller::curr()->PageByIdentifierCodeLink('SilvercartCartpage');
     }
+        
+    /**
+     * Creates the cache key for this widget.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.07.2012
+     */
+    public function WidgetCacheKey() {
+        $key    = i18n::get_locale().'_'.$this->LastEdited.'_';
+        $member = Member::currentUser();
+        
+        if ($member) {
+            $cart = $member->SilvercartShoppingCart();
+            
+            if ($cart) {
+                $key .= $cart->LastEdited.'_'.$cart->ID;
+            }
+        }
+        
+        return $key;
+    }
     
     /**
      * field label method

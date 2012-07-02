@@ -68,6 +68,18 @@ class SilvercartPage extends SiteTree {
         'WidgetSetSidebar'  => 'SilvercartWidgetSet',
         'WidgetSetContent'  => 'SilvercartWidgetSet'
     );
+    
+    /**
+     * Define indexes.
+     *
+     * @var array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.07.2012
+     */
+    public static $indexes = array(
+        'IdentifierCode' => '(IdentifierCode)'
+    );
 
     /**
      * Define editing fields for the storeadmin.

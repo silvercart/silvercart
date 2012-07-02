@@ -407,6 +407,9 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function onAfterWrite() {
         parent::onAfterWrite();
         
+        $this->SilvercartShoppingCart()->LastEdited = $this->LastEdited;
+        $this->SilvercartShoppingCart()->write();
+        
         $this->extend('updateOnAfterWrite');
     }
     
