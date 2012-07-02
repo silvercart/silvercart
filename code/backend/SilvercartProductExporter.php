@@ -103,6 +103,27 @@ class SilvercartProductExporter extends DataObject {
     );
     
     /**
+     * We initialise the obj variable here.
+     * 
+     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of field values.
+     *                                Normally this contructor is only used by the internal systems that get objects from the database.
+	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.
+     *                                Singletons don't have their defaults set.
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+        
+        $this->objName          = 'SilvercartProduct';
+        $this->exportDirectory  = Director::baseFolder() . '/silvercart/product_exports/';
+        $this->exportURL        = Director::absoluteBaseURL() . '/silvercart/product_exports/';
+    }
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -126,27 +147,6 @@ class SilvercartProductExporter extends DataObject {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this);
-    }
-    
-    /**
-     * We initialise the obj variable here.
-     * 
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of field values.
-     *                                Normally this contructor is only used by the internal systems that get objects from the database.
-	 * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.
-     *                                Singletons don't have their defaults set.
-     * 
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2012
-     */
-    public function __construct($record = null, $isSingleton = false) {
-        parent::__construct($record, $isSingleton);
-        
-        $this->objName          = 'SilvercartProduct';
-        $this->exportDirectory  = Director::baseFolder().'/silvercart/product_exports/';
-        $this->exportUrl        = Director::absoluteBaseURL().'/silvercart/product_exports/';
     }
     
     /**
@@ -267,7 +267,8 @@ class SilvercartProductExporter extends DataObject {
                 $fields->dataFieldByName('updateIntervalPeriod'),
                 $fields->dataFieldByName('pushEnabled'),
                 $fields->dataFieldByName('pushToUrl'),
-                new LiteralField('lastExportDateTime', '<p>'._t('SilvercartProductExport.FIELD_LAST_EXPORT_DATE_TIME').': '.$lastExport.'</p>')
+                new LiteralField('lastExportDateTime', '<p>'._t('SilvercartProductExport.FIELD_LAST_EXPORT_DATE_TIME').': '.$lastExport.'</p>'),
+                new LiteralField('exportURL', _t('SilvercartProductExporter.URL') . ':<br/><a href="' . $this->getExportFileURL() . '" target="blank">' . $this->getExportFileURL() . '</a>')
             )
         );
         

@@ -336,6 +336,7 @@ $lang['en_GB']['SilvercartProductExport']['PLURAL_NAME']                        
 $lang['en_GB']['SilvercartProductExport']['SINGULARNAME']                                   = 'Product exporter';
 $lang['en_GB']['SilvercartProductExporter']['PLURALNAME']                                   = 'Price portal exporters';
 $lang['en_GB']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Price portal exporter';
+$lang['en_GB']['SilvercartProductExporter']['URL']                                          = 'URL';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
 $lang['en_GB']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Update interval';
