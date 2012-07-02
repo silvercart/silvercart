@@ -62,26 +62,36 @@ class SilvercartLanguageDropdownField extends DropdownField {
         $translations       = $this->getController()->getTranslations();
         $translationSource  = array();
         $translationSource[$currentLocale] = array(
-            'title' => sprintf(
-                "%s - %s",
-                Locale::getDisplayLanguage($currentLocale, $currentLocale),
-                Locale::getDisplayLanguage($currentLocale, $currentLocale)
-            ),
+            'title' => $this->getDisplayLanguage($currentLocale, $currentLocale),
             'rel'   => $this->getIso2($currentLocale),
         );
         foreach ($translations as $translation) {
             $translationSource[$translation->Locale] = array(
-                'title' => sprintf(
-                    "%s - %s",
-                    Locale::getDisplayLanguage($translation->Locale, $currentLocale),
-                    Locale::getDisplayLanguage($translation->Locale, $translation->Locale)
-                ),
+                'title' => $this->getDisplayLanguage($translation->Locale, $currentLocale),
                 'rel'   => $this->getIso2($translation->Locale),
             );
         }
         $this->setSource($translationSource);
     }
     
+    /**
+     * Returns the display language for the given locale
+     *
+     * @param string $locale    Locale to get language name for
+     * @param string $in_locale Native locale
+     * 
+     * @return string
+     */
+    public function getDisplayLanguage($locale, $in_locale) {
+        $displayLanguage = sprintf(
+            "%s - %s",
+            SilvercartLanguageHelper::getLanguageName($locale, $in_locale),
+            SilvercartLanguageHelper::getLanguageName($locale, $locale)
+        );
+        return $displayLanguage;
+    }
+
+
     /**
      * Returns the ISO2 for the given locale
      *

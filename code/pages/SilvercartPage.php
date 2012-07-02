@@ -172,8 +172,8 @@ class SilvercartPage extends SiteTree {
         if ($translations) {
             $translationSource->push(new DataObject(
                 array(
-                    'Name'          => Locale::getDisplayLanguage($currentLocale, $currentLocale),
-                    'NativeName'    => Locale::getDisplayLanguage($currentLocale, $currentLocale),
+                    'Name'          => SilvercartLanguageHelper::getLanguageName($currentLocale, $currentLocale),
+                    'NativeName'    => SilvercartLanguageHelper::getLanguageName($currentLocale, $currentLocale),
                     'Code'          => $this->getIso2($currentLocale),
                     'RFC1766'       => i18n::convert_rfc1766($currentLocale),
                     'Link'          => $this->Link(),
@@ -182,8 +182,8 @@ class SilvercartPage extends SiteTree {
             foreach ($translations as $translation) {
                 $translationSource->push(new DataObject(
                     array(
-                        'Name'          => Locale::getDisplayLanguage($translation->Locale, $currentLocale),
-                        'NativeName'    => Locale::getDisplayLanguage($translation->Locale, $translation->Locale),
+                        'Name'          => SilvercartLanguageHelper::getLanguageName($translation->Locale, $currentLocale),
+                        'NativeName'    => SilvercartLanguageHelper::getLanguageName($translation->Locale, $translation->Locale),
                         'Code'          => $this->getIso2($translation->Locale),
                         'RFC1766'       => i18n::convert_rfc1766($translation->Locale),
                         'Link'          => $translation->Link(),
