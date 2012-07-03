@@ -131,6 +131,8 @@ class SilvercartProduct extends DataObject {
         'MetaDescription'                   => 'Text',
         'MetaTitle'                         => 'Text',
         'MetaKeywords'                      => 'Text',
+        'Link'                              => 'Text',
+        'AbsoluteLink'                      => 'Text',
     );
 
     /**
@@ -1464,6 +1466,15 @@ class SilvercartProduct extends DataObject {
         }
         return $silvercartProductGroup;
     }
+    
+    /**
+     * Alias for Link()
+     *
+     * @return string
+     */
+    public function getLink() {
+        return $this->Link();
+    }
 
     /**
      * Link to the controller, that shows this product
@@ -1486,6 +1497,15 @@ class SilvercartProduct extends DataObject {
         }
 
         return $link;
+    }
+    
+    /**
+     * Alias for AbsoluteLink()
+     *
+     * @return string
+     */
+    public function getAbsoluteLink() {
+        return $this->AbsoluteLink();
     }
 
     /**

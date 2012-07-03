@@ -120,7 +120,7 @@ class SilvercartProductExporter extends DataObject {
         
         $this->objName          = 'SilvercartProduct';
         $this->exportDirectory  = Director::baseFolder() . '/silvercart/product_exports/';
-        $this->exportURL        = Director::absoluteBaseURL() . '/silvercart/product_exports/';
+        $this->exportURL        = Director::absoluteBaseURL() . 'silvercart/product_exports/';
     }
     
     /**
@@ -298,6 +298,9 @@ class SilvercartProductExporter extends DataObject {
         $availableFields    = array();
         $product            = singleton('SilvercartProduct');
         
+        $dbFields['Link']           = 'Text';
+        $dbFields['AbsoluteLink']   = 'Text';
+        
         foreach ($dbFields as $fieldName => $fieldType) {
             $fieldLabelTarget = $fieldName;
             if (substr($fieldName, -2) === 'ID') {
@@ -424,6 +427,9 @@ class SilvercartProductExporter extends DataObject {
             }
 
             foreach ($records as $record) {
+                $product = new SilvercartProduct($record);
+                $record['Link']         = $product->Link();
+                $record['AbsoluteLink'] = $product->AbsoluteLink();
                 file_put_contents($this->getExportFilePath(), $this->getCsvRowFromRecord($record), FILE_APPEND);
             }
         }
