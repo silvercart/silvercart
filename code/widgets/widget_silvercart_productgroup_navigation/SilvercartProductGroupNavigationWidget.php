@@ -251,13 +251,19 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
         );
 
         if ($lastEditedPage) {
-            $key .= $lastEditedPage->LastEdited;
+            $key .= '_'.$lastEditedPage->LastEdited;
         }
 
         $productGroupPage = DataObject::get_by_id('SiteTree', $this->SilvercartProductGroupPageID);
 
         if ($productGroupPage) {
-            $key .= $productGroupPage->LastEdited;
+            $key .= '_'.$productGroupPage->LastEdited;
+        }
+
+        $currentPage = Controller::curr();
+
+        if ($currentPage) {
+            $key .= '_'.$currentPage->ID;
         }
 
         return $key;
