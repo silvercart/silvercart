@@ -359,65 +359,57 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
                 $this->numberOfProductsToFetch = SilvercartBargainProductsWidget::$defaults['numberOfProductsToFetch'];
             }
 
-            $cachekey = 'BargainProducts' . $this->numberOfProductsToFetch;
-            $cache    = SS_Cache::factory($cachekey);
-            $products = $cache->load($cachekey);
-
-            if ($products) {
-                $products = unserialize($products);
+            if (SilvercartConfig::Pricetype() == 'net') {
+                $priceField = 'PriceNetAmount';
             } else {
-                if (SilvercartConfig::Pricetype() == 'net') {
-                    $priceField = 'PriceNetAmount';
-                } else {
-                    $priceField = 'PriceGrossAmount';
-                }
-                
-                switch ($this->fetchMethod) {
-                    case 'sortOrderAsc':
-                        $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` ASC";
-                        break;
-                    case 'sortOrderDesc':
-                        $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` DESC";
-                        break;
-                    case 'random':
-                    default:
-                        $sort = "RAND()";
-                }
-                $this->listFilters = array();
-                
-                if (count(self::$registeredFilterPlugins) > 0) {
-                    foreach (self::$registeredFilterPlugins as $registeredPlugin) {
-                        $pluginFilters = $registeredPlugin->filter();
-                        
-                        if (is_array($pluginFilters)) {
-                            $this->listFilters = array_merge(
-                                $this->listFilters,
-                                $pluginFilters
-                            );
-                        }
+                $priceField = 'PriceGrossAmount';
+            }
+
+            switch ($this->fetchMethod) {
+                case 'sortOrderAsc':
+                    $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` ASC";
+                    break;
+                case 'sortOrderDesc':
+                    $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` DESC";
+                    break;
+                case 'random':
+                default:
+                    $sort = "RAND()";
+            }
+            $this->listFilters = array();
+
+            if (count(self::$registeredFilterPlugins) > 0) {
+                foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                    $pluginFilters = $registeredPlugin->filter();
+
+                    if (is_array($pluginFilters)) {
+                        $this->listFilters = array_merge(
+                            $this->listFilters,
+                            $pluginFilters
+                        );
                     }
                 }
-                
-                $filter = sprintf(
-                                "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL 
-                                AND `SilvercartProduct`.`MSRPriceAmount` > 0
-                                AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
-                                $priceField
-                );
-
-                foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
-                    $filter .= ' ' . $listFilter;
-                }
-                
-                $products = SilvercartProduct::get(
-                        $filter,
-                        $sort,
-                        null,
-                        "0," . $this->numberOfProductsToFetch
-                );
-                $products->sort("`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount`", "DESC");
-                $this->elements = $products;
             }
+
+            $filter = sprintf(
+                            "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL 
+                            AND `SilvercartProduct`.`MSRPriceAmount` > 0
+                            AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
+                            $priceField
+            );
+
+            foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
+                $filter .= ' ' . $listFilter;
+            }
+
+            $products = SilvercartProduct::get(
+                    $filter,
+                    $sort,
+                    null,
+                    "0," . $this->numberOfProductsToFetch
+            );
+            
+            $this->elements = $products;
         }
         return $this->elements;
     }
@@ -514,14 +506,7 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
      * @since 03.07.2012
      */
     public function WidgetCacheKey() {
-        $key           = i18n::get_locale().'_';
-        $productMap    = $this->elements->map('ID', 'LastEdited');
-        $productMapIDs = implode('_', array_flip($productMap));
-        sort($productMap);
-        $productMapLastEdited = array_pop($productMap);
-        
-        $key .= $productMapIDs.'_'.$productMapLastEdited.'_'.$this->LastEdited;
-        
+        $key = SilvercartWidgetTools::ProductWidgetCacheKey($this);
         return $key;
     }
 }

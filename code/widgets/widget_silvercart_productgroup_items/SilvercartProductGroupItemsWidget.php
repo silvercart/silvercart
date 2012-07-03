@@ -533,14 +533,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 02.07.2012
      */
     public function WidgetCacheKey() {
-        $key           = i18n::get_locale().'_';
-        $productMap    = $this->elements->map('ID', 'LastEdited');
-        $productMapIDs = implode('_', array_flip($productMap));
-        sort($productMap);
-        $productMapLastEdited = array_pop($productMap);
-        
-        $key .= $productMapIDs.'_'.$productMapLastEdited.'_'.$this->LastEdited;
-        
+        $key = SilvercartWidgetTools::ProductWidgetCacheKey($this);
         return $key;
     }
     
