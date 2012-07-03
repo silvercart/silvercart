@@ -35,6 +35,20 @@
 class SilvercartCustomer extends DataObjectDecorator {
     
     /**
+     * Comma separated string of related group names
+     *
+     * @var string 
+     */
+    protected $groupNames = null;
+    
+    /**
+     * List of related group IDs
+     *
+     * @var array
+     */
+    protected $groupIDs = null;
+    
+    /**
      * Extends the database fields and relations of the decorated class.
      *
      * @return array
@@ -194,17 +208,32 @@ class SilvercartCustomer extends DataObjectDecorator {
     // ------------------------------------------------------------------------
     // Casting methods
     // ------------------------------------------------------------------------
-    
+
     /**
      * Returns the related groups as comma separated list.
      *
      * @return string
      */
     public function getGroupNames() {
-        $groupNamesAsString = '';
-        $groupNamesMap = $this->owner->Groups()->map();
-        $groupNamesAsString = implode(', ', $groupNamesMap);
-        return $groupNamesAsString;
+        if (is_null($this->groupNames)) {
+            $groupNamesAsString = '';
+            $groupNamesMap = $this->owner->Groups()->map();
+            $groupNamesAsString = implode(', ', $groupNamesMap);
+            $this->groupNames = $groupNamesAsString;
+        }
+        return $this->groupNames;
+    }
+    
+    /**
+     * Returns the related groups as comma separated list.
+     *
+     * @return string
+     */
+    public function getGroupIDs() {
+        if (is_null($this->groupIDs)) {
+            $this->groupIDs = $this->owner->Groups()->map('ID','ID');;
+        }
+        return $this->groupIDs;
     }
     
     // ------------------------------------------------------------------------
