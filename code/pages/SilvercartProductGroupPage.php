@@ -203,16 +203,37 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.05.2012
+     * @since 03.07.2012
      */
     public function Link($action = null) {
+        $returnProductLink = false;
+        
         if (Controller::curr()->hasMethod('isProductDetailView') &&
             Controller::curr()->isProductDetailView() &&
             Controller::curr()->data()->ID == $this->ID &&
             Controller::curr()->data() === $this) {
-            return parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . Controller::curr()->urlParams['ID'];
+            $returnProductLink  = true;
+            $URLSegment         = Controller::curr()->urlParams['ID'];
+        } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
+                  Controller::curr()->isProductDetailView()) {
+            $translations   = $this->getTranslations();
+            $translation    = $translations->find('ID', Controller::curr()->data()->ID);
+            if ($translation) {
+                $product            = Controller::curr()->getDetailViewProduct();
+                if ($product) {
+                    $returnProductLink  = true;
+                    $productLanguage    = $product->getLanguageFor($this->Locale);
+                    $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+                }
+            }
         }
-        return parent::Link($action);
+        
+        if ($returnProductLink) {
+            $link = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
+        } else {
+            $link = parent::Link($action);
+        }
+        return $link;
     }
 
     /**
