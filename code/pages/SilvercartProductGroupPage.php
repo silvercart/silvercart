@@ -953,6 +953,50 @@ class SilvercartProductGroupPage extends Page {
         }
         return $metaDescription;
     }
+
+    /**
+     * Set LastEdited field to now for the SilvercartProductGroupHolder.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.07.2012
+     */
+    public function onBeforeDelete() {
+        $productGroupHolderPage = $this->getSilvercartProductGroupHolderPage();
+
+        if ($productGroupHolderPage) {
+            $now = new DateTime();
+            $productGroupHolderPage->LastEdited = $now->format('Y-m-d H:i:s');
+            $productGroupHolderPage->write();
+        }
+
+        parent::onBeforeDelete();
+    }
+
+    /**
+     * Returns the first SilvercartProductGroupHolder page.
+     *
+     * @param SiteTree $context An optional SiteTree object
+     *
+     * @return SilvercartProductGroupHolder
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.07.2012
+     */
+    public function getSilvercartProductGroupHolderPage($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+
+        if ( $context->ParentID > 0 &&
+            !$context->Parent() instanceof SilvercartProductGroupHolder) {
+
+            $context = $this->getSilvercartProductGroupHolderPage($context->Parent());
+        }
+
+        return $context;
+    }
 }
 
 /**

@@ -232,4 +232,34 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
         
         return $renderStr;
     }
+
+    /**
+     * Returns the cache key for the current configuration.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.07.2012
+     */
+    public function NavigationCacheKey() {
+        $key            = $this->SilvercartProductGroupPageID.'_'.$this->LastEdited.'_';
+        $lastEditedPage = DataObject::get_one(
+            'SilvercartProductGroupPage',
+            '',
+            true,
+            "LastEdited DESC"
+        );
+
+        if ($lastEditedPage) {
+            $key .= $lastEditedPage->LastEdited;
+        }
+
+        $productGroupPage = DataObject::get_by_id('SiteTree', $this->SilvercartProductGroupPageID);
+
+        if ($productGroupPage) {
+            $key .= $productGroupPage->LastEdited;
+        }
+
+        return $key;
+    }
 }
