@@ -393,6 +393,9 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function onBeforeDelete() {
         parent::onBeforeDelete();
         
+        $this->SilvercartShoppingCart()->LastEdited = $this->LastEdited;
+        $this->SilvercartShoppingCart()->write();
+        
         $this->extend('updateOnBeforeDelete');
     }
     
