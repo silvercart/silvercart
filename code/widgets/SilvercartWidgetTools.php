@@ -569,7 +569,7 @@ class SilvercartWidgetTools extends Object {
                     );
                 }
             }
-            $productMapIDs          = implode('_', array_flip($productMap));
+            $productMapIDs          = implode('_', array_keys($productMap));
             sort($productMap);
             $productMapLastEdited   = array_pop($productMap);
             $groupIDs               = '';
