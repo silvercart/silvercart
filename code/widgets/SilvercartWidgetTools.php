@@ -551,40 +551,42 @@ class SilvercartWidgetTools extends Object {
      */
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
-        $productMap             = $widget->Elements()->map('ID', 'LastEdited');
-        if (!is_array($productMap)) {
-            $productMap = array();
-        }
-        if ($widget->Elements()->Count() > 0 &&
-            (empty($productMap) ||
-             (count($productMap) == 1 &&
-             array_key_exists('', $productMap)))) {
-            $productMap = array();
-            foreach ($widget->Elements() as $page) {
-                $productMap = array_merge(
-                        $productMap,
-                        $page->Elements->map('ID', 'LastEdited')
-                );
+        if ($widget->Elements()->Count() > 0) {
+            $productMap             = $widget->Elements()->map('ID', 'LastEdited');
+            if (!is_array($productMap)) {
+                $productMap = array();
             }
+            if ($widget->Elements()->Count() > 0 &&
+                (empty($productMap) ||
+                (count($productMap) == 1 &&
+                array_key_exists('', $productMap)))) {
+                $productMap = array();
+                foreach ($widget->Elements() as $page) {
+                    $productMap = array_merge(
+                            $productMap,
+                            $page->Elements->map('ID', 'LastEdited')
+                    );
+                }
+            }
+            $productMapIDs          = implode('_', array_flip($productMap));
+            sort($productMap);
+            $productMapLastEdited   = array_pop($productMap);
+            $groupIDs               = '';
+
+            if (Member::currentUserID() > 0) {
+                $groupIDs = implode('-', Member::currentUser()->getGroupIDs());
+            }
+            $keyParts = array(
+                i18n::get_locale(),
+                $productMapIDs,
+                $productMapLastEdited,
+                $widget->LastEdited,
+                $groupIDs
+            );
+
+            $key = implode('_', $keyParts);
         }
-        $productMapIDs          = implode('_', array_flip($productMap));
-        sort($productMap);
-        $productMapLastEdited   = array_pop($productMap);
-        $groupIDs               = '';
         
-        if (Member::currentUserID() > 0) {
-            $groupIDs = implode('-', Member::currentUser()->getGroupIDs());
-        }
-        
-        $keyParts = array(
-            i18n::get_locale(),
-            $productMapIDs,
-            $productMapLastEdited,
-            $widget->LastEdited,
-            $groupIDs
-        );
-        
-        $key = implode('_', $keyParts);
         return $key;
     }
     
