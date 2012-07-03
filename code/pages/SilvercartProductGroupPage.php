@@ -217,13 +217,15 @@ class SilvercartProductGroupPage extends Page {
         } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
                   Controller::curr()->isProductDetailView()) {
             $translations   = $this->getTranslations();
-            $translation    = $translations->find('ID', Controller::curr()->data()->ID);
-            if ($translation) {
-                $product            = Controller::curr()->getDetailViewProduct();
-                if ($product) {
-                    $returnProductLink  = true;
-                    $productLanguage    = $product->getLanguageFor($this->Locale);
-                    $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+            if ($translations) {
+                $translation    = $translations->find('ID', Controller::curr()->data()->ID);
+                if ($translation) {
+                    $product            = Controller::curr()->getDetailViewProduct();
+                    if ($product) {
+                        $returnProductLink  = true;
+                        $productLanguage    = $product->getLanguageFor($this->Locale);
+                        $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+                    }
                 }
             }
         }
