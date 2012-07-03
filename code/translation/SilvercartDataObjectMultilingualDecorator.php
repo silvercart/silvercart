@@ -265,18 +265,33 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.03.2012
+     * @since 03.07.2012
      */
     public function hasLanguage($locale) {
-        $hasLanguage                                    = false;
-        $useDefaultLanguageAsFallback                   = SilvercartConfig::$useDefaultLanguageAsFallback;
-        SilvercartConfig::$useDefaultLanguageAsFallback = false;
-        $language = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation(), $locale);
-        SilvercartConfig::$useDefaultLanguageAsFallback = $useDefaultLanguageAsFallback;
+        $hasLanguage    = false;
+        $language       = $this->getLanguageFor($locale);
         if ($language) {
             $hasLanguage = true;
         }
         return $hasLanguage;
+    }
+    
+    /**
+     * Returns the language for the given locale if exists
+     *
+     * @param string $locale Locale to get language for
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2012
+     */
+    public function getLanguageFor($locale) {
+        $useDefaultLanguageAsFallback                   = SilvercartConfig::$useDefaultLanguageAsFallback;
+        SilvercartConfig::$useDefaultLanguageAsFallback = false;
+        $language                                       = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation(), $locale);
+        SilvercartConfig::$useDefaultLanguageAsFallback = $useDefaultLanguageAsFallback;
+        return $language;
     }
     
     /**
