@@ -512,6 +512,19 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         Requirements::themedCSS("slidorion");
         Requirements::javascript("silvercart/script/slidorion/js/jquery.slidorion.js");
     }
+    
+    /**
+     * Creates the cache key for this widget.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.07.2012
+     */
+    public function WidgetCacheKey() {
+        $key = i18n::get_locale() . '_' . $this->ClassName() . '_' . $this->ID . '_' . $this->LastEdited;
+        return $key;
+    }
 }
 
 /**
