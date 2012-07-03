@@ -1491,9 +1491,9 @@ class SilvercartProduct extends DataObject {
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
             !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
-            $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
+            $link = Controller::curr()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
         } elseif ($this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->Link() . $this->ID . '/' . $this->title2urlSegment();
+            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
         }
 
         return $link;
