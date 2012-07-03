@@ -551,7 +551,8 @@ class SilvercartWidgetTools extends Object {
      */
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
-        if ($widget->Elements()->Count() > 0) {
+        if ($widget->Elements() instanceof DataObjectSet &&
+            $widget->Elements()->Count() > 0) {
             $productMap             = $widget->Elements()->map('ID', 'LastEdited');
             if (!is_array($productMap)) {
                 $productMap = array();
