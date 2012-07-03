@@ -44,7 +44,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     public static $db = array(
         'numberOfProductsToShow'        => 'Int',
         'numberOfProductsToFetch'       => 'Int',
-        'fetchMethod'                   => "Enum('random,sortOrderAsc,sortOrderDesc','random')",
+        'fetchMethod'                   => "Enum('random,sortOrderAsc','random')",
         'GroupView'                     => 'VarChar(255)',
         'isContentView'                 => 'Boolean',
         'Autoplay'                      => 'Boolean(1)',
@@ -443,16 +443,12 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $sort = "CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC";
-                break;
-            case 'sortOrderDesc':
-                $sort = "CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC";
+                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
                 break;
             case 'random':
             default:
-                $sort = "RAND()";
+                $products = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToFetch);
         } 
-        $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch, $sort);
 
         $pages          = array();
         $pageProducts   = array();
@@ -596,14 +592,11 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC');
-                break;
-            case 'sortOrderDesc':
-                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow, 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END DESC');
+                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
                 break;
             case 'random':
             default:
-                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+                $elements = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToShow);
         } 
         
         return $elements;
