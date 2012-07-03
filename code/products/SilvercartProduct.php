@@ -114,6 +114,7 @@ class SilvercartProduct extends DataObject {
         'isActive'          => '(isActive)',
         'PriceGrossAmount'  => '(PriceGrossAmount)',
         'PriceNetAmount'    => '(PriceNetAmount)',
+        'MSRPriceAmount'    => '(MSRPriceAmount)',
     );
 
     /**
