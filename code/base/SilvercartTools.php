@@ -302,4 +302,21 @@ class SilvercartTools extends Object {
         }
         return $isolatedEnvironment;
     }
+    
+    /**
+     * Prepares a given email address to use for request handling.
+     * CAUTION: This is used for EVERY post requested variable named 'Email'
+     * and called in _config.php
+     *
+     * @param string $emailAddress Email address to prepare
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2012
+     */
+    public static function prepareEmailAddress($emailAddress) {
+        $preparedEmailAddress = str_replace('/', '', $emailAddress);
+        return $preparedEmailAddress;
+    }
 }

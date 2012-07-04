@@ -247,6 +247,13 @@ SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS
 SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
 SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
 
+// ----------------------------------------------------------------------------
+// Dirty bugfixes ....
+// ----------------------------------------------------------------------------
+if (array_key_exists('Email', $_POST)) {
+    $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
+}
+
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.
