@@ -314,7 +314,7 @@ class SilvercartShippingFee extends DataObject {
      */
     public function getTaxAmount() {
         $taxRate   = $this->getTaxRate();
-        $taxAmount = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $taxRate) * 100);
+        $taxAmount = $this->getPriceAmount() - ($this->getPriceAmount() / (100 + $taxRate) * 100);
 
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
