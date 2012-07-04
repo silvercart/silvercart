@@ -927,7 +927,7 @@ class SilvercartProduct extends DataObject {
         $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
-        $miscGroup->push(           $fields->dataFieldByName('SilvercartQuantityUnitID'));
+        $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartQuantityUnitID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('SilvercartProductConditionID'));
         $fields->insertAfter($miscGroup, 'AvailabilityGroup');
