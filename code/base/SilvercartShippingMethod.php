@@ -106,6 +106,13 @@ class SilvercartShippingMethod extends DataObject {
     protected $shippingAddress = null;
     
     /**
+     * Shipping country
+     *
+     * @var SilvercartCountry
+     */
+    protected $shippingCountry = null;
+    
+    /**
      * Searchable fields
      *
      * @return array
@@ -294,30 +301,38 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * determins the right shipping fee for a shipping method depending on the
      * cart's weight and the country of the customers shipping address
+     * 
+     * @param int $weight Weight in gramm to get fee for
      *
      * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 06.07.2012
      */
-    public function getShippingFee() {
+    public function getShippingFee($weight = null) {
         $fee             = false;
 
         if (!Member::currentUser() ||
             !Member::currentUser()->SilvercartShoppingCart()) {
             return $fee;
         }
+        if (is_null($weight)) {
+            $weight = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
+        }
 
-        $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        $shippingAddress = $this->getShippingAddress();
-        if (is_null($shippingAddress)) {
-            $shippingAddress = Controller::curr()->getShippingAddress();
-            $this->setShippingAddress($shippingAddress);
-            SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
+        $shippingCountry = $this->getShippingCountry();
+        if (is_null($shippingCountry)) {
+            $shippingAddress = $this->getShippingAddress();
+            if (is_null($shippingAddress)) {
+                $shippingAddress = Controller::curr()->getShippingAddress();
+                $this->setShippingAddress($shippingAddress);
+                SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
+            }
+            $shippingCountry = $shippingAddress->SilvercartCountry();
         }
         
-        if ($shippingAddress) {
-            $zones = SilvercartZone::getZonesFor($shippingAddress->SilvercartCountryID);
+        if ($shippingCountry) {
+            $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
             if ($zones) {
                 $zoneMap            = $zones->map();
@@ -328,7 +343,7 @@ class SilvercartShippingMethod extends DataObject {
                     sprintf(
                         "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1) AND `SilvercartZoneID` IN (%s)",
                         $this->ID,
-                        $cartWeightTotal,
+                        $weight,
                         $zoneIDsAsString
                     ),
                     'PriceAmount'
@@ -589,6 +604,50 @@ class SilvercartShippingMethod extends DataObject {
     }
     
     /**
+     * Returns the first allowed shipping fee in the given products, countries
+     * and customer groups context.
+     *
+     * @param SilvercartProduct $product       Product to get fee for
+     * @param SilvercartCountry $country       Country to get fee for
+     * @param Group             $customerGroup Customer group to get fee for
+     * 
+     * @return SilvercartShippingFee
+     */
+    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+        $extendableShippingMethod   = singleton('SilvercartShippingMethod');
+        
+        $filter = sprintf(
+            "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))",
+            $customerGroup->ID,
+            "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`"
+        );
+        $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
+        
+        $shippingMethods        = DataObject::get(
+                'SilvercartShippingMethod',
+                $filter,
+                "",
+                $join
+        );
+        
+        $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
+        
+        $shippingFee = false;
+        
+        if ($shippingMethods) {
+            foreach ($shippingMethods as $shippingMethod) {
+                $shippingMethod->setShippingCountry($country);
+                $shippingFee = $shippingMethod->getShippingFee($product->Weight);
+                if ($shippingFee) {
+                    break;
+                }
+            }
+        }
+        
+        return $shippingFee;
+    }
+
+        /**
      * Filters the given shipping methods by default permission criteria
      * 
      * @param SilvercartShippingMethod $shippingMethods Shipping methods to filter
@@ -630,6 +689,26 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function setShippingAddress($shippingAddress) {
         $this->shippingAddress = $shippingAddress;
+    }
+    
+    /**
+     * Returns the shipping country
+     *
+     * @return SilvercartCountry
+     */
+    public function getShippingCountry() {
+        return $this->shippingCountry;
+    }
+
+    /**
+     * Sets the shipping country
+     *
+     * @param SilvercartCountry $shippingCountry Shipping country
+     * 
+     * @return void
+     */
+    public function setShippingCountry($shippingCountry) {
+        $this->shippingCountry = $shippingCountry;
     }
 
 }

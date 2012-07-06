@@ -135,6 +135,7 @@ class SilvercartProduct extends DataObject {
         'Link'                              => 'Text',
         'AbsoluteLink'                      => 'Text',
         'SilvercartProductGroupBreadcrumbs' => 'Text',
+        'DefaultShippingFee'                => 'Text',
     );
 
     /**
@@ -350,6 +351,22 @@ class SilvercartProduct extends DataObject {
         }
         return $breadcrumbs;
     }
+    
+    /**
+     * Returns the default shipping fee for this product
+     *
+     * @param SilvercartCountry $country       Country to get fee for
+     * @param Group             $customerGroup Group to get fee for
+     * 
+     * @return SilvercartShippingFee 
+     */
+    public function getDefaultShippingFee(SilvercartCountry $country, $customerGroup = null) {
+        if (is_null($customerGroup)) {
+            $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
+        }
+        $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
+        return $shippingFee;
+    }
 
     /**
      * Is this product viewable in the frontend?
@@ -457,7 +474,7 @@ class SilvercartProduct extends DataObject {
      */
     public function sortableFrontendFields() {
         $sortableFrontendFields = array(
-            ''                                      => $this->fieldLabel('CatalogSort'),
+            ''                                     => $this->fieldLabel('CatalogSort'),
             'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
             'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
         );
@@ -556,6 +573,7 @@ class SilvercartProduct extends DataObject {
                 'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),
                 'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
                 'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
+                'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
             )
         );
 

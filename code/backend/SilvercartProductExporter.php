@@ -96,6 +96,15 @@ class SilvercartProductExporter extends DataObject {
     );
     
     /**
+     * Has-one relationships.
+     *
+     * @var array
+     */
+    public static $has_one = array(
+        'SilvercartCountry' => 'SilvercartCountry',
+    );
+    
+    /**
      * Has-many relationships.
      *
      * @var array
@@ -199,7 +208,8 @@ class SilvercartProductExporter extends DataObject {
                 'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS'),
                 'createTimestampFile'                   => _t('SilvercartProductExport.CREATE_TIMESTAMP_FILE'),
                 'BreadcrumbDelimiter'                   => _t('SilvercartProductExport.BREADCRUMB_DELIMITER'),
-                'SilvercartProductExporterFields'       => _t('SilvercartProductExporterField.SINGULARNAME'),
+                'SilvercartCountry'                     => _t('SilvercartCountry.SINGULARNAME'),
+                'SilvercartProductExporterFields'       => _t('SilvercartProductExporterField.PLURALNAME'),
                 'SilvercartProductGroupPages'           => _t('SilvercartProductGroupPage.PLURALNAME'),
             )
         );
@@ -281,11 +291,16 @@ class SilvercartProductExporter extends DataObject {
         $tabBasic = new Tab('Basic', _t('SilvercartProductExportAdmin.TAB_BASIC_SETTINGS', 'Basic settings'));
         $tabset->push($tabBasic);
         
+        $fields->dataFieldByName('BreadcrumbDelimiter')->setRightTitle(_t('SilvercartProductExport.BREADCRUMB_DELIMITER_DESCRIPTION'));
+        $fields->dataFieldByName('SilvercartCountryID')->setRightTitle(_t('SilvercartProductExport.COUNTRY_DESCRIPTION'));
+        
         $tabBasic->setChildren(
             new FieldSet(
                 $fields->dataFieldByName('isActive'),
                 $fields->dataFieldByName('name'),
                 $fields->dataFieldByName('csvSeparator'),
+                $fields->dataFieldByName('BreadcrumbDelimiter'),
+                $fields->dataFieldByName('SilvercartCountryID'),
                 $fields->dataFieldByName('createTimestampFile'),
                 $fields->dataFieldByName('updateInterval'),
                 $fields->dataFieldByName('updateIntervalPeriod'),
@@ -335,6 +350,7 @@ class SilvercartProductExporter extends DataObject {
         $dbFields['Link']                               = 'Text';
         $dbFields['AbsoluteLink']                       = 'Text';
         $dbFields['SilvercartProductGroupBreadcrumbs']  = 'Text';
+        $dbFields['DefaultShippingFee']                 = 'Text';
         
         foreach ($dbFields as $fieldName => $fieldType) {
             $fieldLabelTarget = $fieldName;
@@ -373,8 +389,6 @@ class SilvercartProductExporter extends DataObject {
                 $multiSelect2SideField
             )
         );
-        
-        $tabExportFieldDefinitions->push($fields->dataFieldByName('BreadcrumbDelimiter'));
         
         // --------------------------------------------------------------------
         // Header configuration
@@ -494,10 +508,17 @@ class SilvercartProductExporter extends DataObject {
             }
 
             foreach ($records as $record) {
-                $product = new SilvercartProduct($record);
+                $product                                        = new SilvercartProduct($record);
+                $defaultShippingFee                             = $product->getDefaultShippingFee($this->SilvercartCountry());
+                if ($defaultShippingFee) {
+                    $defaultShippingFeePriceAmount = $defaultShippingFee->getPriceAmount(true);
+                } else {
+                    $defaultShippingFeePriceAmount = 0;
+                }
                 $record['Link']                                 = $product->Link();
                 $record['AbsoluteLink']                         = $product->AbsoluteLink();
                 $record['SilvercartProductGroupBreadcrumbs']    = $product->getSilvercartProductGroupBreadcrumbs(true, $this->BreadcrumbDelimiter);
+                $record['DefaultShippingFee']                   = $defaultShippingFeePriceAmount;
                 file_put_contents($this->getExportFilePath(), $this->getCsvRowFromRecord($record), FILE_APPEND);
             }
         }

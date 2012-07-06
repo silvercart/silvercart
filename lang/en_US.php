@@ -316,6 +316,8 @@ $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 $lang['en_US']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'Activate CSV headers';
 $lang['en_US']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Set export fields';
 $lang['en_US']['SilvercartProductExport']['BREADCRUMB_DELIMITER']                           = 'Separator for breadcrumbs';
+$lang['en_US']['SilvercartProductExport']['BREADCRUMB_DELIMITER_DESCRIPTION']               = 'Is used to separate the components of all breadcrumb fields';
+$lang['en_US']['SilvercartProductExport']['COUNTRY_DESCRIPTION']                            = 'Context country used for fields like shipping fees';
 $lang['en_US']['SilvercartProductExport']['CREATE_TIMESTAMP_FILE']                          = 'Create timestamp file';
 $lang['en_US']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Attributed export fields';
 $lang['en_US']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Available export fields';
@@ -335,9 +337,9 @@ $lang['en_US']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_OF_RELATED
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Update interval';
 $lang['en_US']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Update period';
 $lang['en_US']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Product exporters';
-$lang['en_US']['SilvercartProductExport']['SINGULARNAME']                                  = 'Product exporter';
-$lang['en_US']['SilvercartProductExporter']['PLURALNAME']                                  = 'Price portal exporters';
-$lang['en_US']['SilvercartProductExporter']['SINGULARNAME']                                = 'Price portal exporter';
+$lang['en_US']['SilvercartProductExport']['SINGULARNAME']                                   = 'Product exporter';
+$lang['en_US']['SilvercartProductExporter']['PLURALNAME']                                   = 'Price portal exporters';
+$lang['en_US']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Price portal exporter';
 $lang['en_US']['SilvercartProductExporter']['URL']                                          = 'URL';
 
 $lang['en_US']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
