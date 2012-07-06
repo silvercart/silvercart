@@ -90,6 +90,7 @@ class SilvercartProductExporter extends DataObject {
         'pushEnabled'                           => 'Boolean',
         'pushToUrl'                             => 'VarChar(255)',
         'activateCsvHeaders'                    => 'Boolean',
+        'BreadcrumbDelimiter'                   => 'VarChar(10)',
         'lastExportDateTime'                    => 'SS_Datetime',
         'createTimestampFile'                   => 'Boolean(0)'
     );
@@ -110,6 +111,15 @@ class SilvercartProductExporter extends DataObject {
      */
     public static $many_many = array(
         'SilvercartProductGroupPages' => 'SilvercartProductGroupPage',
+    );
+    
+    /**
+     * Default values
+     *
+     * @var array
+     */
+    public static $defaults = array(
+        'BreadcrumbDelimiter'   => '>',
     );
     
     /**
@@ -188,6 +198,7 @@ class SilvercartProductExporter extends DataObject {
                 'pushToUrl'                             => _t('SilvercartProductExport.FIELD_PUSH_TO_URL'),
                 'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS'),
                 'createTimestampFile'                   => _t('SilvercartProductExport.CREATE_TIMESTAMP_FILE'),
+                'BreadcrumbDelimiter'                   => _t('SilvercartProductExport.BREADCRUMB_DELIMITER'),
                 'SilvercartProductExporterFields'       => _t('SilvercartProductExporterField.SINGULARNAME'),
                 'SilvercartProductGroupPages'           => _t('SilvercartProductGroupPage.PLURALNAME'),
             )
@@ -321,8 +332,9 @@ class SilvercartProductExporter extends DataObject {
         $availableFields    = array();
         $product            = singleton('SilvercartProduct');
         
-        $dbFields['Link']           = 'Text';
-        $dbFields['AbsoluteLink']   = 'Text';
+        $dbFields['Link']                               = 'Text';
+        $dbFields['AbsoluteLink']                       = 'Text';
+        $dbFields['SilvercartProductGroupBreadcrumbs']  = 'Text';
         
         foreach ($dbFields as $fieldName => $fieldType) {
             $fieldLabelTarget = $fieldName;
@@ -362,6 +374,8 @@ class SilvercartProductExporter extends DataObject {
             )
         );
         
+        $tabExportFieldDefinitions->push($fields->dataFieldByName('BreadcrumbDelimiter'));
+        
         // --------------------------------------------------------------------
         // Header configuration
         // --------------------------------------------------------------------
@@ -390,7 +404,7 @@ class SilvercartProductExporter extends DataObject {
                 $fieldLabelTarget = substr($exporterField->name, 0, -2);
             }
             $mappingFieldlabel  = $product->fieldLabel($fieldLabelTarget) . ' [' . $exporterField->name . ']';
-            $mappingField       = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $mappingFieldlabel, $headerTitle);
+            $mappingField       = new TextField('SilvercartProductExporterFields[' . $exporterField->ID . ']', $mappingFieldlabel, $headerTitle);
             $tabHeaderFieldSet->push($mappingField);
         }
         
@@ -399,6 +413,28 @@ class SilvercartProductExporter extends DataObject {
         );
         
         return new FieldSet($tabset);
+    }
+    
+    /**
+     * Saves ExporterFields on after write
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
+     */
+    protected function onAfterWrite() {
+        parent::onAfterWrite();
+        if (array_key_exists('SilvercartProductExporterFields', $_POST) &&
+            is_array($_POST['SilvercartProductExporterFields'])) {
+            foreach ($_POST['SilvercartProductExporterFields'] as $ID => $headerTitle) {
+                $exporterField = $this->SilvercartProductExporterFields()->find('ID', $ID);
+                if ($exporterField) {
+                    $exporterField->headerTitle = $headerTitle;
+                    $exporterField->write();
+                }
+            }
+        }
     }
     
     /**
@@ -459,8 +495,9 @@ class SilvercartProductExporter extends DataObject {
 
             foreach ($records as $record) {
                 $product = new SilvercartProduct($record);
-                $record['Link']         = $product->Link();
-                $record['AbsoluteLink'] = $product->AbsoluteLink();
+                $record['Link']                                 = $product->Link();
+                $record['AbsoluteLink']                         = $product->AbsoluteLink();
+                $record['SilvercartProductGroupBreadcrumbs']    = $product->getSilvercartProductGroupBreadcrumbs(true, $this->BreadcrumbDelimiter);
                 file_put_contents($this->getExportFilePath(), $this->getCsvRowFromRecord($record), FILE_APPEND);
             }
         }

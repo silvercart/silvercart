@@ -134,6 +134,7 @@ class SilvercartProduct extends DataObject {
         'MetaKeywords'                      => 'Text',
         'Link'                              => 'Text',
         'AbsoluteLink'                      => 'Text',
+        'SilvercartProductGroupBreadcrumbs' => 'Text',
     );
 
     /**
@@ -329,6 +330,26 @@ class SilvercartProduct extends DataObject {
         return $metaKeywords;
     }
 
+    /**
+     * Returns the breadcrumbs for the product group
+     *
+     * @param bool   $unlinked  Set to false to get linked breacrumbs (HTML)
+     * @param string $delimiter Delimiter char to seperate product groups (default is Page::$breadcrumbs_delimiter)
+     * 
+     * @return string
+     */
+    public function getSilvercartProductGroupBreadcrumbs($unlinked = true, $delimiter = null) {
+        $breadcrumbs = '';
+        if ($this->SilvercartProductGroupID > 0) {
+            $originalDelimiter = Page::$breadcrumbs_delimiter;
+            if (!is_null($delimiter)) {
+                Page::$breadcrumbs_delimiter = ' ' . $delimiter . ' ';
+            }
+            $breadcrumbs = $this->SilvercartProductGroup()->Breadcrumbs(20, $unlinked);
+            Page::$breadcrumbs_delimiter = $originalDelimiter;
+        }
+        return $breadcrumbs;
+    }
 
     /**
      * Is this product viewable in the frontend?
@@ -502,6 +523,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartManufacturer'                => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
                 'SilvercartProductGroup'                => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
                 'SilvercartProductGroups'               => _t('SilvercartProductGroupPage.PLURALNAME', 'product groups'),
+                'SilvercartProductGroupBreadcrumbs'     => _t('SilvercartProductGroupPage.BREADCRUMBS'),
                 'SilvercartMasterProduct'               => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
                 'Image'                                 => _t('SilvercartProduct.IMAGE', 'product image'),
                 'SilvercartAvailabilityStatus'          => _t('SilvercartAvailabilityStatus.SINGULARNAME', 'Availability Status'),

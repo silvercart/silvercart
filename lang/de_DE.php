@@ -315,6 +315,7 @@ $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 
 $lang['de_DE']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'CSV Header aktivieren';
 $lang['de_DE']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Exportfelder bestimmen';
+$lang['de_DE']['SilvercartProductExport']['BREADCRUMB_DELIMITER']                           = 'Trennzeichen für Breadcrumbs';
 $lang['de_DE']['SilvercartProductExport']['CREATE_TIMESTAMP_FILE']                          = 'Timestamp Datei erzeugen';
 $lang['de_DE']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Zugeordnete Exportfelder';
 $lang['de_DE']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Verfügbare Exportfelder';
@@ -362,6 +363,7 @@ $lang['de_DE']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Spiegel-W
 $lang['de_DE']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Spiegel-Warengruppen';
 
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
+$lang['de_DE']['SilvercartProductGroupPage']['BREADCRUMBS'] = 'Warengruppen-Breadcrumbs';
 $lang['de_DE']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = '<strong>keine</strong> Produkte in der Übersicht anzeigen';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'hersteller';

@@ -315,6 +315,7 @@ $lang['en_GB']['SilvercartProduct']['WEIGHT'] = 'Weight';
 
 $lang['en_GB']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'Activate CSV headers';
 $lang['en_GB']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Set export fields';
+$lang['en_GB']['SilvercartProductExport']['BREADCRUMB_DELIMITER']                           = 'Separator for breadcrumbs';
 $lang['en_GB']['SilvercartProductExport']['CREATE_TIMESTAMP_FILE']                          = 'Create timestamp file';
 $lang['en_GB']['SilvercartProductExport']['FIELD_ATTRIBUTED_EXPORT_FIELDS']                 = 'Attributed export fields';
 $lang['en_GB']['SilvercartProductExport']['FIELD_AVAILABLE_EXPORT_FIELDS']                  = 'Available export fields';
@@ -362,6 +363,7 @@ $lang['en_GB']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Mirror-Pr
 $lang['en_GB']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Mirror-Productgroups';
 
 $lang['en_GB']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
+$lang['en_GB']['SilvercartProductGroupPage']['BREADCRUMBS'] = 'Product Group Breadcrumbs';
 $lang['en_GB']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = 'do <strong>not</strong> show products of this group';
 $lang['en_GB']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
 $lang['en_GB']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
