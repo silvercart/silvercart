@@ -1307,6 +1307,23 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * Returns the pages original breadcrumbs
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
+     */
+    public function OriginalBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+    }
+
+    /**
      * manipulates the defaul logic of building the pages breadcrumbs if a
      * product detail view is requested.
      *
