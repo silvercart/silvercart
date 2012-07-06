@@ -83,6 +83,7 @@ class SilvercartProductExporter extends DataObject {
         'selectOnlyProductsWithManufacturer'    => 'Boolean',
         'selectOnlyProductsWithQuantity'        => 'Boolean',
         'selectOnlyProductsQuantity'            => 'Int',
+        'selectOnlyProductsOfRelatedGroups'     => 'Boolean',
         'csvSeparator'                          => 'VarChar(10)',
         'updateInterval'                        => 'Int',
         'updateIntervalPeriod'                  => "Enum('Minutes,Hours,Days,Weeks,Months,Years','Hours')",
@@ -99,7 +100,16 @@ class SilvercartProductExporter extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartProductExporterFields' => 'SilvercartProductExporterField'
+        'SilvercartProductExporterFields' => 'SilvercartProductExporterField',
+    );
+    
+    /**
+     * Many-many relationships.
+     *
+     * @var array
+     */
+    public static $many_many = array(
+        'SilvercartProductGroupPages' => 'SilvercartProductGroupPage',
     );
     
     /**
@@ -170,13 +180,16 @@ class SilvercartProductExporter extends DataObject {
                 'selectOnlyProductsWithManufacturer'    => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_MANUFACTURER'),
                 'selectOnlyProductsWithQuantity'        => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANTITY'),
                 'selectOnlyProductsQuantity'            => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_QUANTITY'),
+                'selectOnlyProductsOfRelatedGroups'     => _t('SilvercartProductExport.FIELD_SELECT_ONLY_PRODUCTS_OF_RELATED_GROUPS'),
                 'csvSeparator'                          => _t('SilvercartProductExport.FIELD_CSV_SEPARATOR'),
                 'updateInterval'                        => _t('SilvercartProductExport.FIELD_UPDATE_INTERVAL'),
                 'updateIntervalPeriod'                  => _t('SilvercartProductExport.FIELD_UPDATE_INTERVAL_PERIOD'),
                 'pushEnabled'                           => _t('SilvercartProductExport.FIELD_PUSH_ENABLED'),
                 'pushToUrl'                             => _t('SilvercartProductExport.FIELD_PUSH_TO_URL'),
                 'activateCsvHeaders'                    => _t('SilvercartProductExport.ACTIVATE_CSV_HEADERS'),
-                'createTimestampFile'                   => _t('SilvercartProductExport.CREATE_TIMESTAMP_FILE')
+                'createTimestampFile'                   => _t('SilvercartProductExport.CREATE_TIMESTAMP_FILE'),
+                'SilvercartProductExporterFields'       => _t('SilvercartProductExporterField.SINGULARNAME'),
+                'SilvercartProductGroupPages'           => _t('SilvercartProductGroupPage.PLURALNAME'),
             )
         );
         
@@ -278,6 +291,14 @@ class SilvercartProductExporter extends DataObject {
         $tabProductSelection = new Tab('ProductSelection', _t('SilvercartProductExportAdmin.TAB_PRODUCT_SELECTION', 'Product selection'));
         $tabset->push($tabProductSelection);
         
+        $productGroupHolder                 = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
+        $silvercartProductGroupPagesField   = new TreeMultiselectField(
+                'SilvercartProductGroupPages',
+                $this->fieldLabel('SilvercartProductGroupPages'),
+                'SiteTree'
+        );
+        $silvercartProductGroupPagesField->setTreeBaseID($productGroupHolder->ID);
+        
         $tabProductSelection->setChildren(
             new FieldSet(
                 new HeaderField('selectOnlyHeadline', _t('SilvercartProductExport.FIELD_SELECT_ONLY_HEADLINE'), 2),
@@ -285,7 +306,9 @@ class SilvercartProductExporter extends DataObject {
                 $fields->dataFieldByName('selectOnlyProductsWithImage'),
                 $fields->dataFieldByName('selectOnlyProductsWithManufacturer'),
                 $fields->dataFieldByName('selectOnlyProductsWithQuantity'),
-                $fields->dataFieldByName('selectOnlyProductsQuantity')
+                $fields->dataFieldByName('selectOnlyProductsQuantity'),
+                $fields->dataFieldByName('selectOnlyProductsOfRelatedGroups'),
+                $silvercartProductGroupPagesField
             )
         );
         
@@ -362,7 +385,12 @@ class SilvercartProductExporter extends DataObject {
                 $headerTitle = $exporterField->headerTitle;
             }
             
-            $mappingField = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $exporterField->name, $headerTitle);
+            $fieldLabelTarget = $exporterField->name;
+            if (substr($exporterField->name, -2) === 'ID') {
+                $fieldLabelTarget = substr($exporterField->name, 0, -2);
+            }
+            $mappingFieldlabel  = $product->fieldLabel($fieldLabelTarget) . ' [' . $exporterField->name . ']';
+            $mappingField       = new TextField('SilvercartProductExporterFields_'.$exporterField->name, $mappingFieldlabel, $headerTitle);
             $tabHeaderFieldSet->push($mappingField);
         }
         
@@ -396,13 +424,16 @@ class SilvercartProductExporter extends DataObject {
                     `%s`
                     ON (`%s`.`ID` = `%s`.`%sID`)
                 WHERE
-                    %s
+                    `%s`.`Locale` = '%s'
+                    AND (%s)
                 ",
                 $this->objName,
                 $this->objName . 'Language',
                 $this->objName,
                 $this->objName . 'Language',
                 $this->objName,
+                $this->objName . 'Language',
+                Translatable::get_current_locale(),
                 $this->getSqlFilter()
             );
         } else {
@@ -507,6 +538,24 @@ class SilvercartProductExporter extends DataObject {
                 " AND `" . $this->objName . "`.`Quantity` > %d",
                 $this->selectOnlyProductsQuantity
             );
+        }
+        if ($this->selectOnlyProductsOfRelatedGroups &&
+            $this->SilvercartProductGroupPages()->Count() > 0) {
+            $productGroups  = $this->SilvercartProductGroupPages();
+            $productIDs     = array();
+            foreach ($productGroups as $productGroup) {
+                $products   = $productGroup->getProducts(false, false, true);
+                $productIDs = array_merge(
+                        $productIDs,
+                        $products->map('ID','ID')
+                );
+            }
+            if (count($productIDs) > 0) {
+                $filter .= sprintf(
+                    " AND `" . $this->objName . "`.`ID` IN (%s)",
+                    implode(',', $productIDs)
+                );
+            }
         }
         
         return $filter;

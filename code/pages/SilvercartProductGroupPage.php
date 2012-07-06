@@ -95,7 +95,8 @@ class SilvercartProductGroupPage extends Page {
      * @var array
      */
     public static $belongs_many_many = array(
-        'SilvercartMirrorProducts'  => 'SilvercartProduct'
+        'SilvercartMirrorProducts'      => 'SilvercartProduct',
+        'SilvercartProductExporters'    => 'SilvercartProductExporter',
     );
 
     /**
@@ -366,6 +367,7 @@ class SilvercartProductGroupPage extends Page {
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
                 'DoNotShowProducts'             => _t('SilvercartProductGroupPage.DONOTSHOWPRODUCTS'),
+                'SilvercartProductExporters'    => _t('SilvercartProductExporter.SINGULARNAME'),
             )
         );
 
