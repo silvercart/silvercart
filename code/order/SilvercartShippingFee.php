@@ -305,16 +305,20 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * returns the tax amount included in $this
+     * 
+     * @param float $price Price to get tax amount for (if empty $this->getPriceAmount() is used)
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
      */
-    public function getTaxAmount() {
+    public function getTaxAmount($price = null) {
+        if (is_null($price)) {
+            $price = $this->getPriceAmount();
+        }
         $taxRate   = $this->getTaxRate();
-        $taxAmount = $this->getPriceAmount() - ($this->getPriceAmount() / (100 + $taxRate) * 100);
+        $taxAmount = $price - ($price / (100 + $taxRate) * 100);
 
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
@@ -387,14 +391,14 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
      */
     public function getPriceAmount() {
         $price = (float) $this->Price->getAmount();
 
         if (SilvercartConfig::PriceType() == 'net') {
-            $price = $price - $this->getTaxAmount();
+            $price = $price - $this->getTaxAmount($price);
         }
 
         if (Member::currentUser() &&
