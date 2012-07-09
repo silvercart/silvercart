@@ -521,6 +521,7 @@ class SilvercartProductExporter extends DataObject {
             $this->server_ssl_to_restore        = null;
             $this->server_https_to_restore      = null;
             $this->server_http_host_to_restore  = null;
+            Director::setBaseURL(null);
         } else {
             $this->server_ssl_to_restore        = null;
             $this->server_https_to_restore      = null;
@@ -543,6 +544,7 @@ class SilvercartProductExporter extends DataObject {
                 }
             }
             $_SERVER['HTTP_HOST']           = $this->BaseUrlForLinks;
+            Director::setBaseURL('');
             $this->switchedHttpHostToExport = true;
         }
     }
