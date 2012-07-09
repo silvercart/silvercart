@@ -45,6 +45,20 @@ class SilvercartTextAutoCompleteField extends TextField {
     protected $controller = null;
     
     protected $className = 'SilvercartTextAutoCompleteField';
+    
+    /**
+     * Delimiter to seperate field values of one entry
+     *
+     * @var string 
+     */
+    protected $fieldDelimiter = '--';
+    
+    /**
+     * Delimiter to seperate entries
+     *
+     * @var string 
+     */
+    protected $entryDelimiter = ';';
 
     /**
      * Returns an input field, class="text" and type="text" with an optional maxlength
@@ -129,6 +143,7 @@ class SilvercartTextAutoCompleteField extends TextField {
      */
     public function FieldHolderScript() {
         $baseUrl = SilvercartTools::getBaseURLSegment();
+        Requirements::css($baseUrl . 'sapphire/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
         Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.autocomplete.js');
         Requirements::javascript($baseUrl . 'silvercart/script/SilvercartTextAutoCompleteField.js');
         $autoCompleteSource = $this->getAutoCompleteSource();
@@ -144,6 +159,7 @@ class SilvercartTextAutoCompleteField extends TextField {
         $customScript .= $this->className . '.AutoCompleteList["' . $this->Name() . '"] = [';
         $customScript .= implode(',', $autoCompleteList);
         $customScript .= '];';
+        $customScript .= $this->className . '.EntryDelimiter["' . $this->Name() . '"] = "' . $this->getEntryDelimiter() . '";';
         $customScript .= '</script>';
         return $customScript;
     }
@@ -180,13 +196,38 @@ class SilvercartTextAutoCompleteField extends TextField {
         $relatedID = 0;
         if ($list) {
             if ($list != 'undefined') {
-                $items = explode(',', $list);
+                $items = explode($this->getEntryDelimiter(), $list);
                 foreach ($items as $item) {
-                    $item = strtolower(trim($item));
-                    $existingItem = DataObject::get_one($autoCompleteSourceDataObject, sprintf("`%s` = '%s'", $autoCompleteSourceAttribute, $item));
+                    $item = trim($item);
+                    if (is_array($autoCompleteSourceAttribute)) {
+                        $filters        = array();
+                        $splittedItems  = explode($this->getFieldDelimiter(), $item);
+                        foreach ($autoCompleteSourceAttribute as $key => $fieldName) {
+                            $filters[] = sprintf(
+                                    "`%s` = '%s'",
+                                    $fieldName,
+                                    $splittedItems[$key]
+                            );
+                        }
+                        $filter = implode(' AND ', $filters);
+                    } else {
+                        $filter = sprintf(
+                                "`%s` = '%s'",
+                                $autoCompleteSourceAttribute,
+                                $item
+                        );
+                    }
+                    $existingItem = DataObject::get_one($autoCompleteSourceDataObject, $filter);
                     if (!$existingItem) {
                         $existingItem = new $autoCompleteSourceDataObject();
-                        $existingItem->{$autoCompleteSourceAttribute} = $item;
+                        if (is_array($autoCompleteSourceAttribute)) {
+                            $splittedItems  = explode($this->getFieldDelimiter(), $item);
+                            foreach ($autoCompleteSourceAttribute as $key => $fieldName) {
+                                $existingItem->{$fieldName} = $splittedItems[$key];
+                            }
+                        } else {
+                            $existingItem->{$autoCompleteSourceAttribute} = $item;
+                        }
                         $existingItem->write();
                     }
                     $relatedID = $existingItem->ID;
@@ -198,7 +239,7 @@ class SilvercartTextAutoCompleteField extends TextField {
         $record->{$fieldName} = $relatedID;
         $record->write();
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // GENERATING METHODS
     ////////////////////////////////////////////////////////////////////////////
@@ -217,7 +258,16 @@ class SilvercartTextAutoCompleteField extends TextField {
         $attribute = $this->getAutoCompleteSourceAttribute();
         if ($dataObjectSet) {
             foreach ($dataObjectSet as $dataObject) {
-                $autoCompleteList[] = str_replace("'", "\'", $dataObject->{$attribute});
+                if (is_array($attribute)) {
+                    $listEntries = array();
+                    foreach ($attribute as $key => $fieldName) {
+                        $listEntries[] = $this->prepareValue($dataObject->{$fieldName});
+                    }
+                    $listEntry = implode($this->getFieldDelimiter(), $listEntries);
+                } else {
+                    $listEntry = $this->prepareValue($dataObject->{$attribute});
+                }
+                $autoCompleteList[] = $listEntry;
             }
         }
         $this->setAutoCompleteList($autoCompleteList);
@@ -260,7 +310,16 @@ class SilvercartTextAutoCompleteField extends TextField {
         if ($controller->ID) {
             $relation   = DataObject::get_by_id($this->getAutoCompleteSourceDataObject(), $controller->{$fieldName});
             if ($relation) {
-                $value = $relation->{$this->getAutoCompleteSourceAttribute()};
+                $attribute = $this->getAutoCompleteSourceAttribute();
+                if (is_array($attribute)) {
+                    $values = array();
+                    foreach ($attribute as $key => $fieldName) {
+                        $values[] = $this->prepareValue($relation->{$fieldName});
+                    }
+                    $value = implode($this->getFieldDelimiter(), $values);
+                } else {
+                    $value = $this->prepareValue($relation->{$attribute});
+                }
             }
         }
         $this->setAutoCompleteValue($value);
@@ -425,6 +484,63 @@ class SilvercartTextAutoCompleteField extends TextField {
      */
     public function setController($controller) {
         $this->controller = $controller;
+    }
+
+    /**
+     * Sets the field delimiter
+     *
+     * @param string $fieldDelimiter Delimiter to seperate field values of one entry
+     * 
+     * @return void
+     */
+    public function setFieldDelimiter($fieldDelimiter) {
+        $this->fieldDelimiter = $fieldDelimiter;
+    }
+    
+    /**
+     * Returns the field delimiter
+     * 
+     * @return string
+     */
+    public function getFieldDelimiter() {
+        return  ' ' . $this->fieldDelimiter . ' ';
+    }
+
+    /**
+     * Sets the entry delimiter
+     *
+     * @param string $entryDelimiter Delimiter to seperate entries
+     * 
+     * @return void
+     */
+    public function setEntryDelimiter($entryDelimiter) {
+        $this->entryDelimiter = $entryDelimiter;
+    }
+    
+    /**
+     * Returns the field delimiter
+     * 
+     * @return string
+     */
+    public function getEntryDelimiter() {
+        return $this->entryDelimiter . ' ';
+    }
+    
+    /**
+     * Prepares a value to display in text field
+     *
+     * @param string $value Value to prepare
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2012
+     */
+    public function prepareValue($value) {
+        $preparedValue = str_replace("'",                           '\\\'',                             $value);
+        $preparedValue = str_replace($this->getEntryDelimiter(),    "\\" . $this->getEntryDelimiter(),  $preparedValue);
+        $preparedValue = str_replace($this->getFieldDelimiter(),    "\\" . $this->getFieldDelimiter(),  $preparedValue);
+        return $preparedValue;
     }
 
 }

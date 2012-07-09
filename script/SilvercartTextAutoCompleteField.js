@@ -1,38 +1,40 @@
 
 var SilvercartTextAutoCompleteField = [];
     SilvercartTextAutoCompleteField.AutoCompleteList = [];
+    SilvercartTextAutoCompleteField.EntryDelimiter   = [];
 
-SilvercartTextAutoCompleteField.split = function(val) {
-    return val.split(/,\s*/);
+SilvercartTextAutoCompleteField.split = function(val, fieldName) {
+    return val.split(SilvercartTextAutoCompleteField.EntryDelimiter[fieldName]);
 }
-SilvercartTextAutoCompleteField.extractLast = function(term) {
-    return this.split(term).pop();
+SilvercartTextAutoCompleteField.extractLast = function(term, fieldName) {
+    return this.split(term, fieldName).pop();
 }
 SilvercartTextAutoCompleteField.init = function() {
     jQuery('.silvercarttextautocomplete input').live(
         "focus",
         function() {
-            var availableTags = SilvercartTextAutoCompleteField.AutoCompleteList[jQuery(this).attr('name')];
+            var fieldName     = jQuery(this).attr('name');
+            var availableTags = SilvercartTextAutoCompleteField.AutoCompleteList[fieldName];
             jQuery(this).autocomplete({
                 minLength: 0,
                 source: function(request, response) {
                     // delegate back to autocomplete, but extract the last term
                     response(jQuery.ui.autocomplete.filter(
-                        availableTags, SilvercartTextAutoCompleteField.extractLast(request.term)));
+                        availableTags, SilvercartTextAutoCompleteField.extractLast(request.term, fieldName)));
                 },
                 focus: function() {
                     // prevent value inserted on focus
                     return false;
                 },
                 select: function(event, ui) {
-                    var terms = SilvercartTextAutoCompleteField.split(this.value);
+                    var terms = SilvercartTextAutoCompleteField.split(this.value, fieldName);
                     // remove the current input
                     terms.pop();
                     // add the selected item
                     terms.push(ui.item.value);
                     // add placeholder to get the comma-and-space at the end
                     terms.push("");
-                    this.value = terms.join(", ");
+                    this.value = terms.join(SilvercartTextAutoCompleteField.EntryDelimiter[fieldName]);
                     return false;
                 }
             })

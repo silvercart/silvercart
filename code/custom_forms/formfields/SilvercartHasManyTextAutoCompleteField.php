@@ -53,9 +53,18 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
             if ($relations->Count() > 0) {
                 $values = array();
                 foreach ($relations as $dataObject) {
-                    $values[] = $dataObject->{$this->getAutoCompleteSourceAttribute()};
+                    $attribute = $this->getAutoCompleteSourceAttribute();
+                    if (is_array($attribute)) {
+                        $valueParts = array();
+                        foreach ($attribute as $key => $fieldName) {
+                            $valueParts[] = $this->prepareValue($dataObject->{$fieldName});
+                        }
+                        $values[] = implode($this->getFieldDelimiter(), $valueParts);
+                    } else {
+                        $values[] = $this->prepareValue($dataObject->{$attribute});
+                    }
                 }
-                $value = implode(', ', $values);
+                $value = implode($this->getEntryDelimiter(), $values);
             }
         }
         $this->setValue($value);
@@ -113,23 +122,44 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
         $relatedIDs = array();
         if ($list) {
             if ($list != 'undefined') {
-                $items = explode(',', $list);
+                $items = explode($this->getEntryDelimiter(), $list);
                 foreach ($items as $item) {
                     if (trim($item) == '') {
                         continue;
                     }
-                    $item = strtolower(trim($item));
+                    $item = trim($item);
+                    if (is_array($autoCompleteSourceAttribute)) {
+                        $filters        = array();
+                        $splittedItems  = explode($this->getFieldDelimiter(), $item);
+                        foreach ($autoCompleteSourceAttribute as $key => $fieldName) {
+                            $filters[] = sprintf(
+                                    "`%s` = '%s'",
+                                    $fieldName,
+                                    $splittedItems[$key]
+                            );
+                        }
+                        $filter = implode(' AND ', $filters);
+                    } else {
+                        $filter = sprintf(
+                                "`%s` = '%s'",
+                                $autoCompleteSourceAttribute,
+                                $item
+                        );
+                    }
                     $existingItem = DataObject::get_one(
                             $autoCompleteSourceDataObject,
-                            sprintf(
-                                    "`%s` = '%s'",
-                                    $autoCompleteSourceAttribute,
-                                    $item
-                            )
+                            $filter
                     );
                     if (!$existingItem) {
                         $existingItem = new $autoCompleteSourceDataObject();
-                        $existingItem->{$autoCompleteSourceAttribute} = $item;
+                        if (is_array($autoCompleteSourceAttribute)) {
+                            $splittedItems  = explode($this->getFieldDelimiter(), $item);
+                            foreach ($autoCompleteSourceAttribute as $key => $fieldName) {
+                                $existingItem->{$fieldName} = $splittedItems[$key];
+                            }
+                        } else {
+                            $existingItem->{$autoCompleteSourceAttribute} = $item;
+                        }
                         $existingItem->write();
                     }
                     $relatedIDs[] = $existingItem->ID;
@@ -177,7 +207,16 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
         if ($relations->Count() > 0) {
             $values = array();
             foreach ($relations as $dataObject) {
-                $values[] = $dataObject->{$this->getAutoCompleteSourceAttribute()};
+                $attribute = $this->getAutoCompleteSourceAttribute();
+                if (is_array($attribute)) {
+                    $valueParts = array();
+                    foreach ($attribute as $key => $fieldName) {
+                        $valueParts[] = $this->prepareValue($dataObject->{$fieldName});
+                    }
+                    $values[] = implode($this->getFieldDelimiter(), $valueParts);
+                } else {
+                    $values[] = $this->prepareValue($dataObject->{$attribute});
+                }
             }
             $value = implode(', ', $values);
             $this->setAutoCompleteValue($value);
