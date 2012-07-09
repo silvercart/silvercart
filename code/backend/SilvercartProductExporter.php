@@ -655,6 +655,14 @@ class SilvercartProductExporter extends DataObject {
             foreach ($exportFields as $exportField) {
                 if ($exportField->isCallbackField) {
                     $fieldValue = '';
+                    if (array_key_exists('ID', $record)) {
+                        $product = DataObject::get_by_id('SilvercartProduct', $record['ID']);
+                        if ($product &&
+                            $product->hasMethod($exportField->name)) {
+                            $methodName = $exportField->name;
+                            $fieldValue = $product->{$methodName}();
+                        }
+                    }
                 } else {
                     $fieldValue = $record[$exportField->name];
                 }
