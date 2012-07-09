@@ -339,7 +339,7 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']              
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
 $lang['de_DE']['SilvercartProductExport']['PLURALNAME']                                     = 'Artikelexporte';
 $lang['de_DE']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Artikelexporte';
-$lang['de_DE']['SilvercartProductExport']['PROTOCLOFORLINKS']                               = 'Protokol für Links';
+$lang['de_DE']['SilvercartProductExport']['PROTOCLOFORLINKS']                               = 'Protokoll für Links';
 $lang['de_DE']['SilvercartProductExport']['SINGULARNAME']                                   = 'Artikelexport';
 $lang['de_DE']['SilvercartProductExporter']['PLURALNAME']                                   = 'Preisportal Exporte';
 $lang['de_DE']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Preisportal Export';
