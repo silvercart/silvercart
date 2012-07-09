@@ -328,7 +328,9 @@ class SilvercartShippingMethod extends DataObject {
                 $this->setShippingAddress($shippingAddress);
                 SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
             }
-            $shippingCountry = $shippingAddress->SilvercartCountry();
+            if ($shippingAddress) {
+                $shippingCountry = $shippingAddress->SilvercartCountry();
+            }
         }
         
         if ($shippingCountry) {
