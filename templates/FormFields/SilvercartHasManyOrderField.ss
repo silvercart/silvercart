@@ -91,12 +91,7 @@
                 $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed, function() {
                     if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
                         $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').length > 0) {
-                        
-                        $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').addClass('current');
-                        var id = $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').attr('id').replace('tab-', '');
-                        $('#SilvercartWidgetEditForm_Form #' + id).show();
-                        $('#SilvercartWidgetEditForm_Form #' + id).addClass('current');
-                        
+                        $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').trigger('click');
                     }
                 });
                 
