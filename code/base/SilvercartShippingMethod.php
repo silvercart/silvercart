@@ -312,11 +312,11 @@ class SilvercartShippingMethod extends DataObject {
     public function getShippingFee($weight = null) {
         $fee             = false;
 
-        if (!Member::currentUser() ||
-            !Member::currentUser()->SilvercartShoppingCart()) {
-            return $fee;
-        }
         if (is_null($weight)) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()) {
+                return $fee;
+            }
             $weight = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
         }
 

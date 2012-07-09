@@ -360,11 +360,14 @@ class SilvercartProduct extends DataObject {
      * 
      * @return SilvercartShippingFee 
      */
-    public function getDefaultShippingFee(SilvercartCountry $country, $customerGroup = null) {
-        if (is_null($customerGroup)) {
-            $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
+    public function getDefaultShippingFee(SilvercartCountry $country = null, $customerGroup = null) {
+        $shippingFee = '';
+        if (!is_null($country)) {
+            if (is_null($customerGroup)) {
+                $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
+            }
+            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
         }
-        $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
         return $shippingFee;
     }
 
