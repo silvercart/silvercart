@@ -758,28 +758,30 @@ class SilvercartProductExporter extends DataObject {
                     $fieldValue = '';
                     if (array_key_exists('ID', $record)) {
                         $product        = DataObject::get_by_id('SilvercartProduct', $record['ID']);
-                        $methodName     = $exportField->name;
-                        if ($methodName == 'DefaultShippingFee') {
-                            $defaultShippingFee = $product->getDefaultShippingFee($this->SilvercartCountry());
-                            if ($defaultShippingFee) {
-                                $fieldValue = $defaultShippingFee->getPriceAmount(true);
-                            } else {
-                                $fieldValue = 0;
-                            }
-                        } else {
-                            $methodParam    = null;
-                            if (strpos($exportField->name, '__')) {
-                                list(
-                                        $methodName,
-                                        $methodParam
-                                ) = explode('__', $exportField->name);
-                            }
-                            if ($product &&
-                                $product->hasMethod($methodName)) {
-                                if (is_null($methodParam)) {
-                                    $fieldValue = $product->{$methodName}();
+                        if ($product) {
+                            $methodName     = $exportField->name;
+                            if ($methodName == 'DefaultShippingFee') {
+                                $defaultShippingFee = $product->getDefaultShippingFee($this->SilvercartCountry());
+                                if ($defaultShippingFee) {
+                                    $fieldValue = $defaultShippingFee->getPriceAmount(true);
                                 } else {
-                                    $fieldValue = $product->{$methodName}($methodParam);
+                                    $fieldValue = 0;
+                                }
+                            } else {
+                                $methodParam    = null;
+                                if (strpos($exportField->name, '__')) {
+                                    list(
+                                            $methodName,
+                                            $methodParam
+                                    ) = explode('__', $exportField->name);
+                                }
+                                if ($product &&
+                                    $product->hasMethod($methodName)) {
+                                    if (is_null($methodParam)) {
+                                        $fieldValue = $product->{$methodName}();
+                                    } else {
+                                        $fieldValue = $product->{$methodName}($methodParam);
+                                    }
                                 }
                             }
                         }
