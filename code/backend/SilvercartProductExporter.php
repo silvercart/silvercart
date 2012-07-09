@@ -544,7 +544,7 @@ class SilvercartProductExporter extends DataObject {
                 }
             }
             $_SERVER['HTTP_HOST']           = $this->BaseUrlForLinks;
-            Director::setBaseURL('');
+            Director::setBaseURL('/');
             $this->switchedHttpHostToExport = true;
         }
     }
