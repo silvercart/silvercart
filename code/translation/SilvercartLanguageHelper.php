@@ -243,8 +243,6 @@ class SilvercartLanguageHelper {
      */
     public static function writeLanguageObject($languageObj, $mainRecord) {
         $record = array();
-            SilvercartTools::Log('writeLanguageObject', var_export($mainRecord, true));
-            SilvercartTools::Log('writeLanguageObject', var_export($languageObj, true));
         foreach ($languageObj->db() as $dbFieldName => $dbFieldType) {
             if (array_key_exists($dbFieldName, $mainRecord)) {
                 $record[$dbFieldName] = $mainRecord[$dbFieldName];
