@@ -315,6 +315,7 @@ $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 
 $lang['de_DE']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'CSV Header aktivieren';
 $lang['de_DE']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Exportfelder bestimmen';
+$lang['de_DE']['SilvercartProductExport']['BASEURLFORLINKS']                                = 'Basis-URL für Links';
 $lang['de_DE']['SilvercartProductExport']['BREADCRUMB_DELIMITER']                           = 'Trennzeichen für Breadcrumbs';
 $lang['de_DE']['SilvercartProductExport']['BREADCRUMB_DELIMITER_DESCRIPTION']               = 'Wird für die Trennung der Einzelkomponenten aller Breadcrumb Felder verwendet';
 $lang['de_DE']['SilvercartProductExport']['COUNTRY_DESCRIPTION']                            = 'Kontext-Land für Angaben wie Versandkosten';
@@ -336,7 +337,9 @@ $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_WITH_QUANT
 $lang['de_DE']['SilvercartProductExport']['FIELD_SELECT_ONLY_PRODUCTS_OF_RELATED_GROUPS']   = '... einer der hier verknüpften Warengruppen angehören oder darin gespiegelt sind';
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL']                          = 'Aktualisierungsrhythmus';
 $lang['de_DE']['SilvercartProductExport']['FIELD_UPDATE_INTERVAL_PERIOD']                   = 'Aktualisierungszeitraum';
+$lang['de_DE']['SilvercartProductExport']['PLURALNAME']                                     = 'Artikelexporte';
 $lang['de_DE']['SilvercartProductExport']['PLURAL_NAME']                                    = 'Artikelexporte';
+$lang['de_DE']['SilvercartProductExport']['PROTOCLOFORLINKS']                               = 'Protokol für Links';
 $lang['de_DE']['SilvercartProductExport']['SINGULARNAME']                                   = 'Artikelexport';
 $lang['de_DE']['SilvercartProductExporter']['PLURALNAME']                                   = 'Preisportal Exporte';
 $lang['de_DE']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Preisportal Export';

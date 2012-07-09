@@ -92,7 +92,9 @@ class SilvercartProductExporter extends DataObject {
         'activateCsvHeaders'                    => 'Boolean',
         'BreadcrumbDelimiter'                   => 'VarChar(10)',
         'lastExportDateTime'                    => 'SS_Datetime',
-        'createTimestampFile'                   => 'Boolean(0)'
+        'createTimestampFile'                   => 'Boolean(0)',
+        'ProtocolForLinks'                      => "Enum('http,https','http')",
+        'BaseUrlForLinks'                       => 'VarChar(255)',
     );
     
     /**
@@ -130,6 +132,34 @@ class SilvercartProductExporter extends DataObject {
     public static $defaults = array(
         'BreadcrumbDelimiter'   => '>',
     );
+    
+    /**
+     * Indicator to detect what http settings to set when switching
+     *
+     * @var bool
+     */
+    protected $switchedHttpHostToExport     = false;
+    
+    /**
+     * ssl setting to restore after switching
+     *
+     * @var string
+     */
+    protected $server_ssl_to_restore        = null;
+    
+    /**
+     * https setting to restore after switching
+     *
+     * @var string
+     */
+    protected $server_https_to_restore      = null;
+    
+    /**
+     * http host setting to restore after switching
+     *
+     * @var string
+     */
+    protected $server_http_host_to_restore  = null;
     
     /**
      * We initialise the obj variable here.
@@ -211,6 +241,8 @@ class SilvercartProductExporter extends DataObject {
                 'SilvercartCountry'                     => _t('SilvercartCountry.SINGULARNAME'),
                 'SilvercartProductExporterFields'       => _t('SilvercartProductExporterField.PLURALNAME'),
                 'SilvercartProductGroupPages'           => _t('SilvercartProductGroupPage.PLURALNAME'),
+                'ProtocolForLinks'                      => _t('SilvercartProductExport.PROTOCLOFORLINKS'),
+                'BaseUrlForLinks'                       => _t('SilvercartProductExport.BASEURLFORLINKS'),
             )
         );
         
@@ -294,12 +326,19 @@ class SilvercartProductExporter extends DataObject {
         $fields->dataFieldByName('BreadcrumbDelimiter')->setRightTitle(_t('SilvercartProductExport.BREADCRUMB_DELIMITER_DESCRIPTION'));
         $fields->dataFieldByName('SilvercartCountryID')->setRightTitle(_t('SilvercartProductExport.COUNTRY_DESCRIPTION'));
         
+        if (empty($this->BaseUrlForLinks)) {
+            $this->BaseUrlForLinks = $_SERVER['HTTP_HOST'];
+            $fields->dataFieldByName('BaseUrlForLinks')->setValue($_SERVER['HTTP_HOST']);
+        }
+        
         $tabBasic->setChildren(
             new FieldSet(
                 $fields->dataFieldByName('isActive'),
                 $fields->dataFieldByName('name'),
                 $fields->dataFieldByName('csvSeparator'),
                 $fields->dataFieldByName('BreadcrumbDelimiter'),
+                $fields->dataFieldByName('ProtocolForLinks'),
+                $fields->dataFieldByName('BaseUrlForLinks'),
                 $fields->dataFieldByName('SilvercartCountryID'),
                 $fields->dataFieldByName('createTimestampFile'),
                 $fields->dataFieldByName('updateInterval'),
@@ -450,6 +489,63 @@ class SilvercartProductExporter extends DataObject {
             }
         }
     }
+
+    /**
+     * Switches the http settings to export propper product links
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2012
+     */
+    public function switchHttpHost() {
+        if ($this->switchedHttpHostToExport) {
+            if (isset($_SERVER['SSL'])) {
+                $_SERVER['SSL'] = $this->server_ssl_to_restore;
+                if (is_null($this->server_ssl_to_restore)) {
+                    unset($_SERVER['SSL']);
+                }
+            } elseif (!is_null($this->server_ssl_to_restore)) {
+                $_SERVER['SSL'] = $this->server_ssl_to_restore;
+            }
+            if (isset($_SERVER['HTTPS'])) {
+                $_SERVER['HTTPS'] = $this->server_https_to_restore;
+                if (is_null($this->server_https_to_restore)) {
+                    unset($_SERVER['HTTPS']);
+                }
+            } elseif (!is_null($this->server_https_to_restore)) {
+                $_SERVER['HTTPS'] = $this->server_https_to_restore;
+            }
+            $_SERVER['HTTP_HOST'] = $this->server_http_host_to_restore;
+            $this->switchedHttpHostToExport     = false;
+            $this->server_ssl_to_restore        = null;
+            $this->server_https_to_restore      = null;
+            $this->server_http_host_to_restore  = null;
+        } else {
+            $this->server_ssl_to_restore        = null;
+            $this->server_https_to_restore      = null;
+            $this->server_http_host_to_restore  = $_SERVER['HTTP_HOST'];
+            if (isset($_SERVER['SSL'])) {
+                $this->server_ssl_to_restore = $_SERVER['SSL'];
+            }
+            if (isset($_SERVER['HTTPS'])) {
+                $this->server_https_to_restore = $_SERVER['HTTPS'];
+            }
+            if ($this->ProtocolForLinks == 'https') {
+                $_SERVER['SSL']     = true;
+                $_SERVER['HTTPS']   = 'on';
+            } else {
+                if (isset($_SERVER['SSL'])) {
+                    unset($_SERVER['SSL']);
+                }
+                if (isset($_SERVER['HTTPS'])) {
+                    unset($_SERVER['HTTPS']);
+                }
+            }
+            $_SERVER['HTTP_HOST']           = $this->BaseUrlForLinks;
+            $this->switchedHttpHostToExport = true;
+        }
+    }
     
     /**
      * Create an export file.
@@ -463,6 +559,7 @@ class SilvercartProductExporter extends DataObject {
      * @since 01.07.2012
      */
     public function doExport($exportTimeStamp = null) {
+        $this->switchHttpHost();
         $obj        = singleton($this->objName);
         if ($obj->hasExtension('SilvercartDataObjectMultilingualDecorator')) {
             $query = sprintf("
@@ -533,6 +630,7 @@ class SilvercartProductExporter extends DataObject {
         if ($this->createTimestampFile) {
             file_put_contents($this->getTimeStampFilePath(), $exportTimeStamp);
         }
+        $this->switchHttpHost();
     }
     
     /**
@@ -653,6 +751,7 @@ class SilvercartProductExporter extends DataObject {
         
         if ($includeRow) {
             foreach ($exportFields as $exportField) {
+                $fieldValue = '';
                 if ($exportField->isCallbackField) {
                     $fieldValue = '';
                     if (array_key_exists('ID', $record)) {
@@ -664,7 +763,24 @@ class SilvercartProductExporter extends DataObject {
                         }
                     }
                 } else {
-                    $fieldValue = $record[$exportField->name];
+                    if (array_key_exists('ID', $record)) {
+                        $product        = DataObject::get_by_id('SilvercartProduct', $record['ID']);
+                        $propertyName   = $exportField->name;
+                        if ($product &&
+                            substr($propertyName, -2) == 'ID' &&
+                            is_numeric($product->{$propertyName}) &&
+                            class_exists(substr($propertyName, 0, -2)) &&
+                            singleton(substr($propertyName, 0, -2)) instanceof DataObject) {
+                            $className  = substr($propertyName, 0, -2);
+                            $relation   = DataObject::get_by_id($className, $product->{$propertyName});
+                            if ($relation) {
+                                $fieldValue = $relation->Title;
+                            }
+                        }
+                    }
+                    if (empty($fieldValue)) {
+                        $fieldValue = $record[$exportField->name];
+                    }
                 }
 
                 // If a callback class and method exist for this exporter and field
