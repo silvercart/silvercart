@@ -88,6 +88,13 @@
     filter:                             progid:DXImageTransform.Microsoft.gradient(startColorstr=#80282828, endColorstr=#80282828);
     -ms-filter:                         "progid:DXImageTransform.Microsoft.gradient(startColorstr=#80282828, endColorstr=#80282828)";
 }
+#SilvercartWidgetEditForm_loader {
+    position:                           absolute;
+    width:                              98%;
+    height:                             95%;
+    z-index:                            100;
+    background:                         url('../../../images/loader.gif') center center no-repeat #fff;
+}
 
 .action_doAttributeItems,
 .action_doRemoveItems,
