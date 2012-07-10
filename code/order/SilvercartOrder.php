@@ -547,8 +547,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
         
         $mainGroup = new SilvercartFieldGroup('MainGroup', '', $fields);
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('OrderNumber'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('CustomersEmail'));
+        $mainGroup->push(           $fields->dataFieldByName('OrderNumber'));
+        $mainGroup->breakAndPush(   $fields->dataFieldByName('CustomersEmail'));
         $mainGroup->breakAndPush(   $fields->dataFieldByName('AmountTotal'));
         $mainGroup->push(           $priceTypeTextField);
         $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostPayment'));
