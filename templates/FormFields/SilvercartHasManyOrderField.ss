@@ -87,6 +87,8 @@
             // Load the edit form data and put it into an overlay container
             $.post('{$AbsUrl}admin/silvercart-widgets/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
                 $('#SilvercartWidgetEditForm_Form').html(result);
+                Behaviour.apply('#SilvercartWidgetEditForm_Form form');
+                RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
                 
                 $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed, function() {
                     if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
@@ -125,8 +127,6 @@
                     return false;
                 });
                 
-                Behaviour.apply('SilvercartWidgetEditForm_Form form');
-                openTab('SilvercartProductGroupItemsWidget_basic');
             }, 'html');
 
             return false;
