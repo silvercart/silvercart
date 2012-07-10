@@ -1542,6 +1542,25 @@ class SilvercartProduct extends DataObject {
 
         return $link;
     }
+
+    /**
+     * Canonical link to the controller, that shows this product
+     * An product has a unique URL
+     *
+     * @return string URL of $this
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function CanonicalLink() {
+        $link = '';
+
+        if ($this->SilvercartProductGroup()) {
+            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+        }
+        
+        return $link;
+    }
     
     /**
      * Alias for AbsoluteLink()
@@ -1573,6 +1592,26 @@ class SilvercartProduct extends DataObject {
      */
     public function ProductQuestionLink() {
         return SilvercartTools::PageByIdentifierCodeLink('SilvercartContactFormPage') . 'productQuestion/' . $this->ID;
+    }
+    
+    /**
+     * Returns whether the current view is a mirrored product detail view
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function IsMirroredView() {
+        $isMirroredView = true;
+
+        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+            !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
+            $this->SilvercartProductGroupID == Controller::curr()->data()->ID) {
+            $isMirroredView = false;
+        }
+        
+        return $isMirroredView;
     }
 
     /**
