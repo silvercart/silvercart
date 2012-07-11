@@ -218,7 +218,7 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
                     $values[] = $this->prepareValue($dataObject->{$attribute});
                 }
             }
-            $value = implode(', ', $values);
+            $value = implode($this->getEntryDelimiter(), $values);
             $this->setAutoCompleteValue($value);
         }
     }
