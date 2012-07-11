@@ -180,7 +180,7 @@ $lang['de_DE']['SilvercartImageSliderImage']['PLURALNAME'] = 'Sliderbilder';
 $lang['de_DE']['SilvercartImageSliderImageLanguage']['PLURALNAME']              = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartImageSliderImageLanguage']['SINGULARNAME']            = _t('Silvercart.TRANSLATION');
 
-$lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Imageslider';
+$lang['de_DE']['SilvercartImageSliderWidget']['TITLE']          = 'Bilder';
 $lang['de_DE']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['de_DE']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Stellt einen Imageslider zur Verfügung, das mehrere Bilder in einer Slideshow darstellt.';
 
@@ -1584,14 +1584,14 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTGROUP']         = 'Aus Warengruppe';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Produkte von Hand wählen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Slider für Produkte';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Produkte';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Produkte';
 
 $lang['de_DE']['SilvercartBargainProductsWidget']['CMSTITLE']                   = 'SilverCart Slider für Schnäppchen';
 $lang['de_DE']['SilvercartBargainProductsWidget']['DESCRIPTION']                = 'Dieses Widget zeigt eine konfigurierbare Anzahl der Artikel an, deren Differenz von UVP und Endpreis am größten ist.';
 $lang['de_DE']['SilvercartBargainProductsWidget']['FETCHMETHOD_SORTORDERASC']   = 'Preisdifferenz aufsteigend';
 $lang['de_DE']['SilvercartBargainProductsWidget']['FETCHMETHOD_SORTORDERDESC']  = 'Preisdifferenz absteigend';
-$lang['de_DE']['SilvercartBargainProductsWidget']['TITLE']                      = 'Slider für Schnäppchen';
+$lang['de_DE']['SilvercartBargainProductsWidget']['TITLE']                      = 'Schnäppchen';
 
 $lang['de_DE']['SilvercartBargainProductsWidgetLanguage']['PLURALNAME']         = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartBargainProductsWidgetLanguage']['SINGULARNAME']       = _t('Silvercart.TRANSLATION');

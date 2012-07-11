@@ -85,7 +85,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      */
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'HTMLText',
+        'FrontContent'                  => 'Text',
     );
     
     /**
@@ -449,22 +449,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      */
     public function isContentView() {
         return true;
-    }
-    
-    /**
-     * HtmlEditorFields need an own save method
-     *
-     * @param string $value content
-     *
-     * @return void 
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
-     */
-    public function saveFrontContent($value) {
-        $langObj = $this->getLanguage();
-        $langObj->FrontContent = $value;
-        $langObj->write();
     }
     
     /**

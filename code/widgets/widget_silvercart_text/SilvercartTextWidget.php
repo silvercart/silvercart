@@ -39,7 +39,7 @@ class SilvercartTextWidget extends SilvercartWidget {
     
     public static $casting = array(
         'Headline'          => 'Text',
-        'FreeText'          => 'HTMLText',
+        'FreeText'          => 'Text',
     );
     
     /**
@@ -53,22 +53,6 @@ class SilvercartTextWidget extends SilvercartWidget {
     public static $has_many = array(
         'SilvercartTextWidgetLanguages' => 'SilvercartTextWidgetLanguage'
     );
-    
-    /**
-     * saves the value of the field FreeText correctly into HTMLText
-     * 
-     * @param string $value the field value
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
-     */
-    public function saveFreeText($value) {
-        $languageObj = $this->getLanguage();
-        $languageObj->FreeText = $value;
-        $languageObj->write();
-    }
 
     /**
      * retirieves the attribute FreeText from related language class depending

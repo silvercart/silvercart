@@ -43,7 +43,7 @@ class SilvercartTextWidgetLanguage extends DataObject {
      */
     public static $db = array(
         'Headline'          => 'VarChar(255)',
-        'FreeText'          => 'HTMLText',
+        'FreeText'          => 'Text',
     );
     
     /**

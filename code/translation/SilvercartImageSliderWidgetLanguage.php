@@ -43,7 +43,7 @@ class SilvercartImageSliderWidgetLanguage extends DataObject {
      */
     public static $db = array(
         'FrontTitle'   => 'VarChar(255)',
-        'FrontContent' => 'HTMLText'
+        'FrontContent' => 'Text'
     );
     
     /**

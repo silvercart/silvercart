@@ -30,6 +30,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 28.05.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
     
@@ -43,7 +44,7 @@ class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
      */
     public static $db = array(
         'FrontTitle'   => 'VarChar(255)',
-        'FrontContent' => 'HTMLText'
+        'FrontContent' => 'Text'
     );
     
     /**

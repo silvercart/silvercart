@@ -81,7 +81,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     
     public static $casting = array(
         'FrontTitle'                    => 'Text',
-        'FrontContent'                  => 'HTMLText',
+        'FrontContent'                  => 'Text',
     );
     
     /**
@@ -114,22 +114,6 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
             $frontContent = $this->getLanguage()->FrontContent;
         }
         return $frontContent;
-    }
-    
-    /**
-     * HtmlEditorFields need an own save method
-     *
-     * @param string $value content
-     *
-     * @return void 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
-     */
-    public function saveFrontContent($value) {
-        $langObj = $this->getLanguage();
-        $langObj->FrontContent = $value;
-        $langObj->write();
     }
     
     /**
