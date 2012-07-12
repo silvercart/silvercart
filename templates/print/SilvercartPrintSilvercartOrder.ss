@@ -166,7 +166,7 @@
         $OrderDetailTable
     
         <br/>
-        <br/>
+        <br style="page-break-after: always;"/>
         <button onclick="javascript:window.print();"><% _t('SilvercartOrder.PRINT') %></button>
     </body>
 </html>
