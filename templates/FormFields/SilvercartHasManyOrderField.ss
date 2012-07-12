@@ -40,7 +40,7 @@
 
 <script type="text/javascript">
     /* <![CDATA[ */
-    
+    Behaviour.apply();
     // Add functionality to the move up, down, remove and attribute items buttons
     (function($) {
         
@@ -87,13 +87,15 @@
             // Load the edit form data and put it into an overlay container
             $.post('{$AbsUrl}admin/silvercart-widgets/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
                 $('#SilvercartWidgetEditForm_Form').html(result);
+                Behaviour.apply();
                 
                 $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed, function() {
                     if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
                         $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').length > 0) {
                         $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').trigger('click');
-                        Behaviour.apply('#SilvercartWidgetEditForm_Form form');
-                        RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
+                        if (typeof RelationComplexTableField != 'undefined') {
+                            RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
+                        }
                     }
                 });
                 
