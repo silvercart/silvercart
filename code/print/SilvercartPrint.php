@@ -57,6 +57,29 @@ class SilvercartPrint {
      * Returns the print URL for the given DataObject
      * (silvercart-print/$DataObjectName/$DataObjectID)
      *
+     * @param DataObjectSet $dataObjectSet DataObjectSet to get print URL for
+     * 
+     * @return string 
+     */
+    public static function getPrintURLForMany($dataObjectSet) {
+        $printURL = '';
+        if ($dataObjectSet instanceof DataObjectSet) {
+            $dataObject = $dataObjectSet->First();
+            if ($dataObject instanceof DataObject) {
+                $printURL = sprintf(
+                        'silvercart-print-many/%s/%s',
+                        $dataObject->ClassName,
+                        implode('-', $dataObjectSet->map('ID','ID'))
+                );
+            }
+        }
+        return $printURL;
+    }
+    
+    /**
+     * Returns the print URL for the given DataObject
+     * (silvercart-print/$DataObjectName/$DataObjectID)
+     *
      * @param DataObject $dataObject DataObject to get print URL for
      * 
      * @return string 
@@ -126,6 +149,31 @@ class SilvercartPrint {
         return self::getPrintOutput($dataObject, true);
     }
     
+    /**
+     * Returns the given DataObjects default print template
+     * 
+     * @param string $dataObjectName DataObject name
+     * @param array  $dataObjectIDs  DataObject IDs to get print output for
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.04.2012
+     */
+    public static function getPrintManyOutput($dataObjectName, $dataObjectIDs) {
+        $printResult = '';
+        self::loadDefaultRequirements(false);
+        Requirements::themedCSS('SilvercartPrint' . $dataObjectName);
+        foreach ($dataObjectIDs as $dataObjectID) {
+            $dataObject = DataObject::get_by_id($dataObjectName, $dataObjectID);
+            if ($dataObject &&
+                $dataObject->CanView()) {
+                $printResult .= $dataObject->renderWith('SilvercartPrint' . $dataObject->ClassName);
+            }
+        }
+        return $printResult;
+    }
+    
 }
 
 /**
@@ -158,22 +206,32 @@ class SilvercartPrint_Controller extends SilvercartPage_Controller {
         $params         = $request->allParams();
         $dataObjectName = $params['DataObjectName'];
         $dataObjectID   = $params['DataObjectID'];
-        $dataObject     = DataObject::get_by_id($dataObjectName, $dataObjectID);
-        if ($dataObject &&
-            $dataObject->canView()) {
-            if ($dataObject->hasMethod('printDataObject')) {
-                print $dataObject->printDataObject();
-            } else {
-                if (strpos($request->getVar('url'), 'silvercart-print-inline') === false) {
-                    $output = SilvercartPrint::getPrintOutput($dataObject);
-                } else {
-                    $output = SilvercartPrint::getPrintInlineOutput($dataObject);
-                }
+        if (strpos($request->getVar('url'), 'silvercart-print-many') !== false) {
+            $dataObjectIDs  = explode('-', $dataObjectID);
+            $output         = SilvercartPrint::getPrintManyOutput($dataObjectName, $dataObjectIDs);
+            if (!empty($output)) {
                 print $output;
+                exit();
             }
-            exit();
-        } else {
             Director::redirect(Director::baseURL());
+        } else {
+            $dataObject     = DataObject::get_by_id($dataObjectName, $dataObjectID);
+            if ($dataObject &&
+                $dataObject->canView()) {
+                if ($dataObject->hasMethod('printDataObject')) {
+                    print $dataObject->printDataObject();
+                } else {
+                    if (strpos($request->getVar('url'), 'silvercart-print-inline') === false) {
+                        $output = SilvercartPrint::getPrintOutput($dataObject);
+                    } else {
+                        $output = SilvercartPrint::getPrintInlineOutput($dataObject);
+                    }
+                    print $output;
+                }
+                exit();
+            } else {
+                Director::redirect(Director::baseURL());
+            }
         }
     }
     
