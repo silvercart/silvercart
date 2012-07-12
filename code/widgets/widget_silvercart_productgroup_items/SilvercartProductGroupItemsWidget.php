@@ -158,7 +158,13 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
-        $productTableField          = new ManyManyComplexTableField($this, 'SilvercartProducts', 'SilvercartProduct');
+        $productsDescription        = new LiteralField('', _t("SilvercartProductGroupItemsWidget.SELECT_PRODUCT_DESCRIPTION"));
+        $silvercartProducts         = new SilvercartManyManyTextAutoCompleteField(
+                $this,
+                'SilvercartProducts',
+                $this->fieldLabel('SilvercartProducts'),
+                'SilvercartProduct.ProductNumberShop'
+        );
         $selectionMethod            = new OptionsetField('useSelectionMethod',  $this->fieldLabel('useSelectionMethod'), $selectionMethods);
         $translationsTableField     = new ComplexTableField($this, 'SilvercartProductGroupItemsWidgetLanguages', 'SilvercartProductGroupItemsWidgetLanguage');
         
@@ -176,7 +182,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
         $productGroupTab->push($fields->dataFieldByName('numberOfProductsToShow'));
         $productGroupTab->push($fields->dataFieldByName('numberOfProductsToFetch'));
 
-        $productsTab->push($productTableField);
+        $productsTab->push($productsDescription);
+        $productsTab->push($silvercartProducts);
         
         $translationTab->push($translationsTableField);
         

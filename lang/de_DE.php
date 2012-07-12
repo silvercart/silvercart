@@ -1586,6 +1586,7 @@ $lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS'] 
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Produkte';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Produkte';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Bitte Produktnummern eingeben, durch Strichpunkt getrennt';
 
 $lang['de_DE']['SilvercartBargainProductsWidget']['CMSTITLE']                   = 'SilverCart Slider für Schnäppchen';
 $lang['de_DE']['SilvercartBargainProductsWidget']['DESCRIPTION']                = 'Dieses Widget zeigt eine konfigurierbare Anzahl der Artikel an, deren Differenz von UVP und Endpreis am größten ist.';

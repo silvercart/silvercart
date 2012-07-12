@@ -1586,6 +1586,7 @@ $lang['en_US']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS'] 
 $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Please choose the product group to display:';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Products';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Selection method for products';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Select products by product number seperated by semicolon';
 
 $lang['en_US']['SilvercartBargainProductsWidget']['CMSTITLE']                   = 'SilverCart Slider for Bargain Products';
 $lang['en_US']['SilvercartBargainProductsWidget']['DESCRIPTION']                = 'This widget displays bargain products (highest difference between MSR and customer price). You can define how many products from which product group should be shown.';

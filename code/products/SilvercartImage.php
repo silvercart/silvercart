@@ -156,16 +156,43 @@ class SilvercartImage extends DataObject {
         }
         return $fields;
     }
+    
+    /**
+     * wrapper that changes add behavior for better user experience
+     * images may directly be added without pressing the save/add button
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet $fields field set for cms 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForContext($params = null) {
+        /* @var $request SS_HTTPRequest */
+        $request = Controller::curr()->getRequest();
+        if ($this->ID == 0 &&
+            $request->param('Action') == 'add') {
+            $this->write();
+            $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());
+            Director::redirect($editURL);
+        }
+        $fields = parent::getCMSFields($params);
+        return $fields;
+    }
 
     /**
      * Returns the CMS fields for the product context
      *
      * @param array $params Scaffolding params
      * 
-     * @return FieldSet
+     * @return FieldSet $fields field set for cms
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
      */
     public function getCMSFieldsForProduct($params = null) {
-        $fields = parent::getCMSFields(
+        $fields = $this->getCMSFieldsForContext(
                         array_merge(
                                 array(
                                     'restrictFields' => array(
@@ -176,6 +203,54 @@ class SilvercartImage extends DataObject {
                                 (array) $params
                         )
         );
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the payment method context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFieldsForPayment($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the widget context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFieldsForWidget($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'SortOrder');
+        }
         return $fields;
     }
 
