@@ -1012,6 +1012,35 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Adds or modifies the fields for the Images tab
+     *
+     * @param FieldSet $fields FieldSet to add fields to
+     * 
+     * @return void
+     */
+    public function getFieldsForImages($fields) {
+        $silvercartImageField = new ComplexTableField(
+                $this,
+                'SilvercartImages',
+                'SilvercartImage',
+                null,
+                'getCMSFieldsForProduct',
+                sprintf(
+                        "`SilvercartImage`.`SilvercartProductID` = '%s'",
+                        $this->ID
+                )
+        );
+        $silvercartImageField->setPermissions(
+                array(
+                    'add',
+                    'edit',
+                    'delete',
+                )
+        );
+        $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageField);
+    }
+
+    /**
      * Adds or modifies the fields for the Deeplinks tab
      *
      * @param FieldSet $fields FieldSet to add fields to
@@ -1101,6 +1130,7 @@ class SilvercartProduct extends DataObject {
             $this->getFieldsForProductGroups($fields);
             $this->getFieldsForWidgets($fields);
             $this->getFieldsForDeeplinks($fields);
+            $this->getFieldsForImages($fields);
         }
         
         $this->extend('updateCMSFields', $fields);

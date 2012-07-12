@@ -80,7 +80,9 @@ class SilvercartImage extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        $this->Image()->Title = $this->Title;
+        if ($this->ImageID) {
+            $this->Image()->Title = $this->Title;
+        }
     }
     
     /**
@@ -156,6 +158,28 @@ class SilvercartImage extends DataObject {
     }
 
     /**
+     * Returns the CMS fields for the product context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFieldsForProduct($params = null) {
+        $fields = parent::getCMSFields(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        return $fields;
+    }
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -178,6 +202,7 @@ class SilvercartImage extends DataObject {
                 'Description'               => _t('SilvercartImage.DESCRIPTION'),
                 'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
+                'Image'                     => _t('Image.SINGULARNAME'),
             )
         );
 
