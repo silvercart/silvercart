@@ -197,4 +197,47 @@ class SilvercartFile extends DataObject {
         $languageObj->Description = $value;
         $languageObj->write();
     }
+    
+    /**
+     * wrapper that changes add behavior for better user experience
+     * images may directly be added without pressing the save/add button
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet $fields field set for cms 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForContext($params = null) {
+        /* @var $request SS_HTTPRequest */
+        $request = Controller::curr()->getRequest();
+        if ($this->ID == 0 &&
+            $request->param('Action') == 'add') {
+            $this->write();
+            $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());
+            Director::redirect($editURL);
+        }
+        $fields = parent::getCMSFields($params);
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the product context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet $fields field set for cms
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForProduct($params = null) {
+        $fields = $this->getCMSFieldsForContext($params);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
 }

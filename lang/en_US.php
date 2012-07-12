@@ -1612,7 +1612,7 @@ $lang['en_US']['SilvercartProductLanguage']['SINGULARNAME']                     
 $lang['en_US']['SilvercartProductLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
 $lang['en_US']['SilvercartProductLanguage']['LOCALE']                           = 'Language';
 
-$lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'SilverCart search';
+$lang['en_US']['SilvercartSearchWidget']['TITLE']                   = 'Search form';
 $lang['en_US']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart search';
 $lang['en_US']['SilvercartSearchWidget']['DESCRIPTION']             = 'This widget shows a form for the product search.';
 
@@ -1622,8 +1622,8 @@ $lang['en_US']['SilvercartSearchWidgetForm']['SUBMITBUTTONTITLE']   = 'Search';
 $lang['en_US']['SilvercartSearchCloudWidget']['TITLE']                          = 'Most frequent search terms';
 $lang['en_US']['SilvercartSearchCloudWidget']['CMSTITLE']                       = 'Most frequent search terms';
 $lang['en_US']['SilvercartSearchCloudWidget']['DESCRIPTION']                    = 'This Widget shows a tag cloud with the most frequent search terms.';
-$lang['en_US']['SilvercartSearchCloudWidget']['TAGSPERCLOUD']                   = 'Count of the search queries to show';
-$lang['en_US']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  = 'Count of the font sizes';
+$lang['en_US']['SilvercartSearchCloudWidget']['TAGSPERCLOUD']                   = 'Number of the search queries to show';
+$lang['en_US']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  = 'Number of different font sizes';
 
 $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart shopping cart';

@@ -1226,8 +1226,26 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
-        $paymentLogosTable = new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID));
-        $paymentLogosTable->setTitle(_t('SilvercartImage.PLURALNAME'));
+        
+        
+        $paymentLogosTable = new ComplexTableField(
+                $this,
+                'PaymentLogos',
+                'SilvercartImage',
+                null,
+                'getCMSFieldsForPayment',
+                sprintf(
+                        "`SilvercartImage`.`SilvercartPaymentMethodID` = '%s'",
+                        $this->ID
+                )
+        );
+        $paymentLogosTable->setPermissions(
+                array(
+                    'add',
+                    'edit',
+                    'delete',
+                )
+        );
         $tabLogos->setChildren(
             new FieldSet(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
