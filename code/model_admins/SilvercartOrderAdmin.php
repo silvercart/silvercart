@@ -37,9 +37,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuCode = 'orders';
 
@@ -47,9 +44,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSortIndex = 10;
 
@@ -57,10 +51,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * The URL segment
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $url_segment = 'silvercart-orders';
 
@@ -68,10 +58,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * The menu title
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $menu_title = 'Silvercart Orders';
 
@@ -79,10 +65,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * Managed models
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $managed_models = array(
         'SilvercartOrder' => array(
@@ -90,6 +72,14 @@ class SilvercartOrderAdmin extends ModelAdmin {
             'record_controller'     => 'SilvercartOrder_RecordController'
         )
     );
+
+    /**
+     * Class name of the form field used for the results list.  Overloading this in subclasses
+     * can let you customise the results table field.
+     * 
+     * @var string
+     */
+    protected $resultsTableClassName = 'SilvercartEditableTableListField';
 
     /**
      * Constructor
@@ -111,8 +101,8 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
      */
     public function init() {
         parent::init();
@@ -126,8 +116,32 @@ class SilvercartOrderAdmin extends ModelAdmin {
         Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js');
         Requirements::css($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css');
 
-        Requirements::customScript("
-            (function($) { 
+        $orderStatusDropdownLink = Director::baseURL();
+        if (empty($orderStatusDropdownLink)) {
+            $orderStatusDropdownLink = '/';
+        }
+        $orderStatusDropdownLink .= $this->Link();
+        $orderStatusDropdownLink .= 'SilvercartOrder/OrderStatusDropdown';
+        
+        Requirements::customScript(
+                sprintf(
+                        "
+            function silvercartBatch_changeOrderStatus() {
+                (function($) {
+                    $.ajax({
+                        url     : '%s',
+                        async   : false,
+                        success : function(data) {
+                            $('.silvercart-batch-option-callback-target').html(data);
+                            $('select[name=\"SilvercartOrderStatus\"]').live('change', function() {
+                                var status = $('select[name=\"SilvercartOrderStatus\"] option:selected').val();
+                                $('input[name=\"silvercart-batch-option-callback-data\"]').val(status);
+                            });
+                        }
+                    });
+                })(jQuery);
+            }
+            (function($) {
                 $(document).ready(function() { 
                     //Date picker
                     $('#Form_SearchForm_SilvercartOrder_Created').daterangepicker({
@@ -135,8 +149,10 @@ class SilvercartOrderAdmin extends ModelAdmin {
                         dateFormat: 'dd.mm.yy'
                     });
                 });
-            })(jQuery);
-        ");
+            })(jQuery);",
+                        $orderStatusDropdownLink
+                )
+        );
 
         $this->extend('updateInit');
     }

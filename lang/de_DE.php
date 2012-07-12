@@ -39,6 +39,8 @@ if (file_exists(Director::baseFolder() . '/dataobject_manager/lang/deDE3.php')) 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
 
+$lang['de_DE']['TableListField']['SELECT'] = 'Auswahl:';
+
 $lang['de_DE']['Silvercart']['CHOOSE'] = 'wählen';
 $lang['de_DE']['Silvercart']['CLEAR_CACHE'] = 'Cache leeren';
 $lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';
@@ -1011,6 +1013,8 @@ $lang['de_DE']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_
 $lang['de_DE']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Gesamtbetrag brutto';
 $lang['de_DE']['SilvercartOrder']['AMOUNTTOTAL'] = 'Gesamtbetrag';
 $lang['de_DE']['SilvercartOrder']['BASICDATA'] = 'Grunddaten';
+$lang['de_DE']['SilvercartOrder']['BATCH_CHANGEORDERSTATUS']                    = 'Bestellstatus ändern auf...';
+$lang['de_DE']['SilvercartOrder']['BATCH_PRINTORDERS']                          = 'Bestellungen drucken (HTML)';
 $lang['de_DE']['SilvercartOrder']['CUSTOMER'] = 'Kunde';
 $lang['de_DE']['SilvercartOrder']['CUSTOMERDATA'] = 'Kundendaten';
 $lang['de_DE']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Emailadresse des Kunden';
@@ -1682,3 +1686,5 @@ $lang['de_DE']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      
 
 $lang['de_DE']['SilvercartPriceType']['GROSS']                                  = 'Brutto';
 $lang['de_DE']['SilvercartPriceType']['NET']                                    = 'Netto';
+
+$lang['de_DE']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Aktion auf Auswahl anwenden';

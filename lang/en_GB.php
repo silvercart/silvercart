@@ -39,6 +39,8 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 
 
 
+
+
 $lang['en_GB']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
@@ -1011,6 +1013,8 @@ $lang['en_GB']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_
 $lang['en_GB']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Total gross amount';
 $lang['en_GB']['SilvercartOrder']['AMOUNTTOTAL'] = 'Total amount';
 $lang['en_GB']['SilvercartOrder']['BASICDATA'] = 'Basics';
+$lang['en_GB']['SilvercartOrder']['BATCH_CHANGEORDERSTATUS']                    = 'Change order status to...';
+$lang['en_GB']['SilvercartOrder']['BATCH_PRINTORDERS']                          = 'Print orders (HTML)';
 $lang['en_GB']['SilvercartOrder']['CUSTOMER'] = 'Customer';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERDATA'] = 'Customer Data';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
@@ -1683,3 +1687,4 @@ $lang['en_GB']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      
 $lang['en_GB']['SilvercartPriceType']['GROSS']                                  = 'Gross';
 $lang['en_GB']['SilvercartPriceType']['NET']                                    = 'Net';
 
+$lang['en_GB']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Execute action for selection';

@@ -37,10 +37,6 @@ class SilvercartOrderStatus extends DataObject {
      * attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $db = array(
         'Code' => 'VarChar'
@@ -50,10 +46,6 @@ class SilvercartOrderStatus extends DataObject {
      * 1:n relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_many = array(
         'SilvercartOrders'      => 'SilvercartOrder',
@@ -64,10 +56,6 @@ class SilvercartOrderStatus extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.10.2011
      */
     public static $many_many = array(
         'SilvercartShopEmails'  => 'SilvercartShopEmail'
@@ -77,18 +65,26 @@ class SilvercartOrderStatus extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.07.2011
      */
     public static $belongs_many_many = array(
         'SilvercartPaymentMethodRestrictions' => 'SilvercartPaymentMethod'
     );
     
+    /**
+     * Castings
+     *
+     * @var array 
+     */
     public static $casting = array(
         'Title' => 'VarChar(255)'
     );
+    
+    /**
+     * Default sort
+     *
+     * @var string 
+     */
+    public static $default_sort = "Title";
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -96,15 +92,11 @@ class SilvercartOrderStatus extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartOrderStatus.SINGULARNAME')) {
-            return _t('SilvercartOrderStatus.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
     /**
@@ -113,15 +105,11 @@ class SilvercartOrderStatus extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartOrderStatus.PLURALNAME')) {
-            return _t('SilvercartOrderStatus.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }  
     
     /**
@@ -129,16 +117,9 @@ class SilvercartOrderStatus extends DataObject {
      * Title is a very common attribute and is therefore located in the decorator
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
 
     /**
@@ -167,12 +148,19 @@ class SilvercartOrderStatus extends DataObject {
      * @since 16.02.2011
      */
     public function fieldLabels($includerelations = true) {
-        $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Title']                               = _t('SilvercartPage.TITLE');
-        $fieldLabels['Code']                                = _t('SilvercartOrderStatus.CODE');
-        $fieldLabels['SilvercartOrders']                    = _t('SilvercartOrder.PLURALNAME');
-        $fieldLabels['SilvercartPaymentMethodRestrictions'] = _t('SilvercartPaymentMethod.PLURALNAME');
-        $fieldLabels['SilvercartOrderStatusLanguages']      = _t('SilvercartOrderStatusLanguage.PLURALNAME');
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'Title'                                 => _t('SilvercartPage.TITLE'),
+                'Code'                                  => _t('SilvercartOrderStatus.CODE'),
+                'SilvercartOrders'                      => _t('SilvercartOrder.PLURALNAME'),
+                'SilvercartPaymentMethodRestrictions'   => _t('SilvercartPaymentMethod.PLURALNAME'),
+                'SilvercartOrderStatusLanguages'        => _t('SilvercartOrderStatusLanguage.PLURALNAME'),
+                'ShopEmailsTab'                         => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
+                'ShopEmailLabelField'                   => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC'),
+            )
+        );
+        $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
 
@@ -182,7 +170,7 @@ class SilvercartOrderStatus extends DataObject {
      * @return FieldSet all CMS fields related
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 12.07.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -194,10 +182,10 @@ class SilvercartOrderStatus extends DataObject {
         }
         // Add shop email field
         $shopEmailLabelField = new LiteralField(
-            'shopEmailLabelField',
+            'ShopEmailLabelField',
             sprintf(
                 "<br /><p>%s</p>",
-                _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC')
+                $this->fieldLabel('ShopEmailLabelField')
             )
         );
         $shopEmailField = new ManyManyComplexTableField(
@@ -207,7 +195,7 @@ class SilvercartOrderStatus extends DataObject {
         );
         $shopEmailField->setPageSize(20);
 
-        $fields->findOrMakeTab('Root.shopEmails', _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'));
+        $fields->findOrMakeTab('Root.shopEmails', $this->fieldLabel('ShopEmailsTab'));
         
         $fields->addFieldToTab('Root.shopEmails', $shopEmailLabelField);
         $fields->addFieldToTab('Root.shopEmails', $shopEmailField);
@@ -255,7 +243,6 @@ class SilvercartOrderStatus extends DataObject {
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 23.11.2010
      */
     public static function getStatusList() {
@@ -271,18 +258,17 @@ class SilvercartOrderStatus extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 13.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Code' => 'Code',
-            'Title' => _t('SilvercartOrderStatus.SINGULARNAME')
+            'Code'  => $this->fieldLabel('Code'),
+            'Title' => $this->fieldLabel('Title'),
         );
-
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
+    
 }

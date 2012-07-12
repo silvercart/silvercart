@@ -2245,7 +2245,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      * @return TableListField
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @since 11.07.2012
      */
     public function getResultsTable($searchCriteria) {
         $tableField = parent::getResultsTable($searchCriteria);
@@ -2255,8 +2255,91 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $searchResultsLimit = (int) $searchCriteria['SearchResultsLimit'];
             $tableField->setPageSize($searchResultsLimit);
         }
+        $tableField->addBatchActions(
+                array(
+                    array(
+                        'action'    => 'changeOrderStatus',
+                        'label'     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
+                    ),
+                    array(
+                        'action'    => 'printOrders',
+                        'label'     => _t('SilvercartOrder.BATCH_PRINTORDERS'),
+                    ),
+                )
+        );
         $this->extend('getResultsTable', $tableField, $searchCriteria);
         return $tableField;
+    }
+
+    /**
+     * batch action callback to get the dropdown list for order status choice
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function OrderStatusDropdown() {
+        $orderStatus    = DataObject::get('SilvercartOrderStatus');
+        $orderStatusMap = $orderStatus->map();
+        $options        = array();
+        foreach ($orderStatusMap as $ID => $title) {
+            $options[] = sprintf(
+                    '<option value="%s">%s</option>',
+                    $ID,
+                    $title
+            );
+        }
+        return sprintf(
+                '<select name="SilvercartOrderStatus">%s</select>',
+                implode('', $options)
+        );
+    }
+    
+    /**
+     * Batch action to change the order status of the given order IDs to the 
+     * given order status ID
+     *
+     * @param array $orderIDs      IDs of orders to change status for
+     * @param int   $orderStatusID ID of status to set
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function silvercartBatch_changeOrderStatus($orderIDs, $orderStatusID) {
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $order->SilvercartOrderStatusID = $orderStatusID;
+                $order->write();
+            }
+        }
+    }
+    
+    /**
+     * Batch action to print the given orders
+     *
+     * @param array $orderIDs IDs of orders to change status for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function silvercartBatch_printOrders($orderIDs) {
+        $orders = new DataObjectSet();
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $orders->push($order);
+            }
+        }
+        return sprintf(
+                "window.open('%s');",
+                SilvercartPrint::getPrintURLForMany($orders)
+        );
     }
     
     /**

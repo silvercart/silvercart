@@ -39,6 +39,8 @@ global $lang;
 
 
 
+
+
 $lang['en_US']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_US']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_US']['Silvercart']['CONTENT'] = 'Content';
@@ -1011,6 +1013,8 @@ $lang['en_US']['SilvercartNewsletterOptInConfirmationPage']['EMAIL_CONFIRMATION_
 $lang['en_US']['SilvercartOrder']['AMOUNTGROSSTOTAL'] = 'Amount total gross';
 $lang['en_US']['SilvercartOrder']['AMOUNTTOTAL'] = 'Amount total';
 $lang['en_US']['SilvercartOrder']['BASICDATA'] = 'Basics';
+$lang['en_US']['SilvercartOrder']['BATCH_CHANGEORDERSTATUS']                    = 'Change order status to...';
+$lang['en_US']['SilvercartOrder']['BATCH_PRINTORDERS']                          = 'Print orders (HTML)';
 $lang['en_US']['SilvercartOrder']['CUSTOMER'] = 'Customer';
 $lang['en_US']['SilvercartOrder']['CUSTOMERDATA'] = 'Customer Data';
 $lang['en_US']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
@@ -1683,3 +1687,4 @@ $lang['en_US']['SilvercartDataPrivacyStatementPage']['DEFAULT_URLSEGMENT']      
 $lang['en_US']['SilvercartPriceType']['GROSS']                                  = 'Gross';
 $lang['en_US']['SilvercartPriceType']['NET']                                    = 'Net';
 
+$lang['en_US']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Execute action for selection';
