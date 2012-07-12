@@ -116,7 +116,7 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * 
      * @return mixed
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@üixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
     public function overwriteGetTitle(&$arguments, &$callingObject) {
@@ -135,11 +135,30 @@ class SilvercartShoppingCartPositionPluginProvider extends SilvercartPlugin {
      * 
      * @return mixed
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@üixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
     public function addToTitle(&$arguments, &$callingObject) {
         $result = $this->extend('pluginAddToTitle', $callingObject);
+        return $this->returnExtensionResultAsHtmlString($result);
+    }
+
+    /**
+     * This method will replace SilvercartShoppingCartPosition's method "getTitle".
+     * In order to not execute the original "addProduct" method you have to
+     * return something other than an empty string in your plugin method.
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return mixed
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function addToTitleForWidget(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginAddToTitleForWidget', $callingObject);
         return $this->returnExtensionResultAsHtmlString($result);
     }
     
