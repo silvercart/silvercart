@@ -187,17 +187,10 @@ class SilvercartZone extends DataObject {
     /**
      * retirieves title from related language class depending on the set locale
      *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
+     * @return string
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**

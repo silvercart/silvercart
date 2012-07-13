@@ -84,11 +84,7 @@ class SilvercartContactMessage extends DataObject {
      * @since 5.7.2011
      */
     public function singular_name() {
-        if (_t('SilvercartContactMessage.SINGULARNAME')) {
-            return _t('SilvercartContactMessage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -101,11 +97,7 @@ class SilvercartContactMessage extends DataObject {
      * @since 5.7.2011 
      */
     public function plural_name() {
-        if (_t('SilvercartContactMessage.PLURALNAME')) {
-            return _t('SilvercartContactMessage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
 
     /**

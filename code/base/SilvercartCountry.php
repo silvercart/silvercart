@@ -326,16 +326,9 @@ class SilvercartCountry extends DataObject {
     /**
      * Returns the title
      *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @return string $title i18n title
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
 }

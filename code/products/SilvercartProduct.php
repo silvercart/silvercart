@@ -204,7 +204,7 @@ class SilvercartProduct extends DataObject {
     protected $getCMSFieldsIsCalled = false;
 
 
-        /**
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      *
@@ -1025,7 +1025,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartImage',
                 null,
                 'getCMSFieldsForProduct',
-                sprintf(
+                sprintf(                 
                         "`SilvercartImage`.`SilvercartProductID` = '%s'",
                         $this->ID
                 )

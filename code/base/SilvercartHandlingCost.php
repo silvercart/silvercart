@@ -37,10 +37,6 @@ class SilvercartHandlingCost extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
      */
     public static $db = array(
         'amount' => 'Money'
@@ -50,9 +46,6 @@ class SilvercartHandlingCost extends DataObject {
      * Casting.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
      */
     public static $casting = array(
         'handlingcosts' => 'Text'
@@ -62,10 +55,6 @@ class SilvercartHandlingCost extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
      */
     public static $has_one = array(
         'SilvercartTax' => 'SilvercartTax'
@@ -96,32 +85,25 @@ class SilvercartHandlingCost extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartHandlingCost.SINGULARNAME')) {
-            return _t('SilvercartHandlingCost.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        }
+        return SilvercartTools::singular_name_for($this);
     }
+
 
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects plural name 
+     * @return string the objects plural name
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartHandlingCost.PLURALNAME')) {
-            return _t('SilvercartHandlingCost.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**

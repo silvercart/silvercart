@@ -158,6 +158,9 @@ $lang['en_GB']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            
 $lang['en_GB']['SilvercartDashboard']['NEWS_HEADLINE'] = 'News';
 $lang['en_GB']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Read more';
 
+$lang['en_GB']['SilvercartDeeplink']['PLURALNAME'] = 'Deeplinks';
+$lang['en_GB']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
+
 $lang['en_GB']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
 $lang['en_GB']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
 
@@ -210,6 +213,9 @@ $lang['en_GB']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS']   
 $lang['en_GB']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE']        = 'You\'ll be on the newsletter recipients list after clicking on the link in the opt-in mail we sent you.';
 $lang['en_GB']['SilvercartNewsletter']['SUBSCRIBED']                        = 'You are subscribed to the newsletter';
 $lang['en_GB']['SilvercartNewsletter']['UNSUBSCRIBED']                      = 'You are not subscribed to the newsletter';
+$lang['en_GB']['SilvercartNewsletter']['PLURALNAME']                        = 'Newsletters';
+$lang['en_GB']['SilvercartNewsletter']['SINGULARNAME']                      = 'Newsletter';
+
 $lang['en_GB']['SilvercartNewsletterPage']['DEFAULT_TITLE']                 = 'Newsletter';
 $lang['en_GB']['SilvercartNewsletterPage']['DEFAULT_URLSEGMENT']            = 'newsletter_en_gb';
 $lang['en_GB']['SilvercartNewsletterPage']['TITLE']                         = 'Newsletter';

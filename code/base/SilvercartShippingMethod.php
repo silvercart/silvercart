@@ -202,16 +202,13 @@ class SilvercartShippingMethod extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShippingMethod.SINGULARNAME')) {
-            return _t('SilvercartShippingMethod.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -219,14 +216,10 @@ class SilvercartShippingMethod extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShippingMethod.PLURALNAME')) {
-            return _t('SilvercartShippingMethod.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**
@@ -363,33 +356,19 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * getter for the shipping methods title
      *
-     * @return string the title in the corresponding front end language 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @return string the title in the corresponding front end language
      */
     public function getDescription() {
-        $description = '';
-        if ($this->getLanguage()) {
-            $description = $this->getLanguage()->Description;
-        }
-        return $description;
+        return $this->getLanguageFieldValue('Description');
     }
     
     /**
      * getter for the shipping methods title
      *
      * @return string the title in the corresponding front end language 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
 
     /**
