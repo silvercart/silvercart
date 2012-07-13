@@ -65,9 +65,6 @@ class SilvercartConfig extends DataObject {
      * The default setting for the CustomerConfig option 'productsPerPage'.
      *
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $productsPerPageDefault = 20;
     
@@ -75,9 +72,6 @@ class SilvercartConfig extends DataObject {
      * Used as SQL limit number for unlimited products per page.
      *
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $productsPerPageUnlimitedNumber = 999999;
 
@@ -85,9 +79,6 @@ class SilvercartConfig extends DataObject {
      * Contains all registered menus for the storeadmin.
      * 
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $registeredMenus = array();
 
@@ -95,9 +86,6 @@ class SilvercartConfig extends DataObject {
      * Contains URL identifiers for Non-CMS menu items.
      * 
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.02.2012
      */
     public static $menuNonCmsIdentifiers = array('silvercart');
     
@@ -105,9 +93,6 @@ class SilvercartConfig extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
      */
     public static $db = array(
         'SilvercartVersion'                 => 'VarChar(16)',
@@ -146,9 +131,6 @@ class SilvercartConfig extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2011
      */
     public static $has_one = array(
         'SilvercartNoImage'         => 'Image',
@@ -159,9 +141,6 @@ class SilvercartConfig extends DataObject {
      * Defaults for empty fields.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 11.07.2011
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
@@ -230,16 +209,13 @@ class SilvercartConfig extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartConfig.SINGULARNAME')) {
-            return _t('SilvercartConfig.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -247,14 +223,10 @@ class SilvercartConfig extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartConfig.PLURALNAME')) {
-            return _t('SilvercartConfig.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**
@@ -509,9 +481,9 @@ class SilvercartConfig extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = parent::summaryFields();
-        $summaryFields['DefaultCurrency'] = _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency');
-        $summaryFields['EmailSender'] = _t('SilvercartConfig.EMAILSENDER', 'Email sender');
-        $summaryFields['GlobalEmailRecipient'] = _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient');
+        $summaryFields['DefaultCurrency'] = $this->fieldLabel('DefaultCurrency');
+        $summaryFields['EmailSender'] = $this->fieldLabel('EmailSender');
+        $summaryFields['GlobalEmailRecipient'] = $this->fieldLabel('GlobalEmailRecipient');
         return $summaryFields;
     }
 

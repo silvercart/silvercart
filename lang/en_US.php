@@ -144,6 +144,9 @@ $lang['en_US']['SilvercartAddressPage']['SINGULARNAME'] = 'Address Page';
 $lang['en_US']['SilvercartAddressPage']['TITLE'] = 'Address details';
 $lang['en_US']['SilvercartAddressPage']['URL_SEGMENT'] = 'address-details';
 
+$lang['en_US']['SilvercartAnonymousNewsletterRecipient']['SINGULARNAME'] = 'Anonymous newsletter receipient';
+$lang['en_US']['SilvercartAnonymousNewsletterRecipient']['PLURALNAME'] = 'Anonymous newsletter receipients';
+
 $lang['en_US']['SilvercartAvailabilityStatus']['PLURALNAME'] = 'Availabilities';
 $lang['en_US']['SilvercartAvailabilityStatus']['SINGULARNAME'] = 'Availability';
 $lang['en_US']['SilvercartAvailabilityStatus']['TITLE'] = 'Title';
@@ -163,6 +166,9 @@ $lang['en_US']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
 
 $lang['en_US']['SilvercartDeeplinkAttribute']['PLURALNAME'] = 'Attributes';
 $lang['en_US']['SilvercartDeeplinkAttribute']['SINGULARNAME'] = 'Attribute';
+
+$lang['en_US']['SilvercartEmailAddress']['SINGULARNAME'] = 'Email addresses';
+$lang['en_US']['SilvercartEmailAddress']['SINGULARNAME'] = 'Email address';
 
 $lang['en_US']['SilvercartGoogleMerchantTaxonomy']['LEVEL1']    = 'Level 1';
 $lang['en_US']['SilvercartGoogleMerchantTaxonomy']['LEVEL2']    = 'Level 2';

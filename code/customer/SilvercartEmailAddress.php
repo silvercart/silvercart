@@ -37,9 +37,6 @@ class SilvercartEmailAddress extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.6.2011
      */
     public static $db = array(
         'Name'  => 'VarChar(100)',
@@ -55,6 +52,33 @@ class SilvercartEmailAddress extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartShopEmails' => 'SilvercartShopEmail'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
     
     /**
      * Summaryfields for display in tables.
