@@ -45,8 +45,7 @@ class SilvercartOrderPosition extends DataObject {
      * Indicates whether the order should be recalculated in method
      * "onAfterWrite".
      *
-     * @var booleanhler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @var boolean
      */
     protected $doRecalculate = false;
 
@@ -89,8 +88,8 @@ class SilvercartOrderPosition extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartOrder' => 'SilvercartOrder',
-        'SilvercartProduct' => 'SilvercartProduct'
+        'SilvercartOrder'   => 'SilvercartOrder',
+        'SilvercartProduct' => 'SilvercartProduct',
     );
 
     /**
@@ -135,6 +134,13 @@ class SilvercartOrderPosition extends DataObject {
 
         return $fieldLabels;
     }
+    
+    /**
+     * API access is allowed for this object
+     *
+     * @var string
+     */
+    public static $api_access = true;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -160,6 +166,42 @@ class SilvercartOrderPosition extends DataObject {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this);  
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanView() {
+        return $this->SilvercartOrder()->CanView();
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanEdit() {
+        return $this->SilvercartOrder()->CanEdit();
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanDelete() {
+        return $this->SilvercartOrder()->CanDelete();
     }
 
     /**

@@ -33,8 +33,73 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrderShippingAddress extends SilvercartOrderAddress {
-    public static $singular_name = "order shipping address";
-    public static $plural_name = "order shipping addresses";
+    
+    /**
+     * API access is allowed for this object
+     *
+     * @var string
+     */
+    public static $api_access = true;
+
+    /**
+     * Returns the translated singular name of the object.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+    
+    /**
+     * Returns the translated plural name of the object.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this);  
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanView() {
+        return $this->SilvercartOrder()->CanView();
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanEdit() {
+        return $this->SilvercartOrder()->CanEdit();
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function CanDelete() {
+        return $this->SilvercartOrder()->CanDelete();
+    }
     
     /**
      * Indicates that this is the shipping address.
@@ -42,6 +107,7 @@ class SilvercartOrderShippingAddress extends SilvercartOrderAddress {
      * @return boolean
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function isShippingAddress() {
         return true;
