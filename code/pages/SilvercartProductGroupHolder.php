@@ -45,7 +45,7 @@ class SilvercartProductGroupHolder extends Page {
     );
 
     /**
-     * Allowed children
+     * Allowed children in site tree
      *
      * @var array
      */
@@ -102,6 +102,9 @@ class SilvercartProductGroupHolder extends Page {
                 'productGroupsPerPage'          => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
+                'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+                'Yes'                           => _t('Silvercart.YES'),
+                'No'                            => _t('Silvercart.NO'),
             )
         );
 
@@ -118,13 +121,13 @@ class SilvercartProductGroupHolder extends Page {
         $fields = parent::getCMSFields();
         
         $useOnlydefaultGroupviewSource  = array(
-            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
-            'yes'       => _t('Silvercart.YES'),
-            'no'        => _t('Silvercart.NO'),
+            'inherit'   => $this->fieldLabel('DefaultGroupView'),
+            'yes'       => $this->fieldLabel('Yes'),
+            'no'        => $this->fieldLabel('No'),
         );
         
         $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
-        $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
+        $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupView'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
         $fieldGroup->push($productGroupsPerPageField);

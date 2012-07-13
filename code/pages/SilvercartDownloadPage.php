@@ -31,6 +31,11 @@
  */
 class SilvercartDownloadPage extends Page {
     
+    /**
+     * 1:n relations
+     *
+     * @var array
+     */
     public static $has_many = array(
         'SilvercartFiles'   => 'SilvercartFile',
     );

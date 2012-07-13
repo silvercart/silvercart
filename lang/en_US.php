@@ -1400,7 +1400,7 @@ $lang['en_US']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only c
 
 $lang['en_US']['SilvercartShippingFeesPage']['DEFAULT_TITLE'] = 'Shipping fees';
 $lang['en_US']['SilvercartShippingFeesPage']['DEFAULT_URLSEGMENT'] = 'shipping-fees';
-$lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees Pags';
+$lang['en_US']['SilvercartShippingFeesPage']['PLURALNAME'] = 'Shipping Fees Pages';
 $lang['en_US']['SilvercartShippingFeesPage']['SINGULARNAME'] = 'Shipping Fees Page';
 $lang['en_US']['SilvercartShippingFeesPage']['TITLE'] = 'Shipping fees';
 $lang['en_US']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';

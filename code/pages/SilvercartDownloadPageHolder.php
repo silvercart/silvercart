@@ -31,6 +31,11 @@
  */
 class SilvercartDownloadPageHolder extends Page {
     
+    /**
+     * allowed child pages in site tree
+     *
+     * @var array
+     */
     public static $allowed_children = array(
       'SilvercartDownloadPage',  
     );
@@ -70,15 +75,5 @@ class SilvercartDownloadPageHolder extends Page {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
  */
 class SilvercartDownloadPageHolder_Controller extends Page_Controller {
-    
-    /**
-     * init method
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 12.07.2012 
-     */
-    public function init() {
-        parent::init();
-    }
     
 }

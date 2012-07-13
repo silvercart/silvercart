@@ -32,8 +32,7 @@
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
-
-    public static $singular_name = "";
+    
     public static $allowed_children = array(
         'none'
     );
@@ -42,9 +41,6 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
      * We set a custom icon for this page type here
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.10.2011
      */
     public static $icon = "silvercart/images/page_icons/metanavigation_page_search";
 
@@ -52,13 +48,37 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.04.2011
      */
     public static $db = array(
         'productsPerPage' => 'Int'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 
     /**
      * Field labels for display in tables.
@@ -95,7 +115,7 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $productsPerPageField = new TextField('productsPerPage', _t('SilvercartProductGroupPage.PRODUCTSPERPAGE'));
+        $productsPerPageField = new TextField('productsPerPage', $this->fieldLabel('productsPerPage'));
         $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
 
         return $fields;
@@ -122,9 +142,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * Contains a list of all registered filter plugins.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
      */
     public static $registeredFilterPlugins = array();
     
@@ -140,9 +157,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * page.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
      */
     protected $listFilters = array();
 
@@ -151,9 +165,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * caching purposes.
      *
      * @var DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
      */
     protected $searchResultProducts;
 

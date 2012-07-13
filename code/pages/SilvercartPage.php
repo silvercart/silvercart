@@ -35,10 +35,8 @@ class SilvercartPage extends SiteTree {
 
     /**
      * extends statics
-     *
-     * @return array configuration array
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.02.2011
+     * 
+     * @var array
      */
     public static $db = array(
         'IdentifierCode' => 'VarChar(50)'
@@ -48,9 +46,6 @@ class SilvercartPage extends SiteTree {
      * Has-one relationships.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.02.2011
      */
     public static $has_one = array(
         'HeaderPicture'     => 'Image'
@@ -60,9 +55,6 @@ class SilvercartPage extends SiteTree {
      * Has-many relationships.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
      */
     public static $many_many = array(
         'WidgetSetSidebar'  => 'SilvercartWidgetSet',
@@ -73,13 +65,37 @@ class SilvercartPage extends SiteTree {
      * Define indexes.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 02.07.2012
      */
     public static $indexes = array(
         'IdentifierCode' => '(IdentifierCode)'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 
     /**
      * Define editing fields for the storeadmin.
@@ -148,9 +164,6 @@ class SilvercartPage extends SiteTree {
      * this is needed to show correct breadcrumbs. This is used as fall back.
      *
      * @return string class name of the DataObject to be shown on this page
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2011
      */
     public function getSection() {
         return 'SilvercartAddress';
@@ -235,9 +248,6 @@ class SilvercartPage_Controller extends ContentController {
      * Contains the output of all WidgetSets of the parent page
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
      */
     protected $widgetOutput = array();
     
@@ -245,9 +255,6 @@ class SilvercartPage_Controller extends ContentController {
      * Contains the controllers for the sidebar widgets
      * 
      * @var DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     protected $WidgetSetSidebarControllers;
     
@@ -255,9 +262,6 @@ class SilvercartPage_Controller extends ContentController {
      * Contains the controllers for the content area widget
      * 
      * @var DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     protected $WidgetSetContentControllers;
     
