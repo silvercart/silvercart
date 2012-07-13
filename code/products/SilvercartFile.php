@@ -41,8 +41,9 @@ class SilvercartFile extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartProduct' => 'SilvercartProduct',
-        'File'              => 'File',
+        'SilvercartProduct'         => 'SilvercartProduct',
+        'File'                      => 'File',
+        'SilvercartDownloadPage'    => 'SilvercartDownloadPage',
     );
     
     /**
@@ -234,6 +235,37 @@ class SilvercartFile extends DataObject {
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext($params);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+    
+    
+    
+    /**
+     * customizes the backends fields for file upload on a SilvercartDownloadPage
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
+     */
+    public function getCMSFieldsForDownloadPage($params = null) {
+        
+        $fields = $this->getCMSFieldsForContext($params);
+         /* $fields = parent::getCMSFields(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'File',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        ); */
+        
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);

@@ -878,6 +878,11 @@ $lang['en_US']['SilvercartDeeplinkPage']['SINGULARNAME'] = 'deeplink page';
 $lang['en_US']['SilvercartDeeplinkPage']['PLURALNAME'] = 'deeplink pages';
 $lang['en_US']['SilvercartDeeplinkPage']['DEFAULT_TITLE'] = 'deeplink page';
 
+$lang['en_US']['SilvercartDownloadPage']['SINGULARNAME'] = 'Downloadpage';
+$lang['en_US']['SilvercartDownloadPage']['PLURALNAME'] = 'Downloadpages';
+$lang['en_US']['SilvercartDownloadPageHolder']['SINGULARNAME'] = 'Downloadpageholder';
+$lang['en_US']['SilvercartDownloadPageHolder']['PLURALNAME'] = 'Downloadpageholders';
+
 $lang['en_US']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--please choose--';
 
 $lang['en_US']['SilvercartEmailTemplates']['PLURALNAME'] = 'Email templates';
