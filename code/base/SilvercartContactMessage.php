@@ -37,10 +37,6 @@ class SilvercartContactMessage extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $db = array(
         'Salutation'    => 'VarChar(16)',
@@ -54,10 +50,6 @@ class SilvercartContactMessage extends DataObject {
      * Casting.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $casting = array(
         'CreatedNice' => 'VarChar',
@@ -67,10 +59,6 @@ class SilvercartContactMessage extends DataObject {
      * Default SQL sort statement.
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $default_sort = 'Created DESC';
     
@@ -135,15 +123,15 @@ class SilvercartContactMessage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 13.07.2012
      */
     public function summaryFields() {
         $fields = array(
-            'CreatedNice'   => _t('Silvercart.DATE'),
-            'Salutation'    => _t('SilvercartAddress.SALUTATION'),
-            'FirstName'     => _t('Member.FIRSTNAME'),
-            'Surname'       => _t('Member.SURNAME'),
-            'Email'         => _t('Member.EMAIL'),
+            'CreatedNice'   => $this->fieldLabel('CreatedNice'),
+            'Salutation'    => $this->fieldLabel('Salutation'),
+            'FirstName'     => $this->fieldLabel('FirstName'),
+            'Surname'       => $this->fieldLabel('Surname'),
+            'Email'         => $this->fieldLabel('Email'),
         );
         
         $this->extend('updateSummaryFields', $fields);

@@ -129,8 +129,8 @@ class SilvercartDeeplink extends DataObject {
      * 
      * @return FieldSet a set of fields 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function getCMSFields($params = null) {
         $productFields  = array();
@@ -142,8 +142,6 @@ class SilvercartDeeplink extends DataObject {
             $productFields[$fieldName] = $fieldName;
         }
         
-        $productAttributes = DataObject::database_fields('SilvercartProduct');
-        $productAttributeDropdownSource = SilvercartProduct::fieldLabels();
         $productAttributeDropdown = new DropdownField('productAttribute', $this->fieldLabel('deeplinkAttribute'), $productFields, null, null, $this->fieldLabel('emptyString'));
         
         $fields->addFieldToTab('Root.Main', $productAttributeDropdown);
