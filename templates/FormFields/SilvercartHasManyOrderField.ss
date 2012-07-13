@@ -40,9 +40,22 @@
 
 <script type="text/javascript">
     /* <![CDATA[ */
-    Behaviour.apply();
     // Add functionality to the move up, down, remove and attribute items buttons
     (function($) {
+        function SilvercartHasManyOrderFieldApply() {
+            var form_actions_right_html = '';
+            if ($('#form_actions_right').length > 0) {
+                form_actions_right_html = $('#form_actions_right').html();
+            }
+            Behaviour.apply();
+            if (window.onresize) {
+                window.onresize();
+            }
+            if ($('#form_actions_right').length == 0 &&
+                form_actions_right_html != '') {
+                $('#right').append('<div id="form_actions_right" class="ajaxActions">' + form_actions_right_html + '</div>');
+            }
+        }
         
         $('#right input[name=action_doAttributeItems], #right input[name=action_doRemoveItems], #right input[name=action_doMoveUpItems], #right input[name=action_doMoveDownItems]').live('click', function() {
             $(this).addClass('loading')
@@ -57,15 +70,17 @@
                 $(SilvercartHasManyOrderFieldButtonAttributeItems).removeClass('loading');
 
                 Behaviour.apply(); // refreshes ComplexTableField
-                if(window.onresize) window.onresize();
+                if (window.onresize) {
+                    window.onresize();
+                }
+                if ($('#Form_EditForm .tabstrip:first #tab-' + $('#{$ID}_relationName').parent('.tab').attr('id')).length > 0) {
+                    $('#Form_EditForm .tabstrip:first #tab-' + $('#{$ID}_relationName').parent('.tab').attr('id')).trigger('click');
+                }
             }, 'html');
 
             return false;
         });
-    })(jQuery);
-    
-    // The Edit button functionality
-    (function($) {
+        // The Edit button functionality
         $('#right input[name=action_doEditItem]').live('click', function() {
             var editItemID      = ($('#{$ID}_selected_items option:selected').val());
             var animationSpeed  = 300;
@@ -87,11 +102,11 @@
             // Load the edit form data and put it into an overlay container
             $.post('{$AbsUrl}admin/silvercart-widgets/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
                 $('#SilvercartWidgetEditForm_Form').html(result);
-                Behaviour.apply();
                 
                 $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed, function() {
                     if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
                         $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').length > 0) {
+                        SilvercartHasManyOrderFieldApply();
                         $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').trigger('click');
                         if (typeof RelationComplexTableField != 'undefined') {
                             RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
