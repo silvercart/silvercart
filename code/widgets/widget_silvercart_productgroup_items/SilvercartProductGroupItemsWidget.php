@@ -37,9 +37,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * Attributes.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $db = array(
         'numberOfProductsToShow'        => 'Int',
@@ -66,14 +63,16 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * Has_many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.02.2012
      */
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
     
+    /**
+     * field casting
+     *
+     * @var array
+     */
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
         'FrontContent'                  => 'Text',
@@ -83,9 +82,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * Set default values.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $defaults = array(
         'numberOfProductsToShow'    => 5,
@@ -97,9 +93,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
      */
     public static $has_many = array(
         'SilvercartProductGroupItemsWidgetLanguages' => 'SilvercartProductGroupItemsWidgetLanguage'
@@ -114,11 +107,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 27.01.2012
      */
     public function getFrontTitle() {
-        $frontTitle = '';
-        if ($this->getLanguage()) {
-            $frontTitle = $this->getLanguage()->FrontTitle;
-        }
-        return $frontTitle;
+        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**
@@ -130,11 +119,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 27.01.2012
      */
     public function getFrontContent() {
-        $frontContent = '';
-        if ($this->getLanguage()) {
-            $frontContent = $this->getLanguage()->FrontContent;
-        }
-        return $frontContent;
+        return $this->getLanguageFieldValue('FrontContent');
     }
     
     /**
@@ -158,7 +143,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
-        $productsDescription        = new LiteralField('', _t("SilvercartProductGroupItemsWidget.SELECT_PRODUCT_DESCRIPTION"));
+        $productsDescription        = new LiteralField('', $this->fieldLabel('SelectProductDescription'));
         $silvercartProducts         = new SilvercartManyManyTextAutoCompleteField(
                 $this,
                 'SilvercartProducts',
@@ -232,7 +217,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartProductGroupItemsWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -244,7 +229,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartProductGroupItemsWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -257,7 +242,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartProductGroupItemsWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
 
     /**
@@ -275,14 +260,18 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'SilvercartProductGroupPage'    => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
-                    'useSelectionMethod'            => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
-                    'SelectionMethodProductGroup'   => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
-                    'SelectionMethodProducts'       => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
-                    'ProductGroupTab'               => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
-                    'ProductsTab'                   => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
-                    'TranslationsTab'               => _t('SilvercartConfig.TRANSLATIONS'),
+                    'SilvercartProductGroupPage'                 => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+                    'useSelectionMethod'                         => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
+                    'SelectionMethodProductGroup'                => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
+                    'SelectionMethodProducts'                    => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
+                    'ProductGroupTab'                            => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
+                    'ProductsTab'                                => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
+                    'TranslationsTab'                            => _t('SilvercartConfig.TRANSLATIONS'),
                     'SilvercartProductGroupItemsWidgetLanguages' => _t('SilvercartProductGroupItemsWidgetLanguage.PLURALNAME'),
+                    'SelectProductDescription'                   => _t("SilvercartProductGroupItemsWidget.SELECT_PRODUCT_DESCRIPTION"),
+                    'Title'                                      => _t('SilvercartProductGroupItemsWidget.TITLE'),
+                    'CMSTitle'                                   => _t('SilvercartProductGroupItemsWidget.CMSTITLE'),
+                    'Description'                                => _t('SilvercartProductGroupItemsWidget.DESCRIPTION'),
                 )
         );
 

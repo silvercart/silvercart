@@ -38,9 +38,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * Attributes
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.05.2012
      */
     public static $db = array(
         'widgetHeight' => 'Int',
@@ -55,9 +52,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
      */
     public static $has_many = array(
         'SilvercartSlidorionProductGroupWidgetLanguages' => 'SilvercartSlidorionProductGroupWidgetLanguage'
@@ -67,9 +61,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * Has_many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
      */
     public static $many_many = array(
         'SilvercartImages' => 'SilvercartImage'
@@ -79,9 +70,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * Castings.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
      */
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
@@ -89,15 +77,51 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     );
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'            => _t('SilvercartSlidorionProductGroupWidget.TITLE'),
+                    'CMSTitle'         => _t('SilvercartSlidorionProductGroupWidget.CMSTITLE'),
+                    'Description'      => _t('SilvercartSlidorionProductGroupWidget.DESCRIPTION'),
+                    'SilvercartImages' => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
+                    'BasicTab'         => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
+                    'AdvancedTab'      => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
+                    'TranslationsTab'  => _t('SilvercartConfig.TRANSLATIONS'),
+                    'FrontTitle'       => _t('SilvercartSlidorionProductGroupWidget.FRONT_TITLE'),
+                    'FrontContent'     => _t('SilvercartSlidorionProductGroupWidget.FRONT_CONTENT'),
+                    'widgetHeight'     => _t('SilvercartSlidorionProductGroupWidget.WIDGET_HEIGHT'),
+                    'speed'            => _t('SilvercartSlidorionProductGroupWidget.SPEED'),
+                    'interval'         => _t('SilvercartSlidorionProductGroupWidget.INTERVAL'),
+                    'hoverPause'       => _t('SilvercartSlidorionProductGroupWidget.HOVERPAUSE'),
+                    'autoPlay'         => _t('SilvercartSlidorionProductGroupWidget.AUTOPLAY'),
+                    'effect'           => _t('SilvercartSlidorionProductGroupWidget.EFFECT'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @since 13.07.2012
      */
     public function Title() {
-        return _t('SilvercartSlidorionProductGroupWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -106,10 +130,10 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @since 13.07.2012
      */
     public function CMSTitle() {
-        return _t('SilvercartSlidorionProductGroupWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -119,10 +143,10 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @since 13.07.2012
      */
     public function Description() {
-        return _t('SilvercartSlidorionProductGroupWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
     
     /**
@@ -211,11 +235,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @since 28.05.2012
      */
     public function getFrontTitle() {
-        $frontTitle = '';
-        if ($this->getLanguage()) {
-            $frontTitle = $this->getLanguage()->FrontTitle;
-        }
-        return $frontTitle;
+        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**
@@ -227,41 +247,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @since 28.05.2012
      */
     public function getFrontContent() {
-        $frontContent = '';
-        if ($this->getLanguage()) {
-            $frontContent = $this->getLanguage()->FrontContent;
-        }
-        return $frontContent;
-    }
-    
-    /**
-     * Field labels for display in tables.
-     *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
-     *
-     * @return array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
-     */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array(
-            'SilvercartImages   ' => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
-            'BasicTab'            => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
-            'AdvancedTab'         => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
-            'TranslationsTab'     => _t('SilvercartConfig.TRANSLATIONS'),
-            'FrontTitle'          => _t('SilvercartSlidorionProductGroupWidget.FRONT_TITLE'),
-            'FrontContent'        => _t('SilvercartSlidorionProductGroupWidget.FRONT_CONTENT'),
-            'widgetHeight'        => _t('SilvercartSlidorionProductGroupWidget.WIDGET_HEIGHT'),
-            'speed'               => _t('SilvercartSlidorionProductGroupWidget.SPEED'),
-            'interval'            => _t('SilvercartSlidorionProductGroupWidget.INTERVAL'),
-            'hoverPause'          => _t('SilvercartSlidorionProductGroupWidget.HOVERPAUSE'),
-            'autoPlay'            => _t('SilvercartSlidorionProductGroupWidget.AUTOPLAY'),
-            'effect'              => _t('SilvercartSlidorionProductGroupWidget.EFFECT'),
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+        return $this->getLanguageFieldValue('FrontContent');
     }
 
     /**

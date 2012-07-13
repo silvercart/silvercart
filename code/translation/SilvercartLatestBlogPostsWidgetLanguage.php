@@ -36,9 +36,6 @@ class SilvercartLatestBlogPostsWidgetLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
      */
     public static $db = array(
         'WidgetTitle' => 'VarChar(255)'
@@ -48,9 +45,6 @@ class SilvercartLatestBlogPostsWidgetLanguage extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
      */
     public static $has_one = array(
         'SilvercartLatestBlogPostsWidget' => 'SilvercartLatestBlogPostsWidget'
@@ -63,14 +57,10 @@ class SilvercartLatestBlogPostsWidgetLanguage extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartLatestBlogPostsWidgetLanguage.SINGULARNAME')) {
-            return _t('SilvercartLatestBlogPostsWidgetLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -81,15 +71,10 @@ class SilvercartLatestBlogPostsWidgetLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartLatestBlogPostsWidgetLanguage.PLURALNAME')) {
-            return _t('SilvercartLatestBlogPostsWidgetLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

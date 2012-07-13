@@ -33,26 +33,62 @@
  */
 class SilvercartSearchCloudWidget extends SilvercartWidget {
     
+    /**
+     * attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'TagsPerCloud'  => 'Int',
         'FontSizeCount' => 'Int',
     );
     
+    /**
+     * default values for attributes
+     *
+     * @var array
+     */
     public static $defaults = array(
         'TagsPerCloud'  => 10,
         'FontSizeCount' => 5,
     );
 
-        /**
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'         => _t('SilvercartSearchCloudWidget.TITLE'),
+                    'CMSTitle'      => _t('SilvercartSearchCloudWidget.CMSTITLE'),
+                    'Description'   => _t('SilvercartSearchCloudWidget.DESCRIPTION'),
+                    'TagsPerCloud'  => _t('SilvercartSearchCloudWidget.TAGSPERCLOUD'),
+                    'FontSizeCount' => _t('SilvercartSearchCloudWidget.FONTSIZECOUNT'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartSearchCloudWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -60,11 +96,11 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartSearchCloudWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -73,32 +109,11 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartSearchCloudWidget.DESCRIPTION');
-    }
-
-    /**
-     * Field labels for display in tables.
-     *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
-     *
-     * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.03.2012
-     */
-    public function fieldLabels($includerelations = true) {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
-                array(
-                    'TagsPerCloud'  => _t('SilvercartSearchCloudWidget.TAGSPERCLOUD'),
-                    'FontSizeCount' => _t('SilvercartSearchCloudWidget.FONTSIZECOUNT'),
-                )
-        );
+        return $this->fieldLabel('Description');
     }
     
     /**

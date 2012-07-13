@@ -42,6 +42,11 @@
  */
 class SilvercartUpdate extends DataObject {
 
+    /**
+     * attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'SilvercartVersion' => 'VarChar(8)',
         'SilvercartUpdateVersion' => 'VarChar(8)',
@@ -237,11 +242,11 @@ class SilvercartUpdate extends DataObject {
      */
     public function summaryFields() {
         return array(
-            'SilvercartVersion'         => _t('SilvercartUpdate.SILVERCARTVERSION'),
-            'SilvercartUpdateVersion'   => _t('SilvercartUpdate.SILVERCARTUPDATEVERSION'),
-            'TranslatedStatus'          => _t('SilvercartUpdate.STATUS'),
-            'StatusMessage'             => _t('SilvercartUpdate.STATUSMESSAGE'),
-            'Description'               => _t('SilvercartUpdate.DESCRIPTION'),
+            'SilvercartVersion'         => $this->fieldLabel('SilvercartVersion'),
+            'SilvercartUpdateVersion'   => $this->fieldLabel('SilvercartUpdateVersion'),
+            'TranslatedStatus'          => $this->fieldLabel('TranslatedStatus'),
+            'StatusMessage'             => $this->fieldLabel('StatusMessage'),
+            'Description'               => $this->fieldLabel('Description'),
         );
     }
 

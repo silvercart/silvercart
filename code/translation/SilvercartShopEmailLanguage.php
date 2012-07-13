@@ -58,15 +58,11 @@ class SilvercartShopEmailLanguage extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShopEmailLanguage.SINGULARNAME')) {
-            return _t('SilvercartShopEmailLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -76,16 +72,11 @@ class SilvercartShopEmailLanguage extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShopEmailLanguage.PLURALNAME')) {
-            return _t('SilvercartShopEmailLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

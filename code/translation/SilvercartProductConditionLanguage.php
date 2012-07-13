@@ -34,20 +34,34 @@
 class SilvercartProductConditionLanguage extends DataObject {
     
     /**
+     * Attributes.
+     *
+     * @var array
+     */
+    public static $db = array(
+        'Title' => 'VarChar(255)'
+    );
+    
+    /**
+     * 1:1 or 1:n relationships.
+     *
+     * @var array
+     */
+    public static $has_one = array(
+        'SilvercartProductCondition' => 'SilvercartProductCondition'
+    );
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartProductConditionLanguage.SINGULARNAME')) {
-            return _t('SilvercartProductConditionLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -58,40 +72,11 @@ class SilvercartProductConditionLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartProductConditionLanguage.PLURALNAME')) {
-            return _t('SilvercartProductConditionLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
-    
-    /**
-     * Attributes.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
-     */
-    public static $db = array(
-        'Title' => 'VarChar(255)'
-    );
-    
-    /**
-     * 1:1 or 1:n relationships.
-     *
-     * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.01.2012
-     */
-    public static $has_one = array(
-        'SilvercartProductCondition' => 'SilvercartProductCondition'
-    );
     
     /**
      * Summaryfields for display in tables.
@@ -104,7 +89,7 @@ class SilvercartProductConditionLanguage extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+            'Title' => $this->fieldLabel('Title')
         );
 
 

@@ -38,9 +38,6 @@ class SilvercartPlugin extends Object {
      * The object that called this plugin
      *
      * @var mixed
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
      */
     protected $callingObject = null;
 
@@ -48,9 +45,6 @@ class SilvercartPlugin extends Object {
      * Contains informations about calling objects for caching purposes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.03.2012
      */
     protected static $pluginProvidersForCallingObject = array();
 
@@ -58,9 +52,6 @@ class SilvercartPlugin extends Object {
      * Contains all registered plugin providers.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
      */
     public static $registeredPluginProviders = array();
     
@@ -132,9 +123,6 @@ class SilvercartPlugin extends Object {
      * Returns the calling object.
      *
      * @return mixed
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
      */
     public function getCallingObject() {
         return $this->callingObject;

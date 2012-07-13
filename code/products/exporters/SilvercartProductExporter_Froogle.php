@@ -61,9 +61,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the link.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -75,9 +75,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -89,9 +89,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -104,9 +104,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -120,9 +120,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -136,9 +136,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -158,9 +158,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011
@@ -172,9 +172,9 @@ class SilvercartProductExporter_Froogle {
     /**
      * Returns the value for the condition.
      *
-     * @return string
-     *
      * @param array $record An array with raw product data.
+     *
+     * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 08.08.2011

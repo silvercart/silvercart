@@ -37,9 +37,6 @@ class SilvercartWidget extends Widget {
      * Attributes
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
      */
     public static $db = array(
         'ExtraCssClasses'   => 'VarChar(255)',

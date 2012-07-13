@@ -93,11 +93,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
      * @since 26.04.2012
      */
     public function getFrontTitle() {
-        $frontTitle = '';
-        if ($this->getLanguage()) {
-            $frontTitle = $this->getLanguage()->FrontTitle;
-        }
-        return $frontTitle;
+        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**
@@ -109,11 +105,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
      * @since 26.04.2012
      */
     public function getFrontContent() {
-        $frontContent = '';
-        if ($this->getLanguage()) {
-            $frontContent = $this->getLanguage()->FrontContent;
-        }
-        return $frontContent;
+        return $this->getLanguageFieldValue('FrontContent');
     }
     
     /**

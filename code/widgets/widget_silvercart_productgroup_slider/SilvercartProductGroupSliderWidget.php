@@ -37,12 +37,33 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
      * Attributes.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.12.2011
      */
     public static $db = array(
     );
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'         => _t('SilvercartProductGroupSliderWidget.TITLE'),
+                    'CMSTitle'      => _t('SilvercartProductGroupSliderWidget.CMSTITLE'),
+                    'Description'   => _t('SilvercartProductGroupSliderWidget.DESCRIPTION'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
     
     /**
      * Returns the title of this widget.
@@ -50,10 +71,10 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.12.2011
+     * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartProductGroupSliderWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -62,10 +83,10 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.12.2011
+     * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartProductGroupSliderWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -75,10 +96,10 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.12.2011
+     * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartProductGroupSliderWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
     
     /**

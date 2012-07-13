@@ -37,10 +37,6 @@ class SilvercartTax extends DataObject {
      * attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public static $db = array(
         'Rate'  => 'Float',
@@ -51,10 +47,6 @@ class SilvercartTax extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public static $has_many = array(
         'SilvercartProducts'     => 'SilvercartProduct',
@@ -65,15 +57,16 @@ class SilvercartTax extends DataObject {
      * List of searchable fields for the model admin
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $searchable_fields = array(
         'Rate'
     );
     
+    /**
+     * cast fields to other SS data types
+     *
+     * @var array
+     */
     public static $casting = array(
         'Title' => 'VarChar'
     );
@@ -113,8 +106,8 @@ class SilvercartTax extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => _t('SilvercartTax.LABEL', 'label'),
-            'Rate'  => _t('SilvercartTax.RATE_IN_PERCENT', 'rate in %%')
+            'Title' => $this->fieldLabel('Title'),
+            'Rate'  => $this->fieldLabel('Rate')
         );
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
@@ -170,11 +163,7 @@ class SilvercartTax extends DataObject {
      * @since 20.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**

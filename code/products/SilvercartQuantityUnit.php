@@ -33,12 +33,22 @@
  */
 class SilvercartQuantityUnit extends DataObject {
     
+    /**
+     * cast field types to other SS data types
+     *
+     * @var array
+     */
     public static $casting = array(
         'Title'          => 'Text',
         'Abbreviation'   => 'Text',
         'TableIndicator' => 'Text'
     );
     
+    /**
+     * 1:n relations
+     *
+     * @var array
+     */
     public static $has_many = array(
         'SilvercartQuantityUnitLanguages' => 'SilvercartQuantityUnitLanguage'
     );
@@ -52,11 +62,7 @@ class SilvercartQuantityUnit extends DataObject {
      * @since 11.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**
@@ -68,11 +74,7 @@ class SilvercartQuantityUnit extends DataObject {
      * @since 11.01.2012
      */
     public function getAbbreviation() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Abbreviation;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Abbreviation');
     }
     
     /**

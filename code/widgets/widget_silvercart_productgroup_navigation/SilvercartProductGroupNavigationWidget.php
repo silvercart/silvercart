@@ -37,14 +37,39 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * Attributes.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $db = array(
         'SilvercartProductGroupPageID'  => 'Int',
         'levelsToShow'                  => 'Int'
     );
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'FieldLabel'    => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+                    'LevelsToShow'  => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
+                    'ShowAllLevels' => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
+                    'Title'         => _t('SilvercartProductGroupNavigationWidget.TITLE'),
+                    'CMSTitle'      => _t('SilvercartProductGroupNavigationWidget.CMSTITLE'),
+                    'Description'   => _t('SilvercartProductGroupNavigationWidget.DESCRIPTION'),
+                    
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
     
     /**
      * Returns the input fields for this widget.
@@ -58,13 +83,13 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $fields            = parent::getCMSFields();
         $productGroupField = new GroupedDropdownField(
             'SilvercartProductGroupPageID',
-            _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+            $this->fieldLabel('FieldLabel'),
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, false, true),
             $this->SilvercartProductGroupPageID
         );
         $levelsToShowField = new DropdownField(
             'levelsToShow',
-            _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
+            $this->fieldLabel('LevelsToShow'),
             array(
                 '1' => '1',
                 '2' => '2',
@@ -73,7 +98,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
                 '5' => '5',
                 '6' => '6',
                 '7' => '7',
-                '0' => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS')
+                '0' => $this->fieldLabel('ShowAllLevels')
             ),
             $this->levelsToShow
         );
@@ -93,7 +118,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartProductGroupNavigationWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -105,7 +130,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartProductGroupNavigationWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -118,7 +143,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartProductGroupNavigationWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
 }
 

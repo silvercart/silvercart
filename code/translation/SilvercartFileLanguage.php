@@ -37,9 +37,6 @@ class SilvercartFileLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public static $db = array(
         'Title' => 'VarChar',
@@ -50,13 +47,37 @@ class SilvercartFileLanguage extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.11.2012
      */
     public static $has_one = array(
         'SilvercartFile' => 'SilvercartFile'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
     
     /**
      * Field labels for display in tables.
@@ -80,42 +101,6 @@ class SilvercartFileLanguage extends DataObject {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
-     */
-    public function singular_name() {
-        if (_t('SilvercartFileLanguage.SINGULARNAME')) {
-            return _t('SilvercartFileLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
-     */
-    public function plural_name() {
-        if (_t('SilvercartFileLanguage.PLURALNAME')) {
-            return _t('SilvercartFileLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
     }
 }
 

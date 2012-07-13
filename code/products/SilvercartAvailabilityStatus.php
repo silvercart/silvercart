@@ -33,10 +33,20 @@
  */
 class SilvercartAvailabilityStatus extends DataObject {
 
+    /**
+     * attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'Code' => 'VarChar',
     );
     
+    /**
+     * field casting
+     *
+     * @var array
+     */
     public static $casting = array(
         'Title' => 'Text'
     );
@@ -45,9 +55,6 @@ class SilvercartAvailabilityStatus extends DataObject {
      * 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.01.2012
      */
     public static $has_many = array(
         'SilvercartAvailabilityStatusLanguages' => 'SilvercartAvailabilityStatusLanguage'
@@ -171,11 +178,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @since 11.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
 }

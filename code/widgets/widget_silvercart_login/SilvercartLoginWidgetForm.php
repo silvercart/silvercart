@@ -37,9 +37,6 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
      * Form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 11.04.2011
      */
     protected $formFields = array
         (

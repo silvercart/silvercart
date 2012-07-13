@@ -43,6 +43,31 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
     );
 
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'                 => _t('SilvercartShoppingcartWidget.TITLE'),
+                    'CMSTitle'              => _t('SilvercartShoppingcartWidget.CMSTITLE'),
+                    'Description'           => _t('SilvercartShoppingcartWidget.DESCRIPTION'),
+                    'ShowOnlyWhenFilled'    => _t('SilvercartShoppingcartWidget.SHOWONLYWHENFILLED'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -51,7 +76,7 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartShoppingcartWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -63,7 +88,7 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartShoppingcartWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -76,7 +101,7 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartShoppingcartWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
     
     /**
@@ -124,27 +149,6 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
         }
         
         return $key;
-    }
-    
-    /**
-     * field label method
-     * 
-     * @param bool $includerelations include relations
-     * 
-     * @return array 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
-     */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'ShowOnlyWhenFilled'    => _t('SilvercartShoppingcartWidget.SHOWONLYWHENFILLED', 'Show only when filled'),
-                )
-        );
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
     }
     
     /**
