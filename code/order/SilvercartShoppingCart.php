@@ -38,10 +38,6 @@ class SilvercartShoppingCart extends DataObject {
      * is displayed.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.01.2011
      */
     public static $registeredModules = array();
 
@@ -49,42 +45,21 @@ class SilvercartShoppingCart extends DataObject {
      * Singular-Beschreibung zur Darstellung im Backend.
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
-    public static $singular_name = "cart";
-    /**
-     * Plural-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
-     */
-    public static $plural_name = "carts";
+
     /**
      * 1:n relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_many = array(
         'SilvercartShoppingCartPositions' => 'SilvercartShoppingCartPosition'
     );
+    
     /**
      * defines n:m relations
      *
      * @var array configure relations
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      */
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
@@ -94,9 +69,6 @@ class SilvercartShoppingCart extends DataObject {
      * Indicates wether the registered modules should be loaded.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.04.2011
      */
     public static $loadModules = true;
 
@@ -104,9 +76,6 @@ class SilvercartShoppingCart extends DataObject {
      * Indicates wether the registered modules should be loaded.
      *
      * @var boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.04.2011
      */
     public static $createForms = true;
 
@@ -114,10 +83,6 @@ class SilvercartShoppingCart extends DataObject {
      * Contains the ID of the payment method the customer has chosen.
      *
      * @var Int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
      */
     protected $paymentMethodID;
 
@@ -125,10 +90,6 @@ class SilvercartShoppingCart extends DataObject {
      * Contains the ID of the shipping method the customer has chosen.
      *
      * @var Int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
      */
 
     protected $shippingMethodID;
@@ -138,9 +99,6 @@ class SilvercartShoppingCart extends DataObject {
      * caching purposes.
      *
      * @var DataObject
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
      */
     protected $chargesAndDiscountsForProducts = null;
     
@@ -149,9 +107,6 @@ class SilvercartShoppingCart extends DataObject {
      * total for caching purposes.
      *
      * @var DataObject
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
      */
     protected $chargesAndDiscountsForTotal = null;
 
@@ -159,9 +114,6 @@ class SilvercartShoppingCart extends DataObject {
      * Contains hashes for caching.
      * 
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.01.2012
      */
     protected $cacheHashes = array();
 
@@ -227,6 +179,33 @@ class SilvercartShoppingCart extends DataObject {
                 'ShoppingCartInit'
             );
         }
+    }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**

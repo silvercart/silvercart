@@ -147,6 +147,8 @@ class SilvercartShippingFee extends DataObject {
                     'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
                     'PostPricing'               => _t('SilvercartShippingFee.POST_PRICING'),
                     'SilvercartOrders'          => _t('SilvercartOrder.PLURALNAME'),
+                    'PostPricingInfo'           => _t('SilvercartShippingFee.POST_PRICING_INFO'),
+                    'EmptyString'               => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE')
                 )
         );
     }
@@ -159,7 +161,7 @@ class SilvercartShippingFee extends DataObject {
     public function getMaximumWeightLimitedOrNot() {
         $maximumWeightLimitedOrNot = $this->MaximumWeight;
         if ($this->UnlimitedWeight) {
-            $maximumWeightLimitedOrNot = _t('SilvercartShippingFee.UNLIMITED_WEIGHT');
+            $maximumWeightLimitedOrNot = $this->fieldLabel('UnlimitedWeight');
         }
         return $maximumWeightLimitedOrNot;
     }
@@ -210,7 +212,7 @@ class SilvercartShippingFee extends DataObject {
         );
         
         $postPricingField = $fields->dataFieldByName('PostPricing');
-        $postPricingField->setTitle($postPricingField->Title() . ' (' . _t('SilvercartShippingFee.POST_PRICING_INFO') . ')');
+        $postPricingField->setTitle($postPricingField->Title() . ' (' . $this->fieldLabel('PostPricingInfo') . ')');
         
         $fieldGroup = new SilvercartFieldGroup('ShippingFeeGroup', '', $fields);
         $fieldGroup->push(          $fields->dataFieldByName('MaximumWeight'));
@@ -232,7 +234,7 @@ class SilvercartShippingFee extends DataObject {
             $zonesField = new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                    $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
+                    $zones->toDropDownMap('ID', 'Title', $this->fieldLabel('EmptyString'))
             );
             $fieldGroup->push($zonesField);
         }

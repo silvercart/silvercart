@@ -63,32 +63,25 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartInboundShoppingCartTransfer.SINGULARNAME')) {
-            return _t('SilvercartInboundShoppingCartTransfer.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
      * @return string the objects plural name
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartInboundShoppingCartTransfer.PLURALNAME')) {
-            return _t('SilvercartInboundShoppingCartTransfer.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**
@@ -102,11 +95,11 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title'                 => _t('SilvercartInboundShoppingCartTransfer.TITLE'),
-            'refererIdentifier'     => _t('SilvercartInboundShoppingCartTransfer.REFERER_IDENTIFIER'),
-            'useSharedSecret'       => _t('SilvercartInboundShoppingCartTransfer.USE_SHARED_SECRET'),
-            'transferMethod'        => _t('SilvercartInboundShoppingCartTransfer.TRANSFER_METHOD'),
-            'productMatchingField'  => _t('SilvercartInboundShoppingCartTransfer.PRODUCT_MATCHING_FIELD')
+            'Title'                 => $this->fieldLabel('Title'),
+            'refererIdentifier'     => $this->fieldLabel('refererIdentifier'),
+            'useSharedSecret'       => $this->fieldLabel('useSharedSecret'),
+            'transferMethod'        => $this->fieldLabel('transferMethod'),
+            'productMatchingField'  => $this->fieldLabel('productMatchingField')
         );
         $this->extend('updateSummaryFields', $summaryFields);
 

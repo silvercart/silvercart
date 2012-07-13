@@ -37,9 +37,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuCode = 'config';
 
@@ -47,9 +44,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSortIndex = 10;
 
@@ -57,10 +51,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The URL segment
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $url_segment = 'silvercart-config';
 
@@ -68,10 +58,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The menu title
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $menu_title = 'Silvercart carriers';
 
@@ -79,10 +65,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * Managed models
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $managed_models = array(
         'SilvercartConfig' => array(
@@ -94,10 +76,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The collection controller class to use for the shop configuration.
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $collection_controller_class = 'SilvercartConfigAdmin_CollectionController';
 
@@ -105,9 +83,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * The record controller class to use for the shop configuration.
      *
      * @var string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.07.2011
      */
     public static $record_controller_class = 'SilvercartConfigAdmin_RecordController';
 

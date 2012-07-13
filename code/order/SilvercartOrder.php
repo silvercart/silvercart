@@ -283,6 +283,11 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'SearchResultsLimit'                    => _t('SilvercartOrder.SEARCHRESULTSLIMIT'),
                 'BasicData'                             => _t('SilvercartOrder.BASICDATA'),
                 'MiscData'                              => _t('SilvercartOrder.MISCDATA'),
+                'ShippingAddressTab'                    => _t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'),
+                'InvoiceAddressTab'                     => _t('SilvercartAddressHolder.INVOICEADDRESS_TAB'),
+                'PrintPreview'                          => _t('SilvercartOrder.PRINT_PREVIEW'),
+                'EmptyString'                           => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+                'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -479,9 +484,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * TAB SECTION
         **********************************************************************/
-        $fields->findOrMakeTab('Root.ShippingAddressTab',   _t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'));
-        $fields->findOrMakeTab('Root.InvoiceAddressTab',    _t('SilvercartAddressHolder.INVOICEADDRESS_TAB'));
-        $fields->findOrMakeTab('Root.PrintPreviewTab',      _t('SilvercartOrder.PRINT_PREVIEW'));
+        $fields->findOrMakeTab('Root.ShippingAddressTab', $this->fieldLabel('ShippingAddressTab'));
+        $fields->findOrMakeTab('Root.InvoiceAddressTab',  $this->fieldLabel('InvoiceAddressTab'));
+        $fields->findOrMakeTab('Root.PrintPreviewTab',    $this->fieldLabel('PrintPreview'));
         
         /***********************************************************************
         * SIMPLE MODIFICATION SECTION
@@ -506,7 +511,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 array(),
                 $this->SilvercartShippingFeeID,
                 null,
-                _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                $this->fieldLabel('EmptyString')
         );
         if ($shippingFees) {
             $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));

@@ -37,9 +37,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuCode = 'config';
 
@@ -47,9 +44,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSortIndex = 40;
 
@@ -57,9 +51,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSection = 'payment';
 
@@ -67,10 +58,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * The URL segment
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $url_segment = 'silvercart-payment-methods';
 
@@ -78,10 +65,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * The menu title
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $menu_title = 'Silvercart payment methods';
 
@@ -89,10 +72,6 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * Managed models
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $managed_models = array(
         'SilvercartPaymentMethod' => array(
