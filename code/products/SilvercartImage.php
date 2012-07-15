@@ -203,6 +203,10 @@ class SilvercartImage extends DataObject {
                                 (array) $params
                         )
         );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
         return $fields;
     }
 
@@ -225,6 +229,10 @@ class SilvercartImage extends DataObject {
                                 (array) $params
                         )
         );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
         return $fields;
     }
 

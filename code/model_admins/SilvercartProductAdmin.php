@@ -102,10 +102,30 @@ class SilvercartProductAdmin extends ModelAdmin {
      * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 01.08.2011
      */
     public function init() {
+        /*
+         * we tweeked the backend behavior so that when you press the button 'add' on the
+         * tab files the file object will be created. This was neccessary because we
+         * want to use the fileiframefield without saving. If this created file
+         * is not saved by the user it must be deleted because it is an empty entry.
+         */
+        $request = $this->getRequest();
+        $postVars = $request->postVars();
+        if (array_key_exists('update', $postVars)) {
+            $productID = $postVars['update'];
+            $currentProduct = DataObject::get_by_id('SilvercartProduct', $productID);
+            if ($currentProduct->SilvercartFiles()) {
+                foreach ($currentProduct->SilvercartFiles() as $file) {
+                    if ($file->isEmptyObject()) {
+                        $file->delete();
+                    }
+                }
+            }
+        }
+        
         parent::init();
         $this->extend('updateInit');
     }

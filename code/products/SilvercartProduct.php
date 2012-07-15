@@ -2206,7 +2206,7 @@ class SilvercartProduct extends DataObject {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
-
+    
     /**
      * We use a slice techniqure here since imports of large datasets fail
      * with the standard import mechanism.
@@ -3025,7 +3025,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct_RecordController extends SilvercartHasManyOrderField_RecordController {
-
+    
     /**
      * Makes the record controller decoratable
      *

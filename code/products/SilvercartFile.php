@@ -200,8 +200,9 @@ class SilvercartFile extends DataObject {
     }
     
     /**
-     * wrapper that changes add behavior for better user experience
-     * images may directly be added without pressing the save/add button
+     * wrapper that changes image upload workflow for better user experience
+     * images may directly be added without pressing the save/add button of the
+     * context object
      *
      * @param array $params configuration parameters
      *
@@ -246,6 +247,8 @@ class SilvercartFile extends DataObject {
     
     /**
      * customizes the backends fields for file upload on a SilvercartDownloadPage
+     * 
+     * @param array $params configuration array
      *
      * @return FieldSet the fields for the backend
      * 
@@ -255,21 +258,30 @@ class SilvercartFile extends DataObject {
     public function getCMSFieldsForDownloadPage($params = null) {
         
         $fields = $this->getCMSFieldsForContext($params);
-         /* $fields = parent::getCMSFields(
-                        array_merge(
-                                array(
-                                    'restrictFields' => array(
-                                        'File',
-                                    ),
-                                ),
-                                (array) $params
-                        )
-        ); */
-        
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }
         return $fields;
+    }
+    
+    /**
+     * Was the object just accidently written?
+     * True if the user closes the popup without saving
+     * This method is used to delete empty records in the onAfterWrite()
+     *
+     * @return $result bool 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 14.07.2012
+     */
+    public function isEmptyObject() {
+        $result = false;
+        if ($this->FileID == 0 &&
+            $this->getLanguageFieldValue('Description') === null &&
+            $this->getLanguageFieldValue('Title') === null) {
+            $result = true;
+        }
+        return $result;
     }
 }
