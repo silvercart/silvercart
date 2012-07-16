@@ -64,22 +64,24 @@ class SilvercartLanguageHelper {
     /**
      * Default scaffolding for language objects.
      *
-     * @param DataObject $dataobject DataObject to scaffold the form fields for
+     * @param DataObject $dataobject     DataObject to scaffold the form fields for
+     * @param array      $restrictFields List of restrict fields
      * 
      * @return FieldSet
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 16.07.2012
      */
-    public static function prepareCMSFields($dataobject) {
+    public static function prepareCMSFields($dataobject, $restrictFields = false) {
         if (!$dataobject) {
             return new FieldSet();
         }
         $languageFields = $dataobject->scaffoldFormFields(
                 array(
-                    'includeRelations' => false,
-                    'tabbed' => false,
-                    'ajaxSafe' => true,
+                    'includeRelations'  => false,
+                    'tabbed'            => false,
+                    'ajaxSafe'          => true,
+                    'restrictFields'    => $restrictFields,
                 )
         );
         $languageFields->removeByName('Locale');
