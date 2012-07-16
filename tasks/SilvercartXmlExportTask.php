@@ -138,14 +138,15 @@ class SilvercartXmlExportTask extends SilvercartTask {
      */
     protected function doExport() {
         $this->loginSimulation();
-        $filter = self::get_export_filter();
-        $marker = self::get_export_marker();
+        $filter         = self::get_export_filter();
+        $marker         = self::get_export_marker();
+        $recordCount    = 0;
         if (!empty($marker)) {
             if (!empty($filter)) {
                 $filter .= ' AND ';
             }
             $filter .= sprintf(
-                    "`%s`.`%s` = 1",
+                    "`%s`.`%s` = 0",
                     self::get_export_objectName(),
                     $marker
             );
@@ -155,18 +156,30 @@ class SilvercartXmlExportTask extends SilvercartTask {
                 $filter
         );
         
-        $formatter = new SilvercartXMLDataFormatter();
-        $formatter->setRelationDepth(       self::get_export_relationDepth());
-        $formatter->setRelationDetailDepth( self::get_export_relationDetailDepth());
-        $formatter->setTotalSize($set->Count());
-        $xml = $formatter->convertDataObjectSet($set);
+        if ($set) {
+            $recordCount    = $set->Count();
+            $formatter      = new SilvercartXMLDataFormatter();
+            $formatter->setRelationDepth(       self::get_export_relationDepth());
+            $formatter->setRelationDetailDepth( self::get_export_relationDetailDepth());
+            $formatter->setTotalSize($set->Count());
+            $xml = $formatter->convertDataObjectSet($set);
+
+            $xmlFileName = 'export_xml_' . self::get_export_objectName() . '_' . date('Y-m-d_H-i-s') . '.xml';
+            $xmlFilePath = self::get_export_targetDir() . '/' . $xmlFileName;
+            file_put_contents($xmlFilePath, $xml);
+
+            if (!empty($marker)) {
+                foreach ($set as $dataObject) {
+                    $dataObject->{$marker} = true;
+                    $dataObject->write();
+                }
+            }
+        }
         
-        $xmlFileName = 'export_xml_' . self::get_export_objectName() . '_' . date('Y-m-d_H-i-s') . '.xml';
-        $xmlFilePath = self::get_export_targetDir() . '/' . $xmlFileName;
-        file_put_contents($xmlFilePath, $xml);
         print PHP_EOL;
         print "\033[42m" . " Export finished " . "\033[0m";
         print PHP_EOL;
+        print "Exported " . $recordCount . " records"; 
         print PHP_EOL;
         exit();
     }
