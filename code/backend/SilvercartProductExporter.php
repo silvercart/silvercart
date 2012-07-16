@@ -558,15 +558,24 @@ class SilvercartProductExporter extends DataObject {
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2012
+     * @since 16.07.2012
      */
     public function doExport($exportTimeStamp = null) {
         $this->switchHttpHost();
         $obj        = singleton($this->objName);
         if ($obj->hasExtension('SilvercartDataObjectMultilingualDecorator')) {
+            $selectionFields = array();
+            foreach (SilvercartProductLanguage::$db as $fieldName => $fieldType) {
+                $selectionFields[] = sprintf(
+                        "`%s`.`%s`",
+                        $this->objName . 'Language',
+                        $fieldName
+                );
+            }
             $query = sprintf("
                 SELECT
-                    *
+                    %s.*,
+                    %s
                 FROM
                     `%s`
                 LEFT JOIN
@@ -576,6 +585,8 @@ class SilvercartProductExporter extends DataObject {
                     `%s`.`Locale` = '%s'
                     AND (%s)
                 ",
+                $this->objName,
+                implode(',', $selectionFields),
                 $this->objName,
                 $this->objName . 'Language',
                 $this->objName,
