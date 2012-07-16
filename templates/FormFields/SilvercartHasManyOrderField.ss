@@ -102,17 +102,15 @@
             // Load the edit form data and put it into an overlay container
             $.post('{$AbsUrl}admin/silvercart-widgets/SilvercartWidget/' + editItemID + '/edit', new Array(), function(result) {
                 $('#SilvercartWidgetEditForm_Form').html(result);
-                
-                $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed, function() {
-                    if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
-                        $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').length > 0) {
-                        SilvercartHasManyOrderFieldApply();
-                        $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').trigger('click');
-                        if (typeof RelationComplexTableField != 'undefined') {
-                            RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
-                        }
+                SilvercartHasManyOrderFieldApply();
+                if ($('#SilvercartWidgetEditForm_Form .tabstrip:first .current').length == 0 &&
+                    $('#SilvercartWidgetEditForm_Form .tabstrip:first .first').length > 0) {
+                    $('#SilvercartWidgetEditForm_Form .tabstrip:first .first a').trigger('click');
+                    if (typeof RelationComplexTableField != 'undefined') {
+                        RelationComplexTableField.applyTo('#SilvercartWidgetEditForm_Form div.ManyManyComplexTableField');
                     }
-                });
+                }
+                $('#SilvercartWidgetEditForm_loader').fadeOut(animationSpeed);
                 
                 // Add functionality to the Save button
                 $('#SilvercartWidgetEditForm_Form input[name=action_doSave]').live('click', function() {
@@ -139,7 +137,11 @@
                 // Close button
                 $('#SilvercartWidgetEditForm_Controls a').live('click', function() {
                     $('#SilvercartWidgetEditForm').fadeOut(animationSpeed, function() {
-                        $('#SilvercartOverlay').fadeOut(animationSpeed);
+                        $('#SilvercartOverlay').fadeOut(animationSpeed, function() {
+                            if ($('#Form_EditForm .tabstrip:first #tab-' + $('#{$ID}_relationName').parent('.tab').attr('id')).length > 0) {
+                                $('#Form_EditForm .tabstrip:first #tab-' + $('#{$ID}_relationName').parent('.tab').attr('id')).trigger('click');
+                            }
+                        });
                     });
                     return false;
                 });
