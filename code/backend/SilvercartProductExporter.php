@@ -768,9 +768,16 @@ class SilvercartProductExporter extends DataObject {
                 if ($exportField->isCallbackField) {
                     $fieldValue = '';
                     if (array_key_exists('ID', $record)) {
-                        $product        = DataObject::get_by_id('SilvercartProduct', $record['ID']);
+                        $product = DataObject::get_by_id('SilvercartProduct', $record['ID']);
                         if ($product) {
                             $methodName     = $exportField->name;
+                            $methodParam    = null;
+                            if (strpos($exportField->name, '__')) {
+                                list(
+                                        $methodName,
+                                        $methodParam
+                                ) = explode('__', $exportField->name);
+                            }
                             if ($methodName == 'DefaultShippingFee') {
                                 $defaultShippingFee = $product->getDefaultShippingFee($this->SilvercartCountry());
                                 if ($defaultShippingFee) {
@@ -779,13 +786,6 @@ class SilvercartProductExporter extends DataObject {
                                     $fieldValue = 0;
                                 }
                             } else {
-                                $methodParam    = null;
-                                if (strpos($exportField->name, '__')) {
-                                    list(
-                                            $methodName,
-                                            $methodParam
-                                    ) = explode('__', $exportField->name);
-                                }
                                 if ($product &&
                                     $product->hasMethod($methodName)) {
                                     if (is_null($methodParam)) {
