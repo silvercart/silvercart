@@ -886,8 +886,8 @@ class SilvercartProduct extends DataObject {
         );
         $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolder->ID);
 
-        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
+        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);
     }
 
     /**
