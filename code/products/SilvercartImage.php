@@ -380,4 +380,22 @@ class SilvercartImage extends DataObject {
 
         return $thumbnail;
     }
+    
+    /**
+     * Was the object just accidently written?
+     * object without attribute or file appended
+     *
+     * @return bool $result
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 14.07.2012
+     */
+    public function isEmptyObject() {
+        $result = false;
+        if ($this->ImageID == 0 &&
+            $this->isEmptyMultilingualAttributes()) {
+            $result = true;
+        }
+        return $result;
+    }
 }

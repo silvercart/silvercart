@@ -267,10 +267,9 @@ class SilvercartFile extends DataObject {
     
     /**
      * Was the object just accidently written?
-     * True if the user closes the popup without saving
-     * This method is used to delete empty records in the onAfterWrite()
+     * object without attribute or file appended
      *
-     * @return $result bool 
+     * @return bool $result
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 14.07.2012
@@ -278,8 +277,7 @@ class SilvercartFile extends DataObject {
     public function isEmptyObject() {
         $result = false;
         if ($this->FileID == 0 &&
-            $this->getLanguageFieldValue('Description') === null &&
-            $this->getLanguageFieldValue('Title') === null) {
+            $this->isEmptyMultilingualAttributes()) {
             $result = true;
         }
         return $result;

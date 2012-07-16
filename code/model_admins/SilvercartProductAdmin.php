@@ -124,6 +124,13 @@ class SilvercartProductAdmin extends ModelAdmin {
                     }
                 }
             }
+            if ($currentProduct->SilvercartImages()) {
+                foreach ($currentProduct->SilvercartImages() as $image) {
+                    if ($image->isEmptyObject()) {
+                        $image->delete();
+                    }
+                }
+            }
         }
         
         parent::init();
