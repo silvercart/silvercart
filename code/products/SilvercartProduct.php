@@ -879,26 +879,15 @@ class SilvercartProduct extends DataObject {
         );
         $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolder->ID);
         
-        $productGroupMirrorPagesLabel = new HeaderField('SilvercartProductGroupMirrorPagesLabel', $this->fieldLabel('SilvercartProductGroupMirrorPages'));
-        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
-                $this,
+        $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
                 'SilvercartProductGroupMirrorPages',
-                'SilvercartProductGroupPage',
-                array(
-                    'Breadcrumbs'   => $this->fieldLabel('SilvercartProductGroup'),
-                ),
-                null,
-                sprintf(
-                    "`SiteTree`.`ID` != %d AND `SiteTree`.`ClassName` = 'SilvercartProductGroupPage'",
-                    $this->SilvercartProductGroup()->ID
-                ),
-                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+                $this->fieldLabel('SilvercartProductGroupMirrorPages'),
+                'SiteTree'
         );
-        $productGroupMirrorPagesTable->pageSize = 100;
-        
+        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolder->ID);
+
+        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
-        $fields->addFieldToTab('Root.ProductGroups', $productGroupMirrorPagesLabel);
-        $fields->addFieldToTab('Root.ProductGroups', $productGroupMirrorPagesTable);
     }
 
     /**
