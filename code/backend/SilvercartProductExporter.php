@@ -618,10 +618,17 @@ class SilvercartProductExporter extends DataObject {
             }
 
             foreach ($records as $record) {
+                $exportFields   = $this->SilvercartProductExporterFields();
+                $amount         = null;
+                if ($exportFields->find('name', 'PriceGrossAmount')) {
+                    $amount = $record['PriceGrossAmount'];
+                } elseif ($exportFields->find('name', 'PriceNetAmount')) {
+                    $amount = $record['PriceNetAmount'];
+                }
                 $product                                        = new SilvercartProduct($record);
                 $defaultShippingFee                             = $product->getDefaultShippingFee($this->SilvercartCountry());
                 if ($defaultShippingFee) {
-                    $defaultShippingFeePriceAmount = $defaultShippingFee->getPriceAmount(true);
+                    $defaultShippingFeePriceAmount = $defaultShippingFee->getPriceAmount(true, $amount, $this->SilvercartCountry());
                 } else {
                     $defaultShippingFeePriceAmount = 0;
                 }
@@ -779,9 +786,15 @@ class SilvercartProductExporter extends DataObject {
                                 ) = explode('__', $exportField->name);
                             }
                             if ($methodName == 'DefaultShippingFee') {
+                                $amount = null;
+                                if ($exportFields->find('name', 'PriceGrossAmount')) {
+                                    $amount = $product->PriceGrossAmount;
+                                } elseif ($exportFields->find('name', 'PriceNetAmount')) {
+                                    $amount = $product->PriceNetAmount;
+                                }
                                 $defaultShippingFee = $product->getDefaultShippingFee($this->SilvercartCountry());
                                 if ($defaultShippingFee) {
-                                    $fieldValue = $defaultShippingFee->getPriceAmount(true);
+                                    $fieldValue = $defaultShippingFee->getPriceAmount(true, $amount, $this->SilvercartCountry());
                                 } else {
                                     $fieldValue = 0;
                                 }

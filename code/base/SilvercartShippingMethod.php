@@ -323,6 +323,7 @@ class SilvercartShippingMethod extends DataObject {
             }
             if ($shippingAddress instanceof SilvercartAddress) {
                 $shippingCountry = $shippingAddress->SilvercartCountry();
+                $this->setShippingCountry($shippingCountry);
             }
         }
         

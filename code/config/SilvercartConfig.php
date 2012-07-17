@@ -716,6 +716,8 @@ class SilvercartConfig extends DataObject {
 
     /**
      * Returns the free of shipping costs from value if specified.
+     * 
+     * @param SilvercartCountry $shippingCountry Shipping country
      *
      * @return Money
      *
@@ -723,11 +725,12 @@ class SilvercartConfig extends DataObject {
      * @copyright 2012 pixeltricks GmbH
      * @since 13.03.2012
      */
-    public static function FreeOfShippingCostsFrom() {
+    public static function FreeOfShippingCostsFrom($shippingCountry = null) {
         if (is_null(self::$freeOfShippingCostsFrom)) {
             self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
         }
-        if (Controller::curr()->hasMethod('getCombinedStepData')) {
+        if (!($shippingCountry instanceof SilvercartCountry) &&
+            Controller::curr()->hasMethod('getCombinedStepData')) {
             $checkoutData       = Controller::curr()->getCombinedStepData();
             if (array_key_exists('Shipping_Country', $checkoutData)) {
                 $shippingCountryID  = $checkoutData['Shipping_Country'];
@@ -735,13 +738,13 @@ class SilvercartConfig extends DataObject {
                         'SilvercartCountry',
                         $shippingCountryID
                 );
-                if ($shippingCountry &&
-                    !is_null($shippingCountry->freeOfShippingCostsFrom->getAmount()) &&
-                    is_numeric($shippingCountry->freeOfShippingCostsFrom->getAmount())) {
-                    $shippingCountry->freeOfShippingCostsFrom->getAmount();
-                    self::$freeOfShippingCostsFrom = $shippingCountry->freeOfShippingCostsFrom;
-                }
             }
+        }
+        if ($shippingCountry &&
+            !is_null($shippingCountry->freeOfShippingCostsFrom->getAmount()) &&
+            is_numeric($shippingCountry->freeOfShippingCostsFrom->getAmount())) {
+            $shippingCountry->freeOfShippingCostsFrom->getAmount();
+            self::$freeOfShippingCostsFrom = $shippingCountry->freeOfShippingCostsFrom;
         }
         return self::$freeOfShippingCostsFrom;
     }
