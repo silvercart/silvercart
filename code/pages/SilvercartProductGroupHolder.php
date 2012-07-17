@@ -318,6 +318,42 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         
         return $productGroups;
     }
+    
+    /**
+     * Aggregates an array with ID => Title of all product groups that have children.
+     * The product group holder is included.
+     * This is needed for the product group widget
+     * 
+     * @param Page $parent needed for recursion
+     *
+     * @return array associative array, might be multi dimensional
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.07.2012
+     */
+    public static function getAllProductGroupsWithChildrenAsArray($parent = null) {
+        $productGroups = array();
+        
+        if (is_null($parent)) {
+            $productGroups['']  = '';
+            $parent = self::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $productGroups[$parent->ID] = $parent->Title;
+        }
+        $children = $parent->Children();
+        if ($children) {
+            foreach ($children as $child) {
+                $grandChildren = $child->Children();
+                if ($grandChildren->count() > 0) {
+                    $productGroups[$child->ID] = $child->Title;
+                    $grandChildrenArray = self::getAllProductGroupsWithChildrenAsArray($child);
+                    if (!empty ($grandChildrenArray)) {
+                    $productGroups[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $grandChildrenArray;
+                    }
+                }
+            }
+        }
+        return $productGroups;
+    }
 
     /**
      * All viewable product groups of this group.

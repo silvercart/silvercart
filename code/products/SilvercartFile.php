@@ -282,4 +282,19 @@ class SilvercartFile extends DataObject {
         }
         return $result;
     }
+    
+    /**
+     * hook
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.07.2012
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        if ($this->File()) {
+            $this->File()->delete();
+        }
+    }
 }

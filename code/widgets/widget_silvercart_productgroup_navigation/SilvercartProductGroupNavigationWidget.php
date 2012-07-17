@@ -84,7 +84,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $productGroupField = new GroupedDropdownField(
             'SilvercartProductGroupPageID',
             $this->fieldLabel('FieldLabel'),
-            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, false, true),
+            SilvercartProductGroupHolder_Controller::getAllProductGroupsWithChildrenAsArray(),
             $this->SilvercartProductGroupPageID
         );
         $levelsToShowField = new DropdownField(
