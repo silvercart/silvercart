@@ -75,11 +75,11 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return string 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
      */
     public function getWidgetTitle() {
-        return $this->getLanguageFieldValue('Title');
+        return $this->getLanguageFieldValue('WidgetTitle');
     }
     
     /**
