@@ -85,7 +85,7 @@ class SilvercartGeoNames extends SilvercartInterface {
                 $Languages,
                 $Currency,
                 $GeoNameId,
-            ) = split("\t", $line);
+            ) = explode("\t", $line);
 
             $country = DataObject::get_one('SilvercartCountry', sprintf("`SilvercartCountry`.`ISO2`='%s'", $ISO2));
             if (!$country) {
