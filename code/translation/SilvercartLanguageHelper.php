@@ -265,6 +265,11 @@ class SilvercartLanguageHelper {
         global $_ALL_CLASSES;
         $translatableDataObjects = array();
         foreach ($_ALL_CLASSES['parents'] as $className => $ancestry) {
+
+            if (strpos($className, 'Silvercart') === false) {
+                continue;
+            }
+
             $extensions = Object::get_static($className, 'extensions');
             if (!is_null($extensions) &&
                 is_array($extensions) &&
