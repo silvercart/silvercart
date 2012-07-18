@@ -48,6 +48,9 @@ class SilvercartSiteConfig extends DataObjectDecorator {
                 'GoogleAnalyticsTrackingCode'   => 'Text',
                 'GoogleWebmasterCode'           => 'Text',
                 'PiwikTrackingCode'             => 'Text',
+                'FacebookLink'                  => 'Text',
+                'TwitterLink'                   => 'Text',
+                'XingLink'                      => 'Text',
             ),
         );
     }
@@ -69,6 +72,9 @@ class SilvercartSiteConfig extends DataObjectDecorator {
                     'GoogleAnalyticsTrackingCode'   => _t('SilvercartSiteConfig.GOOGLE_ANALYTICS_TRACKING_CODE'),
                     'GoogleWebmasterCode'           => _t('SilvercartSiteConfig.GOOGLE_WEBMASTER_CODE'),
                     'PiwikTrackingCode'             => _t('SilvercartSiteConfig.PIWIK_TRACKING_CODE'),
+                    'FacebookLink'                  => _t('SilvercartSiteConfig.FACEBOOK_LINK'),
+                    'TwitterLink'                   => _t('SilvercartSiteConfig.TWITTER_LINK'),
+                    'XingLink'                      => _t('SilvercartSiteConfig.XING_LINK'),
                 )
         );
     }
@@ -93,6 +99,17 @@ class SilvercartSiteConfig extends DataObjectDecorator {
         $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
         $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
+        
+        
+        $socialMediaTab = $fields->findOrMakeTab('Root.SocialMedia', _t('Silvercart.SOCIALMEDIA'));
+        
+        $facebookLinkField  = new TextField('FacebookLink',     $this->owner->fieldLabel('FacebookLink'));
+        $twitterLinkField   = new TextField('TwitterLink',      $this->owner->fieldLabel('TwitterLink'));
+        $xingLinkField      = new TextField('XingLink',         $this->owner->fieldLabel('XingLink'));
+        
+        $fields->addFieldToTab('Root.SocialMedia', $facebookLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
         
         // used in CMSMain->init() to set language state when reading/writing record
         $fields->push(new HiddenField("Locale", "Locale", $this->owner->Locale));
