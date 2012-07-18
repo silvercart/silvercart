@@ -1688,6 +1688,9 @@ $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Zur Testd
 $lang['de_DE']['SilvercartSiteConfig']['GOOGLE_ANALYTICS_TRACKING_CODE']    = 'Google Analytics Tracking Code';
 $lang['de_DE']['SilvercartSiteConfig']['GOOGLE_WEBMASTER_CODE']             = 'Google Webmaster Tools Code';
 $lang['de_DE']['SilvercartSiteConfig']['PIWIK_TRACKING_CODE']               = 'Piwik Tracking Code';
+$lang['de_DE']['SilvercartSiteConfig']['FACEBOOK_LINK']                     = 'Facebook Link';
+$lang['de_DE']['SilvercartSiteConfig']['TWITTER_LINK']                      = 'Twitter Link';
+$lang['de_DE']['SilvercartSiteConfig']['XING_LINK']                         = 'Xing Link';
 
 $lang['de_DE']['SiteConfig']['SITENAMEDEFAULT'] = 'SilverCart';
 $lang['de_DE']['SiteConfig']['TAGLINEDEFAULT']  = 'eCommerce software. Open-source. You\'ll love it.';
