@@ -241,12 +241,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $translationLocale = $this->getTranslationLocale();
         foreach ($translatableDataObjectEntries as $code => $languages) {
             $obj = DataObject::get_one(
-                    $translatableDataObjectName,
-                    sprintf(
-                            "`%s`.`Code` = '%s'",
-                            $translatableDataObjectName,
-                            $code
-                    )
+                $translatableDataObjectName,
+                sprintf(
+                        "`%s`.`Code` = '%s'",
+                        $translatableDataObjectName,
+                        $code
+                ),
+                true,
+                sprintf(
+                    "`%s`.`ID`",
+                    $translatableDataObjectName
+                )
             );
             if (!$obj) {
                 $obj = new $translatableDataObjectName();
@@ -783,8 +788,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
         
         // attribute ShopEmails to order status
-        $orderStatus = DataObject::get_one('SilvercartOrderStatus', "Code='shipped'");
-        $orderEmail  = DataObject::get_one('SilvercartShopEmail', "Identifier='OrderShippedNotification'");
+        $orderStatus = DataObject::get_one('SilvercartOrderStatus', "Code='shipped'", true, "SilvercartOrderStatus.ID");
+        $orderEmail  = DataObject::get_one('SilvercartShopEmail', "Identifier='OrderShippedNotification'", true, "SilvercartShopEmail.ID");
         
         if ($orderStatus && $orderEmail) {
             $orderStatus->SilvercartShopEmails()->add($orderEmail);
