@@ -2,11 +2,9 @@
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
 
-        <div id="silvercart-downloadpage-holder">
             <h2>$Title</h2>
             $Content
-        </div>
-        
+            
     </div>
 </div>
 <div id="col3">
