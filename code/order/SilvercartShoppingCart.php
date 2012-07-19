@@ -629,7 +629,7 @@ class SilvercartShoppingCart extends DataObject {
         $amountObj = new Money();
         $amount    = 0;
 
-        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, false);
+        $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
@@ -656,7 +656,7 @@ class SilvercartShoppingCart extends DataObject {
         $amountObj = new Money();
         $amount    = 0;
 
-        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, false);
+        $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
