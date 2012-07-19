@@ -78,7 +78,8 @@ class SilvercartShoppingCartPosition extends DataObject {
         // Check if the installation is complete. If it's not complete we
         // can't access the SilvercartConfig data object (out of database)
         // because it's not build yet
-        if (SilvercartConfig::isInstallationCompleted()) {
+
+        if (SilvercartTools::isInstallationCompleted()) {
             $this->adjustQuantityToStockQuantity();
         }
         $controller = Controller::curr();

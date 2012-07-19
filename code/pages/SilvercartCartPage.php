@@ -92,7 +92,7 @@ class SilvercartCartPage_Controller extends Page_Controller {
      */
     public function init() {
         if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCart()) {
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
 
             Member::currentUser()->SilvercartShoppingCart();
         }

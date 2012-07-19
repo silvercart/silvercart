@@ -163,7 +163,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if (!SapphireTest::is_running_test() && 
-            SilvercartConfig::isInstallationCompleted() &&
+            SilvercartTools::isInstallationCompleted() &&
             Member::currentUserID() &&
             self::$loadModules) {
 
@@ -626,14 +626,14 @@ class SilvercartShoppingCart extends DataObject {
      * @since 15.12.2011
      */
     public function getTaxableAmountGrossWithoutModules() {
-        $amount = 0;
+        $amountObj = new Money();
+        $amount    = 0;
 
-        // products
-        foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += $position->getPrice(false, 'gross')->getAmount();
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, false);
+        foreach ($modulePositions as $modulePosition) {
+            $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
 
-        $amountObj = new Money;
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -653,22 +653,86 @@ class SilvercartShoppingCart extends DataObject {
      * @since 15.12.2011
      */
     public function getTaxableAmountNetWithoutModules() {
-        $amount = 0;
+        $amountObj = new Money();
+        $amount    = 0;
 
-        // products
-        foreach ($this->SilvercartShoppingCartPositions() as $position) {
-            $amount += $position->getPrice(false, 'net')->getAmount();
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, false);
+        foreach ($modulePositions as $modulePosition) {
+            $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
 
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
-        }
-
-        $amountObj = new Money;
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $amountObj;
+    }
+
+    /**
+     * Returns all taxable shopping cart positions.
+     *
+     * @param array $excludeModules              An array of registered modules that shall not
+     *                                           be taken into account.
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
+     * @param bool  $includeModules              Indicate whether to include modules or not
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.07.2012
+     */
+    public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) {
+        $cartPositions = new DataObjectSet();
+
+        if (!is_array($excludeModules)) {
+            $excludeModules = array($excludeModules);
+        }
+        if (!is_array($excludeShoppingCartPosition)) {
+            $excludeShoppingCartPosition = array($excludeShoppingCartPosition);
+        }
+
+        $cacheHash = md5(
+            implode(',', $excludeModules).
+            implode(',', $excludeShoppingCartPosition).
+            $includeModules
+        );
+        $cacheKey = 'ggetTaxableShoppingcartPositions_'.$cacheHash;
+
+        if (array_key_exists($cacheKey, $this->cacheHashes)) {
+            return $this->cacheHashes[$cacheKey];
+        }
+
+        foreach ($this->SilvercartShoppingCartPositions() as $position) {
+            $cartPositions->push($position);
+        }
+
+        if ($includeModules) {
+            $registeredModules = $this->callMethodOnRegisteredModules(
+                'ShoppingCartPositions',
+                array(
+                    $this,
+                    Member::currentUser(),
+                    true,
+                    $excludeShoppingCartPosition,
+                    false
+                ),
+                $excludeModules,
+                $excludeShoppingCartPosition
+            );
+
+            // Registered Modules
+            if ($registeredModules) {
+                foreach ($registeredModules as $moduleName => $modulePositions) {
+                    foreach ($modulePositions as $modulePosition) {
+                        $cartPositions->push($modulePosition);
+                    }
+                }
+            }
+        }
+
+        $this->cacheHashes[$cacheKey] = $cartPositions;
+
+        return $cartPositions;
     }
 
     /**
@@ -703,29 +767,13 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = $this->getTaxableAmountGrossWithoutModules();
-        $amount    = $amountObj->getAmount();
+        $amountObj = new Money();
+        $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
+        $amount    = 0;
 
-        $registeredModules = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions',
-            array(
-                $this,
-                Member::currentUser(),
-                true,
-                $excludeShoppingCartPosition,
-                false
-            ),
-            $excludeModules,
-            $excludeShoppingCartPosition
-        );
-
-        // Registered Modules
-        if ($registeredModules) {
-            foreach ($registeredModules as $moduleName => $modulePositions) {
-                foreach ($modulePositions as $modulePosition) {
-                    $amount += (float) $modulePosition->PriceTotal;
-                }
-            }
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
+        foreach ($modulePositions as $modulePosition) {
+            $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
 
         $amountObj->setAmount($amount);
@@ -761,39 +809,18 @@ class SilvercartShoppingCart extends DataObject {
             implode(',', $excludeModules).'_'.
             implode(',', $excludeShoppingCartPosition)
         );
-        $cacheKey = 'getTaxableAmountGrossWithoutFeesAndCharges_'.$cacheHash;
+        $cacheKey = 'getTaxableAmountNetWithoutFeesAndCharges_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = $this->getTaxableAmountNetWithoutModules();
-        $amount    = $amountObj->getAmount();
+        $amountObj = new Money();
+        $amount    = 0;
 
-        $registeredModules = $this->callMethodOnRegisteredModules(
-            'ShoppingCartPositions',
-            array(
-                $this,
-                Member::currentUser(),
-                true,
-                $excludeShoppingCartPosition,
-                false
-            ),
-            $excludeModules,
-            $excludeShoppingCartPosition
-        );
-
-        // Registered Modules
-        if ($registeredModules) {
-            foreach ($registeredModules as $moduleName => $modulePositions) {
-                foreach ($modulePositions as $modulePosition) {
-                    $amount += (float) $modulePosition->PriceNetTotal;
-                }
-            }
-        }
-
-        if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
+        foreach ($modulePositions as $modulePosition) {
+            $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
 
         $amountObj->setAmount($amount);
