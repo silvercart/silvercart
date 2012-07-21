@@ -39,36 +39,17 @@ class SilvercartTextWidget extends SilvercartWidget {
     
     public static $casting = array(
         'Headline'          => 'Text',
-        'FreeText'          => 'HTMLText',
+        'FreeText'          => 'Text',
     );
     
     /**
      * 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
      */
     public static $has_many = array(
         'SilvercartTextWidgetLanguages' => 'SilvercartTextWidgetLanguage'
     );
-    
-    /**
-     * saves the value of the field FreeText correctly into HTMLText
-     * 
-     * @param string $value the field value
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
-     */
-    public function saveFreeText($value) {
-        $languageObj = $this->getLanguage();
-        $languageObj->FreeText = $value;
-        $languageObj->write();
-    }
 
     /**
      * retirieves the attribute FreeText from related language class depending
@@ -80,11 +61,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 22.01.2012
      */
     public function getFreeText() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->FreeText;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('FreeText');
     }
 
     /**
@@ -97,11 +74,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 26.04.2012
      */
     public function getHeadline() {
-        $headline = '';
-        if ($this->getLanguage()) {
-            $headline = $this->getLanguage()->Headline;
-        }
-        return $headline;
+        return $this->getLanguageFieldValue('Headline');
     }
 
     /**
@@ -113,7 +86,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartText.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -136,6 +109,11 @@ class SilvercartTextWidget extends SilvercartWidget {
                 'Headline'                      => _t('SilvercartText.HEADLINEFIELD_LABEL'),
                 'FreeText'                      => _t('SilvercartText.FREETEXTFIELD_LABEL'),
                 'isContentView'                 => _t('SilvercartTextWidget.IS_CONTENT_VIEW'),
+                'Title'                         => _t('SilvercartText.TITLE'),
+                'Description'                   => _t('SilvercartText.DESCRIPTION'),
+                'Content'                       => _t('Silvercart.CONTENT'),
+                'Translations'                  => _t('SilvercartConfig.TRANSLATIONS'),
+                
             )
         );
 
@@ -152,7 +130,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartText.TITLE');
+         return $this->fieldLabel('Title');
     }
     
     /**
@@ -165,7 +143,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartText.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
     
     /**
@@ -179,8 +157,8 @@ class SilvercartTextWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields             = new FieldSet();
         $rootTabSet         = new TabSet('RootTabSet');
-        $mainTab            = new Tab('Root',               _t('Silvercart.CONTENT'));
-        $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
+        $mainTab            = new Tab('Root', $this->fieldLabel('Content'));
+        $translationsTab    = new Tab('TranslationsTab', $this->fieldLabel('Translations'));
         
         $cssField           = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
         $languageTableField = new ComplexTableField($this, 'SilvercartTextWidgetLanguages', 'SilvercartTextWidgetLanguage');

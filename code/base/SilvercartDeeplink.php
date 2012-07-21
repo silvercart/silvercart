@@ -36,10 +36,6 @@
  */
 class SilvercartDeeplink extends DataObject {
     
-    
-    public static $singular_name = "Deeplink";
-    
-    public static $plural_name = "Deeplinks";
     /**
      * attributes
      * 
@@ -69,8 +65,11 @@ class SilvercartDeeplink extends DataObject {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-            'isActive' => _t('SilvercartPage.ISACTIVE'),
-                    'productAttribute' => _t('SilvercartProductGroupPage.ATTRIBUTES')
+                    'isActive'          => _t('SilvercartPage.ISACTIVE'),
+                    'productAttribute'  => _t('SilvercartProductGroupPage.ATTRIBUTES'),
+                    'deeplinkAttribute' => _t('SilvercartDeeplinkAttribute.SINGULARNAME'),
+                    'countryActive'     => _t('SilvercartCountry.ACTIVE'),
+                    'emptyString'       => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
                 )
         );
 
@@ -130,8 +129,8 @@ class SilvercartDeeplink extends DataObject {
      * 
      * @return FieldSet a set of fields 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function getCMSFields($params = null) {
         $productFields  = array();
@@ -143,9 +142,7 @@ class SilvercartDeeplink extends DataObject {
             $productFields[$fieldName] = $fieldName;
         }
         
-        $productAttributes = DataObject::database_fields('SilvercartProduct');
-        $productAttributeDropdownSource = SilvercartProduct::fieldLabels();
-        $productAttributeDropdown = new DropdownField('productAttribute', _t('SilvercartDeeplinkAttribute.SINGULARNAME'), $productFields, null, null, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'));
+        $productAttributeDropdown = new DropdownField('productAttribute', $this->fieldLabel('deeplinkAttribute'), $productFields, null, null, $this->fieldLabel('emptyString'));
         
         $fields->addFieldToTab('Root.Main', $productAttributeDropdown);
         $fields->addFieldToTab('Root.Main', new ReadonlyField('deeplink', $this->singular_name(), $this->getDeeplinkUrl()));
@@ -163,8 +160,8 @@ class SilvercartDeeplink extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'productAttribute' => _t('SilvercartDeeplinkAttribute.SINGULARNAME'),
-            'ActivationStatus' => _t('SilvercartCountry.ACTIVE'),
+            'productAttribute' => $this->fieldLabel('deeplinkAttribute'),
+            'ActivationStatus' => $this->fieldLabel('countryActive'),
             'DeeplinkUrl'      => 'Deeplink'
         );
         return $summaryFields;

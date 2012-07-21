@@ -70,15 +70,12 @@ class SilvercartRating extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.09.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartRating.SINGULARNAME')) {
-            return _t('SilvercartRating.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
+
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -87,15 +84,10 @@ class SilvercartRating extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.09.2011
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartRating.PLURALNAME')) {
-            return _t('SilvercartRating.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**
@@ -112,10 +104,10 @@ class SilvercartRating extends DataObject {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-            'RatingText' => _t('SilvercartRating.TEXT'),
-            'RatingGrade' => _t('SilvercartRating.GRADE'),
+            'RatingText'        => _t('SilvercartRating.TEXT'),
+            'RatingGrade'       => _t('SilvercartRating.GRADE'),
             'SilvercartProduct' => _t('SilvercartProduct.SINGULARNAME'),
-            'Customer' => _t('Member.SINGULARNAME')
+            'Customer'          => _t('Member.SINGULARNAME')
                 )
         );
 
@@ -134,10 +126,9 @@ class SilvercartRating extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'RatingText' => _t('SilvercartRating.TEXT'),
-            'RatingGrade' => _t('SilvercartRating.GRADE')
+            'RatingText' => $this->fieldLabel('RatingText'),
+            'RatingGrade' => $this->fieldLabel('RatingGrade')
         );
-
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;

@@ -137,9 +137,12 @@
         width: 100%;
         height: auto;
     }
-    #silvercart-cms-mainmenu ul li ul li.section {
+    #silvercart-cms-mainmenu ul li ul li.section,
+    #silvercart-cms-mainmenu ul li ul li.section:hover {
         height: auto;
         border-bottom: 1px #ccc solid;
+        cursor: default;
+        background: #1c587a;
     }
     #silvercart-cms-mainmenu ul li ul li.section p {
         font-size: 9px;

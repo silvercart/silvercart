@@ -33,8 +33,39 @@
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 
+    /**
+     * icon for site tree
+     *
+     * @var string
+     */
     public static $icon = "silvercart/images/page_icons/checkout_page";
     
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 }
 
 /**
@@ -52,9 +83,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     /**
      * Legt Voreinstellungen fest.
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 17.11.2010
+     * @var array
      */
     protected $preferences = array(
         'templateDir' => ''
@@ -63,10 +92,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * Enthaelt das Zahlungsmodul-Objekt.
      *
      * @var PaymentMethod
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     protected $paymentMethodObj = false;
 

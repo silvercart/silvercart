@@ -386,10 +386,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns the title of the payment method
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public function getTitle() {
         return $this->Name;
@@ -399,10 +395,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns the status that for orders created with this payment method
      *
      * @return string orderstatus code
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 23.11.2010
      */
     public function getDefaultOrderStatus() {
         return $this->orderStatus;
@@ -412,10 +404,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns the path to the payment methods logo
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public function getLogo() {
         
@@ -425,10 +413,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns the link for cancel action or end of session
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getCancelLink() {
         return $this->cancelLink;
@@ -438,10 +422,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns the link to get back in the shop
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getReturnLink() {
         return $this->returnLink;
@@ -451,10 +431,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns handling costs for this payment method
      *
      * @return Money a money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 14.12.2011
      */
     public function getHandlingCost() {
         if ((int) $this->SilvercartHandlingCostID === 0) {
@@ -623,10 +599,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns if an error has occured
      *
      * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getErrorOccured() {
         return $this->errorOccured;
@@ -1226,8 +1198,26 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
-        $paymentLogosTable = new HasManyFileDataObjectManager($this, 'PaymentLogos', 'SilvercartImage', 'Image', null, null, sprintf("`SilvercartPaymentMethodID`='%d'", $this->ID));
-        $paymentLogosTable->setTitle(_t('SilvercartImage.PLURALNAME'));
+        
+        
+        $paymentLogosTable = new ComplexTableField(
+                $this,
+                'PaymentLogos',
+                'SilvercartImage',
+                null,
+                'getCMSFieldsForPayment',
+                sprintf(
+                        "`SilvercartImage`.`SilvercartPaymentMethodID` = '%s'",
+                        $this->ID
+                )
+        );
+        $paymentLogosTable->setPermissions(
+                array(
+                    'add',
+                    'edit',
+                    'delete',
+                )
+        );
         $tabLogos->setChildren(
             new FieldSet(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
@@ -1421,10 +1411,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @param string $link the url
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function setCancelLink($link) {
         $this->cancelLink = $link;
@@ -1436,10 +1422,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @param string $link the url
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function setReturnLink($link) {
         $this->returnLink = $link;
@@ -1451,10 +1433,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @param Controller $controller the controller action
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 19.11.2010
      */
     public function setController($controller) {
         $this->controller = $controller;

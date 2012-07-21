@@ -37,10 +37,6 @@ class SilvercartManufacturer extends DataObject {
      * Attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $db = array(
         'Title'         => 'VarChar',
@@ -51,10 +47,6 @@ class SilvercartManufacturer extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $has_one = array(
         'logo' => 'Image'
@@ -63,10 +55,6 @@ class SilvercartManufacturer extends DataObject {
      * Has-many relationships.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $has_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
@@ -88,16 +76,13 @@ class SilvercartManufacturer extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartManufacturer.SINGULARNAME')) {
-            return _t('SilvercartManufacturer.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -105,14 +90,10 @@ class SilvercartManufacturer extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartManufacturer.PLURALNAME')) {
-            return _t('SilvercartManufacturer.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

@@ -37,10 +37,6 @@ class SilvercartContactMessage extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $db = array(
         'Salutation'    => 'VarChar(16)',
@@ -54,10 +50,6 @@ class SilvercartContactMessage extends DataObject {
      * Casting.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $casting = array(
         'CreatedNice' => 'VarChar',
@@ -67,10 +59,6 @@ class SilvercartContactMessage extends DataObject {
      * Default SQL sort statement.
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.11.2011
      */
     public static $default_sort = 'Created DESC';
     
@@ -84,11 +72,7 @@ class SilvercartContactMessage extends DataObject {
      * @since 5.7.2011
      */
     public function singular_name() {
-        if (_t('SilvercartContactMessage.SINGULARNAME')) {
-            return _t('SilvercartContactMessage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
     
     /**
@@ -101,11 +85,7 @@ class SilvercartContactMessage extends DataObject {
      * @since 5.7.2011 
      */
     public function plural_name() {
-        if (_t('SilvercartContactMessage.PLURALNAME')) {
-            return _t('SilvercartContactMessage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this);
     }
 
     /**
@@ -143,15 +123,15 @@ class SilvercartContactMessage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 13.07.2012
      */
     public function summaryFields() {
         $fields = array(
-            'CreatedNice'   => _t('Silvercart.DATE'),
-            'Salutation'    => _t('SilvercartAddress.SALUTATION'),
-            'FirstName'     => _t('Member.FIRSTNAME'),
-            'Surname'       => _t('Member.SURNAME'),
-            'Email'         => _t('Member.EMAIL'),
+            'CreatedNice'   => $this->fieldLabel('CreatedNice'),
+            'Salutation'    => $this->fieldLabel('Salutation'),
+            'FirstName'     => $this->fieldLabel('FirstName'),
+            'Surname'       => $this->fieldLabel('Surname'),
+            'Email'         => $this->fieldLabel('Email'),
         );
         
         $this->extend('updateSummaryFields', $fields);

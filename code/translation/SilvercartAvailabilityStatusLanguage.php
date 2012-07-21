@@ -37,9 +37,6 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.01.2012
      */
     public static $db = array(
         'Title' => 'VarChar'
@@ -49,9 +46,6 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.01.2012
      */
     public static $has_one = array(
         'SilvercartAvailabilityStatus' => 'SilvercartAvailabilityStatus'
@@ -64,14 +58,10 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartAvailabilityStatusLanguage.SINGULARNAME')) {
-            return _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -82,15 +72,10 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartAvailabilityStatusLanguage.PLURALNAME')) {
-            return _t('SilvercartAvailabilityStatusLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

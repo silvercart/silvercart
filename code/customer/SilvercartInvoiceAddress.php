@@ -32,6 +32,31 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartInvoiceAddress extends SilvercartAddress {
-    public static $singular_name = "invoice address";
-    public static $plural_name = "invoice addresses";
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 }

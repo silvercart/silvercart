@@ -38,9 +38,6 @@ class SilvercartCustomerConfig extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $db = array(
         'productsPerPage' => 'Int'
@@ -50,9 +47,6 @@ class SilvercartCustomerConfig extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $has_one = array(
         'Member' => 'Member'

@@ -306,13 +306,11 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
      */
     public function doAttributeItems($vars, SS_HTTPRequest $request) {
         if (isset($vars['ID'])) {
-            $relationName = $this->relationName;
-            
             // Get SilvercartWidgetSet
             $dataObj = DataObject::get_by_id(
                 $this->currentRecord->ClassName,
@@ -321,14 +319,13 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
 
             if ($dataObj) {
                 if (is_array($vars['availableItems'])) {
+                    $newPosition = $this->resortItems($dataObj->WidgetArea()->Widgets());
                     foreach ($vars['availableItems'] as $field) {
-                        $position = $dataObj->WidgetArea()->Widgets()->Count();
-                        
                         // Create new Widget
                         $widget = new $field();
-                        $widget->setField('Sort', $position);
+                        $widget->setField('Sort', $newPosition);
                         $widget->write();
-                        
+                        $newPosition++;
                         // Add Widget to WidgetArea
                         $dataObj->WidgetArea()->Widgets()->add($widget);
                     }
@@ -343,7 +340,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
             Director::redirectBack();
         }
     }
-
+    
     /**
      * Removes fields from the DataObject.
      * 
@@ -352,14 +349,12 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
      */
     public function doRemoveItems($vars, SS_HTTPRequest $request) {
-
         if (isset($vars['ID'])) {
-            $relationName = $this->relationName;
-            $dataObj  = DataObject::get_by_id(
+            $dataObj = DataObject::get_by_id(
                 $this->currentRecord->ClassName,
                 Convert::raw2sql($vars['ID'])
             );
@@ -375,6 +370,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
                             $widget->delete();
                         }
                     }
+                    $this->resortItems($dataObj->WidgetArea()->Widgets());
                 }
             }
         }
@@ -395,41 +391,37 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
      */
     public function doMoveUpItems($vars, SS_HTTPRequest $request) {
-
-        $itemsToMove = array();
-
         if (isset($vars['ID'])) {
-            $relationName = $this->relationName;
-            $dataObj  = DataObject::get_by_id(
+            $dataObj = DataObject::get_by_id(
                 $this->currentRecord->ClassName,
                 Convert::raw2sql($vars['ID'])
             );
 
             if ($dataObj) {
-                if (is_array($vars['selectedItems'])) {
-                    foreach ($vars['selectedItems'] as $field) {
-
-                        $itemToMove = DataObject::get_by_id('Widget', $field);
-
-                        if ($itemToMove) {
-                            if ($itemToMove->Sort <= $dataObj->WidgetArea()->Widgets()->Count()) {
-                                $itemsToMove['sort_'.str_pad($itemToMove->Sort, 10, '0', STR_PAD_LEFT)] = $itemToMove;
+                if ($dataObj->WidgetAreaID > 0 &&
+                    $dataObj->WidgetArea()->Widgets()->Count() > 0) {
+                    $widgets    = $dataObj->WidgetArea()->Widgets();
+                    $sortMap    = $widgets->map('ID', 'Sort');
+                    arsort($sortMap);
+                    $firstItem = array_pop(array_keys($sortMap));
+                    if (!in_array($firstItem, $vars['selectedItems'])) {
+                        foreach ($widgets as $widget) {
+                            if (in_array($widget->ID, $vars['selectedItems'])) {
+                                foreach ($widgets as $otherWidget) {
+                                    if ($otherWidget->Sort == $widget->Sort - 1) {
+                                        $otherWidget->Sort++;
+                                        $otherWidget->write();
+                                    }
+                                }
+                                $widget->Sort--;
+                                $widget->write();
                             }
                         }
                     }
-                }
-
-                ksort($itemsToMove);
-
-                foreach ($itemsToMove as $sortOrder => $itemToMove) {
-                    $moveFromPosition = $itemToMove->Sort;
-                    $moveToPosition   = $moveFromPosition - 1;
-
-                    $this->changePositions($dataObj, $itemToMove, $moveFromPosition, $moveToPosition);
                 }
             }
         }
@@ -450,41 +442,38 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * 
      * @return html
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
      */
     public function doMoveDownItems($vars, SS_HTTPRequest $request) {
-
-        $itemsToMove = array();
-
         if (isset($vars['ID'])) {
-            $relationName = $this->relationName;
-            $dataObj  = DataObject::get_by_id(
+            $dataObj = DataObject::get_by_id(
                 $this->currentRecord->ClassName,
                 Convert::raw2sql($vars['ID'])
             );
 
             if ($dataObj) {
-                if (is_array($vars['selectedItems'])) {
-                    foreach ($vars['selectedItems'] as $field) {
-
-                        $itemToMove = DataObject::get_by_id('Widget', $field);
-
-                        if ($itemToMove) {
-                            if ($itemToMove->Sort < $dataObj->WidgetArea()->Widgets()->Count()) {
-                                $itemsToMove['sort_'.str_pad($itemToMove->Sort, 10, '0', STR_PAD_LEFT)] = $itemToMove;
+                if ($dataObj->WidgetAreaID > 0 &&
+                    $dataObj->WidgetArea()->Widgets()->Count() > 0) {
+                    $widgets    = $dataObj->WidgetArea()->Widgets();
+                    $widgets->sort('Sort', 'Desc');
+                    $sortMap    = $widgets->map('ID', 'Sort');
+                    asort($sortMap);
+                    $lastItem = array_pop(array_keys($sortMap));
+                    if (!in_array($lastItem, $vars['selectedItems'])) {
+                        foreach ($widgets as $widget) {
+                            if (in_array($widget->ID, $vars['selectedItems'])) {
+                                foreach ($widgets as $otherWidget) {
+                                    if ($otherWidget->Sort == $widget->Sort + 1) {
+                                        $otherWidget->Sort--;
+                                        $otherWidget->write();
+                                    }
+                                }
+                                $widget->Sort++;
+                                $widget->write();
                             }
                         }
                     }
-                }
-
-                krsort($itemsToMove);
-
-                foreach ($itemsToMove as $sortOrder => $itemToMove) {
-                    $moveFromPosition = $itemToMove->Sort;
-                    $moveToPosition   = $moveFromPosition + 1;
-
-                    $this->changePositions($dataObj, $itemToMove, $moveFromPosition, $moveToPosition);
                 }
             }
         }
@@ -495,6 +484,26 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
         } else {
             Director::redirectBack();
         }
+    }
+    
+    /**
+     * Repairs the sort orders if needed
+     *
+     * @param DataObjectSet $items Items to resort
+     * 
+     * @return int 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2012
+     */
+    public function resortItems($items) {
+        $sort = 1;
+        foreach ($items as $item) {
+            $item->Sort = $sort;
+            $item->write();
+            $sort++;
+        }
+        return $sort;
     }
 
     /**
@@ -509,6 +518,7 @@ class SilvercartHasManyOrderField_RecordController extends ModelAdmin_RecordCont
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
+     * @deprecated
      */
     protected function changePositions(DataObject $dataObj, DataObject $itemToMove, $moveFromPosition, $moveToPosition) {
 

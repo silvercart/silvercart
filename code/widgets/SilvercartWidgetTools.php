@@ -78,7 +78,10 @@ class SilvercartWidgetTools extends Object {
         $displayTab->push($numberOfProductsFetchField);
         
         $widget->getCMSFieldsSliderTab($rootTabSet);
-        $widget->getCMSFieldsRoundaboutTab($rootTabSet);
+        /*
+         * does not work on a standard installation yet
+         */
+        //$widget->getCMSFieldsRoundaboutTab($rootTabSet);
         
         return $fields;
     }

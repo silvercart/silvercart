@@ -30,6 +30,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 28.05.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
     
@@ -37,22 +38,16 @@ class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
      */
     public static $db = array(
         'FrontTitle'   => 'VarChar(255)',
-        'FrontContent' => 'HTMLText'
+        'FrontContent' => 'Text'
     );
     
     /**
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
      */
     public static $has_one = array(
         'SilvercartSlidorionProductGroupWidget' => 'SilvercartSlidorionProductGroupWidget'
@@ -64,15 +59,11 @@ class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartSlidorionProductGroupWidget.SINGULARNAME')) {
-            return _t('SilvercartSlidorionProductGroupWidget.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -82,15 +73,11 @@ class SilvercartSlidorionProductGroupWidgetLanguage extends DataObject {
      * 
      * @return string the objects plural name
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartSlidorionProductGroupWidget.PLURALNAME')) {
-            return _t('SilvercartSlidorionProductGroupWidget.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

@@ -50,32 +50,25 @@ class SilvercartGoogleMerchantTaxonomy extends DataObject {
      * 
      * @return string The objects singular name 
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.08.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME')) {
-            return _t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
      * @return string the objects plural name
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.08.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartGoogleMerchantTaxonomy.PLURALNAME')) {
-            return _t('SilvercartGoogleMerchantTaxonomy.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

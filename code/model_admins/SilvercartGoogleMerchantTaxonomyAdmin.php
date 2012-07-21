@@ -37,9 +37,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuCode = 'config';
 
@@ -47,9 +44,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSortIndex = 130;
 
@@ -57,9 +51,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static $menuSection = 'others';
 
@@ -67,10 +58,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * The URL segment
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $url_segment = 'silvercart-google-merchant-taxonomy';
 
@@ -78,10 +65,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * The menu title
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $menu_title = 'Silvercart google merchant taxonomy';
     
@@ -89,9 +72,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * We use a custom result table class name.
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.10.2011
      */
     protected $resultsTableClassName = 'SilvercartTableListField';
 
@@ -99,10 +79,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * Managed models
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $managed_models = array(
         'SilvercartGoogleMerchantTaxonomy' => array(
@@ -114,10 +90,6 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * Definition of the Importers for the managed model.
      *
      * @var array
-     *
-     * @author Sascha Koehler
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
      */
     public static $model_importers = array(
         'SilvercartGoogleMerchantTaxonomy'  => 'CsvBulkLoader'

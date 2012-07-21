@@ -45,7 +45,7 @@ class SilvercartProductGroupHolder extends Page {
     );
 
     /**
-     * Allowed children
+     * Allowed children in site tree
      *
      * @var array
      */
@@ -102,6 +102,9 @@ class SilvercartProductGroupHolder extends Page {
                 'productGroupsPerPage'          => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
+                'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+                'Yes'                           => _t('Silvercart.YES'),
+                'No'                            => _t('Silvercart.NO'),
             )
         );
 
@@ -118,13 +121,13 @@ class SilvercartProductGroupHolder extends Page {
         $fields = parent::getCMSFields();
         
         $useOnlydefaultGroupviewSource  = array(
-            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
-            'yes'       => _t('Silvercart.YES'),
-            'no'        => _t('Silvercart.NO'),
+            'inherit'   => $this->fieldLabel('DefaultGroupView'),
+            'yes'       => $this->fieldLabel('Yes'),
+            'no'        => $this->fieldLabel('No'),
         );
         
         $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
-        $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
+        $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupView'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
         $fieldGroup->push($productGroupsPerPageField);
@@ -313,6 +316,42 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
             }
         }
         
+        return $productGroups;
+    }
+    
+    /**
+     * Aggregates an array with ID => Title of all product groups that have children.
+     * The product group holder is included.
+     * This is needed for the product group widget
+     * 
+     * @param Page $parent needed for recursion
+     *
+     * @return array associative array, might be multi dimensional
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.07.2012
+     */
+    public static function getAllProductGroupsWithChildrenAsArray($parent = null) {
+        $productGroups = array();
+        
+        if (is_null($parent)) {
+            $productGroups['']  = '';
+            $parent = self::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $productGroups[$parent->ID] = $parent->Title;
+        }
+        $children = $parent->Children();
+        if ($children) {
+            foreach ($children as $child) {
+                $grandChildren = $child->Children();
+                if ($grandChildren->count() > 0) {
+                    $productGroups[$child->ID] = $child->Title;
+                    $grandChildrenArray = self::getAllProductGroupsWithChildrenAsArray($child);
+                    if (!empty ($grandChildrenArray)) {
+                    $productGroups[_t('SilvercartProductGroupHolder.SUBGROUPS_OF','Subgroups of ') . $child->Title] = $grandChildrenArray;
+                    }
+                }
+            }
+        }
         return $productGroups;
     }
 

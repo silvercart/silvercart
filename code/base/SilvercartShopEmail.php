@@ -55,10 +55,6 @@ class SilvercartShopEmail extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.10.2011
      */
     public static $belongs_many_many = array(
         'SilvercartOrderStatus' => 'SilvercartOrderStatus'
@@ -68,10 +64,6 @@ class SilvercartShopEmail extends DataObject {
      * classes attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 03.12.2010
      */
     public static $db = array(
         'Identifier'    => 'Varchar(255)',
@@ -95,14 +87,10 @@ class SilvercartShopEmail extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShopEmail.SINGULARNAME')) {
-            return _t('SilvercartShopEmail.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -113,15 +101,10 @@ class SilvercartShopEmail extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShopEmail.PLURALNAME')) {
-            return _t('SilvercartShopEmail.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**
@@ -231,10 +214,6 @@ class SilvercartShopEmail extends DataObject {
      * input fields for backend manipulation
      *
      * @return FieldSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 13.12.2010
      */
     public function getCMSFields_forPopup() {
         $fields = parent::getCMSFields_forPopup();
@@ -246,32 +225,18 @@ class SilvercartShopEmail extends DataObject {
      * Returns the title
      *
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
      */
     public function getEmailText() {
-        $casting = '';
-        if ($this->getLanguage()) {
-            $casting = $this->getLanguage()->EmailText;
-        }
-        return $casting;
+        return $this->getLanguageFieldValue('EmailText');
     }
     
     /**
      * Returns the Subject
      *
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
      */
     public function getSubject() {
-        $casting = '';
-        if ($this->getLanguage()) {
-            $casting = $this->getLanguage()->Subject;
-        }
-        return $casting;
+        return $this->getLanguageFieldValue('Subject');
     }
 
     /**

@@ -37,9 +37,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * Attributes.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
      */
     public static $db = array(
         'Autoplay'                      => 'Boolean(1)',
@@ -56,16 +53,13 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
-        'FrontContent'                  => 'HTMLText'
+        'FrontContent'                  => 'Text'
     );
     
     /**
      * 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
      */
     public static $has_many = array(
         'SilvercartImageSliderWidgetLanguages' => 'SilvercartImageSliderWidgetLanguage'
@@ -75,9 +69,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * Many-many relationships
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
      */
     public static $many_many = array(
         'slideImages' => 'SilvercartImageSliderImage'
@@ -86,17 +77,10 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     /**
      * Getter for the multilingula FrontTitle
      *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
+     * @return string
      */
     public function getFrontTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->FrontTitle;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**
@@ -108,27 +92,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * @since 27.01.2012
      */
     public function getFrontContent() {
-        $content = '';
-        if ($this->getLanguage()) {
-            $content = $this->getLanguage()->FrontContent;
-        }
-        return $content;
-    }
-    
-    /**
-     * HtmlEditorFields need an own save method
-     *
-     * @param string $value content
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
-     */
-    public function saveFrontContent($value) {
-        $langObj = $this->getLanguage();
-        $langObj->FrontContent = $value;
-        $langObj->write();
+        return $this->getLanguageFieldValue('FrontContent');
     }
     
     /**
@@ -181,8 +145,8 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         
         $rootTabSet         = new TabSet('Root');
         $basicTab           = new Tab('Basic',              $this->fieldLabel('BasicTab'));
-        $translationsTab    = new Tab('TranslationsTab',    _t('SilvercartConfig.TRANSLATIONS'));
-        $imagesTab          = new Tab('slideImages',        _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME', 'Images'));
+        $translationsTab    = new Tab('TranslationsTab',    $this->fieldLabel('Translations'));
+        $imagesTab          = new Tab('slideImages',        $this->fieldLabel('Images'));
         
         $translationsTableField = new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage');
         $imageField             = new ManyManyComplexTableField(
@@ -241,6 +205,9 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                     'SilvercartImageSliderWidgetLanguages'  => _t('SilvercartImageSliderWidgetLanguage.PLURALNAME'),
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
+                    'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
+                    'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME')
+                    
                 )
         );
 

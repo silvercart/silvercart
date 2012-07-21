@@ -38,9 +38,6 @@ class SilvercartAddress extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
      */
     public static $db = array(
         'TaxIdNumber'       => 'VarChar(30)',
@@ -62,9 +59,6 @@ class SilvercartAddress extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
      */
     public static $has_one = array(
         'Member'            => 'Member',
@@ -75,9 +69,6 @@ class SilvercartAddress extends DataObject {
      * Has-one relationships.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2011
      */
     public static $casting = array(
         'SalutationText' => 'VarChar',
@@ -111,16 +102,13 @@ class SilvercartAddress extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartAddress.SINGULARNAME')) {
-            return _t('SilvercartAddress.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -128,14 +116,10 @@ class SilvercartAddress extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartAddress.PLURALNAME')) {
-            return _t('SilvercartAddress.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

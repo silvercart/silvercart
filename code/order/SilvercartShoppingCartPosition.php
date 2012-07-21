@@ -78,7 +78,8 @@ class SilvercartShoppingCartPosition extends DataObject {
         // Check if the installation is complete. If it's not complete we
         // can't access the SilvercartConfig data object (out of database)
         // because it's not build yet
-        if (SilvercartConfig::isInstallationCompleted()) {
+
+        if (SilvercartTools::isInstallationCompleted()) {
             $this->adjustQuantityToStockQuantity();
         }
         $controller = Controller::curr();
@@ -161,6 +162,22 @@ class SilvercartShoppingCartPosition extends DataObject {
     }
 
     /**
+     * Returns the title of the shopping cart position to display in a widget.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getTitleForWidget() {
+        $titleForWidget = $this->getTitle();
+        if (strlen($titleForWidget) > 60) {
+            $titleForWidget = substr($titleForWidget, 0, 57) . '...';
+        }
+        return $titleForWidget;
+    }
+
+    /**
      * Returns additional tile information provided by plugins
      * 
      * @return string
@@ -171,6 +188,22 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function addToTitle() {
         $addToTitle = SilvercartPlugin::call($this, 'addToTitle', null, false, '');
         return $addToTitle;
+    }
+
+    /**
+     * Returns additional tile information provided by plugins
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function addToTitleForWidget() {
+        $addToTitleForWidget = SilvercartPlugin::call($this, 'addToTitleForWidget', null, false, '');
+        if (empty($addToTitleForWidget)) {
+            $addToTitleForWidget = $this->addToTitle();
+        }
+        return $addToTitleForWidget;
     }
 
     /**

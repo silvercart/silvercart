@@ -32,20 +32,44 @@
  * @since 23.10.2010
  */
 class SilvercartDataPage extends SilvercartMyAccountHolder {
-
-    public static $singular_name = "";
+    
     public static $can_be_root = false;
+    
     public static $allowed_children = array();
     
     /**
      * The icon to use for this page in the storeadmin sitetree.
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.10.2011
      */
     public static $icon = "silvercart/images/page_icons/my_account_holder";
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 }
 
 /**

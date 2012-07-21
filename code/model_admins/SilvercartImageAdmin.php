@@ -37,9 +37,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * The code of the menu under which this admin should be shown.
     * 
     * @var string
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $menuCode = 'config';
 
@@ -47,9 +44,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * The section of the menu under which this admin should be grouped.
     * 
     * @var string
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $menuSection = 'others';
 
@@ -57,9 +51,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * The section of the menu under which this admin should be grouped.
     * 
     * @var string
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $menuSortIndex = 120;
 
@@ -67,9 +58,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * The URL segment
     *
     * @var string
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $url_segment = 'silvercart-silvercart-image';
 
@@ -77,9 +65,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * The menu title
     *
     * @var string
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $menu_title = 'Silvercart Images';
 
@@ -87,9 +72,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * Managed models
     *
     * @var array
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public static $managed_models = array(
         'SilvercartImage' => array(
@@ -101,9 +83,6 @@ class SilvercartImageAdmin extends ModelAdmin {
     * Constructor
     *
     * @return void
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public function __construct() {
         self::$menu_title = _t('SilvercartImage.PLURALNAME');
@@ -141,9 +120,6 @@ class SilvercartImageAdmin_CollectionController extends ModelAdmin_CollectionCon
     * Hide the import form
     *
     * @var boolean
-    * 
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
     */
     public $showImportForm = false;
 

@@ -37,10 +37,6 @@ class SilvercartCarrier extends DataObject {
      * Has-many relationship.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
     public static $has_many = array(
         'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
@@ -70,32 +66,18 @@ class SilvercartCarrier extends DataObject {
      * retirieves title from related language class depending on the set locale
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**
      * retirieves title from related language class depending on the set locale
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
      */
     public function getFullTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->FullTitle;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('FullTitle');
     }
     
     /**
@@ -201,16 +183,13 @@ class SilvercartCarrier extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartCarrier.SINGULARNAME')) {
-            return _t('SilvercartCarrier.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -218,14 +197,10 @@ class SilvercartCarrier extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartCarrier.PLURALNAME')) {
-            return _t('SilvercartCarrier.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**

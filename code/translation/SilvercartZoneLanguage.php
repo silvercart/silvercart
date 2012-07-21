@@ -48,14 +48,10 @@ class SilvercartZoneLanguage extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartZoneLanguage.SINGULARNAME')) {
-            return _t('SilvercartZoneLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -66,15 +62,10 @@ class SilvercartZoneLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartZoneLanguage.PLURALNAME')) {
-            return _t('SilvercartZoneLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**

@@ -33,6 +33,11 @@
  */
 class SilvercartSearchQuery extends DataObject {
     
+    /**
+     * ORM attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'SearchQuery'   => 'VarChar(255)',
         'Locale'        => 'DbLocale',

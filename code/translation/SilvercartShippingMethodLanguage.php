@@ -37,9 +37,6 @@ class SilvercartShippingMethodLanguage extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
      */
     public static $db = array(
         'Title'         => 'VarChar(255)',
@@ -50,9 +47,6 @@ class SilvercartShippingMethodLanguage extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
      */
     public static $has_one = array(
         'SilvercartShippingMethod' => 'SilvercartShippingMethod'
@@ -66,14 +60,10 @@ class SilvercartShippingMethodLanguage extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShippingMethodLanguage.SINGULARNAME')) {
-            return _t('SilvercartShippingMethodLanguage.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
 
 
@@ -84,16 +74,12 @@ class SilvercartShippingMethodLanguage extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShippingMethodLanguage.PLURALNAME')) {
-            return _t('SilvercartShippingMethodLanguage.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }
-
+        return SilvercartTools::plural_name_for($this); 
     }
+    
     /**
      * Field labels for display in tables.
      *

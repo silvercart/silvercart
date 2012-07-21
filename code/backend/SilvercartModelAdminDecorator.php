@@ -126,6 +126,54 @@ class SilvercartModelAdminDecorator extends DataObjectDecorator {
 }
 
 /**
+ * Decorates the default SilvercartModelAdmin_CollectionController to inject 
+ * some custom Actions.
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2012 pixeltricks GmbH
+ * @since 11.07.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartModelAdmin_CollectionController extends DataObjectDecorator {
+    
+    /**
+     * Extended actions
+     *
+     * @var array
+     */
+    public static $allowed_actions = array(
+        'doBatchAction',
+    );
+
+    /**
+     * Executes a batch action (if exists)
+     *
+     * @param SS_HTTPRequest $request HTTP request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2012
+     */
+    public function doBatchAction(SS_HTTPRequest $request) {
+        $orderData          = $request->postVar('SilvercartOrder');
+        $selectedOrderIDs   = $orderData['selected'];
+        $batchActionToCall  = $request->postVar('BatchActionToCall');
+        $batchCallbackData  = $request->postVar('BatchCallbackData');
+        $result             = '';
+        if ($batchActionToCall) {
+            $batchActionMethodName  = 'silvercartBatch_' . $batchActionToCall;
+            $orderIDs               = explode(',', $selectedOrderIDs);
+            $result                 = $this->owner->{$batchActionMethodName}($orderIDs, $batchCallbackData);
+        }
+        return $result;
+    }
+    
+}
+
+/**
  * Decorates the default ModelAdmin_RecordController to inject some custom Actions.
  *
  * @package Silvercart

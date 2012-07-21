@@ -69,27 +69,18 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * The URL segment
      *
      * @var string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
      */
     public static $url_segment = 'silvercart-update';
     /**
      * The menu title
      *
      * @var string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
      */
     public static $menu_title = 'Silvercart Updates';
     /**
      * The collection controller class to use for the shop configuration.
      *
      * @var string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
      */
     public static $collection_controller_class = 'SilvercartUpdateAdmin_CollectionController';
     

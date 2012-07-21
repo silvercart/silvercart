@@ -41,8 +41,9 @@ class SilvercartFile extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartProduct' => 'SilvercartProduct',
-        'File'              => 'File',
+        'SilvercartProduct'         => 'SilvercartProduct',
+        'File'                      => 'File',
+        'SilvercartDownloadPage'    => 'SilvercartDownloadPage',
     );
     
     /**
@@ -196,5 +197,104 @@ class SilvercartFile extends DataObject {
         $languageObj = $this->getLanguage();
         $languageObj->Description = $value;
         $languageObj->write();
+    }
+    
+    /**
+     * wrapper that changes image upload workflow for better user experience
+     * images may directly be added without pressing the save/add button of the
+     * context object
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet $fields field set for cms 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForContext($params = null) {
+        /* @var $request SS_HTTPRequest */
+        $request = Controller::curr()->getRequest();
+        if ($this->ID == 0 &&
+            $request->param('Action') == 'add') {
+            $this->write();
+            $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());
+            Director::redirect($editURL);
+        }
+        $fields = parent::getCMSFields($params);
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the product context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet $fields field set for cms
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForProduct($params = null) {
+        $fields = $this->getCMSFieldsForContext($params);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+    
+    
+    
+    /**
+     * customizes the backends fields for file upload on a SilvercartDownloadPage
+     * 
+     * @param array $params configuration array
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2012
+     */
+    public function getCMSFieldsForDownloadPage($params = null) {
+        
+        $fields = $this->getCMSFieldsForContext($params);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+    
+    /**
+     * Was the object just accidently written?
+     * object without attribute or file appended
+     *
+     * @return bool $result
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 14.07.2012
+     */
+    public function isEmptyObject() {
+        $result = false;
+        if ($this->FileID == 0 &&
+            $this->isEmptyMultilingualAttributes()) {
+            $result = true;
+        }
+        return $result;
+    }
+    
+    /**
+     * hook
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.07.2012
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        if ($this->File()) {
+            $this->File()->delete();
+        }
     }
 }

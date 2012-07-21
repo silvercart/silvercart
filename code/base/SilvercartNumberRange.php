@@ -77,16 +77,12 @@ class SilvercartNumberRange extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartNumberRange.SINGULARNAME')) {
-            return _t('SilvercartNumberRange.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -94,14 +90,10 @@ class SilvercartNumberRange extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartNumberRange.PLURALNAME')) {
-            return _t('SilvercartNumberRange.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**

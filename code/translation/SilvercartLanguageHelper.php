@@ -64,22 +64,24 @@ class SilvercartLanguageHelper {
     /**
      * Default scaffolding for language objects.
      *
-     * @param DataObject $dataobject DataObject to scaffold the form fields for
+     * @param DataObject $dataobject     DataObject to scaffold the form fields for
+     * @param array      $restrictFields List of restrict fields
      * 
      * @return FieldSet
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 16.07.2012
      */
-    public static function prepareCMSFields($dataobject) {
+    public static function prepareCMSFields($dataobject, $restrictFields = false) {
         if (!$dataobject) {
             return new FieldSet();
         }
         $languageFields = $dataobject->scaffoldFormFields(
                 array(
-                    'includeRelations' => false,
-                    'tabbed' => false,
-                    'ajaxSafe' => true,
+                    'includeRelations'  => false,
+                    'tabbed'            => false,
+                    'ajaxSafe'          => true,
+                    'restrictFields'    => $restrictFields,
                 )
         );
         $languageFields->removeByName('Locale');
@@ -243,8 +245,6 @@ class SilvercartLanguageHelper {
      */
     public static function writeLanguageObject($languageObj, $mainRecord) {
         $record = array();
-            SilvercartTools::Log('writeLanguageObject', var_export($mainRecord, true));
-            SilvercartTools::Log('writeLanguageObject', var_export($languageObj, true));
         foreach ($languageObj->db() as $dbFieldName => $dbFieldType) {
             if (array_key_exists($dbFieldName, $mainRecord)) {
                 $record[$dbFieldName] = $mainRecord[$dbFieldName];
@@ -265,6 +265,11 @@ class SilvercartLanguageHelper {
         global $_ALL_CLASSES;
         $translatableDataObjects = array();
         foreach ($_ALL_CLASSES['parents'] as $className => $ancestry) {
+
+            if (strpos($className, 'Silvercart') === false) {
+                continue;
+            }
+
             $extensions = Object::get_static($className, 'extensions');
             if (!is_null($extensions) &&
                 is_array($extensions) &&

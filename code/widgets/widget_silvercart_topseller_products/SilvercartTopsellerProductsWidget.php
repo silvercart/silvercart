@@ -39,9 +39,6 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
      * Indicates the number of products that shall be shown with this widget.
      * 
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $db = array(
         'numberOfProductsToShow' => 'Int'
@@ -51,9 +48,6 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
      * Set default values.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public static $defaults = array(
         'numberOfProductsToShow' => 5
@@ -78,15 +72,39 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
     }
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'            => _t('SilvercartTopsellerProductsWidget.TITLE'),
+                    'CMSTitle'         => _t('SilvercartTopsellerProductsWidget.CMSTITLE'),
+                    'Description'      => _t('SilvercartTopsellerProductsWidget.DESCRIPTION'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @since 13.07.2012
      */
     public function Title() {
-        return _t('SilvercartTopsellerProductsWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -95,10 +113,10 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @since 13.07.2012
      */
     public function CMSTitle() {
-        return _t('SilvercartTopsellerProductsWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -108,10 +126,10 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @since 13.07.2012
      */
     public function Description() {
-        return _t('SilvercartTopsellerProductsWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
 }
 

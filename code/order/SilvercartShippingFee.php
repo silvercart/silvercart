@@ -73,6 +73,7 @@ class SilvercartShippingFee extends DataObject {
      */
     public static $casting = array(
         'PriceFormatted'                => 'Varchar(20)',
+        'PriceFormattedPlain'           => 'Varchar(20)',
         'AttributedShippingMethods'     => 'Varchar(255)',
         'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
         'PriceAmount'                   => 'Varchar(255)',
@@ -118,7 +119,7 @@ class SilvercartShippingFee extends DataObject {
                     'SilvercartZone.Title'      => $this->fieldLabel('SilvercartZone'),
                     'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
                     'MaximumWeightLimitedOrNot' => $this->fieldLabel('MaximumWeight'),
-                    'PriceFormatted'            => $this->fieldLabel('Price'),
+                    'PriceFormattedPlain'       => $this->fieldLabel('Price'),
                 )
         );
     }
@@ -146,6 +147,8 @@ class SilvercartShippingFee extends DataObject {
                     'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
                     'PostPricing'               => _t('SilvercartShippingFee.POST_PRICING'),
                     'SilvercartOrders'          => _t('SilvercartOrder.PLURALNAME'),
+                    'PostPricingInfo'           => _t('SilvercartShippingFee.POST_PRICING_INFO'),
+                    'EmptyString'               => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE')
                 )
         );
     }
@@ -158,7 +161,7 @@ class SilvercartShippingFee extends DataObject {
     public function getMaximumWeightLimitedOrNot() {
         $maximumWeightLimitedOrNot = $this->MaximumWeight;
         if ($this->UnlimitedWeight) {
-            $maximumWeightLimitedOrNot = _t('SilvercartShippingFee.UNLIMITED_WEIGHT');
+            $maximumWeightLimitedOrNot = $this->fieldLabel('UnlimitedWeight');
         }
         return $maximumWeightLimitedOrNot;
     }
@@ -209,7 +212,7 @@ class SilvercartShippingFee extends DataObject {
         );
         
         $postPricingField = $fields->dataFieldByName('PostPricing');
-        $postPricingField->setTitle($postPricingField->Title() . ' (' . _t('SilvercartShippingFee.POST_PRICING_INFO') . ')');
+        $postPricingField->setTitle($postPricingField->Title() . ' (' . $this->fieldLabel('PostPricingInfo') . ')');
         
         $fieldGroup = new SilvercartFieldGroup('ShippingFeeGroup', '', $fields);
         $fieldGroup->push(          $fields->dataFieldByName('MaximumWeight'));
@@ -231,7 +234,7 @@ class SilvercartShippingFee extends DataObject {
             $zonesField = new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                    $zones->toDropDownMap('ID', 'Title', _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE', '--choose zone--'))
+                    $zones->toDropDownMap('ID', 'Title', $this->fieldLabel('EmptyString'))
             );
             $fieldGroup->push($zonesField);
         }
@@ -243,24 +246,38 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * Returns the Price formatted by locale.
+     * 
+     * @param bool $plain Set to true to load the price amount without any manipulation
      *
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function PriceFormatted() {
+    public function PriceFormatted($plain = false) {
         $priceFormatted = '';
         if ($this->PostPricing) {
             $priceFormatted = '---';
         } else {
             $priceObj = new Money();
-            $priceObj->setAmount($this->getPriceAmount());
+            $priceObj->setAmount($this->getPriceAmount($plain));
             $priceObj->setCurrency($this->getPriceCurrency());
 
             $priceFormatted = $priceObj->Nice();
         }
         return $priceFormatted;
+    }
+
+    /**
+     * Returns the Price formatted by locale.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
+     */
+    public function getPriceFormattedPlain() {
+        return $this->PriceFormatted(true);
     }
 
     /**
@@ -305,22 +322,26 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * returns the tax amount included in $this
+     * 
+     * @param float $price Price to get tax amount for (if empty $this->getPriceAmount() is used)
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
      */
-    public function getTaxAmount() {
+    public function getTaxAmount($price = null) {
+        if (is_null($price)) {
+            $price = $this->getPriceAmount();
+        }
         $taxRate   = $this->getTaxRate();
-        $taxAmount = $this->Price->getAmount() - ($this->Price->getAmount() / (100 + $taxRate) * 100);
+        $taxAmount = $price - ($price / (100 + $taxRate) * 100);
 
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
 
             $silvercartShoppingCart  = Member::currentUser()->SilvercartShoppingCart();
-            $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom();
+            $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom($this->SilvercartShippingMethod()->getShippingCountry());
 
             if (SilvercartConfig::PriceType() == 'gross') {
                 $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
@@ -384,44 +405,61 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * Returns the prices amount
+     * 
+     * @param bool              $plain              Set to true to load the price amount without any manipulation
+     * @param float             $amountToGetFeeFor  Amount to get fee for
+     * @param SilvercartCountry $countryToGetFeeFor Amount to get fee for
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
      */
-    public function getPriceAmount() {
+    public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null) {
         $price = (float) $this->Price->getAmount();
 
-        if (SilvercartConfig::PriceType() == 'net') {
-            $price = $price - $this->getTaxAmount();
-        }
-
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
-
-            $silvercartShoppingCart     = Member::currentUser()->SilvercartShoppingCart();
-            $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
-            $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom();
-
-            if (SilvercartConfig::PriceType() == 'gross') {
-                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
-            } else {
-                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
+        if (!$plain) {
+            if (SilvercartConfig::PriceType() == 'net') {
+                $price = $price - $this->getTaxAmount($price);
             }
 
+            if (Member::currentUser() &&
+                Member::currentUser()->SilvercartShoppingCartID > 0) {
+
+                $silvercartShoppingCart     = Member::currentUser()->SilvercartShoppingCart();
+
+                if (SilvercartConfig::PriceType() == 'gross') {
+                    $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
+                } else {
+                    $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
+                }
+                $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
+                $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom($this->SilvercartShippingMethod()->getShippingCountry());
+
+                if ($useFreeOfShippingCostsFrom &&
+                    !is_null($freeOfShippingCostsFrom->getAmount()) &&
+                    $freeOfShippingCostsFrom->getAmount() > 0 &&
+                    (float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
+
+                    $price = 0.0;
+                }
+            }
+
+            $price = round($price, 2);
+
+            $this->extend('updatePriceAmount', $price);
+        } elseif (!is_null($amountToGetFeeFor) &&
+                  !is_null($countryToGetFeeFor)) {
+            $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
+            $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom($countryToGetFeeFor);
             if ($useFreeOfShippingCostsFrom &&
                 !is_null($freeOfShippingCostsFrom->getAmount()) &&
                 $freeOfShippingCostsFrom->getAmount() > 0 &&
-                (float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
+                (float) $freeOfShippingCostsFrom->getAmount() <= $amountToGetFeeFor) {
 
                 $price = 0.0;
             }
         }
-
-        $price = round($price, 2);
-        
-        $this->extend('updatePriceAmount', $price);
 
         return $price;
     }

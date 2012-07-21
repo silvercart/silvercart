@@ -34,70 +34,9 @@
 class SilvercartOrder extends DataObject implements PermissionProvider {
 
     /**
-     * Set permissions.
-     *
-     * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.02.2012
-     */
-    public function providePermissions() {
-        return array(
-            'SILVERCART_ORDER_VIEW'   => _t('SilvercartOrder.SILVERCART_ORDER_VIEW'),
-            'SILVERCART_ORDER_EDIT'   => _t('SilvercartOrder.SILVERCART_ORDER_EDIT'),
-            'SILVERCART_ORDER_DELETE' => _t('SilvercartOrder.SILVERCART_ORDER_DELETE')
-        );
-    }
-
-    /**
-     * Indicates wether the current user can view this object.
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.02.2012
-     */
-    public function CanView() {
-        $canView = false;
-        if (Member::currentUserID() == $this->MemberID ||
-            Permission::check('SILVERCART_ORDER_VIEW')) {
-            $canView = true;
-        }
-        return $canView;
-    }
-
-    /**
-     * Indicates wether the current user can edit this object.
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.02.2012
-     */
-    public function CanEdit() {
-        return Permission::check('SILVERCART_ORDER_EDIT');
-    }
-
-    /**
-     * Indicates wether the current user can delete this object.
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.02.2012
-     */
-    public function CanDelete() {
-        return Permission::check('SILVERCART_ORDER_DELETE');
-    }
-
-    /**
      * attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $db = array(
         'AmountTotal'                       => 'Money', // value of all products
@@ -124,10 +63,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 1:1 relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_one = array(
         'SilvercartShippingAddress' => 'SilvercartOrderShippingAddress',
@@ -143,10 +78,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 1:n relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
      */
     public static $has_many = array(
         'SilvercartOrderPositions'  => 'SilvercartOrderPosition'
@@ -156,10 +87,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * m:n relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $many_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
@@ -169,10 +96,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * Casting.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $casting = array(
         'Created'                   => 'Date',
@@ -187,10 +110,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * Default sort direction in tables.
      *
      * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      */
     public static $default_sort = "Created DESC";
 
@@ -198,10 +117,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * register extensions
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public static $extensions = array(
         "Versioned('Live')",
@@ -213,15 +128,11 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return string The objects singular name 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartOrder.SINGULARNAME')) {
-            return _t('SilvercartOrder.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this); 
     }
     
     /**
@@ -230,15 +141,68 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return string the objects plural name
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartOrder.PLURALNAME')) {
-            return _t('SilvercartOrder.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
+    }
+
+    /**
+     * Set permissions.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
+     */
+    public function providePermissions() {
+        return array(
+            'SILVERCART_ORDER_VIEW'   => _t('SilvercartOrder.SILVERCART_ORDER_VIEW'),
+            'SILVERCART_ORDER_EDIT'   => _t('SilvercartOrder.SILVERCART_ORDER_EDIT'),
+            'SILVERCART_ORDER_DELETE' => _t('SilvercartOrder.SILVERCART_ORDER_DELETE')
+        );
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
+     */
+    public function CanView() {
+        $canView = false;
+        if (Member::currentUserID() == $this->MemberID ||
+            Permission::check('SILVERCART_ORDER_VIEW')) {
+            $canView = true;
+        }
+        return $canView;
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
+     */
+    public function CanEdit() {
+        return Permission::check('SILVERCART_ORDER_EDIT');
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
+     */
+    public function CanDelete() {
+        return Permission::check('SILVERCART_ORDER_DELETE');
     }
 
     /**
@@ -246,9 +210,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function summaryFields() {
         $summaryFields = array(
@@ -273,40 +236,58 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ID'                                => _t('SilvercartOrder.ORDER_ID'),
-                'Created'                           => _t('SilvercartPage.ORDER_DATE'),
-                'OrderNumber'                       => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
-                'SilvercartShippingFee'             => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                              => _t('SilvercartPage.REMARKS'),
-                'Member'                            => _t('SilvercartOrder.CUSTOMER', 'customer'),
-                'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME'),
-                'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME'),
-                'SilvercartOrderStatus'             => _t('SilvercartOrder.STATUS', 'order status'),
-                'AmountTotal'                       => _t('SilvercartOrder.AMOUNTTOTAL'),
-                'PriceType'                         => _t('SilvercartOrder.PRICETYPE'),
-                'AmountGrossTotal'                  => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
-                'HandlingCostPayment'               => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
-                'HandlingCostShipment'              => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
-                'TaxRatePayment'                    => _t('SilvercartOrder.TAXRATEPAYMENT'),
-                'TaxRateShipment'                   => _t('SilvercartOrder.TAXRATESHIPMENT'),
-                'TaxAmountPayment'                  => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
-                'TaxAmountShipment'                 => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
-                'Note'                              => _t('SilvercartOrder.NOTE'),
-                'WeightTotal'                       => _t('SilvercartOrder.WEIGHTTOTAL'),
-                'CustomersEmail'                    => _t('SilvercartOrder.CUSTOMERSEMAIL'),
-                'SilvercartPaymentMethod'           => _t('SilvercartPaymentMethod.SINGULARNAME'),
-                'SilvercartShippingMethod'          => _t('SilvercartShippingMethod.SINGULARNAME'),
-                'HasAcceptedTermsAndConditions'     => _t('SilvercartOrder.HASACCEPTEDTERMSANDCONDITIONS'),
-                'HasAcceptedRevocationInstruction'  => _t('SilvercartOrder.HASACCEPTEDREVOCATIONINSTRUCTION'),
-                'SilvercartOrderPositions'          => _t('SilvercartOrderPosition.PLURALNAME'),
+                'ID'                                    => _t('SilvercartOrder.ORDER_ID'),
+                'Created'                               => _t('SilvercartPage.ORDER_DATE'),
+                'OrderNumber'                           => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+                'SilvercartShippingFee'                 => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
+                'Note'                                  => _t('SilvercartPage.REMARKS'),
+                'Member'                                => _t('SilvercartOrder.CUSTOMER', 'customer'),
+                'Customer'                              => _t('SilvercartOrder.CUSTOMER'),
+                'CustomerData'                          => _t('SilvercartOrder.CUSTOMERDATA'),
+                'MemberCustomerNumber'                  => _t('SilvercartCustomer.CUSTOMERNUMBER'),
+                'MemberEmail'                           => _t('Member.EMAIL'),
+                'SilvercartShippingAddress'             => _t('SilvercartShippingAddress.SINGULARNAME'),
+                'SilvercartShippingAddressFirstName'    => _t('SilvercartAddress.FIRSTNAME'),
+                'SilvercartShippingAddressSurname'      => _t('SilvercartAddress.SURNAME'),
+                'SilvercartShippingAddressCountry'      => _t('SilvercartCountry.SINGULARNAME'),
+                'SilvercartInvoiceAddress'              => _t('SilvercartInvoiceAddress.SINGULARNAME'),
+                'SilvercartOrderStatus'                 => _t('SilvercartOrder.STATUS', 'order status'),
+                'AmountTotal'                           => _t('SilvercartOrder.AMOUNTTOTAL'),
+                'PriceType'                             => _t('SilvercartOrder.PRICETYPE'),
+                'AmountGrossTotal'                      => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCostPayment'                   => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
+                'HandlingCostShipment'                  => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
+                'TaxRatePayment'                        => _t('SilvercartOrder.TAXRATEPAYMENT'),
+                'TaxRateShipment'                       => _t('SilvercartOrder.TAXRATESHIPMENT'),
+                'TaxAmountPayment'                      => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
+                'TaxAmountShipment'                     => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
+                'Note'                                  => _t('SilvercartOrder.NOTE'),
+                'WeightTotal'                           => _t('SilvercartOrder.WEIGHTTOTAL'),
+                'CustomersEmail'                        => _t('SilvercartOrder.CUSTOMERSEMAIL'),
+                'SilvercartPaymentMethod'               => _t('SilvercartPaymentMethod.SINGULARNAME'),
+                'SilvercartShippingMethod'              => _t('SilvercartShippingMethod.SINGULARNAME'),
+                'HasAcceptedTermsAndConditions'         => _t('SilvercartOrder.HASACCEPTEDTERMSANDCONDITIONS'),
+                'HasAcceptedRevocationInstruction'      => _t('SilvercartOrder.HASACCEPTEDREVOCATIONINSTRUCTION'),
+                'SilvercartOrderPositions'              => _t('SilvercartOrderPosition.PLURALNAME'),
+                'SilvercartOrderPositionsProductNumber' => _t('SilvercartProduct.PRODUCTNUMBER'),
+                'OrderPositionData'                     => _t('SilvercartOrder.ORDERPOSITIONDATA'),
+                'OrderPositionQuantity'                 => _t('SilvercartOrder.ORDERPOSITIONQUANTITY'),
+                'OrderPositionIsLimit'                  => _t('SilvercartOrder.ORDERPOSITIONISLIMIT'),
+                'SearchResultsLimit'                    => _t('SilvercartOrder.SEARCHRESULTSLIMIT'),
+                'BasicData'                             => _t('SilvercartOrder.BASICDATA'),
+                'MiscData'                              => _t('SilvercartOrder.MISCDATA'),
+                'ShippingAddressTab'                    => _t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'),
+                'InvoiceAddressTab'                     => _t('SilvercartAddressHolder.INVOICEADDRESS_TAB'),
+                'PrintPreview'                          => _t('SilvercartOrder.PRINT_PREVIEW'),
+                'EmptyString'                           => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+                'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -319,35 +300,54 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function searchableFields() {
         $searchableFields = array(
             'Created' => array(
-                'title'     => _t('SilvercartPage.ORDER_DATE'),
+                'title'     => $this->fieldLabel('Created'),
                 'filter'    => 'DateRangeSearchFilter'
             ),
             'OrderNumber' => array(
-                'title'     => _t('SilvercartOrder.ORDERNUMBER'),
-                'filter'    => 'PartialMatchFilter'
-            ),
-            'SilvercartShippingAddress.FirstName' => array(
-                'title'     => _t('SilvercartAddress.FIRSTNAME'),
-                'filter'    => 'PartialMatchFilter'
-            ),
-            'SilvercartShippingAddress.Surname' => array(
-                'title'     => _t('SilvercartAddress.SURNAME'),
+                'title'     => $this->fieldLabel('OrderNumber'),
                 'filter'    => 'PartialMatchFilter'
             ),
             'SilvercartOrderStatus.ID' => array(
-                'title'     => _t('SilvercartOrder.STATUS', 'order status'),
+                'title'     => $this->fieldLabel('SilvercartOrderStatus'),
                 'filter'    => 'ExactMatchFilter'
             ),
             'SilvercartPaymentMethod.ID' => array(
-                'title'     => _t('SilvercartPaymentMethod.SINGULARNAME', 'Payment method'),
+                'title'     => $this->fieldLabel('SilvercartPaymentMethod'),
                 'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartShippingMethod.ID' => array(
+                'title'     => $this->fieldLabel('SilvercartShippingMethod'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'Member.CustomerNumber' => array(
+                'title'     => $this->fieldLabel('MemberCustomerNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Member.Email' => array(
+                'title'     => $this->fieldLabel('MemberEmail'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.FirstName' => array(
+                'title'     => $this->fieldLabel('SilvercartShippingAddressFirstName'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.Surname' => array(
+                'title'     => $this->fieldLabel('SilvercartShippingAddressSurname'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.SilvercartCountry.ID' => array(
+                'title'     => $this->fieldLabel('SilvercartShippingAddressCountry'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartOrderPositions.ProductNumber' => array(
+                'title'     => $this->fieldLabel('SilvercartOrderPositionsProductNumber'),
+                'filter'    => 'PartialMatchFilter'
             ),
         );
         $this->extend('updateSearchableFields', $searchableFields);
@@ -484,9 +484,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * TAB SECTION
         **********************************************************************/
-        $fields->findOrMakeTab('Root.ShippingAddressTab',   _t('SilvercartAddressHolder.SHIPPINGADDRESS_TAB'));
-        $fields->findOrMakeTab('Root.InvoiceAddressTab',    _t('SilvercartAddressHolder.INVOICEADDRESS_TAB'));
-        $fields->findOrMakeTab('Root.PrintPreviewTab',      _t('SilvercartOrder.PRINT_PREVIEW'));
+        $fields->findOrMakeTab('Root.ShippingAddressTab', $this->fieldLabel('ShippingAddressTab'));
+        $fields->findOrMakeTab('Root.InvoiceAddressTab',  $this->fieldLabel('InvoiceAddressTab'));
+        $fields->findOrMakeTab('Root.PrintPreviewTab',    $this->fieldLabel('PrintPreview'));
         
         /***********************************************************************
         * SIMPLE MODIFICATION SECTION
@@ -511,7 +511,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 array(),
                 $this->SilvercartShippingFeeID,
                 null,
-                _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                $this->fieldLabel('EmptyString')
         );
         if ($shippingFees) {
             $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));
@@ -552,8 +552,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
         
         $mainGroup = new SilvercartFieldGroup('MainGroup', '', $fields);
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('OrderNumber'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('CustomersEmail'));
+        $mainGroup->push(           $fields->dataFieldByName('OrderNumber'));
+        $mainGroup->breakAndPush(   $fields->dataFieldByName('CustomersEmail'));
         $mainGroup->breakAndPush(   $fields->dataFieldByName('AmountTotal'));
         $mainGroup->push(           $priceTypeTextField);
         $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostPayment'));
@@ -2096,47 +2096,37 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 10.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function SearchForm() {
-        $orderStatusSet     = DataObject::get('SilvercartOrderStatus');
-        $paymentMethodSet   = DataObject::get('SilvercartPaymentMethod');
-        $searchForm         = parent::SearchForm();
-
-        if ($orderStatusSet) {
-            $searchForm->Fields()->removeByName('SilvercartOrderStatus__ID');
-
-            $dropdownField = new DropdownField(
-                'SilvercartOrderStatus__ID',
-                _t('SilvercartOrder.STATUS', 'order status'),
-                $orderStatusSet->map(
-                    'ID',
-                    'Title',
-                    _t('SilvercartOrderSearchForm.PLEASECHOOSE')
-                )
-            );
-
-            $searchForm->Fields()->push($dropdownField);
-        }
+        $searchForm             = parent::SearchForm();
+        $fields                 = $searchForm->Fields();
+        $order                  = singleton('SilvercartOrder');
         
-        if ($paymentMethodSet) {
-            $searchForm->Fields()->removeByName('SilvercartPaymentMethod__ID');
+        $basicLabelField        = new HeaderField(  'BasicLabelField',          $order->fieldLabel('BasicData'));
+        $customerLabelField     = new HeaderField(  'CustomerLabelField',       $order->fieldLabel('CustomerData'));
+        $positionLabelField     = new HeaderField(  'PositionLabelField',       $order->fieldLabel('OrderPositionData'));
+        $miscLabelField         = new HeaderField(  'MiscLabelField',           $order->fieldLabel('MiscData'));
+        
+        $positionQuantityField  = new TextField(    'OrderPositionQuantity',    $order->fieldLabel('OrderPositionQuantity'));
+        $positionIsLimitField   = new CheckboxField('OrderPositionIsLimit',     $order->fieldLabel('OrderPositionIsLimit'));
+        $limitField             = new TextField(    'SearchResultsLimit',       $order->fieldLabel('SearchResultsLimit'));
+        
+        $fields->insertBefore($basicLabelField,                                         'OrderNumber');
+        $fields->insertAfter($fields->dataFieldByName('Created'),                       'OrderNumber');
+        $fields->insertBefore($customerLabelField,                                      'Member__CustomerNumber');
+        $fields->insertBefore($positionLabelField,                                      'SilvercartOrderPositions__ProductNumber');
+        $fields->insertAfter($positionQuantityField,                                    'SilvercartOrderPositions__ProductNumber');
+        $fields->insertAfter($positionIsLimitField,                                     'OrderPositionQuantity');
+        $fields->insertAfter($miscLabelField,                                           'OrderPositionIsLimit');
+        $fields->insertAfter($limitField,                                               'MiscLabelField');
 
-            $dropdownField = new DropdownField(
-                'SilvercartPaymentMethod__ID',
-                _t('SilvercartPaymentMethod.SINGULARNAME', 'Payment method'),
-                $paymentMethodSet->map(
-                    'ID',
-                    'Title',
-                    _t('SilvercartOrderSearchForm.PLEASECHOOSE')
-                )
-            );
-
-            $searchForm->Fields()->insertAfter($dropdownField, 'SilvercartOrderStatus__ID');
-        }
-
+        $fields->dataFieldByName('SilvercartOrderStatus__ID')->setEmptyString(      _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('SilvercartPaymentMethod__ID')->setEmptyString(    _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('SilvercartShippingMethod__ID')->setEmptyString(   _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('SilvercartShippingAddress__SilvercartCountry__ID')->setEmptyString(_t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        
         $this->extend('updateSearchForm', $searchForm);
         
         return $searchForm;
@@ -2151,8 +2141,8 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      *
      * @return SQLQuery
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2012
      */
     public function getSearchQuery($searchCriteria) {
         $query = parent::getSearchQuery($searchCriteria);
@@ -2189,6 +2179,63 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             }
             $whereIdx++;
         }
+        
+        if (array_key_exists('SearchResultsLimit', $searchCriteria) &&
+            is_numeric($searchCriteria['SearchResultsLimit'])) {
+            $searchResultsLimit = (int) $searchCriteria['SearchResultsLimit'];
+            $clone = clone $query;
+            $clone->limit('0,' . $searchResultsLimit);
+            $limitedRecords = $clone->execute();
+            if ($limitedRecords) {
+                $targetIDs = array();
+                foreach ($limitedRecords as $record) {
+                    if (is_array($record)) {
+                        $targetIDs[] = $record['ID'];
+                    }
+                }
+                $query->where['SearchResultsLimit'] = sprintf(
+                        "`SilvercartOrder`.`ID` IN (%s)",
+                        implode(',', $targetIDs)
+                );
+            }
+        }
+        
+        if (array_key_exists('SilvercartShippingAddress__SilvercartCountry__ID', $searchCriteria) &&
+            is_numeric($searchCriteria['SilvercartShippingAddress__SilvercartCountry__ID'])) {
+            $newFrom        = array();
+            $newFromIndex   = 0;
+            foreach ($query->from as $alias => $sql) {
+                if ($newFromIndex == 1) {
+                    $newFrom['SilvercartAddress'] = "LEFT JOIN `SilvercartAddress` AS `SilvercartAddress` ON `SilvercartAddress`.`ID` = `SilvercartOrder`.`SilvercartShippingAddressID`";
+                }
+                $newFrom[$alias] = $sql;
+                $newFromIndex++;
+            }
+            $query->from = $newFrom;
+        }
+        
+        if (array_key_exists('SilvercartOrderPositions__ProductNumber', $searchCriteria)) {
+            $query->leftJoin(
+                    'SilvercartOrderPosition',
+                    "`SilvercartOrder`.`ID` = `SilvercartOrderPosition`.`SilvercartOrderID`"
+            );
+        }
+        
+        if (array_key_exists('OrderPositionQuantity', $searchCriteria) &&
+            is_numeric($searchCriteria['OrderPositionQuantity'])) {
+            $query->leftJoin(
+                    'SilvercartOrderPosition',
+                    "`SilvercartOrder`.`ID` = `SilvercartOrderPosition`.`SilvercartOrderID`"
+            );
+            $query->where['OrderPositionQuantity'] = sprintf(
+                    "`SilvercartOrderPosition`.`Quantity` = %s",
+                    $searchCriteria['OrderPositionQuantity']
+            );
+        }
+        if (array_key_exists('OrderPositionIsLimit', $searchCriteria)
+            && $searchCriteria['OrderPositionIsLimit']) {
+            $query->where['OrderPositionIsLimit'] = "(SELECT COUNT(ID) FROM `SilvercartOrderPosition` WHERE `SilvercartOrderPosition`.`SilvercartOrderID` = `SilvercartOrder`.`ID`) = 1";
+        }
 
         $this->extend('updateGetSearchQuery', $searchCriteria, $query);
 
@@ -2203,13 +2250,101 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      * @return TableListField
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.2012
+     * @since 11.07.2012
      */
     public function getResultsTable($searchCriteria) {
         $tableField = parent::getResultsTable($searchCriteria);
         $tableField->addPrintAction();
+        if (array_key_exists('SearchResultsLimit', $searchCriteria) &&
+            is_numeric($searchCriteria['SearchResultsLimit'])) {
+            $searchResultsLimit = (int) $searchCriteria['SearchResultsLimit'];
+            $tableField->setPageSize($searchResultsLimit);
+        }
+        $tableField->addBatchActions(
+                array(
+                    array(
+                        'action'    => 'changeOrderStatus',
+                        'label'     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
+                    ),
+                    array(
+                        'action'    => 'printOrders',
+                        'label'     => _t('SilvercartOrder.BATCH_PRINTORDERS'),
+                    ),
+                )
+        );
         $this->extend('getResultsTable', $tableField, $searchCriteria);
         return $tableField;
+    }
+
+    /**
+     * batch action callback to get the dropdown list for order status choice
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function OrderStatusDropdown() {
+        $orderStatus    = DataObject::get('SilvercartOrderStatus');
+        $orderStatusMap = $orderStatus->map();
+        $options        = array();
+        foreach ($orderStatusMap as $ID => $title) {
+            $options[] = sprintf(
+                    '<option value="%s">%s</option>',
+                    $ID,
+                    $title
+            );
+        }
+        return sprintf(
+                '<select name="SilvercartOrderStatus">%s</select>',
+                implode('', $options)
+        );
+    }
+    
+    /**
+     * Batch action to change the order status of the given order IDs to the 
+     * given order status ID
+     *
+     * @param array $orderIDs      IDs of orders to change status for
+     * @param int   $orderStatusID ID of status to set
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function silvercartBatch_changeOrderStatus($orderIDs, $orderStatusID) {
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $order->SilvercartOrderStatusID = $orderStatusID;
+                $order->write();
+            }
+        }
+    }
+    
+    /**
+     * Batch action to print the given orders
+     *
+     * @param array $orderIDs IDs of orders to change status for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function silvercartBatch_printOrders($orderIDs) {
+        $orders = new DataObjectSet();
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $orders->push($order);
+            }
+        }
+        return sprintf(
+                "window.open('%s');",
+                SilvercartPrint::getPrintURLForMany($orders)
+        );
     }
     
     /**

@@ -33,12 +33,22 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartRegistrationPage extends Page {
-
-    public static $singular_name = "";
+    
+    /**
+     * attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'ActivationMailSubject' => 'Varchar(255)',
         'ActivationMailMessage' => 'HTMLText'
     );
+    
+    /**
+     * default values
+     *
+     * @var array
+     */
     public static $defaults = array(
     );
     
@@ -46,9 +56,6 @@ class SilvercartRegistrationPage extends Page {
      * We set a custom icon for this page type here
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.10.2011
      */
     public static $icon = "silvercart/images/page_icons/metanavigation_page";
 
@@ -67,9 +74,61 @@ class SilvercartRegistrationPage extends Page {
         self::$defaults = array(
             'ActivationMailSubject' => _t('SilvercartRegistrationPage.YOUR_REGISTRATION', 'your registration'),
             'ActivationMailMessage' => _t('SilvercartRegistrationPage.CUSTOMER_SALUTATION', 'Dear customer\,')
-        );
+            );
         parent::__construct($record, $isSingleton);
     }
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
+    
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'ActivationMailSubject' => _t('SilvercartRegistrationPage.ACTIVATION_MAIL_SUBJECT'),
+                    'ActivationMailMessage' => _t('SilvercartRegistrationPage.ACTIVATION_MAIL_TEXT'),
+                    'ActivationMailTab'     => _t('SilvercartRegistrationPage.ACTIVATION_MAIL_TAB')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
 
     /**
      * Return all fields of the backend
@@ -81,9 +140,9 @@ class SilvercartRegistrationPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $activationMailSubjectField = new TextField('ActivationMailSubject', _t('SilvercartRegistrationPage.ACTIVATION_MAIL_SUBJECT', 'activation mail subject'));
-        $activationMailTextField = new HtmlEditorField('ActivationMailMessage', _t('SilvercartRegistrationPage.ACTIVATION_MAIL_TEXT', 'activation mail text'), 20);
-        $tabParam = "Root.Content." . _t('SilvercartRegistrationPage.ACTIVATION_MAIL_TAB', 'Activationmail');
+        $activationMailSubjectField = new TextField('ActivationMailSubject', $this->fieldLabel('ActivationMailSubject'));
+        $activationMailTextField = new HtmlEditorField('ActivationMailMessage', $this->fieldLabel('ActivationMailMessage'), 20);
+        $tabParam = "Root.Content." . $this->fieldLabel('ActivationMailTab');
         $fields->addFieldToTab($tabParam, $activationMailSubjectField);
         $fields->addFieldToTab($tabParam, $activationMailTextField);
 

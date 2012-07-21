@@ -38,9 +38,6 @@ class SilvercartUpdate1_3__2 extends SilvercartUpdate {
      * Set the defaults for this update.
      *
      * @var array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.05.2012
      */
     public static $defaults = array(
         'SilvercartVersion'         => '1.3',

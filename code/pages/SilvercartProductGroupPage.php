@@ -95,7 +95,8 @@ class SilvercartProductGroupPage extends Page {
      * @var array
      */
     public static $belongs_many_many = array(
-        'SilvercartMirrorProducts'  => 'SilvercartProduct'
+        'SilvercartMirrorProducts'      => 'SilvercartProduct',
+        'SilvercartProductExporters'    => 'SilvercartProductExporter',
     );
 
     /**
@@ -366,6 +367,7 @@ class SilvercartProductGroupPage extends Page {
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
                 'DoNotShowProducts'             => _t('SilvercartProductGroupPage.DONOTSHOWPRODUCTS'),
+                'SilvercartProductExporters'    => _t('SilvercartProductExporter.SINGULARNAME'),
             )
         );
 
@@ -1305,6 +1307,23 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * Returns the pages original breadcrumbs
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
+     */
+    public function OriginalBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+    }
+
+    /**
      * manipulates the defaul logic of building the pages breadcrumbs if a
      * product detail view is requested.
      *
@@ -2120,30 +2139,24 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param boolean $includeTitle should the title tag be parsed?
      *
      * @return string with all meta tags
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
      */
     protected function DetailViewProductMetaTags($includeTitle = false) {
-        $tags = "";
-        if ($includeTitle === true || $includeTitle == 'true') {
-            $tags .= "<title>" . Convert::raw2xml(($this->MetaTitle) ? $this->MetaTitle : $this->Title) . "</title>\n";
-        }
-
-        $tags .= "<meta name=\"generator\" content=\"SilverStripe - http://silverstripe.org\" />\n";
-
-        $charset = ContentNegotiator::get_encoding();
-        $tags .= "<meta http-equiv=\"Content-type\" content=\"text/html; charset=$charset\" />\n";
+        $canonicalTag = '';
         if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
-            if ($product->MetaKeywords) {
-                $tags .= "<meta name=\"keywords\" content=\"" . Convert::raw2att($product->MetaKeywords) . "\" />\n";
-            } else {
-                $tags .= "<meta name=\"keywords\" content=\"" . implode(',', explode(' ', Convert::raw2att($product->Title))) . "\" />\n";
-            }
-            if ($product->MetaDescription) {
-                $tags .= "<meta name=\"description\" content=\"" . Convert::raw2att($product->MetaDescription) . "\" />\n";
+            $this->MetaKeywords     = $product->MetaKeywords;
+            $this->MetaDescription  = $product->MetaDescription;
+            if ($product->IsMirroredView()) {
+                $canonicalTag = sprintf(
+                        '<link rel="canonical" href="%s"/>' . "\n",
+                        $product->CanonicalLink()
+                );
             }
         }
+        $tags = parent::MetaTags($includeTitle);
+        $tags .= $canonicalTag;
         return $tags;
     }
 

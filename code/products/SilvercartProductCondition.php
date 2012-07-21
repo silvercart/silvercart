@@ -37,15 +37,17 @@ class SilvercartProductCondition extends DataObject {
      * n:m relations
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
      */
     public static $has_many = array(
         'SilvercartProducts'                  => 'SilvercartProduct',
         'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
     );
     
+    /**
+     * cast attribute class types to other SS types
+     *
+     * @var array
+     */
     public static $casting = array(
         'Title'             => 'VarChar(255)',
         'TableIndicator'    => 'Text'
@@ -84,11 +86,7 @@ class SilvercartProductCondition extends DataObject {
      * @since 12.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
 
     /**

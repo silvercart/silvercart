@@ -38,9 +38,6 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * Attributes.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
      */
     public static $db = array(
         'Salutation'                        => 'Varchar(20)',
@@ -50,6 +47,33 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
         'NewsletterOptInStatus'             => 'Boolean(0)',
         'NewsletterOptInConfirmationHash'   => 'VarChar(100)'
     );
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.07.2012
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 17.07.2012
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this); 
+    }
 
     /**
      * Add a recipient to the list.
@@ -87,9 +111,9 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
     /**
      * Sets the opt-in status to true for a recipient with the given hash.
      *
-     * @return void
-     *
      * @param string $confirmationHash The hash to operate on
+     * 
+     * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -127,9 +151,9 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
     /**
      * Checks if a recipient with the given email address exists already.
      *
-     * @return boolean
-     *
      * @param string $emailAddress The email address to check for
+     *
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -149,9 +173,9 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * Checks if the opt-in is done for the recipient with the given email
      * address.
      *
-     * @return boolean
-     *
      * @param string $emailAddress The email address to check for
+     *
+     * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -173,9 +197,9 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * Returns an SilvercartAnonymousNewsletterRecipient object with the given
      * email address.
      *
-     * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
-     *
      * @param string $emailAddress The email address to get the object for
+     *
+     * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
@@ -196,9 +220,9 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * Returns an SilvercartAnonymousNewsletterRecipient object with the given
      * email address.
      *
-     * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
+     * @param string $confirmationHash ...
      *
-     * @param string $emailAddress The email address to get the object for
+     * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011

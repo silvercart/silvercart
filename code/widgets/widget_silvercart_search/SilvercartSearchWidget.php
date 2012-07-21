@@ -34,6 +34,30 @@
 class SilvercartSearchWidget extends SilvercartWidget {
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2012 pixeltricks GmbH
+     * @since 13.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'Title'         => _t('SilvercartSearchWidget.TITLE'),
+                    'CMSTitle'      => _t('SilvercartSearchWidget.CMSTITLE'),
+                    'Description'   => _t('SilvercartSearchWidget.DESCRIPTION'),
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -42,7 +66,7 @@ class SilvercartSearchWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Title() {
-        return _t('SilvercartSearchWidget.TITLE');
+        return $this->fieldLabel('Title');
     }
     
     /**
@@ -54,7 +78,7 @@ class SilvercartSearchWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function CMSTitle() {
-        return _t('SilvercartSearchWidget.CMSTITLE');
+        return $this->fieldLabel('CMSTitle');
     }
     
     /**
@@ -67,7 +91,7 @@ class SilvercartSearchWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function Description() {
-        return _t('SilvercartSearchWidget.DESCRIPTION');
+        return $this->fieldLabel('Description');
     }
 }
 

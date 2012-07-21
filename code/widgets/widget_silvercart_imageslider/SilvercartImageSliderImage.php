@@ -49,9 +49,6 @@ class SilvercartImageSliderImage extends DataObject {
      * Has-one relationships.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
      */
     public static $has_one = array(
         'Image'     => 'Image',
@@ -62,9 +59,6 @@ class SilvercartImageSliderImage extends DataObject {
      * 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public static $has_many = array(
         'SilvercartImageSliderImageLanguages' => 'SilvercartImageSliderImageLanguage'
@@ -74,9 +68,6 @@ class SilvercartImageSliderImage extends DataObject {
      * Belongs-many-many relationships.
      * 
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
      */
     public static $belongs_many_many = array(
         'SilvercartImageSliderWidgets' => 'SilvercartImageSliderWidget'
@@ -91,11 +82,7 @@ class SilvercartImageSliderImage extends DataObject {
      * @since 20.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
     
     /**
@@ -111,7 +98,7 @@ class SilvercartImageSliderImage extends DataObject {
         
         $siteTreeField = new TreeDropdownField(
             'SiteTreeID',
-            _t('SilvercartImageSliderImage.LINKPAGE'),
+            $this->fieldLabel('Linkpage'),
             'SiteTree',
             'ID',
             'Title',
@@ -144,8 +131,9 @@ class SilvercartImageSliderImage extends DataObject {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-            'SilvercartImageSliderImageLanguages' => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
-                    'Image' => _t("Image.SINGULARNAME")
+                    'SilvercartImageSliderImageLanguages' => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
+                    'Image'                               => _t("Image.SINGULARNAME"),
+                    'Linkpage'                            => _t('SilvercartImageSliderImage.LINKPAGE'),
                 )
         );
 

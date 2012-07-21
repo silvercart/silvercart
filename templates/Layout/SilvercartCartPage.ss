@@ -2,6 +2,7 @@
     <div id="col4_content" class="clearfix">
         
         <% include SilvercartBreadCrumbs %>
+        $InsertWidgetArea(Content)
         <% include SilvercartShoppingCartFull %>
         
         <div class="silvercart-button left">

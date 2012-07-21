@@ -80,7 +80,9 @@ class SilvercartImage extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        $this->Image()->Title = $this->Title;
+        if ($this->ImageID) {
+            $this->Image()->Title = $this->Title;
+        }
     }
     
     /**
@@ -154,6 +156,111 @@ class SilvercartImage extends DataObject {
         }
         return $fields;
     }
+    
+    /**
+     * wrapper that changes add behavior for better user experience
+     * images may directly be added without pressing the save/add button
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet $fields field set for cms 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForContext($params = null) {
+        /* @var $request SS_HTTPRequest */
+        $request = Controller::curr()->getRequest();
+        if ($this->ID == 0 &&
+            $request->param('Action') == 'add') {
+            $this->write();
+            $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());
+            Director::redirect($editURL);
+        }
+        $fields = parent::getCMSFields($params);
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the product context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet $fields field set for cms
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 12.07.2012
+     */
+    public function getCMSFieldsForProduct($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the payment method context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFieldsForPayment($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->addFieldToTab('Root.Main', $languageField);
+        }
+        return $fields;
+    }
+
+    /**
+     * Returns the CMS fields for the widget context
+     *
+     * @param array $params Scaffolding params
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFieldsForWidget($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'Image',
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'SortOrder');
+        }
+        return $fields;
+    }
 
     /**
      * Field labels for display in tables.
@@ -178,6 +285,7 @@ class SilvercartImage extends DataObject {
                 'Description'               => _t('SilvercartImage.DESCRIPTION'),
                 'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
+                'Image'                     => _t('Image.SINGULARNAME'),
             )
         );
 
@@ -271,5 +379,38 @@ class SilvercartImage extends DataObject {
         }
 
         return $thumbnail;
+    }
+    
+    /**
+     * Was the object just accidently written?
+     * object without attribute or file appended
+     *
+     * @return bool $result
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 14.07.2012
+     */
+    public function isEmptyObject() {
+        $result = false;
+        if ($this->ImageID == 0 &&
+            $this->isEmptyMultilingualAttributes()) {
+            $result = true;
+        }
+        return $result;
+    }
+    
+    /**
+     * hook
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.07.2012
+     */
+    public function onBeforeDelete() {
+        parent::onBeforeDelete();
+        if ($this->Image()) {
+            $this->Image()->delete();
+        }
     }
 }

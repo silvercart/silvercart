@@ -134,6 +134,8 @@ class SilvercartProduct extends DataObject {
         'MetaKeywords'                      => 'Text',
         'Link'                              => 'Text',
         'AbsoluteLink'                      => 'Text',
+        'SilvercartProductGroupBreadcrumbs' => 'Text',
+        'DefaultShippingFee'                => 'Text',
     );
 
     /**
@@ -202,7 +204,7 @@ class SilvercartProduct extends DataObject {
     protected $getCMSFieldsIsCalled = false;
 
 
-        /**
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      *
@@ -329,6 +331,45 @@ class SilvercartProduct extends DataObject {
         return $metaKeywords;
     }
 
+    /**
+     * Returns the breadcrumbs for the product group
+     *
+     * @param bool   $unlinked  Set to false to get linked breacrumbs (HTML)
+     * @param string $delimiter Delimiter char to seperate product groups (default is Page::$breadcrumbs_delimiter)
+     * 
+     * @return string
+     */
+    public function getSilvercartProductGroupBreadcrumbs($unlinked = true, $delimiter = null) {
+        $breadcrumbs = '';
+        if ($this->SilvercartProductGroupID > 0) {
+            $originalDelimiter = Page::$breadcrumbs_delimiter;
+            if (!is_null($delimiter)) {
+                Page::$breadcrumbs_delimiter = ' ' . $delimiter . ' ';
+            }
+            $breadcrumbs = $this->SilvercartProductGroup()->Breadcrumbs(20, $unlinked);
+            Page::$breadcrumbs_delimiter = $originalDelimiter;
+        }
+        return $breadcrumbs;
+    }
+    
+    /**
+     * Returns the default shipping fee for this product
+     *
+     * @param SilvercartCountry $country       Country to get fee for
+     * @param Group             $customerGroup Group to get fee for
+     * 
+     * @return SilvercartShippingFee 
+     */
+    public function getDefaultShippingFee(SilvercartCountry $country = null, $customerGroup = null) {
+        $shippingFee = '';
+        if (!is_null($country)) {
+            if (is_null($customerGroup)) {
+                $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
+            }
+            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
+        }
+        return $shippingFee;
+    }
 
     /**
      * Is this product viewable in the frontend?
@@ -436,7 +477,7 @@ class SilvercartProduct extends DataObject {
      */
     public function sortableFrontendFields() {
         $sortableFrontendFields = array(
-            ''                                      => $this->fieldLabel('CatalogSort'),
+            ''                                     => $this->fieldLabel('CatalogSort'),
             'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
             'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
         );
@@ -502,6 +543,7 @@ class SilvercartProduct extends DataObject {
                 'SilvercartManufacturer'                => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
                 'SilvercartProductGroup'                => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
                 'SilvercartProductGroups'               => _t('SilvercartProductGroupPage.PLURALNAME', 'product groups'),
+                'SilvercartProductGroupBreadcrumbs'     => _t('SilvercartProductGroupPage.BREADCRUMBS'),
                 'SilvercartMasterProduct'               => _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
                 'Image'                                 => _t('SilvercartProduct.IMAGE', 'product image'),
                 'SilvercartAvailabilityStatus'          => _t('SilvercartAvailabilityStatus.SINGULARNAME', 'Availability Status'),
@@ -534,6 +576,7 @@ class SilvercartProduct extends DataObject {
                 'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),
                 'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
                 'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
+                'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
             )
         );
 
@@ -836,26 +879,15 @@ class SilvercartProduct extends DataObject {
         );
         $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolder->ID);
         
-        $productGroupMirrorPagesLabel = new HeaderField('SilvercartProductGroupMirrorPagesLabel', $this->fieldLabel('SilvercartProductGroupMirrorPages'));
-        $productGroupMirrorPagesTable = new ManyManyComplexTableField(
-                $this,
+        $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
                 'SilvercartProductGroupMirrorPages',
-                'SilvercartProductGroupPage',
-                array(
-                    'Breadcrumbs'   => $this->fieldLabel('SilvercartProductGroup'),
-                ),
-                null,
-                sprintf(
-                    "`SiteTree`.`ID` != %d AND `SiteTree`.`ClassName` = 'SilvercartProductGroupPage'",
-                    $this->SilvercartProductGroup()->ID
-                ),
-                'SiteTree.ParentID ASC, SiteTree.Sort ASC'
+                $this->fieldLabel('SilvercartProductGroupMirrorPages'),
+                'SiteTree'
         );
-        $productGroupMirrorPagesTable->pageSize = 100;
-        
+        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolder->ID);
+
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
-        $fields->addFieldToTab('Root.ProductGroups', $productGroupMirrorPagesLabel);
-        $fields->addFieldToTab('Root.ProductGroups', $productGroupMirrorPagesTable);
+        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);
     }
 
     /**
@@ -969,6 +1001,64 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Adds or modifies the fields for the Images tab
+     *
+     * @param FieldSet $fields FieldSet to add fields to
+     * 
+     * @return void
+     */
+    public function getFieldsForImages($fields) {
+        $silvercartImageField = new ComplexTableField(
+                $this,
+                'SilvercartImages',
+                'SilvercartImage',
+                null,
+                'getCMSFieldsForProduct',
+                sprintf(                 
+                        "`SilvercartImage`.`SilvercartProductID` = '%s'",
+                        $this->ID
+                )
+        );
+        $silvercartImageField->setPermissions(
+                array(
+                    'add',
+                    'edit',
+                    'delete',
+                )
+        );
+        $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageField);
+    }
+
+    /**
+     * Adds or modifies the fields for the Files tab
+     *
+     * @param FieldSet $fields FieldSet to add fields to
+     * 
+     * @return void
+     */
+    public function getFieldsForFiles($fields) {
+        $silvercartFileField = new ComplexTableField(
+                $this,
+                'SilvercartFiles',
+                'SilvercartFile',
+                null,
+                'getCMSFieldsForProduct',
+                sprintf(
+                        "`SilvercartFile`.`SilvercartProductID` = '%s'",
+                        $this->ID
+                )
+        );
+        $silvercartFileField->setPermissions(
+                array(
+                    'add',
+                    'edit',
+                    'delete',
+                )
+        );
+        $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
+    }
+
+    /**
      * Adds or modifies the fields for the Deeplinks tab
      *
      * @param FieldSet $fields FieldSet to add fields to
@@ -1058,6 +1148,8 @@ class SilvercartProduct extends DataObject {
             $this->getFieldsForProductGroups($fields);
             $this->getFieldsForWidgets($fields);
             $this->getFieldsForDeeplinks($fields);
+            $this->getFieldsForImages($fields);
+            $this->getFieldsForFiles($fields);
         }
         
         $this->extend('updateCMSFields', $fields);
@@ -1499,6 +1591,25 @@ class SilvercartProduct extends DataObject {
 
         return $link;
     }
+
+    /**
+     * Canonical link to the controller, that shows this product
+     * An product has a unique URL
+     *
+     * @return string URL of $this
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function CanonicalLink() {
+        $link = '';
+
+        if ($this->SilvercartProductGroup()) {
+            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+        }
+        
+        return $link;
+    }
     
     /**
      * Alias for AbsoluteLink()
@@ -1530,6 +1641,26 @@ class SilvercartProduct extends DataObject {
      */
     public function ProductQuestionLink() {
         return SilvercartTools::PageByIdentifierCodeLink('SilvercartContactFormPage') . 'productQuestion/' . $this->ID;
+    }
+    
+    /**
+     * Returns whether the current view is a mirrored product detail view
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2012
+     */
+    public function IsMirroredView() {
+        $isMirroredView = true;
+
+        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+            !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
+            $this->SilvercartProductGroupID == Controller::curr()->data()->ID) {
+            $isMirroredView = false;
+        }
+        
+        return $isMirroredView;
     }
 
     /**
@@ -2064,7 +2195,7 @@ class SilvercartProduct extends DataObject {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
-
+    
     /**
      * We use a slice techniqure here since imports of large datasets fail
      * with the standard import mechanism.
@@ -2898,7 +3029,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct_RecordController extends SilvercartHasManyOrderField_RecordController {
-
+    
     /**
      * Makes the record controller decoratable
      *

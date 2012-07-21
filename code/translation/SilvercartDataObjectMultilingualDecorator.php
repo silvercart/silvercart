@@ -248,10 +248,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     /**
      * helper attribute for table fields
      *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
+     * @return string
      */
     public function getTableIndicator() {
         return _t('SilvercartConfig.OPEN_RECORD');
@@ -321,6 +318,30 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
         foreach ($this->getLanguageRelation() as $language) {
             $language->delete();
         }
+    }
+    
+    /**
+     * determin wether all multilingual attributes for all existing translations
+     * are empty
+     *
+     * @return bool $result 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.07.2012
+     */
+    public function isEmptyMultilingualAttributes() {
+        $result = true;
+        $languageClassName = $this->getLanguageClassName();
+        $multilingualAttributes = $languageClassName::$db;
+        foreach ($this->getLanguageRelation() as $languageObj) {
+            foreach ($multilingualAttributes as $key => $value) {
+                if ($languageObj->{$key} !== null) {
+                    $result = false;
+                    return $result;
+                }
+            }
+        }
+        return $result;
     }
 }
 

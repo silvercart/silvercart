@@ -106,6 +106,13 @@ class SilvercartShippingMethod extends DataObject {
     protected $shippingAddress = null;
     
     /**
+     * Shipping country
+     *
+     * @var SilvercartCountry
+     */
+    protected $shippingCountry = null;
+    
+    /**
      * Searchable fields
      *
      * @return array
@@ -195,16 +202,13 @@ class SilvercartShippingMethod extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartShippingMethod.SINGULARNAME')) {
-            return _t('SilvercartShippingMethod.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -212,14 +216,10 @@ class SilvercartShippingMethod extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartShippingMethod.PLURALNAME')) {
-            return _t('SilvercartShippingMethod.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
 
     /**
@@ -294,30 +294,41 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * determins the right shipping fee for a shipping method depending on the
      * cart's weight and the country of the customers shipping address
+     * 
+     * @param int $weight Weight in gramm to get fee for
      *
      * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 06.07.2012
      */
-    public function getShippingFee() {
+    public function getShippingFee($weight = null) {
         $fee             = false;
 
-        if (!Member::currentUser() ||
-            !Member::currentUser()->SilvercartShoppingCart()) {
-            return $fee;
+        if (is_null($weight)) {
+            if (!Member::currentUser() ||
+                !Member::currentUser()->SilvercartShoppingCart()) {
+                return $fee;
+            }
+            $weight = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
         }
 
-        $cartWeightTotal = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
-        $shippingAddress = $this->getShippingAddress();
-        if (is_null($shippingAddress)) {
-            $shippingAddress = Controller::curr()->getShippingAddress();
-            $this->setShippingAddress($shippingAddress);
-            SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
+        $shippingCountry = $this->getShippingCountry();
+        if (is_null($shippingCountry)) {
+            $shippingAddress = $this->getShippingAddress();
+            if (is_null($shippingAddress)) {
+                $shippingAddress = Controller::curr()->getShippingAddress();
+                $this->setShippingAddress($shippingAddress);
+                SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
+            }
+            if ($shippingAddress instanceof SilvercartAddress) {
+                $shippingCountry = $shippingAddress->SilvercartCountry();
+                $this->setShippingCountry($shippingCountry);
+            }
         }
         
-        if ($shippingAddress) {
-            $zones = SilvercartZone::getZonesFor($shippingAddress->SilvercartCountryID);
+        if ($shippingCountry) {
+            $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
             if ($zones) {
                 $zoneMap            = $zones->map();
@@ -328,7 +339,7 @@ class SilvercartShippingMethod extends DataObject {
                     sprintf(
                         "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1) AND `SilvercartZoneID` IN (%s)",
                         $this->ID,
-                        $cartWeightTotal,
+                        $weight,
                         $zoneIDsAsString
                     ),
                     'PriceAmount'
@@ -346,33 +357,19 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * getter for the shipping methods title
      *
-     * @return string the title in the corresponding front end language 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @return string the title in the corresponding front end language
      */
     public function getDescription() {
-        $description = '';
-        if ($this->getLanguage()) {
-            $description = $this->getLanguage()->Description;
-        }
-        return $description;
+        return $this->getLanguageFieldValue('Description');
     }
     
     /**
      * getter for the shipping methods title
      *
      * @return string the title in the corresponding front end language 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
      */
     public function getTitle() {
-        $title = '';
-        if ($this->getLanguage()) {
-            $title = $this->getLanguage()->Title;
-        }
-        return $title;
+        return $this->getLanguageFieldValue('Title');
     }
 
     /**
@@ -589,6 +586,50 @@ class SilvercartShippingMethod extends DataObject {
     }
     
     /**
+     * Returns the first allowed shipping fee in the given products, countries
+     * and customer groups context.
+     *
+     * @param SilvercartProduct $product       Product to get fee for
+     * @param SilvercartCountry $country       Country to get fee for
+     * @param Group             $customerGroup Customer group to get fee for
+     * 
+     * @return SilvercartShippingFee
+     */
+    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+        $extendableShippingMethod   = singleton('SilvercartShippingMethod');
+        
+        $filter = sprintf(
+            "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))",
+            $customerGroup->ID,
+            "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`"
+        );
+        $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
+        
+        $shippingMethods        = DataObject::get(
+                'SilvercartShippingMethod',
+                $filter,
+                "",
+                $join
+        );
+        
+        $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
+        
+        $shippingFee = false;
+        
+        if ($shippingMethods) {
+            foreach ($shippingMethods as $shippingMethod) {
+                $shippingMethod->setShippingCountry($country);
+                $shippingFee = $shippingMethod->getShippingFee($product->Weight);
+                if ($shippingFee) {
+                    break;
+                }
+            }
+        }
+        
+        return $shippingFee;
+    }
+
+        /**
      * Filters the given shipping methods by default permission criteria
      * 
      * @param SilvercartShippingMethod $shippingMethods Shipping methods to filter
@@ -630,6 +671,26 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function setShippingAddress($shippingAddress) {
         $this->shippingAddress = $shippingAddress;
+    }
+    
+    /**
+     * Returns the shipping country
+     *
+     * @return SilvercartCountry
+     */
+    public function getShippingCountry() {
+        return $this->shippingCountry;
+    }
+
+    /**
+     * Sets the shipping country
+     *
+     * @param SilvercartCountry $shippingCountry Shipping country
+     * 
+     * @return void
+     */
+    public function setShippingCountry($shippingCountry) {
+        $this->shippingCountry = $shippingCountry;
     }
 
 }

@@ -34,32 +34,9 @@
 class SilvercartWidgetSet extends DataObject {
     
     /**
-     * singular name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    public static $singular_name = "Widget set";
-
-    /**
-     * plural name for backend
-     *
-     * @var string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    public static $plural_name = "Widget sets";
-    
-    /**
      * Attributes
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
      */
     public static $db = array(
         'Title' => 'VarChar(255)'
@@ -69,9 +46,6 @@ class SilvercartWidgetSet extends DataObject {
      * Has-one relationships
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
      */
     public static $has_one = array(
         'WidgetArea' => 'WidgetArea'
@@ -81,9 +55,6 @@ class SilvercartWidgetSet extends DataObject {
      * Has-many relationships
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
      */
     public static $belongs_many_many = array(
         'SilvercartPages' => 'SilvercartPage'
@@ -96,16 +67,13 @@ class SilvercartWidgetSet extends DataObject {
      * @return string The objects singular name 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @since 13.07.2012
      */
     public function singular_name() {
-        if (_t('SilvercartWidgetSet.SINGULARNAME')) {
-            return _t('SilvercartWidgetSet.SINGULARNAME');
-        } else {
-            return parent::singular_name();
-        } 
+        return SilvercartTools::singular_name_for($this);
     }
-    
+
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
@@ -113,14 +81,10 @@ class SilvercartWidgetSet extends DataObject {
      * @return string the objects plural name
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @since 13.07.2012
      */
     public function plural_name() {
-        if (_t('SilvercartWidgetSet.PLURALNAME')) {
-            return _t('SilvercartWidgetSet.PLURALNAME');
-        } else {
-            return parent::plural_name();
-        }   
+        return SilvercartTools::plural_name_for($this); 
     }
     
     /**
@@ -143,7 +107,7 @@ class SilvercartWidgetSet extends DataObject {
 
             $classes = ClassInfo::subclassesFor('Widget');
             array_shift($classes);
-            foreach($classes as $class) {
+            foreach ($classes as $class) {
                 if ($class == 'SilvercartWidget') {
                     continue;
                 }
@@ -177,7 +141,7 @@ class SilvercartWidgetSet extends DataObject {
      */
     public function summaryFields() {
         $fields = array(
-            'Title' => 'Title'
+            'Title' => $this->fieldLabel('Title')
         );
         
         return $fields;
