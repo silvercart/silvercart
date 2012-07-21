@@ -2344,6 +2344,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
             $data['imageDirectory'] .= '/';
         }
 
+        /** @var $products SilvercartProduct **/
         $products = $this->findProductsByNumbers(implode(',', $fileNamesToSearchFiltered), $mapNamesFiltered);
 
         // Create Image object and SilvercartImage objects and connect them
@@ -2385,7 +2386,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                                 $fileName
                             );
                         }
-
+  
                         $image->deleteFormattedImages();
                         $importedFiles++;
                     } else {
@@ -2416,7 +2417,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                             unset($image);
                             unset($silvercartImage);
                         }
-                    }
+                    }              
                 }
             }
 
@@ -2470,17 +2471,31 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
                 '
                 INSERT INTO
                     SilvercartImage(
-                        ID
+                        ID, ImageID
                     ) VALUES(
-                        %d
+                        %d, %d
                     )
                 ',
-                $insertID
+                $insertID, $imageID
+            )
+        );
+        
+        DB::query(
+            sprintf(
+                "
+                INSERT INTO
+                    SilvercartImageLanguage(
+                        SilvercartImageID, Locale, Created
+                    ) VALUES(
+                        %d, '%s', '%s'
+                    )
+                ",
+                $insertID, Translatable::get_current_locale(), date('Y-m-d H:i:s')
             )
         );
 
         $object = DataObject::get_by_id(
-            'SilvercartImage',
+            'SilvercartImage', 
             $insertID
         );
 
