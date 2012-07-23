@@ -116,6 +116,14 @@ class SilvercartShoppingCart extends DataObject {
      * @var array
      */
     protected $cacheHashes = array();
+    
+    /**
+     * Marker to check whether the cart position cleaning is in progress or not.
+     * This is used to prevent an endless recursion loop.
+     *
+     * @var bool
+     */
+    public static $cartCleaningInProgress = false;
 
     /**
      * default constructor
@@ -142,10 +150,14 @@ class SilvercartShoppingCart extends DataObject {
             SilvercartShoppingCartPosition::setCreateForms(false);
         }
         
-        foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
-            if ($cartPosition->SilvercartProduct()->ID == 0) {
-                $cartPosition->delete();
+        if (!self::$cartCleaningInProgress) {
+            self::$cartCleaningInProgress = true;
+            foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
+                if ($cartPosition->SilvercartProduct()->ID == 0) {
+                    $cartPosition->delete();
+                }
             }
+            self::$cartCleaningInProgress = false;
         }
         
         $this->SilvercartShippingMethodID = 0;
