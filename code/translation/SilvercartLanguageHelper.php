@@ -231,6 +231,38 @@ class SilvercartLanguageHelper {
         }
         return $languageName;
     }
+    
+    /**
+     * Returns the language name
+     *
+     * @param string $locale    Locale to get name for
+     * @param string $in_locale Locale to display name in (when PHP intl is not installed, this is the indicator for native displaying)
+     * 
+     * @return string
+     */
+    public static function getDisplayLanguage($locale, $in_locale) {
+        if (class_exists('Locale')) {
+            $languageName = Locale::getDisplayLanguage($locale, $in_locale);
+        } else {
+            $native = false;
+            if ($locale == $in_locale) {
+                $native = true;
+            }
+            $languageName = i18n::get_language_name(substr($locale, 0, strpos($locale, '_')), $native);
+            if (empty($languageName)) {
+                if (array_key_exists($locale, i18n::$common_locales)) {
+                    if ($native) {
+                        $languageName = i18n::$common_locales[$locale][1];
+                    } else {
+                        $languageName = i18n::$common_locales[$locale][0];
+                    }
+                } elseif (array_key_exists($locale, i18n::$all_locales)) {
+                    $languageName = i18n::$all_locales[$locale];
+                }
+            }
+        }
+        return $languageName;
+    }
 
     /**
      * Writes the given language object
