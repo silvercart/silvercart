@@ -644,7 +644,8 @@ class SilvercartShippingMethod extends DataObject {
         $customerGroups         = SilvercartCustomer::getCustomerGroups();
         foreach ($shippingMethods as $shippingMethod) {
             foreach ($customerGroups as $customerGroup) {
-                if ($shippingMethod->SilvercartCustomerGroups()->find('ID', $customerGroup->ID)) {
+                if ($shippingMethod->SilvercartCustomerGroups()->find('ID', $customerGroup->ID) ||
+                    $shippingMethod->SilvercartCustomerGroups()->Count() == 0) {
                     $allowedShippingMethods->push($shippingMethod);
                     break;
                 }
