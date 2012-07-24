@@ -4,7 +4,7 @@
             <h2>$FrontTitle</h2>
         <% end_if %>
         <% if FrontContent %>
-            $FrontContent
+            $FrontContent.RAW
         <% end_if %>
     </div>
 

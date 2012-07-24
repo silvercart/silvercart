@@ -100,4 +100,20 @@ class SilvercartAddressOptionsetField extends OptionsetField {
 
         return $output;
     }
+    
+    /**
+     * Basicly checks whether an address can be deleted by delete button or not
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.07.2012
+     */
+    public function canDelete() {
+        $canDelete = false;
+        if (count($this->getSource()) > 1) {
+            $canDelete = true;
+        }
+        return $canDelete;
+    }
 }
