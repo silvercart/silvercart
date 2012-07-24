@@ -280,11 +280,11 @@ class SilvercartShopEmail extends DataObject {
         $templateVariables = new ArrayData($variables);
         $emailTextTemplate = new SSViewer_FromString($mailObj->EmailText);
         $emailText = HTTP::absoluteURLs($emailTextTemplate->process($templateVariables));
-        print $mailObj->Subject."<br />";
+
+
         $emailSubjectTemplate = new SSViewer_FromString($mailObj->Subject);
-        var_dump($emailSubjectTemplate);
-        $emailSubject = HTTP::absoluteURLs($emailSubjectTemplate->process($templateVariables));
-        var_dump($emailSubject);
+        $emailSubject         = HTTP::absoluteURLs($emailSubjectTemplate->process($templateVariables));
+
         $email = new Email(
             SilvercartConfig::EmailSender(),
             $to,
@@ -321,7 +321,7 @@ class SilvercartShopEmail extends DataObject {
 
             $email->send();
         }
-        exit();
+
         //Send the email to additional standard receipients from the n:m
         //relation AdditionalReceipients;
         //Email address is validated.
@@ -337,13 +337,13 @@ class SilvercartShopEmail extends DataObject {
                 $email = new Email(
                     SilvercartConfig::EmailSender(),
                     $to,
-                    $mailObj->Subject,
+                    $emailSubject,
                     $mailObj->EmailText
                     );
                 $email->setTemplate('SilvercartShopEmail');
                 $email->populateTemplate(
                 array(
-                    'ShopEmailSubject' => $mailObj->Subject,
+                    'ShopEmailSubject' => $emailSubject,
                     'ShopEmailMessage' => $emailText,
                     )
                 );

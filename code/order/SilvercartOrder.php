@@ -443,6 +443,25 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
+     * Extend this method to ignore fields for scaffolding.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.07.2012
+     */
+    public function ignoreCMSFields() {
+        $ignoreFields = array(
+            'AmountGrossTotal',
+            'PriceType',
+        );
+
+        $this->extend('updateIgnoreCMSFields', $ignoreFields);
+
+        return $ignoreFields;
+    }
+
+    /**
      * customize backend fields
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -450,11 +469,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return FieldSet the form fields for the backend
      */
     public function getCMSFields() {
-        $ignoreFields = array(
-            'AmountGrossTotal',
-            'PriceType',
-        );
-        
+        $ignoreFields   = $this->ignoreCMSFields();
         $restrictFields = array(
             'SilvercartOrderStatus',
             'SilvercartPaymentMethod',
@@ -467,18 +482,18 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         $fields = parent::getCMSFields(
-                array(
-                    'restrictFields' => $restrictFields,
-                    'includeRelations' => array(
-                        'has_many'  => true,
-                    ),
-                    'fieldClasses' => array(
-                        'AmountTotal'           => 'SilvercartMoneyField',
-                        'AmountGrossTotal'      => 'SilvercartMoneyField',
-                        'HandlingCostPayment'   => 'SilvercartMoneyField',
-                        'HandlingCostShipment'  => 'SilvercartMoneyField',
-                    ),
-                )
+            array(
+                'restrictFields' => $restrictFields,
+                'includeRelations' => array(
+                    'has_many'  => true,
+                ),
+                'fieldClasses' => array(
+                    'AmountTotal'           => 'SilvercartMoneyField',
+                    'AmountGrossTotal'      => 'SilvercartMoneyField',
+                    'HandlingCostPayment'   => 'SilvercartMoneyField',
+                    'HandlingCostShipment'  => 'SilvercartMoneyField',
+                ),
+            )
         );
         
         /***********************************************************************
@@ -491,9 +506,15 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * SIMPLE MODIFICATION SECTION
         **********************************************************************/
-        $fields->makeFieldReadonly('OrderNumber');
-        $fields->makeFieldReadonly('HasAcceptedTermsAndConditions');
-        $fields->makeFieldReadonly('HasAcceptedRevocationInstruction');
+        if (in_array('OrderNumber', $restrictFields)) {
+            $fields->makeFieldReadonly('OrderNumber');
+        }
+        if (in_array('HasAcceptedTermsAndConditions', $restrictFields)) {
+            $fields->makeFieldReadonly('HasAcceptedTermsAndConditions');
+        }
+        if (in_array('HasAcceptedRevocationInstruction', $restrictFields)) {
+            $fields->makeFieldReadonly('HasAcceptedRevocationInstruction');
+        }
 
         /***********************************************************************
         * REMOVALSECTION
@@ -517,7 +538,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));
             $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
         }
-        
+
         $priceTypeTextField = new TextField('PriceTypeText', $this->fieldLabel('PriceType'), $this->PriceTypeText);
         $priceTypeTextField->setReadonly(true);
         $priceTypeTextField->setDisabled(true);
@@ -530,7 +551,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 )
         );
         $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
-        
+
         $fields->addFieldToTab('Root.Main', new HiddenField('Version'));
         
         $address = singleton('SilvercartAddress');
@@ -549,24 +570,55 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * REORDER SECTION
         **********************************************************************/
-        $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
+        if (in_array('SilvercartOrderStatusID', $restrictFields)) {
+            $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
+        }
         
         $mainGroup = new SilvercartFieldGroup('MainGroup', '', $fields);
         $mainGroup->push(           $fields->dataFieldByName('OrderNumber'));
-        $mainGroup->breakAndPush(   $fields->dataFieldByName('CustomersEmail'));
-        $mainGroup->breakAndPush(   $fields->dataFieldByName('AmountTotal'));
-        $mainGroup->push(           $priceTypeTextField);
-        $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostPayment'));
-        $mainGroup->push(           $fields->dataFieldByName('TaxAmountPayment'));
-        $mainGroup->push(           $fields->dataFieldByName('TaxRatePayment'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartPaymentMethodID'));
-        $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostShipment'));
-        $mainGroup->push(           $fields->dataFieldByName('TaxAmountShipment'));
-        $mainGroup->push(           $fields->dataFieldByName('TaxRateShipment'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('WeightTotal'));
-        $mainGroup->breakAndPush(   $fields->dataFieldByName('HasAcceptedTermsAndConditions'));
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('HasAcceptedRevocationInstruction'));
+        if (in_array('CustomersEmail', $restrictFields)) {
+            $mainGroup->breakAndPush(   $fields->dataFieldByName('CustomersEmail'));
+        }
+        if (in_array('AmountTotal', $restrictFields)) {
+            $mainGroup->breakAndPush(   $fields->dataFieldByName('AmountTotal'));
+        }
+        if (in_array('PriceTypeText', $restrictFields)) {
+            $mainGroup->push(           $priceTypeTextField);
+        }
+        if (in_array('HandlingCostPayment', $restrictFields)) {
+            $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostPayment'));
+        }
+        if (in_array('TaxAmountPayment', $restrictFields)) {
+            $mainGroup->push($fields->dataFieldByName('TaxAmountPayment'));
+        }
+        if (in_array('TaxRatePayment', $restrictFields)) {
+            $mainGroup->push(           $fields->dataFieldByName('TaxRatePayment'));
+        }
+        if (in_array('SilvercartPaymentMethodID', $restrictFields)) {
+            $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartPaymentMethodID'));
+        }
+        if (in_array('HandlingCostShipment', $restrictFields)) {
+            $mainGroup->breakAndPush(   $fields->dataFieldByName('HandlingCostShipment'));
+        }
+        if (in_array('TaxAmountShipment', $restrictFields)) {
+            $mainGroup->push(           $fields->dataFieldByName('TaxAmountShipment'));
+        }
+        if (in_array('TaxRateShipment', $restrictFields)) {
+            $mainGroup->push(           $fields->dataFieldByName('TaxRateShipment'));
+        }
+        if (in_array('SilvercartShippingFeeID', $restrictFields)) {
+            $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
+        }
+        if (in_array('WeightTotal', $restrictFields)) {
+            $mainGroup->pushAndBreak(   $fields->dataFieldByName('WeightTotal'));
+        }
+
+        if (in_array('HasAcceptedRevocationInstruction', $restrictFields)) {
+            $mainGroup->breakAndPush($fields->dataFieldByName('HasAcceptedTermsAndConditions'));
+        }
+        if (in_array('HasAcceptedRevocationInstruction', $restrictFields)) {
+            $mainGroup->pushAndBreak($fields->dataFieldByName('HasAcceptedRevocationInstruction'));
+        }
         $fields->insertAfter($mainGroup, 'SilvercartOrderStatusID');
 
         $this->extend('updateCMSFields', $fields);
