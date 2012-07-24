@@ -539,7 +539,7 @@ class SilvercartWidgetTools extends Object {
      * @since 11.06.2012
      */
     public static function loadRequirements() {
-        Requirements::css('silvercart/css/screen/sliders/theme-silvercart-default.css');
+        Requirements::themedCSS('SilvercartAnythingSlider');
     }
     
     /**
