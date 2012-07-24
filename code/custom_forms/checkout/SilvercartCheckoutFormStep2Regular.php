@@ -129,7 +129,7 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2011
+     * @since 24.07.2012
      */
     protected function fillInFieldValues() {
 
@@ -145,7 +145,13 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
         // --------------------------------------------------------------------
         $member = SilvercartCustomer::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
         if ($member) {
-            $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->map();
+            if ($member->SilvercartInvoiceAddress()->ID > 0) {
+                $this->formFields['InvoiceAddress']['value'] = array(
+                    $member->SilvercartInvoiceAddress()->ID => $member->SilvercartInvoiceAddress()->ID
+                );
+            } else {
+                $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->map();
+            }
             $this->formFields['ShippingAddress']['value'] = $member->SilvercartAddresses()->map();
             if ($member->SilvercartInvoiceAddress()) {
                 $this->formFields['InvoiceAddress']['selectedValue'] = $member->SilvercartInvoiceAddress()->ID;
