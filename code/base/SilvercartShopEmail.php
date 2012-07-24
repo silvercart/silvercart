@@ -66,8 +66,7 @@ class SilvercartShopEmail extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Identifier'    => 'Varchar(255)',
-        'Variables'     => 'Text'
+        'Identifier' => 'Varchar(255)'
     );
 
     /**
@@ -139,7 +138,6 @@ class SilvercartShopEmail extends DataObject {
                 'Identifier'                    => _t('SilvercartShopEmail.IDENTIFIER'),
                 'Subject'                       => _t('SilvercartShopEmail.SUBJECT'),
                 'EmailText'                     => _t('SilvercartShopEmail.EMAILTEXT'),
-                'Variables'                     => _t('SilvercartShopEmail.VARIABLES'),
                 'AdditionalReceipients'         => _t('SilvercartShopEmail.ADDITIONALS_RECEIPIENTS'),
                 'SilvercartShopEmailLanguages'  => _t('SilvercartShopEmailLanguage.PLURALNAME'),
                 'SilvercartOrderStatus'         => _t('SilvercartOrderStatus.PLURALNAME'),
@@ -181,7 +179,7 @@ class SilvercartShopEmail extends DataObject {
      * @since 28.04.2011
      */
     public function getCMSFields() {
-        $fields         = parent::getCMSFields();
+        $fields = parent::getCMSFields();
         
         /*
          * insert the multilingual fields and fill them with values of the current locale
@@ -200,9 +198,9 @@ class SilvercartShopEmail extends DataObject {
         
         if ($this->ID) {
             $orderStatusTable = new SilvercartManyManyComplexTableField(
-                            $this,
-                            'SilvercartOrderStatus',
-                            'SilvercartOrderStatus'
+                $this,
+                'SilvercartOrderStatus',
+                'SilvercartOrderStatus'
             );
             $fields->addFieldToTab('Root.SilvercartOrderStatus', $orderStatusTable);
         }
@@ -256,8 +254,8 @@ class SilvercartShopEmail extends DataObject {
         $mailObj = DataObject::get_one(
             'SilvercartShopEmail',
             sprintf(
-                    "\"Identifier\" = '%s'",
-                    $identifier
+                "\"Identifier\" = '%s'",
+                $identifier
             )
         );
 
@@ -269,6 +267,11 @@ class SilvercartShopEmail extends DataObject {
             empty($emailText)) {
             return false;
         }
+        $emailSubject = trim($mailObj->Subject);
+        if (is_null($emailSubject) ||
+            empty($emailSubject)) {
+            return false;
+        }
 
         if (!is_array($variables)) {
             $variables = array();
@@ -277,17 +280,22 @@ class SilvercartShopEmail extends DataObject {
         $templateVariables = new ArrayData($variables);
         $emailTextTemplate = new SSViewer_FromString($mailObj->EmailText);
         $emailText = HTTP::absoluteURLs($emailTextTemplate->process($templateVariables));
+
+
+        $emailSubjectTemplate = new SSViewer_FromString($mailObj->Subject);
+        $emailSubject         = HTTP::absoluteURLs($emailSubjectTemplate->process($templateVariables));
+
         $email = new Email(
             SilvercartConfig::EmailSender(),
             $to,
-            $mailObj->Subject,
+            $emailSubject,
             $mailObj->EmailText
         );
 
         $email->setTemplate('SilvercartShopEmail');
         $email->populateTemplate(
             array(
-                'ShopEmailSubject' => $mailObj->Subject,
+                'ShopEmailSubject' => $emailSubject,
                 'ShopEmailMessage' => $emailText,
             )
         );
@@ -299,21 +307,21 @@ class SilvercartShopEmail extends DataObject {
             $email = new Email(
                 SilvercartConfig::EmailSender(),
                 SilvercartConfig::GlobalEmailRecipient(),
-                $mailObj->Subject,
+                $emailSubject,
                 $mailObj->EmailText
             );
 
             $email->setTemplate('SilvercartShopEmail');
             $email->populateTemplate(
                 array(
-                    'ShopEmailSubject' => $mailObj->Subject,
+                    'ShopEmailSubject' => $emailSubject,
                     'ShopEmailMessage' => $emailText,
                 )
             );
 
             $email->send();
         }
-        
+
         //Send the email to additional standard receipients from the n:m
         //relation AdditionalReceipients;
         //Email address is validated.
@@ -327,15 +335,15 @@ class SilvercartShopEmail extends DataObject {
                     continue;
                 }
                 $email = new Email(
-                        SilvercartConfig::EmailSender(),
-                        $to,
-                        $mailObj->Subject,
-                        $mailObj->EmailText
-                        );
+                    SilvercartConfig::EmailSender(),
+                    $to,
+                    $emailSubject,
+                    $mailObj->EmailText
+                    );
                 $email->setTemplate('SilvercartShopEmail');
                 $email->populateTemplate(
                 array(
-                    'ShopEmailSubject' => $mailObj->Subject,
+                    'ShopEmailSubject' => $emailSubject,
                     'ShopEmailMessage' => $emailText,
                     )
                 );

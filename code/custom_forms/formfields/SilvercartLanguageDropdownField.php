@@ -85,8 +85,8 @@ class SilvercartLanguageDropdownField extends DropdownField {
     public function getDisplayLanguage($locale, $in_locale) {
         $displayLanguage = sprintf(
             "%s - %s",
-            SilvercartLanguageHelper::getLanguageName($locale, $in_locale),
-            SilvercartLanguageHelper::getLanguageName($locale, $locale)
+            SilvercartLanguageHelper::getDisplayLanguage($locale, $in_locale),
+            SilvercartLanguageHelper::getDisplayLanguage($locale, $locale)
         );
         return $displayLanguage;
     }
