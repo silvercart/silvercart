@@ -71,7 +71,23 @@ class SilvercartAddress extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'SalutationText' => 'VarChar',
+        'SalutationText'        => 'VarChar',
+        'SilvercartCountryISO2' => 'Text',
+        'SilvercartCountryISO3' => 'Text',
+        'SilvercartCountryISON' => 'Text',
+        'SilvercartCountryFIPS' => 'Text',
+    );
+    
+    /**
+     * Custom Add Export fields to export by XML
+     *
+     * @var array
+     */
+    public static $custom_add_export_fields = array(
+        'SilvercartCountryISO2',
+        'SilvercartCountryISO3',
+        'SilvercartCountryISON',
+        'SilvercartCountryFIPS',
     );
     
     /**
@@ -322,6 +338,58 @@ class SilvercartAddress extends DataObject {
             $salutation = _t('SilvercartAddress.' . strtoupper($salutation), $salutation);
         }
         return $salutation;
+    }
+    
+    /**
+     * Returns the ISO2 of the related country
+     *
+     * @return string
+     */
+    public function getSilvercartCountryISO2() {
+        $silvercartCountryISO2 = '';
+        if ($this->SilvercartCountryID > 0) {
+            $silvercartCountryISO2 = $this->SilvercartCountry()->ISO2;
+        }
+        return $silvercartCountryISO2;
+    }
+    
+    /**
+     * Returns the ISO3 of the related country
+     *
+     * @return string
+     */
+    public function getSilvercartCountryISO3() {
+        $silvercartCountryISO3 = '';
+        if ($this->SilvercartCountryID > 0) {
+            $silvercartCountryISO3 = $this->SilvercartCountry()->ISO3;
+        }
+        return $silvercartCountryISO3;
+    }
+    
+    /**
+     * Returns the ISON of the related country
+     *
+     * @return string
+     */
+    public function getSilvercartCountryISON() {
+        $silvercartCountryISON = '';
+        if ($this->SilvercartCountryID > 0) {
+            $silvercartCountryISON = $this->SilvercartCountry()->ISON;
+        }
+        return $silvercartCountryISON;
+    }
+    
+    /**
+     * Returns the FIPS of the related country
+     *
+     * @return string
+     */
+    public function getSilvercartCountryFIPS() {
+        $silvercartCountryFIPS = '';
+        if ($this->SilvercartCountryID > 0) {
+            $silvercartCountryFIPS = $this->SilvercartCountry()->FIPS;
+        }
+        return $silvercartCountryFIPS;
     }
 
     /**

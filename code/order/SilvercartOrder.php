@@ -570,7 +570,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * REORDER SECTION
         **********************************************************************/
-        if (in_array('SilvercartOrderStatusID', $restrictFields)) {
+        if (in_array('SilvercartOrderStatus', $restrictFields)) {
             $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
         }
         
@@ -594,7 +594,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('TaxRatePayment', $restrictFields)) {
             $mainGroup->push(           $fields->dataFieldByName('TaxRatePayment'));
         }
-        if (in_array('SilvercartPaymentMethodID', $restrictFields)) {
+        if (in_array('SilvercartPaymentMethod', $restrictFields)) {
             $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartPaymentMethodID'));
         }
         if (in_array('HandlingCostShipment', $restrictFields)) {
@@ -606,9 +606,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('TaxRateShipment', $restrictFields)) {
             $mainGroup->push(           $fields->dataFieldByName('TaxRateShipment'));
         }
-        if (in_array('SilvercartShippingFeeID', $restrictFields)) {
-            $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
-        }
+        $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
         if (in_array('WeightTotal', $restrictFields)) {
             $mainGroup->pushAndBreak(   $fields->dataFieldByName('WeightTotal'));
         }

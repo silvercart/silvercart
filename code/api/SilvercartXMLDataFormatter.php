@@ -131,7 +131,13 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                     if ($relObj) {
                         $relationDepth = $this->getRelationDepth();
                         $this->setRelationDepth($relationDepth - 1);
+                        
+                        $originalCustomAddFields = $this->getCustomAddFields();
+                        $customAddFields = Object::get_static($relObj->ClassName, 'custom_add_export_fields');
+                        $this->setCustomAddFields((array) $customAddFields);
                         $xml .= $this->convertDataObjectWithoutHeader($relObj);
+                        $this->setCustomAddFields($originalCustomAddFields);
+                        
                         $this->setRelationDepth($relationDepth);
                     } else {
                         $href = Director::absoluteURL(self::$api_base . "$relClass/" . $obj->$fieldName);

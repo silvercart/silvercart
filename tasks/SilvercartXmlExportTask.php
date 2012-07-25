@@ -74,6 +74,13 @@ class SilvercartXmlExportTask extends SilvercartTask {
      * @var string
      */
     public static $export_targetDir = '';
+    
+    /**
+     * Use short export name
+     *
+     * @var bool
+     */
+    public static $export_useShortName = false;
 
     /**
      * Init
@@ -92,6 +99,7 @@ class SilvercartXmlExportTask extends SilvercartTask {
         $filter                 = $this->getCliArg('-f');
         $marker                 = $this->getCliArg('-m');
         $objectName             = $this->getCliArg('-o');
+        $useShortName           = $this->getCliArg('-s');
         $targetDir              = $this->getCliArg('-t');
         
         if (!$printHelp) {
@@ -115,11 +123,14 @@ class SilvercartXmlExportTask extends SilvercartTask {
             if (!is_null($targetDir)) {
                 self::set_export_targetDir($targetDir);
             }
+            if (!is_null($useShortName)) {
+                self::set_export_useShortName($useShortName);
+            }
             if (!is_null($relationDepth)) {
                 self::set_export_relationDepth($relationDepth);
             }
             if (!is_null($relationDetailDepth)) {
-            self::set_export_relationDetailDepth($relationDetailDepth);
+                self::set_export_relationDetailDepth($relationDetailDepth);
             }
             self::set_export_objectName($objectName);
             $this->doExport();
@@ -164,7 +175,12 @@ class SilvercartXmlExportTask extends SilvercartTask {
             $formatter->setTotalSize($set->Count());
             $xml = $formatter->convertDataObjectSet($set);
 
-            $xmlFileName = 'export_xml_' . self::get_export_objectName() . '_' . date('Y-m-d_H-i-s') . '.xml';
+            $useShortName = self::get_export_useShortName();
+            if ($useShortName) {
+                $xmlFileName = date('YmdHis') . '.xml';
+            } else {
+                $xmlFileName = 'export_xml_' . self::get_export_objectName() . '_' . date('Y-m-d_H-i-s') . '.xml';
+            }
             $xmlFilePath = self::get_export_targetDir() . '/' . $xmlFileName;
             file_put_contents($xmlFilePath, $xml);
 
@@ -209,6 +225,7 @@ class SilvercartXmlExportTask extends SilvercartTask {
         $help   .= $tab .       $tab        . $tab  . $tab . 'After writing the export file, the marker will be set to true and the object will be written.' . PHP_EOL;
         $help   .= $tab . '-o=objectName'   . $tab  . $tab . 'Name of the object to export' . PHP_EOL;
         $help   .= $tab . '-t=targetDir'    . $tab  . $tab . 'Directory to write XML export files to (default:' . self::get_export_targetDir() . ')' . PHP_EOL;
+        $help   .= $tab . '-s=useShortName' . $tab  . $tab . 'Sets whether to use a short file name (default:' . self::get_export_useShortName() . ')' . PHP_EOL;
         $help   .= PHP_EOL;
         print $help;
         if ($exit) {
@@ -337,6 +354,31 @@ class SilvercartXmlExportTask extends SilvercartTask {
      */
     public static function set_export_targetDir($export_targetDir) {
         self::$export_targetDir = $export_targetDir;
+    }
+    
+    /**
+     * Returns whether to use a short file name for export
+     *
+     * @return string
+     */
+    public static function get_export_useShortName() {
+        return self::$export_useShortName;
+    }
+    
+    /**
+     * Sets to use a short file name for export
+     *
+     * @param string $export_useShortName use short file name for export?
+     * 
+     * @return void
+     */
+    public static function set_export_useShortName($export_useShortName) {
+        if ($export_useShortName == 'true') {
+            $export_useShortName = true;
+        } else {
+            $export_useShortName = (bool) $export_useShortName;
+        }
+        self::$export_useShortName = $export_useShortName;
     }
     
 }
