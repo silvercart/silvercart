@@ -39,7 +39,7 @@ class SilvercartShopEmailLanguage extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Subject'       => 'Varchar(255)',
+        'Subject'       => 'Text',
         'EmailText'     => 'Text',
     );
     
