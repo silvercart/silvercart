@@ -525,18 +525,20 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         /***********************************************************************
         * ADDITION SECTION
         **********************************************************************/
-        $shippingFees = DataObject::get('SilvercartShippingFee');
-        $shippingFeesDropdown = new DropdownField(
-                'SilvercartShippingFeeID',
-                $this->fieldLabel('SilvercartShippingMethod'),
-                array(),
-                $this->SilvercartShippingFeeID,
-                null,
-                $this->fieldLabel('EmptyString')
-        );
-        if ($shippingFees) {
-            $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));
-            $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
+        if (in_array('SilvercartShippingFeeID', $restrictFields)) {
+            $shippingFees = DataObject::get('SilvercartShippingFee');
+            $shippingFeesDropdown = new DropdownField(
+                    'SilvercartShippingFeeID',
+                    $this->fieldLabel('SilvercartShippingMethod'),
+                    array(),
+                    $this->SilvercartShippingFeeID,
+                    null,
+                    $this->fieldLabel('EmptyString')
+            );
+            if ($shippingFees) {
+                $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));
+                $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
+            }
         }
 
         $priceTypeTextField = new TextField('PriceTypeText', $this->fieldLabel('PriceType'), $this->PriceTypeText);
@@ -553,24 +555,29 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
 
         $fields->addFieldToTab('Root.Main', new HiddenField('Version'));
-        
-        $address = singleton('SilvercartAddress');
-        $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Name',      $address->fieldLabel('Name'),       $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Street',    $address->fieldLabel('Street'),     $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Addition',  $address->fieldLabel('Addition'),   $this->SilvercartShippingAddress()->Addition));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_City',      $address->fieldLabel('City'),       strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Phone',     $address->fieldLabel('Phone'),      $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
 
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Name',       $address->fieldLabel('Name'),       $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Street',     $address->fieldLabel('Street'),     $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Addition',   $address->fieldLabel('Addition'),   $this->SilvercartInvoiceAddress()->Addition));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_City',       $address->fieldLabel('City'),       strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Phone',      $address->fieldLabel('Phone'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+        $address = singleton('SilvercartAddress');
+
+        if (in_array('ShippingAddressID', $restrictFields)) {
+            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Name',      $address->fieldLabel('Name'),       $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Street',    $address->fieldLabel('Street'),     $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Addition',  $address->fieldLabel('Addition'),   $this->SilvercartShippingAddress()->Addition));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_City',      $address->fieldLabel('City'),       strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Phone',     $address->fieldLabel('Phone'),      $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
+        }
+
+        if (in_array('InvoiceAddressID', $restrictFields)) {
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Name',       $address->fieldLabel('Name'),       $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Street',     $address->fieldLabel('Street'),     $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Addition',   $address->fieldLabel('Addition'),   $this->SilvercartInvoiceAddress()->Addition));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_City',       $address->fieldLabel('City'),       strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Phone',      $address->fieldLabel('Phone'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+        }
 
         /***********************************************************************
         * REORDER SECTION
         **********************************************************************/
-        if (in_array('SilvercartOrderStatus', $restrictFields)) {
+        if (in_array('SilvercartOrderStatusID', $restrictFields)) {
             $fields->insertBefore($fields->dataFieldByName('SilvercartOrderStatusID'), 'AmountTotal');
         }
         
@@ -594,7 +601,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('TaxRatePayment', $restrictFields)) {
             $mainGroup->push(           $fields->dataFieldByName('TaxRatePayment'));
         }
-        if (in_array('SilvercartPaymentMethod', $restrictFields)) {
+        if (in_array('SilvercartPaymentMethodID', $restrictFields)) {
             $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartPaymentMethodID'));
         }
         if (in_array('HandlingCostShipment', $restrictFields)) {
@@ -606,7 +613,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('TaxRateShipment', $restrictFields)) {
             $mainGroup->push(           $fields->dataFieldByName('TaxRateShipment'));
         }
-        $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
+        if (in_array('SilvercartShippingFeeID', $restrictFields)) {
+            $mainGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartShippingFeeID'));
+        }
         if (in_array('WeightTotal', $restrictFields)) {
             $mainGroup->pushAndBreak(   $fields->dataFieldByName('WeightTotal'));
         }
