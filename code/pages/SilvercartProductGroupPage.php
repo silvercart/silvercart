@@ -1019,9 +1019,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * Contains a list of all registered filter plugins.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $registeredFilterPlugins = array();
     
@@ -1030,9 +1027,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * caching.
      *
      * @var mixed null|DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     protected $groupProducts = array();
 
@@ -1041,9 +1035,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * or null. Used for caching.
      *
      * @var mixed null|SilvercartProduct
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     protected $detailViewProduct = null;
 
@@ -1052,9 +1043,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * page.
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     protected $listFilters = array();
     
@@ -1063,9 +1051,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * products for this page.
      *
      * @var int
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     protected $SQL_start = 0;
     
@@ -1073,9 +1058,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * Contains the output of all WidgetSets of the parent page
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.07.2011
      */
     protected $widgetOutput = array();
 
@@ -1083,9 +1065,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * Makes widgets of parent pages load when subpages don't have any attributed.
      *
      * @var boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
      */
     public $forceLoadOfWidgets = true;
     
@@ -1093,11 +1072,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * Contains the viewable children of this page for caching purposes.
      *
      * @var mixed null|DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.11.2011
      */
     protected $viewableChildren = null;
+    
+    /**
+     * Product detail view parameters
+     *
+     * @var array
+     */
+    protected $productDetailViewParams = array();
     
     /**
      * Indicates wether a filter plugin can be registered for the current view.
@@ -2042,34 +2025,106 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
-     * renders a product detail view template (if requested)
+     * Return an SSViewer object to process the data
+     * Manipulates the SSViewer in case of a product detail view.
+     * 
+     * @param string $action Action
+     * 
+     * @return SSViewer The viewer identified being the default handler for this Controller/Action combination
+     */
+    public function getViewer($action) {
+        $viewer = parent::getViewer($action);
+        if ($this->isProductDetailView()) {
+            $this->ProductDetailRequirements();
+            $templates = $viewer->templates();
+            $viewer    = new SSViewer(
+                    array(
+                        'SilvercartProductPage',
+                        basename($templates['main'], '.ss')
+                    )
+            );
+        }
+        return $viewer;
+    }
+    
+    /**
+     * Merge some arbitrary data in with this object. This method returns a {@link ViewableData_Customised} instance
+     * with references to both this and the new custom data.
      *
-     * @param string $urlEncodedProductName the url encoded product name
+     * Note that any fields you specify will take precedence over the fields on this object.
+     * 
+     * Adds custom product detail data when a product detail view is requested.
+     * 
+     * @param array $data Customised data
+     * 
+     * @return ViewableData_Customised
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.07.2012
+     */
+    public function customise($data) {
+        if ($this->isProductDetailView()) {
+            $data = array_merge(
+                    $data,
+                    $this->ProductDetailViewParams()
+            );
+        }
+        $customisedData = parent::customise($data);
+        return $customisedData;
+    }
+
+    /**
+     * renders a product detail view template (if requested)
      *
      * @return string the redered template
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 27.07.2012
      */
-    protected function ProductDetailView($urlEncodedProductName) {
+    protected function ProductDetailView() {
         if ($this->isProductDetailView()) {
-            
-            Requirements::customScript("
-                $(document).ready(function() {
-                    $('a.silvercart-product-detail-image').fancybox();
-                });
-            ");
-            
-            $product = $this->getDetailViewProduct();
-            $product->productAddCartForm = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
-            $viewParams = array(
-                'getProduct' => $product,
-                'MetaTitle' => $this->DetailViewProductMetaTitle(),
-                'MetaTags' => $this->DetailViewProductMetaTags(false),
-            );
-            return $this->customise($viewParams)->renderWith(array('SilvercartProductPage','Page'));
+            $this->ProductDetailRequirements();
+            return $this->customise(array())->renderWith(array('SilvercartProductPage','Page'));
         }
         return false;
+    }
+
+    /**
+     * renders a product detail view template (if requested)
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.07.2012
+     */
+    protected function ProductDetailViewParams() {
+        if ($this->isProductDetailView() &&
+            empty($this->productDetailViewParams)) {
+            $product                        = $this->getDetailViewProduct();
+            $product->productAddCartForm    = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
+            $this->productDetailViewParams  = array(
+                'getProduct'    => $product,
+                'MetaTitle'     => $this->DetailViewProductMetaTitle(),
+                'MetaTags'      => $this->DetailViewProductMetaTags(false),
+            );
+        }
+        return $this->productDetailViewParams;
+    }
+
+    /**
+     * renders a product detail view template (if requested)
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.07.2012
+     */
+    protected function ProductDetailRequirements() {
+        Requirements::customScript("
+            $(document).ready(function() {
+                $('a.silvercart-product-detail-image').fancybox();
+            });
+        ", 'SilvercartProductDetailRequirements');
     }
 
     /**
