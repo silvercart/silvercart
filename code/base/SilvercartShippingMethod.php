@@ -558,7 +558,9 @@ class SilvercartShippingMethod extends DataObject {
         }
         
         $customerGroups = SilvercartCustomer::getCustomerGroups();
-        if ($customerGroups) {
+        if ($customerGroups &&
+            $customerGroups instanceof DataObjectSet &&
+            $customerGroups->Count() > 0) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
                 "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
