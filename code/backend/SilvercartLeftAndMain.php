@@ -34,52 +34,6 @@
 class SilvercartLeftAndMain extends DataObjectDecorator {
 
     /**
-     * Load additional scripts and styles
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.01.2012
-     */
-    public function onAfterInit() {
-        $jqplotFiles = array(
-            'silvercart/script/jqplot/jquery.jqplot.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.barRenderer.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.cursor.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.highlighter.min.js',
-            'silvercart/script/jqplot/plugins/jqplot.pointLabels.min.js',
-        );
-        $cssFiles = array(
-            'cms/css/typography.css',
-            'cms/css/layout.css',
-            'cms/css/cms_left.css',
-            'cms/css/cms_right.css',
-            'sapphire/css/Form.css',
-            'sapphire/thirdparty/greybox/greybox.css',
-            'sapphire/css/SilverStripeNavigator.css',
-            'cms/css/ModelAdmin.css',
-            'cms/css/silverstripe.tabs.css',
-            'silvercart/script/jqplot/jquery.jqplot.css',
-            'sapphire/thirdparty/tabstrip/tabstrip.css',
-            'sapphire/javascript/tree/tree.css',
-            'sapphire/css/TreeDropdownField.css',
-        );
-        Requirements::css('silvercart/script/jqplot/jquery.jqplot.css');
-
-        foreach ($jqplotFiles as $jqplotFile) {
-            Requirements::javascript($jqplotFile);
-        }
-
-        Requirements::insertHeadTags('<!--[if lt IE 9]>', 'silvercart_jqplot_begin');
-        Requirements::insertHeadTags('<script language="javascript" type="text/javascript" src="silvercart/script/jqplot/excanvas.min.js"></script>',   'silvercart_jqplot');
-        Requirements::insertHeadTags('<![endif]-->', 'silvercart_jqplot_end');
-    }
-
-    /**
      * The new main menu routine.
      * 
      * @return DataObjectSet
