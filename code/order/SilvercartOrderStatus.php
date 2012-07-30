@@ -84,7 +84,7 @@ class SilvercartOrderStatus extends DataObject {
      *
      * @var string 
      */
-    public static $default_sort = "Title";
+    public static $default_sort = "`SilvercartOrderStatusLanguage`.`Title`";
 
     /**
      * Returns the translated singular name of the object. If no translation exists
