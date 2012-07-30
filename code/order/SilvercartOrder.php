@@ -473,8 +473,15 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $restrictFields = array(
             'SilvercartOrderStatus',
             'SilvercartPaymentMethod',
+            'SilvercartInvoiceAddressID',
+            'SilvercartShippingAddressID'
         );
         foreach ($this->db() as $fieldName => $fieldType) {
+            if (in_array($fieldName, $ignoreFields) &&
+                in_array($fieldName, $restrictFields)) {
+
+                unset($restrictFields[$fieldName]);
+            }
             if (in_array($fieldName, $ignoreFields)) {
                 continue;
             }
@@ -558,7 +565,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         $address = singleton('SilvercartAddress');
 
-        if (in_array('ShippingAddressID', $restrictFields)) {
+        if (in_array('SilvercartShippingAddressID', $restrictFields)) {
             $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Name',      $address->fieldLabel('Name'),       $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
             $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Street',    $address->fieldLabel('Street'),     $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
             $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Addition',  $address->fieldLabel('Addition'),   $this->SilvercartShippingAddress()->Addition));
@@ -566,7 +573,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Phone',     $address->fieldLabel('Phone'),      $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
         }
 
-        if (in_array('InvoiceAddressID', $restrictFields)) {
+        if (in_array('SilvercartInvoiceAddressID', $restrictFields)) {
             $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Name',       $address->fieldLabel('Name'),       $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Street',     $address->fieldLabel('Street'),     $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Addition',   $address->fieldLabel('Addition'),   $this->SilvercartInvoiceAddress()->Addition));
