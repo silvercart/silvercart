@@ -65,12 +65,16 @@ class SilvercartProduct extends DataObject {
     public static $has_one = array(
         'SilvercartTax'                 => 'SilvercartTax',
         'SilvercartManufacturer'        => 'SilvercartManufacturer',
+        /*
         'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'       => 'SilvercartProduct',
+        */
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
         'SilvercartProductCondition'    => 'SilvercartProductCondition',
+        /*
         'SilvercartQuantityUnit'        => 'SilvercartQuantityUnit',
         'WidgetArea'                    => 'WidgetArea',
+        */
     );
 
     /**
@@ -80,9 +84,11 @@ class SilvercartProduct extends DataObject {
      */
     public static $has_many = array(
         'SilvercartProductLanguages'        => 'SilvercartProductLanguage',
+        /*
         'SilvercartImages'                  => 'SilvercartImage',
         'SilvercartFiles'                   => 'SilvercartFile',
         'SilvercartShoppingCartPositions'   => 'SilvercartShoppingCartPosition',
+        */
     );
 
     /**
@@ -90,20 +96,24 @@ class SilvercartProduct extends DataObject {
      *
      * @var array
      */
+    /*
     public static $many_many = array(
         'SilvercartProductGroupMirrorPages' => 'SilvercartProductGroupPage'
     );
+    */
 
     /**
      * m:n relations
      *
      * @var array
      */
+    /*
     public static $belongs_many_many = array(
         'SilvercartShoppingCarts'            => 'SilvercartShoppingCart',
         'SilvercartOrders'                   => 'SilvercartOrder',
         'SilvercartProductGroupItemsWidgets' => 'SilvercartProductGroupItemsWidget',
     );
+    */
     
     /**
      * Adds database indexes
@@ -450,6 +460,7 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('isActive'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            /*
             'SilvercartProductGroupID' => array(
                 'title'     => $this->fieldLabel('SilvercartProductGroup'),
                 'filter'    => 'ExactMatchFilter'
@@ -462,6 +473,7 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('SilvercartAvailabilityStatus'),
                 'filter'    => 'ExactMatchFilter'
             )
+            */
         );
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
@@ -790,7 +802,7 @@ class SilvercartProduct extends DataObject {
                     $sort
             );
         } else {
-            $databaseFilteredProducts = new DataObjectSet();
+            $databaseFilteredProducts = new DataList('SilvercartProduct');
         }
         if (!is_null($productCount) &&
             Controller::curr()->hasMethod('getProductsPerPageSetting') &&
@@ -812,7 +824,7 @@ class SilvercartProduct extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.05.2012
      */
-    public function scaffoldFormFields($params) {
+    public function scaffoldFormFields($params = null) {
         $params = array(
             'tabbed' => true,
             'restrictFields' => array(
@@ -939,13 +951,13 @@ class SilvercartProduct extends DataObject {
             'Months'    => _t('Silvercart.MONTHS','Months'),
         );
         $fields->dataFieldByName('PurchaseTimeUnit')->setSource($purchaseTimeUnitSource);
-        
+
         $productNumberGroup = new SilvercartFieldGroup('ProductNumberGroup', '', $fields);
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
         $fields->insertAfter($productNumberGroup, 'isActive');
-        
+
         $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
         $availabilityGroup->push($fields->dataFieldByName('SilvercartAvailabilityStatusID'));
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('PurchaseMinDuration'));
@@ -955,7 +967,7 @@ class SilvercartProduct extends DataObject {
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityOverbookable'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityExpirationDate'));
         $fields->insertAfter($availabilityGroup, 'LongDescription');
-        
+        /*
         $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
@@ -963,6 +975,7 @@ class SilvercartProduct extends DataObject {
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('SilvercartProductConditionID'));
         $fields->insertAfter($miscGroup, 'AvailabilityGroup');
+        */
     }
 
     /**
@@ -1106,7 +1119,7 @@ class SilvercartProduct extends DataObject {
         $afterFieldName = 'EANCode';
         foreach ($languageFields as $languageField) {
             $fields->insertAfter($languageField, $afterFieldName);
-            $afterFieldName = $languageField->Name();
+            $afterFieldName = $languageField->getName();
         }
         
         if (!$this->ID) {
@@ -1448,7 +1461,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function removeRequiredAttribute($attributeName) {
         if (in_array($attributeName, self::$requiredAttributes)) {
-            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes));
+            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes, 0));
         }
     }
 
@@ -2194,7 +2207,7 @@ class SilvercartProduct extends DataObject {
  * @since 01.03.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProduct_CollectionController extends ModelAdmin_CollectionController {
+class SilvercartProduct_CollectionController {
     
     /**
      * We use a slice techniqure here since imports of large datasets fail
@@ -3028,7 +3041,7 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
  * @since 14.03.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProduct_RecordController extends SilvercartHasManyOrderField_RecordController {
+class SilvercartProduct_RecordController {
     
     /**
      * Makes the record controller decoratable

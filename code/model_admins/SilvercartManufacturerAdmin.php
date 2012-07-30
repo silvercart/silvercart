@@ -76,7 +76,7 @@ class SilvercartManufacturerAdmin extends ModelAdmin {
      * @var array
      */
     public static $model_importers = array(
-        'SilvercartManufacturer' => 'CsvBulkLoader'
+        /*'SilvercartManufacturer' => 'CsvBulkLoader'*/
     );
 
     /**
@@ -88,7 +88,7 @@ class SilvercartManufacturerAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartManufacturer.PLURALNAME');
+        self::$menu_title = 'SilverCart/'._t('SilvercartManufacturer.PLURALNAME');
         
         parent::__construct();
     }

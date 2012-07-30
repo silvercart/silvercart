@@ -40,6 +40,8 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $menuCode = 'products';
 
+    public static $tree_class = 'Folder';
+
     /**
      * The section of the menu under which this admin should be grouped.
      * 
@@ -68,8 +70,10 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $managed_models = array(
         'SilvercartProduct' => array(
+            /*
             'collection_controller' => 'SilvercartProduct_CollectionController',
             'record_controller'     => 'SilvercartProduct_RecordController',
+            */
         ),
     );
 
@@ -79,7 +83,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @var array
      */
     public static $model_importers = array(
-        'SilvercartProduct' => 'SilvercartProductCsvBulkLoader'
+        /*'SilvercartProduct' => 'SilvercartProductCsvBulkLoader'*/
     );
 
     /**
@@ -91,7 +95,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartProduct.PLURALNAME');
+        self::$menu_title = 'SilverCart/'._t('SilvercartProduct.PLURALNAME');
         
         parent::__construct();
     }

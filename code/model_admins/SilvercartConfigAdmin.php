@@ -77,14 +77,14 @@ class SilvercartConfigAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $collection_controller_class = 'SilvercartConfigAdmin_CollectionController';
+    //public static $collection_controller_class = 'SilvercartConfigAdmin_CollectionController';
 
     /**
      * The record controller class to use for the shop configuration.
      *
      * @var string
      */
-    public static $record_controller_class = 'SilvercartConfigAdmin_RecordController';
+    //public static $record_controller_class = 'SilvercartConfigAdmin_RecordController';
 
     /**
      * List of managed models with disabled creation and import form
@@ -147,7 +147,7 @@ class SilvercartConfigAdmin extends ModelAdmin {
  * @since 31.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartConfigAdmin_CollectionController extends ModelAdmin_CollectionController {
+class SilvercartConfigAdmin_CollectionController {
 
     /**
      * Return a modified search form.
@@ -198,7 +198,7 @@ class SilvercartConfigAdmin_CollectionController extends ModelAdmin_CollectionCo
  * @since 02.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartConfigAdmin_RecordController extends ModelAdmin_RecordController {
+class SilvercartConfigAdmin_RecordController {
     
     /**
      * Adds the abillity to execute additional actions to the model admin's

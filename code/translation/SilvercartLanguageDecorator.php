@@ -31,7 +31,7 @@
  * @copyright pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartLanguageDecorator extends DataObjectDecorator {
+class SilvercartLanguageDecorator extends DataExtension {
     
     /**
      * Extends the database fields and relations of the decorated class.
@@ -41,14 +41,10 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
-    public function extraStatics() {
-        return array(
-            'db' => array(
-                'Locale' => 'DBLocale'
-            )
-        );
-    }
-    
+    public static $db = array(
+        'Locale' => 'DBLocale'
+    );
+
     /**
      * Field lable for Locale should always be multilingual
      *
@@ -105,7 +101,7 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
-    public function updateCMSFields(FieldSet &$fields) {
+    public function updateCMSFields(FieldList $fields) {
         $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner);
         foreach ($this->owner->has_one() as $has_oneName => $has_oneObject) {
             $fields->removeByName($has_oneName . 'ID');

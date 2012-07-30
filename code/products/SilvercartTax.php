@@ -39,7 +39,7 @@ class SilvercartTax extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Rate'  => 'Float',
+        'Rate'       => 'Float',
         'Identifier' => 'VarChar(30)'
     );
 

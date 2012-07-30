@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartCustomer extends DataObjectDecorator {
+class SilvercartCustomer extends DataExtension {
     
     /**
      * Comma separated string of related group names
@@ -56,42 +56,42 @@ class SilvercartCustomer extends DataObjectDecorator {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 10.10.2011
      */
-    public function extraStatics() {
-        return array(
-            'db' => array(
-                'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
-                'NewsletterOptInStatus'             => 'Boolean(0)',
-                'NewsletterConfirmationHash'        => 'VarChar(50)',
-                'SubscribedToNewsletter'            => 'Boolean(0)',
-                'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
-                'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
-                'Birthday'                          => 'Date',
-                'CustomerNumber'                    => 'VarChar(128)',
-            ),
-            'has_one' => array(
-                'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
-                'SilvercartInvoiceAddress'      => 'SilvercartAddress',
-                'SilvercartShippingAddress'     => 'SilvercartAddress',
-                'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
-            ),
-            'has_many' => array(
-                'SilvercartAddresses'   => 'SilvercartAddress',
-                'SilvercartOrder'       => 'SilvercartOrder'
-            ),
-            'belongs_many_many' => array(
-                'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
-            ),
-            'api_access' => array(
-                'view' => array(
-                    'Email'
-                )
-            ),
-            'casting' => array(
-                'GroupNames' => 'Text',
-            ),
-        );
-    }
-    
+    public static $db = array(
+        'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
+        'NewsletterOptInStatus'             => 'Boolean(0)',
+        'NewsletterConfirmationHash'        => 'VarChar(50)',
+        'SubscribedToNewsletter'            => 'Boolean(0)',
+        'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
+        'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
+        'Birthday'                          => 'Date',
+        'CustomerNumber'                    => 'VarChar(128)',
+    );
+    public static $has_one = array(
+        /*
+        'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
+        'SilvercartInvoiceAddress'      => 'SilvercartAddress',
+        'SilvercartShippingAddress'     => 'SilvercartAddress',
+        */
+        'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
+    );
+    /*
+    public static $has_many = array(
+        'SilvercartAddresses'   => 'SilvercartAddress',
+        'SilvercartOrder'       => 'SilvercartOrder'
+    );
+    public static $belongs_many_many = array(
+        'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
+    );
+    */
+    public static $api_access = array(
+        'view' => array(
+            'Email'
+        )
+    );
+    public static $casting = array(
+        'GroupNames' => 'Text',
+    );
+
     // ------------------------------------------------------------------------
     // Extension methods
     // ------------------------------------------------------------------------
@@ -106,7 +106,7 @@ class SilvercartCustomer extends DataObjectDecorator {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
-    public function updateCMSFields(FieldSet &$fields) {
+    public function updateCMSFields(FieldList $fields) {
         parent::updateCMSFields($fields);
         
         $fields->removeByName('Salutation');
@@ -216,10 +216,9 @@ class SilvercartCustomer extends DataObjectDecorator {
      */
     public function getGroupNames() {
         if (is_null($this->groupNames)) {
-            $groupNamesAsString = '';
-            $groupNamesMap = $this->owner->Groups()->map();
+            $groupNamesMap      = $this->owner->Groups()->map()->toArray();
             $groupNamesAsString = implode(', ', $groupNamesMap);
-            $this->groupNames = $groupNamesAsString;
+            $this->groupNames   = $groupNamesAsString;
         }
         return $this->groupNames;
     }

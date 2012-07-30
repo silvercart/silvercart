@@ -74,7 +74,7 @@ class SilvercartTools extends Object {
         } else {
             $string = strtolower($originalString);
         }
-        $string     = Object::create('Transliterator')->toASCII($string);
+        $string     = Object::create('SS_Transliterator')->toASCII($string);
         $string     = str_replace('&amp;','-and-',$string);
         $string     = str_replace('&','-and-',$string);
         $string     = ereg_replace('[^A-Za-z0-9]+','-',$string);

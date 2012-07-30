@@ -288,7 +288,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->push($defaultLanguageDropdown);
         
         // Building the general tab structure
-        $CMSFields = new FieldSet(
+        $CMSFields = new FieldList(
             $rootTab = new TabSet(
                 'Root',
                 $generalTab = new TabSet(
@@ -354,7 +354,7 @@ class SilvercartConfig extends DataObject {
          */
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productsPerPage', _t('SilvercartConfig.PRODUCTSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productGroupsPerPage', _t('SilvercartConfig.PRODUCTGROUPSPERPAGE')));
-        $CMSFields->addFieldToTab('Root.General.Layout', new FileIFrameField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', new UploadField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
         $source = array(
             'Tabbed' => _t('SilvercartConfig.TABBED'),
             'Flat' => _t('SilvercartConfig.FLAT')

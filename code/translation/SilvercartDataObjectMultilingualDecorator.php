@@ -31,7 +31,7 @@
  * @since 06.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
+class SilvercartDataObjectMultilingualDecorator extends DataExtension {
     
     protected $languageObj = null;
     
@@ -47,9 +47,9 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
      */
     public function augmentSQL(SQLQuery &$query) {
         if (!$query->isJoinedTo($this->getLanguageClassName()) &&
-            !$query->delete) {
+            !$query->getDelete()) {
             $silvercartDefaultLocale = SilvercartConfig::Locale();
-            $query->leftJoin(
+            $query->addLeftJoin(
                     $this->getLanguageClassName(),
                     sprintf(
                             "(`%s`.`ID` = `%s`.`%s`)",
@@ -60,7 +60,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
             );
             $addToWhere = '';
             if ($this->getBaseLanguageClassName() != $this->getLanguageClassName()) {
-                $query->leftJoin(
+                $query->addLeftJoin(
                         $this->getBaseLanguageClassName(),
                         sprintf(
                                 "(`%s`.`ID` = `%s`.`ID`)",
@@ -87,7 +87,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
                         )
                 );
             } elseif (!empty ($silvercartDefaultLocale)) {
-                $query->where(
+                $query->addWhere(
                         sprintf(
                                 "`%s`.`Locale` = '%s' %s",
                                 $this->getBaseLanguageClassName(),

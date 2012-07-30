@@ -67,7 +67,7 @@ class SilvercartFieldGroup extends CompositeField {
      */
     public function FieldHolder() {
         $title              = $this->Title();
-        $name               = $this->Name();
+        $name               = $this->getName();
         $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup"><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
         $singleFieldHolder  = '<div class="fieldgroupField %s">%s</div>';
         $fieldMarkup        = array();
@@ -120,7 +120,7 @@ class SilvercartFieldGroup extends CompositeField {
         parent::push($field);
         $fields = $this->getFields();
         if (!is_null($fields)) {
-            $fields->removeByName($field->Name());
+            $fields->removeByName($field->getName());
         }
     }
     

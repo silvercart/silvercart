@@ -29,7 +29,7 @@ if (strpos(phpversion(), '5.3') === 0) {
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
-SilvercartProduct::setRequiredAttributes("Price");
+//SilvercartProduct::setRequiredAttributes("Price");
 
 // ----------------------------------------------------------------------------
 // disable default pages for SiteTree
@@ -48,11 +48,12 @@ Director::addRules(50, array(
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+Object::add_extension('Member',                                     'SilvercartCustomer');
+/*
 Object::add_extension('ComponentSet',                               'SilvercartComponentSetDecorator');
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
-Object::add_extension('Member',                                     'SilvercartCustomer');
 Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
@@ -71,6 +72,7 @@ Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartG
 Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 Object::add_extension('Image',                                      'SilvercartImageExtension');
 // DataObject Translations
+*/
 Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageDecorator');
@@ -95,17 +97,22 @@ Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',  'Silverc
 Object::add_extension('SilvercartTextWidgetLanguage',                   'SilvercartLanguageDecorator');
 // Translatable DataObjects
 Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualDecorator');
+/*
 Object::add_extension('SilvercartCarrier',                          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartCountry',                          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartFile',                             'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartImage',                            'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartOrderStatus',                      'SilvercartDataObjectMultilingualDecorator');
+*/
 Object::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductCondition',                 'SilvercartDataObjectMultilingualDecorator');
+/*
 Object::add_extension('SilvercartQuantityUnit',                     'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartShippingMethod',                   'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartShopEmail',                        'SilvercartDataObjectMultilingualDecorator');
+*/
 Object::add_extension('SilvercartTax',                              'SilvercartDataObjectMultilingualDecorator');
+/*
 Object::add_extension('SilvercartZone',                             'SilvercartDataObjectMultilingualDecorator');
 // Translatable Widgets
 Object::add_extension('SilvercartBargainProductsWidget',        'SilvercartDataObjectMultilingualDecorator');
@@ -121,10 +128,11 @@ SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartImage",
     "SilvercartImageSliderImage",
 ));
-
+*/
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
+/*
 Object::add_extension('SilvercartConfig',                           'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectExtension');
 Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectExtension');
@@ -156,17 +164,18 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller'
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
-
+*/
 // ----------------------------------------------------------------------------
 // Register i18n plugins
 // ----------------------------------------------------------------------------
+/*
 i18n::register_plugin('silvercart_i18n_de_DE_plugin', array('SilvercartI18nPlugin', 'de_DE'), 99);
 
 
 if (is_null(TableListField_ItemRequest::$allowed_actions)) {
     TableListField_ItemRequest::$allowed_actions = array('printDataObject');
 }
-
+*/
 // ----------------------------------------------------------------------------
 // Enable DataObject validation
 // ----------------------------------------------------------------------------
@@ -189,6 +198,7 @@ CustomHtmlForm::registerModule('silvercart', 49);
 // ----------------------------------------------------------------------------
 // Check if the page.php descends from the SilvercartPage
 // ----------------------------------------------------------------------------
+/*
 if (class_exists('Page')) {
     $ext = new ReflectionClass('Page');
 
@@ -203,16 +213,20 @@ if (class_exists('Page_Controller')) {
         throw new Exception('Class "Page_Controller" has to extend "SilvercartPage_Controller".');
     }
 }
+*/
 // ----------------------------------------------------------------------------
 // add possible group views
 // ----------------------------------------------------------------------------
+/*
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
 SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
+*/
 // ----------------------------------------------------------------------------
 // set default group view if not existant
 // ----------------------------------------------------------------------------
+/*
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupView())) {
     SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 }
@@ -223,10 +237,11 @@ if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
 if (method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }
-
+*/
 // ----------------------------------------------------------------------------
 // add silvercart branding if no other branding is set
 // ----------------------------------------------------------------------------
+/*
 if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_logo == 'cms/images/mainmenu/logo.gif' &&
     LeftAndMain::$application_name == 'SilverStripe CMS' &&
@@ -240,7 +255,7 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
         '/silvercart/images/logo.jpg'
     );
 }
-
+*/
 // ----------------------------------------------------------------------------
 // Register menus for the storeadmin
 // ----------------------------------------------------------------------------
