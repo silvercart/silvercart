@@ -224,7 +224,7 @@ class SilvercartProductGroupPage extends Page {
                     $product            = Controller::curr()->getDetailViewProduct();
                     if ($product) {
                         $returnProductLink  = true;
-                        $productLanguage    = $product->getLanguageFor($this->Locale);
+                        $productLanguage    = $product->getLanguageFor(Translatable::get_current_locale());
                         $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
                     }
                 }
@@ -1426,7 +1426,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 06.06.2012
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
-        $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit);
+        $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Translatable::get_current_locale());
         if ($this->data()->DoNotShowProducts &&
             !$force) {
             $this->groupProducts[$hashKey] = new DataObjectSet();
@@ -1516,6 +1516,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                     $filter .= ' ' . $listFilter;
                 }
+
+                if (!empty($filter)) {
+                    $filter .= ' AND ';
+                }
+                $filter .= sprintf(
+                    "`SilvercartProduct`.`Locale` = '%s'",
+                    Translatable::get_current_locale()
+                );
 
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
