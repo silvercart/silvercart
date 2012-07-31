@@ -1119,8 +1119,20 @@ class SilvercartConfig extends DataObject {
      */
     public function checkActiveCountries() {
         $hasActiveCountries = false;
-        
-        if (DataObject::get_one('SilvercartCountry', "`Active`=1")) {
+        /*
+         * We have to bypass DataObject::get_one() because it would ignore active
+         * countries without a translation of the current locale
+         */
+        $query = "
+                SELECT
+                    *
+                FROM
+                    `SilvercartCountry`
+                WHERE
+                    `Active`=1
+                ";
+        $items = singleton('SilvercartCountry')->buildDataObjectSet(DB::query($query));
+        if ($items) {
             $hasActiveCountries = true;
         }
         return array(
