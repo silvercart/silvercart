@@ -120,6 +120,7 @@ class SilvercartConfig extends DataObject {
         'addToCartMaxQuantity'              => 'Int(999)',
         'Locale'                            => 'DBLocale',
         'useDefaultLanguageAsFallback'      => 'Boolean(1)',
+        'productDescriptionFieldForCart'    => 'Enum("ShortDescription,LongDescription","ShortDescription")',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -201,6 +202,7 @@ class SilvercartConfig extends DataObject {
     public static $demandBirthdayDateOnRegistration = null;
     public static $useDefaultLanguageAsFallback     = null;
     public static $forceLoadingOfDefaultLayout      = false;
+    public static $productDescriptionFieldForCart   = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -280,7 +282,8 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('StandardProductCondition');
         $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
-        
+        $defaultCMSFields->removeByName('productDescriptionFieldForCart');
+
         //Make the field DefaultLanguage a Dropdown
         $defaultCMSFields->removeByName('Locale');
         $defaultLanguageDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this, 'SiteTree');
@@ -323,6 +326,17 @@ class SilvercartConfig extends DataObject {
             $this->StandardProductConditionID,
             null,
             _t('SilvercartProductCondition.PLEASECHOOSE')
+        ));
+        $productDescriptionFieldMap = array();
+
+        foreach (singleton('SilvercartConfig')->dbObject('productDescriptionFieldForCart')->enumValues() as $productDescriptionField) {
+            $productDescriptionFieldMap[$productDescriptionField] = singleton('SilvercartProduct')->fieldLabel($productDescriptionField);
+        }
+
+        $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
+            'productDescriptionFieldForCart',
+            _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+            $productDescriptionFieldMap
         ));
      
         /*
@@ -467,6 +481,7 @@ class SilvercartConfig extends DataObject {
                     'GeoNamesAPI'                       => _t('SilvercartConfig.GEONAMES_API'),
                     'Locale'                            => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
                     'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
+                    'productDescriptionFieldForCart'    => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
                 )
         );
     }
@@ -845,6 +860,24 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('productGroupsPerPage')) {
             return $silvercartConfig->getField('productGroupsPerPage');
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns product description field for shopping cart and order positions.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.07.2012
+     */
+    public static function productDescriptionFieldForCart() {
+        $silvercartConfig = self::getConfig();
+
+        if ($silvercartConfig->hasField('productDescriptionFieldForCart')) {
+            return $silvercartConfig->getField('productDescriptionFieldForCart');
         } else {
             return false;
         }

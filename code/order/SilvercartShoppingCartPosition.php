@@ -334,6 +334,24 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
         return false;
     }
+
+    /**
+     * Returns the legally required description for shopping cart positions.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.07.2012
+     */
+    public function getCartDescription() {
+        if (SilvercartConfig::productDescriptionFieldForCart() == 'LongDescription') {
+            $description = $this->SilvercartProduct()->LongDescription;
+        } else {
+            $description = $this->SilvercartProduct()->ShortDescription;
+        }
+
+        return $description;
+    }
     
     /**
      * returns the tax amount included in $this

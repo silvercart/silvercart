@@ -525,6 +525,7 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Preistyp für anony
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Preistyp für Endkunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Preistyp für Geschäftskunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Preistypen';
+$lang['de_DE']['SilvercartConfig']['PRODUCT_DESCRIPTION_FIELD_FOR_CART'] = 'Feld für Artikelbeschreibung im Warenkorb';
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Artikel pro Seite';
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE_ALL'] = 'Alle anzeigen';
 $lang['de_DE']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite';

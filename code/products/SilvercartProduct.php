@@ -774,6 +774,7 @@ class SilvercartProduct extends DataObject {
                 $sort,
                 is_null($limit) ? "" : "LIMIT " . $limit
         );
+
         $records = DB::query($query);
         $recordsArray = array();
         foreach ($records as $record) {
