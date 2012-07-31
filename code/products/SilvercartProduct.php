@@ -1673,7 +1673,22 @@ class SilvercartProduct extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount() {
-        if (Member::currentUser()->showPricesGross()) {
+        $showPricesGross = false;
+        $member          = Member::currentUser();
+
+        if ($member) {
+            if ($member->showPricesGross()) {
+                $showPricesGross = true;
+            }
+        } else {
+            $defaultPriceType = SilvercartConfig::DefaultPriceType();
+
+            if ($defaultPriceType == 'gross') {
+                $showPricesGross = true;
+            }
+        }
+
+        if ($showPricesGross) {
             $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100);
         } else {
             $taxRate = $this->getPrice()->getAmount() * ($this->getTaxRate() / 100);
