@@ -898,6 +898,22 @@ class SilvercartRequireDefaultRecords extends DataObject {
                         }
                     }
                     $translation->write();
+                    
+                    /*
+                     * transfer the existing widget sets to the translation
+                     */
+                    if ($page->WidgetSetSidebar()) {
+                        foreach ($page->WidgetSetSidebar() as $widgetSetSidebar) {
+                            $translation->WidgetSetSidebar()->add($widgetSetSidebar);
+                        }
+                    }
+                    if ($page->WidgetSetContent()) {
+                       foreach ($page->WidgetSetContent() as $widgetSetContent) {
+                            $translation->WidgetSetContent()->add($widgetSetContent);
+                        } 
+                    }
+                    
+                    
                 }
                 $this->translateSiteTree($page->ID);
             }
