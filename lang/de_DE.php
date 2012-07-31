@@ -545,6 +545,7 @@ $lang['de_DE']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Mindestbe
 $lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Mindestbestellwert';
 $lang['de_DE']['SilvercartConfig']['DEFAULT_LANGUAGE'] = 'Standardsprache';
 $lang['de_DE']['SilvercartConfig']['USE_DEFAULT_LANGUAGE'] = 'Standardsprache benutzen, wenn die passende Sprache fehlt?';
+$lang['de_DE']['SilvercartConfig']['USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'] = 'Artikelbeschreibung in Warenkorb anzeigen';
 $lang['de_DE']['SilvercartConfig']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['SilvercartConfig']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['SilvercartConfig']['OPEN_RECORD'] = 'Datensatz öffnen';

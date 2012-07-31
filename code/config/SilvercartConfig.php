@@ -121,6 +121,7 @@ class SilvercartConfig extends DataObject {
         'Locale'                            => 'DBLocale',
         'useDefaultLanguageAsFallback'      => 'Boolean(1)',
         'productDescriptionFieldForCart'    => 'Enum("ShortDescription,LongDescription","ShortDescription")',
+        'useProductDescriptionFieldForCart' => 'Boolean(1)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -177,32 +178,33 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $addToCartMaxQuantity             = null;
-    public static $apacheSolrPort                   = null;
-    public static $apacheSolrUrl                    = null;
-    public static $defaultCurrency                  = null;
-    public static $defaultPricetype                 = null;
-    public static $emailSender                      = null;
-    public static $enableBusinessCustomers          = null;
-    public static $globalEmailRecipient             = null;
-    public static $priceType                        = null;
-    public static $config                           = null;
-    public static $enableSSL                        = null;
-    public static $minimumOrderValue                = null;
-    public static $freeOfShippingCostsFrom          = null;
-    public static $useFreeOfShippingCostsFrom       = null;
-    public static $disregardMinimumOrderValue       = null;
-    public static $useMinimumOrderValue             = null;
-    public static $productsPerPage                  = null;
-    public static $silvercartVersion                = null;
-    public static $useApacheSolrSearch              = null;
-    public static $enableStockManagement            = null;
-    public static $isStockManagementOverbookable    = null;
-    public static $redirectToCartAfterAddToCart     = null;
-    public static $demandBirthdayDateOnRegistration = null;
-    public static $useDefaultLanguageAsFallback     = null;
-    public static $forceLoadingOfDefaultLayout      = false;
-    public static $productDescriptionFieldForCart   = null;
+    public static $addToCartMaxQuantity              = null;
+    public static $apacheSolrPort                    = null;
+    public static $apacheSolrUrl                     = null;
+    public static $defaultCurrency                   = null;
+    public static $defaultPricetype                  = null;
+    public static $emailSender                       = null;
+    public static $enableBusinessCustomers           = null;
+    public static $globalEmailRecipient              = null;
+    public static $priceType                         = null;
+    public static $config                            = null;
+    public static $enableSSL                         = null;
+    public static $minimumOrderValue                 = null;
+    public static $freeOfShippingCostsFrom           = null;
+    public static $useFreeOfShippingCostsFrom        = null;
+    public static $disregardMinimumOrderValue        = null;
+    public static $useMinimumOrderValue              = null;
+    public static $productsPerPage                   = null;
+    public static $silvercartVersion                 = null;
+    public static $useApacheSolrSearch               = null;
+    public static $enableStockManagement             = null;
+    public static $isStockManagementOverbookable     = null;
+    public static $redirectToCartAfterAddToCart      = null;
+    public static $demandBirthdayDateOnRegistration  = null;
+    public static $useDefaultLanguageAsFallback      = null;
+    public static $forceLoadingOfDefaultLayout       = false;
+    public static $productDescriptionFieldForCart    = null;
+    public static $useProductDescriptionFieldForCart = true;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -283,6 +285,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('redirectToCartAfterAddToCart');
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
         $defaultCMSFields->removeByName('productDescriptionFieldForCart');
+        $defaultCMSFields->removeByName('useProductDescriptionFieldForCart');
 
         //Make the field DefaultLanguage a Dropdown
         $defaultCMSFields->removeByName('Locale');
@@ -333,6 +336,11 @@ class SilvercartConfig extends DataObject {
             $productDescriptionFieldMap[$productDescriptionField] = singleton('SilvercartProduct')->fieldLabel($productDescriptionField);
         }
 
+        $CMSFields->addFieldToTab('Root.General.Main', new CheckboxField(
+            'useProductDescriptionFieldForCart',
+            _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+            $this->useProductDescriptionFieldForCart
+        ));
         $CMSFields->addFieldToTab('Root.General.Main', new DropdownField(
             'productDescriptionFieldForCart',
             _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
@@ -482,6 +490,7 @@ class SilvercartConfig extends DataObject {
                     'Locale'                            => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
                     'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
                     'productDescriptionFieldForCart'    => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+                    'useProductDescriptionFieldForCart' => _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
                 )
         );
     }
@@ -878,6 +887,24 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('productDescriptionFieldForCart')) {
             return $silvercartConfig->getField('productDescriptionFieldForCart');
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Returns product description field for shopping cart and order positions.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 31.07.2012
+     */
+    public static function useProductDescriptionFieldForCart() {
+        $silvercartConfig = self::getConfig();
+
+        if ($silvercartConfig->hasField('useProductDescriptionFieldForCart')) {
+            return $silvercartConfig->getField('useProductDescriptionFieldForCart');
         } else {
             return false;
         }
