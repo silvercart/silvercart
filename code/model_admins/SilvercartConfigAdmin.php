@@ -68,6 +68,7 @@ class SilvercartConfigAdmin extends ModelAdmin {
      */
     public static $managed_models = array(
         'SilvercartConfig' => array(
+            'title'                    => 'SilvercartConfig',
             'enableFirstEntryAutoLoad' => true
         ),
     );
@@ -113,7 +114,8 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartConfig.SINGULARNAME');
+        self::$menu_title                                  = _t('SilvercartConfig.SINGULARNAME');
+        self::$managed_models['SilvercartConfig']['title'] = _t('SilvercartConfig.SINGULARNAME');
         
         parent::__construct();
     }

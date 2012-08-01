@@ -70,6 +70,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $managed_models = array(
         'SilvercartProduct' => array(
+            'title' => 'SilvercartProduct'
             /*
             'collection_controller' => 'SilvercartProduct_CollectionController',
             'record_controller'     => 'SilvercartProduct_RecordController',
@@ -95,7 +96,8 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function __construct() {
-        self::$menu_title = 'SilverCart/'._t('SilvercartProduct.PLURALNAME');
+        self::$menu_title                                   = 'SilverCart/'._t('SilvercartProduct.PLURALNAME');
+        self::$managed_models['SilvercartProduct']['title'] = _t('SilvercartProduct.SINGULARNAME');
         
         parent::__construct();
     }
@@ -139,27 +141,6 @@ class SilvercartProductAdmin extends ModelAdmin {
         
         parent::init();
         $this->extend('updateInit');
-    }
-
-    /**
-     * Provides a way to use different result tables for the managed models.
-     * 
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.08.2011
-     */
-    public function resultsTableClassName() {
-        $className = $this->resultsTableClassName;
-
-        if (isset($this->urlParams['Action']) ) {
-            if ($this->urlParams['Action'] == 'SilvercartProduct') {
-                $className = 'SilvercartProductTableListField';
-            }
-        }
-        
-        return $className;
     }
 }
 

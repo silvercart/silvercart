@@ -59,13 +59,15 @@ class SilvercartFieldGroup extends CompositeField {
 
     /**
      * Returns the field markup
-     * 
+     *
+     * @param array $properties key value pairs of template variables
+     *
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         $title              = $this->Title();
         $name               = $this->getName();
         $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup"><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';

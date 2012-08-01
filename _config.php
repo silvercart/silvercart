@@ -39,7 +39,7 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 // Add some URL rules for custom controllers
 // ----------------------------------------------------------------------------
-Director::addRules(50, array(
+Director::addRules(100, array(
     'silvercart-print/$DataObjectName/$DataObjectID'        => 'SilvercartPrint_Controller',
     'silvercart-print-inline/$DataObjectName/$DataObjectID' => 'SilvercartPrint_Controller',
     'silvercart-print-many/$DataObjectName/$DataObjectID'   => 'SilvercartPrint_Controller',
@@ -259,10 +259,12 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
 // ----------------------------------------------------------------------------
 // Register menus for the storeadmin
 // ----------------------------------------------------------------------------
+/*
 SilvercartConfig::registerMenu('orders', _t('SilvercartStoreAdminMenu.ORDERS'));
 SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS'));
 SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
 SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
+*/
 
 // ----------------------------------------------------------------------------
 // Dirty bugfixes ....

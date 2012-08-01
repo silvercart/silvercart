@@ -412,7 +412,7 @@ class SilvercartProduct extends DataObject {
         $summaryFields = array(
             'ProductNumberShop'                     => $this->fieldLabel('ProductNumberShop'),
             'Title'                                 => $this->singular_name(),
-            'SilvercartProductGroup.Title'          => $this->fieldLabel('SilvercartProductGroup'),
+            //'SilvercartProductGroup.Title'          => $this->fieldLabel('SilvercartProductGroup'),
             'SilvercartManufacturer.Title'          => $this->fieldLabel('SilvercartManufacturer'),
             'SilvercartAvailabilityStatus.Title'    => $this->fieldLabel('SilvercartAvailabilityStatus'),
             'isActiveString'                        => $this->fieldLabel('isActive'),
@@ -436,10 +436,12 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('ProductNumberShop'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            /*
             'SilvercartProductLanguages.Title' => array(
                 'title'     => $this->fieldLabel('Title'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            */
             'SilvercartProductLanguages.ShortDescription' => array(
                 'title'     => $this->fieldLabel('ShortDescription'),
                 'filter'    => 'PartialMatchFilter'
@@ -448,10 +450,12 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('LongDescription'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            /*
             'SilvercartManufacturer.Title' => array(
                 'title'     => $this->fieldLabel('SilvercartManufacturer'),
                 'filter'    => 'PartialMatchFilter'
              ),
+            */
             'ProductNumberManufacturer' => array(
                 'title'     => $this->fieldLabel('ProductNumberManufacturer'),
                 'filter'    => 'PartialMatchFilter'
@@ -694,7 +698,7 @@ class SilvercartProduct extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2012
      */
-    public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
+    public static function getProducts($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -1121,7 +1125,7 @@ class SilvercartProduct extends DataObject {
             $fields->insertAfter($languageField, $afterFieldName);
             $afterFieldName = $languageField->getName();
         }
-        
+
         if (!$this->ID) {
             $this->getFieldsForMain($fields);
             $this->getFieldsForPrices($fields, true);
