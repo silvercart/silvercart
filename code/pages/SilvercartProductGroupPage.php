@@ -1517,14 +1517,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $filter .= ' ' . $listFilter;
                 }
 
-                if (!empty($filter)) {
-                    $filter .= ' AND ';
-                }
-                $filter .= sprintf(
-                    "`SilvercartProduct`.`Locale` = '%s'",
-                    Translatable::get_current_locale()
-                );
-
+               
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
                     if (empty($sort)) {
