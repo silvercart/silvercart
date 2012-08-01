@@ -77,8 +77,8 @@ class SilvercartTools extends Object {
         $string     = Object::create('SS_Transliterator')->toASCII($string);
         $string     = str_replace('&amp;','-and-',$string);
         $string     = str_replace('&','-and-',$string);
-        $string     = ereg_replace('[^A-Za-z0-9]+','-',$string);
-        $string     = ereg_replace('-+','-',$string);
+        $string     = preg_replace('/[^A-Za-z0-9]+/','-',$string);
+
         if (!$string || $string == '-' || $string == '-1') {
             if (function_exists('mb_strtolower')) {
                 $string = mb_strtolower($originalString);

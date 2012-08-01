@@ -106,7 +106,7 @@ class SilvercartCustomer extends DataExtension {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList &$fields) {
         parent::updateCMSFields($fields);
         
         $fields->removeByName('Salutation');
@@ -296,7 +296,7 @@ class SilvercartCustomer extends DataExtension {
         
         return false;
     }
-    
+
     /**
      * Function similar to Member::currentUser(); Determins if we deal with a
      * registered customer who has opted in. Returns the member object or
@@ -553,7 +553,7 @@ class SilvercartCustomer extends DataExtension {
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
-        
+
         if ($this->owner->SilvercartShoppingCartID === null) {
             $cart = new SilvercartShoppingCart();
             $cart->write();
@@ -563,7 +563,7 @@ class SilvercartCustomer extends DataExtension {
         
         // check whether to add a member to an administrative group
         if (Member::currentUser() &&
-            Member::currentUser()->isAdmin() &&
+            Member::currentUser()->inGroup('administrators') &&
             array_key_exists('Groups', $_POST)) {
             $groups = explode(',', $_POST['Groups']);
             if (count($groups) > 0) {
