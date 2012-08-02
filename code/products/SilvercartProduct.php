@@ -245,25 +245,39 @@ class SilvercartProduct extends DataObject {
     /**
      * getter for the ShortDescription, looks for set translation
      * 
+     * @param bool $includeHtml include html tags or remove them from description
+     * 
      * @return string The ShortDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
      * @since 15.05.2012
      */
-    public function getShortDescription() {
-        return $this->getLanguageFieldValue('ShortDescription');
+    public function getShortDescription($includeHtml = true) {
+        $shortDescription = $this->getLanguageFieldValue('ShortDescription');
+        if (!$includeHtml) {
+            // decode
+            $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
+        }
+        return $shortDescription;
     }
     
     /**
      * getter for the LongDescription, looks for set translation
      * 
+     * @param bool $includeHtml include html tags or remove them from description
+     * 
      * @return string The LongDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
      * @since 15.05.2012
      */
-    public function getLongDescription() {
-        return $this->getLanguageFieldValue('LongDescription');
+    public function getLongDescription($includeHtml = true) {
+        $longDescription = $this->getLanguageFieldValue('LongDescription');
+        if (!$includeHtml) {
+            // decode
+            $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
+        }
+        return $longDescription;
     }
     
     /**
