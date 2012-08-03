@@ -469,6 +469,8 @@ $lang['en_US']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_US']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_US']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
 
+$lang['en_US']['SilvercartCheckoutFormStepDefaultOrderConfirmation']['TITLE'] = 'Order Confirmation';
+
 $lang['en_US']['SilvercartConfig']['ADDTOCARTMAXQUANTITY'] = 'Maximum allowed quantity of a single product in the shopping cart';
 $lang['en_US']['SilvercartConfig']['ADD_EXAMPLE_DATA'] = 'Add Example Data';
 $lang['en_US']['SilvercartConfig']['ADD_EXAMPLE_DATA_DESCRIPTION'] = 'The action "Add Example Data" will create an example manufaturer and four productgroups with 50 products.<br/><strong>CAUTION: This action can take a few minutes!</strong>';
