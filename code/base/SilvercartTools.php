@@ -118,22 +118,22 @@ class SilvercartTools extends Object {
 
     /**
      * Returns the attributed DataObjects as string (limited to 150 chars) by
-     * the given ComponentSet.
+     * the given DataList.
      * 
-     * @param ComponentSet $componentSet ComponentSet to get list for
-     * @param string       $dbField      Db field to use to display
-     * @param int          $maxLength    Maximum string length
+     * @param DataList $dataList  DataList to get list for
+     * @param string   $dbField   Db field to use to display
+     * @param int      $maxLength Maximum string length
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public static function AttributedDataObject($componentSet, $dbField = "Title", $maxLength = 150) {
+    public static function AttributedDataObject($dataList, $dbField = "Title", $maxLength = 150) {
         $attributedDataObjectStr    = '';
         $attributedDataObjects      = array();
 
-        foreach ($componentSet as $component) {
+        foreach ($dataList as $component) {
             $attributedDataObjects[] = $component->{$dbField};
         }
         
@@ -160,13 +160,7 @@ class SilvercartTools extends Object {
      * @since 05.04.2012
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = DataObject::get_one(
-            "SiteTree",
-            sprintf(
-                "`IdentifierCode` = '%s'",
-                $identifierCode
-            )
-        );
+        $page = SiteTree::get()->filter('IdentifierCode', $identifierCode)->First();
 
         if ($page) {
             return $page;

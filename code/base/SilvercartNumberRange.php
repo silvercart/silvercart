@@ -129,7 +129,7 @@ class SilvercartNumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public function  summaryFields() {
+    public function summaryFields() {
         return array_merge(
                 parent::summaryFields(),
                 array(

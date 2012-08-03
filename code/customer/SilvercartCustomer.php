@@ -99,14 +99,14 @@ class SilvercartCustomer extends DataExtension {
     /**
      * manipulate the cms fields of the decorated class
      *
-     * @param FieldSet &$fields the field set of cms fields
+     * @param FieldSet $fields the field set of cms fields
      * 
      * @return void
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.3.2011
      */
-    public function updateCMSFields(FieldList &$fields) {
+    public function updateCMSFields(FieldList $fields) {
         parent::updateCMSFields($fields);
         
         $fields->removeByName('Salutation');
