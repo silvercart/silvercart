@@ -809,6 +809,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2012
      */
+    /*
     public function requireDefaultRecords() {
         SilvercartLanguageHelper::createSilvercartCacheModule();
         SilvercartLanguageHelper::createMissingLocales();
@@ -837,7 +838,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
         self::createTestConfiguration();
         self::createTestData();
-    }
+    } */
     
     /**
      * Will create a translation of all pages of the SiteTree for the defined
