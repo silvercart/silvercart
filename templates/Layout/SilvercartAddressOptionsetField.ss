@@ -2,7 +2,7 @@
 <div class="silvercart-checkout-address">
     <% if items %>
     <ul>
-        <% control items %>
+        <% loop items %>
             <li>
                 <div class="subcolumns equalize">
                     <div class="c20l silvercart-address-radiofield">
@@ -18,7 +18,7 @@
                                         <strong><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %> &amp; <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></strong>
                                     </div>
                                 <% else %>
-                                    <% if name = InvoiceAddress %>
+                                    <% if name == "InvoiceAddress" %>
                                         <% if isInvoiceAddress %>
                                             <div class="silvercart-address-field_content">
                                                 <strong><% _t('SilvercartAddressHolder.DEFAULT_INVOICEADDRESS','invoice address') %></strong>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </li>
-        <% end_control %>
+        <% end_loop %>
     </ul>
     <% else %>
     <p><% _t('SilvercartAddress.NO_ADDRESS_AVAILABLE') %></p>

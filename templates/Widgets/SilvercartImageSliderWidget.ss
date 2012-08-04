@@ -9,20 +9,20 @@
     </div>
 
     <ul class="silvercart-widget-image-slider" id="SilvercartImageSliderWidget{$ID}">
-        <% control slideImages %>
+        <% loop slideImages %>
             <li<% if First %><% else %> style="display: none;"<% end_if %>>
                 <div>
                     <% if LinkedSite %>
                         <a href="$LinkedSite.Link">
                     <% end_if %>
-                    <% control Image %>
+                    <% with Image %>
                         <img src="$URL" width="$Width" height="$Height" alt="" />
-                    <% end_control %>
+                    <% end_with %>
                     <% if LinkedSite %>
                         </a>
                     <% end_if %>
                 </div>
             </li>
-        <% end_control %>
+        <% end_loop %>
     </ul>
 <% end_if %>

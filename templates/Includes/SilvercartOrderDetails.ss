@@ -1,4 +1,4 @@
-<% control CustomersOrder %>
+<% with CustomersOrder %>
     <h3><% _t('SilvercartOrderDetailPage.TITLE') %></h3>
         <table>
             <colgroup>
@@ -43,19 +43,19 @@
     <div class="subcolumns">
         <div class="c50l">
             <div class="subcl">
-                <% control SilvercartInvoiceAddress %>
+                <% with SilvercartInvoiceAddress %>
                     <% include SilvercartAddressDetailReadOnly %>
-                <% end_control %>
+                <% end_with %>
             </div>
         </div>
         <div class="c50r">
             <div class="subcr">
-                <% control SilvercartShippingAddress %>
+                <% with SilvercartShippingAddress %>
                     <% include SilvercartAddressDetailReadOnly %>
-                <% end_control %>
+                <% end_with %>
             </div>
         </div>
     </div>
     <h3><% _t('SilvercartOrderPosition.PLURALNAME','Order positions') %></h3>
     $OrderDetailTable
-<% end_control %>
+<% end_with %>

@@ -1,8 +1,8 @@
 <form class="yform" $FormAttributes >
 	$CustomHtmlFormMetadata
-	<% control Actions %>
+	<% loop Actions %>
 		<div class="type-button">
 			$Field
 		</div>
-	<% end_control %>
+	<% end_loop %>
 </form>

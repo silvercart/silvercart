@@ -5,19 +5,19 @@
             <div class="silvercart-widget_content">
                 <div class="vlist">
                     <ul>
-                    <% control SubElements %>
+                    <% loop SubElements %>
                         <li class="$LinkingMode $FirstLast"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a>
                         <% if Children %>
                             <ul>
-                            <% control Children %>
+                            <% loop Children %>
                                 <li class="$LinkingMode $FirstLast">
                                     <a href="$Link" title="$Title.XML">$MenuTitle.XML</a>
                                 </li>
-                            <% end_control %>
+                            <% end_loop %>
                             </ul>
                         <% end_if %>
                         </li>
-                    <% end_control %>
+                    <% end_loop %>
                     </ul>
                 </div>
             </div>

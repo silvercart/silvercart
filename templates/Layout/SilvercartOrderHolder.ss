@@ -28,9 +28,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% control CurrentMembersOrders %>
+                    <% loop CurrentMembersOrders %>
                         <% include SilvercartOrderHolderOrderListEntry %>
-                    <% end_control %>
+                    <% end_loop %>
                 </tbody>
             </table>
             <% else %>

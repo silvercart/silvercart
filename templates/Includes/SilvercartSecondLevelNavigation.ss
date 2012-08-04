@@ -3,19 +3,19 @@
         <div class="widget_content">
             <div class="vlist">
                 <ul>
-                    <% control Menu(2) %>
+                    <% loop Menu(2) %>
                         <li class="$LinkingMode"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a>
                             <% if Children %>
                                 <ul>
-                                <% control Children %>
+                                <% loop Children %>
                                     <li class="$LinkingMode">
                                         <a href="$Link" title="$Title.XML">$MenuTitle.XML</a>
                                     </li>
-                                <% end_control %>
+                                <% end_loop %>
                                 </ul>
                             <% end_if %>
                         </li>
-                    <% end_control %>
+                    <% end_loop %>
                 </ul>
             </div>
         </div>

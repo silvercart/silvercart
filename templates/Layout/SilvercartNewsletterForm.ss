@@ -27,9 +27,9 @@
 
     <div class="actionRow">
         <div class="type-button">
-            <% control Actions %>
+            <% loop Actions %>
                 $Field
-            <% end_control %>
+            <% end_loop %>
         </div>
     </div>
 </form>

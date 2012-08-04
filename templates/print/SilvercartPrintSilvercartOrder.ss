@@ -43,7 +43,7 @@
                 </td>
                 <td valign="top">
                     <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
-                    <% control SilvercartShippingAddress %>
+                    <% with SilvercartShippingAddress %>
                     <table>
                         <% if isCompanyAddress %>
                             <tr>
@@ -98,11 +98,11 @@
                             <td>$SilvercartCountry.Title</td>
                         </tr>
                     </table>
-                    <% end_control %>
+                    <% end_with %>
                 </td>
                 <td valign="top">
                     <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
-                    <% control SilvercartInvoiceAddress %>
+                    <% with SilvercartInvoiceAddress %>
                     <table>
                         <% if isCompanyAddress %>
                             <tr>
@@ -157,7 +157,7 @@
                             <td>$SilvercartCountry.Title</td>
                         </tr>
                     </table>
-                    <% end_control %>
+                    <% end_with %>
                 </td>
             </tr>
         </table>

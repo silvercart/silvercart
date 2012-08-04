@@ -18,9 +18,9 @@
 
     <div class="actionRow">
         <div class="type-button">
-            <% control Actions %>
+            <% loop Actions %>
                 $Field
-            <% end_control %>
+            <% end_loop %>
     
             <a class="silvercart-button left" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
         </div>

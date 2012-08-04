@@ -17,8 +17,8 @@
                             <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
                         </tr>
                     </thead>
-                    <% control CurrentMember %>
-                        <% control SilvercartShoppingCart %>
+                    <% with CurrentMember %>
+                        <% with SilvercartShoppingCart %>
                             <tfoot>
                                 <tr>
                                     <td colspan="2">
@@ -28,12 +28,12 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <% control SilvercartShoppingCartPositions %>
+                                <% loop SilvercartShoppingCartPositions %>
                                     <% include SilvercartShoppingcartWidgetPosition %>
-                                <% end_control %>
+                                <% end_loop %>
                             </tbody>
-                        <% end_control %>
-                    <% end_control %>
+                        <% end_with %>
+                    <% end_with %>
                 </table>
                 <div class="subcolumns">
                     <div class="c50l">

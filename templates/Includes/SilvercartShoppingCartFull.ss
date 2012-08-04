@@ -7,8 +7,8 @@
 <% end_if %>
 
 <% if CurrentMember.SilvercartShoppingCart.isFilled %>
-    <% control CurrentMember %>
-        <% control SilvercartShoppingCart %>
+    <% with CurrentMember %>
+        <% with SilvercartShoppingCart %>
             <% if Top.showPricesGross %>
                 <% include SilvercartShoppingCartFullGross %>
             <% else %>
@@ -18,19 +18,19 @@
             <% if Top.EditableShoppingCart %>
                 <div class="shoppingCartActions">
                     <% if registeredModules %>
-                        <% control registeredModules %>
+                        <% loop registeredModules %>
                             <% if ShoppingCartActions %>
-                                <% control ShoppingCartActions %>
+                                <% loop ShoppingCartActions %>
                                     $moduleOutput
-                                <% end_control %>
+                                <% end_loop %>
                             <% end_if %>
-                        <% end_control %>
+                        <% end_loop %>
                     <% end_if %>
                 </div>
             <% end_if %>
           
-        <% end_control %>
-    <% end_control %>
+        <% end_with %>
+    <% end_with %>
 <% else %>
     <p><br /><% _t('SilvercartCartPage.CART_EMPTY', 'Your cart is empty') %></p>
 <% end_if %>

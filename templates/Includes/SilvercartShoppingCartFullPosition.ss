@@ -3,11 +3,11 @@
     <td>
         <div class="silvercart-product-group-page-box-image">
             <% if SilvercartProduct.getSilvercartImages %>
-                <% control SilvercartProduct.getSilvercartImages %>
+                <% loop SilvercartProduct.getSilvercartImages %>
                     <% if First %>
             <a href="$silvercartProduct.Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(60,60)</a>
                     <% end_if %>
-                <% end_control %>
+                <% end_loop %>
             <% end_if %>
         </div>
     </td>

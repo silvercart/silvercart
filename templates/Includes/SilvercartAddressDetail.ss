@@ -1,6 +1,6 @@
 <% if SilvercartAddresses %>
     <h2>$Top.Title</h2>
-    <% control SilvercartAddresses %>
+    <% loop SilvercartAddresses %>
         <% if Odd %>
     <div class="subcolumns">
         <div class="c50l">
@@ -93,5 +93,5 @@
         </div>
     </div>
         <% end_if %>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

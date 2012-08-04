@@ -18,7 +18,7 @@
                             <th><% _t('SilvercartFile.TITLE') %></th>
                             <th class="align_right"><% _t('SilvercartFile.SIZE') %></th>
                         </tr>
-                        <% control SilvercartFiles %>
+                        <% loop SilvercartFiles %>
                             <tr class="$EvenOdd">
                                 <td>
                                     <div class="silvercart-file-icon">
@@ -32,7 +32,7 @@
                                     <a href="$File.Link">$File.Size</a>
                                 </td>
                             </tr>
-                        <% end_control %>
+                        <% end_loop %>
                     </table>
                 </div>
             <% end_if %>

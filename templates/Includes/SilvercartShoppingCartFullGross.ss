@@ -2,7 +2,7 @@
     <% include SilvercartShoppingCartFullTableHead %>
 
     <tbody>
-        <% control SilvercartShoppingCartPositions %>
+        <% loop SilvercartShoppingCartPositions %>
             <% include SilvercartShoppingCartFullPosition %>
 
             <% if hasNotice %>
@@ -14,11 +14,11 @@
                 </td>
             </tr>
             <% end_if %>
-        <% end_control %>
+        <% end_loop %>
 
-        <% control registeredModules %>
+        <% loop registeredModules %>
             <% if TaxableShoppingCartPositions %>
-                <% control TaxableShoppingCartPositions %>
+                <% loop TaxableShoppingCartPositions %>
                     <tr>
                         <td colspan="3">$Name</td>
                         <td class="right">$PriceFormatted</td>
@@ -29,9 +29,9 @@
                             <td>$removeFromCartForm</td>
                         <% end_if %>
                     </tr>
-                <% end_control %>
+                <% end_loop %>
             <% end_if %>
-        <% end_control %>
+        <% end_loop %>
 
         <% if HasFeesOrChargesOrModules %>
             <tr>
@@ -46,13 +46,13 @@
         <% end_if %>
         
         <% if HasChargesAndDiscountsForProducts %>
-            <% control ChargesAndDiscountsForProducts %>
+            <% loop ChargesAndDiscountsForProducts %>
                 <tr>
                     <td colspan="4">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
                     <td colspan="<% if Top.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right">$PriceFormatted</td>
                 </tr>
-            <% end_control %>
+            <% end_loop %>
             
             <tr>
                 <td colspan="3">&nbsp;</td>
@@ -67,7 +67,7 @@
 
         <% if HasFeesOrChargesOrModules %>
             <% if TaxRatesWithoutFees %>
-                <% control TaxRatesWithoutFees %>
+                <% loop TaxRatesWithoutFees %>
                     <tr>
                         <td colspan="3">&nbsp;</td>
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
@@ -77,14 +77,14 @@
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
-                <% end_control %>
+                <% end_loop %>
             <% end_if %>
         <% end_if %>
 
         <% if ShowFees %>
             <tr>
                 <td colspan="2"><% _t('SilvercartPaymentMethod.SHIPPINGMETHOD') %>:</td>
-                <td colspan="4" class="right"><strong>$CarrierAndShippingMethodTitle <% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
+                <td colspan="4" class="right"><strong>$CarrierAndShippingMethodTitle <% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
                 <td class="right">$HandlingCostShipment.Nice</td>
 
                 <% if Top.EditableShoppingCart %>
@@ -114,7 +114,7 @@
                     <% end_if %>
                 </tr>
                 <% if TaxRatesWithFees %>
-                    <% control TaxRatesWithFees %>
+                    <% loop TaxRatesWithFees %>
                         <tr>
                             <td colspan="3">&nbsp;</td>
                             <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
@@ -124,20 +124,20 @@
                                 <td>&nbsp;</td>
                             <% end_if %>
                         </tr>
-                    <% end_control %>
+                    <% end_loop %>
                 <% end_if %>
             <% end_if %>
-            <% control ChargesAndDiscountsForTotal %>
+            <% with ChargesAndDiscountsForTotal %>
                 <tr>
                     <td colspan="4">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
                     <td colspan="<% if Top.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right">$PriceFormatted</td>
                 </tr>
-            <% end_control %>
+            <% end_with %>
 
-            <% control registeredModules %>
+            <% loop registeredModules %>
                 <% if NonTaxableShoppingCartPositions %>
-                    <% control NonTaxableShoppingCartPositions %>
+                    <% loop NonTaxableShoppingCartPositions %>
                         <tr>
                             <td colspan="3">$Name</td>
                             <td class="right">$PriceFormatted</td>
@@ -149,9 +149,9 @@
                                 <td>$removeFromCartForm</td>
                             <% end_if %>
                         </tr>
-                    <% end_control %>
+                    <% end_loop %>
                 <% end_if %>
-            <% end_control %>
+            <% end_loop %>
 
             <tr>
                 <td colspan="3">&nbsp;</td>
@@ -164,7 +164,7 @@
             </tr>
 
             <% if TaxTotal %>
-                <% control TaxTotal %>
+                <% with TaxTotal %>
                     <tr>
                         <td colspan="3">&nbsp;</td>
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
@@ -174,13 +174,13 @@
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
-                <% end_control %>
+                <% end_with %>
             <% end_if %>
         <% else %>
             <tr>
                 <td colspan="3">&nbsp;</td>
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
-                <td class="right"><strong>$AmountTotal.Nice<% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %></strong></td>
+                <td class="right"><strong>$AmountTotal.Nice<% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
 
                 <% if Top.EditableShoppingCart %>
                     <td>&nbsp;</td>
@@ -188,7 +188,7 @@
             </tr>
 
             <% if TaxTotal %>
-                <% control TaxTotal %>
+                <% with TaxTotal %>
                     <tr>
                         <td colspan="3">&nbsp;</td>
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
@@ -198,9 +198,9 @@
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
-                <% end_control %>
+                <% end_with %>
             <% end_if %>
         <% end_if %>
     </tbody>
 </table>
-<% control ShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_control %>
+<% with ShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_with %>

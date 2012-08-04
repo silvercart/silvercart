@@ -6,9 +6,9 @@
     $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
     $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
     <div class="type-button clearfix">
-        <% control Actions %>
+        <% loop Actions %>
             $Field
-        <% end_control %>
+        <% end_loop %>
     </div>
 </form>
 </div>

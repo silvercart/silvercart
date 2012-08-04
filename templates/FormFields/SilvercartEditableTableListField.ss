@@ -8,9 +8,9 @@
         <label for="silvercart-batch-option-select"><% _t('SilvercartEditableTableListField.BATCH_OPTIONS_LABEL') %>:</label>
         <select id="silvercart-batch-option-select" name="silvercart-batch-option-select">
             <option value=""><% _t('SilvercartOrderSearchForm.PLEASECHOOSE') %></option>
-        <% control BatchActions %>
+        <% loop BatchActions %>
             <option value="$action">$label</option>
-        <% end_control %>
+        <% end_loop %>
         </select>
         <span class="silvercart-batch-option-callback-target">
             
@@ -29,11 +29,11 @@
                 <th width="16"><% if MarkableTitle %>$MarkableTitle<% else %>&nbsp;<% end_if %></th>
             <% end_if %>
             <% if Print %>
-                <% control Headings %>
+                <% loop Headings %>
                 <th class="$Name">$Title</th>
-                <% end_control %>
+                <% end_loop %>
             <% else %>
-            <% control Headings %>
+            <% loop Headings %>
                 <th class="$Name">
                 <% if IsSortable %>
                     <span class="sortTitle"><a href="$SortLink">$Title</a></span>
@@ -50,7 +50,7 @@
                     <span>$Title</span>
                 <% end_if %>
                 </th>
-            <% end_control %>
+            <% end_loop %>
             <% end_if %>
             <% if Can(delete) %><th width="18">&nbsp;</th><% end_if %>
             </tr>
@@ -66,19 +66,19 @@
 
         <tbody>
     <% if HasGroupedItems %>
-        <% control GroupedItems %>
-            <% control Items %>
+        <% loop GroupedItems %>
+            <% loop Items %>
                 <% include TableListField_Item %>
-            <% end_control %>
+            <% end_loop %>
             <tr class="summary partialSummary">
                 <% include TableListField_Summary %>
             </tr>
-        <% end_control %>
+        <% end_loop %>
     <% else %>
         <% if Items %>
-            <% control Items %>
+            <% loop Items %>
                 <% include TableListField_Item %>
-            <% end_control %>
+            <% end_loop %>
         <% else %>
             <tr class="notfound">
             <% if Markable %>

@@ -21,7 +21,7 @@
 <p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> $Salutation $FirstName $Surname,</p>
 <p><% _t('SilvercartShopEmail.ORDER_SHIPPED_MESSAGE', 'Your order has been shipped.') %></p>
 <p><% _t('SilvercartOrderDetailPage.TITLE') %>:</p>
-<% control SilvercartOrder %>
+<% with SilvercartOrder %>
     <table>
         <tr>
             <td><% _t('SilvercartPage.ORDER_DATE') %></td>
@@ -48,7 +48,7 @@
             <tr>
                 <td>
                     <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
-                    <% control SilvercartShippingAddress %>
+                    <% with SilvercartShippingAddress %>
                     <table>
                         <tr>
                             <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
@@ -89,11 +89,11 @@
                             <td>$SilvercartCountry.Title</td>
                         </tr>
                     </table>
-                    <% end_control %>
+                    <% end_with %>
                 </td>
                 <td>
                     <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
-                    <% control SilvercartInvoiceAddress %>
+                    <% with SilvercartInvoiceAddress %>
                     <table>
                         <tr>
                             <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
@@ -134,7 +134,7 @@
                             <td>$SilvercartCountry.Title</td>
                         </tr>
                     </table>
-                    <% end_control %>
+                    <% end_with %>
                 </td>
             </tr>
         </tbody>
@@ -142,7 +142,7 @@
 
     <h2><% _t('SilvercartPage.ORDERED_PRODUCTS') %>:</h2>
     $OrderDetailTable
-<% end_control %>
+<% end_with %>
 
 <p><% _t('SilvercartShopEmail.REGARDS', 'Best regards') %>,</p>
 <p><% _t('SilvercartShopEmail.YOUR_TEAM', 'Your SilverCart ecommerce team') %></p>

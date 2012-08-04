@@ -2,7 +2,7 @@
 <div class="silvercart-checkout-shipping">
     <% if items %>
     <ul>
-        <% control items %>
+        <% loop items %>
             <li>
                 <span class="silvercart-checkout-shipping-radiofield">
                     <input type="radio" name="$name" value="$value" id="$htmlId"<% if checked %> checked="checked"<% end_if %> />
@@ -16,7 +16,7 @@
                     <% end_if %>
                 </span>
             </li>
-        <% end_control %>
+        <% end_loop %>
     </ul>
     <% else %>
     <p><% _t('SilvercartShippingMethod.NO_SHIPPING_METHOD_AVAILABLE') %></p>

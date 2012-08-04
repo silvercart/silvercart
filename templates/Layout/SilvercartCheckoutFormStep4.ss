@@ -5,11 +5,11 @@
             <div class="silvercart-checkout-payment">
                 <% if RegisteredNestedForms %>
                 <ul>
-                    <% control RegisteredNestedForms %>
+                    <% loop RegisteredNestedForms %>
                     <li>
                         $InsertCustomHtmlForm
                     </li>
-                    <% end_control %>
+                    <% end_loop %>
                 </ul>
                 <% else %>
                 <p><% _t('SilvercartPaymentMethod.NO_PAYMENT_METHOD_AVAILABLE') %></p>

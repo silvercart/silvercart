@@ -17,18 +17,18 @@
 
     <div id="silvercart-onePane">
         <div class="silvercart-onePane-metrics">
-            <% control DashboardFields %>
+            <% loop DashboardFields %>
                 <div class="silvercart-widget">
                     <div class="silvercart-widget_content">
                         $FieldHolder
                     </div>
                 </div>
-            <% end_control %>
+            <% end_loop %>
         </div>
         <div class="silvercart-onePane-panels">
             <h2><% _t('SilvercartDashboard.NEWS_HEADLINE') %></h2>
             <% if LatestSilvercartNews %>
-                <% control LatestSilvercartNews %>
+                <% loop LatestSilvercartNews %>
                     <div class="silvercart-dashboard-news-entry">
                         <div class="silvercart-dashboard-news-entry_content">
                             <h3>$NewsTitle</h3>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                <% end_control %>
+                <% end_loop %>
             <% end_if %>
         </div>
 
@@ -54,9 +54,9 @@
             <div id="logInStatus">
                 <a href="$ApplicationLink" title="<% _t('SSWEB','Silverstripe Website') %>">$ApplicationName</a>&nbsp;-&nbsp;
                 <abbr style="border-style: none" title="<% _t('APPVERSIONTEXT1',"This is the") %> $ApplicationName <% _t('APPVERSIONTEXT2',"version that you are currently running, technically it's the CVS branch") %>">$CMSVersion</abbr> &nbsp; &nbsp; &nbsp; 
-                <% control CurrentMember %>
+                <% with CurrentMember %>
                     <% _t('LOGGEDINAS','Logged in as') %> <strong><% if FirstName && Surname %>$FirstName $Surname<% else_if FirstName %>$FirstName<% else %>$Email<% end_if %></strong> | <a href="{$BaseHref}admin/myprofile" id="EditMemberProfile"><% _t('EDITPROFILE','Profile') %></a> | <a href="Security/logout" id="LogoutLink"><% _t('LOGOUT','Log out') %></a>
-                <% end_control %>
+                <% end_with %>
             </div>
 
             <div id="switchView" class="bottomTabs">

@@ -81,7 +81,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultGroups() {
         // Create an own group for anonymous customers
-        $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
+        $anonymousGroup = Group::get()->filter('Code', 'anonymous')->First();
         if (!$anonymousGroup) {
             $anonymousGroup             = new Group();
             $anonymousGroup->Title      = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
@@ -91,7 +91,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
 
         // Create an own group for b2b customers
-        $B2Bgroup = DataObject::get_one('Group', "`Code` = 'b2b'");
+        $B2Bgroup = Group::get()->filter('Code', 'b2b')->First();
         if (!$B2Bgroup) {
             $B2Bgroup               = new Group();
             $B2Bgroup->Title        = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
@@ -101,7 +101,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
 
         //create a group for b2c customers
-        $B2Cgroup = DataObject::get_one('Group', "`Code` = 'b2c'");
+        $B2Cgroup = Group::get()->filter('Code', 'b2c')->First();
         if (!$B2Cgroup) {
             $B2Cgroup               = new Group();
             $B2Cgroup->Title        = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
@@ -121,7 +121,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultConfig() {
         // create a SilvercartConfig if not exist
-        if (!DataObject::get_one('SilvercartConfig')) {
+        if (!SilvercartConfig::get()->First()) {
             $silvercartConfig = new SilvercartConfig();
             $silvercartConfig->DefaultCurrency = 'EUR';
             $email = Email::getAdminEmail();
@@ -263,15 +263,16 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $languages[$translationLocale] = $languages['en_US'];
             }
             foreach ($languages as $locale => $title) {
-                $objLanguage    = DataObject::get_one(
-                        $translatableDataObjectLanguageName,
-                        sprintf(
-                                "`Locale` = '%s' AND `%s` = '%s'",
-                                $locale,
-                                $translatableDataObjectRelationName,
-                                $obj->ID
-                        )
-                );
+                $objLanguage = $translatableDataObjectLanguageName::get()->filter(array('Locale'=> $locale, $translatableDataObjectRelationName => $obj->ID));
+//                $objLanguage    = DataObject::get_one(
+//                        $translatableDataObjectLanguageName,
+//                        sprintf(
+//                                "`Locale` = '%s' AND `%s` = '%s'",
+//                                $locale,
+//                                $translatableDataObjectRelationName,
+//                                $obj->ID
+//                        )
+//                );
                 if (!$objLanguage) {
                     $objLanguage = new $translatableDataObjectLanguageName();
                     $objLanguage->Locale                                = $locale;
@@ -296,14 +297,14 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultNumberRanges() {
         // create number ranges
-        $orderNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='OrderNumber'");
+        $orderNumbers = SilvercartNumberRange::get()->filter('Identifier', 'OrderNumber')->First();
         if (!$orderNumbers) {
             $orderNumbers = new SilvercartNumberRange();
             $orderNumbers->Identifier = 'OrderNumber';
             $orderNumbers->Title = _t('SilvercartNumberRange.ORDERNUMBER', 'Ordernumber');
             $orderNumbers->write();
         }
-        $customerNumbers = DataObject::get('SilvercartNumberRange', "`Identifier`='CustomerNumber'");
+        $customerNumbers = SilvercartNumberRange::get()->filter('Identifier', 'CustomerNumber')->First();
         if (!$customerNumbers) {
             $customerNumbers = new SilvercartNumberRange();
             $customerNumbers->Identifier = 'CustomerNumber';
@@ -321,7 +322,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 02.05.2012
      */
     public function createDefaultSiteTree() {
-        $rootPage = DataObject::get_one('SilvercartPage',"`IdentifierCode` = 'SilvercartCartPage'");
+        $rootPage = SilvercartPage::get()->filter('IdentifierCode', 'SilvercartCartPage');
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage                   = new SilvercartFrontPage();
@@ -673,10 +674,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 02.05.2012
      */
     public function createDefaultShopEmails() {
-        $shopEmailRegistrationOptIn = DataObject::get_one(
-                        'SilvercartShopEmail',
-                        "Identifier = 'RegistrationOptIn'"
-        );
+        $shopEmailRegistrationOptIn = SilvercartTools::PageByIdentifierCode('RegistrationOptIn');
         if (!$shopEmailRegistrationOptIn) {
             $shopEmailRegistrationOptIn = new SilvercartShopEmail();
             $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
@@ -684,10 +682,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
             $shopEmailRegistrationOptIn->write();
         }
-        $shopEmailRegistrationConfirmation = DataObject::get_one(
-                        'SilvercartShopEmail',
-                        "Identifier = 'RegistrationConfirmation'"
-        );
+        $shopEmailRegistrationConfirmation = SilvercartTools::PageByIdentifierCode('RegistrationConfirmation');
         if (!$shopEmailRegistrationConfirmation) {
             $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
             $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
@@ -695,10 +690,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
             $shopEmailRegistrationConfirmation->write();
         }
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderConfirmation'"
-        );
+        $checkOrderMail = SilvercartTools::PageByIdentifierCode('MailOrderConfirmation');
         if (!$checkOrderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderConfirmation');
@@ -714,10 +706,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $orderMail->setField('EmailText',    $defaultTemplate);
             $orderMail->write();
         }
-        $checkOrderMail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "`Identifier` = 'MailOrderNotification'"
-        );
+        $checkOrderMail = SilvercartTools::PageByIdentifierCode('MailOrderNotification');
         if (!$checkOrderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderNotification');
@@ -756,10 +745,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptIn->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.EMAIL_CONFIRMATION_TEXT'));
             $shopEmailNewsletterOptIn->write();
         }
-        $shopEmailNewsletterOptInConfirmation = DataObject::get_one(
-            'SilvercartShopEmail',
-            "Identifier = 'NewsletterOptInConfirmation'"
-        );
+            $shopEmailNewsletterOptInConfirmation = SilvercartTools::PageByIdentifierCode('NewsletterOptInConfirmation');
         if (!$shopEmailNewsletterOptInConfirmation) {
             $shopEmailNewsletterOptInConfirmation = new SilvercartShopEmail();
             $shopEmailNewsletterOptInConfirmation->setField('Identifier', 'NewsletterOptInConfirmation');
@@ -788,8 +774,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
         
         // attribute ShopEmails to order status
-        $orderStatus = DataObject::get_one('SilvercartOrderStatus', "Code='shipped'", true, "SilvercartOrderStatus.ID");
-        $orderEmail  = DataObject::get_one('SilvercartShopEmail', "Identifier='OrderShippedNotification'", true, "SilvercartShopEmail.ID");
+        $orderStatus = SilvercartOrderStatus::get()->filter('Code', 'shipped')->sort('ID');
+        $orderEmail = SilvercartShopEmail::get()->filter('Identifier', 'OrderShippedNotification')->sort('ID');
         
         if ($orderStatus && $orderEmail) {
             $orderStatus->SilvercartShopEmails()->add($orderEmail);
@@ -805,7 +791,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 04.06.2012
      */
     public function rerenderErrorPages() {
-        $errorPages = DataObject::get('ErrorPage');
+        $errorPages = ErrorPage::get();
         if ($errorPages) {
             SilvercartConfig::$forceLoadingOfDefaultLayout = true;
             foreach ($errorPages as $errorPage) {

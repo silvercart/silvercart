@@ -5,7 +5,7 @@
         $Process
         $insertCustomHtmlForm
         
-        <% control CurrentFormInstance %>
+        <% with CurrentFormInstance %>
             <% if ShowCustomHtmlFormStepNavigation %>
                 <% if Top.CustomHtmlFormStepLinkCancel %>
                     <div class="silvercart-button left">
@@ -15,7 +15,7 @@
                     </div>
                 <% end_if %>
             <% end_if %>
-        <% end_control %>
+        <% end_with %>
 
         $PageComments
     </div>
@@ -24,7 +24,7 @@
 <div id="col3">
     <div id="col3_content" class="clearfix">
 
-        <% control CurrentFormInstance %>
+        <% with CurrentFormInstance %>
             <% if ShowCustomHtmlFormStepNavigation %>
                 <div class="silvercart-widget">
                     <div class="silvercart-widget_content">
@@ -32,8 +32,8 @@
                         <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
                         <div class="silvercart-widget-content_frame">
                             <ul class="vlist">
-                                <% control Top.StepList %>
-                                    <% control step %>
+                                <% loop Top.StepList %>
+                                    <% with step %>
                                         <% if StepIsVisible %>
                                         <li<% if IsCurrentStep %> class="active"<% end_if %>>
                                             <% if IsCurrentStep %>
@@ -47,15 +47,15 @@
                                             <% end_if %>
                                         </li>
                                         <% end_if %>
-                                    <% end_control %>
-                                <% end_control %>
+                                    <% end_with %>
+                                <% end_loop %>
                             </ul>
                         </div>
 
                     </div>
                 </div>
             <% end_if %>
-        <% end_control %>
+        <% end_with %>
 
     </div>
 

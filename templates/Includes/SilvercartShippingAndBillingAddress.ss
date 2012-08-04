@@ -3,9 +3,9 @@
         <div class="subcl">
             <h3><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></h3>
             <% if CurrentMember.SilvercartShippingAddress %>
-                <% control CurrentMember.SilvercartShippingAddress %>
+                <% with CurrentMember.SilvercartShippingAddress %>
                     <% include SilvercartShippingAddressTable %>
-                <% end_control %>
+                <% endwith %>
                 <div class="silvercart-button-row clearfix">
                     <div class="silvercart-button">
                         <div class="silvercart-button_content">
@@ -24,9 +24,9 @@
         <div class="subcr">
             <h3><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></h3>
             <% if CurrentMember.SilvercartInvoiceAddress %>
-                <% control CurrentMember.SilvercartInvoiceAddress %>
+                <% with CurrentMember.SilvercartInvoiceAddress %>
                     <% include SilvercartInvoiceAddressTable %>
-                <% end_control %>
+                <% end_with %>
                 <div class="silvercart-button-row clearfix">
                     <div class="silvercart-button">
                         <div class="silvercart-button_content">

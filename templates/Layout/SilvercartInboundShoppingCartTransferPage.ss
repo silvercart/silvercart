@@ -6,9 +6,9 @@
         <% if ErrorMessages %>
             <div class="silvercart-error-list">
                 <div class="silvercart-error-list_content">
-                    <% control ErrorMessages %>
+                    <% loop ErrorMessages %>
                         <p>$Error</p>
-                    <% end_control %>
+                    <% end_loop %>
                 </div>
             </div>
         <% end_if %>

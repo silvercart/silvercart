@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$ContentLocale" lang="$ContentLocale">
     <head>
         <% base_tag %>
-        <% control SiteConfig %>
+        <% with SiteConfig %>
             $GoogleWebmasterCode.Raw
-        <% end_control %>
+        <% end_with %>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title><% if MetaTitle %>$MetaTitle<% else %>$Title<% end_if %></title>
 		$MetaTags(false)
@@ -124,7 +124,7 @@
                                             <div class="silvercart-button">
                                                 <div class="silvercart-button_content">
                                                     <a id="silvercart-shoppingcart-link" href="$PageByIdentifierCode(SilvercartCartPage).Link">
-                                                        <% _t('SilvercartPage.CART', 'cart') %> (<% if CurrentMember %><% control CurrentMember %>$SilvercartShoppingCart.getQuantity<% end_control %><% else %>0<% end_if %>)
+                                                        <% _t('SilvercartPage.CART', 'cart') %> (<% if CurrentMember %><% with CurrentMember %>$SilvercartShoppingCart.getQuantity<% end_with %><% else %>0<% end_if %>)
                                                     </a>
                                                 </div>
                                             </div>
@@ -181,15 +181,15 @@
                 <div id="silvercart-footer">
                     <div id="silvercart-footer_content">
                         <% cached 'SilvercartNavigation',Aggregate(SilvercartMetaNavigationHolder).Max(LastEdited),ID %>
-                            <% control PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
-                                <% control Children %>
+                            <% with PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
+                                <% loop Children %>
                                     <% if Last %>
                                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>" class="$LinkingMode levela">$MenuTitle.XML</a>
                                     <% else %>
                                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">$MenuTitle.XML</a> |
                                     <% end_if %>
-                                <% end_control %>
-                            <% end_control %>
+                                <% end_loop %>
+                            <% end_with %>
                         <% end_cached %>
                         <br/>
                         <br/>
@@ -198,9 +198,9 @@
                 </div>
             </div>
         </div>
-        <% control SiteConfig %>
+        <% with SiteConfig %>
             $GoogleAnalyticsTrackingCode.Raw
             $PiwikTrackingCode.Raw
-        <% end_control %>
+        <% end_with %>
     </body>
 </html>

@@ -146,7 +146,7 @@ class SilvercartNumberRange extends DataObject {
      *
      * @param array $params parameters
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
@@ -251,7 +251,7 @@ class SilvercartNumberRange extends DataObject {
      * @return SilvercartNumberRange
      */
     public static function getByIdentifier($identifier) {
-        return DataObject::get_one('SilvercartNumberRange', sprintf("`Identifier`='%s'", $identifier));
+        return SilvercartNumberRange::get()->filter('Identifier', $identifier)->First();
     }
 
     /**

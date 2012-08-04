@@ -14,10 +14,10 @@
                 </div>
 
                 <div class="silvercart-slidorion-accordeon">
-                    <% control SilvercartImages %>
+                    <% loop SilvercartImages %>
                         <div class="silvercart-slidorion-link-header"><span>$Title</span></div>
                         <div class="silvercart-slidorion-link-content">$Description</div>
-                    <% end_control %>
+                    <% end_loop %>
                 </div>
             </div>
         </div>

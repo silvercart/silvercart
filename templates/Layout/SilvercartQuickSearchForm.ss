@@ -1,7 +1,7 @@
 <form class="yform" $FormAttributes>
     $CustomHtmlFormMetadata
     $CustomHtmlFormFieldByName(quickSearchQuery,SilvercartQuickSearchFormFields)
-    <% control Actions %>
+    <% loop Actions %>
         $Field
-    <% end_control %>
+    <% end_loop %>
 </form>

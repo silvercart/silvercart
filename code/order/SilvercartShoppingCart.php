@@ -308,7 +308,7 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @param string $priceType 'gross' or 'net'
      *
-     * @return void
+     * @return DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.12.2011

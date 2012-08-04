@@ -11,9 +11,9 @@
                 <% _t('SilvercartManyManyOrderField.AVAILABLE_RELATION_OBJECTS') %>:
             </p>
             <select id="{$ID}_available_items" class="silvercart-manymanyorder-field-available-items" name="availableItems[]" multiple="multiple" size="20">
-                <% control available_items %>
+                <% loop available_items %>
                     <option value="$value">$label</option>
-                <% end_control %>
+                <% end_loop %>
             </select>
         </div>
         <div class="c10l">
@@ -26,9 +26,9 @@
                 <% _t('SilvercartManyManyOrderField.ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_selected_items" class="silvercart-manymanyorder-field-selected-items" name="selectedItems[]" multiple="multiple" size="20">
-                <% control selected_items %>
+                <% loop selected_items %>
                     <option value="$value">$label</option>
-                <% end_control %>
+                <% end_loop %>
             </select>
             
             <div class="silvercart-manymanyorder-field-action-row">

@@ -1,6 +1,6 @@
 <h2>$WidgetTitle</h2>
 <% if BlogPosts %>
-    <% control BlogPosts %>
+    <% loop BlogPosts %>
         <% if Top.isContentView %>
             
         <% else %>
@@ -21,5 +21,5 @@
                 </div>
             </div>
         <% end_if %>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

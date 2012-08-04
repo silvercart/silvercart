@@ -6,9 +6,9 @@
         $CustomHtmlFormFieldByName(Language, SilvercartLanguageDropdownField)
 
         <div id="silvercart-quicklogin-form-actions">
-            <% control Actions %>
+            <% loop Actions %>
                 $Field
-            <% end_control %>
+            <% end_loop %>
         </div>
     </form>
 

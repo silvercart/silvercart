@@ -10,8 +10,8 @@
                     <th class="side-bar-cart-price"><% _t('SilvercartProduct.PRICE') %></th>
                 </tr>
             </thead>
-            <% control CurrentMember %>
-            <% control SilvercartShoppingCart %>
+            <% with CurrentMember %>
+            <% with SilvercartShoppingCart %>
             <tfoot>
                 <tr>
                     <td class="side-bar-cart-price" colspan="2"><strong><% _t('SilvercartPage.SUM','sum') %></strong></td>
@@ -19,16 +19,16 @@
                 </tr>
             </tfoot>
             <tbody>
-                <% control SilvercartShoppingCartPositions %>
+                <% loop SilvercartShoppingCartPositions %>
                 <tr>
                     <td><a href="$SilvercartProduct.Link">$SilvercartProduct.Title</a></td>
                     <td class="side-bar-cart-amount">$Quantity</td>
                     <td class="side-bar-cart-price">$Price.Nice</td>
                 </tr>
-                <% end_control %>
+                <% end_loop %>
             </tbody>
-            <% end_control %>
-            <% end_control %>
+            <% end_with %>
+            <% end_with %>
         </table>
         <div class="subcolumns">
             <a href="$PageByIdentifierCode(SilvercartCartPage).Link" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>

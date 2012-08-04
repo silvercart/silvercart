@@ -1,5 +1,5 @@
 <% if Elements %>
-    <% control Elements %>
+    <% loop Elements %>
         <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast $productAddCartFormObj.FormName">
             <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
@@ -11,9 +11,9 @@
                     <div class="c25l silvercart-product-group-page-box-image">
                         <div class="subcl">
                             <% if getSilvercartImages %>
-                                <% control getSilvercartImages.First %>
+                                <% with getSilvercartImages.First %>
                                     <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(90,90)</a>
-                                <% end_control %>
+                                <% end_with %>
                             <% end_if %>
                         </div>
                     </div>
@@ -50,11 +50,11 @@
                                         <% else_if CurrentPage.showPricesNet %>
                                             <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                         <% end_if %>
-                                        <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                        <% with Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
                                             <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
                                                 <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                                             </a>
-                                        <% end_control %>
+                                        <% end_with %>
                                     </small>
                                 </p>
                             </div>
@@ -63,9 +63,9 @@
                             </div>
                             <% if PluggedInProductMetaData %>
                             <div class="silvercart-product-meta-data">
-                                <% control PluggedInProductMetaData %>
+                                <% with PluggedInProductMetaData %>
                                     <span class="right">$MetaData</span><br/>
-                                <% end_control %>
+                                <% end_with %>
                             </div>
                             <% end_if %>
                             <div class="silvercart-product-group-add-cart-form">
@@ -82,5 +82,5 @@
                 </div>
             </div>
         </div>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

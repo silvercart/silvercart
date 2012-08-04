@@ -13,31 +13,31 @@
         <% if CurrentRegisteredCustomer %>
             <h2><% _t('SilvercartAddressHolder.CURRENT_DEFAULT_ADDRESSES','Your default invoice and shipping addresses') %></h2>
             $Content
-            <% control CurrentRegisteredCustomer %>
+            <% with CurrentRegisteredCustomer %>
                 <% if hasOnlyOneStandardAddress %>
-                    <% control SilvercartInvoiceAddress %>
+                    <% with SilvercartInvoiceAddress %>
                         <% include SilvercartAddressDetailReadOnly %>
-                    <% end_control %>
+                    <% end_with %>
                 <% else %>
                     <div class="subcolumns">
                         <div class="c50l">
                             <div class="subcl">
-                                <% control SilvercartInvoiceAddress %>
+                                <% with SilvercartInvoiceAddress %>
                                     <% include SilvercartAddressDetailReadOnly %>
-                                <% end_control %>
+                                <% end_with %>
                             </div>
                         </div>
                         <div class="c50r">
                             <div class="subcr">
-                                <% control SilvercartShippingAddress %>
+                                <% with SilvercartShippingAddress %>
                                     <% include SilvercartAddressDetailReadOnly %>
-                                <% end_control %>
+                                <% end_with %>
                             </div>
                         </div>
                     </div>
                 <% end_if %>
             <% include SilvercartAddressDetail %>
-            <% end_control %>
+            <% end_with %>
             <hr />
             <div class="hidden-form" id="silvercart-add-address-form">
                 $insertCustomHtmlForm(SilvercartAddAddressForm)

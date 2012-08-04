@@ -3,9 +3,9 @@
         <div class="text-content">
             <h2>$Title</h2>
             $Content
-            <% control doConfirmation %>
+            <% with doConfirmation %>
                 <p>$message</p>
-            <% end_control %>
+            <% end_with %>
             $Form
         </div>
     </div>

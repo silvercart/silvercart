@@ -2,7 +2,7 @@
 <div class="silvercart-checkout-payment">
     <% if items %>
     <ul>
-        <% control items %>
+        <% loop items %>
             <li>
                 <span class="silvercart-checkout-payment-radiofield">
                     <input type="radio" name="$name" value="$value" id="$htmlId"<% if checked %> checked="checked"<% end_if %> />
@@ -12,9 +12,9 @@
                     <% if showPaymentLogos %>
                         <% if PaymentLogos %>
                             <span class="silvercart-checkout-payment-additionalInfo-logos">
-                                <% control PaymentLogos %>
+                                <% loop PaymentLogos %>
                                     $Image
-                                <% end_control %>
+                                <% end_loop %>
                             </span>
                         <% end_if %>
                     <% end_if %>
@@ -25,7 +25,7 @@
                     <% end_if %>
                 </span>
             </li>
-        <% end_control %>
+        <% end_loop %>
     </ul>
     <% else %>
     <p><% _t('SilvercartPaymentMethod.NO_PAYMENT_METHOD_AVAILABLE') %></p>

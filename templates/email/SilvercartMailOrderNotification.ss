@@ -19,7 +19,7 @@
 </style>
 <h1><% _t('SilvercartOrderConfirmationPage.ORDERNOTIFICATION') %></h1>
 
-<% control SilvercartOrder %>
+<% with SilvercartOrder %>
     <table>
         <colgroup>
             <col width="60%"></col>
@@ -57,7 +57,7 @@
             </td>
             <td valign="top">
                 <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
-                <% control SilvercartShippingAddress %>
+                <% with SilvercartShippingAddress %>
                 <table>
                     <% if isCompanyAddress %>
                         <tr>
@@ -112,11 +112,11 @@
                         <td>$SilvercartCountry.Title</td>
                     </tr>
                 </table>
-                <% end_control %>
+                <% end_with %>
             </td>
             <td valign="top">
                 <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
-                <% control SilvercartInvoiceAddress %>
+                <% with SilvercartInvoiceAddress %>
                 <table>
                     <% if isCompanyAddress %>
                         <tr>
@@ -171,14 +171,14 @@
                         <td>$SilvercartCountry.Title</td>
                     </tr>
                 </table>
-                <% end_control %>
+                <% end_with %>
             </td>
         </tr>
     </table>
 
     <h2><% _t('SilvercartPage.ORDERED_PRODUCTS') %>:</h2>
     $OrderDetailTable
-<% end_control %>
+<% end_with %>
 
 <p><% _t('SilvercartShopEmail.REGARDS', 'Best regards') %>,</p>
 <p><% _t('SilvercartShopEmail.YOUR_TEAM', 'Your SilverCart ecommerce team') %></p>

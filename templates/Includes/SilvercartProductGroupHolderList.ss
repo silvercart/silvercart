@@ -1,5 +1,5 @@
 <% if Elements %>
-    <% control Elements %>
+    <% loop Elements %>
 <div class="product-group-holder-entry clearfix $EvenOdd">
     <div class="product-group-holder-entry_content">
         <h3><a href="$Link">$Title.HTML</a></h3>
@@ -20,15 +20,15 @@
         
         <div class="silvercart-product-group-holder-list-productlist">
             <div class="silvercart-product-group-holder-list-productlist_content clearfix">
-                <% control getProductsForced(6) %>
+                <% loop getProductsForced(6) %>
                     <a href="$Link" class="silvercart-product-group-holder-list-productlist-entry" title="$Title">
                         <span class="silvercart-product-group-holder-list-productlist-entry_content">
-                            <% control getSilvercartImages.First %>
+                            <% with getSilvercartImages.First %>
                                 $Image.SetRatioSize(90,90)
-                            <% end_control %>
+                            <% end_with %>
                         </span>
                     </a>
-                <% end_control %>
+                <% end_loop %>
             </div>
         </div>
         
@@ -44,5 +44,5 @@
         </div>
     </div>
 </div>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

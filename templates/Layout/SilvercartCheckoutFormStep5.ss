@@ -24,30 +24,30 @@
     </div>
 
     <% if hasOnlyOneStandardAddress %>
-        <% control AddressData %>
-            <% control SilvercartInvoiceAddress %>
+        <% with AddressData %>
+            <% with SilvercartInvoiceAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
-            <% end_control %>
-        <% end_control %>
+            <% end_with %>
+        <% end_with %>
     <% else %>
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
-                    <% control AddressData %>
-                        <% control SilvercartInvoiceAddress %>
+                    <% with AddressData %>
+                        <% with SilvercartInvoiceAddress %>
                             <% include SilvercartAddressDetailReadOnly %>
-                        <% end_control %>
-                    <% end_control %>
+                        <% end_with %>
+                    <% end_with %>
                 </div>
             </div>
 
             <div class="c50r">
                 <div class="subcr">
-                    <% control AddressData %>
-                        <% control SilvercartShippingAddress %>
+                    <% with AddressData %>
+                        <% with SilvercartShippingAddress %>
                             <% include SilvercartAddressDetailReadOnly %>
-                        <% end_control %>
-                    <% end_control %>
+                        <% end_with %>
+                    <% end_with %>
                 </div>
             </div>
         </div>
@@ -57,9 +57,9 @@
     
     <div class="actionRow">
         <div class="type-button">
-            <% control Actions %>
+            <% loop Actions %>
             $Field
-            <% end_control %>
+            <% end_loop %>
         </div>
     </div>
 </form>

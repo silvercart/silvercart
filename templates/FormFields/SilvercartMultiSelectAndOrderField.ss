@@ -7,9 +7,9 @@
                 <% _t('SilvercartMultiSelectAndOrderField.NOT_ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_available_items" class="silvercart-multiselectandorder-field-available-items" name="availableItems[]" multiple="multiple" size="20">
-                <% control available_items %>
+                <% loop available_items %>
                     <option value="$value">$label</option>
-                <% end_control %>
+                <% end_loop %>
             </select>
             <br />
             <p>
@@ -33,9 +33,9 @@
                 <% _t('SilvercartMultiSelectAndOrderField.ATTRIBUTED_FIELDS') %>:
             </p>
             <select id="{$ID}_selected_items" class="silvercart-multiselectandorder-field-selected-items" name="selectedItems[]" multiple="multiple" size="20">
-                <% control selected_items %>
+                <% loop selected_items %>
                     <option value="$value">$label</option>
-                <% end_control %>
+                <% end_loop %>
             </select>
             
             <div class="silvercart-multiselectandorder-field-action-row">

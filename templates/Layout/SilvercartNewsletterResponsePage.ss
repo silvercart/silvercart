@@ -6,9 +6,9 @@
             </h2>
 
             <% if StatusMessages %>
-                <% control statusMessages %>
+                <% loop statusMessages %>
                     <p>$message</p>
-                <% end_control %>
+                <% end_loop %>
             <% end_if %>
 
             $PageComments

@@ -3,17 +3,17 @@
         <h2><% _t('SilvercartLoginWidget.TITLE_LOGGED_IN') %></h2>
 
         <div class="silvercart-widget-content_frame">
-            <% control MyAccountPage %>
+            <% with MyAccountPage %>
                 <% if Children %>
                     <ul class="vlist">
-                        <% control Children %>
+                        <% loop Children %>
                             <li>
                                 <a href="$Link">$MenuTitle</a>
                             </li>
-                        <% end_control %>
+                        <% end_loop %>
                     </ul>
                 <% end_if %>
-            <% end_control %>
+            <% end_with %>
         </div>
     <% else %>
         <h2><% _t('SilvercartLoginWidget.TITLE_NOT_LOGGED_IN') %></h2>

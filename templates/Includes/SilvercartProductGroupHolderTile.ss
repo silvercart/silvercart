@@ -1,5 +1,5 @@
 <% if Elements %>
-    <% control Elements %>
+    <% loop Elements %>
         <% if MultipleOf(2) %>
             <div class="c50r product-group-holder-entry tile $EvenOdd">
         <% else %>
@@ -45,5 +45,5 @@
         <% else_if Last %>
         </div>
         <% end_if %>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

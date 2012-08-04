@@ -22,7 +22,7 @@
             </a>
         </div>
         
-        <% control getProduct %>
+        <% with getProduct %>
             <div class="silvercart-product-page clearfix">
                 <div class="silvercart-product-page_content">
                     
@@ -37,18 +37,18 @@
                         <div class="c33l silvercart-product-page-box-images">
                             <div class="subcl">
                                 <% if getSilvercartImages %>
-                                    <% control getSilvercartImages.First %>
+                                    <% with getSilvercartImages.First %>
                                         <div class="silvercart-product-page-box-image">
                                             <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
                                                 $Image.SetRatioSize(200,200)
                                             </a>
                                         </div>
-                                    <% end_control %>
+                                    <% end_with %>
                                 <% end_if %>
                                 
                                 <div class="silvercart-product-image-list">
                                     <% if getSilvercartImages %>
-                                        <% control getSilvercartImages %>
+                                        <% loop getSilvercartImages %>
                                             <% if First %>
                                             <% else %>
                                                 <div class="silvercart-product-image-list-entry">
@@ -59,7 +59,7 @@
                                                     </div>
                                                 </div>
                                             <% end_if %>
-                                        <% end_control %>
+                                        <% end_loop %>
                                     <% end_if %>
                                 </div>
                             </div>
@@ -87,11 +87,11 @@
                                             <% else_if CurrentPage.showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
-                                            <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                            <% with Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
                                                 <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
                                                     <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                                                 </a>
-                                            <% end_control %>
+                                            <% end_with %>
                                         </small>
                                     </p>
                                 </div>
@@ -100,9 +100,9 @@
                                 </div>
                                 <% if PluggedInProductMetaData %>
                                 <div class="silvercart-product-meta-data">
-                                    <% control PluggedInProductMetaData %>
+                                    <% with PluggedInProductMetaData %>
                                         $MetaData<br/>
-                                    <% end_control %>
+                                    <% end_with %>
                                 </div>
                                 <% end_if %>
                                 <div class="silvercart-product-group-add-cart-form">
@@ -129,11 +129,11 @@
                                 </li>
                             <% end_if %>
                             <% if PluggedInTabs %>
-                                <% control PluggedInTabs %>
+                                <% loop PluggedInTabs %>
                                 <li rel="<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>">
                                     <a href="#<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>">$Name</a>
                                 </li>
-                                <% end_control %>
+                                <% end_loop %>
                             <% end_if %>
                         </ul>
                         <div class="tab_container">
@@ -153,7 +153,7 @@
                                             <th><% _t('SilvercartFile.TITLE') %></th>
                                             <th class="align_right"><% _t('SilvercartFile.SIZE') %></th>
                                         </tr>
-                                        <% control SilvercartFiles %>
+                                        <% loop SilvercartFiles %>
                                             <tr class="$EvenOdd">
                                                 <td>
                                                     <div class="silvercart-file-icon">
@@ -167,32 +167,32 @@
                                                     <a href="$File.Link">$File.Size</a>
                                                 </td>
                                             </tr>
-                                        <% end_control %>
+                                        <% end_loop %>
                                     </table>
                                 </div>
                             <% end_if %>
                             <% if getPluggedInTabs %>
-                                <% control PluggedInTabs %>
+                                <% loop PluggedInTabs %>
                                 <div id="<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>" class="tab_content">$Content</div>
-                                <% end_control %>
+                                <% end_loop %>
                             <% end_if %>
                         </div>
                     </div>
                     
                 </div>
             </div>
-        <% end_control %>
+        <% end_with %>
     </div>
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% control getProduct %>
-            <% control WidgetArea %>
-                <% control WidgetControllers %>
+        <% with getProduct %>
+            <% with WidgetArea %>
+                <% loop WidgetControllers %>
                     $WidgetHolder
-                <% end_control %>
-            <% end_control %>
-        <% end_control %>
+                <% end_loop %>
+            <% end_with %>
+        <% end_with %>
         $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>

@@ -2,9 +2,9 @@
     <li>
         <a href="$Link" title="$Title">$MenuTitle</a>
         <% if Children %>
-            <% control Children %>
+            <% loop Children %>
                 $SiteMapChildren
-            <% end_control %>
+            <% end_loop %>
         <% end_if %>
     </li>
 </ul>

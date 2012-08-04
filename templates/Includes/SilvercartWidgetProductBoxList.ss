@@ -1,5 +1,5 @@
 <% if Elements %>
-    <% control Elements %>
+    <% loop Elements %>
         <div class="silvercart-product-box">
             <div class="silvercart-product-box_content">
                 <h3><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h3>
@@ -7,9 +7,9 @@
                     <div class="c33l product-group-page-image">
                         <div class="subcl">
                             <% if getSilvercartImages %>
-                                <% control getSilvercartImages.First %>
+                                <% with getSilvercartImages.First %>
                                     <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$image.SetRatioSize(60,60)</a>
-                                <% end_control %>
+                                <% end_with %>
                             <% end_if %>
                         </div>
                     </div>
@@ -28,11 +28,11 @@
                                         <% else %>
                                             <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                         <% end_if %>
-                                        <% control Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                        <% with Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
                                             <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
                                                 <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                                             </a>
-                                        <% end_control %>
+                                        <% end_with %>
                                     </small>
                                 </p>
                                 <p class="silvercart-product-meta-info">
@@ -49,5 +49,5 @@
                 </div>
             </div>
         </div>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>

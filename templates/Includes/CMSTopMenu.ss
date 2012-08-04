@@ -187,12 +187,12 @@
         </a>
     </div>
     <ul>
-        <% control SilvercartMenus %>
+        <% loop SilvercartMenus %>
             <li<% if MenuSection %> class="active"<% end_if %>>
-                <% control ModelAdmins.First %><a href="$Link"><% end_control %>
+                <% with ModelAdmins.First %><a href="$Link"><% end_with %>
                     $name{$MenuSection}</a>
                 <ul>
-                    <% control ModelAdmins %>
+                    <% loop ModelAdmins %>
                         <% if IsSection %>
                             <li class="section">
                                 <p>$name</p>
@@ -200,18 +200,18 @@
                         <% else %>
                             <li class="$LinkingMode"><a href="$Link">$Title</a></li>
                         <% end_if %>
-                    <% end_control %>
+                    <% end_loop %>
                 </ul>
             </li>
-        <% end_control %>
+        <% end_loop %>
         <li<% if CmsSection %> class="active"<% end_if %>>
-            <% control SilvercartMainMenu.First %>
+            <% with SilvercartMainMenu.First %>
                 <a href="$Link">CMS{$Top.CmsSection}</a>
-            <% end_control %>
+            <% end_with %>
             <ul>
-                <% control SilvercartMainMenu %>
+                <% loop SilvercartMainMenu %>
                     <li class="$LinkingMode" id="Menu-$Code"><a href="$Link">$Title</a></li>
-                <% end_control %>
+                <% end_loop %>
             </ul>
         </li>
     </ul>

@@ -291,7 +291,7 @@ class SilvercartTools extends Object {
             $isolatedEnvironment = true;
         }
         //if run through SAKE the config object must not be called
-        if ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php') {
+        if ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php') {
             $isolatedEnvironment = true;
         }
         return $isolatedEnvironment;

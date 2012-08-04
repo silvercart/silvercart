@@ -13,7 +13,7 @@
                         </div>
                     </div>
                 <% end_if %>
-                <% control ViewableChildren.Pages %>
+                <% loop ViewableChildren.Pages %>
                     <% if CurrentBool %>
                         <div class="silvercart-pagination-marker">
                             <div class="silvercart-pagination-marker_content">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     <% end_if %>
-                <% end_control %>
+                <% end_loop %>
                 <% if ViewableChildren.NextLink %>
                     <div class="silvercart-pagination-link">
                         <div class="silvercart-pagination-link_content">

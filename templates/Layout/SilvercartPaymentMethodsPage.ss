@@ -9,16 +9,16 @@
         $PageComments
 
 <% if PaymentMethods %>
-    <% control PaymentMethods %>
+    <% loop PaymentMethods %>
         <% if isActive %>
             <div class="clearfix">
             <h2>$Name</h2>
             <% if showPaymentLogos %>
                 <% if PaymentLogos %>
                     <span class="float_right">
-                        <% control PaymentLogos %>
+                        <% loop PaymentLogos %>
                             $Image
-                        <% end_control %>
+                        <% end_loop %>
                     </span>
                 <% end_if %>
             <% end_if %>
@@ -27,7 +27,7 @@
             <% end_if %>
             </div>
         <% end_if %>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>
     </div>
 </div>

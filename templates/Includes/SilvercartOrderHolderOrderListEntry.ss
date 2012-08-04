@@ -5,13 +5,13 @@
     </td>
     <td>
         <ul>
-            <% control LimitedSilvercartOrderPositions(2) %>
+            <% loop LimitedSilvercartOrderPositions(2) %>
                 <li>
                     <a href="{$Top.OrderDetailLink}$SilvercartOrder.ID">
                         $Title.RAW
                     </a>
                 </li>
-            <% end_control %>
+            <% end_loop %>
             <% if hasMoreSilvercartOrderPositionsThan(2) %>
                 <li>
                     <a href="{$Top.OrderDetailLink}$ID">

@@ -17,11 +17,11 @@
 
             <div class="error">
                 <ul class="message">
-                    <% control controller.getErrorList %>
+                    <% loop controller.getErrorList %>
                         <li>
                             $error
                         </li>
-                    <% end_control %>
+                    <% end_loop %>
                 </ul
             </div>
             <br />

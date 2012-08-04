@@ -4,7 +4,7 @@
         $Content
         $Process
         $InsertCustomHtmlForm(SilvercartEditAddressForm)
-<% control CurrentFormInstance %>
+<% with CurrentFormInstance %>
     <% if ShowCustomHtmlFormStepNavigation %>
         <% if Top.CustomHtmlFormStepLinkCancel %>
         <div class="silvercart-button">
@@ -14,7 +14,7 @@
         </div>
         <% end_if %>
     <% end_if %>
-<% end_control %>
+<% end_with %>
 
         $PageComments
     </div>
@@ -25,12 +25,12 @@
 
         <div class="widget">
             <div class="widget_content">
-                <% control CurrentFormInstance %>
+                <% with CurrentFormInstance %>
                     <% if ShowCustomHtmlFormStepNavigation %>
                             <strong><% _t('SilvercartPage.STEPS','steps') %></strong>
                             <ul>
-                        <% control Top.StepList %>
-                            <% control step %>
+                        <% with Top.StepList %>
+                            <% with step %>
                                 <% if StepIsVisible %>
                                 <li<% if IsCurrentStep %> class="active"<% end_if %>>
                                     <% if IsCurrentStep %>
@@ -44,11 +44,11 @@
                                     <% end_if %>
                                 </li>
                                 <% end_if %>
-                            <% end_control %>
-                        <% end_control %>
+                            <% end_with %>
+                        <% end_with %>
                             </ul>
                     <% end_if %>
-                <% end_control %>
+                <% end_with %>
             </div>
         </div>
 

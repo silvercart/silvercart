@@ -1,10 +1,10 @@
 <% cached NavigationCacheKey %>
-    <% control Navigation %>
-        <% control RootPage %>
+    <% with Navigation %>
+        <% with RootPage %>
             <h2>
                 $MenuTitle.XML
             </h2>
-        <% end_control %>
+        <% end_with %>
 
         <% if HasMenu %>
             <div class="vlist silvercart-product-group-navigation-widget">
@@ -13,5 +13,5 @@
                 </ul>
             </div>
         <% end_if %>
-    <% end_control %>
+    <% end_with %>
 <% end_cached %>

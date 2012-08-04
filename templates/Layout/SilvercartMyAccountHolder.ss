@@ -23,7 +23,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% control CurrentMembersOrders(3) %>
+                                <% loop CurrentMembersOrders(3) %>
                                     <tr>
                                         <td>
                                             <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
@@ -33,9 +33,9 @@
                                         </td>
                                         <td>
                                             <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
-                                            <% control SilvercartOrderPositions %>
+                                            <% loop SilvercartOrderPositions %>
                                                 $Title <% if Last %><% else %> | <% end_if %>
-                                            <% end_control %>
+                                            <% end_loop %>
                                             </a>
                                         </td>
                                         <td>
@@ -51,7 +51,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                <% end_control %>
+                                <% end_loop %>
                             </tbody>
                         </table>
                     <% else %>
@@ -70,24 +70,24 @@
                 <div class="silvercart-section_content clearfix">
                     <h3><% _t('SilvercartMyAccountHolder.YOUR_CURRENT_ADDRESSES') %>:</h3>
 
-                    <% control CurrentRegisteredCustomer %>
+                    <% with CurrentRegisteredCustomer %>
                         <div class="subcolumns">
                             <div class="c50l">
                                 <div class="subcl">
-                                    <% control SilvercartInvoiceAddress %>
+                                    <% with SilvercartInvoiceAddress %>
                                         <% include SilvercartAddressDetailReadOnly %>
-                                    <% end_control %>
+                                    <% end_with %>
                                 </div>
                             </div>
                             <div class="c50r">
                                 <div class="subcr">
-                                    <% control SilvercartShippingAddress %>
+                                    <% with SilvercartShippingAddress %>
                                         <% include SilvercartAddressDetailReadOnly %>
-                                    <% end_control %>
+                                    <% end_with %>
                                 </div>
                             </div>
                         </div>
-                    <% end_control %>
+                    <% end_with %>
 
                     <div class="silvercart-button right">
                         <div class="silvercart-button_content">
@@ -101,7 +101,7 @@
                 <div class="silvercart-section_content clearfix">
                     <h3><% _t('SilvercartMyAccountHolder.YOUR_PERSONAL_DATA') %>:</h3>
 
-                    <% control CurrentRegisteredCustomer %>
+                    <% with CurrentRegisteredCustomer %>
                         <p>
                             $TranslatedSalutation $FirstName $Surname
                         </p>
@@ -121,7 +121,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <% end_control %>
+                    <% end_with %>
 
                     <div class="silvercart-button right">
                         <div class="silvercart-button_content">

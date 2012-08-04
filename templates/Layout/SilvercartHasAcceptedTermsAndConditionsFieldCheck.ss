@@ -1,11 +1,11 @@
 <div id="{$FormName}_{$FieldName}_Box" class="type-check<% if errorMessage %> error<% end_if %>">
     <% if errorMessage %>
         <div class="errorList">
-            <% control errorMessage %>
+            <% with errorMessage %>
 				<strong class="message">
 					{$message}
 				</strong>
-            <% end_control %>
+            <% end_with %>
         </div>
     <% end_if %>
     $FieldTag

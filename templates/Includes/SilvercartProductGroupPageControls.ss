@@ -14,7 +14,7 @@
                             <div class="silvercart-product-group-holder-toolbar clearfix">
                                 <% if hasMoreGroupViewsThan(1) %>
                                     <ul>
-                                        <% control GroupViews %>
+                                        <% loop GroupViews %>
                                             <% if isActive %>
                                                 <li class="active">
                                                     <div class="silvercart-group-view-marker">
@@ -36,7 +36,7 @@
                                                     </div>
                                                 </li>
                                             <% end_if %>
-                                        <% end_control %>
+                                        <% end_loop %>
                                     </ul>
                                 <% end_if %>
                             </div>
@@ -45,7 +45,7 @@
                                 <div class="silvercart-product-group-holder-toolbar clearfix">
                                     <% if hasMoreGroupHolderViewsThan(1) %>
                                         <ul>
-                                            <% control GroupHolderViews %>
+                                            <% loop GroupHolderViews %>
                                                 <% if isActiveHolder %>
                                                     <li class="active">
                                                         <div class="silvercart-group-view-marker">
@@ -67,7 +67,7 @@
                                                         </div>
                                                     </li>
                                                 <% end_if %>
-                                            <% end_control %>
+                                            <% end_loop %>
                                         </ul>
                                     <% end_if %>
                                 </div>

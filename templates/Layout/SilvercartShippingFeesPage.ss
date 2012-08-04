@@ -9,10 +9,10 @@
         $PageComments
 
 <% if Carriers %>
-    <% control Carriers %>
+    <% loop Carriers %>
         <% if AllowedSilvercartShippingMethods %>
         <h3>$Title</h3>
-            <% control AllowedSilvercartShippingMethods %>
+            <% loop AllowedSilvercartShippingMethods %>
                 <% if isActive %>
         <div class="subcolumns">
             <div class="c20l">
@@ -31,34 +31,34 @@
                     <tr>
                         <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
-                    <% control SilvercartShippingFees %>
+                    <% loop SilvercartShippingFees %>
                     <tr class="$EvenOdd">
                         <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
                         <td>
-                            <% control SilvercartZone %>
+                            <% with SilvercartZone %>
                                 <b>$Title:</b><br/>
                                 <% if hasAllCountries %>
                                     <strong><% _t('SilvercartZone.VALID_FOR_ALL_AVAILABLE') %></strong>
                                 <% else %>
-                                    <% control SilvercartCountries %>
+                                    <% loop SilvercartCountries %>
                                         <% if Active %>
                                             $Title<br/>
                                         <% end_if %>
-                                    <% end_control %>
+                                    <% end_loop %>
                                 <% end_if %>
-                            <% end_control %>
+                            <% end_with %>
                         </td>
                         <td class="align_right align_top">$PriceFormatted <% if PostPricing %>*<% end_if %></td>
                     </tr>
-                    <% end_control %>
+                    <% end_loop %>
                 </table>
                 <% if hasFeeWithPostPricing %>* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %><% end_if %>
             </div>
         </div>
                 <% end_if %>
-            <% end_control %>
+            <% end_loop %>
         <% end_if %>
-    <% end_control %>
+    <% end_loop %>
 <% end_if %>
     </div>
 </div>
