@@ -151,6 +151,6 @@ class SilvercartContactForm extends CustomHtmlForm {
          * redirect a user to the page type for the response or to the root
          */
         $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
-        Director::redirect($contactFormResponsePage->RelativeLink());
+        $this->controller->redirect($contactFormResponsePage->RelativeLink());
     }
 }

@@ -73,7 +73,7 @@ class SilvercartDecrementPositionQuantityForm extends CustomHtmlForm {
                     $position->Quantity--;
                     $position->write();
                 }
-                Director::redirect($this->controller->Link());
+                $this->controller->redirect($this->controller->Link());
             }
         }
     }

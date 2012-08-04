@@ -507,9 +507,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         if (array_key_exists('backlink', $formData) &&
             !empty($formData['backlink'])) {
             
-             Director::redirect($formData['backlink']);
+             $this->controller->redirect($formData['backlink']);
         } else {
-            Director::redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
+            $this->controller->redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
         }
     }
 }

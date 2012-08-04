@@ -119,7 +119,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         }
 
         SilvercartShoppingCart::addProduct($formData);
-        Director::redirect($backLink, 302);
+        $this->controller->redirect($backLink, 302);
     }
 
 }

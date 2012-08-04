@@ -249,11 +249,11 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
             $address->write();
             $this->submitSuccess = true;
             if (Session::get("redirect")) {
-                Director::redirect(Session::get("redirect"));
+                $this->controller->redirect(Session::get("redirect"));
                 Session::clear("redirect");
             } else {
                 $addressHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartAddressHolder");
-                Director::redirect($addressHolder->RelativeLink());
+                $this->controller->redirect($addressHolder->RelativeLink());
             }
         }
     }

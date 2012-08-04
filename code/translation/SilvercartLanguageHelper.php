@@ -74,7 +74,7 @@ class SilvercartLanguageHelper {
      */
     public static function prepareCMSFields($dataobject, $restrictFields = false) {
         if (!$dataobject) {
-            return new FieldSet();
+            return new FieldList();
         }
         $languageFields = $dataobject->scaffoldFormFields(
                 array(

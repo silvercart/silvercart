@@ -132,7 +132,7 @@ class SilvercartLoginForm extends CustomHtmlForm {
                 $customer->logIn();
                 $customer->write();
                 $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
-                Director::redirect($myAccountHolder->RelativeLink());
+                $this->controller->redirect($myAccountHolder->RelativeLink());
             } else {
 
                 $this->messages = array(

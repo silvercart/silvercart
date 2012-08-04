@@ -1947,7 +1947,7 @@ class SilvercartProduct extends DataObject {
      * @since 13.01.2012
      */
     public function saveLongDescription($value) {
-        $languageObj = $this->getLanguage();
+        $languageObj = $this->getLanguage(true);
         $languageObj->LongDescription = $value;
         $languageObj->write();
     }
@@ -2242,7 +2242,7 @@ class SilvercartProduct_CollectionController {
             file_get_contents($_FILES['_CsvFile']['tmp_name']) == '') {
 
             $form->sessionMessage(_t('ModelAdmin.NOCSVFILE', 'Please browse for a CSV file to import'), 'good');
-            Director::redirectBack();
+            Controller::curr()->redirectBack();
             return false;
         }
 
@@ -2277,7 +2277,7 @@ class SilvercartProduct_CollectionController {
         }
 
         $form->sessionMessage($message, 'good');
-        Director::redirectBack();
+        Controller::curr()->redirectBack();
     }
 
     /**
@@ -2371,7 +2371,7 @@ class SilvercartProduct_CollectionController {
      * @since 26.08.2011
      */
     public function ImportImagesForm() {
-        $fields = new FieldSet(
+        $fields = new FieldList(
             new HeaderField(
                 'importImagesHeadline',
                 _t('SilvercartProduct.IMPORTIMAGESFORM_HEADLINE'),
@@ -2386,7 +2386,7 @@ class SilvercartProduct_CollectionController {
                 _t('SilvercartProduct.IMPORTIMAGESFORM_IMAGEDIRECTORY')
             )
         );
-        $actions = new FieldSet(
+        $actions = new FieldList(
             new FormAction(
                 'importImages',
                 _t('SilvercartProduct.IMPORTIMAGESFORM_ACTION')

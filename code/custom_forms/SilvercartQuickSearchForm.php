@@ -68,7 +68,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
         $searchQuery->Count++;
         $searchQuery->write();
         $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
-        Director::redirect($searchResultsPage->RelativeLink());
+        $this->controller->redirect($searchResultsPage->RelativeLink());
     }
 
     /**

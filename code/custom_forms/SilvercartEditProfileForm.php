@@ -262,6 +262,6 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             );
         }
 
-        Director::redirect($this->controller->Link());
+        $this->controller->redirect($this->controller->Link());
     }
 }

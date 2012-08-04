@@ -131,6 +131,6 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
             $backLink = $formData['backLink'];
         }
         
-        Director::redirect($backLink, 302);
+        $this->controller->redirect($backLink, 302);
     }
 }

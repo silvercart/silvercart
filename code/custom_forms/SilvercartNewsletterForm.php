@@ -283,7 +283,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
             $redirectLink = $responsePage->RelativeLink();
         }
 
-        Director::redirect($redirectLink);
+       $this->controller->redirect($redirectLink);
     }
 
     /**

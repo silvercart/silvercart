@@ -163,7 +163,7 @@ class SilvercartConfigAdmin_CollectionController {
     public function SearchForm() {
         $form = parent::SearchForm();
         if (in_array($this->getModelClass(), SilvercartConfigAdmin::$reset_search_form_for)) {
-            $form->setFields(new FieldSet());
+            $form->setFields(new FieldList());
             $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
             $form->Actions()->removeByName('action_clearsearch');
         }

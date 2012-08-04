@@ -381,7 +381,7 @@ class SilvercartCustomer extends DataExtension {
      * @since 03.11.2010
      */
     public static function getRestfulSearchContext() {
-        $fields = new FieldSet(
+        $fields = new FieldList(
             array(
                 new TextField(
                     'Email'

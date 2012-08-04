@@ -97,9 +97,9 @@ class SilvercartProductPreviewForm extends CustomHtmlForm {
         }
 
         if (ShoppingCart::addProduct($formData)) {
-            Director::redirect($backLink,302);
+            $this->controller->redirect($backLink,302);
         } else {
-            Director::redirect($backLink,302);
+            $this->controller->redirect($backLink,302);
             exit();
         }
     }
