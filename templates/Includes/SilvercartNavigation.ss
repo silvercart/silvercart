@@ -4,7 +4,7 @@
             <% with PageByIdentifierCode(SilvercartProductGroupHolder) %>
                 <% loop Children %>
                     <% if hasProductsOrChildren %>
-                    <li <% if LinkOrSection = section %> class="active" <% else %> class="$LinkingMode"<% end_if %> >
+                    <li <% if LinkOrSection == "section" %> class="active" <% else %> class="$LinkingMode"<% end_if %> >
                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>" class="$LinkingMode levela"><span>$MenuTitle.XML</span></a>
                     </li>
                     <% end_if %>

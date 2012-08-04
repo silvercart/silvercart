@@ -25,7 +25,7 @@
                                             </div>
                                         <% end_if %>
                                     <% end_if %>
-                                    <% if name = ShippingAddress %>
+                                    <% if name == "ShippingAddress" %>
                                         <% if isShippingAddress %>
                                             <div class="silvercart-address-field_content">
                                                 <strong><% _t('SilvercartAddressHolder.DEFAULT_SHIPPINGADDRESS','shipping address') %></strong>
