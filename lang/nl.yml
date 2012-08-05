@@ -104,6 +104,8 @@ nl:
     FULL_NAME: "Volledige naam"
     PLURALNAME: "Vervoerders"
     SINGULARNAME: "Vervoerder"
+  SilvercartCarrierAdmin:
+    MENUTITLE: "Vervoerders"
   SilvercartCartPage:
     CART_EMPTY: "Uw winkelwagen is nog leeg."
     DEFAULT_TITLE: "Winkelwagen"
@@ -223,6 +225,8 @@ nl:
     TABBED: "met tabbladen"
     USEMINIMUMORDERVALUE: "Activeer minimale orderwaarde"
     USE_APACHE_SOLR_SEARCH: "Gebruik Apache Solr zoeken"
+  SilvercartConfigAdmin:
+    MENUTITLE: "Silvercart algemene configuraties"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Contact"
     DEFAULT_URLSEGMENT: "contact"
@@ -647,6 +651,8 @@ nl:
   SilvercartManufacturer:
     PLURALNAME: "Fabrikanten"
     SINGULARNAME: "Fabrikant"
+  SilvercartManufacturerAdmin:
+    MENUTITLE: "Fabrikanten"
   SilvercartMetaNavigationHolder:
     DEFAULT_TITLE: "Meta navigatie"
     DEFAULT_URLSEGMENT: "metanavigatie"
@@ -1037,6 +1043,8 @@ nl:
     TITLE: "Product"
     VAT: "BTW"
     WEIGHT: "Gewicht"
+  SilvercartProductAdmin:
+    MENUTITLE: "Producten"
   SilvercartProductCondition:
     PLEASECHOOSE: "Maak een keuze"
     PLURALNAME: "Product condities"

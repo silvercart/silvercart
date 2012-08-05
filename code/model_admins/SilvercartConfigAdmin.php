@@ -104,21 +104,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
     public static $reset_search_form_for = array(
         'SilvercartConfig',
     );
-
-    /**
-     * Constructor
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function __construct() {
-        self::$menu_title                                  = _t('SilvercartConfig.SINGULARNAME');
-        self::$managed_models['SilvercartConfig']['title'] = _t('SilvercartConfig.SINGULARNAME');
-        
-        parent::__construct();
-    }
     
     /**
      * Provides hook for decorators, so that they can overwrite css
@@ -136,6 +121,18 @@ class SilvercartConfigAdmin extends ModelAdmin {
         Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
 
         $this->extend('updateInit');
+    }
+    
+    /**
+     * title in the upper bar of the CMS
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 05.08.2012
+     */
+    public function SectionTitle() {
+        return _t('SilvercartConfig.SINGULARNAME');
     }
 }
 

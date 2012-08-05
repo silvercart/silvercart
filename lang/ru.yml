@@ -128,6 +128,8 @@ ru:
     FULL_NAME: "полное имя"
     PLURALNAME: "фрахтовщик"
     SINGULARNAME: "фрахтовщик"
+  SilvercartCarrierAdmin:
+    MENUTITLE: "фрахтовщик"
   SilvercartCarrierLanguage:
     PLURALNAME: "Переводы"
     SINGULARNAME: "Перевод"
@@ -261,6 +263,8 @@ ru:
     USEMINIMUMORDERVALUE: "активировать минимальную сумму заказа"
     USE_APACHE_SOLR_SEARCH: "Apache Solr Suche benutzen"
     USE_DEFAULT_LANGUAGE: "использовать язык по умолчанию, если нет подходящего"
+  SilvercartConfigAdmin:
+    MENUTITLE: "общая конфигурация"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "контакт"
     DEFAULT_URLSEGMENT: "контакт"
@@ -707,6 +711,8 @@ ru:
   SilvercartManufacturer:
     PLURALNAME: "производитель"
     SINGULARNAME: "производитель"
+  SilvercartManufacturerAdmin:
+    MENUTITLE: "производитель"
   SilvercartManyManyOrderField:
     ATTRIBUTED_FIELDS: "выделено"
     AVAILABLE_RELATION_OBJECTS: "имеется в наличие"
@@ -1161,6 +1167,8 @@ ru:
     TITLE: "артикул"
     VAT: "НДС"
     WEIGHT: "вес"
+  SilvercartProductAdmin:
+    MENUTITLE: "артикул"
   SilvercartProductCondition:
     PLEASECHOOSE: "пожалуйста выберите"
     PLURALNAME: "состояние товара"

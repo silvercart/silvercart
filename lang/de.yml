@@ -133,6 +133,8 @@ de:
     FULL_NAME: "voller Name"
     PLURALNAME: "Frachtführer"
     SINGULARNAME: "Frachtführer"
+  SilvercartCarrierAdmin:
+    MENUTITLE: "Frachtführer"
   SilvercartCarrierLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -266,6 +268,8 @@ de:
     USEMINIMUMORDERVALUE: "Mindestbestellwert aktivieren"
     USE_APACHE_SOLR_SEARCH: "Apache Solr Suche benutzen"
     USE_DEFAULT_LANGUAGE: "Standardsprache benutzen, wenn die passende Sprache fehlt?"
+  SilvercartConfigAdmin:
+    MENUTITLE: "Silvercart Konfiguration"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Kontakt"
     DEFAULT_URLSEGMENT: "kontakt"
@@ -742,6 +746,8 @@ de:
   SilvercartManufacturer:
     PLURALNAME: "Hersteller"
     SINGULARNAME: "Hersteller"
+  SilvercartManufacturerAdmin:
+    MENUTITLE: "Hersteller"
   SilvercartManyManyOrderField:
     ATTRIBUTED_FIELDS: "Zugewiesen"
     AVAILABLE_RELATION_OBJECTS: "Verfügbar"
@@ -1225,6 +1231,8 @@ de:
     TITLE_DESC: "Bezeichnung absteigend"
     VAT: "MwSt"
     WEIGHT: "Gewicht"
+  SilvercartProductAdmin:
+    MENUTITLE: "Artikel"
   SilvercartProductCondition:
     PLEASECHOOSE: "Bitte wählen"
     PLURALNAME: "Artikelzustände"

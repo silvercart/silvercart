@@ -132,6 +132,8 @@ en_GB:
     FULL_NAME: "Full name"
     PLURALNAME: "Carriers"
     SINGULARNAME: "Carrier"
+  SilvercartCarrierAdmin:
+    MENUTITLE: "Carriers"
   SilvercartCarrierLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -740,6 +742,8 @@ en_GB:
   SilvercartManufacturer:
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
+  SilvercartManufacturerAdmin:
+    MENUTITLE: "Manufacturers"
   SilvercartManyManyOrderField:
     ATTRIBUTED_FIELDS: "Attributed"
     AVAILABLE_RELATION_OBJECTS: "Available"

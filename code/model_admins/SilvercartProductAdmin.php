@@ -86,21 +86,6 @@ class SilvercartProductAdmin extends ModelAdmin {
     public static $model_importers = array(
         /*'SilvercartProduct' => 'SilvercartProductCsvBulkLoader'*/
     );
-
-    /**
-     * Constructor
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function __construct() {
-        self::$menu_title                                   = 'SilverCart/'._t('SilvercartProduct.PLURALNAME');
-        self::$managed_models['SilvercartProduct']['title'] = _t('SilvercartProduct.SINGULARNAME');
-        
-        parent::__construct();
-    }
     
     /**
      * Provides hook for decorators, so that they can overwrite css
@@ -141,6 +126,18 @@ class SilvercartProductAdmin extends ModelAdmin {
         
         parent::init();
         $this->extend('updateInit');
+    }
+    
+    /**
+     * title in the upper bar of the CMS
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 05.08.2012
+     */
+    public function SectionTitle() {
+        return _t('SilvercartProduct.PLURALNAME');
     }
 }
 
