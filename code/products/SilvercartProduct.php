@@ -662,6 +662,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function defaultSort() {
         $sort = Session::get('SilvercartProduct.defaultSort');
+
         if (!$sort) {
             $sort = Object::get_static('SilvercartProduct', 'default_sort');
             if (strpos($sort, '.') === false) {
@@ -796,13 +797,13 @@ class SilvercartProduct extends DataObject {
         }
         if (count($recordsArray) > 0) {
             $productIDs = implode(',', $recordsArray);
+
             $databaseFilteredProducts = DataObject::get(
                     'SilvercartProduct',
                     sprintf(
                             "`SilvercartProduct`.`ID` IN (%s)",
                             $productIDs
-                    ),
-                    $sort
+                    )
             );
         } else {
             $databaseFilteredProducts = new DataObjectSet();
@@ -813,6 +814,21 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
             $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
         }
+
+        // Result sorting
+        if (strpos($sort, 'SilvercartProductLanguage.') !== false) {
+            $dataObjectSort = str_replace('SilvercartProductLanguage.', '', $sort);
+        } else {
+            if (strpos($sort, 'PriceGrossAmount') !== false) {
+                $dataObjectSort = str_replace('SilvercartProduct.PriceGrossAmount', 'Price', $sort);
+            } else if (strpos($sort, 'PriceNetAmount') !== false) {
+                $dataObjectSort = str_replace('SilvercartProduct.PriceNetAmount', 'Price', $sort);
+            } else {
+                $dataObjectSort = $sort;
+            }
+        }
+
+        $databaseFilteredProducts->sort($dataObjectSort);
 
         return $databaseFilteredProducts;
     }
