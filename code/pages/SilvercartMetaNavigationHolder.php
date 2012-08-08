@@ -99,10 +99,13 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
     /**
      * Uses the children of SilvercartMetaNavigationHolder to render a subnavigation
      * with the SilvercartSubNavigation.ss template.
+     * 
+     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
+     *                               to avoid strict notice
      *
      * @return string
      */
-    public function getSubNavigation() {
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
         $root   = $this->dataRecord;
         $output = '';
         if ($root->ClassName != 'SilvercartMetaNavigationHolder') {

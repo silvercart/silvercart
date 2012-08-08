@@ -38,9 +38,7 @@ class SilvercartContactFormResponsePage extends Page {
      *
      * @var array
      */
-    public static $allowed_children = array(
-        'none'
-    );
+    public static $allowed_children = 'none';
     
     /**
      * We set a custom icon for this page type here

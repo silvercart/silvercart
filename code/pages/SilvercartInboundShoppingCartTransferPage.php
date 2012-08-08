@@ -94,7 +94,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 01.08.2011
      */
-    public function handleAction(SS_HTTPRequest $request) {
+    public function handleAction($request) {
         $this->action           = str_replace("-","_",$request->param('Action'));
         $this->requestParams    = $request->requestVars();
         

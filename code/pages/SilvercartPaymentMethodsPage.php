@@ -38,9 +38,7 @@ class SilvercartPaymentMethodsPage extends SilvercartMetaNavigationHolder {
      *
      * @var array
      */
-    public static $allowed_children = array(
-        'none'
-    );
+    public static $allowed_children = 'none';
     
     /**
      * Page type icon

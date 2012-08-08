@@ -33,9 +33,7 @@
  */
 class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
     
-    public static $allowed_children = array(
-        'none'
-    );
+    public static $allowed_children = 'none';
     
     /**
      * We set a custom icon for this page type here
@@ -202,14 +200,17 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     
     /**
      * Diese Funktion wird beim Initialisieren ausgeführt
+     * 
+     * @param string $skip param only added because it exists on parent::init()
+     *                     to avoid strict notice
      *
      * @return void
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.05.2012
      */
-    public function init() {
-        parent::init(true);
+    public function init($skip = true) {
+        parent::init($skip);
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
@@ -397,6 +398,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
+     * 
+     * @param int|bool $numberOfProducts only defined because it exists on parent::getSqlOffset() to avoid strict notice
      *
      * @return int
      *
@@ -404,7 +407,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @copyright 2011 pixeltricks GmbH
      * @since 12.06.2011
      */
-    public function getSqlOffset() {
+    public function getSqlOffset($numberOfProducts = false) {
         $productsPerPage = $this->getProductsPerPageSetting();
         
         if (!isset($_GET['start']) ||
@@ -442,13 +445,18 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
 
     /**
      * Returns the products that match the search result in any kind
+     * 
+     * @param int    $numberOfProducts only defined because it exists on parent::getProducts to avoid strict notice
+     * @param string $sort             only defined because it exists on parent::getProducts to avoid strict notice
+     * @param bool   $disableLimit     only defined because it exists on parent::getProducts to avoid strict notice
+     * @param bool   $force            only defined because it exists on parent::getProducts to avoid strict notice
      *
      * @return DataObjectSet|false the resulting products of the search query
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.05.2012
      */
-    public function getProducts() {
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         if (is_null($this->searchResultProducts)) {
             $this->buildSearchResultProducts();
         }

@@ -33,9 +33,7 @@
  */
 class SilvercartOrderConfirmationPage extends Page {
     
-    public static $allowed_children = array(
-        'none'
-    );
+    public static $allowed_children = 'none';
     
     /**
      * The icon to use for this page in the storeadmin sitetree.

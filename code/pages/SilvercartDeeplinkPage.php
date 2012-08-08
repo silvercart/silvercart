@@ -140,7 +140,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.7.2011
      */
-    public function handleAction(SS_HTTPRequest $request) {
+    public function handleAction($request) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
                 return Director::redirect($this->getExactlyMatchingProduct()->Link(), 301);

@@ -35,7 +35,7 @@ class SilvercartDataPage extends SilvercartMyAccountHolder {
     
     public static $can_be_root = false;
     
-    public static $allowed_children = array();
+    public static $allowed_children = 'none';
     
     /**
      * The icon to use for this page in the storeadmin sitetree.

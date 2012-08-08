@@ -33,9 +33,7 @@
  */
 class SilvercartSiteMapPage extends SilvercartMetaNavigationHolder {
     
-    public static $allowed_children = array(
-        'none'
-    );
+    public static $allowed_children = 'none';
     
     public static $icon = "silvercart/images/page_icons/metanavigation_page";
     
