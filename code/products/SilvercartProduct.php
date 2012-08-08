@@ -245,25 +245,39 @@ class SilvercartProduct extends DataObject {
     /**
      * getter for the ShortDescription, looks for set translation
      * 
+     * @param bool $includeHtml include html tags or remove them from description
+     * 
      * @return string The ShortDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
      * @since 15.05.2012
      */
-    public function getShortDescription() {
-        return $this->getLanguageFieldValue('ShortDescription');
+    public function getShortDescription($includeHtml = true) {
+        $shortDescription = $this->getLanguageFieldValue('ShortDescription');
+        if (!$includeHtml) {
+            // decode
+            $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
+        }
+        return $shortDescription;
     }
     
     /**
      * getter for the LongDescription, looks for set translation
      * 
+     * @param bool $includeHtml include html tags or remove them from description
+     * 
      * @return string The LongDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
      * @since 15.05.2012
      */
-    public function getLongDescription() {
-        return $this->getLanguageFieldValue('LongDescription');
+    public function getLongDescription($includeHtml = true) {
+        $longDescription = $this->getLanguageFieldValue('LongDescription');
+        if (!$includeHtml) {
+            // decode
+            $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
+        }
+        return $longDescription;
     }
     
     /**
@@ -648,6 +662,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function defaultSort() {
         $sort = Session::get('SilvercartProduct.defaultSort');
+
         if (!$sort) {
             $sort = Object::get_static('SilvercartProduct', 'default_sort');
             if (strpos($sort, '.') === false) {
@@ -774,6 +789,7 @@ class SilvercartProduct extends DataObject {
                 $sort,
                 is_null($limit) ? "" : "LIMIT " . $limit
         );
+
         $records = DB::query($query);
         $recordsArray = array();
         foreach ($records as $record) {
@@ -781,13 +797,13 @@ class SilvercartProduct extends DataObject {
         }
         if (count($recordsArray) > 0) {
             $productIDs = implode(',', $recordsArray);
+
             $databaseFilteredProducts = DataObject::get(
                     'SilvercartProduct',
                     sprintf(
                             "`SilvercartProduct`.`ID` IN (%s)",
                             $productIDs
-                    ),
-                    $sort
+                    )
             );
         } else {
             $databaseFilteredProducts = new DataObjectSet();
@@ -798,6 +814,21 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
             $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
         }
+
+        // Result sorting
+        if (strpos($sort, 'SilvercartProductLanguage.') !== false) {
+            $dataObjectSort = str_replace('SilvercartProductLanguage.', '', $sort);
+        } else {
+            if (strpos($sort, 'PriceGrossAmount') !== false) {
+                $dataObjectSort = str_replace('SilvercartProduct.PriceGrossAmount', 'Price', $sort);
+            } else if (strpos($sort, 'PriceNetAmount') !== false) {
+                $dataObjectSort = str_replace('SilvercartProduct.PriceNetAmount', 'Price', $sort);
+            } else {
+                $dataObjectSort = $sort;
+            }
+        }
+
+        $databaseFilteredProducts->sort($dataObjectSort);
 
         return $databaseFilteredProducts;
     }
@@ -1673,7 +1704,22 @@ class SilvercartProduct extends DataObject {
      * @since 25.11.2010
      */
     public function getTaxAmount() {
-        if (Member::currentUser()->showPricesGross()) {
+        $showPricesGross = false;
+        $member          = Member::currentUser();
+
+        if ($member) {
+            if ($member->showPricesGross()) {
+                $showPricesGross = true;
+            }
+        } else {
+            $defaultPriceType = SilvercartConfig::DefaultPriceType();
+
+            if ($defaultPriceType == 'gross') {
+                $showPricesGross = true;
+            }
+        }
+
+        if ($showPricesGross) {
             $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100);
         } else {
             $taxRate = $this->getPrice()->getAmount() * ($this->getTaxRate() / 100);

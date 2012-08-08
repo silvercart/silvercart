@@ -340,6 +340,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $this->listFilters['original'] = sprintf("
                     `SilvercartProductGroupID` IS NOT NULL AND
                     `SilvercartProductGroupID` > 0 AND
+                    `SilvercartProductGroupPage_Live`.`ID` > 0 AND
                     `isActive` = 1 AND (
                         `Title` LIKE '%%%s%%' OR
                         MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
@@ -381,7 +382,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $searchResultProducts = SilvercartProduct::get(
                     $filter,
                     null,
-                    null,
+                    "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"
+                    ,
                     sprintf(
                         "%d,%d",
                         $SQL_start,
