@@ -109,11 +109,11 @@ class SilvercartPage extends SiteTree {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        if (Member::currentUser()->isAdmin()) {
-            $fields->addFieldToTab('Root.Content.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-            $fields->addFieldToTab('Root.Content.Main', new LiteralField('ForIdentifierCode', '<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>'));
+        if (Permission::check('ADMIN')) {
+            $fields->addFieldToTab('Root.Main', new TextField('IdentifierCode', 'IdentifierCode'));
+            $fields->addFieldToTab('Root.Main', new LiteralField('ForIdentifierCode', '<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>'));
         } else {
-            $fields->addFieldToTab('Root.Content.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
+            $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
         }
         
         // prevent edit/add/show/delete actions for widget sets in CMS area.
@@ -121,21 +121,26 @@ class SilvercartPage extends SiteTree {
         
         $widgetSetInfoValue = _t('SilvercartWidgetSet.INFO');
         $widgetSetInfo = new LiteralField('WidgetSetInfo', $widgetSetInfoValue);
-        
+
         $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
+
+        /*
         $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
         $widgetSetSidebarField->setPopupSize(900,600);
         $widgetSetSidebarField->setPermissions($permissions);
+        */
         $widgetSetContentlabel = new HeaderField('WidgetSetContentLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
+        /*
         $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
         $widgetSetContentField->setPopupSize(900,600);
         $widgetSetContentField->setPermissions($permissions);
-        
-        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetInfo);
-        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarLabel);
-        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetSidebarField);
-        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentlabel);
-        $fields->addFieldToTab("Root.Content.Widgets", $widgetSetContentField);
+        */
+
+        $fields->addFieldToTab("Root.Widgets", $widgetSetInfo);
+        $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarLabel);
+        //$fields->addFieldToTab("Root.Main.Widgets", $widgetSetSidebarField);
+        $fields->addFieldToTab("Root.Widgets", $widgetSetContentlabel);
+        //$fields->addFieldToTab("Root.Main.Widgets", $widgetSetContentField);
 
         return $fields;
     }
