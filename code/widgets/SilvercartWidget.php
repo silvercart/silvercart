@@ -39,8 +39,102 @@ class SilvercartWidget extends Widget {
      * @var array
      */
     public static $db = array(
-        'ExtraCssClasses'   => 'VarChar(255)',
+        'ExtraCssClasses' => 'VarChar(255)',
     );
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+            parent::fieldLabels($includerelations),
+            array(
+                'ClassName' => _t('SilvercartWidget.CLASSNAME')
+            )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+
+    /**
+     * Searchable fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2012
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'ClassName' => array(
+                'title'     => $this->fieldLabel('ClassName'),
+                'filter'    => 'PartialMatchFilter'
+            )
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
+    }
+
+    /**
+     * Summaryfields for display in tables.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2012
+     */
+    public function summaryFields() {
+        $summaryFields = array(
+            'ClassName' => $this->fieldLabel('ClassName'),
+        );
+
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
+    }
+
+    /**
+     * CMS fields for a SilvercartWidget
+     *
+     * @return FieldList
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.08.2012
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+
+        $availableWidgets = array();
+
+        $classes = ClassInfo::subclassesFor('Widget');
+        array_shift($classes);
+        foreach ($classes as $class) {
+            if ($class == 'SilvercartWidget') {
+                continue;
+            }
+            $widgetClass                               = singleton($class);
+            $availableWidgets[$widgetClass->ClassName] = $widgetClass->Title();
+        }
+
+        $availableWidgetsField = new DropdownField(
+            'ClassName',
+            'Typ',
+            $availableWidgets
+        );
+
+        $fields->push(
+            $availableWidgetsField
+        );
+
+        return $fields;
+    }
 }
 
 /**

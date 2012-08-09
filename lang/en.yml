@@ -1654,6 +1654,7 @@ en:
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "Updates"
   SilvercartWidget:
+    CLASSNAME: "Type"
     FRONTCONTENT: "Content"
     FRONTTITLE: "Headline"
     SORT_ORDER_LABEL: "Sort order"

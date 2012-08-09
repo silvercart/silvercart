@@ -122,25 +122,36 @@ class SilvercartPage extends SiteTree {
         $widgetSetInfoValue = _t('SilvercartWidgetSet.INFO');
         $widgetSetInfo = new LiteralField('WidgetSetInfo', $widgetSetInfoValue);
 
-        $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
+        $widgetFieldConfig = GridFieldConfig::create();
+        $widgetFieldConfig->addComponent(new GridFieldToolbarHeader());
+        $widgetFieldConfig->addComponent(new GridFieldDataColumns());
+        $widgetFieldConfig->addComponent(new GridFieldFilterHeader());
+        $widgetFieldConfig->addComponent(new GridFieldSortableHeader());
+        $widgetFieldConfig->addComponent(new GridFieldPaginator(25));
+        $widgetFieldConfig->addComponent(new GridFieldDeleteAction());
+        //$widgetFieldConfig->addComponent(new GridFieldAddNewButton());
 
-        /*
-        $widgetSetSidebarField = new ManyManyComplexTableField($this, 'WidgetSetSidebar', 'SilvercartWidgetSet');
-        $widgetSetSidebarField->setPopupSize(900,600);
-        $widgetSetSidebarField->setPermissions($permissions);
-        */
+        $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
+        $widgetSetSidebarField = new GridField(
+            'WidgetSetSidebar',
+            _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'),
+            $this->WidgetSetSidebar(),
+            $widgetFieldConfig
+        );
+
         $widgetSetContentlabel = new HeaderField('WidgetSetContentLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
-        /*
-        $widgetSetContentField = new ManyManyComplexTableField($this, 'WidgetSetContent', 'SilvercartWidgetSet');
-        $widgetSetContentField->setPopupSize(900,600);
-        $widgetSetContentField->setPermissions($permissions);
-        */
+        $widgetSetContentField = new GridField(
+            'WidgetSetContent',
+            _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'),
+            $this->WidgetSetContent(),
+            $widgetFieldConfig
+        );
 
         $fields->addFieldToTab("Root.Widgets", $widgetSetInfo);
         $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarLabel);
-        //$fields->addFieldToTab("Root.Main.Widgets", $widgetSetSidebarField);
+        $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarField);
         $fields->addFieldToTab("Root.Widgets", $widgetSetContentlabel);
-        //$fields->addFieldToTab("Root.Main.Widgets", $widgetSetContentField);
+        $fields->addFieldToTab("Root.Widgets", $widgetSetContentField);
 
         return $fields;
     }

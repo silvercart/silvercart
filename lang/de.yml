@@ -1655,6 +1655,7 @@ de:
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "Updates"
   SilvercartWidget:
+    CLASSNAME: "Typ"
     FRONTCONTENT: "Beschreibungstext"
     FRONTTITLE: "Überschrift"
     SORT_ORDER_LABEL: "Sortierung"

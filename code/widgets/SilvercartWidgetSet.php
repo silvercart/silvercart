@@ -99,35 +99,27 @@ class SilvercartWidgetSet extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        
+
         if ($this->ID > 0) {
             $fields->removeByName('WidgetAreaID');
-            $fields->removeFieldFromTab('Root', 'SilvercartPages');
-            $availableWidgets = array();
+            //$fields->removeFieldFromTab('Root', 'SilvercartPages');
 
-            $classes = ClassInfo::subclassesFor('Widget');
-            array_shift($classes);
-            foreach ($classes as $class) {
-                if ($class == 'SilvercartWidget') {
-                    continue;
-                }
-                $widgetClass        = singleton($class);
-                $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
-            }
+            $widgetAreaFieldConfig = GridFieldConfig_RelationEditor::create();
+            $widgetAreaFieldConfig->addComponent(new GridFieldSortableRows('Sort'));
 
-            $widgetAreaField = new SilvercartHasManyOrderField(
-                $this->WidgetArea(),
+            $widgetAreaField = new GridField(
+                'WidgetArea.Widgets',
                 'Widgets',
-                'WidgetArea',
-                'Widget Konfiguration',
-                $availableWidgets
+                $this->WidgetArea()->Widgets(),
+                $widgetAreaFieldConfig
             );
+            $widgetAreaField->setModelClass('SilvercartWidget');
 
             $fields->addFieldToTab('Root.Main', $widgetAreaField);
         } else {
             $fields->removeByName('WidgetAreaID');
         }
-        
+
         return $fields;
     }
     
