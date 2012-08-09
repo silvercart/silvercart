@@ -309,12 +309,10 @@ class SilvercartPage_Controller extends ContentController {
     public function init() {
         $controller = Controller::curr();
         
-        /*
         if ($this != $controller &&
             method_exists($controller, 'getRegisteredCustomHtmlForms')) {
             $registeredCustomHtmlForms = $controller->getRegisteredCustomHtmlForms();
         }
-        */
         
         if (!isset($_SESSION['Silvercart'])) {
             $_SESSION['Silvercart'] = array();
@@ -457,7 +455,6 @@ class SilvercartPage_Controller extends ContentController {
         // We have to check if we are in a customised controller (that's the
         // case for all Security pages). If so, we use the registered forms of
         // the outermost controller.
-        /*
         if (empty($registeredCustomHtmlForms)) {
             $this->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this));
             $this->registerCustomHtmlForm('SilvercartQuickLoginForm',  new SilvercartQuickLoginForm($this));
@@ -467,7 +464,6 @@ class SilvercartPage_Controller extends ContentController {
         } else {
             $this->setRegisteredCustomHtmlForms($registeredCustomHtmlForms);
         }
-        */
         
         $allParams = Controller::curr()->getRequest()->allParams();
         if (Controller::curr() instanceof Security &&
