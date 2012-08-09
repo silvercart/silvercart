@@ -107,6 +107,18 @@ class SilvercartWidgetSetAdmin extends ModelAdmin {
         parent::init();
         $this->extend('updateInit');
     }
+    
+    /**
+     * title in the upper bar of the CMS
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.08.2012
+     */
+    public function SectionTitle() {
+        return _t('SilvercartWidgetSet.PLURALNAME');
+    }
 }
 
 

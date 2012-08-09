@@ -1657,6 +1657,8 @@ en_GB:
     PAGES: "assigned pages"
     PLURALNAME: "Widget Sets"
     SINGULARNAME: "Widget Set"
+  SilvercartWidgetSetAdmin:
+    MENUTITLE: "Widget Sets"
   SilvercartWidgets:
     WIDGETSET_CONTENT_FIELD_LABEL: "Widgets for the content area"
     WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets for the sidebar"

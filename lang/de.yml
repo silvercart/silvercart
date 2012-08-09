@@ -1664,6 +1664,8 @@ de:
     PAGES: "zugeordnete Seiten"
     PLURALNAME: "Widget Sets"
     SINGULARNAME: "Widget Set"
+  SilvercartWidgetSetAdmin:
+    MENUTITLE: "Widget Sets"
   SilvercartWidgets:
     WIDGETSET_CONTENT_FIELD_LABEL: "Widgets für den Inhaltsbereich"
     WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets für die Seitenleiste"

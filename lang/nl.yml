@@ -1301,6 +1301,8 @@ nl:
     PAGES: "toegekende pagina's"
     PLURALNAME: "Widget Sets"
     SINGULARNAME: "Widget Set"
+  SilvercartWidgetSetAdmin:
+    MENUTITLE: "Widget Sets"
   SilvercartWidgets:
     WIDGETSET_CONTENT_FIELD_LABEL: "Widgets voor het content gebied"
     WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets voor de sidebar"
