@@ -39,7 +39,7 @@ class SilvercartWidget extends Widget {
      * @var array
      */
     public static $db = array(
-        'ExtraCssClasses' => 'VarChar(255)',
+        'ExtraCssClasses' => 'VarChar(255)'
     );
 
     /**

@@ -105,7 +105,7 @@ class SilvercartWidgetSet extends DataObject {
             //$fields->removeFieldFromTab('Root', 'SilvercartPages');
 
             $widgetAreaFieldConfig = GridFieldConfig_RelationEditor::create();
-            $widgetAreaFieldConfig->addComponent(new GridFieldSortableRows('Sort'));
+            $widgetAreaFieldConfig->addComponent(new GridFieldSortableRows('Widget.Sort'));
 
             $widgetAreaField = new GridField(
                 'WidgetArea.Widgets',
