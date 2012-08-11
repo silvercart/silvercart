@@ -137,7 +137,7 @@ class SilvercartPlugin extends Object {
      * @param array   $arguments                The arguments to pass
      * @param boolean $passArgumentsByReference Indicate wether the arguments should be passed by reference
      * @param mixed   $returnContainer          The container to gather the output. This can be e.g. a string if you want concatenated strings,
-     *                                          an array or a DataObjectSet
+     *                                          an array or a ArrayList
      *
      * @return mixed
      * 
@@ -166,7 +166,7 @@ class SilvercartPlugin extends Object {
                     if ($passArgumentsByReference) {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
-                        } else if ($returnContainer instanceof DataObjectSet) {
+                        } else if ($returnContainer instanceof SS_List) {
                             if ($returnContainer->TotalItems() === 0) {
                                 $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                             } else {
@@ -176,7 +176,7 @@ class SilvercartPlugin extends Object {
                             $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else if ($returnContainer == 'DataObject') {
                             $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
-                        } else if ($returnContainer == 'DataObjectSet') {
+                        } else if ($returnContainer == 'ArrayList') {
                             $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName($arguments,$callingObject);
@@ -184,7 +184,7 @@ class SilvercartPlugin extends Object {
                     } else {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
-                        } else if ($returnContainer instanceof DataObjectSet) {
+                        } else if ($returnContainer instanceof SS_List) {
                             if ($returnContainer->TotalItems() === 0) {
                                 $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                             } else {
@@ -194,7 +194,7 @@ class SilvercartPlugin extends Object {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer == 'DataObject') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
-                        } else if ($returnContainer == 'DataObjectSet') {
+                        } else if ($returnContainer == 'ArrayList') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else {
                             $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
@@ -205,8 +205,8 @@ class SilvercartPlugin extends Object {
                         $returnContainer = false;
                     } else if ($returnContainer == 'DataObject') {
                         $returnContainer = new DataObject();
-                    } else if ($returnContainer == 'DataObjectSet') {
-                        $returnContainer = new DataObjectSet();
+                    } else if ($returnContainer == 'ArrayList') {
+                        $returnContainer = new ArrayList();
                     }
                 }
             }
@@ -316,17 +316,17 @@ class SilvercartPlugin extends Object {
     
     /**
      * Extension results consist of arrays. This method concatenates all array
-     * entries into a DataObjectSet.
+     * entries into a ArrayList.
      *
      * @param array $extensionResultSet The result delivered by an extension
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.04.2012
      */
-    public function returnExtensionResultAsDataObjectSet($extensionResultSet) {
-        $result = new DataObjectSet();
+    public function returnExtensionResultAsArrayList($extensionResultSet) {
+        $result = new ArrayList();
         
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $extensionResult) {
@@ -337,12 +337,26 @@ class SilvercartPlugin extends Object {
     }
     
     /**
+     * This method has been renamed because DataObjectSet does not exist since SS 3.0.
+     *
+     * @param array $extensionResultSet The result delivered by an extension
+     *
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.08.2012
+     */
+    public function returnExtensionResultAsDataObjectSet($extensionResultSet) {
+        user_error("The method SilvercartPlugin::returnExtensionResultAsDataObjectSet() has been renamed. Please use SilvercartPlugin::returnExtensionResultAsArrayList() instead.", E_USER_ERROR);
+    }
+    
+    /**
      * Extension results consist of potential null values. The first not null 
      * value will be returned.
      *
      * @param array $extensionResultSet The result delivered by an extension
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.04.2012

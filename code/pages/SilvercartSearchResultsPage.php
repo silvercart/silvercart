@@ -162,7 +162,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * Contains the list of found products for this search. This is used for
      * caching purposes.
      *
-     * @var DataObjectSet
+     * @var DataList
      */
     protected $searchResultProducts;
 
@@ -232,7 +232,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             $searchResultProducts = $this->buildSearchResultProducts();
 
             if (!$searchResultProducts) {
-                $searchResultProducts = new DataObjectSet();
+                $searchResultProducts = new ArrayData();
             }
             
             $cache->save(serialize($searchResultProducts));
@@ -271,7 +271,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     /**
      * Builds the DataObject of filtered products
      *
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.05.2012
@@ -328,8 +328,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                             echo $response->getHttpStatusMessage();
                         }
                     }
-                    $searchResultProducts = new DataObjectSet($searchResultProducts);
-                    $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);
                 }
             } else {
                 // remove words with less than 3 chars
@@ -388,8 +386,12 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                         $SQL_start,
                         $productsPerPage
                     )
-                );
+                );          
             }
+            $searchResultProducts = new PaginatedList($searchResultProducts, $this->getRequest());
+            $searchResultProducts->setPageStart($SQL_start);
+            $searchResultProducts->setPageLength($productsPerPage);
+            $searchResultProducts->setTotalItems($foundProductsTotal);
         }
         $this->searchResultProducts = $searchResultProducts;
         return $this->searchResultProducts;
@@ -451,7 +453,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @param bool   $disableLimit     only defined because it exists on parent::getProducts to avoid strict notice
      * @param bool   $force            only defined because it exists on parent::getProducts to avoid strict notice
      *
-     * @return DataObjectSet|false the resulting products of the search query
+     * @return DataList|false the resulting products of the search query
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.05.2012

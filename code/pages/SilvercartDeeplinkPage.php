@@ -85,7 +85,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     
     /**
      *
-     * @var DataObjectSet the products that match the attribute/value in the url params 
+     * @var DataList the products that match the attribute/value in the url params 
      */
     protected $products = null;
     
@@ -165,7 +165,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Return a set of Products to be rendered in the template
      * Only filled if the result does not point to one product only
      * 
-     * @return DataObjectSet
+     * @return DataList
      */
     public function getProducts() {
         return $this->products;
@@ -213,7 +213,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Returns the result of a partial match search with the url parameters Action
      * and ID
      * 
-     * @return DataObjectSet|false a set of products 
+     * @return DataList|false a set of products 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 30.7.2011

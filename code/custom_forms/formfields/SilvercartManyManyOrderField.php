@@ -195,8 +195,8 @@ class SilvercartManyManyOrderField extends DropdownField {
             }
         }
 
-        $templateVars['available_items'] = new DataObjectSet($availableItems);
-        $templateVars['selected_items']  = new DataObjectSet($selectedItems);
+        $templateVars['available_items'] = new DataList($availableItems);
+        $templateVars['selected_items']  = new DataList($selectedItems);
         $output                          = $this->customise($templateVars)->renderWith('SilvercartManyManyOrderField');
 
         return $output;

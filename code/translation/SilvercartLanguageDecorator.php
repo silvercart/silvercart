@@ -94,14 +94,14 @@ class SilvercartLanguageDecorator extends DataExtension {
     /**
      * adjust CMS fields for display in the popup window
      *
-     * @param FieldSet &$fields the FieldSet from getCMSFields()
+     * @param FieldList &$fields the FieldSet from getCMSFields()
      *
      * @return void 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 06.01.2012
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList &$fields) {
         $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner);
         foreach ($this->owner->has_one() as $has_oneName => $has_oneObject) {
             $fields->removeByName($has_oneName . 'ID');
@@ -164,9 +164,9 @@ class SilvercartLanguageDecorator extends DataExtension {
     }
     
     /**
-     * Returns all translations for this DataObject as DataObjectSet
+     * Returns all translations for this DataObject as DataList
      *
-     * @return DataObjectSet 
+     * @return DataList 
      */
     public function getTranslations() {
         $relationFieldName  = $this->getRelationFieldName();

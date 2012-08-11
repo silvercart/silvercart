@@ -240,7 +240,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
     /**
      * Contains the viewable children of this page for caching purposes.
      *
-     * @var mixed null|DataObjectSet
+     * @var mixed null|ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.11.2011
@@ -273,7 +273,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * to be called on a template
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @return DataObjectSet set of randomly choosen product objects
+     * @return DataList set of randomly choosen product objects
      * @since 23.10.2010
      */
     public function randomProducts() {
@@ -360,7 +360,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      *
      * @param int $numberOfProductGroups Number of product groups to display
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2011
@@ -386,7 +386,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
 
             $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
 
-            $viewableChildrenSet = new DataObjectSet($viewableChildren);
+            $viewableChildrenSet = new ArrayList($viewableChildren);
             $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
             $viewableChildrenPage->setPaginationGetVar('groupStart');
             $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());

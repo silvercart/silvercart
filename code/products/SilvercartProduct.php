@@ -195,14 +195,14 @@ class SilvercartProduct extends DataObject {
     /**
      * All added product tabs via module
      * 
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $pluggedInTabs = null;
     
     /**
      * All added product information via module
      * 
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $pluggedInProductMetaData = null;
     
@@ -694,7 +694,7 @@ class SilvercartProduct extends DataObject {
      * @param string  $join        string to be used as SQL JOIN clause;
      * @param integer $limit       DataObject limit
      *
-     * @return DataObjectSet DataObjectSet of products or false
+     * @return PaginatedList|false PaginatedList of products
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2012
      */
@@ -806,13 +806,13 @@ class SilvercartProduct extends DataObject {
                     $sort
             );
         } else {
-            $databaseFilteredProducts = new DataList('SilvercartProduct');
+            $databaseFilteredProducts = new ArrayList();
         }
         if (!is_null($productCount) &&
             Controller::curr()->hasMethod('getProductsPerPageSetting') &&
             $databaseFilteredProducts) {
+            $databaseFilteredProducts = new PaginatedList($databaseFilteredProducts);
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
-            $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
         }
 
         return $databaseFilteredProducts;
@@ -1388,7 +1388,7 @@ class SilvercartProduct extends DataObject {
      * @param integer $amount        How many products should be returned?
      * @param boolean $masterProduct Should only master products be returned?
      *
-     * @return array DataObjectSet of random products
+     * @return PaginatedList PaginatedList of random products
      *
      * @author Roland Lehmann
      * @copyright Pixeltricks GmbH
@@ -1987,14 +1987,14 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
-     * Returns a DataObjectSet of attributed images. If there are no images
+     * Returns a ArrayList of attributed images. If there are no images
      * attributed the method checks if there's a standard no-image
      * visualitation defined in SilvercartConfig and returns the defined image
-     * as DataObjectSet. As last resort boolean false is returned.
+     * as ArrayList. As last resort boolean false is returned.
      *
      * @param string $filter An optional sql filter statement
      *
-     * @return mixed DataObjectSet|bool false
+     * @return mixed ArrayList|false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -2006,7 +2006,7 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateGetSilvercartImages', $images);
 
         if ($images->Count() > 0) {
-            $existingImages = new DataObjectSet();
+            $existingImages = new ArrayList();
             foreach ($images as $image) {
                 if (!file_exists($image->Image()->getFullPath())) {
                     $noImageObj = SilvercartConfig::getNoImage();
@@ -2026,15 +2026,7 @@ class SilvercartProduct extends DataObject {
             $noImageObj = SilvercartConfig::getNoImage();
 
             if ($noImageObj) {
-                $noImageObj->setField('Title', 'No Image');
-                $silvercartImageObj = new SilvercartImage();
-                $silvercartImageObj->ImageID             = $noImageObj->ID;
-                $silvercartImageObj->SilvercartProductID = $this->ID;
-
-                $images = new DataObjectSet();
-                $images->addWithoutWrite($silvercartImageObj);
-
-                return $images;
+                return new ArrayList($noImageObj->Image());
             }
         }
 
@@ -2179,11 +2171,11 @@ class SilvercartProduct extends DataObject {
     /**
      * returns all additional product tabs
      * 
-     * @return DataObjectSet  
+     * @return ArrayList  
      */
     public function getPluggedInTabs() {
         if (is_null($this->pluggedInTabs)) {
-            $this->pluggedInTabs = SilvercartPlugin::call($this, 'getPluggedInTabs', array(), false, 'DataObjectSet');
+            $this->pluggedInTabs = SilvercartPlugin::call($this, 'getPluggedInTabs', array(), false, 'ArrayList');
         }
         return $this->pluggedInTabs;
     }
@@ -2191,11 +2183,11 @@ class SilvercartProduct extends DataObject {
     /**
      * returns all additional information about a product
      * 
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public function getPluggedInProductMetaData() {
         if (is_null($this->pluggedInProductMetaData)) {
-            $this->pluggedInProductMetaData = SilvercartPlugin::call($this, 'getPluggedInProductMetaData', array(), false, 'DataObjectSet');
+            $this->pluggedInProductMetaData = SilvercartPlugin::call($this, 'getPluggedInProductMetaData', array(), false, 'ArrayList');
         }
         return $this->pluggedInProductMetaData;
     }

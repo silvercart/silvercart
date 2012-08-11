@@ -688,13 +688,13 @@ class SilvercartShoppingCart extends DataObject {
      *                                           can contain the ID or the className of the position
      * @param bool  $includeModules              Indicate whether to include modules or not
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 19.07.2012
      */
     public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) {
-        $cartPositions = new DataObjectSet();
+        $cartPositions = new ArrayList();
 
         if (!is_array($excludeModules)) {
             $excludeModules = array($excludeModules);
@@ -1353,13 +1353,13 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Returns the tax rates for shipping and payment fees.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.01.2012
      */
     public function getTaxRatesForFees() {
-        $taxes          = new DataObjectSet;
+        $taxes          = new ArrayList();
         $taxAmount      = 0;
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
@@ -1408,7 +1408,7 @@ class SilvercartShoppingCart extends DataObject {
      * Returns tax amounts included in the shoppingcart separated by tax rates
      * with fee taxes.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1484,7 +1484,7 @@ class SilvercartShoppingCart extends DataObject {
      * Returns tax amounts included in the shoppingcart separated by tax rates
      * without fee taxes.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1530,7 +1530,7 @@ class SilvercartShoppingCart extends DataObject {
      *                                           be taken into account.
      * @param array $excludeShoppingCartPosition Positions that shall not be counted
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1538,7 +1538,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function getTaxRatesWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
         $positions          = $this->SilvercartShoppingCartPositions();
-        $taxes              = new DataObjectSet;
+        $taxes              = new ArrayList();
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             array(
@@ -1749,7 +1749,7 @@ class SilvercartShoppingCart extends DataObject {
      *      - ShoppingCartPositions
      *      - ShoppingCartActions
      *
-     * @return DataObjectSet
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1788,7 +1788,7 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
 
-        return new DataObjectSet($modules);
+        return new DataList($modules);
     }
 
     /**
@@ -1801,7 +1801,7 @@ class SilvercartShoppingCart extends DataObject {
      * @param array  $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      *
      * @return array Associative array:
-     *      'ModuleName' => DataObjectSet (ModulePositions)
+     *      'ModuleName' => DataList (ModulePositions)
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

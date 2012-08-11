@@ -82,9 +82,9 @@ class SilvercartNewsletterResponsePage extends SilvercartMetaNavigationHolder {
 class SilvercartNewsletterResponsePage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
-     * Return the status messages as DataObjectSet.
+     * Return the status messages as DataList.
      *
-     * @return DataObjectSet
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -101,6 +101,6 @@ class SilvercartNewsletterResponsePage_Controller extends SilvercartMetaNavigati
             $messages = $status['messages'];
         }
 
-        return new DataObjectSet($messages);
+        return new DataList($messages);
     }
 }

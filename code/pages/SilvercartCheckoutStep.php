@@ -173,9 +173,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Gibt die Fehlerliste als DataObjectSet zurueck.
+     * Gibt die Fehlerliste als DataList zurueck.
      *
-     * @return DataObjectSet
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

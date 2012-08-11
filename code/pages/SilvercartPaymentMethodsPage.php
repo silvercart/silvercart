@@ -87,7 +87,7 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
     /**
      * Returns all payment methods
      *
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.05.2012

@@ -350,12 +350,12 @@ class SilvercartCustomer extends DataExtension {
     }
     
     /**
-     * Returns all customer groups of the current customer as a DataObjectSet.
+     * Returns all customer groups of the current customer as a DataList.
      * If Member::currentUser() does not exist, the group for anonymous customers
      * will be returned. If no group for anonymous customers exists, null will 
      * be returned.
      * 
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.10.2011

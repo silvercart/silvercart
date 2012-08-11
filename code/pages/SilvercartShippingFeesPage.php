@@ -90,7 +90,7 @@ class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHold
     /**
      * get all carriers; for the frontend
      *
-     * @return DataObjectSet all carrier objects
+     * @return DataList all carrier objects
      * @since 18.11.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */

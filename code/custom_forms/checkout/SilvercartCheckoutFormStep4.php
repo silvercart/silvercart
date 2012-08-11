@@ -54,7 +54,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     protected $allowedPaymentMethods = null;
     /**
      *
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $registeredNestedForms = array();
 
@@ -239,7 +239,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     /**
      * Returns the allowed payment methods.
      *
-     * @return DataObjectSet|Boolean
+     * @return ArrayList|Boolean
      */
     public function getAllowedPaymentMethods() {
         return $this->allowedPaymentMethods;
@@ -248,31 +248,31 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     /**
      * Sets the allowed payment methods.
      *
-     * @param DataObjectSet|Boolean $allowedPaymentMethods Allowed payment method
+     * @param ArrayList|Boolean $allowedPaymentMethods Allowed payment method
      * 
      * @return void
      */
-    public function setAllowedPaymentMethods($allowedPaymentMethods) {
+    public function setAllowedPaymentMethods(ArrayList $allowedPaymentMethods) {
         $this->allowedPaymentMethods = $allowedPaymentMethods;
     }
     
     /**
-     * Returns all registered nested forms as a DataObjectSet
+     * Returns all registered nested forms as a ArrayList
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getRegisteredNestedForms() {
         return $this->registeredNestedForms;
     }
 
     /**
-     * Sets all registered nested forms as a DataObjectSet
+     * Sets all registered nested forms as a ArrayList
      *
-     * @param DataObjectSet $registeredNestedForms Registered nested forms
+     * @param ArrayList $registeredNestedForms Registered nested forms
      * 
      * @return void
      */
-    public function setRegisteredNestedForms(DataObjectSet $registeredNestedForms) {
+    public function setRegisteredNestedForms(ArrayList $registeredNestedForms) {
         $this->registeredNestedForms = $registeredNestedForms;
     }
     
@@ -288,7 +288,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      */
     public function addRegisteredNestedForm(CustomHtmlForm $registeredNestedForm) {
         if (empty($this->registeredNestedForms)) {
-            $this->registeredNestedForms = new DataObjectSet();
+            $this->registeredNestedForms = new ArrayList();
         }
         $this->registeredNestedForms->push($registeredNestedForm);
     }

@@ -136,7 +136,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @since 01.08.2011
      */
     public function ErrorMessages() {
-        return new DataObjectSet($this->errorMessages);
+        return new DataList($this->errorMessages);
     }
     
     /**

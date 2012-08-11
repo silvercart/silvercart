@@ -202,14 +202,14 @@ class SilvercartPage extends SiteTree {
     }
     
     /**
-     * Returns all translated locales as a special DataObjectSet
+     * Returns all translated locales as a special ArrayList
      *
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public function getAllTranslations() {
         $currentLocale      = Translatable::get_current_locale();
         $translations       = $this->getTranslations();
-        $translationSource  = new DataObjectSet();
+        $translationSource  = new ArrayList();
         if ($translations) {
             $translationSource->push(new DataObject(
                 array(
@@ -270,14 +270,14 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Contains the controllers for the sidebar widgets
      * 
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $WidgetSetSidebarControllers;
     
     /**
      * Contains the controllers for the content area widget
      * 
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $WidgetSetContentControllers;
     
@@ -505,7 +505,7 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @since 27.10.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return DataObjectSet DataObjectSet with order objects
+     * @return DataList DataList with order objects
      */
     public function CurrentMembersOrders($limit = null) {
         $memberID = Member::currentUserID();
@@ -741,7 +741,7 @@ class SilvercartPage_Controller extends ContentController {
                     }
                 }
                 $elements = array(
-                    'SubElements' => new DataObjectSet($items),
+                    'SubElements' => new DataList($items),
                 );
                 $output = $this->customise($elements)->renderWith(
                     array(
@@ -801,14 +801,14 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
-     * Return the given number of topseller products as DataObjectSet.
+     * Return the given number of topseller products as DataList.
      * 
      * We use caching here, so check the cache first if you don't get the
      * desired results.
      *
      * @param int $nrOfProducts The number of products to return
      *
-     * @return mixed DataObjectSet|Boolean false
+     * @return mixed DataList|Boolean false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -851,7 +851,7 @@ class SilvercartPage_Controller extends ContentController {
                 );
             }
             
-            $result = new DataObjectSet($products);
+            $result = new DataList($products);
         }
 
         return $result;
@@ -863,7 +863,7 @@ class SilvercartPage_Controller extends ContentController {
      * @param string $groupIdentifier Identifier of the product group
      * @param int    $nrOfProducts    The number of products to return
      *
-     * @return void
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -929,7 +929,7 @@ class SilvercartPage_Controller extends ContentController {
             }
         }
 
-        $result = new DataObjectSet($products);
+        $result = new DataList($products);
 
         return $result;
     }
@@ -964,7 +964,7 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected function loadWidgetControllers() {
         // Sidebar area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
+        $controllers = new ArrayList();
         
         foreach ($this->WidgetSetSidebar() as $widgetSet) {
             $controllers->merge(
@@ -976,7 +976,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
         
         // Content area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
+        $controllers = new ArrayList();
         
         foreach ($this->WidgetSetContent() as $widgetSet) {
             $controllers->merge(

@@ -754,7 +754,7 @@ class SilvercartProductGroupPage extends Page {
     /**
      * Returns the active products for this page.
      *
-     * @return DataObjectSet
+     * @return DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @copyright 2012 pixeltricks GmbH
@@ -834,7 +834,7 @@ class SilvercartProductGroupPage extends Page {
     /**
      * Returns all Manufacturers of the groups products.
      *
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2011
@@ -852,7 +852,7 @@ class SilvercartProductGroupPage extends Page {
                     }
                 }
             }
-            $this->manufacturers = new DataObjectSet($manufacturers);
+            $this->manufacturers = new DataList($manufacturers);
         }
         return $this->manufacturers;
     }
@@ -878,7 +878,7 @@ class SilvercartProductGroupPage extends Page {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 31.05.2011
      * 
-     * @return DataObjectSet child pages
+     * @return ArrayList child pages
      */
     public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
         $children = $this->Children();
@@ -894,7 +894,7 @@ class SilvercartProductGroupPage extends Page {
      * @param string $sort             An SQL sort statement
      * @param bool   $disableLimit     Disables the product limitation
      * 
-     * @return DataObjectSet all products of this group or FALSE
+     * @return DataList|false all products of this group
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
@@ -911,7 +911,7 @@ class SilvercartProductGroupPage extends Page {
      * @param bool   $disableLimit     Disables the product limitation
      * @param bool   $force            Forces to get the products
      * 
-     * @return DataObjectSet all products of this group or FALSE
+     * @return DataList|false all products of this group
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
@@ -1023,10 +1023,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public static $registeredFilterPlugins = array();
     
     /**
-     * Contains a DataObjectSet of products for this page or null. Used for
+     * Contains a DataList of products for this page or null. Used for
      * caching.
      *
-     * @var mixed null|DataObjectSet
+     * @var mixed null|ArrayList
      */
     protected $groupProducts = array();
 
@@ -1071,7 +1071,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Contains the viewable children of this page for caching purposes.
      *
-     * @var mixed null|DataObjectSet
+     * @var mixed null|ArrayList
      */
     protected $viewableChildren = null;
     
@@ -1406,7 +1406,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param string $sort             An SQL sort statement
      * @param bool   $disableLimit     Disables the product limitation
      * 
-     * @return DataObjectSet all products of this group or FALSE
+     * @return DataList all products of this group or FALSE
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
@@ -1423,7 +1423,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param bool   $disableLimit     Disables the product limitation
      * @param bool   $force            Forces to get the products
      * 
-     * @return DataObjectSet all products of this group or FALSE
+     * @return DataList|false all products of this group
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
@@ -1432,11 +1432,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Translatable::get_current_locale());
         if ($this->data()->DoNotShowProducts &&
             !$force) {
-            $this->groupProducts[$hashKey] = new DataObjectSet();
+            $this->groupProducts[$hashKey] = new ArrayList();
         } elseif (!array_key_exists($hashKey, $this->groupProducts)) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
-            $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());
+            $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new ArrayList());
 
             if (!empty($pluginProducts)) {
                 $this->groupProducts[$hashKey] = $pluginProducts;
@@ -1545,7 +1545,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->groupProducts[$hashKey] = $groupProducts;
             }
 
-            // Inject additional methods into the DataObjectSet
+            // Inject additional methods into the ArrayList
             if ($this->groupProducts[$hashKey]) {
                 $this->groupProducts[$hashKey]->HasMorePagesThan = $this->HasMorePagesThan;
             }
@@ -1593,7 +1593,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * 
      * @param int $numberOfProducts The number of products to return
      * 
-     * @return DataObjectSet all products of this group or FALSE
+     * @return DataList all products of this group or FALSE
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 20.10.2010
@@ -1754,7 +1754,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @param int $numberOfProductGroups Number of product groups to display
      * 
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2011
@@ -1781,7 +1781,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
             $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
 
-            $viewableChildrenSet = new DataObjectSet($viewableChildren);
+            $viewableChildrenSet = new DataList($viewableChildren);
             $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
             $viewableChildrenPage->setPaginationGetVar('groupStart');
             $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
@@ -2298,10 +2298,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Returns injected products
      *
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public function getInjectedProducts() {
-        $injectedProducts = new DataObjectSet();
+        $injectedProducts = new ArrayList();
         if ($this->WidgetSetContent()->Count() > 0) {
             foreach ($this->WidgetSetContent() as $widgetSet) {
                 if ($widgetSet->WidgetArea()->Widgets()->Count() > 0) {
@@ -2310,7 +2310,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                         if (method_exists($controllerClass, 'getProducts')) {
                             $controller = new $controllerClass($widget);
                             $products   = $controller->getProducts();
-                            if ($products instanceof DataObjectSet) {
+                            if ($products instanceof SS_List) {
                                 $injectedProducts->merge($products);
                             }
                         }

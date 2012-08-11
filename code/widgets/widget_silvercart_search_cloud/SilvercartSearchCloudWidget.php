@@ -131,11 +131,11 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
     }
     
     /**
-     * Returns the most searched queries as a DataObjectSet
+     * Returns the most searched queries as a DataList
      *
-     * @return DataObjectSet 
+     * @return DataList 
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 05.06.2012
      */
     public function TagsForCloud() {
@@ -145,7 +145,21 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
             return false;
         }
         
-        $searchTagCounts    = $searchTags->groupBy('Count');
+        /*
+         * The following block is a replacement for the call DataObjectSet::groupBy()
+         * which does not exist any more
+         */
+        $searchTagCounts = array();
+        foreach ($searchTags as $item) {
+                $key = ($item->hasMethod('Count')) ? $item->Count() : $item->Count;
+
+                if (!isset($searchTagCounts[$key])) {
+                        $searchTagCounts[$key] = new ArrayList();
+                }
+                $searchTagCounts[$key]->push($item);
+        }
+        
+        
         foreach ($searchTagCounts as $index => $searchTagCount) {
             $searchTagCounts[$index] = $index;
         }

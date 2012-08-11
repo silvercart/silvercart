@@ -84,7 +84,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
             $itemIdx++;
         }
 
-        $templateVars['items'] = new DataObjectSet($items);
+        $templateVars['items'] = new DataList($items);
 
         $output = $this->customise($templateVars)->renderWith('SilvercartShippingOptionsetField');
 

@@ -401,7 +401,7 @@ class SilvercartWidgetTools extends Object {
      * Default form registration routine of a product slider widget
      *
      * @param SilvercartWidget_Controller $widget      Widget to initialize
-     * @param DataObjectSet               $element     Element to add cart form for
+     * @param DataObject                  $element     Element to add cart form for
      * @param int                         &$elementIdx Element counter to use as ID and increment
      * 
      * @return void
@@ -554,7 +554,7 @@ class SilvercartWidgetTools extends Object {
      */
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
-        if ($widget->Elements() instanceof DataObjectSet &&
+        if ($widget->Elements() instanceof SS_List &&
             $widget->Elements()->Count() > 0) {
             $productMap             = $widget->Elements()->map('ID', 'LastEdited');
             if (!is_array($productMap)) {
