@@ -167,7 +167,7 @@ class SilvercartTax extends DataObject {
     }
     
     /**
-     * determine the tax rate. This method can be extended via DataObjectDecorator to implement own behaviour.
+     * determine the tax rate. This method can be extended via DataExtension to implement own behavior.
      *
      * @return float the tax rate in percent
      * @author Roland Lehmann <rlehmann@pixeltricks.de>

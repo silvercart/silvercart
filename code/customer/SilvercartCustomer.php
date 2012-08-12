@@ -616,7 +616,7 @@ class SilvercartCustomer extends DataExtension {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartCustomer_Validator extends DataObjectDecorator {
+class SilvercartCustomer_Validator extends DataExtension {
     
     /**
      * Return TRUE if a method exists on this object

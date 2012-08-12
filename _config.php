@@ -54,7 +54,6 @@ Object::add_extension('ComponentSet',                               'SilvercartC
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
-Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('ModelAdmin_CollectionController',            'SilvercartModelAdmin_CollectionController');
@@ -64,7 +63,6 @@ Object::add_extension('TableListField_Item',                        'SilvercartT
 Object::add_extension('TableListField_ItemRequest',                 'SilvercartTableListField_ItemRequestDecorator');
 Object::add_extension('CMSMain',                                    'SilvercartMain');
 Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
-Object::add_extension('Security',                                   'SilvercartSecurityController');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
 Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
@@ -74,6 +72,8 @@ Object::add_extension('Image',                                      'SilvercartI
 // DataObject Translations
 */
 Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
+Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
+Object::add_extension('Security',                                   'SilvercartSecurityController');
 //Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');
 //Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageDecorator');
 //Object::add_extension('SilvercartFileLanguage',                     'SilvercartLanguageDecorator');
