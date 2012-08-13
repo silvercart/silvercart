@@ -79,20 +79,6 @@ class SilvercartWidgetSetAdmin extends ModelAdmin {
      * @var boolean
      */
     public $showImportForm = false;
-
-    /**
-     * Constructor
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function __construct() {
-        self::$menu_title = _t('SilvercartWidgetSet.PLURALNAME');
-        
-        parent::__construct();
-    }
     
     /**
      * Provides hook for decorators, so that they can overwrite css

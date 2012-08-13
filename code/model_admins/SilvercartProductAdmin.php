@@ -40,7 +40,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      */
     public static $menuCode = 'products';
 
-    public static $tree_class = 'Folder';
+    public static $tree_class = 'SilvercartProduct';
 
     /**
      * The section of the menu under which this admin should be grouped.

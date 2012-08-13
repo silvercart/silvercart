@@ -653,16 +653,13 @@ class SilvercartProductGroupPage extends Page {
         $translationProductGroupIDList  = implode(',', $translationProductGroupIDs);
 
         $sqlQuery = new SQLQuery();
-        $sqlQuery->select = array(
-            'SP_SPGMP.SilvercartProductID'
-        );
-        $sqlQuery->from = array(
-            'SilvercartProduct_SilvercartProductGroupMirrorPages SP_SPGMP'
-        );
-        $sqlQuery->where = array(
-            sprintf(
-                "SP_SPGMP.SilvercartProductGroupPageID IN (%s)",
-                $translationProductGroupIDList
+        $sqlQuery->setSelect('SP_SPGMP.SilvercartProductID');
+        $sqlQuery->addFrom('SilvercartProduct_SilvercartProductGroupMirrorPages SP_SPGMP');
+        $sqlQuery->addWhere(array(
+                sprintf(
+                    "SP_SPGMP.SilvercartProductGroupPageID IN (%s)",
+                    $translationProductGroupIDList
+                )
             )
         );
         $result = $sqlQuery->execute();

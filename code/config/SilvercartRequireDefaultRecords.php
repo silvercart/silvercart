@@ -322,7 +322,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 02.05.2012
      */
     public function createDefaultSiteTree() {
-        $rootPage = SilvercartPage::get()->filter('IdentifierCode', 'SilvercartCartPage');
+        $rootPage = SilvercartPage::get()->filter('IdentifierCode', 'SilvercartCartPage')->First();
+        var_dump($rootPage);
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage                   = new SilvercartFrontPage();
@@ -809,26 +810,25 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2012
      */
-    /*
     public function requireDefaultRecords() {
-        SilvercartLanguageHelper::createSilvercartCacheModule();
-        SilvercartLanguageHelper::createMissingLocales();
+        //SilvercartLanguageHelper::createSilvercartCacheModule();
+        //SilvercartLanguageHelper::createMissingLocales();
 
         parent::requireDefaultRecords();
         // create groups
-        $this->createDefaultGroups();
+        //$this->createDefaultGroups();
         // create config
-        $this->createDefaultConfig();
+        //$this->createDefaultConfig();
         // create countries
         //$this->requireOrUpdateCountries();
         // create order status
         //$this->createDefaultOrderStatus();
         // create availability status
-        $this->createDefaultAvailabilityStatus();
+        //$this->createDefaultAvailabilityStatus();
         // create number ranges
-        $this->createDefaultNumberRanges();
+        //$this->createDefaultNumberRanges();
         // and now the whole site tree
-        //$rootPage = $this->createDefaultSiteTree();
+        $rootPage = $this->createDefaultSiteTree();
         // create shop emails
         //$this->createDefaultShopEmails();
         // rewrite error page templates
@@ -838,7 +838,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
         self::createTestConfiguration();
         self::createTestData();
-    } */
+    }
     
     /**
      * Will create a translation of all pages of the SiteTree for the defined
