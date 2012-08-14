@@ -46,6 +46,7 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm 
      */
     public function preferences() {
         $this->preferences['stepIsVisible']                    = false;
+        $this->preferences['stepTitle']                        = _t('SilvercartCheckoutFormStepDefaultOrderConfirmation.TITLE', 'Order Confirmation');
         $this->preferences['ShowCustomHtmlFormStepNavigation'] = false;
         $this->preferences['createShoppingcartForms']          = false;
         $this->preferences['doJsValidationScrolling']          = false;
