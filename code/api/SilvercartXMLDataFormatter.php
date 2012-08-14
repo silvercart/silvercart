@@ -163,7 +163,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
             }
         }
 
-        $xml .= "</$className>";
+        $xml .= "</$className>\n";
 
         return $xml;
     }
