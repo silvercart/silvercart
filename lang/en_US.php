@@ -996,6 +996,10 @@ $lang['en_US']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          =
 $lang['en_US']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Start playing automatically';
 $lang['en_US']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Type of effect';
 
+$lang['en_US']['SilvercartMailForgotPassword']['TITLE']             = 'Reset Password';
+$lang['en_US']['SilvercartMailForgotPassword']['VISIT_TEXT']        = 'Please visit <a href="%s">this page</a> to reset your password.';
+$lang['en_US']['SilvercartMailForgotPassword']['NO_CHANGE']         = 'If you do not want to change your password, you may ignore this email.';
+
 $lang['en_US']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
 $lang['en_US']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
 $lang['en_US']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'my-account';

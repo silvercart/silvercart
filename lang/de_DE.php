@@ -996,6 +996,10 @@ $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          =
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Automatisch starten';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Effekt';
 
+$lang['de_DE']['SilvercartMailForgotPassword']['TITLE']             = 'Passwort zurücksetzen';
+$lang['de_DE']['SilvercartMailForgotPassword']['VISIT_TEXT']        = 'Bitte besuchen Sie <a href="%s">diese Seite</a>, um Ihr Passwort zu ändern.';
+$lang['de_DE']['SilvercartMailForgotPassword']['NO_CHANGE']         = 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.';
+
 $lang['de_DE']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Sie haben schon ein Konto?';
 $lang['de_DE']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'Mein Konto';
 $lang['de_DE']['SilvercartMyAccountHolder']['DEFAULT_URLSEGMENT']               = 'mein-konto';
