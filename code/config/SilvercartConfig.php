@@ -653,7 +653,7 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$emailSender)) {
             self::$emailSender = self::getConfig()->EmailSender;
         }
-        return utf8_decode(self::$emailSender);
+        return iconv("UTF-8", "ISO-8859-1", self::$emailSender);
     }
 
     /**
