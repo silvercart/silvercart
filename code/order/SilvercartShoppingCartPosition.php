@@ -344,10 +344,14 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 31.07.2012
      */
     public function getCartDescription() {
-        if (SilvercartConfig::productDescriptionFieldForCart() == 'LongDescription') {
-            $description = $this->SilvercartProduct()->LongDescription;
+        if (!SilvercartConfig::useProductDescriptionFieldForCart()) {
+            $description = '';
         } else {
-            $description = $this->SilvercartProduct()->ShortDescription;
+            if (SilvercartConfig::productDescriptionFieldForCart() == 'LongDescription') {
+                $description = $this->SilvercartProduct()->LongDescription;
+            } else {
+                $description = $this->SilvercartProduct()->ShortDescription;
+            }
         }
 
         return $description;

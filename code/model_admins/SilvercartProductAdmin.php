@@ -106,19 +106,22 @@ class SilvercartProductAdmin extends ModelAdmin {
         $request = $this->getRequest();
         $postVars = $request->postVars();
         if (array_key_exists('update', $postVars)) {
-            $productID = $postVars['update'];
+            $productID      = $postVars['update'];
             $currentProduct = DataObject::get_by_id('SilvercartProduct', $productID);
-            if ($currentProduct->SilvercartFiles()) {
-                foreach ($currentProduct->SilvercartFiles() as $file) {
-                    if ($file->isEmptyObject()) {
-                        $file->delete();
+
+            if ($currentProduct) {
+                if ($currentProduct->SilvercartFiles()) {
+                    foreach ($currentProduct->SilvercartFiles() as $file) {
+                        if ($file->isEmptyObject()) {
+                            $file->delete();
+                        }
                     }
                 }
-            }
-            if ($currentProduct->SilvercartImages()) {
-                foreach ($currentProduct->SilvercartImages() as $image) {
-                    if ($image->isEmptyObject()) {
-                        $image->delete();
+                if ($currentProduct->SilvercartImages()) {
+                    foreach ($currentProduct->SilvercartImages() as $image) {
+                        if ($image->isEmptyObject()) {
+                            $image->delete();
+                        }
                     }
                 }
             }
