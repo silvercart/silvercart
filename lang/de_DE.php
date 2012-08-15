@@ -469,6 +469,8 @@ $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
 $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Schritt';
 $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
 
+$lang['de_DE']['SilvercartCheckoutFormStepDefaultOrderConfirmation']['TITLE'] = 'Bestellbestätigung';
+
 $lang['de_DE']['SilvercartConfig']['ADDTOCARTMAXQUANTITY'] = 'Maximal erlaubte Anzahl eines Artikels im Warenkorb';
 $lang['de_DE']['SilvercartConfig']['ADD_EXAMPLE_DATA'] = 'Beispieldaten hinzufügen';
 $lang['de_DE']['SilvercartConfig']['ADD_EXAMPLE_DATA_DESCRIPTION'] = 'Die Aktion "Beispieldaten hinzufügen" wird einen Beispiel Hersteller und vier Warengruppen mit jeweils 50 Artikel anlegen.<br/><strong>ACHTUNG: Diese Aktion kann einige Minuten dauern!</strong>';
@@ -525,6 +527,7 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPE_ANONYMOUS'] = 'Preistyp für anony
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_REGULAR'] = 'Preistyp für Endkunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPE_BUSINESS'] = 'Preistyp für Geschäftskunden';
 $lang['de_DE']['SilvercartConfig']['PRICETYPES_HEADLINE'] = 'Preistypen';
+$lang['de_DE']['SilvercartConfig']['PRODUCT_DESCRIPTION_FIELD_FOR_CART'] = 'Feld für Artikelbeschreibung im Warenkorb';
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Artikel pro Seite';
 $lang['de_DE']['SilvercartConfig']['PRODUCTSPERPAGE_ALL'] = 'Alle anzeigen';
 $lang['de_DE']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite';
@@ -544,6 +547,7 @@ $lang['de_DE']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Mindestbe
 $lang['de_DE']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Mindestbestellwert';
 $lang['de_DE']['SilvercartConfig']['DEFAULT_LANGUAGE'] = 'Standardsprache';
 $lang['de_DE']['SilvercartConfig']['USE_DEFAULT_LANGUAGE'] = 'Standardsprache benutzen, wenn die passende Sprache fehlt?';
+$lang['de_DE']['SilvercartConfig']['USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'] = 'Artikelbeschreibung in Warenkorb anzeigen';
 $lang['de_DE']['SilvercartConfig']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['SilvercartConfig']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['SilvercartConfig']['OPEN_RECORD'] = 'Datensatz öffnen';
