@@ -70,6 +70,7 @@ Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartG
 Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 Object::add_extension('Image',                                      'SilvercartImageExtension');
+Object::add_extension('DataObjectSet',                              'SilvercartDataObjectSet');
 // DataObject Translations
 Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');

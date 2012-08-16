@@ -551,6 +551,7 @@ $lang['de_DE']['SilvercartConfig']['USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'] = '
 $lang['de_DE']['SilvercartConfig']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['SilvercartConfig']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['SilvercartConfig']['OPEN_RECORD'] = 'Datensatz öffnen';
+$lang['de_DE']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'Anzahl gleichzeitig angezeigter Seitenzahlen';
 
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'kontakt';
