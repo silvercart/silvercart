@@ -122,20 +122,3 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
     }
 }
 
-
-/**
- * Modifies the model admin search panel.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 08.08.2011
- * @copyright 2011 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartGoogleMerchantTaxonomy_CollectionController extends ModelAdmin_CollectionController {
-    
-    public $showImportForm = true;
-
-}
-

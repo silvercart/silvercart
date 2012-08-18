@@ -127,7 +127,7 @@ class SilvercartDeeplink extends DataObject {
      * 
      * @param array $params Additional parameters
      * 
-     * @return FieldSet a set of fields 
+     * @return FieldList a set of fields 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012

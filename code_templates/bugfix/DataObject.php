@@ -1827,7 +1827,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @param array $_params
 	 * 	'fieldClasses': Associative array of field names as keys and FormField classes as values
 	 * 	'restrictFields': Numeric array of a field name whitelist
-	 * @return FieldSet
+	 * @return FieldList
 	 */
 	public function scaffoldSearchFields($_params = null) {
 		$params = array_merge(
@@ -1837,7 +1837,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			),
 			(array)$_params
 		);
-		$fields = new FieldSet();
+		$fields = new FieldList();
 		foreach($this->searchableFields() as $fieldName => $spec) {
 			if($params['restrictFields'] && !in_array($fieldName, $params['restrictFields'])) continue;
 			
@@ -1884,7 +1884,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @uses FormScaffolder
 	 * 
 	 * @param array $_params Associative array passing through properties to {@link FormScaffolder}.
-	 * @return FieldSet
+	 * @return FieldList
 	 */
 	public function scaffoldFormFields($_params = null) {
 		$params = array_merge(
@@ -1905,12 +1905,12 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		$fs->fieldClasses = $params['fieldClasses'];
 		$fs->ajaxSafe = $params['ajaxSafe'];
 		
-		return $fs->getFieldSet();
+		return $fs->getFieldList();
 	}
 	
 	/**
 	 * Centerpiece of every data administration interface in Silverstripe,
-	 * which returns a {@link FieldSet} suitable for a {@link Form} object.
+	 * which returns a {@link FieldList} suitable for a {@link Form} object.
 	 * If not overloaded, we're using {@link scaffoldFormFields()} to automatically
 	 * generate this set. To customize, overload this method in a subclass
 	 * or decorate onto it by using {@link DataObjectDecorator->updateCMSFields()}.

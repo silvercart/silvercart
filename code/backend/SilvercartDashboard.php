@@ -62,7 +62,7 @@ class SilvercartDashboard extends LeftAndMain {
      * @since 25.01.2012
      */
     public function DashboardFields() {
-        $fields = new FieldSet();
+        $fields = new FieldList();
 
         $dashboardField = new LiteralField(
             'silvercartDashboardField',

@@ -94,7 +94,7 @@ class SilvercartProductCondition extends DataObject {
      *
      * @param array $params Parameters for scaffolding
      *
-     * @return FieldSet 
+     * @return FieldList 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012

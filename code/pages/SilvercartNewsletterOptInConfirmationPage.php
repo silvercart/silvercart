@@ -81,7 +81,7 @@ class SilvercartNewsletterOptInConfirmationPage extends Page {
     /**
      * Return all fields of the backend
      *
-     * @return FieldSet Fields of the CMS
+     * @return FieldList Fields of the CMS
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011

@@ -172,7 +172,7 @@ class SilvercartShopEmail extends DataObject {
     /**
      * input fields for backend manipulation
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

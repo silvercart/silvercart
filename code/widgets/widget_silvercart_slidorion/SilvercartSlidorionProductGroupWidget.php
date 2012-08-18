@@ -152,13 +152,13 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.05.2012
      */
     public function getCMSFields() {
-        $fields = new FieldSet();
+        $fields = new FieldList();
         $rootTabSet     = new TabSet('Root');
         $basicTab       = new Tab('Basic', $this->fieldLabel('BasicTab'));
         $advancedTab    = new Tab('Advanced', $this->fieldLabel('AdvancedTab'));

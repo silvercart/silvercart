@@ -195,7 +195,7 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.12.2011

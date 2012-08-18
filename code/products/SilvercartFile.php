@@ -169,7 +169,7 @@ class SilvercartFile extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
@@ -206,7 +206,7 @@ class SilvercartFile extends DataObject {
      *
      * @param array $params configuration parameters
      *
-     * @return FieldSet $fields field set for cms 
+     * @return FieldList $fields field set for cms 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
@@ -229,7 +229,7 @@ class SilvercartFile extends DataObject {
      *
      * @param array $params Scaffolding params
      * 
-     * @return FieldSet $fields field set for cms
+     * @return FieldList $fields field set for cms
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
@@ -250,7 +250,7 @@ class SilvercartFile extends DataObject {
      * 
      * @param array $params configuration array
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012

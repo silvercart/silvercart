@@ -128,7 +128,7 @@ class SilvercartHandlingCost extends DataObject {
      * 
      * @param array $params configuration parameters
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

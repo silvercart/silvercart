@@ -153,7 +153,7 @@ class SilvercartManufacturer extends DataObject {
      *
      * @param array $params See {@link scaffoldFormFields()}
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);

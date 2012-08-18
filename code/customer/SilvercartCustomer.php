@@ -99,7 +99,7 @@ class SilvercartCustomer extends DataExtension {
     /**
      * manipulate the cms fields of the decorated class
      *
-     * @param FieldSet $fields the field set of cms fields
+     * @param FieldList $fields the field set of cms fields
      * 
      * @return void
      * 

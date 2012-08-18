@@ -194,7 +194,7 @@ class SilvercartShippingFee extends DataObject {
      * 
      * @param array $params Scaffolding parameters
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2012

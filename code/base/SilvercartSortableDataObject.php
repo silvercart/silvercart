@@ -53,11 +53,11 @@ class SilvercartSortableDataObject extends DataExtension {
      * @since 28.03.2012
      */
     public static function add_sortable_class($className) {
-        if (!SortableDataObject::is_sortable_class($className)) {
-            DataObject::add_extension($className, 'SilvercartSortableDataObject');
-            DataObject::add_extension($className, 'SortableDataObject');
-            SortableDataObject::$sortable_classes[] = $className;
-        }
+//        if (!SortableDataObject::is_sortable_class($className)) {
+//            DataObject::add_extension($className, 'SilvercartSortableDataObject');
+//            DataObject::add_extension($className, 'SortableDataObject');
+//            SortableDataObject::$sortable_classes[] = $className;
+//        }
     }
     
     /**

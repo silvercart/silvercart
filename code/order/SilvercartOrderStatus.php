@@ -167,7 +167,7 @@ class SilvercartOrderStatus extends DataObject {
     /**
      * remove attribute Code from the CMS fields
      *
-     * @return FieldSet all CMS fields related
+     * @return FieldList all CMS fields related
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.07.2012

@@ -301,7 +301,7 @@ class SilvercartProductExporter extends DataObject {
      *
      * @param array $params See {@link scaffoldFormFields()}
      *
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2012
@@ -332,7 +332,7 @@ class SilvercartProductExporter extends DataObject {
         }
         
         $tabBasic->setChildren(
-            new FieldSet(
+            new FieldList(
                 $fields->dataFieldByName('isActive'),
                 $fields->dataFieldByName('name'),
                 $fields->dataFieldByName('csvSeparator'),
@@ -365,7 +365,7 @@ class SilvercartProductExporter extends DataObject {
         $silvercartProductGroupPagesField->setTreeBaseID($productGroupHolder->ID);
         
         $tabProductSelection->setChildren(
-            new FieldSet(
+            new FieldList(
                 new HeaderField('selectOnlyHeadline', _t('SilvercartProductExport.FIELD_SELECT_ONLY_HEADLINE'), 2),
                 $fields->dataFieldByName('selectOnlyProductsWithProductGroup'),
                 $fields->dataFieldByName('selectOnlyProductsWithImage'),
@@ -419,7 +419,7 @@ class SilvercartProductExporter extends DataObject {
         );
         
         $tabExportFieldDefinitions->setChildren(
-            new FieldSet(
+            new FieldList(
                 new HeaderField(
                     'attributeExportFieldsLabel',
                     _t('SilvercartProductExport.ATTRIBUTE_EXPORT_FIELDS_LABEL'),
@@ -435,7 +435,7 @@ class SilvercartProductExporter extends DataObject {
         $tabHeaderConfiguration = new Tab('HeaderConfiguration', _t('SilvercartProductExportAdmin.TAB_HEADER_CONFIGURATION', 'Header configuration'));
         $tabset->push($tabHeaderConfiguration);
         
-        $tabHeaderFieldSet = new FieldSet();
+        $tabHeaderFieldSet = new FieldList();
         
         $tabHeaderFieldSet->push(
             $fields->dataFieldByName('activateCsvHeaders')
@@ -465,7 +465,7 @@ class SilvercartProductExporter extends DataObject {
             $tabHeaderFieldSet
         );
         
-        return new FieldSet($tabset);
+        return new FieldList($tabset);
     }
     
     /**

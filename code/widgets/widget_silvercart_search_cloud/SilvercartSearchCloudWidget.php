@@ -119,7 +119,7 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();

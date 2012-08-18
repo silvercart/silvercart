@@ -112,7 +112,7 @@ class SilvercartCarrier extends DataObject {
      *
      * @param array $params Params to use
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);

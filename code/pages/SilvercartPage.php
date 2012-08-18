@@ -100,7 +100,7 @@ class SilvercartPage extends SiteTree {
     /**
      * Define editing fields for the storeadmin.
      *
-     * @return FieldSet all related CMS fields
+     * @return FieldList all related CMS fields
      * 
      * @author Jiri Ripa <jripa@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH

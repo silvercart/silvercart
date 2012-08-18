@@ -94,7 +94,7 @@ class SilvercartLanguageExtension extends DataExtension {
     /**
      * adjust CMS fields for display in the popup window
      *
-     * @param FieldList $fields the FieldSet from getCMSFields()
+     * @param FieldList $fields the FieldList from getCMSFields()
      *
      * @return void 
      * 

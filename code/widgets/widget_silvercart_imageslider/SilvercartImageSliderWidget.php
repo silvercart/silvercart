@@ -135,13 +135,13 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields = new FieldSet();
+        $fields = new FieldList();
         
         $rootTabSet         = new TabSet('Root');
         $basicTab           = new Tab('Basic',              $this->fieldLabel('BasicTab'));
@@ -177,7 +177,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * 
      * @param TabSet &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012

@@ -92,7 +92,7 @@ class SilvercartWidgetSet extends DataObject {
      * 
      * @param array $params Additional parameters
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.05.2011

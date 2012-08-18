@@ -67,37 +67,43 @@ class SilvercartOrderShippingAddress extends SilvercartOrderAddress {
 
     /**
      * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanView() {
+    public function CanView($member = null) {
         return $this->SilvercartOrder()->CanView();
     }
 
     /**
      * Indicates wether the current user can edit this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanEdit() {
+    public function CanEdit($member = null) {
         return $this->SilvercartOrder()->CanEdit();
     }
 
     /**
      * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanDelete() {
+    public function CanDelete($member = null) {
         return $this->SilvercartOrder()->CanDelete();
     }
     

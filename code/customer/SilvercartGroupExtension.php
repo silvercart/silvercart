@@ -55,14 +55,14 @@ class SilvercartGroupExtension extends DataExtension {
     /**
      * Adds or removes GUI elements for the backend editing mask.
      *
-     * @param FieldSet &$fields The original FieldSet
+     * @param FieldList $fields The original FieldList
      *
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function updateCMSFields(FieldSet &$fields) {
+    public function updateCMSFields(FieldList $fields) {
         $fields->addFieldToTab('Root.Members', new TextField('Code', _t('Group.CODE')));
         if ($this->owner->ID) {
             $shippingMethodsTable = new SilvercartManyManyComplexTableField(

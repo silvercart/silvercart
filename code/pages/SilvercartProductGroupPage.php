@@ -378,7 +378,7 @@ class SilvercartProductGroupPage extends Page {
     /**
      * Return all fields of the backend.
      *
-     * @return FieldSet Fields of the CMS
+     * @return FieldList Fields of the CMS
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

@@ -170,37 +170,43 @@ class SilvercartOrderPosition extends DataObject {
 
     /**
      * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanView() {
+    public function CanView($member = null) {
         return $this->SilvercartOrder()->CanView();
     }
 
     /**
      * Indicates wether the current user can edit this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanEdit() {
+    public function CanEdit($member = null) {
         return $this->SilvercartOrder()->CanEdit();
     }
 
     /**
      * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member current member
      *
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function CanDelete() {
+    public function CanDelete($member = null) {
         return $this->SilvercartOrder()->CanDelete();
     }
 
@@ -274,7 +280,7 @@ class SilvercartOrderPosition extends DataObject {
     /**
      * Customize scaffolding fields for the backend
      *
-     * @return FieldSet the form fields for the backend
+     * @return FieldList the form fields for the backend
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 21.03.2012

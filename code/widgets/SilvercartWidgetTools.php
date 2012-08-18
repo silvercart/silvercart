@@ -38,7 +38,7 @@ class SilvercartWidgetTools extends Object {
      * 
      * @param SilvercartWidget_Controller $widget Widget to initialize
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
@@ -50,7 +50,7 @@ class SilvercartWidgetTools extends Object {
                 'sortOrderDesc' => $widget->fieldLabel('fetchMethodSortOrderDesc'),
         );
         
-        $fields                     = new FieldSet();
+        $fields                     = new FieldList();
         $titleField                 = new TextField('FrontTitle',               $widget->fieldLabel('FrontTitle'));
         $contentField               = new TextareaField('FrontContent',         $widget->fieldLabel('FrontContent'), 10);
         $numberOfProductsShowField  = new TextField('numberOfProductsToShow',   $widget->fieldLabel('numberOfProductsToShow'));
@@ -92,7 +92,7 @@ class SilvercartWidgetTools extends Object {
      * @param SilvercartWidget_Controller $widget      Widget to initialize
      * @param TabSet                      &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012

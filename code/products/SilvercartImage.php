@@ -146,7 +146,7 @@ class SilvercartImage extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -163,7 +163,7 @@ class SilvercartImage extends DataObject {
      *
      * @param array $params configuration parameters
      *
-     * @return FieldSet $fields field set for cms 
+     * @return FieldList $fields field set for cms 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
@@ -186,7 +186,7 @@ class SilvercartImage extends DataObject {
      *
      * @param array $params Scaffolding params
      * 
-     * @return FieldSet $fields field set for cms
+     * @return FieldList $fields field set for cms
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
@@ -215,7 +215,7 @@ class SilvercartImage extends DataObject {
      *
      * @param array $params Scaffolding params
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFieldsForPayment($params = null) {
         $fields = $this->getCMSFieldsForContext(
@@ -241,7 +241,7 @@ class SilvercartImage extends DataObject {
      *
      * @param array $params Scaffolding params
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFieldsForWidget($params = null) {
         $fields = $this->getCMSFieldsForContext(

@@ -80,7 +80,7 @@ class SilvercartQuantityUnit extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
@@ -142,6 +142,8 @@ class SilvercartQuantityUnit extends DataObject {
 
     /**
      * Field labels for display in tables.
+     * 
+     * @param bool $includerelations config option
      *
      * @return array
      *
@@ -149,9 +151,9 @@ class SilvercartQuantityUnit extends DataObject {
      * @copyright 2011 pixeltricks GmbH
      * @since 29.03.2011
      */
-    public function fieldLabels() {
+    public function fieldLabels($includerelations = true) {
         return array_merge(
-                parent::fieldLabels(),
+                parent::fieldLabels($includerelations),
                 array(
                     'Title'                             => _t('SilvercartQuantityUnit.NAME'),
                     'Abbreviation'                      => _t('SilvercartQuantityUnit.ABBREVIATION'),

@@ -1089,7 +1089,7 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.10.10
      */
@@ -1120,7 +1120,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @param mixed $params optional parameters
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -1136,7 +1136,7 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * Returns modified CMS fields for the payment modules
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFieldsForModules() {
         $tabset = new TabSet('Sections');
@@ -1149,7 +1149,7 @@ class SilvercartPaymentMethod extends DataObject {
         $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
         $tabset->push($tabBasic);
         $tabset->push($translationsTab);
-        $tabBasicFieldSet = new FieldSet();
+        $tabBasicFieldSet = new FieldList();
         $tabBasic->setChildren($tabBasicFieldSet);
         //multilingual fields
         if ($this->isExtendingSilvercartPaymentMethod()) {
@@ -1184,7 +1184,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabset->push($tabHandlingCosts);
 
         $tabHandlingCosts->setChildren(
-            new FieldSet(
+            new FieldList(
                 new HasOneComplexTableField(
                     $this,
                     'SilvercartHandlingCost',
@@ -1219,7 +1219,7 @@ class SilvercartPaymentMethod extends DataObject {
                 )
         );
         $tabLogos->setChildren(
-            new FieldSet(
+            new FieldList(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
                 $paymentLogosTable
             )
@@ -1393,13 +1393,13 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingMethodsTab->push($shippingMethodsDesc);
         $shippingMethodsTab->push($shippingMethodsTable);
         
-        return new FieldSet($tabset);
+        return new FieldList($tabset);
     }
 
     /**
      * Returns the original CMSFields.
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFieldsOriginal() {
         return parent::getCMSFields();
@@ -1769,28 +1769,4 @@ class SilvercartPaymentMethod extends DataObject {
         return false;
     }
 
-}
-
-/**
- * Used to redefine some form fields in the search box.
- *
- * @package Silvercart
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 10.03.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartPaymentMethod_CollectionController extends ModelAdmin_CollectionController {
-    
-    /**
-     * Removes the field "create order" from the model admin
-     * 
-     * @return bool false
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 01.10.2011
-     */
-    public function CreateForm() {
-        return false;
-    }
 }

@@ -111,7 +111,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012
@@ -133,7 +133,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
      * 
      * @param TabSet &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012

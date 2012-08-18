@@ -38,7 +38,7 @@ interface SilvercartProductSliderWidget {
      * 
      * @param TabSet &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012

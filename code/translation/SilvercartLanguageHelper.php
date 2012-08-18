@@ -67,7 +67,7 @@ class SilvercartLanguageHelper {
      * @param DataObject $dataobject     DataObject to scaffold the form fields for
      * @param array      $restrictFields List of restrict fields
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.07.2012
@@ -96,7 +96,7 @@ class SilvercartLanguageHelper {
      *
      * @param DataObject $dataobject DataObject to scaffold the form fields for
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.01.2012

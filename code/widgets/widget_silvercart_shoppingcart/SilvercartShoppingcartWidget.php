@@ -154,7 +154,7 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
     /**
      * add checkbox option to the widget
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();

@@ -38,7 +38,7 @@ class DateRangeSearchContext extends SearchContext {
    * field with a single text field which we can use to apply
    * jquery date range widget to.
    *
-   * @return FieldSet
+   * @return FieldList
    *
    * @author Sascha Koehler <skoehler@pixeltricks.de>
    * @since 11.03.2012

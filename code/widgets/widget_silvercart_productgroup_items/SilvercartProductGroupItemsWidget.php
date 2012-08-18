@@ -125,7 +125,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
@@ -185,7 +185,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @param TabSet &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
@@ -199,7 +199,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @param TabSet &$rootTabSet The root tab set
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012

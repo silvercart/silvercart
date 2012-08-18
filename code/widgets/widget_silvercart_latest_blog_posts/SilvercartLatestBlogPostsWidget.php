@@ -111,13 +111,13 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields             = new FieldSet();
+        $fields             = new FieldList();
         
         $rootTabSet         = new TabSet('RootTabSet');
         $mainTab            = new Tab('Root', $this->fieldLabel('Content'));

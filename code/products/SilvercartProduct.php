@@ -854,7 +854,7 @@ class SilvercartProduct extends DataObject {
      *
      * @param array $params Parameters to manipulate the scaffolding
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.05.2012
@@ -912,7 +912,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds the fields for the MirrorProductGroups tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -940,7 +940,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds the fields for the Widgets tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -971,7 +971,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the Main tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -1016,8 +1016,8 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the Prices tab
      *
-     * @param FieldSet $fields    FieldSet to add fields to
-     * @param bool     $addToMain Should the price fields be added to main tab?
+     * @param FieldList $fields    FieldList to add fields to
+     * @param bool      $addToMain Should the price fields be added to main tab?
      * 
      * @return void
      */
@@ -1038,7 +1038,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the SEO tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -1051,7 +1051,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the Images tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -1080,7 +1080,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the Files tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -1109,7 +1109,7 @@ class SilvercartProduct extends DataObject {
     /**
      * Adds or modifies the fields for the Deeplinks tab
      *
-     * @param FieldSet $fields FieldSet to add fields to
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
@@ -1141,7 +1141,7 @@ class SilvercartProduct extends DataObject {
      *
      * @param array $params See {@link scaffoldFormFields()}
      *
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields($params = null) {
         $this->getCMSFieldsIsCalled = true;

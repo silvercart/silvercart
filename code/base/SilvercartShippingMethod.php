@@ -225,7 +225,7 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
@@ -696,65 +696,4 @@ class SilvercartShippingMethod extends DataObject {
         $this->shippingCountry = $shippingCountry;
     }
 
-}
-
-/**
- * Collection controller for shipping methods
- * 
- * @package Silvercart
- * @subpackage Base
- * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2012 pixeltricks GmbH
- * @since 17.01.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartShippingMethod_CollectionController extends ModelAdmin_CollectionController {
-    
-    
-    /**
-     * Extends the CSV field list of the results table
-     *
-     * @param array $searchCriteria passed through from ResultsForm 
-     * 
-     * @return TableListField 
-     */
-    public function getResultsTable($searchCriteria) {
-        $tf = parent::getResultsTable($searchCriteria);
-        $tf->setFieldListCsv(
-                array(
-                    'ID'                    => 'ID',
-                    'Title'                 => 'Title',
-                    'isActive'              => 'isActive',
-                    'SilvercartCarrierID'   => 'SilvercartCarrierID',
-                    'AttributedZoneIDs'     => 'AttributedZoneIDs',
-                )
-        );
-        return $tf;
-    }
-    
-    /**
-     * Generate a CSV import form for a single {@link DataObject} subclass.
-     *
-     * @return Form
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2011
-     */
-    public function ImportForm() {
-        $form = parent::ImportForm();
-        if ($form instanceof Form) {
-            $optionsetField = new OptionsetField(
-                    'ObjectClass',
-                    _t('SilvercartShippingMethod.CHOOSE_DATAOBJECT_TO_IMPORT', 'Choose DataObject to import'),
-                    array(
-                        'SilvercartShippingMethod'  => _t('SilvercartShippingMethod.PLURALNAME'),
-                        'SilvercartShippingFee'     => _t('SilvercartShippingFee.PLURALNAME'),
-                    ),
-                    ''
-            );
-            $form->Fields()->push($optionsetField);
-        }
-        return $form;
-    }
-    
 }

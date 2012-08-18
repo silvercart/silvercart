@@ -74,7 +74,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
     /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
+     * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011

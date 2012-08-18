@@ -76,7 +76,7 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
     /**
      * Return all fields of the backend
      *
-     * @return FieldSet Fields of the CMS
+     * @return FieldList Fields of the CMS
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();

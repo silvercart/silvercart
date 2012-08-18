@@ -75,14 +75,14 @@ class SilvercartSiteConfig extends DataExtension {
     /**
      * Adds a translation section
      *
-     * @param FieldSet &$fields The FieldSet
+     * @param FieldList $fields The FieldList
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.06.2012
      */
-    public function updateCMSFields(FieldSet &$fields) {
+    public function updateCMSFields(FieldList $fields) {
         $seoTab = $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO'));
         
         $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
