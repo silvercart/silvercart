@@ -1205,40 +1205,6 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
-     * Customizes the backend popup for Products.
-     *
-     * @return FieldSet the editible fields
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2011
-     */
-    public function getCMSFields_forPopup() {
-        $fields = $this->getCMSFields();
-        $fields->removeByName('SilvercartMasterProduct'); //remove the dropdown for the relation masterProduct
-        $fields->removeByName('SilvercartShoppingCartPositions');//There is not enough space for so many tabs
-        //Get all products that have no master
-        $var = sprintf("`SilvercartMasterProductID` = '%s'", "0");
-        $silvercartMasterProducts = DataObject::get("SilvercartProduct", $var);
-        $silvercartMasterProductMap = array();
-        if ($silvercartMasterProducts) {
-            $silvercartMasterProductMap = $silvercartMasterProducts->map();
-        }
-        $dropdownField = new DropdownField(
-            'SilvercartMasterProductID',
-            _t('SilvercartProduct.MASTERPRODUCT', 'master product'),
-            $silvercartMasterProductMap,
-            null,
-            null,
-            _t('SilvercartProduct.CHOOSE_MASTER', '-- choose master --')
-        );
-        
-        $fields->addFieldToTab('Root.Main', $dropdownField);
-
-        $this->extend('updateCMSFields_forPopup', $fields);
-        $this->getCMSFieldsIsCalled = false;
-        return $fields;
-    }
-
-    /**
      * Returns an HTML encoded long description, preserving HTML tags.
      *
      * @return string

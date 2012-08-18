@@ -145,7 +145,7 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
         if ($address->MemberID > 0) {
             if ($address->Member()->ID != Member::currentUserID()) {
                 // the address is not related to the customer, redirect elsewhere...
-                Director::redirect($this->PageByIdentifierCode()->Link());
+                $this->redirect($this->PageByIdentifierCode()->Link());
             }
         }
 

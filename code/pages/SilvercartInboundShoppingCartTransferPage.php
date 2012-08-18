@@ -186,7 +186,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
         }
         
         if (!$error) {
-            Director::redirect(SilvercartPage_controller::PageByIdentifierCodeLink('SilvercartCartPage'));
+            $this->redirect(SilvercartPage_controller::PageByIdentifierCodeLink('SilvercartCartPage'));
         }
     }
     
@@ -257,7 +257,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
         }
         
         if (!$error) {
-            Director::redirect(SilvercartPage_controller::PageByIdentifierCodeLink('SilvercartCartPage'));
+            $this->redirect(SilvercartPage_controller::PageByIdentifierCodeLink('SilvercartCartPage'));
         }
     }
 

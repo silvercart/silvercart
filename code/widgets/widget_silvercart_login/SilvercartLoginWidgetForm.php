@@ -130,7 +130,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
 
                 $customer->logIn();
                 $customer->write();
-                Director::redirect($formData['redirect_to']);
+                $this->getController->redirect($formData['redirect_to']);
             } else {
 
                 $this->messages = array(

@@ -681,7 +681,7 @@ class SilvercartPage_Controller extends ContentController {
     public function logOut() {
         Security::logout(false);
         $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
-        Director::redirect($frontPage->RelativeLink());
+        $this->redirect($frontPage->RelativeLink());
     }
 
     /**

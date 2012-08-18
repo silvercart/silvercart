@@ -108,7 +108,7 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
             default:
                 // Jump to registration page
                 $registerPage = SilvercartPage_Controller::PageByIdentifierCode('SilvercartRegistrationPage');
-                Director::redirect($registerPage->Link().
+                $this->getController()->redirect($registerPage->Link().
                     '?backlink='.urlencode($this->controller->Link()).
                     '&backlinkText='.urlencode(_t('SilvercartCheckoutFormStep1NewCustomerForm.CONTINUE_WITH_CHECKOUT')).
                     '&optInTempText='.urlencode(_t('SilvercartCheckoutFormStep1NewCustomerForm.OPTIN_TEMP_TEXT')));

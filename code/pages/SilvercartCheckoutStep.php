@@ -132,7 +132,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                     SilvercartConfig::MinimumOrderValue()->Nice()
                 );
                 
-                Director::redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
+                $this->redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
             }
 
             if (isset($stepData['ShippingMethod'])) {
@@ -383,8 +383,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 }
             }
         }
-        if ($rendered == '' && is_null(Director::redirected_to())) {
-            Director::redirectBack();
+        if ($rendered == '' && is_null($this->redirectedTo())) {
+            $this->redirectBack();
         }
         return $rendered;
     }

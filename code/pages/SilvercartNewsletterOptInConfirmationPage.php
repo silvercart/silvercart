@@ -93,9 +93,9 @@ class SilvercartNewsletterOptInConfirmationPage extends Page {
         $confirmationSuccessMessageTextField = new HtmlEditorField('ConfirmationSuccessMessage', _t('SilvercartNewsletterOptInConfirmationPage.SUCCESS_MESSAGE_TEXT'), 20);
         $alreadyConfirmedMessageTextField    = new HtmlEditorField('AlreadyConfirmedMessage',    _t('SilvercartNewsletterOptInConfirmationPage.ALREADY_CONFIRMED_MESSAGE_TEXT'), 20);
 
-        $fields->addFieldToTab('Root.Content.Main', $confirmationFailureMessageTextField);
-        $fields->addFieldToTab('Root.Content.Main', $confirmationSuccessMessageTextField);
-        $fields->addFieldToTab('Root.Content.Main', $alreadyConfirmedMessageTextField);
+        $fields->addFieldToTab('Root.Main', $confirmationFailureMessageTextField);
+        $fields->addFieldToTab('Root.Main', $confirmationSuccessMessageTextField);
+        $fields->addFieldToTab('Root.Main', $alreadyConfirmedMessageTextField);
 
         return $fields;
     }

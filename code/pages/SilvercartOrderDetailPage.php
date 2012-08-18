@@ -141,10 +141,10 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
         if ($order && $order->MemberID > 0) {
             if ($order->Member()->ID != Member::currentUserID()) {
                 // the order is not related to the customer, redirect elsewhere...
-                Director::redirect($this->PageByIdentifierCode()->Link());
+                $this->redirect($this->PageByIdentifierCode()->Link());
             }
         } else {
-            Director::redirect($this->PageByIdentifierCode()->Link());
+            $this->redirect($this->PageByIdentifierCode()->Link());
         }
         parent::init();
     }

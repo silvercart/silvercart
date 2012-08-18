@@ -87,7 +87,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
              SilvercartDebugHelper::printString("Redirect soll ausgeführt werden.");
                 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
-                Director::redirect($frontPage->RelativeLink());
+                $this->getController()->redirect($frontPage->RelativeLink());
             }
             
             if (Member::currentUserID() > 0) {
@@ -232,7 +232,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
         } else {
-            Director::redirect($this->controller->Link());
+            $this->getController()->redirect($this->getController()->Link());
         }
     }
     

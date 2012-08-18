@@ -237,9 +237,9 @@ class SilvercartCheckoutFormStep2Anonymous extends CustomHtmlForm {
                 (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
-                if (!Director::redirected_to()) {
+                if (!$this->getController()->redirectedTo()) {
                     $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
-                    Director::redirect($frontPage->RelativeLink());
+                    $this->getController()->redirect($frontPage->RelativeLink());
                 }
             }
         }

@@ -198,7 +198,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        Director::redirectBack();
+        $this->redirectBack();
     }
     
     /**
@@ -226,7 +226,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        Director::redirectBack();
+        $this->redirectBack();
     }
     
     /**
@@ -254,7 +254,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        Director::redirectBack();
+        $this->redirectBack();
     }
     
     /**

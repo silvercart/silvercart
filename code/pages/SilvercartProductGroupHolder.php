@@ -133,7 +133,7 @@ class SilvercartProductGroupHolder extends Page {
         $fieldGroup->push($productGroupsPerPageField);
         $fieldGroup->push($defaultGroupHolderViewField);
         $fieldGroup->push($useOnlyDefaultGroupHolderViewField);
-        $fields->addFieldToTab('Root.Content.Main', $fieldGroup, 'IdentifierCode');
+        $fields->addFieldToTab('Root.Main', $fieldGroup, 'IdentifierCode');
 
         $this->extend('extendCMSFields', $fields);
         return $fields;

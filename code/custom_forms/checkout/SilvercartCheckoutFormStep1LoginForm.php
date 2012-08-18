@@ -146,7 +146,7 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlForm {
                 $customer->logIn();
                 $customer->write();
 
-                Director::redirect($this->controller->Link());
+                $this->getController()->redirect($this->getController()->Link());
             } else {
                 $this->addErrorMessage('Password', _t('SilvercartPage.PASSWORD_WRONG', 'This user does not exist.'));
 

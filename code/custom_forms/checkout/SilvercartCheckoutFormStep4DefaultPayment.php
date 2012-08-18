@@ -128,7 +128,7 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
         } else {
-            Director::redirect($this->controller->Link());
+            $this->getController()->redirect($this->getController()->Link());
         }
     }
     

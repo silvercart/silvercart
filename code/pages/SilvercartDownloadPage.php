@@ -90,8 +90,8 @@ class SilvercartDownloadPage extends Page {
                     'delete',
                 )
         );
-        $fields->findOrMakeTab('Root.Content.SilvercartFiles', $this->fieldLabel('SilvercartFiles'));
-        $fields->addFieldToTab('Root.Content.SilvercartFiles', $silvercartFileField);
+        $fields->findOrMakeTab('Root.SilvercartFiles', $this->fieldLabel('SilvercartFiles'));
+        $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
         
         return $fields;
     }

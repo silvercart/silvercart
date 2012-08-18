@@ -142,7 +142,7 @@ class SilvercartRegistrationPage extends Page {
 
         $activationMailSubjectField = new TextField('ActivationMailSubject', $this->fieldLabel('ActivationMailSubject'));
         $activationMailTextField = new HtmlEditorField('ActivationMailMessage', $this->fieldLabel('ActivationMailMessage'), 20);
-        $tabParam = "Root.Content." . $this->fieldLabel('ActivationMailTab');
+        $tabParam = "Root." . $this->fieldLabel('ActivationMailTab');
         $fields->addFieldToTab($tabParam, $activationMailSubjectField);
         $fields->addFieldToTab($tabParam, $activationMailTextField);
 

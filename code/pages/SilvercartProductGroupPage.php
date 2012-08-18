@@ -413,7 +413,7 @@ class SilvercartProductGroupPage extends Page {
         $fieldGroup->push(          $defaultGroupHolderViewField);
         $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
         $fieldGroup->breakAndPush(  $productsPerPageHintField);
-        $fields->addFieldToTab('Root.Content.Main', $fieldGroup, 'IdentifierCode');
+        $fields->addFieldToTab('Root.Main', $fieldGroup, 'IdentifierCode');
 
         $mirroredProductIdList  = '';
         $mirroredProductIDs     = $this->getMirroredProductIDs();
@@ -456,7 +456,7 @@ class SilvercartProductGroupPage extends Page {
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
             $fields->addFieldToTab($tabPARAM, $productsTableField);
 
-            $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
+            $tabPARAM3 = "Root." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
         }
         
@@ -481,7 +481,7 @@ class SilvercartProductGroupPage extends Page {
             
             $cache->save(serialize($breadcrumbList));
         }
-        $fields->addFieldToTab('Root.Content.Metadata', new DropdownField(
+        $fields->addFieldToTab('Root.Metadata', new DropdownField(
             'SilvercartGoogleMerchantTaxonomyID',
             _t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME'),
             $breadcrumbList
@@ -1155,7 +1155,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->registerWidgetAreas();
                 // a product detail view is requested
                 if (!$this->getDetailViewProduct()->isActive) {
-                    Director::redirect($this->PageByIdentifierCodeLink());
+                    $this->redirect($this->PageByIdentifierCodeLink());
                 }
                 $this->registerCustomHtmlForm(
                     'SilvercartProductAddCartFormDetail',

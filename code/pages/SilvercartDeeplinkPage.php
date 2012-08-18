@@ -143,7 +143,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     public function handleAction($request) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
-                return Director::redirect($this->getExactlyMatchingProduct()->Link(), 301);
+                return $this->redirect($this->getExactlyMatchingProduct()->Link(), 301);
             } elseif ($this->getPartiallyMatchingProducts()) {
                 
                 if ($this->urlParams['OtherID'] == 'customHtmlFormSubmit') {
@@ -157,7 +157,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
             return $this->renderWith(array('SilvercartSearchResultsPage', 'Page'));
         }
         
-        return Director::redirect(DataObject::get_one('ErrorPage', '`ErrorCode` = 404')->Link());
+        return $this->redirect(DataObject::get_one('ErrorPage', '`ErrorCode` = 404')->Link());
     } 
 
 

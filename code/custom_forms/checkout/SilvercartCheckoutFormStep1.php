@@ -61,7 +61,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
                  !array_key_exists('orderId', $checkoutData))) {
 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
-                Director::redirect($frontPage->RelativeLink());
+                $this->getController()->redirect($frontPage->RelativeLink());
             }
 
             $this->registerCustomHtmlForm('SilvercartCheckoutFormStep1LoginForm', new SilvercartCheckoutFormStep1LoginForm($this->controller));

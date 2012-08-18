@@ -114,7 +114,7 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
         $fields = parent::getCMSFields();
 
         $productsPerPageField = new TextField('productsPerPage', $this->fieldLabel('productsPerPage'));
-        $fields->addFieldToTab('Root.Content.Main', $productsPerPageField, 'IdentifierCode');
+        $fields->addFieldToTab('Root.Main', $productsPerPageField, 'IdentifierCode');
 
         return $fields;
     }
@@ -643,11 +643,11 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $redirectBack = false;
                 Session::set('searchQuery', $searchQuery->SearchQuery);
                 Session::save();
-                Director::redirect($this->Link());
+                $this->redirect($this->Link());
             }
         }
         if ($redirectBack) {
-            Director::redirectBack();
+            $this->redirectBack();
         }
     }
 }
