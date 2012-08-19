@@ -35,13 +35,15 @@ class SilvercartGroupedDropdownField extends DropdownField {
 
     /**
      * HTML for field
+     * 
+     * @param array $properties not in unse, just declared to be compatible with parent
      *
      * @return string 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.08.2012
      */
-    public function Field() {
+    public function Field($properties = array()) {
             // Initialisations
             $options = '';
             $classAttr = '';

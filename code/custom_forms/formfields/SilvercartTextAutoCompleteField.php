@@ -85,13 +85,15 @@ class SilvercartTextAutoCompleteField extends TextField {
     
     /**
      * Returns the field tag.
+     * 
+     * @param array $properties not in use, just declared to be compatible with parent
      *
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.10.2011
      */
-    public function Field() {
+    public function Field($properties = array()) {
         $value = $this->getAutoCompleteValue();
         if (empty ($value)) {
             $this->generateAutoCompleteValue();

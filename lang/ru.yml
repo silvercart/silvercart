@@ -288,7 +288,7 @@ ru:
     SINGULARNAME: "запрос контакта"
     TEXT: "<h1>Запрос через контактный формуляр</h1><h2>Добрый день,</h2><p>мы плучили запрос с нашей вебстраницы.<br />Клиент <strong>\"$FirstName $Surname\"</strong> отправил запрос <strong>\"$Email\"</strong> .</p><h2>Сообщение</h2><p>$Message</p>"
   SilvercartContactMessageAdmin:
-    MENU_TITLE: "запрос "
+    MENUTITLE: "запрос "
   SilvercartCountry:
     ACTIVE: "актив"
     ATTRIBUTED_PAYMENTMETHOD: "способ оплаты"
@@ -644,9 +644,11 @@ ru:
     MOVE_UP: "сдвинуть вверх"
   SilvercartImage:
     DESCRIPTION: "описание"
-    PLURALNAME: "фотографии "
+    PLURALNAME: "фотографии"
     SINGULARNAME: "фото"
     TITLE: "имя пользователя"
+  SilvercartImageAdmin:
+    MENUTITLE: "фотографии"
   SilvercartImageLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -682,6 +684,8 @@ ru:
     TITLE: "наименование"
     TRANSFER_METHOD: "метод передачи"
     USE_SHARED_SECRET: "использовать shared secret"
+  SilvercartInboundShoppingCartTransferAdmin:
+    MENUTITLE: "внешний наполнитель корзины"
   SilvercartInboundShoppingCartTransferPage:
     ERROR_COMBINED_STRING_KEY_NOT_FOUND: "параметр не был отправлен"
     ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND: "параметр не был отправлен, отсутствует идентификатор артикула"
@@ -829,6 +833,8 @@ ru:
     STARTCOUNT: "старт"
     SUFFIX: "суффикс"
     TITLE: "Титель"
+  SilvercartNumberRangeAdmin:
+    MENUTITLE: "диапазоны номеров"
   SilvercartOrder:
     AMOUNTGROSSTOTAL: "сумма брутто"
     AMOUNTTOTAL: "сумма"
@@ -864,6 +870,8 @@ ru:
   SilvercartOrderAddress:
     PLURALNAME: "адреса заказчика"
     SINGULARNAME: "адрес заказчика"
+  SilvercartOrderAdmin:
+    MENUTITLE: "заказы"
   SilvercartOrderConfirmationPage:
     DEFAULT_TITLE: "страница подтверждения заказа"
     DEFAULT_URLSEGMENT: "подтверждение заказа"
@@ -918,6 +926,8 @@ ru:
     PLURALNAME: "статус заказа"
     SHIPPED: "заказ отправлен"
     SINGULARNAME: "статус заказа"
+  SilvercartOrderStatusAdmin:
+    MENUTITLE: "статус заказа"
   SilvercartOrderStatusLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -1090,6 +1100,8 @@ ru:
     STANDARD_ORDER_STATUS: "стандартное состояние заказа при этом способе оплаты"
     TILL_PURCHASE_VALUE: "до суммы"
     TITLE: "Способ оплаты"
+  SilvercartPaymentMethodAdmin:
+    MENUTITLE: "виды оплаты"
   SilvercartPaymentMethodLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -1169,12 +1181,16 @@ ru:
     WEIGHT: "вес"
   SilvercartProductAdmin:
     MENUTITLE: "артикул"
+  SilvercartProductAvailabilityStatusAdmin:
+    MENUTITLE: "наличие"
   SilvercartProductCondition:
     PLEASECHOOSE: "пожалуйста выберите"
     PLURALNAME: "состояние товара"
     SINGULARNAME: "состояние товара"
     TITLE: "состояние "
     USE_AS_STANDARD_CONDITION: "использовать как шаблон состояния, если не уакзан для артикула"
+  SilvercartProductConditionAdmin:
+    MENUTITLE: "состояние товара"
   SilvercartProductConditionLanguage:
     PLURALNAME: "перводы"
     SINGULARNAME: "перевод"
@@ -1212,6 +1228,8 @@ ru:
   SilvercartProductExporter:
     PLURALNAME: "экспорты прайспортала"
     SINGULARNAME: "экспорт прайспортала"
+  SilvercartProductExporterAdmin:
+    MENUTITLE: "экспорты прайспортала"
   SilvercartProductGroupHolder:
     DEFAULT_TITLE: "товарные группы"
     DEFAULT_URLSEGMENT: "товарные группы"
@@ -1313,6 +1331,8 @@ ru:
     NAME: "имя"
     PLURALNAME: "единицы измерения количества"
     SINGULARNAME: "единица измерения количаества"
+  SilvercartQuantityUnitAdmin:
+    MENUTITLE: "единицы измерения количества"
   SilvercartQuantityUnitLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -1404,6 +1424,8 @@ ru:
     PACKAGE: "Пакет"
     PLURALNAME: "Способы отправки"
     SINGULARNAME: "Способ отправки"
+  SilvercartShippingMethodAdmin:
+    MENUTITLE: "Способы отправки"
   SilvercartShippingMethodLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -1435,6 +1457,8 @@ ru:
     SUBJECT: "тема сообщения"
     VARIABLES: "переменные"
     YOUR_TEAM: "SilverCart Webshop Team"
+  SilvercartShopEmailAdmin:
+    MENUTITLE: "Shop E-Mails"
   SilvercartShopEmailLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перводы"
@@ -1478,6 +1502,8 @@ ru:
     PLURALNAME: "размер налогов"
     RATE_IN_PERCENT: "размер налогов в %"
     SINGULARNAME: "размер налога"
+  SilvercartTaxAdmin:
+    MENUTITLE: "размер налогов"
   SilvercartTaxLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -1528,10 +1554,13 @@ ru:
     STATUS_SKIPPED: "пропустить"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "обновления"
+    MENUTITLE: "обновления"
   SilvercartWidget:
     FRONTCONTENT: "текст описания"
     FRONTTITLE: "Заголовок"
     SORT_ORDER_LABEL: "Сортировка"
+  SilvercartWidgetAdmin:
+    MENUTITLE: "виджетов"
   SilvercartWidgetSet:
     INFO: "<strong>Внимание:</strong><br/>Чтобы установить или изменить виджет, \"SC Konfig\" выберите из главного меню. В главном меню выберите \"Widget Set\" из выпадающего списка."
     PAGES: "выбранные страницы"
@@ -1551,6 +1580,8 @@ ru:
     PLURALNAME: "зоны"
     SINGULARNAME: "зона"
     USE_ALL_COUNTRIES: "После сохранения динамически применить все страны."
+  SilvercartZoneAdmin:
+    MENUTITLE: "зоны"
   SilvercartZoneLanguage:
     PLURALNAME: "перводы"
     SINGULARNAME: "перевод"

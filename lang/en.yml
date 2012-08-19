@@ -299,7 +299,7 @@ en:
            $Message</p>
            
   SilvercartContactMessageAdmin:
-    MENU_TITLE: "Contact messages"
+    MENUTITLE: "Contact messages"
   SilvercartCountry:
     ACTIVE: "Active"
     ATTRIBUTED_PAYMENTMETHOD: "Attributed payment method"
@@ -681,6 +681,7 @@ en:
     SELECT_OTHER_IMAGES: "Other images"
     SELECT_PAYMENTMETHOD_IMAGES: "Payment method images"
     SELECT_PRODUCT_IMAGES: "Product images"
+    MENUTITLE: "Images"
   SilvercartImageLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -716,6 +717,8 @@ en:
     TITLE: "Title"
     TRANSFER_METHOD: "Transfer method"
     USE_SHARED_SECRET: "Use shared secret"
+  SilvercartInboundShoppingCartTransferAdmin:
+    MENUTITLE: "Inbound Cart Transfer"
   SilvercartInboundShoppingCartTransferPage:
     ERROR_COMBINED_STRING_KEY_NOT_FOUND: "Parameters were not sent"
     ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND: "Parameters were not sent (key-value product identifier is missing)"
@@ -863,6 +866,8 @@ en:
     STARTCOUNT: "Start"
     SUFFIX: "Suffix"
     TITLE: "Title"
+  SilvercartNumberRangeAdmin:
+    MENUTITLE: "Number range"
   SilvercartOrder:
     AMOUNTGROSSTOTAL: "Amount total gross"
     AMOUNTTOTAL: "Amount total"
@@ -909,6 +914,8 @@ en:
   SilvercartOrderAddress:
     PLURALNAME: "Order addresses"
     SINGULARNAME: "Order address"
+  SilvercartOrderAdmin:
+    MENUTITLE: "Orders"
   SilvercartOrderConfirmationPage:
     DEFAULT_TITLE: "Order Confirmation Page"
     DEFAULT_URLSEGMENT: "order-confirmation"
@@ -963,6 +970,8 @@ en:
     PLURALNAME: "Order status"
     SHIPPED: "Shipped"
     SINGULARNAME: "Order status"
+  SilvercartOrderStatusAdmin:
+    MENUTITLE: "Order status"
   SilvercartOrderStatusLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1138,6 +1147,8 @@ en:
     STANDARD_ORDER_STATUS: "Standard order status for this payment method"
     TILL_PURCHASE_VALUE: "till purchase value"
     TITLE: "Payment method"
+  SilvercartPaymentMethodAdmin:
+    MENUTITLE: "Payment Methods"
   SilvercartPaymentMethodLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1232,12 +1243,16 @@ en:
     WEIGHT: "Weight"
   SilvercartProductAdmin:
     MENUTITLE: "Products"
+  SilvercartProductAvailabilityStatusAdmin:
+    MENUTITLE: "Availability"
   SilvercartProductCondition:
     PLEASECHOOSE: "Please choose"
     PLURALNAME: "Product conditions"
     SINGULARNAME: "Product condition"
     TITLE: "Condition"
     USE_AS_STANDARD_CONDITION: "Use as default condition if not defined at the product"
+  SilvercartProductConditionAdmin:
+    MENUTITLE: "Product conditions"
   SilvercartProductConditionLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1283,6 +1298,8 @@ en:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
+  SilvercartProductExporterAdmin:
+    MENUTITLE: "Price portal exporters"
   SilvercartProductGroupHolder:
     DEFAULT_TITLE: "Productgroups"
     DEFAULT_URLSEGMENT: "productgroups"
@@ -1394,6 +1411,8 @@ en:
     NAME: "Name"
     PLURALNAME: "quantity units"
     SINGULARNAME: "quantity unit"
+  SilvercartQuantityUnitAdmin:
+    MENUTITLE: "quantity units"
   SilvercartQuantityUnitLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1491,6 +1510,8 @@ en:
     PACKAGE: "Package"
     PLURALNAME: "Shipping methods"
     SINGULARNAME: "Shipping method"
+  SilvercartShippingMethodAdmin:
+    MENUTITLE: "Shipping methods"
   SilvercartShippingMethodLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1522,6 +1543,8 @@ en:
     SUBJECT: "Subject"
     VARIABLES: "Variables"
     YOUR_TEAM: "Your SilverCart ecommerce team"
+  SilvercartShopEmailAdmin:
+    MENUTITLE: "Shop emails"
   SilvercartShopEmailLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1589,6 +1612,8 @@ en:
     PLURALNAME: "Rates"
     RATE_IN_PERCENT: "Rate in %"
     SINGULARNAME: "Rate"
+  SilvercartTaxAdmin:
+    MENUTITLE: "Rates"
   SilvercartTaxLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -1653,11 +1678,14 @@ en:
     STATUS_SKIPPED: "Skipped"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "Updates"
+    MENUTITLE: "Updates"
   SilvercartWidget:
     CLASSNAME: "Type"
     FRONTCONTENT: "Content"
     FRONTTITLE: "Headline"
     SORT_ORDER_LABEL: "Sort order"
+  SilvercartWidgetAdmin:
+    MENUTITLE: "Widgets"
   SilvercartWidgetSet:
     INFO: "<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the \"SC Config\" area in main menu. There, choose \"Widget Set\" out of the dropdown list on the upper left side to get the forms to add or edit a widget set."
     PAGES: "assigned pages"
@@ -1678,6 +1706,8 @@ en:
     SINGULARNAME: "Zone"
     USE_ALL_COUNTRIES: "Relate all countries after saving"
     VALID_FOR_ALL_AVAILABLE: "Valid for all selectable countries"
+  SilvercartZoneAdmin:
+    MENUTITLE: "Zones"
   SilvercartZoneLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""

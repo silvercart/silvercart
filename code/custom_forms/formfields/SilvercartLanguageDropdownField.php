@@ -109,12 +109,14 @@ class SilvercartLanguageDropdownField extends DropdownField {
      * Makes use of {@link FormField->createTag()} to generate the <select>
      * tag and option elements inside is as the content of the <select>.
      * 
+     * @param array $properties not in use, just declared to be compatible with parent
+     * 
      * @return string HTML tag for this dropdown field
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.04.2012
      */
-    public function Field() {
+    public function Field($properties = array()) {
         $options = '';
 
         $source = $this->getSource();

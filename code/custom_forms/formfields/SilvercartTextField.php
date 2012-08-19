@@ -63,7 +63,7 @@ class SilvercartTextField extends TextField {
     /**
      * Returns the HTML for the field
      * 
-     * @param array $properties not in unse, just declared to be compatible with parent
+     * @param array $properties not in use, just declared to be compatible with parent
      *
      * @return string
      * 

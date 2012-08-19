@@ -36,12 +36,14 @@ class SilvercartMoneyField extends MoneyField {
     /**
      * Returns the field markup
      * 
+     * @param array $properties not in use, just declared to be compatible with parent
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.05.2012
      */
-    public function Field() {
+    public function Field($properties = array()) {
         Requirements::css('silvercart/css/backend/SilvercartMain.css');
         $this->fieldAmount->setTitle($this->Title());
         $this->fieldAmount->addExtraClass('silvercartmoney');

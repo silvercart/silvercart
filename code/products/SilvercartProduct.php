@@ -65,16 +65,12 @@ class SilvercartProduct extends DataObject {
     public static $has_one = array(
         'SilvercartTax'                 => 'SilvercartTax',
         'SilvercartManufacturer'        => 'SilvercartManufacturer',
-        /*
         'SilvercartProductGroup'        => 'SilvercartProductGroupPage',
         'SilvercartMasterProduct'       => 'SilvercartProduct',
-        */
         'SilvercartAvailabilityStatus'  => 'SilvercartAvailabilityStatus',
         'SilvercartProductCondition'    => 'SilvercartProductCondition',
-        /*
         'SilvercartQuantityUnit'        => 'SilvercartQuantityUnit',
         'WidgetArea'                    => 'WidgetArea',
-        */
     );
 
     /**
@@ -84,11 +80,9 @@ class SilvercartProduct extends DataObject {
      */
     public static $has_many = array(
         'SilvercartProductLanguages'        => 'SilvercartProductLanguage',
-        /*
         'SilvercartImages'                  => 'SilvercartImage',
         'SilvercartFiles'                   => 'SilvercartFile',
         'SilvercartShoppingCartPositions'   => 'SilvercartShoppingCartPosition',
-        */
     );
 
     /**
@@ -96,24 +90,20 @@ class SilvercartProduct extends DataObject {
      *
      * @var array
      */
-    /*
     public static $many_many = array(
         'SilvercartProductGroupMirrorPages' => 'SilvercartProductGroupPage'
     );
-    */
 
     /**
      * m:n relations
      *
      * @var array
      */
-    /*
     public static $belongs_many_many = array(
         'SilvercartShoppingCarts'            => 'SilvercartShoppingCart',
         'SilvercartOrders'                   => 'SilvercartOrder',
         'SilvercartProductGroupItemsWidgets' => 'SilvercartProductGroupItemsWidget',
     );
-    */
     
     /**
      * Adds database indexes
@@ -450,12 +440,10 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('ProductNumberShop'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            /*
             'SilvercartProductLanguages.Title' => array(
                 'title'     => $this->fieldLabel('Title'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            */
             'SilvercartProductLanguages.ShortDescription' => array(
                 'title'     => $this->fieldLabel('ShortDescription'),
                 'filter'    => 'PartialMatchFilter'
@@ -464,12 +452,10 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('LongDescription'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            /*
             'SilvercartManufacturer.Title' => array(
                 'title'     => $this->fieldLabel('SilvercartManufacturer'),
                 'filter'    => 'PartialMatchFilter'
              ),
-            */
             'ProductNumberManufacturer' => array(
                 'title'     => $this->fieldLabel('ProductNumberManufacturer'),
                 'filter'    => 'PartialMatchFilter'
@@ -478,7 +464,6 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('isActive'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            /*
             'SilvercartProductGroupID' => array(
                 'title'     => $this->fieldLabel('SilvercartProductGroup'),
                 'filter'    => 'ExactMatchFilter'
@@ -491,7 +476,6 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('SilvercartAvailabilityStatus'),
                 'filter'    => 'ExactMatchFilter'
             )
-            */
         );
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
@@ -1001,8 +985,6 @@ class SilvercartProduct extends DataObject {
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('StockQuantity'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityOverbookable'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityExpirationDate'));
-        $fields->insertAfter($availabilityGroup, 'LongDescription');
-        /*
         $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
@@ -1010,7 +992,6 @@ class SilvercartProduct extends DataObject {
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('SilvercartProductConditionID'));
         $fields->insertAfter($miscGroup, 'AvailabilityGroup');
-        */
     }
 
     /**

@@ -37,13 +37,15 @@ class SilvercartAddressOptionsetField extends OptionsetField {
     /**
      * Create a UL tag containing sets of radio buttons and labels.  The IDs are set to
      * FieldID_ItemKey, where ItemKey is the key with all non-alphanumerics removed.
+     * 
+     * @param array $properties not in unse, just declared to be compatible with parent
      *
      * @return string
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.04.2011
      */
-    public function Field() {
+    public function Field($properties = array()) {
         $odd            = 0;
         $itemIdx        = 0;
         $source         = $this->getSource();
