@@ -160,7 +160,7 @@ class SilvercartTools extends Object {
      * @since 05.04.2012
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = SiteTree::get()->filter('IdentifierCode', $identifierCode)->First();
+        $page = SilvercartPage::get()->filter('IdentifierCode', $identifierCode)->First();
 
         if ($page) {
             return $page;

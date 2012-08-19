@@ -67,9 +67,7 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartContactMessage' => array(
-            'collection_controller' => 'SilvercartContactMessageAdmin_CollectionController'
-        ),
+        'SilvercartContactMessage'
     );
     
     /**
