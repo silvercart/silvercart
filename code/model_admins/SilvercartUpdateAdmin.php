@@ -62,9 +62,9 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2011
      */
-    public static $managed_models = array(
-        'SilvercartUpdate',
-    );
+//    public static $managed_models = array(
+//        'SilvercartUpdate',
+//    );
     /**
      * The URL segment
      *
@@ -94,12 +94,12 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2011
      */
-    public function __construct() {
-        if (DataObject::get('SilvercartUpdate',"`Status`='remaining'")) {
-            self::$menu_title .= ' (' . DataObject::get('SilvercartUpdate',"`Status`='remaining'")->Count() . ')';
-        }
-        parent::__construct();
-    }
+//    public function __construct() {
+//        if (DataObject::get('SilvercartUpdate',"`Status`='remaining'")) {
+//            self::$menu_title .= ' (' . DataObject::get('SilvercartUpdate',"`Status`='remaining'")->Count() . ')';
+//        }
+//        parent::__construct();
+//    }
     
     /**
      * title in the top bar of the CMS
