@@ -344,6 +344,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     `isActive` = 1 AND (
                         `Title` LIKE '%%%s%%' OR
                         MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
+                        MATCH(ShortDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
+                        MATCH(LongDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
                         `ShortDescription` LIKE '%%%s%%' OR
                         `LongDescription` LIKE '%%%s%%' OR
                         `MetaKeywords` LIKE '%%%s%%' OR
@@ -355,6 +357,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     ",
                     $searchQuery,// Title
                     $filteredQuerySearchQuery, // Title via Match Against
+                    $filteredQuerySearchQuery, // ShortDescription via Match Against
+                    $filteredQuerySearchQuery, // LongDescription via Match Against
                     $searchQuery,// ShortDescription
                     $searchQuery,// LongDescription
                     $searchQuery,// MetaKeywords
@@ -378,7 +382,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                     $filter .= ' ' . $listFilter;
                 }
-
+                
                 $searchResultProducts = SilvercartProduct::get(
                     $filter,
                     null,
