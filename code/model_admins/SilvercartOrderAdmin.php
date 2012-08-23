@@ -67,10 +67,7 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartOrder' => array(
-            'collection_controller' => 'SilvercartOrder_CollectionController',
-            'record_controller'     => 'SilvercartOrder_RecordController'
-        )
+        'SilvercartOrder'
     );
 
     /**

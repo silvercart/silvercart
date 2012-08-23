@@ -429,23 +429,12 @@ class SilvercartPage_Controller extends ContentController {
             }
 
             // Combine files
-            if (class_exists('RequirementsEngine')) {
-                SilvercartThemeConfig::registerVariables();
-                RequirementsEngine::registerCssVariable('CurrentController', Controller::curr());
-                RequirementsEngine::combine_files('script.js', $combinedJsFiles);
-                RequirementsEngine::combine_files_and_parse('base.css', $combinedCssFiles);
-                RequirementsEngine::combine_files_and_parse('content.css', $combinedContentCssFiles);
-                RequirementsEngine::combine_files_and_parse('content.ec.css', $combinedSilvercartCssFiles);
+            Requirements::combine_files('script.js', $combinedJsFiles);
+            Requirements::combine_files('base.css', $combinedCssFiles);
+            Requirements::combine_files('content.css', $combinedContentCssFiles);
+            Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
 
-                RequirementsEngine::process_combined_files();
-            } else {
-                Requirements::combine_files('script.js', $combinedJsFiles);
-                Requirements::combine_files('base.css', $combinedCssFiles);
-                Requirements::combine_files('content.css', $combinedContentCssFiles);
-                Requirements::combine_files('content.ec.css', $combinedSilvercartCssFiles);
-
-                Requirements::process_combined_files();
-            }
+            Requirements::process_combined_files();
 
             // set default layout loaded in SilvercartConfig to prevent multiple
             // loading of css files

@@ -60,10 +60,7 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartProductExporter' => array(
-            'collection_controller' => 'SilvercartProductExportAdmin_CollectionController',
-            'record_controller'     => 'SilvercartProductExportAdmin_RecordController'
-        )
+        'SilvercartProductExporter'
     );
 
     /**

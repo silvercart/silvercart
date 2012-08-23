@@ -77,12 +77,7 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * @var string
      */
     public static $menu_title = 'Silvercart Updates';
-    /**
-     * The collection controller class to use for the shop configuration.
-     *
-     * @var string
-     */
-    public static $collection_controller_class = 'SilvercartUpdateAdmin_CollectionController';
+
     
     protected $resultsTableClassName = 'SilvercartUpdateTableListField';
 

@@ -71,10 +71,6 @@ class SilvercartProductAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartProduct' => array(
             'title' => 'SilvercartProduct'
-            /*
-            'collection_controller' => 'SilvercartProduct_CollectionController',
-            'record_controller'     => 'SilvercartProduct_RecordController',
-            */
         ),
     );
 

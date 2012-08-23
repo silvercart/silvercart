@@ -193,7 +193,7 @@ CustomHtmlForm::registerModule('silvercart', 49);
 // ----------------------------------------------------------------------------
 // Check if the page.php descends from the SilvercartPage
 // ----------------------------------------------------------------------------
-/*
+
 if (class_exists('Page')) {
     $ext = new ReflectionClass('Page');
 
@@ -208,7 +208,7 @@ if (class_exists('Page_Controller')) {
         throw new Exception('Class "Page_Controller" has to extend "SilvercartPage_Controller".');
     }
 }
-*/
+
 // ----------------------------------------------------------------------------
 // add possible group views
 // ----------------------------------------------------------------------------

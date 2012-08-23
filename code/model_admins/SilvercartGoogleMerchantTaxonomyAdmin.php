@@ -81,9 +81,7 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartGoogleMerchantTaxonomy' => array(
-            'collection_controller' => 'SilvercartGoogleMerchantTaxonomy_CollectionController',
-        )
+        'SilvercartGoogleMerchantTaxonomy'
     );
     
     /**

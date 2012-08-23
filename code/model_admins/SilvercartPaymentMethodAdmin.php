@@ -74,9 +74,7 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartPaymentMethod' => array(
-            'collection_controller' => 'SilvercartPaymentMethod_CollectionController'
-        ),
+        'SilvercartPaymentMethod'
     );
     
     /**

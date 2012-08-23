@@ -74,9 +74,7 @@ class SilvercartShippingMethodAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartShippingMethod' => array(
-            'collection_controller' => 'SilvercartShippingMethod_CollectionController'
-        ),
+        'SilvercartShippingMethod'
     );
 
     /**

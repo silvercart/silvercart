@@ -74,20 +74,6 @@ class SilvercartConfigAdmin extends ModelAdmin {
     );
 
     /**
-     * The collection controller class to use for the shop configuration.
-     *
-     * @var string
-     */
-    //public static $collection_controller_class = 'SilvercartConfigAdmin_CollectionController';
-
-    /**
-     * The record controller class to use for the shop configuration.
-     *
-     * @var string
-     */
-    //public static $record_controller_class = 'SilvercartConfigAdmin_RecordController';
-
-    /**
      * List of managed models with disabled creation and import form
      *
      * @var array
