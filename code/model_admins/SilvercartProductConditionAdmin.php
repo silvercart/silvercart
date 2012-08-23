@@ -69,20 +69,6 @@ class SilvercartProductConditionAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartProductCondition'
     );
-
-    /**
-     * Constructor
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function __construct() {
-        self::$menu_title = _t('SilvercartProductCondition.PLURALNAME');
-        
-        parent::__construct();
-    }
     
     /**
      * Provides hook for decorators, so that they can overwrite css

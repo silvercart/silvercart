@@ -107,13 +107,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     );
 
     /**
-     * Default sort direction in tables.
-     *
-     * @var string
-     */
-    public static $default_sort = "Created DESC";
-
-    /**
      * register extensions
      *
      * @var array

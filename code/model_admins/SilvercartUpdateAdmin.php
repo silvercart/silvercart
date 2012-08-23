@@ -31,7 +31,7 @@
  * @copyright 2011 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartUpdateAdmin extends ModelAdmin {
+class SilvercartUpdateAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -82,19 +82,6 @@ class SilvercartUpdateAdmin extends ModelAdmin {
     protected $resultsTableClassName = 'SilvercartUpdateTableListField';
 
     public static $menu_priority = -1;
-
-    /**
-     * constructor
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
-     */
-//    public function __construct() {
-//        if (DataObject::get('SilvercartUpdate',"`Status`='remaining'")) {
-//            self::$menu_title .= ' (' . DataObject::get('SilvercartUpdate',"`Status`='remaining'")->Count() . ')';
-//        }
-//        parent::__construct();
-//    }
     
     /**
      * title in the top bar of the CMS
@@ -105,7 +92,11 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * @since 17.08.2012
      */
     public function SectionTitle() {
-        return _t('SilvercartUpdateAdmin.SILVERCART_UPDATE');
+        $sectionTitle = _t('SilvercartUpdateAdmin.SILVERCART_UPDATE');
+        if (DataObject::get('SilvercartUpdate',"`Status`='remaining'")) {
+        $sectionTitle .= ' (' . DataObject::get('SilvercartUpdate',"`Status`='remaining'")->Count() . ')';
+        }
+        return $sectionTitle;
     }
 
 }

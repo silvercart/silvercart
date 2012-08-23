@@ -60,14 +60,16 @@ class SilvercartFieldGroup extends CompositeField {
     /**
      * Returns the field markup
      * 
+     * @param array $properties key value pairs of template variables (declared for compatibility)
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         $title              = $this->Title();
-        $name               = $this->Name();
+        $name               = $this->getName();
         $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup"><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
         $singleFieldHolder  = '<div class="fieldgroupField %s">%s</div>';
         $fieldMarkup        = array();
@@ -120,7 +122,7 @@ class SilvercartFieldGroup extends CompositeField {
         parent::push($field);
         $fields = $this->getFields();
         if (!is_null($fields)) {
-            $fields->removeByName($field->Name());
+            $fields->removeByName($field->getName());
         }
     }
     

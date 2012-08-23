@@ -69,14 +69,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartOrder'
     );
-
-    /**
-     * Class name of the form field used for the results list.  Overloading this in subclasses
-     * can let you customise the results table field.
-     * 
-     * @var string
-     */
-    protected $resultsTableClassName = 'SilvercartEditableTableListField';
     
     /**
      * Provides hook for decorators, so that they can overwrite css

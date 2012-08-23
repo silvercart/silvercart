@@ -561,6 +561,8 @@ en_GB:
     TITLE_ZA: "South Africa"
     TITLE_ZM: "Zambia"
     TITLE_ZW: "Zimbabwe"
+  SilvercartCountryAdmin:
+    MENUTITLE: Countries
   SilvercartCountryLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
@@ -603,6 +605,8 @@ en_GB:
   SilvercartDeeplink:
     PLURALNAME: "Deeplinks"
     SINGULARNAME: "Deeplink"
+  SilvercartDeeplinkAdmin:
+    MENUTITLE: "Deeplinks"
   SilvercartDeeplinkAttribute:
     PLURALNAME: "Attributes"
     SINGULARNAME: "Attribute"
@@ -650,6 +654,8 @@ en_GB:
     LEVEL6: "Level 6"
     PLURALNAME: "Google taxonomy"
     SINGULARNAME: "Google taxonomy"
+  SilvercartGoogleMerchantTaxonomyAdmin:
+    MENUTITLE: "Google Taxonomie"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Pricetype"

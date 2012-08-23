@@ -251,14 +251,15 @@ class SilvercartPlugin extends Object {
     /**
      * Initialisation for plugin providers.
      *
-     * @param array $arguments The arguments to pass
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
      * 
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.09.2011
      */
-    public function init($arguments = array()) {
+    public function init(&$arguments = array(), &$callingObject) {
     }
     
     /**

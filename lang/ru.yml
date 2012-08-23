@@ -552,6 +552,8 @@ ru:
     TITLE_ZA: ""
     TITLE_ZM: ""
     TITLE_ZW: ""
+  SilvercartCountryAdmin:
+    MENUTITLE: "страны"
   SilvercartCountryLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
@@ -591,6 +593,8 @@ ru:
     SINGULARNAME: "страницы защиты данных"
     TITLE: "о защите данных"
     URL_SEGMENT: "о защите данных"
+  SilvercartDeeplinkAdmin:
+    MENUTITLE: "Deeplinks"
   SilvercartDeeplinkAttribute:
     PLURALNAME: "атрибуты"
     SINGULARNAME: "атрибут"
@@ -626,6 +630,8 @@ ru:
     LEVEL6: "Ступень 6"
     PLURALNAME: "Google Taxonomie"
     SINGULARNAME: "Google Taxonomie"
+  SilvercartGoogleMerchantTaxonomyAdmin:
+    MENUTITLE: "Google Taxonomie"
   SilvercartGroupDecorator:
     NO_PRICETYPE: ""
     PRICETYPE: "тип прайлиста"
