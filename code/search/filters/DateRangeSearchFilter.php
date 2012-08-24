@@ -86,7 +86,7 @@ class DateRangeSearchFilter extends SearchFilter {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 11.03.2012
      */
-    public function apply(SQLQuery $query) {
+    public function apply(DataQuery $query) {
         $min = Convert::raw2sql($this->min).' 00:00:00';
         $max = Convert::raw2sql($this->max).' 23:59:59';
 

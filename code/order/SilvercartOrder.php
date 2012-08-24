@@ -105,6 +105,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'AmountTotalNice'           => 'VarChar',
         'PriceTypeText'             => 'VarChar(24)',
     );
+    
+        /**
+     * Default sort direction in tables.
+     *
+     * @var string
+     */
+    public static $default_sort = "Created DESC";
 
     /**
      * register extensions

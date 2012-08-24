@@ -49,10 +49,10 @@ class DateRangeSearchContext extends SearchContext {
         if ($fields) {
             $dates = array ();
 
-            foreach ($fields as $f) {
-                $type = singleton($this->modelClass)->obj($f->Name())->class;
+            foreach ($fields as $field) {
+                $type = singleton($this->modelClass)->obj($field->getName())->class;
                 if ($type == "Date" || $type == "SS_Datetime") {
-                    $dates[] = $f;
+                    $dates[] = $field;
                 }
             }
 

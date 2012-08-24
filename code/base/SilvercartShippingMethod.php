@@ -91,6 +91,13 @@ class SilvercartShippingMethod extends DataObject {
         'Description'               => 'Text',
     );
     
+        /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "SilvercartCarrierID";
+    
     /**
      * Shipping address
      *
