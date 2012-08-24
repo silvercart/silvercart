@@ -152,19 +152,21 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
     /**
      * this is used to render the ProductGroupHolder template in dependence on
      * the active group view.
+     * 
+     * @param string $templateBase Base name of the template to render group view with
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 22.08.2012
      */
-    public function RenderProductGroupHolderGroupView() {
+    public function RenderProductGroupHolderGroupView($templateBase = 'SilvercartProductGroupHolder') {
         $elements = array(
             'Elements' => $this->owner->getViewableChildren(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(
-                $this->getProductGroupHolderTemplateName(),
+                $this->getProductGroupHolderTemplateName($templateBase),
             )
         );
         return $output;
@@ -174,19 +176,21 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * this is used to render the ProductGroupPage template in dependence on
      * the active group view.
      *
+     * @param string $templateBase Base name of the template to render group view with
+     *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 22.08.2012
      */
-    public function RenderProductGroupPageGroupView() {
+    public function RenderProductGroupPageGroupView($templateBase = 'SilvercartProductGroupPage') {
         $elements = array(
             'Elements' => $this->owner->getProducts(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(
-                $this->getProductGroupPageTemplateName(),
-                'Includes/'.$this->getProductGroupPageTemplateName()
+                $this->getProductGroupPageTemplateName($templateBase),
+                'Includes/'.$this->getProductGroupPageTemplateName($templateBase)
             )
         );
         return $output;
@@ -196,9 +200,11 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
      * returns the required ProductGroupHolder template name required by the
      * decorators owner in dependence on the active group view.
      *
+     * @param string $templateBase Base name of the template to render group view with
+     *
      * @return string
      */
-    protected function getProductGroupHolderTemplateName() {
+    protected function getProductGroupHolderTemplateName($templateBase = 'SilvercartProductGroupHolder') {
         $groupHolderView = SilvercartGroupViewHandler::getActiveGroupHolderView();
         if (!$this->owner->isGroupHolderViewAllowed($groupHolderView)) {
             $groupHolderView = $this->owner->getDefaultGroupHolderViewInherited();
@@ -206,16 +212,18 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
         if (empty($groupHolderView)) {
             $groupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, 'SilvercartProductGroupHolder');
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, $templateBase);
     }
 
     /**
      * returns the required ProductGroupPage template name required by the
      * decorators owner in dependence on the active group view.
      *
+     * @param string $templateBase Base name of the template to render group view with
+     *
      * @return string
      */
-    protected function getProductGroupPageTemplateName() {
+    protected function getProductGroupPageTemplateName($templateBase = 'SilvercartProductGroupPage') {
         $groupView = SilvercartGroupViewHandler::getActiveGroupView();
         if (!$this->owner->isGroupViewAllowed($groupView)) {
             $groupView = $this->owner->getDefaultGroupViewInherited();
@@ -223,7 +231,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
         if (empty($groupView)) {
             $groupView = SilvercartGroupViewHandler::getDefaultGroupView();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView);
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView, $templateBase);
     }
 
     /**
