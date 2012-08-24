@@ -735,20 +735,11 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return array
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2012
      */
     public static function getFlatChildPageIDsForPage($pageId) {
-        $pageIDs = array($pageId);
-        $pageObj = DataObject::get_by_id('SiteTree', $pageId);
-        
-        if ($pageObj) {
-            foreach ($pageObj->Children() as $pageChild) {
-                $pageIDs = array_merge($pageIDs, self::getFlatChildPageIDsForPage($pageChild->ID));
-            }
-        }
-        
-        return $pageIDs;
+        return SilvercartTools::getFlatChildPageIDsForPage($pageId);
     }
     
     /**
