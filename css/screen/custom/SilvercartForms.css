@@ -244,3 +244,14 @@ form.yform .type-button .silvercart-button a {
     filter:                         progid:DXImageTransform.Microsoft.gradient(startColorstr='#616161', endColorstr='#1a1a1a'); /* for IE */
     border:                         1px #2a2a2a solid;
 }
+
+
+/* Widget Login form --------------------------------------------------------- */
+
+.silvercart-widget-login form.yform div.note {
+    color:                          #000;
+    background-color:               transparent;
+    border:                         none;
+    margin:                         0px 4px 4px 0px;
+    padding:                        10px 0 0 0;
+}
