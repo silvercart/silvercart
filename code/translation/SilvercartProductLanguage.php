@@ -57,13 +57,15 @@ class SilvercartProductLanguage extends DataObject {
     );
     
     /**
-     * Adds fulltext index for Title attribute, used for better
+     * Adds fulltext index for some attributes, used for better
      * search results
      * 
      * @var array 
      */
     public static $indexes = array(
-        'Title' => 'Fulltext (Title)'
+        'Title'             => 'Fulltext (Title)',
+        'ShortDescription'  => 'Fulltext (ShortDescription)',
+        'LongDescription'   => 'Fulltext (LongDescription)'
     );
     
     /**
