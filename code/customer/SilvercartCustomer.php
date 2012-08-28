@@ -329,6 +329,46 @@ class SilvercartCustomer extends DataObjectDecorator {
         
         return false;
     }
+    
+    /**
+     * Returns a customers purchased products
+     * 
+     * @return DataObjectSet
+     */
+    public function getPurchasedProducts() {
+        $orders             = $this->owner->SilvercartOrder();
+        $purchasedProducts  = new DataObjectSet();
+        
+        foreach ($orders as $order) {
+            $positions = $order->SilvercartOrderPositions();
+            foreach ($positions as $position) {
+                if (!$purchasedProducts->find('ID', $position->SilvercartProductID)) {
+                    $purchasedProducts->push($position->SilvercartProduct());
+                }
+            }
+        }
+        
+        return $purchasedProducts;
+    }
+
+    /**
+     * Returns whether the given product is already purchased by customer or not
+     * 
+     * @param SilvercartProduct $product Product to check
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.08.2012
+     */
+    public function isPurchasedProduct(SilvercartProduct $product) {
+        $isPurchasedProduct = false;
+        $purchasedProducts  = $this->getPurchasedProducts();
+        if ($purchasedProducts->find('ID', $product->ID)) {
+            $isPurchasedProduct = true;
+        }
+        return $isPurchasedProduct;
+    }
 
     /**
      * Get the customers shopping cart or create one if it doesn't exist yet.
