@@ -314,11 +314,11 @@ class SilvercartZone extends DataObject {
         return DataObject::get(
                 'SilvercartZone',
                 sprintf(
-                        "`SilvercartZone_SilvercartCountries`.`SilvercartCountryID` = '%s'",
+                        "\"SilvercartZone_SilvercartCountries\".\"SilvercartCountryID\" = '%s'",
                         $countryID
                 ),
                 '',
-                "LEFT JOIN `SilvercartZone_SilvercartCountries` ON (`SilvercartZone_SilvercartCountries`.`SilvercartZoneID` = `SilvercartZone`.`ID`)"
+                "LEFT JOIN \"SilvercartZone_SilvercartCountries\" ON (\"SilvercartZone_SilvercartCountries\".\"SilvercartZoneID\" = \"SilvercartZone\".\"ID\")"
         );
     }
     
@@ -333,7 +333,7 @@ class SilvercartZone extends DataObject {
     public function hasAllCountries() {
         /* @var $countries DataObjectSet */
         $countries          = $this->SilvercartCountries();
-        $availableCountries = DataObject::get('SilvercartCountry', "`Active` = 1");
+        $availableCountries = DataObject::get('SilvercartCountry', "\"Active\" = 1");
         $hasAllCountries    = true;
         foreach ($availableCountries as $availableCountry) {
             if (!$countries->find('ID', $availableCountry->ID)) {

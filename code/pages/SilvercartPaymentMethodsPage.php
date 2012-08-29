@@ -116,7 +116,7 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
             $shippingCountry = DataObject::get_one(
                     'SilvercartCountry',
                     sprintf(
-                            "`ISO2` = '%s' AND `Active` = 1",
+                            "\"ISO2\" = '%s' AND \"Active\" = 1",
                             substr(Translatable::get_current_locale(), 3)
                     )
             );

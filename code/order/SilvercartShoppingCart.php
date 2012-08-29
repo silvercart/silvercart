@@ -1714,7 +1714,7 @@ class SilvercartShoppingCart extends DataObject {
     public function onBeforeDelete() {
         parent::onBeforeDelete();
 
-        $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $this->ID);
+        $filter = sprintf("\"SilvercartShoppingCartID\" = '%s'", $this->ID);
         $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
 
         if ($shoppingCartPositions) {

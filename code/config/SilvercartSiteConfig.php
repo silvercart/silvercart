@@ -140,7 +140,7 @@ class SilvercartSiteConfig extends DataExtension {
                 $existingTranslation = DataObject::get_one(
                         'SiteConfig',
                         sprintf(
-                                "`Locale` = '%s'",
+                                "\"Locale\" = '%s'",
                                 $langCode
                         )
                 );

@@ -87,7 +87,7 @@ class SilvercartGeoNames extends SilvercartInterface {
                 $GeoNameId,
             ) = explode("\t", $line);
 
-            $country = DataObject::get_one('SilvercartCountry', sprintf("`SilvercartCountry`.`ISO2`='%s'", $ISO2));
+            $country = DataObject::get_one('SilvercartCountry', sprintf("\"SilvercartCountry\".\"ISO2\"='%s'", $ISO2));
             if (!$country) {
                 $country = new SilvercartCountry();
             }

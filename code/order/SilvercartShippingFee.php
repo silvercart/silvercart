@@ -224,11 +224,11 @@ class SilvercartShippingFee extends DataObject {
         $zones  = DataObject::get(
                 'SilvercartZone',
                 sprintf(
-                        "`SilvercartZone_SilvercartCarriers`.`SilvercartCarrierID` = %s",
+                        "\"SilvercartZone_SilvercartCarriers\".\"SilvercartCarrierID\" = %s",
                         $this->SilvercartShippingMethod()->SilvercartCarrier()->ID
                 ),
                 "",
-                "LEFT JOIN `SilvercartZone_SilvercartCarriers` ON (`SilvercartZone`.`ID` = `SilvercartZone_SilvercartCarriers`.`SilvercartZoneID`)"
+                "LEFT JOIN \"SilvercartZone_SilvercartCarriers\" ON (\"SilvercartZone\".\"ID\" = \"SilvercartZone_SilvercartCarriers\".\"SilvercartZoneID\")"
         );
         if ($zones) {
             $zonesField = new DropdownField(

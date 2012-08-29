@@ -1124,9 +1124,9 @@ class SilvercartConfig extends DataObject {
                 SELECT
                     *
                 FROM
-                    `SilvercartCountry`
+                    \"SilvercartCountry\"
                 WHERE
-                    `Active`=1
+                    \"Active\"=1
                 ";
         $items = singleton('SilvercartCountry')->buildDataObjectSet(DB::query($query));
         if ($items) {

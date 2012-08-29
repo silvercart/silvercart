@@ -22,7 +22,7 @@
  */
 
             // write country AD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AD";
             $country->ISO3      = "AND";
@@ -36,7 +36,7 @@
        }
 
             // write country AE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AE";
             $country->ISO3      = "ARE";
@@ -50,7 +50,7 @@
        }
 
             // write country AF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AF";
             $country->ISO3      = "AFG";
@@ -64,7 +64,7 @@
        }
 
             // write country AG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AG";
             $country->ISO3      = "ATG";
@@ -78,7 +78,7 @@
        }
 
             // write country AI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AI";
             $country->ISO3      = "AIA";
@@ -92,7 +92,7 @@
        }
 
             // write country AL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AL";
             $country->ISO3      = "ALB";
@@ -106,7 +106,7 @@
        }
 
             // write country AM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AM";
             $country->ISO3      = "ARM";
@@ -120,7 +120,7 @@
        }
 
             // write country AN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AN";
             $country->ISO3      = "ANT";
@@ -134,7 +134,7 @@
        }
 
             // write country AO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AO";
             $country->ISO3      = "AGO";
@@ -148,7 +148,7 @@
        }
 
             // write country AQ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AQ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AQ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AQ";
             $country->ISO3      = "ATA";
@@ -162,7 +162,7 @@
        }
 
             // write country AR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AR";
             $country->ISO3      = "ARG";
@@ -176,7 +176,7 @@
        }
 
             // write country AS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AS";
             $country->ISO3      = "ASM";
@@ -190,7 +190,7 @@
        }
 
             // write country AT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AT";
             $country->ISO3      = "AUT";
@@ -204,7 +204,7 @@
        }
 
             // write country AU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AU";
             $country->ISO3      = "AUS";
@@ -218,7 +218,7 @@
        }
 
             // write country AW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AW";
             $country->ISO3      = "ABW";
@@ -232,7 +232,7 @@
        }
 
             // write country AX
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AX'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AX'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AX";
             $country->ISO3      = "ALA";
@@ -246,7 +246,7 @@
        }
 
             // write country AZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='AZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='AZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "AZ";
             $country->ISO3      = "AZE";
@@ -260,7 +260,7 @@
        }
 
             // write country BA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BA";
             $country->ISO3      = "BIH";
@@ -274,7 +274,7 @@
        }
 
             // write country BB
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BB'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BB'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BB";
             $country->ISO3      = "BRB";
@@ -288,7 +288,7 @@
        }
 
             // write country BD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BD";
             $country->ISO3      = "BGD";
@@ -302,7 +302,7 @@
        }
 
             // write country BE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BE";
             $country->ISO3      = "BEL";
@@ -316,7 +316,7 @@
        }
 
             // write country BF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BF";
             $country->ISO3      = "BFA";
@@ -330,7 +330,7 @@
        }
 
             // write country BG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BG";
             $country->ISO3      = "BGR";
@@ -344,7 +344,7 @@
        }
 
             // write country BH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BH";
             $country->ISO3      = "BHR";
@@ -358,7 +358,7 @@
        }
 
             // write country BI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BI";
             $country->ISO3      = "BDI";
@@ -372,7 +372,7 @@
        }
 
             // write country BJ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BJ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BJ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BJ";
             $country->ISO3      = "BEN";
@@ -386,7 +386,7 @@
        }
 
             // write country BL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BL";
             $country->ISO3      = "BLM";
@@ -400,7 +400,7 @@
        }
 
             // write country BM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BM";
             $country->ISO3      = "BMU";
@@ -414,7 +414,7 @@
        }
 
             // write country BN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BN";
             $country->ISO3      = "BRN";
@@ -428,7 +428,7 @@
        }
 
             // write country BO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BO";
             $country->ISO3      = "BOL";
@@ -442,7 +442,7 @@
        }
 
             // write country BQ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BQ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BQ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BQ";
             $country->ISO3      = "BES";
@@ -456,7 +456,7 @@
        }
 
             // write country BR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BR";
             $country->ISO3      = "BRA";
@@ -470,7 +470,7 @@
        }
 
             // write country BS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BS";
             $country->ISO3      = "BHS";
@@ -484,7 +484,7 @@
        }
 
             // write country BT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BT";
             $country->ISO3      = "BTN";
@@ -498,7 +498,7 @@
        }
 
             // write country BV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BV";
             $country->ISO3      = "BVT";
@@ -512,7 +512,7 @@
        }
 
             // write country BW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BW";
             $country->ISO3      = "BWA";
@@ -526,7 +526,7 @@
        }
 
             // write country BY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BY";
             $country->ISO3      = "BLR";
@@ -540,7 +540,7 @@
        }
 
             // write country BZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='BZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='BZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "BZ";
             $country->ISO3      = "BLZ";
@@ -554,7 +554,7 @@
        }
 
             // write country CA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CA";
             $country->ISO3      = "CAN";
@@ -568,7 +568,7 @@
        }
 
             // write country CC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CC";
             $country->ISO3      = "CCK";
@@ -582,7 +582,7 @@
        }
 
             // write country CD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CD";
             $country->ISO3      = "COD";
@@ -596,7 +596,7 @@
        }
 
             // write country CF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CF";
             $country->ISO3      = "CAF";
@@ -610,7 +610,7 @@
        }
 
             // write country CG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CG";
             $country->ISO3      = "COG";
@@ -624,7 +624,7 @@
        }
 
             // write country CH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CH";
             $country->ISO3      = "CHE";
@@ -638,7 +638,7 @@
        }
 
             // write country CI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CI";
             $country->ISO3      = "CIV";
@@ -652,7 +652,7 @@
        }
 
             // write country CK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CK";
             $country->ISO3      = "COK";
@@ -666,7 +666,7 @@
        }
 
             // write country CL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CL";
             $country->ISO3      = "CHL";
@@ -680,7 +680,7 @@
        }
 
             // write country CM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CM";
             $country->ISO3      = "CMR";
@@ -694,7 +694,7 @@
        }
 
             // write country CN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CN";
             $country->ISO3      = "CHN";
@@ -708,7 +708,7 @@
        }
 
             // write country CO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CO";
             $country->ISO3      = "COL";
@@ -722,7 +722,7 @@
        }
 
             // write country CR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CR";
             $country->ISO3      = "CRI";
@@ -736,7 +736,7 @@
        }
 
             // write country CS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CS";
             $country->ISO3      = "SCG";
@@ -750,7 +750,7 @@
        }
 
             // write country CU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CU";
             $country->ISO3      = "CUB";
@@ -764,7 +764,7 @@
        }
 
             // write country CV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CV";
             $country->ISO3      = "CPV";
@@ -778,7 +778,7 @@
        }
 
             // write country CW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CW";
             $country->ISO3      = "CUW";
@@ -792,7 +792,7 @@
        }
 
             // write country CX
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CX'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CX'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CX";
             $country->ISO3      = "CXR";
@@ -806,7 +806,7 @@
        }
 
             // write country CY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CY";
             $country->ISO3      = "CYP";
@@ -820,7 +820,7 @@
        }
 
             // write country CZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='CZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='CZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "CZ";
             $country->ISO3      = "CZE";
@@ -834,7 +834,7 @@
        }
 
             // write country DE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DE";
             $country->ISO3      = "DEU";
@@ -848,7 +848,7 @@
        }
 
             // write country DJ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DJ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DJ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DJ";
             $country->ISO3      = "DJI";
@@ -862,7 +862,7 @@
        }
 
             // write country DK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DK";
             $country->ISO3      = "DNK";
@@ -876,7 +876,7 @@
        }
 
             // write country DM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DM";
             $country->ISO3      = "DMA";
@@ -890,7 +890,7 @@
        }
 
             // write country DO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DO";
             $country->ISO3      = "DOM";
@@ -904,7 +904,7 @@
        }
 
             // write country DZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='DZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='DZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "DZ";
             $country->ISO3      = "DZA";
@@ -918,7 +918,7 @@
        }
 
             // write country EC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='EC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='EC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "EC";
             $country->ISO3      = "ECU";
@@ -932,7 +932,7 @@
        }
 
             // write country EE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='EE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='EE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "EE";
             $country->ISO3      = "EST";
@@ -946,7 +946,7 @@
        }
 
             // write country EG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='EG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='EG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "EG";
             $country->ISO3      = "EGY";
@@ -960,7 +960,7 @@
        }
 
             // write country EH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='EH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='EH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "EH";
             $country->ISO3      = "ESH";
@@ -974,7 +974,7 @@
        }
 
             // write country ER
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ER'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ER'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ER";
             $country->ISO3      = "ERI";
@@ -988,7 +988,7 @@
        }
 
             // write country ES
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ES'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ES'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ES";
             $country->ISO3      = "ESP";
@@ -1002,7 +1002,7 @@
        }
 
             // write country ET
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ET'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ET'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ET";
             $country->ISO3      = "ETH";
@@ -1016,7 +1016,7 @@
        }
 
             // write country FI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FI";
             $country->ISO3      = "FIN";
@@ -1030,7 +1030,7 @@
        }
 
             // write country FJ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FJ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FJ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FJ";
             $country->ISO3      = "FJI";
@@ -1044,7 +1044,7 @@
        }
 
             // write country FK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FK";
             $country->ISO3      = "FLK";
@@ -1058,7 +1058,7 @@
        }
 
             // write country FM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FM";
             $country->ISO3      = "FSM";
@@ -1072,7 +1072,7 @@
        }
 
             // write country FO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FO";
             $country->ISO3      = "FRO";
@@ -1086,7 +1086,7 @@
        }
 
             // write country FR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='FR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='FR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "FR";
             $country->ISO3      = "FRA";
@@ -1100,7 +1100,7 @@
        }
 
             // write country GA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GA";
             $country->ISO3      = "GAB";
@@ -1114,7 +1114,7 @@
        }
 
             // write country GB
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GB'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GB'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GB";
             $country->ISO3      = "GBR";
@@ -1128,7 +1128,7 @@
        }
 
             // write country GD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GD";
             $country->ISO3      = "GRD";
@@ -1142,7 +1142,7 @@
        }
 
             // write country GE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GE";
             $country->ISO3      = "GEO";
@@ -1156,7 +1156,7 @@
        }
 
             // write country GF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GF";
             $country->ISO3      = "GUF";
@@ -1170,7 +1170,7 @@
        }
 
             // write country GG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GG";
             $country->ISO3      = "GGY";
@@ -1184,7 +1184,7 @@
        }
 
             // write country GH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GH";
             $country->ISO3      = "GHA";
@@ -1198,7 +1198,7 @@
        }
 
             // write country GI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GI";
             $country->ISO3      = "GIB";
@@ -1212,7 +1212,7 @@
        }
 
             // write country GL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GL";
             $country->ISO3      = "GRL";
@@ -1226,7 +1226,7 @@
        }
 
             // write country GM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GM";
             $country->ISO3      = "GMB";
@@ -1240,7 +1240,7 @@
        }
 
             // write country GN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GN";
             $country->ISO3      = "GIN";
@@ -1254,7 +1254,7 @@
        }
 
             // write country GP
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GP'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GP'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GP";
             $country->ISO3      = "GLP";
@@ -1268,7 +1268,7 @@
        }
 
             // write country GQ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GQ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GQ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GQ";
             $country->ISO3      = "GNQ";
@@ -1282,7 +1282,7 @@
        }
 
             // write country GR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GR";
             $country->ISO3      = "GRC";
@@ -1296,7 +1296,7 @@
        }
 
             // write country GS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GS";
             $country->ISO3      = "SGS";
@@ -1310,7 +1310,7 @@
        }
 
             // write country GT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GT";
             $country->ISO3      = "GTM";
@@ -1324,7 +1324,7 @@
        }
 
             // write country GU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GU";
             $country->ISO3      = "GUM";
@@ -1338,7 +1338,7 @@
        }
 
             // write country GW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GW";
             $country->ISO3      = "GNB";
@@ -1352,7 +1352,7 @@
        }
 
             // write country GY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='GY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='GY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "GY";
             $country->ISO3      = "GUY";
@@ -1366,7 +1366,7 @@
        }
 
             // write country HK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HK";
             $country->ISO3      = "HKG";
@@ -1380,7 +1380,7 @@
        }
 
             // write country HM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HM";
             $country->ISO3      = "HMD";
@@ -1394,7 +1394,7 @@
        }
 
             // write country HN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HN";
             $country->ISO3      = "HND";
@@ -1408,7 +1408,7 @@
        }
 
             // write country HR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HR";
             $country->ISO3      = "HRV";
@@ -1422,7 +1422,7 @@
        }
 
             // write country HT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HT";
             $country->ISO3      = "HTI";
@@ -1436,7 +1436,7 @@
        }
 
             // write country HU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='HU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='HU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "HU";
             $country->ISO3      = "HUN";
@@ -1450,7 +1450,7 @@
        }
 
             // write country ID
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ID'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ID'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ID";
             $country->ISO3      = "IDN";
@@ -1464,7 +1464,7 @@
        }
 
             // write country IE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IE";
             $country->ISO3      = "IRL";
@@ -1478,7 +1478,7 @@
        }
 
             // write country IL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IL";
             $country->ISO3      = "ISR";
@@ -1492,7 +1492,7 @@
        }
 
             // write country IM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IM";
             $country->ISO3      = "IMN";
@@ -1506,7 +1506,7 @@
        }
 
             // write country IN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IN";
             $country->ISO3      = "IND";
@@ -1520,7 +1520,7 @@
        }
 
             // write country IO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IO";
             $country->ISO3      = "IOT";
@@ -1534,7 +1534,7 @@
        }
 
             // write country IQ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IQ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IQ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IQ";
             $country->ISO3      = "IRQ";
@@ -1548,7 +1548,7 @@
        }
 
             // write country IR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IR";
             $country->ISO3      = "IRN";
@@ -1562,7 +1562,7 @@
        }
 
             // write country IS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IS";
             $country->ISO3      = "ISL";
@@ -1576,7 +1576,7 @@
        }
 
             // write country IT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='IT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='IT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "IT";
             $country->ISO3      = "ITA";
@@ -1590,7 +1590,7 @@
        }
 
             // write country JE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='JE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='JE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "JE";
             $country->ISO3      = "JEY";
@@ -1604,7 +1604,7 @@
        }
 
             // write country JM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='JM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='JM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "JM";
             $country->ISO3      = "JAM";
@@ -1618,7 +1618,7 @@
        }
 
             // write country JO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='JO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='JO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "JO";
             $country->ISO3      = "JOR";
@@ -1632,7 +1632,7 @@
        }
 
             // write country JP
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='JP'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='JP'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "JP";
             $country->ISO3      = "JPN";
@@ -1646,7 +1646,7 @@
        }
 
             // write country KE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KE";
             $country->ISO3      = "KEN";
@@ -1660,7 +1660,7 @@
        }
 
             // write country KG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KG";
             $country->ISO3      = "KGZ";
@@ -1674,7 +1674,7 @@
        }
 
             // write country KH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KH";
             $country->ISO3      = "KHM";
@@ -1688,7 +1688,7 @@
        }
 
             // write country KI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KI";
             $country->ISO3      = "KIR";
@@ -1702,7 +1702,7 @@
        }
 
             // write country KM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KM";
             $country->ISO3      = "COM";
@@ -1716,7 +1716,7 @@
        }
 
             // write country KN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KN";
             $country->ISO3      = "KNA";
@@ -1730,7 +1730,7 @@
        }
 
             // write country KP
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KP'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KP'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KP";
             $country->ISO3      = "PRK";
@@ -1744,7 +1744,7 @@
        }
 
             // write country KR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KR";
             $country->ISO3      = "KOR";
@@ -1758,7 +1758,7 @@
        }
 
             // write country KW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KW";
             $country->ISO3      = "KWT";
@@ -1772,7 +1772,7 @@
        }
 
             // write country KY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KY";
             $country->ISO3      = "CYM";
@@ -1786,7 +1786,7 @@
        }
 
             // write country KZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='KZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='KZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "KZ";
             $country->ISO3      = "KAZ";
@@ -1800,7 +1800,7 @@
        }
 
             // write country LA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LA";
             $country->ISO3      = "LAO";
@@ -1814,7 +1814,7 @@
        }
 
             // write country LB
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LB'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LB'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LB";
             $country->ISO3      = "LBN";
@@ -1828,7 +1828,7 @@
        }
 
             // write country LC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LC";
             $country->ISO3      = "LCA";
@@ -1842,7 +1842,7 @@
        }
 
             // write country LI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LI";
             $country->ISO3      = "LIE";
@@ -1856,7 +1856,7 @@
        }
 
             // write country LK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LK";
             $country->ISO3      = "LKA";
@@ -1870,7 +1870,7 @@
        }
 
             // write country LR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LR";
             $country->ISO3      = "LBR";
@@ -1884,7 +1884,7 @@
        }
 
             // write country LS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LS";
             $country->ISO3      = "LSO";
@@ -1898,7 +1898,7 @@
        }
 
             // write country LT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LT";
             $country->ISO3      = "LTU";
@@ -1912,7 +1912,7 @@
        }
 
             // write country LU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LU";
             $country->ISO3      = "LUX";
@@ -1926,7 +1926,7 @@
        }
 
             // write country LV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LV";
             $country->ISO3      = "LVA";
@@ -1940,7 +1940,7 @@
        }
 
             // write country LY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='LY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='LY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "LY";
             $country->ISO3      = "LBY";
@@ -1954,7 +1954,7 @@
        }
 
             // write country MA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MA";
             $country->ISO3      = "MAR";
@@ -1968,7 +1968,7 @@
        }
 
             // write country MC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MC";
             $country->ISO3      = "MCO";
@@ -1982,7 +1982,7 @@
        }
 
             // write country MD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MD";
             $country->ISO3      = "MDA";
@@ -1996,7 +1996,7 @@
        }
 
             // write country ME
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ME'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ME'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ME";
             $country->ISO3      = "MNE";
@@ -2010,7 +2010,7 @@
        }
 
             // write country MF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MF";
             $country->ISO3      = "MAF";
@@ -2024,7 +2024,7 @@
        }
 
             // write country MG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MG";
             $country->ISO3      = "MDG";
@@ -2038,7 +2038,7 @@
        }
 
             // write country MH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MH";
             $country->ISO3      = "MHL";
@@ -2052,7 +2052,7 @@
        }
 
             // write country MK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MK";
             $country->ISO3      = "MKD";
@@ -2066,7 +2066,7 @@
        }
 
             // write country ML
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ML'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ML'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ML";
             $country->ISO3      = "MLI";
@@ -2080,7 +2080,7 @@
        }
 
             // write country MM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MM";
             $country->ISO3      = "MMR";
@@ -2094,7 +2094,7 @@
        }
 
             // write country MN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MN";
             $country->ISO3      = "MNG";
@@ -2108,7 +2108,7 @@
        }
 
             // write country MO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MO";
             $country->ISO3      = "MAC";
@@ -2122,7 +2122,7 @@
        }
 
             // write country MP
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MP'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MP'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MP";
             $country->ISO3      = "MNP";
@@ -2136,7 +2136,7 @@
        }
 
             // write country MQ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MQ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MQ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MQ";
             $country->ISO3      = "MTQ";
@@ -2150,7 +2150,7 @@
        }
 
             // write country MR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MR";
             $country->ISO3      = "MRT";
@@ -2164,7 +2164,7 @@
        }
 
             // write country MS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MS";
             $country->ISO3      = "MSR";
@@ -2178,7 +2178,7 @@
        }
 
             // write country MT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MT";
             $country->ISO3      = "MLT";
@@ -2192,7 +2192,7 @@
        }
 
             // write country MU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MU";
             $country->ISO3      = "MUS";
@@ -2206,7 +2206,7 @@
        }
 
             // write country MV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MV";
             $country->ISO3      = "MDV";
@@ -2220,7 +2220,7 @@
        }
 
             // write country MW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MW";
             $country->ISO3      = "MWI";
@@ -2234,7 +2234,7 @@
        }
 
             // write country MX
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MX'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MX'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MX";
             $country->ISO3      = "MEX";
@@ -2248,7 +2248,7 @@
        }
 
             // write country MY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MY";
             $country->ISO3      = "MYS";
@@ -2262,7 +2262,7 @@
        }
 
             // write country MZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='MZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='MZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "MZ";
             $country->ISO3      = "MOZ";
@@ -2276,7 +2276,7 @@
        }
 
             // write country NA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NA";
             $country->ISO3      = "NAM";
@@ -2290,7 +2290,7 @@
        }
 
             // write country NC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NC";
             $country->ISO3      = "NCL";
@@ -2304,7 +2304,7 @@
        }
 
             // write country NE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NE";
             $country->ISO3      = "NER";
@@ -2318,7 +2318,7 @@
        }
 
             // write country NF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NF";
             $country->ISO3      = "NFK";
@@ -2332,7 +2332,7 @@
        }
 
             // write country NG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NG";
             $country->ISO3      = "NGA";
@@ -2346,7 +2346,7 @@
        }
 
             // write country NI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NI";
             $country->ISO3      = "NIC";
@@ -2360,7 +2360,7 @@
        }
 
             // write country NL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NL";
             $country->ISO3      = "NLD";
@@ -2374,7 +2374,7 @@
        }
 
             // write country NO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NO";
             $country->ISO3      = "NOR";
@@ -2388,7 +2388,7 @@
        }
 
             // write country NP
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NP'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NP'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NP";
             $country->ISO3      = "NPL";
@@ -2402,7 +2402,7 @@
        }
 
             // write country NR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NR";
             $country->ISO3      = "NRU";
@@ -2416,7 +2416,7 @@
        }
 
             // write country NU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NU";
             $country->ISO3      = "NIU";
@@ -2430,7 +2430,7 @@
        }
 
             // write country NZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='NZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='NZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "NZ";
             $country->ISO3      = "NZL";
@@ -2444,7 +2444,7 @@
        }
 
             // write country OM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='OM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='OM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "OM";
             $country->ISO3      = "OMN";
@@ -2458,7 +2458,7 @@
        }
 
             // write country PA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PA";
             $country->ISO3      = "PAN";
@@ -2472,7 +2472,7 @@
        }
 
             // write country PE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PE";
             $country->ISO3      = "PER";
@@ -2486,7 +2486,7 @@
        }
 
             // write country PF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PF";
             $country->ISO3      = "PYF";
@@ -2500,7 +2500,7 @@
        }
 
             // write country PG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PG";
             $country->ISO3      = "PNG";
@@ -2514,7 +2514,7 @@
        }
 
             // write country PH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PH";
             $country->ISO3      = "PHL";
@@ -2528,7 +2528,7 @@
        }
 
             // write country PK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PK";
             $country->ISO3      = "PAK";
@@ -2542,7 +2542,7 @@
        }
 
             // write country PL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PL";
             $country->ISO3      = "POL";
@@ -2556,7 +2556,7 @@
        }
 
             // write country PM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PM";
             $country->ISO3      = "SPM";
@@ -2570,7 +2570,7 @@
        }
 
             // write country PN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PN";
             $country->ISO3      = "PCN";
@@ -2584,7 +2584,7 @@
        }
 
             // write country PR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PR";
             $country->ISO3      = "PRI";
@@ -2598,7 +2598,7 @@
        }
 
             // write country PS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PS";
             $country->ISO3      = "PSE";
@@ -2612,7 +2612,7 @@
        }
 
             // write country PT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PT";
             $country->ISO3      = "PRT";
@@ -2626,7 +2626,7 @@
        }
 
             // write country PW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PW";
             $country->ISO3      = "PLW";
@@ -2640,7 +2640,7 @@
        }
 
             // write country PY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='PY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='PY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "PY";
             $country->ISO3      = "PRY";
@@ -2654,7 +2654,7 @@
        }
 
             // write country QA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='QA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='QA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "QA";
             $country->ISO3      = "QAT";
@@ -2668,7 +2668,7 @@
        }
 
             // write country RE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='RE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='RE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "RE";
             $country->ISO3      = "REU";
@@ -2682,7 +2682,7 @@
        }
 
             // write country RO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='RO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='RO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "RO";
             $country->ISO3      = "ROU";
@@ -2696,7 +2696,7 @@
        }
 
             // write country RS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='RS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='RS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "RS";
             $country->ISO3      = "SRB";
@@ -2710,7 +2710,7 @@
        }
 
             // write country RU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='RU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='RU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "RU";
             $country->ISO3      = "RUS";
@@ -2724,7 +2724,7 @@
        }
 
             // write country RW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='RW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='RW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "RW";
             $country->ISO3      = "RWA";
@@ -2738,7 +2738,7 @@
        }
 
             // write country SA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SA";
             $country->ISO3      = "SAU";
@@ -2752,7 +2752,7 @@
        }
 
             // write country SB
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SB'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SB'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SB";
             $country->ISO3      = "SLB";
@@ -2766,7 +2766,7 @@
        }
 
             // write country SC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SC";
             $country->ISO3      = "SYC";
@@ -2780,7 +2780,7 @@
        }
 
             // write country SD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SD";
             $country->ISO3      = "SDN";
@@ -2794,7 +2794,7 @@
        }
 
             // write country SE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SE";
             $country->ISO3      = "SWE";
@@ -2808,7 +2808,7 @@
        }
 
             // write country SG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SG";
             $country->ISO3      = "SGP";
@@ -2822,7 +2822,7 @@
        }
 
             // write country SH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SH";
             $country->ISO3      = "SHN";
@@ -2836,7 +2836,7 @@
        }
 
             // write country SI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SI";
             $country->ISO3      = "SVN";
@@ -2850,7 +2850,7 @@
        }
 
             // write country SJ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SJ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SJ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SJ";
             $country->ISO3      = "SJM";
@@ -2864,7 +2864,7 @@
        }
 
             // write country SK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SK";
             $country->ISO3      = "SVK";
@@ -2878,7 +2878,7 @@
        }
 
             // write country SL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SL";
             $country->ISO3      = "SLE";
@@ -2892,7 +2892,7 @@
        }
 
             // write country SM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SM";
             $country->ISO3      = "SMR";
@@ -2906,7 +2906,7 @@
        }
 
             // write country SN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SN";
             $country->ISO3      = "SEN";
@@ -2920,7 +2920,7 @@
        }
 
             // write country SO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SO";
             $country->ISO3      = "SOM";
@@ -2934,7 +2934,7 @@
        }
 
             // write country SR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SR";
             $country->ISO3      = "SUR";
@@ -2948,7 +2948,7 @@
        }
 
             // write country ST
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ST'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ST'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ST";
             $country->ISO3      = "STP";
@@ -2962,7 +2962,7 @@
        }
 
             // write country SV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SV";
             $country->ISO3      = "SLV";
@@ -2976,7 +2976,7 @@
        }
 
             // write country SX
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SX'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SX'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SX";
             $country->ISO3      = "SXM";
@@ -2990,7 +2990,7 @@
        }
 
             // write country SY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SY";
             $country->ISO3      = "SYR";
@@ -3004,7 +3004,7 @@
        }
 
             // write country SZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='SZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='SZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "SZ";
             $country->ISO3      = "SWZ";
@@ -3018,7 +3018,7 @@
        }
 
             // write country TC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TC";
             $country->ISO3      = "TCA";
@@ -3032,7 +3032,7 @@
        }
 
             // write country TD
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TD'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TD'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TD";
             $country->ISO3      = "TCD";
@@ -3046,7 +3046,7 @@
        }
 
             // write country TF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TF";
             $country->ISO3      = "ATF";
@@ -3060,7 +3060,7 @@
        }
 
             // write country TG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TG";
             $country->ISO3      = "TGO";
@@ -3074,7 +3074,7 @@
        }
 
             // write country TH
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TH'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TH'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TH";
             $country->ISO3      = "THA";
@@ -3088,7 +3088,7 @@
        }
 
             // write country TJ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TJ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TJ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TJ";
             $country->ISO3      = "TJK";
@@ -3102,7 +3102,7 @@
        }
 
             // write country TK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TK";
             $country->ISO3      = "TKL";
@@ -3116,7 +3116,7 @@
        }
 
             // write country TL
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TL'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TL'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TL";
             $country->ISO3      = "TLS";
@@ -3130,7 +3130,7 @@
        }
 
             // write country TM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TM";
             $country->ISO3      = "TKM";
@@ -3144,7 +3144,7 @@
        }
 
             // write country TN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TN";
             $country->ISO3      = "TUN";
@@ -3158,7 +3158,7 @@
        }
 
             // write country TO
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TO'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TO'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TO";
             $country->ISO3      = "TON";
@@ -3172,7 +3172,7 @@
        }
 
             // write country TR
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TR'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TR'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TR";
             $country->ISO3      = "TUR";
@@ -3186,7 +3186,7 @@
        }
 
             // write country TT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TT";
             $country->ISO3      = "TTO";
@@ -3200,7 +3200,7 @@
        }
 
             // write country TV
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TV'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TV'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TV";
             $country->ISO3      = "TUV";
@@ -3214,7 +3214,7 @@
        }
 
             // write country TW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TW";
             $country->ISO3      = "TWN";
@@ -3228,7 +3228,7 @@
        }
 
             // write country TZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='TZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='TZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "TZ";
             $country->ISO3      = "TZA";
@@ -3242,7 +3242,7 @@
        }
 
             // write country UA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='UA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='UA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "UA";
             $country->ISO3      = "UKR";
@@ -3256,7 +3256,7 @@
        }
 
             // write country UG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='UG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='UG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "UG";
             $country->ISO3      = "UGA";
@@ -3270,7 +3270,7 @@
        }
 
             // write country UM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='UM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='UM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "UM";
             $country->ISO3      = "UMI";
@@ -3284,7 +3284,7 @@
        }
 
             // write country US
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='US'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='US'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "US";
             $country->ISO3      = "USA";
@@ -3298,7 +3298,7 @@
        }
 
             // write country UY
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='UY'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='UY'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "UY";
             $country->ISO3      = "URY";
@@ -3312,7 +3312,7 @@
        }
 
             // write country UZ
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='UZ'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='UZ'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "UZ";
             $country->ISO3      = "UZB";
@@ -3326,7 +3326,7 @@
        }
 
             // write country VA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VA";
             $country->ISO3      = "VAT";
@@ -3340,7 +3340,7 @@
        }
 
             // write country VC
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VC'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VC'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VC";
             $country->ISO3      = "VCT";
@@ -3354,7 +3354,7 @@
        }
 
             // write country VE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VE";
             $country->ISO3      = "VEN";
@@ -3368,7 +3368,7 @@
        }
 
             // write country VG
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VG'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VG'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VG";
             $country->ISO3      = "VGB";
@@ -3382,7 +3382,7 @@
        }
 
             // write country VI
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VI'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VI'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VI";
             $country->ISO3      = "VIR";
@@ -3396,7 +3396,7 @@
        }
 
             // write country VN
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VN'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VN'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VN";
             $country->ISO3      = "VNM";
@@ -3410,7 +3410,7 @@
        }
 
             // write country VU
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='VU'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='VU'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "VU";
             $country->ISO3      = "VUT";
@@ -3424,7 +3424,7 @@
        }
 
             // write country WF
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='WF'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='WF'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "WF";
             $country->ISO3      = "WLF";
@@ -3438,7 +3438,7 @@
        }
 
             // write country WS
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='WS'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='WS'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "WS";
             $country->ISO3      = "WSM";
@@ -3452,7 +3452,7 @@
        }
 
             // write country XK
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='XK'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='XK'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "XK";
             $country->ISO3      = "XKX";
@@ -3466,7 +3466,7 @@
        }
 
             // write country YE
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='YE'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='YE'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "YE";
             $country->ISO3      = "YEM";
@@ -3480,7 +3480,7 @@
        }
 
             // write country YT
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='YT'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='YT'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "YT";
             $country->ISO3      = "MYT";
@@ -3494,7 +3494,7 @@
        }
 
             // write country ZA
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ZA'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ZA'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ZA";
             $country->ISO3      = "ZAF";
@@ -3508,7 +3508,7 @@
        }
 
             // write country ZM
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ZM'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ZM'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ZM";
             $country->ISO3      = "ZMB";
@@ -3522,7 +3522,7 @@
        }
 
             // write country ZW
-        if (!DataObject::get('SilvercartCountry',"`ISO2`='ZW'")) {
+        if (!DataObject::get('SilvercartCountry',"\"ISO2\"='ZW'")) {
             $country = new SilvercartCountry();
             $country->ISO2      = "ZW";
             $country->ISO3      = "ZWE";

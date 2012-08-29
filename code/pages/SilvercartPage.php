@@ -499,7 +499,7 @@ class SilvercartPage_Controller extends ContentController {
     public function CurrentMembersOrders($limit = null) {
         $memberID = Member::currentUserID();
         if ($memberID) {
-            $filter = sprintf("`MemberID` = '%s'", $memberID);
+            $filter = sprintf("\"MemberID\" = '%s'", $memberID);
             $orders = DataObject::get('SilvercartOrder', $filter, null, null, $limit);
             return $orders;
         }

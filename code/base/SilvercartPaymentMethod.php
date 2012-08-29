@@ -651,7 +651,7 @@ class SilvercartPaymentMethod extends DataObject {
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
             $member         = new Member();
-            $anonymousGroup = DataObject::get_one('Group', "`Code` = 'anonymous'");
+            $anonymousGroup = DataObject::get_one('Group', "\"Code\" = 'anonymous'");
             $memberGroups   = new DataObjectSet();
             $memberGroups->push($anonymousGroup);
         } else {
@@ -1003,7 +1003,7 @@ class SilvercartPaymentMethod extends DataObject {
             if ($has_multiple_payment_channels) {
                 $paymentModule = new $className();
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
-                    if (!DataObject::get_one($className, sprintf("`PaymentChannel`='%s'", $channel))) {
+                    if (!DataObject::get_one($className, sprintf("\"PaymentChannel\"='%s'", $channel))) {
                         $paymentMethod = new $className();
                         $paymentMethod->isActive       = 0;
                         #$paymentMethod->Name           = $name;
@@ -1023,7 +1023,7 @@ class SilvercartPaymentMethod extends DataObject {
                         $languageClassName = $this->ClassName . 'Language';
                         foreach ($languages as $language) {
                             $relationField = $this->ClassName . 'ID';
-                            $filter = sprintf("`Locale` = '%s' AND `%s` = '%s'", $language, $relationField, $paymentMethod->ID);
+                            $filter = sprintf("\"Locale\" = '%s' AND \"%s\" = '%s'", $language, $relationField, $paymentMethod->ID);
                             $langObj = DataObject::get_one($languageClassName, $filter);
                             if (!$langObj) {
                                 $langObj = new $languageClassName();
@@ -1041,7 +1041,7 @@ class SilvercartPaymentMethod extends DataObject {
                 if ($this->moduleName == "Prepayment" && SilvercartRequireDefaultRecords::isEnabledTestData()) {
                     $this->isActive = 1;
                     //As we do not know if the country is instanciated yet we do write this relation in the country class too.
-                    $germany = DataObject::get_one('SilvercartCountry', "`ISO2` = 'DE'");
+                    $germany = DataObject::get_one('SilvercartCountry', "\"ISO2\" = 'DE'");
                     if ($germany) {
                         $this->SilvercartCountries()->add($germany);
                     }
@@ -1053,7 +1053,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $this->write();
                 $languages = array('de_DE', 'en_US', 'en_GB');
                 foreach ($languages as $language) {
-                   $filter = sprintf("`Locale` = '%s' AND `SilvercartPaymentPaypalID` = '%s'", $language, $this->ID);
+                   $filter = sprintf("\"Locale\" = '%s' AND \"SilvercartPaymentPaypalID\" = '%s'", $language, $this->ID);
                    $langObj = DataObject::get_one('SilvercartPaymentPaypalLanguage', $filter); 
                    if (!$langObj) {
                        $langObj = new SilvercartPaymentPaypalLanguage();
@@ -1207,7 +1207,7 @@ class SilvercartPaymentMethod extends DataObject {
                 null,
                 'getCMSFieldsForPayment',
                 sprintf(
-                        "`SilvercartImage`.`SilvercartPaymentMethodID` = '%s'",
+                        "\"SilvercartImage\".\"SilvercartPaymentMethodID\" = '%s'",
                         $this->ID
                 )
         );
@@ -1253,7 +1253,7 @@ class SilvercartPaymentMethod extends DataObject {
             'Group'
         );
         $showNotForGroupsTable->setPermissions(array('show'));
-        $anonymousGroup = Group::get_one('Group', "`Code` = 'anonymous'");
+        $anonymousGroup = Group::get_one('Group', "\"Code\" = 'anonymous'");
         $showOnlyForUsersTable = new ManyManyComplexTableField(
             $this,
             'ShowOnlyForUsers',
@@ -1261,11 +1261,11 @@ class SilvercartPaymentMethod extends DataObject {
             null,
             null,
             sprintf(
-                    "`Group_Members`.`GroupID` != '%s'",
+                    "\"Group_Members\".\"GroupID\" != '%s'",
                     $anonymousGroup->ID
             ),
             "",
-            "LEFT JOIN `Group_Members` ON (`Group_Members`.`MemberID` = `Member`.`ID`)"
+            "LEFT JOIN \"Group_Members\" ON (\"Group_Members\".\"MemberID\" = \"Member\".\"ID\")"
         );
         $showOnlyForUsersTable->setPermissions(array('show'));
         $showNotForUsersTable = new ManyManyComplexTableField(
@@ -1275,11 +1275,11 @@ class SilvercartPaymentMethod extends DataObject {
             null,
             null,
             sprintf(
-                    "`Group_Members`.`GroupID` != '%s'",
+                    "\"Group_Members\".\"GroupID\" != '%s'",
                     $anonymousGroup->ID
             ),
             "",
-            "LEFT JOIN `Group_Members` ON (`Group_Members`.`MemberID` = `Member`.`ID`)"
+            "LEFT JOIN \"Group_Members\" ON (\"Group_Members\".\"MemberID\" = \"Member\".\"ID\")"
         );
         $showNotForUsersTable->setPermissions(array('show'));
         

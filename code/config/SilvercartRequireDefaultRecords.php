@@ -243,7 +243,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $obj = DataObject::get_one(
                 $translatableDataObjectName,
                 sprintf(
-                        "`%s`.`Code` = '%s'",
+                        "\"%s\".\"Code\" = '%s'",
                         $translatableDataObjectName,
                         $code
                 ),
@@ -267,7 +267,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 //                $objLanguage    = DataObject::get_one(
 //                        $translatableDataObjectLanguageName,
 //                        sprintf(
-//                                "`Locale` = '%s' AND `%s` = '%s'",
+//                                "\"Locale\" = '%s' AND \"%s\" = '%s'",
 //                                $locale,
 //                                $translatableDataObjectRelationName,
 //                                $obj->ID
@@ -724,7 +724,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
         $contactEmail = DataObject::get_one(
             'SilvercartShopEmail',
-            "`Identifier` = 'ContactMessage'"
+            "\"Identifier\" = 'ContactMessage'"
         );
         if (!$contactEmail) {
             $contactEmail = new SilvercartShopEmail();
@@ -858,7 +858,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $pages = DataObject::get(
                 'SiteTree',
                 sprintf(
-                    "`ParentID` = '%s'",
+                    "\"ParentID\" = '%s'",
                     $parentID
                 )
         );
@@ -918,7 +918,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $pages = DataObject::get(
                 'SiteTree',
                 sprintf(
-                    "`ParentID` = '%s' AND `Locale` = '%s'",
+                    "\"ParentID\" = '%s' AND \"Locale\" = '%s'",
                     $parentID,
                     $translationLocale
                 )
@@ -1003,8 +1003,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         } elseif (!DataObject::get('SilvercartCountry')) {
             require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');
         }
-        if (!DataObject::get_one('SilvercartCountry', "`Active`=1")) {
-            $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2`='%s'", substr(i18n::get_locale(), 3)));
+        if (!DataObject::get_one('SilvercartCountry', "\"Active\"=1")) {
+            $country = DataObject::get_one('SilvercartCountry', sprintf("\"ISO2\"='%s'", substr(i18n::get_locale(), 3)));
             if ($country) {
                 $country->Active = true;
                 $country->write();
@@ -1072,7 +1072,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             self::createTestTaxRates();
             // get SilvercartProductGroupHolder and tax rate
             $silvercartProductGroupHolder = DataObject::get_one('SilvercartProductGroupHolder');
-            $taxRateID = DataObject::get_one('SilvercartTax', "`Rate`='19'")->ID;
+            $taxRateID = DataObject::get_one('SilvercartTax', "\"Rate\"='19'")->ID;
 
             //create a manufacturer
             $manufacturer = new SilvercartManufacturer();
@@ -1630,7 +1630,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     * We need to check if a language object exists alredy because
                     * a hook of SilvercartProduct defaultly creates one.
                     */
-                    $language = DataObject::get_one('SilvercartProductLanguage', sprintf("`SilvercartProductID` = '%s' AND `Locale` = '%s'", $productItem->ID, $locale));
+                    $language = DataObject::get_one('SilvercartProductLanguage', sprintf("\"SilvercartProductID\" = '%s' AND \"Locale\" = '%s'", $productItem->ID, $locale));
                     if (!$language) {
                         $language = new SilvercartProductLanguage();
                         $language->Locale = $locale;
@@ -1781,7 +1781,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
 
             foreach ($sliderImageTranslations as $locale => $translation) {
-                $filter = sprintf("`Locale` = '%s'", $locale);
+                $filter = sprintf("\"Locale\" = '%s'", $locale);
                 $translationObj = DataObject::get_one("SilvercartImageSliderImageLanguage", $filter);
                 if (!$translationObj) {
                     $translationObj = new SilvercartImageSliderImageLanguage();
@@ -1987,7 +1987,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 }
 
                 foreach ($carrierLanguages as $locale => $attributes) {
-                    $filter = sprintf("`SilvercartCarrierID` = '%s' AND `Locale` = '%s'", $carrier->ID, $locale);
+                    $filter = sprintf("\"SilvercartCarrierID\" = '%s' AND \"Locale\" = '%s'", $carrier->ID, $locale);
                     $languageObj = DataObject::get_one('SilvercartCarrierLanguage', $filter);
                     if (!$languageObj) {
                         $languageObj = new SilvercartCarrierLanguage();
@@ -2035,7 +2035,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                         $zoneObj->SilvercartCarriers()->add($carrier);
                         $zoneObj->write();
                         foreach ($zone as $locale => $title) {
-                            $filter = sprintf("`SilvercartZoneID` = '%s' AND `Locale` = '%s'", $zoneObj->ID, $locale);
+                            $filter = sprintf("\"SilvercartZoneID\" = '%s' AND \"Locale\" = '%s'", $zoneObj->ID, $locale);
                             $zoneLanguage = DataObject::get_one('SilvercartZoneLanguage', $filter);
                             if (!$zoneLanguage) {
                                 $zoneLanguage = new SilvercartZoneLanguage();
@@ -2049,12 +2049,12 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     
                 }
                 //Retrieve the active country if exists
-                $country = DataObject::get_one('SilvercartCountry', "`Active` = 1");
+                $country = DataObject::get_one('SilvercartCountry', "\"Active\" = 1");
                 if (!$country) {
                     //Retrieve the country dynamically depending on the installation language
                     $installationLanguage = i18n::get_locale();
                     $ISO2 = substr($installationLanguage, -2);
-                    $country = DataObject::get_one('SilvercartCountry', sprintf("`ISO2` = '%s'", $ISO2));
+                    $country = DataObject::get_one('SilvercartCountry', sprintf("\"ISO2\" = '%s'", $ISO2));
                     if (!$country) {
                         $country = new SilvercartCountry();
                         $country->Title = 'Testcountry';
@@ -2076,7 +2076,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 }
                 $paymentMethod = DataObject::get_one('SilvercartPaymentPrepayment');
                 $paymentMethod->isActive = true;
-                $orderStatusPending = DataObject::get_one("SilvercartOrderStatus", "`Code` = 'pending'");
+                $orderStatusPending = DataObject::get_one("SilvercartOrderStatus", "\"Code\" = 'pending'");
                 if ($orderStatusPending) {
                     $paymentMethod->orderStatus = $orderStatusPending->Code;
                 }
@@ -2115,7 +2115,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 }
 
                 foreach ($shippingMethodTranslations as $locale => $title) {
-                    $filter = sprintf("`Locale` = '%s' AND `SilvercartShippingMethodID` = '%s'", $locale, $shippingMethod->ID);
+                    $filter = sprintf("\"Locale\" = '%s' AND \"SilvercartShippingMethodID\" = '%s'", $locale, $shippingMethod->ID);
                     $shippingMethodLanguage = DataObject::get_one('SilvercartShippingMethodLanguage', $filter);
                     if (!$shippingMethodLanguage) {
                         $shippingMethodLanguage = new SilvercartShippingMethodLanguage();
@@ -2138,7 +2138,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 }
                 $shippingFee->SilvercartShippingMethodID = $shippingMethod->ID;
                 $shippingFee->SilvercartZoneID = $zoneDomestic->ID;
-                $higherTaxRate = DataObject::get_one('SilvercartTax', "`Rate` = 19");
+                $higherTaxRate = DataObject::get_one('SilvercartTax', "\"Rate\" = 19");
                 $shippingFee->SilvercartTaxID = $higherTaxRate->ID;
                 $shippingFee->write();
                 
@@ -2193,7 +2193,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $rateObj->Rate = $taxrate;
                     $rateObj->write();
                     foreach ($languages as $locale => $title) {
-                        $filter = sprintf("`Locale` = '%s' AND `SilvercartTaxID` = '%s'", $locale, $rateObj->ID);
+                        $filter = sprintf("\"Locale\" = '%s' AND \"SilvercartTaxID\" = '%s'", $locale, $rateObj->ID);
                         $rateLanguage = DataObject::get_one('SilvercartTaxLanguage', $filter);
                         if (!$rateLanguage) {
                             $rateLanguage = new SilvercartTaxLanguage();

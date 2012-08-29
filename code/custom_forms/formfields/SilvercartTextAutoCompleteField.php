@@ -206,7 +206,7 @@ class SilvercartTextAutoCompleteField extends TextField {
                         $splittedItems  = explode($this->getFieldDelimiter(), $item);
                         foreach ($autoCompleteSourceAttribute as $key => $fieldName) {
                             $filters[] = sprintf(
-                                    "`%s` = '%s'",
+                                    "\"%s\" = '%s'",
                                     $fieldName,
                                     $splittedItems[$key]
                             );
@@ -214,7 +214,7 @@ class SilvercartTextAutoCompleteField extends TextField {
                         $filter = implode(' AND ', $filters);
                     } else {
                         $filter = sprintf(
-                                "`%s` = '%s'",
+                                "\"%s\" = '%s'",
                                 $autoCompleteSourceAttribute,
                                 $item
                         );

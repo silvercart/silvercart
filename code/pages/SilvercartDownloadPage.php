@@ -79,7 +79,7 @@ class SilvercartDownloadPage extends Page {
                 null,
                 'getCMSFieldsForDownloadPage',
                 sprintf(
-                        "`SilvercartFile`.`SilvercartDownloadPageID` = '%s'",
+                        "\"SilvercartFile\".\"SilvercartDownloadPageID\" = '%s'",
                         $this->ID
                 )
         );

@@ -307,7 +307,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
+        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
 
         if (isset($_GET['backlink'])) {
             $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);
@@ -442,12 +442,12 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             
             $customerGroup = DataObject::get_one(
                 'Group',
-                "`Code` = 'b2b'"
+                "\"Code\" = 'b2b'"
             );
         } else {
             $customerGroup = DataObject::get_one(
                 'Group',
-                "`Code` = 'b2c'"
+                "\"Code\" = 'b2c'"
             );
         }
         if ($customerGroup) {
@@ -461,7 +461,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $country = DataObject::get_one(
             'SilvercartCountry',
             sprintf(
-                "`Title` = '%s'",
+                "\"Title\" = '%s'",
                 $formData['Country']
             )
         );

@@ -567,7 +567,7 @@ class SilvercartProductExporter extends DataObject {
             $selectionFields = array();
             foreach (SilvercartProductLanguage::$db as $fieldName => $fieldType) {
                 $selectionFields[] = sprintf(
-                        "`%s`.`%s`",
+                        "\"%s\".\"%s\"",
                         $this->objName . 'Language',
                         $fieldName
                 );
@@ -577,12 +577,12 @@ class SilvercartProductExporter extends DataObject {
                     %s.*,
                     %s
                 FROM
-                    `%s`
+                    \"%s\"
                 LEFT JOIN
-                    `%s`
-                    ON (`%s`.`ID` = `%s`.`%sID`)
+                    \"%s\"
+                    ON (\"%s\".\"ID\" = \"%s\".\"%sID\")
                 WHERE
-                    `%s`.`Locale` = '%s'
+                    \"%s\".\"Locale\" = '%s'
                     AND (%s)
                 ",
                 $this->objName,
@@ -601,7 +601,7 @@ class SilvercartProductExporter extends DataObject {
                 SELECT
                     *
                 FROM
-                    `%s`
+                    \"%s\"
                 WHERE
                     %s
                 ",
@@ -698,20 +698,20 @@ class SilvercartProductExporter extends DataObject {
      * @since 01.07.2012
      */
     protected function getSqlFilter() {
-        $filter = "`" . $this->objName . "`.`isActive` = 1";
+        $filter = "\"" . $this->objName . "\".\"isActive\" = 1";
         
         if ($this->selectOnlyProductsWithProductGroup) {
-            $filter .= " AND `" . $this->objName . "`.`SilvercartProductGroupID` > 0";
+            $filter .= " AND \"" . $this->objName . "\".\"SilvercartProductGroupID\" > 0";
         }
         if ($this->selectOnlyProductsWithImage) {
             
         }
         if ($this->selectOnlyProductsWithManufacturer) {
-            $filter .= " AND `" . $this->objName . "`.`SilvercartManufacturerID` > 0";
+            $filter .= " AND \"" . $this->objName . "\".\"SilvercartManufacturerID\" > 0";
         }
         if ($this->selectOnlyProductsWithQuantity) {
             $filter .= sprintf(
-                " AND `" . $this->objName . "`.`Quantity` > %d",
+                " AND \"" . $this->objName . "\".\"Quantity\" > %d",
                 $this->selectOnlyProductsQuantity
             );
         }
@@ -728,7 +728,7 @@ class SilvercartProductExporter extends DataObject {
             }
             if (count($productIDs) > 0) {
                 $filter .= sprintf(
-                    " AND `" . $this->objName . "`.`ID` IN (%s)",
+                    " AND \"" . $this->objName . "\".\"ID\" IN (%s)",
                     implode(',', $productIDs)
                 );
             }

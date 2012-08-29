@@ -195,7 +195,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 $silvercartProduct = DataObject::get_one(
                     'SilvercartProduct',
                     sprintf(
-                        "`SilvercartProduct`.`%s` = '%s'",
+                        "\"SilvercartProduct\".\"%s\" = \"%s\"",
                         $field,
                         $record[$field]
                     )

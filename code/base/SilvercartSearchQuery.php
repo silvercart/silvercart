@@ -55,7 +55,7 @@ class SilvercartSearchQuery extends DataObject {
         $searchQuery = self::get_one(
                 'SilvercartSearchQuery',
                 sprintf(
-                        "`SilvercartSearchQuery`.`SearchQuery` = '%s' AND `SilvercartSearchQuery`.`Locale` = '%s'",
+                        "\"SilvercartSearchQuery\".\"SearchQuery\" = '%s' AND \"SilvercartSearchQuery\".\"Locale\" = '%s'",
                         Convert::raw2sql($query),
                         Translatable::get_current_locale()
                         
@@ -81,11 +81,11 @@ class SilvercartSearchQuery extends DataObject {
         $searchQueries = self::get(
                 'SilvercartSearchQuery',
                 sprintf(
-                        "`SilvercartSearchQuery`.`Locale` = '%s'",
+                        "\"SilvercartSearchQuery\".\"Locale\" = '%s'",
                         Translatable::get_current_locale()
                         
                 ),
-                "`SilvercartSearchQuery`.`Count` DESC",
+                "\"SilvercartSearchQuery\".\"Count\" DESC",
                 "",
                 "0," . $limit
         );

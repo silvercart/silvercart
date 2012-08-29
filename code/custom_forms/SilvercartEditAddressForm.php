@@ -188,7 +188,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         $id     = $this->customParameters['addressID'];
         
         if ($member && $id) {
-            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
+            $filter = sprintf("\"MemberID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
             $this->address = DataObject::get_one('SilvercartAddress', $filter);
             if ($this->address) {
                 $this->formFields['TaxIdNumber']['value']       = $this->address->TaxIdNumber;
@@ -204,7 +204,7 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
                 $this->formFields['PhoneAreaCode']['value']     = $this->address->PhoneAreaCode;
                 $this->formFields['Phone']['value']             = $this->address->Phone;
                 $this->formFields['Fax']['value']               = $this->address->Fax;
-                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+                $this->formFields['Country']['value']           = DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
                 $this->formFields['Country']['selectedValue']   = $this->address->SilvercartCountry()->Title;
             }
         }
@@ -238,10 +238,10 @@ class SilvercartEditAddressForm extends CustomHtmlForm {
         $member = Member::currentUser();
         $id = $registrationData['addressID'];
         if ($member && $id) {
-            $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
+            $filter = sprintf("\"MemberID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
             $address = DataObject::get_one('SilvercartAddress', $filter);
             $address->castedUpdate($registrationData);
-            $filter = sprintf("`Title` = '%s'", $registrationData['Country']);
+            $filter = sprintf("\"Title\" = '%s'", $registrationData['Country']);
             $country = DataObject::get_one('SilvercartCountry', $filter);
             if ($country) {
                 $address->SilvercartCountryID = $country->ID;

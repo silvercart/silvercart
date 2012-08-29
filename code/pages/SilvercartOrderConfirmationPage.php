@@ -93,7 +93,7 @@ class SilvercartOrderConfirmationPage_Controller extends Page_Controller {
         $id = Session::get('OrderIdForConfirmation');
         $memberID = Member::currentUserID();
         if ($id && $memberID) {
-            $filter = sprintf("`ID`= '%s' AND `customerID` = '%s'", $id, $memberID);
+            $filter = sprintf("\"ID\"= '%s' AND \"customerID\" = '%s'", $id, $memberID);
             $order = DataObject::get_one('SilvercartOrder', $filter);
             return $order;
         }

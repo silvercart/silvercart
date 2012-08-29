@@ -166,7 +166,7 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
             $order = DataObject::get_one(
                 'SilvercartOrder',
                 sprintf(
-                    "`ID`= '%s' AND `MemberID` = '%s'",
+                    "\"ID\"= '%s' AND \"MemberID\" = '%s'",
                     $id,
                     $memberID
                 )

@@ -794,7 +794,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         $member = Member::currentUser();
-        $filter = sprintf("`SilvercartShoppingCartID` = '%s'", $member->SilvercartShoppingCartID);
+        $filter = sprintf("\"SilvercartShoppingCartID\" = '%s'", $member->SilvercartShoppingCartID);
         $silvercartShoppingCart = $member->SilvercartShoppingCart();
         $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
         $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);

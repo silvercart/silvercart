@@ -256,7 +256,7 @@ class SilvercartCustomer extends DataExtension {
             
             // Add customer to intermediate group
             $customerGroup = DataObject::get_one(
-                'Group', "`Code` = 'anonymous'"
+                'Group', "\"Code\" = 'anonymous'"
             );
             
             if ($customerGroup) {
@@ -366,7 +366,7 @@ class SilvercartCustomer extends DataExtension {
             $customerGroups = $customer->Groups();
         } else {
             $customerGroups = DataObject::get(
-                'Group', "`Code` = 'anonymous'"
+                'Group', "\"Code\" = 'anonymous'"
             );
         }
         return $customerGroups;
@@ -651,7 +651,7 @@ class SilvercartCustomer_Validator extends DataExtension {
             $groupObjects   = DataObject::get(
                     'Group',
                     sprintf(
-                            "`Group`.`ID` IN (%s)",
+                            "\"Group\".\"ID\" IN (%s)",
                             $groups
                     )
             );

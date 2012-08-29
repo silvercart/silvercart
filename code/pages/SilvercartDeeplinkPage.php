@@ -157,7 +157,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
             return $this->renderWith(array('SilvercartSearchResultsPage', 'Page'));
         }
         
-        return $this->redirect(DataObject::get_one('ErrorPage', '`ErrorCode` = 404')->Link());
+        return $this->redirect(DataObject::get_one('ErrorPage', '\"ErrorCode\" = 404')->Link());
     } 
 
 
@@ -182,7 +182,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      */
     public function getDeeplink() {
         if (isset ($this->urlParams['Action'])) {
-            $filter = sprintf("`isActive` = 1 AND `productAttribute` = '%s'", $this->urlParams['Action']);
+            $filter = sprintf("\"isActive\" = 1 AND \"productAttribute\" = '%s'", $this->urlParams['Action']);
             $deeplinkObject = DataObject::get_one('SilvercartDeeplink', $filter);
             return $deeplinkObject;
         }
@@ -200,7 +200,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      */
     public function getExactlyMatchingProduct() {
         if ($this->getDeeplink()) {
-            $whereClause = sprintf("`%s` = '%s'", $this->urlParams['Action'], $this->urlParams['ID']);
+            $whereClause = sprintf("\"%s\" = '%s'", $this->urlParams['Action'], $this->urlParams['ID']);
             $products = SilvercartProduct::getProducts($whereClause);
             if ($products) {
                 return $products->First();
@@ -226,7 +226,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
                 $SQL_start = (int)$_GET['start'];
             }
             $productsPerPage = SilvercartConfig::ProductsPerPage();
-            $likeClause = sprintf("`%s` LIKE '%%%s%%'", $this->urlParams['Action'], $this->urlParams['ID']);
+            $likeClause = sprintf("\"%s\" LIKE '%%%s%%'", $this->urlParams['Action'], $this->urlParams['ID']);
             $products = SilvercartProduct::getProducts($likeClause, null, null, "$SQL_start,$productsPerPage");
             return $products;
         }

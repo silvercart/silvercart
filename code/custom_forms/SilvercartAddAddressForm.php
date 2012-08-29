@@ -176,7 +176,7 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
         $this->formFields['PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE');
         $this->formFields['Fax']['title']           = _t('SilvercartAddress.FAX');
         $this->formFields['Country']['title']       = _t('SilvercartCountry.SINGULARNAME');
-        $this->formFields['Country']['value']       = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
+        $this->formFields['Country']['value']       = DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1")->toDropdownMap('Title', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE', '--please choose--'));
         $this->preferences['submitButtonTitle']     = _t('SilvercartPage.SAVE', 'save');
     }
 
@@ -195,7 +195,7 @@ class SilvercartAddAddressForm extends CustomHtmlForm {
     protected function submitSuccess($data, $form, $formData) {
         $member = Member::currentUser();
         if ($member) {            
-            $filter = sprintf("`Title` = '%s'", $formData['Country']);
+            $filter = sprintf("\"Title\" = '%s'", $formData['Country']);
             $country = DataObject::get_one('SilvercartCountry', $filter);
             if ($country) {
                 $formData['SilvercartCountryID'] = $country->ID;

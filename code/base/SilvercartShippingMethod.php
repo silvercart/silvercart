@@ -337,7 +337,7 @@ class SilvercartShippingMethod extends DataObject {
                 $fees               = DataObject::get(
                     'SilvercartShippingFee',
                     sprintf(
-                        "`SilvercartShippingMethodID` = '%s' AND (`MaximumWeight` >= %d OR `UnlimitedWeight` = 1) AND `SilvercartZoneID` IN (%s)",
+                        "\"SilvercartShippingMethodID\" = '%s' AND (\"MaximumWeight\" >= %d OR \"UnlimitedWeight\" = 1) AND \"SilvercartZoneID\" IN (%s)",
                         $this->ID,
                         $weight,
                         $zoneIDsAsString
@@ -552,7 +552,7 @@ class SilvercartShippingMethod extends DataObject {
         $extendedFilter = "";
         if (!is_null($carrier)) {
             $extendedFilter = sprintf(
-                    " AND `SilvercartShippingMethod`.`SilvercartCarrierID` = '%s'",
+                    " AND \"SilvercartShippingMethod\".\"SilvercartCarrierID\" = '%s'",
                     $carrier->ID
             );
         }
@@ -563,16 +563,16 @@ class SilvercartShippingMethod extends DataObject {
             $customerGroups->Count() > 0) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
-                "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
+                "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
                 $customerGroupIDs,
-                "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`",
+                "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\"",
                 $extendedFilter
             );
-            $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
+            $join   = "LEFT JOIN \"SilvercartShippingMethod_SilvercartCustomerGroups\" ON (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" = \"SilvercartShippingMethod\".\"ID\")";
         } else {
             $filter = sprintf(
-                "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
-                "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`",
+                "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
+                "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\"",
                 $extendedFilter
             );
             $join   = "";
@@ -601,11 +601,11 @@ class SilvercartShippingMethod extends DataObject {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
         
         $filter = sprintf(
-            "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))",
+            "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))",
             $customerGroup->ID,
-            "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`"
+            "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\""
         );
-        $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
+        $join   = "LEFT JOIN \"SilvercartShippingMethod_SilvercartCustomerGroups\" ON (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" = \"SilvercartShippingMethod\".\"ID\")";
         
         $shippingMethods        = DataObject::get(
                 'SilvercartShippingMethod',
