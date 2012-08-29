@@ -313,4 +313,27 @@ class SilvercartTools extends Object {
         $preparedEmailAddress = str_replace('/', '', $emailAddress);
         return $preparedEmailAddress;
     }
+
+    /**
+     * Returns a flat array containing the IDs of all child pages of the given page.
+     *
+     * @param int $pageId The root page ID
+     *
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2012
+     */
+    public static function getFlatChildPageIDsForPage($pageId) {
+        $pageIDs = array($pageId);
+        $pageObj = DataObject::get_by_id('SiteTree', $pageId);
+        
+        if ($pageObj) {
+            foreach ($pageObj->Children() as $pageChild) {
+                $pageIDs = array_merge($pageIDs, self::getFlatChildPageIDsForPage($pageChild->ID));
+            }
+        }
+        
+        return $pageIDs;
+    }
 }

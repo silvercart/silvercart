@@ -2,8 +2,17 @@
 
 .silvercart-pagination {
     font-size:                      11px;
+    line-height:                    140%;
 }
-.silvercart-pagination-link {
+
+.silvercart-pagination-summary span {
+    display:                        block;
+    height:                         20px;
+    line-height:                    280%;
+}
+
+.silvercart-pagination-link,
+.silvercart-pagination-summary {
     float:                          left;
 }
 .silvercart-pagination-link_content {

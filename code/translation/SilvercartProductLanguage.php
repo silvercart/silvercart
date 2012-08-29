@@ -57,16 +57,6 @@ class SilvercartProductLanguage extends DataObject {
     );
     
     /**
-     * Adds fulltext index for Title attribute, used for better
-     * search results
-     * 
-     * @var array 
-     */
-    public static $indexes = array(
-        //'Title' => 'Fulltext (Title)'
-    );
-    
-    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 

@@ -104,6 +104,7 @@ class SilvercartConfig extends DataObject {
         'enableSSL'                         => 'Boolean(0)',
         'productsPerPage'                   => 'Int',
         'productGroupsPerPage'              => 'Int',
+        'displayedPaginationPages'          => 'Int',
         'minimumOrderValue'                 => 'Money',
         'useMinimumOrderValue'              => 'Boolean(0)',
         'disregardMinimumOrderValue'        => 'Boolean(0)',
@@ -146,12 +147,13 @@ class SilvercartConfig extends DataObject {
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
-        'SilvercartUpdateVersion'       => '3',
+        'SilvercartUpdateVersion'       => '4',
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
         'productsPerPage'               => 20,
         'productGroupsPerPage'          => 6,
+        'displayedPaginationPages'      => 4,
         'apacheSolrUrl'                 => '/solr',
         'apacheSolrPort'                => '8983',
         'addToCartMaxQuantity'          => 999,
@@ -377,6 +379,7 @@ class SilvercartConfig extends DataObject {
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productsPerPage', _t('SilvercartConfig.PRODUCTSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new TextField('productGroupsPerPage', _t('SilvercartConfig.PRODUCTGROUPSPERPAGE')));
         $CMSFields->addFieldToTab('Root.General.Layout', new UploadField('SilvercartNoImage', _t('SilvercartConfig.DEFAULT_IMAGE')));
+        $CMSFields->addFieldToTab('Root.General.Layout', new TextField('displayedPaginationPages', _t('SilvercartConfig.DISPLAYEDPAGINATION')));
         $source = array(
             'Tabbed' => _t('SilvercartConfig.TABBED'),
             'Flat' => _t('SilvercartConfig.FLAT')
@@ -653,7 +656,7 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$emailSender)) {
             self::$emailSender = self::getConfig()->EmailSender;
         }
-        return self::$emailSender;
+        return iconv("UTF-8", "ISO-8859-1", self::$emailSender);
     }
 
     /**
@@ -866,6 +869,24 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('productGroupsPerPage')) {
             return $silvercartConfig->getField('productGroupsPerPage');
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * returns the configurated setting for displayedPaginationPages
+     * 
+     * @return int | false
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 16.08.2012
+     */
+    public static function DisplayedPaginationPages() {
+        $silvercartConfig = self::getConfig();
+      
+        if ($silvercartConfig->hasField('displayedPaginationPages')) {
+            return $silvercartConfig->getField('displayedPaginationPages');
         } else {
             return false;
         }

@@ -85,6 +85,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
+     * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -135,7 +136,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
 
                 $this->messages = array(
                     'Authentication' => array(
-                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG'),
                     )
                 );
 
@@ -145,17 +146,16 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
                 );
             }
         } else {
-            $this->messages = array(
-                'Authentication' => array(
-                    'message' => _t('SilvercartPage.EMAIL_NOT_FOUND', 'This Email address could not be found.')
-                )
-            );
-
-            return $this->messages = array(
-        'Authentication' => array(
-            'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
-        )
-            );
+                $this->messages = array(
+                    'Authentication' => array(
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG'),
+                    )
+                );
+                
+                return $this->submitFailure(
+                        $data,
+                        $form
+                );
         }
     }
 }
