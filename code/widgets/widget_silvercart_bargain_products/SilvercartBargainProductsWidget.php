@@ -343,10 +343,10 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
 
             switch ($this->fetchMethod) {
                 case 'sortOrderAsc':
-                    $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` ASC";
+                    $sort = "\"SilvercartProduct\".\"MSRPriceAmount\" - \"SilvercartProduct\".\"PriceGrossAmount\" ASC";
                     break;
                 case 'sortOrderDesc':
-                    $sort = "`SilvercartProduct`.`MSRPriceAmount` - `SilvercartProduct`.`PriceGrossAmount` DESC";
+                    $sort = "\"SilvercartProduct\".\"MSRPriceAmount\" - \"SilvercartProduct\".\"PriceGrossAmount\" DESC";
                     break;
                 case 'random':
                 default:
@@ -368,9 +368,9 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             }
 
             $filter = sprintf(
-                            "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL 
-                            AND `SilvercartProduct`.`MSRPriceAmount` > 0
-                            AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
+                            "\"SilvercartProduct\".\"MSRPriceAmount\" IS NOT NULL 
+                            AND \"SilvercartProduct\".\"MSRPriceAmount\" > 0
+                            AND \"SilvercartProduct\".\"%s\" < \"SilvercartProduct\".\"MSRPriceAmount\"",
                             $priceField
             );
 

@@ -430,7 +430,7 @@ class SilvercartProductGroupPage extends Page {
 
             $filter = sprintf(
                 "SilvercartProductGroupID = %d OR
-                 `SilvercartProduct`.`ID` IN (%s)",
+                 \"SilvercartProduct\".\"ID\" IN (%s)",
                 $this->ID,
                 $mirroredProductIdList
             );
@@ -1485,7 +1485,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 } else {
                     $this->listFilters['original'] = sprintf(
                         "(SilvercartProductGroupID IN (%s) OR
-                        `SilvercartProduct`.`ID` IN (%s))",
+                        \"SilvercartProduct\".\"ID\" IN (%s))",
                         $translationProductGroupIDList,
                         $mirroredProductIdList
                     );
@@ -1626,7 +1626,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         } else {
             $listFilters['original'] = sprintf(
                 "(SilvercartProductGroupID = '%s' OR
-                  `SilvercartProduct`.`ID` IN (%s))",
+                  \"SilvercartProduct\".\"ID\" IN (%s))",
                 $this->ID,
                 $mirroredProductIdList
             );
@@ -2253,9 +2253,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return void
      *
      * @example $productGroup->addListFilter('SilvercartManufacturerID','5');
-     *          Will add the following filter: "AND `SilvercartManufacturerID` = '5'"
+     *          Will add the following filter: "AND \"SilvercartManufacturerID\" = '5'"
      * @example $productGroup->addListFilter('SilvercartManufacturerID','(5,6,7)','IN','OR');
-     *          Will add the following filter: "OR `SilvercartManufacturerID` IN (5,6,7)"
+     *          Will add the following filter: "OR \"SilvercartManufacturerID\" IN (5,6,7)"
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2011
      */

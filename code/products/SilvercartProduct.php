@@ -378,7 +378,7 @@ class SilvercartProduct extends DataObject {
         $shippingFee = '';
         if (!is_null($country)) {
             if (is_null($customerGroup)) {
-                $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
+                $customerGroup = DataObject::get_one('Group', "\"Group\".\"Code\" = 'b2c'");
             }
             $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
         }
@@ -801,7 +801,7 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts = DataObject::get(
                     'SilvercartProduct',
                     sprintf(
-                            "`SilvercartProduct`.`ID` IN (%s)",
+                            "\"SilvercartProduct\".\"ID\" IN (%s)",
                             $productIDs
                     )
             );
@@ -1044,7 +1044,7 @@ class SilvercartProduct extends DataObject {
                 null,
                 'getCMSFieldsForProduct',
                 sprintf(                 
-                        "`SilvercartImage`.`SilvercartProductID` = '%s'",
+                        "\"SilvercartImage\".\"SilvercartProductID\" = '%s'",
                         $this->ID
                 )
         );
@@ -1073,7 +1073,7 @@ class SilvercartProduct extends DataObject {
                 null,
                 'getCMSFieldsForProduct',
                 sprintf(
-                        "`SilvercartFile`.`SilvercartProductID` = '%s'",
+                        "\"SilvercartFile\".\"SilvercartProductID\" = '%s'",
                         $this->ID
                 )
         );
@@ -1097,7 +1097,7 @@ class SilvercartProduct extends DataObject {
     public function getFieldsForDeeplinks($fields) {
         $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
         if ($this->canView()) {
-            $deeplinks = DataObject::get('SilvercartDeeplink', '`isActive` = 1');
+            $deeplinks = DataObject::get('SilvercartDeeplink', '\"isActive\" = 1');
             if ($deeplinks) {
                 $idx = 1;
                 foreach ($deeplinks as $deeplink) {
@@ -1374,7 +1374,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function getRandomProducts($amount = 4, $masterProduct = true) {
         if ($masterProduct) {
-            return self::get("`SilvercartMasterProductID` = '0'", "RAND()", null, $amount);
+            return self::get("\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
         } else {
             return self::get(null, "RAND()", null, $amount);
         }

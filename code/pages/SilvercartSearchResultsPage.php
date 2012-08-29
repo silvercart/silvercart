@@ -337,20 +337,20 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     }
                 }
                 $this->listFilters['original'] = sprintf("
-                    `SilvercartProductGroupID` IS NOT NULL AND
-                    `SilvercartProductGroupID` > 0 AND
-                    `SilvercartProductGroupPage_Live`.`ID` > 0 AND
-                    `isActive` = 1 AND (
-                        `Title` LIKE '%%%s%%' OR
+                    \"SilvercartProductGroupID\" IS NOT NULL AND
+                    \"SilvercartProductGroupID\" > 0 AND
+                    \"SilvercartProductGroupPage_Live\".\"ID\" > 0 AND
+                    \"isActive\" = 1 AND (
+                        \"Title\" LIKE '%%%s%%' OR
                         MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
                         MATCH(ShortDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
                         MATCH(LongDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
-                        `ShortDescription` LIKE '%%%s%%' OR
-                        `LongDescription` LIKE '%%%s%%' OR
-                        `MetaKeywords` LIKE '%%%s%%' OR
-                        `ProductNumberShop` LIKE '%%%s%%' OR
+                        \"ShortDescription\" LIKE '%%%s%%' OR
+                        \"LongDescription\" LIKE '%%%s%%' OR
+                        \"MetaKeywords\" LIKE '%%%s%%' OR
+                        \"ProductNumberShop\" LIKE '%%%s%%' OR
                         STRCMP(
-                            SOUNDEX(`Title`), SOUNDEX('%s')
+                            SOUNDEX(\"Title\"), SOUNDEX('%s')
                         ) = 0
                     )
                     ",
@@ -385,7 +385,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $searchResultProducts = SilvercartProduct::getProducts(
                     $filter,
                     null,
-                    "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"
+                    "LEFT JOIN \"SilvercartProductGroupPage_Live\" ON \"SilvercartProductGroupPage_Live\".\"ID\" = \"SilvercartProductGroupID\""
                     ,
                     sprintf(
                         "%d,%d",
@@ -614,17 +614,17 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return void
      *
      * @example $productGroup->addListFilter('SilvercartManufacturerID','5');
-     *          Will add the following filter: "AND `SilvercartManufacturerID` = '5'"
+     *          Will add the following filter: "AND \"SilvercartManufacturerID\" = '5'"
      * @example $productGroup->addListFilter('SilvercartManufacturerID','(5,6,7)','IN','OR');
-     *          Will add the following filter: "OR `SilvercartManufacturerID` IN (5,6,7)"
+     *          Will add the following filter: "OR \"SilvercartManufacturerID\" IN (5,6,7)"
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.08.2011
      */
     public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') {
         if ($comparison == 'IN') {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
+            $this->listFilters[] = $operator . " \"" . $property . "\" " . $comparison . " (" . $value . ")";
         } else {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
+            $this->listFilters[] = $operator . " \"" . $property . "\" " . $comparison . " '" . $value . "'";
         }
     }
     

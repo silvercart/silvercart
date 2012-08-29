@@ -54,7 +54,7 @@ class SilvercartUpdate1_3__4 extends SilvercartUpdate {
      * @since 16.08.2012
      */
     public function executeUpdate() {
-        DB::query("UPDATE `SilvercartConfig` SET `displayedPaginationPages` = 4");
+        DB::query("UPDATE \"SilvercartConfig\" SET \"displayedPaginationPages\" = 4");
         return true;
     }
 }

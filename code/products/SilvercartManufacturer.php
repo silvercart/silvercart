@@ -201,7 +201,7 @@ class SilvercartManufacturer extends DataObject {
      * @since 07.03.2011
      */
     public static function getByUrlSegment($urlSegment) {
-        return DataObject::get_one('SilvercartManufacturer', sprintf("`URLSegment` = '%s'", Convert::raw2sql($urlSegment)));
+        return DataObject::get_one('SilvercartManufacturer', sprintf("\"URLSegment\" = '%s'", Convert::raw2sql($urlSegment)));
     }
 
     /**

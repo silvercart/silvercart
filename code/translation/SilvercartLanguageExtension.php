@@ -173,7 +173,7 @@ class SilvercartLanguageExtension extends DataExtension {
         $translations       = DataObject::get(
                 $this->owner->ClassName,
                 sprintf(
-                        "`%s` = '%s'",
+                        "\"%s\" = '%s'",
                         $relationFieldName,
                         $this->owner->{$relationFieldName}
                 )
