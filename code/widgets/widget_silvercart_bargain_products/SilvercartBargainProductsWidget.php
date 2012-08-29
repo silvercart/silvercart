@@ -378,7 +378,7 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
                 $filter .= ' ' . $listFilter;
             }
 
-            $products = SilvercartProduct::get(
+            $products = SilvercartProduct::getProducts(
                     $filter,
                     $sort,
                     null,

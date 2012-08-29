@@ -167,7 +167,7 @@ class SilvercartPlugin extends Object {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer instanceof SS_List) {
-                            if ($returnContainer->TotalItems() === 0) {
+                            if ($returnContainer->count() === 0) {
                                 $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                             } else {
                                 $returnContainer->merge($pluginProvider->$methodName($arguments, $callingObject));
@@ -185,7 +185,7 @@ class SilvercartPlugin extends Object {
                         if (is_array($returnContainer)) {
                             $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer instanceof SS_List) {
-                            if ($returnContainer->TotalItems() === 0) {
+                            if ($returnContainer->count() === 0) {
                                 $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                             } else {
                                 $returnContainer->merge($pluginProvider->$methodName($arguments, $callingObject));

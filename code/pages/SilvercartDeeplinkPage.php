@@ -201,7 +201,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     public function getExactlyMatchingProduct() {
         if ($this->getDeeplink()) {
             $whereClause = sprintf("`%s` = '%s'", $this->urlParams['Action'], $this->urlParams['ID']);
-            $products = SilvercartProduct::get($whereClause);
+            $products = SilvercartProduct::getProducts($whereClause);
             if ($products) {
                 return $products->First();
             }
@@ -227,7 +227,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
             }
             $productsPerPage = SilvercartConfig::ProductsPerPage();
             $likeClause = sprintf("`%s` LIKE '%%%s%%'", $this->urlParams['Action'], $this->urlParams['ID']);
-            $products = SilvercartProduct::get($likeClause, null, null, "$SQL_start,$productsPerPage");
+            $products = SilvercartProduct::getProducts($likeClause, null, null, "$SQL_start,$productsPerPage");
             return $products;
         }
         return false;

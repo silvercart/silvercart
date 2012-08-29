@@ -378,7 +378,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     $filter .= ' ' . $listFilter;
                 }
 
-                $searchResultProducts = SilvercartProduct::get(
+                $searchResultProducts = SilvercartProduct::getProducts(
                     $filter,
                     null,
                     "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"

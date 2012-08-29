@@ -52,7 +52,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
             $query->addLeftJoin(
                     $this->getLanguageClassName(),
                     sprintf(
-                            "(`%s`.`ID` = `%s`.`%s`)",
+                            "(\"%s\".\"ID\" = \"%s\".\"%s\")",
                             $this->getBaseClassName(),
                             $this->getLanguageClassName(),
                             $this->getRelationFieldName()
@@ -63,13 +63,13 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
                 $query->addLeftJoin(
                         $this->getBaseLanguageClassName(),
                         sprintf(
-                                "(`%s`.`ID` = `%s`.`ID`)",
+                                "(\"%s\".\"ID\" = \"%s\".\"ID\")",
                                 $this->getLanguageClassName(),
                                 $this->getBaseLanguageClassName()
                         )
                 );
                 $addToWhere = sprintf(
-                        "AND `%s`.`ID` = `%s`.`ID`",
+                        "AND \"%s\".\"ID\" = \"%s\".\"ID\"",
                         $this->getBaseLanguageClassName(),
                         $this->getLanguageClassName()
                 );
@@ -79,7 +79,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
                 !empty ($silvercartDefaultLocale)) {
                 $query->where(
                         sprintf(
-                                "`%s`.`Locale` = IFNULL((%s), (%s)) %s",
+                                "\"%s\".\"Locale\" = IFNULL((%s), (%s)) %s",
                                 $this->getBaseLanguageClassName(),
                                 $this->getLocaleDependantSelect(Translatable::get_current_locale()),
                                 $this->getLocaleDependantSelect($silvercartDefaultLocale),
@@ -89,7 +89,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
             } elseif (!empty ($silvercartDefaultLocale)) {
                 $query->addWhere(
                         sprintf(
-                                "`%s`.`Locale` = '%s' %s",
+                                "\"%s\".\"Locale\" = '%s' %s",
                                 $this->getBaseLanguageClassName(),
                                 Translatable::get_current_locale(),
                                 $addToWhere
@@ -108,7 +108,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
      */
     public function getLocaleDependantSelect($locale) {
         $localeDependantSelect = sprintf(
-                "SELECT `%s`.`Locale` FROM `%s` WHERE `%s`.`Locale` = '%s' AND `%s`.`ID` = `%s`.`%s` LIMIT 0,1",
+                "SELECT \"%s\".\"Locale\" FROM \"%s\" WHERE \"%s\".\"Locale\" = '%s' AND \"%s\".\"ID\" = \"%s\".\"%s\" LIMIT 0,1",
                 $this->getBaseLanguageClassName(),
                 $this->getBaseLanguageClassName(),
                 $this->getBaseLanguageClassName(),
@@ -161,7 +161,6 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
         } elseif (is_null($this->languageObj)) {
             $relationFieldName      = $this->getRelationFieldName();
             $languageClassName      = $this->getLanguageClassName();
-            $languageRelationName   = $this->getLanguageRelationName();
             $this->languageObj = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation());
             if (!$this->languageObj) {
                 $this->languageObj = new $languageClassName();

@@ -429,14 +429,14 @@ class SilvercartProductGroupPage extends Page {
             $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
 
             $filter = sprintf(
-                "`SilvercartProductGroupID` = %d OR
+                "SilvercartProductGroupID = %d OR
                  `SilvercartProduct`.`ID` IN (%s)",
                 $this->ID,
                 $mirroredProductIdList
             );
         } else {
             $filter = sprintf(
-                "`SilvercartProductGroupID` = %d",
+                "SilvercartProductGroupID = %d",
                 $this->ID
             );
         }
@@ -1488,12 +1488,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
                 if (empty($mirroredProductIdList)) {
                     $this->listFilters['original'] = sprintf(
-                        "`SilvercartProductGroupID` IN (%s)",
+                        "SilvercartProductGroupID IN (%s)",
                         $translationProductGroupIDList
                     );
                 } else {
                     $this->listFilters['original'] = sprintf(
-                        "(`SilvercartProductGroupID` IN (%s) OR
+                        "(SilvercartProductGroupID IN (%s) OR
                         `SilvercartProduct`.`ID` IN (%s))",
                         $translationProductGroupIDList,
                         $mirroredProductIdList
@@ -1521,7 +1521,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
                     if (empty($sort)) {
-                        $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END ASC';
+                        $sort = 'CASE WHEN SPGMSO.SortOrder THEN CONCAT(SPGMSO.SortOrder, SilvercartProduct.SortOrder) ELSE SilvercartProduct.SortOrder END';
                     }
                     $this->extend('updateGetProductsSort', $sort);
                 }
@@ -1537,7 +1537,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $limit = sprintf("%d,%d", $SQL_start, $productsPerPage);
                 }
                 
-                $groupProducts = SilvercartProduct::get($filter, $sort, $join, $limit);
+                $groupProducts = SilvercartProduct::getProducts($filter, $sort, $join, $limit);
                 $this->extend('onAfterGetProducts', $groupProducts);
                 $this->groupProducts[$hashKey] = $groupProducts;
             }
@@ -1629,12 +1629,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         if (empty($mirroredProductIdList)) {
             $listFilters['original'] = sprintf(
-                "`SilvercartProductGroupID` = '%s'",
+                "SilvercartProductGroupID = '%s'",
                 $this->ID
             );
         } else {
             $listFilters['original'] = sprintf(
-                "(`SilvercartProductGroupID` = '%s' OR
+                "(SilvercartProductGroupID = '%s' OR
                   `SilvercartProduct`.`ID` IN (%s))",
                 $this->ID,
                 $mirroredProductIdList
@@ -1651,7 +1651,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->ID
         );
 
-        $products = SilvercartProduct::get($filter, $sort, $join, $numberOfProducts);
+        $products = SilvercartProduct::getProducts($filter, $sort, $join, $numberOfProducts);
         
         return $products;
     }
@@ -2270,9 +2270,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') {
         if ($comparison == 'IN') {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
+            $this->listFilters[] = $operator . " " . $property . " " . $comparison . " (" . $value . ")";
         } else {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
+            $this->listFilters[] = $operator . " " . $property . " " . $comparison . " '" . $value . "'";
         }
     }
     

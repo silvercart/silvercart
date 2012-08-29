@@ -31,7 +31,7 @@
  * @copyright 2011 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartUpdateAdmin {
+class SilvercartUpdateAdmin extends ModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -62,9 +62,9 @@ class SilvercartUpdateAdmin {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2011
      */
-//    public static $managed_models = array(
-//        'SilvercartUpdate',
-//    );
+    public static $managed_models = array(
+        'SilvercartUpdate'
+    );
     /**
      * The URL segment
      *
