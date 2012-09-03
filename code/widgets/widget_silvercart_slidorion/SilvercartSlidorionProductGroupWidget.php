@@ -155,7 +155,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @return FieldSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.05.2012
+     * @since 03.09.2012
      */
     public function getCMSFields() {
         $fields = new FieldSet();
@@ -167,10 +167,13 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $titleField   = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
         $contentField = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
         
-        $productGroupDropdown = new ManyManyComplexTableField(
+        $imageTable = new ManyManyComplexTableField(
             $this,
             'SilvercartImages',
-            'SilvercartImage'
+            'SilvercartImage',
+            null,
+            null,
+            "SilvercartProductID = 0 AND SilvercartPaymentMethodID = 0"
         );
         
         $translationsTableField = new ComplexTableField(
@@ -205,7 +208,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             $this->fieldLabel('autoPlay')
         );
         
-        $basicTab->push($productGroupDropdown);
+        $basicTab->push($imageTable);
         $basicTab->push($titleField);
         $basicTab->push($contentField);
 
