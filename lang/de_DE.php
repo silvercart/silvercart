@@ -397,6 +397,9 @@ $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Übe
 $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Standard-Produktgruppen-Ansicht';
 $lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Produktlisten-Ansicht verwenden';
 $lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Ausschließlich die Standard-Produktgruppen-Ansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s Produkt auf %s Seite';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s Produkte auf %s Seite';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s Produkte auf %s Seiten';
 
 $lang['de_DE']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Artikel pro Seite';
@@ -857,12 +860,16 @@ $lang['de_DE']['SilvercartCustomer']['ISBUSINESSACCOUNT'] = 'Ist Geschäftskunde
 $lang['de_DE']['SilvercartCustomer']['NET'] = 'Netto';
 $lang['de_DE']['SilvercartCustomer']['PRICING'] = 'Preisangabe';
 $lang['de_DE']['SilvercartCustomer']['SALUTATION'] = 'Anrede';
-$lang['de_DE']['SilvercartCustomer']['SUBSCRIBEDTONEWSLETTER'] = 'Hat Newsletter aboniert';
+$lang['de_DE']['SilvercartCustomer']['SUBSCRIBEDTONEWSLETTER'] = 'Newsletter aboniert';
 $lang['de_DE']['SilvercartCustomer']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Hat die AGB akzeptiert';
 $lang['de_DE']['SilvercartCustomer']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Hat die Widerrufsbelehrung akzeptiert';
 $lang['de_DE']['SilvercartCustomer']['BIRTHDAY'] = 'Geburtstag';
 $lang['de_DE']['SilvercartCustomer']['TYPE'] = 'Typ';
 $lang['de_DE']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Endkunde';
+$lang['de_DE']['SilvercartCustomer']['BASIC_DATA']      = 'Allgemein';
+$lang['de_DE']['SilvercartCustomer']['ADDRESS_DATA']    = 'Adressdaten allgemein';
+$lang['de_DE']['SilvercartCustomer']['INVOICE_DATA']    = 'Rechnungs-Adressdaten';
+$lang['de_DE']['SilvercartCustomer']['SHIPPING_DATA']   = 'Liefer-Adressdaten';
 
 $lang['de_DE']['SilvercartGroupDecorator']['PRICETYPE'] = 'Preistyp';
 $lang['de_DE']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';

@@ -100,6 +100,15 @@ class SilvercartProductGroupPage extends Page {
     );
 
     /**
+     * Casting
+     *
+     * @var array
+     */
+    public static $casting = array(
+        'ProductsOnPagesString' => 'HTMLText',
+    );
+
+    /**
      * Contains all manufacturers of the products contained in this product
      * group page.
      *
@@ -989,6 +998,28 @@ class SilvercartProductGroupPage extends Page {
         }
 
         return $context;
+    }
+    
+    /**
+     * Returns a string to display how many products on how many pages are found
+     * 
+     * @return string
+     */
+    public function getProductsOnPagesString() {
+        $products = $this->getProducts();
+        if ($products->TotalItems() == 1) {
+            $singularOrPlural = 'PRODUCT_ON_PAGE';
+        } elseif ($products->TotalPages() == 1) {
+            $singularOrPlural = 'PRODUCTS_ON_PAGE';
+        } else {
+            $singularOrPlural = 'PRODUCTS_ON_PAGES';
+        }
+        $productsOnPagesString = sprintf(
+                _t('SilvercartProductGroupPage.' . $singularOrPlural),
+                $products->TotalItems(),
+                $products->TotalPages()
+        );
+        return $productsOnPagesString;
     }
 }
 

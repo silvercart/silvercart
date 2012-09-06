@@ -397,6 +397,9 @@ $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Use 
 $lang['en_US']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Default product group view';
 $lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Allow only default view';
 $lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Allow only default view';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s product on %s page';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s products on %s page';
+$lang['en_US']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s products on %s pages';
 
 $lang['en_US']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['en_US']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Products per page';
@@ -861,8 +864,12 @@ $lang['en_US']['SilvercartCustomer']['SUBSCRIBEDTONEWSLETTER'] = 'Subscribed to 
 $lang['en_US']['SilvercartCustomer']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Has accepted terms and conditions';
 $lang['en_US']['SilvercartCustomer']['HASACCEPTEDREVOCATIONINSTRUCTION'] = 'Has accepted revocation instruction';
 $lang['en_US']['SilvercartCustomer']['BIRTHDAY'] = 'Birthday';
-$lang['en_US']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Regular customer';
 $lang['en_US']['SilvercartCustomer']['TYPE'] = 'Type';
+$lang['en_US']['SilvercartCustomer']['REGULARCUSTOMER'] = 'Regular customer';
+$lang['en_US']['SilvercartCustomer']['BASIC_DATA']      = 'Basics';
+$lang['en_US']['SilvercartCustomer']['ADDRESS_DATA']    = 'Basic address data';
+$lang['en_US']['SilvercartCustomer']['INVOICE_DATA']    = 'Invoice address data';
+$lang['en_US']['SilvercartCustomer']['SHIPPING_DATA']   = 'Shipping address data';
 
 $lang['en_US']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_US']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
