@@ -282,6 +282,26 @@
 
 /* Search cloud widget ----------------------------------------- */
 
+.silvercart-widget-search-cloud {
+    text-align: center;
+}
+
+[class*="silvercart-search-cloud-widget-"],
+[class*="silvercart-search-cloud-widget-"]:visited {
+    background-color:               $DefaultHeadingColor;
+    color:                          #ffffff;
+    border:                         1px solid $DefaultHeadingColor;
+    border-radius:                  6px;
+    padding:                        4px;
+    margin:                         1px;
+    display:                        inline-block;
+}
+[class*="silvercart-search-cloud-widget-"]:hover,
+[class*="silvercart-search-cloud-widget-"]:visited:hover {
+    background-color:               #ffffff;
+    color:                          $DefaultHeadingColor;
+    text-decoration:                none;
+}
 .silvercart-search-cloud-widget-0 {
     font-size:                      1em;
 }
