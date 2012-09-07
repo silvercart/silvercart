@@ -1035,6 +1035,8 @@ class SilvercartProductGroupPage extends Page {
         $WidgetSetSidebar = $this->getManyManyComponents('WidgetSetSidebar');
         if ($WidgetSetSidebar->Count() == 0 &&
             $this->getParent() &&
+            ($this->getParent() instanceof SilvercartProductGroupPage ||
+             $this->getParent() instanceof SilvercartProductGroupHolder) &&
             $this->getParent()->WidgetSetSidebar()->Count() > 0) {
             $WidgetSetSidebar = $this->getParent()->WidgetSetSidebar();
         }
@@ -1054,6 +1056,8 @@ class SilvercartProductGroupPage extends Page {
         $WidgetSetContent = $this->getManyManyComponents('WidgetSetContent');
         if ($WidgetSetContent->Count() == 0 &&
             $this->getParent() &&
+            ($this->getParent() instanceof SilvercartProductGroupPage ||
+             $this->getParent() instanceof SilvercartProductGroupHolder) &&
             $this->getParent()->WidgetSetContent()->Count() > 0) {
             $WidgetSetContent = $this->getParent()->WidgetSetContent();
         }
