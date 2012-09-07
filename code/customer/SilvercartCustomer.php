@@ -161,6 +161,13 @@ class SilvercartCustomer extends DataObjectDecorator {
                     'SilvercartAddresses'               => _t('SilvercartAddress.PLURALNAME', 'addresses'),
                     'SilvercartOrder'                   => _t('SilvercartOrder.PLURALNAME', 'orders'),
                     'SilvercartPaymentMethods'          => _t('SilvercartPaymentMethod.PLURALNAME'),
+                    'GroupNames'                        => _t('SilvercartCustomer.TYPE', 'type'),
+                    'SilvercartAddressCountry'          => _t('SilvercartCountry.SINGULARNAME'),
+                    
+                    'BasicData'                         => _t('SilvercartCustomer.BASIC_DATA'),
+                    'AddressData'                       => _t('SilvercartCustomer.ADDRESS_DATA'),
+                    'InvoiceData'                       => _t('SilvercartCustomer.INVOICE_DATA'),
+                    'ShippingData'                      => _t('SilvercartCustomer.SHIPPING_DATA'),
                 )
         );
     }
@@ -172,17 +179,119 @@ class SilvercartCustomer extends DataObjectDecorator {
      * 
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.09.2012
      */
     public function updateSearchableFields(&$fields) {
-        $fields['CustomerNumber'] = array(
-            'title'     => $this->owner->fieldLabel('CustomerNumber'),
-            'filter'    => 'PartialMatchFilter'
-        );
-        $fields['FirstName'] = array(
-            'title'     => $this->owner->fieldLabel('FirstName'),
-            'filter'    => 'PartialMatchFilter'
+        $address = singleton('SilvercartAddress');
+        
+        $fields = array_merge(
+                $fields,
+                array(
+                    'CustomerNumber' => array(
+                        'title'     => $this->owner->fieldLabel('CustomerNumber'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'FirstName' => array(
+                        'title'     => $this->owner->fieldLabel('FirstName'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'Groups.ID' => array(
+                        'title'     => $this->owner->fieldLabel('GroupNames'),
+                        'filter'    => 'ExactMatchFilter',
+                    ),
+                    'SubscribedToNewsletter' => array(
+                        'title'     => $this->owner->fieldLabel('SubscribedToNewsletter'),
+                        'filter'    => 'ExactMatchFilter',
+                    ),
+                    
+                    'SilvercartAddresses.FirstName' => array(
+                        'title'     => $address->fieldLabel('FirstName'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.Surname' => array(
+                        'title'     => $address->fieldLabel('Surname'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.Street' => array(
+                        'title'     => $address->fieldLabel('Street'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.StreetNumber' => array(
+                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.Postcode' => array(
+                        'title'     => $address->fieldLabel('Postcode'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.City' => array(
+                        'title'     => $address->fieldLabel('City'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartAddresses.SilvercartCountry.ID' => array(
+                        'title'     => $address->fieldLabel('SilvercartCountry'),
+                        'filter'    => 'ExactMatchFilter',
+                    ),
+                    
+                    'SilvercartInvoiceAddress.FirstName' => array(
+                        'title'     => $address->fieldLabel('FirstName'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.Surname' => array(
+                        'title'     => $address->fieldLabel('Surname'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.Street' => array(
+                        'title'     => $address->fieldLabel('Street'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.StreetNumber' => array(
+                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.Postcode' => array(
+                        'title'     => $address->fieldLabel('Postcode'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.City' => array(
+                        'title'     => $address->fieldLabel('City'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartInvoiceAddress.SilvercartCountry.ID' => array(
+                        'title'     => $address->fieldLabel('SilvercartCountry'),
+                        'filter'    => 'ExactMatchFilter',
+                    ),
+                    
+                    'SilvercartShippingAddress.FirstName' => array(
+                        'title'     => $address->fieldLabel('FirstName'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.Surname' => array(
+                        'title'     => $address->fieldLabel('Surname'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.Street' => array(
+                        'title'     => $address->fieldLabel('Street'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.StreetNumber' => array(
+                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.Postcode' => array(
+                        'title'     => $address->fieldLabel('Postcode'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.City' => array(
+                        'title'     => $address->fieldLabel('City'),
+                        'filter'    => 'PartialMatchFilter',
+                    ),
+                    'SilvercartShippingAddress.SilvercartCountry.ID' => array(
+                        'title'     => $address->fieldLabel('SilvercartCountry'),
+                        'filter'    => 'ExactMatchFilter',
+                    ),
+                )
         );
     }
     
@@ -197,12 +306,51 @@ class SilvercartCustomer extends DataObjectDecorator {
      * @since 06.04.2011
      */
     public function updateSummaryFields(&$fields) {
-        $fields = array(
-            'CustomerNumber'    => $this->owner->fieldLabel('CustomerNumber'),
-            'FirstName'         => $this->owner->fieldLabel('FirstName'),
-            'Surname'           => $this->owner->fieldLabel('Surname'),
-            'GroupNames'        => _t('SilvercartCustomer.TYPE', 'type'),
-        );
+        if (Controller::curr()->class != 'SecurityAdmin') {
+            $fields = array(
+                'CustomerNumber'            => $this->owner->fieldLabel('CustomerNumber'),
+                'Email'                     => $this->owner->fieldLabel('Email'),
+                'ShippingAddressSummary'    => $this->owner->fieldLabel('SilvercartShippingAddress'),
+                'InvoiceAddressSummary'     => $this->owner->fieldLabel('SilvercartInvoiceAddress'),
+                'GroupNames'                => $this->owner->fieldLabel('GroupNames'),
+            );
+        } else {
+            $fields = array_merge(
+                    array(
+                        'CustomerNumber'            => $this->owner->fieldLabel('CustomerNumber'),
+                        'GroupNames'                => $this->owner->fieldLabel('GroupNames'),
+                    ),
+                    $fields
+            );
+        }
+    }
+
+    /**
+     * return the orders shipping address as complete string.
+     *
+     * @return string
+     */
+    public function getShippingAddressSummary() {
+        $shippingAddressSummary = '';
+        $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->FirstName . ' ' . $this->owner->SilvercartShippingAddress()->Surname . "<br/>" . PHP_EOL;
+        $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->Street . ' ' . $this->owner->SilvercartShippingAddress()->StreetNumber . "<br/>" . PHP_EOL;
+        $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->Addition == '' ? '' : $this->owner->SilvercartShippingAddress()->Addition . "<br/>" . PHP_EOL;
+        $shippingAddressSummary .= strtoupper($this->owner->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->owner->SilvercartShippingAddress()->Postcode . ' ' . $this->owner->SilvercartShippingAddress()->City . "<br/>" . PHP_EOL;
+        return $shippingAddressSummary;
+    }
+
+    /**
+     * return the orders invoice address as complete string.
+     *
+     * @return string
+     */
+    public function getInvoiceAddressSummary() {
+        $invoiceAddressSummary = '';
+        $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->FirstName . ' ' . $this->owner->SilvercartInvoiceAddress()->Surname . "<br/>" . PHP_EOL;
+        $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->Street . ' ' . $this->owner->SilvercartInvoiceAddress()->StreetNumber . "<br/>" . PHP_EOL;
+        $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->owner->SilvercartInvoiceAddress()->Addition . "<br/>" . PHP_EOL;
+        $invoiceAddressSummary .= strtoupper($this->owner->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->owner->SilvercartInvoiceAddress()->Postcode . ' ' . $this->owner->SilvercartInvoiceAddress()->City . "<br/>" . PHP_EOL;
+        return $invoiceAddressSummary;
     }
     
     // ------------------------------------------------------------------------
@@ -216,10 +364,9 @@ class SilvercartCustomer extends DataObjectDecorator {
      */
     public function getGroupNames() {
         if (is_null($this->groupNames)) {
-            $groupNamesAsString = '';
-            $groupNamesMap = $this->owner->Groups()->map();
+            $groupNamesMap      = $this->owner->Groups()->map();
             $groupNamesAsString = implode(', ', $groupNamesMap);
-            $this->groupNames = $groupNamesAsString;
+            $this->groupNames   = $groupNamesAsString;
         }
         return $this->groupNames;
     }
