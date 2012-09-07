@@ -1021,6 +1021,44 @@ class SilvercartProductGroupPage extends Page {
         );
         return $productsOnPagesString;
     }
+    
+    /**
+     * Returns the WidgetSetSidebar many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2012
+     */
+    public function WidgetSetSidebar() {
+        $WidgetSetSidebar = $this->getManyManyComponents('WidgetSetSidebar');
+        if ($WidgetSetSidebar->Count() == 0 &&
+            $this->getParent() &&
+            $this->getParent()->WidgetSetSidebar()->Count() > 0) {
+            $WidgetSetSidebar = $this->getParent()->WidgetSetSidebar();
+        }
+        return $WidgetSetSidebar;
+    }
+    
+    /**
+     * Returns the WidgetSetContent many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.09.2012
+     */
+    public function WidgetSetContent() {
+        $WidgetSetContent = $this->getManyManyComponents('WidgetSetContent');
+        if ($WidgetSetContent->Count() == 0 &&
+            $this->getParent() &&
+            $this->getParent()->WidgetSetContent()->Count() > 0) {
+            $WidgetSetContent = $this->getParent()->WidgetSetContent();
+        }
+        return $WidgetSetContent;
+    }
 }
 
 /**
@@ -1177,7 +1215,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
             // there must be two way to initialize this controller:
             if ($this->isProductDetailView()) {
-                $this->registerWidgetAreas();
                 // a product detail view is requested
                 if (!$this->getDetailViewProduct()->isActive) {
                     Director::redirect($this->PageByIdentifierCodeLink());
@@ -1194,7 +1231,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 );
             } else {
                 // a product group view is requested
-                $this->registerWidgetAreas();
                 $products = $this->getProducts();
                 Session::set("SilvercartProductGroupPageID", $this->ID);
                 Session::save();
@@ -1225,33 +1261,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     'SilvercartProductGroupPageSelectors',
                     $selectorForm
                 );
-            }
-        }
-    }
-    
-    /**
-     * Registers the WidgetAreas and stores their output.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.08.2011
-     */
-    protected function registerWidgetAreas() {
-        $parentPage = $this->getParent();
-
-        if ($parentPage) {
-            $parentPageController = ModelAsController::controller_for($parentPage);
-            $parentPageController->init();
-            
-            if ($this->WidgetSetSidebar()->Count() == 0) {
-                $identifier           = 'Sidebar';
-                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
-            }
-            
-            if ($this->WidgetSetContent()->Count() == 0) {
-                $identifier           = 'Content';
-                $this->saveWidgetOutput($identifier, $parentPageController->InsertWidgetArea($identifier));
             }
         }
     }
