@@ -287,6 +287,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $filteredQuerySearchQuery   = '';
+        $filteredQuerySearchQueryWithStar = '';
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
 
         if (empty($useExtensionResults)) {
@@ -335,8 +336,11 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 foreach ($searchTerms as $value) {
                     if (strlen($value) >= 3) {
                         $filteredQuerySearchQuery .= '+' . $value;
+                        $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                     }
                 }
+                $filteredQuerySearchQuery .= $filteredQuerySearchQueryWithStar;
+                
                 $this->listFilters['original'] = sprintf("
                     `SilvercartProductGroupID` IS NOT NULL AND
                     `SilvercartProductGroupID` > 0 AND

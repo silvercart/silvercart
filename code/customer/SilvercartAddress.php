@@ -335,7 +335,7 @@ class SilvercartAddress extends DataObject {
         } elseif ($this->Salutation == 'Frau') {
             $salutation = _t('SilvercartAddress.MISSES', 'Misses');
         } else {
-            $salutation = _t('SilvercartAddress.' . strtoupper($salutation), $salutation);
+            $salutation = _t('SilvercartAddress.' . strtoupper($this->Salutation), $this->Salutation);
         }
         return $salutation;
     }
