@@ -1643,9 +1643,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 26.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
      */
     public function getTaxTotal($excludeCharges = false) {
         $taxRates = $this->getTaxRatesWithFees(true, false);
@@ -1662,12 +1661,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $taxRate->Amount->setAmount($taxRateAmount + $chargeTaxAmount);
 
                     if (round($taxRate->Amount->getAmount(), 2) === -0.00) {
-                        $taxRate->Amount->setAmount($taxRate->Amount->getAmount() * -1);
+                        $taxRate->Amount->setAmount(0);
                     }
                 }
             }
         }
-
+        
         return $taxRates;
     }
     
