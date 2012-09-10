@@ -180,17 +180,30 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.07.2011
+     * @since 10.09.2012
      */
     public function process() {
-        foreach ($this->getRegisteredNestedForms() as $registeredNestedForm) {
-            if (method_exists($registeredNestedForm, 'process')) {
-                if ($registeredNestedForm->process()) {
-                    $this->controller->resetStepMapping();
-                    $this->controller->registerStepDirectory(
-                        $registeredNestedForm->getPaymentMethod()->getStepConfiguration()
-                    );
-                    $this->controller->generateStepMapping();
+        $allowedPaymentMethods = $this->getAllowedPaymentMethods();
+        if ($allowedPaymentMethods->Count() === 1 &&
+            $this->getRegisteredNestedForms()->Count() == 1 &&
+            $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
+            // there is only one payment method, set it and skip this step
+            $formData = array(
+                'PaymentMethod' => $allowedPaymentMethods->First()->ID,
+            );
+            $this->controller->setStepData($formData);
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        } else {
+            foreach ($this->getRegisteredNestedForms() as $registeredNestedForm) {
+                if (method_exists($registeredNestedForm, 'process')) {
+                    if ($registeredNestedForm->process()) {
+                        $this->controller->resetStepMapping();
+                        $this->controller->registerStepDirectory(
+                            $registeredNestedForm->getPaymentMethod()->getStepConfiguration()
+                        );
+                        $this->controller->generateStepMapping();
+                    }
                 }
             }
         }

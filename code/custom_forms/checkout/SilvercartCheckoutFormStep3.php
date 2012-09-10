@@ -133,6 +133,28 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
             }
         }
     }
+    
+    /**
+     * If there is only one shipping method, set the shipping method and skip 
+     * this step
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
+     */
+    public function process() {
+        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods();
+        if ($shippingMethods->Count() === 1) {
+            // there is only one shipping method, set it and skip this step
+            $formData = array(
+                'ShippingMethod' => $shippingMethods->First()->ID,
+            );
+            $this->controller->setStepData($formData);
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        }
+    }
 
     /**
      * executed if there are no valdation errors on submit
