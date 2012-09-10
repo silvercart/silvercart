@@ -1537,6 +1537,7 @@ $lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
 $lang['en_GB']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets for the content area';
 $lang['en_GB']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets for the sidebar';
 
+$lang['en_GB']['SilvercartWidgetSet']['MANAGE_WIDGETS_BUTTON'] = 'Manage widget sets';
 $lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['en_GB']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';

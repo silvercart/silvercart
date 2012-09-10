@@ -1537,6 +1537,7 @@ $lang['de_DE']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sortierung';
 $lang['de_DE']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets für den Inhaltsbereich';
 $lang['de_DE']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets für die Seitenleiste';
 
+$lang['de_DE']['SilvercartWidgetSet']['MANAGE_WIDGETS_BUTTON'] = 'Widgets Sets verwalten';
 $lang['de_DE']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['de_DE']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['de_DE']['SilvercartWidgetSet']['PAGES'] = 'zugeordnete Seiten';
