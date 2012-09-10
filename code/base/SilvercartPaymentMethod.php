@@ -575,11 +575,13 @@ class SilvercartPaymentMethod extends DataObject {
             }
 
             $handlingCosts->setAmount($handlingCostAmount);
-
-            return $handlingCosts;
         }
         
-        return false;
+        $this->extend('updateChargesAndDiscountsForTotal', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
     }
 
     /**
