@@ -188,10 +188,16 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
             $this->getRegisteredNestedForms()->Count() == 1 &&
             $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
             // there is only one payment method, set it and skip this step
-            $formData = array(
+            $paymentMethod  = $allowedPaymentMethods->First();
+            $formData       = array(
                 'PaymentMethod' => $allowedPaymentMethods->First()->ID,
             );
             $this->controller->setStepData($formData);
+            $this->controller->resetStepMapping();
+            $this->controller->registerStepDirectory(
+                $paymentMethod->getStepConfiguration()
+            );
+            $this->controller->generateStepMapping();
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
         } else {
