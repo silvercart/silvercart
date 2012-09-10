@@ -462,8 +462,23 @@ class SilvercartProductGroupPage extends Page {
                 'getCMSFields_forPopup',
                 $filter
             );
+            $productsTableField->setPermissions(array(
+                'view'
+            ));
+            $productsTableField->IsReadOnly = true;
             $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
             $fields->addFieldToTab($tabPARAM, $productsTableField);
+
+            $productAdminLink     = Director::baseURL().'admin/silvercart-products';
+            $manageProductsButton = new LiteralField(
+                'ManageProductsButton',
+                sprintf(
+                    "<a href=\"%s\">%s</a>",
+                    $productAdminLink,
+                    _t('SilvercartProductGroupPage.MANAGE_PRODUCTS_BUTTON')
+                )
+            );
+            $fields->addFieldToTab($tabPARAM, $manageProductsButton);
 
             $tabPARAM3 = "Root.Content." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
             $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));

@@ -385,6 +385,7 @@ $lang['en_US']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attributes';
 $lang['en_US']['SilvercartProductGroupPage']['BREADCRUMBS'] = 'Product Group Breadcrumbs';
 $lang['en_US']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = 'do <strong>not</strong> show products of this group';
 $lang['en_US']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Group picture';
+$lang['en_US']['SilvercartProductGroupPage']['MANAGE_PRODUCTS_BUTTON'] = 'Manage products';
 $lang['en_US']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'manufacturer';
 $lang['en_US']['SilvercartProductGroupPage']['PLURALNAME'] = 'Product groups';
 $lang['en_US']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Products per page';
