@@ -132,7 +132,12 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']             = true;
+        $paymentMethods = DataObject::get('SilvercartShippingMethod', "`isActive` = 1");
+        $stepIsVisible  = true;
+        if ($paymentMethods->Count() === 1) {
+            $stepIsVisible = false;
+        }
+        $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Payment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;

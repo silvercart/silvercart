@@ -1667,6 +1667,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             }
         }
         
+        $this->extend('updateTaxTotal', $taxRates);
+        
         return $taxRates;
     }
     

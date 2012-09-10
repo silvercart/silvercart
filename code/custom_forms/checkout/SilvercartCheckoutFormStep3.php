@@ -93,7 +93,12 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']             = true;
+        $shippingMethods    = DataObject::get('SilvercartShippingMethod');
+        $stepIsVisible      = true;
+        if ($shippingMethods->Count() === 1) {
+            $stepIsVisible = false;
+        }
+        $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;

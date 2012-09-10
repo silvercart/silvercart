@@ -849,9 +849,8 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.04.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
      */
     public function getTaxTotal($excludeCharges = false) {
         $taxRates = $this->getTaxRatesWithFees();
@@ -885,6 +884,8 @@ class SilvercartShoppingCart extends DataObject {
                 }
             }
         }
+        
+        $this->extend('updateTaxTotal', $taxRates);
 
         return $taxRates;
     }
