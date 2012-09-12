@@ -201,6 +201,20 @@
                 <% end_control %>
             <% end_if %>
         <% end_if %>
+        
+        <% if Top.EditableShoppingCart %>
+            <% if addToEditableShoppingCartTable %>
+                <% control addToEditableShoppingCartTable %>
+                    <tr>
+                        <td colspan="3">{$TitleField}&nbsp;</td>
+                        <td colspan="3" class="right">{$RightTitleField}&nbsp;</td>
+                        <td class="right">{$PriceField.Nice}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                <% end_control %>
+            <% end_if %>
+        <% end_if %>
+        
     </tbody>
 </table>
 <% control ShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_control %>

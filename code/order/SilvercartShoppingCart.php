@@ -426,6 +426,20 @@ class SilvercartShoppingCart extends DataObject {
         
         return !$error;
     }
+    
+    /**
+     * Returns one or more plugged in rows for the shopping carts editable table
+     * as a DataobjectSet
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2012
+     */
+    public function addToEditableShoppingCartTable() {
+        $addToCartTable = SilvercartPlugin::call($this, 'addToEditableShoppingCartTable', array(), false, 'DataObjectSet');
+        return $addToCartTable;
+    }
 
     /**
      * empties cart

@@ -76,5 +76,23 @@ class SilvercartShoppingCartPluginProvider extends SilvercartPlugin {
         
         return $result;
     }
+
+    /**
+     * This method will return a DataObject with additional table row data to 
+     * extend the editable shopping carts table (in template)
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return DataObjectSet
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2012
+     */
+    public function addToEditableShoppingCartTable(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginAddToEditableShoppingCartTable', $callingObject);
+        return $this->returnExtensionResultAsDataObjectSet($result);
+    }
     
 }
