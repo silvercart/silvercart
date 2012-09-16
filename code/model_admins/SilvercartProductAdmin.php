@@ -69,9 +69,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'SilvercartProduct' => array(
-            'title' => 'SilvercartProduct'
-        ),
+        'SilvercartProduct'
     );
 
     /**

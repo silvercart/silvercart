@@ -32,7 +32,7 @@
  * @since 14.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartGroupViewDecorator extends DataObjectDecorator {
+class SilvercartGroupViewDecorator extends DataExtension {
 
     /**
      * add switchGroupView to allowed_actions

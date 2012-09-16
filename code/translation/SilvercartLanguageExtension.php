@@ -23,6 +23,7 @@
 
 /**
  * Adds methods that are common to all language classes eg SilvercartProductLanguage
+ * Updates CMS fields and brings the common attribute Locale
  *
  * @package Silvercart
  * @subpackage Translation

@@ -1097,7 +1097,7 @@ class SilvercartProduct extends DataObject {
     public function getFieldsForDeeplinks($fields) {
         $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
         if ($this->canView()) {
-            $deeplinks = DataObject::get('SilvercartDeeplink', '\"isActive\" = 1');
+            $deeplinks = SilvercartDeeplink::get()->filter('isActive', 1);
             if ($deeplinks) {
                 $idx = 1;
                 foreach ($deeplinks as $deeplink) {

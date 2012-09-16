@@ -77,7 +77,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
             if (SilvercartConfig::useDefaultLanguageAsFallback() &&
                 Translatable::get_current_locale() != $silvercartDefaultLocale &&
                 !empty ($silvercartDefaultLocale)) {
-                $query->where(
+                $query->addWhere(
                         sprintf(
                                 "\"%s\".\"Locale\" = IFNULL((%s), (%s)) %s",
                                 $this->getBaseLanguageClassName(),
@@ -142,6 +142,7 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
      * Getter for the related language object depending on the set language
      * 
      * @param bool $force Force the creation of an language object?
+     *                    This is needed to scaffold form fields 
      *
      * @return Language object for the decorated class, by convention class name + 'Language';
      *         always returns an object
@@ -150,17 +151,17 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
      * @since 22.05.2012
      */
     public function getLanguage($force = false) {
-        if ($this->owner->ID === 0) {
+        $relationFieldName      = $this->getRelationFieldName();
+        $languageClassName      = $this->getLanguageClassName();
+        if (!$this->owner->isInDB()) {
             if ($force) {
-                $languageClassName          = $this->getLanguageClassName();
                 $this->languageObj          = new $languageClassName();
                 $this->languageObj->Locale  = Translatable::get_current_locale();
             } else {
                 $this->languageObj = null;
+                
             }
         } elseif (is_null($this->languageObj)) {
-            $relationFieldName      = $this->getRelationFieldName();
-            $languageClassName      = $this->getLanguageClassName();
             $this->languageObj = SilvercartLanguageHelper::getLanguage($this->getLanguageRelation());
             if (!$this->languageObj) {
                 $this->languageObj = new $languageClassName();
@@ -291,6 +292,21 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
     }
     
     /**
+     * hook
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.09.2012
+     */
+    public function onBeforeWrite() {
+        if ($this->owner->isInDB() && !is_null($this->languageObj)) {
+            $relationFieldName = $this->getRelationFieldName();
+            $this->languageObj->{$relationFieldName} = $this->owner->ID;
+        }
+    }
+    
+    /**
      * augments the hook of the decorated object so that the input in the fields
      * that are multilingual gets written to the related language object
      *
@@ -300,7 +316,10 @@ class SilvercartDataObjectMultilingualExtension extends DataExtension {
      * @since 06.01.2012
      */
     public function onAfterWrite() {
-         SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->owner->toMap());
+        SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->owner->toMap());
+        
+        SilvercartTools::Log("toMap call result: ", serialize($this->owner->toMap()), 'silvercartlog');
+        SilvercartTools::Log("getLanguage call result: ", serialize($this->getLanguage()), 'silvercartlog');
     }
     
     /**

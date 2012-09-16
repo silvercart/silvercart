@@ -268,7 +268,7 @@ class SilvercartLanguageHelper {
      * Writes the given language object
      *
      * @param DataObject $languageObj Language object to write
-     * @param array      $mainRecord  Main record data
+     * @param array      $mainRecord  Main record data of the multilingual DataObject
      *
      * @return void 
      * 
