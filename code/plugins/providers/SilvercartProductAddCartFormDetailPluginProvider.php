@@ -42,20 +42,11 @@ class SilvercartProductAddCartFormDetailPluginProvider extends SilvercartProduct
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2012
      */
     public function AddCartFormDetailAdditionalFields(&$arguments = array(), &$callingObject) {
         $result = $this->extend('pluginAddCartFormDetailAdditionalFields', $arguments, $callingObject);
-        
-        if (is_array($result)) {
-            if (count($result) > 0) {
-                return $result[0];
-            } else {
-                return false;
-            }
-        } else {
-            return $result;
-        }
+        return $this->returnExtensionResultAsHtmlString($result);
     }
 }
