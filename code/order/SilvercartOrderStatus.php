@@ -176,7 +176,7 @@ class SilvercartOrderStatus extends DataObject {
         $fields = parent::getCMSFields();
         $fields->removeByName('SilvercartShopEmails');
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

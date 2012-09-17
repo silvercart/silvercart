@@ -184,7 +184,7 @@ class SilvercartShopEmail extends DataObject {
         /*
          * insert the multilingual fields and fill them with values of the current locale
          */
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         $afterFieldName = 'Identifier';
         foreach ($languageFields as $languageField) {
             $fields->insertAfter($languageField, $afterFieldName);

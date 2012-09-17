@@ -172,7 +172,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
         
         $translationTab->push($translationsTableField);
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $languageField);
         }

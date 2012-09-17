@@ -280,7 +280,7 @@ class SilvercartCountry extends DataObject {
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'ISO2');
         }

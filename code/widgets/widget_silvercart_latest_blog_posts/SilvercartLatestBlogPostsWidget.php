@@ -127,7 +127,7 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
         $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('IsContentView'));
         $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }

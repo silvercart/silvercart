@@ -106,7 +106,7 @@ class SilvercartImageSliderImage extends DataObject {
         );
         //Inject the fields that come from the language object
         //They are added to the content tab for the users comfort.
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
         }

@@ -121,7 +121,7 @@ class SilvercartAvailabilityStatus extends DataObject {
         $fields = parent::getCMSFields();
         
         //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'Code');
         }

@@ -176,7 +176,7 @@ class SilvercartFile extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }
@@ -236,7 +236,7 @@ class SilvercartFile extends DataObject {
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext($params);
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }
@@ -258,7 +258,7 @@ class SilvercartFile extends DataObject {
     public function getCMSFieldsForDownloadPage($params = null) {
         
         $fields = $this->getCMSFieldsForContext($params);
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

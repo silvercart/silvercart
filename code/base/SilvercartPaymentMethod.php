@@ -1153,7 +1153,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasic->setChildren($tabBasicFieldSet);
         //multilingual fields
         if ($this->isExtendingSilvercartPaymentMethod()) {
-           $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+           $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
             foreach ($languageFields as $languageField) {
                 $tabBasicFieldSet->push($languageField);
             } 

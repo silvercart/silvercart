@@ -116,18 +116,13 @@ class SilvercartCarrier extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
-        if ($this->ID) {
-            $zonesTable = new SilvercartManyManyComplexTableField(
-                            $this,
-                            'SilvercartZones',
-                            'SilvercartZone'
-            );
-            $zonesTable->pageSize = 50;
-            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
-            $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
-        }
+//        if ($this->ID) {
+//            $zonesTable = new GridField("carrierszones", _t("SilvercartZone.PLURALNAME"), $this->SilvercartZones());
+//            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
+//            $fields->addFieldToTab("Root.SilvercartZones", $zonesTable);
+//        }
         
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

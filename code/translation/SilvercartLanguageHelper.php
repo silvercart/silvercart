@@ -64,15 +64,16 @@ class SilvercartLanguageHelper {
     /**
      * Default scaffolding for language objects.
      *
-     * @param DataObject $dataobject     DataObject to scaffold the form fields for
-     * @param array      $restrictFields List of restrict fields
+     * @param string $className      class name of the language class
+     * @param array  $restrictFields List of restrict fields
      * 
-     * @return FieldList
+     * @return FieldList a field list with all multilingual attributes
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.07.2012
      */
-    public static function prepareCMSFields($dataobject, $restrictFields = false) {
+    public static function prepareCMSFields($className, $restrictFields = false) {
+        $dataobject = singleton($className);
         if (!$dataobject) {
             return new FieldList();
         }

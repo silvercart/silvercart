@@ -164,7 +164,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $imagesTab->push($imageField);
         $translationsTab->push($translationsTableField);
                 
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Basic', $languageField);
         }

@@ -102,7 +102,7 @@ class SilvercartProductCondition extends DataObject {
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
         //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

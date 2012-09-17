@@ -147,7 +147,7 @@ class SilvercartTax extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }

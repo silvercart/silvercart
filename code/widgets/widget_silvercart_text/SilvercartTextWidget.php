@@ -172,7 +172,7 @@ class SilvercartTextWidget extends SilvercartWidget {
         $mainTab->push($isContentView);
         $translationsTab->push($languageTableField);
         //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }

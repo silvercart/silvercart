@@ -1131,7 +1131,7 @@ class SilvercartProduct extends DataObject {
         /***********************************************************************
          * TRANSLATION SECTION
          **********************************************************************/
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         $afterFieldName = 'EANCode';
         foreach ($languageFields as $languageField) {
             $fields->insertAfter($languageField, $afterFieldName);
