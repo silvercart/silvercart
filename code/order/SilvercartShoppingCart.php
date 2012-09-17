@@ -614,9 +614,8 @@ class SilvercartShoppingCart extends DataObject {
      * 
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.09.2012
      */
     public function getTaxableAmountNetWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
         $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
@@ -629,7 +628,7 @@ class SilvercartShoppingCart extends DataObject {
         }
         
         if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+            $amount = 0;
         }
 
         $amountObj = new Money;
@@ -864,7 +863,7 @@ class SilvercartShoppingCart extends DataObject {
      * @return Money a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.09.2012
+     * @since 17.09.2012
      */
     public function getTaxTotal($excludeCharges = false) {
         $taxRates = $this->getTaxRatesWithFees();
@@ -891,7 +890,7 @@ class SilvercartShoppingCart extends DataObject {
                     $taxRate->AmountRaw += $rateAmount;
 
                     if (round($taxRate->AmountRaw, 2) === -0.00) {
-                        $taxRate->AmountRaw *= -1;
+                        $taxRate->AmountRaw = 0;
                     }
 
                     $taxRate->Amount->setAmount($taxRate->AmountRaw);
@@ -1136,16 +1135,19 @@ class SilvercartShoppingCart extends DataObject {
      * 
      * @return Money a money object with the calculated amount and the default currency
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.09.2012
      */
     public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
         if (SilvercartConfig::PriceType() == 'gross') {
-            return $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+            $amountTotal = $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
-            return $this->getAmountTotalNet($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+            $amountTotal = $this->getAmountTotalNet($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         }
+        if ($amountTotal->getAmount() <= 0) {
+            $amountTotal->setAmount(0);
+        }
+        return $amountTotal;
     }
 
     /**
