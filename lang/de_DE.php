@@ -74,6 +74,8 @@ $lang['de_DE']['Silvercart']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['Silvercart']['MARK_ALL'] = 'Alle markieren';
 $lang['de_DE']['Silvercart']['UNMARK_ALL'] = 'Markierung aufheben';
 $lang['de_DE']['Silvercart']['SORTORDER'] = 'Sortierreihenfolge';
+$lang['de_DE']['Silvercart']['PAGE'] = 'Seite';
+$lang['de_DE']['Silvercart']['X_OF_Y'] = '%s von %s';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
