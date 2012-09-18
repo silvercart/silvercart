@@ -193,4 +193,29 @@ class SilvercartEditableTableListField extends TableListField {
         <input id="$inputId" name="{$this->name}[selected]" type="hidden" value="$list"/>
 HTML;
     }
+    
+    /**
+     * Returns the total count of items
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.09.2012
+     */
+    public function TotalCount() {
+        $countColumn = sprintf(
+                "DISTINCT `%s`.`ID`",
+                $this->sourceClass
+        );
+        
+        if (is_null($this->totalCount)) {
+            if ($this->customSourceItems) {
+                $this->totalCount = $this->customSourceItems->Count();
+            } else {
+                $this->totalCount = $this->getQuery()->unlimitedRowCount($countColumn);
+            }
+        }
+
+        return $this->totalCount;
+    }
 }
