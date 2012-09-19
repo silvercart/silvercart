@@ -304,6 +304,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 05.07.2012
      */
     public function searchableFields() {
+        $address = singleton('SilvercartAddress');
         $searchableFields = array(
             'Created' => array(
                 'title'     => $this->fieldLabel('Created'),
@@ -339,6 +340,22 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             ),
             'SilvercartShippingAddress.Surname' => array(
                 'title'     => $this->fieldLabel('SilvercartShippingAddressSurname'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.Street' => array(
+                'title'     => $address->fieldLabel('Street'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.StreetNumber' => array(
+                'title'     => $address->fieldLabel('StreetNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.Postcode' => array(
+                'title'     => $address->fieldLabel('Postcode'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.City' => array(
+                'title'     => $address->fieldLabel('City'),
                 'filter'    => 'PartialMatchFilter'
             ),
             'SilvercartShippingAddress.SilvercartCountry.ID' => array(
@@ -2240,6 +2257,42 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                 
                 $query->where[$whereIdx] = sprintf(
                     '"SilvercartInvoiceAddress"."Surname" LIKE %s OR "SilvercartShippingAddress"."Surname" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            if (strpos($sqlWhere, '"SilvercartAddress"."Street"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."Street" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."Street" LIKE %s OR "SilvercartShippingAddress"."Street" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            if (strpos($sqlWhere, '"SilvercartAddress"."StreetNumber"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."StreetNumber" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."StreetNumber" LIKE %s OR "SilvercartShippingAddress"."StreetNumber" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            if (strpos($sqlWhere, '"SilvercartAddress"."Postcode"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."Postcode" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."Postcode" LIKE %s OR "SilvercartShippingAddress"."Postcode" LIKE %s',
+                    $searchStr,
+                    $searchStr
+                );
+            }
+            if (strpos($sqlWhere, '"SilvercartAddress"."City"') !== false) {
+                $searchStr = str_replace('"SilvercartAddress"."City" LIKE ', '', $sqlWhere);
+                
+                $query->where[$whereIdx] = sprintf(
+                    '"SilvercartInvoiceAddress"."City" LIKE %s OR "SilvercartShippingAddress"."City" LIKE %s',
                     $searchStr,
                     $searchStr
                 );
