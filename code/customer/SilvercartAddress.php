@@ -71,6 +71,7 @@ class SilvercartAddress extends DataObject {
      * @var array
      */
     public static $casting = array(
+        'FullName'              => 'Text',
         'SalutationText'        => 'VarChar',
         'SilvercartCountryISO2' => 'Text',
         'SilvercartCountryISO3' => 'Text',
@@ -322,6 +323,15 @@ class SilvercartAddress extends DataObject {
         }
 
         return $isLastAddress;
+    }
+    
+    /**
+     * Returns the full name (first name + sur name)
+     * 
+     * @return string
+     */
+    public function getFullName() {
+        return $this->FirstName . ' ' . $this->Surname;
     }
 
     /**
