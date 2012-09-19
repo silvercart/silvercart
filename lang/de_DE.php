@@ -1007,9 +1007,10 @@ $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          =
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Automatisch starten';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Effekt';
 
-$lang['de_DE']['SilvercartMailForgotPassword']['TITLE']             = 'Passwort zurücksetzen';
-$lang['de_DE']['SilvercartMailForgotPassword']['VISIT_TEXT']        = 'Bitte besuchen Sie <a href="%s">diese Seite</a>, um Ihr Passwort zu ändern.';
-$lang['de_DE']['SilvercartMailForgotPassword']['NO_CHANGE']         = 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.';
+$lang['de_DE']['SilvercartMailForgotPassword']['TITLE']                         = 'Passwort zurücksetzen';
+$lang['de_DE']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Bitte besuchen Sie den folgenden Link, um Ihr Passwort zu ändern:';
+$lang['de_DE']['SilvercartMailForgotPassword']['PASSWORT_RESET_LINK_HINT']      = 'Falls Sie den Link nicht anklicken können, kopieren Sie diesen bitte in Ihre Zwischenablage und fügen Sie ihn in die Adressleiste Ihres Browsers ein.';
+$lang['de_DE']['SilvercartMailForgotPassword']['NO_CHANGE']                     = 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.';
 
 $lang['de_DE']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Sie haben schon ein Konto?';
 $lang['de_DE']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'Mein Konto';
@@ -1466,6 +1467,7 @@ $lang['de_DE']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Ihre Bes
 $lang['de_DE']['SilvercartShopEmail']['ORDER_SHIPPED_MESSAGE'] = 'Ihre Bestellung wurde soeben von uns versendet.';
 $lang['de_DE']['SilvercartShopEmail']['ORDER_SHIPPED_NOTIFICATION_SUBJECT'] = 'Ihre Bestellung wurde soeben von uns versendet.';
 $lang['de_DE']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'Eine neue Bestellung wurde aufgegeben';
+$lang['de_DE']['SilvercartShopEmail']['FORGOT_PASSWORD_SUBJECT']                = 'Passwort zurücksetzen';
 
 $lang['de_DE']['SilvercartShopEmailLanguage']['PLURALNAME']                     = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartShopEmailLanguage']['SINGULARNAME']                   = _t('Silvercart.TRANSLATION');

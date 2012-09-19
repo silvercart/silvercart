@@ -864,3 +864,50 @@ class SilvercartCustomer_Validator extends DataObjectDecorator {
     }
 
 }
+
+/**
+ * Extends standard ForgotPassword class to override some propertys
+ *
+ * @package Silvercart
+ * @subpackage Customer
+ * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 19.09.2012
+ * @copyright 2012 pixeltricks GmbH
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
+ */
+class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail {
+    
+    /**
+     * changes from for Member_ForgotPasswordEmail to SilvercartConfig email sender
+     * converts subject to ISO-8859-1
+     * 
+     * @return void
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 16.08.2012 
+     */
+    public function __construct() { 
+        parent::__construct();
+        $this->setSubject(iconv("UTF-8", "ISO-8859-1", $this->Subject())); // convert to iso because of some old mail clients
+        $this->setFrom(SilvercartConfig::EmailSender());
+    }
+    
+    /**
+     * Uses DataObject baed, editable templates to send the email
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.09.2012
+     */
+    public function send() {
+        $variables                      = $this->template_data->toMap();
+        $variables['PasswordResetLink'] = Director::absoluteURL($this->template_data->PasswordResetLink);
+        
+        SilvercartShopEmail::send(
+                'ForgotPasswordEmail',
+                $this->To(),
+                $variables
+        );
+    }
+}

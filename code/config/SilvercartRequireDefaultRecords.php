@@ -767,6 +767,24 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
             $shopEmailNewsletterOptInConfirmation->write();
         }
+        $shopEmailForgotPasswordEmail = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'ForgotPasswordEmail'"
+        );
+        if (!$shopEmailForgotPasswordEmail) {
+            $shopEmailForgotPasswordEmail = new SilvercartShopEmail();
+            $shopEmailForgotPasswordEmail->Identifier   = 'ForgotPasswordEmail';
+            $shopEmailForgotPasswordEmail->Subject      = _t('SilvercartShopEmail.FORGOT_PASSWORD_SUBJECT');
+            $shopEmailForgotPasswordEmail->Variables    = "\$FirstName\n\$Surname\n\$Salutation\n\$PasswordResetLink";
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/ForgotPasswordEmail.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailForgotPasswordEmail->EmailText    = $defaultTemplate;
+            $shopEmailForgotPasswordEmail->write();
+        }
         $shopEmailOrderShippedNotification = DataObject::get_one(
             'SilvercartShopEmail',
             "Identifier = 'OrderShippedNotification'"

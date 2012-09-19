@@ -1007,9 +1007,10 @@ $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          =
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Start playing automatically';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Type of effect';
 
-$lang['en_GB']['SilvercartMailForgotPassword']['TITLE']             = 'Reset Password';
-$lang['en_GB']['SilvercartMailForgotPassword']['VISIT_TEXT']        = 'Please visit <a href="%s">this page</a> to reset your password.';
-$lang['en_GB']['SilvercartMailForgotPassword']['WONT_CHANGE']       = 'If you do not want to change your password, you may ignore this email.';
+$lang['en_GB']['SilvercartMailForgotPassword']['TITLE']                         = 'Reset Password';
+$lang['en_GB']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Please visit <a href="%s">this page</a> to reset your password.';
+$lang['en_GB']['SilvercartMailForgotPassword']['PASSWORT_RESET_LINK_HINT']      = 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.';
+$lang['en_GB']['SilvercartMailForgotPassword']['WONT_CHANGE']                   = 'If you do not want to change your password, you may ignore this email.';
 
 $lang['en_GB']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
 $lang['en_GB']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
@@ -1466,6 +1467,7 @@ $lang['en_GB']['SilvercartShopEmail']['ORDER_ARRIVED_EMAIL_SUBJECT'] = 'Your ord
 $lang['en_GB']['SilvercartShopEmail']['ORDER_SHIPPED_MESSAGE'] = 'Your order has just been sent.';
 $lang['en_GB']['SilvercartShopEmail']['ORDER_SHIPPED_NOTIFICATION_SUBJECT'] = 'Your order has just been sent.';
 $lang['en_GB']['SilvercartShopEmail']['NEW_ORDER_PLACED'] = 'A new order has been placed';
+$lang['en_GB']['SilvercartShopEmail']['FORGOT_PASSWORD_SUBJECT']                = 'Reset Password';
 
 $lang['en_GB']['SilvercartShopEmailLanguage']['PLURALNAME']                     = _t('Silvercart.TRANSLATIONS');
 $lang['en_GB']['SilvercartShopEmailLanguage']['SINGULARNAME']                   = _t('Silvercart.TRANSLATION');

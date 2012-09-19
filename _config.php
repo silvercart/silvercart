@@ -158,6 +158,9 @@ SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',        
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
 
+// use custom classes
+Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
+
 // ----------------------------------------------------------------------------
 // Register i18n plugins
 // ----------------------------------------------------------------------------
@@ -261,5 +264,3 @@ if (array_key_exists('Email', $_POST)) {
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.
  */
-
-
