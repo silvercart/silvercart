@@ -1392,6 +1392,45 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         return $chargePositions;
     }
+
+    /**
+     * returns the orders taxable amount without fees as string incl. currency.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     *
+     * @return string
+     */
+    public function getTaxableAmountWithoutFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithoutFees = $this->getTaxableAmountWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        return str_replace('.', ',', number_format($taxableAmountWithoutFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees and charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
+     */
+    public function getTaxableAmountWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithoutFees = null;
+        if ($this->IsPriceTypeGross()) {
+            $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        } else {
+            $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        }
+        return $taxableAmountWithoutFees;
+    }
     
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
@@ -1502,10 +1541,49 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             )
         );
     }
-    
+
+    /**
+     * returns the orders taxable amount with fees as string incl. currency.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     *
+     * @return string
+     */
+    public function getTaxableAmountWithFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithFees = $this->getTaxableAmountWithFees($includeChargesForProducts, $includeChargesForTotal);
+        return str_replace('.', ',', number_format($taxableAmountWithFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
+    }
+
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
-     * fees and charges.
+     * charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
+     */
+    public function getTaxableAmountWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithFees = 0;
+        if ($this->IsPriceTypeGross()) {
+            $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($includeChargesForProducts, $includeChargesForTotal);
+        } else {
+            $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($includeChargesForProducts, $includeChargesForTotal);
+        }
+        return $taxableAmountWithFees;
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * charges.
      *
      * @param boolean $includeChargesForProducts Indicates wether to include charges and
      *                                           discounts for products
@@ -1514,9 +1592,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
      */
     public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal == 'false') {
@@ -1547,7 +1624,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
-     * fees and charges.
+     * charges.
      *
      * @param boolean $includeChargesForProducts Indicates wether to include charges and
      *                                           discounts for products
@@ -1556,9 +1633,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
      */
     public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal == 'false') {
