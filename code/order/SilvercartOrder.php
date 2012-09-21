@@ -653,7 +653,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $mainGroup->pushAndBreak($fields->dataFieldByName('HasAcceptedRevocationInstruction'));
         }
         $fields->insertAfter($mainGroup, 'SilvercartOrderStatusID');
-
+        
         $this->extend('updateCMSFields', $fields);
         return $fields;
     }
@@ -1125,7 +1125,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * save the cart¬¥s weight
+     * save the carts weight
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
