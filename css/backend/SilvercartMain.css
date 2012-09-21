@@ -135,3 +135,13 @@
 .right form .field span.readonly.silvercartmoney {
     display: inline-block;
 }
+
+.silvercart-batch-option-callback-target {
+    display: inline-block;
+}
+
+.right form .silvercart-batch-option-callback-target .field label.left,
+.right form .silvercart-batch-option-callback-target .field .middleColumn {
+    display:    inline-block;
+    width:      auto;
+}
