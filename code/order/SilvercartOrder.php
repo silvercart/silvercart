@@ -659,6 +659,42 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Returns the quick access fields to use by SilvercartEditableTableListField
+     * 
+     * @return FieldSet
+     */
+    public function getQuickAccessFields() {
+        $quickAccessFields = new FieldSet();
+        
+        $orderNumberField   = new TextField('OrderNumber__' . $this->ID,            $this->fieldLabel('OrderNumber'),           $this->OrderNumber);
+        $orderStatusField   = new TextField('SilvercartOrderStatus__' . $this->ID,  $this->fieldLabel('SilvercartOrderStatus'), $this->SilvercartOrderStatus()->Title);
+        $orderPositionTable = new TableListField(
+                'SilvercartOrderPositions__' . $this->ID,
+                'SilvercartOrderPosition',
+                null,
+                sprintf(
+                        "SilvercartOrderID = '%s'",
+                        $this->ID
+                )
+        );
+        
+        $orderNumberField->setDisabled(true);
+        $orderStatusField->setDisabled(true);
+        $orderPositionTable->setPermissions(array());
+        
+        $mainGroup = new SilvercartFieldGroup('MainGroup');
+        $mainGroup->push($orderNumberField);
+        $mainGroup->push($orderStatusField);
+        
+        $quickAccessFields->push($mainGroup);
+        $quickAccessFields->push($orderPositionTable);
+        
+        $this->extend('updateQuickAccessFields', $quickAccessFields);
+        
+        return $quickAccessFields;
+    }
+    
+    /**
      * create a invoice address for an order from customers data
      *
      * @param array $registrationData checkout forms submit data; only needed for anonymous customers

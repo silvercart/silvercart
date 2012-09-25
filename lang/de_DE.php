@@ -1730,3 +1730,4 @@ $lang['de_DE']['SilvercartPriceType']['GROSS']                                  
 $lang['de_DE']['SilvercartPriceType']['NET']                                    = 'Netto';
 
 $lang['de_DE']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Aktion auf Auswahl anwenden';
+$lang['de_DE']['SilvercartEditableTableListField']['QUICK_ACCESS']              = 'Schnellansicht';
