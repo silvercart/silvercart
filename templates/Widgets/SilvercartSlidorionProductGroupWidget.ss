@@ -1,5 +1,5 @@
 <% cached WidgetCacheKey %>
-    <% if SilvercartImages %>
+    <% if ImagesToDisplay %>
         <div class="silvercart-widget-slidorion-productgroup">
             <% if FrontTitle %>
                 <h2>$FrontTitle</h2>
@@ -14,9 +14,9 @@
                 </div>
 
                 <div class="silvercart-slidorion-accordeon">
-                    <% control SilvercartImages %>
-                        <div class="silvercart-slidorion-link-header"><span>$Title</span></div>
-                        <div class="silvercart-slidorion-link-content">$Description</div>
+                    <% control ImagesToDisplay %>
+                        <div class="silvercart-slidorion-link-header"><span>{$Title}</span></div>
+                        <div class="silvercart-slidorion-link-content">{$Description}</div>
                     <% end_control %>
                 </div>
             </div>

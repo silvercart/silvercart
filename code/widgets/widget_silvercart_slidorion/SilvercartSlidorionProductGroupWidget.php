@@ -396,24 +396,37 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     public function getGroupPictureList() {
         $list = '';
 
-        foreach ($this->SilvercartImages() as $SilvercartImage) {
-            $imageTag   = '&nbsp;';
-            
-            if ($SilvercartImage->ImageID > 0) {
-                $image = $SilvercartImage->Image();
-                $image = $image->SetRatioSize(426, $this->getSliderHeight());
-                $imageTag = $image->getTag();
-                $imageUrl = $image->getURL();
-            }
-            
-            $list .= '<div class="silvercart-slidorion-slide" style="background: url('.$imageUrl.') no-repeat center;">';
+        foreach ($this->getImagesToDisplay() as $imageToDisplay) {
+            $list .= '<div class="silvercart-slidorion-slide" style="background: url(' . $imageToDisplay->resizedImage->getURL() . ') no-repeat center;">';
             $list .= '<div class="silvercart-slidorion-slide-prev"><div class="arrow"><div></div></div></div>';
             $list .= '<div class="silvercart-slidorion-slide-next"><div class="arrow_outer"><div class="arrow"><div></div></div></div></div>';
-            $list .= $SilvercartImage->Content;
+            $list .= $imageToDisplay->Content;
             $list .= '</div>';
         }
 
         return $list;
+    }
+    
+    /**
+     * Returns the images to display
+     * 
+     * @return DataObjectSet
+     */
+    public function getImagesToDisplay() {
+        $imagesToDisplay = new DataObjectSet();
+
+        foreach ($this->SilvercartImages() as $SilvercartImage) {
+            if ($SilvercartImage->ImageID > 0) {
+                $image          = $SilvercartImage->Image();
+                $resizedImage   = $image->SetRatioSize(426, $this->getSliderHeight());
+                if ($resizedImage) {
+                    $SilvercartImage->resizedImage = $resizedImage;
+                    $imagesToDisplay->push($SilvercartImage);
+                }
+            }
+        }
+
+        return $imagesToDisplay;
     }
 
     /**
@@ -525,42 +538,49 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
         Requirements::customScript(
             sprintf(
                 "
-                (function($) {jQuery(document).ready(function(){
-                    var slidorionSelector = '#silvercart-slidorion-%d';
-                    $(slidorionSelector).slidorion({
-                        speed:      %d,
-                        interval:   %d,
-                        effect:     '%s',
-                        hoverPause: %s,
-                        autoPlay:   %s
+                (function($) {
+                    jQuery(document).ready(function(){
+                        var slidorionSelector = '#silvercart-slidorion-%d';
+                        $(slidorionSelector).slidorion({
+                            speed:      %d,
+                            interval:   %d,
+                            effect:     '%s',
+                            hoverPause: %s,
+                            autoPlay:   %s
+                        });
+                        $(slidorionSelector + ' .silvercart-slidorion-slide-prev').click(function() {
+                            var prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').prevAll('.silvercart-slidorion-link-header');
+                            if (prevObj.length == 0) {
+                                prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').last();
+                            }
+                            prevObj.trigger('click');
+                        });
+                        $(slidorionSelector + ' .silvercart-slidorion-slide-next').click(function() {
+                            var nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').nextAll('.silvercart-slidorion-link-header');
+                            if (nextObj.length == 0) {
+                                nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').first();
+                            }
+                            nextObj.trigger('click');
+                        });
                     });
-                    $(slidorionSelector + ' .silvercart-slidorion-slide-prev').click(function() {
-                        var prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').prevAll('.silvercart-slidorion-link-header');
-                        if (prevObj.length == 0) {
-                            prevObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').last();
-                        }
-                        prevObj.trigger('click');
+                    jQuery(document).blur(function(){
+                        var slidorionSelector = '#silvercart-slidorion-%d';
+                        $(slidorionSelector).stop();
                     });
-                    $(slidorionSelector + ' .silvercart-slidorion-slide-next').click(function() {
-                        var nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header.active').nextAll('.silvercart-slidorion-link-header');
-                        if (nextObj.length == 0) {
-                            nextObj = $(slidorionSelector + ' .silvercart-slidorion-link-header').first();
-                        }
-                        nextObj.trigger('click');
-                    });
-                })})(jQuery);
+                })(jQuery);
                 ",
                 $this->ID,
                 $this->getSpeedValue(),
                 $this->getIntervalValue(),
                 $this->getEffectValue(),
                 $this->getHoverPauseValue(),
-                $this->getAutoPlayValue()
+                $this->getAutoPlayValue(),
+                $this->ID
             )
         );
         
         $slidorionHeight        = $this->getWidgetHeightValue();
-        $numberOfItems          = $this->SilvercartImages()->Count();
+        $numberOfItems          = $this->getImagesToDisplay()->Count();
         $accordeonTitleHeight   = 30;
         $correctionHeight       = 16;
         $accordeonContentHeight = $slidorionHeight - $numberOfItems * $accordeonTitleHeight - $correctionHeight;
