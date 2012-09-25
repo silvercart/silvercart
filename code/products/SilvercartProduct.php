@@ -159,6 +159,13 @@ class SilvercartProduct extends DataObject {
      * @var array
      */
     protected static $blacklistedRequiredAttributes = array();
+    
+    /**
+     * Temporary extended sortable frontend fields
+     *
+     * @var array
+     */
+    protected static $extendedSortableFrontendFields = array();
 
     /**
      * Wee have to save the deeplink value this way because the framework will
@@ -492,14 +499,30 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
-    
+
+    /**
+     * Adds temporary extended sortable frontend fields
+     * 
+     * @param array $extendedSortableFrontendFields Temporary extended sortable frontend fields
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2012
+     */
+    public static function addExtendedSortableFrontendFields($extendedSortableFrontendFields) {
+        foreach ($extendedSortableFrontendFields as $sortField => $sortLabel) {
+            self::$extendedSortableFrontendFields[$sortField] = $sortLabel;
+        }
+    }
+
     /**
      * Returns the fields to sort a product by in frontend
      * 
      * @return array
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @author Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     public function sortableFrontendFields() {
         $sortableFrontendFields = array(
@@ -524,8 +547,14 @@ class SilvercartProduct extends DataObject {
                     )
             );
         }
-        $this->extend('updateSortableFrontentFields', $sortableFrontendFields);
-        return $sortableFrontendFields;
+        
+        $allSortableFrontendFields = array_merge(
+                $sortableFrontendFields,
+                self::$extendedSortableFrontendFields
+        );
+        
+        $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
+        return $allSortableFrontendFields;
     }
 
     /**
@@ -669,16 +698,20 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     public static function defaultSort() {
-        $sort = Session::get('SilvercartProduct.defaultSort');
-
-        if (!$sort) {
+        $sort                   = Session::get('SilvercartProduct.defaultSort');
+        $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
+        if (is_null($sort) ||
+            $sort === false ||
+            !is_string($sort) ||
+            !array_key_exists($sort, $sortableFrontendFields)) {
             $sort = Object::get_static('SilvercartProduct', 'default_sort');
             if (strpos($sort, '.') === false) {
                 $sort = 'SilvercartProduct.' . $sort;
+                self::setDefaultSort($sort);
             }
         }
         return $sort;
@@ -706,8 +739,9 @@ class SilvercartProduct extends DataObject {
      * @param integer $limit       DataObject limit
      *
      * @return DataObjectSet DataObjectSet of products or false
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -747,6 +781,10 @@ class SilvercartProduct extends DataObject {
         if ($sort === null) {
             $sort = self::defaultSort();
         }
+        
+        if (!empty($sort)) {
+            $sort = 'ORDER BY ' . $sort;
+        }
 
         $productCount = null;
         if (!is_null($limit)) {
@@ -759,8 +797,7 @@ class SilvercartProduct extends DataObject {
                         %s
                         WHERE
                             %s
-                        ORDER BY
-                            %s",
+                        %s",
                     $join,
                     $filter,
                     $sort
@@ -793,8 +830,7 @@ class SilvercartProduct extends DataObject {
                     %s
                     WHERE
                         %s
-                    ORDER BY
-                        %s
+                    %s
                     %s",
                 $join,
                 $filter,
@@ -840,7 +876,9 @@ class SilvercartProduct extends DataObject {
             }
         }
 
-        $databaseFilteredProducts->sort($dataObjectSort);
+        if (!empty($dataObjectSort)) {
+            $databaseFilteredProducts->sort($dataObjectSort);
+        }
 
         return $databaseFilteredProducts;
     }

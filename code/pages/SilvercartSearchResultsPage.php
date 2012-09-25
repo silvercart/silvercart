@@ -205,10 +205,15 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @return void
      *
-     * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.05.2012
+     * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     public function init() {
+        SilvercartProduct::addExtendedSortableFrontendFields(
+                array(
+                    'relevance' => _t('SilvercartSearchResultsPage.RELEVANCESORT'),
+                )
+        );
         parent::init(true);
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
@@ -272,8 +277,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @return DataObjectSet
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
+     * @author Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     public function buildSearchResultProducts() {
         if (isset($_GET['start'])) {
@@ -383,13 +388,24 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     }
                 }
 
-                foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
+                foreach ($this->listFilters as $listFilter) {
                     $filter .= ' ' . $listFilter;
+                }
+                
+                if (SilvercartProduct::defaultSort() == 'relevance') {
+                    $sort = sprintf(
+                            "MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC, MATCH(ShortDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC, MATCH(LongDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC",
+                            $filteredQuerySearchQuery,
+                            $filteredQuerySearchQuery,
+                            $filteredQuerySearchQuery
+                    );  
+                } else {
+                    $sort = SilvercartProduct::defaultSort();
                 }
                 
                 $searchResultProducts = SilvercartProduct::get(
                     $filter,
-                    null,
+                    $sort,
                     "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"
                     ,
                     sprintf(

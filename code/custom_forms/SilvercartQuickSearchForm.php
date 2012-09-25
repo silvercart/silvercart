@@ -58,8 +58,9 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 23.10.2010
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Oliver Scheer <oscheer@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 25.09.2012
      */
     protected function submitSuccess($data, $form, $formData) {
         $formData['quickSearchQuery'] = trim($formData['quickSearchQuery']);
@@ -68,6 +69,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
         $searchQuery->Count++;
         $searchQuery->write();
         $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
+        SilvercartProduct::setDefaultSort('relevance');
         Director::redirect($searchResultsPage->RelativeLink());
     }
 
