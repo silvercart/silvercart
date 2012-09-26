@@ -47,11 +47,9 @@
     border-radius:              6px 6px 6px 6px;
     box-shadow:                 0 5px 10px rgba(0, 0, 0, 0.2);
     padding:                    1px;
-    margin:                     0 0 0 20px;
+    margin:                     -80px 0 0 20px;
     position:                   absolute;
-    top:                        0px;
     z-index:                    1010;
-    height:                     100%;
 }
 .SilvercartEditableTableListFieldQuickAccess_content .popover-title {
     background-color:           #F7F7F7;
