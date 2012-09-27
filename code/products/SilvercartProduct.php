@@ -877,12 +877,6 @@ class SilvercartProduct extends DataObject {
             }
         }
 
-        if (!empty($dataObjectSort) &&
-            (strpos(strtolower($dataObjectSort), 'match') === false &&
-             strpos(strtolower($dataObjectSort), 'against') === false)) {
-            $databaseFilteredProducts->sort($dataObjectSort);
-        }
-
         return $databaseFilteredProducts;
     }
 

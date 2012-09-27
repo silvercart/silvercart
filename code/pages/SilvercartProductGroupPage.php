@@ -511,15 +511,8 @@ class SilvercartProductGroupPage extends Page {
             $breadcrumbList
         ));
 
-        $widgetSetSidebar = $fields->fieldByName('Root.Content.Widgets.WidgetSetSidebar');
-        if ($widgetSetSidebar) {
-            $widgetSetSidebar->IsReadOnly = true;
-        }
-
         $widgetSetContent = $fields->fieldByName('Root.Content.Widgets.WidgetSetContent');
         if ($widgetSetContent) {
-            $widgetSetContent->IsReadOnly = true;
-
             $widgetSetAdminLink     = Director::baseURL().'admin/silvercart-widget-sets';
             $manageWidgetsButton = new LiteralField(
                 'ManageWidgetsButton',
