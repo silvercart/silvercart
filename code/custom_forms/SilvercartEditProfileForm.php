@@ -161,8 +161,8 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         
         if ($member) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
-            $this->formFields['FirstName']['value'] = $member->FirstName;
-            $this->formFields['Surname']['value'] = $member->Surname;
+            $this->formFields['FirstName']['value'] = stripcslashes($member->FirstName);
+            $this->formFields['Surname']['value'] = stripcslashes($member->Surname);
 
             if ($member->Birthday) {
                 $this->formFields['BirthdayDay']['selectedValue'] = date('d', strtotime($member->Birthday));
@@ -171,7 +171,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             }
 
             if ($member->Email) {
-                $this->formFields['Email']['value'] = $member->Email;
+                $this->formFields['Email']['value'] = stripcslashes($member->Email);
             }
 
             $this->formFields['SubscribedToNewsletter']['value'] = $member->SubscribedToNewsletter;

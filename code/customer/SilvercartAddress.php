@@ -457,4 +457,20 @@ class SilvercartAddress extends DataObject {
         
         return $isInvoiceAndShippingAddress;
     }
+    
+   
+    /**
+     * returns field value for given fieldname with stripped slashes
+     *
+     * @param string $field fieldname
+     * 
+     * @return string 
+     */
+    public function getField($field) {
+        $parentField = parent::getField($field);
+        if (!is_null($parentField)) {
+            $parentField = stripcslashes($parentField);
+        }
+        return $parentField;
+    }
 }
