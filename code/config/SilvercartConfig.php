@@ -123,6 +123,7 @@ class SilvercartConfig extends DataObject {
         'useDefaultLanguageAsFallback'      => 'Boolean(1)',
         'productDescriptionFieldForCart'    => 'Enum("ShortDescription,LongDescription","ShortDescription")',
         'useProductDescriptionFieldForCart' => 'Boolean(1)',
+        'useStrictSearchRelevance'          => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -207,6 +208,7 @@ class SilvercartConfig extends DataObject {
     public static $forceLoadingOfDefaultLayout       = false;
     public static $productDescriptionFieldForCart    = null;
     public static $useProductDescriptionFieldForCart = true;
+    public static $useStrictSearchRelevance          = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -288,6 +290,7 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('disregardMinimumOrderValue');
         $defaultCMSFields->removeByName('productDescriptionFieldForCart');
         $defaultCMSFields->removeByName('useProductDescriptionFieldForCart');
+        $defaultCMSFields->removeByName('useStrictSearchRelevance');
 
         //Make the field DefaultLanguage a Dropdown
         $defaultCMSFields->removeByName('Locale');
@@ -348,6 +351,13 @@ class SilvercartConfig extends DataObject {
             _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
             $productDescriptionFieldMap
         ));
+        
+        $CMSFields->addFieldToTab('Root.General.Main', new CheckboxField(
+                'useStrictSearchRelevance',
+                _t('SilvercartConfig.USE_STRICT_SEARCH_RELEVANCE'), 
+                $this->useStrictSearchRelevance
+        ));
+        
      
         /*
          * Root.General.Prices tab
@@ -494,6 +504,7 @@ class SilvercartConfig extends DataObject {
                     'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
                     'productDescriptionFieldForCart'    => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
                     'useProductDescriptionFieldForCart' => _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+                    'useStrictSearchRelevance'          => _t('SilvercartConfig.USE_STRICT_SEARCH_RELEVANCE'),
                 )
         );
     }
@@ -926,6 +937,16 @@ class SilvercartConfig extends DataObject {
 
         if ($silvercartConfig->hasField('useProductDescriptionFieldForCart')) {
             return $silvercartConfig->getField('useProductDescriptionFieldForCart');
+        } else {
+            return false;
+        }
+    }
+    
+    public static function useStrictSearchRelevance() {
+        $silvercartConfig = self::getConfig();
+
+        if ($silvercartConfig->hasField('useStrictSearchRelevance')) {
+            return $silvercartConfig->getField('useStrictSearchRelevance');
         } else {
             return false;
         }

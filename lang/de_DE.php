@@ -558,6 +558,7 @@ $lang['de_DE']['SilvercartConfig']['TRANSLATION'] = 'Übersetzung';
 $lang['de_DE']['SilvercartConfig']['TRANSLATIONS'] = 'Übersetzungen';
 $lang['de_DE']['SilvercartConfig']['OPEN_RECORD'] = 'Datensatz öffnen';
 $lang['de_DE']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'Anzahl gleichzeitig angezeigter Seitenzahlen';
+$lang['de_DE']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an.';
 
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'kontakt';

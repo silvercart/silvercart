@@ -337,26 +337,34 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);
                 }
             } else {
+                $wordCount      = 0;
+                $minRelevance   = '> 0';
+                
                 // remove words with less than 3 chars
                 foreach ($searchTerms as $value) {
                     if (strlen($value) >= 3) {
+                        $wordCount++;
                         $filteredQuerySearchQuery .= '+' . $value;
                         $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                     }
                 }
                 
+                if (SilvercartConfig::useStrictSearchRelevance() &&
+                    $wordCount > 1) {
+                    $minRelevance = '>= ' . (1 + (($wordCount - 1) / 3));
+                }
                 $this->listFilters['original'] = sprintf("
                     `SilvercartProductGroupID` IS NOT NULL AND
                     `SilvercartProductGroupID` > 0 AND
                     `SilvercartProductGroupPage_Live`.`ID` > 0 AND
                     `isActive` = 1 AND (
                         (
-                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
-                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
-                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
-                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
-                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
-                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0
+                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s
                         ) OR
                         `MetaKeywords` LIKE '%%%s%%' OR
                         `ProductNumberShop` LIKE '%%%s%%' OR
@@ -366,11 +374,17 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     )
                     ",
                     $filteredQuerySearchQuery, // Title via Match Against
+                    $minRelevance,
                     $filteredQuerySearchQuery, // ShortDescription via Match Against
+                    $minRelevance,
                     $filteredQuerySearchQuery, // LongDescription via Match Against
+                    $minRelevance,
                     $filteredQuerySearchQueryWithStar, // Title via Match Against
+                    $minRelevance,
                     $filteredQuerySearchQueryWithStar, // ShortDescription via Match Against
+                    $minRelevance,
                     $filteredQuerySearchQueryWithStar, // LongDescription via Match Against
+                    $minRelevance,
                     $searchQuery,// MetaKeywords
                     $searchQuery,// ProductNumberShop
                     $searchQuery// Title SOUNDEX

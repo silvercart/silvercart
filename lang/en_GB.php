@@ -558,6 +558,7 @@ $lang['en_GB']['SilvercartConfig']['TRANSLATION'] = 'Translation';
 $lang['en_GB']['SilvercartConfig']['TRANSLATIONS'] = 'Translations';
 $lang['en_GB']['SilvercartConfig']['OPEN_RECORD'] = 'open record';
 $lang['en_GB']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'number of simultaneously shown page numbers';
+$lang['en_GB']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Use strict search. Displays only exact matches.';
 
 $lang['en_GB']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
 $lang['en_GB']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'contact';
