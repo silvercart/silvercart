@@ -521,7 +521,7 @@ class SilvercartProduct extends DataObject {
      * 
      * @return array
      * 
-     * @author Sebastian Diel <sdiel@πixeltricks.de>
+     * @author Sebastian Diel <sdiel@œÄixeltricks.de>
      * @since 25.09.2012
      */
     public function sortableFrontendFields() {
@@ -698,7 +698,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
      * @since 25.09.2012
      */
     public static function defaultSort() {
@@ -740,8 +740,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return DataObjectSet DataObjectSet of products or false
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 25.09.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2012
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -783,7 +783,7 @@ class SilvercartProduct extends DataObject {
         }
         
         if (!empty($sort)) {
-            $sort = 'ORDER BY ' . $sort;
+            $sortStmnt = 'ORDER BY ' . $sort;
         }
 
         $productCount = null;
@@ -800,7 +800,7 @@ class SilvercartProduct extends DataObject {
                         %s",
                     $join,
                     $filter,
-                    $sort
+                    $sortStmnt
             );
             $records = DB::query($query);
             foreach ($records as $record) {
@@ -834,7 +834,7 @@ class SilvercartProduct extends DataObject {
                     %s",
                 $join,
                 $filter,
-                $sort,
+                $sortStmnt,
                 is_null($limit) ? "" : "LIMIT " . $limit
         );
 
@@ -851,7 +851,8 @@ class SilvercartProduct extends DataObject {
                     sprintf(
                             "`SilvercartProduct`.`ID` IN (%s)",
                             $productIDs
-                    )
+                    ),
+                    $sort
             );
         } else {
             $databaseFilteredProducts = new DataObjectSet();
@@ -876,7 +877,9 @@ class SilvercartProduct extends DataObject {
             }
         }
 
-        if (!empty($dataObjectSort)) {
+        if (!empty($dataObjectSort) &&
+            (strpos(strtolower($dataObjectSort), 'match') === false &&
+             strpos(strtolower($dataObjectSort), 'against') === false)) {
             $databaseFilteredProducts->sort($dataObjectSort);
         }
 

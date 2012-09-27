@@ -278,7 +278,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return DataObjectSet
      * 
      * @author Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 25.09.2012
+     * @since 26.09.2012
      */
     public function buildSearchResultProducts() {
         if (isset($_GET['start'])) {
@@ -344,19 +344,20 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                         $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                     }
                 }
-                $filteredQuerySearchQuery .= $filteredQuerySearchQueryWithStar;
                 
                 $this->listFilters['original'] = sprintf("
                     `SilvercartProductGroupID` IS NOT NULL AND
                     `SilvercartProductGroupID` > 0 AND
                     `SilvercartProductGroupPage_Live`.`ID` > 0 AND
                     `isActive` = 1 AND (
-                        `Title` LIKE '%%%s%%' OR
-                        MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
-                        MATCH(ShortDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
-                        MATCH(LongDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) > 1 OR
-                        `ShortDescription` LIKE '%%%s%%' OR
-                        `LongDescription` LIKE '%%%s%%' OR
+                        (
+                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
+                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
+                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
+                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
+                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0 OR
+                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) > 0
+                        ) OR
                         `MetaKeywords` LIKE '%%%s%%' OR
                         `ProductNumberShop` LIKE '%%%s%%' OR
                         STRCMP(
@@ -364,12 +365,12 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                         ) = 0
                     )
                     ",
-                    $searchQuery,// Title
                     $filteredQuerySearchQuery, // Title via Match Against
                     $filteredQuerySearchQuery, // ShortDescription via Match Against
                     $filteredQuerySearchQuery, // LongDescription via Match Against
-                    $searchQuery,// ShortDescription
-                    $searchQuery,// LongDescription
+                    $filteredQuerySearchQueryWithStar, // Title via Match Against
+                    $filteredQuerySearchQueryWithStar, // ShortDescription via Match Against
+                    $filteredQuerySearchQueryWithStar, // LongDescription via Match Against
                     $searchQuery,// MetaKeywords
                     $searchQuery,// ProductNumberShop
                     $searchQuery// Title SOUNDEX
@@ -389,16 +390,27 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 }
 
                 foreach ($this->listFilters as $listFilter) {
-                    $filter .= ' ' . $listFilter;
+                    if (empty($filter)) {
+                        $filter =  $listFilter;
+                    } else {
+                        $filter = '(' . $filter . ') ' . $listFilter;
+                    }
                 }
                 
                 if (SilvercartProduct::defaultSort() == 'relevance') {
                     $sort = sprintf(
-                            "MATCH(Title) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC, MATCH(ShortDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC, MATCH(LongDescription) AGAINST ('%%%s%%' IN BOOLEAN MODE) DESC",
+                            "
+                                MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) DESC,
+                                MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC,
+                                MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC
+                            ",
                             $filteredQuerySearchQuery,
+                            $filteredQuerySearchQueryWithStar,
                             $filteredQuerySearchQuery,
-                            $filteredQuerySearchQuery
-                    );  
+                            $filteredQuerySearchQueryWithStar,
+                            $filteredQuerySearchQuery,
+                            $filteredQuerySearchQueryWithStar
+                    );
                 } else {
                     $sort = SilvercartProduct::defaultSort();
                 }
