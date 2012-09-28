@@ -782,6 +782,7 @@ class SilvercartProduct extends DataObject {
             $sort = self::defaultSort();
         }
         
+        $sortStmnt = '';
         if (!empty($sort)) {
             $sortStmnt = 'ORDER BY ' . $sort;
         }
