@@ -2290,6 +2290,28 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 class SilvercartOrder_CollectionController extends ModelAdmin_CollectionController {
     
     /**
+     * Determines whether to show the csv import form or not
+     *
+     * @var bool
+     */
+    public $showImportForm = false;
+
+    /**
+     * We extend the sidebar template renderer so that you can alter it in your
+     * decorators.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.09.2012
+     */
+    public function getModelSidebar() {
+        $sidebarHtml = $this->renderWith('SilvercartModelSidebar');
+        $this->extend('updateModelSidebar', $sidebarHtml);
+        return $sidebarHtml;
+    }
+    
+    /**
      * Replace the OrderStatus textfield with a dropdown field.
      * 
      * @return void
@@ -2591,6 +2613,20 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
      */
     public function CreateForm() {
         return false;
+    }
+    
+    /**
+     * Returns the import form
+     * 
+     * @return Form
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.09.2012
+     */
+    public function SilvercartCustomForms() {
+        $silvercartCustomForms = new DataObjectSet();
+        $this->extend('updateSilvercartCustomForms', $silvercartCustomForms);
+        return $silvercartCustomForms;
     }
 }
 
