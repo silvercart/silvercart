@@ -494,29 +494,33 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * Returns allowed shipping methods. Those are active
      * 
-     * @param SilvercartCarrier $carrier Carrier to get shipping methods for
+     * @param SilvercartCarrier $carrier         Carrier to get shipping methods for
+     * @param SilvercartAddress $shippingAddress Address to get shipping methods for
      *
      * @return DataObjectSet
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.07.2011
+     * @since 01.10.2011
      */
-    public static function getAllowedShippingMethods($carrier = null) {
-        $extendableShippingMethod   = singleton('SilvercartShippingMethod');
-        $allowedShippingMethods     = array();
-        $shippingMethods            = self::getAllowedShippingMethodsBase($carrier);
+    public static function getAllowedShippingMethods($carrier = null, $shippingAddress = null) {
+        $extendableShippingMethod       = singleton('SilvercartShippingMethod');
+        $allowedShippingMethodsArray    = array();
+        $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
         if ($shippingMethods) {
-            foreach ($shippingMethods as $shippingMethod) {                
+            foreach ($shippingMethods as $shippingMethod) {
+                if (!is_null($shippingAddress)) {
+                    $shippingMethod->setShippingAddress($shippingAddress);
+                }
                 // If there is no shipping fee defined for this shipping
                 // method we don't want to show it.
                 if ($shippingMethod->getShippingFee() !== false) {
-                    $allowedShippingMethods[] = $shippingMethod;
+                    $allowedShippingMethodsArray[] = $shippingMethod;
                 }
             }
         }
         
-        $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
+        $allowedShippingMethods = new DataObjectSet($allowedShippingMethodsArray);
         
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $allowedShippingMethods);
         
