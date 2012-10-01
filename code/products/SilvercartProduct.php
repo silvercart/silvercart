@@ -950,20 +950,26 @@ class SilvercartProduct extends DataObject {
      */
     public function getFieldsForProductGroups($fields) {
         $productGroupHolder = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
-        
+
         $silvercartProductGroupDropdown = new TreeDropdownField(
                 'SilvercartProductGroupID',
                 $this->fieldLabel('SilvercartProductGroup'),
                 'SiteTree'
         );
-        $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolder->ID);
+
+        if ($productGroupHolder) {
+            $productGroupHolderID = $productGroupHolder->ID;
+        } else {
+            $productGroupHolderID = 0;
+        }
+        $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolderID);
         
         $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
                 'SilvercartProductGroupMirrorPages',
                 $this->fieldLabel('SilvercartProductGroupMirrorPages'),
                 'SiteTree'
         );
-        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolder->ID);
+        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolderID);
 
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);

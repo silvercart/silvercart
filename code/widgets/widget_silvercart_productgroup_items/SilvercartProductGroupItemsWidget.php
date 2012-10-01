@@ -380,7 +380,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 26.05.2011
      */
     public function ProductPages() {
-        if ($this->elements !== null) {
+        if ($this->elements !== null &&
+            $this->elements !== false) {
             foreach ($this->elements as $page) {
                 $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
             }
