@@ -145,3 +145,22 @@
     display:    inline-block;
     width:      auto;
 }
+
+
+.importSpec {
+    
+}
+.importSpec dl {
+    
+}
+.importSpec dt {
+}
+.importSpec dd {
+    margin-left: 24px;
+}
+.importSpec dd:before {
+    content: '(';
+}
+.importSpec dd:after {
+    content: ')';
+}
