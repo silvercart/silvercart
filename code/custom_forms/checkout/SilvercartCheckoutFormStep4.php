@@ -132,7 +132,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $paymentMethods = DataObject::get('SilvercartShippingMethod', "`isActive` = 1");
+        $paymentMethods = DataObject::get('SilvercartPaymentMethod', "`isActive` = 1");
         $stepIsVisible  = true;
         if ($paymentMethods->Count() === 1) {
             $stepIsVisible = false;
