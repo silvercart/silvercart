@@ -134,62 +134,45 @@ class SilvercartShoppingCart extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 02.10.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        if (array_key_exists('url', $_REQUEST)) {
-            if (stripos($_REQUEST['url'], '/dev/build') !== false) {
-                return;
+        if (!SilvercartTools::isIsolatedEnvironment()) {
+            // Initialize shopping cart position object, so that it can inject
+            // its forms into the controller.
+            if (!self::$loadModules) {
+                SilvercartShoppingCartPosition::setCreateForms(false);
             }
-        }
 
-        // Initialize shopping cart position object, so that it can inject
-        // its forms into the controller.
-        if (!self::$loadModules) {
-            SilvercartShoppingCartPosition::setCreateForms(false);
-        }
-        
-        if (!self::$cartCleaningInProgress) {
-            self::$cartCleaningInProgress = true;
-            foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
-                if ($cartPosition->SilvercartProduct()->ID == 0) {
-                    $cartPosition->delete();
+            if (!self::$cartCleaningInProgress) {
+                self::$cartCleaningInProgress = true;
+                foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
+                    if ($cartPosition->SilvercartProduct()->ID == 0) {
+                        $cartPosition->delete();
+                    }
                 }
+                self::$cartCleaningInProgress = false;
             }
-            self::$cartCleaningInProgress = false;
-        }
-        
-        $this->SilvercartShippingMethodID = 0;
-        $this->SilvercartPaymentMethodID = 0;
 
-        // Check if unit test are performed: The call to Member:currentUserID()
-        // would fail
-        //  
-        // Check if the installation is complete. If it's not complete we
-        // can't call the method "Member::currentUser()", since it tries to
-        // get the decorated fields from SilvercartCustomer that are not
-        // yet created in the database
-        if (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
-            return true;
-        }
+            $this->SilvercartShippingMethodID = 0;
+            $this->SilvercartPaymentMethodID = 0;
+            
+            if (Member::currentUserID() &&
+                self::$loadModules) {
 
-        if (!SapphireTest::is_running_test() && 
-            SilvercartTools::isInstallationCompleted() &&
-            Member::currentUserID() &&
-            self::$loadModules) {
+                $this->callMethodOnRegisteredModules(
+                    'performShoppingCartConditionsCheck',
+                    array(
+                        $this,
+                        Member::currentUser()
+                    )
+                );
 
-            $this->callMethodOnRegisteredModules(
-                'performShoppingCartConditionsCheck',
-                array(
-                    $this,
-                    Member::currentUser()
-                )
-            );
-
-            $this->callMethodOnRegisteredModules(
-                'ShoppingCartInit'
-            );
+                $this->callMethodOnRegisteredModules(
+                    'ShoppingCartInit'
+                );
+            }
         }
     }
     
