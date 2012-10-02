@@ -497,7 +497,6 @@ class SilvercartShoppingCart extends DataObject {
      * @since 04.02.2011
      */
     public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
-        $member         = Member::currentUser();
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();

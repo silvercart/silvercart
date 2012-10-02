@@ -610,7 +610,11 @@ class SilvercartPaymentMethod extends DataObject {
      * @return bool
      */
     public function getErrorOccured() {
-        return $this->errorOccured;
+        if (count($this->getErrorList()) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -1911,6 +1915,21 @@ class SilvercartPaymentMethod extends DataObject {
         return false;
     }
 
+    /**
+     * Returns the URL for payment notifications.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function getNotificationUrl() {
+        $notifyUrl = Director::absoluteUrl(
+            SilvercartTools::PageByIdentifierCode('SilvercartPaymentNotification')->Link().'process/'.$this->moduleName
+        );
+
+        return $notifyUrl;
+    }
 }
 
 /**

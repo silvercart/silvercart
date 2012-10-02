@@ -303,7 +303,7 @@ class SilvercartShippingMethod extends DataObject {
      * @since 06.07.2012
      */
     public function getShippingFee($weight = null) {
-        $fee             = false;
+        $fee = false;
 
         if (is_null($weight)) {
             if (!Member::currentUser() ||

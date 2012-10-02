@@ -461,6 +461,17 @@ class SilvercartPage_Controller extends ContentController {
             SilvercartConfig::Check();
         }
 
+        // Delete checkout session data if user is not in the checkout process.
+        if ($this->class != 'SilvercartCheckoutStep' &&
+            $this->class != 'SilvercartCheckoutStep_Controller' &&
+            $this->class != 'Security' &&
+            !$this->class instanceof SilvercartCheckoutStep_Controller &&
+            !$this->class instanceof Security &&
+            !is_subclass_of($this->class, 'SilvercartCheckoutStep_Controller')
+        ) {
+            SilvercartCheckoutStep::deleteSessionStepData();
+        }
+
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 

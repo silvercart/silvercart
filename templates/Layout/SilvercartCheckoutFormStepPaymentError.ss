@@ -2,27 +2,26 @@
 
     <fieldset>
         <legend>
-            <% if controller.getErrorOccured %>
+            <% if errorObject.getErrorOccured %>
                 <% _t('SilvercartPage.ERROR_OCCURED','An error has occured.') %>
             <% else %>
                 <% _t('SilvercartPage.PAYMENT_NOT_WORKING','The choosen payment module does not work.') %>
             <% end_if %>
         </legend>
 
-        <% if controller.getErrorOccured %>
-
+        <% if errorObject.getErrorOccured %>
             <p>
-                <% _t('SilvercartPage.ERROR_LISTING','The following errors have occured:') %>
+                <br /><% _t('SilvercartPage.ERROR_LISTING','The following errors have occured:') %>
             </p>
 
-            <div class="error">
-                <ul class="message">
-                    <% control controller.getErrorList %>
-                        <li>
+            <div class="silvercart-error-list">
+                <div class="silvercart-error-list_content">
+                    <% control errorObject.getErrorList %>
+                        <p>
                             $error
-                        </li>
+                        </p>
                     <% end_control %>
-                </ul
+                </div>
             </div>
             <br />
         <% end_if %>
@@ -33,22 +32,18 @@
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
-                    <a href="{$controller.Link}GotoStep/2" class="button_type1">
-                        <span class="button_type1_content">
-                            <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
-                            </span>
+                    <a href="{$controller.Link}GotoStep/2" class="silvercart-button left">
+                        <span class="silvercart-button_content">
+                            <span class="button_type1_panel_content"><% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
                         </span>
                     </a>
                 </div>
             </div>
             <div class="c50r">
                 <div class="subcr">
-                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="button_type1">
-                        <span class="button_type1_content">
-                            <span class="button_type1_panel">
-                                <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK','go to contact page') %></span>
-                            </span>
+                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="silvercart-button right">
+                        <span class="silvercart-button_content">
+                            <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK','go to contact page') %></span>
                         </span>
                     </a>
                 </div>
