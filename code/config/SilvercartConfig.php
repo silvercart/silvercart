@@ -252,7 +252,7 @@ class SilvercartConfig extends DataObject {
      *
      * @param array $params custom params
      *
-     * @return array
+     * @return FieldList the CMS tabs and fields
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011

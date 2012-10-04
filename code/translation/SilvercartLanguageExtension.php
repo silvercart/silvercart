@@ -103,12 +103,12 @@ class SilvercartLanguageExtension extends DataExtension {
      * @since 06.01.2012
      */
     public function updateCMSFields(FieldList $fields) {
-        $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner);
+        $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner->class);
         foreach ($this->owner->has_one() as $has_oneName => $has_oneObject) {
             $fields->removeByName($has_oneName . 'ID');
         }
         $localeDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this->owner);
-        $fields->insertFirst($localeDropdown);
+        $fields->push($localeDropdown);
     }
     
     /**

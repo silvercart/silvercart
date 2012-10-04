@@ -136,8 +136,8 @@ de:
   SilvercartCarrierAdmin:
     MENUTITLE: "Frachtführer"
   SilvercartCarrierLanguage:
-    PLURALNAME: ""
-    SINGULARNAME: ""
+    PLURALNAME: "Frachtführerübersetzungen"
+    SINGULARNAME: "Frachtführerübersetzung"
   SilvercartCartPage:
     CART_EMPTY: "Der Warenkorb ist leer."
     DEFAULT_TITLE: "Warenkorb"
@@ -1716,8 +1716,8 @@ de:
   SilvercartZoneAdmin:
     MENUTITLE: "Zonen"
   SilvercartZoneLanguage:
-    PLURALNAME: ""
-    SINGULARNAME: ""
+    PLURALNAME: "Zonenübersetzungen"
+    SINGULARNAME: "Zonenübersetzung"
   SiteConfig:
     SITENAMEDEFAULT: "SilverCart"
     TAGLINEDEFAULT: "eCommerce software. Open-source. You'll love it."

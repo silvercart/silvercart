@@ -87,7 +87,8 @@ class SilvercartLanguageHelper {
         );
         $languageFields->removeByName('Locale');
         foreach ($dataobject->has_one() as $has_oneName => $has_oneObject) {
-            $languageFields->removeByName($has_oneName . 'ID');
+            $has_oneFieldName = $has_oneName . 'ID';
+            $languageFields->removeByName($has_oneFieldName);
         }
         return $languageFields;
     }

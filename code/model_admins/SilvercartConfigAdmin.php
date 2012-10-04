@@ -120,6 +120,7 @@ class SilvercartConfigAdmin extends ModelAdmin {
     public function SectionTitle() {
         return _t('SilvercartConfig.SINGULARNAME');
     }
+    
 }
 
 /**

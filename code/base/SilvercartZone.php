@@ -122,36 +122,28 @@ class SilvercartZone extends DataObject {
         }
         
         if ($this->ID) {
-            $countriesTable = new ManyManyComplexTableField(
-                            $this,
-                            'SilvercartCountries',
-                            'SilvercartCountry',
-                            null,
-                            'getCMSFields_forPopup',
-                            null,
-                            'ISO2'
+            $countriesTable = new GridField(
+                    'SilvercartCountries',
+                    $this->fieldLabel('SilvercartCountries'),
+                    SilvercartCountry::get()
             );
-            $countriesTable->pageSize = 100;
+            $countriesTable->setConfig(GridFieldConfig_RelationEditor::create());
             $fields->addFieldToTab('Root.SilvercartCountries', $countriesTable);
 
-            $carriersTable = new ManyManyComplexTableField(
-                            $this,
-                            'SilvercartCarriers',
-                            'SilvercartCarrier',
-                            null,
-                            'getCMSFields_forPopup',
-                            null
+            $carriersTable = new GridField(
+                    'SilvercartCarriers',
+                    $this->fieldLabel('SilvercartCarriers'),
+                    SilvercartCarrier::get()
             );
+            $carriersTable->setConfig(GridFieldConfig_RelationEditor::create());
             $fields->addFieldToTab('Root.SilvercartCarriers', $carriersTable);
 
-            $shippingTable = new SilvercartManyManyComplexTableField(
-                            $this,
-                            'SilvercartShippingMethods',
-                            'SilvercartShippingMethod',
-                            null,
-                            'getCMSFields_forPopup',
-                            null
+            $shippingTable = new GridField(
+                    'SilvercartShippingMethods',
+                    $this->fieldLabel('SilvercartShippingMethods'),
+                    SilvercartShippingMethod::get()
             );
+            $shippingTable->setConfig(GridFieldConfig_RelationEditor::create());
             $fields->addFieldToTab('Root.SilvercartShippingMethods', $shippingTable);
         
             $useAllCountries = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
@@ -297,7 +289,7 @@ class SilvercartZone extends DataObject {
     public function getSilvercartCarriersAsString() {
         $silvercartCarriersAsString    = '---';
         $silvercartCarriersAsArray     = $this->SilvercartCarriers()->map();
-        if (count($silvercartCarriersAsArray) > 0) {
+        if (count($silvercartCarriersAsArray) > 0 && is_array($silvercartCarriersAsArray)) {
             $silvercartCarriersAsString = implode(',', $silvercartCarriersAsArray);
         }
         return $silvercartCarriersAsString;

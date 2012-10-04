@@ -147,7 +147,7 @@ class SilvercartCarrier extends DataObject {
                     'AttributedShippingMethods'  => _t('SilvercartCarrier.ATTRIBUTED_SHIPPINGMETHODS'),
                     'SilvercartShippingMethods'  => _t('SilvercartShippingMethod.PLURALNAME', 'zones'),
                     'SilvercartZones'            => _t('SilvercartZone.PLURALNAME', 'zones'),
-                    'SilvercartCarrierLanguages' => _t('SilvercartCarrierLanguage.PLURALNAME')
+                    'SilvercartCarrierLanguages' => _t('SilvercartConfig.TRANSLATIONS')
                 )
         );
     }
