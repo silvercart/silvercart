@@ -177,7 +177,7 @@ class SilvercartContactMessage extends DataObject {
         if (!$silvercartPluginCall) {
             SilvercartShopEmail::send(
                 'ContactMessage',
-                Email::getAdminEmail(),
+                SilvercartConfig::DefaultContactMessageRecipient(),
                 array(
                     'FirstName' => $this->FirstName,
                     'Surname'   => $this->Surname,

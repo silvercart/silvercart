@@ -117,7 +117,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 04.10.2012
      */
     public function createDefaultConfig() {
         // create a SilvercartConfig if not exist
@@ -126,7 +126,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $silvercartConfig->DefaultCurrency = 'EUR';
             $email = Email::getAdminEmail();
             if ($email != '') {
-                $silvercartConfig->EmailSender = $email;
+                $silvercartConfig->EmailSender          = $email;
+                $silvercartConfig->DefaultMailRecipient = $email;
             }
             $silvercartConfig->write();
         }

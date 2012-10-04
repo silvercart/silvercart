@@ -95,35 +95,38 @@ class SilvercartConfig extends DataObject {
      * @var array
      */
     public static $db = array(
-        'SilvercartVersion'                 => 'VarChar(16)',
-        'SilvercartUpdateVersion'           => 'VarChar(16)',
-        'DefaultCurrency'                   => 'VarChar(16)',
-        'DefaultPriceType'                  => 'Enum("gross,net","gross")',
-        'EmailSender'                       => 'VarChar(255)',
-        'GlobalEmailRecipient'              => 'VarChar(255)',
-        'enableSSL'                         => 'Boolean(0)',
-        'productsPerPage'                   => 'Int',
-        'productGroupsPerPage'              => 'Int',
-        'displayedPaginationPages'          => 'Int',
-        'minimumOrderValue'                 => 'Money',
-        'useMinimumOrderValue'              => 'Boolean(0)',
-        'disregardMinimumOrderValue'        => 'Boolean(0)',
-        'freeOfShippingCostsFrom'           => 'Money',
-        'useFreeOfShippingCostsFrom'        => 'Boolean(0)',
-        'useApacheSolrSearch'               => 'Boolean(0)',
-        'apacheSolrUrl'                     => 'VarChar(255)',
-        'apacheSolrPort'                    => 'Int',
-        'enableBusinessCustomers'           => 'Boolean(0)',
-        'enableStockManagement'             => 'Boolean(0)',
-        'isStockManagementOverbookable'     => 'Boolean(0)',
-        'redirectToCartAfterAddToCart'      => 'Boolean(0)',
-        'demandBirthdayDateOnRegistration'  => 'Boolean(0)',
-        'addToCartMaxQuantity'              => 'Int(999)',
-        'Locale'                            => 'DBLocale',
-        'useDefaultLanguageAsFallback'      => 'Boolean(1)',
-        'productDescriptionFieldForCart'    => 'Enum("ShortDescription,LongDescription","ShortDescription")',
-        'useProductDescriptionFieldForCart' => 'Boolean(1)',
-        'useStrictSearchRelevance'          => 'Boolean(0)',
+        'SilvercartVersion'                     => 'VarChar(16)',
+        'SilvercartUpdateVersion'               => 'VarChar(16)',
+        'DefaultCurrency'                       => 'VarChar(16)',
+        'DefaultPriceType'                      => 'Enum("gross,net","gross")',
+        'EmailSender'                           => 'VarChar(255)',
+        'GlobalEmailRecipient'                  => 'VarChar(255)',
+        'DefaultMailRecipient'                  => 'VarChar(255)',
+        'DefaultMailOrderNotificationRecipient' => 'VarChar(255)',
+        'DefaultContactMessageRecipient'        => 'VarChar(255)',
+        'enableSSL'                             => 'Boolean(0)',
+        'productsPerPage'                       => 'Int',
+        'productGroupsPerPage'                  => 'Int',
+        'displayedPaginationPages'              => 'Int',
+        'minimumOrderValue'                     => 'Money',
+        'useMinimumOrderValue'                  => 'Boolean(0)',
+        'disregardMinimumOrderValue'            => 'Boolean(0)',
+        'freeOfShippingCostsFrom'               => 'Money',
+        'useFreeOfShippingCostsFrom'            => 'Boolean(0)',
+        'useApacheSolrSearch'                   => 'Boolean(0)',
+        'apacheSolrUrl'                         => 'VarChar(255)',
+        'apacheSolrPort'                        => 'Int',
+        'enableBusinessCustomers'               => 'Boolean(0)',
+        'enableStockManagement'                 => 'Boolean(0)',
+        'isStockManagementOverbookable'         => 'Boolean(0)',
+        'redirectToCartAfterAddToCart'          => 'Boolean(0)',
+        'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
+        'addToCartMaxQuantity'                  => 'Int(999)',
+        'Locale'                                => 'DBLocale',
+        'useDefaultLanguageAsFallback'          => 'Boolean(1)',
+        'productDescriptionFieldForCart'        => 'Enum("ShortDescription,LongDescription","ShortDescription")',
+        'useProductDescriptionFieldForCart'     => 'Boolean(1)',
+        'useStrictSearchRelevance'              => 'Boolean(0)',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -181,34 +184,37 @@ class SilvercartConfig extends DataObject {
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $addToCartMaxQuantity              = null;
-    public static $apacheSolrPort                    = null;
-    public static $apacheSolrUrl                     = null;
-    public static $defaultCurrency                   = null;
-    public static $defaultPricetype                  = null;
-    public static $emailSender                       = null;
-    public static $enableBusinessCustomers           = null;
-    public static $globalEmailRecipient              = null;
-    public static $priceType                         = null;
-    public static $config                            = null;
-    public static $enableSSL                         = null;
-    public static $minimumOrderValue                 = null;
-    public static $freeOfShippingCostsFrom           = null;
-    public static $useFreeOfShippingCostsFrom        = null;
-    public static $disregardMinimumOrderValue        = null;
-    public static $useMinimumOrderValue              = null;
-    public static $productsPerPage                   = null;
-    public static $silvercartVersion                 = null;
-    public static $useApacheSolrSearch               = null;
-    public static $enableStockManagement             = null;
-    public static $isStockManagementOverbookable     = null;
-    public static $redirectToCartAfterAddToCart      = null;
-    public static $demandBirthdayDateOnRegistration  = null;
-    public static $useDefaultLanguageAsFallback      = null;
-    public static $forceLoadingOfDefaultLayout       = false;
-    public static $productDescriptionFieldForCart    = null;
-    public static $useProductDescriptionFieldForCart = true;
-    public static $useStrictSearchRelevance          = false;
+    public static $addToCartMaxQuantity                     = null;
+    public static $apacheSolrPort                           = null;
+    public static $apacheSolrUrl                            = null;
+    public static $defaultCurrency                          = null;
+    public static $defaultPricetype                         = null;
+    public static $emailSender                              = null;
+    public static $enableBusinessCustomers                  = null;
+    public static $globalEmailRecipient                     = null;
+    public static $priceType                                = null;
+    public static $config                                   = null;
+    public static $enableSSL                                = null;
+    public static $minimumOrderValue                        = null;
+    public static $freeOfShippingCostsFrom                  = null;
+    public static $useFreeOfShippingCostsFrom               = null;
+    public static $disregardMinimumOrderValue               = null;
+    public static $useMinimumOrderValue                     = null;
+    public static $productsPerPage                          = null;
+    public static $silvercartVersion                        = null;
+    public static $useApacheSolrSearch                      = null;
+    public static $enableStockManagement                    = null;
+    public static $isStockManagementOverbookable            = null;
+    public static $redirectToCartAfterAddToCart             = null;
+    public static $demandBirthdayDateOnRegistration         = null;
+    public static $useDefaultLanguageAsFallback             = null;
+    public static $forceLoadingOfDefaultLayout              = false;
+    public static $productDescriptionFieldForCart           = null;
+    public static $useProductDescriptionFieldForCart        = true;
+    public static $useStrictSearchRelevance                 = false;
+    public static $defaultMailRecipient                     = null;
+    public static $defaultMailOrderNotificationRecipient    = null;
+    public static $defaultContactMessageRecipient           = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -478,33 +484,36 @@ class SilvercartConfig extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'addToCartMaxQuantity'              => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
-                    'DefaultCurrency'                   => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
-                    'DefaultPriceType'                  => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
-                    'EmailSender'                       => _t('SilvercartConfig.EMAILSENDER', 'Email sender'),
-                    'GlobalEmailRecipient'              => _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient'),
-                    'enableBusinessCustomers'           => _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
-                    'enableSSL'                         => _t('SilvercartConfig.ENABLESSL', 'Enable SSL'),
-                    'enableStockManagement'             => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
-                    'minimumOrderValue'                 => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
-                    'disregardMinimumOrderValue'        => _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value'),
-                    'useMinimumOrderValue'              => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
-                    'freeOfShippingCostsFrom'           => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
-                    'productsPerPage'                   => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
-                    'productGroupsPerPage'              => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
-                    'useApacheSolrSearch'               => _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search'),
-                    'apacheSolrPort'                    => _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port'),
-                    'apacheSolrUrl'                     => _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url'),
-                    'isStockManagementOverbookable'     => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
-                    'demandBirthdayDateOnRegistration'  => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
-                    'GeoNamesActive'                    => _t('SilvercartConfig.GEONAMES_ACTIVE'),
-                    'GeoNamesUserName'                  => _t('SilvercartConfig.GEONAMES_USERNAME'),
-                    'GeoNamesAPI'                       => _t('SilvercartConfig.GEONAMES_API'),
-                    'Locale'                            => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
-                    'useDefaultLanguageAsFallback'      => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
-                    'productDescriptionFieldForCart'    => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
-                    'useProductDescriptionFieldForCart' => _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
-                    'useStrictSearchRelevance'          => _t('SilvercartConfig.USE_STRICT_SEARCH_RELEVANCE'),
+                    'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
+                    'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
+                    'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
+                    'EmailSender'                           => _t('SilvercartConfig.EMAILSENDER', 'Email sender'),
+                    'GlobalEmailRecipient'                  => _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient'),
+                    'enableBusinessCustomers'               => _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
+                    'enableSSL'                             => _t('SilvercartConfig.ENABLESSL', 'Enable SSL'),
+                    'enableStockManagement'                 => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
+                    'minimumOrderValue'                     => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
+                    'disregardMinimumOrderValue'            => _t('SilvercartConfig.DISREGARDMINIMUMORDERVALUE', 'Allow orders disregarding the minimum order value'),
+                    'useMinimumOrderValue'                  => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
+                    'freeOfShippingCostsFrom'               => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
+                    'productsPerPage'                       => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
+                    'productGroupsPerPage'                  => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
+                    'useApacheSolrSearch'                   => _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search'),
+                    'apacheSolrPort'                        => _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port'),
+                    'apacheSolrUrl'                         => _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url'),
+                    'isStockManagementOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
+                    'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
+                    'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
+                    'GeoNamesUserName'                      => _t('SilvercartConfig.GEONAMES_USERNAME'),
+                    'GeoNamesAPI'                           => _t('SilvercartConfig.GEONAMES_API'),
+                    'Locale'                                => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
+                    'useDefaultLanguageAsFallback'          => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
+                    'productDescriptionFieldForCart'        => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+                    'useProductDescriptionFieldForCart'     => _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
+                    'useStrictSearchRelevance'              => _t('SilvercartConfig.USE_STRICT_SEARCH_RELEVANCE'),
+                    'DefaultMailRecipient'                  => _t('SilvercartConfig.DEFAULT_MAIL_RECIPIENT'),
+                    'DefaultMailOrderNotificationRecipient' => _t('SilvercartConfig.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT'),
+                    'DefaultContactMessageRecipient'        => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT'),
                 )
         );
     }
@@ -942,14 +951,73 @@ class SilvercartConfig extends DataObject {
         }
     }
     
+    /**
+     * Returns whether to use strict search relevance or not
+     * 
+     * @return bool
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.10.2012
+     */
     public static function useStrictSearchRelevance() {
-        $silvercartConfig = self::getConfig();
-
-        if ($silvercartConfig->hasField('useStrictSearchRelevance')) {
-            return $silvercartConfig->getField('useStrictSearchRelevance');
-        } else {
-            return false;
+        if (is_null(self::$useStrictSearchRelevance)) {
+            self::$useStrictSearchRelevance = self::getConfig()->useStrictSearchRelevance;
         }
+        return self::$useStrictSearchRelevance;
+    }
+    
+    /**
+     * Returns the default mail recipient
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.10.2012
+     */
+    public static function DefaultMailRecipient() {
+        if (is_null(self::$defaultMailRecipient)) {
+            self::$defaultMailRecipient = self::getConfig()->DefaultMailRecipient;
+            if (empty(self::$defaultMailRecipient)) {
+                self::$defaultMailRecipient = Email::getAdminEmail();
+            }
+        }
+        return self::$defaultMailRecipient;
+    }
+    
+    /**
+     * Returns the default mail order notification recipient
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.10.2012
+     */
+    public static function DefaultMailOrderNotificationRecipient() {
+        if (is_null(self::$defaultMailOrderNotificationRecipient)) {
+            self::$defaultMailOrderNotificationRecipient = self::getConfig()->DefaultMailOrderNotificationRecipient;
+            if (empty(self::$defaultMailOrderNotificationRecipient)) {
+                self::$defaultMailOrderNotificationRecipient = self::DefaultMailRecipient();
+            }
+        }
+        return self::$defaultMailOrderNotificationRecipient;
+    }
+    
+    /**
+     * Returns the default contact message recipient
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.10.2012
+     */
+    public static function DefaultContactMessageRecipient() {
+        if (is_null(self::$defaultContactMessageRecipient)) {
+            self::$defaultContactMessageRecipient = self::getConfig()->DefaultContactMessageRecipient;
+            if (empty(self::$defaultContactMessageRecipient)) {
+                self::$defaultContactMessageRecipient = self::DefaultMailRecipient();
+            }
+        }
+        return self::$defaultContactMessageRecipient;
     }
 
     /**

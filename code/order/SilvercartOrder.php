@@ -2111,7 +2111,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             ),
             'MailOrderNotification' => array(
                 'Template'      => 'MailOrderNotification',
-                'Recipient'     => Email::getAdminEmail(),
+                'Recipient'     => SilvercartConfig::DefaultMailOrderNotificationRecipient(),
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
