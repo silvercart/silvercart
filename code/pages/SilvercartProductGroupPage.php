@@ -1058,15 +1058,16 @@ class SilvercartProductGroupPage extends Page {
      * @return SilvercartWidgetSet
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.09.2012
+     * @since 05.10.2012
      */
     public function WidgetSetSidebar() {
         $WidgetSetSidebar = $this->getManyManyComponents('WidgetSetSidebar');
-        if ($WidgetSetSidebar->Count() == 0 &&
-            $this->getParent() &&
-            ($this->getParent() instanceof SilvercartProductGroupPage ||
-             $this->getParent() instanceof SilvercartProductGroupHolder) &&
-            $this->getParent()->WidgetSetSidebar()->Count() > 0) {
+        if (!SilvercartTools::isBackendEnvironment() &&
+             ($WidgetSetSidebar->Count() == 0 &&
+              $this->getParent() &&
+              ($this->getParent() instanceof SilvercartProductGroupPage ||
+               $this->getParent() instanceof SilvercartProductGroupHolder) &&
+              $this->getParent()->WidgetSetSidebar()->Count() > 0)) {
             $WidgetSetSidebar = $this->getParent()->WidgetSetSidebar();
         }
         return $WidgetSetSidebar;
@@ -1079,15 +1080,16 @@ class SilvercartProductGroupPage extends Page {
      * @return SilvercartWidgetSet
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.09.2012
+     * @since 05.10.2012
      */
     public function WidgetSetContent() {
         $WidgetSetContent = $this->getManyManyComponents('WidgetSetContent');
-        if ($WidgetSetContent->Count() == 0 &&
-            $this->getParent() &&
-            ($this->getParent() instanceof SilvercartProductGroupPage ||
-             $this->getParent() instanceof SilvercartProductGroupHolder) &&
-            $this->getParent()->WidgetSetContent()->Count() > 0) {
+        if (!SilvercartTools::isBackendEnvironment() &&
+             ($WidgetSetContent->Count() == 0 &&
+              $this->getParent() &&
+              ($this->getParent() instanceof SilvercartProductGroupPage ||
+               $this->getParent() instanceof SilvercartProductGroupHolder) &&
+              $this->getParent()->WidgetSetContent()->Count() > 0)) {
             $WidgetSetContent = $this->getParent()->WidgetSetContent();
         }
         return $WidgetSetContent;

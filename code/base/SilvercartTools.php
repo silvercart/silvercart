@@ -313,6 +313,28 @@ class SilvercartTools extends Object {
         $preparedEmailAddress = str_replace('/', '', $emailAddress);
         return $preparedEmailAddress;
     }
+    
+    /**
+     * Checks whether the current url location is in backend
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.10.2012
+     */
+    public static function isBackendEnvironment() {
+        $isBackendEnvironment = false;
+        
+        $controller = Controller::curr();
+        $request    = $controller->getRequest();
+        
+        if (strpos($request->getVar('url'), 'admin/') === 0 ||
+            strpos($request->getVar('url'), '/admin/') === 0) {
+            $isBackendEnvironment = true;
+        }
+        
+        return $isBackendEnvironment;
+    }
 
     /**
      * Returns a flat array containing the IDs of all child pages of the given page.
