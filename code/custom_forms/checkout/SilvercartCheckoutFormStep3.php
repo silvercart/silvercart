@@ -93,7 +93,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $shippingMethods    = DataObject::get('SilvercartShippingMethod');
+        $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
         $stepIsVisible      = true;
         if ($shippingMethods->Count() === 1) {
             $stepIsVisible = false;
