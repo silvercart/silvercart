@@ -258,6 +258,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @since 21.10.2010
      */
     protected function fillInFieldValues() {
+        parent::fillInFieldValues();
         $this->formFields['IsBusinessAccount']['title']         = _t('SilvercartCustomer.ISBUSINESSACCOUNT');
         $this->formFields['TaxIdNumber']['title']               = _t('SilvercartAddress.TAXIDNUMBER');
         $this->formFields['Company']['title']                   = _t('SilvercartAddress.COMPANY');
