@@ -399,31 +399,39 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
     /**
      * return the orders shipping address as complete string.
+     * 
+     * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
      */
-    public function getShippingAddressSummary() {
+    public function getShippingAddressSummary($disableUpdate = false) {
         $shippingAddressSummary = '';
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->FullName . "\n";
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . "\n";
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . "\n";
-        $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . "\n";
-        $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->FullName . PHP_EOL;
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . PHP_EOL;
+        $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . PHP_EOL;
+        if (!$disableUpdate) {
+            $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
+        }
         return $shippingAddressSummary;
     }
 
     /**
      * return the orders invoice address as complete string.
+     * 
+     * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
      */
-    public function getInvoiceAddressSummary() {
+    public function getInvoiceAddressSummary($disableUpdate = false) {
         $invoiceAddressSummary = '';
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . "\n";
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . "\n";
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . "\n";
-        $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . "\n";
-        $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . PHP_EOL;
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . PHP_EOL;
+        $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . PHP_EOL;
+        if (!$disableUpdate) {
+            $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
+        }
         return $invoiceAddressSummary;
     }
 
