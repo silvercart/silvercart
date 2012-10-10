@@ -97,6 +97,12 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $stepIsVisible      = true;
         if ($shippingMethods->Count() === 1) {
             $stepIsVisible = false;
+        } elseif ($shippingMethods->Count() === 0) {
+            $shippingMethods = DataObject::get('SilvercartShippingMethod');
+            if ($shippingMethods instanceof DataObjectSet &&
+                $shippingMethods->Count() === 1) {
+                $stepIsVisible = false;
+            }
         }
         $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
