@@ -252,18 +252,22 @@ class SilvercartPage_Controller extends ContentController {
     protected $widgetOutput = array();
     
     /**
-     * Contains the controllers for the sidebar widgets
+     * Contains all registered widget sets.
      * 
-     * @var DataObjectSet
+     * @var array
+     * 
+     * @since 2012-10-10
      */
-    protected $WidgetSetSidebarControllers;
+    protected $registeredWidgetSets;
     
     /**
-     * Contains the controllers for the content area widget
+     * Contains all registered widget set controllers.
      * 
-     * @var DataObjectSet
+     * @var array
+     * 
+     * @since 2012-10-10
      */
-    protected $WidgetSetContentControllers;
+    protected $registeredWidgetSetControllers;
     
     /**
      * Creates a SilvercartPage_Controller
@@ -279,6 +283,9 @@ class SilvercartPage_Controller extends ContentController {
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
+        
+        $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
+        $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
     }
     
     /**
@@ -547,18 +554,18 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function InsertWidgetArea($identifier = 'Sidebar') {
         $output         = '';
-        $controllerName = 'WidgetSet'.$identifier.'Controllers';
-        
-        if (!isset($this->$controllerName)) {
+        $controllerName = 'WidgetSet'.$identifier;
+
+        if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
             return $output;
         }
-        
-        foreach ($this->$controllerName as $controller) {
+
+        foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
             $output .= $controller->WidgetHolder();
         }
         
         if (empty($output)) {
-            if (isset($this->widgetOutput[$identifier])) {
+            if (array_key_exists($identifier, $this->widgetOutput)) {
                 $output = $this->widgetOutput[$identifier];
             }
         }
@@ -645,6 +652,73 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         return implode(SiteTree::$breadcrumbs_delimiter, array_reverse($parts));
+    }
+    
+    /**
+     * manipulates the parts the pages breadcrumbs if a product detail view is 
+     * requested.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        $parts = new DataObjectSet();
+        $page  = $this;
+            
+        while (
+            $page
+            && (!$maxDepth ||
+                    $parts->Count() < $maxDepth)
+            && (!$stopAtPageType ||
+                    $page->ClassName != $stopAtPageType)
+        ) {
+            if ($showHidden ||
+                $page->ShowInMenus ||
+                ($page->ID == $this->ID)) {
+                
+                if ($page->hasMethod('OriginalLink')) {
+                    $link = $page->OriginalLink();
+                } else {
+                    $link = $page->Link();
+                }
+                
+                $parts->unshift(
+                        new ArrayData(
+                                array(
+                                    'Title'  => $page->Title,
+                                    'Link'   => $link,
+                                    'Parent' => $page->Parent,
+                                )
+                        )
+                );
+            }
+            $page = $page->Parent;
+        }
+        return $parts;
+    }
+    
+    /**
+     * returns the breadcrumbs as DataObjectSet for use in controls with product title
+     * 
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return DataObjectSet 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function DropdownBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
 
     /**
@@ -957,29 +1031,66 @@ class SilvercartPage_Controller extends ContentController {
      * @since 27.05.2011
      */
     protected function loadWidgetControllers() {
-        // Sidebar area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
+        $registeredWidgetSets = $this->getRegisteredWidgetSets();
         
-        foreach ($this->WidgetSetSidebar() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
-        }
+        foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
+            $controllers = new DataObjectSet();
 
-        $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
+            foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
+                $controllers->merge(
+                    $registeredWidgetSetItem->WidgetArea()->WidgetControllers()
+                );
+            }
         
-        // Content area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
-        
-        foreach ($this->WidgetSetContent() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
+            $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
+            $this->registeredWidgetSetControllers[$registeredWidgetSetName]->sort('Sort', 'ASC');
         }
-        $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
+    
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     * 
+     * @param string $widgetSetName The name of the widget set relation
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+
+        return $widgetSet;
+    }
+    
+    /**
+     * Returns all registered widget sets as associative array.
+     * 
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-10-10
+     */
+    public function getRegisteredWidgetSets() {
+        return $this->registeredWidgetSets;
+    }
+    
+    /**
+     * Registers a WidgetSet.
+     * 
+     * @param string        $widgetSetName  The name of the widget set (used as array key)
+     * @param DataObjectSet $widgetSetItems The widget set items (usually coming from a relation)
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public function registerWidgetSet($widgetSetName, $widgetSetItems) {
+        $this->registeredWidgetSets[$widgetSetName] = $widgetSetItems;
+    }
+    
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *
