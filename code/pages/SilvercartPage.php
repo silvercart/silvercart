@@ -646,6 +646,73 @@ class SilvercartPage_Controller extends ContentController {
 
         return implode(SiteTree::$breadcrumbs_delimiter, array_reverse($parts));
     }
+    
+    /**
+     * manipulates the parts the pages breadcrumbs if a product detail view is 
+     * requested.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        $parts = new DataObjectSet();
+        $page  = $this;
+            
+        while (
+            $page
+            && (!$maxDepth ||
+                    $parts->Count() < $maxDepth)
+            && (!$stopAtPageType ||
+                    $page->ClassName != $stopAtPageType)
+        ) {
+            if ($showHidden ||
+                $page->ShowInMenus ||
+                ($page->ID == $this->ID)) {
+                
+                if ($page->hasMethod('OriginalLink')) {
+                    $link = $page->OriginalLink();
+                } else {
+                    $link = $page->Link();
+                }
+                
+                $parts->unshift(
+                        new ArrayData(
+                                array(
+                                    'Title'  => $page->Title,
+                                    'Link'   => $link,
+                                    'Parent' => $page->Parent,
+                                )
+                        )
+                );
+            }
+            $page = $page->Parent;
+        }
+        return $parts;
+    }
+    
+    /**
+     * returns the breadcrumbs as DataObjectSet for use in controls with product title
+     * 
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return DataObjectSet 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function DropdownBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+    }
 
     /**
      * Function similar to Member::currentUser(); Determins if we deal with a
