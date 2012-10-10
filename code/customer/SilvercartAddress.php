@@ -46,13 +46,16 @@ class SilvercartAddress extends DataObject {
         'FirstName'         => 'VarChar(50)',
         'Surname'           => 'VarChar(50)',
         'Addition'          => 'VarChar(255)',
+        'PostNumber'        => 'VarChar(255)',
+        'Packstation'       => 'VarChar(255)',
         'Street'            => 'VarChar(255)',
         'StreetNumber'      => 'VarChar(15)',
         'Postcode'          => 'VarChar',
         'City'              => 'VarChar(100)',
         'PhoneAreaCode'     => 'VarChar(10)',
         'Phone'             => 'VarChar(50)',
-        'Fax'               => 'VarChar(50)'
+        'Fax'               => 'VarChar(50)',
+        'IsPackstation'     => 'Boolean(0)',
     );
     
     /**
@@ -173,24 +176,53 @@ class SilvercartAddress extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Street'            => _t('SilvercartAddress.STREET'),
-                'StreetNumber'      => _t('SilvercartAddress.STREETNUMBER'),
-                'Postcode'          => _t('SilvercartAddress.POSTCODE'),
-                'City'              => _t('SilvercartAddress.CITY'),
-                'PhoneAreaCode'     => _t('SilvercartAddress.PHONEAREACODE'),
-                'Phone'             => _t('SilvercartAddress.PHONE'),
-                'PhoneShort'        => _t('SilvercartAddress.PHONE_SHORT'),
-                'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
-                'Addition'          => _t('SilvercartAddress.ADDITION'),
-                'FirstName'         => _t('SilvercartAddress.FIRSTNAME'),
-                'Surname'           => _t('SilvercartAddress.SURNAME'),
-                'TaxIdNumber'       => _t('SilvercartAddress.TAXIDNUMBER'),
-                'Company'           => _t('SilvercartAddress.COMPANY'),
-                'Name'              => _t('SilvercartAddress.NAME'),
+                'Street'                => _t('SilvercartAddress.STREET'),
+                'StreetNumber'          => _t('SilvercartAddress.STREETNUMBER'),
+                'Postcode'              => _t('SilvercartAddress.POSTCODE'),
+                'City'                  => _t('SilvercartAddress.CITY'),
+                'PhoneAreaCode'         => _t('SilvercartAddress.PHONEAREACODE'),
+                'Phone'                 => _t('SilvercartAddress.PHONE'),
+                'PhoneShort'            => _t('SilvercartAddress.PHONE_SHORT'),
+                'SilvercartCountry'     => _t('SilvercartCountry.SINGULARNAME'),
+                'Country'               => _t('SilvercartCountry.SINGULARNAME'),
+                'Addition'              => _t('SilvercartAddress.ADDITION'),
+                'PostNumber'            => _t('SilvercartAddress.POSTNUMBER'),
+                'Packstation'           => _t('SilvercartAddress.PACKSTATION'),
+                'PackstationPlain'      => _t('SilvercartAddress.PACKSTATION_PLAIN'),
+                'Salutation'            => _t('SilvercartAddress.SALUTATION'),
+                'FirstName'             => _t('SilvercartAddress.FIRSTNAME'),
+                'Surname'               => _t('SilvercartAddress.SURNAME'),
+                'TaxIdNumber'           => _t('SilvercartAddress.TAXIDNUMBER'),
+                'Company'               => _t('SilvercartAddress.COMPANY'),
+                'Name'                  => _t('SilvercartAddress.NAME'),
+                'UsePackstation'        => _t('SilvercartAddress.USE_PACKSTATION'),
+                'UseAbsoluteAddress'    => _t('SilvercartAddress.USE_ABSOLUTEADDRESS'),
+                'IsPackstation'         => _t('SilvercartAddress.IS_PACKSTATION'),
+                'AddressType'           => _t('SilvercartAddress.ADDRESSTYPE'),
+                'Member'                => _t('SilvercartOrder.CUSTOMER'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Some polishing on before write
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if ($this->IsPackstation) {
+            $this->Street       = '';
+            $this->StreetNumber = '';
+        } else {
+            $this->PostNumber   = '';
+            $this->Packstation  = '';
+        }
     }
     
     /**

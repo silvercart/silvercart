@@ -30,7 +30,7 @@
             <% end_control %>
         <% end_control %>
     <% else %>
-        <div class="subcolumns">
+        <div class="subcolumns silvercart-address-equalize">
             <div class="c50l">
                 <div class="subcl">
                     <% control AddressData %>

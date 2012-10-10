@@ -2,7 +2,7 @@
     h1 { font-size: 14px; }
     h2 { font-size: 12px; }
     body, table td { font-size: 10px; }
-    table { width: 100%; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
+    table { width: auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
     table caption { font-variant:small-caps; }
     table.full { width:100%; }
     table.fixed { table-layout:fixed; }
@@ -47,131 +47,21 @@
                         <td><% _t('SilvercartOrder.STATUS') %></td>
                         <td>$SilvercartOrderStatus.Title</td>
                     </tr>
-                    <% if Note %>
-                        <tr>
-                            <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>
-                            <td>$FormattedNote</td>
-                        </tr>
-                    <% end_if %>
+                <% if Note %>
+                    <tr>
+                        <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>
+                        <td>$FormattedNote</td>
+                    </tr>
+                <% end_if %>
                 </table>
             </td>
             <td valign="top">
                 <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
-                <% control SilvercartShippingAddress %>
-                <table>
-                    <% if isCompanyAddress %>
-                        <tr>
-                            <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
-                            <td>$TaxIdNumber</td>
-                        </tr>
-                        <tr>
-                            <td><% _t('SilvercartAddress.COMPANY') %></td>
-                            <td>$Company</td>
-                        </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
-                        <td>$FirstName</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.SURNAME') %></td>
-                        <td>$Surname</td>
-                    </tr>
-                    <% if Addition %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.ADDITION') %></td>
-                        <td>$Addition</td>
-                    </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREET') %></td>
-                        <td>$Street</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
-                        <td>$StreetNumber</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.POSTCODE') %></td>
-                        <td>$Postcode</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.CITY') %></td>
-                        <td>$City</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.PHONE') %></td>
-                        <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FAX') %></td>
-                        <td>$Fax</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
-                        <td>$SilvercartCountry.Title</td>
-                    </tr>
-                </table>
-                <% end_control %>
+                $ShippingAddressTable
             </td>
             <td valign="top">
                 <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
-                <% control SilvercartInvoiceAddress %>
-                <table>
-                    <% if isCompanyAddress %>
-                        <tr>
-                            <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
-                            <td>$TaxIdNumber</td>
-                        </tr>
-                        <tr>
-                            <td><% _t('SilvercartAddress.COMPANY') %></td>
-                            <td>$Company</td>
-                        </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FIRSTNAME') %></td>
-                        <td>$FirstName</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.SURNAME') %></td>
-                        <td>$Surname</td>
-                    </tr>
-                    <% if Addition %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.ADDITION') %></td>
-                        <td>$Addition</td>
-                    </tr>
-                    <% end_if %>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREET') %></td>
-                        <td>$Street</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
-                        <td>$StreetNumber</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.POSTCODE') %></td>
-                        <td>$Postcode</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.CITY') %></td>
-                        <td>$City</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.PHONE') %></td>
-                        <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartAddress.FAX') %></td>
-                        <td>$Fax</td>
-                    </tr>
-                    <tr>
-                        <td><% _t('SilvercartCountry.SINGULARNAME') %></td>
-                        <td>$SilvercartCountry.Title</td>
-                    </tr>
-                </table>
-                <% end_control %>
+                $InvoiceAddressTable
             </td>
         </tr>
     </table>

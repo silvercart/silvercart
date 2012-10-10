@@ -10,21 +10,33 @@
             <div class="subcr">
         <% end_if %>
                 <div class="silvercart-address">
-                    <div class="subcolumns">
+                    <div class="subcolumns silvercart-address-top">
                         <div class="c66l">
                             <div class="silvercart-address-field_content">
-                                <% if isCompanyAddress %>
+                                <% if IsPackstation %>
+                                    <em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
+                                    <br/>
+                                <% else_if isCompanyAddress %>
                                     <div class="silvercart-address-company-section">
                                         <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
                                         <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
                                         <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
+                                        <br/>
                                     </div>
                                 <% else %>
                                     <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+                                    <br/>
                                 <% end_if %>
-                                
                                 $SalutationText $FirstName $Surname<br/>
-                                $Street $StreetNumber<br/>
+                                <% if Addition %>
+                                    $Addition<br/>
+                                <% end_if %>
+                                <% if IsPackstation %>
+                                    $PostNumber<br/>
+                                    $Packstation<br/>
+                                <% else %>
+                                    $Street $StreetNumber<br/>
+                                <% end_if %>
                                 $Postcode $City<br/>
                                 $SilvercartCountry.Title<br/>
                                 <% if Phone %>

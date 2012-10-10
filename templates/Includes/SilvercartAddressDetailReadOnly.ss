@@ -11,7 +11,9 @@
             <% end_if %>
         <% end_if %>
         
-        <% if isCompanyAddress %>
+        <% if IsPackstation %>
+            <br/><em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
+        <% else_if isCompanyAddress %>
             <br /><em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
         <% else %>
             <br /><em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
@@ -27,7 +29,15 @@
             <% end_if %>
         
             $SalutationText $FirstName $Surname<br/>
-            $Street $StreetNumber<br/>
+            <% if Addition %>
+                $Addition<br/>
+            <% end_if %>
+            <% if IsPackstation %>
+                $PostNumber<br/>
+                $Packstation<br/>
+            <% else %>
+                $Street $StreetNumber<br/>
+            <% end_if %>
             $Postcode $City<br/>
             $SilvercartCountry.Title<br/>
             <% if Phone %>

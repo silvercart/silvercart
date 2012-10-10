@@ -81,6 +81,9 @@
         $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldCheck)
 
         <div id="ShippingAddressFields">
+            <% if EnablePackstation %>
+                $CustomHtmlFormFieldByName(Shipping_IsPackstation,CustomHtmlFormFieldCheckGroup)
+            <% end_if %>
             <div class="subcolumns">
                 <div class="c33l">
                     <div class="subcl">
@@ -98,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="subcolumns">
+            <div class="subcolumns absolute-address-data">
                 <div class="c33l">
                     <div class="subcl">
                         $CustomHtmlFormFieldByName(Shipping_Street)
@@ -112,6 +115,23 @@
                 <div class="c33r">
                     <div class="subcr">
                         $CustomHtmlFormFieldByName(Shipping_Addition)
+                    </div>
+                </div>
+            </div>
+            <div class="subcolumns packstation-address-data">
+                <div class="c33l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(Shipping_PostNumber)
+                    </div>
+                </div>
+                <div class="c33l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(Shipping_Packstation)
+                    </div>
+                </div>
+                <div class="c33r">
+                    <div class="subcr">
+                        &nbsp;
                     </div>
                 </div>
             </div>
