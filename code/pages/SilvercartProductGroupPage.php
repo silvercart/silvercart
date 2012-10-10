@@ -1050,54 +1050,6 @@ class SilvercartProductGroupPage extends Page {
         );
         return $productsOnPagesString;
     }
-    
-    /**
-     * Intercepts calls to widget set relations and delegates them to the generic
-     * method "getWidgetSetRelation".
-     * 
-     * @param string $name      The method name
-     * @param mixed  $arguments optional argument(s)
-     * 
-     * @return mixed
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function __call($name, $arguments) {
-        if (substr($name, 0, 9) == 'WidgetSet') {
-            return $this->getWidgetSetRelation($name);
-        }
-        
-        return parent::__call($name, $arguments);
-    }
-    
-    /**
-     * Returns the given WidgetSet many-to-many relation.
-     * If there is no relation, the parent relation will be recursively used
-     * 
-     * @param string $widgetSetName The name of the widget set relation
-     * 
-     * @return SilvercartWidgetSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function getWidgetSetRelation($widgetSetName) {
-        $widgetSet = $this->getManyManyComponents($widgetSetName);
-        $parent = $this->getParent();
-        
-        if ($widgetSet &&
-            $widgetSet->Count() == 0 &&
-            $parent &&
-            ($parent instanceof SilvercartProductGroupPage ||
-             $parent instanceof SilvercartProductGroupHolder) &&
-            array_key_exists($widgetSetName, $parent->many_many()) &&
-            $parent->$widgetSetName()->Count() > 0) {
-            
-            $widgetSet = $parent->$widgetSetName();
-        }        
-        return $widgetSet;
-    }
 }
 
 /**
@@ -2161,6 +2113,34 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             );
         }
         return $viewer;
+    }
+    
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     * 
+     * @param string $widgetSetName The name of the widget set relation
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        SilvercartTools::Log('getWidgetSetRelation', $widgetSetName);
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+        $parent    = $this->getParent();
+
+        if ($widgetSet->Count() == 0 &&
+            $parent &&
+            ($parent instanceof SilvercartProductGroupPage ||
+             $parent instanceof SilvercartProductGroupHolder) &&
+            array_key_exists($widgetSetName, $parent->many_many()) &&
+            $parent->$widgetSetName()->Count() > 0) {
+            
+            $widgetSet = $parent->$widgetSetName();
+        }        
+        return $widgetSet;
     }
     
     /**

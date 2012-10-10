@@ -284,8 +284,8 @@ class SilvercartPage_Controller extends ContentController {
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
         
-        $this->registerWidgetSet('WidgetSetContent', $this->WidgetSetContent());
-        $this->registerWidgetSet('WidgetSetSidebar', $this->WidgetSetSidebar());
+        $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
+        $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
     }
     
     /**
@@ -559,7 +559,7 @@ class SilvercartPage_Controller extends ContentController {
         if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
             return $output;
         }
-        
+
         foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
             $output .= $controller->WidgetHolder();
         }
@@ -1035,7 +1035,7 @@ class SilvercartPage_Controller extends ContentController {
         
         foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
             $controllers = new DataObjectSet();
-            
+
             foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
                 $controllers->merge(
                     $registeredWidgetSetItem->WidgetArea()->WidgetControllers()
@@ -1045,6 +1045,23 @@ class SilvercartPage_Controller extends ContentController {
             $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
             $this->registeredWidgetSetControllers[$registeredWidgetSetName]->sort('Sort', 'ASC');
         }
+    }
+    
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     * 
+     * @param string $widgetSetName The name of the widget set relation
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+
+        return $widgetSet;
     }
     
     /**
