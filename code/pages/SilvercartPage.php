@@ -252,18 +252,22 @@ class SilvercartPage_Controller extends ContentController {
     protected $widgetOutput = array();
     
     /**
-     * Contains the controllers for the sidebar widgets
+     * Contains all registered widget sets.
      * 
-     * @var DataObjectSet
+     * @var array
+     * 
+     * @since 2012-10-10
      */
-    protected $WidgetSetSidebarControllers;
+    protected $registeredWidgetSets;
     
     /**
-     * Contains the controllers for the content area widget
+     * Contains all registered widget set controllers.
      * 
-     * @var DataObjectSet
+     * @var array
+     * 
+     * @since 2012-10-10
      */
-    protected $WidgetSetContentControllers;
+    protected $registeredWidgetSetControllers;
     
     /**
      * Creates a SilvercartPage_Controller
@@ -279,6 +283,9 @@ class SilvercartPage_Controller extends ContentController {
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
+        
+        $this->registerWidgetSet('WidgetSetContent', $this->WidgetSetContent());
+        $this->registerWidgetSet('WidgetSetSidebar', $this->WidgetSetSidebar());
     }
     
     /**
@@ -547,18 +554,18 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function InsertWidgetArea($identifier = 'Sidebar') {
         $output         = '';
-        $controllerName = 'WidgetSet'.$identifier.'Controllers';
-        
-        if (!isset($this->$controllerName)) {
+        $controllerName = 'WidgetSet'.$identifier;
+
+        if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
             return $output;
         }
         
-        foreach ($this->$controllerName as $controller) {
+        foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
             $output .= $controller->WidgetHolder();
         }
         
         if (empty($output)) {
-            if (isset($this->widgetOutput[$identifier])) {
+            if (array_key_exists($identifier, $this->widgetOutput)) {
                 $output = $this->widgetOutput[$identifier];
             }
         }
@@ -1024,29 +1031,49 @@ class SilvercartPage_Controller extends ContentController {
      * @since 27.05.2011
      */
     protected function loadWidgetControllers() {
-        // Sidebar area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
+        $registeredWidgetSets = $this->getRegisteredWidgetSets();
         
-        foreach ($this->WidgetSetSidebar() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
+        foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
+            $controllers = new DataObjectSet();
+            
+            foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
+                $controllers->merge(
+                    $registeredWidgetSetItem->WidgetArea()->WidgetControllers()
+                );
+            }
+        
+            $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
+            $this->registeredWidgetSetControllers[$registeredWidgetSetName]->sort('Sort', 'ASC');
         }
-
-        $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
-        
-        // Content area widgets -----------------------------------------------
-        $controllers = new DataObjectSet();
-        
-        foreach ($this->WidgetSetContent() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
-        }
-        $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
+    
+    /**
+     * Returns all registered widget sets as associative array.
+     * 
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-10-10
+     */
+    public function getRegisteredWidgetSets() {
+        return $this->registeredWidgetSets;
+    }
+    
+    /**
+     * Registers a WidgetSet.
+     * 
+     * @param string        $widgetSetName The name of the widget set (used as array key)
+     * @param DataObjectSet $widgetSetItem The widget set items (usually coming from a relation)
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public function registerWidgetSet($widgetSetName, $widgetSetItems) {
+        $this->registeredWidgetSets[$widgetSetName] = $widgetSetItems;
+    }
+    
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *
