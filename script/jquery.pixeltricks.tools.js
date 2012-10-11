@@ -132,6 +132,9 @@ function deactivateShippingAddressValidation() {
             deactivateValidationFor('Shipping_PhoneAreaCode');
             deactivateValidationFor('Shipping_Phone');
             deactivateValidationFor('Shipping_Country');
+            deactivateValidationFor('Shipping_PostNumber');
+            deactivateValidationFor('Shipping_Packstation');
+            deactivateValidationFor('Shipping_IsPackstation');
         }
     } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
@@ -163,6 +166,9 @@ function activateShippingAddressValidation() {
             activateValidationFor('Shipping_PhoneAreaCode');
             activateValidationFor('Shipping_Phone');
             activateValidationFor('Shipping_Country');
+            activateValidationFor('Shipping_PostNumber');
+            activateValidationFor('Shipping_Packstation');
+            activateValidationFor('Shipping_IsPackstation');
         }
     } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
