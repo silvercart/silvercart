@@ -1687,6 +1687,7 @@ $lang['en_GB']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Show 
 $lang['en_GB']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_GB']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['en_GB']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
+$lang['en_GB']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Title';
 
 $lang['en_GB']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_GB']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';

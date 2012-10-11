@@ -34,6 +34,15 @@
 class SilvercartSubNavigationWidget extends SilvercartWidget {
     
     /**
+     * Attributes.
+     * 
+     * @var array
+     */
+    public static $db = array(
+        'Title'  => 'VarChar(255)',
+    );
+    
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -46,11 +55,12 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'Title'            => _t('SilvercartSubNavigationWidget.TITLE'),
-                    'CMSTitle'         => _t('SilvercartSubNavigationWidget.CMSTITLE'),
-                    'Description'      => _t('SilvercartSubNavigationWidget.DESCRIPTION'),
-                )
+            parent::fieldLabels($includerelations),
+            array(
+                'Title'            => _t('SilvercartSubNavigationWidget.TITLE'),
+                'CMSTitle'         => _t('SilvercartSubNavigationWidget.CMSTITLE'),
+                'Description'      => _t('SilvercartSubNavigationWidget.DESCRIPTION'),
+            )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -58,15 +68,37 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     }
     
     /**
+     * Returns the input fields for this widget.
+     * 
+     * @return FieldSet
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $titleField = new TextField('Title', _t('SilvercartSubNavigationWidget.LABEL_TITEL'));
+        
+        $fields->push($titleField);
+        
+        return $fields;
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
+     * @author Carolin Woerner <cwoerner@pixeltricks.de>
+     * @since 11.10.2012
      */
     public function Title() {
-        return $this->fieldLabel('Title');
+        $title = $this->fieldLabel('CMSTitle');
+        if (!is_null($this->Title)) {
+            $title = $this->Title;
+        }
+        return $title;
     }
     
     /**
