@@ -414,9 +414,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $shippingAddressSummary .= $this->SilvercartShippingAddress()->PostNumber . PHP_EOL;
             $shippingAddressSummary .= $this->SilvercartShippingAddress()->Packstation . PHP_EOL;
         } else {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . PHP_EOL;
             $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
         }
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . PHP_EOL;
         $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . PHP_EOL;
         if (!$disableUpdate) {
             $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
@@ -444,12 +444,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $invoiceAddressSummary = '';
         $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . PHP_EOL;
         if ($this->SilvercartInvoiceAddress()->IsPackstation) {
-            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->PostNumber . PHP_EOL;
-            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->Packstation . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->PostNumber . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Packstation . PHP_EOL;
         } else {
-            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
         }
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . PHP_EOL;
         $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . PHP_EOL;
         if (!$disableUpdate) {
             $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
@@ -624,29 +624,37 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $address = singleton('SilvercartAddress');
 
         if (in_array('SilvercartShippingAddressID', $restrictFields)) {
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Name',      $address->fieldLabel('Name'),       $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
-            if ($this->SilvercartShippingAddress()->IsPackstation) {
-                $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_PostNumber',    $address->fieldLabel('PostNumber'),     $this->SilvercartShippingAddress()->PostNumber));
-                $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Packstation',   $address->fieldLabel('Packstation'),    $this->SilvercartShippingAddress()->Packstation));
-            } else {
-                $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Addition',  $address->fieldLabel('Addition'),   $this->SilvercartShippingAddress()->Addition));
-                $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Street',    $address->fieldLabel('Street'),     $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
-            }
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_City',      $address->fieldLabel('City'),       strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Phone',     $address->fieldLabel('Phone'),      $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new LiteralField('sa__Preview',           '<p>' . Convert::raw2xml($this->getShippingAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__FirstName',            $address->fieldLabel('FirstName'),          $this->SilvercartShippingAddress()->FirstName));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Surname',              $address->fieldLabel('Surname'),            $this->SilvercartShippingAddress()->Surname));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Addition',             $address->fieldLabel('Addition'),           $this->SilvercartShippingAddress()->Addition));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Street',               $address->fieldLabel('Street'),             $this->SilvercartShippingAddress()->Street));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__StreetNumber',         $address->fieldLabel('StreetNumber'),       $this->SilvercartShippingAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new CheckboxField('sa__IsPackstation',    $address->fieldLabel('IsPackstation'),      $this->SilvercartShippingAddress()->IsPackstation));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PostNumber',           $address->fieldLabel('PostNumber'),         $this->SilvercartShippingAddress()->PostNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Packstation',          $address->fieldLabel('PackstationPlain'),   $this->SilvercartShippingAddress()->Packstation));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->SilvercartShippingAddress()->Postcode));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__City',                 $address->fieldLabel('City'),               $this->SilvercartShippingAddress()->City));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map(), $this->SilvercartShippingAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PhoneAreaCode',        $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartShippingAddress()->PhoneAreaCode));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Phone',                $address->fieldLabel('Phone'),              $this->SilvercartShippingAddress()->Phone));
         }
 
         if (in_array('SilvercartInvoiceAddressID', $restrictFields)) {
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Name',       $address->fieldLabel('Name'),       $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
-            if ($this->SilvercartInvoiceAddress()->IsPackstation) {
-                $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_PostNumber',     $address->fieldLabel('PostNumber'),     $this->SilvercartInvoiceAddress()->PostNumber));
-                $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Packstation',    $address->fieldLabel('Packstation'),    $this->SilvercartInvoiceAddress()->Packstation));
-            } else {
-                $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Addition',   $address->fieldLabel('Addition'),   $this->SilvercartInvoiceAddress()->Addition));
-                $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Street',     $address->fieldLabel('Street'),     $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
-            }
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_City',       $address->fieldLabel('City'),       strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Phone',      $address->fieldLabel('Phone'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new LiteralField('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__FirstName',             $address->fieldLabel('FirstName'),          $this->SilvercartInvoiceAddress()->FirstName));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Surname',               $address->fieldLabel('Surname'),            $this->SilvercartInvoiceAddress()->Surname));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Addition',              $address->fieldLabel('Addition'),           $this->SilvercartInvoiceAddress()->Addition));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Street',                $address->fieldLabel('Street'),             $this->SilvercartInvoiceAddress()->Street));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__StreetNumber',          $address->fieldLabel('StreetNumber'),       $this->SilvercartInvoiceAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new CheckboxField('ia__IsPackstation',     $address->fieldLabel('IsPackstation'),      $this->SilvercartInvoiceAddress()->IsPackstation));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PostNumber',            $address->fieldLabel('PostNumber'),         $this->SilvercartInvoiceAddress()->PostNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Packstation',           $address->fieldLabel('PackstationPlain'),   $this->SilvercartInvoiceAddress()->Packstation));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->SilvercartInvoiceAddress()->Postcode));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__City',                  $address->fieldLabel('City'),               $this->SilvercartInvoiceAddress()->City));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map(), $this->SilvercartInvoiceAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PhoneAreaCode',         $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Phone',                 $address->fieldLabel('Phone'),              $this->SilvercartInvoiceAddress()->Phone));
         }
 
         /***********************************************************************
@@ -2217,6 +2225,26 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 
                 $newOrderStatus->sendMailFor($this);
             }
+        }
+        if (array_key_exists('sa__FirstName', $_POST) &&
+            $this->SilvercartShippingAddress()->ID > 0) {
+            foreach ($_POST as $paramName => $paramValue) {
+                if (strpos($paramName, 'sa__') === 0) {
+                    $addressParamName = str_replace('sa__', '', $paramName);
+                    $this->SilvercartShippingAddress()->{$addressParamName} = $paramValue;
+                }
+            }
+            $this->SilvercartShippingAddress()->write();
+        }
+        if (array_key_exists('ia__FirstName', $_POST) &&
+            $this->SilvercartInvoiceAddress()->ID > 0) {
+            foreach ($_POST as $paramName => $paramValue) {
+                if (strpos($paramName, 'ia__') === 0) {
+                    $addressParamName = str_replace('ia__', '', $paramName);
+                    $this->SilvercartInvoiceAddress()->{$addressParamName} = $paramValue;
+                }
+            }
+            $this->SilvercartInvoiceAddress()->write();
         }
         $this->extend('updateOnBeforeWrite');
     }
