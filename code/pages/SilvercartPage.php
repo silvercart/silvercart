@@ -553,20 +553,23 @@ class SilvercartPage_Controller extends ContentController {
      * @since 26.05.2011
      */
     public function InsertWidgetArea($identifier = 'Sidebar') {
-        $output         = '';
-        $controllerName = 'WidgetSet'.$identifier;
-
-        if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
-            return $output;
-        }
-
-        foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
-            $output .= $controller->WidgetHolder();
-        }
+        $output = '';
         
-        if (empty($output)) {
-            if (array_key_exists($identifier, $this->widgetOutput)) {
-                $output = $this->widgetOutput[$identifier];
+        if ($this->registeredWidgetSetControllers) {
+            $controllerName = 'WidgetSet'.$identifier;
+
+            if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
+                return $output;
+            }
+
+            foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
+                $output .= $controller->WidgetHolder();
+            }
+
+            if (empty($output)) {
+                if (array_key_exists($identifier, $this->widgetOutput)) {
+                    $output = $this->widgetOutput[$identifier];
+                }
             }
         }
         
