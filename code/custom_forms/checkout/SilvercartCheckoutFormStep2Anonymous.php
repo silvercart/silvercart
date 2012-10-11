@@ -120,14 +120,14 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
      * @since 31.03.2011
      */
     public function preferences() {
+        parent::preferences();
         $this->preferences['stepIsVisible']             = true;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep2.TITLE', 'Addresses');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
-
-        parent::preferences();
+        return $this->preferences;
     }
 
     /**
