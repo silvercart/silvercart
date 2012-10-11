@@ -117,6 +117,7 @@ class SilvercartConfig extends DataObject {
         'apacheSolrUrl'                         => 'VarChar(255)',
         'apacheSolrPort'                        => 'Int',
         'enableBusinessCustomers'               => 'Boolean(0)',
+        'enablePackstation'                     => 'Boolean(0)',
         'enableStockManagement'                 => 'Boolean(0)',
         'isStockManagementOverbookable'         => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
@@ -191,6 +192,7 @@ class SilvercartConfig extends DataObject {
     public static $defaultPricetype                         = null;
     public static $emailSender                              = null;
     public static $enableBusinessCustomers                  = null;
+    public static $enablePackstation                        = null;
     public static $globalEmailRecipient                     = null;
     public static $priceType                                = null;
     public static $config                                   = null;
@@ -490,6 +492,7 @@ class SilvercartConfig extends DataObject {
                     'EmailSender'                           => _t('SilvercartConfig.EMAILSENDER', 'Email sender'),
                     'GlobalEmailRecipient'                  => _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient'),
                     'enableBusinessCustomers'               => _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
+                    'enablePackstation'                     => _t('SilvercartConfig.ENABLEPACKSTATION', 'Enable address input fields for PACKSTATION'),
                     'enableSSL'                             => _t('SilvercartConfig.ENABLESSL', 'Enable SSL'),
                     'enableStockManagement'                 => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
                     'minimumOrderValue'                     => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
@@ -1481,6 +1484,21 @@ class SilvercartConfig extends DataObject {
             self::$enableBusinessCustomers = self::getConfig()->enableBusinessCustomers;
         }
         return self::$enableBusinessCustomers;
+    }
+    
+    /**
+     * Returns wether to enable packstations or not.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public static function enablePackstation() {
+        if (is_null(self::$enablePackstation)) {
+            self::$enablePackstation = self::getConfig()->enablePackstation;
+        }
+        return self::$enablePackstation;
     }
     
     /**

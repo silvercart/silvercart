@@ -31,184 +31,7 @@
  * @since 01.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep2Anonymous extends CustomHtmlForm {
-
-    /**
-     * The form field definitions.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
-     */
-    protected $formFields = array(
-        'InvoiceAddressAsShippingAddress' => array(
-            'type'      => 'CheckboxField',
-            'title'     => 'Rechnungsadresse als Versandadresse nutzen',
-            'value'     => '1',
-            'jsEvents'  => array(
-                'setEventHandler' => array(
-                    'type'          => 'click',
-                    'callFunction'  => 'toggleShippingAddressSection'
-                )
-            )
-        ),
-        /**
-         * fields for billing address
-         */
-        'Invoice_Salutation' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Anrede',
-            'value'             => array('' => 'Bitte wählen', 'Frau' => 'Frau', 'Herr' => 'Herr'),
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_FirstName' => array(
-            'type'              => 'TextField',
-            'title'             => 'Vorname',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_Surname' => array(
-            'type'              => 'TextField',
-            'title'             => 'Nachname',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_Addition' => array(
-            'type'  => 'TextField',
-            'title' => 'Adresszusatz'
-        ),
-        'Invoice_Street' => array(
-            'type'              => 'TextField',
-            'title'             => 'Straße',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_StreetNumber' => array(
-            'type'              => 'TextField',
-            'title'             => 'Hausnummer',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_Postcode' => array(
-            'type'              => 'TextField',
-            'title'             => 'PLZ',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_City' => array(
-            'type'              => 'TextField',
-            'title'             => 'Ort',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Invoice_Phone' => array(
-            'type'  => 'TextField',
-            'title' => 'Telefon'
-        ),
-        'Invoice_PhoneAreaCode' => array(
-            'type'  => 'TextField',
-            'title' => 'Vorwahl'
-        ),
-        'Invoice_Country' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Land',
-            'value'             => array(),
-            'checkRequirements' => array(
-                'isFilledIn' => true,
-            )
-        ),
-
-        /**
-         * Fields for shipping address
-         */
-        'Shipping_Salutation' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Anrede',
-            'value'             => array('' => 'Bitte wählen', 'Frau' => 'Frau', 'Herr' => 'Herr'),
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Shipping_FirstName' => array(
-            'type'              => 'TextField',
-            'title'             => 'Vorname',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Shipping_Surname' => array(
-            'type'              => 'TextField',
-            'title'             => 'Nachname',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Shipping_Addition' => array(
-            'type'  => 'TextField',
-            'title' => 'Adresszusatz'
-        ),
-        'Shipping_Street' => array(
-            'type'              => 'TextField',
-            'title'             => 'Straße',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Shipping_StreetNumber' => array(
-            'type'              => 'TextField',
-            'title'             => 'Hausnummer',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'Shipping_Postcode' => array(
-            'type'              => 'TextField',
-            'title'             => 'PLZ',
-            'checkRequirements' => array(
-                'isFilledIn'    => true
-            )
-        ),
-        'Shipping_City' => array(
-            'type'              => 'TextField',
-            'title'             => 'Ort',
-            'checkRequirements' => array(
-                'isFilledIn'    => true
-            )
-        ),
-        'Shipping_Phone' => array(
-            'type'  => 'TextField',
-            'title' => 'Telefon'
-        ),
-        'Shipping_PhoneAreaCode' => array(
-            'type'  => 'TextField',
-            'title' => 'Vorwahl'
-        ),
-        'Shipping_Country' => array(
-            'type'              => 'DropdownField',
-            'title'             => 'Land',
-            'value'             => array(),
-            'checkRequirements' => array(
-                'isFilledIn' => true,
-            )
-        ),
-        'Email' => array(
-            'type'              => 'TextField',
-            'title'             => 'Email',
-            'checkRequirements' => array(
-                'isEmailAddress'    => true,
-                'isFilledIn'        => true
-            )
-        )
-    );
+class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
 
     /**
      * init
@@ -244,6 +67,48 @@ class SilvercartCheckoutFormStep2Anonymous extends CustomHtmlForm {
             }
         }
     }
+    
+    /**
+     * Modifies the default address form fields
+     * 
+     * @return array
+     */
+    public function getFormFields() {
+        parent::getFormFields(false);
+        if (!array_key_exists('InvoiceAddressAsShippingAddress', $this->formFields)) {
+            foreach ($this->formFields as $fieldName => $fieldData) {
+                $this->formFields['Invoice_' . $fieldName]  = $fieldData;
+                $this->formFields['Shipping_' . $fieldName] = $fieldData;
+                unset($this->formFields[$fieldName]);
+            }
+            if (array_key_exists('Invoice_IsPackstation', $this->formFields)) {
+                unset($this->formFields['Invoice_PostNumber']);
+                unset($this->formFields['Invoice_Packstation']);
+                unset($this->formFields['Invoice_IsPackstation']);
+            }
+            $this->formFields['InvoiceAddressAsShippingAddress'] = array(
+                'type'      => 'CheckboxField',
+                'title'     => _t('SilvercartAddress.InvoiceAddressAsShippingAddress'),
+                'value'     => '1',
+                'jsEvents'  => array(
+                    'setEventHandler' => array(
+                        'type'          => 'click',
+                        'callFunction'  => 'toggleShippingAddressSection'
+                    )
+                )
+            );
+            $this->formFields['Email'] = array(
+                'type'              => 'TextField',
+                'title'             => _t('SilvercartAddress.EMAIL'),
+                'checkRequirements' => array(
+                    'isEmailAddress'    => true,
+                    'isFilledIn'        => true
+                )
+            );
+            $this->extend('updateFormFields', $this->formFields);
+        }
+        return $this->formFields;
+    }
 
     /**
      * Here we set some preferences.
@@ -255,14 +120,14 @@ class SilvercartCheckoutFormStep2Anonymous extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
+        parent::preferences();
         $this->preferences['stepIsVisible']             = true;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep2.TITLE', 'Addresses');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
-
-        parent::preferences();
+        return $this->preferences;
     }
 
     /**
@@ -273,46 +138,6 @@ class SilvercartCheckoutFormStep2Anonymous extends CustomHtmlForm {
      * @return void
      */
     protected function fillInFieldValues() {
-
-        // --------------------------------------------------------------------
-        // Set i18n labels
-        // --------------------------------------------------------------------
-        $this->formFields['InvoiceAddressAsShippingAddress']['title'] = _t('SilvercartAddress.InvoiceAddressAsShippingAddress');
-
-        $this->formFields['Invoice_Salutation']['title']    = _t('SilvercartAddress.SALUTATION', 'salutation');
-        $this->formFields['Invoice_Salutation']['value']    = array(
-            ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSES', 'misses'),
-            "Herr"  => _t('SilvercartAddress.MISTER', 'mister')
-        );
-        $this->formFields['Invoice_FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME', 'firstname');
-        $this->formFields['Invoice_Surname']['title']       = _t('SilvercartAddress.SURNAME', 'surname');
-        $this->formFields['Invoice_Addition']['title']      = _t('SilvercartAddress.ADDITION', 'addition');
-        $this->formFields['Invoice_Street']['title']        = _t('SilvercartAddress.STREET', 'street');
-        $this->formFields['Invoice_StreetNumber']['title']  = _t('SilvercartAddress.STREETNUMBER', 'streetnumber');
-        $this->formFields['Invoice_Postcode']['title']      = _t('SilvercartAddress.POSTCODE', 'postcode');
-        $this->formFields['Invoice_City']['title']          = _t('SilvercartAddress.CITY', 'city');
-        $this->formFields['Invoice_Phone']['title']         = _t('SilvercartAddress.PHONE', 'phone');
-        $this->formFields['Invoice_PhoneAreaCode']['title'] = _t('SilvercartAddress.PHONEAREACODE', 'phone area code');
-        $this->formFields['Invoice_Country']['title']       = _t('SilvercartCountry.SINGULARNAME');
-
-        $this->formFields['Shipping_Salutation']['title']       = _t('SilvercartAddress.SALUTATION');
-        $this->formFields['Shipping_Salutation']['value']       = array(
-            ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSES'),
-            "Herr"  => _t('SilvercartAddress.MISTER')
-        );
-        $this->formFields['Shipping_FirstName']['title']        = _t('SilvercartAddress.FIRSTNAME');
-        $this->formFields['Shipping_Surname']['title']          = _t('SilvercartAddress.SURNAME');
-        $this->formFields['Shipping_Addition']['title']         = _t('SilvercartAddress.ADDITION');
-        $this->formFields['Shipping_Street']['title']           = _t('SilvercartAddress.STREET');
-        $this->formFields['Shipping_StreetNumber']['title']     = _t('SilvercartAddress.STREETNUMBER');
-        $this->formFields['Shipping_Postcode']['title']         = _t('SilvercartAddress.POSTCODE');
-        $this->formFields['Shipping_City']['title']             = _t('SilvercartAddress.CITY');
-        $this->formFields['Shipping_Phone']['title']            = _t('SilvercartAddress.PHONE');
-        $this->formFields['Shipping_PhoneAreaCode']['title']    = _t('SilvercartAddress.PHONEAREACODE');
-        $this->formFields['Shipping_Country']['title']          = _t('SilvercartCountry.SINGULARNAME');
-
         $countries = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1");
         if ($countries) {
             $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));

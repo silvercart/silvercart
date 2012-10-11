@@ -132,6 +132,9 @@ function deactivateShippingAddressValidation() {
             deactivateValidationFor('Shipping_PhoneAreaCode');
             deactivateValidationFor('Shipping_Phone');
             deactivateValidationFor('Shipping_Country');
+            deactivateValidationFor('Shipping_PostNumber');
+            deactivateValidationFor('Shipping_Packstation');
+            deactivateValidationFor('Shipping_IsPackstation');
         }
     } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
@@ -163,6 +166,9 @@ function activateShippingAddressValidation() {
             activateValidationFor('Shipping_PhoneAreaCode');
             activateValidationFor('Shipping_Phone');
             activateValidationFor('Shipping_Country');
+            activateValidationFor('Shipping_PostNumber');
+            activateValidationFor('Shipping_Packstation');
+            activateValidationFor('Shipping_IsPackstation');
         }
     } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {
@@ -198,4 +204,63 @@ function SilvercartToggleQuickLoginBox() {
     }
     
     return false;
+}
+
+/**
+ * Toggles the visibility of the packstation fields.
+ *
+ * @return void
+ *
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 10.10.2012
+ */
+function initAddressForm(form) {
+    var hideAddressData = '.absolute-address-data';
+    if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
+        $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+        hideAddressData = '.packstation-address-data';
+        with(form) {
+            deactivateValidationFor('PostNumber');
+            deactivateValidationFor('Packstation');
+        }
+    } else {
+        with(form) {
+            deactivateValidationFor('Street');
+            deactivateValidationFor('StreetNumber');
+        }
+    }
+    $(hideAddressData).hide();
+    $('.optionset input[name="IsPackstation"], .optionset input[name="Shipping_IsPackstation"]').live('change', function() {
+        var slideIn     = '.packstation-address-data';
+        var slideOut    = '.absolute-address-data';
+        if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
+            $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+            slideIn     = '.absolute-address-data';
+            slideOut    = '.packstation-address-data';
+
+            with(form) {
+                deactivateValidationFor('PostNumber');
+                deactivateValidationFor('Packstation');
+                deactivateValidationFor('Shipping_PostNumber');
+                deactivateValidationFor('Shipping_Packstation');
+                activateValidationFor('Street');
+                activateValidationFor('StreetNumber');
+                activateValidationFor('Shipping_Street');
+                activateValidationFor('Shipping_StreetNumber');
+            }
+        } else {
+            with(form) {
+                deactivateValidationFor('Street');
+                deactivateValidationFor('StreetNumber');
+                deactivateValidationFor('Shipping_Street');
+                deactivateValidationFor('Shipping_StreetNumber');
+                activateValidationFor('PostNumber');
+                activateValidationFor('Packstation');
+                activateValidationFor('Shipping_PostNumber');
+                activateValidationFor('Shipping_Packstation');
+            }
+        }
+        $(slideOut).slideUp('slow');
+        $(slideIn).slideDown('slow');
+    });
 }

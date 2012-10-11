@@ -1082,8 +1082,8 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * Registers a WidgetSet.
      * 
-     * @param string        $widgetSetName The name of the widget set (used as array key)
-     * @param DataObjectSet $widgetSetItem The widget set items (usually coming from a relation)
+     * @param string        $widgetSetName  The name of the widget set (used as array key)
+     * @param DataObjectSet $widgetSetItems The widget set items (usually coming from a relation)
      * 
      * @return void
      * 

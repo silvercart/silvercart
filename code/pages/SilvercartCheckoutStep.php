@@ -268,6 +268,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
             $prefix.'_Fax'              => 'Fax',
             $prefix.'_Country'          => 'CountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
         );
         
         if (is_array($data)) {
@@ -287,7 +290,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         } else {
             $addressData['isCompanyAddress'] = false;
         }
-
+        
         return $addressData;
     }
 
@@ -320,6 +323,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_Fax'              => 'Fax',
             $prefix.'_Country'          => 'CountryID',
             $prefix.'_Country'          => 'SilvercartCountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
         );
         
         if (is_array($data)) {

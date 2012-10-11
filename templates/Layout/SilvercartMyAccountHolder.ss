@@ -71,7 +71,7 @@
                     <h3><% _t('SilvercartMyAccountHolder.YOUR_CURRENT_ADDRESSES') %>:</h3>
 
                     <% control CurrentRegisteredCustomer %>
-                        <div class="subcolumns">
+                        <div class="subcolumns silvercart-address-equalize">
                             <div class="c50l">
                                 <div class="subcl">
                                     <% control SilvercartInvoiceAddress %>

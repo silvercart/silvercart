@@ -100,8 +100,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public static $casting = array(
         'Created'                   => 'Date',
         'CreatedNice'               => 'VarChar',
-        'ShippingAddressSummary'    => 'VarChar',
-        'InvoiceAddressSummary'     => 'VarChar',
+        'ShippingAddressSummary'    => 'Text',
+        'ShippingAddressTable'      => 'HtmlText',
+        'InvoiceAddressSummary'     => 'Text',
+        'InvoiceAddressTable'       => 'HtmlText',
         'AmountTotalNice'           => 'VarChar',
         'PriceTypeText'             => 'VarChar(24)',
     );
@@ -247,12 +249,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Created'                               => _t('SilvercartPage.ORDER_DATE'),
                 'OrderNumber'                           => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
                 'SilvercartShippingFee'                 => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                                  => _t('SilvercartPage.REMARKS'),
+                'Note'                                  => _t('SilvercartOrder.NOTE'),
+                'YourNote'                              => _t('SilvercartOrder.YOUR_REMARK'),
                 'Member'                                => _t('SilvercartOrder.CUSTOMER', 'customer'),
                 'Customer'                              => _t('SilvercartOrder.CUSTOMER'),
                 'CustomerData'                          => _t('SilvercartOrder.CUSTOMERDATA'),
                 'MemberCustomerNumber'                  => _t('SilvercartCustomer.CUSTOMERNUMBER'),
                 'MemberEmail'                           => _t('Member.EMAIL'),
+                'Email'                                 => _t('SilvercartAddress.EMAIL'),
                 'SilvercartShippingAddress'             => _t('SilvercartShippingAddress.SINGULARNAME'),
                 'SilvercartShippingAddressFirstName'    => _t('SilvercartAddress.FIRSTNAME'),
                 'SilvercartShippingAddressSurname'      => _t('SilvercartAddress.SURNAME'),
@@ -268,7 +272,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'TaxRateShipment'                       => _t('SilvercartOrder.TAXRATESHIPMENT'),
                 'TaxAmountPayment'                      => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
                 'TaxAmountShipment'                     => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
-                'Note'                                  => _t('SilvercartOrder.NOTE'),
                 'WeightTotal'                           => _t('SilvercartOrder.WEIGHTTOTAL'),
                 'CustomersEmail'                        => _t('SilvercartOrder.CUSTOMERSEMAIL'),
                 'SilvercartPaymentMethod'               => _t('SilvercartPaymentMethod.SINGULARNAME'),
@@ -407,13 +410,27 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getShippingAddressSummary($disableUpdate = false) {
         $shippingAddressSummary = '';
         $shippingAddressSummary .= $this->SilvercartShippingAddress()->FullName . PHP_EOL;
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
+        if ($this->SilvercartShippingAddress()->IsPackstation) {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->PostNumber . PHP_EOL;
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Packstation . PHP_EOL;
+        } else {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
+        }
         $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . PHP_EOL;
         $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . PHP_EOL;
         if (!$disableUpdate) {
             $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
         }
         return $shippingAddressSummary;
+    }
+    
+    /**
+     * Returns the shipping address rendered with a HTML table
+     * 
+     * @return type
+     */
+    public function getShippingAddressTable() {
+        return $this->SilvercartShippingAddress()->renderWith('SilvercartMailAddressData');
     }
 
     /**
@@ -426,13 +443,27 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getInvoiceAddressSummary($disableUpdate = false) {
         $invoiceAddressSummary = '';
         $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . PHP_EOL;
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
+        if ($this->SilvercartInvoiceAddress()->IsPackstation) {
+            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->PostNumber . PHP_EOL;
+            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->Packstation . PHP_EOL;
+        } else {
+            $shippingAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
+        }
         $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . PHP_EOL;
         $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . PHP_EOL;
         if (!$disableUpdate) {
             $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
         }
         return $invoiceAddressSummary;
+    }
+    
+    /**
+     * Returns the invoice address rendered with a HTML table
+     * 
+     * @return type
+     */
+    public function getInvoiceAddressTable() {
+        return $this->SilvercartInvoiceAddress()->renderWith('SilvercartMailAddressData');
     }
 
     /**

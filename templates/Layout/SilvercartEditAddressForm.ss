@@ -3,6 +3,9 @@
     $CustomHtmlErrorMessages
     <fieldset>
         <legend><% _t('SilvercartAddress.EDITADDRESS') %></legend>
+        <% if EnablePackstation %>
+            $CustomHtmlFormFieldByName(IsPackstation,CustomHtmlFormFieldCheckGroup)
+        <% end_if %>
         <% if EnableBusinessCustomers %>
         <div class="subcolumns">
             <div class="c50l">
@@ -37,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="subcolumns">
+        <div class="subcolumns absolute-address-data">
             <div class="c50l">
                 <div class="subcl">
                     $CustomHtmlFormFieldByName(Addition)
@@ -47,7 +50,7 @@
                 <div class="subcr"></div>
             </div>
         </div>
-        <div class="subcolumns">
+        <div class="subcolumns absolute-address-data">
             <div class="c50l">
                 <div class="subcl">
                     $CustomHtmlFormFieldByName(Street)
@@ -56,6 +59,18 @@
             <div class="c50r">
                 <div class="subcr">
                     $CustomHtmlFormFieldByName(StreetNumber)
+                </div>
+            </div>
+        </div>
+        <div class="subcolumns packstation-address-data">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(PostNumber)
+                </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(Packstation)
                 </div>
             </div>
         </div>

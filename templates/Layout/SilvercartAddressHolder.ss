@@ -19,7 +19,7 @@
                         <% include SilvercartAddressDetailReadOnly %>
                     <% end_control %>
                 <% else %>
-                    <div class="subcolumns">
+                    <div class="subcolumns silvercart-address-equalize">
                         <div class="c50l">
                             <div class="subcl">
                                 <% control SilvercartInvoiceAddress %>
@@ -36,7 +36,9 @@
                         </div>
                     </div>
                 <% end_if %>
-            <% include SilvercartAddressDetail %>
+                <div class="silvercart-address-equalize">
+                    <% include SilvercartAddressDetail %>
+                </div>
             <% end_control %>
             <hr />
             <div class="hidden-form" id="silvercart-add-address-form">
