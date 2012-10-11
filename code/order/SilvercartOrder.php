@@ -53,6 +53,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'OrderNumber'                       => 'VarChar(128)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
+        'IsSeen'                            => 'Boolean(0)',
         /**
          * @deprecated
          */
@@ -291,6 +292,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'PrintPreview'                          => _t('SilvercartOrder.PRINT_PREVIEW'),
                 'EmptyString'                           => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
                 'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
+                'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -316,6 +318,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             'OrderNumber' => array(
                 'title'     => $this->fieldLabel('OrderNumber'),
                 'filter'    => 'PartialMatchFilter'
+            ),
+            'IsSeen' => array(
+                'title'     => $this->fieldLabel('IsSeen'),
+                'filter'    => 'ExactMatchFilter'
             ),
             'SilvercartOrderStatus.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartOrderStatus'),
@@ -522,11 +528,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * customize backend fields
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.11.2010
      * @return FieldSet the form fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 11.10.2012
      */
     public function getCMSFields() {
+        $this->IsSeen = true;
+        $this->write();
         $ignoreFields   = $this->ignoreCMSFields();
         $restrictFields = array(
             'SilvercartOrderStatus',
@@ -2603,8 +2612,24 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                         'action'    => 'printOrders',
                         'label'     => _t('SilvercartOrder.BATCH_PRINTORDERS'),
                     ),
+                    array(
+                        'action'    => 'markAsSeen',
+                        'label'     => _t('SilvercartOrder.BATCH_MARKASSEEN'),
+                    ),
+                    array(
+                        'action'    => 'markAsNotSeen',
+                        'label'     => _t('SilvercartOrder.BATCH_MARKASNOTSEEN'),
+                    ),
                 )
         );
+        
+        $tableField->setHighlightConditions(array(
+            array(
+                'rule'  => '$IsSeen == false',
+                'class' => 'is-not-seen',
+            ),
+        ));
+        
         $this->extend('getResultsTable', $tableField, $searchCriteria);
         return $tableField;
     }
@@ -2651,6 +2676,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
                 $order->SilvercartOrderStatusID = $orderStatusID;
+                $order->IsSeen = true;
                 $order->write();
             }
         }
@@ -2671,6 +2697,8 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         foreach ($orderIDs as $orderID) {
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
+                $order->IsSeen = true;
+                $order->write();
                 $orders->push($order);
             }
         }
@@ -2678,6 +2706,48 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                 "window.open('%s');",
                 SilvercartPrint::getPrintURLForMany($orders)
         );
+    }
+    
+    /**
+     * Batch action to mark orders as seen
+     *
+     * @param array $orderIDs IDs of orders to mark orders as seen
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.10.2012
+     */
+    public function silvercartBatch_markAsSeen($orderIDs) {
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $order->IsSeen = true;
+                $order->write();
+            }
+        }
+        return '';
+    }
+    
+    /**
+     * Batch action to mark orders as not seen
+     *
+     * @param array $orderIDs IDs of orders to mark orders as not seen
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.10.2012
+     */
+    public function silvercartBatch_markAsNotSeen($orderIDs) {
+        foreach ($orderIDs as $orderID) {
+            $order = DataObject::get_by_id('SilvercartOrder', $orderID);
+            if ($order) {
+                $order->IsSeen = false;
+                $order->write();
+            }
+        }
+        return '';
     }
     
     /**

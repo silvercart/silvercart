@@ -64,6 +64,9 @@
 .SilvercartEditableTableListFieldQuickAccess_content .popover-content {
     padding:                    9px 14px;
 }
+.TriggerSilvercartEditableTableListFieldQuickAccess {
+    color:                      #000;
+}
 .TriggerSilvercartEditableTableListFieldQuickAccess .icon-show {
     display:                    block;
     width:                      100%;
@@ -82,4 +85,5 @@
 }
 .TriggerSilvercartEditableTableListFieldQuickAccess table td {
     background-color:           #fff !important;
+    color:                      #000 !important;
 }

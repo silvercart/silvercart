@@ -171,3 +171,16 @@
 .padd {
     padding: 12px;
 }
+
+
+.right form .TableListField tr.is-not-seen,
+.right form .TableListField tr.is-not-seen td,
+.right form .TableListField tr.is-not-seen td a {
+    background-color: #63C5FF;
+    color: #fff;
+}
+.right form .TableListField tr.is-not-seen:hover,
+.right form .TableListField tr.is-not-seen:hover td,
+.right form .TableListField tr.is-not-seen:hover td a {
+    background-color: #91D6FF;
+}
