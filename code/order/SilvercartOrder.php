@@ -325,7 +325,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             ),
             'SilvercartOrderStatus.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartOrderStatus'),
-                'filter'    => 'ExactMatchFilter'
+                'filter'    => 'SilvercartExactMatchBooleanMultiFilter'
             ),
             'SilvercartPaymentMethod.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartPaymentMethod'),
@@ -2415,12 +2415,15 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         $positionLabelField     = new HeaderField(  'PositionLabelField',       $order->fieldLabel('OrderPositionData'));
         $miscLabelField         = new HeaderField(  'MiscLabelField',           $order->fieldLabel('MiscData'));
         
+        $origOrderStatusField   = $fields->dataFieldByName('SilvercartOrderStatus__ID');
+        $orderStatusField       = new SilvercartMultiDropdownField('SilvercartOrderStatus__ID', $origOrderStatusField->Title(), $origOrderStatusField->getSource());
         $positionQuantityField  = new TextField(    'OrderPositionQuantity',    $order->fieldLabel('OrderPositionQuantity'));
         $positionIsLimitField   = new CheckboxField('OrderPositionIsLimit',     $order->fieldLabel('OrderPositionIsLimit'));
         $limitField             = new TextField(    'SearchResultsLimit',       $order->fieldLabel('SearchResultsLimit'));
         
         $fields->insertBefore($basicLabelField,                                         'OrderNumber');
         $fields->insertAfter($fields->dataFieldByName('Created'),                       'OrderNumber');
+        $fields->insertAfter($orderStatusField,                                         'IsSeen');
         $fields->insertBefore($customerLabelField,                                      'Member__CustomerNumber');
         $fields->insertBefore($positionLabelField,                                      'SilvercartOrderPositions__ProductNumber');
         $fields->insertAfter($positionQuantityField,                                    'SilvercartOrderPositions__ProductNumber');
