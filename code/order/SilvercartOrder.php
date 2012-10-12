@@ -2579,7 +2579,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         }
         if (array_key_exists('OrderPositionIsLimit', $searchCriteria)
             && $searchCriteria['OrderPositionIsLimit']) {
-            $query->where['OrderPositionIsLimit'] = "(SELECT COUNT(ID) FROM `SilvercartOrderPosition` WHERE `SilvercartOrderPosition`.`SilvercartOrderID` = `SilvercartOrder`.`ID`) = 1";
+            $query->where['OrderPositionIsLimit'] = "(SELECT COUNT(ID) FROM `SilvercartOrderPosition` WHERE `SilvercartOrderPosition`.`SilvercartOrderID` = `SilvercartOrder`.`ID` AND `SilvercartOrderPosition`.`isChargeOrDiscount` = 0) = 1";
         }
 
         $this->extend('updateGetSearchQuery', $searchCriteria, $query);
