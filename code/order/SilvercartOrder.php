@@ -2538,10 +2538,12 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
                         $targetIDs[] = $record['ID'];
                     }
                 }
-                $query->where['SearchResultsLimit'] = sprintf(
-                        "`SilvercartOrder`.`ID` IN (%s)",
-                        implode(',', $targetIDs)
-                );
+                if (count($targetIDs) > 0) {
+                    $query->where['SearchResultsLimit'] = sprintf(
+                            "`SilvercartOrder`.`ID` IN (%s)",
+                            implode(',', $targetIDs)
+                    );
+                }
             }
         }
         
