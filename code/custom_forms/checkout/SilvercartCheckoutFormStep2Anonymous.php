@@ -71,9 +71,11 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
     /**
      * Modifies the default address form fields
      * 
+     * @param bool $withUpdate Execute update method of decorators?
+     * 
      * @return array
      */
-    public function getFormFields() {
+    public function getFormFields($withUpdate = true) {
         parent::getFormFields(false);
         if (!array_key_exists('InvoiceAddressAsShippingAddress', $this->formFields)) {
             foreach ($this->formFields as $fieldName => $fieldData) {
@@ -105,6 +107,9 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
                     'isFilledIn'        => true
                 )
             );
+            
+        }
+        if ($withUpdate && !empty($this->class)) {
             $this->extend('updateFormFields', $this->formFields);
         }
         return $this->formFields;

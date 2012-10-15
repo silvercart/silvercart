@@ -222,11 +222,15 @@ function initAddressForm(form) {
         with(form) {
             deactivateValidationFor('PostNumber');
             deactivateValidationFor('Packstation');
+            deactivateValidationFor('Shipping_PostNumber');
+            deactivateValidationFor('Shipping_Packstation');
         }
     } else {
         with(form) {
             deactivateValidationFor('Street');
             deactivateValidationFor('StreetNumber');
+            deactivateValidationFor('Shipping_Street');
+            deactivateValidationFor('Shipping_StreetNumber');
         }
     }
     $(hideAddressData).hide();
