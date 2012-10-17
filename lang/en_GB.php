@@ -1443,6 +1443,8 @@ $lang['en_GB']['SilvercartShippingFee']['SINGULARNAME'] = 'Shipping fee';
 $lang['en_GB']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unlimited';
 $lang['en_GB']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unlimited Maximum Weight';
 $lang['en_GB']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (only carrier\'s zones available)';
+$lang['en_GB']['SilvercartShippingFee']['FREEOFSHIPPINGCOSTSDISABLED']          = 'Disable free shipping for this fee';
+$lang['en_GB']['SilvercartShippingFee']['FREEOFSHIPPINGCOSTSFROM']              = 'Free of shipping costs from (overwrites country specific and global configuration)';
 
 $lang['en_GB']['SilvercartShippingFeesPage']['DEFAULT_TITLE'] = 'Shipping fees';
 $lang['en_GB']['SilvercartShippingFeesPage']['DEFAULT_URLSEGMENT'] = 'shipping-fees';
