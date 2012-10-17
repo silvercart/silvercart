@@ -1072,18 +1072,19 @@ class SilvercartPage_Controller extends ContentController {
      */
     protected function loadWidgetControllers() {
         $registeredWidgetSets = $this->getRegisteredWidgetSets();
-        
+
         foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
             $controllers = new DataObjectSet();
 
             foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
+                $widgets = $registeredWidgetSetItem->WidgetArea()->WidgetControllers();
+                $widgets->sort('Sort', 'ASC');
                 $controllers->merge(
-                    $registeredWidgetSetItem->WidgetArea()->WidgetControllers()
+                    $widgets
                 );
             }
 
             $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
-            $this->registeredWidgetSetControllers[$registeredWidgetSetName]->sort('Sort', 'ASC');
         }
     }
 
