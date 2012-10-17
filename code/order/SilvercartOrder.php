@@ -81,7 +81,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartOrderPositions'  => 'SilvercartOrderPosition'
+        'SilvercartOrderPositions'  => 'SilvercartOrderPosition',
+        'SilvercartOrderLogs'       => 'SilvercartOrderLog',
     );
 
     /**
@@ -293,6 +294,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'EmptyString'                           => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
                 'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
                 'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
+                'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -534,8 +536,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 11.10.2012
      */
     public function getCMSFields() {
-        $this->IsSeen = true;
-        $this->write();
+        $this->markAsSeen();
         $ignoreFields   = $this->ignoreCMSFields();
         $restrictFields = array(
             'SilvercartOrderStatus',
@@ -576,6 +577,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $fields->findOrMakeTab('Root.ShippingAddressTab', $this->fieldLabel('ShippingAddressTab'));
         $fields->findOrMakeTab('Root.InvoiceAddressTab',  $this->fieldLabel('InvoiceAddressTab'));
         $fields->findOrMakeTab('Root.PrintPreviewTab',    $this->fieldLabel('PrintPreview'));
+        $orderLogsTab = clone $fields->findOrMakeTab('Root.SilvercartOrderLogs');
+        $fields->removeByName('SilvercartOrderLogs');
+        $fields->insertAfter($orderLogsTab, 'PrintPreviewTab');
         
         /***********************************************************************
         * SIMPLE MODIFICATION SECTION
@@ -589,6 +593,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('HasAcceptedRevocationInstruction', $restrictFields)) {
             $fields->makeFieldReadonly('HasAcceptedRevocationInstruction');
         }
+        
+        $orderLogField = $fields->dataFieldByName('SilvercartOrderLogs');
+        $orderLogField->setPermissions(array());
+        $orderLogField->setPageSize(50);
 
         /***********************************************************************
         * REMOVALSECTION
@@ -2234,6 +2242,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 
                 $newOrderStatus->sendMailFor($this);
             }
+            SilvercartOrderLog::addChangedLog($this, 'SilvercartOrderStatus', $this->original['SilvercartOrderStatusID'], $this->SilvercartOrderStatusID);
         }
         if (array_key_exists('sa__FirstName', $_POST) &&
             $this->SilvercartShippingAddress()->ID > 0) {
@@ -2361,6 +2370,23 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated!', E_USER_ERROR);
         return $this->getAmountTotalNice();
     }
+    
+    /**
+     * Marks the order as seen
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function markAsSeen() {
+        if (!$this->IsSeen) {
+            $this->IsSeen = true;
+            $this->write();
+            SilvercartOrderLog::addMarkedAsSeenLog($this, 'SilvercartOrder');
+        }
+    }
+    
 }
 
 /**
@@ -2681,8 +2707,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
                 $order->SilvercartOrderStatusID = $orderStatusID;
-                $order->IsSeen = true;
-                $order->write();
+                $order->markAsSeen();
             }
         }
     }
@@ -2702,8 +2727,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         foreach ($orderIDs as $orderID) {
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
-                $order->IsSeen = true;
-                $order->write();
+                $order->markAsSeen();
                 $orders->push($order);
             }
         }
@@ -2727,8 +2751,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         foreach ($orderIDs as $orderID) {
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
-                $order->IsSeen = true;
-                $order->write();
+                $order->markAsSeen();
             }
         }
         return '';
@@ -2748,8 +2771,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
         foreach ($orderIDs as $orderID) {
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
-                $order->IsSeen = false;
-                $order->write();
+                $order->markAsSeen();
             }
         }
         return '';
