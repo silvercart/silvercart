@@ -1134,6 +1134,15 @@ $lang['en_US']['SilvercartOrderHolder']['URL_SEGMENT'] = 'my-orders';
 $lang['en_US']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Order invoice addresses';
 $lang['en_US']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Order invoice address';
 
+$lang['en_US']['SilvercartOrderLog']['SINGULARNAME']                            = 'Order Log';
+$lang['en_US']['SilvercartOrderLog']['PLURALNAME']                              = 'Order Log';
+$lang['en_US']['SilvercartOrderLog']['CONTEXT']                                 = 'Context';
+$lang['en_US']['SilvercartOrderLog']['CREATED']                                 = 'Date/Time';
+$lang['en_US']['SilvercartOrderLog']['MESSAGE']                                 = 'Action';
+$lang['en_US']['SilvercartOrderLog']['MESSAGE_CHANGED']                         = 'Changed: %s -> %s';
+$lang['en_US']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Created: %s was created';
+$lang['en_US']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Marked as seen';
+
 $lang['en_US']['SilvercartOrderPosition']['PLURALNAME']         = 'Order positions';
 $lang['en_US']['SilvercartOrderPosition']['SINGULARNAME']       = 'Order Position';
 $lang['en_US']['SilvercartOrderPosition']['SHORT']              = 'Pos.';

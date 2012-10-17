@@ -1134,6 +1134,15 @@ $lang['de_DE']['SilvercartOrderHolder']['URL_SEGMENT'] = 'meine-bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['PLURALNAME'] = 'Rechnungsadressen der Bestellungen';
 $lang['de_DE']['SilvercartOrderInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse der Bestellung';
 
+$lang['de_DE']['SilvercartOrderLog']['SINGULARNAME']                            = 'Bestellungs-Log';
+$lang['de_DE']['SilvercartOrderLog']['PLURALNAME']                              = 'Bestellungs-Log';
+$lang['de_DE']['SilvercartOrderLog']['CONTEXT']                                 = 'Kontext';
+$lang['de_DE']['SilvercartOrderLog']['CREATED']                                 = 'Datum/Uhrzeit';
+$lang['de_DE']['SilvercartOrderLog']['MESSAGE']                                 = 'Aktion';
+$lang['de_DE']['SilvercartOrderLog']['MESSAGE_CHANGED']                         = 'Verändert: %s -> %s';
+$lang['de_DE']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Erstellt: %s wurde erstellt';
+$lang['de_DE']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Als gesehen markiert';
+
 $lang['de_DE']['SilvercartOrderPosition']['PLURALNAME']         = 'Bestellpositionen';
 $lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME']       = 'Bestellposition';
 $lang['de_DE']['SilvercartOrderPosition']['SHORT']              = 'Pos.';
