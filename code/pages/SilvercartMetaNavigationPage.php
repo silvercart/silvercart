@@ -86,5 +86,4 @@ class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
  * @since 15.11.2010
  */
 class SilvercartMetaNavigationPage_Controller extends SilvercartMetaNavigationHolder_Controller {
-
 }

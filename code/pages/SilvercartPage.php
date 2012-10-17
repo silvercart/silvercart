@@ -139,6 +139,23 @@ class SilvercartPage extends SiteTree {
 
         return $fields;
     }
+
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     *
+     * @param string $widgetSetName The name of the widget set relation
+     *
+     * @return SilvercartWidgetSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+
+        return $widgetSet;
+    }
     
     /**
      * Returns the generic image for products without an own image. If none is
@@ -230,6 +247,26 @@ class SilvercartPage extends SiteTree {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
     }
+
+    /**
+     * Intercepts calls to widget set relations and delegates them to the generic
+     * method "getWidgetSetRelation".
+     *
+     * @param string $name      The method name
+     * @param mixed  $arguments optional argument(s)
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function __call($name, $arguments) {
+        if (substr($name, 0, 9) == 'WidgetSet') {
+            return $this->getWidgetSetRelation($name);
+        }
+
+        return parent::__call($name, $arguments);
+    }
 }
 
 /**
@@ -243,7 +280,7 @@ class SilvercartPage extends SiteTree {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage_Controller extends ContentController {
-    
+
     /**
      * Contains the output of all WidgetSets of the parent page
      *
@@ -554,7 +591,7 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function InsertWidgetArea($identifier = 'Sidebar') {
         $output = '';
-        
+
         if ($this->registeredWidgetSetControllers) {
             $controllerName = 'WidgetSet'.$identifier;
 
@@ -1044,29 +1081,12 @@ class SilvercartPage_Controller extends ContentController {
                     $registeredWidgetSetItem->WidgetArea()->WidgetControllers()
                 );
             }
-        
+
             $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
             $this->registeredWidgetSetControllers[$registeredWidgetSetName]->sort('Sort', 'ASC');
         }
     }
-    
-    /**
-     * Returns the given WidgetSet many-to-many relation.
-     * If there is no relation, the parent relation will be recursively used
-     * 
-     * @param string $widgetSetName The name of the widget set relation
-     * 
-     * @return SilvercartWidgetSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function getWidgetSetRelation($widgetSetName) {
-        $widgetSet = $this->getManyManyComponents($widgetSetName);
 
-        return $widgetSet;
-    }
-    
     /**
      * Returns all registered widget sets as associative array.
      * 
