@@ -1,11 +1,13 @@
-<% control Top %>
-    <% if CurrentPage.Children %>
-            <div class="vlist">
-                <ul>
-                <% control CurrentPage.Children %>
-                    <li class="$LinkingMode $FirstLast"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
-                <% end_control %>
-                </ul>
-            </div>
+<% control getNavigation %>
+    <% if HasMenu %>
+        <% if Top.Title %>
+            <h2>$Top.Title</h2>
+        <% end_if %>
+
+        <div class="vlist silvercart-product-group-navigation-widget">
+            <ul>
+                $Menu
+            </ul>
+        </div>
     <% end_if %>
 <% end_control %>

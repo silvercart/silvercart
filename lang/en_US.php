@@ -1700,6 +1700,7 @@ $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subna
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
 $lang['en_US']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Title';
+$lang['en_US']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Start at level';
 
 $lang['en_US']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_US']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
