@@ -74,18 +74,6 @@ class SilvercartAddressForm extends CustomHtmlForm {
         if (empty($this->formFields)) {
             $address            = singleton('SilvercartAddress');
             $this->formFields   = array(
-                'IsPackstation' => array(
-                    'type'          => 'OptionsetField',
-                    'title'         => $address->fieldLabel('AddressType'),
-                    'selectedValue' => '0',
-                    'value' => array(
-                        '0' => $address->fieldLabel('UseAbsoluteAddress'),
-                        '1' => $address->fieldLabel('UsePackstation'),
-                    ),
-                    'checkRequirements' => array(
-                        'isFilledIn'        => true
-                    ),
-                ),
                 'TaxIdNumber' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('TaxIdNumber'),
@@ -140,20 +128,6 @@ class SilvercartAddressForm extends CustomHtmlForm {
                         'isFilledIn' => true
                     )
                 ),
-                'PostNumber' => array(
-                    'type'              => 'TextField',
-                    'title'             => $address->fieldLabel('PostNumber'),
-                    'checkRequirements' => array(
-                        'isFilledIn'        => true
-                    ),
-                ),
-                'Packstation' => array(
-                    'type'              => 'TextField',
-                    'title'             => $address->fieldLabel('Packstation'),
-                    'checkRequirements' => array(
-                        'isFilledIn'        => true
-                    ),
-                ),
                 'Postcode' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('Postcode'),
@@ -195,6 +169,50 @@ class SilvercartAddressForm extends CustomHtmlForm {
                     ),
                 )
             );
+            if (SilvercartConfig::enablePackstation()) {
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'IsPackstation' => array(
+                            'type'          => 'OptionsetField',
+                            'title'         => $address->fieldLabel('AddressType'),
+                            'selectedValue' => '0',
+                            'value' => array(
+                                '0' => $address->fieldLabel('UseAbsoluteAddress'),
+                                '1' => $address->fieldLabel('UsePackstation'),
+                            ),
+                            'checkRequirements' => array(
+                                'isFilledIn'        => true
+                            ),
+                        ),
+                        'PostNumber' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('PostNumber'),
+                            'checkRequirements' => array(
+                                'isFilledIn'        => true
+                            ),
+                        ),
+                        'Packstation' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Packstation'),
+                            'checkRequirements' => array(
+                                'isFilledIn'        => true
+                            ),
+                        ),
+                    )
+                );
+            } else {
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'IsPackstation' => array(
+                            'type'  => 'HiddenField',
+                            'title' => $address->fieldLabel('AddressType'),
+                            'value' => '0',
+                        ),
+                    )
+                );
+            }
         }
         return parent::getFormFields($withUpdate);
     }

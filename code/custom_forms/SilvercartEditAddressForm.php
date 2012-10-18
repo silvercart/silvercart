@@ -90,9 +90,11 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
                 $this->formFields['Phone']['value']                 = $this->address->Phone;
                 $this->formFields['Fax']['value']                   = $this->address->Fax;
                 $this->formFields['Country']['selectedValue']       = $this->address->SilvercartCountry()->ID;
-                $this->formFields['PostNumber']['value']            = $this->address->PostNumber;
-                $this->formFields['Packstation']['value']           = $this->address->Packstation;
-                $this->formFields['IsPackstation']['selectedValue'] = $this->address->IsPackstation;
+                if (SilvercartConfig::enablePackstation()) {
+                    $this->formFields['PostNumber']['value']            = $this->address->PostNumber;
+                    $this->formFields['Packstation']['value']           = $this->address->Packstation;
+                    $this->formFields['IsPackstation']['selectedValue'] = $this->address->IsPackstation;
+                }
             }
         }
     }

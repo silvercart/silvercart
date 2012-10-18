@@ -1443,6 +1443,8 @@ $lang['de_DE']['SilvercartShippingFee']['SINGULARNAME'] = 'Versandgebühr';
 $lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT'] = 'unbegrenzt';
 $lang['de_DE']['SilvercartShippingFee']['UNLIMITED_WEIGHT_LABEL'] = 'Unbegrenztes Maximalgewicht';
 $lang['de_DE']['SilvercartShippingFee']['ZONE_WITH_DESCRIPTION'] = 'Zone (nur Zonen des Frachtführers verfügbar)';
+$lang['de_DE']['SilvercartShippingFee']['FREEOFSHIPPINGCOSTSDISABLED']          = 'Versandkostenfreiheit für diese Versandgebühr deaktivieren';
+$lang['de_DE']['SilvercartShippingFee']['FREEOFSHIPPINGCOSTSFROM']              = 'Versandkostenfrei ab (überschreibt Länderspeziefische und globale Einstellung)';
 
 $lang['de_DE']['SilvercartShippingFeesPage']['DEFAULT_TITLE'] = 'Versandgebühren';
 $lang['de_DE']['SilvercartShippingFeesPage']['DEFAULT_URLSEGMENT'] = 'versandgebuehren';
