@@ -377,6 +377,33 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
 
         return $renderStr;
     }
+
+    /**
+     * Returns the cache key for the current configuration.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public function NavigationCacheKey() {
+        $page           = Controller::curr();
+        $key            = $page->ID.'_'.$this->LastEdited.'_';
+        $lastEditedPage = DataObject::get_one(
+            'SilvercartProductGroupPage',
+            '',
+            true,
+            "LastEdited DESC"
+        );
+
+        if ($lastEditedPage) {
+            $key .= '_'.$lastEditedPage->LastEdited;
+        }
+
+        $key .= '_'.$page->LastEdited;
+
+        return $key;
+    }
 }
 
 /**
