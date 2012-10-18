@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+    <% if EnablePackstation %>
         <div class="subcolumns packstation-address-data">
             <div class="c50l">
                 <div class="subcl">
@@ -73,6 +74,7 @@
                 </div>
             </div>
         </div>
+    <% end_if %>
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
