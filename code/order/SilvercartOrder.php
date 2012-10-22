@@ -2707,6 +2707,7 @@ class SilvercartOrder_CollectionController extends ModelAdmin_CollectionControll
             $order = DataObject::get_by_id('SilvercartOrder', $orderID);
             if ($order) {
                 $order->SilvercartOrderStatusID = $orderStatusID;
+                $order->write();
                 $order->markAsSeen();
             }
         }
