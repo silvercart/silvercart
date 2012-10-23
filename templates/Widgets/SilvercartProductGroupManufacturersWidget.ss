@@ -8,15 +8,17 @@
     <div class="vlist">
         <ul>
             <% control SilvercartManufacturers %>
-                <li>
-                    <a href="$Link">
-                        <% if logo %>
-                            $logo.SetRatioSize(200,100)
-                        <% else %>
-                            <p>$Title</p>
-                        <% end_if %>
-                    </a>
-                </li>
+                <% if Title %>
+                    <li>
+                        <a href="$Link" title="$Title">
+                            <% if logo %>
+                                $logo.SetRatioSize(200,100)
+                            <% else %>
+                                <p>$Title</p>
+                            <% end_if %>
+                        </a>
+                    </li>
+                <% end_if %>
             <% end_control %>
         </ul>
     </div>
