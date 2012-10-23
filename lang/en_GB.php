@@ -1660,6 +1660,11 @@ $lang['en_GB']['SilvercartProductGroupItemsWidget']['TITLE']                    
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Selection method for products';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Select products by product number seperated by semicolon';
 
+$lang['en_GB']['SilvercartProductGroupManufacturersWidget']['CMSTITLE']    = 'SilverCart manufacturer list';
+$lang['en_GB']['SilvercartProductGroupManufacturersWidget']['DESCRIPTION'] = 'This widget displays a list of manufacturer logos for a product group page.';
+$lang['en_GB']['SilvercartProductGroupManufacturersWidget']['RESETFILTER'] = 'Show all';
+$lang['en_GB']['SilvercartProductGroupManufacturersWidget']['TITLE']       = 'Manufacturer list';
+
 $lang['en_GB']['SilvercartBargainProductsWidget']['CMSTITLE']                   = 'SilverCart Slider for Bargain Products';
 $lang['en_GB']['SilvercartBargainProductsWidget']['DESCRIPTION']                = 'This widget displays bargain products (highest difference between MSR and customer price). You can define how many products from which product group should be shown.';
 $lang['en_GB']['SilvercartBargainProductsWidget']['FETCHMETHOD_SORTORDERASC']   = 'Price difference ascending';

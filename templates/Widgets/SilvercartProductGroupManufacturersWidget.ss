@@ -1,0 +1,33 @@
+<% if SilvercartManufacturers %>
+    <% if Title %>
+        <h2>
+            $Title
+        </h2>
+    <% end_if %>
+
+    <div class="vlist">
+        <ul>
+            <% control SilvercartManufacturers %>
+                <li>
+                    <a href="$Link">
+                        <% if logo %>
+                            $logo.SetRatioSize(200,100)
+                        <% else %>
+                            <p>$Title</p>
+                        <% end_if %>
+                    </a>
+                </li>
+            <% end_control %>
+        </ul>
+    </div>
+
+    <% if isFilteredByManufacturer %>
+        <div class="silvercart-button">
+            <div class="silvercart-button_content">
+                <a href="$PageLink">
+                    <% _t('SilvercartProductGroupManufacturersWidget.RESETFILTER') %>
+                </a>
+            </div>
+        </div>
+    <% end_if %>
+<% end_if %>

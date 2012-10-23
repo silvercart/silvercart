@@ -873,7 +873,7 @@ class SilvercartProductGroupPage extends Page {
             $registeredManufacturers = array();
             $manufacturers = array();
 
-            foreach ($this->SilvercartProducts() as $product) {
+            foreach ($this->getProducts() as $product) {
                 if ($product->SilvercartManufacturer()) {
                     if (in_array($product->SilvercartManufacturer()->Title, $registeredManufacturers) == false) {
                         $registeredManufacturers[] = $product->SilvercartManufacturer()->Title;
@@ -1622,7 +1622,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                     $filter .= ' ' . $listFilter;
                 }
-
                
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
@@ -2339,10 +2338,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 07.03.2011
      */
     public function isFilteredByManufacturer() {
-        if ($this->urlParams['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($this->urlParams['ID'])) {
+        $params = $this->getRequest()->allParams();
+
+        if ($params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -2364,9 +2366,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') {
         if ($comparison == 'IN') {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " (" . $value . ")";
+            $this->listFilters[] = " `" . $property . "` " . $comparison . " (" . $value . ")" . $operator;
         } else {
-            $this->listFilters[] = $operator . " `" . $property . "` " . $comparison . " '" . $value . "'";
+            $this->listFilters[] = " `" . $property . "` " . $comparison . " '" . $value . "'" . $operator;
         }
     }
     
