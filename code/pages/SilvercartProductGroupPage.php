@@ -2338,10 +2338,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 07.03.2011
      */
     public function isFilteredByManufacturer() {
-        $params = $this->getRequest()->allParams();
+        if ($this->getRequest()) {
+            $params = $this->getRequest()->allParams();
 
-        if ($params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
-            return true;
+            if ($params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
