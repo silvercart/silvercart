@@ -104,9 +104,6 @@ class SilvercartLanguageExtension extends DataExtension {
      */
     public function updateCMSFields(FieldList $fields) {
         $fields = SilvercartLanguageHelper::prepareCMSFields($this->owner->class);
-        foreach ($this->owner->has_one() as $has_oneName => $has_oneObject) {
-            $fields->removeByName($has_oneName . 'ID');
-        }
         $localeDropdown = SilvercartLanguageHelper::prepareLanguageDropdownField($this->owner);
         $fields->push($localeDropdown);
     }

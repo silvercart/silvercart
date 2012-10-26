@@ -38,10 +38,10 @@ class SilvercartLanguageHelper {
      * I impemented it a a static method because it would be redundantly declared
      * in any multilanguage DataObject
      *
-     * @param ComponentSet $componentset ComponentSet to search the translation for
-     * @param string       $locale       locale eg. de_DE, en_NZ, ...
+     * @param HasManyList $componentset has_many relation to be searched for the right translation
+     * @param string      $locale       locale eg. de_DE, en_NZ, ...
      *
-     * @return DataObject
+     * @return DataObject|false
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 03.01.2012
