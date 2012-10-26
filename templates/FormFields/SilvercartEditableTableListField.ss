@@ -16,7 +16,7 @@
             
         </span>
         <input type="hidden" name="silvercart-batch-option-callback-data" id="silvercart-batch-option-callback-data" value="" />
-        <input type="button" name="silvercart-batch-option-execute" id="silvercart-batch-option-execute" value="Ausführen" />
+        <input type="button" name="silvercart-batch-option-execute" id="silvercart-batch-option-execute" value="<% _t('Silvercart.EXECUTE') %>" />
     </div>
     <% end_if %>
         <% end_if %>

@@ -146,11 +146,41 @@ class SilvercartOrderAdmin extends ModelAdmin {
                     //Date picker
                     $('#Form_SearchForm_SilvercartOrder_Created').daterangepicker({
                         arrows: false,
-                        dateFormat: 'dd.mm.yy'
+                        dateFormat: 'dd.mm.yy',
+                        presetRanges: [
+                            {text: '%s', dateStart: 'today', dateEnd: 'today' },
+                            {text: '%s', dateStart: 'today-7days', dateEnd: 'today' },
+                            {text: '%s', dateStart: function(){ return Date.parse('today').moveToFirstDayOfMonth();  }, dateEnd: 'today' },
+                            {text: '%s', dateStart: function(){ var x= Date.parse('today'); x.setMonth(0); x.setDate(1); return x; }, dateEnd: 'today' },
+                            {text: '%s', dateStart: function(){ return Date.parse('1 month ago').moveToFirstDayOfMonth();  }, dateEnd: function(){ return Date.parse('1 month ago').moveToLastDayOfMonth();  } }
+                        ],
+                        presets: {
+                            specificDate: '%s',
+                            allDatesBefore: '%s',
+                            allDatesAfter: '%s',
+                            dateRange: '%s'
+                        },
+                        rangeStartTitle: '%s',
+                        rangeEndTitle: '%s',
+                        nextLinkText: '%s',
+                        prevLinkText: '%s',
                     });
                 });
             })(jQuery);",
-                        $orderStatusDropdownLink
+                        $orderStatusDropdownLink,
+                        _t('SilvercartDateRangePicker.TODAY'),
+                        _t('SilvercartDateRangePicker.LAST_7_DAYS'),
+                        _t('SilvercartDateRangePicker.THIS_MONTH'),
+                        _t('SilvercartDateRangePicker.THIS_YEAR'),
+                        _t('SilvercartDateRangePicker.LAST_MONTH'),
+                        _t('SilvercartDateRangePicker.DATE'),
+                        _t('SilvercartDateRangePicker.ALL_BEFORE'),
+                        _t('SilvercartDateRangePicker.ALL_AFTER'),
+                        _t('SilvercartDateRangePicker.PERIOD'),
+                        _t('SilvercartDateRangePicker.START_DATE'),
+                        _t('SilvercartDateRangePicker.END_DATE'),
+                        _t('SilvercartDateRangePicker.NEXT'),
+                        _t('SilvercartDateRangePicker.PREVIOUS')
                 )
         );
 

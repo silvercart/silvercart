@@ -76,6 +76,7 @@ $lang['de_DE']['Silvercart']['UNMARK_ALL'] = 'Markierung aufheben';
 $lang['de_DE']['Silvercart']['SORTORDER'] = 'Sortierreihenfolge';
 $lang['de_DE']['Silvercart']['PAGE'] = 'Seite';
 $lang['de_DE']['Silvercart']['X_OF_Y'] = '%s von %s';
+$lang['de_DE']['Silvercart']['EXECUTE'] = 'Ausführen';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
@@ -1768,3 +1769,17 @@ $lang['de_DE']['SilvercartPriceType']['NET']                                    
 
 $lang['de_DE']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Aktion auf Auswahl anwenden';
 $lang['de_DE']['SilvercartEditableTableListField']['QUICK_ACCESS']              = 'Schnellansicht';
+
+$lang['de_DE']['SilvercartDateRangePicker']['TODAY']                            = 'Heute';
+$lang['de_DE']['SilvercartDateRangePicker']['LAST_7_DAYS']                      = 'Letzte 7 Tage';
+$lang['de_DE']['SilvercartDateRangePicker']['THIS_MONTH']                       = 'Dieser Monat';
+$lang['de_DE']['SilvercartDateRangePicker']['THIS_YEAR']                        = 'Dieses Jahr';
+$lang['de_DE']['SilvercartDateRangePicker']['LAST_MONTH']                       = 'Vorheriger Monat';
+$lang['de_DE']['SilvercartDateRangePicker']['DATE']                             = 'Datum';
+$lang['de_DE']['SilvercartDateRangePicker']['ALL_BEFORE']                       = 'Alles vor';
+$lang['de_DE']['SilvercartDateRangePicker']['ALL_AFTER']                        = 'Alles nach';
+$lang['de_DE']['SilvercartDateRangePicker']['PERIOD']                           = 'Zeitraum';
+$lang['de_DE']['SilvercartDateRangePicker']['START_DATE']                       = 'Startdatum';
+$lang['de_DE']['SilvercartDateRangePicker']['END_DATE']                         = 'Enddatum';
+$lang['de_DE']['SilvercartDateRangePicker']['NEXT']                             = 'Nächster';
+$lang['de_DE']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Vorheriger';

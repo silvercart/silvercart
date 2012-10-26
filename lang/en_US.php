@@ -76,6 +76,7 @@ $lang['en_US']['Silvercart']['UNMARK_ALL'] = 'Unmark all';
 $lang['en_US']['Silvercart']['SORTORDER'] = 'Sort order';
 $lang['en_US']['Silvercart']['PAGE'] = 'Page';
 $lang['en_US']['Silvercart']['X_OF_Y'] = '%s of %s';
+$lang['en_US']['Silvercart']['EXECUTE'] = 'Execute';
 
 $lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -1768,3 +1769,17 @@ $lang['en_US']['SilvercartPriceType']['NET']                                    
 
 $lang['en_US']['SilvercartEditableTableListField']['BATCH_OPTIONS_LABEL']       = 'Execute action for selection';
 $lang['en_US']['SilvercartEditableTableListField']['QUICK_ACCESS']              = 'Quick access';
+
+$lang['en_US']['SilvercartDateRangePicker']['TODAY']                            = 'Today';
+$lang['en_US']['SilvercartDateRangePicker']['LAST_7_DAYS']                      = 'Last 7 days';
+$lang['en_US']['SilvercartDateRangePicker']['THIS_MONTH']                       = 'This month';
+$lang['en_US']['SilvercartDateRangePicker']['THIS_YEAR']                        = 'This year';
+$lang['en_US']['SilvercartDateRangePicker']['LAST_MONTH']                       = 'Last month';
+$lang['en_US']['SilvercartDateRangePicker']['DATE']                             = 'Date';
+$lang['en_US']['SilvercartDateRangePicker']['ALL_BEFORE']                       = 'All before';
+$lang['en_US']['SilvercartDateRangePicker']['ALL_AFTER']                        = 'All after';
+$lang['en_US']['SilvercartDateRangePicker']['PERIOD']                           = 'Period';
+$lang['en_US']['SilvercartDateRangePicker']['START_DATE']                       = 'Start date';
+$lang['en_US']['SilvercartDateRangePicker']['END_DATE']                         = 'End date';
+$lang['en_US']['SilvercartDateRangePicker']['NEXT']                             = 'Next';
+$lang['en_US']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Previous';
