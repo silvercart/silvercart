@@ -123,8 +123,8 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * 
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
      */
     public function SilvercartMenus() {
         $silvercartMenus = new DataObjectSet();
@@ -231,7 +231,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 $silvercartMenus->push(
                     new DataObject(
                         array(
-                            'name'        => $menu['name'],
+                            'name'        => _t('SilvercartStoreAdminMenu.' . strtoupper($menu['code'])),
                             'MenuSection' => $menuSectionIndicator,
                             'code'        => $menu['code'],
                             'ModelAdmins' => $groupedModelAdmins
