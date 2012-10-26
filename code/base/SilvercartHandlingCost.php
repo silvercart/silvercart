@@ -67,16 +67,17 @@ class SilvercartHandlingCost extends DataObject {
      * 
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                   'amount' => _t('SilvercartHandlingCost.AMOUNT', 'amount') 
-                    )
-                );
+                    'amount'        => _t('SilvercartHandlingCost.AMOUNT', 'amount'),
+                    'SilvercartTax' => _t('SilvercartTax.SINGULARNAME'),
+                )
+        );
     }
 
     /**
@@ -111,12 +112,13 @@ class SilvercartHandlingCost extends DataObject {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'handlingcosts' => _t('SilvercartHandlingCost.AMOUNT'),
+            'handlingcosts' => $this->fieldLabel('amount'),
+            'SilvercartTax.Rate' => $this->fieldLabel('SilvercartTax'),
         );
         $this->extend('updateSummaryFields', $summaryFields);
 
@@ -130,10 +132,9 @@ class SilvercartHandlingCost extends DataObject {
      *
      * @return FieldSet the fields for the backend
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 20.06.2012
- */
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
+     */
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields(
                 array_merge(
@@ -145,6 +146,13 @@ class SilvercartHandlingCost extends DataObject {
                         (array)$params
                 )
         );
+        SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
+        
+        $fieldGroup = new SilvercartFieldGroup('handlingCostGroup', '', $fields);
+        $fieldGroup->push(          $fields->dataFieldByName('amount'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('SilvercartTaxID'));
+        $fields->addFieldToTab('Root.Main', $fieldGroup);
+        
         return $fields;
     }
 

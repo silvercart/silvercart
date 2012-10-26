@@ -1059,6 +1059,8 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForPrices($fields, $addToMain = false) {
+        SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
+        
         $pricesGroup  = new SilvercartFieldGroup('PricesGroup', '', $fields);
         $pricesGroup->push($fields->dataFieldByName('PriceGross'));
         $pricesGroup->push($fields->dataFieldByName('PriceNet'));

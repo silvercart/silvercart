@@ -219,6 +219,8 @@ class SilvercartShippingFee extends DataObject {
         $postPricingField = $fields->dataFieldByName('PostPricing');
         $postPricingField->setTitle($postPricingField->Title() . ' (' . $this->fieldLabel('PostPricingInfo') . ')');
         
+        SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
+        
         $fieldGroup = new SilvercartFieldGroup('ShippingFeeGroup', '', $fields);
         $fieldGroup->push(          $fields->dataFieldByName('MaximumWeight'));
         $fieldGroup->pushAndBreak(  $fields->dataFieldByName('UnlimitedWeight'));

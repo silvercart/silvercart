@@ -1512,10 +1512,11 @@ $lang['en_GB']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 
 $lang['en_GB']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.';
 $lang['en_GB']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Cart position';
 
-$lang['en_GB']['SilvercartTax']['LABEL'] = 'label';
-$lang['en_GB']['SilvercartTax']['PLURALNAME'] = 'Rates';
-$lang['en_GB']['SilvercartTax']['RATE_IN_PERCENT'] = 'Rate in %';
-$lang['en_GB']['SilvercartTax']['SINGULARNAME'] = 'Rate';
+$lang['en_GB']['SilvercartTax']['LABEL']                                        = 'label';
+$lang['en_GB']['SilvercartTax']['PLURALNAME']                                   = 'Rates';
+$lang['en_GB']['SilvercartTax']['RATE_IN_PERCENT']                              = 'Rate in %';
+$lang['en_GB']['SilvercartTax']['SINGULARNAME']                                 = 'Rate';
+$lang['en_GB']['SilvercartTax']['ISDEFAULT']                                    = 'Is default';
 
 $lang['en_GB']['SilvercartTaxLanguage']['SINGULARNAME']                         = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartTaxLanguage']['PLURALNAME']                           = _t('Silvercart.TRANSLATIONS');
