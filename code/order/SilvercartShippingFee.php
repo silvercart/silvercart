@@ -40,10 +40,12 @@ class SilvercartShippingFee extends DataObject {
      * @var array
      */
     public static $db = array(
-        'MaximumWeight'     => 'Int',   //gramms
-        'UnlimitedWeight'   => 'Boolean',
-        'Price'             => 'Money',
-        'PostPricing'       => 'Boolean',
+        'MaximumWeight'                 => 'Int',
+        'UnlimitedWeight'               => 'Boolean',
+        'Price'                         => 'Money',
+        'PostPricing'                   => 'Boolean',
+        'freeOfShippingCostsDisabled'   => 'Boolean',
+        'freeOfShippingCostsFrom'       => 'Money',
     );
 
     /**
@@ -138,17 +140,19 @@ class SilvercartShippingFee extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'MaximumWeight'             => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
-                    'UnlimitedWeight'           => _t('SilvercartShippingFee.UNLIMITED_WEIGHT_LABEL'),
-                    'Price'                     => _t('SilvercartShippingFee.COSTS'),
-                    'SilvercartZone'            => _t('SilvercartShippingMethod.FOR_ZONES'),
-                    'SilvercartZone.Title'      => _t('SilvercartShippingMethod.FOR_ZONES'),
-                    'AttributedShippingMethods' => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
-                    'SilvercartTax'             => _t('SilvercartTax.SINGULARNAME', 'tax'),
-                    'PostPricing'               => _t('SilvercartShippingFee.POST_PRICING'),
-                    'SilvercartOrders'          => _t('SilvercartOrder.PLURALNAME'),
-                    'PostPricingInfo'           => _t('SilvercartShippingFee.POST_PRICING_INFO'),
-                    'EmptyString'               => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE')
+                    'MaximumWeight'                 => _t('SilvercartShippingFee.MAXIMUM_WEIGHT'),
+                    'UnlimitedWeight'               => _t('SilvercartShippingFee.UNLIMITED_WEIGHT_LABEL'),
+                    'Price'                         => _t('SilvercartShippingFee.COSTS'),
+                    'SilvercartZone'                => _t('SilvercartShippingMethod.FOR_ZONES'),
+                    'SilvercartZone.Title'          => _t('SilvercartShippingMethod.FOR_ZONES'),
+                    'AttributedShippingMethods'     => _t('SilvercartShippingFee.ATTRIBUTED_SHIPPINGMETHOD'),
+                    'SilvercartTax'                 => _t('SilvercartTax.SINGULARNAME', 'tax'),
+                    'PostPricing'                   => _t('SilvercartShippingFee.POST_PRICING'),
+                    'SilvercartOrders'              => _t('SilvercartOrder.PLURALNAME'),
+                    'PostPricingInfo'               => _t('SilvercartShippingFee.POST_PRICING_INFO'),
+                    'EmptyString'                   => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE'),
+                    'freeOfShippingCostsDisabled'   => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSDISABLED'),
+                    'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
                 )
         );
     }
@@ -205,7 +209,8 @@ class SilvercartShippingFee extends DataObject {
                         $params,
                         array(
                             'fieldClasses' => array(
-                                'Price' => 'SilvercartMoneyField',
+                                'Price'                     => 'SilvercartMoneyField',
+                                'freeOfShippingCostsFrom'   => 'SilvercartMoneyField',
                             ),
                         )
                 )
@@ -238,6 +243,8 @@ class SilvercartShippingFee extends DataObject {
             );
             $fieldGroup->push($zonesField);
         }
+        $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsDisabled'));
+        $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsFrom'));
         
         $fields->addFieldToTab('Root.Main', $fieldGroup);
 
@@ -340,21 +347,12 @@ class SilvercartShippingFee extends DataObject {
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
 
-            $silvercartShoppingCart  = Member::currentUser()->SilvercartShoppingCart();
-            $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom($this->SilvercartShippingMethod()->getShippingCountry());
-
-            if (SilvercartConfig::PriceType() == 'gross') {
-                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
-            } else {
-                $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
-            }
-
-            if (SilvercartConfig::UseFreeOfShippingCostsFrom()) {
-                $freeOfShippingCostsFromAmount = (float) $freeOfShippingCostsFrom->getAmount();
-                if (!is_null($freeOfShippingCostsFromAmount) &&
-                    $freeOfShippingCostsFromAmount <= $shoppingCartValue->getAmount()) {
-                    $taxAmount = 0.0;
-                }
+            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+            $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
+            $amountToGetFeeFor      = $shoppingCartValue->getAmount();
+            $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
+            if ($this->ShippingIsFree($amountToGetFeeFor, $countryToGetFeeFor)) {
+                $taxAmount = 0.0;
             }
         }
 
@@ -425,22 +423,11 @@ class SilvercartShippingFee extends DataObject {
 
             if (Member::currentUser() &&
                 Member::currentUser()->SilvercartShoppingCartID > 0) {
-
-                $silvercartShoppingCart     = Member::currentUser()->SilvercartShoppingCart();
-
-                if (SilvercartConfig::PriceType() == 'gross') {
-                    $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountGrossWithoutFees();
-                } else {
-                    $shoppingCartValue = $silvercartShoppingCart->getTaxableAmountNetWithoutFees();
-                }
-                $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
-                $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom($this->SilvercartShippingMethod()->getShippingCountry());
-
-                if ($useFreeOfShippingCostsFrom &&
-                    !is_null($freeOfShippingCostsFrom->getAmount()) &&
-                    $freeOfShippingCostsFrom->getAmount() > 0 &&
-                    (float) $freeOfShippingCostsFrom->getAmount() <= $shoppingCartValue->getAmount()) {
-
+                $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+                $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
+                $amountToGetFeeFor      = $shoppingCartValue->getAmount();
+                $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
+                if ($this->ShippingIsFree($amountToGetFeeFor, $countryToGetFeeFor)) {
                     $price = 0.0;
                 }
             }
@@ -449,19 +436,72 @@ class SilvercartShippingFee extends DataObject {
 
             $this->extend('updatePriceAmount', $price);
         } elseif (!is_null($amountToGetFeeFor) &&
-                  !is_null($countryToGetFeeFor)) {
-            $useFreeOfShippingCostsFrom = SilvercartConfig::UseFreeOfShippingCostsFrom();
-            $freeOfShippingCostsFrom    = SilvercartConfig::FreeOfShippingCostsFrom($countryToGetFeeFor);
-            if ($useFreeOfShippingCostsFrom &&
-                !is_null($freeOfShippingCostsFrom->getAmount()) &&
-                $freeOfShippingCostsFrom->getAmount() > 0 &&
-                (float) $freeOfShippingCostsFrom->getAmount() <= $amountToGetFeeFor) {
-
-                $price = 0.0;
-            }
+                  !is_null($countryToGetFeeFor) &&
+                  $this->ShippingIsFree($amountToGetFeeFor, $countryToGetFeeFor)) {
+            $price = 0.0;
         }
 
         return $price;
+    }
+    
+    /**
+     * Returns whether to use free shipping costs or not
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function UseFreeOfShippingCostsFrom() {
+        $useFreeOfShippingCostsFrom = false;
+        if (!$this->freeOfShippingCostsDisabled &&
+            SilvercartConfig::UseFreeOfShippingCostsFrom()) {
+            $useFreeOfShippingCostsFrom = true;
+        }
+        return $useFreeOfShippingCostsFrom;
+    }
+    
+    /**
+     * Returns needed value for free shipping
+     * 
+     * @param SilvercartCountry $country Country to get free of shipping costs from value
+     * 
+     * @return Money
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function FreeOfShippingCostsFrom($country) {
+        $freeOfShippingCostsFrom = new Money();
+        if ($this->UseFreeOfShippingCostsFrom()) {
+            if ($this->freeOfShippingCostsFrom->getAmount() > 0) {
+                $freeOfShippingCostsFrom = $this->freeOfShippingCostsFrom;
+            } else {
+                $freeOfShippingCostsFrom = SilvercartConfig::FreeOfShippingCostsFrom($country);
+            }
+        }
+        return $freeOfShippingCostsFrom;
+    }
+    
+    /**
+     * Returns whether shipping is free for the given amount and country
+     * 
+     * @param float             $amount  Amount to get free of shipping info
+     * @param SilvercartCountry $country Country to get free of shipping info
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function ShippingIsFree($amount, $country) {
+        $shippingIsFree = false;
+        if ($this->UseFreeOfShippingCostsFrom() &&
+            $this->FreeOfShippingCostsFrom($country)->getAmount() > 0 &&
+            (float) $this->FreeOfShippingCostsFrom($country)->getAmount() <= $amount) {
+            $shippingIsFree = true;
+        }
+        return $shippingIsFree;
     }
     
     /**

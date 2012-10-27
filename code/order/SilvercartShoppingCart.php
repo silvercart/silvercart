@@ -134,7 +134,7 @@ class SilvercartShoppingCart extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.02.2011
+     * @since 02.10.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
@@ -412,6 +412,20 @@ class SilvercartShoppingCart extends DataObject {
         
         return !$error;
     }
+    
+    /**
+     * Returns one or more plugged in rows for the shopping carts editable table
+     * as a DataobjectSet
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2012
+     */
+    public function addToEditableShoppingCartTable() {
+        $addToCartTable = SilvercartPlugin::call($this, 'addToEditableShoppingCartTable', array(), false, 'DataObjectSet');
+        return $addToCartTable;
+    }
 
     /**
      * empties cart
@@ -464,12 +478,31 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return string a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function getTaxableAmountWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+        if (SilvercartConfig::PriceType() == 'gross') {
+            $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false);
+        } else {
+            $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false);
+        }
+        return $taxableAmountWithFees;
+    }
+
+    /**
+     * Returns the GROSS price of the cart positions + fees, including taxes.
+     *
+     * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
+     *                                              can contain the ID or the className of the position
+     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
+     *
+     * @return string a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
-        $member         = Member::currentUser();
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
@@ -500,7 +533,7 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
-     * Returns the net price of the cart positions + fees, including taxes.
+     * Returns the NET price of the cart positions + fees, including taxes.
      *
      * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
      *                                              can contain the ID or the className of the position
@@ -508,12 +541,10 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return string a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
-        $member         = Member::currentUser();
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = round($this->getTaxableAmountNetWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount(), 2);
@@ -542,9 +573,9 @@ class SilvercartShoppingCart extends DataObject {
 
         return $amountTotalObj;
     }
-    
+
     /**
-     * Returns the price of the cart positions, including taxes.
+     * Returns the price of the cart positions, including taxes, excluding fees.
      *
      * @param array   $excludeModules              An array of registered modules that shall not
      *                                             be taken into account.
@@ -554,9 +585,31 @@ class SilvercartShoppingCart extends DataObject {
      * 
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function getTaxableAmountWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
+        if (SilvercartConfig::PriceType() == 'gross') {
+            $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPosition, $excludeCharges);
+        } else {
+            $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPosition, $excludeCharges);
+        }
+        return $taxableAmountWithoutFees;
+    }
+
+    /**
+     * Returns the GROSS price of the cart positions, including taxes, excluding fees.
+     *
+     * @param array   $excludeModules              An array of registered modules that shall not
+     *                                             be taken into account.
+     * @param array   $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                             can contain the ID or the className of the position
+     * @param boolean $excludeCharges              Indicates wether charges and discounts should be calculated
+     * 
+     * @return Money a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
         $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
@@ -576,7 +629,7 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
-     * Returns the price of the cart positions.
+     * Returns the NET price of the cart positions, including taxes, excluding fees.
      *
      * @param array   $excludeModules              An array of registered modules that shall not
      *                                             be taken into account.
@@ -586,9 +639,8 @@ class SilvercartShoppingCart extends DataObject {
      * 
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountNetWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
         $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
@@ -601,7 +653,7 @@ class SilvercartShoppingCart extends DataObject {
         }
         
         if (round($amount, 2) === -0.00) {
-            $amount *= -1;
+            $amount = 0;
         }
 
         $amountObj = new Money;
@@ -619,9 +671,28 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function getTaxableAmountWithoutModules() {
+        if (SilvercartConfig::PriceType() == 'gross') {
+            $taxableAmountWithoutModules = $this->getTaxableAmountGrossWithoutModules();
+        } else {
+            $taxableAmountWithoutModules = $this->getTaxableAmountNetWithoutModules();
+        }
+        return $taxableAmountWithoutModules;
+    }
+    
+    /**
+     * Returns the GROSS price of the cart positions without modules.
+     *
+     * The price type is automatically determined by the
+     * SilvercartShoppinCartPosition.
+     *
+     * @return Money a price amount
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountGrossWithoutModules() {
         $amountObj = new Money();
@@ -639,16 +710,15 @@ class SilvercartShoppingCart extends DataObject {
     }
     
     /**
-     * Returns the price of the cart positions without modules.
+     * Returns the NET price of the cart positions without modules.
      *
      * The price type is automatically determined by the
      * SilvercartShoppinCartPosition.
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
      */
     public function getTaxableAmountNetWithoutModules() {
         $amountObj = new Money();
@@ -835,9 +905,8 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 07.04.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.09.2012
      */
     public function getTaxTotal($excludeCharges = false) {
         $taxRates = $this->getTaxRatesWithFees();
@@ -864,13 +933,15 @@ class SilvercartShoppingCart extends DataObject {
                     $taxRate->AmountRaw += $rateAmount;
 
                     if (round($taxRate->AmountRaw, 2) === -0.00) {
-                        $taxRate->AmountRaw *= -1;
+                        $taxRate->AmountRaw = 0;
                     }
 
                     $taxRate->Amount->setAmount($taxRate->AmountRaw);
                 }
             }
         }
+        
+        $this->extend('updateTaxTotal', $taxRates);
 
         return $taxRates;
     }
@@ -1107,16 +1178,19 @@ class SilvercartShoppingCart extends DataObject {
      * 
      * @return Money a money object with the calculated amount and the default currency
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.09.2012
      */
     public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
         if (SilvercartConfig::PriceType() == 'gross') {
-            return $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+            $amountTotal = $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
-            return $this->getAmountTotalNet($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
+            $amountTotal = $this->getAmountTotalNet($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         }
+        if ($amountTotal->getAmount() <= 0) {
+            $amountTotal->setAmount(0);
+        }
+        return $amountTotal;
     }
 
     /**

@@ -39,7 +39,25 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      * @var string
      */
     public static $icon = "silvercart/images/page_icons/checkout_page";
-    
+
+    /**
+     * Deletes the step session data.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.10.2012
+     */
+    public static function deleteSessionStepData() {
+        if (isset($_SESSION['CustomHtmlFormStep']) &&
+            is_array($_SESSION['CustomHtmlFormStep'])) {
+
+            foreach ($_SESSION['CustomHtmlFormStep'] as $sessionIdx => $sessionContent) {
+                unset($_SESSION['CustomHtmlFormStep'][$sessionIdx]);
+            }
+        }
+    }
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -250,6 +268,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
             $prefix.'_Fax'              => 'Fax',
             $prefix.'_Country'          => 'CountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
         );
         
         if (is_array($data)) {
@@ -269,7 +290,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         } else {
             $addressData['isCompanyAddress'] = false;
         }
-
+        
         return $addressData;
     }
 
@@ -302,6 +323,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_Fax'              => 'Fax',
             $prefix.'_Country'          => 'CountryID',
             $prefix.'_Country'          => 'SilvercartCountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
         );
         
         if (is_array($data)) {
@@ -364,7 +388,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         if (array_key_exists('ID', $params)
          && !empty ($params['ID'])) {
             if (strtolower($params['OtherID']) == 'customhtmlformsubmit') {
-                $result = $this->CustomHtmlFormSubmit($request);
+                $this->CustomHtmlFormSubmit($request);
                 $form = $this->getRegisteredCustomHtmlForm('SilvercartEditAddressForm');
                 if ($form->submitSuccess) {
                     $form->addMessage(_t('SilvercartAddressHolder.ADDED_ADDRESS_SUCCESS', 'Your address was successfully saved.'));

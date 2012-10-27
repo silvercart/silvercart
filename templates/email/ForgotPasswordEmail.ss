@@ -13,13 +13,16 @@
     <body>        
         <h1><% _t('SilvercartMailForgotPassword.TITLE') %></h1>
 
-        <p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> $Salutation $FirstName $Surname,</p>
+        <p><% _t('SilvercartShopEmail.HELLO') %> $Salutation $FirstName $Surname,</p>
 
-        <p><% sprintf(_t('SilvercartMailForgotPassword.VISIT_TEXT'),$PasswordResetLink) %></p>
+        <p><% _t('SilvercartMailForgotPassword.VISIT_TEXT') %><br/>
+            $PasswordResetLink<br/>
+            <% _t('SilvercartMailForgotPassword.PASSWORT_RESET_LINK_HINT') %>
+        </p>
         
         <p><% _t('SilvercartMailForgotPassword.NO_CHANGE') %></p>        
 
-        <p><% _t('SilvercartShopEmail.REGARDS', 'Best regards') %>,</p>
-        <p><% _t('SilvercartShopEmail.YOUR_TEAM', 'Your SilverCart ecommerce team') %></p>
+        <p><% _t('SilvercartShopEmail.REGARDS') %>,</p>
+        <p><% _t('SilvercartShopEmail.YOUR_TEAM') %></p>
     </body>
 </html>

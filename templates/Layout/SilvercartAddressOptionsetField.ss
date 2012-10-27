@@ -36,7 +36,9 @@
                                 <div class="subcolumns">
                                     <div class="c66l">
                                         <div class="silvercart-address-field_content">
-                                            <% if isCompanyAddress %>
+                                            <% if IsPackstation %>
+                                                <em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
+                                            <% else_if isCompanyAddress %>
                                                 <div class="silvercart-address-company-section">
                                                     <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
                                                     <% if TaxIdNumber %>$address.fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
@@ -47,7 +49,15 @@
                                             <% end_if %>
                                             
                                             $SalutationText $FirstName $Surname<br/>
-                                            $Street $StreetNumber<br/>
+                                            <% if Addition %>
+                                                $Addition<br/>
+                                            <% end_if %>
+                                            <% if IsPackstation %>
+                                                $PostNumber<br/>
+                                                $Packstation<br/>
+                                            <% else %>
+                                                $Street $StreetNumber<br/>
+                                            <% end_if %>
                                             $Postcode $City<br/>
                                             $SilvercartCountry.Title<br/>
                                             <% if Phone %>

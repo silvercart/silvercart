@@ -380,7 +380,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 26.05.2011
      */
     public function ProductPages() {
-        if ($this->elements !== null) {
+        if ($this->elements !== null &&
+            $this->elements !== false) {
             foreach ($this->elements as $page) {
                 $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
             }
@@ -446,7 +447,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 }
                 if ($PageProductIdx > $this->numberOfProductsToShow) {
                     $pages['Page'.$pageNr] = array(
-                        'Elements' => new DataObjectSet($pageProducts),
+                        'Elements' => new ArrayList($pageProducts),
                         'IsFirst'    => $isFirst
                     );
                     $PageProductIdx = 1;
@@ -464,12 +465,12 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             }
 
             $pages['Page'.$pageNr] = array(
-                'Elements' => new DataObjectSet($pageProducts),
+                'Elements' => new ArrayList($pageProducts),
                 'IsFirst'  => $isFirst
             );
         }
 
-        $this->elements = new DataObjectSet($pages);
+        $this->elements = new ArrayList($pages);
         
         return $this->elements;
     }
@@ -544,13 +545,13 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
     /**
      * Returns a number of products from the chosen productgroup.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
      */
     public function getElementsByProductGroup() {
-        $elements = new DataObjectSet();
+        $elements = new ArrayList();
 
         if (!$this->SilvercartProductGroupPageID) {
             return $elements;

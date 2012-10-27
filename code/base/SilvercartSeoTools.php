@@ -70,7 +70,6 @@ class SilvercartSeoTools extends SilvercartTools {
      */
     public static function extractMetaDescription($string) {
         $metaDescription    = $string;
-        $metaDescription    = utf8_encode($metaDescription);
         $metaDescription    = html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8');
         $metaDescription    = strip_tags($metaDescription);
         $metaDescription    = str_replace('"', '', $metaDescription);

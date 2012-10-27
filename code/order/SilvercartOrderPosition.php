@@ -374,8 +374,8 @@ class SilvercartOrderPosition extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.10.2012
      */
     public function saveChanges($changedFields) {
         $price = $this->Price->getAmount();
@@ -418,7 +418,7 @@ class SilvercartOrderPosition extends DataObject {
                     $this->setField('TaxRate', $newProduct->getTaxRate());
                     $this->setField('ProductDescription', $newProduct->LongDescription);
                     $this->setField('Title', $newProduct->Title);
-                    $this->setField('ProductNumber', $newProduct->ProductNumber);
+                    $this->setField('ProductNumber', $newProduct->ProductNumberShop);
                     $this->doRecalculate = true;
                 }
             }
@@ -473,13 +473,14 @@ class SilvercartOrderPosition extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.10.2012
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
 
-        if ($this->doRecalculate) {
+        if ($this->doRecalculate &&
+            $this->SilvercartOrder()->ID != 0) {
             $this->SilvercartOrder()->recalculate();
             $this->doRecalculate = false;
         }

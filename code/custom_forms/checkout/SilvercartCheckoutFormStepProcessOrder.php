@@ -124,15 +124,7 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
         $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
 
-        $order = new SilvercartOrder();
-        $order->setCustomerEmail($customerEmail);
-        $order->setShippingMethod($checkoutData['ShippingMethod']);
-        $order->setPaymentMethod($checkoutData['PaymentMethod']);
-        $order->setNote($customerNote);
-        $order->setWeight();
-        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions']);
-        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction']);
-        $order->createFromShoppingCart();
+        $order = $this->createOrder($customerEmail, $checkoutData, $customerNote);
 
         $order->createShippingAddress($shippingData);
         $order->createInvoiceAddress($invoiceData);
@@ -155,4 +147,29 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
         return false;
     }
 
+    /**
+     * Creates a SilvercartOrder object from the given parameters.
+     *
+     * @param string $customerEmail The customers email address
+     * @param array  $checkoutData  The checkout data
+     * @param string $customerNote  The optional note from the customer
+     *
+     * @return SilvercartOrder
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function createOrder($customerEmail, $checkoutData, $customerNote) {
+        $order = new SilvercartOrder();
+        $order->setCustomerEmail($customerEmail);
+        $order->setShippingMethod($checkoutData['ShippingMethod']);
+        $order->setPaymentMethod($checkoutData['PaymentMethod']);
+        $order->setNote($customerNote);
+        $order->setWeight();
+        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions']);
+        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction']);
+        $order->createFromShoppingCart();
+
+        return $order;
+    }
 }

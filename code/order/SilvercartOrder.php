@@ -53,6 +53,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'OrderNumber'                       => 'VarChar(128)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
+        'IsSeen'                            => 'Boolean(0)',
         /**
          * @deprecated
          */
@@ -80,7 +81,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartOrderPositions'  => 'SilvercartOrderPosition'
+        'SilvercartOrderPositions'  => 'SilvercartOrderPosition',
+        'SilvercartOrderLogs'       => 'SilvercartOrderLog',
     );
 
     /**
@@ -100,8 +102,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public static $casting = array(
         'Created'                   => 'Date',
         'CreatedNice'               => 'VarChar',
-        'ShippingAddressSummary'    => 'VarChar',
-        'InvoiceAddressSummary'     => 'VarChar',
+        'ShippingAddressSummary'    => 'Text',
+        'ShippingAddressTable'      => 'HtmlText',
+        'InvoiceAddressSummary'     => 'Text',
+        'InvoiceAddressTable'       => 'HtmlText',
         'AmountTotalNice'           => 'VarChar',
         'PriceTypeText'             => 'VarChar(24)',
     );
@@ -253,12 +257,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'Created'                               => _t('SilvercartPage.ORDER_DATE'),
                 'OrderNumber'                           => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
                 'SilvercartShippingFee'                 => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
-                'Note'                                  => _t('SilvercartPage.REMARKS'),
+                'Note'                                  => _t('SilvercartOrder.NOTE'),
+                'YourNote'                              => _t('SilvercartOrder.YOUR_REMARK'),
                 'Member'                                => _t('SilvercartOrder.CUSTOMER', 'customer'),
                 'Customer'                              => _t('SilvercartOrder.CUSTOMER'),
                 'CustomerData'                          => _t('SilvercartOrder.CUSTOMERDATA'),
                 'MemberCustomerNumber'                  => _t('SilvercartCustomer.CUSTOMERNUMBER'),
                 'MemberEmail'                           => _t('Member.EMAIL'),
+                'Email'                                 => _t('SilvercartAddress.EMAIL'),
                 'SilvercartShippingAddress'             => _t('SilvercartShippingAddress.SINGULARNAME'),
                 'SilvercartShippingAddressFirstName'    => _t('SilvercartAddress.FIRSTNAME'),
                 'SilvercartShippingAddressSurname'      => _t('SilvercartAddress.SURNAME'),
@@ -274,7 +280,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'TaxRateShipment'                       => _t('SilvercartOrder.TAXRATESHIPMENT'),
                 'TaxAmountPayment'                      => _t('SilvercartOrder.TAXAMOUNTPAYMENT'),
                 'TaxAmountShipment'                     => _t('SilvercartOrder.TAXAMOUNTSHIPMENT'),
-                'Note'                                  => _t('SilvercartOrder.NOTE'),
                 'WeightTotal'                           => _t('SilvercartOrder.WEIGHTTOTAL'),
                 'CustomersEmail'                        => _t('SilvercartOrder.CUSTOMERSEMAIL'),
                 'SilvercartPaymentMethod'               => _t('SilvercartPaymentMethod.SINGULARNAME'),
@@ -294,6 +299,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'PrintPreview'                          => _t('SilvercartOrder.PRINT_PREVIEW'),
                 'EmptyString'                           => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
                 'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
+                'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
+                'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -310,6 +317,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 05.07.2012
      */
     public function searchableFields() {
+        $address = singleton('SilvercartAddress');
         $searchableFields = array(
             'Created' => array(
                 'title'     => $this->fieldLabel('Created'),
@@ -319,9 +327,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'title'     => $this->fieldLabel('OrderNumber'),
                 'filter'    => 'PartialMatchFilter'
             ),
+            'IsSeen' => array(
+                'title'     => $this->fieldLabel('IsSeen'),
+                'filter'    => 'ExactMatchFilter'
+            ),
             'SilvercartOrderStatus.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartOrderStatus'),
-                'filter'    => 'ExactMatchFilter'
+                'filter'    => 'SilvercartExactMatchBooleanMultiFilter'
             ),
             'SilvercartPaymentMethod.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartPaymentMethod'),
@@ -345,6 +357,22 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             ),
             'SilvercartShippingAddress.Surname' => array(
                 'title'     => $this->fieldLabel('SilvercartShippingAddressSurname'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.Street' => array(
+                'title'     => $address->fieldLabel('Street'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.StreetNumber' => array(
+                'title'     => $address->fieldLabel('StreetNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.Postcode' => array(
+                'title'     => $address->fieldLabel('Postcode'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'SilvercartShippingAddress.City' => array(
+                'title'     => $address->fieldLabel('City'),
                 'filter'    => 'PartialMatchFilter'
             ),
             'SilvercartShippingAddress.SilvercartCountry.ID' => array(
@@ -388,30 +416,68 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
     /**
      * return the orders shipping address as complete string.
+     * 
+     * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
      */
-    public function getShippingAddressSummary() {
+    public function getShippingAddressSummary($disableUpdate = false) {
         $shippingAddressSummary = '';
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname . "\n";
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . "\n";
-        $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . "\n";
-        $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . "\n";
+        $shippingAddressSummary .= $this->SilvercartShippingAddress()->FullName . PHP_EOL;
+        if ($this->SilvercartShippingAddress()->IsPackstation) {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->PostNumber . PHP_EOL;
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Packstation . PHP_EOL;
+        } else {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Addition == '' ? '' : $this->SilvercartShippingAddress()->Addition . PHP_EOL;
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
+        }
+        $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . PHP_EOL;
+        if (!$disableUpdate) {
+            $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
+        }
         return $shippingAddressSummary;
+    }
+    
+    /**
+     * Returns the shipping address rendered with a HTML table
+     * 
+     * @return type
+     */
+    public function getShippingAddressTable() {
+        return $this->SilvercartShippingAddress()->renderWith('SilvercartMailAddressData');
     }
 
     /**
      * return the orders invoice address as complete string.
+     * 
+     * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
      */
-    public function getInvoiceAddressSummary() {
+    public function getInvoiceAddressSummary($disableUpdate = false) {
         $invoiceAddressSummary = '';
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname . "\n";
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . "\n";
-        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . "\n";
-        $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . "\n";
+        $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . PHP_EOL;
+        if ($this->SilvercartInvoiceAddress()->IsPackstation) {
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->PostNumber . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Packstation . PHP_EOL;
+        } else {
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->SilvercartInvoiceAddress()->Addition . PHP_EOL;
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
+        }
+        $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . PHP_EOL;
+        if (!$disableUpdate) {
+            $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
+        }
         return $invoiceAddressSummary;
+    }
+    
+    /**
+     * Returns the invoice address rendered with a HTML table
+     * 
+     * @return type
+     */
+    public function getInvoiceAddressTable() {
+        return $this->SilvercartInvoiceAddress()->renderWith('SilvercartMailAddressData');
     }
 
     /**
@@ -470,11 +536,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * customize backend fields
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.11.2010
-     * @return FieldList the form fields for the backend
+     * @return FieldSet the form fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 11.10.2012
      */
     public function getCMSFields() {
+        $this->markAsSeen();
         $ignoreFields   = $this->ignoreCMSFields();
         $restrictFields = array(
             'SilvercartOrderStatus',
@@ -515,6 +583,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $fields->findOrMakeTab('Root.ShippingAddressTab', $this->fieldLabel('ShippingAddressTab'));
         $fields->findOrMakeTab('Root.InvoiceAddressTab',  $this->fieldLabel('InvoiceAddressTab'));
         $fields->findOrMakeTab('Root.PrintPreviewTab',    $this->fieldLabel('PrintPreview'));
+        $orderLogsTab = clone $fields->findOrMakeTab('Root.SilvercartOrderLogs');
+        $fields->removeByName('SilvercartOrderLogs');
+        $fields->insertAfter($orderLogsTab, 'PrintPreviewTab');
         
         /***********************************************************************
         * SIMPLE MODIFICATION SECTION
@@ -528,6 +599,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (in_array('HasAcceptedRevocationInstruction', $restrictFields)) {
             $fields->makeFieldReadonly('HasAcceptedRevocationInstruction');
         }
+        
+        $orderLogField = $fields->dataFieldByName('SilvercartOrderLogs');
+        $orderLogField->setPermissions(array());
+        $orderLogField->setPageSize(50);
 
         /***********************************************************************
         * REMOVALSECTION
@@ -572,19 +647,37 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $address = singleton('SilvercartAddress');
 
         if (in_array('SilvercartShippingAddressID', $restrictFields)) {
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Name',      $address->fieldLabel('Name'),       $this->SilvercartShippingAddress()->FirstName . ' ' . $this->SilvercartShippingAddress()->Surname));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Street',    $address->fieldLabel('Street'),     $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Addition',  $address->fieldLabel('Addition'),   $this->SilvercartShippingAddress()->Addition));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_City',      $address->fieldLabel('City'),       strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new ReadonlyField('sa_Phone',     $address->fieldLabel('Phone'),      $this->SilvercartShippingAddress()->PhoneAreaCode . '/' . $this->SilvercartShippingAddress()->Phone));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new LiteralField('sa__Preview',           '<p>' . Convert::raw2xml($this->getShippingAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__FirstName',            $address->fieldLabel('FirstName'),          $this->SilvercartShippingAddress()->FirstName));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Surname',              $address->fieldLabel('Surname'),            $this->SilvercartShippingAddress()->Surname));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Addition',             $address->fieldLabel('Addition'),           $this->SilvercartShippingAddress()->Addition));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Street',               $address->fieldLabel('Street'),             $this->SilvercartShippingAddress()->Street));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__StreetNumber',         $address->fieldLabel('StreetNumber'),       $this->SilvercartShippingAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new CheckboxField('sa__IsPackstation',    $address->fieldLabel('IsPackstation'),      $this->SilvercartShippingAddress()->IsPackstation));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PostNumber',           $address->fieldLabel('PostNumber'),         $this->SilvercartShippingAddress()->PostNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Packstation',          $address->fieldLabel('PackstationPlain'),   $this->SilvercartShippingAddress()->Packstation));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->SilvercartShippingAddress()->Postcode));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__City',                 $address->fieldLabel('City'),               $this->SilvercartShippingAddress()->City));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map(), $this->SilvercartShippingAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PhoneAreaCode',        $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartShippingAddress()->PhoneAreaCode));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Phone',                $address->fieldLabel('Phone'),              $this->SilvercartShippingAddress()->Phone));
         }
 
         if (in_array('SilvercartInvoiceAddressID', $restrictFields)) {
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Name',       $address->fieldLabel('Name'),       $this->SilvercartInvoiceAddress()->FirstName . ' ' . $this->SilvercartInvoiceAddress()->Surname));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Street',     $address->fieldLabel('Street'),     $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Addition',   $address->fieldLabel('Addition'),   $this->SilvercartInvoiceAddress()->Addition));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_City',       $address->fieldLabel('City'),       strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new ReadonlyField('ia_Phone',      $address->fieldLabel('Phone'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode . '/' . $this->SilvercartInvoiceAddress()->Phone));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new LiteralField('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__FirstName',             $address->fieldLabel('FirstName'),          $this->SilvercartInvoiceAddress()->FirstName));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Surname',               $address->fieldLabel('Surname'),            $this->SilvercartInvoiceAddress()->Surname));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Addition',              $address->fieldLabel('Addition'),           $this->SilvercartInvoiceAddress()->Addition));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Street',                $address->fieldLabel('Street'),             $this->SilvercartInvoiceAddress()->Street));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__StreetNumber',          $address->fieldLabel('StreetNumber'),       $this->SilvercartInvoiceAddress()->StreetNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new CheckboxField('ia__IsPackstation',     $address->fieldLabel('IsPackstation'),      $this->SilvercartInvoiceAddress()->IsPackstation));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PostNumber',            $address->fieldLabel('PostNumber'),         $this->SilvercartInvoiceAddress()->PostNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Packstation',           $address->fieldLabel('PackstationPlain'),   $this->SilvercartInvoiceAddress()->Packstation));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->SilvercartInvoiceAddress()->Postcode));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__City',                  $address->fieldLabel('City'),               $this->SilvercartInvoiceAddress()->City));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map(), $this->SilvercartInvoiceAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PhoneAreaCode',         $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Phone',                 $address->fieldLabel('Phone'),              $this->SilvercartInvoiceAddress()->Phone));
         }
 
         /***********************************************************************
@@ -640,9 +733,45 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $mainGroup->pushAndBreak($fields->dataFieldByName('HasAcceptedRevocationInstruction'));
         }
         $fields->insertAfter($mainGroup, 'SilvercartOrderStatusID');
-
+        
         $this->extend('updateCMSFields', $fields);
         return $fields;
+    }
+    
+    /**
+     * Returns the quick access fields to use by SilvercartEditableTableListField
+     * 
+     * @return FieldSet
+     */
+    public function getQuickAccessFields() {
+        $quickAccessFields = new FieldSet();
+        
+        $orderNumberField   = new TextField('OrderNumber__' . $this->ID,            $this->fieldLabel('OrderNumber'),           $this->OrderNumber);
+        $orderStatusField   = new TextField('SilvercartOrderStatus__' . $this->ID,  $this->fieldLabel('SilvercartOrderStatus'), $this->SilvercartOrderStatus()->Title);
+        $orderPositionTable = new TableListField(
+                'SilvercartOrderPositions__' . $this->ID,
+                'SilvercartOrderPosition',
+                null,
+                sprintf(
+                        "SilvercartOrderID = '%s'",
+                        $this->ID
+                )
+        );
+        
+        $orderNumberField->setDisabled(true);
+        $orderStatusField->setDisabled(true);
+        $orderPositionTable->setPermissions(array());
+        
+        $mainGroup = new SilvercartFieldGroup('MainGroup');
+        $mainGroup->push($orderNumberField);
+        $mainGroup->push($orderStatusField);
+        
+        $quickAccessFields->push($mainGroup);
+        $quickAccessFields->push($orderPositionTable);
+        
+        $this->extend('updateQuickAccessFields', $quickAccessFields);
+        
+        return $quickAccessFields;
     }
     
     /**
@@ -1112,7 +1241,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * save the cart¬¥s weight
+     * save the carts weight
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -1379,6 +1508,45 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         return $chargePositions;
     }
+
+    /**
+     * returns the orders taxable amount without fees as string incl. currency.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     *
+     * @return string
+     */
+    public function getTaxableAmountWithoutFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithoutFees = $this->getTaxableAmountWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        return str_replace('.', ',', number_format($taxableAmountWithoutFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * fees and charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
+     */
+    public function getTaxableAmountWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithoutFees = null;
+        if ($this->IsPriceTypeGross()) {
+            $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        } else {
+            $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($includeChargesForProducts, $includeChargesForTotal);
+        }
+        return $taxableAmountWithoutFees;
+    }
     
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
@@ -1489,10 +1657,49 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             )
         );
     }
-    
+
+    /**
+     * returns the orders taxable amount with fees as string incl. currency.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     *
+     * @return string
+     */
+    public function getTaxableAmountWithFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithFees = $this->getTaxableAmountWithFees($includeChargesForProducts, $includeChargesForTotal);
+        return str_replace('.', ',', number_format($taxableAmountWithFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
+    }
+
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
-     * fees and charges.
+     * charges.
+     *
+     * @param boolean $includeChargesForProducts Indicates wether to include charges and
+     *                                           discounts for products
+     * @param boolean $includeChargesForTotal    Indicates wether to include charges and
+     *                                           discounts for the shopping cart total
+     * 
+     * @return Money
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
+     */
+    public function getTaxableAmountWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+        $taxableAmountWithFees = 0;
+        if ($this->IsPriceTypeGross()) {
+            $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($includeChargesForProducts, $includeChargesForTotal);
+        } else {
+            $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($includeChargesForProducts, $includeChargesForTotal);
+        }
+        return $taxableAmountWithFees;
+    }
+
+    /**
+     * Returns the order value of all positions with a tax rate > 0 without any
+     * charges.
      *
      * @param boolean $includeChargesForProducts Indicates wether to include charges and
      *                                           discounts for products
@@ -1501,9 +1708,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
      */
     public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal == 'false') {
@@ -1534,7 +1740,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
-     * fees and charges.
+     * charges.
      *
      * @param boolean $includeChargesForProducts Indicates wether to include charges and
      *                                           discounts for products
@@ -1543,9 +1749,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2012
      */
     public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal == 'false') {
@@ -1649,9 +1854,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money a price amount
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 26.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
      */
     public function getTaxTotal($excludeCharges = false) {
         $taxRates = $this->getTaxRatesWithFees(true, false);
@@ -1668,12 +1872,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $taxRate->Amount->setAmount($taxRateAmount + $chargeTaxAmount);
 
                     if (round($taxRate->Amount->getAmount(), 2) === -0.00) {
-                        $taxRate->Amount->setAmount($taxRate->Amount->getAmount() * -1);
+                        $taxRate->Amount->setAmount(0);
                     }
                 }
             }
         }
-
+        
+        $this->extend('updateTaxTotal', $taxRates);
+        
         return $taxRates;
     }
     
@@ -1985,7 +2191,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             ),
             'MailOrderNotification' => array(
                 'Template'      => 'MailOrderNotification',
-                'Recipient'     => Email::getAdminEmail(),
+                'Recipient'     => SilvercartConfig::DefaultMailOrderNotificationRecipient(),
                 'Variables'     => array(
                     'FirstName'         => $this->SilvercartInvoiceAddress()->FirstName,
                     'Surname'           => $this->SilvercartInvoiceAddress()->Surname,
@@ -2042,6 +2248,27 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 
                 $newOrderStatus->sendMailFor($this);
             }
+            SilvercartOrderLog::addChangedLog($this, 'SilvercartOrderStatus', $this->original['SilvercartOrderStatusID'], $this->SilvercartOrderStatusID);
+        }
+        if (array_key_exists('sa__FirstName', $_POST) &&
+            $this->SilvercartShippingAddress()->ID > 0) {
+            foreach ($_POST as $paramName => $paramValue) {
+                if (strpos($paramName, 'sa__') === 0) {
+                    $addressParamName = str_replace('sa__', '', $paramName);
+                    $this->SilvercartShippingAddress()->{$addressParamName} = $paramValue;
+                }
+            }
+            $this->SilvercartShippingAddress()->write();
+        }
+        if (array_key_exists('ia__FirstName', $_POST) &&
+            $this->SilvercartInvoiceAddress()->ID > 0) {
+            foreach ($_POST as $paramName => $paramValue) {
+                if (strpos($paramName, 'ia__') === 0) {
+                    $addressParamName = str_replace('ia__', '', $paramName);
+                    $this->SilvercartInvoiceAddress()->{$addressParamName} = $paramValue;
+                }
+            }
+            $this->SilvercartInvoiceAddress()->write();
         }
         $this->extend('updateOnBeforeWrite');
     }
@@ -2149,4 +2376,21 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated!', E_USER_ERROR);
         return $this->getAmountTotalNice();
     }
+    
+    /**
+     * Marks the order as seen
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function markAsSeen() {
+        if (!$this->IsSeen) {
+            $this->IsSeen = true;
+            $this->write();
+            SilvercartOrderLog::addMarkedAsSeenLog($this, 'SilvercartOrder');
+        }
+    }
+    
 }

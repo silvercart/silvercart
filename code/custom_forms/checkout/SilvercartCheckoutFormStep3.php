@@ -93,7 +93,18 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']             = true;
+        $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+        $stepIsVisible      = true;
+        if ($shippingMethods->Count() === 1) {
+            $stepIsVisible = false;
+        } elseif ($shippingMethods->Count() === 0) {
+            $shippingMethods = DataObject::get('SilvercartShippingMethod');
+            if ($shippingMethods instanceof ArrayList &&
+                $shippingMethods->Count() === 1) {
+                $stepIsVisible = false;
+            }
+        }
+        $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
@@ -116,7 +127,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.CHOOSE_SHIPPING_METHOD');
                     
-        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods();
+        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
         if ($shippingMethods) {
             $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
         }
@@ -131,6 +142,28 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
                 $shippingMethods->Count() > 0) {
                 $this->formFields['ShippingMethod']['selectedValue'] = $shippingMethods->First()->ID;
             }
+        }
+    }
+    
+    /**
+     * If there is only one shipping method, set the shipping method and skip 
+     * this step
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
+     */
+    public function process() {
+        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+        if ($shippingMethods->Count() === 1) {
+            // there is only one shipping method, set it and skip this step
+            $formData = array(
+                'ShippingMethod' => $shippingMethods->First()->ID,
+            );
+            $this->controller->setStepData($formData);
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
         }
     }
 
@@ -155,6 +188,15 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->controller->setStepData($formData);
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
+    }
+    
+    /**
+     * Returns the checkouts current shipping address
+     * 
+     * @return SilvercartAddress
+     */
+    public function getShippingAddress() {
+        return $this->Controller()->getShippingAddress();
     }
 }
 

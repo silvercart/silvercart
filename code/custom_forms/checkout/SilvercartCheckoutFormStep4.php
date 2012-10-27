@@ -132,7 +132,12 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']             = true;
+        $paymentMethods = DataObject::get('SilvercartPaymentMethod', "\"isActive\" = 1");
+        $stepIsVisible  = true;
+        if ($paymentMethods->count() === 1) {
+            $stepIsVisible = false;
+        }
+        $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Payment');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
         $this->preferences['fillInRequestValues']       = true;
@@ -180,17 +185,36 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.07.2011
+     * @since 10.09.2012
      */
     public function process() {
-        foreach ($this->getRegisteredNestedForms() as $registeredNestedForm) {
-            if (method_exists($registeredNestedForm, 'process')) {
-                if ($registeredNestedForm->process()) {
-                    $this->controller->resetStepMapping();
-                    $this->controller->registerStepDirectory(
-                        $registeredNestedForm->getPaymentMethod()->getStepConfiguration()
-                    );
-                    $this->controller->generateStepMapping();
+        $allowedPaymentMethods = $this->getAllowedPaymentMethods();
+        if ($allowedPaymentMethods->Count() === 1 &&
+            $this->getRegisteredNestedForms()->count() == 1 &&
+            $this->getRegisteredNestedForms()->first() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
+            // there is only one payment method, set it and skip this step
+            $paymentMethod  = $allowedPaymentMethods->first();
+            $formData       = array(
+                'PaymentMethod' => $allowedPaymentMethods->first()->ID,
+            );
+            $this->controller->setStepData($formData);
+            $this->controller->resetStepMapping();
+            $this->controller->registerStepDirectory(
+                $paymentMethod->getStepConfiguration()
+            );
+            $this->controller->generateStepMapping();
+            $this->controller->addCompletedStep();
+            $this->controller->NextStep();
+        } else {
+            foreach ($this->getRegisteredNestedForms() as $registeredNestedForm) {
+                if (method_exists($registeredNestedForm, 'process')) {
+                    if ($registeredNestedForm->process()) {
+                        $this->controller->resetStepMapping();
+                        $this->controller->registerStepDirectory(
+                            $registeredNestedForm->getPaymentMethod()->getStepConfiguration()
+                        );
+                        $this->controller->generateStepMapping();
+                    }
                 }
             }
         }

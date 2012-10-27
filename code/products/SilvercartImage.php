@@ -409,8 +409,11 @@ class SilvercartImage extends DataObject {
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
-        if ($this->Image()) {
-            $this->Image()->delete();
+        $image = $this->Image();
+
+        if ($image &&
+            $image->ID > 0) {
+            $image->delete();
         }
     }
 }

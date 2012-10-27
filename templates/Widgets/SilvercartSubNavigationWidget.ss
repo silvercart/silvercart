@@ -1,11 +1,16 @@
-<% with Top %>
-    <% if CurrentPage.Children %>
-            <div class="vlist">
+<% cached NavigationCacheKey %>
+    <% with getNavigation %>
+        <% if HasMenu %>
+	    <% with Top %>
+            <% if Title %>
+                <h2>$Title</h2>
+            <% end_if %>
+	    <% end_with %>
+            <div class="vlist  silvercart-product-group-navigation-widget">
                 <ul>
-                <% loop CurrentPage.Children %>
-                    <li class="$LinkingMode $FirstLast"><a href="$Link" title="$Title.XML">$MenuTitle.XML</a></li>
-                <% end_loop %>
+                    $Menu
                 </ul>
             </div>
-    <% end_if %>
-<% end_with %>
+        <% end_if %>
+    <% end_with %>
+<% end_cached %>

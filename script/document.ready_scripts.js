@@ -22,32 +22,6 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
         );
     }
     
-    /* Delete the value of the qick search box field on click. If nothing was
-       entered restore the old value on blur */
-    var silvercartQuickSearchFieldValue = '';
-    var quickSearchField = $('#silvercart-quicksearch-form .type-text input');
-    
-    if (quickSearchField) {
-        silvercartQuickSearchFieldValue = quickSearchField.val();
-        
-        quickSearchField.bind(
-            'click',
-            function() {
-                silvercartQuickSearchFieldValue = quickSearchField.val();
-                
-                quickSearchField.val('');
-            }
-        );
-        quickSearchField.bind(
-            'blur',
-            function() {
-                if (quickSearchField.val() == '') {
-                    quickSearchField.val(silvercartQuickSearchFieldValue)
-                }
-            }
-        );
-    }
-    
     // ------------------------------------------------------------------------
     // Originally taken from
     // "http://www.sohtanaka.com/web-design/simple-tabs-w-css-jquery/" and

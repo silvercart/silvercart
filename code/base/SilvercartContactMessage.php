@@ -152,7 +152,7 @@ class SilvercartContactMessage extends DataObject {
     /**
      * Disable editing for all Member types.
      *
-     * @param Member $member Member
+     * @param Member $member Member, defined for compatibility with parent
      *
      * @return bool
      *
@@ -177,7 +177,7 @@ class SilvercartContactMessage extends DataObject {
         if (!$silvercartPluginCall) {
             SilvercartShopEmail::send(
                 'ContactMessage',
-                Email::getAdminEmail(),
+                SilvercartConfig::DefaultContactMessageRecipient(),
                 array(
                     'FirstName' => $this->FirstName,
                     'Surname'   => $this->Surname,
@@ -187,4 +187,21 @@ class SilvercartContactMessage extends DataObject {
             );
         }
     }
+    
+    /**
+     * returns field value for given fieldname with stripped slashes
+     *
+     * @param string $field fieldname
+     * 
+     * @return string 
+     */
+    public function getField($field) {
+        $parentField = parent::getField($field);
+        if (!is_null($parentField)) {
+            $parentField = stripcslashes($parentField);
+        }
+        return $parentField;
+    }
+   
+    
 }

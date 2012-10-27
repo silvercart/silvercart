@@ -135,3 +135,52 @@
 .right form .field span.readonly.silvercartmoney {
     display: inline-block;
 }
+
+.silvercart-batch-option-callback-target {
+    display: inline-block;
+}
+
+.right form .silvercart-batch-option-callback-target .field label.left,
+.right form .silvercart-batch-option-callback-target .field .middleColumn {
+    display:    inline-block;
+    width:      auto;
+}
+
+
+.importSpec {
+    
+}
+.importSpec dl {
+    
+}
+.importSpec dt {
+}
+.importSpec dd {
+    margin-left: 24px;
+}
+.importSpec dd:before {
+    content: '(';
+}
+.importSpec dd:after {
+    content: ')';
+}
+
+.sc-left {
+    float: left;
+}
+.padd {
+    padding: 12px;
+}
+
+
+.right form .TableListField tr.is-not-seen,
+.right form .TableListField tr.is-not-seen td,
+.right form .TableListField tr.is-not-seen td a {
+    background-color: #63C5FF;
+    color: #fff;
+}
+.right form .TableListField tr.is-not-seen:hover,
+.right form .TableListField tr.is-not-seen:hover td,
+.right form .TableListField tr.is-not-seen:hover td a {
+    background-color: #91D6FF;
+}

@@ -22,7 +22,9 @@
             </div>
         <div class="c33l">
         <% end_if %>
-            $Quantity
+            <span class="silvercart-quantity-label">
+                $Quantity
+            </span>
         <% if Top.EditableShoppingCart %>
             </div>
             <div class="c33r">

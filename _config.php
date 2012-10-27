@@ -82,14 +82,14 @@ Object::add_extension('SilvercartTaxLanguage',                      'SilvercartL
 Object::add_extension('SilvercartZoneLanguage',                     'SilvercartLanguageExtension');
 
 // Widget Translations
-Object::add_extension('SilvercartBargainProductsWidgetLanguage',        'SilvercartLanguageExtension');
-Object::add_extension('SilvercartImageSliderImageLanguage',             'SilvercartLanguageExtension');
-Object::add_extension('SilvercartImageSliderWidgetLanguage',            'SilvercartLanguageExtension');
-Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',        'SilvercartLanguageExtension');
-Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',      'SilvercartLanguageExtension');
-Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',  'SilvercartLanguageExtension');
-Object::add_extension('SilvercartTextWidgetLanguage',                   'SilvercartLanguageExtension');
-
+Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'SilvercartLanguageExtension');
+Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageExtension');
+Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageExtension');
+Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageExtension');
+Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageExtension');
+Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageExtension');
+Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageExtension');
+Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageExtension');
 // Translatable DataObjects
 Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualExtension');
 
@@ -111,13 +111,14 @@ Object::add_extension('SilvercartTax',                              'SilvercartD
 Object::add_extension('SilvercartZone',                             'SilvercartDataObjectMultilingualExtension');
 
 // Translatable Widgets
-Object::add_extension('SilvercartBargainProductsWidget',        'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartImageSliderImage',             'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartImageSliderWidget',            'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartLatestBlogPostsWidget',        'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartProductGroupItemsWidget',      'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartSlidorionProductGroupWidget',  'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartTextWidget',                   'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualExtension');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
     "SilvercartProduct",
@@ -157,6 +158,9 @@ SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller'
 SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
+
+// use custom classes
+Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
 // ----------------------------------------------------------------------------
 // Register i18n plugins
@@ -270,5 +274,3 @@ if (array_key_exists('Email', $_POST)) {
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.
  */
-
-

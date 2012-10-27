@@ -226,6 +226,8 @@ class SilvercartOrderStatus extends DataObject {
                     $order->CustomersEmail,
                     array(
                         'SilvercartOrder'   => $order,
+                        'OrderNumber'       => $order->OrderNumber,
+                        'CustomersEmail'    => $order->CustomersEmail,
                         'FirstName'         => $order->SilvercartInvoiceAddress()->FirstName,
                         'Surname'           => $order->SilvercartInvoiceAddress()->Surname,
                         'Salutation'        => $order->SilvercartInvoiceAddress()->Salutation

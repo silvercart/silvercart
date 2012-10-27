@@ -56,7 +56,7 @@ class SilvercartMetaNavigationHolder extends Page {
      */
     public static $icon = "silvercart/images/page_icons/metanavigation_holder";
 
-/**
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -71,16 +71,43 @@ class SilvercartMetaNavigationHolder extends Page {
 
 
     /**
- * Returns the translated plural name of the object. If no translation exists
- * the class name will be returned.
- * 
- * @return string the objects plural name
- * 
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 13.07.2012
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     *
+     * @return string the objects plural name
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 13.07.2012
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     *
+     * @param string $widgetSetName The name of the widget set relation
+     *
+     * @return SilvercartWidgetSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+        $parent    = $this->getParent();
+
+        if ($widgetSet->Count() == 0 &&
+            $parent &&
+            ($parent instanceof SilvercartMetaNavigationPage ||
+             $parent instanceof SilvercartMetaNavigationHolder) &&
+            array_key_exists($widgetSetName, $parent->many_many()) &&
+            $parent->$widgetSetName()->count() > 0) {
+
+            $widgetSet = $parent->$widgetSetName();
+        }
+        return $widgetSet;
     }
 }
 
@@ -95,6 +122,7 @@ class SilvercartMetaNavigationHolder extends Page {
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
+
 
     /**
      * Uses the children of SilvercartMetaNavigationHolder to render a subnavigation

@@ -75,8 +75,9 @@ class SilvercartShopEmail extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'Subject'       => 'Text',
-        'EmailText'     => 'Text',
+        'Subject'                           => 'Text',
+        'EmailText'                         => 'Text',
+        'AdditionalRecipientsHtmlString'    => 'HtmlText',
     );
     
     /**
@@ -139,6 +140,7 @@ class SilvercartShopEmail extends DataObject {
                 'Subject'                       => _t('SilvercartShopEmail.SUBJECT'),
                 'EmailText'                     => _t('SilvercartShopEmail.EMAILTEXT'),
                 'AdditionalReceipients'         => _t('SilvercartShopEmail.ADDITIONALS_RECEIPIENTS'),
+                'AdditionalRecipients'          => _t('SilvercartShopEmail.ADDITIONALS_RECEIPIENTS'),
                 'SilvercartShopEmailLanguages'  => _t('SilvercartShopEmailLanguage.PLURALNAME'),
                 'SilvercartOrderStatus'         => _t('SilvercartOrderStatus.PLURALNAME'),
             )
@@ -160,8 +162,9 @@ class SilvercartShopEmail extends DataObject {
         $summaryFields = array_merge(
                 parent::summaryFields(),
                 array(
-                    'Identifier'    => $this->fieldLabel('Identifier'),
-                    'Subject'       => $this->fieldLabel('Subject'),
+                    'Identifier'                        => $this->fieldLabel('Identifier'),
+                    'Subject'                           => $this->fieldLabel('Subject'),
+                    'AdditionalRecipientsHtmlString'    => $this->fieldLabel('AdditionalRecipients'),
                 )
         );
         
@@ -224,6 +227,22 @@ class SilvercartShopEmail extends DataObject {
      */
     public function getSubject() {
         return $this->getLanguageFieldValue('Subject');
+    }
+    
+    /**
+     * Returns the additional email recipients as a html string
+     * 
+     * @return string
+     */
+    public function getAdditionalRecipientsHtmlString() {
+        $additionalRecipientsArray = array();
+        if ($this->AdditionalReceipients()->Count() > 0) {
+            foreach ($this->AdditionalReceipients() as $additionalRecipient) {
+                $additionalRecipientsArray[] = htmlentities($additionalRecipient->getEmailAddressWithName());
+            }
+        }
+        $additionalRecipientsString = implode('<br/>', $additionalRecipientsArray);
+        return $additionalRecipientsString;
     }
 
     /**

@@ -30,7 +30,7 @@
             <% end_with %>
         <% end_with %>
     <% else %>
-        <div class="subcolumns">
+        <div class="subcolumns silvercart-address-equalize">
             <div class="c50l">
                 <div class="subcl">
                     <% with AddressData %>

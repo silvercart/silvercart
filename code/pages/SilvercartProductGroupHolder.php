@@ -42,6 +42,8 @@ class SilvercartProductGroupHolder extends Page {
         'productGroupsPerPage'          => 'Int',
         'DefaultGroupHolderView'        => 'VarChar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
+        'DefaultGroupView'              => 'VarChar(255)',
+        'UseOnlyDefaultGroupView'       => 'Enum("no,yes,inherit","inherit")',
     );
 
     /**
@@ -102,7 +104,8 @@ class SilvercartProductGroupHolder extends Page {
                 'productGroupsPerPage'          => _t('SilvercartProductGroupPage.PRODUCTGROUPSPERPAGE'),
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
-                'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
+                'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
+                'UseOnlyDefaultGroupView'       => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
                 'Yes'                           => _t('Silvercart.YES'),
                 'No'                            => _t('Silvercart.NO'),
             )
@@ -125,12 +128,16 @@ class SilvercartProductGroupHolder extends Page {
             'yes'       => $this->fieldLabel('Yes'),
             'no'        => $this->fieldLabel('No'),
         );
-        
+
+        $defaultGroupViewField              = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
+        $useOnlyDefaultGroupViewField       = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
         $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
         $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupView'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
-        $fieldGroup->push($productGroupsPerPageField);
+        $fieldGroup->push($defaultGroupViewField);
+        $fieldGroup->push($useOnlyDefaultGroupViewField);
+        $fieldGroup->breakAndPush($productGroupsPerPageField);
         $fieldGroup->push($defaultGroupHolderViewField);
         $fieldGroup->push($useOnlyDefaultGroupHolderViewField);
         $fields->addFieldToTab('Root.Main', $fieldGroup, 'IdentifierCode');
@@ -153,7 +160,79 @@ class SilvercartProductGroupHolder extends Page {
         }
         return false;
     }
-    
+
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupView GroupView code
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function isGroupViewAllowed($groupView) {
+        $groupViewAllowed = true;
+        if ($this->getUseOnlyDefaultGroupViewInherited() &&
+            $groupView != $this->getDefaultGroupViewInherited()) {
+            $groupViewAllowed = false;
+        }
+        return $groupViewAllowed;
+    }
+
+    /**
+     * Returns the inherited DefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     *
+     * @return string
+     */
+    public function getDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $defaultGroupView = $context->DefaultGroupView;
+        if (empty($defaultGroupView) ||
+            SilvercartGroupViewHandler::getGroupView($defaultGroupView) === false) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
+            } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
+                $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
+            } else {
+                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            }
+        }
+        return $defaultGroupView;
+    }
+
+    /**
+     * Returns the inherited UseOnlyDefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     *
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this;
+        }
+        $useOnlyDefaultGroupView = $context->UseOnlyDefaultGroupView;
+        if ($useOnlyDefaultGroupView == 'inherit') {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
+            } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
+                $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
+            } else {
+                $useOnlyDefaultGroupView = false;
+            }
+        } elseif ($useOnlyDefaultGroupView == 'yes') {
+            $useOnlyDefaultGroupView = true;
+        } else {
+            $useOnlyDefaultGroupView = false;
+        }
+        return $useOnlyDefaultGroupView;
+    }
+
     /**
      * Checks whether the given group view is allowed to render for this group
      *

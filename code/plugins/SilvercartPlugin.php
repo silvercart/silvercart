@@ -324,14 +324,18 @@ class SilvercartPlugin extends Object {
      * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.04.2012
+     * @since 12.09.2012
      */
     public function returnExtensionResultAsArrayList($extensionResultSet) {
         $result = new ArrayList();
         
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $extensionResult) {
-                $result->push($extensionResult);
+                if ($extensionResult instanceof DataObjectSet) {
+                    $result->merge($extensionResult);
+                } else {
+                    $result->push($extensionResult);
+                }
             }
         }
         return $result;

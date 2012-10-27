@@ -136,6 +136,7 @@ class SilvercartProduct extends DataObject {
         'AbsoluteLink'                      => 'Text',
         'SilvercartProductGroupBreadcrumbs' => 'Text',
         'DefaultShippingFee'                => 'Text',
+        'MSRPriceNice'                      => 'Text',
     );
 
     /**
@@ -158,6 +159,13 @@ class SilvercartProduct extends DataObject {
      * @var array
      */
     protected static $blacklistedRequiredAttributes = array();
+    
+    /**
+     * Temporary extended sortable frontend fields
+     *
+     * @var array
+     */
+    protected static $extendedSortableFrontendFields = array();
 
     /**
      * Wee have to save the deeplink value this way because the framework will
@@ -258,6 +266,7 @@ class SilvercartProduct extends DataObject {
             // decode
             $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
         }
+        $this->extend('updateShortDescription', $shortDescription);
         return $shortDescription;
     }
     
@@ -277,6 +286,7 @@ class SilvercartProduct extends DataObject {
             // decode
             $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
         }
+        $this->extend('updateLongDescription', $longDescription);
         return $longDescription;
     }
     
@@ -384,6 +394,15 @@ class SilvercartProduct extends DataObject {
         }
         return $shippingFee;
     }
+    
+    /**
+     * Returns the MSR price in a nice format
+     * 
+     * @return string
+     */
+    public function getMSRPriceNice() {
+        return $this->MSRPrice->Nice();
+    }
 
     /**
      * Is this product viewable in the frontend?
@@ -480,14 +499,30 @@ class SilvercartProduct extends DataObject {
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
-    
+
+    /**
+     * Adds temporary extended sortable frontend fields
+     * 
+     * @param array $extendedSortableFrontendFields Temporary extended sortable frontend fields
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2012
+     */
+    public static function addExtendedSortableFrontendFields($extendedSortableFrontendFields) {
+        foreach ($extendedSortableFrontendFields as $sortField => $sortLabel) {
+            self::$extendedSortableFrontendFields[$sortField] = $sortLabel;
+        }
+    }
+
     /**
      * Returns the fields to sort a product by in frontend
      * 
      * @return array
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @author Sebastian Diel <sdiel@œÄixeltricks.de>
+     * @since 25.09.2012
      */
     public function sortableFrontendFields() {
         $sortableFrontendFields = array(
@@ -512,8 +547,14 @@ class SilvercartProduct extends DataObject {
                     )
             );
         }
-        $this->extend('updateSortableFrontentFields', $sortableFrontendFields);
-        return $sortableFrontendFields;
+        
+        $allSortableFrontendFields = array_merge(
+                $sortableFrontendFields,
+                self::$extendedSortableFrontendFields
+        );
+        
+        $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
+        return $allSortableFrontendFields;
     }
 
     /**
@@ -657,16 +698,20 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
+     * @since 25.09.2012
      */
     public static function defaultSort() {
-        $sort = Session::get('SilvercartProduct.defaultSort');
-
-        if (!$sort) {
+        $sort                   = Session::get('SilvercartProduct.defaultSort');
+        $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
+        if (is_null($sort) ||
+            $sort === false ||
+            !is_string($sort) ||
+            !array_key_exists($sort, $sortableFrontendFields)) {
             $sort = Object::get_static('SilvercartProduct', 'default_sort');
             if (strpos($sort, '.') === false) {
                 $sort = 'SilvercartProduct.' . $sort;
+                self::setDefaultSort($sort);
             }
         }
         return $sort;
@@ -695,7 +740,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return PaginatedList|false PaginatedList of products
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @since 26.09.2012
      */
     public static function getProducts($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -735,6 +780,11 @@ class SilvercartProduct extends DataObject {
         if ($sort === null) {
             $sort = self::defaultSort();
         }
+        
+        $sortStmnt = '';
+        if (!empty($sort)) {
+            $sortStmnt = 'ORDER BY ' . $sort;
+        }
 
         $productCount = null;
         if (!is_null($limit)) {
@@ -747,11 +797,10 @@ class SilvercartProduct extends DataObject {
                         %s
                         WHERE
                             %s
-                        ORDER BY
-                            %s",
+                        %s",
                     $join,
                     $filter,
-                    $sort
+                    $sortStmnt
             );
             $records = DB::query($query);
             foreach ($records as $record) {
@@ -781,12 +830,11 @@ class SilvercartProduct extends DataObject {
                     %s
                     WHERE
                         %s
-                    ORDER BY
-                        %s
+                    %s
                     %s",
                 $join,
                 $filter,
-                $sort,
+                $sortStmnt,
                 is_null($limit) ? "" : "LIMIT " . $limit
         );
 
@@ -803,7 +851,8 @@ class SilvercartProduct extends DataObject {
                     sprintf(
                             "\"SilvercartProduct\".\"ID\" IN (%s)",
                             $productIDs
-                    )
+                    ),
+                    $sort
             );
         } else {
             $databaseFilteredProducts = new ArrayList();
@@ -827,8 +876,6 @@ class SilvercartProduct extends DataObject {
                 $dataObjectSort = $sort;
             }
         }
-
-        $databaseFilteredProducts->sort($dataObjectSort);
 
         return $databaseFilteredProducts;
     }
@@ -902,20 +949,26 @@ class SilvercartProduct extends DataObject {
      */
     public function getFieldsForProductGroups($fields) {
         $productGroupHolder = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
-        
+
         $silvercartProductGroupDropdown = new TreeDropdownField(
                 'SilvercartProductGroupID',
                 $this->fieldLabel('SilvercartProductGroup'),
                 'SiteTree'
         );
-        $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolder->ID);
+
+        if ($productGroupHolder) {
+            $productGroupHolderID = $productGroupHolder->ID;
+        } else {
+            $productGroupHolderID = 0;
+        }
+        $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolderID);
         
         $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
                 'SilvercartProductGroupMirrorPages',
                 $this->fieldLabel('SilvercartProductGroupMirrorPages'),
                 'SiteTree'
         );
-        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolder->ID);
+        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolderID);
 
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
         $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);

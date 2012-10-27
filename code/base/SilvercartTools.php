@@ -277,21 +277,15 @@ class SilvercartTools extends Object {
      * @return boolean 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @since 02.10.2012
      */
     public static function isIsolatedEnvironment() {
         $isolatedEnvironment = false;
-        if (array_key_exists('url', $_REQUEST)) {
-            if (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false) {
-                $isolatedEnvironment = true;
-            }
-        } elseif (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
-            $isolatedEnvironment = true;
-        } elseif (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) {
-            $isolatedEnvironment = true;
-        }
-        //if run through SAKE the config object must not be called
-        if ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php') {
+        if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
+            (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
+            (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+            (SapphireTest::is_running_test()) ||
+            ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php')) {
             $isolatedEnvironment = true;
         }
         return $isolatedEnvironment;
@@ -312,6 +306,28 @@ class SilvercartTools extends Object {
     public static function prepareEmailAddress($emailAddress) {
         $preparedEmailAddress = str_replace('/', '', $emailAddress);
         return $preparedEmailAddress;
+    }
+    
+    /**
+     * Checks whether the current url location is in backend
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.10.2012
+     */
+    public static function isBackendEnvironment() {
+        $isBackendEnvironment = false;
+        
+        $controller = Controller::curr();
+        $request    = $controller->getRequest();
+        
+        if (strpos($request->getVar('url'), 'admin/') === 0 ||
+            strpos($request->getVar('url'), '/admin/') === 0) {
+            $isBackendEnvironment = true;
+        }
+        
+        return $isBackendEnvironment;
     }
 
     /**

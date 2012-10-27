@@ -155,6 +155,23 @@ class SilvercartPage extends SiteTree {
 
         return $fields;
     }
+
+    /**
+     * Returns the given WidgetSet many-to-many relation.
+     * If there is no relation, the parent relation will be recursively used
+     *
+     * @param string $widgetSetName The name of the widget set relation
+     *
+     * @return SilvercartWidgetSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function getWidgetSetRelation($widgetSetName) {
+        $widgetSet = $this->getManyManyComponents($widgetSetName);
+
+        return $widgetSet;
+    }
     
     /**
      * Returns the generic image for products without an own image. If none is
@@ -246,6 +263,26 @@ class SilvercartPage extends SiteTree {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
     }
+
+    /**
+     * Intercepts calls to widget set relations and delegates them to the generic
+     * method "getWidgetSetRelation".
+     *
+     * @param string $name      The method name
+     * @param mixed  $arguments optional argument(s)
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 10.10.2012
+     */
+    public function __call($name, $arguments) {
+        if (substr($name, 0, 9) == 'WidgetSet') {
+            return $this->getWidgetSetRelation($name);
+        }
+
+        return parent::__call($name, $arguments);
+    }
 }
 
 /**
@@ -259,7 +296,7 @@ class SilvercartPage extends SiteTree {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage_Controller extends ContentController {
-    
+
     /**
      * Contains the output of all WidgetSets of the parent page
      *
@@ -268,18 +305,20 @@ class SilvercartPage_Controller extends ContentController {
     protected $widgetOutput = array();
     
     /**
-     * Contains the controllers for the sidebar widgets
+     * Contains all registered widget sets.
      * 
      * @var ArrayList
      */
-    protected $WidgetSetSidebarControllers;
+    protected $registeredWidgetSets;
     
     /**
-     * Contains the controllers for the content area widget
+     * Contains all registered widget set controllers.
+     * 
+     * @var array
      * 
      * @var ArrayList
      */
-    protected $WidgetSetContentControllers;
+    protected $registeredWidgetSetControllers;
     
     /**
      * Creates a SilvercartPage_Controller
@@ -295,6 +334,9 @@ class SilvercartPage_Controller extends ContentController {
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
+        
+        $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
+        $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
     }
     
     /**
@@ -467,6 +509,17 @@ class SilvercartPage_Controller extends ContentController {
             SilvercartConfig::Check();
         }
 
+        // Delete checkout session data if user is not in the checkout process.
+        if ($this->class != 'SilvercartCheckoutStep' &&
+            $this->class != 'SilvercartCheckoutStep_Controller' &&
+            $this->class != 'Security' &&
+            !$this->class instanceof SilvercartCheckoutStep_Controller &&
+            !$this->class instanceof Security &&
+            !is_subclass_of($this->class, 'SilvercartCheckoutStep_Controller')
+        ) {
+            SilvercartCheckoutStep::deleteSessionStepData();
+        }
+
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
 
@@ -541,20 +594,23 @@ class SilvercartPage_Controller extends ContentController {
      * @since 26.05.2011
      */
     public function InsertWidgetArea($identifier = 'Sidebar') {
-        $output         = '';
-        $controllerName = 'WidgetSet'.$identifier.'Controllers';
-        
-        if (!isset($this->$controllerName)) {
-            return $output;
-        }
-        
-        foreach ($this->$controllerName as $controller) {
-            $output .= $controller->WidgetHolder();
-        }
-        
-        if (empty($output)) {
-            if (isset($this->widgetOutput[$identifier])) {
-                $output = $this->widgetOutput[$identifier];
+        $output = '';
+
+        if ($this->registeredWidgetSetControllers) {
+            $controllerName = 'WidgetSet'.$identifier;
+
+            if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
+                return $output;
+            }
+
+            foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
+                $output .= $controller->WidgetHolder();
+            }
+
+            if (empty($output)) {
+                if (array_key_exists($identifier, $this->widgetOutput)) {
+                    $output = $this->widgetOutput[$identifier];
+                }
             }
         }
         
@@ -640,6 +696,73 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         return implode(SiteTree::$breadcrumbs_delimiter, array_reverse($parts));
+    }
+    
+    /**
+     * manipulates the parts the pages breadcrumbs if a product detail view is 
+     * requested.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        $parts = new ArrayList();
+        $page  = $this;
+            
+        while (
+            $page
+            && (!$maxDepth ||
+                    $parts->count() < $maxDepth)
+            && (!$stopAtPageType ||
+                    $page->ClassName != $stopAtPageType)
+        ) {
+            if ($showHidden ||
+                $page->ShowInMenus ||
+                ($page->ID == $this->ID)) {
+                
+                if ($page->hasMethod('OriginalLink')) {
+                    $link = $page->OriginalLink();
+                } else {
+                    $link = $page->Link();
+                }
+                
+                $parts->unshift(
+                        new ArrayData(
+                                array(
+                                    'Title'  => $page->Title,
+                                    'Link'   => $link,
+                                    'Parent' => $page->Parent,
+                                )
+                        )
+                );
+            }
+            $page = $page->Parent;
+        }
+        return $parts;
+    }
+    
+    /**
+     * returns the breadcrumbs as ArrayList for use in controls with product title
+     * 
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return ArrayList 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.10.2012
+     */
+    public function DropdownBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
 
     /**
@@ -952,29 +1075,50 @@ class SilvercartPage_Controller extends ContentController {
      * @since 27.05.2011
      */
     protected function loadWidgetControllers() {
-        // Sidebar area widgets -----------------------------------------------
-        $controllers = new ArrayList();
-        
-        foreach ($this->WidgetSetSidebar() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
-        }
+        $registeredWidgetSets = $this->getRegisteredWidgetSets();
 
-        $this->WidgetSetSidebarControllers = $controllers;
-        $this->WidgetSetSidebarControllers->sort('Sort', 'ASC');
-        
-        // Content area widgets -----------------------------------------------
-        $controllers = new ArrayList();
-        
-        foreach ($this->WidgetSetContent() as $widgetSet) {
-            $controllers->merge(
-                $widgetSet->WidgetArea()->WidgetControllers()
-            );
+        foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
+            $controllers = new ArrayList();
+
+            foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
+                $widgets = $registeredWidgetSetItem->WidgetArea()->WidgetControllers();
+                $widgets->sort('Sort', 'ASC');
+                $controllers->merge(
+                    $widgets
+                );
+            }
+
+            $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
         }
-        $this->WidgetSetContentControllers = $controllers;
-        $this->WidgetSetContentControllers->sort('Sort', 'ASC');
     }
+
+    /**
+     * Returns all registered widget sets as associative array.
+     * 
+     * @return array
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-10-10
+     */
+    public function getRegisteredWidgetSets() {
+        return $this->registeredWidgetSets;
+    }
+    
+    /**
+     * Registers a WidgetSet.
+     * 
+     * @param string    $widgetSetName  The name of the widget set (used as array key)
+     * @param ArrayList $widgetSetItems The widget set items (usually coming from a relation)
+     * 
+     * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.05.2011
+     */
+    public function registerWidgetSet($widgetSetName, $widgetSetItems) {
+        $this->registeredWidgetSets[$widgetSetName] = $widgetSetItems;
+    }
+    
     /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *

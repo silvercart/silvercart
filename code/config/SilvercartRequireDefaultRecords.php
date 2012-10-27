@@ -117,7 +117,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 04.10.2012
      */
     public function createDefaultConfig() {
         // create a SilvercartConfig if not exist
@@ -126,7 +126,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $silvercartConfig->DefaultCurrency = 'EUR';
             $email = Email::getAdminEmail();
             if ($email != '') {
-                $silvercartConfig->EmailSender = $email;
+                $silvercartConfig->EmailSender          = $email;
+                $silvercartConfig->DefaultMailRecipient = $email;
             }
             $silvercartConfig->write();
         }
@@ -138,11 +139,21 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 01.10.2012
      */
     public function createDefaultOrderStatus() {
         // create order status
         $defaultStatusEntries = array(
+            'new' => array(
+                'en_US' => 'New',
+                'en_GB' => 'New',
+                'de_DE' => 'Neu',
+            ),
+            'canceled' => array(
+                'en_US' => 'Canceled',
+                'en_GB' => 'Cancelled',
+                'de_DE' => 'Storniert',
+            ),
             'pending' => array(
                 'en_US' => 'Waiting for payment',
                 'en_GB' => 'Waiting for payment',
@@ -156,12 +167,12 @@ class SilvercartRequireDefaultRecords extends DataObject {
             'shipped' => array(
                 'en_US' => 'Order shipped',
                 'en_GB' => 'Order shipped',
-                'de_DE' => 'Bestellung versendet',
+                'de_DE' => 'Versendet',
             ),
             'inwork' => array(
                 'en_US' => 'In work',
                 'en_GB' => 'In work',
-                'de_DE' => 'Bestellung in Arbeit',
+                'de_DE' => 'In Arbeit',
             ),
         );
         $locales        = array('de_DE', 'en_GB', 'en_US');
@@ -752,6 +763,24 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptInConfirmation->setField('Subject', _t('SilvercartNewsletterOptInConfirmationPage.TITLE_THANKS'));
             $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
             $shopEmailNewsletterOptInConfirmation->write();
+        }
+        $shopEmailForgotPasswordEmail = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'ForgotPasswordEmail'"
+        );
+        if (!$shopEmailForgotPasswordEmail) {
+            $shopEmailForgotPasswordEmail = new SilvercartShopEmail();
+            $shopEmailForgotPasswordEmail->Identifier   = 'ForgotPasswordEmail';
+            $shopEmailForgotPasswordEmail->Subject      = _t('SilvercartShopEmail.FORGOT_PASSWORD_SUBJECT');
+            $shopEmailForgotPasswordEmail->Variables    = "\$FirstName\n\$Surname\n\$Salutation\n\$PasswordResetLink";
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/ForgotPasswordEmail.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailForgotPasswordEmail->EmailText    = $defaultTemplate;
+            $shopEmailForgotPasswordEmail->write();
         }
         $shopEmailOrderShippedNotification = DataObject::get_one(
             'SilvercartShopEmail',

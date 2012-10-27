@@ -53,9 +53,12 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $member = Member::currentUser();
+        $member       = Member::currentUser();
         $checkoutData = $controller->getCombinedStepData();
-        if ($member) {
+
+        if (!$this->payment &&
+             $member) {
+
             if (array_key_exists('PaymentMethod', $checkoutData)) {
                 $this->paymentMethodObj = DataObject::get_by_id(
                     'SilvercartPaymentMethod',
@@ -74,6 +77,7 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
                 }
             }
         }
+
         parent::__construct($controller, $params, $preferences, $barebone);
 
         if (!$barebone) {
@@ -100,7 +104,7 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @copyright 2011 pixeltricks GmbH
      * @since 31.03.2011
      */
-    public function  preferences() {
+    public function preferences() {
         $this->preferences['stepIsVisible'] = false;
 
         parent::preferences();
@@ -133,7 +137,13 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      * @since 04.04.2011
      */
     public function renderError() {
-        return $this->renderWith('SilvercartCheckoutFormStepPaymentError');
+        $controller        = Controller::curr();
+        $templateVariables = array(
+            'errorObject' => $this->paymentMethodObj,
+        );
+
+        $controller->paymentMethodObj = $this->paymentMethodObj;
+        $controller->initOutput       = $this->customise($templateVariables)->renderWith('SilvercartCheckoutFormStepPaymentError');
     }
     
     /**

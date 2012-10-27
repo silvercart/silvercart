@@ -28,6 +28,9 @@
             <% if Markable %>
                 <th width="16"><% if MarkableTitle %>$MarkableTitle<% else %>&nbsp;<% end_if %></th>
             <% end_if %>
+            <% if UseQuickAccess %>
+                <th width="16"><% if QuickAccessTitle %>{$QuickAccessTitle}<% else %>&nbsp;<% end_if %></th>
+            <% end_if %>
             <% if Print %>
                 <% loop Headings %>
                 <th class="$Name">$Title</th>
@@ -68,7 +71,7 @@
     <% if HasGroupedItems %>
         <% loop GroupedItems %>
             <% loop Items %>
-                <% include TableListField_Item %>
+                <% include SilvercartEditableTableListField_Item %>
             <% end_loop %>
             <tr class="summary partialSummary">
                 <% include TableListField_Summary %>
@@ -77,7 +80,7 @@
     <% else %>
         <% if Items %>
             <% loop Items %>
-                <% include TableListField_Item %>
+                <% include SilvercartEditableTableListField_Item %>
             <% end_loop %>
         <% else %>
             <tr class="notfound">

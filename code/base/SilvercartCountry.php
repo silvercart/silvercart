@@ -332,4 +332,17 @@ class SilvercartCountry extends DataObject {
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
     }
+    
+    /**
+     * Returns all active countries
+     * 
+     * @return DataObjectSet
+     */
+    public static function get_active() {
+        $activeCountries = DataObject::get('SilvercartCountry', '"Active" = 1');
+        if (!$activeCountries) {
+            $activeCountries = new ArrayList();
+        }
+        return $activeCountries;
+    }
 }

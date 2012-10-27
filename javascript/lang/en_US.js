@@ -2,6 +2,8 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
     //console.error('Class ss.i18n not defined');
 } else {
     ss.i18n.addDictionary('en_US', {
+        'Boolean.NO':                                           'No',
+        'Boolean.YES':                                          'Yes',
         'SilvercartConfig.ADDED_EXAMPLE_DATA':                  'Added Example Data',
         'SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION':         'Added Example Configuration',
         'SilvercartConfig.EXAMPLE_DATA_ALREADY_ADDED':          'Example Data already added',

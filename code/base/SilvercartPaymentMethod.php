@@ -223,6 +223,13 @@ class SilvercartPaymentMethod extends DataObject {
      * @var string
      */
     protected $formID = '';
+
+    /**
+     * Path to the uploads folder
+     *
+     * @var string
+     */
+    protected $uploadsFolder = '';
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -529,8 +536,8 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return mixed boolean|DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2012
      */
     public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -575,11 +582,13 @@ class SilvercartPaymentMethod extends DataObject {
             }
 
             $handlingCosts->setAmount($handlingCostAmount);
-
-            return $handlingCosts;
         }
         
-        return false;
+        $this->extend('updateChargesAndDiscountsForTotal', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
     }
 
     /**
@@ -601,7 +610,11 @@ class SilvercartPaymentMethod extends DataObject {
      * @return bool
      */
     public function getErrorOccured() {
-        return $this->errorOccured;
+        if (count($this->getErrorList()) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -624,7 +637,7 @@ class SilvercartPaymentMethod extends DataObject {
             $errorIdx++;
         }
 
-        return new DataObjectSet($errorList);
+        return new ArrayList($errorList);
     }
     
     /**
@@ -761,7 +774,7 @@ class SilvercartPaymentMethod extends DataObject {
             }
         }
         
-        $allowedPaymentMethods = new DataObjectSet($allowedPaymentMethods);
+        $allowedPaymentMethods = new ArrayList($allowedPaymentMethods);
         
         return $allowedPaymentMethods;
     }
@@ -974,7 +987,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 06.01.2011
      */
     public function processPaymentConfirmationText($orderObj) {
-        
+        // Override if necessary
     }
 
     /**
@@ -988,6 +1001,8 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
+
+        $this->createUploadFolder();
 
         // not a base class
         if ($this->moduleName !== '') {
@@ -1053,14 +1068,21 @@ class SilvercartPaymentMethod extends DataObject {
                 $this->write();
                 $languages = array('de_DE', 'en_US', 'en_GB');
                 foreach ($languages as $language) {
-                   $filter = sprintf("\"Locale\" = '%s' AND \"SilvercartPaymentPaypalID\" = '%s'", $language, $this->ID);
-                   $langObj = DataObject::get_one('SilvercartPaymentPaypalLanguage', $filter); 
+                   $filter = sprintf(
+                       "\"Locale\" = '%s' AND \"%sID\" = '%s'",
+                       $language,
+                       $this->class,
+                       $this->ID
+                   );
+                   $langObjClassName   = $this->class.'Language';
+                   $langObjClassNameId = $langObjClassName.'ID';
+                   $langObj = DataObject::get_one($langObjClassName, $filter);
                    if (!$langObj) {
-                       $langObj = new SilvercartPaymentPaypalLanguage();
+                       $langObj = new $langObjClassName();
                        $langObj->Locale = $language;
                    }
                    $langObj->Name = $this->moduleName;
-                   $langObj->SilvercartPaymentPaypalID = $this->ID;
+                   $langObj->setField($langObjClassNameId, $this->ID);
                    $langObj->write();
                 }
             }
@@ -1112,24 +1134,6 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
         $fields->addFieldToTab($tabParam, $shippingMethodsTable);
-        return $fields;
-    }
-
-    /**
-     * Returns the detail fields for $this
-     *
-     * @param mixed $params optional parameters
-     *
-     * @return FieldList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 12.11.2010
-     * @deprecated This method should be replaced with getCMSFieldsForModules
-     */
-    public function getCmsFields_forPopup($params = null) {
-        $fields = $this->getCMSFields();
-        $fields->removeByName('Logos');
         return $fields;
     }
 
@@ -1509,6 +1513,130 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
+     * Creates order status DB objects from the given list.
+     *
+     * @param array $orderStatusList The order status list as associative array
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function createRequiredOrderStatus($orderStatusList) {
+        foreach ($orderStatusList as $code => $title) {
+            if (!DataObject::get_one('SilvercartOrderStatus', sprintf("\"Code\"='%s'", $code), true, "SilvercartOrderStatus.ID")) {
+                $silvercartOrderStatus = new SilvercartOrderStatus();
+                $silvercartOrderStatus->Title = $title;
+                $silvercartOrderStatus->Code = $code;
+                $silvercartOrderStatus->write();
+            }
+        }
+    }
+
+    /**
+     * Creates the upload folder for payment images if it doesn't exist.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function createUploadFolder() {
+        $uploadsFolder = DataObject::get_one('Folder', "\"Name\"='Uploads'");
+
+        if (!$uploadsFolder) {
+            $uploadsFolder = new Folder();
+            $uploadsFolder->Name = 'Uploads';
+            $uploadsFolder->Title = 'Uploads';
+            $uploadsFolder->Filename = 'assets/Uploads/';
+            $uploadsFolder->write();
+        }
+
+        $this->uploadsFolder = $uploadsFolder;
+    }
+
+    /**
+     * Creates the upload folder for payment images if it doesn't exist.
+     *
+     * @param array  $paymentLogos      The payment logos as associative array:
+     *                                  ['LogoName' => 'PATH_TO_FILE', ....]
+     * @param string $paymentModuleName The name of the payment module
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
+        $paymentModule = DataObject::get_one(
+            'SilvercartPaymentMethod',
+            sprintf(
+                "\"SilvercartPaymentMethod\".\"ClassName\" = '%s'",
+                $paymentModuleName
+            ),
+            true,
+            "SilvercartPaymentMethod.ID"
+        );
+
+        if ($paymentModule) {
+            if (count($this->getPossiblePaymentChannels()) > 0) {
+                // Multiple payment channels
+                foreach ($paymentLogos as $paymentChannel => $logos) {
+                    $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
+                    if ($paymentChannelMethod) {
+                        if ($paymentChannelMethod->PaymentLogos()->Count() == 0) {
+                            foreach ($logos as $title => $logo) {
+                                $paymentLogo = new SilvercartImage();
+                                $paymentLogo->Title = $title;
+                                $storedLogo = DataObject::get_one('Image', sprintf("\"Name\"='%s'", basename($logo)));
+                                if ($storedLogo) {
+                                    $paymentLogo->ImageID = $storedLogo->ID;
+                                } else {
+                                    file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
+                                    $image = new Image();
+                                    $image->setFilename($this->uploadsFolder->Filename . basename($logo));
+                                    $image->setName(basename($logo));
+                                    $image->Title = basename($logo, '.png');
+                                    $image->ParentID = $this->uploadsFolder->ID;
+                                    $image->write();
+                                    $paymentLogo->ImageID = $image->ID;
+                                }
+                                $paymentLogo->write();
+                                $paymentChannelMethod->PaymentLogos()->add($paymentLogo);
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Single payment channels
+                foreach ($paymentLogos as $title => $logo) {
+                    if ($paymentModule->PaymentLogos()->Count() == 0) {
+
+                        $paymentLogo = new SilvercartImage();
+                        $paymentLogo->Title = $title;
+                        $storedLogo = DataObject::get_one('Image', sprintf("\"Name\"='%s'", basename($logo)));
+
+                        if ($storedLogo) {
+                            $paymentLogo->ImageID = $storedLogo->ID;
+                        } else {
+                            file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
+                            $image = new Image();
+                            $image->setFilename($this->uploadsFolder->Filename . basename($logo));
+                            $image->setName(basename($logo));
+                            $image->Title = basename($logo, '.png');
+                            $image->ParentID = $this->uploadsFolder->ID;
+                            $image->write();
+                            $paymentLogo->ImageID = $image->ID;
+                        }
+                        $paymentLogo->write();
+                        $paymentModule->PaymentLogos()->add($paymentLogo);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Sets the customers details
      *
      * @param Member $customerDetails Details of customer
@@ -1678,19 +1806,19 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setInvoiceAddressByCheckoutData($checkoutData) {
         $invoiceAddress = new SilvercartAddress();
-        $invoiceAddress->Salutation    = isset($checkoutData['Invoice_Salutation']) ? $checkoutData['Invoice_Salutation'] : '';
-        $invoiceAddress->FirstName     = isset($checkoutData['Invoice_FirstName']) ? $checkoutData['Invoice_FirstName'] : '';
-        $invoiceAddress->Surname       = isset($checkoutData['Invoice_Surname']) ? $checkoutData['Invoice_Surname'] : '';
-        $invoiceAddress->Street        = isset($checkoutData['Invoice_Street']) ? $checkoutData['Invoice_Street'] : '';
-        $invoiceAddress->StreetNumber  = isset($checkoutData['Invoice_StreetNumber']) ? $checkoutData['Invoice_StreetNumber'] : '';
-        $invoiceAddress->Postcode      = isset($checkoutData['Invoice_Postcode']) ? $checkoutData['Invoice_Postcode'] : '';
-        $invoiceAddress->City          = isset($checkoutData['Invoice_City']) ? $checkoutData['Invoice_City'] : '';
-        $invoiceAddress->CountryID     = isset($checkoutData['Invoice_Country']) ? $checkoutData['Invoice_Country'] : '';
-        $invoiceAddress->PhoneAreaCode = isset($checkoutData['Invoice_PhoneAreaCode']) ? $checkoutData['Invoice_PhoneAreaCode'] : '';
-        $invoiceAddress->Phone         = isset($checkoutData['Invoice_Phone']) ? $checkoutData['Invoice_Phone'] : '';
-
+        $invoiceAddress->Salutation             = isset($checkoutData['Invoice_Salutation'])    ? $checkoutData['Invoice_Salutation'] : '';
+        $invoiceAddress->FirstName              = isset($checkoutData['Invoice_FirstName'])     ? $checkoutData['Invoice_FirstName'] : '';
+        $invoiceAddress->Surname                = isset($checkoutData['Invoice_Surname'])       ? $checkoutData['Invoice_Surname'] : '';
+        $invoiceAddress->Street                 = isset($checkoutData['Invoice_Street'])        ? $checkoutData['Invoice_Street'] : '';
+        $invoiceAddress->StreetNumber           = isset($checkoutData['Invoice_StreetNumber'])  ? $checkoutData['Invoice_StreetNumber'] : '';
+        $invoiceAddress->Postcode               = isset($checkoutData['Invoice_Postcode'])      ? $checkoutData['Invoice_Postcode'] : '';
+        $invoiceAddress->City                   = isset($checkoutData['Invoice_City'])          ? $checkoutData['Invoice_City'] : '';
+        $invoiceAddress->CountryID              = isset($checkoutData['Invoice_Country'])       ? $checkoutData['Invoice_Country'] : '';
+        $invoiceAddress->SilvercartCountryID    = isset($checkoutData['Invoice_Country'])       ? $checkoutData['Invoice_Country'] : '';
+        $invoiceAddress->PhoneAreaCode          = isset($checkoutData['Invoice_PhoneAreaCode']) ? $checkoutData['Invoice_PhoneAreaCode'] : '';
+        $invoiceAddress->Phone                  = isset($checkoutData['Invoice_Phone'])         ? $checkoutData['Invoice_Phone'] : '';
         // Insert SilvercartCountry object
-        $invoiceAddress->Country = DataObject::get_by_id('SilvercartCountry', $invoiceAddress->CountryID);
+        $invoiceAddress->Country                = DataObject::get_by_id('SilvercartCountry', $invoiceAddress->CountryID);
 
         $this->setInvoiceAddress($invoiceAddress);
     }
@@ -1704,19 +1832,19 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setShippingAddressByCheckoutData($checkoutData) {
         $shippingAddress = new SilvercartAddress();
-        $shippingAddress->Salutation    = isset($checkoutData['Shipping_Salutation']) ? $checkoutData['Shipping_Salutation'] : '';
-        $shippingAddress->FirstName     = isset($checkoutData['Shipping_FirstName']) ? $checkoutData['Shipping_FirstName'] : '';
-        $shippingAddress->Surname       = isset($checkoutData['Shipping_Surname']) ? $checkoutData['Shipping_Surname'] : '';
-        $shippingAddress->Street        = isset($checkoutData['Shipping_Street']) ? $checkoutData['Shipping_Street'] : '';
-        $shippingAddress->StreetNumber  = isset($checkoutData['Shipping_StreetNumber']) ? $checkoutData['Shipping_StreetNumber'] : '';
-        $shippingAddress->Postcode      = isset($checkoutData['Shipping_Postcode']) ? $checkoutData['Shipping_Postcode'] : '';
-        $shippingAddress->City          = isset($checkoutData['Shipping_City']) ? $checkoutData['Shipping_City'] : '';
-        $shippingAddress->CountryID     = isset($checkoutData['Shipping_Country']) ? $checkoutData['Shipping_Country'] : '';
-        $shippingAddress->PhoneAreaCode = isset($checkoutData['Shipping_PhoneAreaCode']) ? $checkoutData['Shipping_PhoneAreaCode'] : '';
-        $shippingAddress->Phone         = isset($checkoutData['Shipping_Phone']) ? $checkoutData['Shipping_Phone'] : '';
-
+        $shippingAddress->Salutation            = isset($checkoutData['Shipping_Salutation'])       ? $checkoutData['Shipping_Salutation'] : '';
+        $shippingAddress->FirstName             = isset($checkoutData['Shipping_FirstName'])        ? $checkoutData['Shipping_FirstName'] : '';
+        $shippingAddress->Surname               = isset($checkoutData['Shipping_Surname'])          ? $checkoutData['Shipping_Surname'] : '';
+        $shippingAddress->Street                = isset($checkoutData['Shipping_Street'])           ? $checkoutData['Shipping_Street'] : '';
+        $shippingAddress->StreetNumber          = isset($checkoutData['Shipping_StreetNumber'])     ? $checkoutData['Shipping_StreetNumber'] : '';
+        $shippingAddress->Postcode              = isset($checkoutData['Shipping_Postcode'])         ? $checkoutData['Shipping_Postcode'] : '';
+        $shippingAddress->City                  = isset($checkoutData['Shipping_City'])             ? $checkoutData['Shipping_City'] : '';
+        $shippingAddress->CountryID             = isset($checkoutData['Shipping_Country'])          ? $checkoutData['Shipping_Country'] : '';
+        $shippingAddress->SilvercartCountryID   = isset($checkoutData['Shipping_Country'])          ? $checkoutData['Shipping_Country'] : '';
+        $shippingAddress->PhoneAreaCode         = isset($checkoutData['Shipping_PhoneAreaCode'])    ? $checkoutData['Shipping_PhoneAreaCode'] : '';
+        $shippingAddress->Phone                 = isset($checkoutData['Shipping_Phone'])            ? $checkoutData['Shipping_Phone'] : '';
         // Insert SilvercartCountry object
-        $shippingAddress->Country = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
+        $shippingAddress->Country               = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
 
         $this->setShippingAddress($shippingAddress);
     }
@@ -1769,4 +1897,19 @@ class SilvercartPaymentMethod extends DataObject {
         return false;
     }
 
+    /**
+     * Returns the URL for payment notifications.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 01.10.2012
+     */
+    public function getNotificationUrl() {
+        $notifyUrl = Director::absoluteUrl(
+            SilvercartTools::PageByIdentifierCode('SilvercartPaymentNotification')->Link().'process/'.$this->moduleName
+        );
+
+        return $notifyUrl;
+    }
 }

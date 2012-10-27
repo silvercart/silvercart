@@ -41,6 +41,7 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
     public static $db = array(
         'TagsPerCloud'  => 'Int',
         'FontSizeCount' => 'Int',
+        'isContentView' => 'Boolean',
     );
     
     /**
@@ -60,18 +61,19 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 13.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.09.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
+                parent::fieldLabels($includerelations),
+                array(
                     'Title'         => _t('SilvercartSearchCloudWidget.TITLE'),
                     'CMSTitle'      => _t('SilvercartSearchCloudWidget.CMSTITLE'),
                     'Description'   => _t('SilvercartSearchCloudWidget.DESCRIPTION'),
                     'TagsPerCloud'  => _t('SilvercartSearchCloudWidget.TAGSPERCLOUD'),
                     'FontSizeCount' => _t('SilvercartSearchCloudWidget.FONTSIZECOUNT'),
+                    'isContentView' => _t('SilvercartProductSliderWidget.IS_CONTENT_VIEW'),
                 )
         );
 
@@ -124,8 +126,9 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $fields->push(new TextField('TagsPerCloud',     $this->fieldLabel('TagsPerCloud')));
-        $fields->push(new TextField('FontSizeCount',    $this->fieldLabel('FontSizeCount')));
+        $fields->push(new TextField(    'TagsPerCloud',     $this->fieldLabel('TagsPerCloud')));
+        $fields->push(new TextField(    'FontSizeCount',    $this->fieldLabel('FontSizeCount')));
+        $fields->push(new CheckboxField('isContentView',    $this->fieldLabel('isContentView')));
         
         return $fields;
     }

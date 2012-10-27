@@ -34,6 +34,11 @@
 class SilvercartEditableTableListField extends TableListField {
 
     /**
+     * @var $itemClass string Class name for each item/row
+     */
+    public $itemClass = 'SilvercartEditableTableListField_Item';
+
+    /**
      * Template to use for this field
      * 
      * @var $template string
@@ -46,6 +51,22 @@ class SilvercartEditableTableListField extends TableListField {
      * @var DataObjectSet
      */
     protected $batchActions = null;
+    
+    /**
+     * Call back method name to get the quick access data for a record.
+     * The return data type of the call back method should be string or
+     * Fieldset
+     *
+     * @var string 
+     */
+    protected $quickAccessCallBack = null;
+    
+    /**
+     * The name of the template to use for the quick access fields
+     *
+     * @var string 
+     */
+    protected $quickAccessFieldsTemplate = 'SilvercartEditableTableListFieldQuickAccess';
 
     /**
      * Constructor
@@ -135,7 +156,7 @@ class SilvercartEditableTableListField extends TableListField {
      */
     public function addBatchAction($batchAction) {
         if (is_null($this->batchActions)) {
-            $this->batchActions = new DataObjectSet();
+            $this->batchActions = new ArrayList();
         }
         if (!$this->batchActions->find('action', $batchAction['action'])) {
             $this->batchActions->push(new DataObject($batchAction));
@@ -193,4 +214,133 @@ class SilvercartEditableTableListField extends TableListField {
         <input id="$inputId" name="{$this->name}[selected]" type="hidden" value="$list"/>
 HTML;
     }
+    
+    /**
+     * Returns the total count of items
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.09.2012
+     */
+    public function TotalCount() {
+        $countColumn = sprintf(
+                "DISTINCT \"%s\".\"ID\"",
+                $this->sourceClass
+        );
+        
+        if (is_null($this->totalCount)) {
+            if ($this->customSourceItems) {
+                $this->totalCount = $this->customSourceItems->Count();
+            } else {
+                $this->totalCount = $this->getQuery()->unlimitedRowCount($countColumn);
+            }
+        }
+
+        return $this->totalCount;
+    }
+    
+    /**
+     * Returns the quick access call back method name
+     * 
+     * @return string
+     */
+    public function getQuickAccessCallBack() {
+        return $this->quickAccessCallBack;
+    }
+
+    /**
+     * Sets the quick access call back method name
+     * 
+     * @param string $quickAccessCallBack Quick access call back method name
+     * 
+     * @return void
+     */
+    public function setQuickAccessCallBack($quickAccessCallBack) {
+        $this->quickAccessCallBack = $quickAccessCallBack;
+    }
+
+    /**
+     * Returns the quick access fields template name
+     * 
+     * @return string
+     */
+    public function getQuickAccessFieldsTemplate() {
+        return $this->quickAccessFieldsTemplate;
+    }
+
+    /**
+     * Sets the quick access fields template name
+     * 
+     * @param string $quickAccessFieldsTemplate Quick access fields template name
+     * 
+     * @return void
+     */
+    public function setQuickAccessFieldsTemplate($quickAccessFieldsTemplate) {
+        $this->quickAccessFieldsTemplate = $quickAccessFieldsTemplate;
+    }
+    
+    /**
+     * Returns whether to use the quick access feature for this fields records
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.09.2012
+     */
+    public function UseQuickAccess() {
+        $useQuickAccess = false;
+        $sourceObject   = singleton($this->sourceClass);
+        if (is_null($this->quickAccessCallBack)) {
+            $this->setQuickAccessCallBack('getQuickAccessFields');
+        }
+        if ($sourceObject->hasMethod($this->quickAccessCallBack)) {
+            $useQuickAccess = true;
+        }
+        return $useQuickAccess;
+    }
+}
+
+/**
+ * Item class to use with SilvercartEditableTableListField
+ *
+ * @package Silvercart
+ * @subpackage Backend
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 24.09.2012
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
+ */
+class SilvercartEditableTableListField_Item extends TableListField_Item {
+    
+    /**
+     * Returns whether to use the quick access feature for this record
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.09.2012
+     */
+    public function UseQuickAccess() {
+        return $this->Parent()->UseQuickAccess();
+    }
+    
+    /**
+     * Returns the quick access data for the template
+     * 
+     * @return string
+     */
+    public function getQuickAccessData() {
+        $quickAccessData = null;
+        if ($this->UseQuickAccess()) {
+            $quickAccessCallBackData = $this->item->{$this->Parent()->quickAccessCallBack}();
+            if ($quickAccessCallBackData instanceof FieldSet) {
+                $quickAccessData = $quickAccessCallBackData->renderWith($this->Parent()->getQuickAccessFieldsTemplate());
+            } else {
+                $quickAccessData = $quickAccessCallBackData;
+            }
+        }
+        return $quickAccessData;
+    }
+    
 }
