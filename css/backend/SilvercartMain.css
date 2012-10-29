@@ -184,3 +184,8 @@
 .right form .TableListField tr.is-not-seen:hover td a {
     background-color: #91D6FF;
 }
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow: auto;
+}
