@@ -252,4 +252,27 @@ class SilvercartProductGroupManufacturersWidget_Controller extends SilvercartWid
     public function PageLink() {
         return Controller::curr()->Link();
     }
+
+    /**
+     * Returns whether to show the widget or not.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 29.10.2012
+     */
+    public function ShowWidget() {
+        $showWidget = false;
+        $controller = Controller::curr();
+
+        if ($controller instanceof SilvercartProductGroupPage_Controller) {
+            if ($controller->isProductDetailView() === false) {
+                $showWidget = true;
+            }
+        } else {
+            $showWidget = true;
+        }
+
+        return $showWidget;
+    }
 }
