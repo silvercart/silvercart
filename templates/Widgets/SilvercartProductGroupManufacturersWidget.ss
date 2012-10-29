@@ -13,7 +13,7 @@
                         <li>
                             <a href="$Link" title="$Title">
                                 <% if logo %>
-                                    $logo.SetRatioSize(200,100)
+                                    $logo.SetRatioSize(150,100)
                                 <% else %>
                                     <p>$Title</p>
                                 <% end_if %>

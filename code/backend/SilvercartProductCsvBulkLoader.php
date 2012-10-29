@@ -182,7 +182,6 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         }
         
         $silvercartProduct   = false;
-        $silvercartProductID = 0;
         $action              = '';
         $updateIdentifier    = '';
         
