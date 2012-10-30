@@ -51,6 +51,16 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
     );
 
     /**
+     * Preferences
+     *
+     * @var array
+     * @since 30.10.2012
+     */
+    protected $preferences = array(
+        'doJsValidationScrolling' => false,
+    );
+
+    /**
      * Save search query in session and Redirect to the search results page.
      *
      * @param SS_HTTPRequest $data     contains the frameworks form data
@@ -77,7 +87,7 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      * @copyright 2011 pixeltricks GmbH
      * @since 26.05.2011
      */
-    public function  preferences() {
+    public function preferences() {
         $this->preferences['submitButtonTitle'] = _t('SilvercartSearchWidgetForm.SUBMITBUTTONTITLE');
         
         $this->formFields['quickSearchQuery']['title'] = _t('SilvercartSearchWidgetForm.SEARCHLABEL');
