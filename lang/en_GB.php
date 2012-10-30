@@ -46,6 +46,7 @@ $lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_GB']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
 $lang['en_GB']['Silvercart']['DATA'] = 'Data';
+$lang['en_GB']['Silvercart']['DATEFORMAT'] = 'Y-m-d';
 $lang['en_GB']['Silvercart']['DEEPLINKS'] = 'Deeplinks';
 $lang['en_GB']['Silvercart']['LINKS'] = 'Links';
 $lang['en_GB']['Silvercart']['MISC_CONFIG'] = 'Misc. Configuration';
