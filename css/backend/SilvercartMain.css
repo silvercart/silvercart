@@ -189,3 +189,14 @@
     max-height: 200px;
     overflow: auto;
 }
+
+.admin-quick-preview {
+    
+}
+.admin-quick-preview th {
+    text-align: left;
+}
+.admin-quick-preview td {
+    text-align: right;
+    padding: 3px 12px;
+}
