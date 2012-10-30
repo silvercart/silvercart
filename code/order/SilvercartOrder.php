@@ -295,6 +295,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
                 'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
                 'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
+                'ValueOfGoods'                          => _t('SilvercartPage.VALUE_OF_GOODS'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -1871,9 +1872,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 }
             }
         }
-        
+
         $this->extend('updateTaxTotal', $taxRates);
-        
+
         return $taxRates;
     }
     
