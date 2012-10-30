@@ -200,3 +200,10 @@
     text-align: right;
     padding: 3px 12px;
 }
+
+.field.important {
+    background: #f00;
+}
+.field.important label {
+    color: #fff !important;
+}
