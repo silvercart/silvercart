@@ -24,6 +24,8 @@ en_GB:
     MORE: "More"
     NO: "No"
     NOT_ALLOWED_TO_PRINT: "You are not allowed to print this object!"
+    PAGE: "Page"
+    X_OF_Y: "%s of %s"
     PRINT: "Print"
     SEC: "second"
     SECS: "seconds"
@@ -56,12 +58,20 @@ en_GB:
     PHONE_SHORT: "Phone"
     PLURALNAME: "Addresses"
     POSTCODE: "Postcode"
+    POSTNUMBER: "Your PostNumber"
+    PACKSTATION: "Packstation (e.g. \"Packstation 105\")"
+    PACKSTATION_PLAIN: "Packstation"
+    PACKSTATION_LABEL: "PACKSTATION"
     SALUTATION: "Salutation"
     SINGULARNAME: "address"
     STREET: "Street"
     STREETNUMBER: "Street number"
     SURNAME: "Surname"
     TAXIDNUMBER: "Tax ID number"
+    USE_ABSOLUTEADDRESS: "This is an absolute address"
+    USE_PACKSTATION: "This is a PACKSTATION address"
+    IS_PACKSTATION: "Address is PACKSTATION"
+    ADDRESSTYPE: "Type of address"
   SilvercartAddressHolder:
     ADD: "Add new address"
     ADDED_ADDRESS_FAILURE: "Your address could not be saved."
@@ -209,6 +219,9 @@ en_GB:
     CLEAN_DATABASE_START_INDEX: "Startindex"
     DEFAULTCURRENCY: "Default currency"
     DEFAULTPRICETYPE: "Default price type"
+    DEFAULT_MAIL_RECIPIENT: "Default email recipient (general)"
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: "Default email recipient for order notifications"
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: "Default email recipient for contact messages"
     DEFAULT_IMAGE: "Default product image"
     DEFAULT_LANGUAGE: "default language"
     DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: "Demand birthday date on registration?"
@@ -217,6 +230,7 @@ en_GB:
     EMAILSENDER: "Email sender"
     EMAILSENDER_INFO: "The email sender will be the sender address of all emails sent by SilverCart."
     ENABLEBUSINESSCUSTOMERS: "Enable business customers"
+    ENABLEPACKSTATION: "Enable address input fields for PACKSTATION"
     ENABLESSL: "Enable SSL"
     ENABLESTOCKMANAGEMENT: "Enable stock management"
     ERROR_MESSAGE: "Required configuration for \"%s\" is missing.<br/>Please <a href=\"%sadmin/silvercart-config/\">log in</a> and choose \"SC Config -> general configuration\" to edit the missing field."
@@ -267,6 +281,7 @@ en_GB:
     USEMINIMUMORDERVALUE: "Activate minimum order value"
     USE_APACHE_SOLR_SEARCH: "Use Apache Solr search"
     USE_DEFAULT_LANGUAGE: "Use default language if no translation is found?"
+    USE_STRICT_SEARCH_RELEVANCE: "Use strict search. Displays only exact matches."
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Contact"
     DEFAULT_URLSEGMENT: "contact"
@@ -624,6 +639,7 @@ en_GB:
     EMPTYSTRING_PLEASECHOOSE: "--please choose--"
   SilvercartEditableTableListField:
     BATCH_OPTIONS_LABEL: "Execute action for selection"
+    QUICK_ACCESS: "Quick access"
   SilvercartEmailAddress:
     SINGULARNAME: "Email address"
   SilvercartEmailTemplates:
@@ -748,6 +764,11 @@ en_GB:
     TITLE: "Login"
     TITLE_LOGGED_IN: "My account"
     TITLE_NOT_LOGGED_IN: "Login"
+  SilvercartMailForgotPassword:
+    TITLE: "Reset Password"
+    VISIT_TEXT: "Please visit <a href=\"%s\">this page</a> to reset your password."
+    PASSWORT_RESET_LINK_HINT: "If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser."
+    WONT_CHANGE: "If you do not want to change your password, you may ignore this email."
   SilvercartManufacturer:
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
@@ -876,6 +897,8 @@ en_GB:
     AMOUNTTOTAL: "Total amount"
     BASICDATA: "Basics"
     BATCH_CHANGEORDERSTATUS: "Change order status to..."
+    BATCH_MARKASSEEN: "Mark as seen"
+    BATCH_MARKASNOTSEEN: "Mark as not seen"
     BATCH_PRINTORDERS: "Print orders (HTML)"
     CUSTOMER: "Customer"
     CUSTOMERDATA: "Customer Data"
@@ -887,6 +910,7 @@ en_GB:
     INCLUDED_SHIPPINGRATE: "Included shipping rate"
     INVOICENUMBER: "Invoicenumber"
     INVOICENUMBER_SHORT: "Invoice-No."
+    IS_SEEN: "Seen"
     MISCDATA: "Others"
     NOTE: "Note"
     ORDERNUMBER: "Order number"
@@ -944,6 +968,15 @@ en_GB:
   SilvercartOrderInvoiceAddress:
     PLURALNAME: "Order invoice addresses"
     SINGULARNAME: "Order invoice address"
+  SilvercartOrderLog:
+    SINGULARNAME: "Order Log"
+    PLURALNAME: "Order Log"
+    CONTEXT: "Context"
+    CREATED: "Date/Time"
+    MESSAGE: "Action"
+    MESSAGE_CHANGED: "Changed: %s -> %s"
+    MESSAGE_CREATED: "Created: %s was created"
+    MESSAGE_MARKEDASSEEN: "Marked as seen"
   SilvercartOrderPosition:
     ISCHARGEORDISCOUNT: "Is charge or discount"
     PLURALNAME: "Order positions"
@@ -1326,6 +1359,11 @@ en_GB:
   SilvercartProductGroupItemsWidgetLanguage:
     PLURALNAME: ""
     SINGULARNAME: ""
+    SilvercartProductGroupManufacturersWidget:
+    CMSTITLE: "SilverCart manufacturer list"
+    DESCRIPTION: "This widget displays a list of manufacturer logos for a product group page"
+    RESETFILTER: "Show all"
+    TITLE: "Manufacturer list"
   SilvercartProductGroupMirrorPage:
     PLURALNAME: "Mirror-Productgroups"
     SINGULARNAME: "Mirror-Productgroup"
@@ -1469,6 +1507,7 @@ en_GB:
     RESULTTEXT: "Search results for query <b>&rdquo;%s&rdquo;</b>"
     SINGULARNAME: "Search Results Page"
     TITLE: "Search results"
+    RELEVANCESORT: "Relevance"
     URL_SEGMENT: "search-results"
   SilvercartSearchWidget:
     CMSTITLE: "SilverCart search"
@@ -1493,6 +1532,8 @@ en_GB:
     UNLIMITED_WEIGHT: "unlimited"
     UNLIMITED_WEIGHT_LABEL: "Unlimited Maximum Weight"
     ZONE_WITH_DESCRIPTION: "Zone (only carrier's zones available)"
+    FREEOFSHIPPINGCOSTSDISABLED: "Disable free shipping for this fee"
+    FREEOFSHIPPINGCOSTSFROM: "Free of shipping costs from (overwrites country specific and global configuration)"
   SilvercartShippingFeesPage:
     DEFAULT_TITLE: "Shipping fees"
     DEFAULT_URLSEGMENT: "shipping-fees"
@@ -1536,6 +1577,7 @@ en_GB:
     ORDER_ARRIVED: "We just received your order, many thanks."
     ORDER_ARRIVED_EMAIL_SUBJECT: "Your order in our online store"
     ORDER_SHIPPED_MESSAGE: "Your order has just been sent."
+    ORDER_SHIPPED_NOTIFICATION: "Shipment notification"
     ORDER_SHIPPED_NOTIFICATION_SUBJECT: "Your order has just been sent."
     PLURALNAME: "Shop Emails"
     REGARDS: "Best regards"
@@ -1606,7 +1648,9 @@ en_GB:
   SilvercartSubNavigationWidget:
     CMSTITLE: "SilverCart Subnavigation"
     DESCRIPTION: "This widget shows a subnavigation of the current section and his child pages."
+    LABEL_TITEL: "Title"
     TITLE: "Subnavigation"
+    STARTATLEVEL: "Start at level"
   SilvercartTax:
     LABEL: "label"
     PLURALNAME: "Rates"
@@ -1691,6 +1735,8 @@ en_GB:
     PAGES: "assigned pages"
     PLURALNAME: "Widget Sets"
     SINGULARNAME: "Widget Set"
+    MANAGE_WIDGETS_BUTTON: "Manage Widgets Sets"
+
   SilvercartWidgetSetAdmin:
     MENUTITLE: "Widget Sets"
   SilvercartWidgets:
