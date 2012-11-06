@@ -1145,20 +1145,21 @@ $lang['en_GB']['SilvercartOrderLog']['MESSAGE_CHANGED']                         
 $lang['en_GB']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Created: %s was created';
 $lang['en_GB']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Marked as seen';
 
-$lang['en_GB']['SilvercartOrderPosition']['PLURALNAME']         = 'Order positions';
-$lang['en_GB']['SilvercartOrderPosition']['SINGULARNAME']       = 'Order Position';
-$lang['en_GB']['SilvercartOrderPosition']['SHORT']              = 'Pos.';
-$lang['en_GB']['SilvercartOrderPosition']['SILVERCARTPRODUCT']  = 'Product';
-$lang['en_GB']['SilvercartOrderPosition']['PRICE']              = 'Price';
-$lang['en_GB']['SilvercartOrderPosition']['PRICETOTAL']         = 'Price total';
-$lang['en_GB']['SilvercartOrderPosition']['ISCHARGEORDISCOUNT'] = 'Is charge or discount';
-$lang['en_GB']['SilvercartOrderPosition']['TAX']                = 'Vat';
-$lang['en_GB']['SilvercartOrderPosition']['TAXTOTAL']           = 'Vat total';
-$lang['en_GB']['SilvercartOrderPosition']['TAXRATE']            = 'Vat rate';
-$lang['en_GB']['SilvercartOrderPosition']['PRODUCTDESCRIPTION'] = 'Description';
-$lang['en_GB']['SilvercartOrderPosition']['QUANTITY']           = 'Quantity';
-$lang['en_GB']['SilvercartOrderPosition']['TITLE']              = 'Title';
-$lang['en_GB']['SilvercartOrderPosition']['PRODUCTNUMBER']      = 'Product nr.';
+$lang['en_GB']['SilvercartOrderPosition']['PLURALNAME']                         = 'Order positions';
+$lang['en_GB']['SilvercartOrderPosition']['SINGULARNAME']                       = 'Order Position';
+$lang['en_GB']['SilvercartOrderPosition']['SHORT']                              = 'Pos.';
+$lang['en_GB']['SilvercartOrderPosition']['SILVERCARTPRODUCT']                  = 'Product';
+$lang['en_GB']['SilvercartOrderPosition']['PRICE']                              = 'Price';
+$lang['en_GB']['SilvercartOrderPosition']['PRICETOTAL']                         = 'Price total';
+$lang['en_GB']['SilvercartOrderPosition']['ISCHARGEORDISCOUNT']                 = 'Is charge or discount';
+$lang['en_GB']['SilvercartOrderPosition']['TAX']                                = 'Vat';
+$lang['en_GB']['SilvercartOrderPosition']['TAXTOTAL']                           = 'Vat total';
+$lang['en_GB']['SilvercartOrderPosition']['TAXRATE']                            = 'Vat rate';
+$lang['en_GB']['SilvercartOrderPosition']['PRODUCTDESCRIPTION']                 = 'Description';
+$lang['en_GB']['SilvercartOrderPosition']['QUANTITY']                           = 'Quantity';
+$lang['en_GB']['SilvercartOrderPosition']['TITLE']                              = 'Title';
+$lang['en_GB']['SilvercartOrderPosition']['PRODUCTNUMBER']                      = 'Product nr.';
+$lang['en_GB']['SilvercartOrderPosition']['CHARGEORDISCOUNTMODIFICATIONIMPACT'] = 'Charge/Discount Type';
 
 $lang['en_GB']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
 

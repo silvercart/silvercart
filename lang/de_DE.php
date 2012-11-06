@@ -1145,20 +1145,21 @@ $lang['de_DE']['SilvercartOrderLog']['MESSAGE_CHANGED']                         
 $lang['de_DE']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Erstellt: %s wurde erstellt';
 $lang['de_DE']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Als gesehen markiert';
 
-$lang['de_DE']['SilvercartOrderPosition']['PLURALNAME']         = 'Bestellpositionen';
-$lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME']       = 'Bestellposition';
-$lang['de_DE']['SilvercartOrderPosition']['SHORT']              = 'Pos.';
-$lang['de_DE']['SilvercartOrderPosition']['SILVERCARTPRODUCT']  = 'Artikel';
-$lang['de_DE']['SilvercartOrderPosition']['PRICE']              = 'Preis';
-$lang['de_DE']['SilvercartOrderPosition']['PRICETOTAL']         = 'Preis gesamt';
-$lang['de_DE']['SilvercartOrderPosition']['ISCHARGEORDISCOUNT'] = 'Ist Auf-/Abschlag';
-$lang['de_DE']['SilvercartOrderPosition']['TAX']                = 'MwSt.';
-$lang['de_DE']['SilvercartOrderPosition']['TAXTOTAL']           = 'MwSt. gesamt';
-$lang['de_DE']['SilvercartOrderPosition']['TAXRATE']            = 'Steuersatz';
-$lang['de_DE']['SilvercartOrderPosition']['PRODUCTDESCRIPTION'] = 'Beschreibung';
-$lang['de_DE']['SilvercartOrderPosition']['QUANTITY']           = 'Menge';
-$lang['de_DE']['SilvercartOrderPosition']['TITLE']              = 'Name';
-$lang['de_DE']['SilvercartOrderPosition']['PRODUCTNUMBER']      = 'Artikelnr.';
+$lang['de_DE']['SilvercartOrderPosition']['PLURALNAME']                         = 'Bestellpositionen';
+$lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME']                       = 'Bestellposition';
+$lang['de_DE']['SilvercartOrderPosition']['SHORT']                              = 'Pos.';
+$lang['de_DE']['SilvercartOrderPosition']['SILVERCARTPRODUCT']                  = 'Artikel';
+$lang['de_DE']['SilvercartOrderPosition']['PRICE']                              = 'Preis';
+$lang['de_DE']['SilvercartOrderPosition']['PRICETOTAL']                         = 'Preis gesamt';
+$lang['de_DE']['SilvercartOrderPosition']['ISCHARGEORDISCOUNT']                 = 'Ist Auf-/Abschlag';
+$lang['de_DE']['SilvercartOrderPosition']['TAX']                                = 'MwSt.';
+$lang['de_DE']['SilvercartOrderPosition']['TAXTOTAL']                           = 'MwSt. gesamt';
+$lang['de_DE']['SilvercartOrderPosition']['TAXRATE']                            = 'Steuersatz';
+$lang['de_DE']['SilvercartOrderPosition']['PRODUCTDESCRIPTION']                 = 'Beschreibung';
+$lang['de_DE']['SilvercartOrderPosition']['QUANTITY']                           = 'Menge';
+$lang['de_DE']['SilvercartOrderPosition']['TITLE']                              = 'Name';
+$lang['de_DE']['SilvercartOrderPosition']['PRODUCTNUMBER']                      = 'Artikelnr.';
+$lang['de_DE']['SilvercartOrderPosition']['CHARGEORDISCOUNTMODIFICATIONIMPACT'] = 'Auf-/Abschlags-Typ';
 
 $lang['de_DE']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Bitte wählen';
 

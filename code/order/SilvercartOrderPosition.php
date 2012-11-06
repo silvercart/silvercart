@@ -110,24 +110,25 @@ class SilvercartOrderPosition extends DataObject {
      * 
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.11.2012
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'SilvercartProduct'  => _t('SilvercartOrderPosition.SILVERCARTPRODUCT'),
-                'Price'              => _t('SilvercartOrderPosition.PRICE'),
-                'PriceTotal'         => _t('SilvercartOrderPosition.PRICETOTAL'),
-                'isChargeOrDiscount' => _t('SilvercartOrderPosition.ISCHARGEORDISCOUNT'),
-                'Tax'                => _t('SilvercartOrderPosition.TAX'),
-                'TaxTotal'           => _t('SilvercartOrderPosition.TAXTOTAL'),
-                'TaxRate'            => _t('SilvercartOrderPosition.TAXRATE'),
-                'ProductDescription' => _t('SilvercartOrderPosition.PRODUCTDESCRIPTION'),
-                'Quantity'           => _t('SilvercartOrderPosition.QUANTITY'),
-                'Title'              => _t('SilvercartOrderPosition.TITLE'),
-                'ProductNumber'      => _t('SilvercartOrderPosition.PRODUCTNUMBER')
+                'SilvercartProduct'                     => _t('SilvercartOrderPosition.SILVERCARTPRODUCT'),
+                'Price'                                 => _t('SilvercartOrderPosition.PRICE'),
+                'PriceTotal'                            => _t('SilvercartOrderPosition.PRICETOTAL'),
+                'isChargeOrDiscount'                    => _t('SilvercartOrderPosition.ISCHARGEORDISCOUNT'),
+                'Tax'                                   => _t('SilvercartOrderPosition.TAX'),
+                'TaxTotal'                              => _t('SilvercartOrderPosition.TAXTOTAL'),
+                'TaxRate'                               => _t('SilvercartOrderPosition.TAXRATE'),
+                'ProductDescription'                    => _t('SilvercartOrderPosition.PRODUCTDESCRIPTION'),
+                'Quantity'                              => _t('SilvercartOrderPosition.QUANTITY'),
+                'Title'                                 => _t('SilvercartOrderPosition.TITLE'),
+                'ProductNumber'                         => _t('SilvercartOrderPosition.PRODUCTNUMBER'),
+                'chargeOrDiscountModificationImpact'    => _t('SilvercartOrderPosition.CHARGEORDISCOUNTMODIFICATIONIMPACT'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -276,46 +277,45 @@ class SilvercartOrderPosition extends DataObject {
      *
      * @return FieldSet the form fields for the backend
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.11.2012
      */
     public function getCMSFields() {
         if ($this->ID === 0) {
             return $this->getCMSFields_forPopup();
         }
 
-        $fields = parent::getCMSFields();
-
-        $fields->removeByName('isChargeOrDiscount');
-        $fields->removeByName('chargeOrDiscountModificationImpact');
-        $fields->removeByName('Tax');
-        $fields->removeByName('TaxTotal');
-        $fields->removeByName('TaxRate');
+        $fields = parent::getCMSFields(
+            array(
+                'fieldClasses' => array(
+                    'Price'         => 'SilvercartMoneyField',
+                    'PriceTotal'    => 'SilvercartMoneyField',
+                ),
+            )
+        );
+        
+        $priceGroup = new SilvercartFieldGroup('PriceGroup', '', $fields);
+        $priceGroup->push(          $fields->dataFieldByName('Price'));
+        $priceGroup->push(          $fields->dataFieldByName('Quantity'));
+        $priceGroup->pushAndBreak(  $fields->dataFieldByName('PriceTotal'));
+        $priceGroup->push(          $fields->dataFieldByName('Tax'));
+        $priceGroup->push(          $fields->dataFieldByName('TaxRate'));
+        $priceGroup->pushAndBreak(  $fields->dataFieldByName('TaxTotal'));
+        
+        $productGroup = new SilvercartFieldGroup('ProductGroup', '', $fields);
+        $productGroup->push(        $fields->dataFieldByName('ProductNumber'));
+        $productGroup->pushAndBreak($fields->dataFieldByName('Title'));
+        $productGroup->pushAndBreak($fields->dataFieldByName('SilvercartProductID'));
+        
+        $chargeGroup = new SilvercartFieldGroup('ChargeGroup', '', $fields);
+        $chargeGroup->push(        $fields->dataFieldByName('isChargeOrDiscount'));
+        $chargeGroup->pushAndBreak($fields->dataFieldByName('chargeOrDiscountModificationImpact'));
+        
+        $fields->insertBefore(  $priceGroup,    'ProductDescription');
+        $fields->insertBefore(  $productGroup,  'ProductDescription');
+        $fields->insertAfter(   $chargeGroup,   'ProductDescription');
+        
         $fields->removeByName('SilvercartOrderID');
-        $fields->removeByName('SilvercartProductGroupID');
-
-        $productDescriptionField = $fields->dataFieldByName('ProductDescription');
-        if ($productDescriptionField) {
-            $productDescriptionField->setReadonly(true);
-        }
-
-        $productNumberField = $fields->dataFieldByName('ProductNumber');
-        if ($productNumberField) {
-            $productNumberField->setReadonly(true);
-            $productNumberField->disabled = true;
-        }
-
-        $titleField = $fields->dataFieldByName('Title');
-        if ($titleField) {
-            $titleField->setReadonly(true);
-            $titleField->disabled = true;
-        }
-
-        $priceTotalField = $fields->dataFieldByName('PriceTotal');
-        if ($priceTotalField) {
-            $priceTotalField->setReadonly(true);
-            $priceTotalField->disabled = true;
-        }
 
         if ($this->SilvercartOrder()->ID > 0) {
             $link = sprintf(
