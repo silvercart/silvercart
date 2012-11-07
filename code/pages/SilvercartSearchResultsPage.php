@@ -402,6 +402,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                         }
                     }
                 }
+                $this->extend('updateListFilters', $this->listFilters, $searchTerms);
 
                 foreach ($this->listFilters as $listFilter) {
                     if (empty($filter)) {
