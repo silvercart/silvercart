@@ -367,9 +367,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.07.2011
      */
-    public function deleteAddress(SS_HTTPRequest $request) {
+    public function deleteAddress(SS_HTTPRequest $request, $context = 'SilvercartCheckoutStep') {
         $silvercartAddressHolder = new SilvercartAddressHolder_Controller();
-        $silvercartAddressHolder->deleteAddress($request);
+        $silvercartAddressHolder->deleteAddress($request, $context);
     }
     
     /**

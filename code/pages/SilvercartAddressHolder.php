@@ -168,9 +168,9 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.06.2011
      */
-    public function deleteAddress(SS_HTTPRequest $request) {
+    public function deleteAddress(SS_HTTPRequest $request, $context = '') {
         $params = $request->allParams();
-
+        
         if ( array_key_exists('ID', $params) &&
             !empty ($params['ID'])) {
 
@@ -198,7 +198,11 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        Director::redirectBack();
+        if (!empty($context)) {
+            Director::redirectBack();
+        } else {
+            Director::redirect(SilvercartTools::PageByIdentifierCodeLink('SilvercartAddressHolder'));
+        }
     }
     
     /**
