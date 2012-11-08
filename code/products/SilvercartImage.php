@@ -207,6 +207,10 @@ class SilvercartImage extends DataObject {
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }
+
+        $fields->removeByName('Content');
+        $fields->removeByName('Description');
+
         return $fields;
     }
 
@@ -233,6 +237,10 @@ class SilvercartImage extends DataObject {
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
         }
+
+        $fields->removeByName('Content');
+        $fields->removeByName('Description');
+
         return $fields;
     }
 
@@ -245,20 +253,24 @@ class SilvercartImage extends DataObject {
      */
     public function getCMSFieldsForWidget($params = null) {
         $fields = $this->getCMSFieldsForContext(
-                        array_merge(
-                                array(
-                                    'restrictFields' => array(
-                                        'Image',
-                                        'SortOrder',
-                                    ),
-                                ),
-                                (array) $params
-                        )
+            array_merge(
+                array(
+                    'restrictFields' => array(
+                        'Image',
+                        'SortOrder',
+                    ),
+                ),
+                (array) $params
+            )
         );
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
         }
+
+        $fields->removeByName('SilvercartProductID');
+        $fields->removeByName('SilvercartPaymentMethodID');
+        $fields->removeByName('SortOrder');
         return $fields;
     }
 

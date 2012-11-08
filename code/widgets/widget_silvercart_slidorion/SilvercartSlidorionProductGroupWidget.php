@@ -172,7 +172,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             'SilvercartImages',
             'SilvercartImage',
             null,
-            null,
+            'getCMSFieldsForWidget',
             "SilvercartProductID = 0 AND SilvercartPaymentMethodID = 0"
         );
         
