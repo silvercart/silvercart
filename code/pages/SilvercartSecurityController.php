@@ -59,6 +59,8 @@ class SilvercartSecurityController extends DataObjectDecorator {
             }
         } else {
             Session::set('MemberLoginForm.force_message', false);
+            // used to redirect the logged in user to my-account page
+            Session::set('BackURL', SilvercartTools::PageByIdentifierCodeLink('SilvercartMyAccountHolder'));
         }
         
         $this->owner->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this->owner));
