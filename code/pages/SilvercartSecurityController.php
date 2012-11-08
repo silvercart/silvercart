@@ -38,8 +38,8 @@ class SilvercartSecurityController extends DataObjectDecorator {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 08.11.2012
      */
     public function onBeforeInit() {
         if (!isset($_SESSION['Silvercart'])) {
@@ -47,6 +47,18 @@ class SilvercartSecurityController extends DataObjectDecorator {
         }
         if (!isset($_SESSION['Silvercart']['errors'])) {
             $_SESSION['Silvercart']['errors'] = array();
+        }
+        
+        $controllerParams   = Controller::curr()->getURLParams();
+        $anonymousCustomer  = SilvercartCustomer::currentAnonymousCustomer();
+        
+        if ($anonymousCustomer) {
+            Session::set('MemberLoginForm.force_message', true);
+            if ($controllerParams['Action'] == 'changepassword') {
+                $anonymousCustomer->logOut();
+            }
+        } else {
+            Session::set('MemberLoginForm.force_message', false);
         }
         
         $this->owner->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this->owner));

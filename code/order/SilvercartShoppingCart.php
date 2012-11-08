@@ -1085,7 +1085,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return SilvercartShippingMethod
      */
     public function getShippingMethod() {
-        return DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        $shippingMethod = null;
+        if (is_numeric($this->SilvercartShippingMethodID)) {
+            $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        }
+        return $shippingMethod;
     }
     
     /**
@@ -1094,7 +1098,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return SilvercartPaymentMethod
      */
     public function getPaymentMethod() {
-        return DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $paymentMethod = null;
+        if (is_numeric($this->SilvercartPaymentMethodID)) {
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        }
+        return $paymentMethod;
     }
 
     /**
