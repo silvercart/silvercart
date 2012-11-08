@@ -954,7 +954,7 @@ $lang['en_US']['SilvercartManyManyOrderField']['AVAILABLE_RELATION_OBJECTS'] = '
 $lang['en_US']['SilvercartManyManyOrderField']['EDIT']                       = 'Edit';
 
 $lang['en_US']['SilvercartImage']['CONTENT'] = 'Text content';
-$lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description';
+$lang['en_US']['SilvercartImage']['DESCRIPTION'] = 'Description (e.g. for Slidorion textfield)';
 $lang['en_US']['SilvercartImage']['PLURALNAME'] = 'Images';
 $lang['en_US']['SilvercartImage']['SINGULARNAME'] = 'Image';
 $lang['en_US']['SilvercartImage']['THUMBNAIL'] = 'Preview';
