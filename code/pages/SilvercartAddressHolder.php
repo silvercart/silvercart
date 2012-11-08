@@ -162,6 +162,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * to the logged in customer and deletes it.
      *
      * @param SS_HTTPRequest $request The given request
+     * @param string         $context specifies the context from the action to adjust redirect behaviour
      *
      * @return void
      * 
