@@ -1217,7 +1217,7 @@ $lang['de_DE']['SilvercartPage']['DIDNOT_RETURN_RESULTS'] = 'hat in unserem Shop
 $lang['de_DE']['SilvercartPage']['DO_NOT_EDIT'] = 'Bitte nicht ändern!';
 $lang['de_DE']['SilvercartPage']['EMAIL_ADDRESS'] = 'E-Mail-Adresse';
 $lang['de_DE']['SilvercartPage']['EMAIL_ALREADY_REGISTERED'] = 'Ein Nutzer hat sich bereits mit dieser E-Mail-Adresse registriert.';
-$lang['de_DE']['SilvercartPage']['EMAIL_NOT_FOUND'] = 'Diese Emailadresse konnte nicht gefunden werden.';
+$lang['de_DE']['SilvercartPage']['EMAIL_NOT_FOUND'] = 'Diese E-Mail-Adresse konnte nicht gefunden werden.';
 $lang['de_DE']['SilvercartPage']['EMPTY_CART'] = 'leeren';
 $lang['de_DE']['SilvercartPage']['ERROR_LISTING'] = 'Folgende Fehler sind aufgetreten:';
 $lang['de_DE']['SilvercartPage']['ERROR_OCCURED'] = 'Es ist ein Fehler aufgetreten.';
@@ -1481,8 +1481,8 @@ $lang['de_DE']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
 $lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Konfig';
 
-$lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'Email des Shops';
-$lang['de_DE']['SilvercartShopEmail']['PLURALNAME'] = 'Emails des Shops';
+$lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'E-Mail des Shops';
+$lang['de_DE']['SilvercartShopEmail']['PLURALNAME'] = 'E-Mails des Shops';
 $lang['de_DE']['SilvercartShopEmail']['EMAILTEXT'] = 'Nachricht';
 $lang['de_DE']['SilvercartShopEmail']['IDENTIFIER'] = 'Bezeichner';
 $lang['de_DE']['SilvercartShopEmail']['PLURALNAME'] = 'Shop E-Mails';
