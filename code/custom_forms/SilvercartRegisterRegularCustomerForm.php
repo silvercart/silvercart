@@ -333,25 +333,11 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @param string $value the email address to be checked
      *
      * @return array to be rendered in the template
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.10.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.11.2012
      */
     public function doesEmailExistAlready($value) {
-        $emailExistsAlready = false;
-
-        $results = DataObject::get_one(
-            'Member',
-            "Email = '" . $value . "'"
-        );
-
-        if ($results) {
-            $emailExistsAlready = true;
-        }
-
-        return array(
-            'success' => !$emailExistsAlready,
-            'errorMessage' => _t('SilvercartPage.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
-        );
+        return SilvercartFormValidation::doesEmailExitAlready($value);
     }
     
     /**

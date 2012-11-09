@@ -33,8 +33,7 @@
  */
 class SilvercartEditProfileForm extends CustomHtmlForm {
 
-    protected $formFields = array
-        (
+    protected $formFields = array(
         'Salutation' => array(
             'type' => 'DropdownField',
             'title' => 'Anrede',
@@ -43,33 +42,30 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
                 'isFilledIn' => true
             )
         ),
-        'FirstName' => array
-        (
-                'type' => 'TextField',
-                'title' => 'Vorname',
-                'checkRequirements' => array
-                (
-                        'isFilledIn' => true,
-                        'hasMinLength' => 3
-                )
+        'FirstName' => array(
+            'type' => 'TextField',
+            'title' => 'Vorname',
+            'checkRequirements' => array(
+                    'isFilledIn' => true,
+                    'hasMinLength' => 3
+            )
         ),
-        'Surname' => array
-        (
-                'type' => 'TextField',
-                'title' => 'Nachname',
-                'checkRequirements' => array
-                (
-                        'isFilledIn' => true,
-                        'hasMinLength' => 3
-                )
+        'Surname' => array(
+            'type' => 'TextField',
+            'title' => 'Nachname',
+            'checkRequirements' => array(
+                    'isFilledIn' => true,
+                    'hasMinLength' => 3
+            )
         ),
         'Email' => array(
-                'type' => 'TextField',
-                'title' => 'Email Adresse',
-                'checkRequirements' => array(
-                        'isEmailAddress'    => true,
-                        'isFilledIn'        => true
-                )
+            'type' => 'TextField',
+            'title' => 'Email Adresse',
+            'checkRequirements' => array(
+                'isEmailAddress'    => true,
+                'isFilledIn'        => true,
+                'callBack'          => 'doesEmailExistAlready'
+            )
         ),
         'BirthdayDay' => array(
             'type' => 'DropdownField',
@@ -97,27 +93,23 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
                 'hasLength' => 4
             )
         ),
-        'Password' => array
-        (
-                'type' => 'PasswordField',
-                'title' => 'Passwort',
-                'checkRequirements' => array
-                (
-                        'hasMinLength' => 6
-                )
+        'Password' => array(
+            'type' => 'PasswordField',
+            'title' => 'Passwort',
+            'checkRequirements' => array(
+                    'hasMinLength' => 6
+            )
         ),
-        'PasswordCheck' => array
-        (
-                'type' => 'PasswordField',
-                'title' => 'Passwort Gegenprüfung',
-                'checkRequirements' => array
-                (
-                        'mustEqual' => 'Password'
-                )
+        'PasswordCheck' => array(
+            'type' => 'PasswordField',
+            'title' => 'Passwort Gegenprüfung',
+            'checkRequirements' => array(
+                    'mustEqual' => 'Password'
+            )
         ),
-        'SubscribedToNewsletter' => array
-        (       'title' => "Ich m&ouml;chte &uuml;ber neue Aktionen oder Veranstaltungen von Pour LA Table informiert werden",
-                'type' => 'CheckboxField'
+        'SubscribedToNewsletter' => array(
+            'title' => 'Subscribe to newsletter',
+            'type' => 'CheckboxField'
         )
     );
 
@@ -195,6 +187,19 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      */
     public function demandBirthdayDate() {
         return SilvercartConfig::demandBirthdayDateOnRegistration();
+    }
+    
+    /**
+     * Form callback: Does the entered Email already exist?
+     *
+     * @param string $value the email address to be checked
+     *
+     * @return array to be rendered in the template
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 09.11.2012
+     */
+    public function doesEmailExistAlready($value) {
+        return SilvercartFormValidation::doesEmailExitAlready($value);
     }
 
     /**
