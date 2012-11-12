@@ -195,11 +195,11 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      * @param string $value the email address to be checked
      *
      * @return array to be rendered in the template
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.11.2012
      */
     public function doesEmailExistAlready($value) {
-        return SilvercartFormValidation::doesEmailExitAlready($value);
+        return SilvercartFormValidation::doesEmailExistAlready($value);
     }
 
     /**
