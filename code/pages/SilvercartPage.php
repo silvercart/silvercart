@@ -60,7 +60,7 @@ class SilvercartPage extends SiteTree {
         'WidgetSetSidebar'  => 'SilvercartWidgetSet',
         'WidgetSetContent'  => 'SilvercartWidgetSet'
     );
-    
+
     /**
      * Define indexes.
      *
@@ -95,6 +95,18 @@ class SilvercartPage extends SiteTree {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+
+    /**
+     * Always enable translations for this page.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.11.2012
+     */
+    public function canTranslate() {
+        return true;
     }
 
     /**

@@ -1253,6 +1253,7 @@ $lang['de_DE']['SilvercartPage']['NEXT'] = 'Vor';
 $lang['de_DE']['SilvercartPage']['NOVEMBER'] = 'November';
 $lang['de_DE']['SilvercartPage']['NO_ORDERS'] = 'Sie haben noch keine Bestellungen abgeschlossen.';
 $lang['de_DE']['SilvercartPage']['NO_RESULTS'] = 'Entschuldigung aber zu Ihrem Suchbegriff gibt es kein Ergebnisse.';
+$lang['de_DE']['SilvercartPage']['NOT_FOUND'] = 'Die Seite "%s" konnte nicht gefunden werden.';
 $lang['de_DE']['SilvercartPage']['OCTOBER'] = 'Oktober';
 $lang['de_DE']['SilvercartPage']['ORDERED_PRODUCTS'] = 'Bestellte Artikel';
 $lang['de_DE']['SilvercartPage']['ORDER_COMPLETED'] = 'Ihre Bestellung ist abgeschlossen.';
@@ -1650,6 +1651,13 @@ $lang['de_DE']['SilvercartProductSliderWidget']['TRANSITION_VERTICALSLIDE']     
 $lang['de_DE']['SilvercartProductSliderWidget']['USE_LISTVIEW']                         = 'Listendarstellung verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['USE_SLIDER']                           = 'Slider verwenden';
+
+$lang['de_DE']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']     = 'SilverCart Anzeige von Produkten aus Unterwarengruppen';
+$lang['de_DE']['SilvercartProductGroupChildProductsWidget']['DESCRIPTION']  = 'Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind.';
+$lang['de_DE']['SilvercartProductGroupChildProductsWidget']['TITLE']        = 'Artikel aus Unterwarengruppen';
+
+$lang['de_DE']['SilvercartProductGroupChildProductsWidgetLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
+$lang['de_DE']['SilvercartProductGroupChildProductsWidgetLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
 
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Warengruppe';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Artikel';

@@ -74,8 +74,28 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      */
     protected function submitSuccess($data, $form, $formData) {
         Session::set("searchQuery", $formData['quickSearchQuery']);
-        $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
-        Director::redirect($searchResultsPage->RelativeLink());
+        $searchResultsPage = SilvercartTools::PageByIdentifierCode("SilvercartSearchResultsPage");
+
+        if (!$searchResultsPage) {
+            $searchResultsPage = Translatable::get_one_by_locale('SiteTree', Translatable::default_locale(), "ClassName='SilvercartSearchResultsPage'");
+
+            if ($searchResultsPage) {
+                $translatedPage = $searchResultsPage->createTranslation(Translatable::get_current_locale());
+                $translatedPage->write();
+                $translatedPage->publish('Live', 'Stage');
+
+                Director::redirect($translatedPage->RelativeLink());
+            } else {
+                throw new Exception(
+                    sprintf(
+                        _t('SilvercartPage.NOT_FOUND'),
+                        _t('SilvercartSearchResultsPage.SINGULARNAME')
+                    )
+                );
+            }
+        } else {
+            Director::redirect($searchResultsPage->RelativeLink());
+        }
     }
 
     /**
