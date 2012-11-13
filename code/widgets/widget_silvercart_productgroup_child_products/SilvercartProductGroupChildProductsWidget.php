@@ -225,7 +225,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
 
         $cacheKey  = implode(',', $pageIDsToWorkOn);
-        $cacheKey .= DataObject::get('SilvercartProductGroupPage', "SilvercartProductGroupPage.ID IN ('.$cacheKey.')")->max('LastEdited');
+        $cacheKey .= DataObject::get('SilvercartProductGroupPage', "SilvercartProductGroupPage_Live.ID IN ('.$cacheKey.')")->max('LastEdited');
         $cacheKey .= $elements->pageLength.'-'.$elements->pageStart.'-';
         $cacheKey .= Translatable::get_current_locale();
         $cacheKey  = md5($cacheKey);
