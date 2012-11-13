@@ -216,33 +216,50 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $elementIdx           = 0;
         $products             = new DataObjectSet();
 
-        if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller) {
+        if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
+             $productGroupPage->ActiveSilvercartProducts()->Count > 0) {
+
             return $elements;
         }
 
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
-        foreach ($pageIDsToWorkOn as $pageID) {
-            $page           = DataObject::get_by_id('SiteTree', $pageID);
-            $productsOfPage = $page->getProducts(100, false, true);
 
-            foreach ($productsOfPage as $product) {
-                $products->push($product);
+        $cacheKey  = implode(',', $pageIDsToWorkOn);
+        $cacheKey .= DataObject::get('SilvercartProductGroupPage', "SilvercartProductGroupPage.ID IN ('.$cacheKey.')")->max('LastEdited');
+        $cacheKey .= $elements->pageLength.'-'.$elements->pageStart.'-';
+        $cacheKey .= Translatable::get_current_locale();
+        $cacheKey  = md5($cacheKey);
+
+        $cache    = SS_Cache::factory($cacheKey);
+        $result   = $cache->load($cacheKey);
+
+        if ($result) {
+            $elements = unserialize($result);
+        } else {
+            foreach ($pageIDsToWorkOn as $pageID) {
+                $page           = DataObject::get_by_id('SiteTree', $pageID);
+                $productsOfPage = $page->getProducts(100, false, true);
+
+                foreach ($productsOfPage as $product) {
+                    $products->push($product);
+                }
             }
-        }
 
-        $sortElems    = explode(" ", SilvercartProduct::defaultSort());
-        $sortElems[0] = str_replace('SilvercartProduct.', '', $sortElems[0]);
-        $products->sort($sortElems[0], $sortElems[1]);
+            $sortElems    = explode(" ", SilvercartProduct::defaultSort());
+            $sortElems[0] = str_replace('SilvercartProduct.', '', $sortElems[0]);
+            $products->sort($sortElems[0], $sortElems[1]);
 
-        foreach ($products as $product) {
-            if ($elementIdx >= $elements->pageStart &&
-                $elementIdx < $pageEnd) {
-                $elements->push($product);
+            foreach ($products as $product) {
+                if ($elementIdx >= $elements->pageStart &&
+                    $elementIdx < $pageEnd) {
+                    $elements->push($product);
+                }
+                $elementIdx++;
             }
-            $elementIdx++;
-        }
 
-        $elements->totalSize = $elementIdx;
+            $elements->totalSize = $elementIdx;
+            $cache->save(serialize($elements));
+        }
 
         return $elements;
     }
