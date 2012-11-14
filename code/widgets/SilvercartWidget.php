@@ -32,7 +32,15 @@
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartWidget extends Widget {
-   
+
+    /**
+     * Set whether to use the widget container divs or not.
+     *
+     * @var bool
+     * @since 2012-11-14
+     */
+    public $useWidgetContainer = true;
+
     /**
      * Attributes
      *
@@ -123,6 +131,18 @@ class SilvercartWidget_Controller extends Widget_Controller {
      */
     public function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
         return SilvercartPage_Controller::PageByIdentifierCodeLink($identifierCode);
+    }
+
+    /**
+     * Indicate whether to use the widget container divs or not.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.11.2012
+     */
+    public function DoUseWidgetContainer() {
+        return $this->useWidgetContainer;
     }
 
     /**

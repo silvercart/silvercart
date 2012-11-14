@@ -35,6 +35,14 @@
 class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
 
     /**
+     * Set whether to use the widget container divs or not.
+     *
+     * @var bool
+     * @since 2012-11-14
+     */
+    public $useWidgetContainer = false;
+
+    /**
      * 1:1 or 1:n relationships.
      *
      * @var array
@@ -217,21 +225,27 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $products             = new DataObjectSet();
 
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
-             $productGroupPage->ActiveSilvercartProducts()->Count > 0) {
+             $productGroupPage->getProducts()->Count() > 0) {
 
             return $elements;
         }
 
+        $result          = false;
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
 
-        $cacheKey  = implode(',', $pageIDsToWorkOn);
-        $cacheKey .= DataObject::get('SilvercartProductGroupPage', "SilvercartProductGroupPage_Live.ID IN ('.$cacheKey.')")->max('LastEdited');
-        $cacheKey .= $elements->pageLength.'-'.$elements->pageStart.'-';
-        $cacheKey .= Translatable::get_current_locale();
-        $cacheKey  = md5($cacheKey);
+        if (count($pageIDsToWorkOn) > 0) {
+            $childSiteTreeObjects = DataObject::get_one('SiteTree', "SiteTree_Live.ID IN (".implode(',', $pageIDsToWorkOn).")", "LastEdited DESC");
 
-        $cache    = SS_Cache::factory($cacheKey);
-        $result   = $cache->load($cacheKey);
+            if ($childSiteTreeObjects) {
+                $cacheKey  = $childSiteTreeObjects->ID;
+                $cacheKey .= $elements->pageLength.'-'.$elements->pageStart.'-';
+                $cacheKey .= Translatable::get_current_locale();
+                $cacheKey  = md5($cacheKey);
+
+                $cache    = SS_Cache::factory($cacheKey);
+                $result   = $cache->load($cacheKey);
+            }
+        }
 
         if ($result) {
             $elements = unserialize($result);
@@ -258,7 +272,9 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             }
 
             $elements->totalSize = $elementIdx;
-            $cache->save(serialize($elements));
+            if ($cache) {
+                $cache->save(serialize($elements));
+            }
         }
 
         return $elements;
