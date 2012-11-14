@@ -860,7 +860,7 @@ class SilvercartConfig extends DataObject {
         }
         return self::$globalEmailRecipient;
     }
-
+    
     /**
      * Returns the configured default setting that determines the default page
      * size for products.
@@ -1159,7 +1159,31 @@ class SilvercartConfig extends DataObject {
      */
     public static function getProductsPerPageDefault() {
         return self::$productsPerPageDefault;
+    }    
+    
+    /**
+     * used to set self::$productsPerPageOptions, set $includeAllProductsOption true if
+     * 'All' should be included 
+     * 
+     * @param array $productsPerPageOptions   array with all options
+     *                                          array(
+     *                                              '5'  => '5',
+     *                                              '10' => '10',
+     *                                              ...
+     *                                          )
+     * @param bool  $includeAllProductsOption set if 'All' should be included
+     * 
+     * @return void
+     */
+    public static function setProductsPerPageOptions(array $productsPerPageOptions, $includeAllProductsOption = false) {
+        if (is_array($productsPerPageOptions)) {
+            self::$productsPerPageOptions = $productsPerPageOptions;
+            if ($includeAllProductsOption) {
+                self::$productsPerPageOptions['0'] = _t('SilvercartConfig.PRODUCTSPERPAGE_ALL');
+            }
+        }
     }
+
     
     /**
      * Returns an associative array with values for products per page, e.g.
