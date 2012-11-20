@@ -845,6 +845,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
         $this->MemberID         = $member->ID;
 
+        if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
+            return true;
+        }
+
         $paymentObj = DataObject::get_by_id(
             'SilvercartPaymentMethod',
             $this->SilvercartPaymentMethodID
@@ -1116,6 +1120,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 $shoppingCartPosition->delete();
             }
         }
+
+        SilvercartPlugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
     }
 
     /**
@@ -2325,7 +2331,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return string
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountTotalNice() {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
@@ -2336,10 +2342,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money amount
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountNet() {
-        user_error('SilvercartOrder::getAmountNet() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountNet() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
         $amountNetObj = new Money();
         $amountNetObj->setAmount($amountNet);
@@ -2353,10 +2359,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountGross() {
-        user_error('SilvercartOrder::getAmountGross() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountGross() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         return $this->AmountGrossTotal;
     }
 
@@ -2365,10 +2371,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return string
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountGrossTotalNice() {
-        user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         return $this->getAmountTotalNice();
     }
     
