@@ -165,21 +165,21 @@ class SilvercartPlugin extends Object {
                 if (method_exists($pluginProvider, $methodName)) {
                     if ($passArgumentsByReference) {
                         if (is_array($returnContainer)) {
-                            $returnContainer[] = $pluginProvider->$methodName(&$arguments, $callingObject);
+                            $returnContainer[] = $pluginProvider->$methodName($arguments, $callingObject);
                         } else if ($returnContainer instanceof DataObjectSet) {
                             if ($returnContainer->TotalItems() === 0) {
-                                $returnContainer = $pluginProvider->$methodName(&$arguments, $callingObject);
+                                $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                             } else {
-                                $returnContainer->merge($pluginProvider->$methodName(&$arguments, $callingObject));
+                                $returnContainer->merge($pluginProvider->$methodName($arguments, $callingObject));
                             }
                         } else if ($returnContainer == 'boolean') {
-                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                            $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else if ($returnContainer == 'DataObject') {
-                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                            $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else if ($returnContainer == 'DataObjectSet') {
-                            $returnContainer = $pluginProvider->$methodName(&$arguments,$callingObject);
+                            $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else {
-                            $returnContainer .= $pluginProvider->$methodName(&$arguments,$callingObject);
+                            $returnContainer .= $pluginProvider->$methodName($arguments,$callingObject);
                         }
                     } else {
                         if (is_array($returnContainer)) {

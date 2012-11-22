@@ -266,7 +266,7 @@ class SilvercartProduct extends DataObject {
             // decode
             $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
         }
-        $this->extend('updateShortDescription', &$shortDescription);
+        $this->extend('updateShortDescription', $shortDescription);
         return $shortDescription;
     }
     
@@ -286,7 +286,7 @@ class SilvercartProduct extends DataObject {
             // decode
             $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
         }
-        $this->extend('updateLongDescription', &$longDescription);
+        $this->extend('updateLongDescription', $longDescription);
         return $longDescription;
     }
     

@@ -56,8 +56,8 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             'value' => '1',
             'maxLength' => 3,
             'checkRequirements' => array(
-                'isFilledIn' => true,
-                'isNumbersOnly' => true
+                'isFilledIn'      => true,
+                'isQuantityField' => true
             )
         )
     );

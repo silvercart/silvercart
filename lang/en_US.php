@@ -990,6 +990,7 @@ $lang['en_US']['SilvercartInboundShoppingCartTransferPage']['ERROR_SHARED_SECRET
 $lang['en_US']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Invoice addresses';
 $lang['en_US']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
 
+$lang['en_US']['SilvercartManufacturer']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
 $lang['en_US']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
