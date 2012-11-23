@@ -939,16 +939,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
                     $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
                     $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
-                    $orderPosition->Tax                 = $shoppingCartPosition->getTaxAmount(true);
-                    $orderPosition->TaxTotal            = $shoppingCartPosition->getTaxAmount();
-                    $orderPosition->TaxRate             = $product->getTaxRate();
-                    $orderPosition->ProductDescription  = $product->LongDescription;
-                    $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
-                    $orderPosition->ProductNumber       = $product->ProductNumberShop;
-                    $orderPosition->Title               = $product->Title;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->SilvercartProductID = $product->ID;
-                    $orderPosition->log                 = false;
+                    $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
+                    $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
+                    $orderPosition->TaxRate                 = $product->getTaxRate();
+                    $orderPosition->ProductDescription      = $product->LongDescription;
+                    $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
+                    $orderPosition->numberOfDecimalPlaces   = $product->SilvercartQuantityUnit()->numberOfDecimalPlaces;
+                    $orderPosition->ProductNumber           = $product->ProductNumberShop;
+                    $orderPosition->Title                   = $product->Title;
+                    $orderPosition->SilvercartOrderID       = $this->ID;
+                    $orderPosition->SilvercartProductID     = $product->ID;
+                    $orderPosition->log                     = false;
                     $orderPosition->write();
 
                     // Call hook method on product if available

@@ -397,7 +397,9 @@ class SilvercartShoppingCart extends DataObject {
                 if ($cart) {
                     $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
                     if ($product) {
-                        $quantity = (int) $formData['productQuantity'];
+                        $formData['productQuantity'] = str_replace(',', '.', $formData['productQuantity']);
+                        $quantity                    = (float) $formData['productQuantity'];
+
                         if ($quantity > 0) {
                             $product->addToCart($cart->ID, $quantity);
                             $error = false;

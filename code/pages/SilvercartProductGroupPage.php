@@ -1241,12 +1241,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if (!$this->getDetailViewProduct()->isActive) {
                     Director::redirect($this->PageByIdentifierCodeLink());
                 }
+
+                $product = $this->getDetailViewProduct();
+
                 $this->registerCustomHtmlForm(
-                    'SilvercartProductAddCartFormDetail',
+                    'SilvercartProductAddCartFormDetail'.$product->ID,
                     new SilvercartProductAddCartFormDetail(
                         $this,
                         array(
-                            'productID'          => $this->getDetailViewProduct()->ID,
+                            'productID'          => $product->ID,
                             '_REDIRECT_BACK_URL' => $this->BackLink()
                         )
                     )
@@ -1263,13 +1266,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     foreach ($products as $product) {
                         $backlink = $this->Link()."?start=".$this->SQL_start;
                         $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                        $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
-                        $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                            'ProductAddCartForm'.$productIdx,
-                            array(
-                                $product
-                            )
-                        );
+                        $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
+
                         $product->productAddCartFormObj = $productAddCartForm;
                         $productIdx++;
                     }
@@ -2163,8 +2161,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function customise($data) {
         if ($this->isProductDetailView()) {
             $data = array_merge(
-                    $data,
-                    $this->ProductDetailViewParams()
+                $data,
+                $this->ProductDetailViewParams()
             );
         }
         $customisedData = parent::customise($data);
@@ -2199,7 +2197,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if ($this->isProductDetailView() &&
             empty($this->productDetailViewParams)) {
             $product                        = $this->getDetailViewProduct();
-            $product->productAddCartForm    = $this->InsertCustomHtmlForm('SilvercartProductAddCartFormDetail');
             $this->productDetailViewParams  = array(
                 'getProduct'    => $product,
                 'MetaTitle'     => $this->DetailViewProductMetaTitle(),

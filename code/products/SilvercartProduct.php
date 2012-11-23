@@ -1551,6 +1551,30 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns an addToCartForm as HTML string.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function productAddCartForm() {
+        $controller      = Controller::curr();
+        $addCartFormName = 'ProductAddCartForm';
+
+        if ($controller->isProductDetailView()) {
+            $addCartFormName = 'SilvercartProductAddCartFormDetail';
+        }
+
+        return Controller::curr()->InsertCustomHtmlForm(
+            $addCartFormName.$this->ID,
+            array(
+                $this
+            )
+        );
+    }
+
+    /**
      * adds an product to the cart or increases its amount
      * If stock managament is activated:
      * -If the product's stock quantity is overbookable there are noc hanges in
@@ -1560,8 +1584,8 @@ class SilvercartProduct extends DataObject {
      * -If the stock quantity of a product is NOT overbookable and the products
      *  stock quantity is less than zero false will be returned.
      *
-     * @param int $cartID   ID of the users shopping cart
-     * @param int $quantity Amount of products to be added
+     * @param int   $cartID   ID of the users shopping cart
+     * @param float $quantity Amount of products to be added
      *
      * @return mixed SilvercartShoppingCartPosition|boolean false
      *

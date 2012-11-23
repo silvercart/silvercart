@@ -994,6 +994,9 @@ $lang['en_US']['SilvercartManufacturer']['DESCRIPTION'] = 'Description';
 $lang['en_US']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
 $lang['en_US']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
+$lang['en_US']['SilvercartManufacturerLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
+$lang['en_US']['SilvercartManufacturerLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
+
 $lang['en_US']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigation';
 $lang['en_US']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
 $lang['en_US']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigations';
@@ -1595,10 +1598,12 @@ $lang['en_US']['SilvercartZone']['VALID_FOR_ALL_AVAILABLE'] = 'Valid for all sel
 $lang['en_US']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_US']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_US']['SilvercartQuantityUnit']['NAME'] = 'Name';
-$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
-$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';
-$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME'] = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['NAME']                        = 'Name';
+$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abbreviation';
+$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME']                = 'quantity unit';
+$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME']                  = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Number of decimal places';
 
 $lang['en_US']['SilvercartQuantityUnitLanguage']['PLURALNAME']                  = _t('Silvercart.TRANSLATIONS');
 $lang['en_US']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                = _t('Silvercart.TRANSLATION');

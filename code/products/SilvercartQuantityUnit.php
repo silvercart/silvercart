@@ -32,7 +32,18 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartQuantityUnit extends DataObject {
-    
+
+    /**
+     * Attributes
+     *
+     * @var array
+     *
+     * @since 2012-11-22
+     */
+    public static $db = array(
+        'numberOfDecimalPlaces' => 'Int'
+    );
+
     /**
      * cast field types to other SS data types
      *
@@ -41,7 +52,7 @@ class SilvercartQuantityUnit extends DataObject {
     public static $casting = array(
         'Title'          => 'Text',
         'Abbreviation'   => 'Text',
-        'TableIndicator' => 'Text'
+        'TableIndicator' => 'Text',
     );
     
     /**
@@ -87,6 +98,14 @@ class SilvercartQuantityUnit extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
+
+        $fields->insertAfter(
+            new LiteralField(
+                'ExplanationToDecimalPlaces',
+                '<p class="silvercart-formfield-label"><i>'._t('SilvercartQuantityUnit.EXPLANATION_TO_DECIMAL_PLACES').'</i></p>'
+            ),
+            'numberOfDecimalPlaces'
+        );
         
         //multilingual fields, in fact just the title
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
@@ -131,12 +150,12 @@ class SilvercartQuantityUnit extends DataObject {
      */
     public function summaryFields() {
         return array_merge(
-                parent::summaryFields(),
-                array(
-                    'TableIndicator'    => '',
-                    'Title'             => $this->fieldLabel('Title'),
-                    'Abbreviation'      => $this->fieldLabel('Abbreviation'),
-                )
+            parent::summaryFields(),
+            array(
+                'TableIndicator'    => '',
+                'Title'             => $this->fieldLabel('Title'),
+                'Abbreviation'      => $this->fieldLabel('Abbreviation'),
+            )
         );
     }
 
@@ -151,12 +170,13 @@ class SilvercartQuantityUnit extends DataObject {
      */
     public function fieldLabels() {
         return array_merge(
-                parent::fieldLabels(),
-                array(
-                    'Title'                             => _t('SilvercartQuantityUnit.NAME'),
-                    'Abbreviation'                      => _t('SilvercartQuantityUnit.ABBREVIATION'),
-                    'SilvercartQuantityUnitLanguages'   => _t('SilvercartQuantityUnitLanguage.PLURALNAME'),
-                )
+            parent::fieldLabels(),
+            array(
+                'Title'                             => _t('SilvercartQuantityUnit.NAME'),
+                'Abbreviation'                      => _t('SilvercartQuantityUnit.ABBREVIATION'),
+                'SilvercartQuantityUnitLanguages'   => _t('SilvercartQuantityUnitLanguage.PLURALNAME'),
+                'numberOfDecimalPlaces'             => _t('SilvercartQuantityUnit.NUMBER_OF_DECIMAL_PLACES'),
+            )
         );
     }
 }

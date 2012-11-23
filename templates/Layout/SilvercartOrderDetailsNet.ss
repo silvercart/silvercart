@@ -23,7 +23,7 @@
                 <td class="left">$Title.RAW<br/>$ShortDescription.RAW<br />$addToTitle.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
-                <td class="right quantity">$Quantity</td>
+                <td class="right quantity">$getTypeSafeQuantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
             <% if SilvercartVoucherCode %>
@@ -57,7 +57,7 @@
                     <td colspan="2">$Title.RAW</td>
                     <td class="right">$Price.Nice</td>
                     <td class="right">{$TaxRate}%</td>
-                    <td class="right">$Quantity</td>
+                    <td class="right">$getTypeSafeQuantity</td>
                     <td class="right">$PriceTotal.Nice</td>
                 </tr>
             <% end_control %>
@@ -106,7 +106,7 @@
                 <td>$Title.RAW</td>
                 <td class="right">$PriceNice</td>
                 <td class="right"></td>
-                <td class="right">$Quantity</td>
+                <td class="right">$getTypeSafeQuantity</td>
                 <td class="right">$PriceTotalNice</td>
             </tr>
             <% if SilvercartVoucherCode %>
@@ -139,7 +139,7 @@
                 <td colspan="2">$Title.RAW</td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
-                <td class="right">$Quantity</td>
+                <td class="right">$getTypeSafeQuantity</td>
                 <td class="right">$PriceTotal.Nice</td>
             </tr>
         <% end_control %>

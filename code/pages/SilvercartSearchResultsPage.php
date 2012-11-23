@@ -250,14 +250,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             foreach ($searchResultProducts as $product) {
                 $backlink = $this->Link()."?start=".  $this->SQL_start;
                 $productAddCartForm = new $productAddCartFormName($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                    'ProductAddCartForm' . $productIdx,
-                    array(
-                        $product
-                    )
-                );
-                $product->productAddCartFormObj = $productAddCartForm;
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
                 $productIdx++;
             }
         }

@@ -207,3 +207,8 @@
 .field.important label {
     color: #fff !important;
 }
+
+.silvercart-formfield-label {
+    color: #666;
+    padding: 2px 0px 8px 8px;
+}

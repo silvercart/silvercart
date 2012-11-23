@@ -994,6 +994,9 @@ $lang['de_DE']['SilvercartManufacturer']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartManufacturer']['PLURALNAME'] = 'Hersteller';
 $lang['de_DE']['SilvercartManufacturer']['SINGULARNAME'] = 'Hersteller';
 
+$lang['de_DE']['SilvercartManufacturerLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
+$lang['de_DE']['SilvercartManufacturerLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
+
 $lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigationsübersicht';
 $lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
 $lang['de_DE']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigationsübersichten';
@@ -1595,10 +1598,12 @@ $lang['de_DE']['SilvercartZone']['VALID_FOR_ALL_AVAILABLE'] = 'Gilt für alle au
 $lang['de_DE']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['de_DE']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['de_DE']['SilvercartQuantityUnit']['NAME'] = 'Name';
-$lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abkürzung';
-$lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME'] = 'Verkaufsmengeneinheit';
-$lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME'] = 'Verkaufsmengeneinheiten';
+$lang['de_DE']['SilvercartQuantityUnit']['NAME']                        = 'Name';
+$lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abkürzung';
+$lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME']                = 'Verkaufsmengeneinheit';
+$lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME']                  = 'Verkaufsmengeneinheiten';
+$lang['de_DE']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Auf 0 stellen oder leer lassen, um keine Dezimalstellen zu verwenden. Diese Einstellung wird z.B. für "in den Warenkorb legen" Formulare benutzt.';
+$lang['de_DE']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Anzahl Dezimalstellen';
 
 $lang['de_DE']['SilvercartQuantityUnitLanguage']['PLURALNAME']                  = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                = _t('Silvercart.TRANSLATION');

@@ -77,9 +77,10 @@ class SilvercartOrderPosition extends DataObject {
         'TaxTotal'                           => 'Float',
         'TaxRate'                            => 'Float',
         'ProductDescription'                 => 'Text',
-        'Quantity'                           => 'Int',
+        'Quantity'                           => 'Decimal',
         'Title'                              => 'VarChar(255)',
         'ProductNumber'                      => 'VarChar',
+        'numberOfDecimalPlaces'              => 'Int'
     );
 
     /**
@@ -129,6 +130,7 @@ class SilvercartOrderPosition extends DataObject {
                 'Title'                                 => _t('SilvercartOrderPosition.TITLE'),
                 'ProductNumber'                         => _t('SilvercartOrderPosition.PRODUCTNUMBER'),
                 'chargeOrDiscountModificationImpact'    => _t('SilvercartOrderPosition.CHARGEORDISCOUNTMODIFICATIONIMPACT'),
+                'numberOfDecimalPlaces'                 => _t('SilvercartQuantityUnit.NUMBER_OF_DECIMAL_PLACES'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -242,6 +244,25 @@ class SilvercartOrderPosition extends DataObject {
      */
     public function getPriceTotalNice() {
         return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
+    }
+
+    /**
+     * Returns the quantity according to the SilvercartProduct quantity type
+     * setting.
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function getTypeSafeQuantity() {
+        $quantity = $this->Quantity;
+
+        if ($this->numberOfDecimalPlaces == 0) {
+            $quantity = (int) $quantity;
+        }
+
+        return $quantity;
     }
 
     /**

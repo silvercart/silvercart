@@ -39,7 +39,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Quantity' => 'Int'
+        'Quantity' => 'Decimal'
         
     );
     /**
@@ -355,6 +355,25 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
 
         return $description;
+    }
+
+    /**
+     * Returns the quantity according to the SilvercartProduct quantity type
+     * setting.
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function getTypeSafeQuantity() {
+       $quantity = $this->Quantity;
+
+        if ($this->SilvercartProduct()->SilvercartQuantityUnit()->numberOfDecimalPlaces == 0) {
+            $quantity = (int) $quantity;
+        }
+
+        return $quantity;
     }
     
     /**
