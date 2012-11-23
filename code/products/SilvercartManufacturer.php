@@ -57,7 +57,8 @@ class SilvercartManufacturer extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
+        'SilvercartProducts'              => 'SilvercartProduct',
+        'SilvercartManufacturerLanguages' => 'SilvercartManufacturerLanguage'
     );
     
     /**

@@ -1958,7 +1958,25 @@ class SilvercartShoppingCart extends DataObject {
      * @since 17.02.2011
      */
     public function isFilled() {
-        if ($this->SilvercartShoppingCartPositions()->Count() > 0) {
+        $records = DB::query(
+            sprintf(
+                "
+                SELECT
+                    COUNT(Pos.ID) AS NumberOfPositions
+                FROM
+                    SilvercartShoppingCartPosition Pos
+                WHERE
+                    Pos.SilvercartShoppingCartID = %d
+                ",
+                $this->ID
+            )
+        );
+
+        $record = $records->nextRecord();
+
+        if ($record &&
+            $record['NumberOfPositions'] > 0) {
+
             return true;
         } else {
             return false;
