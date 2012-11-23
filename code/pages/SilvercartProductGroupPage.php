@@ -223,7 +223,9 @@ class SilvercartProductGroupPage extends Page {
      * @since 03.07.2012
      */
     public function Link($action = null) {
-        if (!array_key_exists($action, $this->links)) {
+        $linkKey = (string) $action;
+
+        if (!array_key_exists($linkKey, $this->links)) {
             $returnProductLink = false;
 
             if (Controller::curr()->hasMethod('isProductDetailView') &&
@@ -249,12 +251,12 @@ class SilvercartProductGroupPage extends Page {
             }
 
             if ($returnProductLink) {
-                $this->links[$action] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
+                $this->links[$linkKey] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
             } else {
-                $this->links[$action] = parent::Link($action);
+                $this->links[$linkKey] = parent::Link($action);
             }
         }
-        return $this->links[$action];
+        return $this->links[$linkKey];
     }
 
     /**
