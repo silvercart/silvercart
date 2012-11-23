@@ -210,6 +210,20 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
+    
+    /**
+     * Default sort string to use for products
+     *
+     * @var string
+     */
+    protected static $scDefaultSort = null;
+    
+    /**
+     * The sortable fields that can be used in frontend
+     *
+     * @var array
+     */
+    protected static $sortableFrontendFields = null;
 
 
     /**
@@ -521,40 +535,43 @@ class SilvercartProduct extends DataObject {
      * 
      * @return array
      * 
-     * @author Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 25.09.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.11.2012
      */
     public function sortableFrontendFields() {
-        $sortableFrontendFields = array(
-            ''                                     => $this->fieldLabel('CatalogSort'),
-            'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
-            'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
-        );
-        if (SilvercartConfig::Pricetype() == 'gross') {
-            $sortableFrontendFields = array_merge(
-                    $sortableFrontendFields,
-                    array(
-                        'SilvercartProduct.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
-                        'SilvercartProduct.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
-                    )
+        if (is_null(self::$sortableFrontendFields)) {
+            $sortableFrontendFields = array(
+                ''                                     => $this->fieldLabel('CatalogSort'),
+                'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
+                'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
             );
-        } else {
-            $sortableFrontendFields = array_merge(
+            if (SilvercartConfig::Pricetype() == 'gross') {
+                $sortableFrontendFields = array_merge(
+                        $sortableFrontendFields,
+                        array(
+                            'SilvercartProduct.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
+                            'SilvercartProduct.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
+                        )
+                );
+            } else {
+                $sortableFrontendFields = array_merge(
+                        $sortableFrontendFields,
+                        array(
+                            'SilvercartProduct.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
+                            'SilvercartProduct.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
+                        )
+                );
+            }
+
+            $allSortableFrontendFields = array_merge(
                     $sortableFrontendFields,
-                    array(
-                        'SilvercartProduct.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
-                        'SilvercartProduct.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
-                    )
+                    self::$extendedSortableFrontendFields
             );
+
+            $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
+            self::$sortableFrontendFields = $allSortableFrontendFields;
         }
-        
-        $allSortableFrontendFields = array_merge(
-                $sortableFrontendFields,
-                self::$extendedSortableFrontendFields
-        );
-        
-        $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
-        return $allSortableFrontendFields;
+        return self::$sortableFrontendFields;
     }
 
     /**
@@ -699,22 +716,25 @@ class SilvercartProduct extends DataObject {
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 25.09.2012
+     * @since 22.11.2012
      */
     public static function defaultSort() {
-        $sort                   = Session::get('SilvercartProduct.defaultSort');
-        $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
-        if (is_null($sort) ||
-            $sort === false ||
-            !is_string($sort) ||
-            !array_key_exists($sort, $sortableFrontendFields)) {
-            $sort = Object::get_static('SilvercartProduct', 'default_sort');
-            if (strpos($sort, '.') === false) {
-                $sort = 'SilvercartProduct.' . $sort;
-                self::setDefaultSort($sort);
+        if (is_null(self::$scDefaultSort)) {
+            $sort                   = Session::get('SilvercartProduct.defaultSort');
+            $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
+            if (is_null($sort) ||
+                $sort === false ||
+                !is_string($sort) ||
+                !array_key_exists($sort, $sortableFrontendFields)) {
+                $sort = Object::get_static('SilvercartProduct', 'default_sort');
+                if (strpos($sort, '.') === false) {
+                    $sort = 'SilvercartProduct.' . $sort;
+                    self::setDefaultSort($sort);
+                }
             }
+            self::$scDefaultSort = $sort;
         }
-        return $sort;
+        return self::$scDefaultSort;
     }
 
     /**
