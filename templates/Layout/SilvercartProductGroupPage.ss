@@ -17,6 +17,7 @@
         </div>
         <% end_if %>
         
+        <% cached CacheKey %>
         <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupPageControls %>
         </div>
@@ -26,6 +27,7 @@
         <div class="silvercart-product-group-page-control-top">
             <% include SilvercartProductGroupPageControls %>
         </div>
+        <% end_cached %>
     </div>
 </div>
 <div id="col3">

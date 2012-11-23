@@ -267,6 +267,8 @@ if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
 }
 
+SS_Cache::set_cache_lifetime('cacheblock', 86400);
+
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

@@ -130,6 +130,13 @@ class SilvercartProductGroupPage extends Page {
      * @var boolean
      */
     protected $getCMSFieldsIsCalled = false;
+    
+    /**
+     * List of already requested links
+     *
+     * @var array
+     */
+    protected $links = array();
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -216,36 +223,38 @@ class SilvercartProductGroupPage extends Page {
      * @since 03.07.2012
      */
     public function Link($action = null) {
-        $returnProductLink = false;
-        
-        if (Controller::curr()->hasMethod('isProductDetailView') &&
-            Controller::curr()->isProductDetailView() &&
-            Controller::curr()->data()->ID == $this->ID &&
-            Controller::curr()->data() === $this) {
-            $returnProductLink  = true;
-            $URLSegment         = Controller::curr()->urlParams['ID'];
-        } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
-                  Controller::curr()->isProductDetailView()) {
-            $translations   = $this->getTranslations();
-            if ($translations) {
-                $translation    = $translations->find('ID', Controller::curr()->data()->ID);
-                if ($translation) {
-                    $product            = Controller::curr()->getDetailViewProduct();
-                    if ($product) {
-                        $returnProductLink  = true;
-                        $productLanguage    = $product->getLanguageFor(Translatable::get_current_locale());
-                        $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+        if (!array_key_exists($action, $this->links)) {
+            $returnProductLink = false;
+
+            if (Controller::curr()->hasMethod('isProductDetailView') &&
+                Controller::curr()->isProductDetailView() &&
+                Controller::curr()->data()->ID == $this->ID &&
+                Controller::curr()->data() === $this) {
+                $returnProductLink  = true;
+                $URLSegment         = Controller::curr()->urlParams['ID'];
+            } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
+                      Controller::curr()->isProductDetailView()) {
+                $translations   = $this->getTranslations();
+                if ($translations) {
+                    $translation    = $translations->find('ID', Controller::curr()->data()->ID);
+                    if ($translation) {
+                        $product            = Controller::curr()->getDetailViewProduct();
+                        if ($product) {
+                            $returnProductLink  = true;
+                            $productLanguage    = $product->getLanguageFor(Translatable::get_current_locale());
+                            $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+                        }
                     }
                 }
             }
+
+            if ($returnProductLink) {
+                $this->links[$action] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
+            } else {
+                $this->links[$action] = parent::Link($action);
+            }
         }
-        
-        if ($returnProductLink) {
-            $link = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
-        } else {
-            $link = parent::Link($action);
-        }
-        return $link;
+        return $this->links[$action];
     }
 
     /**
@@ -1165,6 +1174,27 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $productDetailViewParams = array();
     
     /**
+     * Cache key parts for this product group
+     * 
+     * @var array 
+     */
+    protected $cacheKeyParts = null;
+    
+    /**
+     * Cache key for this product group
+     * 
+     * @var string
+     */
+    protected $cacheKey = null;
+    
+    /**
+     * Current SQL offset
+     *
+     * @var int 
+     */
+    protected $sqlOffsets = array();
+    
+    /**
      * Indicates wether a filter plugin can be registered for the current view.
      *
      * @return boolean
@@ -1218,7 +1248,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             self::$registeredFilterPlugins[] = new $plugin();
         }
     }
-    
+
     /**
      * execute these statements on object call
      *
@@ -1260,16 +1290,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 Session::set("SilvercartProductGroupPageID", $this->ID);
                 Session::save();
                 // Initialise formobjects
-                $productIdx = 0;
                 if ($products) {
-                    $productAddCartForm = $this->getCartFormName();
+                    $backlink               = $this->Link()."?start=".$this->SQL_start;
+                    $productAddCartFormName = $this->getCartFormName();
                     foreach ($products as $product) {
-                        $backlink = $this->Link()."?start=".$this->SQL_start;
-                        $productAddCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                        $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
-
+                        $productAddCartForm = new $productAddCartFormName(
+                                $this,
+                                array(
+                                    'productID' => $product->ID,
+                                    'backLink'  => $backlink,
+                                )
+                        );
+                        $this->registerCustomHtmlForm('ProductAddCartForm' . $product->ID, $productAddCartForm);
                         $product->productAddCartFormObj = $productAddCartForm;
-                        $productIdx++;
                     }
                 }
 
@@ -1649,6 +1682,66 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         return $this->groupProducts[$hashKey];
     }
+
+    /**
+     * Returns the cache key parts for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            $products = $this->getProducts();
+            if ($products instanceof DataObjectSet &&
+                $products->Count() > 0) {
+                $productMap = $this->getProducts()->map('ID', 'LastEdited');
+                if (!is_array($productMap)) {
+                    $productMap = array();
+                }
+                $productMapIDs          = implode('_', array_keys($productMap));
+                sort($productMap);
+                $productMapLastEdited   = array_pop($productMap);
+                $groupIDs               = '';
+
+                if (Member::currentUserID() > 0) {
+                    $groupIDs = implode('-', Member::currentUser()->getGroupIDs());
+                }
+            }
+            $cacheKeyParts = array(
+                i18n::get_locale(),
+                $this->LastEdited,
+                $productMapIDs,
+                $productMapLastEdited,
+                $groupIDs,
+                $this->getProductsPerPageSetting(),
+                $this->getSqlOffset(),
+                SilvercartProduct::defaultSort(),
+                $this->getDefaultGroupViewInherited(),
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
+    }
     
     /**
      * Returns the products (all or by the given hash key)
@@ -1784,7 +1877,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         return $productsPerPage;
     }
-    
+
     /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
@@ -1793,52 +1886,57 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @return int
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 12.06.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
      */
     public function getSqlOffset($numberOfProducts = false) {
-        $productsPerPage = $this->getProductsPerPageSetting();
-
-        if ($numberOfProducts !== false) {
-            $productsPerPage = (int) $numberOfProducts;
+        $sqlOffsetKey = $numberOfProducts;
+        if ($numberOfProducts === false) {
+            $sqlOffsetKey = 'false';
         }
-        
-        if ($productsPerPage === SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
-            $SQL_start = 0;
-        } else {
-            if (!isset($_GET['start']) ||
-                !is_numeric($_GET['start']) ||
-                (int)$_GET['start'] < 1) {
+        if (!array_key_exists($sqlOffsetKey, $this->sqlOffsets)) {
+            $productsPerPage = $this->getProductsPerPageSetting();
 
-                if (isset($_GET['offset'])) {
-                    // --------------------------------------------------------
-                    // Use offset for getting the current item rage
-                    // --------------------------------------------------------
-                    $offset = (int) $_GET['offset'];
-
-                    if ($offset > 0) {
-                        $offset -= 1;
-                    }
-
-                    // Prevent too high values
-                    if ($offset > 999999) {
-                        $offset = 0;
-                    }
-
-                    $SQL_start = $offset * $productsPerPage;
-                } else {
-                    // --------------------------------------------------------
-                    // Use item number for getting the current item range
-                    // --------------------------------------------------------
-                    $SQL_start = 0;
-                }
-            } else {
-                $SQL_start = (int) $_GET['start'];
+            if ($numberOfProducts !== false) {
+                $productsPerPage = (int) $numberOfProducts;
             }
+
+            if ($productsPerPage === SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
+                $SQL_start = 0;
+            } else {
+                if (!isset($_GET['start']) ||
+                    !is_numeric($_GET['start']) ||
+                    (int)$_GET['start'] < 1) {
+
+                    if (isset($_GET['offset'])) {
+                        // --------------------------------------------------------
+                        // Use offset for getting the current item rage
+                        // --------------------------------------------------------
+                        $offset = (int) $_GET['offset'];
+
+                        if ($offset > 0) {
+                            $offset -= 1;
+                        }
+
+                        // Prevent too high values
+                        if ($offset > 999999) {
+                            $offset = 0;
+                        }
+
+                        $SQL_start = $offset * $productsPerPage;
+                    } else {
+                        // --------------------------------------------------------
+                        // Use item number for getting the current item range
+                        // --------------------------------------------------------
+                        $SQL_start = 0;
+                    }
+                } else {
+                    $SQL_start = (int) $_GET['start'];
+                }
+            }
+            $this->sqlOffsets[$sqlOffsetKey] = $SQL_start;
         }
-        
-        return $SQL_start;
+        return $this->sqlOffsets[$sqlOffsetKey];
     }
     
     /**

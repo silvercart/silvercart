@@ -206,7 +206,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return void
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 25.09.2012
+     * @since 23.11.2012
      */
     public function init() {
         SilvercartProduct::addExtendedSortableFrontendFields(
@@ -218,9 +218,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
-        $searchQuery            = Convert::raw2sql(Session::get('searchQuery'));
+        $searchQuery            = $this->getSearchQuery();
         $searchResultProducts   = $this->searchResultProducts;
-        $productsPerPage        = $this->getProductsPerPageSetting();
 
         $SQL_start = $this->getSqlOffset();
 
@@ -264,6 +263,22 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             $selectorForm
         );
     }
+
+    /**
+     * Returns the cache key parts for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            parent::CacheKeyParts();
+            $this->cacheKeyParts[] = sha1($this->getSearchQuery()) . md5($this->getSearchQuery());
+        }
+        return $this->cacheKeyParts;
+    }
     
     /**
      * Builds the DataObject of filtered products
@@ -281,7 +296,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $productsPerPage            = $this->getProductsPerPageSetting();
 
         $SQL_start                  = $this->getSqlOffset();
-        $searchQuery                = trim(Convert::raw2sql(Session::get('searchQuery')));
+        $searchQuery                = $this->getSearchQuery();
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $filteredQuerySearchQuery   = '';
@@ -583,6 +598,16 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     }
     
     /**
+     * Returns the search query
+     * 
+     * @return string
+     */
+    public function getSearchQuery() {
+        $searchQuery = trim(Convert::raw2sql(Session::get('searchQuery')));
+        return $searchQuery;
+    }
+
+        /**
      * Returns the total number of search results.
      *
      * @return int
