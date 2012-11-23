@@ -1695,7 +1695,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
-            $products = $this->getProducts();
+            $products               = $this->getProducts();
+            $productMapIDs          = '';
+            $productMapLastEdited   = '';
+            $groupIDs               = '';
+
             if ($products instanceof DataObjectSet &&
                 $products->Count() > 0) {
                 $productMap = $this->getProducts()->map('ID', 'LastEdited');
@@ -1705,7 +1709,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $productMapIDs          = implode('_', array_keys($productMap));
                 sort($productMap);
                 $productMapLastEdited   = array_pop($productMap);
-                $groupIDs               = '';
 
                 if (Member::currentUserID() > 0) {
                     $groupIDs = implode('-', Member::currentUser()->getGroupIDs());

@@ -216,6 +216,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      * @since 13.11.2011
      */
     public function getElementsByProductGroup() {
+        $cache                = false;
         $productGroupPage     = Controller::curr();
         $elements             = new DataObjectSet();
         $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
@@ -272,6 +273,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             }
 
             $elements->totalSize = $elementIdx;
+
             if ($cache) {
                 $cache->save(serialize($elements));
             }
