@@ -32,6 +32,14 @@
  * @since 23.10.2010
  */
 class SilvercartQuickSearchForm extends CustomHtmlForm {
+    
+    /**
+     * Don't enable Security token for this type of form because we'll run
+     * into caching problems when using it.
+     * 
+     * @var boolean
+     */
+    protected $securityTokenEnabled = false;
 
     /**
      * form field definition
