@@ -464,6 +464,10 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
                 $isFirst = false;
             }
 
+            foreach ($pageProducts as $pageProduct) {
+                $pageProduct->addCartFormIdentifier = $this->ID.$pageProduct->ID;
+            }
+
             $pages['Page'.$pageNr] = array(
                 'Elements' => new DataObjectSet($pageProducts),
                 'IsFirst'  => $isFirst

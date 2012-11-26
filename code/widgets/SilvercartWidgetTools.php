@@ -419,7 +419,7 @@ class SilvercartWidgetTools extends Object {
             $controller             = Controller::curr();
             $groupView              = $widget->GroupView;
             $productAddCartFormName = SilvercartGroupViewHandler::getCartFormNameFor($groupView);
-            $formIdentifier         = 'ProductAddCartForm' . $widget->ID . '_' . $elementIdx;
+            $formIdentifier         = 'ProductAddCartForm' . $widget->ID . '_' . $element->ID;
             $productAddCartForm     = new $productAddCartFormName(
                 $controller,
                 array('productID' => $element->ID)

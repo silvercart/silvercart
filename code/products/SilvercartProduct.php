@@ -1586,8 +1586,14 @@ class SilvercartProduct extends DataObject {
             $addCartFormName = 'SilvercartProductAddCartFormDetail';
         }
 
+        if (isset($this->addCartFormIdentifier)) {
+            $addCartFormIdentifier = $this->addCartFormIdentifier;
+        } else {
+            $addCartFormIdentifier = $this->ID;
+        }
+
         return Controller::curr()->InsertCustomHtmlForm(
-            $addCartFormName.$this->ID,
+            $addCartFormName.$addCartFormIdentifier,
             array(
                 $this
             )
