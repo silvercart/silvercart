@@ -1589,7 +1589,7 @@ class SilvercartProduct extends DataObject {
         $controller      = Controller::curr();
         $addCartFormName = 'ProductAddCartForm';
 
-        if (method_exists($controller, 'isProductDetailView()') &&
+        if (method_exists($controller, 'isProductDetailView') &&
             $controller->isProductDetailView()) {
             
             $addCartFormName = 'SilvercartProductAddCartFormDetail';
