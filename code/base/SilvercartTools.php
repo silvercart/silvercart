@@ -32,6 +32,35 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartTools extends Object {
+    
+    /**
+     * The base url segment
+     *
+     * @var string
+     */
+    public static $baseURLSegment = null;
+    
+    /**
+     * Indicates whether the installation is completed or not
+     *
+     * @var bool 
+     */
+    public static $isInstallationCompleted = null;
+    
+    /**
+     * Indicates whether the current request is in an isolated environment like
+     * dev/build, dev/test, installation, ...
+     *
+     * @var bool 
+     */
+    public static $isIsolatedEnvironment = null;
+    
+    /**
+     * Indicates whether the current request is in backend
+     *
+     * @var bool 
+     */
+    public static $isBackendEnvironment = null;
 
     /**
      * Returns the base URL segment that's used for inclusion of css and
@@ -43,19 +72,22 @@ class SilvercartTools extends Object {
      * @since 16.02.2012
      */
     public static function getBaseURLSegment() {
-        $baseUrl = Director::baseUrl();
+        if (is_null(self::$baseURLSegment)) {
+            $baseUrl = Director::baseUrl();
 
-        if ($baseUrl === '/') {
-            $baseUrl = '';
+            if ($baseUrl === '/') {
+                $baseUrl = '';
+            }
+
+            if (!empty($baseUrl) &&
+                 substr($baseUrl, -1) != '/') {
+
+                $baseUrl .= '/';
+            }
+            self::$baseURLSegment = $baseUrl;
         }
 
-        if (!empty($baseUrl) &&
-             substr($baseUrl, -1) != '/') {
-
-            $baseUrl .= '/';
-        }
-
-        return $baseUrl;
+        return self::$baseURLSegment;
     }
 
     /**
@@ -247,34 +279,36 @@ class SilvercartTools extends Object {
      * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @since 26.11.2012
      */
     public static function isInstallationCompleted() {
-        $installationComplete   = false;
-        
-        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
-            $installationComplete = false;
-        } else {
-            $memberFieldList        = array();
-            $queryRes               = DB::query("SHOW TABLES");
-            if ($queryRes->numRecords() > 0) {
-                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+        if (is_null(self::$isInstallationCompleted)) {
+            $installationComplete   = false;
 
-                foreach ($queryRes as $key => $value) {
-                    $memberFieldList[] = $value['Field'];
-                }
+            if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
+                (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
+                (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
+                $installationComplete = false;
+            } else {
+                $memberFieldList        = array();
+                $queryRes               = DB::query("SHOW TABLES");
+                if ($queryRes->numRecords() > 0) {
+                    $queryRes               = DB::query("SHOW COLUMNS FROM Member");
 
-                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                    $installationComplete = true;
+                    foreach ($queryRes as $key => $value) {
+                        $memberFieldList[] = $value['Field'];
+                    }
+
+                    if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                        $installationComplete = true;
+                    }
                 }
             }
+            self::$isInstallationCompleted = $installationComplete;
         }
-        
-        return $installationComplete;
+        return self::$isInstallationCompleted;
     }
     
     /**
@@ -283,18 +317,21 @@ class SilvercartTools extends Object {
      * @return boolean 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.10.2012
+     * @since 26.11.2012
      */
     public static function isIsolatedEnvironment() {
-        $isolatedEnvironment = false;
-        if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
-            (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
-            (SapphireTest::is_running_test()) ||
-            ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php')) {
-            $isolatedEnvironment = true;
+        if (is_null(self::$isIsolatedEnvironment)) {
+            $isolatedEnvironment = false;
+            if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
+                (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+                (SapphireTest::is_running_test()) ||
+                ($_SERVER['SCRIPT_NAME'] === '/sapphire/cli-script.php')) {
+                $isolatedEnvironment = true;
+            }
+            self::$isIsolatedEnvironment = $isolatedEnvironment;
         }
-        return $isolatedEnvironment;
+        return self::$isIsolatedEnvironment;
     }
     
     /**
@@ -320,20 +357,22 @@ class SilvercartTools extends Object {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2012
+     * @since 26.11.2012
      */
     public static function isBackendEnvironment() {
-        $isBackendEnvironment = false;
-        
-        $controller = Controller::curr();
-        $request    = $controller->getRequest();
-        
-        if (strpos($request->getVar('url'), 'admin/') === 0 ||
-            strpos($request->getVar('url'), '/admin/') === 0) {
-            $isBackendEnvironment = true;
+        if (is_null(self::$isBackendEnvironment)) {
+            $isBackendEnvironment = false;
+
+            $controller = Controller::curr();
+            $request    = $controller->getRequest();
+
+            if (strpos($request->getVar('url'), 'admin/') === 0 ||
+                strpos($request->getVar('url'), '/admin/') === 0) {
+                $isBackendEnvironment = true;
+            }
+            self::$isBackendEnvironment = $isBackendEnvironment;
         }
-        
-        return $isBackendEnvironment;
+        return self::$isBackendEnvironment;
     }
 
     /**
