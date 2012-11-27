@@ -38,14 +38,17 @@ class SilvercartLanguageDecorator extends DataObjectDecorator {
      *
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.11.2012
      */
     public function extraStatics() {
         return array(
             'db' => array(
                 'Locale' => 'DBLocale'
-            )
+            ),
+            'indexes' => array(
+                'Locale'   => 'INDEX (Locale)'
+            ),
         );
     }
     
