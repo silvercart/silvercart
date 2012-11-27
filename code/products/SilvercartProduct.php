@@ -231,6 +231,13 @@ class SilvercartProduct extends DataObject {
      * @var array
      */
     protected static $sortableFrontendFields = null;
+    
+    /**
+     * Determines whether the stock quantity is overbookable or not
+     *
+     * @var bool 
+     */
+    protected $isStockQuantityOverbookable = null;
 
 
     /**
@@ -2223,19 +2230,22 @@ class SilvercartProduct extends DataObject {
      *
      * @return boolean is the product overbookable?
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2012
      */
     public function isStockQuantityOverbookable() {
-        $overbookable = true;
-        if (SilvercartConfig::EnableStockManagement()) {
-            if (!SilvercartConfig::isStockManagementOverbookable() &&
-                !$this->StockQuantityOverbookable) {
+        if (is_null($this->isStockQuantityOverbookable)) {
+            $overbookable = true;
+            if (SilvercartConfig::EnableStockManagement()) {
+                if (!SilvercartConfig::isStockManagementOverbookable() &&
+                    !$this->StockQuantityOverbookable) {
 
-                $overbookable = false;
+                    $overbookable = false;
+                }
             }
+            $this->isStockQuantityOverbookable = $overbookable;
         }
-        return $overbookable;
+        return $this->isStockQuantityOverbookable;
     }
 
     /**
