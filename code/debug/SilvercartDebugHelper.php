@@ -39,6 +39,13 @@ class SilvercartDebugHelper {
      * @var float
      */
     public static $starttime = null;
+    
+    /**
+     * Counter of print outputs
+     *
+     * @var int
+     */
+    public static $printCounter = 0;
 
     /**
      * Starts the timer to debug some processing durations
@@ -77,7 +84,7 @@ class SilvercartDebugHelper {
     public static function getTimeDifference($print = true) {
         $timeDifference = microtime(true) - self::getStarttime();
         if ($print) {
-            self::printString($timeDifference);
+            self::printString($timeDifference, false);
         }
         return $timeDifference;
     }
@@ -85,14 +92,18 @@ class SilvercartDebugHelper {
     /**
      * Prints the given string to default output.
      *
-     * @param string $string String to print
+     * @param string $string      String to print
+     * @param bool   $withCounter Print counter?
      * 
      * @return void 
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function printString($string) {
+    public static function printString($string, $withCounter = true) {
+        if ($withCounter) {
+            print '#' . ++self::$printCounter . ': ';
+        }
         print $string;
         print "<br/>" . PHP_EOL;
     }
@@ -125,7 +136,7 @@ class SilvercartDebugHelper {
     public static function printTimeDifference($label) {
         self::printString($label);
         self::getTimeDifference();
-        self::printString("<hr/>");
+        self::printString("<hr/>", false);
     }
     
     /**
