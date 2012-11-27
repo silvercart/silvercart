@@ -34,6 +34,13 @@
 class SilvercartProduct extends DataObject {
 
     /**
+     * Can contain an identifier for addToCart forms.
+     *
+     * @var mixed null|string
+     */
+    public $addCartFormIdentifier = null;
+
+    /**
      * attributes
      *
      * @var array
@@ -1588,7 +1595,7 @@ class SilvercartProduct extends DataObject {
             $addCartFormName = 'SilvercartProductAddCartFormDetail';
         }
 
-        if (isset($this->addCartFormIdentifier)) {
+        if ($this->addCartFormIdentifier !== null) {
             $addCartFormIdentifier = $this->addCartFormIdentifier;
         } else {
             $addCartFormIdentifier = $this->ID;

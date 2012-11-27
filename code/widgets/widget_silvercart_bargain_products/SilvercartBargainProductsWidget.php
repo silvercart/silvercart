@@ -368,10 +368,10 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             }
 
             $filter = sprintf(
-                            "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL 
-                            AND `SilvercartProduct`.`MSRPriceAmount` > 0
-                            AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
-                            $priceField
+                "`SilvercartProduct`.`MSRPriceAmount` IS NOT NULL
+                AND `SilvercartProduct`.`MSRPriceAmount` > 0
+                AND `SilvercartProduct`.`%s` < `SilvercartProduct`.`MSRPriceAmount`",
+                $priceField
             );
 
             foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
@@ -379,13 +379,17 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             }
 
             $products = SilvercartProduct::get(
-                    $filter,
-                    $sort,
-                    null,
-                    "0," . $this->numberOfProductsToFetch
+                $filter,
+                $sort,
+                null,
+                "0," . $this->numberOfProductsToFetch
             );
             
             $this->elements = $products;
+
+            foreach ($this->elements as $element) {
+                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            }
         }
         return $this->elements;
     }
@@ -422,6 +426,7 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             $isFirst        = true;
             if ($this->elements) {
                 foreach ($this->elements as $product) {
+                    $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                     $pageProducts[] = $product;
                     $PageProductIdx++;
 

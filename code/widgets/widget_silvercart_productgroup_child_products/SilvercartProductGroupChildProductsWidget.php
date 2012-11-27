@@ -256,6 +256,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
                 $productsOfPage = $page->getProducts(100, false, true);
 
                 foreach ($productsOfPage as $product) {
+                    $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                     $products->push($product);
                 }
             }

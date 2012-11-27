@@ -439,6 +439,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
 
         if ($products) {
             foreach ($products as $product) {
+                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $pageProducts[] = $product;
                 $PageProductIdx++;
 
@@ -462,10 +463,6 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
 
             if ($pageNr > 0) {
                 $isFirst = false;
-            }
-
-            foreach ($pageProducts as $pageProduct) {
-                $pageProduct->addCartFormIdentifier = $this->ID.$pageProduct->ID;
             }
 
             $pages['Page'.$pageNr] = array(
@@ -500,6 +497,10 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             default:
                 $this->elements = $this->getElementsByProductGroup();
                 break;
+        }
+
+        foreach ($this->elements as $element) {
+            $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
         }
 
         return $this->elements;
@@ -542,6 +543,10 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      */
     public function getElementsByProducts() {
         $products = $this->SilvercartProducts();
+
+        foreach ($products as $product) {
+            $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
+        }
 
         return $products;
     }

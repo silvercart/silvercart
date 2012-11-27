@@ -191,10 +191,13 @@ class SilvercartTopsellerProductsWidget_Controller extends SilvercartWidget_Cont
             $result = $sqlQuery->execute();
 
             foreach ($result as $row) {
-                $products[] = DataObject::get_by_id(
+                $product = DataObject::get_by_id(
                     'SilvercartProduct',
                     $row['SilvercartProductID']
                 );
+                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
+
+                $products[] = $product;
             }
             
             $result = new DataObjectSet($products);
