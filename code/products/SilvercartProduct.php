@@ -1569,7 +1569,7 @@ class SilvercartProduct extends DataObject {
      */
     public static function removeRequiredAttribute($attributeName) {
         if (in_array($attributeName, self::$requiredAttributes)) {
-            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes));
+            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes, 0));
         }
     }
 
