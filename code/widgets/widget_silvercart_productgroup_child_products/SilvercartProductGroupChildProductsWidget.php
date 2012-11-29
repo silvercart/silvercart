@@ -309,7 +309,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             $elementIdx = 0;
 
             foreach ($this->getElements() as $element) {
-                self::registerAddCartForm($this, $element, $elementIdx);
+                SilvercartWidgetTools::registerAddCartFormForProductWidget($this, $element, $elementIdx);
                 $elementIdx++;
             }
         }
@@ -360,45 +360,6 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         }
 
         return $output;
-    }
-
-    /**
-     * Default form registration routine of a product slider widget
-     *
-     * @param SilvercartWidget_Controller $widget      Widget to initialize
-     * @param DataObjectSet               $element     Element to add cart form for
-     * @param int                         &$elementIdx Element counter to use as ID and increment
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.11.2012
-     */
-    public static function registerAddCartForm(SilvercartWidget_Controller $widget, $element, &$elementIdx) {
-        if ($element instanceof SilvercartProduct) {
-            $controller             = Controller::curr();
-            $groupView              = SilvercartGroupViewHandler::getDefaultGroupView();
-            $productAddCartFormName = SilvercartGroupViewHandler::getCartFormNameFor($groupView);
-            $formIdentifier         = 'ProductAddCartForm' . $widget->ID . '_' . $elementIdx;
-            $productAddCartForm     = new $productAddCartFormName(
-                $controller,
-                array('productID' => $element->ID)
-            );
-
-            $controller->registerCustomHtmlForm(
-                $formIdentifier,
-                $productAddCartForm
-            );
-
-            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
-                $formIdentifier,
-                array(
-                    $element
-                )
-            );
-            $element->productAddCartFormObj = $productAddCartForm;
-            $elementIdx++;
-        }
     }
 
     /**
