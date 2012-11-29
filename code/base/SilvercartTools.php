@@ -63,6 +63,13 @@ class SilvercartTools extends Object {
     public static $isBackendEnvironment = null;
 
     /**
+     * Cache for the page hierarchy model.
+     *
+     * @var DataObjectSet
+     */
+    public static $pageHierarchy = null;
+
+    /**
      * Returns the base URL segment that's used for inclusion of css and
      * javascript files via Requirements.
      *
@@ -396,5 +403,125 @@ class SilvercartTools extends Object {
         }
         
         return $pageIDs;
+    }
+
+    /**
+     * Builds a hierarchy from the current page to the top product group page
+     * or holder.
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function getPageHierarchy() {
+        if (self::$pageHierarchy === null) {
+            $currPage   = Controller::curr();
+            $level      = 0;
+            $hierarchy  = array(
+                'SiteTree_'.$currPage->ID => array(
+                    'Page'  => $currPage,
+                    'Level' => $level
+                )
+            );
+
+            while ($currPage->getParent()) {
+                $parent = $currPage->getParent();
+
+                if ($parent instanceof SilvercartProductGroupPage ||
+                    $parent instanceof SilvercartProductGroupHolder
+                ) {
+                    $level++;
+                    $hierarchy['SiteTree_'.$parent->ID] = array(
+                        'Page'  => $parent,
+                        'Level' => $level
+                    );
+                    $currPage = $parent;
+                } else {
+                    break;
+                }
+            }
+
+            foreach ($hierarchy as $pageID => $pageInfo) {
+                self::$pageHierarchy['SiteTree_'.$pageID] = array(
+                    'Page'  => $pageInfo['Page'],
+                    'Level' => ($pageInfo['Level'] - $level) * -1
+                );
+            }
+        }
+
+        return self::$pageHierarchy;
+    }
+
+    /**
+     * Tries to find the given page ID in the page hierarchy structure.
+     *
+     * @param int $searchPageID The page ID to find
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function findPageIdInHierarchy($searchPageID) {
+        $foundPageId = false;
+
+        foreach (self::$pageHierarchy as $pageID => $pageInfo) {
+            if ($pageInfo['Page']->ID === $searchPageID) {
+                $foundPageId = true;
+                break;
+            }
+        }
+
+        return $foundPageId;
+    }
+
+    /**
+     * Tries to find the given page ID in the page hierarchy structure and
+     * returns the corresponding page.
+     *
+     * @param int $searchPageID The page ID to find
+     *
+     * @return SiteTree
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function getPageLevelByPageId($searchPageID) {
+        $level     = false;
+        $hierarchy = self::getPageHierarchy();
+
+        foreach ($hierarchy as $pageID => $pageInfo) {
+            if ($pageInfo['Page']->ID == $searchPageID) {
+                $level = $pageInfo['Level'];
+                break;
+            }
+        }
+
+        return $level;
+    }
+
+    /**
+     * Checks if the given page IDs are siblings of the same level.
+     *
+     * @param int $checkPageID1 The first page ID to check
+     * @param int $checkPageID2 The second page ID to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function pageIsSiblingOf($checkPageID1, $checkPageID2) {
+        $isSibling = false;
+
+        $level1 = self::getPageLevelByPageId($checkPageID1);
+        $level2 = self::getPageLevelByPageId($checkPageID2);
+
+        if ($level1 === $level2) {
+            $isSibling = true;
+        }
+
+        return $isSibling;
     }
 }

@@ -195,7 +195,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      */
     public function findStartPage($startAtLevel) {
         $page      = Controller::curr();
-        $hierarchy = $this->getPageHierarchy();
+        $hierarchy = SilvercartTools::getPageHierarchy();
 
         foreach ($hierarchy as $pageID => $pageInfo) {
             if ($pageInfo['Level'] == $startAtLevel) {
@@ -208,102 +208,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     }
 
     /**
-     * Builds a hierarchy from the current page to the top product group page
-     * or holder.
-     *
-     * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function getPageHierarchy() {
-        if ($this->pageHierarchy === null) {
-            $currPage   = Controller::curr();
-            $level      = 0;
-            $hierarchy  = array(
-                'SiteTree_'.$currPage->ID => array(
-                    'Page'  => $currPage,
-                    'Level' => $level
-                )
-            );
-
-            while ($currPage->getParent()) {
-                $parent = $currPage->getParent();
-
-                if ($parent instanceof SilvercartProductGroupPage ||
-                    $parent instanceof SilvercartProductGroupHolder
-                ) {
-                    $level++;
-                    $hierarchy['SiteTree_'.$parent->ID] = array(
-                        'Page'  => $parent,
-                        'Level' => $level
-                    );
-                    $currPage = $parent;
-                } else {
-                    break;
-                }
-            }
-
-            foreach ($hierarchy as $pageID => $pageInfo) {
-                $this->pageHierarchy['SiteTree_'.$pageID] = array(
-                    'Page'  => $pageInfo['Page'],
-                    'Level' => ($pageInfo['Level'] - $level) * -1
-                );
-            }
-        }
-
-        return $this->pageHierarchy;
-    }
-
-    /**
-     * Tries to find the given page ID in the page hierarchy structure.
-     *
-     * @param int $searchPageID The page ID to find
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function findPageIdInHierarchy($searchPageID) {
-        $foundPageId = false;
-
-        foreach ($this->pageHierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Page']->ID === $searchPageID) {
-                $foundPageId = true;
-                break;
-            }
-        }
-
-        return $foundPageId;
-    }
-
-    /**
-     * Tries to find the given page ID in the page hierarchy structure and
-     * returns the corresponding page.
-     *
-     * @param int $searchPageID The page ID to find
-     *
-     * @return SiteTree
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function getPageLevelByPageId($searchPageID) {
-        $level     = false;
-        $hierarchy = $this->getPageHierarchy();
-
-        foreach ($hierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Page']->ID == $searchPageID) {
-                $level = $pageInfo['Level'];
-                break;
-            }
-        }
-
-        return $level;
-    }
-
-    /**
      * Returns the number of levels to show.
      *
      * @return int
@@ -312,7 +216,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function getLevelsToShow() {
-        $level     = $this->getPageLevelByPageId(Controller::curr()->ID);
+        $level     = SilvercartTools::getPageLevelByPageId(Controller::curr()->ID);
         $level    += 1;
 
         return $level;
@@ -357,7 +261,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
 
         $showChildPages = false;
         $isSectionPage  = false;
-        if ($this->findPageIdInHierarchy($rootPage->ID)) {
+        if (SilvercartTools::findPageIdInHierarchy($rootPage->ID)) {
             $showChildPages = true;
             $isSectionPage  = true;
         }

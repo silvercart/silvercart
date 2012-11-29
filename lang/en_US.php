@@ -1753,6 +1753,7 @@ $lang['en_US']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'S
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'This widget creates a hierarchical navigation for productgroups. You can define what productgroup should be used as root.';
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']  = 'Number of levels to show';
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS'] = 'Show all levels';
+$lang['en_US']['SilvercartProductGroupNavigationWidget']['EXPAND_ACTIVE_SECTION_ONLY']  = 'Expand only active branch';
 
 $lang['en_US']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
 $lang['en_US']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';
