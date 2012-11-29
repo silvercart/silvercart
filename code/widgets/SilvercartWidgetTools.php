@@ -177,14 +177,14 @@ class SilvercartWidgetTools extends Object {
                 foreach ($widget->getElements() as $productPage) {
                     foreach ($productPage as $elementHolder) {
                         foreach ($elementHolder->Elements as $element) {
-                            self::registerAddCartFormForProductSliderWidget($widget, $element, $elementIdx);
+                            self::registerAddCartFormForProductWidget($widget, $element, $elementIdx);
                         }
                     }
                 }
             } else {
                 // Standard view
                 foreach ($widget->getElements() as $element) {
-                    self::registerAddCartFormForProductSliderWidget($widget, $element, $elementIdx);
+                    self::registerAddCartFormForProductWidget($widget, $element, $elementIdx);
                 }
             }
         }
@@ -402,16 +402,17 @@ class SilvercartWidgetTools extends Object {
     /**
      * Default form registration routine of a product slider widget
      *
-     * @param SilvercartWidget_Controller $widget      Widget to initialize
-     * @param DataObjectSet               $element     Element to add cart form for
-     * @param int                         &$elementIdx Element counter to use as ID and increment
+     * @param SilvercartWidget_Controller $widget          Widget to initialize
+     * @param DataObjectSet               $element         Element to add cart form for
+     * @param int                         &$elementIdx     Element counter to use as ID and increment
+     * @param string                      $addCartFormName The name of the form
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function registerAddCartFormForProductSliderWidget(SilvercartWidget_Controller $widget, $element, &$elementIdx) {
+    public static function registerAddCartFormForProductWidget(SilvercartWidget_Controller $widget, $element, &$elementIdx, $addCartFormName = 'ProductAddCartForm') {
         if ($element instanceof SilvercartProduct) {
             if (empty($widget->GroupView)) {
                 $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
@@ -419,7 +420,7 @@ class SilvercartWidgetTools extends Object {
             $controller             = Controller::curr();
             $groupView              = $widget->GroupView;
             $productAddCartFormName = SilvercartGroupViewHandler::getCartFormNameFor($groupView);
-            $formIdentifier         = 'ProductAddCartForm' . $widget->ID . '_' . $element->ID;
+            $formIdentifier         = $addCartFormName . $widget->ID . '_' . $element->ID;
             $productAddCartForm     = new $productAddCartFormName(
                 $controller,
                 array('productID' => $element->ID)
