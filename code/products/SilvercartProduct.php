@@ -433,6 +433,24 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns if the MSR price is greater than 0
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2012
+     */
+    public function hasMSRPrice() {
+        $hasMsrPrice = false;
+
+        if ($this->MSRPrice->getAmount() > 0) {
+            $hasMsrPrice = true;
+        }
+
+        return $hasMsrPrice;
+    }
+
+    /**
      * Is this product viewable in the frontend?
      *
      * @param Member $member the current member
