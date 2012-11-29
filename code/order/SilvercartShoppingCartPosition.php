@@ -332,7 +332,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 25.06.2012
      */
     public function isQuantityIncrementableBy($quantity = 1) {
-        if (!array_key_exists($quantity, $this->isQuantityIncrementableByList)) {
+        if (!array_key_exists((int) $quantity, $this->isQuantityIncrementableByList)) {
             $isQuantityIncrementableBy  = true;
             $pluginResult               = SilvercartPlugin::call($this, 'overwriteIsQuantityIncrementableBy', $quantity, false, 'DataObject');
 
