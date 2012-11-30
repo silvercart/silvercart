@@ -266,10 +266,16 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
             $isSectionPage  = true;
         }
 
+        if (method_exists($rootPage, 'OriginalLink')) {
+            $link = $rootPage->OriginalLink();
+        } else {
+            $link = $rootPage->Link();
+        }
+ 
         $data = array(
             'MenuTitle'         => $rootPage->getMenuTitle(),
             'Title'             => $rootPage->getTitle(),
-            'Link'              => $rootPage->OriginalLink(),
+            'Link'              => $link,
             'ShowChildPages'    => $showChildPages,
             'ChildPages'        => $childPageStr,
             'IsActivePage'      => $isActivePage,
