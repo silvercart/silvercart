@@ -267,7 +267,20 @@ if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
 }
 
+$cacheDir = getTempFolder() . '/cache/cacheblock';
+if (!is_dir($cacheDir)) {
+    mkdir($cacheDir);
+}
 SS_Cache::set_cache_lifetime('cacheblock', 86400);
+SS_Cache::add_backend(
+        'cacheblock',
+        'File',
+        array(
+            'cache_dir'                 => $cacheDir,
+            'hashed_directory_level'    => 2,
+        )
+);
+SS_Cache::pick_backend('cacheblock', 'cacheblock');
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
