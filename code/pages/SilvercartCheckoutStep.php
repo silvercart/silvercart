@@ -112,6 +112,13 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @var PaymentMethod
      */
     protected $paymentMethodObj = false;
+    
+    /**
+     * cache key for the current step
+     *
+     * @var string
+     */
+    protected $cacheKey = null;
 
     /**
      * Bindet Formulare ein und laedt CSS- und Javascriptdateien.
@@ -171,6 +178,38 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 }
             }
         }
+    }
+
+    /**
+     * Returns a cache key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKey() {
+        if (is_null($this->cacheKey)) {
+            $member     = Member::currentUser();
+            $stepData   = $this->getStepData($this->getCurrentStep());
+            $cacheKey   = '';
+
+            if ($member) {
+                $cart = $member->getCart();
+                $cacheKey .= $member->ID;
+                $cacheKey .= sha1($cart->LastEdited) . md5($cart->LastEdited);
+            }
+            $cacheKey   .= $this->getCurrentStep();
+            if (is_array($stepData)) {
+                $stepDataString  = '';
+                foreach ($stepData as $parameterName => $parameterValue) {
+                    $stepDataString .= $parameterName . ':' . $parameterValue . ';';
+                }
+                $cacheKey .= sha1($stepDataString);
+            } else {
+                $cacheKey .= (int) $stepData;
+            }
+
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
     }
 
     /**

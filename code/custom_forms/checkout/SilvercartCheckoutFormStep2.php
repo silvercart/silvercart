@@ -33,6 +33,15 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
+    
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
+    }
 
     /**
      * init
