@@ -171,13 +171,8 @@ class SilvercartShoppingCart extends DataObject {
                 if (!self::$cartCleaningFinished && 
                     !self::$cartCleaningInProgress) {
                     self::$cartCleaningInProgress = true;
-                    foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
-                        if ($cartPosition->SilvercartProduct()->ID == 0) {
-                            $cartPosition->delete();
-                        }
-                        self::$cartCleaningFinished = true;
-                    }
-                    self::$cartCleaningInProgress = false;
+
+                    $this->cleanUp();
                 }
 
                 $this->SilvercartShippingMethodID = 0;
@@ -198,6 +193,38 @@ class SilvercartShoppingCart extends DataObject {
                         'ShoppingCartInit'
                     );
                 }
+            }
+        }
+    }
+
+    /**
+     * Deletes all shopping cart positions without a product association.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.11.2012
+     */
+    protected function cleanUp() {
+        $positionIds = DB::query(
+            sprintf(
+                "
+                SELECT
+                    ID
+                FROM
+                    SilvercartShoppingCartPosition
+                WHERE
+                    SilvercartShoppingCartPosition.SilvercartShoppingCartID = %d AND
+                    SilvercartProductID = 0
+                ",
+                $this->ID
+            )
+        );
+
+        if ($positionIds) {
+            foreach ($positionIds as $positionId) {
+                $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $positionId);
+                $position->delete();
             }
         }
     }
@@ -434,7 +461,7 @@ class SilvercartShoppingCart extends DataObject {
                 }
             }
         }
-        
+
         return !$error;
     }
     
