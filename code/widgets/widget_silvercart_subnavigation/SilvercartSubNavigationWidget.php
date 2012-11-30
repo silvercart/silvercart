@@ -269,7 +269,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         $data = array(
             'MenuTitle'         => $rootPage->getMenuTitle(),
             'Title'             => $rootPage->getTitle(),
-            'Link'              => $rootPage->Link(),
+            'Link'              => $rootPage->OriginalLink(),
             'ShowChildPages'    => $showChildPages,
             'ChildPages'        => $childPageStr,
             'IsActivePage'      => $isActivePage,

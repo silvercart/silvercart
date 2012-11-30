@@ -41,6 +41,13 @@ class SilvercartProduct extends DataObject {
     public $addCartFormIdentifier = null;
 
     /**
+     * Can contain a name for addToCart forms.
+     *
+     * @var mixed null|string
+     */
+    public $addCartFormName = null;
+
+    /**
      * attributes
      *
      * @var array
@@ -238,7 +245,6 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $isStockQuantityOverbookable = null;
-
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1611,19 +1617,24 @@ class SilvercartProduct extends DataObject {
      * @since 23.11.2012
      */
     public function productAddCartForm() {
-        $controller      = Controller::curr();
-        $addCartFormName = 'ProductAddCartForm';
-
-        if (method_exists($controller, 'isProductDetailView') &&
-            $controller->isProductDetailView()) {
-            
-            $addCartFormName = 'SilvercartProductAddCartFormDetail';
-        }
+        $controller = Controller::curr();
 
         if ($this->addCartFormIdentifier !== null) {
             $addCartFormIdentifier = $this->addCartFormIdentifier;
         } else {
             $addCartFormIdentifier = $this->ID;
+        }
+
+        if ($this->addCartFormName !== null) {
+            $addCartFormName = $this->addCartFormName;
+        } else {
+            $addCartFormName = 'ProductAddCartForm';
+
+            if (method_exists($controller, 'isProductDetailView') &&
+                $controller->isProductDetailView()) {
+
+                $addCartFormName = 'SilvercartProductAddCartFormDetail';
+            }
         }
 
         return Controller::curr()->InsertCustomHtmlForm(

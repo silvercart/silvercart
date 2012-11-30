@@ -1286,6 +1286,18 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                         )
                     )
                 );
+
+                foreach ($product->WidgetArea()->Widgets() as $widget) {
+                    $widgetControllerClass = $widget->class."_Controller";
+
+                    if (class_exists($widgetControllerClass)) {
+                        $widgetController = new $widgetControllerClass($widget);
+
+                        if (method_exists($widgetController, 'registerCustomHtmlForms')) {
+                            $widgetController->registerCustomHtmlForms();
+                        }
+                    }
+                }
             } else {
                 // a product group view is requested
                 $products = $this->getProducts();
