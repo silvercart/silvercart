@@ -32,7 +32,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartChangeLanguageForm extends CustomHtmlForm {
-    
+
+    /**
+     * Set to true to exclude this form from caching.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
     /**
      * Returns the preferences for this form
      *
