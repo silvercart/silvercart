@@ -272,6 +272,23 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
         }
         return $hasLanguage;
     }
+
+    /**
+     * Returns if there's a translation for the current locale.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.12.2012
+     */
+    public function hasCurrentLanguage() {
+        $hasLanguage    = false;
+        $language       = $this->getLanguageFor(Translatable::get_current_locale());
+        if ($language) {
+            $hasLanguage = true;
+        }
+        return $hasLanguage;
+    }
     
     /**
      * Returns the language for the given locale if exists
