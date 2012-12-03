@@ -34,6 +34,13 @@
 class SilvercartPage extends SiteTree {
 
     /**
+     * Prevents recurring rendering of this page's controller.
+     *
+     * @var array
+     */
+    public static $instanceMemorizer = array();
+
+    /**
      * extends statics
      * 
      * @var array
@@ -336,7 +343,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
         $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
     }
-    
+
     /**
      * standard page controller
      *
@@ -347,6 +354,11 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        if (array_key_exists($this->ID, self::$instanceMemorizer)) {
+            parent::init();
+            return true;
+        }
+
         $controller = Controller::curr();
         
         if ($this != $controller &&
@@ -532,7 +544,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->extend('updateInit');
 
         SilvercartPlugin::call($this, 'init', array($this));
-            
+        self::$instanceMemorizer[$this->ID] = true;
         parent::init();
     }
 

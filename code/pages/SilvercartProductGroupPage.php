@@ -109,6 +109,13 @@ class SilvercartProductGroupPage extends Page {
     );
 
     /**
+     * Saves the result from $this->getProducts()
+     *
+     * @var array
+     */
+    protected $cachedProducts = array();
+
+    /**
      * Contains all manufacturers of the products contained in this product
      * group page.
      *
@@ -758,7 +765,7 @@ class SilvercartProductGroupPage extends Page {
     public function hasProductsOrChildren() {
         if ($this->ActiveSilvercartProducts()->Count > 0
          || count($this->Children()) > 0) {
-            
+
             return true;
         }
         return false;
@@ -946,7 +953,7 @@ class SilvercartProductGroupPage extends Page {
     public function getProductsForced($numberOfProducts = false, $sort = false, $disableLimit = false) {
         return $this->getProducts($numberOfProducts, $sort, $disableLimit, true);
     }
-    
+
     /**
      * All products of this group
      * 
@@ -961,15 +968,21 @@ class SilvercartProductGroupPage extends Page {
      * @since 06.06.2012
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
-        if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
-            Controller::curr()->data()->ID === $this->ID) {
-            
-            $controller = Controller::curr();
-        } else {
-            $controller = new SilvercartProductGroupPage_Controller($this);
+        $cacheKey = md5($numberOfProducts.'-'.$sort.'-'.$disableLimit.'-'.$force);
+
+        if (!array_key_exists($cacheKey, $this->cachedProducts)) {
+            if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
+                Controller::curr()->data()->ID === $this->ID) {
+
+                $controller = Controller::curr();
+            } else {
+                $controller = new SilvercartProductGroupPage_Controller($this);
+            }
+
+            $this->cachedProducts[$cacheKey] = $controller->getProducts($numberOfProducts, $sort, $disableLimit, $force);
         }
         
-        return $controller->getProducts($numberOfProducts, $sort, $disableLimit, $force);
+        return $this->cachedProducts[$cacheKey];
     }
     
     /**
@@ -2201,13 +2214,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      */
     public function handleAction($request) {
         if ($this->isProductDetailView()) {
-            
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
 
             if (!empty($this->urlParams['OtherID'])) {
                 $secondaryAction = $this->urlParams['OtherID'];
                 if ($this->hasMethod($secondaryAction) &&
                     $this->hasAction($secondaryAction)) {
+
                     $result = $this->{$secondaryAction}($request);
                     if (is_array($result)) {
                         return $this->getViewer($this->action)->process($this->customise($result));
@@ -2216,11 +2229,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     }
                 }
             }
-
             $view = $this->ProductDetailView(
                 $this->urlParams['ID']
             );
-            
             if ($view !== false) {
                 return $view;
             }
@@ -2295,7 +2306,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected function ProductDetailView() {
         if ($this->isProductDetailView()) {
             $this->ProductDetailRequirements();
-            return $this->customise(array())->renderWith(array('SilvercartProductPage','Page'));
+            $output = $this->customise(array())->renderWith(array('SilvercartProductPage','Page'));
+
+            return $output;
         }
         return false;
     }
@@ -2347,7 +2360,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 17.02.2011
      */
     public function isProductDetailView() {
-        
         if (empty($this->urlParams['Action'])) {
             return false;
         }
@@ -2372,6 +2384,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if (is_null($this->detailViewProduct)) {
             $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
         }
+
         return $this->detailViewProduct;
     }
     

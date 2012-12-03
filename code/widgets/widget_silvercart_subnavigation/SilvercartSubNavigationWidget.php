@@ -271,7 +271,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         } else {
             $link = $rootPage->Link();
         }
- 
+
         $data = array(
             'MenuTitle'         => $rootPage->getMenuTitle(),
             'Title'             => $rootPage->getTitle(),

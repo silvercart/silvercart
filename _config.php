@@ -267,20 +267,27 @@ if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
 }
 
-$cacheDir = getTempFolder() . '/cache/cacheblock';
-if (!is_dir($cacheDir)) {
-    mkdir($cacheDir);
-}
-SS_Cache::set_cache_lifetime('cacheblock', 86400);
-SS_Cache::add_backend(
-        'cacheblock',
+$cacheDirectories = array(
+    'cacheblock' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'cacheblock',
+    'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
+);
+
+foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
+    if (!is_dir($cacheDirectory)) {
+        mkdir($cacheDirectory);
+    }
+
+    SS_Cache::add_backend(
+        $cacheName,
         'File',
         array(
-            'cache_dir'                 => $cacheDir,
-            'hashed_directory_level'    => 2,
+            'cache_dir'              => $cacheDirectory,
+            'hashed_directory_level' => 2,
         )
-);
-SS_Cache::pick_backend('cacheblock', 'cacheblock');
+    );
+    SS_Cache::set_cache_lifetime($cacheName, 86400);
+    SS_Cache::pick_backend($cacheName, $cacheName);
+}
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
