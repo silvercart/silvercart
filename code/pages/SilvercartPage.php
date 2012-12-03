@@ -34,13 +34,6 @@
 class SilvercartPage extends SiteTree {
 
     /**
-     * Prevents recurring rendering of this page's controller.
-     *
-     * @var array
-     */
-    public static $instanceMemorizer = array();
-
-    /**
      * extends statics
      * 
      * @var array
@@ -299,6 +292,13 @@ class SilvercartPage extends SiteTree {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartPage_Controller extends ContentController {
+
+    /**
+     * Prevents recurring rendering of this page's controller.
+     *
+     * @var array
+     */
+    public static $instanceMemorizer = array();
 
     /**
      * Contains the output of all WidgetSets of the parent page
