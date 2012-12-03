@@ -164,8 +164,10 @@ class SilvercartShoppingCart extends DataObject {
             if (!SilvercartTools::isIsolatedEnvironment()) {
                 // Initialize shopping cart position object, so that it can inject
                 // its forms into the controller.
-                if (!self::$loadModules) {
-                    SilvercartShoppingCartPosition::setCreateForms(false);
+                if (self::$loadModules) {
+                    foreach ($this->SilvercartShoppingCartPositions() as $position) {
+                        $position->registerCustomHtmlForms();
+                    }
                 }
 
                 if (!self::$cartCleaningFinished && 
