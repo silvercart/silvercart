@@ -33,7 +33,30 @@
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
-    
+
+    /**
+     * Provides additional parameters for the cache key.
+     *
+     * @return mixed boolean false|string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 04.12.2012
+     */
+    public function getCacheKeyExtension() {
+        $controller = Controller::curr();
+
+        if ($controller &&
+            $controller instanceof SilvercartProductGroupPage_Controller) {
+
+            $extension = SilvercartProduct::defaultSort().'_'.
+                         $controller->getProductsPerPageSetting();
+
+            return md5($extension);
+        }
+
+        return false;
+    }
+
     /**
      * Set some field values and button labels.
      *
