@@ -159,6 +159,7 @@ $lang['en_GB']['SilvercartAddressPage']['URL_SEGMENT'] = 'address-details';
 $lang['en_GB']['SilvercartAnonymousNewsletterRecipient']['SINGULARNAME'] = 'Anonymous newsletter receipient';
 $lang['en_GB']['SilvercartAnonymousNewsletterRecipient']['PLURALNAME'] = 'Anonymous newsletter receipients';
 
+$lang['en_GB']['SilvercartAvailabilityStatus']['ADDITIONALTEXT'] = 'Additional text';
 $lang['en_GB']['SilvercartAvailabilityStatus']['PLURALNAME'] = 'Availability';
 $lang['en_GB']['SilvercartAvailabilityStatus']['SINGULARNAME'] = 'Availability';
 $lang['en_GB']['SilvercartAvailabilityStatus']['TITLE'] = 'Title';

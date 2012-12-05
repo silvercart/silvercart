@@ -39,7 +39,8 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'          => 'VarChar',
+        'AdditionalText' => 'Text',
     );
     
     /**
@@ -63,7 +64,6 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
     public function singular_name() {
         return SilvercartTools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -93,7 +93,8 @@ class SilvercartAvailabilityStatusLanguage extends DataObject {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Title' => _t('SilvercartAvailabilityStatus.SINGULARNAME')
+                    'Title'          => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+                    'AdditionalText' => _t('SilvercartAvailabilityStatus.ADDITIONALTEXT'),
                 )
         );
 
