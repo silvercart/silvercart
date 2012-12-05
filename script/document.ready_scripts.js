@@ -53,6 +53,8 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
             if (activeTab != lastActiveTab) {
                 jQuery(lastActiveTab).hide();
             }
+
+            return false;
         });
         
         var tabID = window.location.hash.replace('#','');
