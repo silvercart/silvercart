@@ -1351,9 +1351,42 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
         }
     }
-    
+
+    /**
+     * Returns the total number of products for the current controller.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.12.2012
+     */
     public function getTotalNumberOfProducts() {
         return $this->totalNumberOfProducts;
+    }
+
+    /**
+     * Set the total number of products for the current controller.
+     *
+     * @param int $numberOfProducts The number of products to set
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.12.2012
+     */
+    public function setTotalNumberOfProducts($numberOfProducts) {
+        $this->totalNumberOfProducts = $numberOfProducts;
+    }
+
+    /**
+     * Adds the given number to the total number of products for the
+     * current controller.
+     *
+     * @param int $numberOfProducts The number of products to set
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.12.2012
+     */
+    public function addTotalNumberOfProducts($numberOfProducts) {
+        $this->totalNumberOfProducts += $numberOfProducts;
     }
 
     /**

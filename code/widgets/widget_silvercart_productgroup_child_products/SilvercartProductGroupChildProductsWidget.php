@@ -274,6 +274,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             }
 
             $elements->totalSize = $elementIdx;
+            $productGroupPage->addTotalNumberOfProducts($elements->totalSize);
 
             if ($cache) {
                 $cache->save(serialize($elements));

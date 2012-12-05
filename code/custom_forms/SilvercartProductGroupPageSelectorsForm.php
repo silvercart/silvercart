@@ -48,8 +48,10 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         if ($controller &&
             $controller instanceof SilvercartProductGroupPage_Controller) {
 
-            $extension = SilvercartProduct::defaultSort().'_'.
-                         $controller->getProductsPerPageSetting();
+            $extension = $controller->ID.'_'.
+                         SilvercartProduct::defaultSort().'_'.
+                         $controller->getProductsPerPageSetting().'_'.
+                         $this->getTotalNumberOfProducts();
 
             return md5($extension);
         }
@@ -57,6 +59,14 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         return false;
     }
 
+    /**
+     * Returns the total number of products for the current controller.
+     *
+     * @return int
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.12.2012
+     */
     public function getTotalNumberOfProducts() {
         $controller       = Controller::curr();
         $numberOfProducts = 0;
