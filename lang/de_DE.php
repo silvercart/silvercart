@@ -415,6 +415,7 @@ $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s Produkte 
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s Produkte auf %s Seiten';
 
 $lang['de_DE']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
+$lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_FOUND']          = '%d Produkte gefunden';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Artikel pro Seite';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['SORT_ORDER']              = 'Sortierung';
 

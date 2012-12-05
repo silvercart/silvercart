@@ -57,6 +57,19 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         return false;
     }
 
+    public function getTotalNumberOfProducts() {
+        $controller       = Controller::curr();
+        $numberOfProducts = 0;
+
+        if ($controller &&
+            $controller instanceof SilvercartProductGroupPage_Controller) {
+
+            $numberOfProducts = $controller->getTotalNumberOfProducts();
+        }
+
+        return $numberOfProducts;
+    }
+
     /**
      * Set some field values and button labels.
      *

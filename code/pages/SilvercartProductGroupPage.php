@@ -1122,6 +1122,13 @@ class SilvercartProductGroupPage extends Page {
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     /**
+     * Contains the total number of products for this page.
+     *
+     * @var int
+     */
+    protected $totalNumberOfProducts = 0;
+
+    /**
      * Contains a list of all registered filter plugins.
      *
      * @var array
@@ -1343,6 +1350,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 );
             }
         }
+    }
+    
+    public function getTotalNumberOfProducts() {
+        return $this->totalNumberOfProducts;
     }
 
     /**
@@ -1699,6 +1710,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $groupProducts = SilvercartProduct::get($filter, $sort, null, $limit);
                 $this->extend('onAfterGetProducts', $groupProducts);
                 $this->groupProducts[$hashKey] = $groupProducts;
+                $this->totalNumberOfProducts   = $groupProducts->TotalItems();
             }
 
             // Inject additional methods into the DataObjectSet

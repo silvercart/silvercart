@@ -53,3 +53,9 @@
     padding:                        5px 5px 0px 0px;
     width:                          auto;
 }
+
+.silvercart-product-group-page-selectors .silvercart-products-found {
+    float:                          left;
+    color:                          #666;
+    padding:                        14px 0px 0px 0px;
+}

@@ -5,6 +5,11 @@
     
     $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
     $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
+
+    <div class="silvercart-products-found">
+        <% sprintf(_t('SilvercartProductGroupPageSelector.PRODUCTS_FOUND'),$getTotalNumberOfProducts) %>
+    </div>
+
     <div class="type-button clearfix">
         <% control Actions %>
             $Field
