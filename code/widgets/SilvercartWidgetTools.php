@@ -536,18 +536,6 @@ class SilvercartWidgetTools extends Object {
     }
     
     /**
-     * Loads the requirements for this object
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2012
-     */
-    public static function loadRequirements() {
-        Requirements::themedCSS('SilvercartAnythingSlider');
-    }
-    
-    /**
      * Creates the cache key for this widget.
      * 
      * @param SilvercartWidget_Controller $widget Widget to get cache key for
