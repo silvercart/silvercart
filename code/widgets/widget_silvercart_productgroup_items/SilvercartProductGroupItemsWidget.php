@@ -143,6 +143,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
             SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
             $this->SilvercartProductGroupPageID
         );
+        $cssField                   = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
         $productsDescription        = new LiteralField('', $this->fieldLabel('SelectProductDescription'));
         $silvercartProducts         = new SilvercartManyManyTextAutoCompleteField(
                 $this,
@@ -169,7 +170,9 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
 
         $productsTab->push($productsDescription);
         $productsTab->push($silvercartProducts);
-        
+
+        $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $cssField);
+
         $translationTab->push($translationsTableField);
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
@@ -260,6 +263,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
+                    'ExtraCssClasses'                            => _t('SilvercartText.CSSFIELD_LABEL'),
                     'SilvercartProductGroupPage'                 => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'useSelectionMethod'                         => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
                     'SelectionMethodProductGroup'                => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
