@@ -547,10 +547,6 @@ class SilvercartProduct extends DataObject {
                 'title'     => $this->fieldLabel('SilvercartAvailabilityStatus'),
                 'filter'    => 'ExactMatchFilter'
             ),
-            'SilvercartFreightgroup.ID' => array(
-                'title'     => _t('SilvercartFreightgroup.SINGULARNAME'),
-                'filter'    => 'ExactMatchFilter'
-            ),
         );
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
