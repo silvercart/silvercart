@@ -451,7 +451,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 );
             }
         }
-        $this->searchResultProducts = $searchResultProducts;
+        $this->searchResultProducts  = $searchResultProducts;
+        $this->totalNumberOfProducts = $searchResultProducts->TotalItems();
         return $this->searchResultProducts;
     }
     

@@ -116,6 +116,8 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+Object::add_extension('SilvercartPage',                             'SilvercartPageListWidgetPage');
+
 Object::add_extension('ComponentSet',                               'SilvercartComponentSetDecorator');
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
@@ -161,6 +163,7 @@ Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'Sil
 Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartPageListWidgetLanguage',                   'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupChildProductsWidgetLanguage',  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageDecorator');
@@ -186,6 +189,7 @@ Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartD
 Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartPageListWidget',                   'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupChildProductsWidget',  'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualDecorator');

@@ -153,6 +153,23 @@ class SilvercartPage extends SiteTree {
     }
 
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = parent::fieldLabels($includerelations);
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+
+    /**
      * Returns the given WidgetSet many-to-many relation.
      * If there is no relation, the parent relation will be recursively used
      *

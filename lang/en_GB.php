@@ -1310,6 +1310,17 @@ $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['YEAR'] = 'Year';
 
+$lang['en_GB']['SilvercartPageListWidget']['TITLE']       = 'Page list';
+$lang['en_GB']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart page list';
+$lang['en_GB']['SilvercartPageListWidget']['DESCRIPTION'] = 'This widget shows a list of pages with links to those pages.';
+$lang['en_GB']['SilvercartPageListWidget']['Pages']       = 'Attributed pages';
+
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_IMAGE'] = 'Image';
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB'] = 'Widget infos';
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB_EXPLANATION'] = 'The following data can be used by some widgets.';
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_TEXT'] = 'Description';
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_TITLE'] = 'Title (optional)';
+
 $lang['en_GB']['SilvercartPaymentMethod']['ACCESS_MANAGEMENT_BASIC_LABEL'] = 'General';
 $lang['en_GB']['SilvercartPaymentMethod']['ACCESS_MANAGEMENT_GROUP_LABEL'] = 'By group(s)';
 $lang['en_GB']['SilvercartPaymentMethod']['ACCESS_MANAGEMENT_USER_LABEL'] = 'By user(s)';
