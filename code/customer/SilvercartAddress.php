@@ -143,6 +143,21 @@ class SilvercartAddress extends DataObject {
     }
     
     /**
+     * CMS fields for this object
+     * 
+     * @param array $params Scaffolding parameters
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields($params);
+        if ($fields->dataFieldByName('SilvercartCountryID')) {
+            $fields->dataFieldByName('SilvercartCountryID')->setSource(SilvercartCountry::getPrioritiveDropdownMap());
+        }
+        return $fields;
+    }
+    
+    /**
      * Sets the summary fields.
      *
      * @return array

@@ -600,18 +600,21 @@ $lang['de_DE']['SilvercartContactMessage']['TEXT'] = "<h1>Anfrage über Kontaktf
 
 $lang['de_DE']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Kontaktanfragen';
 
-$lang['de_DE']['SilvercartCountry']['ACTIVE'] = 'Aktiv';
-$lang['de_DE']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'zugeordnete Bezahlart';
-$lang['de_DE']['SilvercartCountry']['ATTRIBUTED_ZONES'] = 'zugeordnete Zonen';
-$lang['de_DE']['SilvercartCountry']['CONTINENT'] = 'Kontinent';
-$lang['de_DE']['SilvercartCountry']['CURRENCY'] = 'Währung';
-$lang['de_DE']['SilvercartCountry']['FIPS'] = 'FIPS Code';
-$lang['de_DE']['SilvercartCountry']['FREEOFSHIPPINGCOSTSFROM'] = 'Versandkostenfrei ab';
-$lang['de_DE']['SilvercartCountry']['ISO2'] = 'ISO Alpha2';
-$lang['de_DE']['SilvercartCountry']['ISO3'] = 'ISO Alpha3';
-$lang['de_DE']['SilvercartCountry']['ISON'] = 'ISO numerisch';
-$lang['de_DE']['SilvercartCountry']['PLURALNAME'] = 'Länder';
-$lang['de_DE']['SilvercartCountry']['SINGULARNAME'] = 'Land';
+$lang['de_DE']['SilvercartCountry']['ACTIVE']                                   = 'Aktiv';
+$lang['de_DE']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD']                 = 'zugeordnete Bezahlart';
+$lang['de_DE']['SilvercartCountry']['ATTRIBUTED_ZONES']                         = 'zugeordnete Zonen';
+$lang['de_DE']['SilvercartCountry']['CONTINENT']                                = 'Kontinent';
+$lang['de_DE']['SilvercartCountry']['CURRENCY']                                 = 'Währung';
+$lang['de_DE']['SilvercartCountry']['FIPS']                                     = 'FIPS Code';
+$lang['de_DE']['SilvercartCountry']['FREEOFSHIPPINGCOSTSFROM']                  = 'Versandkostenfrei ab';
+$lang['de_DE']['SilvercartCountry']['ISO2']                                     = 'ISO Alpha2';
+$lang['de_DE']['SilvercartCountry']['ISO3']                                     = 'ISO Alpha3';
+$lang['de_DE']['SilvercartCountry']['ISON']                                     = 'ISO numerisch';
+$lang['de_DE']['SilvercartCountry']['PLURALNAME']                               = 'Länder';
+$lang['de_DE']['SilvercartCountry']['SINGULARNAME']                             = 'Land';
+$lang['de_DE']['SilvercartCountry']['ISPRIORITIVE']                             = 'Priorisiert am Anfang von Dropdown-Listen anzeigen?';
+$lang['de_DE']['SilvercartCountry']['ISPRIORITIVE_SHORT']                       = 'Priorisiert';
+$lang['de_DE']['SilvercartCountry']['DISPLAYPOSITION']                          = 'Anzeige-Position (wenn priorisiert)';
 
 $lang['de_DE']['SilvercartCountryLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartCountryLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
