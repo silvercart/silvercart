@@ -138,15 +138,16 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
     /**
      * Set initial form values
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 3.1.2011
      * @return void
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.12.2012
      */
     protected function fillInFieldValues() {
         $countries = DataObject::get('SilvercartCountry', "`SilvercartCountry`.`Active`=1");
         if ($countries) {
-            $this->formFields['Shipping_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
-            $this->formFields['Invoice_Country']['value'] = $countries->toDropDownMap('ID', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
+            $this->formFields['Shipping_Country']['value']  = SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY'));
+            $this->formFields['Invoice_Country']['value']   = SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY'));
         }
 
         // --------------------------------------------------------------------

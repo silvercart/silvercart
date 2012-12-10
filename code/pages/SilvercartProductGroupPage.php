@@ -1793,7 +1793,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->getProductsPerPageSetting(),
                 $this->getSqlOffset(),
                 SilvercartProduct::defaultSort(),
-                $this->getDefaultGroupViewInherited(),
+                SilvercartGroupViewHandler::getActiveGroupView(),
             );
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;

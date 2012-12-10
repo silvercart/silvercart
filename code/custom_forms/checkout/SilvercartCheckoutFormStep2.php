@@ -40,21 +40,24 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
      * @return string
      */
     public function getCacheKeyExtension() {
-        $cacheKey = $this->Controller()->getCacheKey();
-        $member   = SilvercartCustomer::currentRegisteredCustomer();
+        if (empty($this->cacheKeyExtension)) {
+            $cacheKeyExtension  = $this->Controller()->getCacheKey();
+            $member             = SilvercartCustomer::currentRegisteredCustomer();
 
-        if ($member) {
-            $numberOfAddresses = $member->SilvercartAddresses()->Count();
+            if ($member) {
+                $numberOfAddresses = $member->SilvercartAddresses()->Count();
 
-            if ($numberOfAddresses > 0) {
-                $cacheKey .= md5('_'.$numberOfAddresses.'_'.
-                                 $member->Aggregate('SilvercartAddress')->MAX('LastEdited'));
-            } else {
-                $cacheKey .= md5('_0');
+                if ($numberOfAddresses > 0) {
+                    $cacheKeyExtension .= md5('_'.$numberOfAddresses.'_'.
+                                     $member->Aggregate('SilvercartAddress')->MAX('LastEdited'));
+                } else {
+                    $cacheKeyExtension .= md5('_0');
+                }
             }
+            $this->cacheKeyExtension = $cacheKeyExtension;
         }
 
-        return $cacheKey;
+        return $this->cacheKeyExtension;
     }
 
     /**

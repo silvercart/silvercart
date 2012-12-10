@@ -325,6 +325,7 @@ class SilvercartProductExporter extends DataObject {
         
         $fields->dataFieldByName('BreadcrumbDelimiter')->setRightTitle(_t('SilvercartProductExport.BREADCRUMB_DELIMITER_DESCRIPTION'));
         $fields->dataFieldByName('SilvercartCountryID')->setRightTitle(_t('SilvercartProductExport.COUNTRY_DESCRIPTION'));
+        $fields->dataFieldByName('SilvercartCountryID')->setSource(SilvercartCountry::getPrioritiveDropdownMap());
         
         if (empty($this->BaseUrlForLinks)) {
             $this->BaseUrlForLinks = $_SERVER['HTTP_HOST'];
