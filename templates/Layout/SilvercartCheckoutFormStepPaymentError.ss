@@ -32,7 +32,7 @@
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
-                    <a href="{$controller.Link}GotoStep/2" class="silvercart-button left">
+                    <a href="{$controller.Link}GotoStep/3" class="silvercart-button left">
                         <span class="silvercart-button_content">
                             <span class="button_type1_panel_content"><% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
                         </span>
