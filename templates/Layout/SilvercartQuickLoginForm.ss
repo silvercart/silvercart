@@ -12,7 +12,9 @@
     </div>
 
     <a href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
-    
+
+    $CustomHtmlFormSpecialFields
+
     <div id="silvercart-quicklogin-form-actions">
         <input type="reset" id="silvercart-quicklogin-form-cancel" value="<% _t('SilvercartPage.CANCEL') %>" />
         <% control Actions %>

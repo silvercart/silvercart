@@ -10,6 +10,8 @@
         <% sprintf(_t('SilvercartProductGroupPageSelector.PRODUCTS_FOUND'),$getTotalNumberOfProducts) %>
     </div>
 
+    $CustomHtmlFormSpecialFields
+
     <div class="type-button clearfix">
         <% control Actions %>
             $Field

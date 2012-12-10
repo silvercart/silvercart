@@ -211,6 +211,20 @@ class SilvercartPageListWidget extends SilvercartWidget {
 class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
 
     /**
+     * Returns the attributed pages as DataObjectSet
+     *
+     * @return DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.12.2012
+     */
+    public function getPages() {
+        $pages = $this->Pages(null, 'widgetPriority ASC');
+
+        return $pages;
+    }
+
+    /**
      * Creates the cache key for this widget.
      *
      * @return string
@@ -219,7 +233,6 @@ class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
      * @since 06.12.2012
      */
     public function WidgetCacheKey() {
-        return false;
         $key = i18n::get_locale();
 
         if ((int) $key > 0) {
@@ -228,6 +241,8 @@ class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
             foreach ($permissions as $pageID => $permission) {
                 $key .= '_'.$pageID.'-'.((string) $permission);
             }
+
+            $key .= $this->Pages()->Aggregate('MAX(Last_Edited)');
         }
 
         return $key;

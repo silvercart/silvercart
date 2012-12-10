@@ -1322,6 +1322,7 @@ $lang['de_DE']['SilvercartPageListWidget']['Pages']       = 'Zugeordnete Seiten'
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_IMAGE'] = 'Bild';
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB'] = 'Widget Infos';
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB_EXPLANATION'] = 'Die folgenden Daten können von manchen Widgets genutzt werden.';
+$lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_PRIORITY'] = 'Sortierrang (je höher desto weiter hinten)';
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_TEXT'] = 'Beschreibung';
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_TITLE'] = 'Titel (optional)';
 

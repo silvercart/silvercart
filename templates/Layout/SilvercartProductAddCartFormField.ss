@@ -2,6 +2,9 @@
 
     <label for="{$FormName}_{$FieldName}">{$Label}</label>
     $FieldTag
+
+    $CustomHtmlFormSpecialFields
+
     <% control Parent.Actions %>
         $Field
     <% end_control %>

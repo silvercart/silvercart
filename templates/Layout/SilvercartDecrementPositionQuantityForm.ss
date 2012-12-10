@@ -5,4 +5,6 @@
 			$Field
 		</div>
 	<% end_control %>
+
+    $CustomHtmlFormSpecialFields
 </form>

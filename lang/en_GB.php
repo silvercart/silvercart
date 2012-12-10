@@ -1318,6 +1318,7 @@ $lang['en_GB']['SilvercartPageListWidget']['Pages']       = 'Attributed pages';
 $lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_IMAGE'] = 'Image';
 $lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB'] = 'Widget infos';
 $lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB_EXPLANATION'] = 'The following data can be used by some widgets.';
+$lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_PRIORITY'] = 'Sort priority (the higher the more backwards)';
 $lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_TEXT'] = 'Description';
 $lang['en_GB']['SilvercartPageListWidgetPage']['WIDGET_TITLE'] = 'Title (optional)';
 

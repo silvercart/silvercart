@@ -31,6 +31,8 @@
         $CustomHtmlFormFieldByName(Message)
     </fieldset>
 
+    $CustomHtmlFormSpecialFields
+
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>

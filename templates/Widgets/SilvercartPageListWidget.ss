@@ -7,9 +7,9 @@
     <% end_if %>
 
     <div class="silvercart-widget-content_frame silvercart-pagelist-widget">
-        <% if Pages %>
+        <% if getPages %>
             <div class="subcolumns">
-            <% control Pages %>
+            <% control getPages %>
                 <div class="c50<% if Odd %>l<% else %>r<% end_if %>">
                     <div class="subc<% if Odd %>l<% else %>r<% end_if %>">
                         <div class="silvercart-pagelist-widget_entry">

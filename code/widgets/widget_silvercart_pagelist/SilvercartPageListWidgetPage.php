@@ -43,8 +43,9 @@ class SilvercartPageListWidgetPage extends DataObjectDecorator {
     public function extraStatics() {
         return array(
             'db' => array(
-                'widgetTitle' => 'VarChar(255)',
-                'widgetText'  => 'HTMLText'
+                'widgetTitle'       => 'VarChar(255)',
+                'widgetText'        => 'HTMLText',
+                'widgetPriority'    => 'Int(0)'
             ),
             'has_one' => array(
                 'widgetImage' => 'Image'
@@ -66,10 +67,11 @@ class SilvercartPageListWidgetPage extends DataObjectDecorator {
      * @since 06.12.2012
      */
     public function updateFieldLabels(&$labels) {
-        $labels['widgetInfoTab'] = _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB');
-        $labels['widgetImage']   = _t('SilvercartPageListWidgetPage.WIDGET_IMAGE');
-        $labels['widgetText']    = _t('SilvercartPageListWidgetPage.WIDGET_TEXT');
-        $labels['widgetTitle']   = _t('SilvercartPageListWidgetPage.WIDGET_TITLE');
+        $labels['widgetInfoTab']    = _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB');
+        $labels['widgetImage']      = _t('SilvercartPageListWidgetPage.WIDGET_IMAGE');
+        $labels['widgetText']       = _t('SilvercartPageListWidgetPage.WIDGET_TEXT');
+        $labels['widgetTitle']      = _t('SilvercartPageListWidgetPage.WIDGET_TITLE');
+        $labels['widgetPriority']   = _t('SilvercartPageListWidgetPage.WIDGET_PRIORITY');
     }
 
     /**
@@ -89,6 +91,10 @@ class SilvercartPageListWidgetPage extends DataObjectDecorator {
             'widgetInfoTabExplanation',
             _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB_EXPLANATION')
         );
+        $priorityField = new TextField(
+            'widgetPriority',
+            $this->owner->fieldLabel('widgetPriority')
+        );
         $titleField = new TextField(
             'widgetTitle',
             $this->owner->fieldLabel('widgetTitle')
@@ -103,6 +109,7 @@ class SilvercartPageListWidgetPage extends DataObjectDecorator {
         );
 
         $widgetInfoTab->push($infoField);
+        $widgetInfoTab->push($priorityField);
         $widgetInfoTab->push($titleField);
         $widgetInfoTab->push($textField);
         $widgetInfoTab->push($imageField);

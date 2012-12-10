@@ -35,6 +35,8 @@ class SilvercartContactForm extends CustomHtmlForm {
 
     protected $excludeFromCache = true;
 
+    protected $useSpamCheck = true;
+
     /**
      * definition of the form fields
      *

@@ -79,6 +79,8 @@
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
     </fieldset>
 
+    $CustomHtmlFormSpecialFields
+
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>

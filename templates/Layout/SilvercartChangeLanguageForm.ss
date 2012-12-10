@@ -5,6 +5,8 @@
 
         $CustomHtmlFormFieldByName(Language, SilvercartLanguageDropdownField)
 
+        $CustomHtmlFormSpecialFields
+
         <div id="silvercart-quicklogin-form-actions">
             <% control Actions %>
                 $Field
