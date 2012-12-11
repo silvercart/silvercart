@@ -300,8 +300,10 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         if ($childPages &&
             $childPages->Count() > 0) {
 
+            $childLevel = $level + 1;
+
             foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderNavigation($childPage, $level++);
+                $childPageStr .= $this->renderNavigation($childPage, $childLevel);
             }
         }
 
