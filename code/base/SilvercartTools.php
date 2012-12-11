@@ -409,6 +409,8 @@ class SilvercartTools extends Object {
      * Builds a hierarchy from the current page to the top product group page
      * or holder.
      *
+     * @param SiteTree $currPage The page to start from
+     *
      * @return array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -424,7 +426,8 @@ class SilvercartTools extends Object {
                 )
             );
 
-            while ($currPage->getParent()) {
+            while (method_exists($currPage, 'getParent') &&
+                $currPage->getParent()) {
                 $parent = $currPage->getParent();
 
                 if ($parent) {
