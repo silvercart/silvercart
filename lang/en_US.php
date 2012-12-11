@@ -1743,6 +1743,9 @@ $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Silve
 $lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
 $lang['en_US']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Title';
 $lang['en_US']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Start at level';
+$lang['en_US']['SilvercartSubNavigationWidget']['SINGULARNAME']         = 'Subnavigation';
+$lang['en_US']['SilvercartSubNavigationWidget']['PLURALNAME']           = 'Subnavigations';
+$lang['en_US']['SilvercartSubNavigationWidget']['SHOW_SIBLINGS']        = 'Show pages on same level';
 
 $lang['en_US']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_US']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';

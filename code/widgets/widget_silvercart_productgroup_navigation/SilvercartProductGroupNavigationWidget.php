@@ -109,7 +109,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
             _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
             $this->expandActiveSectionOnly
         );
-        
+
         $fields->push($productGroupField);
         $fields->push($levelsToShowField);
         $fields->push($expandActiveSectionOnlyField);
@@ -197,7 +197,7 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
         }
 
         $currentPage              = Controller::curr();
-        $branchSitetree           = SilvercartTools::getPageHierarchy();
+        $branchSitetree           = SilvercartTools::getPageHierarchy(Controller::curr());
         $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
         $navigation               = '';
         
@@ -221,17 +221,16 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
     /**
      * Renders the product group navigation.
      *
-     * @param SiteTree $rootPage          The root page to start with
-     * @param int      $level             The current level
-     * @param array    $branchSitetreeIds Contains all SiteTree IDs of the
-     *                                    current pages' branch
+     * @param SiteTree $rootPage    The root page to start with
+     * @param SiteTree $currentPage The current SiteTree object
+     * @param int      $level       The current level
      *
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.05.2012
      */
-    public function renderProductGroupNavigation($rootPage, $currentPage, $level = 0, $branchSitetree) {
+    public function renderProductGroupNavigation($rootPage, $currentPage, $level = 0) {
         $renderStr      = '';
         $isActivePage   = false;
         $level++;
@@ -264,7 +263,7 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
             $childPages->Count() > 0) {
             
             foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderProductGroupNavigation($childPage, $currentPage, $level, $branchSitetree);
+                $childPageStr .= $this->renderProductGroupNavigation($childPage, $currentPage, $level);
             }
         }
         

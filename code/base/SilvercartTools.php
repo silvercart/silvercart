@@ -414,9 +414,8 @@ class SilvercartTools extends Object {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.10.2012
      */
-    public static function getPageHierarchy() {
+    public static function getPageHierarchy($currPage) {
         if (self::$pageHierarchy === null) {
-            $currPage   = Controller::curr();
             $level      = 0;
             $hierarchy  = array(
                 'SiteTree_'.$currPage->ID => array(
@@ -428,9 +427,7 @@ class SilvercartTools extends Object {
             while ($currPage->getParent()) {
                 $parent = $currPage->getParent();
 
-                if ($parent instanceof SilvercartProductGroupPage ||
-                    $parent instanceof SilvercartProductGroupHolder
-                ) {
+                if ($parent) {
                     $level++;
                     $hierarchy['SiteTree_'.$parent->ID] = array(
                         'Page'  => $parent,
@@ -489,7 +486,7 @@ class SilvercartTools extends Object {
      */
     public static function getPageLevelByPageId($searchPageID) {
         $level     = false;
-        $hierarchy = self::getPageHierarchy();
+        $hierarchy = self::getPageHierarchy(Controller::curr());
 
         foreach ($hierarchy as $pageID => $pageInfo) {
             if ($pageInfo['Page']->ID == $searchPageID) {

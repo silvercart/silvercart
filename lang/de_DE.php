@@ -1743,6 +1743,9 @@ $lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Silve
 $lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
 $lang['de_DE']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Titel';
 $lang['de_DE']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Zeige Hierarchie ab folgender Stufe an';
+$lang['de_DE']['SilvercartSubNavigationWidget']['SINGULARNAME']         = 'Subnavigation';
+$lang['de_DE']['SilvercartSubNavigationWidget']['PLURALNAME']           = 'Subnavigationen';
+$lang['de_DE']['SilvercartSubNavigationWidget']['SHOW_SIBLINGS']        = 'Seiten auf gleicher Ebene anzeigen';
 
 $lang['de_DE']['SilvercartStoreAdminMenu']['CONFIG'] = 'Einstellungen';
 $lang['de_DE']['SilvercartStoreAdminMenu']['MODULES'] = 'Module';

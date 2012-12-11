@@ -1,8 +1,8 @@
 <% cached NavigationCacheKey %>
     <% control getNavigation %>
         <% if HasMenu %>
-            <% if Top.Title %>
-                <h2>$Top.Title</h2>
+            <% if Top.FrontTitle %>
+                <h2>$Top.FrontTitle</h2>
             <% end_if %>
 
             <div class="vlist  silvercart-product-group-navigation-widget">

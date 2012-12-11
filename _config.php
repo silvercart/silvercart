@@ -46,6 +46,11 @@ Director::addRules(50, array(
 ));
 
 // ----------------------------------------------------------------------------
+// Set spam check for forms
+// ----------------------------------------------------------------------------
+CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
+
+// ----------------------------------------------------------------------------
 // Register CSS requirements
 // ----------------------------------------------------------------------------
 if (SilvercartConfig::DefaultLayoutEnabled()) {
@@ -168,6 +173,7 @@ Object::add_extension('SilvercartProductGroupChildProductsWidgetLanguage',  'Sil
 Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartSubNavigationWidgetLanguage',              'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageDecorator');
 // Translatable DataObjects
 Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualDecorator');
@@ -194,6 +200,7 @@ Object::add_extension('SilvercartProductGroupChildProductsWidget',  'SilvercartD
 Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartSubNavigationWidget',              'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
