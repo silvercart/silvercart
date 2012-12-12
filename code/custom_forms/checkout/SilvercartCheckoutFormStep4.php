@@ -92,8 +92,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
             if (!Member::currentUser() ||
                 (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
-
-             SilvercartDebugHelper::printString("Redirect soll ausgeführt werden.");
                 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 Director::redirect($frontPage->RelativeLink());
