@@ -156,12 +156,13 @@ class SilvercartShoppingCart extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.10.2012
+     * @since 12.12.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
         if ($this->ID > 0) {
-            if (!SilvercartTools::isIsolatedEnvironment()) {
+            if (!SilvercartTools::isIsolatedEnvironment() &&
+                !SilvercartTools::isBackendEnvironment()) {
                 // Initialize shopping cart position object, so that it can inject
                 // its forms into the controller.
                 if (self::$loadModules) {
