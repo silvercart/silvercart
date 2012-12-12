@@ -104,10 +104,11 @@ class SilvercartContactForm extends CustomHtmlForm {
      * logged in users get there fields filled
      *
      * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.12.2012
      */
     protected function fillInFieldValues() {
+        parent::fillInFieldValues();
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
         $this->formFields['Salutation']['value'] = array(
             ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
@@ -121,7 +122,9 @@ class SilvercartContactForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle']  = _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message');
 
         $member = Member::currentUser();
-        if ($member) {
+        if ($member &&
+            (!array_key_exists('value', $this->formFields['FirstName']) ||
+             empty($this->formFields['FirstName']['value']))) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
             $this->formFields['FirstName']['value']          = $member->FirstName;
             $this->formFields['Surname']['value']            = $member->Surname;
