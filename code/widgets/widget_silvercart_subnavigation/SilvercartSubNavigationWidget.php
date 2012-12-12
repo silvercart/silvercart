@@ -50,6 +50,13 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     protected $startPage = null;
 
     /**
+     * Cache for $this->getLevelsToShow()
+     *
+     * @var SiteTree
+     */
+    protected $levelsToShow = null;
+
+    /**
      * Attributes.
      * 
      * @var array
@@ -242,13 +249,17 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function findStartPage($startAtLevel) {
-        $page = Controller::curr();
+        $page = false;
 
         foreach ($this->pageHierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Level'] == $startAtLevel) {
+            if ((int) $pageInfo['Level'] === (int) $startAtLevel) {
                 $page = $pageInfo['Page'];
                 break;
             }
+        }
+
+        if ($page === false) {
+            $page = Controller::curr();
         }
 
         return $page;
@@ -263,14 +274,18 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function getLevelsToShow() {
-        $level     = SilvercartTools::getPageLevelByPageId($this->getStartPage()->ID);
-        $level    += 1;
+        if ($this->levelsToShow === null) {
+            $level     = SilvercartTools::getPageLevelByPageId($this->getStartPage()->ID);
+            $level    += 1;
 
-        if ($this->showSiblings) {
-            $level += 1;
+            if ($this->showSiblings) {
+                $level += 1;
+            }
+
+            $this->levelsToShow = $level;
         }
 
-        return $level;
+        return $this->levelsToShow;
     }
 
     /**

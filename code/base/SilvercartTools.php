@@ -67,7 +67,7 @@ class SilvercartTools extends Object {
      *
      * @var DataObjectSet
      */
-    public static $pageHierarchy = null;
+    public static $pageHierarchy = array();
 
     /**
      * Returns the base URL segment that's used for inclusion of css and
@@ -417,7 +417,7 @@ class SilvercartTools extends Object {
      * @since 18.10.2012
      */
     public static function getPageHierarchy($currPage) {
-        if (self::$pageHierarchy === null) {
+        if (!array_key_exists('SiteTree_'.$currPage->ID, self::$pageHierarchy)) {
             $level      = 0;
             $hierarchy  = array(
                 'SiteTree_'.$currPage->ID => array(
@@ -426,8 +426,9 @@ class SilvercartTools extends Object {
                 )
             );
 
-            while (method_exists($currPage, 'getParent') &&
+            while ($currPage->hasMethod('getParent') &&
                 $currPage->getParent()) {
+
                 $parent = $currPage->getParent();
 
                 if ($parent) {
@@ -442,15 +443,17 @@ class SilvercartTools extends Object {
                 }
             }
 
+            self::$pageHierarchy['SiteTree_'.$currPage->ID] = array();
+
             foreach ($hierarchy as $pageID => $pageInfo) {
-                self::$pageHierarchy['SiteTree_'.$pageID] = array(
+                self::$pageHierarchy['SiteTree_'.$currPage->ID][$pageID] = array(
                     'Page'  => $pageInfo['Page'],
                     'Level' => ($pageInfo['Level'] - $level) * -1
                 );
             }
         }
 
-        return self::$pageHierarchy;
+        return self::$pageHierarchy['SiteTree_'.$currPage->ID];
     }
 
     /**
@@ -465,8 +468,9 @@ class SilvercartTools extends Object {
      */
     public static function findPageIdInHierarchy($searchPageID) {
         $foundPageId = false;
+        $hierarchy   = self::getPageHierarchy(Controller::curr());
 
-        foreach (self::$pageHierarchy as $pageID => $pageInfo) {
+        foreach ($hierarchy as $pageID => $pageInfo) {
             if ($pageInfo['Page']->ID === $searchPageID) {
                 $foundPageId = true;
                 break;
