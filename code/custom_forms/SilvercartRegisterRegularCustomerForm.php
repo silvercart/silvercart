@@ -373,9 +373,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @param Form           $form     the form object
      * @param array          $formData CustomHTMLForms session data
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
      * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.12.2012
      */
     protected function submitSuccess($data, $form, $formData) {
         $anonymousCustomer = false;
@@ -445,12 +446,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $shippingAddress = new SilvercartShippingAddress();
         $shippingAddress->castedUpdate($formData);
 
-        $country = DataObject::get_one(
+        $country = DataObject::get_by_id(
             'SilvercartCountry',
-            sprintf(
-                "`Title` = '%s'",
-                $formData['Country']
-            )
+            (int) $formData['Country']
         );
         if ($country) {
             $shippingAddress->SilvercartCountryID = $country->ID;
