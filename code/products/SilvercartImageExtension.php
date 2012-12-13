@@ -104,20 +104,20 @@ class SilvercartImageExtension extends DataObjectDecorator {
 
         if ($orientation == Image::ORIENTATION_LANDSCAPE) {
             if ($this->owner->getWidth() <= $width) {
-                $image = $this->owner;
+                $image = $this->owner->getTag();
             } else {
                 $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
             }
         } else if ($orientation == Image::ORIENTATION_PORTRAIT) {
             if ($this->owner->getHeight() <= $height) {
-                $image = $this->owner;
+                $image = $this->owner->getTag();
             } else {
                 $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
             }
         } else {
             if ($this->owner->getWidth()  <= $width &&
                 $this->owner->getHeight() <= $height) {
-                $image = $this;
+                $image = $this->owner->getTag();
             } else {
                 $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
             }
