@@ -33,6 +33,11 @@
  */
 class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit {
 
+    /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
     protected $excludeFromCache = true;
 
     /**

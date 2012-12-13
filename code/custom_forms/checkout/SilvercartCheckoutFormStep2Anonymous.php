@@ -34,6 +34,13 @@
 class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * init
      *
      * @param Controller $controller  the controller object

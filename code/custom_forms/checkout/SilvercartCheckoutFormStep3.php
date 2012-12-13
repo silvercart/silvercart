@@ -32,7 +32,14 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
-    
+
+    /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
     /**
      * Returns the Cache Key for the current step
      * 

@@ -34,6 +34,13 @@
 class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * The form field definitions.
      *
      * @var array

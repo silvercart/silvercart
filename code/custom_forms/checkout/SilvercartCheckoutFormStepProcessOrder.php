@@ -34,6 +34,13 @@
 class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * Set this option to false in a payment module to prevent sending the order
      * confimation before finishing payment module dependent order manupulations
      *
