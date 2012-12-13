@@ -219,8 +219,11 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $cache                = false;
         $productGroupPage     = Controller::curr();
         $elements             = new DataObjectSet();
-        $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
-        $elements->pageStart  = $productGroupPage->getSqlOffset();
+
+        if (method_exists('getProductsPerPageSetting', $productGroupPage)) {
+            $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
+            $elements->pageStart  = $productGroupPage->getSqlOffset();
+        }
         $pageEnd              = $elements->pageStart + $elements->pageLength;
         $elementIdx           = 0;
         $products             = new DataObjectSet();
