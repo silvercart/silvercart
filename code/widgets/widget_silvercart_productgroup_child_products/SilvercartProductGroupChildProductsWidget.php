@@ -220,7 +220,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $productGroupPage     = Controller::curr();
         $elements             = new DataObjectSet();
 
-        if (method_exists('getProductsPerPageSetting', $productGroupPage)) {
+        if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
             $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
             $elements->pageStart  = $productGroupPage->getSqlOffset();
         }
@@ -256,7 +256,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         } else {
             foreach ($pageIDsToWorkOn as $pageID) {
                 $page           = DataObject::get_by_id('SiteTree', $pageID);
-                $productsOfPage = $page->getProducts(100, false, true);
+                $productsOfPage = $page->getProducts(1000, false, true);
 
                 foreach ($productsOfPage as $product) {
                     $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
@@ -328,7 +328,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      * @since 13.11.2012
      */
     public function Elements() {
-        if ($this->elements != null) {
+        if ($this->elements !== null) {
             return $this->elements;
         }
 
@@ -355,6 +355,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             $elements = array(
                 'Elements' => $this->Elements(),
             );
+
             $output = $this->customise($elements)->renderWith(
                 array(
                     $controller->getProductGroupPageTemplateName($templateBase),
@@ -416,7 +417,9 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $controller = Controller::curr();
         $showWidget = true;
 
-        if ($controller->isProductDetailView()) {
+        if (method_exists($controller, 'isProductDetailView') &&
+            $controller->isProductDetailView()) {
+
             $showWidget = false;
         }
 
