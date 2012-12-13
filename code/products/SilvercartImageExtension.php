@@ -83,4 +83,46 @@ class SilvercartImageExtension extends DataObjectDecorator {
         $imageTag = $this->owner->SetRatioSize(50,50);
         return $imageTag;
     }
+
+
+    /**
+     * Returns a resized version of the image if the image is bigger
+     * than the given dimensions.
+     * Otherwise the original image is returned.
+     *
+     * @param int $width  The width
+     * @param int $height The height
+     *
+     * @return Image
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-12-13
+     */
+    public function SetRatioSizeMax($width, $height) {
+        $orientation = $this->owner->getOrientation();
+        $image       = false;
+
+        if ($orientation == Image::ORIENTATION_LANDSCAPE) {
+            if ($this->owner->getWidth() <= $width) {
+                $image = $this->owner;
+            } else {
+                $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
+            }
+        } else if ($orientation == Image::ORIENTATION_PORTRAIT) {
+            if ($this->owner->getHeight() <= $height) {
+                $image = $this->owner;
+            } else {
+                $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
+            }
+        } else {
+            if ($this->owner->getWidth()  <= $width &&
+                $this->owner->getHeight() <= $height) {
+                $image = $this;
+            } else {
+                $image = $this->owner->getFormattedImage('SetRatioSize', $width, $height);
+            }
+        }
+
+        return $image;
+    }
 }
