@@ -32,7 +32,9 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit {
-    
+
+    protected $excludeFromCache = true;
+
     /**
      * Returns the Cache Key for the current step
      * 
