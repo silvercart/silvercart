@@ -52,12 +52,18 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * Delimiter character
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2011
      */
     public $delimiter = ';';
     
+    /**
+     * Indicator to check whether to create a new product if no existing one is
+     * matching
+     *
+     * @var bool 
+     */
+    protected $createNewIfNotMatched = true;
+
+
     /**
      * Load the given file via {@link self::processAll()} and {@link self::processRecord()}.
      * Optionally truncates (clear) the table before it imports. 
@@ -204,7 +210,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             }
         }
         
-        if (!$silvercartProduct) {
+        if (!$silvercartProduct &&
+            $this->createNewIfNotMatched) {
             // ----------------------------------------------------------------
             // Create new object:
             // We go for speed here, thus using direct DB queries.
@@ -266,66 +273,68 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             $action = 'insert';
         }
         
-        // --------------------------------------------------------------------
-        // Update product fields
-        // --------------------------------------------------------------------
         if ($silvercartProduct) {
-            if (array_key_exists('ID', $record)) {
-                unset($record['ID']);
-            }
-            
-            // ----------------------------------------------------------------
-            // save data
-            // ----------------------------------------------------------------
-            foreach ($record as $fieldName => $val) {
-                if ($this->isNullValue($val, $fieldName)) {
-                    continue;
+            // --------------------------------------------------------------------
+            // Update product fields
+            // --------------------------------------------------------------------
+            if ($silvercartProduct) {
+                if (array_key_exists('ID', $record)) {
+                    unset($record['ID']);
                 }
-                if (strpos($fieldName, '->') !== false) {
-                    $funcName = substr($fieldName, 2);
-                    $this->$funcName($silvercartProduct, $val, $record);
-                } elseif ($silvercartProduct->hasMethod("import" . $fieldName)) {
-                    $silvercartProduct->{"import{$fieldName}"}($val, $record);
+
+                // ----------------------------------------------------------------
+                // save data
+                // ----------------------------------------------------------------
+                foreach ($record as $fieldName => $val) {
+                    if ($this->isNullValue($val, $fieldName)) {
+                        continue;
+                    }
+                    if (strpos($fieldName, '->') !== false) {
+                        $funcName = substr($fieldName, 2);
+                        $this->$funcName($silvercartProduct, $val, $record);
+                    } elseif ($silvercartProduct->hasMethod("import" . $fieldName)) {
+                        $silvercartProduct->{"import{$fieldName}"}($val, $record);
+                    } else {
+                        $silvercartProduct->update(array($fieldName => $val));
+                    }
+                }
+                // ----------------------------------------------------------------
+                // Update product group mirror pages
+                // ----------------------------------------------------------------
+                if (array_key_exists('SilvercartProductMirrorGroupIDs', $record)) {
+                    $this->Log('Mirror IDs are to be set');
+
+                    // Delete existing relations
+                    if ($silvercartProduct->SilvercartProductGroupMirrorPages()) {
+                        foreach ($silvercartProduct->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
+                            $silvercartProduct->SilvercartProductGroupMirrorPages()->remove($silvercartProductGroupMirrorPage);
+                        }
+                    }
+
+                    // Set new relations
+                    $silvercartProductMirrorGroupIDs = explode(',', $record['SilvercartProductMirrorGroupIDs']);
+
+                    foreach ($silvercartProductMirrorGroupIDs as $silvercartProductMirrorGroupID) {
+                        $silvercartProductGroupMirrorPage = DataObject::get_by_id('SilvercartProductGroupPage', $silvercartProductMirrorGroupID);
+
+                        if ($silvercartProductGroupMirrorPage) {
+                            $silvercartProduct->SilvercartProductGroupMirrorPages()->add($silvercartProductGroupMirrorPage);
+                        }
+                        unset($silvercartProductGroupMirrorPage);
+                    }
+                    unset($silvercartProductMirrorGroupIDs);
+
+                    $this->Log('Mirror IDs set');
+                }
+                $silvercartProduct->write();
+
+                $silvercartProductID = $silvercartProduct->ID;
+
+                if ($action == 'update') {
+                    $this->Log("Updated Product ID: ".$silvercartProductID.", identified by ".$updateIdentifier);
                 } else {
-                    $silvercartProduct->update(array($fieldName => $val));
+                    $this->Log("Inserted Product ID: ".$silvercartProductID);
                 }
-            }
-            // ----------------------------------------------------------------
-            // Update product group mirror pages
-            // ----------------------------------------------------------------
-            if (array_key_exists('SilvercartProductMirrorGroupIDs', $record)) {
-                $this->Log('Mirror IDs are to be set');
-                
-                // Delete existing relations
-                if ($silvercartProduct->SilvercartProductGroupMirrorPages()) {
-                    foreach ($silvercartProduct->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
-                        $silvercartProduct->SilvercartProductGroupMirrorPages()->remove($silvercartProductGroupMirrorPage);
-                    }
-                }
-                
-                // Set new relations
-                $silvercartProductMirrorGroupIDs = explode(',', $record['SilvercartProductMirrorGroupIDs']);
-                
-                foreach ($silvercartProductMirrorGroupIDs as $silvercartProductMirrorGroupID) {
-                    $silvercartProductGroupMirrorPage = DataObject::get_by_id('SilvercartProductGroupPage', $silvercartProductMirrorGroupID);
-                    
-                    if ($silvercartProductGroupMirrorPage) {
-                        $silvercartProduct->SilvercartProductGroupMirrorPages()->add($silvercartProductGroupMirrorPage);
-                    }
-                    unset($silvercartProductGroupMirrorPage);
-                }
-                unset($silvercartProductMirrorGroupIDs);
-                
-                $this->Log('Mirror IDs set');
-            }
-            $silvercartProduct->write();
-            
-            $silvercartProductID = $silvercartProduct->ID;
-            
-            if ($action == 'update') {
-                $this->Log("Updated Product ID: ".$silvercartProductID.", identified by ".$updateIdentifier);
-            } else {
-                $this->Log("Inserted Product ID: ".$silvercartProductID);
             }
         }
         
