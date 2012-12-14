@@ -212,6 +212,13 @@ class SilvercartProduct extends DataObject {
     protected $pluggedInTabs = null;
     
     /**
+     * All added product additional information via module
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInProductListAdditionalData = null;
+    
+    /**
      * All added product information via module
      * 
      * @var DataObjectSet 
@@ -2381,6 +2388,18 @@ class SilvercartProduct extends DataObject {
             $this->pluggedInProductMetaData = SilvercartPlugin::call($this, 'getPluggedInProductMetaData', array(), false, 'DataObjectSet');
         }
         return $this->pluggedInProductMetaData;
+    }
+    
+    /**
+     * returns all additional list information about a product
+     * 
+     * @return DataObjectSet 
+     */
+    public function getPluggedInProductListAdditionalData() {
+        if (is_null($this->pluggedInProductListAdditionalData)) {
+            $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInProductListAdditionalData;
     }
 }
 

@@ -80,6 +80,13 @@
                         </div>
                     </div>
                 </div>
+                <% if PluggedInProductListAdditionalData %>
+                <div class="silvercart-product-list-additional-data">
+                    <% control PluggedInProductListAdditionalData %>
+                        $AdditionalData
+                    <% end_control %>
+                </div>
+                <% end_if %>
             </div>
         </div>
     <% end_control %>
