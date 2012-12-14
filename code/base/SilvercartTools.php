@@ -457,6 +457,60 @@ class SilvercartTools extends Object {
     }
 
     /**
+     * Removes a prefix from a checkout address data array.
+     *
+     * @param string $prefix Prefix
+     * @param array  $data   Checkout address data
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 2012-12-14
+     */
+    public static function extractAddressDataFrom($prefix, $data) {
+        $addressData = array();
+        $dataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Fax'              => 'Fax',
+            $prefix.'_Country'          => 'CountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
+        );
+
+        if (is_array($data)) {
+            foreach ($dataFields as $shippingFieldName => $dataFieldName) {
+                if (isset($data[$shippingFieldName])) {
+                    $addressData[$dataFieldName] = $data[$shippingFieldName];
+                }
+            }
+        }
+
+        if (array_key_exists('TaxIdNumber', $addressData) &&
+            array_key_exists('Company', $addressData) &&
+            !empty($addressData['TaxIdNumber']) &&
+            !empty($addressData['Company'])) {
+
+            $addressData['isCompanyAddress'] = true;
+        } else {
+            $addressData['isCompanyAddress'] = false;
+        }
+
+        return $addressData;
+    }
+
+    /**
      * Tries to find the given page ID in the page hierarchy structure.
      *
      * @param int $searchPageID The page ID to find

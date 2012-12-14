@@ -279,61 +279,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Removes a prefix from a checkout address data array.
-     *
-     * @param string $prefix Prefix
-     * @param array  $data   Checkout address data
-     *
-     * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.07.2011
-     */
-    public function extractAddressDataFrom($prefix, $data) {
-        $addressData = array();
-        $shippingDataFields = array(
-            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
-            $prefix.'_Company'          => 'Company',
-            $prefix.'_Salutation'       => 'Salutation',
-            $prefix.'_FirstName'        => 'FirstName',
-            $prefix.'_Surname'          => 'Surname',
-            $prefix.'_Addition'         => 'Addition',
-            $prefix.'_Street'           => 'Street',
-            $prefix.'_StreetNumber'     => 'StreetNumber',
-            $prefix.'_Postcode'         => 'Postcode',
-            $prefix.'_City'             => 'City',
-            $prefix.'_Phone'            => 'Phone',
-            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
-            $prefix.'_Fax'              => 'Fax',
-            $prefix.'_Country'          => 'CountryID',
-            $prefix.'_PostNumber'       => 'PostNumber',
-            $prefix.'_Packstation'      => 'Packstation',
-            $prefix.'_IsPackstation'    => 'IsPackstation',
-        );
-        
-        if (is_array($data)) {
-            foreach ($shippingDataFields as $shippingFieldName => $dataFieldName) {
-                if (isset($data[$shippingFieldName])) {
-                    $addressData[$dataFieldName] = $data[$shippingFieldName];
-                }
-            }
-        }
-        
-        if (array_key_exists('TaxIdNumber', $addressData) &&
-            array_key_exists('Company', $addressData) &&
-            !empty($addressData['TaxIdNumber']) &&
-            !empty($addressData['Company'])) {
-            
-            $addressData['isCompanyAddress'] = true;
-        } else {
-            $addressData['isCompanyAddress'] = false;
-        }
-        
-        return $addressData;
-    }
-
-    /**
      * Adds a prefix to a plain address data array.
      *
      * @param string $prefix Prefix
@@ -494,7 +439,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         $address    = false;
         $stepData   = $this->getCombinedStepData();
         if ($stepData != false) {
-            $addressData = $this->extractAddressDataFrom($prefix, $stepData);
+            $addressData = SilvercartTools::extractAddressDataFrom($prefix, $stepData);
             if (!empty($addressData) &&
                 array_key_exists('CountryID', $addressData)) {
                 $address = new SilvercartAddress($addressData);
