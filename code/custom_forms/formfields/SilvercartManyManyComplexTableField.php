@@ -42,6 +42,13 @@ class SilvercartManyManyComplexTableField extends HasManyComplexTableField {
     private $manyManyParentClass;
 
     /**
+     * Set to true to limit the source items to the related ones
+     * 
+     * @var string 
+     */
+    protected $limitToRelatedObjects = false;
+
+    /**
      * Class to use to handle the fields items
      *
      * @var string
@@ -148,5 +155,74 @@ class SilvercartManyManyComplexTableField extends HasManyComplexTableField {
                 _t('Silvercart.UNMARK_ALL', 'mark all')
         );
         return $extraData;
+    }
+    
+    /**
+     * Sets the field to limit it results only to related objects, based on
+     * $this->controller
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.12.2012
+     */
+    public function limitToRelatedObjects() {
+        $this->limitToRelatedObjects = true;
+    }
+    
+    /**
+     * Returns whether the fields results are limited to related objects
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.12.2012
+     */
+    public function isLimitedToRelatedObjects() {
+        return $this->limitToRelatedObjects;
+    }
+
+    /**
+     * If the results of the field should be limited to related objects, the 
+     * source items will be overwritten
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.12.2012
+     */
+    public function sourceItems() {
+        $sourceItems = null;
+        if ($this->isLimitedToRelatedObjects()) {
+            if (isset($this->cachedSourceItems)) {
+                $sourceItems = $this->cachedSourceItems;
+            } else {
+                $sourceItems = $this->controller->{$this->name}();
+                $this->cachedSourceItems = $sourceItems;
+            }
+        } else {
+            $sourceItems = parent::sourceItems();
+        }
+        return $sourceItems;
+    }
+
+    /**
+     * If the results of the field should be limited to related objects, the 
+     * total ocunt will be overwritten
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.12.2012
+     */
+    public function TotalCount() {
+        if (is_null($this->totalCount)) {
+            if ($this->isLimitedToRelatedObjects()) {
+                $this->totalCount = $this->sourceItems()->Count();
+            } else {
+                $this->totalCount = parent::TotalCount();
+            }
+        }
+        return $this->totalCount;
     }
 }
