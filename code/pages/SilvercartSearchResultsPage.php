@@ -352,6 +352,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 foreach ($searchTerms as $value) {
                     if (strlen($value) >= 3) {
                         $wordCount++;
+                        $value = str_replace('(', '', $value);
+                        $value = str_replace(')', '', $value);
                         $filteredQuerySearchQuery .= '+' . $value;
                         $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                     }
