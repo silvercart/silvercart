@@ -2569,14 +2569,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Returns injected products
      *
+     * @param array $excludeWidgets Optional: array of widgets to exclude.
+     *
      * @return DataObjectSet 
      */
-    public function getInjectedProducts() {
+    public function getInjectedProducts($excludeWidgets = array()) {
         $injectedProducts = new DataObjectSet();
         if ($this->WidgetSetContent()->Count() > 0) {
             foreach ($this->WidgetSetContent() as $widgetSet) {
                 if ($widgetSet->WidgetArea()->Widgets()->Count() > 0) {
                     foreach ($widgetSet->WidgetArea()->Widgets() as $widget) {
+                        if (in_array($widget->class, $excludeWidgets)) {
+                            continue;
+                        }
                         $controllerClass = $widget->class . '_Controller';
                         if (method_exists($controllerClass, 'getProducts')) {
                             $controller = new $controllerClass($widget);
