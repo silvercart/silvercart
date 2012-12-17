@@ -47,5 +47,17 @@ class SilvercartDataObjectSet extends DataObjectDecorator {
         }
         return $this->owner->PaginationSummary($displayedPages);
     }
+
+    /**
+     * Resets the item indexes
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2012
+     */
+    public function resetItemIndexes() {
+        $this->owner->items = array_values($this->owner->items);
+    }
     
 }
