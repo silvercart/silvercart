@@ -124,7 +124,7 @@ class SilvercartProductGroupHolder extends Page {
         $fields = parent::getCMSFields();
         
         $useOnlydefaultGroupviewSource  = array(
-            'inherit'   => $this->fieldLabel('DefaultGroupView'),
+            'inherit'   => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'),
             'yes'       => $this->fieldLabel('Yes'),
             'no'        => $this->fieldLabel('No'),
         );
