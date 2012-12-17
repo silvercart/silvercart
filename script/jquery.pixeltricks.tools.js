@@ -155,7 +155,6 @@ function deactivateShippingAddressValidation() {
 function activateShippingAddressValidation() {
     if (typeof(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) {
-            console.log('activate validation for shipping address');
             activateValidationFor('Shipping_Salutation');
             activateValidationFor('Shipping_FirstName');
             activateValidationFor('Shipping_Surname');
