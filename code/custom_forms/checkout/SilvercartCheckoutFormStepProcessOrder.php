@@ -128,8 +128,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
             $anonymousCustomer->write();
         }
 
-        $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+        $shippingData = SilvercartTools::extractAddressDataFrom('Shipping', $checkoutData);
+        $invoiceData  = SilvercartTools::extractAddressDataFrom('Invoice', $checkoutData);
 
         $order = $this->createOrder($customerEmail, $checkoutData, $customerNote);
 

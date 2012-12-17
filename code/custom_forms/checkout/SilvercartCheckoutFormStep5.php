@@ -208,7 +208,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             /**
              * @deprecated Fallback for potential dependencies 
              */
-            $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
+            $shippingAddress    = SilvercartTools::extractAddressDataFrom('Shipping', $checkoutData);
             $shippingAddress    = $this->getAssociativeAddressData($shippingAddress);
             $shippingAddress    = new SilvercartAddress($shippingAddress);
             $shippingAddress->setIsAnonymousShippingAddress(true);
@@ -221,7 +221,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             /**
              * @deprecated Fallback for potential dependencies 
              */
-            $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+            $invoiceAddress = SilvercartTools::extractAddressDataFrom('Invoice', $checkoutData);
             $invoiceAddress = $this->getAssociativeAddressData($invoiceAddress, 'Invoice');
             $invoiceAddress = new SilvercartAddress($invoiceAddress);
             $invoiceAddress->setIsAnonymousInvoiceAddress(true);
