@@ -945,7 +945,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->ProductDescription      = $product->LongDescription;
                     $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
                     $orderPosition->numberOfDecimalPlaces   = $product->SilvercartQuantityUnit()->numberOfDecimalPlaces;
-                    $orderPosition->ProductNumber           = $product->ProductNumberShop;
+                    $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
                     $orderPosition->Title                   = $product->Title;
                     $orderPosition->SilvercartOrderID       = $this->ID;
                     $orderPosition->SilvercartProductID     = $product->ID;

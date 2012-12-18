@@ -272,6 +272,24 @@ class SilvercartShoppingCartPosition extends DataObject {
     }
 
     /**
+     * Returns the shop product number
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-12-18
+     */
+    public function getProductNumberShop() {
+        $pluginObj = SilvercartPlugin::call($this, 'overwriteGetProductNumberShop');
+
+        if ($pluginObj !== false) {
+            return $pluginObj;
+        }
+
+        return $this->SilvercartProduct()->ProductNumberShop;
+    }
+
+    /**
      * Returns the form for incrementing the amount of this position.
      *
      * @return string
