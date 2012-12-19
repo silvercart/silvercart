@@ -34,6 +34,7 @@
  * @package Apache
  * @subpackage Solr
  * @author Donovan Jimenez <djimenez@conduit-it.com>, Dan Wolfe
+ * @ignore
  */
 
 // See Issue #1 (http://code.google.com/p/solr-php-client/issues/detail?id=1)
@@ -45,6 +46,7 @@ require_once(dirname(dirname(__FILE__)) . '/Service.php');
  * includes:
  * 	routing of read / write operations
  * 	failover (on selection) for multiple read servers
+ * @ignore
  */
 class Apache_Solr_Service_Balancer
 {

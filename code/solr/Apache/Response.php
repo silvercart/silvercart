@@ -34,6 +34,7 @@
  * @package Apache
  * @subpackage Solr
  * @author Donovan Jimenez <djimenez@conduit-it.com>
+ * @ignore
  */
 
 /**
@@ -42,6 +43,7 @@
  *
  * Currently requires json_decode which is bundled with PHP >= 5.2.0, Alternatively can be
  * installed with PECL.  Zend Framework also includes a purely PHP solution.
+ * @ignore
  */
 class Apache_Solr_Response
 {

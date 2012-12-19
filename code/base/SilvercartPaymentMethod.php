@@ -1928,6 +1928,7 @@ class SilvercartPaymentMethod extends DataObject {
  * Used to redefine some form fields in the search box.
  *
  * @package Silvercart
+ * @subpackage Backend
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 10.03.2011

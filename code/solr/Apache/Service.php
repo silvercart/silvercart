@@ -34,6 +34,7 @@
  * @package Apache
  * @subpackage Solr
  * @author Donovan Jimenez <djimenez@conduit-it.com>
+ * @ignore
  */
 
 // See Issue #1 (http://code.google.com/p/solr-php-client/issues/detail?id=1)
@@ -76,6 +77,7 @@ require_once(dirname(__FILE__) . '/Response.php');
  *
  * @todo Investigate using other HTTP clients other than file_get_contents built-in handler. Could provide performance
  * improvements when dealing with multiple requests by using HTTP's keep alive functionality
+ * @ignore
  */
 class Apache_Solr_Service
 {

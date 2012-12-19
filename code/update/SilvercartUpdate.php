@@ -443,6 +443,8 @@ class SilvercartUpdate extends DataObject {
 /**
  * Simple CLI task to execute all remaining updates
  * 
+ * @package Silvercart
+ * @subpackage Tasks
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 14.05.2012

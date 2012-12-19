@@ -24,6 +24,8 @@
 /**
  * provides method to have a configurable pagination summary via backend
  *
+ * @package Silvercart
+ * @subpackage Base
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 16.08.2012
  * @copyright 2012 pixeltricks GmbH

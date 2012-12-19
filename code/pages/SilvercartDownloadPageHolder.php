@@ -71,6 +71,8 @@ class SilvercartDownloadPageHolder extends Page {
 /**
  * SilvercartDownloadPageHolder_Controller
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 12.07.2012
  * @copyright 2012 pixeltricks GmbH
