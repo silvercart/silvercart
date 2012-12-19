@@ -41,6 +41,7 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
+     * The payment method chosen in checkout
      *
      * @var SilvercartPaymentMethod
      */

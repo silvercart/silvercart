@@ -43,6 +43,11 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlForm {
      */
     protected $excludeFromCache = true;
 
+    /**
+     * The payment method chosen in checkout
+     *
+     * @var SilvercartPaymentMethod
+     */
     protected $paymentMethodObj = null;
 
     /**

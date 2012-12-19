@@ -41,15 +41,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
-     * Returns the Cache Key for the current step
-     * 
-     * @return string
-     */
-    public function getCacheKeyExtension() {
-        return $this->Controller()->getCacheKey();
-    }
-
-    /**
      * The form field definitions.
      *
      * @var array
@@ -67,8 +58,15 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         )
     );
     
-    protected $allowedPaymentMethods = null;
     /**
+     * List of allowed payment methods
+     *
+     * @var DataObjectSet 
+     */
+    protected $allowedPaymentMethods = null;
+    
+    /**
+     * A list of registered nested forms to render into this checkout step
      *
      * @var DataObjectSet
      */
@@ -134,6 +132,15 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
     }
 
     /**

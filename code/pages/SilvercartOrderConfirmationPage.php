@@ -33,6 +33,11 @@
  */
 class SilvercartOrderConfirmationPage extends Page {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         'none'
     );

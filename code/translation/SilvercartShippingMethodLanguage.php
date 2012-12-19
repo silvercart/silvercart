@@ -17,14 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Translation
  */
 
 /**
  * Language class for shipping methods
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Translation
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright pixeltricks GmbH

@@ -18,7 +18,7 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Groupon
+ * @subpackage FormFields
  */
 
 /**

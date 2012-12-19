@@ -33,11 +33,46 @@
  */
 class SilvercartComponentSetDecorator extends DataObjectDecorator {
     
+    /**
+     * relation type
+     *
+     * @var string
+     */
     protected $type;
+    
+    /**
+     * Owner object
+     *
+     * @var Object 
+     */
     protected $ownerObj;
+    
+    /**
+     * Owner class
+     *
+     * @var string
+     */
     protected $ownerClass;
+    
+    /**
+     * Table name
+     *
+     * @var string
+     */
     protected $tableName;
+    
+    /**
+     * Child class
+     *
+     * @var string
+     */
     protected $childClass;
+    
+    /**
+     * Join field
+     *
+     * @var string
+     */
     protected $joinField;
 
     /**

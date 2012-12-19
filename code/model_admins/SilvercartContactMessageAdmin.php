@@ -113,6 +113,11 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
  */
 class SilvercartContactMessageAdmin_CollectionController extends ModelAdmin_CollectionController {
 
+    /**
+     * indicates whether to show import form or not
+     *
+     * @var bool
+     */
     public $showImportForm = false;
 
     /**

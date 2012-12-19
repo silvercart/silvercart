@@ -33,6 +33,11 @@
  */
 class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         'SilvercartMetaNavigationPage'
     );
@@ -41,9 +46,6 @@ class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
      * We set a custom icon for this page type here
      *
      * @var string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.10.2011
      */
     public static $icon = "silvercart/images/page_icons/metanavigation_page";
     

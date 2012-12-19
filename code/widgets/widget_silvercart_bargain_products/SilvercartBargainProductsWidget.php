@@ -79,6 +79,11 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
         'slideDelay'                => 5000
     );
     
+    /**
+     * Casted Attributes.
+     * 
+     * @var array
+     */
     public static $casting = array(
         'FrontTitle'                    => 'Text',
         'FrontContent'                  => 'Text',

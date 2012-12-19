@@ -138,7 +138,12 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartGoogleMerchantTaxonomy_CollectionController extends ModelAdmin_CollectionController {
-    
+
+    /**
+     * indicates whether to show import form or not
+     *
+     * @var bool
+     */
     public $showImportForm = true;
 
 }

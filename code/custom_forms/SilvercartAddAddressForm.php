@@ -33,6 +33,11 @@
  */
 class SilvercartAddAddressForm extends SilvercartAddressForm {
     
+    /**
+     * indicates the success of the submission
+     *
+     * @var bool
+     */
     public $submitSuccess = false;
 
     /**

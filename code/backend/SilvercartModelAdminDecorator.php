@@ -192,6 +192,11 @@ class SilvercartModelAdmin_CollectionController extends DataObjectDecorator {
  */
 class SilvercartModelAdmin_RecordControllerDecorator extends DataObjectDecorator {
     
+    /**
+     * List of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array(
         'printDataObject',
     );

@@ -51,6 +51,11 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         'useSlider'                     => "Boolean(0)"
     );
     
+    /**
+     * Casted Attributes.
+     * 
+     * @var array
+     */
     public static $casting = array(
         'FrontTitle'                    => 'VarChar(255)',
         'FrontContent'                  => 'Text'

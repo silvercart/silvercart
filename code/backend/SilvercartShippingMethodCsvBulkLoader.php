@@ -33,9 +33,20 @@
  */
 class SilvercartShippingMethodCsvBulkLoader extends CsvBulkLoader {
     
+    /**
+     * Call backs for has many relations
+     *
+     * @var array
+     */
     public $has_many_relation_callbacks = array(
         
     );
+    
+    /**
+     * Call backs for many many relations
+     *
+     * @var array
+     */
     public $many_many_relation_callbacks = array(
         'AttributedZoneIDs' => array(
             'relationname'  => 'SilvercartZones',

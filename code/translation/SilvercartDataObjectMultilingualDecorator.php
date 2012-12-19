@@ -33,6 +33,11 @@
  */
 class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     
+    /**
+     * The language object
+     *
+     * @var Object
+     */
     protected $languageObj = null;
     
     /**

@@ -18,12 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage pages
+ * @subpackage Pages
  */
 
 /**
  * SilvercartDownloadPageHolder 
  *
+ * @package Silvercart
+ * @subpackage Pages
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 12.07.2012
  * @copyright 2012 pixeltricks GmbH

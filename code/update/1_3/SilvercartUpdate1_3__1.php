@@ -33,12 +33,22 @@
  */
 class SilvercartUpdate1_3__1 extends SilvercartUpdate {
     
+    /**
+     * Default properties
+     *
+     * @var array
+     */
     public static $defaults = array(
         'SilvercartVersion'         => '1.3',
         'SilvercartUpdateVersion'   => '1',
         'Description'               => 'This update adjust all multilingual objects to the new multilingual feature.'
     );
     
+    /**
+     * List of classes to clean after processing main update
+     *
+     * @var array
+     */
     protected $postCleaningClasses = array();
 
     /**

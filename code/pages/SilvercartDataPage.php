@@ -33,8 +33,18 @@
  */
 class SilvercartDataPage extends SilvercartMyAccountHolder {
     
+    /**
+     * Indicates whether this page type can be root
+     *
+     * @var bool
+     */
     public static $can_be_root = false;
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array();
     
     /**

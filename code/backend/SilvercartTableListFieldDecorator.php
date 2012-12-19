@@ -102,6 +102,11 @@ class SilvercartTableListField_ItemDecorator extends DataObjectDecorator {
  */
 class SilvercartTableListField_ItemRequestDecorator extends DataObjectDecorator {
     
+    /**
+     * List of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array(
         'printDataObject',
     );

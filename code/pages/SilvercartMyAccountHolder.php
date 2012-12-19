@@ -33,12 +33,22 @@
  */
 class SilvercartMyAccountHolder extends Page {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         "SilvercartDataPage",
         "SilvercartOrderHolder",
         "SilvercartAddressHolder"
     );
     
+    /**
+     * Icon to display in CMS site tree
+     *
+     * @var string
+     */
     public static $icon = "silvercart/images/page_icons/my_account_holder";
     
     /**
@@ -99,6 +109,11 @@ class SilvercartMyAccountHolder extends Page {
  */
 class SilvercartMyAccountHolder_Controller extends Page_Controller {
 
+    /**
+     * ID of the breadcrumb element
+     *
+     * @var int
+     */
     protected $breadcrumbElementID;
 
     /**

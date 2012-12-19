@@ -17,14 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Translation
  */
 
 /**
  * Translation object of SilvercartSubNavigationWidget
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Translation
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 10.12.2012

@@ -89,6 +89,11 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      */
     protected $products = null;
     
+    /**
+     * SQL limit start value
+     *
+     * @var int
+     */
     protected $SQL_start = 0;
 
     /**

@@ -33,6 +33,11 @@
  */
 class SilvercartContactForm extends CustomHtmlForm {
 
+    /**
+     * Indicates whether to exclude this form from caching or not
+     *
+     * @var bool
+     */
     protected $excludeFromCache = true;
 
     /**

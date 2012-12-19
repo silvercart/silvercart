@@ -18,11 +18,13 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage tests
+ * @subpackage Tests
  */
 /**
  * tests for SilvercartShippingMethod
  *
+ * @package Silvercart
+ * @subpackage Tests
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 08.03.2012
@@ -30,6 +32,11 @@
  */
 class SilvercartShippingMethodTest extends SapphireTest {
     
+    /**
+     * Fixture file
+     *
+     * @var string
+     */
     public static $fixture_file = 'silvercart/tests/SilvercartShippingMethodTest.yml';
     
     /**

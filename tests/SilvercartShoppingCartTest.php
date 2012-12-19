@@ -32,7 +32,12 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShoppingCartTest extends SapphireTest {
-
+    
+    /**
+     * Fixture file
+     *
+     * @var string
+     */
     public static $fixture_file = 'silvercart/tests/SilvercartShoppingCartTest.yml';
     
     /**

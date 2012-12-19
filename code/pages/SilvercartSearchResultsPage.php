@@ -33,6 +33,11 @@
  */
 class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         'none'
     );
@@ -134,6 +139,11 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
  */
 class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_Controller {
     
+    /**
+     * list of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array(
         'SearchByQuery',
     );

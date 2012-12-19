@@ -45,7 +45,12 @@ class SilvercartDeeplink extends DataObject {
         'productAttribute' => 'VarChar(50)',
         'isActive'         => 'Boolean(0)'
     );
-    
+
+    /**
+     * Casted attributes
+     *
+     * @var array
+     */
     public static $casting = array(
         'DeeplinkUrl'      => 'VarChar',
         'ActivationStatus' => 'VarChar'

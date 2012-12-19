@@ -33,10 +33,20 @@
  */
 class SilvercartTextWidget extends SilvercartWidget {
     
+    /**
+     * DB attributes
+     * 
+     * @var array
+     */
     public static $db = array(
         'isContentView'     => 'Boolean',
     );
     
+    /**
+     * Casted Attributes.
+     * 
+     * @var array
+     */
     public static $casting = array(
         'Headline'          => 'Text',
         'FreeText'          => 'Text',

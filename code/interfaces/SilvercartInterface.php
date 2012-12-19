@@ -34,12 +34,32 @@
  */
 class SilvercartInterface {
 
+    /**
+     * API-URL
+     *
+     * @var string
+     */
     protected $api;
 
+    /**
+     * API-Password
+     *
+     * @var string
+     */
     protected $password;
 
+    /**
+     * API-SessionID
+     *
+     * @var string
+     */
     protected $sessionID;
 
+    /**
+     * API-User
+     *
+     * @var string
+     */
     protected $user;
 
     /**

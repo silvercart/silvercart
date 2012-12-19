@@ -33,6 +33,11 @@
  */
 class SilvercartEditProfileForm extends CustomHtmlForm {
 
+    /**
+     * Form field definition
+     *
+     * @var array
+     */
     protected $formFields = array(
         'Salutation' => array(
             'type' => 'DropdownField',

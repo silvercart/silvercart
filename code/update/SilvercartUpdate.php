@@ -64,6 +64,11 @@ class SilvercartUpdate extends DataObject {
         'Status' => 'remaining',
     );
 
+    /**
+     * Casted attributes
+     *
+     * @var array
+     */
     public static $casting = array(
         'TranslatedStatus' => 'VarChar',
     );

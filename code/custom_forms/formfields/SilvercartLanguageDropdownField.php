@@ -34,6 +34,7 @@
 class SilvercartLanguageDropdownField extends DropdownField {
     
     /**
+     * Controller
      *
      * @var SilvercartPage_Controller
      */

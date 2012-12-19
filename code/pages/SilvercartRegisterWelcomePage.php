@@ -33,10 +33,20 @@
  */
 class SilvercartRegisterWelcomePage extends Page {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         'none'
     );
     
+    /**
+     * Icon to display in CMS site tree
+     *
+     * @var string
+     */
     public static $icon = "silvercart/images/page_icons/registration_welcome";
 
     /**

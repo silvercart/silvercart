@@ -68,6 +68,11 @@ class SilvercartOrderLog extends DataObject {
         'TargetTitle'       => 'Text',
     );
     
+    /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
     public static $default_sort = 'Created DESC';
     
     /**

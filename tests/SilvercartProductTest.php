@@ -33,6 +33,11 @@
  */
 class SilvercartProductTest extends SapphireTest {
     
+    /**
+     * Fixture file
+     *
+     * @var string
+     */
     public static $fixture_file = 'silvercart/tests/SilvercartProductTest.yml';
     
     /**

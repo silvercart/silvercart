@@ -34,16 +34,60 @@
  */
 class SilvercartTextAutoCompleteField extends TextField {
     
+    /**
+     * List of values to use for the auto completion
+     *
+     * @var array
+     */
     protected $autoCompleteList = array();
+    
+    /**
+     * Source field for the auto completion (dot notated)
+     *
+     * @var string
+     */
     protected $autoCompleteSource = '';
+    
+    /**
+     * Source object name for the auto completion
+     *
+     * @var string
+     */
     protected $autoCompleteSourceDataObject = '';
+    
+    /**
+     * Source field name for the auto completion
+     *
+     * @var string
+     */
     protected $autoCompleteSourceAttribute = '';
+    
+    /**
+     * Value of the auto complete field
+     *
+     * @var string
+     */
     protected $autoCompleteValue = '';
     
+    /**
+     * Indicator to check whether the field can have many related values
+     *
+     * @var string
+     */
     protected $canHaveMany = false;
     
+    /**
+     * Controller for this field
+     *
+     * @var DataObject
+     */
     protected $controller = null;
     
+    /**
+     * Class name
+     *
+     * @var string
+     */
     protected $className = 'SilvercartTextAutoCompleteField';
     
     /**

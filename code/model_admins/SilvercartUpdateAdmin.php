@@ -84,8 +84,18 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      */
     public static $collection_controller_class = 'SilvercartUpdateAdmin_CollectionController';
     
+    /**
+     * Class name of the results table to use
+     *
+     * @var string
+     */
     protected $resultsTableClassName = 'SilvercartUpdateTableListField';
 
+    /**
+     * The priority for backend menu
+     *
+     * @var int 
+     */
     public static $menu_priority = -1;
 
     /**
@@ -116,6 +126,11 @@ class SilvercartUpdateAdmin extends ModelAdmin {
  */
 class SilvercartUpdateAdmin_CollectionController extends ModelAdmin_CollectionController {
 
+    /**
+     * indicates whether to show import form or not
+     *
+     * @var bool
+     */
     public $showImportForm = false;
 
     /**

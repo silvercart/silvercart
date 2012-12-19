@@ -33,6 +33,11 @@
  */
 class SilvercartMain extends DataObjectDecorator {
     
+    /**
+     * List of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array(
         'createsitetreetranslation',
         'publishsitetree',

@@ -33,6 +33,11 @@
  */
 class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
     
+    /**
+     * Indicates whether this page type can be root
+     *
+     * @var bool
+     */
     public static $can_be_root = false;
     
     /**
