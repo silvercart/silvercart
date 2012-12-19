@@ -1,4 +1,4 @@
-<div class="silvercart-change-language">
+<li class="silvercart-change-language">
     <form class="silvercart-change-language-form" $FormAttributes>
         $CustomHtmlFormMetadata
         $CustomHtmlFormErrorMessages
@@ -7,11 +7,11 @@
 
         $CustomHtmlFormSpecialFields
 
-        <div id="silvercart-quicklogin-form-actions">
+        <span>
             <% control Actions %>
                 $Field
             <% end_control %>
-        </div>
+        </span>
     </form>
 
-</div>
+</li>

@@ -5,7 +5,7 @@
         $('.silvercart-change-language-selector li.first').removeClass('first').addClass('selectable');
         $(this).removeClass('selectable').addClass('first');
         $('.silvercart-change-language-selector li.selectable').hide();
-        $('.silvercart-change-language-form select option[value="' + $(this).attr('rel') + '"]').attr('selected',true);
+        $('.silvercart-change-language-form select option[value="' + $(this).attr('class') + '"]').attr('selected',true);
         $('.silvercart-change-language-form').submit();
     });
     
@@ -18,7 +18,7 @@
         
         languageSelectorOptions.each(function() {
             var locale  = $(this).val();
-            var iso2    = $(this).attr('rel');
+            var iso2    = $(this).attr('class');
             if (firstLanguage) {
                 languageCssClass    = 'first';
                 firstLanguage       = false;
@@ -26,7 +26,7 @@
                 languageCssClass    = 'selectable';
             }
             var img = '<img src="/silvercart/images/icons/flags/' + iso2 + '.png" alt="" />';
-            markup += '<li class="' + languageCssClass + '" rel="' + locale + '">' + img + $(this).html() + '</li>';
+            markup += '<li class="' + languageCssClass + '" class="' + locale + '">' + img + $(this).html() + '</li>';
         });
         
         markup += '</ul>';
