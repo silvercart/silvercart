@@ -46,6 +46,13 @@ class SilvercartTask extends ScheduledTask {
      * @var array
      */
     protected static $errors = array();
+    
+    /**
+     * List of occured infos
+     *
+     * @var array
+     */
+    protected static $infos = array();
 
     /**
      * Init
@@ -111,6 +118,50 @@ class SilvercartTask extends ScheduledTask {
             print $errors;
         }
     }
+    
+    /**
+     * Prints the infos
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.12.2012
+     */
+    public function printInfos() {
+        $infos = self::get_infos();
+        if (count($infos) > 0) {
+            $tab        = "\t";
+            $infoText   = PHP_EOL;
+            if (count($infos) == 1) {
+                $infoText .= 'An error occured:' . PHP_EOL;
+            } else {
+                $infoText .= 'Some errors occured:' . PHP_EOL;
+            }
+            foreach ($infos as $info) {
+                $infoText .= $tab . "\033[41m" . $info . "\033[0m" . PHP_EOL;   
+            }
+            $infoText   .= PHP_EOL;
+            print $infoText;
+        }
+    }
+    
+    /**
+     * Prints the given info
+     * 
+     * @param string $info Info to print
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.12.2012
+     */
+    public function printInfo($info) {
+        $tab        = "\t";
+        $infoText   = PHP_EOL;
+        $infoText   .= $tab . "\033[33m" . $info . "\033[0m" . PHP_EOL;
+        $infoText   .= PHP_EOL;
+        print $infoText;
+    }
 
     /**
      * Sets the CLI argument with the given name
@@ -171,6 +222,40 @@ class SilvercartTask extends ScheduledTask {
      */
     public static function set_errors($errors) {
         self::$errors = $errors;
+    }
+    
+    /**
+     * Adds an info to the infos list
+     *
+     * @param string $info Info to add
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2012
+     */
+    public static function add_info($info) {
+        self::$infos[] = $info;
+    }
+    
+    /**
+     * Returns the infos
+     *
+     * @return array
+     */
+    public static function get_infos() {
+        return self::$infos;
+    }
+    
+    /**
+     * Sets the infos
+     *
+     * @param array $infos Infos
+     * 
+     * @return void
+     */
+    public static function set_infos($infos) {
+        self::$infos = $infos;
     }
     
 }
