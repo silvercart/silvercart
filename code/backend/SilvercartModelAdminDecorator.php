@@ -31,7 +31,7 @@
  * @since 24.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartModelAdminExtension extends DataExtension {
+class SilvercartModelAdminDecorator extends DataExtension {
     
     /**
      * Injects some custom javascript to provide instant loading of DataObject

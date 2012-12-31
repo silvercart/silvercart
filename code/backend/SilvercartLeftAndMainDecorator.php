@@ -31,7 +31,7 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartLeftAndMainExtension extends DataExtension {
+class SilvercartLeftAndMainDecorator extends DataExtension {
 
     /**
      * The new main menu routine.

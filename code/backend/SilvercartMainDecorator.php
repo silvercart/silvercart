@@ -31,7 +31,7 @@
  * @since 22.03.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartMainExtension extends DataExtension {
+class SilvercartMainDecorator extends DataExtension {
     
     public static $allowed_actions = array(
         'createsitetreetranslation',

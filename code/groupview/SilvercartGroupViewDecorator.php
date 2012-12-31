@@ -120,7 +120,7 @@ class SilvercartGroupViewDecorator extends DataExtension {
         if (array_key_exists('ID', $this->owner->urlParams)) {
             SilvercartGroupViewHandler::setGroupView($this->owner->urlParams['ID']);
         }
-        Director::redirect($this->owner->Link());
+        $this->owner->redirect($this->owner->Link());
     }
 
     /**
@@ -137,7 +137,7 @@ class SilvercartGroupViewDecorator extends DataExtension {
         if (array_key_exists('ID', $this->owner->urlParams)) {
             SilvercartGroupViewHandler::setGroupHolderView($this->owner->urlParams['ID']);
         }
-        Director::redirect($this->owner->Link());
+        $this->owner->redirect($this->owner->Link());
     }
 
     /**
@@ -152,21 +152,19 @@ class SilvercartGroupViewDecorator extends DataExtension {
     /**
      * this is used to render the ProductGroupHolder template in dependence on
      * the active group view.
-     * 
-     * @param string $templateBase Base name of the template to render group view with
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.08.2012
+     * @since 15.02.2011
      */
-    public function RenderProductGroupHolderGroupView($templateBase = 'SilvercartProductGroupHolder') {
+    public function RenderProductGroupHolderGroupView() {
         $elements = array(
             'Elements' => $this->owner->getViewableChildren(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(
-                $this->getProductGroupHolderTemplateName($templateBase),
+                $this->getProductGroupHolderTemplateName(),
             )
         );
         return $output;
@@ -176,21 +174,19 @@ class SilvercartGroupViewDecorator extends DataExtension {
      * this is used to render the ProductGroupPage template in dependence on
      * the active group view.
      *
-     * @param string $templateBase Base name of the template to render group view with
-     *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.08.2012
+     * @since 15.02.2011
      */
-    public function RenderProductGroupPageGroupView($templateBase = 'SilvercartProductGroupPage') {
+    public function RenderProductGroupPageGroupView() {
         $elements = array(
             'Elements' => $this->owner->getProducts(),
         );
         $output = $this->owner->customise($elements)->renderWith(
             array(
-                $this->getProductGroupPageTemplateName($templateBase),
-                'Includes/'.$this->getProductGroupPageTemplateName($templateBase)
+                $this->getProductGroupPageTemplateName(),
+                'Includes/'.$this->getProductGroupPageTemplateName()
             )
         );
         return $output;
@@ -200,11 +196,9 @@ class SilvercartGroupViewDecorator extends DataExtension {
      * returns the required ProductGroupHolder template name required by the
      * decorators owner in dependence on the active group view.
      *
-     * @param string $templateBase Base name of the template to render group view with
-     *
      * @return string
      */
-    protected function getProductGroupHolderTemplateName($templateBase = 'SilvercartProductGroupHolder') {
+    protected function getProductGroupHolderTemplateName() {
         $groupHolderView = SilvercartGroupViewHandler::getActiveGroupHolderView();
         if (!$this->owner->isGroupHolderViewAllowed($groupHolderView)) {
             $groupHolderView = $this->owner->getDefaultGroupHolderViewInherited();
@@ -212,18 +206,16 @@ class SilvercartGroupViewDecorator extends DataExtension {
         if (empty($groupHolderView)) {
             $groupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, $templateBase);
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupHolderView, 'SilvercartProductGroupHolder');
     }
 
     /**
      * returns the required ProductGroupPage template name required by the
      * decorators owner in dependence on the active group view.
      *
-     * @param string $templateBase Base name of the template to render group view with
-     *
      * @return string
      */
-    protected function getProductGroupPageTemplateName($templateBase = 'SilvercartProductGroupPage') {
+    protected function getProductGroupPageTemplateName() {
         $groupView = SilvercartGroupViewHandler::getActiveGroupView();
         if (!$this->owner->isGroupViewAllowed($groupView)) {
             $groupView = $this->owner->getDefaultGroupViewInherited();
@@ -231,7 +223,7 @@ class SilvercartGroupViewDecorator extends DataExtension {
         if (empty($groupView)) {
             $groupView = SilvercartGroupViewHandler::getDefaultGroupView();
         }
-        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView, $templateBase);
+        return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView);
     }
 
     /**

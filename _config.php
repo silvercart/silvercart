@@ -52,73 +52,73 @@ Object::add_extension('Member',                                     'SilvercartC
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
-Object::add_extension('Group',                                      'SilvercartGroupExtension');
-Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminExtension');
-Object::add_extension('CMSMain',                                    'SilvercartMainExtension');
-Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMainExtension');
+Object::add_extension('Group',                                      'SilvercartGroupDecorator');
+Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
+Object::add_extension('CMSMain',                                    'SilvercartMainDecorator');
+Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMainDecorator');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
-Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewExtension');
-Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewExtension');
-Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewExtension');
-Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewExtension');
-Object::add_extension('Image',                                      'SilvercartImageExtension');
+Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
+Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
+Object::add_extension('Image',                                      'SilvercartImageDecorator');
 
 // DataObject Translations
-Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageExtension');
+Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
 Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
-Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageExtension');
-Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageExtension');
-Object::add_extension('SilvercartFileLanguage',                     'SilvercartLanguageExtension');
-Object::add_extension('SilvercartImageLanguage',                    'SilvercartLanguageExtension');
-Object::add_extension('SilvercartOrderStatusLanguage',              'SilvercartLanguageExtension');
-Object::add_extension('SilvercartPaymentMethodLanguage',            'SilvercartLanguageExtension');
-Object::add_extension('SilvercartProductConditionLanguage',         'SilvercartLanguageExtension');
-Object::add_extension('SilvercartProductLanguage',                  'SilvercartLanguageExtension');
-Object::add_extension('SilvercartQuantityUnitLanguage',             'SilvercartLanguageExtension');
-Object::add_extension('SilvercartShippingMethodLanguage',           'SilvercartLanguageExtension');
-Object::add_extension('SilvercartShopEmailLanguage',                'SilvercartLanguageExtension');
-Object::add_extension('SilvercartTaxLanguage',                      'SilvercartLanguageExtension');
-Object::add_extension('SilvercartZoneLanguage',                     'SilvercartLanguageExtension');
+Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartFileLanguage',                     'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartImageLanguage',                    'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartOrderStatusLanguage',              'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartPaymentMethodLanguage',            'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartProductConditionLanguage',         'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartProductLanguage',                  'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartQuantityUnitLanguage',             'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartShippingMethodLanguage',           'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartShopEmailLanguage',                'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartTaxLanguage',                      'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartZoneLanguage',                     'SilvercartLanguageDecorator');
 
 // Widget Translations
-Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'SilvercartLanguageExtension');
-Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageExtension');
-Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageExtension');
-Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageExtension');
-Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageExtension');
-Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageExtension');
-Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageExtension');
-Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageExtension');
+Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageDecorator');
 // Translatable DataObjects
-Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualDecorator');
 
-Object::add_extension('SilvercartCarrier',                          'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartCountry',                          'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartFile',                             'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartImage',                            'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartOrderStatus',                      'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartCarrier',                          'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartCountry',                          'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartFile',                             'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartImage',                            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartOrderStatus',                      'SilvercartDataObjectMultilingualDecorator');
 
-Object::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartProductCondition',                 'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartProductCondition',                 'SilvercartDataObjectMultilingualDecorator');
 
-Object::add_extension('SilvercartQuantityUnit',                     'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartShippingMethod',                   'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartShopEmail',                        'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartQuantityUnit',                     'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartShippingMethod',                   'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartShopEmail',                        'SilvercartDataObjectMultilingualDecorator');
 
-Object::add_extension('SilvercartTax',                              'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartTax',                              'SilvercartDataObjectMultilingualDecorator');
 
-Object::add_extension('SilvercartZone',                             'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartZone',                             'SilvercartDataObjectMultilingualDecorator');
 
 // Translatable Widgets
-Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualExtension');
-Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualExtension');
+Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
     "SilvercartProduct",
@@ -129,19 +129,19 @@ SilvercartSortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
-Object::add_extension('SilvercartConfig',                           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartOrder',                            'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProduct',                          'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormDetail',         'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormList',           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormTile',           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductCsvBulkLoader',             'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartRemovePositionForm',               'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectExtension');
+Object::add_extension('SilvercartConfig',                           'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartOrder',                            'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProduct',                          'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProductAddCartFormDetail',         'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProductAddCartFormList',           'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProductAddCartFormTile',           'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProductCsvBulkLoader',             'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartRemovePositionForm',               'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectDecorator');
+Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectDecorator');
 
 SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');

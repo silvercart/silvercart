@@ -31,7 +31,7 @@
  * @since 06.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartDataObjectMultilingualExtension extends DataExtension {
+class SilvercartDataObjectMultilingualDecorator extends DataExtension {
     
     protected $languageObj = null;
     

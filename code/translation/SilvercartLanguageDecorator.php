@@ -32,7 +32,7 @@
  * @copyright pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartLanguageExtension extends DataExtension {
+class SilvercartLanguageDecorator extends DataExtension {
     
     /**
      * Extends the database fields and relations of the decorated class.

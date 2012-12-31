@@ -31,7 +31,7 @@
  * @since 04.05.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartImageExtension extends DataExtension {
+class SilvercartImageDecorator extends DataExtension {
     
     /**
      * attribute casting
