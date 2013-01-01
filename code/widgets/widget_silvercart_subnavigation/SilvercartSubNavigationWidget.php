@@ -43,14 +43,54 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     protected $pageHierarchy = null;
 
     /**
+     * Cache for $this->getStartPage()
+     *
+     * @var SiteTree
+     */
+    protected $startPage = null;
+
+    /**
+     * Cache for $this->getLevelsToShow()
+     *
+     * @var SiteTree
+     */
+    protected $levelsToShow = null;
+
+    /**
      * Attributes.
      * 
      * @var array
      */
     public static $db = array(
+        'FrontTitle'   => 'VarChar(255)',
         'Title'        => 'VarChar(255)',
-        'startAtLevel' => 'Int'
+        'startAtLevel' => 'Int',
+        'showSiblings' => 'Boolean(0)',
     );
+
+    /**
+     * Has-many relationships.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartSubNavigationWidgetLanguages' => 'SilvercartSubNavigationWidgetLanguage'
+    );
+
+    /**
+     * Load the page hierarchy.
+     *
+     * @param array|null $record      This will be null for a new database record.
+     * @param boolean    $isSingleton Set this to true if this is a singleton() object, a stub for calling methods.
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-12-10
+     */
+    public function __construct($record = null, $isSingleton = false) {
+        parent::__construct($record, $isSingleton);
+
+        $this->pageHierarchy = SilvercartTools::getPageHierarchy(Controller::curr());
+    }
     
     /**
      * Field labels for display in tables.
@@ -60,7 +100,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
      * @since 13.07.2012
      */
     public function fieldLabels($includerelations = true) {
@@ -71,6 +110,8 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
                 'CMSTitle'      => _t('SilvercartSubNavigationWidget.CMSTITLE'),
                 'Description'   => _t('SilvercartSubNavigationWidget.DESCRIPTION'),
                 'startAtLevel'  => _t('SilvercartSubNavigationWidget.STARTATLEVEL'),
+                'showSiblings'  => _t('SilvercartSubNavigationWidget.SHOW_SIBLINGS'),
+                'FrontTitle'    => _t('SilvercartWidget.FRONTTITLE'),
             )
         );
 
@@ -89,12 +130,14 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     public function getCMSFields() {
         $fields         = parent::getCMSFields();
         $fieldLabels    = $this->fieldLabels();
-        
-        $titleField         = new TextField('Title',        $fieldLabels['Title']);
-        $startAtLevelField  = new TextField('startAtLevel', $fieldLabels['startAtLevel']);
 
-        $fields->push($titleField);
+        $frontTitleField    = new TextField('FrontTitle',   $this->fieldLabel('FrontTitle'));
+        $startAtLevelField  = new TextField('startAtLevel', $fieldLabels['startAtLevel']);
+        $siblingsField      = new CheckboxField('showSiblings', $fieldLabels['showSiblings']);
+
+        $fields->push($frontTitleField);
         $fields->push($startAtLevelField);
+        $fields->push($siblingsField);
 
         return $fields;
     }
@@ -149,13 +192,25 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function getStartPage() {
-        if ($this->startAtLevel != '0') {
-            $startPage = $this->findStartPage($this->startAtLevel);
-        } else {
-            $startPage = Controller::curr();
+        if ($this->startPage === null) {
+            if ($this->startAtLevel != '0') {
+                $startPage = $this->findStartPage($this->startAtLevel);
+            } else {
+                $startPage = Controller::curr();
+            }
+
+            if ($this->showSiblings) {
+                $parentPage = $startPage->getParent();
+
+                if ($parentPage) {
+                    $startPage = $parentPage;
+                }
+            }
+
+            $this->startPage = $startPage;
         }
 
-        return $startPage;
+        return $this->startPage;
     }
 
     /**
@@ -194,113 +249,20 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function findStartPage($startAtLevel) {
-        $page      = Controller::curr();
-        $hierarchy = $this->getPageHierarchy();
+        $page = false;
 
-        foreach ($hierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Level'] == $startAtLevel) {
+        foreach ($this->pageHierarchy as $pageID => $pageInfo) {
+            if ((int) $pageInfo['Level'] === (int) $startAtLevel) {
                 $page = $pageInfo['Page'];
                 break;
             }
         }
 
+        if ($page === false) {
+            $page = Controller::curr();
+        }
+
         return $page;
-    }
-
-    /**
-     * Builds a hierarchy from the current page to the top product group page
-     * or holder.
-     *
-     * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function getPageHierarchy() {
-        if ($this->pageHierarchy === null) {
-            $currPage   = Controller::curr();
-            $level      = 0;
-            $hierarchy  = array(
-                'SiteTree_'.$currPage->ID => array(
-                    'Page'  => $currPage,
-                    'Level' => $level
-                )
-            );
-
-            while ($currPage->getParent()) {
-                $parent = $currPage->getParent();
-
-                if ($parent instanceof SilvercartProductGroupPage ||
-                    $parent instanceof SilvercartProductGroupHolder
-                ) {
-                    $level++;
-                    $hierarchy['SiteTree_'.$parent->ID] = array(
-                        'Page'  => $parent,
-                        'Level' => $level
-                    );
-                    $currPage = $parent;
-                } else {
-                    break;
-                }
-            }
-
-            foreach ($hierarchy as $pageID => $pageInfo) {
-                $this->pageHierarchy['SiteTree_'.$pageID] = array(
-                    'Page'  => $pageInfo['Page'],
-                    'Level' => ($pageInfo['Level'] - $level) * -1
-                );
-            }
-        }
-
-        return $this->pageHierarchy;
-    }
-
-    /**
-     * Tries to find the given page ID in the page hierarchy structure.
-     *
-     * @param int $searchPageID The page ID to find
-     *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function findPageIdInHierarchy($searchPageID) {
-        $foundPageId = false;
-
-        foreach ($this->pageHierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Page']->ID === $searchPageID) {
-                $foundPageId = true;
-                break;
-            }
-        }
-
-        return $foundPageId;
-    }
-
-    /**
-     * Tries to find the given page ID in the page hierarchy structure and
-     * returns the corresponding page.
-     *
-     * @param int $searchPageID The page ID to find
-     *
-     * @return SiteTree
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
-     */
-    public function getPageLevelByPageId($searchPageID) {
-        $level     = false;
-        $hierarchy = $this->getPageHierarchy();
-
-        foreach ($hierarchy as $pageID => $pageInfo) {
-            if ($pageInfo['Page']->ID == $searchPageID) {
-                $level = $pageInfo['Level'];
-                break;
-            }
-        }
-
-        return $level;
     }
 
     /**
@@ -312,10 +274,18 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @since 18.10.2012
      */
     public function getLevelsToShow() {
-        $level     = $this->getPageLevelByPageId(Controller::curr()->ID);
-        $level    += 1;
+        if ($this->levelsToShow === null) {
+            $level     = SilvercartTools::getPageLevelByPageId($this->getStartPage()->ID);
+            $level    += 1;
 
-        return $level;
+            if ($this->showSiblings) {
+                $level += 1;
+            }
+
+            $this->levelsToShow = $level;
+        }
+
+        return $this->levelsToShow;
     }
 
     /**
@@ -332,7 +302,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     public function renderNavigation($rootPage, $level = 0) {
         $renderStr      = '';
         $isActivePage   = false;
-        $level++;
 
         if ($this->getLevelsToShow() != 0 &&
             $level > $this->getLevelsToShow()) {
@@ -346,8 +315,10 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         if ($childPages &&
             $childPages->Count() > 0) {
 
+            $childLevel = $level + 1;
+
             foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderNavigation($childPage, $level);
+                $childPageStr .= $this->renderNavigation($childPage, $childLevel);
             }
         }
 
@@ -357,19 +328,33 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
 
         $showChildPages = false;
         $isSectionPage  = false;
-        if ($this->findPageIdInHierarchy($rootPage->ID)) {
+        if (SilvercartTools::findPageIdInHierarchy($rootPage->ID)) {
             $showChildPages = true;
             $isSectionPage  = true;
+        }
+
+        if (method_exists($rootPage, 'OriginalLink')) {
+            $link = $rootPage->OriginalLink();
+        } else {
+            $link = $rootPage->Link();
+        }
+
+        if ($rootPage->ID === $this->getStartPage()->ID) {
+            $isRootPage = true;
+        } else {
+            $isRootPage = false;
         }
 
         $data = array(
             'MenuTitle'         => $rootPage->getMenuTitle(),
             'Title'             => $rootPage->getTitle(),
-            'Link'              => $rootPage->Link(),
+            'Link'              => $link,
             'ShowChildPages'    => $showChildPages,
+            'ShowSiblings'      => $this->showSiblings,
             'ChildPages'        => $childPageStr,
             'IsActivePage'      => $isActivePage,
-            'IsSectionPage'     => $isSectionPage
+            'IsSectionPage'     => $isSectionPage,
+            'IsRootPage'        => $isRootPage,
         );
 
         $parser     = new SSViewer('SilvercartSubNavigationWidgetEntry');
@@ -384,23 +369,29 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2012
+     * @since 03.07.2012
      */
     public function NavigationCacheKey() {
-        $page           = Controller::curr();
-        $key            = $page->ID.'_'.$this->LastEdited.'_';
-        $lastEditedPage = DataObject::get_one(
-            'SilvercartProductGroupPage',
-            '',
-            true,
-            "LastEdited DESC"
-        );
+        $key            = $this->SilvercartProductGroupPageID.'_'.$this->LastEdited.'_';
+        $lastEditedPage = false;
+
+        foreach ($this->pageHierarchy as $pageId => $pageInfo) {
+            if (!$lastEditedPage ||
+                 $lastEditedPage->LastEdited < $pageInfo['Page']->LastEdited) {
+
+                $lastEditedPage = $pageInfo['Page'];
+            }
+        }
 
         if ($lastEditedPage) {
             $key .= '_'.$lastEditedPage->LastEdited;
         }
 
-        $key .= '_'.$page->LastEdited;
+        $currentPage = Controller::curr();
+
+        if ($currentPage) {
+            $key .= '_'.$currentPage->ID;
+        }
 
         return $key;
     }

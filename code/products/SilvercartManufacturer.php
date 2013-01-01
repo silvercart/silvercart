@@ -57,7 +57,8 @@ class SilvercartManufacturer extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
+        'SilvercartProducts'              => 'SilvercartProduct',
+        'SilvercartManufacturerLanguages' => 'SilvercartManufacturerLanguage'
     );
     
     /**
@@ -66,7 +67,8 @@ class SilvercartManufacturer extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'LogoForTable'  => 'HtmlText'
+        'LogoForTable'  => 'HtmlText',
+        'Description'   => 'Text'
     );
 
     /**
@@ -140,9 +142,9 @@ class SilvercartManufacturer extends DataObject {
      */
     public function  summaryFields() {
         $summaryFields = array(
-                    'LogoForTable'  => $this->fieldLabel('logo'),
-                    'Title'         => $this->fieldLabel('Title'),
-                    'URL'           => $this->fieldLabel('URL'),
+            'LogoForTable'  => $this->fieldLabel('logo'),
+            'Title'         => $this->fieldLabel('Title'),
+            'URL'           => $this->fieldLabel('URL'),
         );
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
@@ -159,6 +161,18 @@ class SilvercartManufacturer extends DataObject {
         $fields = parent::getCMSFields($params);
         $fields->removeByName('URLSegment');
         return $fields;
+    }
+
+    /**
+     * getter for the description, looks for set translation
+     *
+     * @return string The description from the translation object or an empty string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.2012
+     */
+    public function getDescription() {
+        return $this->getLanguageFieldValue('Description');
     }
 
     /**
@@ -241,9 +255,9 @@ class SilvercartManufacturer extends DataObject {
         $logoForTable = '';
         if ($this->logo()->ID > 0) {
             $logoForTable = sprintf(
-                    '<img src="%s" alt="%s" />',
-                    $this->logo()->SetRatioSize(200,25)->Link(),
-                    $this->logo()->Name
+                '<img src="%s" alt="%s" />',
+                $this->logo()->SetRatioSize(200,25)->Link(),
+                $this->logo()->Name
             );
         }
         return $logoForTable;

@@ -33,8 +33,18 @@
  */
 class SilvercartAddressHolder extends SilvercartMyAccountHolder {
     
+    /**
+     * Indicates whether this page type can be root
+     *
+     * @var bool
+     */
     public static $can_be_root = false;
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         "SilvercartAddressPage"
     );
@@ -133,6 +143,11 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
  */
 class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Controller {
 
+    /**
+     * List of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array (
         'deleteAddress',
         'setInvoiceAddress',
@@ -162,15 +177,16 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * to the logged in customer and deletes it.
      *
      * @param SS_HTTPRequest $request The given request
+     * @param string         $context specifies the context from the action to adjust redirect behaviour
      *
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.06.2011
      */
-    public function deleteAddress(SS_HTTPRequest $request) {
+    public function deleteAddress(SS_HTTPRequest $request, $context = '') {
         $params = $request->allParams();
-
+        
         if ( array_key_exists('ID', $params) &&
             !empty ($params['ID'])) {
 
@@ -198,7 +214,11 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        $this->redirectBack();
+        if (!empty($context)) {
+            $this->redirectBack();
+        } else {
+            $this->redirect(SilvercartTools::PageByIdentifierCodeLink('SilvercartAddressHolder'));
+        }
     }
     
     /**

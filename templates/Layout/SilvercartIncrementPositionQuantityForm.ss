@@ -6,4 +6,6 @@
 			$Field
 		</div>
 	<% end_loop %>
+
+    $CustomHtmlFormSpecialFields
 </form>

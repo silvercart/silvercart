@@ -39,8 +39,9 @@ class SilvercartTax extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Rate'       => 'Float',
-        'Identifier' => 'VarChar(30)'
+        'Rate'          => 'Float',
+        'Identifier'    => 'VarChar(30)',
+        'IsDefault'     => 'Boolean',
     );
 
     /**
@@ -68,7 +69,8 @@ class SilvercartTax extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'Title' => 'VarChar'
+        'Title'             => 'Text',
+        'IsDefaultString'   => 'Text',
     );
     
     /**
@@ -78,19 +80,19 @@ class SilvercartTax extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title'                  => _t('SilvercartTax.LABEL'),
-                        'Rate'                   => _t('SilvercartTax.RATE_IN_PERCENT'),
-                        'SilvercartProducts'     => _t('SilvercartProduct.PLURALNAME'),
-                        'Identifier'             => _t('SilvercartNumberRange.IDENTIFIER'),
-                        'SilvercartTaxLanguages' => _t('SilvercartTaxLanguage.PLURALNAME')
+                        'Title'                     => _t('SilvercartTax.LABEL'),
+                        'Rate'                      => _t('SilvercartTax.RATE_IN_PERCENT'),
+                        'SilvercartProducts'        => _t('SilvercartProduct.PLURALNAME'),
+                        'Identifier'                => _t('SilvercartNumberRange.IDENTIFIER'),
+                        'IsDefault'                 => _t('SilvercartTax.ISDEFAULT'),
+                        'SilvercartTaxLanguages'    => _t('SilvercartTaxLanguage.PLURALNAME'),
                     )
                 );
     }
@@ -100,14 +102,14 @@ class SilvercartTax extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 5.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Title' => $this->fieldLabel('Title'),
-            'Rate'  => $this->fieldLabel('Rate')
+            'Title'             => $this->fieldLabel('Title'),
+            'Rate'              => $this->fieldLabel('Rate'),
+            'IsDefaultString'   => $this->fieldLabel('IsDefault'),
         );
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
@@ -153,6 +155,27 @@ class SilvercartTax extends DataObject {
         }
         return $fields;
     }
+    
+    /**
+     * Handles the default tax rate before writing
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        $defaultTaxRate = self::getDefault();
+        if (!$defaultTaxRate) {
+            $defaultTaxRate = $this;
+            $this->IsDefault = true;
+        } elseif ($this->IsDefault &&
+                  $defaultTaxRate->ID != $this->ID) {
+            $defaultTaxRate->IsDefault = false;
+            $defaultTaxRate->write();
+        }
+    }
 
     /**
      * retirieves title from related language class depending on the set locale
@@ -167,7 +190,21 @@ class SilvercartTax extends DataObject {
     }
     
     /**
-     * determine the tax rate. This method can be extended via DataExtension to implement own behavior.
+     * Casting to get the IsDefault state as a readable string
+     *
+     * @return string
+     */
+    public function getIsDefaultString() {
+        $IsDefaultString = _t('Boolean.NO');
+        if ($this->IsDefault) {
+            $IsDefaultString = _t('Boolean.YES');
+        }
+        return $IsDefaultString;
+    }
+    
+    /**
+     * determine the tax rate. This method can be extended via DataObjectDecorator
+     * to implement project specific behaviour.
      *
      * @return float the tax rate in percent
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
@@ -179,6 +216,40 @@ class SilvercartTax extends DataObject {
             return $this->Rate;
         }
         return $overwritten[0];
+    }
+    
+    /**
+     * Returns the default tax rate
+     * 
+     * @return SilvercartTax
+     */
+    public static function getDefault() {
+        $defaultTaxRate = DataObject::get_one('SilvercartTax', '"IsDefault" = 1');
+        return $defaultTaxRate;
+    }
+    
+    /**
+     * Presets the given dropdown field with the default tax rate
+     * 
+     * @param DropdownField $dropdownField Dropdown field to manipulate
+     * @param DataObject    $object        Tax rate related object
+     * @param string        $relationName  Tax rate relation name
+     * 
+     * @return SilvercartTax
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.10.2012
+     */
+    public static function presetDropdownWithDefault($dropdownField, $object, $relationName = 'SilvercartTax') {
+        $relationIDName = $relationName . 'ID';
+        $dropdownField->setEmptyString('');
+        $dropdownField->setHasEmptyDefault(false);
+        if ($object->{$relationIDName} == 0) {
+            $defaultTaxRate = self::getDefault();
+            if ($defaultTaxRate) {
+                $dropdownField->setValue($defaultTaxRate->ID);
+            }
+        }
     }
 
 }

@@ -159,16 +159,25 @@ function activateShippingAddressValidation() {
             activateValidationFor('Shipping_FirstName');
             activateValidationFor('Shipping_Surname');
             activateValidationFor('Shipping_Addition');
-            activateValidationFor('Shipping_Street');
-            activateValidationFor('Shipping_StreetNumber');
             activateValidationFor('Shipping_Postcode');
             activateValidationFor('Shipping_City');
             activateValidationFor('Shipping_PhoneAreaCode');
             activateValidationFor('Shipping_Phone');
             activateValidationFor('Shipping_Country');
-            activateValidationFor('Shipping_PostNumber');
-            activateValidationFor('Shipping_Packstation');
-            activateValidationFor('Shipping_IsPackstation');
+            if ($('.optionset input[name="IsPackstation"]').length < 0) {
+                activateValidationFor('Shipping_IsPackstation');
+                if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
+                    $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+                    activateValidationFor('Shipping_Street');
+                    activateValidationFor('Shipping_StreetNumber');
+                 } else {
+                    activateValidationFor('Shipping_PostNumber');
+                    activateValidationFor('Shipping_Packstation');
+                 }
+            } else {
+                activateValidationFor('Shipping_Street');
+                activateValidationFor('Shipping_StreetNumber');
+            }
         }
     } else if (typeof(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Regular_customHtmlFormSubmit_1) {

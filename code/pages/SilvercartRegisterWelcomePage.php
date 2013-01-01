@@ -35,6 +35,11 @@ class SilvercartRegisterWelcomePage extends Page {
     
     public static $allowed_children = 'none';
     
+    /**
+     * Icon to display in CMS site tree
+     *
+     * @var string
+     */
     public static $icon = "silvercart/images/page_icons/registration_welcome";
 
     /**

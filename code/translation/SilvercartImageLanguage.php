@@ -94,8 +94,10 @@ class SilvercartImageLanguage extends DataObject {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),             array(
-                'SilvercartImage' => _t('SilvercartImage.SINGULARNAME'),
-                'Title' => _t('SilvercartProduct.COLUMN_TITLE')
+                'SilvercartImage'   => _t('SilvercartImage.SINGULARNAME'),
+                'Title'             => _t('SilvercartProduct.COLUMN_TITLE'),
+                'Content'           => _t('SilvercartImage.CONTENT'),
+                'Description'       => _t('SilvercartImage.DESCRIPTION'),
             )
         );
 

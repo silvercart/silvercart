@@ -34,6 +34,13 @@
 class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * Set this option to false in a payment module to prevent sending the order
      * confimation before finishing payment module dependent order manupulations
      *
@@ -121,8 +128,8 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlForm {
             $anonymousCustomer->write();
         }
 
-        $shippingData = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
-        $invoiceData  = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+        $shippingData = SilvercartTools::extractAddressDataFrom('Shipping', $checkoutData);
+        $invoiceData  = SilvercartTools::extractAddressDataFrom('Invoice', $checkoutData);
 
         $order = $this->createOrder($customerEmail, $checkoutData, $customerNote);
 

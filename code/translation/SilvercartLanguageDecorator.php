@@ -39,13 +39,17 @@ class SilvercartLanguageDecorator extends DataExtension {
      *
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.11.2012
      */
     public static $db = array(
-        'Locale' => 'DBLocale'
-    );
-
+			    'Locale' => 'DBLocale'
+			);
+    
+   public static $indexes = array(
+				'Locale'   => 'INDEX (Locale)'
+			    );
+    
     /**
      * Field lable for Locale should always be multilingual
      *

@@ -47,6 +47,8 @@ class SilvercartCountry extends DataObject {
         'Currency'                  => 'VarChar',
         'Active'                    => 'Boolean',
         'freeOfShippingCostsFrom'   => 'Money',
+        'IsPrioritive'              => 'Boolean(0)',
+        'DisplayPosition'           => 'Int',
     );
     /**
      * Default values
@@ -90,6 +92,7 @@ class SilvercartCountry extends DataObject {
         'AttributedPaymentMethods'  => 'Varchar(255)',
         'ActivityText'              => 'VarChar',
         'Title'                     => 'Text',
+        'IsPrioritiveText'          => 'VarChar',
     );
     
      /**
@@ -97,8 +100,42 @@ class SilvercartCountry extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "SilvercartCountry.Active DESC, SilvercartCountryLanguage.Title ASC";
-
+    public static $default_sort = "SilvercartCountry.Active DESC, SilvercartCountry.IsPrioritive DESC, SilvercartCountryLanguage.Title ASC";
+    
+    /**
+     * list of prioritive countries
+     *
+     * @var array 
+     */
+    protected static $prioritiveCountries = array();
+    
+    /**
+     * count of prioritive countries
+     *
+     * @var array
+     */
+    protected static $prioritiveCountryCount = array();
+    
+    /**
+     * list of non prioritive countries
+     *
+     * @var array 
+     */
+    protected static $nonPrioritiveCountries = array();
+    
+    /**
+     * count of non prioritive countries
+     *
+     * @var array
+     */
+    protected static $nonPrioritiveCountryCount = array();
+    
+    /**
+     * dropdown map sorted by prioritive countries
+     *
+     * @var array
+     */
+    protected static $prioritiveDropdownMap = array();
 
         /**
      * Returns the translated singular name of the object. If no translation exists
@@ -155,6 +192,9 @@ class SilvercartCountry extends DataObject {
                 'SilvercartPaymentMethods'      => _t('SilvercartPaymentMethod.PLURALNAME'),
                 'SilvercartZones'               => _t('SilvercartZone.PLURALNAME'),
                 'freeOfShippingCostsFrom'       => _t('SilvercartCountry.FREEOFSHIPPINGCOSTSFROM'),
+                'IsPrioritive'                  => _t('SilvercartCountry.ISPRIORITIVE'),
+                'IsPrioritiveShort'             => _t('SilvercartCountry.ISPRIORITIVE_SHORT'),
+                'DisplayPosition'               => _t('SilvercartCountry.DISPLAYPOSITION'),
             )
         );
     }
@@ -208,7 +248,11 @@ class SilvercartCountry extends DataObject {
             'Active' => array(
                 'title'     => $this->fieldLabel('Active'),
                 'filter'    => 'ExactMatchFilter',
-            )
+            ),
+            'IsPrioritive' => array(
+                'title'     => $this->fieldLabel('IsPrioritiveShort'),
+                'filter'    => 'ExactMatchFilter',
+            ),
         );
     }
     
@@ -242,6 +286,7 @@ class SilvercartCountry extends DataObject {
                     'AttributedPaymentMethods'          => $this->fieldLabel('AttributedPaymentMethods'),
                     'ActivityText'                      => $this->fieldLabel('ActivityText'),
                     'getFreeOfShippingCostsFromNice'    => $this->fieldLabel('freeOfShippingCostsFrom'),
+                    'IsPrioritiveText'                  => $this->fieldLabel('IsPrioritiveShort'),
                 )
         );
         
@@ -284,8 +329,34 @@ class SilvercartCountry extends DataObject {
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'ISO2');
         }
+        
+        $displayPositionMap = array(
+            '0' => _t('SilvercartOrderSearchForm.PLEASECHOOSE'),
+        );
+        for ($x = 1; $x <= self::getPrioritiveCountryCount(false); $x++) {
+            $displayPositionMap[$x] = $x;
+        }
+        $displayPositionField = new DropdownField('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
+        $fields->insertAfter($displayPositionField, 'IsPrioritive');
 
         return $fields;
+    }
+    
+    /**
+     * Hook before writing th object
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.12.2012
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if (!$this->IsPrioritive) {
+            $this->DisplayPosition = 0;
+        } elseif ($this->DisplayPosition == 0) {
+            $this->DisplayPosition = 1000;
+        }
     }
 
     /**
@@ -295,6 +366,18 @@ class SilvercartCountry extends DataObject {
      */
     public function getActivityText() {
         if ($this->Active) {
+            return _t('Silvercart.YES');
+        }
+        return _t('Silvercart.NO');
+    }
+
+    /**
+     * Returns the text label for a countries priority.
+     *
+     * @return string
+     */
+    public function getIsPrioritiveText() {
+        if ($this->IsPrioritive) {
             return _t('Silvercart.YES');
         }
         return _t('Silvercart.NO');
@@ -344,5 +427,143 @@ class SilvercartCountry extends DataObject {
             $activeCountries = new ArrayList();
         }
         return $activeCountries;
+    }
+    
+    /**
+     * Returns a list of prioritive countries
+     * 
+     * @param bool $onlyActive Search only for active coutries?
+     * 
+     * @return DataObjectSet
+     */
+    public static function getPrioritiveCountries($onlyActive = true) {
+        $key            = 0;
+        $addToFilter    = '';
+        if ($onlyActive) {
+            $key            = 1;
+            $addToFilter    = ' AND Active = 1';
+        }
+        if (!array_key_exists($key, self::$prioritiveCountries)) {
+            $prioritiveCountries = DataObject::get(
+                    'SilvercartCountry',
+                    'IsPrioritive = 1' . $addToFilter,
+                    'DisplayPosition ASC, SilvercartCountryLanguage.Title ASC'
+            );
+            self::$prioritiveCountries[$key] = $prioritiveCountries;
+        }
+        return self::$prioritiveCountries[$key];
+    }
+    
+    /**
+     * Returns the count of prioritive countries
+     * 
+     * @param bool $onlyActive Search only for active coutries?
+     * 
+     * @return int
+     */
+    public static function getPrioritiveCountryCount($onlyActive = true) {
+        $key = 0;
+        if ($onlyActive) {
+            $key = 1;
+        }
+        if (!array_key_exists($key, self::$prioritiveCountryCount)) {
+            $prioritiveCountryCount = 0;
+            $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
+            if ($prioritiveCountries instanceof DataObjectSet) {
+                $prioritiveCountryCount = $prioritiveCountries->Count() + 1;
+            }
+            self::$prioritiveCountryCount[$key] = $prioritiveCountryCount;
+        }
+        return self::$prioritiveCountryCount[$key];
+    }
+    
+    /**
+     * Returns a list of non prioritive countries
+     * 
+     * @param bool $onlyActive Search only for active coutries?
+     * 
+     * @return DataObjectSet
+     */
+    public static function getNonPrioritiveCountries($onlyActive = true) {
+        $key            = 0;
+        $addToFilter    = '';
+        if ($onlyActive) {
+            $key            = 1;
+            $addToFilter    = ' AND Active = 1';
+        }
+        if (!array_key_exists($key, self::$nonPrioritiveCountries)) {
+            $nonPrioritiveCountries = DataObject::get(
+                    'SilvercartCountry',
+                    'IsPrioritive = 0' . $addToFilter,
+                    'SilvercartCountryLanguage.Title ASC'
+            );
+            self::$nonPrioritiveCountries[$key] = $nonPrioritiveCountries;
+        }
+        return self::$nonPrioritiveCountries[$key];
+    }
+    
+    /**
+     * Returns the count of non prioritive countries
+     * 
+     * @param bool $onlyActive Search only for active coutries?
+     * 
+     * @return int
+     */
+    public static function getNonPrioritiveCountryCount($onlyActive = true) {
+        $key = 0;
+        if ($onlyActive) {
+            $key = 1;
+        }
+        if (!array_key_exists($key, self::$nonPrioritiveCountryCount)) {
+            $nonPrioritiveCountryCount  = 0;
+            $nonPrioritiveCountries     = self::getNonPrioritiveCountries($onlyActive);
+            if ($nonPrioritiveCountries instanceof DataObjectSet) {
+                $nonPrioritiveCountryCount = $nonPrioritiveCountries->Count() + 1;
+            }
+            self::$nonPrioritiveCountryCount[$key] = $nonPrioritiveCountryCount;
+        }
+        return self::$nonPrioritiveCountryCount[$key];
+    }
+    
+    /**
+     * Returns a dropdown map sorted by prioritive countries
+     * 
+     * @param bool   $onlyActive  Search only for active coutries?
+     * @param string $emptyString String to show for empty value
+     * 
+     * @return array
+     */
+    public static function getPrioritiveDropdownMap($onlyActive = true, $emptyString = null) {
+        $key = 0;
+        if ($onlyActive) {
+            $key = 1;
+        }
+        if (!is_null($emptyString)) {
+            $key .= md5($emptyString);
+        }
+        if (!array_key_exists($key, self::$prioritiveDropdownMap)) {
+            $dropdownMap = array();
+            if (!is_null($emptyString)) {
+                $dropdownMap[''] = $emptyString;
+            }
+            if (self::getPrioritiveCountryCount() > 0) {
+                $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
+                foreach ($prioritiveCountries->map() as $id => $title) {
+                    $dropdownMap[$id] = $title;
+                }
+            }
+            if (self::getNonPrioritiveCountryCount() > 0) {
+                if ((is_null($emptyString) && count($dropdownMap) > 0) ||
+                    (!is_null($emptyString) && count($dropdownMap) > 1)) {
+                    $dropdownMap[' '] = '------------------------';
+                }
+                $nonPrioritiveCountries = self::getNonPrioritiveCountries($onlyActive);
+                foreach ($nonPrioritiveCountries->map() as $id => $title) {
+                    $dropdownMap[$id] = $title;
+                }
+            }
+            self::$prioritiveDropdownMap[$key] = $dropdownMap;
+        }
+        return self::$prioritiveDropdownMap[$key];
     }
 }

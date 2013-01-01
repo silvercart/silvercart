@@ -34,6 +34,20 @@
 class SilvercartProduct extends DataObject {
 
     /**
+     * Can contain an identifier for addToCart forms.
+     *
+     * @var mixed null|string
+     */
+    public $addCartFormIdentifier = null;
+
+    /**
+     * Can contain a name for addToCart forms.
+     *
+     * @var mixed null|string
+     */
+    public $addCartFormName = null;
+
+    /**
      * attributes
      *
      * @var array
@@ -198,6 +212,13 @@ class SilvercartProduct extends DataObject {
     protected $pluggedInTabs = null;
     
     /**
+     * All added product additional information via module
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInProductListAdditionalData = null;
+    
+    /**
      * All added product information via module
      * 
      * @var ArrayList 
@@ -210,7 +231,27 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
-
+    
+    /**
+     * Default sort string to use for products
+     *
+     * @var string
+     */
+    protected static $scDefaultSort = null;
+    
+    /**
+     * The sortable fields that can be used in frontend
+     *
+     * @var array
+     */
+    protected static $sortableFrontendFields = null;
+    
+    /**
+     * Determines whether the stock quantity is overbookable or not
+     *
+     * @var bool 
+     */
+    protected $isStockQuantityOverbookable = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -405,6 +446,24 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns if the MSR price is greater than 0
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.11.2012
+     */
+    public function hasMSRPrice() {
+        $hasMsrPrice = false;
+
+        if ($this->MSRPrice->getAmount() > 0) {
+            $hasMsrPrice = true;
+        }
+
+        return $hasMsrPrice;
+    }
+
+    /**
      * Is this product viewable in the frontend?
      *
      * @param Member $member the current member
@@ -494,7 +553,7 @@ class SilvercartProduct extends DataObject {
             'SilvercartAvailabilityStatus.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartAvailabilityStatus'),
                 'filter'    => 'ExactMatchFilter'
-            )
+            ),
         );
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
@@ -521,40 +580,43 @@ class SilvercartProduct extends DataObject {
      * 
      * @return array
      * 
-     * @author Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 25.09.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.11.2012
      */
     public function sortableFrontendFields() {
-        $sortableFrontendFields = array(
-            ''                                     => $this->fieldLabel('CatalogSort'),
-            'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
-            'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
-        );
-        if (SilvercartConfig::Pricetype() == 'gross') {
-            $sortableFrontendFields = array_merge(
-                    $sortableFrontendFields,
-                    array(
-                        'SilvercartProduct.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
-                        'SilvercartProduct.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
-                    )
+        if (is_null(self::$sortableFrontendFields)) {
+            $sortableFrontendFields = array(
+                ''                                     => $this->fieldLabel('CatalogSort'),
+                'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
+                'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
             );
-        } else {
-            $sortableFrontendFields = array_merge(
+            if (SilvercartConfig::Pricetype() == 'gross') {
+                $sortableFrontendFields = array_merge(
+                        $sortableFrontendFields,
+                        array(
+                            'SilvercartProduct.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
+                            'SilvercartProduct.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
+                        )
+                );
+            } else {
+                $sortableFrontendFields = array_merge(
+                        $sortableFrontendFields,
+                        array(
+                            'SilvercartProduct.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
+                            'SilvercartProduct.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
+                        )
+                );
+            }
+
+            $allSortableFrontendFields = array_merge(
                     $sortableFrontendFields,
-                    array(
-                        'SilvercartProduct.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
-                        'SilvercartProduct.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
-                    )
+                    self::$extendedSortableFrontendFields
             );
+
+            $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
+            self::$sortableFrontendFields = $allSortableFrontendFields;
         }
-        
-        $allSortableFrontendFields = array_merge(
-                $sortableFrontendFields,
-                self::$extendedSortableFrontendFields
-        );
-        
-        $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
-        return $allSortableFrontendFields;
+        return self::$sortableFrontendFields;
     }
 
     /**
@@ -699,22 +761,25 @@ class SilvercartProduct extends DataObject {
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 25.09.2012
+     * @since 22.11.2012
      */
     public static function defaultSort() {
-        $sort                   = Session::get('SilvercartProduct.defaultSort');
-        $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
-        if (is_null($sort) ||
-            $sort === false ||
-            !is_string($sort) ||
-            !array_key_exists($sort, $sortableFrontendFields)) {
-            $sort = Object::get_static('SilvercartProduct', 'default_sort');
-            if (strpos($sort, '.') === false) {
-                $sort = 'SilvercartProduct.' . $sort;
-                self::setDefaultSort($sort);
+        if (is_null(self::$scDefaultSort)) {
+            $sort                   = Session::get('SilvercartProduct.defaultSort');
+            $sortableFrontendFields = singleton('SilvercartProduct')->sortableFrontendFields();
+            if (is_null($sort) ||
+                $sort === false ||
+                !is_string($sort) ||
+                !array_key_exists($sort, $sortableFrontendFields)) {
+                $sort = Object::get_static('SilvercartProduct', 'default_sort');
+                if (strpos($sort, '.') === false) {
+                    $sort = 'SilvercartProduct.' . $sort;
+                    self::setDefaultSort($sort);
+                }
             }
+            self::$scDefaultSort = $sort;
         }
-        return $sort;
+        return self::$scDefaultSort;
     }
 
     /**
@@ -1056,6 +1121,8 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForPrices($fields, $addToMain = false) {
+        SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
+        
         $pricesGroup  = new SilvercartFieldGroup('PricesGroup', '', $fields);
         $pricesGroup->push($fields->dataFieldByName('PriceGross'));
         $pricesGroup->push($fields->dataFieldByName('PriceNet'));
@@ -1512,6 +1579,43 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Returns an addToCartForm as HTML string.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function productAddCartForm() {
+        $controller = Controller::curr();
+
+        if ($this->addCartFormIdentifier !== null) {
+            $addCartFormIdentifier = $this->addCartFormIdentifier;
+        } else {
+            $addCartFormIdentifier = $this->ID;
+        }
+
+        if ($this->addCartFormName !== null) {
+            $addCartFormName = $this->addCartFormName;
+        } else {
+            $addCartFormName = 'ProductAddCartForm';
+
+            if (method_exists($controller, 'isProductDetailView') &&
+                $controller->isProductDetailView()) {
+
+                $addCartFormName = 'SilvercartProductAddCartFormDetail';
+            }
+        }
+
+        return Controller::curr()->InsertCustomHtmlForm(
+            $addCartFormName.$addCartFormIdentifier,
+            array(
+                $this
+            )
+        );
+    }
+
+    /**
      * adds an product to the cart or increases its amount
      * If stock managament is activated:
      * -If the product's stock quantity is overbookable there are noc hanges in
@@ -1521,8 +1625,8 @@ class SilvercartProduct extends DataObject {
      * -If the stock quantity of a product is NOT overbookable and the products
      *  stock quantity is less than zero false will be returned.
      *
-     * @param int $cartID   ID of the users shopping cart
-     * @param int $quantity Amount of products to be added
+     * @param int   $cartID   ID of the users shopping cart
+     * @param float $quantity Amount of products to be added
      *
      * @return mixed SilvercartShoppingCartPosition|boolean false
      *
@@ -2117,19 +2221,22 @@ class SilvercartProduct extends DataObject {
      *
      * @return boolean is the product overbookable?
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2012
      */
     public function isStockQuantityOverbookable() {
-        $overbookable = true;
-        if (SilvercartConfig::EnableStockManagement()) {
-            if (!SilvercartConfig::isStockManagementOverbookable() &&
-                !$this->StockQuantityOverbookable) {
+        if (is_null($this->isStockQuantityOverbookable)) {
+            $overbookable = true;
+            if (SilvercartConfig::EnableStockManagement()) {
+                if (!SilvercartConfig::isStockManagementOverbookable() &&
+                    !$this->StockQuantityOverbookable) {
 
-                $overbookable = false;
+                    $overbookable = false;
+                }
             }
+            $this->isStockQuantityOverbookable = $overbookable;
         }
-        return $overbookable;
+        return $this->isStockQuantityOverbookable;
     }
 
     /**
@@ -2236,5 +2343,17 @@ class SilvercartProduct extends DataObject {
             $this->pluggedInProductMetaData = SilvercartPlugin::call($this, 'getPluggedInProductMetaData', array(), false, 'ArrayList');
         }
         return $this->pluggedInProductMetaData;
+    }
+    
+    /**
+     * returns all additional list information about a product
+     * 
+     * @return DataObjectSet 
+     */
+    public function getPluggedInProductListAdditionalData() {
+        if (is_null($this->pluggedInProductListAdditionalData)) {
+            $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInProductListAdditionalData;
     }
 }

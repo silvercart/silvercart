@@ -60,7 +60,7 @@ class SilvercartPage extends SiteTree {
         'WidgetSetSidebar'  => 'SilvercartWidgetSet',
         'WidgetSetContent'  => 'SilvercartWidgetSet'
     );
-    
+
     /**
      * Define indexes.
      *
@@ -95,6 +95,18 @@ class SilvercartPage extends SiteTree {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+
+    /**
+     * Always enable translations for this page.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.11.2012
+     */
+    public function canTranslate() {
+        return true;
     }
 
     /**
@@ -154,6 +166,23 @@ class SilvercartPage extends SiteTree {
         $fields->addFieldToTab("Root.Widgets", $widgetSetContentField);
 
         return $fields;
+    }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2012
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = parent::fieldLabels($includerelations);
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
     }
 
     /**
@@ -298,6 +327,13 @@ class SilvercartPage extends SiteTree {
 class SilvercartPage_Controller extends ContentController {
 
     /**
+     * Prevents recurring rendering of this page's controller.
+     *
+     * @var array
+     */
+    public static $instanceMemorizer = array();
+
+    /**
      * Contains the output of all WidgetSets of the parent page
      *
      * @var array
@@ -338,7 +374,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
         $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
     }
-    
+
     /**
      * standard page controller
      *
@@ -349,6 +385,11 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        if (array_key_exists($this->ID, self::$instanceMemorizer)) {
+            parent::init();
+            return true;
+        }
+
         $controller = Controller::curr();
         
         if ($this != $controller &&
@@ -362,7 +403,10 @@ class SilvercartPage_Controller extends ContentController {
         if (!isset($_SESSION['Silvercart']['errors'])) {
             $_SESSION['Silvercart']['errors'] = array();
         }
-
+        if ($controller == $this || $controller->forceLoadOfWidgets) {
+            $this->loadWidgetControllers();
+        }
+        
         if (!SilvercartConfig::DefaultLayoutLoaded() ||
             SilvercartConfig::$forceLoadingOfDefaultLayout) {
             // temporary hold preloaded css files to prevent combine changes by 
@@ -479,7 +523,7 @@ class SilvercartPage_Controller extends ContentController {
             Requirements::process_combined_files();
 
             // set default layout loaded in SilvercartConfig to prevent multiple
-            // loading of css files
+            // loading of requirements
             SilvercartConfig::setDefaultLayoutLoaded(true);
         }
         
@@ -524,7 +568,7 @@ class SilvercartPage_Controller extends ContentController {
         $this->extend('updateInit');
 
         SilvercartPlugin::call($this, 'init', array($this));
-            
+        self::$instanceMemorizer[$this->ID] = true;
         parent::init();
     }
 

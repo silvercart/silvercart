@@ -2,8 +2,8 @@
     <% with getNavigation %>
         <% if HasMenu %>
 	    <% with Top %>
-            <% if Title %>
-                <h2>$Title</h2>
+            <% if FrontTitle %>
+                <h2>$FrontTitle</h2>
             <% end_if %>
 	    <% end_with %>
             <div class="vlist  silvercart-product-group-navigation-widget">

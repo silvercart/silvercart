@@ -1,5 +1,5 @@
 <tr<% if Last %> class="separator"<% end_if %>>
-    <td><a href="$silvercartProduct.Link">$SilvercartProduct.ProductNumberShop</a></td>
+    <td><a href="$silvercartProduct.Link">$getProductNumberShop</a></td>
     <td>
         <div class="silvercart-product-group-page-box-image">
             <% if SilvercartProduct.getSilvercartImages %>
@@ -23,7 +23,7 @@
         <div class="c33l">
         <% end_if %>
             <span class="silvercart-quantity-label">
-                $Quantity
+                $getTypeSafeQuantity
             </span>
         <% if Top.EditableShoppingCart %>
             </div>

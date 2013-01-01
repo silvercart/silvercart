@@ -18,7 +18,7 @@
         <% end_if %>
         <% if paymentDescription %>
             <div class="silvercart-checkout-payment-additionalInfo-description">
-                <i>$paymentDescription</i>
+                <i>$paymentDescription.RAW</i>
             </div>
         <% end_if %>
     </div>

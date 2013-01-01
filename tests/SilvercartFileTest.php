@@ -18,43 +18,39 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Update
+ * @subpackage Tests
  */
 
 /**
- * Update 1.3 - 4
- * Updates simultaneously shown pages field for site pagination in SilverCart's configuration.
+ * test for SilvercartFile
  *
  * @package Silvercart
- * @subpackage Update
- * @author Patrick Schneider <pschneider@pixeltricks.de>
- * @since 16.08.2012
- * @copyright pixeltricks GmbH
+ * @subpackage Tests
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @since 19.12.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartUpdate1_3__4 extends SilvercartUpdate {
+class SilvercartFileTest extends SapphireTest {
     
     /**
-     * Set the defaults for this update.
+     * Fixture file
      *
-     * @var array
+     * @var string
      */
-    public static $defaults = array(
-        'SilvercartVersion'         => '1.3',
-        'SilvercartUpdateVersion'   => '4',
-        'Description'               => 'Updates simultaneously shown pages field for site pagination in SilverCart\'s configuration.',
-    );
+    public static $fixture_file = 'silvercart/tests/SilvercartFileTest.yml';
     
     /**
-     * Executes the update logic.
+     * test for getFileIcon()
      *
-     * @return bool
+     * @return void 
      * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 16.08.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.12.2011
      */
-    public function executeUpdate() {
-        DB::query("UPDATE \"SilvercartConfig\" SET \"displayedPaginationPages\" = 4");
-        return true;
+    public function testGetFileIcon() {
+        $testfile = $this->objFromFixture("SilvercartFile", "testfile");
+        $this->assertEquals('<img src="'.SAPPHIRE_DIR . '/images/app_icons/pdf_32.gif" alt="Adobe Acrobat PDF file" title="Testfile" />', $testfile->getFileIcon());
     }
 }
+

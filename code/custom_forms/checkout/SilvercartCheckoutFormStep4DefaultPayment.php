@@ -32,8 +32,16 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
-    
+
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
+     * The payment method chosen in checkout
      *
      * @var SilvercartPaymentMethod
      */

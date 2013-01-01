@@ -172,7 +172,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             'SilvercartImages',
             'SilvercartImage',
             null,
-            null,
+            'getCMSFieldsForWidget',
             "SilvercartProductID = 0 AND SilvercartPaymentMethodID = 0"
         );
         
@@ -484,19 +484,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
                 }
             }
         }
-    }
-    
-    /**
-     * Loads the requirements for this object
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2012
-     */
-    public static function loadRequirements() {
-        Requirements::themedCSS("slidorion");
-        Requirements::javascript("silvercart/script/slidorion/js/jquery.slidorion.js");
     }
     
     /**

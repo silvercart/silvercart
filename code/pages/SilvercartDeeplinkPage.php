@@ -89,6 +89,11 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      */
     protected $products = null;
     
+    /**
+     * SQL limit start value
+     *
+     * @var int
+     */
     protected $SQL_start = 0;
 
     /**
@@ -96,8 +101,8 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * 
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.8.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
      */
     public function init() {
         if (isset($_GET['start'])) {
@@ -108,20 +113,21 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
         
         //fill $products if there is more than one result
         if (!$this->getExactlyMatchingProduct() && $this->getPartiallyMatchingProducts()) {
-            $this->products = $this->getPartiallyMatchingProducts();
-            $productIdx = 0;
-            $productAddCartForm = $this->getCartFormName();
+            $this->products         = $this->getPartiallyMatchingProducts();
+            $backLink               = $this->Link() . $this->getRelativeDeepLinkForPartiallyMatchingProducts() . "?start=" . $this->SQL_start;
+            $productAddCartFormName = $this->getCartFormName();
             foreach ($this->products as $product) {
-                $backLink = $this->Link().$this->getRelativeDeepLinkForPartiallyMatchingProducts()."?start=".$this->SQL_start;
-                $addCartForm = new $productAddCartForm($this, array('productID' => $product->ID, 'backLink' => $backLink), array('submitAction' => $formActionLink));
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $addCartForm);
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                    'ProductAddCartForm' . $productIdx,
-                    array(
-                        $product
-                    )
+                $addCartForm = new $productAddCartFormName(
+                        $this,
+                        array(
+                            'productID' => $product->ID,
+                            'backLink'  => $backLink,
+                        ),
+                        array(
+                            'submitAction' => $formActionLink
+                        )
                 );
-                $productIdx++;
+                $this->registerCustomHtmlForm('ProductAddCartForm' . $product->ID, $addCartForm);
             }
         }
         parent::init();

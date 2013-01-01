@@ -118,12 +118,34 @@ class SilvercartShoppingCart extends DataObject {
     protected $cacheHashes = array();
     
     /**
+     * List of already calculated tax amounts
+     *
+     * @var array
+     */
+    protected $taxTotalList = array();
+    
+    /**
+     * List of already calculated tax rates with fees
+     *
+     * @var DataObjectSet
+     */
+    protected $taxRatesWithFees = null;
+
+
+    /**
      * Marker to check whether the cart position cleaning is in progress or not.
      * This is used to prevent an endless recursion loop.
      *
      * @var bool
      */
     public static $cartCleaningInProgress = false;
+    
+    /**
+     * Marker to check whether the cart position cleaning is finished or not.
+     *
+     * @var bool
+     */
+    public static $cartCleaningFinished = false;
 
     /**
      * default constructor
@@ -134,51 +156,82 @@ class SilvercartShoppingCart extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.10.2012
+     * @since 12.12.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-
-        if (!SilvercartTools::isIsolatedEnvironment()) {
-            // Initialize shopping cart position object, so that it can inject
-            // its forms into the controller.
-            if (!self::$loadModules) {
-                SilvercartShoppingCartPosition::setCreateForms(false);
-            }
-
-            if (!self::$cartCleaningInProgress) {
-                self::$cartCleaningInProgress = true;
-                foreach ($this->SilvercartShoppingCartPositions() as $cartPosition) {
-                    if ($cartPosition->SilvercartProduct()->ID == 0) {
-                        $cartPosition->delete();
+        if ($this->ID > 0) {
+            if (!SilvercartTools::isIsolatedEnvironment() &&
+                !SilvercartTools::isBackendEnvironment()) {
+                // Initialize shopping cart position object, so that it can inject
+                // its forms into the controller.
+                if (self::$loadModules) {
+                    foreach ($this->SilvercartShoppingCartPositions() as $position) {
+                        $position->registerCustomHtmlForms();
                     }
                 }
-                self::$cartCleaningInProgress = false;
-            }
 
-            $this->SilvercartShippingMethodID = 0;
-            $this->SilvercartPaymentMethodID = 0;
+                if (!self::$cartCleaningFinished && 
+                    !self::$cartCleaningInProgress) {
+                    self::$cartCleaningInProgress = true;
 
-            if (!SapphireTest::is_running_test() && 
-                SilvercartTools::isInstallationCompleted() &&
-                Member::currentUserID() &&
-                self::$loadModules) {
+                    $this->cleanUp();
+                }
 
-                $this->callMethodOnRegisteredModules(
-                    'performShoppingCartConditionsCheck',
-                    array(
-                        $this,
-                        Member::currentUser()
-                    )
-                );
+                $this->SilvercartShippingMethodID = 0;
+                $this->SilvercartPaymentMethodID = 0;
 
-                $this->callMethodOnRegisteredModules(
-                    'ShoppingCartInit'
-                );
+                if (Member::currentUserID() &&
+                    self::$loadModules) {
+
+                    $this->callMethodOnRegisteredModules(
+                        'performShoppingCartConditionsCheck',
+                        array(
+                            $this,
+                            Member::currentUser()
+                        )
+                    );
+
+                    $this->callMethodOnRegisteredModules(
+                        'ShoppingCartInit'
+                    );
+                }
             }
         }
     }
-    
+
+    /**
+     * Deletes all shopping cart positions without a product association.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.11.2012
+     */
+    protected function cleanUp() {
+        $positionIds = DB::query(
+            sprintf(
+                "
+                SELECT
+                    ID
+                FROM
+                    SilvercartShoppingCartPosition
+                WHERE
+                    SilvercartShoppingCartPosition.SilvercartShoppingCartID = %d AND
+                    SilvercartProductID = 0
+                ",
+                $this->ID
+            )
+        );
+
+        if ($positionIds) {
+            foreach ($positionIds as $positionId) {
+                $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $positionId);
+                $position->delete();
+            }
+        }
+    }
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -400,7 +453,9 @@ class SilvercartShoppingCart extends DataObject {
                 if ($cart) {
                     $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
                     if ($product) {
-                        $quantity = (int) $formData['productQuantity'];
+                        $formData['productQuantity'] = str_replace(',', '.', $formData['productQuantity']);
+                        $quantity                    = (float) $formData['productQuantity'];
+
                         if ($quantity > 0) {
                             $product->addToCart($cart->ID, $quantity);
                             $error = false;
@@ -409,7 +464,7 @@ class SilvercartShoppingCart extends DataObject {
                 }
             }
         }
-        
+
         return !$error;
     }
     
@@ -906,44 +961,49 @@ class SilvercartShoppingCart extends DataObject {
      * @return Money a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.09.2012
+     * @since 27.11.2012
      */
     public function getTaxTotal($excludeCharges = false) {
-        $taxRates = $this->getTaxRatesWithFees();
+        $cacheKey = (int) $excludeCharges;
+        if (!array_key_exists($cacheKey, $this->taxTotalList)) {
+            $taxRates = $this->getTaxRatesWithFees();
 
-        if (!$excludeCharges &&
-             $this->HasChargesAndDiscountsForTotal()) {
+            if (!$excludeCharges &&
+                 $this->HasChargesAndDiscountsForTotal()) {
 
-            foreach ($this->ChargesAndDiscountsForTotal() as $charge) {
-                if ($charge->SilvercartTax === false) {
-                    continue;
-                }
-
-                $taxRate = $taxRates->find('Rate', $charge->SilvercartTax->Rate);
-
-                if ($taxRate) {
-                    $amount = $charge->Price->getAmount();
-
-                    if (SilvercartConfig::PriceType() == 'gross') {
-                        $rateAmount = $amount - ($amount / (100 + $charge->SilvercartTax->Rate) * 100);
-                    } else {
-                        $rateAmount = ($amount / 100 * (100 + $charge->SilvercartTax->Rate)) - $amount;
+                foreach ($this->ChargesAndDiscountsForTotal() as $charge) {
+                    if ($charge->SilvercartTax === false) {
+                        continue;
                     }
 
-                    $taxRate->AmountRaw += $rateAmount;
+                    $taxRate = $taxRates->find('Rate', $charge->SilvercartTax->Rate);
 
-                    if (round($taxRate->AmountRaw, 2) === -0.00) {
-                        $taxRate->AmountRaw = 0;
+                    if ($taxRate) {
+                        $amount = $charge->Price->getAmount();
+
+                        if (SilvercartConfig::PriceType() == 'gross') {
+                            $rateAmount = $amount - ($amount / (100 + $charge->SilvercartTax->Rate) * 100);
+                        } else {
+                            $rateAmount = ($amount / 100 * (100 + $charge->SilvercartTax->Rate)) - $amount;
+                        }
+
+                        $taxRate->AmountRaw += $rateAmount;
+
+                        if (round($taxRate->AmountRaw, 2) === -0.00) {
+                            $taxRate->AmountRaw = 0;
+                        }
+
+                        $taxRate->Amount->setAmount($taxRate->AmountRaw);
                     }
-
-                    $taxRate->Amount->setAmount($taxRate->AmountRaw);
                 }
             }
-        }
-        
-        $this->extend('updateTaxTotal', $taxRates);
 
-        return $taxRates;
+            $this->extend('updateTaxTotal', $taxRates);
+            
+            $this->taxTotalList[$cacheKey] = $taxRates;
+        }
+
+        return $this->taxTotalList[$cacheKey];
     }
 
     /**
@@ -1088,7 +1148,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return SilvercartShippingMethod
      */
     public function getShippingMethod() {
-        return DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        $shippingMethod = null;
+        if (is_numeric($this->SilvercartShippingMethodID)) {
+            $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+        }
+        return $shippingMethod;
     }
     
     /**
@@ -1097,7 +1161,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return SilvercartPaymentMethod
      */
     public function getPaymentMethod() {
-        return DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        $paymentMethod = null;
+        if (is_numeric($this->SilvercartPaymentMethodID)) {
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+        }
+        return $paymentMethod;
     }
 
     /**
@@ -1470,74 +1538,75 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.11.2012
      */
     public function getTaxRatesWithFees() {
-        $taxes          = $this->getTaxRatesWithoutFees();
-        $shippingMethod = $this->getShippingMethod();
-        $paymentMethod  = $this->getPaymentMethod();
+        if (is_null($this->taxRatesWithFees)) {
+            $taxes          = $this->getTaxRatesWithoutFees();
+            $shippingMethod = $this->getShippingMethod();
+            $paymentMethod  = $this->getPaymentMethod();
 
-        if ($shippingMethod) {
-            $shippingFee = $shippingMethod->getShippingFee();
+            if ($shippingMethod) {
+                $shippingFee = $shippingMethod->getShippingFee();
 
-            if ($shippingFee) {
-                if ($shippingFee->SilvercartTax()) {
-                    $taxRate = $shippingFee->getTaxRate();
+                if ($shippingFee) {
+                    if ($shippingFee->SilvercartTax()) {
+                        $taxRate = $shippingFee->getTaxRate();
 
-                    if ( $taxRate &&
-                        !$taxes->find('Rate', $taxRate)) {
+                        if ( $taxRate &&
+                            !$taxes->find('Rate', $taxRate)) {
 
-                        $taxes->push(
-                            new DataObject(
-                                array(
-                                    'Rate'      => $taxRate,
-                                    'AmountRaw' => 0.0,
+                            $taxes->push(
+                                new DataObject(
+                                    array(
+                                        'Rate'      => $taxRate,
+                                        'AmountRaw' => 0.0,
+                                    )
                                 )
-                            )
-                        );
+                            );
+                        }
+                        $taxSection = $taxes->find('Rate', $taxRate);
+                        $taxSection->AmountRaw += $shippingFee->getTaxAmount();
                     }
-                    $taxSection = $taxes->find('Rate', $taxRate);
-                    $taxSection->AmountRaw += $shippingFee->getTaxAmount();
                 }
             }
-        }
 
-        if ($paymentMethod) {
-            $paymentFee = $paymentMethod->SilvercartHandlingCost();
+            if ($paymentMethod) {
+                $paymentFee = $paymentMethod->SilvercartHandlingCost();
 
-            if ($paymentFee) {
-                if ($paymentFee->SilvercartTax()) {
-                    $taxRate = $paymentFee->SilvercartTax()->getTaxRate();
+                if ($paymentFee) {
+                    if ($paymentFee->SilvercartTax()) {
+                        $taxRate = $paymentFee->SilvercartTax()->getTaxRate();
 
-                    if ( $taxRate &&
-                        !$taxes->find('Rate', $taxRate)) {
+                        if ( $taxRate &&
+                            !$taxes->find('Rate', $taxRate)) {
 
-                        $taxes->push(
-                            new DataObject(
-                                array(
-                                    'Rate'      => $taxRate,
-                                    'AmountRaw' => 0.0,
+                            $taxes->push(
+                                new DataObject(
+                                    array(
+                                        'Rate'      => $taxRate,
+                                        'AmountRaw' => 0.0,
+                                    )
                                 )
-                            )
-                        );
+                            );
+                        }
+                        $taxSection             = $taxes->find('Rate', $taxRate);
+                        $taxSection->AmountRaw += $paymentFee->getTaxAmount();
                     }
-                    $taxSection             = $taxes->find('Rate', $taxRate);
-                    $taxSection->AmountRaw += $paymentFee->getTaxAmount();
                 }
             }
+
+            foreach ($taxes as $tax) {
+                $taxObj = new Money;
+                $taxObj->setAmount(round($tax->AmountRaw, 2));
+                $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
+
+                $tax->Amount = $taxObj;
+            }
+            $this->taxRatesWithFees = $taxes;
         }
-
-        foreach ($taxes as $tax) {
-            $taxObj = new Money;
-            $taxObj->setAmount(round($tax->AmountRaw, 2));
-            $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
-        }
-
-        return $taxes;
+        return $this->taxRatesWithFees;
     }
     
     /**
@@ -1951,7 +2020,25 @@ class SilvercartShoppingCart extends DataObject {
      * @since 17.02.2011
      */
     public function isFilled() {
-        if ($this->SilvercartShoppingCartPositions()->Count() > 0) {
+        $records = DB::query(
+            sprintf(
+                "
+                SELECT
+                    COUNT(Pos.ID) AS NumberOfPositions
+                FROM
+                    SilvercartShoppingCartPosition Pos
+                WHERE
+                    Pos.SilvercartShoppingCartID = %d
+                ",
+                $this->ID
+            )
+        );
+
+        $record = $records->nextRecord();
+
+        if ($record &&
+            $record['NumberOfPositions'] > 0) {
+
             return true;
         } else {
             return false;

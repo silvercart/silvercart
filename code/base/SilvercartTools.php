@@ -32,6 +32,42 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartTools extends Object {
+    
+    /**
+     * The base url segment
+     *
+     * @var string
+     */
+    public static $baseURLSegment = null;
+    
+    /**
+     * Indicates whether the installation is completed or not
+     *
+     * @var bool 
+     */
+    public static $isInstallationCompleted = null;
+    
+    /**
+     * Indicates whether the current request is in an isolated environment like
+     * dev/build, dev/test, installation, ...
+     *
+     * @var bool 
+     */
+    public static $isIsolatedEnvironment = null;
+    
+    /**
+     * Indicates whether the current request is in backend
+     *
+     * @var bool 
+     */
+    public static $isBackendEnvironment = null;
+
+    /**
+     * Cache for the page hierarchy model.
+     *
+     * @var DataObjectSet
+     */
+    public static $pageHierarchy = array();
 
     /**
      * Returns the base URL segment that's used for inclusion of css and
@@ -43,19 +79,22 @@ class SilvercartTools extends Object {
      * @since 16.02.2012
      */
     public static function getBaseURLSegment() {
-        $baseUrl = Director::baseUrl();
+        if (is_null(self::$baseURLSegment)) {
+            $baseUrl = Director::baseUrl();
 
-        if ($baseUrl === '/') {
-            $baseUrl = '';
+            if ($baseUrl === '/') {
+                $baseUrl = '';
+            }
+
+            if (!empty($baseUrl) &&
+                 substr($baseUrl, -1) != '/') {
+
+                $baseUrl .= '/';
+            }
+            self::$baseURLSegment = $baseUrl;
         }
 
-        if (!empty($baseUrl) &&
-             substr($baseUrl, -1) != '/') {
-
-            $baseUrl .= '/';
-        }
-
-        return $baseUrl;
+        return self::$baseURLSegment;
     }
 
     /**
@@ -241,34 +280,36 @@ class SilvercartTools extends Object {
      * @return boolean
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @since 26.11.2012
      */
     public static function isInstallationCompleted() {
-        $installationComplete   = false;
-        
-        if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
-            (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
-            $installationComplete = false;
-        } else {
-            $memberFieldList        = array();
-            $queryRes               = DB::query("SHOW TABLES");
-            if ($queryRes->numRecords() > 0) {
-                $queryRes               = DB::query("SHOW COLUMNS FROM Member");
+        if (is_null(self::$isInstallationCompleted)) {
+            $installationComplete   = false;
 
-                foreach ($queryRes as $key => $value) {
-                    $memberFieldList[] = $value['Field'];
-                }
+            if ((array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'successfullyinstalled') !== false) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && strpos($_SERVER['QUERY_STRING'], 'deleteinstallfiles') !== false) ||
+                (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'successfullyinstalled') !== false) ||
+                (array_key_exists('REQUEST_URI', $_SERVER) && strpos($_SERVER['REQUEST_URI'], 'deleteinstallfiles') !== false)) {
+                $installationComplete = false;
+            } else {
+                $memberFieldList        = array();
+                $queryRes               = DB::query("SHOW TABLES");
+                if ($queryRes->numRecords() > 0) {
+                    $queryRes               = DB::query("SHOW COLUMNS FROM Member");
 
-                if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
-                    $installationComplete = true;
+                    foreach ($queryRes as $key => $value) {
+                        $memberFieldList[] = $value['Field'];
+                    }
+
+                    if (in_array('SilvercartShoppingCartID', $memberFieldList)) {
+                        $installationComplete = true;
+                    }
                 }
             }
+            self::$isInstallationCompleted = $installationComplete;
         }
-        
-        return $installationComplete;
+        return self::$isInstallationCompleted;
     }
     
     /**
@@ -277,7 +318,7 @@ class SilvercartTools extends Object {
      * @return boolean 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.10.2012
+     * @since 26.11.2012
      */
     public static function isIsolatedEnvironment() {
         $isolatedEnvironment = false;
@@ -288,7 +329,7 @@ class SilvercartTools extends Object {
             ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php')) {
             $isolatedEnvironment = true;
         }
-        return $isolatedEnvironment;
+        return self::$isIsolatedEnvironment;
     }
     
     /**
@@ -314,20 +355,22 @@ class SilvercartTools extends Object {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2012
+     * @since 26.11.2012
      */
     public static function isBackendEnvironment() {
-        $isBackendEnvironment = false;
-        
-        $controller = Controller::curr();
-        $request    = $controller->getRequest();
-        
-        if (strpos($request->getVar('url'), 'admin/') === 0 ||
-            strpos($request->getVar('url'), '/admin/') === 0) {
-            $isBackendEnvironment = true;
+        if (is_null(self::$isBackendEnvironment)) {
+            $isBackendEnvironment = false;
+
+            $controller = Controller::curr();
+            $request    = $controller->getRequest();
+
+            if (strpos($request->getVar('url'), 'admin/') === 0 ||
+                strpos($request->getVar('url'), '/admin/') === 0) {
+                $isBackendEnvironment = true;
+            }
+            self::$isBackendEnvironment = $isBackendEnvironment;
         }
-        
-        return $isBackendEnvironment;
+        return self::$isBackendEnvironment;
     }
 
     /**
@@ -351,5 +394,183 @@ class SilvercartTools extends Object {
         }
         
         return $pageIDs;
+    }
+
+    /**
+     * Builds a hierarchy from the current page to the top product group page
+     * or holder.
+     *
+     * @param SiteTree $currPage The page to start from
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function getPageHierarchy($currPage) {
+        if (!array_key_exists('SiteTree_'.$currPage->ID, self::$pageHierarchy)) {
+            $level      = 0;
+            $hierarchy  = array(
+                'SiteTree_'.$currPage->ID => array(
+                    'Page'  => $currPage,
+                    'Level' => $level
+                )
+            );
+
+            while ($currPage->hasMethod('getParent') &&
+                $currPage->getParent()) {
+
+                $parent = $currPage->getParent();
+
+                if ($parent) {
+                    $level++;
+                    $hierarchy['SiteTree_'.$parent->ID] = array(
+                        'Page'  => $parent,
+                        'Level' => $level
+                    );
+                    $currPage = $parent;
+                } else {
+                    break;
+                }
+            }
+
+            self::$pageHierarchy['SiteTree_'.$currPage->ID] = array();
+
+            foreach ($hierarchy as $pageID => $pageInfo) {
+                self::$pageHierarchy['SiteTree_'.$currPage->ID][$pageID] = array(
+                    'Page'  => $pageInfo['Page'],
+                    'Level' => ($pageInfo['Level'] - $level) * -1
+                );
+            }
+        }
+
+        return self::$pageHierarchy['SiteTree_'.$currPage->ID];
+    }
+
+    /**
+     * Removes a prefix from a checkout address data array.
+     *
+     * @param string $prefix Prefix
+     * @param array  $data   Checkout address data
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 2012-12-14
+     */
+    public static function extractAddressDataFrom($prefix, $data) {
+        $addressData = array();
+        $dataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Fax'              => 'Fax',
+            $prefix.'_Country'          => 'CountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
+        );
+
+        if (is_array($data)) {
+            foreach ($dataFields as $shippingFieldName => $dataFieldName) {
+                if (isset($data[$shippingFieldName])) {
+                    $addressData[$dataFieldName] = $data[$shippingFieldName];
+                }
+            }
+        }
+
+        if (array_key_exists('TaxIdNumber', $addressData) &&
+            array_key_exists('Company', $addressData) &&
+            !empty($addressData['TaxIdNumber']) &&
+            !empty($addressData['Company'])) {
+
+            $addressData['isCompanyAddress'] = true;
+        } else {
+            $addressData['isCompanyAddress'] = false;
+        }
+
+        return $addressData;
+    }
+
+    /**
+     * Tries to find the given page ID in the page hierarchy structure.
+     *
+     * @param int $searchPageID The page ID to find
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function findPageIdInHierarchy($searchPageID) {
+        $foundPageId = false;
+        $hierarchy   = self::getPageHierarchy(Controller::curr());
+
+        foreach ($hierarchy as $pageID => $pageInfo) {
+            if ($pageInfo['Page']->ID === $searchPageID) {
+                $foundPageId = true;
+                break;
+            }
+        }
+
+        return $foundPageId;
+    }
+
+    /**
+     * Tries to find the given page ID in the page hierarchy structure and
+     * returns the corresponding page.
+     *
+     * @param int $searchPageID The page ID to find
+     *
+     * @return SiteTree
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function getPageLevelByPageId($searchPageID) {
+        $level     = false;
+        $hierarchy = self::getPageHierarchy(Controller::curr());
+
+        foreach ($hierarchy as $pageID => $pageInfo) {
+            if ($pageInfo['Page']->ID == $searchPageID) {
+                $level = $pageInfo['Level'];
+                break;
+            }
+        }
+
+        return $level;
+    }
+
+    /**
+     * Checks if the given page IDs are siblings of the same level.
+     *
+     * @param int $checkPageID1 The first page ID to check
+     * @param int $checkPageID2 The second page ID to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.10.2012
+     */
+    public static function pageIsSiblingOf($checkPageID1, $checkPageID2) {
+        $isSibling = false;
+
+        $level1 = self::getPageLevelByPageId($checkPageID1);
+        $level2 = self::getPageLevelByPageId($checkPageID2);
+
+        if ($level1 === $level2) {
+            $isSibling = true;
+        }
+
+        return $isSibling;
     }
 }

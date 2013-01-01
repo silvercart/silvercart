@@ -184,3 +184,31 @@
 .right form .TableListField tr.is-not-seen:hover td a {
     background-color: #91D6FF;
 }
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow: auto;
+}
+
+.admin-quick-preview {
+    
+}
+.admin-quick-preview th {
+    text-align: left;
+}
+.admin-quick-preview td {
+    text-align: right;
+    padding: 3px 12px;
+}
+
+.field.important {
+    background: #f00;
+}
+.field.important label {
+    color: #fff !important;
+}
+
+.silvercart-formfield-label {
+    color: #666;
+    padding: 2px 0px 8px 8px;
+}

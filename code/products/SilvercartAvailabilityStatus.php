@@ -48,7 +48,8 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'Title' => 'Text'
+        'Title'          => 'Text',
+        'AdditionalText' => 'Text'
     );
     
     /**
@@ -101,6 +102,7 @@ class SilvercartAvailabilityStatus extends DataObject {
             array(
                 'Code'                                  => _t('SilvercartOrderStatus.CODE'),
                 'Title'                                 => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+                'AdditionalText'                        => _t('SilvercartAvailabilityStatus.ADDITIONALTEXT'),
                 'SilvercartAvailabilityStatusLanguages' => _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME')
             )
         );
@@ -180,5 +182,16 @@ class SilvercartAvailabilityStatus extends DataObject {
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
     }
-    
+
+    /**
+     * getter for the pseudo attribute AdditionalText
+     *
+     * @return string the title in the corresponding frontend language
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.12.2012
+     */
+    public function getAdditionalText() {
+        return $this->getLanguageFieldValue('AdditionalText');
+    }
 }

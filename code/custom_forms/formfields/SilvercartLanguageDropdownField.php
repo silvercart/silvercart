@@ -34,6 +34,7 @@
 class SilvercartLanguageDropdownField extends DropdownField {
     
     /**
+     * Controller
      *
      * @var SilvercartPage_Controller
      */
@@ -143,7 +144,7 @@ class SilvercartLanguageDropdownField extends DropdownField {
                     'option', array(
                         'selected'  => $selected,
                         'value'     => $value,
-                        'rel'       => $rel,
+                        'class'     => $rel,
                     ),
                     Convert::raw2xml($title)
                 );

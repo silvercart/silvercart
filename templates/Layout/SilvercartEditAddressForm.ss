@@ -111,6 +111,8 @@
             </div>
         </div>
     </fieldset>
+
+    $CustomHtmlFormSpecialFields
     
     <div class="type-button clearfix">
         <% loop Actions %>

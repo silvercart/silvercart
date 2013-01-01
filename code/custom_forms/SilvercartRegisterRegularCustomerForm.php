@@ -308,7 +308,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['BirthdayDay']['value'] = $birthdayDays;
         $this->formFields['BirthdayMonth']['value'] = $birthdayMonths;
 
-        $this->formFields['Country']['value'] = DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1")->toDropdownMap('Title', 'Title', _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY', '--country--'));
+        $this->formFields['Country']['value'] = SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY'));
 
         if (isset($_GET['backlink'])) {
             $this->formFields['backlink']['value'] = Convert::raw2sql($_GET['backlink']);
@@ -333,25 +333,11 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @param string $value the email address to be checked
      *
      * @return array to be rendered in the template
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.10.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.11.2012
      */
     public function doesEmailExistAlready($value) {
-        $emailExistsAlready = false;
-
-        $results = DataObject::get_one(
-            'Member',
-            "Email = '" . $value . "'"
-        );
-
-        if ($results) {
-            $emailExistsAlready = true;
-        }
-
-        return array(
-            'success' => !$emailExistsAlready,
-            'errorMessage' => _t('SilvercartPage.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered')
-        );
+        return SilvercartFormValidation::doesEmailExistAlready($value);
     }
     
     /**
@@ -387,9 +373,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @param Form           $form     the form object
      * @param array          $formData CustomHTMLForms session data
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
      * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.12.2012
      */
     protected function submitSuccess($data, $form, $formData) {
         $anonymousCustomer = false;
@@ -459,12 +446,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $shippingAddress = new SilvercartShippingAddress();
         $shippingAddress->castedUpdate($formData);
 
-        $country = DataObject::get_one(
+        $country = DataObject::get_by_id(
             'SilvercartCountry',
-            sprintf(
-                "\"Title\" = '%s'",
-                $formData['Country']
-            )
+            (int) $formData['Country']
         );
         if ($country) {
             $shippingAddress->SilvercartCountryID = $country->ID;

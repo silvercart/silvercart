@@ -53,6 +53,8 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
             if (activeTab != lastActiveTab) {
                 jQuery(lastActiveTab).hide();
             }
+
+            return false;
         });
         
         var tabID = window.location.hash.replace('#','');
@@ -76,7 +78,7 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
     // @since 23.08.2011
     // ------------------------------------------------------------------------
     if (jQuery(".silvercart-product-group-page-selectors")) {
-        jQuery(".silvercart-product-group-page-selectors input[type=submit]").hide();
+        jQuery(".silvercart-product-group-page-selectors .type-button").hide();
         jQuery(".silvercart-product-group-page-selectors select").live('change', function() { this.form.submit(); });
     }
 })})(jQuery);

@@ -51,5 +51,22 @@ class SilvercartOrderPositionPluginProvider extends SilvercartPlugin {
         $result = $this->extend('pluginAddToTitle', $callingObject);
         return $this->returnExtensionResultAsHtmlString($result, '<br/>');
     }
-    
+
+    /**
+     * This method is called after the convertShoppingCartPositionsToOrderPositions
+     * method is done and before order notification emails get sent.
+     *
+     * @param array &$arguments     The arguments to pass:
+     *                              $arguments[0] = $forSingleProduct
+     * @param mixed &$callingObject The calling object
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.11.2012
+     */
+    public function convertShoppingCartPositionsToOrderPositions(&$arguments, &$callingObject) {
+        $result = $this->extend('pluginConvertShoppingCartPositionsToOrderPositions', $callingObject, $arguments[0]);
+        return $this->returnExtensionResultAsHtmlString($result, '<br/>');
+    }
 }

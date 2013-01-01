@@ -79,6 +79,11 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
         'slideDelay'                => 5000
     );
     
+    /**
+     * Casted Attributes.
+     * 
+     * @var array
+     */
     public static $casting = array(
         'FrontTitle'                    => 'Text',
         'FrontContent'                  => 'Text',
@@ -386,6 +391,10 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             );
             
             $this->elements = $products;
+
+            foreach ($this->elements as $element) {
+                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            }
         }
         return $this->elements;
     }
@@ -422,6 +431,7 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
             $isFirst        = true;
             if ($this->elements) {
                 foreach ($this->elements as $product) {
+                    $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                     $pageProducts[] = $product;
                     $PageProductIdx++;
 

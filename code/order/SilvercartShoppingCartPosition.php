@@ -39,7 +39,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Quantity' => 'Int'
+        'Quantity' => 'Decimal'
         
     );
     /**
@@ -51,13 +51,34 @@ class SilvercartShoppingCartPosition extends DataObject {
         'SilvercartProduct'      => 'SilvercartProduct',
         'SilvercartShoppingCart' => 'SilvercartShoppingCart'
     );
+
+    /**
+     * List of different accessed prices
+     *
+     * @var array
+     */
+    protected $prices = array();
     
     /**
-     * Indicates wether the forms should be loaded.
+     * List of different accessed isQuantityIncrementableBy calls
      *
-     * @var boolean
+     * @var array
      */
-    public static $doCreateForms = true;
+    protected $isQuantityIncrementableByList = array();
+    
+    /**
+     * plugged in title
+     *
+     * @var string
+     */
+    protected $pluggedInTitle = null;
+    
+    /**
+     * List of already initialized positions
+     *
+     * @var array
+     */
+    public static $initializedPositions = array();
 
     /**
      * Registers the edit-forms for this position.
@@ -69,45 +90,55 @@ class SilvercartShoppingCartPosition extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 11.02.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2012
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        // Check if the installation is complete. If it's not complete we
-        // can't access the SilvercartConfig data object (out of database)
-        // because it's not build yet
-
-        if (SilvercartTools::isInstallationCompleted()) {
-            $this->adjustQuantityToStockQuantity();
-        }
-        $controller = Controller::curr();
-
-        if ($controller->hasMethod('getRegisteredCustomHtmlForm') &&
-            self::$doCreateForms) {
-            $positionForms = array(
-                'SilvercartIncrementPositionQuantityForm',
-                'SilvercartDecrementPositionQuantityForm',
-                'SilvercartRemovePositionForm'
-            );
-
-            foreach ($positionForms as $positionForm) {
-                if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
-                    $controller->registerCustomHtmlForm(
-                        $positionForm . $this->ID,
-                        new $positionForm(
-                            $controller,
-                            array(
-                                'positionID' => $this->ID
-                            )
-                        )
-                    );
-                }
+        if ($this->ID > 0 &&
+            !array_key_exists($this->ID, self::$initializedPositions)) {
+            // Check if the installation is complete. If it's not complete we
+            // can't access the SilvercartConfig data object (out of database)
+            // because it's not build yet
+            if (SilvercartTools::isInstallationCompleted()) {
+                $this->adjustQuantityToStockQuantity();
             }
-            
-            $this->extend('updateCreateForms');
+
+            self::$initializedPositions[$this->ID] = true;
         }
+    }
+
+    /**
+     * Registers all CustomHtmlForms for this object.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.12.2012
+     */
+    public function registerCustomHtmlForms() {
+        $controller     = Controller::curr();
+        $positionForms  = array(
+            'SilvercartIncrementPositionQuantityForm',
+            'SilvercartDecrementPositionQuantityForm',
+            'SilvercartRemovePositionForm'
+        );
+
+        foreach ($positionForms as $positionForm) {
+            if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
+                $controller->registerCustomHtmlForm(
+                    $positionForm . $this->ID,
+                    new $positionForm(
+                        $controller,
+                        array(
+                            'positionID' => $this->ID
+                        )
+                    )
+                );
+            }
+        }
+
+        $this->extend('updateCreateForms');
     }
 
     /**
@@ -133,32 +164,24 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this);
     }
-    
-    /**
-     * Sets wether the form objects should be created.
-     *
-     * @param boolean $doCreateForms Indicates wether the forms should be loaded.
-     *
-     * @return void
-     */
-    public static function setCreateForms($doCreateForms = true) {
-        self::$doCreateForms = $doCreateForms;
-    }
 
     /**
      * Returns the title of the shopping cart position.
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2012
      */
     public function getTitle() {
-        $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
-        if ($pluginTitle == '') {
-            $pluginTitle = $this->SilvercartProduct()->Title;
+        if (is_null($this->pluggedInTitle)) {
+            $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
+            if ($pluginTitle == '') {
+                $pluginTitle = $this->SilvercartProduct()->Title;
+            }
+            $this->pluggedInTitle = $pluginTitle;
         }
-        return $pluginTitle;
+        return $this->pluggedInTitle;
     }
 
     /**
@@ -216,33 +239,54 @@ class SilvercartShoppingCartPosition extends DataObject {
      * 
      * @return Money the price sum
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 22.10.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
      */
     public function getPrice($forSingleProduct = false, $priceType = false) {
-        $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
-        
-        if ($pluginPriceObj !== false) {
-            return $pluginPriceObj;
-        }
-        
-        $product = $this->SilvercartProduct();
-        $price = 0;
+        $priceKey = (int) $forSingleProduct . '-' . (int) $priceType;
+        if (!array_key_exists($priceKey, $this->prices)) {
+            $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
 
-        if ($product && $product->getPrice($priceType)->getAmount()) {
-            if ($forSingleProduct) {
-                $price = $product->getPrice($priceType)->getAmount();
-            } else {
-                $price = $product->getPrice($priceType)->getAmount() * $this->Quantity;
+            if ($pluginPriceObj !== false) {
+                return $pluginPriceObj;
             }
+
+            $product = $this->SilvercartProduct();
+            $price = 0;
+
+            if ($product && $product->getPrice($priceType)->getAmount()) {
+                if ($forSingleProduct) {
+                    $price = $product->getPrice($priceType)->getAmount();
+                } else {
+                    $price = $product->getPrice($priceType)->getAmount() * $this->Quantity;
+                }
+            }
+
+            $priceObj = new Money();
+            $priceObj->setAmount($price);
+            $priceObj->setCurrency(SilvercartConfig::DefaultCurrency());
+            $this->prices[$priceKey] = $priceObj;
         }
 
-        $priceObj = new Money();
-        $priceObj->setAmount($price);
-        $priceObj->setCurrency(SilvercartConfig::DefaultCurrency());
+        return $this->prices[$priceKey];
+    }
 
-        return $priceObj;
+    /**
+     * Returns the shop product number
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-12-18
+     */
+    public function getProductNumberShop() {
+        $pluginObj = SilvercartPlugin::call($this, 'overwriteGetProductNumberShop');
+
+        if ($pluginObj !== false) {
+            return $pluginObj;
+        }
+
+        return $this->SilvercartProduct()->ProductNumberShop;
     }
 
     /**
@@ -296,22 +340,25 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 25.06.2012
      */
     public function isQuantityIncrementableBy($quantity = 1) {
-        $isQuantityIncrementableBy  = true;
-        $pluginResult               = SilvercartPlugin::call($this, 'overwriteIsQuantityIncrementableBy', $quantity, false, 'DataObject');
-        
-        if (is_null($pluginResult) &&
-            SilvercartConfig::EnableStockManagement()) {
-            $isQuantityIncrementableBy = false;
-            if ($this->SilvercartProduct()->isStockQuantityOverbookable()) {
-                $isQuantityIncrementableBy = true;
-            } elseif ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
-                $isQuantityIncrementableBy = true;
+        if (!array_key_exists((int) $quantity, $this->isQuantityIncrementableByList)) {
+            $isQuantityIncrementableBy  = true;
+            $pluginResult               = SilvercartPlugin::call($this, 'overwriteIsQuantityIncrementableBy', $quantity, false, 'DataObject');
+
+            if (is_null($pluginResult) &&
+                SilvercartConfig::EnableStockManagement()) {
+                $isQuantityIncrementableBy = false;
+                if ($this->SilvercartProduct()->isStockQuantityOverbookable()) {
+                    $isQuantityIncrementableBy = true;
+                } elseif ($this->SilvercartProduct()->StockQuantity >= ($this->Quantity + $quantity)) {
+                    $isQuantityIncrementableBy = true;
+                }
+            } elseif (!is_null($pluginResult) &&
+                      is_bool($pluginResult)) {
+                $isQuantityIncrementableBy = $pluginResult;
             }
-        } elseif (!is_null($pluginResult) &&
-                  is_bool($pluginResult)) {
-            $isQuantityIncrementableBy = $pluginResult;
+            $this->isQuantityIncrementableByList[$quantity] = $isQuantityIncrementableBy;
         }
-        return $isQuantityIncrementableBy;
+        return $this->isQuantityIncrementableByList[$quantity];
     }
     
     /**
@@ -356,6 +403,25 @@ class SilvercartShoppingCartPosition extends DataObject {
 
         return $description;
     }
+
+    /**
+     * Returns the quantity according to the SilvercartProduct quantity type
+     * setting.
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function getTypeSafeQuantity() {
+       $quantity = $this->Quantity;
+
+        if ($this->SilvercartProduct()->SilvercartQuantityUnit()->numberOfDecimalPlaces == 0) {
+            $quantity = (int) $quantity;
+        }
+
+        return $quantity;
+    }
     
     /**
      * returns the tax amount included in $this
@@ -370,7 +436,7 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @copyright 2010 pixeltricks GmbH
      * @since 25.11.2010
      */
-    public function getTaxAmount($forSingleProduct = false) {        
+    public function getTaxAmount($forSingleProduct = false) {
         if (SilvercartConfig::PriceType() == 'gross') {
             $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
                        ($this->getPrice($forSingleProduct)->getAmount() /
@@ -390,19 +456,16 @@ class SilvercartShoppingCartPosition extends DataObject {
      * 
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2012
      */
     public function adjustQuantityToStockQuantity() {
-        if (array_key_exists('url', $_REQUEST)) {
-            //must not be executed on a dev/build and dev/tests because a SilvercartConfig instance does not exist
-            if (strpos($_REQUEST['url'], 'dev/build') === false && strpos($_REQUEST['url'], 'dev/tests') === false) {
-                if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
-                    if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
-                        $this->Quantity = $this->SilvercartProduct()->StockQuantity;
-                        $this->write();
-                        SilvercartShoppingCartPositionNotice::setNotice($this->ID, "adjusted");
-                    }
+        if (!SilvercartTools::isIsolatedEnvironment()) {
+            if (SilvercartConfig::EnableStockManagement() && !$this->SilvercartProduct()->isStockQuantityOverbookable()) {
+                if ($this->Quantity > $this->SilvercartProduct()->StockQuantity) {
+                    $this->Quantity = $this->SilvercartProduct()->StockQuantity;
+                    $this->write();
+                    SilvercartShoppingCartPositionNotice::setNotice($this->ID, "adjusted");
                 }
             }
         }

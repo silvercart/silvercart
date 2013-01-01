@@ -592,16 +592,16 @@ class SilvercartShippingMethod extends DataObject {
     }
     
     /**
-     * Returns the first allowed shipping fee in the given products, countries
+     * Returns all allowed shipping fees in the given products, countries
      * and customer groups context.
      *
      * @param SilvercartProduct $product       Product to get fee for
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
      * 
-     * @return SilvercartShippingFee
+     * @return DataObjectSet
      */
-    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+    public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
         
         $filter = sprintf(
@@ -620,22 +620,37 @@ class SilvercartShippingMethod extends DataObject {
         
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
         
-        $shippingFee = false;
+        $shippingFees = new DataObjectSet();
         
         if ($shippingMethods) {
             foreach ($shippingMethods as $shippingMethod) {
                 $shippingMethod->setShippingCountry($country);
                 $shippingFee = $shippingMethod->getShippingFee($product->Weight);
                 if ($shippingFee) {
-                    break;
+                    $shippingFees->push($shippingFee);
                 }
             }
         }
         
-        return $shippingFee;
+        return $shippingFees;
+    }
+    
+    /**
+     * Returns the first allowed shipping fee in the given products, countries
+     * and customer groups context.
+     *
+     * @param SilvercartProduct $product       Product to get fee for
+     * @param SilvercartCountry $country       Country to get fee for
+     * @param Group             $customerGroup Customer group to get fee for
+     * 
+     * @return SilvercartShippingFee
+     */
+    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+        $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup);
+        return $shippingFees->First();
     }
 
-        /**
+    /**
      * Filters the given shipping methods by default permission criteria
      * 
      * @param SilvercartShippingMethod $shippingMethods Shipping methods to filter

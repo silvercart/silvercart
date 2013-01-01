@@ -1,6 +1,8 @@
 <form class="yform" $FormAttributes >
 	$CustomHtmlFormMetadata
 
+    $CustomHtmlFormSpecialFields
+
 	<% loop Actions %>
 		<div class="type-button">
 			$Field

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2011 pixeltricks GmbH
  *
@@ -34,44 +35,45 @@
 class SilvercartGroupedDropdownField extends DropdownField {
 
     /**
-     * HTML for field
+     * Markup to render the field with
      * 
-     * @param array $properties not in unse, just declared to be compatible with parent
-     *
-     * @return string 
+     * @param $properties only declared to be compatible with parent
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.08.2012
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>,
+     *	       Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 19.12.2012
      */
     public function Field($properties = array()) {
-            // Initialisations
-            $options = '';
-            $classAttr = '';
+        // Initialisations
+        $options = '';
+        $classAttr = '';
 
-            if ($extraClass = trim($this->extraClass())) {
-                    $classAttr = "class=\"$extraClass\"";
+        if ($extraClass = trim($this->extraClass())) {
+            $classAttr = "class=\"$extraClass\"";
+        }
+
+        foreach ($this->getSource() as $value => $title) {
+            if (is_array($title)) {
+                $options .= "<optgroup label=\"$value\">";
+                $options .= $this->buildOptionSet($title);
+                $options .= "</optgroup>";
+            } else { // Fall back to the standard dropdown field
+                $selected = $value == $this->value ? " selected=\"selected\"" : "";
+                $options .= "<option$selected value=\"$value\">$title</option>";
             }
+        }
 
-            foreach ($this->getSource() as $value => $title) {
-                    if (is_array($title)) {
-            $options .= "<optgroup label=\"$value\">";
-            $options .= $this->buildOptionSet($title);
-                            $options .= "</optgroup>";
-                    } else { // Fall back to the standard dropdown field
-                            $selected = $value == $this->value ? " selected=\"selected\"" : "";
-                            $options .= "<option$selected value=\"$value\">$title</option>";
-                    }
-            }
+        $id = $this->id();
 
-            $id = $this->id();
-
-            return "<select $classAttr name=\"$this->name\" id=\"$id\">$options</select>";
+        return "<select $classAttr name=\"$this->name\" id=\"$id\">$options</select>";
     }
-    
+
     /**
      * Recursively build the option tags for the select field
      * 
-     * @param array $definition ???
+     * @param array $definition Option set definition
      * 
      * @return string
      * 
@@ -80,9 +82,9 @@ class SilvercartGroupedDropdownField extends DropdownField {
      */
     protected function buildOptionSet($definition) {
         $options = '';
-        
+
         foreach ($definition as $key => $value) {
-            
+
             if (is_array($value)) {
                 $options .= "<optgroup label=\"$key\">";
                 $options .= $this->buildOptionSet($value);
@@ -97,7 +99,8 @@ class SilvercartGroupedDropdownField extends DropdownField {
                 $options .= "<option$selected value=\"$key\">$value</option>";
             }
         }
-        
+
         return $options;
     }
+
 }

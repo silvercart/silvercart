@@ -18,43 +18,34 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Update
+ * @subpackage Parsers
  */
 
 /**
- * Update 1.3 - 5
- * Marks all existing orders as seen
+ * Parses Content blocks.
  *
  * @package Silvercart
- * @subpackage Update
- * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 11.10.2012
- * @copyright pixeltricks GmbH
+ * @subpackage Parsers
+ * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 2012-12-10
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartUpdate1_3__5 extends SilvercartUpdate {
-    
+class SilvercartContentParser extends TextParser {
+
     /**
-     * Set the defaults for this update.
+     * Parses the Content field of the current page within the page
+     * controller's context.
      *
-     * @var array
-     */
-    public static $defaults = array(
-        'SilvercartVersion'         => '1.3',
-        'SilvercartUpdateVersion'   => '5',
-        'Description'               => 'Marks all existing orders as seen',
-    );
-    
-    /**
-     * Executes the update logic.
+     * @return string
      *
-     * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.10.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2012-12-10
      */
-    public function executeUpdate() {
-        DB::query('UPDATE "SilvercartOrder" SET "IsSeen" = 1');
-        return true;
+    public function parse() {
+        $content = new SSViewer_FromString($this->content);
+        $content = $content->process(Controller::curr());
+
+        return $content;
     }
 }

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Translation
  */
 
@@ -33,10 +33,20 @@
  */
 class SilvercartZoneLanguage extends DataObject {
    
+    /**
+     * DB attributes
+     *
+     * @var array
+     */
     public static $db = array(
         'Title' => 'VarChar'
     );
 
+    /**
+     * has one relations
+     *
+     * @var array
+     */
     public static $has_one = array(
         'SilvercartZone' => 'SilvercartZone'
     );

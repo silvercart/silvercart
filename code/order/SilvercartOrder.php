@@ -301,6 +301,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'ChangeOrderStatus'                     => _t('SilvercartOrder.BATCH_CHANGEORDERSTATUS'),
                 'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
                 'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
+                'ValueOfGoods'                          => _t('SilvercartPage.VALUE_OF_GOODS'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -850,6 +851,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
         $this->MemberID         = $member->ID;
 
+        if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
+            return true;
+        }
+
         $paymentObj = DataObject::get_by_id(
             'SilvercartPaymentMethod',
             $this->SilvercartPaymentMethodID
@@ -940,16 +945,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
                     $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
                     $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
-                    $orderPosition->Tax                 = $shoppingCartPosition->getTaxAmount(true);
-                    $orderPosition->TaxTotal            = $shoppingCartPosition->getTaxAmount();
-                    $orderPosition->TaxRate             = $product->getTaxRate();
-                    $orderPosition->ProductDescription  = $product->LongDescription;
-                    $orderPosition->Quantity            = $shoppingCartPosition->Quantity;
-                    $orderPosition->ProductNumber       = $product->ProductNumberShop;
-                    $orderPosition->Title               = $product->Title;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->SilvercartProductID = $product->ID;
-                    $orderPosition->log                 = false;
+                    $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
+                    $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
+                    $orderPosition->TaxRate                 = $product->getTaxRate();
+                    $orderPosition->ProductDescription      = $product->LongDescription;
+                    $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
+                    $orderPosition->numberOfDecimalPlaces   = $product->SilvercartQuantityUnit()->numberOfDecimalPlaces;
+                    $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
+                    $orderPosition->Title                   = $product->Title;
+                    $orderPosition->SilvercartOrderID       = $this->ID;
+                    $orderPosition->SilvercartProductID     = $product->ID;
+                    $orderPosition->log                     = false;
                     $orderPosition->write();
 
                     // Call hook method on product if available
@@ -1121,6 +1127,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 $shoppingCartPosition->delete();
             }
         }
+
+        SilvercartPlugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
     }
 
     /**
@@ -1877,9 +1885,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 }
             }
         }
-        
+
         $this->extend('updateTaxTotal', $taxRates);
-        
+
         return $taxRates;
     }
     
@@ -2330,7 +2338,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return string
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountTotalNice() {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
@@ -2341,10 +2349,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money amount
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountNet() {
-        user_error('SilvercartOrder::getAmountNet() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountNet() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
         $amountNetObj = new Money();
         $amountNetObj->setAmount($amountNet);
@@ -2358,10 +2366,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountGross() {
-        user_error('SilvercartOrder::getAmountGross() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountGross() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         return $this->AmountGrossTotal;
     }
 
@@ -2370,10 +2378,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return string
      * 
-     * @deprecated
+     * @deprecated Use property AmountTotal instead
      */
     public function getAmountGrossTotalNice() {
-        user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated!', E_USER_ERROR);
+        user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         return $this->getAmountTotalNice();
     }
     

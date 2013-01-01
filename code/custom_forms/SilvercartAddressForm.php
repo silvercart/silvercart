@@ -34,6 +34,24 @@
 class SilvercartAddressForm extends CustomHtmlForm {
     
     /**
+     * Default cache key extension for address forms
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        if (empty($this->cacheKeyExtension)) {
+            $cacheKeyExtensionString    = '';
+            $countryMap                 = SilvercartCountry::getPrioritiveDropdownMap();
+            foreach ($countryMap as $id => $title) {
+                $cacheKeyExtensionString .= $id . ':' . $title . ';';
+            }
+            $this->cacheKeyExtension = md5($cacheKeyExtensionString) . sha1($cacheKeyExtensionString);
+        }
+
+        return $this->cacheKeyExtension;
+    }
+    
+    /**
      * Adds the javascript to handle packstations if enabled
      * 
      * @param Controller $controller  Controller
@@ -163,7 +181,7 @@ class SilvercartAddressForm extends CustomHtmlForm {
                 'Country' => array(
                     'type'              => 'DropdownField',
                     'title'             => $address->fieldLabel('SilvercartCountry'),
-                    'value'             => DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1")->toDropdownMap('ID', 'Title', _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')),
+                    'value'             => SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')),
                     'checkRequirements' => array(
                         'isFilledIn' => true
                     ),

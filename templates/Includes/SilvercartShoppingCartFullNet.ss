@@ -23,7 +23,7 @@
                         <td colspan="3">$Name</td>
                         <td class="right">$PriceNetFormatted</td>
                         <td class="right">$Tax.Title</td>
-                        <td class="right">$Quantity</td>
+                        <td class="right">$getTypeSafeQuantity</td>
                         <td class="right">$PriceNetTotalFormatted</td>
                         <% if Top.EditableShoppingCart %>
                             <td>$removeFromCartForm</td>
@@ -90,7 +90,7 @@
                         <td colspan="3">$Name</td>
                         <td class="right">$PriceFormatted</td>
                         <td>&nbsp;</td>
-                        <td class="right">$Quantity</td>
+                        <td class="right">$getTypeSafeQuantity</td>
                         <td class="right">$PriceTotalFormatted</td>
 
                         <% if Top.EditableShoppingCart %>

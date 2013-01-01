@@ -34,6 +34,7 @@
  * @package Apache
  * @subpackage Solr
  * @author Donovan Jimenez <djimenez@conduit-it.com>
+ * @ignore
  */
 
 /**
@@ -54,6 +55,7 @@
  * ...
  * }
  * </code>
+ * @ignore
  */
 class Apache_Solr_Document implements IteratorAggregate
 {

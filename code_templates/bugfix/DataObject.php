@@ -1,5 +1,9 @@
 <?php
 /**
+ * @ignore
+ */
+
+/**
  * A single database record & abstract class for the data-access-model.
  *
  * <h2>Extensions and Decorators</h2>

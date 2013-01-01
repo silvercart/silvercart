@@ -22,7 +22,7 @@
                 <% loop SilvercartShoppingCartPositions %>
                 <tr>
                     <td><a href="$SilvercartProduct.Link">$SilvercartProduct.Title</a></td>
-                    <td class="side-bar-cart-amount">$Quantity</td>
+                    <td class="side-bar-cart-amount">$getTypeSafeQuantity</td>
                     <td class="side-bar-cart-price">$Price.Nice</td>
                 </tr>
                 <% end_loop %>

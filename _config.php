@@ -46,9 +46,83 @@ Director::addRules(100, array(
 ));
 
 // ----------------------------------------------------------------------------
+// Set spam check for forms
+// ----------------------------------------------------------------------------
+#CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
+
+// ----------------------------------------------------------------------------
+// Register CSS requirements
+// ----------------------------------------------------------------------------
+if (SilvercartConfig::DefaultLayoutEnabled()) {
+//    RequirementsEngine::registerBlockedFile('cms/css/layout.css');
+//    RequirementsEngine::registerBlockedFile('cms/css/typography.css');
+//    RequirementsEngine::registerBlockedFile('cms/css/form.css');
+    // Require the default layout and its patches only if it is enabled
+//    RequirementsEngine::registerThemedCssFile('base');
+//    RequirementsEngine::registerThemedCssFile('basemod');
+//    RequirementsEngine::registerThemedCssFile('nav_shinybuttons');
+//    RequirementsEngine::registerThemedCssFile('nav_vlist');
+//    RequirementsEngine::registerThemedCssFile('content');
+//    RequirementsEngine::registerThemedCssFile('forms');
+//    RequirementsEngine::registerThemedCssFile('patch_forms');
+    // Require head tags for IE patches
+//    RequirementsEngine::registerHeadTag('<!--[if lte IE 9]>',                                                                              'silvercart_iepatch_begin');
+//    RequirementsEngine::registerHeadTag('<link href="/silvercart/css/patches/patch_layout.css" rel="stylesheet" type="text/css" />',       'silvercart_iepatch');
+//    RequirementsEngine::registerHeadTag('<![endif]-->',                                                                                    'silvercart_iepatch_end');
+//    RequirementsEngine::registerHeadTag('<!--[if lte IE 7]>',                                                                              'silvercart_ie7patch_begin');
+//    RequirementsEngine::registerHeadTag('<link href="/silvercart/css/patches/patch_layout_ie7.css" rel="stylesheet" type="text/css" />',   'silvercart_ie7patch');
+//    RequirementsEngine::registerHeadTag('<![endif]-->',                                                                                    'silvercart_ie7patch_end');
+}
+//RequirementsEngine::registerThemedCssFile('SilvercartAddressHolder');
+//RequirementsEngine::registerThemedCssFile('SilvercartBreadcrumbs');
+//RequirementsEngine::registerThemedCssFile('SilvercartCheckout');
+//RequirementsEngine::registerThemedCssFile('SilvercartFooter');
+//RequirementsEngine::registerThemedCssFile('SilvercartForms');
+//RequirementsEngine::registerThemedCssFile('SilvercartGeneral');
+//RequirementsEngine::registerThemedCssFile('SilvercartHeaderbar');
+//RequirementsEngine::registerThemedCssFile('SilvercartLanguageDropdownField');
+//RequirementsEngine::registerThemedCssFile('SilvercartPagination');
+//RequirementsEngine::registerThemedCssFile('SilvercartPrint');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupNavigation');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageControls');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupHolderList');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupHolderTile');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageList');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageTile');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupViewNavigation');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductPage');
+//RequirementsEngine::registerThemedCssFile('SilvercartShoppingCart');
+//RequirementsEngine::registerThemedCssFile('SilvercartSiteMap');
+//RequirementsEngine::registerThemedCssFile('SilvercartWidget');
+//RequirementsEngine::registerThemedCssFile('jquery.fancybox-1.3.4');
+//RequirementsEngine::registerThemedCssFile('SilvercartProductGroupSliderWidget');
+//RequirementsEngine::registerThemedCssFile("slidorion");
+//RequirementsEngine::registerThemedCssFile('SilvercartAnythingSlider');
+
+// ----------------------------------------------------------------------------
+// Register JS requirements
+// ----------------------------------------------------------------------------
+//RequirementsEngine::registerJsFile("customhtmlform/script/jquery.js");
+//RequirementsEngine::registerJsFile("silvercart/script/document.ready_scripts.js");
+//RequirementsEngine::registerJsFile("silvercart/script/jquery.pixeltricks.tools.js");
+//RequirementsEngine::registerJsFile("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
+//RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.anythingslider.min.js");
+//RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
+//RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
+//RequirementsEngine::registerJsFile("silvercart/script/jquery.roundabout.min.js");
+//RequirementsEngine::registerJsFile("silvercart/script/jquery.roundabout-shapes.min.js");
+//RequirementsEngine::registerJsFile("silvercart/script/jquery.easing.1.3.js");
+//RequirementsEngine::registerJsFile("silvercart/script/SilvercartProductGroupSliderWidget.js");
+//RequirementsEngine::registerJsFile("silvercart/script/reflection.js");
+//RequirementsEngine::registerJsFile("silvercart/script/slidorion/js/jquery.slidorion.js");
+// Require i18n javascript
+Requirements::add_i18n_javascript('silvercart/javascript/lang');
+
+// ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
 Object::add_extension('Member',                                     'SilvercartCustomer');
+Object::add_extension('SilvercartPage',                             'SilvercartPageListWidgetPage');
 Object::add_extension('SiteTree',                                   'Translatable');
 Object::add_extension('SiteConfig',                                 'Translatable');
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
@@ -62,7 +136,6 @@ Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartG
 Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 Object::add_extension('Image',                                      'SilvercartImageDecorator');
-
 // DataObject Translations
 Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
 Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
@@ -71,6 +144,7 @@ Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartL
 Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartFileLanguage',                     'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartImageLanguage',                    'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartManufacturerLanguage',             'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartOrderStatusLanguage',              'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartPaymentMethodLanguage',            'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductConditionLanguage',         'SilvercartLanguageDecorator');
@@ -86,9 +160,12 @@ Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'Sil
 Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartPageListWidgetLanguage',                   'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartProductGroupChildProductsWidgetLanguage',  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageDecorator');
+Object::add_extension('SilvercartSubNavigationWidgetLanguage',              'SilvercartLanguageDecorator');
 Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageDecorator');
 // Translatable DataObjects
 Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualDecorator');
@@ -97,6 +174,7 @@ Object::add_extension('SilvercartCarrier',                          'SilvercartD
 Object::add_extension('SilvercartCountry',                          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartFile',                             'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartImage',                            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartManufacturer',                     'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartOrderStatus',                      'SilvercartDataObjectMultilingualDecorator');
 
 Object::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualDecorator');
@@ -115,9 +193,12 @@ Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartD
 Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartPageListWidget',                   'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartProductGroupChildProductsWidget',  'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualDecorator');
+Object::add_extension('SilvercartSubNavigationWidget',              'SilvercartDataObjectMultilingualDecorator');
 Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
@@ -268,6 +349,28 @@ SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
 // ----------------------------------------------------------------------------
 if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
+}
+
+$cacheDirectories = array(
+    'cacheblock' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'cacheblock',
+    'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
+);
+
+foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
+    if (!is_dir($cacheDirectory)) {
+        mkdir($cacheDirectory);
+    }
+
+    SS_Cache::add_backend(
+        $cacheName,
+        'File',
+        array(
+            'cache_dir'              => $cacheDirectory,
+            'hashed_directory_level' => 2,
+        )
+    );
+    SS_Cache::set_cache_lifetime($cacheName, 86400);
+    SS_Cache::pick_backend($cacheName, $cacheName);
 }
 
 /*

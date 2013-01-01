@@ -1,15 +1,17 @@
-<div class="silvercart-change-language">
+<li class="silvercart-change-language">
     <form class="silvercart-change-language-form" $FormAttributes>
         $CustomHtmlFormMetadata
         $CustomHtmlFormErrorMessages
 
         $CustomHtmlFormFieldByName(Language, SilvercartLanguageDropdownField)
 
-        <div id="silvercart-quicklogin-form-actions">
+        $CustomHtmlFormSpecialFields
+
+        <span>
             <% loop Actions %>
                 $Field
             <% end_loop %>
-        </div>
+        </span>
     </form>
 
-</div>
+</li>

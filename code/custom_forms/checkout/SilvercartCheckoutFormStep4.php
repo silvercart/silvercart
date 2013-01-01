@@ -34,6 +34,13 @@
 class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * The form field definitions.
      *
      * @var array
@@ -51,8 +58,15 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         )
     );
     
-    protected $allowedPaymentMethods = null;
     /**
+     * List of allowed payment methods
+     *
+     * @var DataObjectSet 
+     */
+    protected $allowedPaymentMethods = null;
+    
+    /**
+     * A list of registered nested forms to render into this checkout step
      *
      * @var ArrayList
      */
@@ -83,8 +97,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
             if (!Member::currentUser() ||
                 (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
-
-             SilvercartDebugHelper::printString("Redirect soll ausgeführt werden.");
                 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
                 $this->getController()->redirect($frontPage->RelativeLink());
@@ -120,6 +132,15 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
     }
 
     /**

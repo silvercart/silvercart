@@ -132,6 +132,11 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
  */
 class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_Controller {
     
+    /**
+     * list of allowed actions
+     *
+     * @var array
+     */
     public static $allowed_actions = array(
         'SearchByQuery',
     );
@@ -207,7 +212,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return void
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 25.09.2012
+     * @since 23.11.2012
      */
     public function init($skip = false) {
         SilvercartProduct::addExtendedSortableFrontendFields(
@@ -219,9 +224,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }
-        $searchQuery            = Convert::raw2sql(Session::get('searchQuery'));
+        $searchQuery            = $this->getSearchQuery();
         $searchResultProducts   = $this->searchResultProducts;
-        $productsPerPage        = $this->getProductsPerPageSetting();
 
         $SQL_start = $this->getSqlOffset();
 
@@ -251,14 +255,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             foreach ($searchResultProducts as $product) {
                 $backlink = $this->Link()."?start=".  $this->SQL_start;
                 $productAddCartForm = new $productAddCartFormName($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$productIdx, $productAddCartForm);
-                $product->productAddCartForm = $this->InsertCustomHtmlForm(
-                    'ProductAddCartForm' . $productIdx,
-                    array(
-                        $product
-                    )
-                );
-                $product->productAddCartFormObj = $productAddCartForm;
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
                 $productIdx++;
             }
         }
@@ -271,6 +268,22 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             'SilvercartProductGroupPageSelectors',
             $selectorForm
         );
+    }
+
+    /**
+     * Returns the cache key parts for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.11.2012
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            parent::CacheKeyParts();
+            $this->cacheKeyParts[] = sha1($this->getSearchQuery()) . md5($this->getSearchQuery());
+        }
+        return $this->cacheKeyParts;
     }
     
     /**
@@ -289,7 +302,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $productsPerPage            = $this->getProductsPerPageSetting();
 
         $SQL_start                  = $this->getSqlOffset();
-        $searchQuery                = trim(Convert::raw2sql(Session::get('searchQuery')));
+        $searchQuery                = $this->getSearchQuery();
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $filteredQuerySearchQuery   = '';
@@ -343,6 +356,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 foreach ($searchTerms as $value) {
                     if (strlen($value) >= 3) {
                         $wordCount++;
+                        $value = str_replace('(', '', $value);
+                        $value = str_replace(')', '', $value);
                         $filteredQuerySearchQuery .= '+' . $value;
                         $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                     }
@@ -401,6 +416,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                         }
                     }
                 }
+                $this->extend('updateListFilters', $this->listFilters, $searchTerms);
 
                 foreach ($this->listFilters as $listFilter) {
                     if (empty($filter)) {
@@ -445,7 +461,8 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             $searchResultProducts->setPageLength($productsPerPage);
             $searchResultProducts->setTotalItems($foundProductsTotal);
         }
-        $this->searchResultProducts = $searchResultProducts;
+        $this->searchResultProducts  = $searchResultProducts;
+        $this->totalNumberOfProducts = $searchResultProducts->TotalItems();
         return $this->searchResultProducts;
     }
     
@@ -599,6 +616,16 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     }
     
     /**
+     * Returns the search query
+     * 
+     * @return string
+     */
+    public function getSearchQuery() {
+        $searchQuery = trim(Convert::raw2sql(Session::get('searchQuery')));
+        return $searchQuery;
+    }
+
+        /**
      * Returns the total number of search results.
      *
      * @return int

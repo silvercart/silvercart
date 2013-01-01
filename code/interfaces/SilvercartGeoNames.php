@@ -39,8 +39,18 @@
  */
 class SilvercartGeoNames extends SilvercartInterface {
 
+    /**
+     * Language to get country data for
+     *
+     * @var string
+     */
     protected $language;
 
+    /**
+     * Locale to get country data for
+     *
+     * @var string
+     */
     protected $locale;
 
     /**

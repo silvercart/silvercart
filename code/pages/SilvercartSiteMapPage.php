@@ -35,6 +35,11 @@ class SilvercartSiteMapPage extends SilvercartMetaNavigationHolder {
     
     public static $allowed_children = 'none';
     
+    /**
+     * Icon to display in CMS site tree
+     *
+     * @var string
+     */
     public static $icon = "silvercart/images/page_icons/metanavigation_page";
     
     /**

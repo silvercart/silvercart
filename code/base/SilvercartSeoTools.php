@@ -33,8 +33,18 @@
  */
 class SilvercartSeoTools extends SilvercartTools {
     
+    /**
+     * Max legth of meta description
+     *
+     * @var int
+     */
     public static $metaDescriptionMaxLength = 200;
     
+    /**
+     * Connector char for meta description parts
+     *
+     * @var string
+     */
     public static $metaDescriptionConnector = '-';
 
     /**

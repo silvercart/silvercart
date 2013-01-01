@@ -51,6 +51,16 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
     );
 
     /**
+     * Preferences
+     *
+     * @var array
+     * @since 30.10.2012
+     */
+    protected $preferences = array(
+        'doJsValidationScrolling' => false,
+    );
+
+    /**
      * Save search query in session and Redirect to the search results page.
      *
      * @param SS_HTTPRequest $data     contains the frameworks form data
@@ -64,8 +74,28 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      */
     protected function submitSuccess($data, $form, $formData) {
         Session::set("searchQuery", $formData['quickSearchQuery']);
-        $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
-        $this->getController()->redirect($searchResultsPage->RelativeLink());
+        $searchResultsPage = SilvercartTools::PageByIdentifierCode("SilvercartSearchResultsPage");
+
+        if (!$searchResultsPage) {
+            $searchResultsPage = Translatable::get_one_by_locale('SiteTree', Translatable::default_locale(), "ClassName='SilvercartSearchResultsPage'");
+
+            if ($searchResultsPage) {
+                $translatedPage = $searchResultsPage->createTranslation(Translatable::get_current_locale());
+                $translatedPage->write();
+                $translatedPage->publish('Live', 'Stage');
+
+                $this->getController()->redirect($translatedPage->RelativeLink());
+            } else {
+                throw new Exception(
+                    sprintf(
+                        _t('SilvercartPage.NOT_FOUND'),
+                        _t('SilvercartSearchResultsPage.SINGULARNAME')
+                    )
+                );
+            }
+        } else {
+            $this->getController()->redirect($searchResultsPage->RelativeLink());
+        }
     }
 
     /**
@@ -77,7 +107,7 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      * @copyright 2011 pixeltricks GmbH
      * @since 26.05.2011
      */
-    public function  preferences() {
+    public function preferences() {
         $this->preferences['submitButtonTitle'] = _t('SilvercartSearchWidgetForm.SUBMITBUTTONTITLE');
         
         $this->formFields['quickSearchQuery']['title'] = _t('SilvercartSearchWidgetForm.SEARCHLABEL');

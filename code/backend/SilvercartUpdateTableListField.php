@@ -34,11 +34,24 @@
 class SilvercartUpdateTableListField extends TableListField {
 
     /**
+     * Template to use
+     * 
      * @var $template string Template-Overrides
      */
     protected $template = "SilvercartUpdateTableListField";
+    
+    /**
+     * Class name for the items
+     *
+     * @var string
+     */
     public $itemClass = 'SilvercartUpdateTableListField_Item';
 
+    /**
+     * Available actions
+     *
+     * @var array
+     */
     public $actions = array(
             'update' => array(
                     'label' => 'Update',
@@ -47,6 +60,12 @@ class SilvercartUpdateTableListField extends TableListField {
                     'class' => 'updatelink'
             )
     );
+    
+    /**
+     * Allowed permissions
+     *
+     * @var array
+     */
     protected $permissions = array(
             "update",
     );

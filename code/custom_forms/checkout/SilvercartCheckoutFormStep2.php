@@ -33,6 +33,32 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
+    
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        if (empty($this->cacheKeyExtension)) {
+            $cacheKeyExtension  = $this->Controller()->getCacheKey();
+            $member             = SilvercartCustomer::currentRegisteredCustomer();
+
+            if ($member) {
+                $numberOfAddresses = $member->SilvercartAddresses()->Count();
+
+                if ($numberOfAddresses > 0) {
+                    $cacheKeyExtension .= md5('_'.$numberOfAddresses.'_'.
+                                     $member->Aggregate('SilvercartAddress')->MAX('LastEdited'));
+                } else {
+                    $cacheKeyExtension .= md5('_0');
+                }
+            }
+            $this->cacheKeyExtension = $cacheKeyExtension;
+        }
+
+        return $this->cacheKeyExtension;
+    }
 
     /**
      * init

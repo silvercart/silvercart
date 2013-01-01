@@ -995,9 +995,8 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 10.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.11.2012
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
@@ -1021,19 +1020,12 @@ class SilvercartPaymentMethod extends DataObject {
                     if (!DataObject::get_one($className, sprintf("\"PaymentChannel\"='%s'", $channel))) {
                         $paymentMethod = new $className();
                         $paymentMethod->isActive       = 0;
-                        #$paymentMethod->Name           = $name;
                         $paymentMethod->PaymentChannel = $channel;
                         $paymentMethod->write();
                         $languages = array('de_DE', 'en_US', 'en_GB');
-                        $fallbackLocale = false;
 
                         if (!in_array(Translatable::get_current_locale(), $languages)) {
                             $languages[]    = Translatable::get_current_locale();
-                            $fallbackLocale = Translatable::get_current_locale();
-                        }
-
-                        if ($fallbackLocale !== false) {
-                            $languages[$fallbackLocale] = $languages['en_US'];
                         }
                         $languageClassName = $this->ClassName . 'Language';
                         foreach ($languages as $language) {

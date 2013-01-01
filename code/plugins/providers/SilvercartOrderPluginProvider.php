@@ -69,6 +69,27 @@ class SilvercartOrderPluginProvider extends SilvercartPlugin {
         
         return $this->returnExtensionResultAsString($result);
     }
+
+    /**
+     * This method gets called before the order object has been created from the
+     * shoppingcart object.
+     *
+     * @param array &$arguments     The arguments to pass
+     *                              $arguments[0] = SilvercartShoppingCart
+     * @param mixed &$callingObject The calling object
+     *
+     * @return mixed
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.11.2012
+     */
+    public function overwriteCreateFromShoppingCart(&$arguments = array(), &$callingObject) {
+        $orderObj = false;
+
+        $this->extend('pluginOverwriteCreateFromShoppingCart', $arguments[0], $orderObj, $callingObject);
+
+        return $orderObj;
+    }
     
     /**
      * This method gets called while the SilvercartShoppingCartPositions are

@@ -100,6 +100,9 @@
         $CustomHtmlFormFieldByName(HasAcceptedRevocationInstruction,SilvercartHasAcceptedRevocationInstructionFieldCheck)
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,CustomHtmlFormFieldCheck)
     </fieldset>
+
+    $CustomHtmlFormSpecialFields
+
     <div class="actionRow">
         <div class="type-button">
             <% loop Actions %>

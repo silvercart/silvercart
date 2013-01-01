@@ -79,8 +79,18 @@ class SilvercartUpdateAdmin extends ModelAdmin {
     public static $menu_title = 'Silvercart Updates';
 
     
+    /**
+     * Class name of the results table to use
+     *
+     * @var string
+     */
     protected $resultsTableClassName = 'SilvercartUpdateTableListField';
 
+    /**
+     * The priority for backend menu
+     *
+     * @var int 
+     */
     public static $menu_priority = -1;
     
     /**

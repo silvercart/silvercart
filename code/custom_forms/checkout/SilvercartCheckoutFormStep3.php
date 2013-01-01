@@ -34,6 +34,22 @@
 class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
+    }
+
+    /**
      * The form field definitions.
      *
      * @var array
@@ -125,7 +141,19 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields($this->formFields);
-        $this->formFields['ShippingMethod']['title'] = _t('SilvercartShippingMethod.CHOOSE_SHIPPING_METHOD');
+
+        $shippingAddress= $this->getShippingAddress();
+
+        if ($shippingAddress) {
+            $title = sprintf(
+                _t('SilvercartShippingMethod.CHOOSE_SHIPPING_METHOD'),
+                $this->getShippingAddress()->SilvercartCountry()->Title
+            );
+        } else {
+            $title = _t('SilvercartShippingMethod.CHOOSE_SHIPPING_METHOD');
+        }
+
+        $this->formFields['ShippingMethod']['title'] = $title;
                     
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
         if ($shippingMethods) {

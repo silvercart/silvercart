@@ -39,9 +39,6 @@ class SilvercartRating extends DataObject {
      * Attributes.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.09.2011
      */
     public static $db = array(
         'RatingText'  => 'Text',
@@ -52,15 +49,17 @@ class SilvercartRating extends DataObject {
      * 1:1 or 1:n relationships.
      *
      * @var array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.09.2011
      */
     public static $has_one = array(
         'SilvercartProduct' => 'SilvercartProduct',
         'Customer'          => 'Member'
     );
     
+    /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
     public static $default_sort = "Created DESC";
 
     /**

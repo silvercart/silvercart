@@ -33,11 +33,39 @@
  */
 class SilvercartGroupViewBase extends DataObject {
 
+    /**
+     * Short code to use for the view
+     *
+     * @var string
+     */
     protected $Code;
+    
+    /**
+     * Image/icon to use for the view
+     *
+     * @var sring
+     */
     protected $Image;
 
+    /**
+     * indicates whether the view is active
+     *
+     * @var bool 
+     */
     protected $active = null;
+
+    /**
+     * indicates whether the view is the active one for holders
+     *
+     * @var bool 
+     */
     protected $activeHolder = null;
+
+    /**
+     * Default preferences
+     *
+     * @var array 
+     */
     protected $defaultPreferences = array(
         'code' => '',
         'image' => '',
@@ -46,6 +74,12 @@ class SilvercartGroupViewBase extends DataObject {
         'i18n_key' => '',
         'i18n_default' => '',
     );
+    
+    /**
+     * Extended preferences
+     *
+     * @var array 
+     */
     protected $preferences = array();
 
     /**

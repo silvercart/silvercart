@@ -34,6 +34,11 @@
  */
 class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteField {
     
+    /**
+     * Class name of the field
+     *
+     * @var string
+     */
     protected $className = 'SilvercartHasManyTextAutoCompleteField';
     
     /**

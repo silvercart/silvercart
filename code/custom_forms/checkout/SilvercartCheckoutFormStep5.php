@@ -34,6 +34,22 @@
 class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
+    }
+
+    /**
      * The form field definitions.
      *
      * @var array
@@ -192,7 +208,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             /**
              * @deprecated Fallback for potential dependencies 
              */
-            $shippingAddress    = $this->controller->extractAddressDataFrom('Shipping', $checkoutData);
+            $shippingAddress    = SilvercartTools::extractAddressDataFrom('Shipping', $checkoutData);
             $shippingAddress    = $this->getAssociativeAddressData($shippingAddress);
             $shippingAddress    = new SilvercartAddress($shippingAddress);
             $shippingAddress->setIsAnonymousShippingAddress(true);
@@ -205,7 +221,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             /**
              * @deprecated Fallback for potential dependencies 
              */
-            $invoiceAddress = $this->controller->extractAddressDataFrom('Invoice', $checkoutData);
+            $invoiceAddress = SilvercartTools::extractAddressDataFrom('Invoice', $checkoutData);
             $invoiceAddress = $this->getAssociativeAddressData($invoiceAddress, 'Invoice');
             $invoiceAddress = new SilvercartAddress($invoiceAddress);
             $invoiceAddress->setIsAnonymousInvoiceAddress(true);

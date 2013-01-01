@@ -34,21 +34,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartMetaNavigationHolder extends Page {
-    
-    /**
-     * allowed children in site tree
-     *
-     * @var array
-     */
-    public static $allowed_children = array(
-        'SilvercartContactFormPage',
-        'SilvercartNewsletterPage',
-        'SilvercartMetaNavigationPage',
-        'SilvercartPaymentMethodsPage',
-        'SilvercartShippingFeesPage',
-        'SilvercartSiteMapPage',
-    );
-    
+
     /**
      * We set a custom icon for this page type here
      *

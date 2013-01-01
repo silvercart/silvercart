@@ -19,6 +19,7 @@
  *
  * @package Silvercart
  * @subpackage BugfixTemplates
+ * @ignore
  */
 
 /**
@@ -34,6 +35,7 @@
  * @copyright 2011 pixeltricks GmbH
  * @since 02.02.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @ignore
  */
 class SilvercartZendLocaleFormatDecorator extends Zend_Locale_Format {
 

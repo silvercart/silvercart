@@ -33,6 +33,11 @@
  */
 class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
     
+    /**
+     * list of allowed children page types
+     *
+     * @var array
+     */
     public static $allowed_children = array(
         'SilvercartContactFormResponsePage'
     );
@@ -85,6 +90,11 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
  */
 class SilvercartContactFormPage_Controller extends SilvercartMetaNavigationHolder_Controller {
     
+    /**
+     * List of allowed actions
+     * 
+     * @var array
+     */
     public static $allowed_actions = array(
         'productQuestion',
     );

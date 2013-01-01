@@ -198,7 +198,7 @@ class SilvercartGroupViewDecorator extends DataExtension {
      *
      * @return string
      */
-    protected function getProductGroupHolderTemplateName() {
+    public function getProductGroupHolderTemplateName($templateBase = 'SilvercartProductGroupHolder') {
         $groupHolderView = SilvercartGroupViewHandler::getActiveGroupHolderView();
         if (!$this->owner->isGroupHolderViewAllowed($groupHolderView)) {
             $groupHolderView = $this->owner->getDefaultGroupHolderViewInherited();
@@ -215,7 +215,7 @@ class SilvercartGroupViewDecorator extends DataExtension {
      *
      * @return string
      */
-    protected function getProductGroupPageTemplateName() {
+    public function getProductGroupPageTemplateName($templateBase = 'SilvercartProductGroupPage') {
         $groupView = SilvercartGroupViewHandler::getActiveGroupView();
         if (!$this->owner->isGroupViewAllowed($groupView)) {
             $groupView = $this->owner->getDefaultGroupViewInherited();

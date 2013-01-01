@@ -56,39 +56,50 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             'value' => '1',
             'maxLength' => 3,
             'checkRequirements' => array(
-                'isFilledIn' => true,
-                'isNumbersOnly' => true
+                'isFilledIn'      => true,
+                'isNumbersOnly'   => true
             )
         )
     );
-    /**
-     * preferences
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2010
-     */
-    protected $preferences = array(
-        'submitButtonTitle' => 'in den Warenkorb',
-        'doJsValidationScrolling' => false
-    );
 
     /**
-     * Set initial form values
+     * Preferences
      *
      * @return void
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 02.02.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.11.2012
      */
-    protected function fillInFieldValues() {
+    public function preferences() {
+        $numberOfDecimalPlaces = false;
+
+        $this->preferences['submitButtonTitle']       = _t('SilvercartProduct.ADD_TO_CART');
+        $this->preferences['doJsValidationScrolling'] = false;
+
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
-        $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
+
+        if (array_key_exists('productID', $this->customParameters)) {
+            $silvercartProduct = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
+
+            if ($silvercartProduct) {
+                $numberOfDecimalPlaces = $silvercartProduct->SilvercartQuantityUnit()->numberOfDecimalPlaces;
+            }
+        }
+
+        if ($numberOfDecimalPlaces !== false &&
+            $numberOfDecimalPlaces > 0) {
+
+            if (array_key_exists('isNumbersOnly', $this->formFields['productQuantity']['checkRequirements'])) {
+                unset($this->formFields['productQuantity']['checkRequirements']['isNumbersOnly']);
+            }
+
+            $this->formFields['productQuantity']['checkRequirements']['isDecimalNumber'] = $numberOfDecimalPlaces;
+            $this->formFields['productQuantity']['maxLength'] = 3 + 1 + $numberOfDecimalPlaces;
+        }
     }
 
     /**
-     * executed if there are no valdation errors on submit
-     * Form data is saved in session
+     * executed if there are no validation errors on submit
      *
      * @param SS_HTTPRequest $data     contains the frameworks form data
      * @param Form           $form     not used
