@@ -1743,7 +1743,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $groupProducts = SilvercartProduct::getProducts($filter, $sort, null, $limit);
                 $this->extend('onAfterGetProducts', $groupProducts);
                 $this->groupProducts[$hashKey] = $groupProducts;
-                $this->totalNumberOfProducts   = $groupProducts->TotalItems();
+                $this->totalNumberOfProducts   = $groupProducts->count();
             }
 
             // Inject additional methods into the ArrayList
@@ -2515,7 +2515,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if ($this->getRequest()) {
             $params = $this->getRequest()->allParams();
 
-            if ($params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
+            if (exists($params['Action']) && $params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
                 return true;
             } else {
                 return false;
