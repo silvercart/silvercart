@@ -469,22 +469,15 @@ class SilvercartProductGroupPage extends Page {
         }
 
         if ($this->drawCMSFields()) {
-            $productsTableField = new HasManyComplexTableField(
-                $this,
+            
+            $config = GridFieldConfig_RecordViewer::create(100);
+            $productsTableField = new GridField(
                 'SilvercartProducts',
-                'SilvercartProduct',
-                array(
-                    'Title' => _t('SilvercartProduct.COLUMN_TITLE'),
-                    'Weight' => _t('SilvercartProduct.WEIGHT', 'weight')
-                ),
-                'getCMSFields_forPopup',
-                $filter
+                $this->fieldLabel('SilvercartProducts'),
+                SilvercartProduct::get()->filter(array('SilvercartProductGroupID' => $this->ID)),
+                $config
             );
-            $productsTableField->setPermissions(array(
-                'view'
-            ));
-            $productsTableField->IsReadOnly = true;
-            $tabPARAM = "Root.Content."._t('SilvercartProduct.TITLE', 'product');
+            $tabPARAM = "Root."._t('SilvercartProduct.TITLE', 'product');
             $fields->addFieldToTab($tabPARAM, $productsTableField);
 
             $productAdminLink     = Director::baseURL().'admin/silvercart-products';
@@ -499,7 +492,7 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM, $manageProductsButton);
 
             $tabPARAM3 = "Root." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
-            $fields->addFieldToTab($tabPARAM3, new FileIFrameField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture')));
+            $fields->addFieldToTab($tabPARAM3, new UploadField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE')));
         }
         
         // Google taxonomy breadcrumb field
@@ -529,7 +522,7 @@ class SilvercartProductGroupPage extends Page {
             $breadcrumbList
         ));
 
-        $widgetSetContent = $fields->fieldByName('Root.Content.Widgets.WidgetSetContent');
+        $widgetSetContent = $fields->fieldByName('Root.Widgets.WidgetSetContent');
         if ($widgetSetContent) {
             $widgetSetAdminLink     = Director::baseURL().'admin/silvercart-widget-sets';
             $manageWidgetsButton = new LiteralField(

@@ -76,7 +76,7 @@ class SilvercartPageListWidgetPage extends DataExtension {
      * @since 06.12.2012
      */
     public function updateCMSFields(FieldList $fields) {
-        $widgetInfoTab = $fields->findOrMakeTab('Root.Content.WidgetInfoTab', $this->owner->fieldLabel('widgetInfoTab'));
+        $widgetInfoTab = $fields->findOrMakeTab('Root.WidgetInfoTab', $this->owner->fieldLabel('widgetInfoTab'));
 
         $infoField = new LabelField(
             'widgetInfoTabExplanation',
@@ -94,7 +94,7 @@ class SilvercartPageListWidgetPage extends DataExtension {
             'widgetText',
             $this->owner->fieldLabel('widgetText')
         );
-        $imageField = new ImageField(
+        $imageField = new UploadField(
             'widgetImage',
             $this->owner->fieldLabel('widgetImage')
         );
