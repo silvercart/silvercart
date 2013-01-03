@@ -115,6 +115,7 @@ RequirementsEngine::registerJsFile("silvercart/script/jquery.easing.1.3.js");
 RequirementsEngine::registerJsFile("silvercart/script/SilvercartProductGroupSliderWidget.js");
 RequirementsEngine::registerJsFile("silvercart/script/reflection.js");
 RequirementsEngine::registerJsFile("silvercart/script/slidorion/js/jquery.slidorion.js");
+RequirementsEngine::registerJsFile("silvercart/script/pDialog.js");
 // Require i18n javascript
 Requirements::add_i18n_javascript('silvercart/javascript/lang');
 

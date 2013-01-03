@@ -341,6 +341,16 @@ class SilvercartPage_Controller extends ContentController {
      * @since 2012-10-10
      */
     protected $registeredWidgetSetControllers;
+
+    /**
+     * Contains HTML code from modules that shall be inserted on the Page.ss
+     * template.
+     *
+     * @var array
+     *
+     * @since 2013-01-03
+     */
+    protected static $moduleHtmlInjections = array();
     
     /**
      * Creates a SilvercartPage_Controller
@@ -448,6 +458,39 @@ class SilvercartPage_Controller extends ContentController {
         SilvercartPlugin::call($this, 'init', array($this));
         self::$instanceMemorizer[$this->ID] = true;
         parent::init();
+    }
+
+    /**
+     * Returns HTML code that has been created by SilverCart modules.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-03
+     */
+    public function ModuleHtmlInjections() {
+        $injections = '';
+
+        foreach (self::$moduleHtmlInjections as $injectionId => $injectionCode) {
+            $injections .= $injectionCode;
+        }
+
+        return $injections;
+    }
+
+    /**
+     * Saves HTML code for injection on the Page.ss template.
+     *
+     * @param string $identifier The identifier for the injection
+     * @param string $code       The code to inject
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-03
+     */
+    public static function injectHtmlCode($identifier, $code) {
+        self::$moduleHtmlInjections[$identifier] = $code;
     }
 
     /**
