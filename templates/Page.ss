@@ -180,7 +180,7 @@
                 <div class="clearfix"></div>
                 <div id="silvercart-footer">
                     <div id="silvercart-footer_content">
-                        <% cached 'SilvercartNavigation',Aggregate(SilvercartMetaNavigationHolder).Max(LastEdited),ID %>
+                        <% cached 'SilvercartNavigation',List(SilvercartMetaNavigationHolder).max(LastEdited),ID %>
                             <% with PageByIdentifierCode(SilvercartMetaNavigationHolder) %>
                                 <% loop Children %>
                                     <% if Last %>
