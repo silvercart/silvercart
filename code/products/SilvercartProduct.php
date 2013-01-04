@@ -252,6 +252,14 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $isStockQuantityOverbookable = null;
+    
+    /**
+     * Cached SilvercartTax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var SilvercartTax
+     */
+    protected $cachedSilvercartTax = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1976,8 +1984,25 @@ class SilvercartProduct extends DataObject {
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
     }
-    
+
     /**
+     * Returns the related SilvercartTax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return SilvercartTax
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.01.2013
+     */
+    public function SilvercartTax() {
+        if (is_null($this->cachedSilvercartTax)) {
+            $this->cachedSilvercartTax = $this->getComponent('SilvercartTax');
+            $this->extend('updateSilvercartTax', $this->cachedSilvercartTax);
+        }
+        return $this->cachedSilvercartTax;
+    }
+
+        /**
      * We want to delete all attributed WidgetAreas and Widgets before deletion.
      *
      * @return void
