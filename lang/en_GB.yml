@@ -291,6 +291,8 @@ en_GB:
     USE_DEFAULT_LANGUAGE: "Use default language if no translation is found?"
     USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Display product description in shopping cart"
     USE_STRICT_SEARCH_RELEVANCE: "Use strict search. Displays only exact matches."
+  SilvercartConfigAdmin:
+    MENUTITLE: "SC Configuration"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Contact"
     DEFAULT_URLSEGMENT: "contact"
@@ -320,7 +322,7 @@ en_GB:
            $Message</p>
            
   SilvercartContactMessageAdmin:
-    MENU_TITLE: "Contactmessages"
+    MENUTITLE: "Contact messages"
   SilvercartCountry:
     ACTIVE: "Active"
     ATTRIBUTED_PAYMENTMETHOD: "Attributed payment method"
@@ -615,7 +617,7 @@ en_GB:
     SUBSCRIBEDTONEWSLETTER: "Subscribed to newsletter"
     TYPE: "Type"
   SilvercartCustomerAdmin:
-    customers: "Customers"
+    MENUTITLE: "Customers"
   SilvercartDashboard:
     NEWS_HEADLINE: "News"
     NEWS_READ_MORE: "Read more"
@@ -1374,6 +1376,8 @@ en_GB:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
+  SilvercartProductExporterAdmin:
+    MENUTITLE: "Product Exporter"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart show products of child productgroups"
     DESCRIPTION: "This widget displays products of a child productgroup if there are no products assigned to the current productgroup."
@@ -1642,7 +1646,7 @@ en_GB:
     VARIABLES: "Variables"
     YOUR_TEAM: "Your SilverCart ecommerce team"
   SilvercartShopEmailAdmin:
-    MENUTITLE: "Shop emails"
+    MENUTITLE: "Shop Emails"
   SilvercartShopEmailLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"

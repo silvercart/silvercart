@@ -42,12 +42,6 @@ class SilvercartShoppingCart extends DataObject {
     public static $registeredModules = array();
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     */
-
-    /**
      * 1:n relations
      *
      * @var array

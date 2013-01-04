@@ -66,7 +66,7 @@ class SilvercartDeepLinkAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart deeplinks';
+    public static $menu_title = 'Deeplinks';
 
     /**
      * Managed models

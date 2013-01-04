@@ -79,7 +79,7 @@ class DateRangeSearchFilter extends SearchFilter {
      * Apply filter query SQL to a search query
      * Date range filtering between min and max values
      *
-     * @param SQLQuery $query The query object
+     * @param DataQuery $query The query object
      *
      * @return void
      *
@@ -105,6 +105,34 @@ class DateRangeSearchFilter extends SearchFilter {
                 $min
             ));
         }
+    }
+    
+    /**
+     * mandatory method, because it is an abstract method on the parent class
+     * 
+     * @param DataQuery $query ???
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function applyOne(DataQuery $query) {
+        
+    }
+    
+    /**
+     * mandatory method, because it is an abstract method on the parent class
+     * 
+     * @param DataQuery $query ???
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function excludeOne(DataQuery $query) {
+        
     }
 }
 

@@ -40,14 +40,14 @@ class SilvercartExactMatchBooleanMultiFilter extends SearchFilter {
      * Builds the where clause with the given IDs and boolean values in
      * $this->value
      * 
-     * @param SQLQuery $query Query to build where clause for
+     * @param DataQuery $query Query to build where clause for
      * 
-     * @return SQLQuery
+     * @return DataQuery
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.10.2012
      */
-    public function apply(SQLQuery $query) {
+    public function apply(DataQuery $query) {
         $result = false;
         $value  = $this->getValue();
         if (is_array($value) &&
@@ -101,6 +101,34 @@ class SilvercartExactMatchBooleanMultiFilter extends SearchFilter {
      */
     public function isEmpty() {
         return $this->getValue() == null || $this->getValue() == '';
+    }
+    
+    /**
+     * mandatory method, because it is an abstract method on the parent class
+     * 
+     * @param DataQuery $query ???
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function applyOne(DataQuery $query) {
+        
+    }
+    
+    /**
+     * mandatory method, because it is an abstract method on the parent class
+     * 
+     * @param DataQuery $query ???
+     *
+     * @return void 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function excludeOne(DataQuery $query) {
+        
     }
 
 }

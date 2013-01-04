@@ -66,7 +66,7 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Carriers';
+    public static $menu_title = 'Customers';
 
     /**
      * Managed models
@@ -74,24 +74,8 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'Member' => array(
-            'collection_controller' => 'SilvercartCustomerAdmin_CollectionController'
-        )
-    );
-
-    /**
-     * Constructor
-     *
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.09.2012
-     */
-    public function __construct() {
-        self::$menu_title = _t('SilvercartCustomerAdmin.customers');
-        
-        parent::__construct();
-    }
+                                        'Member'
+                                    );
     
     /**
      * Provides hook for decorators, so that they can overwrite css
@@ -105,5 +89,17 @@ class SilvercartCustomerAdmin extends ModelAdmin {
     public function init() {
         parent::init();
         $this->extend('updateInit');
+    }
+    
+    /**
+     * label for backend
+     *
+     * @return string title for backend navigation 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function SectionTitle() {
+        return _t("SilvercartCustomer.PLURALNAME");
     }
 }

@@ -67,14 +67,11 @@ class SilvercartCustomer extends DataExtension {
         'CustomerNumber'                    => 'VarChar(128)',
     );
     public static $has_one = array(
-        /*
         'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
         'SilvercartInvoiceAddress'      => 'SilvercartAddress',
         'SilvercartShippingAddress'     => 'SilvercartAddress',
-        */
         'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
     );
-    /*
     public static $has_many = array(
         'SilvercartAddresses'   => 'SilvercartAddress',
         'SilvercartOrder'       => 'SilvercartOrder'
@@ -82,7 +79,6 @@ class SilvercartCustomer extends DataExtension {
     public static $belongs_many_many = array(
         'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
     );
-    */
     public static $api_access = array(
         'view' => array(
             'Email'

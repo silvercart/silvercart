@@ -59,7 +59,7 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart contact messages';
+    public static $menu_title = 'Contact Messages';
 
     /**
      * Managed models

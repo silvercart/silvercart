@@ -74,24 +74,8 @@ class SilvercartCustomHtmlFormAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-        'CustomHtmlFormConfiguration' => array(
-            'collection_controller' => 'SilvercartCustomHtmlFormAdmin_CollectionController'
-        )
+        'CustomHtmlFormConfiguration'
     );
-
-    /**
-     * Constructor
-     *
-     * @return SilvercartCustomHtmlFormAdmin
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2012-12-10
-     */
-    public function __construct() {
-        self::$menu_title = _t('CustomHtmlFormConfiguration.PLURALNAME');
-
-        parent::__construct();
-    }
 
     /**
      * Provides hook for decorators, so that they can overwrite css
@@ -105,5 +89,17 @@ class SilvercartCustomHtmlFormAdmin extends ModelAdmin {
     public function init() {
         parent::init();
         $this->extend('updateInit');
+    }
+    
+    /**
+     * title for CMS
+     *
+     * @return string 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 03.01.2013
+     */
+    public function SectionTitle() {
+        return _t('CustomHtmlFormConfiguration.PLURALNAME');
     }
 }

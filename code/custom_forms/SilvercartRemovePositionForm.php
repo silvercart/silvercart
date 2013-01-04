@@ -50,13 +50,16 @@ class SilvercartRemovePositionForm extends CustomHtmlForm {
     
     /**
      * Alternative method to define form fields.
+     * 
+     * @param bool $withUpdate Call the method with decorator updates or not?
+     *             Just defined to be compatible with parent
      *
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.11.2011
      */
-    public function getFormFields() {
+    public function getFormFields($withUpdate = true) {
         SilvercartPlugin::call($this, 'updateFormFields', array($this->formFields), true);
         
         return $this->formFields;

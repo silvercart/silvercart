@@ -146,6 +146,8 @@ de:
     FULL_NAME: "voller Name"
     PLURALNAME: "Frachtführer"
     SINGULARNAME: "Frachtführer"
+  SilvercartCarrierAdmin:
+    MENUTITLE: "Frachtführer"
   SilvercartCarrierLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -289,6 +291,8 @@ de:
     USE_DEFAULT_LANGUAGE: "Standardsprache benutzen, wenn die passende Sprache fehlt?"
     USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Artikelbeschreibung in Warenkorb anzeigen"
     USE_STRICT_SEARCH_RELEVANCE: "Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an."
+  SilvercartConfigAdmin:
+    MENUTITLE: "SC Konfiguration"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Kontakt"
     DEFAULT_URLSEGMENT: "kontakt"
@@ -319,7 +323,7 @@ de:
            <p>$Message</p>
            
   SilvercartContactMessageAdmin:
-    MENU_TITLE: "Kontaktanfragen"
+    MENUTITLE: "Kontaktanfragen"
   SilvercartCountry:
     ACTIVE: "Aktiv"
     ATTRIBUTED_PAYMENTMETHOD: "zugeordnete Bezahlart"
@@ -613,8 +617,12 @@ de:
     SHIPPING_DATA: "Liefer-Adressdaten"
     SUBSCRIBEDTONEWSLETTER: "Newsletter aboniert"
     TYPE: "Typ"
+  SilvercartCustomHtmlFormAdmin:
+    MENUTITLE: "Formulare"
+  CustomHtmlFormConfiguration:
+    PLURALNAME: "Formulare"
   SilvercartCustomerAdmin:
-    customers: "Kunden"
+    MENUTITLE: "Kunden"
   SilvercartDashboard:
     NEWS_HEADLINE: "Neuigkeiten"
     NEWS_READ_MORE: "Weiterlesen"
@@ -766,7 +774,7 @@ de:
     TRANSFER_METHOD: "Übertragungsmethode"
     USE_SHARED_SECRET: "Shared secret benutzen"
   SilvercartInboundShoppingCartTransferAdmin:
-    MENUTITLE: "Externe Warenkorbbefüllung"
+    MENUTITLE: "Ext. Warenkörbe"
   SilvercartInboundShoppingCartTransferPage:
     ERROR_COMBINED_STRING_KEY_NOT_FOUND: "Parameter wurden nicht gesendet"
     ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND: "Parameter wurden nicht gesendet (Artikelbezeichner fehlt)"
@@ -802,6 +810,8 @@ de:
     DESCRIPTION: "Beschreibung"
     PLURALNAME: "Hersteller"
     SINGULARNAME: "Hersteller"
+  SilvercartManufacturerAdmin:
+    MENUTITLE: "Hersteller"
   SilvercartManufacturerLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1379,6 +1389,8 @@ de:
     PLURALNAME: "Preisportal Exporte"
     SINGULARNAME: "Preisportal Export"
     URL: "URL"
+  SilvercartProductExporterAdmin:
+    MENUTITLE: "Produktexporter"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart Anzeige von Produkten aus Unterwarengruppen"
     DESCRIPTION: "Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind."
@@ -1647,6 +1659,8 @@ de:
     SUBJECT: "Betreff"
     VARIABLES: "Variablen"
     YOUR_TEAM: "Ihr SilverCart Webshop Team"
+  SilvercartShopEmailAdmin:
+    MENUTITLE: "Shop Emails"
   SilvercartShopEmailLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1720,6 +1734,8 @@ de:
     PLURALNAME: "Steuersätze"
     RATE_IN_PERCENT: "Steuersatz in %"
     SINGULARNAME: "Steuersatz"
+  SilvercartTaxAdmin:
+    MENUTITLE: "Steuersätze"
   SilvercartTaxLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
