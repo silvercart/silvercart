@@ -381,6 +381,12 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            if (SilvercartConfig::isUserAgentBlacklisted($_SERVER['HTTP_USER_AGENT'])) {
+                exit();
+            }
+        }
+
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();
             return true;
