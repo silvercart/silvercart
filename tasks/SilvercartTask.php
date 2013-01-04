@@ -94,29 +94,56 @@ class SilvercartTask extends ScheduledTask {
     }
     
     /**
+     * Returns whether the task is in silent mode or not
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function isInSilentMode() {
+        return $this->getCliArg('silentmode');
+    }
+
+    /**
      * Prints the errors
      * 
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @since 04.01.2013
      */
     public function printErrors() {
         $occuredErrors = self::get_errors();
         if (count($occuredErrors) > 0) {
-            $tab    = "\t";
-            $errors = PHP_EOL;
             if (count($occuredErrors) == 1) {
-                $errors .= 'An error occured:' . PHP_EOL;
+                $this->printError('An error occured:');
             } else {
-                $errors .= 'Some errors occured:' . PHP_EOL;
+                $this->printError('Some errors occured:');
             }
             foreach ($occuredErrors as $occuredError) {
-                $errors   .= $tab . "\033[41m" . $occuredError . "\033[0m" . PHP_EOL;   
+                $this->printError($occuredError);
             }
-            $errors   .= PHP_EOL;
-            print $errors;
         }
+    }
+    
+    /**
+     * Prints the given error
+     * 
+     * @param string $error Error to print
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function printError($error) {
+        if (!$this->isInSilentMode()) {
+            $tab        = "\t";
+            $errorText  = $tab . "\033[41m" . $error . "\033[0m" . PHP_EOL;
+            print $errorText;
+        }
+        $this->Log('ERROR', $error);
     }
     
     /**
@@ -130,18 +157,10 @@ class SilvercartTask extends ScheduledTask {
     public function printInfos() {
         $infos = self::get_infos();
         if (count($infos) > 0) {
-            $tab        = "\t";
-            $infoText   = PHP_EOL;
-            if (count($infos) == 1) {
-                $infoText .= 'An error occured:' . PHP_EOL;
-            } else {
-                $infoText .= 'Some errors occured:' . PHP_EOL;
-            }
+            $this->printInfo('Caution:');
             foreach ($infos as $info) {
-                $infoText .= $tab . "\033[41m" . $info . "\033[0m" . PHP_EOL;   
+                $this->printInfo($info);
             }
-            $infoText   .= PHP_EOL;
-            print $infoText;
         }
     }
     
@@ -156,11 +175,12 @@ class SilvercartTask extends ScheduledTask {
      * @since 18.12.2012
      */
     public function printInfo($info) {
-        $tab        = "\t";
-        $infoText   = PHP_EOL;
-        $infoText   .= $tab . "\033[33m" . $info . "\033[0m" . PHP_EOL;
-        $infoText   .= PHP_EOL;
-        print $infoText;
+        if (!$this->isInSilentMode()) {
+            $tab        = "\t";
+            $infoText   = $tab . "\033[33m" . $info . "\033[0m" . PHP_EOL;
+            print $infoText;
+        }
+        $this->Log('INFO', $info);
     }
 
     /**
@@ -256,6 +276,21 @@ class SilvercartTask extends ScheduledTask {
      */
     public static function set_infos($infos) {
         self::$infos = $infos;
+    }
+
+    /**
+     * Writes a log entry
+     *
+     * @param string $type The type to log
+     * @param string $text The text to log
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.01.2013
+     */
+    public function Log($type, $text) {
+        SilvercartTools::Log($type, $text, get_class($this));
     }
     
 }
