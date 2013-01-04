@@ -1358,6 +1358,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * Set the total number of products for the current controller.
      *
      * @param int $numberOfProducts The number of products to set
+     * 
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.12.2012
@@ -1371,6 +1373,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * current controller.
      *
      * @param int $numberOfProducts The number of products to set
+     * 
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.12.2012
@@ -2502,13 +2506,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2011
+     * @since 04.01.2013
      */
     public function isFilteredByManufacturer() {
         if ($this->getRequest()) {
             $params = $this->getRequest()->allParams();
 
-            if (exists($params['Action']) && $params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
+            if (is_array($params) && array_key_exists('Action', $params) && $params['Action'] == _t('SilvercartProductGroupPage.MANUFACTURER_LINK','manufacturer') && !empty ($params['ID'])) {
                 return true;
             } else {
                 return false;
