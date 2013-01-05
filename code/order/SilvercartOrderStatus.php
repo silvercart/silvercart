@@ -158,6 +158,7 @@ class SilvercartOrderStatus extends DataObject {
                 'SilvercartOrderStatusLanguages'        => _t('SilvercartOrderStatusLanguage.PLURALNAME'),
                 'ShopEmailsTab'                         => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
                 'ShopEmailLabelField'                   => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC'),
+                'ShopEmails'                            => _t('SilvercartShopEmail.PLURALNAME')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -188,12 +189,14 @@ class SilvercartOrderStatus extends DataObject {
                 $this->fieldLabel('ShopEmailLabelField')
             )
         );
-        $shopEmailField = new ManyManyComplexTableField(
-            $this,
-            'SilvercartShopEmails',
-            'SilvercartShopEmail'
-        );
-        $shopEmailField->setPageSize(20);
+        
+        $config = GridFieldConfig_RelationEditor::create(100);
+        $shopEmailField = new GridField(
+                                'SilvercartShopEmails',
+                                $this->fieldLabel('ShopEmails'),
+                                SilvercartShopEmail::get(),
+                                $config
+                              );
 
         $fields->findOrMakeTab('Root.shopEmails', $this->fieldLabel('ShopEmailsTab'));
         

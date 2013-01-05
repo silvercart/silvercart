@@ -189,7 +189,7 @@ class SilvercartTextAutoCompleteField extends TextField {
      */
     public function FieldHolderScript() {
         $baseUrl = SilvercartTools::getBaseURLSegment();
-        Requirements::css($baseUrl . 'sapphire/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
+        Requirements::css($baseUrl . FRAMEWORK_DIR . '/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
         Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.autocomplete.js');
         Requirements::javascript($baseUrl . 'silvercart/script/SilvercartTextAutoCompleteField.js');
         $autoCompleteSource = $this->getAutoCompleteSource();

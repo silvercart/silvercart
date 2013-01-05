@@ -1047,6 +1047,7 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForWidgets($fields) {
+        /**
         $availableWidgets = array();
 
         $classes = ClassInfo::subclassesFor('Widget');
@@ -1068,6 +1069,17 @@ class SilvercartProduct extends DataObject {
         );
 
         $fields->addFieldToTab('Root.Widgets', $widgetAreaField);
+        /**/
+        $fields->addFieldsToTab(
+                'Root.Widgets',
+                $this->WidgetArea()->scaffoldFormFields(
+                        array(
+                            'includeRelations'  => ($this->ID > 0),
+                            'tabbed'            => false,
+                            'ajaxSafe'          => true
+                        )
+                )
+        );
     }
 
     /**
@@ -1157,6 +1169,12 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForImages($fields) {
+        $silvercartImageField = new GridField(
+                'SilvercartImages',
+                'SilvercartImage',
+                $this->SilvercartImages()
+        );
+        /**
         $silvercartImageField = new ComplexTableField(
                 $this,
                 'SilvercartImages',
@@ -1175,6 +1193,7 @@ class SilvercartProduct extends DataObject {
                     'delete',
                 )
         );
+        /**/
         $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageField);
     }
 
@@ -1186,6 +1205,12 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForFiles($fields) {
+        $silvercartFileField = new GridField(
+                'SilvercartFiles',
+                'SilvercartFile',
+                $this->SilvercartFiles()
+        );
+        /**
         $silvercartFileField = new ComplexTableField(
                 $this,
                 'SilvercartFiles',
@@ -1204,6 +1229,7 @@ class SilvercartProduct extends DataObject {
                     'delete',
                 )
         );
+        /**/
         $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
     }
 
@@ -2176,7 +2202,7 @@ class SilvercartProduct extends DataObject {
             $noImageObj = SilvercartConfig::getNoImage();
 
             if ($noImageObj) {
-                return new ArrayList($noImageObj->Image());
+                return new ArrayList($noImageObj);
             }
         }
 
