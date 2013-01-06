@@ -592,7 +592,7 @@ de:
     TITLE_ZM: "Sambia"
     TITLE_ZW: "Simbabwe"
   SilvercartCountryAdmin:
-    MENUTITLE: Länder
+    MENUTITLE: "Länder"
   SilvercartCountryLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -619,6 +619,8 @@ de:
     TYPE: "Typ"
   SilvercartCustomHtmlFormAdmin:
     MENUTITLE: "Formulare"
+    PLURALNAME: "Formulare"
+    SINGULARNAME: "Formulare"
   CustomHtmlFormConfiguration:
     PLURALNAME: "Formulare"
   SilvercartCustomerAdmin:
@@ -1049,7 +1051,7 @@ de:
     SHIPPED: "Bestellung versendet"
     SINGULARNAME: "Bestellstatus"
   SilvercartOrderStatusAdmin:
-    MENUTITLE: "Bestellstati"
+    MENUTITLE: "Bestellstatus"
   SilvercartOrderStatusLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1377,6 +1379,7 @@ de:
     PROTOCLOFORLINKS: "Protokoll für Links"
     SINGULARNAME: "Artikelexport"
   SilvercartProductExportAdmin:
+    MENUTITLE: "Produktexporter"
     PUSH_ENABLED_LABEL: "Push aktivieren"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart Artikelexport"
     TAB_BASIC_SETTINGS: "Grundeinstellungen"
@@ -1388,9 +1391,7 @@ de:
   SilvercartProductExporter:
     PLURALNAME: "Preisportal Exporte"
     SINGULARNAME: "Preisportal Export"
-    URL: "URL"
-  SilvercartProductExporterAdmin:
-    MENUTITLE: "Produktexporter"
+    URL: "URL"  
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart Anzeige von Produkten aus Unterwarengruppen"
     DESCRIPTION: "Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind."

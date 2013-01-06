@@ -616,6 +616,10 @@ en:
     SHIPPING_DATA: "Shipping address data"
     SUBSCRIBEDTONEWSLETTER: "Subscribed to newsletter"
     TYPE: "Type"
+  SilvercartCustomHtmlFormAdmin:
+    MENUTITLE: "Forms"
+    PLURALNAME: "Forms"
+    SINGULARNAME: "Form"
   SilvercartCustomerAdmin:
     MENUTITLE: "Customers"
   SilvercartDashboard:
