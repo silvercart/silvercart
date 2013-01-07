@@ -314,154 +314,112 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
 
         if (empty($useExtensionResults)) {
-            if (SilvercartConfig::UseApacheSolrSearch()) {
-                $solr = new Apache_Solr_Service('localhost', SilvercartConfig::apacheSolrPort(), SilvercartConfig::apacheSolrUrl());
-                if ($solr->ping()) {
-                    // --------------------------------------------------------
-                    // Apache Solr search
-                    // --------------------------------------------------------
-                    $searchResultProducts = array();
-                    $foundProductsTotal   = 0;
-                    $queries              = array(
-                        sprintf(
-                            "Title: %s",
-                            $searchQuery
-                        )
-                    );
+            $wordCount      = 0;
+            $minRelevance   = '> 0';
 
-                    foreach ($queries as $query) {
-                        $response = $solr->search($query, $SQL_start, $productsPerPage);
-
-                        if ($response->getHttpStatus() == 200) {
-                            $foundProductsTotal += $response->response->numFound;
-
-                            if ($foundProductsTotal > 0) {
-                                foreach ($response->response->docs as $doc ) {
-                                    $product = DataObject::get_by_id(
-                                        'SilvercartProduct',
-                                        $doc->ID
-                                    );
-
-                                    if ($product) {
-                                        $searchResultProducts[] = $product;
-                                    }
-                                }
-                            }
-                        } else {
-                            echo $response->getHttpStatusMessage();
-                        }
-                    }
-                    $searchResultProducts = new DataObjectSet($searchResultProducts);
-                    $searchResultProducts->setPageLimits($SQL_start, $productsPerPage, $foundProductsTotal);
+            // remove words with less than 3 chars
+            foreach ($searchTerms as $value) {
+                if (strlen($value) >= 3) {
+                    $wordCount++;
+                    $value = str_replace('(', '', $value);
+                    $value = str_replace(')', '', $value);
+                    $filteredQuerySearchQuery .= '+' . $value;
+                    $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
                 }
-            } else {
-                $wordCount      = 0;
-                $minRelevance   = '> 0';
-                
-                // remove words with less than 3 chars
-                foreach ($searchTerms as $value) {
-                    if (strlen($value) >= 3) {
-                        $wordCount++;
-                        $value = str_replace('(', '', $value);
-                        $value = str_replace(')', '', $value);
-                        $filteredQuerySearchQuery .= '+' . $value;
-                        $filteredQuerySearchQueryWithStar .= '+' . $value . '*';
-                    }
-                }
-                
-                if (SilvercartConfig::useStrictSearchRelevance() &&
-                    $wordCount > 1) {
-                    $minRelevance = '>= ' . (1 + (($wordCount - 1) / 3));
-                }
-                $this->listFilters['original'] = sprintf("
-                    `SilvercartProductGroupID` IS NOT NULL AND
-                    `SilvercartProductGroupID` > 0 AND
-                    `SilvercartProductGroupPage_Live`.`ID` > 0 AND
-                    `isActive` = 1 AND (
-                        (
-                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
-                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
-                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
-                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
-                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
-                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s
-                        ) OR
-                        `MetaKeywords` LIKE '%%%s%%' OR
-                        `ProductNumberShop` LIKE '%%%s%%' OR
-                        STRCMP(
-                            SOUNDEX(`Title`), SOUNDEX('%s')
-                        ) = 0
-                    )
-                    ",
-                    $filteredQuerySearchQuery, // Title via Match Against
-                    $minRelevance,
-                    $filteredQuerySearchQuery, // ShortDescription via Match Against
-                    $minRelevance,
-                    $filteredQuerySearchQuery, // LongDescription via Match Against
-                    $minRelevance,
-                    $filteredQuerySearchQueryWithStar, // Title via Match Against
-                    $minRelevance,
-                    $filteredQuerySearchQueryWithStar, // ShortDescription via Match Against
-                    $minRelevance,
-                    $filteredQuerySearchQueryWithStar, // LongDescription via Match Against
-                    $minRelevance,
-                    $searchQuery,// MetaKeywords
-                    $searchQuery,// ProductNumberShop
-                    $searchQuery// Title SOUNDEX
-                );
-
-                if (count(self::$registeredFilterPlugins) > 0) {
-                    foreach (self::$registeredFilterPlugins as $registeredPlugin) {
-                        $pluginFilters = $registeredPlugin->filter();
-
-                        if (is_array($pluginFilters)) {
-                            $this->listFilters = array_merge(
-                                $this->listFilters,
-                                $pluginFilters
-                            );
-                        }
-                    }
-                }
-                $this->extend('updateListFilters', $this->listFilters, $searchTerms);
-
-                foreach ($this->listFilters as $listFilter) {
-                    if (empty($filter)) {
-                        $filter =  $listFilter;
-                    } else {
-                        $filter = '(' . $filter . ') ' . $listFilter;
-                    }
-                }
-                
-                if (SilvercartProduct::defaultSort() == 'relevance') {
-                    $sort = sprintf(
-                            "
-                                MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) DESC,
-                                MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC,
-                                MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC
-                            ",
-                            $filteredQuerySearchQuery,
-                            $filteredQuerySearchQueryWithStar,
-                            $filteredQuerySearchQuery,
-                            $filteredQuerySearchQueryWithStar,
-                            $filteredQuerySearchQuery,
-                            $filteredQuerySearchQueryWithStar
-                    );
-                } else {
-                    $sort = SilvercartProduct::defaultSort();
-                }
-                
-                $searchResultProducts = SilvercartProduct::get(
-                    $filter,
-                    $sort,
-                    "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"
-                    ,
-                    sprintf(
-                        "%d,%d",
-                        $SQL_start,
-                        $productsPerPage
-                    )
-                );
             }
+
+            if (SilvercartConfig::useStrictSearchRelevance() &&
+                $wordCount > 1) {
+                $minRelevance = '>= ' . (1 + (($wordCount - 1) / 3));
+            }
+            $this->listFilters['original'] = sprintf("
+                `SilvercartProductGroupID` IS NOT NULL AND
+                `SilvercartProductGroupID` > 0 AND
+                `SilvercartProductGroupPage_Live`.`ID` > 0 AND
+                `isActive` = 1 AND (
+                    (
+                        MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                        MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                        MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                        MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                        MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) %s OR
+                        MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) %s
+                    ) OR
+                    `MetaKeywords` LIKE '%%%s%%' OR
+                    `ProductNumberShop` LIKE '%%%s%%' OR
+                    STRCMP(
+                        SOUNDEX(`Title`), SOUNDEX('%s')
+                    ) = 0
+                )
+                ",
+                $filteredQuerySearchQuery, // Title via Match Against
+                $minRelevance,
+                $filteredQuerySearchQuery, // ShortDescription via Match Against
+                $minRelevance,
+                $filteredQuerySearchQuery, // LongDescription via Match Against
+                $minRelevance,
+                $filteredQuerySearchQueryWithStar, // Title via Match Against
+                $minRelevance,
+                $filteredQuerySearchQueryWithStar, // ShortDescription via Match Against
+                $minRelevance,
+                $filteredQuerySearchQueryWithStar, // LongDescription via Match Against
+                $minRelevance,
+                $searchQuery,// MetaKeywords
+                $searchQuery,// ProductNumberShop
+                $searchQuery// Title SOUNDEX
+            );
+
+            if (count(self::$registeredFilterPlugins) > 0) {
+                foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                    $pluginFilters = $registeredPlugin->filter();
+
+                    if (is_array($pluginFilters)) {
+                        $this->listFilters = array_merge(
+                            $this->listFilters,
+                            $pluginFilters
+                        );
+                    }
+                }
+            }
+            $this->extend('updateListFilters', $this->listFilters, $searchTerms);
+
+            foreach ($this->listFilters as $listFilter) {
+                if (empty($filter)) {
+                    $filter =  $listFilter;
+                } else {
+                    $filter = '(' . $filter . ') ' . $listFilter;
+                }
+            }
+
+            if (SilvercartProduct::defaultSort() == 'relevance') {
+                $sort = sprintf(
+                        "
+                            MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(Title) AGAINST ('%s' IN BOOLEAN MODE) DESC,
+                            MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(ShortDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC,
+                            MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) + MATCH(LongDescription) AGAINST ('%s' IN BOOLEAN MODE) DESC
+                        ",
+                        $filteredQuerySearchQuery,
+                        $filteredQuerySearchQueryWithStar,
+                        $filteredQuerySearchQuery,
+                        $filteredQuerySearchQueryWithStar,
+                        $filteredQuerySearchQuery,
+                        $filteredQuerySearchQueryWithStar
+                );
+            } else {
+                $sort = SilvercartProduct::defaultSort();
+            }
+
+            $searchResultProducts = SilvercartProduct::get(
+                $filter,
+                $sort,
+                "LEFT JOIN `SilvercartProductGroupPage_Live` ON `SilvercartProductGroupPage_Live`.`ID` = `SilvercartProductGroupID`"
+                ,
+                sprintf(
+                    "%d,%d",
+                    $SQL_start,
+                    $productsPerPage
+                )
+            );
         }
         $this->searchResultProducts  = $searchResultProducts;
         $this->totalNumberOfProducts = $searchResultProducts->TotalItems();
