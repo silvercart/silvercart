@@ -1320,25 +1320,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 }
             } else {
                 // a product group view is requested
-                $products = $this->getProducts();
-                Session::set("SilvercartProductGroupPageID", $this->ID);
-                Session::save();
-                // Initialise formobjects
-                if ($products) {
-                    $backlink               = $this->Link()."?start=".$this->SQL_start;
-                    $productAddCartFormName = $this->getCartFormName();
-                    foreach ($products as $product) {
-                        $productAddCartForm = new $productAddCartFormName(
-                                $this,
-                                array(
-                                    'productID' => $product->ID,
-                                    'backLink'  => $backlink,
-                                )
-                        );
-                        $this->registerCustomHtmlForm('ProductAddCartForm' . $product->ID, $productAddCartForm);
-                        $product->productAddCartFormObj = $productAddCartForm;
-                    }
-                }
+                $this->initProductGroupPageProductForms();
 
                 // Register selector forms, e.g. the "products per page" selector
                 $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
@@ -1348,6 +1330,39 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     'SilvercartProductGroupPageSelectors',
                     $selectorForm
                 );
+            }
+        }
+    }
+
+    /**
+     * Initialises the form objects for this page's products.
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-08
+     */
+    public function initProductGroupPageProductForms() {
+        if (!$this->extend('overwriteInitProductGroupPageProductForms')) {
+            $products = $this->getProducts();
+
+            Session::set("SilvercartProductGroupPageID", $this->ID);
+            Session::save();
+            // Initialise formobjects
+            if ($products) {
+                $backlink               = $this->Link()."?start=".$this->SQL_start;
+                $productAddCartFormName = $this->getCartFormName();
+                foreach ($products as $product) {
+                    $productAddCartForm = new $productAddCartFormName(
+                        $this,
+                        array(
+                            'productID' => $product->ID,
+                            'backLink'  => $backlink,
+                        )
+                    );
+                    $this->registerCustomHtmlForm('ProductAddCartForm' . $product->ID, $productAddCartForm);
+                    $product->productAddCartFormObj = $productAddCartForm;
+                }
             }
         }
     }
