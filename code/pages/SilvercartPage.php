@@ -1027,13 +1027,22 @@ class SilvercartPage_Controller extends ContentController {
      * @since 28.05.2011
      */
     public function SilvercartShoppingCart() {
-        $member = Member::currentUser();
-        
-        if (!$member) {
+        $controller = Controller::curr();
+
+        if ($this->class == $controller->class &&
+            !SilvercartTools::isIsolatedEnvironment() &&
+            !SilvercartTools::isBackendEnvironment()) {
+
+            $member = Member::currentUser();
+
+            if (!$member) {
+                return false;
+            }
+
+            return $member->SilvercartShoppingCart();
+        } else {
             return false;
         }
-        
-        return $member->SilvercartShoppingCart();
     }
     
     /**
