@@ -808,8 +808,7 @@ class SilvercartProductGroupPage extends Page {
      * @return DataObjectSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 26.04.2012
+     * @since 17.12.2012
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
@@ -829,20 +828,34 @@ class SilvercartProductGroupPage extends Page {
                 }
             }
             
+            
+            $filter = array(
+                '',
+            );
+
             if (!empty($requiredAttributes)) {
                 foreach ($requiredAttributes as $requiredAttribute) {
-                    if ($requiredAttribute == "Price") {
-                        if (SilvercartConfig::Pricetype() == 'net') {
-                            $priceTypeFilter = 'PriceNetAmount > 0';
+                    //find out if we are dealing with a real attribute or a multilingual field
+                    if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
+                        if ($requiredAttribute == "Price") {
+                            // Gross price as default if not defined
+                            if (SilvercartConfig::Pricetype() == "net") {
+                                $filter[] = sprintf("(`PriceNetAmount` != 0.0)");
+                            } else {
+                                $filter[] = sprintf("(`PriceGrossAmount` != 0.0)");
+                            }
                         } else {
-                            $priceTypeFilter = 'PriceGrossAmount > 0';
+                            $filter[] = sprintf("`%s` != ''", $requiredAttribute);
                         }
+                    } else {
+                        // if its a multilingual attribute it comes from a relational class
+                        $filter[] = sprintf("SilvercartProductLanguage.%s != ''", $requiredAttribute);
                     }
+
                 }
             }
-
-            if (!empty($priceTypeFilter)) {
-                $priceTypeFilter = ' AND '.$priceTypeFilter;
+            if (count($filter) == 1) {
+                $filter = array();
             }
             
             $records = DB::query(
@@ -864,7 +877,7 @@ class SilvercartProductGroupPage extends Page {
                         %s",
                     implode(',', $productGroupIDs),
                     implode(',', $productGroupIDs),
-                    $priceTypeFilter
+                    implode(' AND ', $filter)
                 )
             );
             
@@ -1384,6 +1397,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @param int $numberOfProducts The number of products to set
      *
+     * @return void
+     * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.12.2012
      */
@@ -1396,6 +1411,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * current controller.
      *
      * @param int $numberOfProducts The number of products to set
+     *
+     * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 05.12.2012
