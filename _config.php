@@ -29,7 +29,7 @@ if (strpos(phpversion(), '5.3') === 0) {
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
-SilvercartProduct::setRequiredAttributes("Price");
+SilvercartProduct::addRequiredAttribute("Price");
 
 // ----------------------------------------------------------------------------
 // disable default pages for SiteTree
