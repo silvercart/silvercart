@@ -1166,13 +1166,13 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasicFieldSet = new FieldSet();
         $tabBasic->setChildren($tabBasicFieldSet);
         //multilingual fields
+        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
         if ($this->isExtendingSilvercartPaymentMethod()) {
            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
             foreach ($languageFields as $languageField) {
                 $tabBasicFieldSet->push($languageField);
             } 
         }
-        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
         $tabBasicFieldSet->push(new DropdownField(
                     'mode',
                     _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'
