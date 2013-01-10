@@ -1564,20 +1564,31 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @since 23.10.2010
-     * @author Roland Lehmann
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2012
      */
     public static function setRequiredAttributes($concatinatedAttributesString) {
-        $requiredAttributes      = array();
         $requiredAttributesArray = explode(",", str_replace(" ", "", $concatinatedAttributesString));
-
         foreach ($requiredAttributesArray as $attribute) {
-            if (!in_array($attribute, self::$blacklistedRequiredAttributes)) {
-                $requiredAttributes[] = $attribute;
-            }
+            self::addRequiredAttribute($attribute);
         }
+    }
 
-        self::$requiredAttributes = $requiredAttributes;
+    /**
+     * Adds an attribute to the required attributes
+     *
+     * @param string $attribute The attribute to add
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2012
+     */
+    public static function addRequiredAttribute($attribute) {
+        if (!in_array($attribute, self::$blacklistedRequiredAttributes) &&
+            !in_array($attribute, self::$requiredAttributes)) {
+            self::$requiredAttributes[] = $attribute;
+        }
     }
 
     /**
