@@ -314,14 +314,13 @@ class SilvercartCountry extends DataObject {
         $fields->removeByName('SilvercartZones');
         $fields->removeByName('Locale');//Field comes from Translatable
 
-        $paymentMethodsTable = new ManyManyComplexTableField(
-            $this,
+        $config = GridFieldConfig_RelationEditor::create(100);
+        $paymentMethodsTable = new GridField(
             'SilvercartPaymentMethods',
-            'SilvercartPaymentMethod',
-            null,
-            'getCmsFields_forPopup'
+             $this->fieldLabel('SilvercartPaymentMethods'),
+             SilvercartPaymentMethod::get(),
+             $config
         );
-        $paymentMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.TITLE', 'payment method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
         

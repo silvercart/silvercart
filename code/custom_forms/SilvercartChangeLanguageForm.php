@@ -57,13 +57,15 @@ class SilvercartChangeLanguageForm extends CustomHtmlForm {
     
     /**
      * Returns the preferences for this form
+     * 
+     * @param bool $withUpdate Call the method with decorator updates or not?
      *
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.04.2012
      */
-    public function getFormFields() {
+    public function getFormFields($withUpdate = true) {
         $this->formFields = array(
             'Language' => array(
                 'type' => 'SilvercartLanguageDropdownField',
@@ -75,7 +77,7 @@ class SilvercartChangeLanguageForm extends CustomHtmlForm {
                 )
             ),
         );
-        return parent::getFormFields();
+        return parent::getFormFields($withUpdate);
     }
     
     /**

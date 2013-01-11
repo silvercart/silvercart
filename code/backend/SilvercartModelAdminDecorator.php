@@ -52,7 +52,7 @@ class SilvercartModelAdminDecorator extends DataExtension {
         $preventAutoLoadingClassNames           = $this->getPreventAutoLoadForManagedModels();
         $enabledFirstEntryAutoLoadClassNames    = $this->getEnabledFirstEntryAutoLoadForManagedModels();
 
-        Requirements::javascript($baseUrl . "silvercart/script/SilvercartManyManyComplexTableField.js");
+        #Requirements::javascript($baseUrl . "silvercart/script/SilvercartManyManyComplexTableField.js");
         
         Requirements::block($baseUrl . FRAMEWORK_DIR. '/thirdparty/jquery-ui/jquery.ui.core.js');
         Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.core.js');

@@ -1116,12 +1116,12 @@ class SilvercartPaymentMethod extends DataObject {
         /*
          * add ability to set the relation to ShippingMethod with checkboxes
          */
-        $shippingMethodsTable = new ManyManyComplexTableField(
-            $this,
-            'SilvercartShippingMethods',
-            'SilvercartShippingMethod',
-            array('Title' => 'Title'),
-            'getCMSFields_forPopup'
+        $config = GridFieldConfig_RelationEditor::create(100);
+        $shippingMethodsTable = new GridField(
+                'SilvercartShippingMethods',
+                _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'),
+                SilvercartShippingMethod::get(),
+                $config
         );
         $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabParam = "Root." . _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method');
@@ -1178,14 +1178,11 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $tabHandlingCosts= new Tab('HandlingCosts', _t('SilvercartPaymentMethod.HANDLINGCOSTS_SETTINGS'));
         $tabset->push($tabHandlingCosts);
-
+        $config = GridFieldConfig_RelationEditor::create();
+        $handlingCostField = new GridField('SilvercartHandlingCost', 'SilvercartHandlingCost', SilvercartHandlingCost::get(), $config);
         $tabHandlingCosts->setChildren(
             new FieldList(
-                new HasOneComplexTableField(
-                    $this,
-                    'SilvercartHandlingCost',
-                    'SilvercartHandlingCost'
-                )
+                $handlingCostField
             )
         );
 
@@ -1195,25 +1192,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
         
-        
-        $paymentLogosTable = new ComplexTableField(
-                $this,
-                'PaymentLogos',
-                'SilvercartImage',
-                null,
-                'getCMSFieldsForPayment',
-                sprintf(
-                        "\"SilvercartImage\".\"SilvercartPaymentMethodID\" = '%s'",
-                        $this->ID
-                )
-        );
-        $paymentLogosTable->setPermissions(
-                array(
-                    'add',
-                    'edit',
-                    'delete',
-                )
-        );
+        $paymentLogosTable = new GridField('PaymentLogos', 'PaymentLogos', $this->PaymentLogos(), $config);
         $tabLogos->setChildren(
             new FieldList(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
@@ -1237,53 +1216,41 @@ class SilvercartPaymentMethod extends DataObject {
         $tabsetAccessManagement->push($tabAccessManagementGroup);
         $tabsetAccessManagement->push($tabAccessManagementUser);
         
-        $showOnlyForGroupsTable = new ManyManyComplexTableField(
-            $this,
-            'ShowOnlyForGroups',
-            'Group'
+        
+        $config = GridFieldConfig_Base::create(100);
+        $showOnlyForGroupsTable = new GridField(
+                'ShowOnlyForGroups',
+                 'ShowOnlyForGroups',
+                 Group::get(),
+                 $config
         );
-        $showOnlyForGroupsTable->setPermissions(array('show'));
-        $showNotForGroupsTable = new ManyManyComplexTableField(
-            $this,
-            'ShowNotForGroups',
-            'Group'
+        $showNotForGroupsTable = new GridField(
+                'ShowNotForGroups',
+                'ShowNotForGroups',
+                Group::get(),
+                $config
         );
-        $showNotForGroupsTable->setPermissions(array('show'));
-        $anonymousGroup = Group::get_one('Group', "\"Code\" = 'anonymous'");
-        $showOnlyForUsersTable = new ManyManyComplexTableField(
-            $this,
-            'ShowOnlyForUsers',
-            'Member',
-            null,
-            null,
-            sprintf(
-                    "\"Group_Members\".\"GroupID\" != '%s'",
-                    $anonymousGroup->ID
-            ),
-            "",
-            "LEFT JOIN \"Group_Members\" ON (\"Group_Members\".\"MemberID\" = \"Member\".\"ID\")"
+        $anonyousMembers = Group::get()->filter(array('Code' => 'anonymous'))->First()->Members();
+        $showOnlyForUsersTable = new GridField(
+                'ShowOnlyForUsers',
+                'ShowOnlyForUsers',
+                $anonyousMembers,
+                $config
         );
-        $showOnlyForUsersTable->setPermissions(array('show'));
-        $showNotForUsersTable = new ManyManyComplexTableField(
-            $this,
-            'ShowNotForUsers',
-            'Member',
-            null,
-            null,
-            sprintf(
-                    "\"Group_Members\".\"GroupID\" != '%s'",
-                    $anonymousGroup->ID
-            ),
-            "",
-            "LEFT JOIN \"Group_Members\" ON (\"Group_Members\".\"MemberID\" = \"Member\".\"ID\")"
+        $showNotForUsersTable = new GridField(
+                'ShowNotForUsers',
+                'ShowNotForUsers',
+                $anonyousMembers,
+                $config
         );
-        $showNotForUsersTable->setPermissions(array('show'));
         
         $restrictionByOrderQuantityField = new TextField('orderRestrictionMinQuantity', '');
-        $restrictionByOrderStatusField   = new ManyManyComplexTableField(
-            $this,
-            'OrderRestrictionStatus',
-            'SilvercartOrderStatus'
+        
+        $restrictionByOrderStatusField = new GridField(
+                'OrderRestrictionStatus',
+                'SilvercartOrderStatus',
+                SilvercartOrderStatus::get(),
+                $config
         );
         
         // Access management basic --------------------------------------------
@@ -1370,8 +1337,8 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $countriesTab = new Tab('SilvercartCountries', $this->fieldLabel('SilvercartCountries'));
         $tabset->push($countriesTab);
-        $countriesTable = new SilvercartManyManyComplexTableField($this, 'SilvercartCountries', 'SilvercartCountry');
-        $countriesTable->pageSize = 50;
+        $config = GridFieldConfig_RelationEditor::create(50);
+        $countriesTable = new GridField('SilvercartCountries', 'SilvercartCountries', SilvercartCountry::get(), $config);
         $countriesTab->push($countriesTable);
         
         // --------------------------------------------------------------------
@@ -1379,17 +1346,22 @@ class SilvercartPaymentMethod extends DataObject {
         // --------------------------------------------------------------------
         $shippingMethodsTab     = new Tab('SilvercartShippingMethods', $this->fieldLabel('SilvercartShippingMethods'));
         $shippingMethodsDesc    = new HeaderField('SilvercartShippingMethodsDesc', _t('SilvercartPaymentMethod.SHIPPINGMETHOD_DESC'));
-        $shippingMethodsTable   = new ManyManyComplexTableField(
-            $this,
-            'SilvercartShippingMethods',
-            'SilvercartShippingMethod'
+        
+        $shippingMethodsTable = new GridField(
+                'SilvercartShippingMethods',
+                _t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'),
+                SilvercartShippingMethod::get(),
+                $config
         );
-        $shippingMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.SHIPPINGMETHOD', 'shipping method'));
         $tabset->push($shippingMethodsTab);
         $shippingMethodsTab->push($shippingMethodsDesc);
         $shippingMethodsTab->push($shippingMethodsTable);
         
-        return new FieldList($tabset);
+        /*
+         * the tab set root is needed because the framework seems to fall back on it at some point.
+         */
+        $rootTabSet = new TabSet('Root');
+        return new FieldList($tabset, $rootTabSet);
     }
 
     /**
