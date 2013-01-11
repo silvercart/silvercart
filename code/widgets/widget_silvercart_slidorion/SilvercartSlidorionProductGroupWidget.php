@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
+class SilvercartSlidorionProductGroupWidget extends WidgetSetWidget {
     
     /**
      * Attributes
@@ -511,7 +511,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_Controller {
+class SilvercartSlidorionProductGroupWidget_Controller extends WidgetSetWidget_Controller {
     
     /**
      * Load javascript and css files.

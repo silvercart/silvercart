@@ -32,7 +32,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
+class SilvercartProductGroupChildProductsWidget extends WidgetSetWidget {
 
     /**
      * Set whether to use the widget container divs or not.
@@ -189,7 +189,7 @@ class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWidget_Controller {
+class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidget_Controller {
 
     /**
      * Product elements

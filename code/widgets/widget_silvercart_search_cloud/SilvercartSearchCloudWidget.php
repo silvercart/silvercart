@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartSearchCloudWidget extends SilvercartWidget {
+class SilvercartSearchCloudWidget extends WidgetSetWidget {
     
     /**
      * attributes
@@ -230,7 +230,7 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartSearchCloudWidget_Controller extends SilvercartWidget_Controller {
+class SilvercartSearchCloudWidget_Controller extends WidgetSetWidget_Controller {
     
     
 }

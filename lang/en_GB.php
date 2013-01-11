@@ -1572,17 +1572,6 @@ $lang['en_GB']['SilvercartUpdate']['STATUSMESSAGE_ERROR'] = 'An unknown error oc
 
 $lang['en_GB']['SilvercartUpdateAdmin']['SILVERCART_UPDATE'] = 'Updates';
 
-$lang['en_GB']['SilvercartWidget']['SORT_ORDER_LABEL'] = 'Sort order';
-
-$lang['en_GB']['SilvercartWidgets']['WIDGETSET_CONTENT_FIELD_LABEL'] = 'Widgets for the content area';
-$lang['en_GB']['SilvercartWidgets']['WIDGETSET_SIDEBAR_FIELD_LABEL'] = 'Widgets for the sidebar';
-
-$lang['en_GB']['SilvercartWidgetSet']['MANAGE_WIDGETS_BUTTON'] = 'Manage widget sets';
-$lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
-$lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
-$lang['en_GB']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
-$lang['en_GB']['SilvercartWidgetSet']['INFO'] = '<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the "SC Config" area in main menu. There, choose "Widget Set" out of the dropdown list on the upper left side to get the forms to add or edit a widget set.';
-
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_GB']['SilvercartZone']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Attributed shipping methods';
 $lang['en_GB']['SilvercartZone']['COUNTRIES'] = 'Countries';
@@ -1622,9 +1611,6 @@ $lang['en_GB']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'My accoun
 $lang['en_GB']['SilvercartLoginWidget']['TITLE_NOT_LOGGED_IN']      = 'Login';
 $lang['en_GB']['SilvercartLoginWidget']['CMSTITLE']                 = 'SilverCart login';
 $lang['en_GB']['SilvercartLoginWidget']['DESCRIPTION']              = 'This widget shows a login form and links to the registration page. If the customer is logged in already links to their account section are shown instead.';
-
-$lang['en_GB']['SilvercartWidget']['FRONTTITLE']                                = 'Headline';
-$lang['en_GB']['SilvercartWidget']['FRONTCONTENT']                              = 'Content';
 
 $lang['en_GB']['SilvercartProductSliderWidget']['AUTOPLAY']                             = 'Activate automatic slideshow';
 $lang['en_GB']['SilvercartProductSliderWidget']['AUTOPLAYDELAYED']                      = 'Activate delay for automatic slideshow';

@@ -1791,23 +1791,6 @@ en_GB:
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "Updates"
     MENUTITLE: "Updates"
-  SilvercartWidget:
-    FRONTCONTENT: "Content"
-    FRONTTITLE: "Headline"
-    SORT_ORDER_LABEL: "Sort order"
-  SilvercartWidgetAdmin:
-    MENUTITLE: "Widgets"
-  SilvercartWidgetSet:
-    INFO: "<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the \"SC Config\" area in main menu. There, choose \"Widget Set\" out of the dropdown list on the upper left side to get the forms to add or edit a widget set."
-    MANAGE_WIDGETS_BUTTON: "Manage widget sets"
-    PAGES: "assigned pages"
-    PLURALNAME: "Widget Sets"
-    SINGULARNAME: "Widget Set"
-  SilvercartWidgetSetAdmin:
-    MENUTITLE: "Widget Sets"
-  SilvercartWidgets:
-    WIDGETSET_CONTENT_FIELD_LABEL: "Widgets for the content area"
-    WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets for the sidebar"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "Attributed countries"
     ATTRIBUTED_SHIPPINGMETHODS: "Attributed shipping methods"

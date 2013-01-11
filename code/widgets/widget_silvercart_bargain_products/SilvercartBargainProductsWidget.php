@@ -33,7 +33,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartBargainProductsWidget extends SilvercartWidget implements SilvercartProductSliderWidget {
+class SilvercartBargainProductsWidget extends WidgetSetWidget implements SilvercartProductSliderWidget {
     
     /**
      * DB attributes of this widget
@@ -254,7 +254,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Controller implements SilvercartProductSliderWidget_Controller {
+class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Controller implements SilvercartProductSliderWidget_Controller {
 
     /**
      * Product elements

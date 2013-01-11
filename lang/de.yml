@@ -1802,23 +1802,6 @@ de:
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "Updates"
     MENUTITLE: "Updates"
-  SilvercartWidget:
-    FRONTCONTENT: "Beschreibungstext"
-    FRONTTITLE: "Überschrift"
-    SORT_ORDER_LABEL: "Sortierung"
-  SilvercartWidgetAdmin:
-    MENUTITLE: "Widgets"
-  SilvercartWidgetSet:
-    INFO: "<strong>Achtung:</strong><br/>Um ein Widget Set hinzuzufügen oder zu verändern, wählen Sie den \"SC Konfig\" Bereich im Hauptmenü. Dort gelangen Sie über die Auswahl \"Widget Set\" in der Drowdown-Liste zur Bearbeitungsmaske der Widget Sets."
-    MANAGE_WIDGETS_BUTTON: "Widgets Sets verwalten"
-    PAGES: "zugeordnete Seiten"
-    PLURALNAME: "Widget Sets"
-    SINGULARNAME: "Widget Set"
-  SilvercartWidgetSetAdmin:
-    MENUTITLE: "Widget Sets"
-  SilvercartWidgets:
-    WIDGETSET_CONTENT_FIELD_LABEL: "Widgets für den Inhaltsbereich"
-    WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets für die Seitenleiste"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "zugeordnete Länder"
     ATTRIBUTED_SHIPPINGMETHODS: "zugeordnete Versandart"
