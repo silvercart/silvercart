@@ -134,6 +134,7 @@ Object::add_extension('Group',                                      'SilvercartG
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('ModelAdmin_CollectionController',            'SilvercartModelAdmin_CollectionController');
 Object::add_extension('ModelAdmin_RecordController',                'SilvercartModelAdmin_RecordControllerDecorator');
+Object::add_extension('Money',                                      'SilvercartMoney');
 Object::add_extension('TableListField',                             'SilvercartTableListFieldDecorator');
 Object::add_extension('TableListField_Item',                        'SilvercartTableListField_ItemDecorator');
 Object::add_extension('TableListField_ItemRequest',                 'SilvercartTableListField_ItemRequestDecorator');
