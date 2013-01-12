@@ -120,7 +120,7 @@ class SilvercartNumberRange extends DataObject {
                 )
         );
     }
-
+    
     /**
      * i18n for summary fields
      *

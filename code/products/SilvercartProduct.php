@@ -687,7 +687,7 @@ class SilvercartProduct extends DataObject {
                 'Prices'                                => _t('SilvercartPrice.PLURALNAME'),
                 'SEO'                                   => _t('Silvercart.SEO'),
                 'SilvercartProductCondition'            => _t('SilvercartProductCondition.SINGULARNAME'),
-                'Deeplinks'                             => _t('Silvercart.Deeplinks'),
+                'Deeplinks'                             => _t('Silvercart.DEEPLINKS'),
                 'TitleAsc'                              => _t('SilvercartProduct.TITLE_ASC'),
                 'TitleDesc'                             => _t('SilvercartProduct.TITLE_DESC'),
                 'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),

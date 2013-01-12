@@ -361,6 +361,7 @@ $lang['de_DE']['SilvercartProductExport']['SINGULARNAME']                       
 $lang['de_DE']['SilvercartProductExporter']['PLURALNAME']                                   = 'Preisportal Exporte';
 $lang['de_DE']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Preisportal Export';
 $lang['de_DE']['SilvercartProductExporter']['URL']                                          = 'URL';
+$lang['de_DE']['SilvercartProductExporterAdmin']['MENUTITLE']                               = 'Artikelexporter';
 
 $lang['de_DE']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Push aktivieren';
 $lang['de_DE']['SilvercartProductExportAdmin']['UPDATE_INTERVAL_LABEL']                 = 'Aktualisierungsinterval';

@@ -245,44 +245,22 @@ class SilvercartShippingMethod extends DataObject {
 
         if ($this->ID > 0) {
             $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
-            if ($feeTable) {
-                $permissions = array_merge(
-                        $feeTable->getPermissions(),
-                        array(
-                            'export',
-                        )
-                );
-                $feeTable->setPermissions($permissions);
-                $feeTable->setFieldListCsv(
-                        array(
-                            'ID'                            => 'ID',
-                            'MaximumWeight'                 => 'MaximumWeight',
-                            'UnlimitedWeight'               => 'UnlimitedWeight',
-                            'PriceAmount'                   => 'PriceAmount',
-                            'PriceCurrency'                 => 'PriceCurrency',
-                            'SilvercartZoneID'              => 'SilvercartZoneID',
-                            'SilvercartShippingMethodID'    => 'SilvercartShippingMethodID',
-                            'SilvercartTaxID'               => 'SilvercartTaxID',
-                        )
-                );
-            }
-        
-            $zonesTable = new ManyManyComplexTableField(
-                $this,
-                'SilvercartZones',
-                'SilvercartZone',
-                null,
-                'getCMSFields_forPopup'
+
+            $config = GridFieldConfig_RelationEditor::create();
+            $zonesTable = new GridField(
+                    'SilvercartZones',
+                    'SilvercartZones',
+                    SilvercartZone::get(),
+                    $config
             );
             $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
             $fields->addFieldToTab('Root.SilvercartZones', $zonesTable);
-        
-            $groupsTable = new ManyManyComplexTableField(
-                $this,
-                'SilvercartCustomerGroups',
-                'Group',
-                null,
-                'getCMSFields_forPopup'
+            
+            $groupsTable = new GridField(
+                    'SilvercartCustomerGroups',
+                    'SilvercartCustomerGroups',
+                    Group::get(),
+                    $config
             );
             $fields->findOrMakeTab('Root.SilvercartCustomerGroups', $this->fieldLabel('SilvercartCustomerGroups'));
             $fields->addFieldToTab('Root.SilvercartCustomerGroups', $groupsTable);
@@ -532,7 +510,7 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @param SilvercartCarrier $carrier Carrier to get shipping methods for
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
@@ -547,7 +525,7 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @param SilvercartCarrier $carrier Carrier to get shipping methods for
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
@@ -563,7 +541,7 @@ class SilvercartShippingMethod extends DataObject {
         
         $customerGroups = SilvercartCustomer::getCustomerGroups();
         if ($customerGroups &&
-            $customerGroups instanceof DataObjectSet &&
+            $customerGroups instanceof ArrayList &&
             $customerGroups->Count() > 0) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
@@ -599,7 +577,7 @@ class SilvercartShippingMethod extends DataObject {
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
@@ -620,7 +598,7 @@ class SilvercartShippingMethod extends DataObject {
         
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
         
-        $shippingFees = new DataObjectSet();
+        $shippingFees = new ArrayList();
         
         if ($shippingMethods) {
             foreach ($shippingMethods as $shippingMethod) {
@@ -655,7 +633,7 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @param SilvercartShippingMethod $shippingMethods Shipping methods to filter
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012

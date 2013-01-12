@@ -89,6 +89,34 @@ class SilvercartGoogleMerchantTaxonomy extends DataObject {
     );
     
     /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2013 pixeltricks GmbH
+     * @since 11.01.2013
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),             array(
+                    'SilvercartProductGroupPages' => _t('SilvercartProductGroupPage.PLURALNAME'),
+                    'CategoryLevel1' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL1'),
+                    'CategoryLevel2' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL2'),
+                    'CategoryLevel3' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL3'),
+                    'CategoryLevel4' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL4'),
+                    'CategoryLevel5' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL5'),
+                    'CategoryLevel6' => _t('SilvercartGoogleMerchantTaxonomy.LEVEL6')
+                )
+        );
+
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
      * Has-many relationships.
      *
      * @var array

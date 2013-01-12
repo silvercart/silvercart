@@ -128,6 +128,7 @@ class SilvercartManufacturer extends DataObject {
         $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
         $fieldLabels['URL']                 = _t('SilvercartPage.URL', 'URL');
         $fieldLabels['logo']                = _t('SilvercartPage.LOGO', 'logo');
+        $fieldLabels['LogoForTable']        = _t('SilvercartPage.LOGO', 'logo');
         $fieldLabels['SilvercartProducts']  = _t('SilvercartProduct.PLURALNAME', 'products');
         return $fieldLabels;
     }
