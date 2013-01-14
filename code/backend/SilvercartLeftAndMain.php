@@ -36,7 +36,7 @@ class SilvercartLeftAndMain extends DataExtension {
     /**
      * The new main menu routine.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.01.2012
@@ -45,11 +45,11 @@ class SilvercartLeftAndMain extends DataExtension {
 
         // Don't accidentally return a menu if you're not logged in - it's used to determine access.
         if (!Member::currentUser()) {
-            return new DataObjectSet();
+            return new ArrayList();
         }
 
         // Encode into DO set
-        $menu                  = new DataObjectSet();
+        $menu                  = new ArrayList();
         $menuItems             = CMSMenu::get_viewable_menu_items();
         $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
 
@@ -121,19 +121,19 @@ class SilvercartLeftAndMain extends DataExtension {
     /**
      * Returns Silvercart specific menus.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
      */
     public function SilvercartMenus() {
-        $silvercartMenus = new DataObjectSet();
+        $silvercartMenus = new ArrayList();
         $menuItems       = CMSMenu::get_viewable_menu_items();
 
         foreach (SilvercartConfig::getRegisteredMenus() as $menu) {
             $menuSectionIndicator = '';
-            $modelAdmins          = new DataObjectSet();
-            $groupedModelAdmins   = new DataObjectSet();
+            $modelAdmins          = new ArrayList();
+            $groupedModelAdmins   = new ArrayList();
 
             foreach ($menuItems as $code => $menuItem) {
                 if (
@@ -227,11 +227,11 @@ class SilvercartLeftAndMain extends DataExtension {
                 $groupedModelAdmins->push($modelAdmin);
             }
 
-            if ($groupedModelAdmins->Count() > 0) {
+            if ($groupedModelAdmins->count() > 0) {
                 $silvercartMenus->push(
                     new DataObject(
                         array(
-                            'name'        => _t('SilvercartStoreAdminMenu.' . strtoupper($menu['code'])),
+                            'name'        => $menu['name'],
                             'MenuSection' => $menuSectionIndicator,
                             'code'        => $menu['code'],
                             'ModelAdmins' => $groupedModelAdmins

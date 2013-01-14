@@ -252,6 +252,14 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $isStockQuantityOverbookable = null;
+    
+    /**
+     * Cached SilvercartTax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var SilvercartTax
+     */
+    protected $cachedSilvercartTax = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1545,20 +1553,31 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @since 23.10.2010
-     * @author Roland Lehmann
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2012
      */
     public static function setRequiredAttributes($concatinatedAttributesString) {
-        $requiredAttributes      = array();
         $requiredAttributesArray = explode(",", str_replace(" ", "", $concatinatedAttributesString));
-
         foreach ($requiredAttributesArray as $attribute) {
-            if (!in_array($attribute, self::$blacklistedRequiredAttributes)) {
-                $requiredAttributes[] = $attribute;
-            }
+            self::addRequiredAttribute($attribute);
         }
+    }
 
-        self::$requiredAttributes = $requiredAttributes;
+    /**
+     * Adds an attribute to the required attributes
+     *
+     * @param string $attribute The attribute to add
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2012
+     */
+    public static function addRequiredAttribute($attribute) {
+        if (!in_array($attribute, self::$blacklistedRequiredAttributes) &&
+            !in_array($attribute, self::$requiredAttributes)) {
+            self::$requiredAttributes[] = $attribute;
+        }
     }
 
     /**
@@ -1965,8 +1984,25 @@ class SilvercartProduct extends DataObject {
     public function getTaxRate() {
         return $this->SilvercartTax()->getTaxRate();
     }
-    
+
     /**
+     * Returns the related SilvercartTax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return SilvercartTax
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.01.2013
+     */
+    public function SilvercartTax() {
+        if (is_null($this->cachedSilvercartTax)) {
+            $this->cachedSilvercartTax = $this->getComponent('SilvercartTax');
+            $this->extend('updateSilvercartTax', $this->cachedSilvercartTax);
+        }
+        return $this->cachedSilvercartTax;
+    }
+
+        /**
      * We want to delete all attributed WidgetAreas and Widgets before deletion.
      *
      * @return void

@@ -29,7 +29,7 @@ if (strpos(phpversion(), '5.3') === 0) {
 // ----------------------------------------------------------------------------
 // Define required attributes
 // ----------------------------------------------------------------------------
-//SilvercartProduct::setRequiredAttributes("Price");
+SilvercartProduct::addRequiredAttribute("Price");
 
 // ----------------------------------------------------------------------------
 // disable default pages for SiteTree
@@ -128,8 +128,10 @@ Object::add_extension('SiteConfig',                                 'Translatabl
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
-Object::add_extension('CMSMain',                                    'SilvercartMainDecorator');
-Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMainDecorator');
+Object::add_extension('Money',                                      'SilvercartMoney');
+#Object::add_extension('CMSMain',                                    'SilvercartMain');
+#Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
+Object::add_extension('Security',                                   'SilvercartSecurityController');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
 Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');

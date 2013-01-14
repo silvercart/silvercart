@@ -65,7 +65,7 @@ class SilvercartTools extends Object {
     /**
      * Cache for the page hierarchy model.
      *
-     * @var DataObjectSet
+     * @var ArrayList
      */
     public static $pageHierarchy = array();
 

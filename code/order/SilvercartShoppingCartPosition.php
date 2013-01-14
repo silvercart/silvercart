@@ -282,7 +282,7 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function getProductNumberShop() {
         $pluginObj = SilvercartPlugin::call($this, 'overwriteGetProductNumberShop');
 
-        if ($pluginObj !== false) {
+        if (!empty($pluginObj)) {
             return $pluginObj;
         }
 

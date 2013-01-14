@@ -113,9 +113,6 @@ class SilvercartConfig extends DataObject {
         'disregardMinimumOrderValue'            => 'Boolean(0)',
         'freeOfShippingCostsFrom'               => 'Money',
         'useFreeOfShippingCostsFrom'            => 'Boolean(0)',
-        'useApacheSolrSearch'                   => 'Boolean(0)',
-        'apacheSolrUrl'                         => 'VarChar(255)',
-        'apacheSolrPort'                        => 'Int',
         'enableBusinessCustomers'               => 'Boolean(0)',
         'enablePackstation'                     => 'Boolean(0)',
         'enableStockManagement'                 => 'Boolean(0)',
@@ -128,6 +125,7 @@ class SilvercartConfig extends DataObject {
         'productDescriptionFieldForCart'        => 'Enum("ShortDescription,LongDescription","ShortDescription")',
         'useProductDescriptionFieldForCart'     => 'Boolean(1)',
         'useStrictSearchRelevance'              => 'Boolean(0)',
+        'userAgentBlacklist'                    => 'Text',
         // Put DB definitions for interfaces here
         // Definitions for GeoNames
         'GeoNamesActive'                => 'Boolean',
@@ -152,17 +150,16 @@ class SilvercartConfig extends DataObject {
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
-        'SilvercartUpdateVersion'       => '5',
+        'SilvercartUpdateVersion'       => '6',
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
         'productsPerPage'               => 20,
         'productGroupsPerPage'          => 6,
         'displayedPaginationPages'      => 4,
-        'apacheSolrUrl'                 => '/solr',
-        'apacheSolrPort'                => '8983',
         'addToCartMaxQuantity'          => 999,
-        'Locale'                        => 'de_DE'
+        'Locale'                        => 'de_DE',
+        'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
     );
     /**
      * Define all required configuration fields in this array. The given fields
@@ -186,8 +183,6 @@ class SilvercartConfig extends DataObject {
      * first call (to prevent redundant logic).
      */
     public static $addToCartMaxQuantity                     = null;
-    public static $apacheSolrPort                           = null;
-    public static $apacheSolrUrl                            = null;
     public static $defaultCurrency                          = null;
     public static $defaultPricetype                         = null;
     public static $emailSender                              = null;
@@ -204,7 +199,6 @@ class SilvercartConfig extends DataObject {
     public static $useMinimumOrderValue                     = null;
     public static $productsPerPage                          = null;
     public static $silvercartVersion                        = null;
-    public static $useApacheSolrSearch                      = null;
     public static $enableStockManagement                    = null;
     public static $isStockManagementOverbookable            = null;
     public static $redirectToCartAfterAddToCart             = null;
@@ -217,6 +211,7 @@ class SilvercartConfig extends DataObject {
     public static $defaultMailRecipient                     = null;
     public static $defaultMailOrderNotificationRecipient    = null;
     public static $defaultContactMessageRecipient           = null;
+    public static $userAgentBlacklist                       = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -287,9 +282,6 @@ class SilvercartConfig extends DataObject {
         $defaultCMSFields->removeByName('productsPerPage');
         $defaultCMSFields->removeByName('productGroupsPerPage');
         $defaultCMSFields->removeByName('SilvercartNoImage');
-        $defaultCMSFields->removeByName('useApacheSolrSearch');
-        $defaultCMSFields->removeByName('apacheSolrUrl');
-        $defaultCMSFields->removeByName('apacheSolrPort');
         $defaultCMSFields->removeByName('enableSSL');
         $defaultCMSFields->removeByName('enableStockManagement');
         $defaultCMSFields->removeByName('isStockManagementOverbookable');
@@ -406,10 +398,9 @@ class SilvercartConfig extends DataObject {
         /*
          * Root.General.Server tab
          */
-        $CMSFields->addFieldToTab('Root.General.Server', new LiteralField('ApacheSolrTitle', '<h3>Apache Solr Search</h3>'));
-        $CMSFields->addFieldToTab('Root.General.Server', new CheckboxField('useApacheSolrSearch', _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH')));
-        $CMSFields->addFieldToTab('Root.General.Server', new TextField('apacheSolrUrl', _t('SilvercartConfig.APACHE_SOLR_URL')));
-        $CMSFields->addFieldToTab('Root.General.Server', new TextField('apacheSolrPort', _t('SilvercartConfig.APACHE_SOLR_PORT')));
+        $CMSFields->addFieldToTab('Root.General.Server',
+            $defaultCMSFields->dataFieldByName('userAgentBlacklist')
+        );
         
         /*
          * Root.General.Stock tab
@@ -501,9 +492,6 @@ class SilvercartConfig extends DataObject {
                     'freeOfShippingCostsFrom'               => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
                     'productsPerPage'                       => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
                     'productGroupsPerPage'                  => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
-                    'useApacheSolrSearch'                   => _t('SilvercartConfig.USE_APACHE_SOLR_SEARCH', 'Use Apache Solr search'),
-                    'apacheSolrPort'                        => _t('SilvercartConfig.APACHE_SOLR_PORT', 'Apache Solr port'),
-                    'apacheSolrUrl'                         => _t('SilvercartConfig.APACHE_SOLR_URL', 'Apache Solr url'),
                     'isStockManagementOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
                     'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
                     'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
@@ -517,6 +505,7 @@ class SilvercartConfig extends DataObject {
                     'DefaultMailRecipient'                  => _t('SilvercartConfig.DEFAULT_MAIL_RECIPIENT'),
                     'DefaultMailOrderNotificationRecipient' => _t('SilvercartConfig.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT'),
                     'DefaultContactMessageRecipient'        => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT'),
+                    'userAgentBlacklist'                    => _t('SilvercartConfig.USER_AGENT_BLACKLIST'),
                 )
         );
     }
@@ -833,7 +822,6 @@ class SilvercartConfig extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 09.06.2011
      */
     public static function UseMinimumOrderValue() {
@@ -841,6 +829,21 @@ class SilvercartConfig extends DataObject {
             self::$useMinimumOrderValue = self::getConfig()->useMinimumOrderValue;
         }
         return self::$useMinimumOrderValue;
+    }
+
+    /**
+     * Returns the user agent blacklist
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-04
+     */
+    public static function UserAgentBlacklist() {
+        if (is_null(self::$userAgentBlacklist)) {
+            self::$userAgentBlacklist = self::getConfig()->userAgentBlacklist;
+        }
+        return self::$userAgentBlacklist;
     }
 
     /**
@@ -1453,37 +1456,7 @@ class SilvercartConfig extends DataObject {
         }
         return self::$addToCartMaxQuantity;
     }
-    
-    /**
-     * Returns the Apache Solr url.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.07.2011
-     */
-    public static function apacheSolrUrl() {
-        if (is_null(self::$apacheSolrUrl)) {
-            self::$apacheSolrUrl = self::getConfig()->apacheSolrUrl;
-        }
-        return self::$apacheSolrUrl;
-    }
-    
-    /**
-     * Returns the Apache Solr port.
-     *
-     * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.07.2011
-     */
-    public static function apacheSolrPort() {
-        if (is_null(self::$apacheSolrPort)) {
-            self::$apacheSolrPort = self::getConfig()->apacheSolrPort;
-        }
-        return self::$apacheSolrPort;
-    }
-    
+
     /**
      * Returns wether to enable business customers or not.
      *
@@ -1512,21 +1485,6 @@ class SilvercartConfig extends DataObject {
             self::$enablePackstation = self::getConfig()->enablePackstation;
         }
         return self::$enablePackstation;
-    }
-    
-    /**
-     * Returns whether the Apache Solr search should be used or not.
-     *
-     * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.07.2011
-     */
-    public static function UseApacheSolrSearch() {
-        if (is_null(self::$useApacheSolrSearch)) {
-            self::$useApacheSolrSearch = self::getConfig()->useApacheSolrSearch;
-        }
-        return self::$useApacheSolrSearch;
     }
 
     /**
@@ -1591,6 +1549,27 @@ class SilvercartConfig extends DataObject {
             return true;  
         }  
         return false; 
+    }
+
+    /**
+     * Returns whether the given UserAgent string is blacklisted.
+     *
+     * @param string $userAgent The UserAgent string
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-04
+     */
+    public static function isUserAgentBlacklisted($userAgent) {
+        $isBlacklisted         = false;
+        $blacklistedUserAgents = explode(PHP_EOL, self::UserAgentBlacklist());
+
+        if (in_array($userAgent, $blacklistedUserAgents)) {
+            $isBlacklisted = true;
+        }
+
+        return $isBlacklisted;
     }
 
     /**

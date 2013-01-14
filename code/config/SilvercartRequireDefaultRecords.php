@@ -1486,30 +1486,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'sortOrder'                 => 1
                 ),
                 array(
-                    'en_US'                     => array(
-                        'Title'            => 'Apache Solr',
-                        'ShortDescription' => 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.',
-                        'LongDescription'  => '<p>Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project. Its major features include powerful full-text search, hit highlighting, faceted search, dynamic clustering, database integration, rich document (e.g., Word, PDF) handling, and geospatial search. Solr is highly scalable, providing distributed search and index replication, and it powers the search and navigation features of many of the world' . "'" . 's largest internet sites.</p><p>Solr' . "'" . 's powerful external configuration allows it to be tailored to almost any type of application without Java coding, and it has an extensive plugin architecture when more advanced customization is required. Soruce: http://lucene.apache.org/solr/</p>',
-                        'MetaDescription'  => 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.',
-                        'MetaKeywords'     => 'SilverCart, modules, Apache Solr',
-                        'MetaTitle'        => 'Apache Solr'
-                    ),
-                    'en_GB' => array(
-                        'Title'            => 'Apache Solr',
-                        'ShortDescription' => 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.',
-                        'LongDescription'  => '<p>Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project. Its major features include powerful full-text search, hit highlighting, faceted search, dynamic clustering, database integration, rich document (e.g., Word, PDF) handling, and geospatial search. Solr is highly scalable, providing distributed search and index replication, and it powers the search and navigation features of many of the world' . "'" . 's largest internet sites.</p><p>Solr' . "'" . 's powerful external configuration allows it to be tailored to almost any type of application without Java coding, and it has an extensive plugin architecture when more advanced customization is required. Soruce: http://lucene.apache.org/solr/</p>',
-                        'MetaDescription'  => 'Solr is the popular, blazing fast open source enterprise search platform from the Apache Lucene project.',
-                        'MetaKeywords'     => 'SilverCart, modules, Apache Solr',
-                        'MetaTitle'        => 'Apache Solr'
-                    ),
-                    'de_DE' => array(
-                        'Title'            => 'Apache Solr',
-                        'ShortDescription' => 'Solr basiert auf Lucene Core und ist eine Volltext-Suchmaschine mit Web-Schnittstelle.',
-                        'LongDescription'  => 'Dokumente zur Indexierung übernimmt Solr im XML-Format per HTTP-Request. Suchanfragen werden mittels HTTP GET durchgeführt, Resultate werden als XML oder in anderen Formaten wie JSON zurückgegeben. Solr lässt sich in einen Webserver und Servlet-Container wie Apache Tomcat integrieren. Mit Jetty enthält das Solr-Softwarepaket zudem selbst einen Servlet-Container. Mit dem Release 3.1 sind die Projekte Solr und Lucene zu einer Entwicklung zusammengeführt worden, die von einem gemeinsamen Projektteam weiterentwickelt werden. Quelle: Wikipedia.',
-                        'MetaDescription'  => 'Solr basiert auf Lucene Core und ist eine Volltext-Suchmaschine mit Web-Schnittstelle.',
-                        'MetaKeywords'     => 'SilverCart, Module, Apache Solr',
-                        'MetaTitle'        => 'Apache Solr'
-                    ),
                     'PriceGrossAmount'          => 9.99,
                     'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
                     'PriceNetAmount'            => 9.99 / 119 * 100,

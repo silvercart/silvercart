@@ -618,9 +618,9 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
-     * Returns a DataObjectSet with errors
+     * Returns a ArrayList with errors
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
@@ -647,7 +647,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @param SilvercartShoppingCart $shoppingCart                     The shopping cart object
      * @param Boolean                $forceAnonymousCustomerIfNotExist When true, an anonymous customer will be created when no customer exists
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.05.2012
@@ -665,7 +665,7 @@ class SilvercartPaymentMethod extends DataObject {
             $forceAnonymousCustomerIfNotExist) {
             $member         = new Member();
             $anonymousGroup = DataObject::get_one('Group', "\"Code\" = 'anonymous'");
-            $memberGroups   = new DataObjectSet();
+            $memberGroups   = new ArrayList();
             $memberGroups->push($anonymousGroup);
         } else {
             $memberGroups = $member->Groups();
@@ -822,7 +822,7 @@ class SilvercartPaymentMethod extends DataObject {
      * - shipping methods which are related directly to the payment method
      * - shipping methods which are NOT related to any payment method
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -837,7 +837,7 @@ class SilvercartPaymentMethod extends DataObject {
 
                 // Find shippping methods that are directly related to
                 // payment methods....
-                if ($shippingMethod->SilvercartPaymentMethods()->Count() > 0) {
+                if ($shippingMethod->SilvercartPaymentMethods()->count() > 0) {
                     
                     // ... and exclude them, if the current payment method is
                     // not related.
@@ -854,7 +854,7 @@ class SilvercartPaymentMethod extends DataObject {
             }
         }
         
-        $allowedShippingMethods = new DataObjectSet($allowedShippingMethods);
+        $allowedShippingMethods = new ArrayList($allowedShippingMethods);
         
         return $allowedShippingMethods;
     }
@@ -1148,13 +1148,13 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasicFieldSet = new FieldList();
         $tabBasic->setChildren($tabBasicFieldSet);
         //multilingual fields
+        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
         if ($this->isExtendingSilvercartPaymentMethod()) {
            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
             foreach ($languageFields as $languageField) {
                 $tabBasicFieldSet->push($languageField);
             } 
         }
-        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
         $tabBasicFieldSet->push(new DropdownField(
                     'mode',
                     _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'

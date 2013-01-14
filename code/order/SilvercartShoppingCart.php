@@ -286,6 +286,40 @@ class SilvercartShoppingCart extends DataObject {
         
         return false;
     }
+
+    /**
+     * Returns true if the given value is higher than the number of positions
+     * in the cart.
+     *
+     * @param int $positions The value to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-08
+     */
+    public function HasMorePositionsThan($positions = 0) {
+        $numberOfPositions = (int) $this->getQuantity();
+
+        return (int) $positions > $numberOfPositions;
+    }
+
+    /**
+     * Returns true if the number of positions in the cart equals the given
+     * value.
+     *
+     * @param int $positions The value to check
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-08
+     */
+    public function HasNumberOfPositions($positions = 0) {
+        $numberOfPositions = (int) $this->getQuantity();
+
+        return (int) $positions === $numberOfPositions;
+    }
     
     /**
      * Returns the charges and discounts for product values.

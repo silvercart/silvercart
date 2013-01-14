@@ -138,7 +138,7 @@ class SilvercartOrderAdmin extends ModelAdmin {
                         rangeStartTitle: '%s',
                         rangeEndTitle: '%s',
                         nextLinkText: '%s',
-                        prevLinkText: '%s',
+                        prevLinkText: '%s'
                     });
                 });
             })(jQuery);",

@@ -418,7 +418,7 @@ class SilvercartCountry extends DataObject {
     /**
      * Returns all active countries
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public static function get_active() {
         $activeCountries = DataObject::get('SilvercartCountry', '"Active" = 1');
@@ -433,7 +433,7 @@ class SilvercartCountry extends DataObject {
      * 
      * @param bool $onlyActive Search only for active coutries?
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public static function getPrioritiveCountries($onlyActive = true) {
         $key            = 0;
@@ -468,8 +468,8 @@ class SilvercartCountry extends DataObject {
         if (!array_key_exists($key, self::$prioritiveCountryCount)) {
             $prioritiveCountryCount = 0;
             $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
-            if ($prioritiveCountries instanceof DataObjectSet) {
-                $prioritiveCountryCount = $prioritiveCountries->Count() + 1;
+            if ($prioritiveCountries instanceof ArrayList) {
+                $prioritiveCountryCount = $prioritiveCountries->count() + 1;
             }
             self::$prioritiveCountryCount[$key] = $prioritiveCountryCount;
         }
@@ -481,7 +481,7 @@ class SilvercartCountry extends DataObject {
      * 
      * @param bool $onlyActive Search only for active coutries?
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public static function getNonPrioritiveCountries($onlyActive = true) {
         $key            = 0;
@@ -516,8 +516,8 @@ class SilvercartCountry extends DataObject {
         if (!array_key_exists($key, self::$nonPrioritiveCountryCount)) {
             $nonPrioritiveCountryCount  = 0;
             $nonPrioritiveCountries     = self::getNonPrioritiveCountries($onlyActive);
-            if ($nonPrioritiveCountries instanceof DataObjectSet) {
-                $nonPrioritiveCountryCount = $nonPrioritiveCountries->Count() + 1;
+            if ($nonPrioritiveCountries instanceof ArrayList) {
+                $nonPrioritiveCountryCount = $nonPrioritiveCountries->count() + 1;
             }
             self::$nonPrioritiveCountryCount[$key] = $nonPrioritiveCountryCount;
         }

@@ -75,7 +75,7 @@ class SilvercartSearchQuery extends DataObject {
      *
      * @param int $limit Limit for the queries
      * 
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public static function get_most_searched($limit) {
         $searchQueries = self::get(

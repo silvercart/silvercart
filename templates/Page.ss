@@ -198,6 +198,9 @@
                 </div>
             </div>
         </div>
+
+        $ModuleHtmlInjections
+
         <% with SiteConfig %>
             $GoogleAnalyticsTrackingCode.Raw
             $PiwikTrackingCode.Raw

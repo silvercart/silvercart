@@ -355,6 +355,16 @@ class SilvercartPage_Controller extends ContentController {
      * @var ArrayList
      */
     protected $registeredWidgetSetControllers;
+
+    /**
+     * Contains HTML code from modules that shall be inserted on the Page.ss
+     * template.
+     *
+     * @var array
+     *
+     * @since 2013-01-03
+     */
+    protected static $moduleHtmlInjections = array();
     
     /**
      * Creates a SilvercartPage_Controller
@@ -385,6 +395,12 @@ class SilvercartPage_Controller extends ContentController {
      * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            if (SilvercartConfig::isUserAgentBlacklisted($_SERVER['HTTP_USER_AGENT'])) {
+                exit();
+            }
+        }
+
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();
             return true;
@@ -570,6 +586,39 @@ class SilvercartPage_Controller extends ContentController {
         SilvercartPlugin::call($this, 'init', array($this));
         self::$instanceMemorizer[$this->ID] = true;
         parent::init();
+    }
+
+    /**
+     * Returns HTML code that has been created by SilverCart modules.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-03
+     */
+    public function ModuleHtmlInjections() {
+        $injections = '';
+
+        foreach (self::$moduleHtmlInjections as $injectionId => $injectionCode) {
+            $injections .= $injectionCode;
+        }
+
+        return $injections;
+    }
+
+    /**
+     * Saves HTML code for injection on the Page.ss template.
+     *
+     * @param string $identifier The identifier for the injection
+     * @param string $code       The code to inject
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-03
+     */
+    public static function injectHtmlCode($identifier, $code) {
+        self::$moduleHtmlInjections[$identifier] = $code;
     }
 
     /**
@@ -1100,13 +1149,22 @@ class SilvercartPage_Controller extends ContentController {
      * @since 28.05.2011
      */
     public function SilvercartShoppingCart() {
-        $member = Member::currentUser();
-        
-        if (!$member) {
+        $controller = Controller::curr();
+
+        if ($this->class == $controller->class &&
+            !SilvercartTools::isIsolatedEnvironment() &&
+            !SilvercartTools::isBackendEnvironment()) {
+
+            $member = Member::currentUser();
+
+            if (!$member) {
+                return false;
+            }
+
+            return $member->SilvercartShoppingCart();
+        } else {
             return false;
         }
-        
-        return $member->SilvercartShoppingCart();
     }
     
     /**

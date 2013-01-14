@@ -323,7 +323,7 @@ class SilvercartZone extends DataObject {
      * @since 08.06.2012
      */
     public function hasAllCountries() {
-        /* @var $countries DataObjectSet */
+        /* @var $countries ArrayList */
         $countries          = $this->SilvercartCountries();
         $availableCountries = DataObject::get('SilvercartCountry', "\"Active\" = 1");
         $hasAllCountries    = true;
