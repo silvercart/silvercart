@@ -15,3 +15,7 @@
         $PaymentConfirmationText
 	</fieldset>
 </form>
+
+<% control Controller %>
+{$SiteConfig.GoogleConversionTrackingCode}
+<% end_control %>

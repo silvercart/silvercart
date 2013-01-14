@@ -1826,6 +1826,7 @@ $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdaten
 $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'Es sind noch keine Artikel hinterlegt; wenn Sie Testdaten anlegen wollen, klicken Sie bitte auf den folgenden Link:';
 $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Zur Testdaten-Sektion springen';
 $lang['de_DE']['SilvercartSiteConfig']['GOOGLE_ANALYTICS_TRACKING_CODE']    = 'Google Analytics Tracking Code';
+$lang['de_DE']['SilvercartSiteConfig']['GOOGLE_CONVERSION_TRACKING_CODE']   = 'Google Conversion Tracking Code';
 $lang['de_DE']['SilvercartSiteConfig']['GOOGLE_WEBMASTER_CODE']             = 'Google Webmaster Tools Code';
 $lang['de_DE']['SilvercartSiteConfig']['PIWIK_TRACKING_CODE']               = 'Piwik Tracking Code';
 $lang['de_DE']['SilvercartSiteConfig']['FACEBOOK_LINK']                     = 'Facebook Link';
