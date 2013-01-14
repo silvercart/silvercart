@@ -907,7 +907,9 @@ $lang['en_US']['SilvercartCustomer']['ADDRESS_DATA']    = 'Basic address data';
 $lang['en_US']['SilvercartCustomer']['INVOICE_DATA']    = 'Invoice address data';
 $lang['en_US']['SilvercartCustomer']['SHIPPING_DATA']   = 'Shipping address data';
 
-$lang['en_US']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']   = 'Forms';
+$lang['en_US']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']    = 'Forms';
+$lang['en_US']['SilvercartCustomHtmlFormAdmin']['PLURALNAME']   = 'Forms';
+$lang['en_US']['SilvercartCustomHtmlFormAdmin']['SINGULARNAME'] = 'Form';
 
 $lang['en_US']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_US']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
@@ -994,7 +996,7 @@ $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Product matching field';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Referer identifier';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
-$lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']                         = 'activate shared secret';
+$lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'activate shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Request variable name for shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Inbound Shopping Cart Transfer';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Title';
@@ -1653,12 +1655,12 @@ $lang['en_US']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 $lang['en_US']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_US']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_US']['SilvercartQuantityUnit']['NAME']                        = 'Name';
-$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abbreviation';
-$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME']                = 'quantity unit';
-$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME']                  = 'quantity units';
-$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
-$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Number of decimal places';
+$lang['en_US']['SilvercartQuantityUnit']['NAME']                                = 'Name';
+$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
+$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'quantity unit';
+$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME']                          = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
 
 $lang['en_US']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'Quantity Units';
 

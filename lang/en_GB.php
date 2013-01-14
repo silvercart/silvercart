@@ -908,6 +908,8 @@ $lang['en_GB']['SilvercartCustomer']['INVOICE_DATA']    = 'Invoice address data'
 $lang['en_GB']['SilvercartCustomer']['SHIPPING_DATA']   = 'Shipping address data';
 
 $lang['en_GB']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']  = 'Forms';
+$lang['en_GB']['SilvercartCustomHtmlFormAdmin']['PLURALNAME']   = 'Forms';
+$lang['en_GB']['SilvercartCustomHtmlFormAdmin']['SINGULARNAME'] = 'Form';
 
 $lang['en_GB']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_GB']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
@@ -1012,10 +1014,14 @@ $lang['en_GB']['SilvercartInboundShoppingCartTransferPage']['ERROR_SHARED_SECRET
 $lang['en_GB']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Invoice addresses';
 $lang['en_GB']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
 
+$lang['en_GB']['SilvercartManufacturer']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
 $lang['en_GB']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
 $lang['en_GB']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Manufacturers';
+
+$lang['en_GB']['SilvercartManufacturerLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartManufacturerLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
 
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigation';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
@@ -1049,7 +1055,7 @@ $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['EFFECT']              =
 $lang['en_GB']['SilvercartMailForgotPassword']['TITLE']                         = 'Reset Password';
 $lang['en_GB']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Please visit <a href="%s">this page</a> to reset your password.';
 $lang['en_GB']['SilvercartMailForgotPassword']['PASSWORT_RESET_LINK_HINT']      = 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.';
-$lang['en_GB']['SilvercartMailForgotPassword']['WONT_CHANGE']                   = 'If you do not want to change your password, you may ignore this email.';
+$lang['en_GB']['SilvercartMailForgotPassword']['NO_CHANGE']                     = 'If you do not want to change your password, you may ignore this email.';
 
 $lang['en_GB']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
 $lang['en_GB']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
@@ -1649,10 +1655,12 @@ $lang['en_GB']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 $lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_GB']['SilvercartQuantityUnit']['NAME'] = 'Name';
-$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
-$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';
-$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME'] = 'quantity units';
+$lang['en_GB']['SilvercartQuantityUnit']['NAME']                                = 'Name';
+$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
+$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'quantity unit';
+$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME']                          = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
 
 $lang['en_GB']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'quantity units';
 

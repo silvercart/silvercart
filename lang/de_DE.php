@@ -996,7 +996,7 @@ $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Artikel-Bezugsfeld';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Kurzname des externen Partners';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
-$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']                         = 'Shared secret aktivieren';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'Shared secret aktivieren';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Name der Shared secret Variable';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Externe Warenkorbbefüllung';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Bezeichnung';
@@ -1516,6 +1516,7 @@ $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
 $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'Was wollen Sie importieren?';
 $lang['de_DE']['SilvercartShippingMethod']['NO_SHIPPING_METHOD_AVAILABLE'] = 'Keine Versandart verfügbar';
 $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Bitte wählen Sie Ihre Versandart für die Lieferung nach "%s"';
+
 $lang['de_DE']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Versandarten';
 
 $lang['de_DE']['SilvercartShippingMethodLanguage']['PLURALNAME']                = _t('Silvercart.TRANSLATIONS');
@@ -1654,12 +1655,12 @@ $lang['de_DE']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zonen';
 $lang['de_DE']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['de_DE']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['de_DE']['SilvercartQuantityUnit']['NAME']                        = 'Name';
-$lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abkürzung';
-$lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME']                = 'Verkaufsmengeneinheit';
-$lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME']                  = 'Verkaufsmengeneinheiten';
-$lang['de_DE']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Auf 0 stellen oder leer lassen, um keine Dezimalstellen zu verwenden. Diese Einstellung wird z.B. für "in den Warenkorb legen" Formulare benutzt.';
-$lang['de_DE']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Anzahl Dezimalstellen';
+$lang['de_DE']['SilvercartQuantityUnit']['NAME']                                = 'Name';
+$lang['de_DE']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abkürzung';
+$lang['de_DE']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'Verkaufsmengeneinheit';
+$lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME']                          = 'Verkaufsmengeneinheiten';
+$lang['de_DE']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Auf 0 stellen oder leer lassen, um keine Dezimalstellen zu verwenden. Diese Einstellung wird z.B. für "in den Warenkorb legen" Formulare benutzt.';
+$lang['de_DE']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Anzahl Dezimalstellen';
 
 $lang['de_DE']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'VK-Mengeneinheiten';
 
