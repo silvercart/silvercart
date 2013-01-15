@@ -129,8 +129,8 @@ Object::add_extension('SiteConfig',                                 'SilvercartS
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('Money',                                      'SilvercartMoney');
-#Object::add_extension('CMSMain',                                    'SilvercartMain');
-#Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
+Object::add_extension('CMSMain',                                    'SilvercartMain');
+Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
 Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');

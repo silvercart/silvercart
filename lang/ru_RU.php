@@ -26,14 +26,6 @@
 
 global $lang;
 
-i18n::include_locale_file('silvercart', 'en_US');
-
-if (array_key_exists('ru_RU', $lang) && is_array($lang['ru_RU'])) {
-    $lang['ru_RU'] = array_merge($lang['en_US'], $lang['ru_RU']);
-} else {
-    $lang['ru_RU'] = $lang['en_US'];
-}
-
 $lang['ru_RU']['Silvercart']['CHOOSE'] = 'выбрать';
 $lang['ru_RU']['Silvercart']['CLEAR_CACHE'] = 'очистить кэш';
 $lang['ru_RU']['Silvercart']['CONTENT'] = 'содержание';

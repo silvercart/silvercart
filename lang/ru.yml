@@ -193,8 +193,6 @@ ru:
     ADD_EXAMPLE_DATA: "установить демо данные"
     ADD_EXAMPLE_DATA_DESCRIPTION: "Команда „установка ДЕМО-данных“ создаёт поставщика, 4 группы товаров и 50 артикулов .<br/><strong>Установка может длиться несколько минут!</strong>"
     ALLOW_CART_WEIGHT_TO_BE_ZERO: "вес корзины заказа не может быть „0“"
-    APACHE_SOLR_PORT: "порт запроса Apache Solr"
-    APACHE_SOLR_URL: "URL запроса Apache Solr"
     BASICCHECKOUT: "основные настройки"
     CLEAN: "оптимизация"
     CLEANED_DATABASE: "база данных оптимизирована"
@@ -261,7 +259,6 @@ ru:
     TRANSLATIONS: "переводы"
     USEFREEOFSHIPPINGCOSTSFROM: "использовать настройки бесплатной доставки "
     USEMINIMUMORDERVALUE: "активировать минимальную сумму заказа"
-    USE_APACHE_SOLR_SEARCH: "Apache Solr Suche benutzen"
     USE_DEFAULT_LANGUAGE: "использовать язык по умолчанию, если нет подходящего"
   SilvercartConfigAdmin:
     MENUTITLE: "общая конфигурация"
@@ -288,7 +285,7 @@ ru:
     SINGULARNAME: "запрос контакта"
     TEXT: "<h1>Запрос через контактный формуляр</h1><h2>Добрый день,</h2><p>мы плучили запрос с нашей вебстраницы.<br />Клиент <strong>\"$FirstName $Surname\"</strong> отправил запрос <strong>\"$Email\"</strong> .</p><h2>Сообщение</h2><p>$Message</p>"
   SilvercartContactMessageAdmin:
-    MENUTITLE: "запрос "
+    MENUTITLE: "запрос"
   SilvercartCountry:
     ACTIVE: "актив"
     ATTRIBUTED_PAYMENTMETHOD: "способ оплаты"
@@ -575,7 +572,7 @@ ru:
     SUBSCRIBEDTONEWSLETTER: "уже подписан на рассылку"
     TYPE: "тип"
   SilvercartCustomerAdmin:
-    customers: "колиенты"
+    MENUTITLE: "колиенты"
   SilvercartDashboard:
     NEWS_HEADLINE: "новинки"
     NEWS_READ_MORE: "читай дальше"
@@ -650,7 +647,7 @@ ru:
     MOVE_UP: "сдвинуть вверх"
   SilvercartImage:
     DESCRIPTION: "описание"
-    PLURALNAME: "фотографии"
+    PLURALNAME: "фотографии "
     SINGULARNAME: "фото"
     TITLE: "имя пользователя"
   SilvercartImageAdmin:
@@ -1560,23 +1557,6 @@ ru:
     STATUS_SKIPPED: "пропустить"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "обновления"
-    MENUTITLE: "обновления"
-  SilvercartWidget:
-    FRONTCONTENT: "текст описания"
-    FRONTTITLE: "Заголовок"
-    SORT_ORDER_LABEL: "Сортировка"
-  SilvercartWidgetAdmin:
-    MENUTITLE: "виджетов"
-  SilvercartWidgetSet:
-    INFO: "<strong>Внимание:</strong><br/>Чтобы установить или изменить виджет, \"SC Konfig\" выберите из главного меню. В главном меню выберите \"Widget Set\" из выпадающего списка."
-    PAGES: "выбранные страницы"
-    PLURALNAME: "наборы виджетов"
-    SINGULARNAME: "набор виджетов"
-  SilvercartWidgetSetAdmin:
-    MENUTITLE: "наборы виджетов"
-  SilvercartWidgets:
-    WIDGETSET_CONTENT_FIELD_LABEL: "виджет для содержимого"
-    WIDGETSET_SIDEBAR_FIELD_LABEL: "виджет для панели инструментов"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "выбранная страна"
     ATTRIBUTED_SHIPPINGMETHODS: "выбранный способ доставки"

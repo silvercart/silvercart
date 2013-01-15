@@ -147,7 +147,7 @@ en:
     PLURALNAME: "Carriers"
     SINGULARNAME: "Carrier"
   SilvercartCarrierAdmin:
-    MENUTITLE: "Carriers"
+    MENUTITLE: "Carrier"
   SilvercartCarrierLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -213,8 +213,6 @@ en:
     ADD_EXAMPLE_DATA: "Add Example Data"
     ADD_EXAMPLE_DATA_DESCRIPTION: "The action \"Add Example Data\" will create an example manufaturer and four productgroups with 50 products.<br/><strong>CAUTION: This action can take a few minutes!</strong>"
     ALLOW_CART_WEIGHT_TO_BE_ZERO: "Allow cart weight to be zero."
-    APACHE_SOLR_PORT: "Port for requests to Apache Solr"
-    APACHE_SOLR_URL: "URL for requests to Apache Solr"
     BASICCHECKOUT: "Basic preferences"
     CLEAN: "Optimization"
     CLEANED_DATABASE: "Database was optimized."
@@ -287,7 +285,7 @@ en:
     TRANSLATIONS: "Translations"
     USEFREEOFSHIPPINGCOSTSFROM: "Use settings for \"free of shipping costs\""
     USEMINIMUMORDERVALUE: "Activate minimum  order value"
-    USE_APACHE_SOLR_SEARCH: "Use Apache Solr search"
+    USER_AGENT_BLACKLIST: "UserAgent blacklist (one UserAgent per line)"
     USE_DEFAULT_LANGUAGE: "Use default language if no translation is found?"
     USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Display product description in shopping cart"
     USE_STRICT_SEARCH_RELEVANCE: "Use strict search. Shows only exact matches."
@@ -322,7 +320,7 @@ en:
            $Message</p>
            
   SilvercartContactMessageAdmin:
-    MENUTITLE: "Contact Messages"
+    MENUTITLE: "Contact messages"
   SilvercartCountry:
     ACTIVE: "Active"
     ATTRIBUTED_PAYMENTMETHOD: "Attributed payment method"
@@ -591,10 +589,12 @@ en:
     TITLE_ZM: "Zambia"
     TITLE_ZW: "Zimbabwe"
   SilvercartCountryAdmin:
-    MENUTITLE: Countries
+    MENUTITLE: "Countries"
   SilvercartCountryLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
+  SilvercartCustomHtmlFormAdmin:
+    MENUTITLE: "Forms"
   SilvercartCustomer:
     ADDRESS_DATA: "Basic address data"
     ANONYMOUSCUSTOMER: "Anonymous customer"
@@ -616,10 +616,6 @@ en:
     SHIPPING_DATA: "Shipping address data"
     SUBSCRIBEDTONEWSLETTER: "Subscribed to newsletter"
     TYPE: "Type"
-  SilvercartCustomHtmlFormAdmin:
-    MENUTITLE: "Forms"
-    PLURALNAME: "Forms"
-    SINGULARNAME: "Form"
   SilvercartCustomerAdmin:
     MENUTITLE: "Customers"
   SilvercartDashboard:
@@ -707,7 +703,7 @@ en:
     PLURALNAME: "Google taxonomy"
     SINGULARNAME: "Google taxonomy"
   SilvercartGoogleMerchantTaxonomyAdmin:
-    MENUTITLE: "Google Taxonomie"
+    MENUTITLE: "Google Taxonomy"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Pricetype"
@@ -732,11 +728,11 @@ en:
     THUMBNAIL: "Preview"
     TITLE: "Display name"
   SilvercartImageAdmin:
+    MENUTITLE: "Images"
     SELECT_IMAGE_TYPE: "Choose image type"
     SELECT_OTHER_IMAGES: "Other images"
     SELECT_PAYMENTMETHOD_IMAGES: "Payment method images"
     SELECT_PRODUCT_IMAGES: "Product images"
-    MENUTITLE: "Images"
   SilvercartImageLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -773,7 +769,7 @@ en:
     TRANSFER_METHOD: "Transfer method"
     USE_SHARED_SECRET: "Use shared secret"
   SilvercartInboundShoppingCartTransferAdmin:
-    MENUTITLE: "Inbound Cart Transfer"
+    MENUTITLE: "Ext. Carts"
   SilvercartInboundShoppingCartTransferPage:
     ERROR_COMBINED_STRING_KEY_NOT_FOUND: "Parameters were not sent"
     ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND: "Parameters were not sent (key-value product identifier is missing)"
@@ -931,7 +927,7 @@ en:
     SUFFIX: "Suffix"
     TITLE: "Title"
   SilvercartNumberRangeAdmin:
-    MENUTITLE: "Number range"
+    MENUTITLE: "Number Ranges"
   SilvercartOrder:
     AMOUNTGROSSTOTAL: "Amount total gross"
     AMOUNTTOTAL: "Amount total"
@@ -1048,7 +1044,7 @@ en:
     SHIPPED: "Shipped"
     SINGULARNAME: "Order status"
   SilvercartOrderStatusAdmin:
-    MENUTITLE: "Order status"
+    MENUTITLE: "Order Status"
   SilvercartOrderStatusLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1334,7 +1330,7 @@ en:
   SilvercartProductAdmin:
     MENUTITLE: "Products"
   SilvercartProductAvailabilityStatusAdmin:
-    MENUTITLE: "Availability"
+    MENUTITLE: "Availibility"
   SilvercartProductCondition:
     PLEASECHOOSE: "Please choose"
     PLURALNAME: "Product conditions"
@@ -1342,7 +1338,7 @@ en:
     TITLE: "Condition"
     USE_AS_STANDARD_CONDITION: "Use as default condition if not defined at the product"
   SilvercartProductConditionAdmin:
-    MENUTITLE: "Product conditions"
+    MENUTITLE: "Product Condition"
   SilvercartProductConditionLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1376,6 +1372,7 @@ en:
     PROTOCLOFORLINKS: "Protocol for Links"
     SINGULARNAME: "Product exporter"
   SilvercartProductExportAdmin:
+    MENUTITLE: "Product Export"
     PUSH_ENABLED_LABEL: "Enable push"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart product export"
     TAB_BASIC_SETTINGS: "Basic settings"
@@ -1388,8 +1385,6 @@ en:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
-  SilvercartProductExporterAdmin:
-    MENUTITLE: "Product Exporter"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart show products of child productgroups"
     DESCRIPTION: "This widget displays products of a child productgroup if there are no products assigned to the current productgroup."
@@ -1522,7 +1517,7 @@ en:
     PLURALNAME: "quantity units"
     SINGULARNAME: "quantity unit"
   SilvercartQuantityUnitAdmin:
-    MENUTITLE: "quantity units"
+    MENUTITLE: "Quantity Units"
   SilvercartQuantityUnitLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1624,7 +1619,7 @@ en:
     PLURALNAME: "Shipping methods"
     SINGULARNAME: "Shipping method"
   SilvercartShippingMethodAdmin:
-    MENUTITLE: "Shipping methods"
+    MENUTITLE: "Shipping Methods"
   SilvercartShippingMethodLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1734,7 +1729,7 @@ en:
     RATE_IN_PERCENT: "Rate in %"
     SINGULARNAME: "Rate"
   SilvercartTaxAdmin:
-    MENUTITLE: "Rates"
+    MENUTITLE: "Tax Rates"
   SilvercartTaxLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1798,8 +1793,8 @@ en:
     STATUS_REMAINING: "Remaining"
     STATUS_SKIPPED: "Skipped"
   SilvercartUpdateAdmin:
-    SILVERCART_UPDATE: "Updates"
     MENUTITLE: "Updates"
+    SILVERCART_UPDATE: "Updates"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "Attributed countries"
     ATTRIBUTED_SHIPPINGMETHODS: "Attributed shipping methods"

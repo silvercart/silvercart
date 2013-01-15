@@ -166,8 +166,6 @@ nl:
     ADD_EXAMPLE_DATA: "Voorbeeld data toevoegen"
     ADD_EXAMPLE_DATA_DESCRIPTION: "De actie \"Toevoegen Voorbeeld Data\" zal een voorbeeld fabrikant en vier productgroepen met 50 producten.<br/><strong>LET OP: Deze actie kan een paar minuten duren!</strong>"
     ALLOW_CART_WEIGHT_TO_BE_ZERO: "Toestaan winkelwagen gewicht nul te zijn."
-    APACHE_SOLR_PORT: "Poort voor aanvragen tot Apache Solr"
-    APACHE_SOLR_URL: "URL voor verzoeken om Apache Solr"
     CLEAN: "Optimalisatie"
     CLEANED_DATABASE: "Database is geoptimaliseerd."
     CLEANED_DATABASE_REPORT: "<br/><hr/><br/><h3>%s</h3><strong><br/>%s beelden werden verwijderd.<br/>&nbsp;&nbsp;%s als gevolg van een valse product relatie<br/>&nbsp;&nbsp;%s als gevolg van een ontbrekende image-bestand<br/>&nbsp;&nbsp;%s als gevolg van een vernielde beeld relatie<br/>%s beelden werden opnieuw toegewezen.</strong><br/><br/><hr/>"
@@ -256,7 +254,7 @@ nl:
            $Message</p>
            
   SilvercartContactMessageAdmin:
-    MENU_TITLE: "Contact berichten"
+    MENUTITLE: "Contact berichten"
   SilvercartCountry:
     ACTIVE: "Actief"
     ATTRIBUTED_PAYMENTMETHOD: "Toegewezen betaalmethode"
@@ -536,7 +534,7 @@ nl:
     SUBSCRIBEDTONEWSLETTER: "Geabonneerd op de nieuwsbrief"
     TYPE: "Type"
   SilvercartCustomerAdmin:
-    customers: "Klanten"
+    MENUTITLE: "Klanten"
   SilvercartDataPage:
     DEFAULT_TITLE: "Mijn Gegevens"
     DEFAULT_URLSEGMENT: "mijn-gegevens"
@@ -1294,18 +1292,6 @@ nl:
     STATUS_SKIPPED: "Overgeslagen"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "SC Updates"
-  SilvercartWidget:
-    SORT_ORDER_LABEL: "Sorteervolgorde"
-  SilvercartWidgetSet:
-    INFO: "<strong>Let OP:</strong><br/>Toevoegen of bewerken van een Widget, kies \"SC Config\" in het hoofdmenu. Aldaar, kies \"Widget Set\" uit de dropdown lijst aan de linker kant om de formulieren toe te voegen of te bewerken."
-    PAGES: "toegekende pagina's"
-    PLURALNAME: "Widget Sets"
-    SINGULARNAME: "Widget Set"
-  SilvercartWidgetSetAdmin:
-    MENUTITLE: "Widget Sets"
-  SilvercartWidgets:
-    WIDGETSET_CONTENT_FIELD_LABEL: "Widgets voor het content gebied"
-    WIDGETSET_SIDEBAR_FIELD_LABEL: "Widgets voor de sidebar"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "Toegewezen landen"
     ATTRIBUTED_SHIPPINGMETHODS: "Toegewezen verzendmethodes"

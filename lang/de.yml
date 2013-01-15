@@ -213,8 +213,6 @@ de:
     ADD_EXAMPLE_DATA: "Beispieldaten hinzufügen"
     ADD_EXAMPLE_DATA_DESCRIPTION: "Die Aktion \"Beispieldaten hinzufügen\" wird einen Beispiel Hersteller und vier Warengruppen mit jeweils 50 Artikel anlegen.<br/><strong>ACHTUNG: Diese Aktion kann einige Minuten dauern!</strong>"
     ALLOW_CART_WEIGHT_TO_BE_ZERO: "Gewicht des Warenkorbs darf null sein."
-    APACHE_SOLR_PORT: "Port für Anfragen an Apache Solr"
-    APACHE_SOLR_URL: "URL für Anfragen an Apache Solr"
     BASICCHECKOUT: "Grundeinstellungen"
     CLEAN: "Optimierung"
     CLEANED_DATABASE: "Die Datenbank wurde optimiert."
@@ -287,7 +285,7 @@ de:
     TRANSLATIONS: "Übersetzungen"
     USEFREEOFSHIPPINGCOSTSFROM: "Einstellungen zur Versandkostenfreiheit benutzen"
     USEMINIMUMORDERVALUE: "Mindestbestellwert aktivieren"
-    USE_APACHE_SOLR_SEARCH: "Apache Solr Suche benutzen"
+    USER_AGENT_BLACKLIST: "Gesperrte UserAgent-Kennungen (pro Zeile ein UserAgent)"
     USE_DEFAULT_LANGUAGE: "Standardsprache benutzen, wenn die passende Sprache fehlt?"
     USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Artikelbeschreibung in Warenkorb anzeigen"
     USE_STRICT_SEARCH_RELEVANCE: "Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an."
@@ -596,6 +594,8 @@ de:
   SilvercartCountryLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
+  SilvercartCustomHtmlFormAdmin:
+    MENUTITLE: "Formulare"
   SilvercartCustomer:
     ADDRESS_DATA: "Adressdaten allgemein"
     ANONYMOUSCUSTOMER: "Anonymer Kunde"
@@ -617,12 +617,6 @@ de:
     SHIPPING_DATA: "Liefer-Adressdaten"
     SUBSCRIBEDTONEWSLETTER: "Newsletter aboniert"
     TYPE: "Typ"
-  SilvercartCustomHtmlFormAdmin:
-    MENUTITLE: "Formulare"
-    PLURALNAME: "Formulare"
-    SINGULARNAME: "Formulare"
-  CustomHtmlFormConfiguration:
-    PLURALNAME: "Formulare"
   SilvercartCustomerAdmin:
     MENUTITLE: "Kunden"
   SilvercartDashboard:
@@ -735,11 +729,11 @@ de:
     THUMBNAIL: "Vorschau"
     TITLE: "Anzeigename"
   SilvercartImageAdmin:
+    MENUTITLE: "Bilder"
     SELECT_IMAGE_TYPE: "Bildtyp wählen"
     SELECT_OTHER_IMAGES: "Andere Bilder"
     SELECT_PAYMENTMETHOD_IMAGES: "Bilder für Zahlungsarten"
     SELECT_PRODUCT_IMAGES: "Produktbilder"
-    MENUTITLE: "Bilder"
   SilvercartImageLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1379,6 +1373,7 @@ de:
     PROTOCLOFORLINKS: "Protokoll für Links"
     SINGULARNAME: "Artikelexport"
   SilvercartProductExportAdmin:
+    MENUTITLE: "Artikelexport"
     PUSH_ENABLED_LABEL: "Push aktivieren"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart Artikelexport"
     TAB_BASIC_SETTINGS: "Grundeinstellungen"
@@ -1391,8 +1386,6 @@ de:
     PLURALNAME: "Preisportal Exporte"
     SINGULARNAME: "Preisportal Export"
     URL: "URL"
-  SilvercartProductExporterAdmin:
-    MENUTITLE: "Artikelexporter"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart Anzeige von Produkten aus Unterwarengruppen"
     DESCRIPTION: "Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind."
@@ -1801,8 +1794,8 @@ de:
     STATUS_REMAINING: "Ausstehend"
     STATUS_SKIPPED: "Übersprungen"
   SilvercartUpdateAdmin:
-    SILVERCART_UPDATE: "Updates"
     MENUTITLE: "Updates"
+    SILVERCART_UPDATE: "Updates"
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "zugeordnete Länder"
     ATTRIBUTED_SHIPPINGMETHODS: "zugeordnete Versandart"
