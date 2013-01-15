@@ -410,7 +410,7 @@ class SilvercartSlidorionProductGroupWidget extends WidgetSetWidget {
     /**
      * Returns the images to display
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getImagesToDisplay() {
         $imagesToDisplay = new ArrayList();

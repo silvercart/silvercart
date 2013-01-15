@@ -317,7 +317,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
     /**
      * List of the products
      *
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $groupProducts;
     

@@ -57,13 +57,13 @@ class SilvercartPrint {
      * Returns the print URL for the given DataObject
      * (silvercart-print/$DataObjectName/$DataObjectID)
      *
-     * @param DataObjectSet $dataObjectSet DataObjectSet to get print URL for
+     * @param ArrayList $dataObjectSet ArrayList to get print URL for
      * 
      * @return string 
      */
     public static function getPrintURLForMany($dataObjectSet) {
         $printURL = '';
-        if ($dataObjectSet instanceof DataObjectSet) {
+        if ($dataObjectSet instanceof ArrayList) {
             $dataObject = $dataObjectSet->First();
             if ($dataObject instanceof DataObject) {
                 $printURL = sprintf(

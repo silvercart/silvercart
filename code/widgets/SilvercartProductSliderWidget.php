@@ -86,18 +86,18 @@ interface SilvercartProductSliderWidget_Controller {
     /**
      * Returns the elements
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getElements();
 
     /**
      * Sets the elements
      *
-     * @param DataObjectSet $elements Elements to set
+     * @param ArrayList $elements Elements to set
      * 
      * @return void
      */
-    public function setElements(DataObjectSet $elements);
+    public function setElements(ArrayList $elements);
     
     /**
      * Insert the javascript necessary for the anything slider.
@@ -122,7 +122,7 @@ interface SilvercartProductSliderWidget_Controller {
     /**
      * Returns a number of bargain products.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
@@ -132,7 +132,7 @@ interface SilvercartProductSliderWidget_Controller {
     /**
      * Returns a number of bargain products.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012

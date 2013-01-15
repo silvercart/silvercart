@@ -200,7 +200,7 @@ class SilvercartProductGroupManufacturersWidget extends WidgetSetWidget {
 class SilvercartProductGroupManufacturersWidget_Controller extends WidgetSetWidget_Controller {
 
     /**
-     * Returns a DataObjectSet of all manufacturers for this page.
+     * Returns a ArrayList of all manufacturers for this page.
      *
      * @return DataObjectSet
      *

@@ -48,7 +48,7 @@ class SilvercartEditableTableListField extends TableListField {
     /**
      * List of available batch actions
      *
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $batchActions = null;
     
@@ -127,7 +127,7 @@ class SilvercartEditableTableListField extends TableListField {
     /**
      * Returns the batch actions
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getBatchActions() {
         return $this->batchActions;
@@ -136,7 +136,7 @@ class SilvercartEditableTableListField extends TableListField {
     /**
      * Sets the batch actions
      *
-     * @param DataObjectSet $batchActions Batch actions
+     * @param ArrayList $batchActions Batch actions
      * 
      * @return void
      */
@@ -147,7 +147,7 @@ class SilvercartEditableTableListField extends TableListField {
     /**
      * Sets the batch actions
      *
-     * @param DataObjectSet $batchAction Batch action to add
+     * @param ArrayList $batchAction Batch action to add
      * 
      * @return void
      * 
@@ -166,7 +166,7 @@ class SilvercartEditableTableListField extends TableListField {
     /**
      * Adds some batchs actions
      *
-     * @param DataObjectSet $batchActions Batch actions to add
+     * @param ArrayList $batchActions Batch actions to add
      * 
      * @return void
      * 

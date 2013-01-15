@@ -166,7 +166,7 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
     /**
      * Returns all product groups
      *
-     * @return DataObjectSet
+     * @return DataList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.12.2011

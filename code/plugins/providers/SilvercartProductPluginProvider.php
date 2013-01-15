@@ -71,42 +71,42 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
     }
     
     /**
-     * returns a dataobjectset with all plugged in tabs 
+     * returns a ArrayList with all plugged in tabs 
      * 
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getPluggedInTabs(&$arguments, &$callingObject) {
         $result = $this->extend('pluginGetPluggedInTabs', $callingObject);
-        return $this->returnExtensionResultAsDataObjectSet($result);
+        return $this->returnExtensionResultAsArrayList($result);
     }
     
     /**
-     * returns a dataobjectset with all plugged in meta data for a product 
+     * returns a ArrayList with all plugged in meta data for a product 
      * 
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getPluggedInProductMetaData(&$arguments, &$callingObject) {
         $result = $this->extend('pluginGetPluggedInProductMetaData', $callingObject);
-        return $this->returnExtensionResultAsDataObjectSet($result);
+        return $this->returnExtensionResultAsArrayList($result);
     }
     
     /**
-     * returns a dataobjectset with all plugged in additional data for a product 
+     * returns a ArrayList with all plugged in additional data for a product 
      * 
      * @param array &$arguments     The arguments to pass
      * @param mixed &$callingObject The calling object
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getPluggedInProductListAdditionalData(&$arguments, &$callingObject) {
         $result = $this->extend('pluginGetPluggedInProductListAdditionalData', $callingObject);
-        return $this->returnExtensionResultAsDataObjectSet($result);
+        return $this->returnExtensionResultAsArrayList($result);
     }
 }
 

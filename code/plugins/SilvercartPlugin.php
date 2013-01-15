@@ -331,7 +331,7 @@ class SilvercartPlugin extends Object {
         
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $extensionResult) {
-                if ($extensionResult instanceof DataObjectSet) {
+                if ($extensionResult instanceof ArrayList) {
                     $result->merge($extensionResult);
                 } else {
                     $result->push($extensionResult);
@@ -342,7 +342,7 @@ class SilvercartPlugin extends Object {
     }
     
     /**
-     * This method has been renamed because DataObjectSet does not exist since SS 3.0.
+     * This method has been renamed because ArrayList does not exist since SS 3.0.
      *
      * @param array $extensionResultSet The result delivered by an extension
      *

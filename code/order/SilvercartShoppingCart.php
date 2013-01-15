@@ -121,7 +121,7 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * List of already calculated tax rates with fees
      *
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $taxRatesWithFees = null;
 
@@ -498,15 +498,15 @@ class SilvercartShoppingCart extends DataObject {
     
     /**
      * Returns one or more plugged in rows for the shopping carts editable table
-     * as a DataobjectSet
+     * as a ArrayList
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.09.2012
      */
     public function addToEditableShoppingCartTable() {
-        $addToCartTable = SilvercartPlugin::call($this, 'addToEditableShoppingCartTable', array(), false, 'DataObjectSet');
+        $addToCartTable = SilvercartPlugin::call($this, 'addToEditableShoppingCartTable', array(), false, 'ArrayList');
         return $addToCartTable;
     }
 

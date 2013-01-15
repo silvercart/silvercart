@@ -511,7 +511,7 @@ class SilvercartTextAutoCompleteField extends TextField {
 
     /**
      * Sets the value for the autocomplete field.
-     * Can be a DataObjectSet or a comma seperated string.
+     * Can be a ArrayList or a comma seperated string.
      *
      * @param mixed $autoCompleteValue value for the autocomplete field
      * 

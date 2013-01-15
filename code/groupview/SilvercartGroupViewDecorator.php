@@ -47,27 +47,27 @@ class SilvercartGroupViewDecorator extends DataExtension {
     /**
      * returns all group views
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getGroupViews() {
         $groupViewArray = array();
         foreach (SilvercartGroupViewHandler::getGroupViews() as $code => $groupView) {
             $groupViewArray[] = new $groupView();
         }
-        return new DataObjectSet($groupViewArray);
+        return new ArrayList($groupViewArray);
     }
 
     /**
      * returns all group views
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getGroupHolderViews() {
         $groupViewArray = array();
         foreach (SilvercartGroupViewHandler::getGroupHolderViews() as $code => $groupView) {
             $groupViewArray[] = new $groupView();
         }
-        return new DataObjectSet($groupViewArray);
+        return new ArrayList($groupViewArray);
     }
 
     /**

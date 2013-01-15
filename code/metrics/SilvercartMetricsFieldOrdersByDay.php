@@ -36,7 +36,7 @@ class SilvercartMetricsFieldOrdersByDay extends SilvercartMetricsField {
     /**
      * Contains retrieved orders for caching purposes.
      * 
-     * @var DataObjectSet
+     * @var ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.01.2012
@@ -48,7 +48,7 @@ class SilvercartMetricsFieldOrdersByDay extends SilvercartMetricsField {
      * 
      * @param int $daysToRetrieve The number of days to retrieve
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.01.2012
@@ -58,7 +58,7 @@ class SilvercartMetricsFieldOrdersByDay extends SilvercartMetricsField {
             return $this->orders;
         }
 
-        $orders    = new DataObjectSet();
+        $orders    = new ArrayList();
         $startDate = date('Y-m-d 00:00:00', mktime(0, 0, 0, date('m'), date('d') - $daysToRetrieve, date('Y')));
         $endDate   = date('Y-m-d 23:59:59', mktime());
 

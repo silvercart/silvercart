@@ -1500,7 +1500,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
      * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
      * @since 09.10.2012
@@ -1525,14 +1525,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
     
     /**
-     * returns the breadcrumbs as DataObjectSet for use in controls without product title
+     * returns the breadcrumbs as ArrayList for use in controls without product title
      * 
      * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
      * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
      * @param string $stopAtPageType name of pagetype to stop at
      * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
      *
-     * @return DataObjectSet 
+     * @return ArrayList 
      * 
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 09.10.2012
@@ -1799,8 +1799,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $productMapLastEdited   = '';
             $groupIDs               = '';
 
-            if ($products instanceof DataObjectSet &&
-                $products->Count() > 0) {
+            if ($products instanceof ArrayList &&
+                $products->count() > 0) {
                 $productMap = $this->getProducts()->map('ID', 'LastEdited');
                 if (!is_array($productMap)) {
                     $productMap = array();
@@ -2600,13 +2600,13 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @param array $excludeWidgets Optional: array of widgets to exclude.
      *
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public function getInjectedProducts($excludeWidgets = array()) {
         $injectedProducts = new ArrayList();
-        if ($this->WidgetSetContent()->Count() > 0) {
+        if ($this->WidgetSetContent()->count() > 0) {
             foreach ($this->WidgetSetContent() as $widgetSet) {
-                if ($widgetSet->WidgetArea()->Widgets()->Count() > 0) {
+                if ($widgetSet->WidgetArea()->Widgets()->count() > 0) {
                     foreach ($widgetSet->WidgetArea()->Widgets() as $widget) {
                         if (in_array($widget->class, $excludeWidgets)) {
                             continue;

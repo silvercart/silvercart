@@ -315,14 +315,14 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Product elements
      *
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $elements = null;
     
     /**
      * Returns the elements
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getElements() {
         return $this->elements;
@@ -331,11 +331,11 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Sets the elements
      *
-     * @param DataObjectSet $elements Elements to set
+     * @param ArrayList $elements Elements to set
      * 
      * @return void
      */
-    public function setElements(DataObjectSet $elements) {
+    public function setElements(ArrayList $elements) {
         $this->elements = $elements;
     }
     
@@ -378,7 +378,7 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Returns a number of products from the chosen productgroup.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
@@ -483,7 +483,7 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Returns the elements for the static slider view.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 03.02.2012
@@ -540,7 +540,7 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Returns the manually chosen products.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 03.02.2012

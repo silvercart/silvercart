@@ -194,14 +194,14 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Product elements
      *
-     * @var DataObjectSet
+     * @var ArrayList
      */
     protected $elements = null;
 
     /**
      * Returns the elements
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getElements() {
         return $this->elements;
@@ -210,7 +210,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns a number of products from the chosen productgroup.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2011
@@ -218,7 +218,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     public function getElementsByProductGroup() {
         $cache                = false;
         $productGroupPage     = Controller::curr();
-        $elements             = new DataObjectSet();
+        $elements             = new ArrayList();
 
         if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
             $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
@@ -226,7 +226,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
         }
         $pageEnd              = $elements->pageStart + $elements->pageLength;
         $elementIdx           = 0;
-        $products             = new DataObjectSet();
+        $products             = new ArrayList();
 
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
              $productGroupPage->getProducts()->Count() > 0) {
@@ -290,11 +290,11 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Sets the elements
      *
-     * @param DataObjectSet $elements Elements to set
+     * @param ArrayList $elements Elements to set
      *
      * @return void
      */
-    public function setElements(DataObjectSet $elements) {
+    public function setElements(ArrayList $elements) {
         $this->elements = $elements;
     }
 
@@ -322,7 +322,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns the elements for this product group.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2012
@@ -384,7 +384,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns the products.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2012
@@ -396,7 +396,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns the products.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2012

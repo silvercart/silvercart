@@ -216,7 +216,7 @@ class SilvercartLatestBlogPostsWidget_Controller extends WidgetSetWidget_Control
      * Returns a configured number of blog posts.
      * Returns false if the blog module is not installed
      *
-     * @return DataObjectSet
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.08.2011

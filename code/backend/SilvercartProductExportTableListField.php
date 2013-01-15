@@ -132,7 +132,7 @@ class SilvercartProductExportTableListField_Item extends TableListField_Item {
     /**
      * Disable the actions when update status is not 'remaining'.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.07.2011

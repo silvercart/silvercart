@@ -98,7 +98,7 @@ class SilvercartAddressOptionsetField extends OptionsetField {
 
             $itemIdx++;
         }
-        $templateVars['items'] = new DataObjectSet($items);
+        $templateVars['items'] = new ArrayList($items);
         $output                = $this->customise($templateVars)->renderWith('SilvercartAddressOptionsetField');
 
         return $output;

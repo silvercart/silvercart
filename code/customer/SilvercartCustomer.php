@@ -476,11 +476,11 @@ class SilvercartCustomer extends DataExtension {
     /**
      * Returns a customers purchased products
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getPurchasedProducts() {
         $orders             = $this->owner->SilvercartOrder();
-        $purchasedProducts  = new DataObjectSet();
+        $purchasedProducts  = new ArrayList();
         
         foreach ($orders as $order) {
             $positions = $order->SilvercartOrderPositions();

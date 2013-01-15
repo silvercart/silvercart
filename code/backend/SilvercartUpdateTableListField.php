@@ -113,7 +113,7 @@ class SilvercartUpdateTableListField_Item extends TableListField_Item {
     /**
      * Disable the actions when update status is not 'remaining'.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2011
@@ -122,7 +122,7 @@ class SilvercartUpdateTableListField_Item extends TableListField_Item {
         if ($this->item->Status == 'remaining') {
             return parent::Actions();
         }
-        $allowedActions = new DataObjectSet();
+        $allowedActions = new ArrayList();
 
         $allowedActions->push(new ArrayData(array(
                 'Name' => 'finished',

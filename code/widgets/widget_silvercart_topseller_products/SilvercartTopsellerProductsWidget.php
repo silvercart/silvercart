@@ -150,7 +150,7 @@ class SilvercartTopsellerProductsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Returns a number of topseller products.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.05.2011
@@ -200,7 +200,7 @@ class SilvercartTopsellerProductsWidget_Controller extends WidgetSetWidget_Contr
                 $products[] = $product;
             }
             
-            $result = new DataObjectSet($products);
+            $result = new ArrayList($products);
         }
 
         return $result;

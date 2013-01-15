@@ -213,7 +213,7 @@ class SilvercartPageListWidget_Controller extends WidgetSetWidget_Controller {
     /**
      * Returns the attributed pages as DataObjectSet
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.12.2012

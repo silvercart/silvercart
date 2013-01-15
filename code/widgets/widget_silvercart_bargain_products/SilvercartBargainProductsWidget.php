@@ -259,21 +259,21 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Product elements
      *
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $elements = null;
 
     /**
      * Plain product elements
      *
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $products= null;
     
     /**
      * Returns the elements
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getElements() {
         return $this->elements;
@@ -282,11 +282,11 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Sets the elements
      *
-     * @param DataObjectSet $elements Elements to set
+     * @param ArrayList $elements Elements to set
      * 
      * @return void
      */
-    public function setElements(DataObjectSet $elements) {
+    public function setElements(ArrayList $elements) {
         $this->elements = $elements;
     }
     
@@ -329,7 +329,7 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Returns a number of bargain products.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012
@@ -416,7 +416,7 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Returns a number of products from the chosen productgroup.
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012
@@ -440,7 +440,7 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
                     }
                     if ($PageProductIdx > $this->numberOfProductsToShow) {
                         $pages['Page'.$pageNr] = array(
-                            'Elements'  => new DataObjectSet($pageProducts),
+                            'Elements'  => new ArrayList($pageProducts),
                             'IsFirst'   => $isFirst
                         );
                         $PageProductIdx = 1;
@@ -456,11 +456,11 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
                     $isFirst = false;
                 }
                 $pages['Page'.$pageNr] = array(
-                    'Elements'  => new DataObjectSet($pageProducts),
+                    'Elements'  => new ArrayList($pageProducts),
                     'IsFirst'   => $isFirst,
                 );
             }
-            $this->elements = new DataObjectSet($pages);
+            $this->elements = new ArrayList($pages);
         } else {
             foreach ($this->elements as $page) {
                 $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
@@ -472,10 +472,10 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Returns the products to inject into a product group
      *
-     * @return DataObjectSet
+     * @return ArrayList
      */
     public function getProducts() {
-        $this->products = new DataObjectSet();
+        $this->products = new ArrayList();
         if (!$this->useSlider &&
             !$this->useRoundabout) {
             $this->products = $this->Elements();

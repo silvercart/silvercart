@@ -486,7 +486,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @param int $numberOfPositions The number of positions to get.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.01.2012
@@ -500,7 +500,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @param int $numberOfPositions The number of positions to check for.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.01.2012
@@ -1430,13 +1430,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * Returns all order positions without a tax value.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.12.2011
      */
     public function SilvercartOrderPositionsWithoutTax() {
-        $orderPositions = new DataObjectSet();
+        $orderPositions = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount &&
@@ -1452,13 +1452,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * Returns all regular order positions.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.12.2011
      */
     public function SilvercartOrderListPositions() {
-        $orderPositions = new DataObjectSet();
+        $orderPositions = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount &&
@@ -1475,13 +1475,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * Returns all order positions that contain charges and discounts for the 
      * shopping cart value.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.12.2011
      */
     public function SilvercartOrderChargePositionsTotal() {
-        $chargePositions = new DataObjectSet();
+        $chargePositions = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if ($orderPosition->isChargeOrDiscount &&
@@ -1498,13 +1498,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * Returns all order positions that contain charges and discounts for
      * product values.
      *
-     * @return DataObjectSet
+     * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.12.2011
      */
     public function SilvercartOrderChargePositionsProduct() {
-        $chargePositions = new DataObjectSet();
+        $chargePositions = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if ($orderPosition->isChargeOrDiscount &&
@@ -1796,7 +1796,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -1810,7 +1810,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $includeChargesForProducts = false;
         }
         
-        $taxes = new DataObjectSet;
+        $taxes = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if ((
@@ -1900,7 +1900,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
      * 
-     * @return DataObjectSet
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

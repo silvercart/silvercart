@@ -61,7 +61,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     /**
      * List of allowed payment methods
      *
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $allowedPaymentMethods = null;
     

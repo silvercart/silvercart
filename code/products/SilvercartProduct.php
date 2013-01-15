@@ -214,7 +214,7 @@ class SilvercartProduct extends DataObject {
     /**
      * All added product additional information via module
      * 
-     * @var DataObjectSet 
+     * @var ArrayList 
      */
     protected $pluggedInProductListAdditionalData = null;
     
@@ -2410,11 +2410,11 @@ class SilvercartProduct extends DataObject {
     /**
      * returns all additional list information about a product
      * 
-     * @return DataObjectSet 
+     * @return ArrayList 
      */
     public function getPluggedInProductListAdditionalData() {
         if (is_null($this->pluggedInProductListAdditionalData)) {
-            $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'DataObjectSet');
+            $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'ArrayList');
         }
         return $this->pluggedInProductListAdditionalData;
     }

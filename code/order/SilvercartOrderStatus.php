@@ -245,7 +245,7 @@ class SilvercartOrderStatus extends DataObject {
     /**
      * returns array with StatusCode => StatusText
      *
-     * @return DataObjectSet
+     * @return DataList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.11.2010

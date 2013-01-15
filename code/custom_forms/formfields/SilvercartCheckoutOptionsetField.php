@@ -90,7 +90,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
             $itemIdx++;
         }
 
-        $templateVars['items'] = new DataObjectSet($items);
+        $templateVars['items'] = new ArrayList($items);
 
         $output = $this->customise($templateVars)->renderWith('SilvercartCheckoutOptionsetField');
 
