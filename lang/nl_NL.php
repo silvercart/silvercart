@@ -252,6 +252,7 @@ $lang['nl_NL']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is de voorraad van dit 
 $lang['nl_NL']['SilvercartProduct']['TITLE'] = 'Product';
 $lang['nl_NL']['SilvercartProduct']['VAT'] = 'BTW';
 $lang['nl_NL']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
+$lang['nl_NL']['SilvercartProductAdmin']['MENUTITLE'] = 'Producten';
 
 $lang['nl_NL']['SilvercartProductExport']['ACTIVATE_CSV_HEADERS']                           = 'Activeer CSV headers';
 $lang['nl_NL']['SilvercartProductExport']['ATTRIBUTE_EXPORT_FIELDS_LABEL']                  = 'Stel export velden in';
@@ -329,6 +330,7 @@ $lang['nl_NL']['SilvercartCarrier']['ATTRIBUTED_SHIPPINGMETHODS'] = 'Toegekende 
 $lang['nl_NL']['SilvercartCarrier']['FULL_NAME'] = 'Volledige naam';
 $lang['nl_NL']['SilvercartCarrier']['PLURALNAME'] = 'Vervoerders';
 $lang['nl_NL']['SilvercartCarrier']['SINGULARNAME'] = 'Vervoerder';
+$lang['nl_NL']['SilvercartCarrierAdmin']['MENUTITLE'] = 'Vervoerder';
 
 $lang['nl_NL']['SilvercartCartPage']['DEFAULT_TITLE']                           = 'Winkelwagen';
 $lang['nl_NL']['SilvercartCartPage']['DEFAULT_URLSEGMENT']                      = 'winkelwagen';
@@ -441,6 +443,7 @@ $lang['nl_NL']['SilvercartConfig']['QUANTITY_OVERBOOKABLE'] = 'Is de voorraad ho
 $lang['nl_NL']['SilvercartConfig']['USEMINIMUMORDERVALUE'] = 'Activeer minimale orderwaarde';
 $lang['nl_NL']['SilvercartConfig']['DISREGARD_MINIMUM_ORDER_VALUE'] = 'Negeer minimale orderwaarde';
 $lang['nl_NL']['SilvercartConfig']['MINIMUMORDERVALUE_HEADLINE'] = 'Minimale orderwaarde';
+$lang['nl_NL']['SilvercartConfigAdmin']['MENUTITLE'] = 'Silvercart algemene configuraties';
 
 $lang['nl_NL']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
 $lang['nl_NL']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'contact';
@@ -464,7 +467,7 @@ $lang['nl_NL']['SilvercartContactMessage']['SINGULARNAME'] = 'Contact bericht';
 $lang['nl_NL']['SilvercartContactMessage']['MESSAGE'] = 'bericht';
 $lang['nl_NL']['SilvercartContactMessage']['TEXT'] = "<h1>Vraag via het contact formulier</h1>\n<h2>Hallo,</h2>\n<p>De klant <strong>\"\$FirstName \$Surname\"</strong> met het e-mailadres <strong>\"\$Email\"</strong> stuurde het volgende bericht:<br/>\n\n\$Message</p>\n";
 
-$lang['nl_NL']['SilvercartContactMessageAdmin']['MENU_TITLE'] = 'Contact berichten';
+$lang['nl_NL']['SilvercartContactMessageAdmin']['MENUTITLE'] = 'Contact berichten';
 
 $lang['nl_NL']['SilvercartCountry']['ACTIVE'] = 'Actief';
 $lang['nl_NL']['SilvercartCountry']['ATTRIBUTED_PAYMENTMETHOD'] = 'Toegewezen betaalmethode';
@@ -730,7 +733,7 @@ $lang['nl_NL']['SilvercartCountry']['TITLE_ZA'] = 'Zuid-Afrika';
 $lang['nl_NL']['SilvercartCountry']['TITLE_ZM'] = 'Zambia';
 $lang['nl_NL']['SilvercartCountry']['TITLE_ZW'] = 'Zimbabwe';
 
-$lang['nl_NL']['SilvercartCustomerAdmin']['customers'] = 'Klanten';
+$lang['nl_NL']['SilvercartCustomerAdmin']['MENUTITLE'] = 'Klanten';
 
 $lang['nl_NL']['SilvercartCustomer']['ANONYMOUSCUSTOMER'] = 'Anonieme klant';
 $lang['nl_NL']['SilvercartCustomer']['BUSINESSCUSTOMER'] = 'Zakelijke klant';
@@ -826,6 +829,7 @@ $lang['nl_NL']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Factuur adres';
 
 $lang['nl_NL']['SilvercartManufacturer']['PLURALNAME'] = 'Fabrikanten';
 $lang['nl_NL']['SilvercartManufacturer']['SINGULARNAME'] = 'Fabrikant';
+$lang['nl_NL']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Fabrikanten';
 
 $lang['nl_NL']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Meta navigatie';
 $lang['nl_NL']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigatie';
