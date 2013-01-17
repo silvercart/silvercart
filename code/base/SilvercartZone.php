@@ -42,7 +42,8 @@ class SilvercartZone extends DataObject {
      */
     public static $has_many = array(
         'SilvercartShippingFees'  => 'SilvercartShippingFee',
-        'SilvercartZoneLanguages' => 'SilvercartZoneLanguage'
+        'SilvercartZoneLanguages' => 'SilvercartZoneLanguage',
+        'SilvercartHandlingCosts' => 'SilvercartHandlingCost',
     );
     /**
      * Many-many relationships.
@@ -50,8 +51,8 @@ class SilvercartZone extends DataObject {
      * @var array
      */
     public static $many_many = array(
-        'SilvercartCountries'   => 'SilvercartCountry',
-        'SilvercartCarriers'    => 'SilvercartCarrier',
+        'SilvercartCountries'       => 'SilvercartCountry',
+        'SilvercartCarriers'        => 'SilvercartCarrier',
     );
     /**
      * Belongs-many-many relationships.

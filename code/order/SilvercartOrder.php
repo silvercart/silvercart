@@ -869,7 +869,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->SilvercartHandlingCost();
+            $paymentFee = $paymentMethod->getHandlingCost();
 
             if ($paymentFee) {
                 if ($paymentFee->SilvercartTax()) {

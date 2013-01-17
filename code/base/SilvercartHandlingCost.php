@@ -57,9 +57,11 @@ class SilvercartHandlingCost extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartTax' => 'SilvercartTax'
+        'SilvercartTax'           => 'SilvercartTax',
+        'SilvercartPaymentMethod' => 'SilvercartPaymentMethod',
+        'SilvercartZone'          => 'SilvercartZone',
     );
-    
+
     /**
      * Sets the field labels.
      *
@@ -74,8 +76,9 @@ class SilvercartHandlingCost extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'amount'        => _t('SilvercartHandlingCost.AMOUNT', 'amount'),
-                    'SilvercartTax' => _t('SilvercartTax.SINGULARNAME'),
+                    'amount'         => _t('SilvercartHandlingCost.AMOUNT', 'amount'),
+                    'SilvercartTax'  => _t('SilvercartTax.SINGULARNAME'),
+                    'SilvercartZone' => _t('SilvercartZone.SINGULARNAME'),
                 )
         );
     }
@@ -117,8 +120,9 @@ class SilvercartHandlingCost extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'handlingcosts' => $this->fieldLabel('amount'),
-            'SilvercartTax.Rate' => $this->fieldLabel('SilvercartTax'),
+            'handlingcosts'         => $this->fieldLabel('amount'),
+            'SilvercartTax.Rate'    => $this->fieldLabel('SilvercartTax'),
+            'SilvercartZone.Title'  => $this->fieldLabel('SilvercartZone'),
         );
         $this->extend('updateSummaryFields', $summaryFields);
 

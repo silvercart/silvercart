@@ -179,7 +179,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
-        
+
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep4.FIELDLABEL');
 

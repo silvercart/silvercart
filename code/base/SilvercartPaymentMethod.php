@@ -64,7 +64,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartHandlingCost'    => 'SilvercartHandlingCost',
         'SilvercartZone'            => 'SilvercartZone'
     );
     /**
@@ -73,8 +72,9 @@ class SilvercartPaymentMethod extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartOrders'                 => 'SilvercartOrder',
-        'PaymentLogos'                     => 'SilvercartImage'
+        'SilvercartHandlingCosts'   => 'SilvercartHandlingCost',
+        'SilvercartOrders'          => 'SilvercartOrder',
+        'PaymentLogos'              => 'SilvercartImage'
     );
     /**
      * Defines n:m relations
@@ -440,13 +440,9 @@ class SilvercartPaymentMethod extends DataObject {
      * @return Money a money object
      */
     public function getHandlingCost() {
-        if ((int) $this->SilvercartHandlingCostID === 0) {
-            $handlingCosts = new Money;
-            $handlingCosts->setAmount(0);
-            $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
-        } else {
-            $handlingCosts = $this->SilvercartHandlingCost()->amount;
-        }
+        $handlingCosts = new Money;
+        $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
 
         return $handlingCosts;
     }
@@ -1199,9 +1195,9 @@ class SilvercartPaymentMethod extends DataObject {
 
         $tabHandlingCosts->setChildren(
             new FieldSet(
-                new HasOneComplexTableField(
+                new HasManyComplexTableField(
                     $this,
-                    'SilvercartHandlingCost',
+                    'SilvercartHandlingCosts',
                     'SilvercartHandlingCost'
                 )
             )

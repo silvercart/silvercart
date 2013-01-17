@@ -606,7 +606,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->SilvercartHandlingCost();
+            $paymentFee = $paymentMethod->getHandlingCost();
 
             if ($paymentFee !== false) {
                 $paymentFeeAmount = $paymentFee->amount->getAmount();
@@ -648,7 +648,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->SilvercartHandlingCost();
+            $paymentFee = $paymentMethod->getHandlingCost();
 
             if ($paymentFee !== false) {
                 $paymentFeeAmount = $paymentFee->getPriceAmount();
@@ -1535,7 +1535,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if ($paymentMethod) {
-            $paymentFee = $paymentMethod->SilvercartHandlingCost();
+            $paymentFee = $paymentMethod->getHandlingCost();
 
             if ($paymentFee) {
                 $taxAmount += $paymentFee->getTaxAmount();
@@ -1607,7 +1607,7 @@ class SilvercartShoppingCart extends DataObject {
             }
 
             if ($paymentMethod) {
-                $paymentFee = $paymentMethod->SilvercartHandlingCost();
+                $paymentFee = $paymentMethod->getHandlingCost();
 
                 if ($paymentFee) {
                     if ($paymentFee->SilvercartTax()) {
