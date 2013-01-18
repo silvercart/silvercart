@@ -609,7 +609,7 @@ class SilvercartShoppingCart extends DataObject {
             $paymentFee = $paymentMethod->getHandlingCost();
 
             if ($paymentFee !== false) {
-                $paymentFeeAmount = $paymentFee->amount->getAmount();
+                $paymentFeeAmount = $paymentFee->getPriceAmount();
                 $amountTotal = $paymentFeeAmount + $amountTotal;
             }
         }
@@ -1092,25 +1092,27 @@ class SilvercartShoppingCart extends DataObject {
      * @since 26.1.2011
      */
     public function HandlingCostPayment() {
-        $handlingCostPayment = 0;
         $paymentMethodObj = $this->getPaymentMethod();
 
         if ($paymentMethodObj) {
             $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
         } else {
-            $handlingCostPaymentObj = new Money();
-            $handlingCostPaymentObj->setAmount(0);
-            $handlingCostPaymentObj->setCurrency(SilvercartConfig::DefaultCurrency());
+            $paymentDefaultCost = new Money();
+            $paymentDefaultCost->setAmount(0);
+            $paymentDefaultCost->setCurrency(SilvercartConfig::DefaultCurrency());
+
+            $handlingCostPaymentObj = new SilvercartHandlingCost();
+            $handlingCostPaymentObj->amount = $paymentDefaultCost;
         }
 
         if (SilvercartConfig::PriceType() == 'net') {
             $taxRate             = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
-            $handlingCostPayment = round(($handlingCostPaymentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+            $handlingCostPayment = round(($handlingCostPaymentObj->getPriceAmount() / (100 + $taxRate->Rate) * 100), 2);
 
             $handlingCostPaymentObj->setAmount($handlingCostPayment);
         }
 
-        return $handlingCostPaymentObj;
+        return $handlingCostPaymentObj->amount;
     }
 
     /**

@@ -440,11 +440,58 @@ class SilvercartPaymentMethod extends DataObject {
      * @return Money a money object
      */
     public function getHandlingCost() {
-        $handlingCosts = new Money;
-        $handlingCosts->setAmount(0);
-        $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        $controller         = Controller::curr();
+        $member             = SilvercartCustomer::currentRegisteredCustomer();
+        $handlingCostToUse  = false;
 
-        return $handlingCosts;
+        if (method_exists($controller, 'getAddress')) {
+            // 1) Use shipping address from checkout
+            $shippingAddress   = $controller->getAddress('Shipping');
+        } else {
+            if ($member &&
+                $member->ShippingAddressID > 0) {
+
+                // 2) Use customer's default shipping address
+                $shippingAddress = $member->ShippingAddress();
+            } else {
+                // 3) Generate shipping address with shop's default country
+                $currentShopLocale = i18n::get_lang_from_locale(i18n::get_locale());
+                $shippingAddress = new SilvercartAddress();
+                $shippingAddress->SilvercartCountry = DataObject::get_one(
+                    'SilvercartCountry',
+                    sprintf(
+                        "
+                        ISO2 = '%s'
+                        ",
+                        strtoupper($currentShopLocale)
+                    )
+                );
+            }
+        }
+
+        if (!$shippingAddress) {
+            return false;
+        }
+
+        $zonesDefined = false;
+
+        foreach ($this->SilvercartHandlingCosts() as $handlingCost) {
+            $zone = $handlingCost->SilvercartZone();
+
+            if ($zone->SilvercartCountries()->find('ISO3', $shippingAddress->SilvercartCountry()->ISO3)) {
+                $handlingCostToUse = $handlingCost;
+                $zonesDefined = true;
+                break;
+            }
+        }
+
+        // Fallback if SilvercartHandlingCosts are available but no zone is defined
+        if (!$zonesDefined &&
+            $this->SilvercartHandlingCosts()->Count() > 0) {
+            $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
+        }
+
+        return $handlingCostToUse;
     }
     
     /**

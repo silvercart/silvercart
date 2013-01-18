@@ -69,10 +69,11 @@ class SilvercartCustomer extends DataObjectDecorator {
                 'CustomerNumber'                    => 'VarChar(128)',
             ),
             'has_one' => array(
-                'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
-                'SilvercartInvoiceAddress'      => 'SilvercartAddress',
-                'SilvercartShippingAddress'     => 'SilvercartAddress',
-                'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
+                'SilvercartShoppingCart'            => 'SilvercartShoppingCart',
+                'SilvercartInvoiceAddress'          => 'SilvercartAddress',
+                'SilvercartShippingAddress'         => 'SilvercartAddress',
+                'SilvercartCustomerConfig'          => 'SilvercartCustomerConfig',
+                'SilvercartShippingAddressInUse'    => 'SilvercartAddress',
             ),
             'has_many' => array(
                 'SilvercartAddresses'   => 'SilvercartAddress',

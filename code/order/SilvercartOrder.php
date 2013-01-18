@@ -876,6 +876,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $this->TaxRatePayment   = $paymentFee->SilvercartTax()->getTaxRate();
                     $this->TaxAmountPayment = $paymentFee->getTaxAmount();
                 }
+                $this->HandlingCostPayment = $paymentFee->amount;
             }
         }
 
@@ -1157,7 +1158,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         if ($paymentMethodObj) {
             $this->SilvercartPaymentMethodID = $paymentMethodObj->ID;
-            $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->getAmount());
+            $this->HandlingCostPayment->setAmount($paymentMethodObj->getHandlingCost()->amount->getAmount());
             $this->HandlingCostPayment->setCurrency(SilvercartConfig::DefaultCurrency());
         }
     }
@@ -1396,9 +1397,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 24.11.2010
      */
     public function getPriceNet() {
-        /*
-        $priceNet = $this->AmountTotal->getAmount() - $this->Tax->getAmount();
-        */
         $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
 
         $priceNetObj = new Money();
@@ -1978,33 +1976,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
 
         return $quantity;
-    }
-
-    /**
-     * returns handling fee for choosen payment method
-     *
-     * @return Money
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 23.11.2010
-     */
-    public function getHandlingCostPayment() {
-        $handlingCosts = 0.0;
-        $paymentObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $this->SilvercartPaymentMethodID
-        );
-
-        // get handling fee
-        if ($paymentObj) {
-            $handlingCosts += $paymentObj->getHandlingCost()->getAmount();
-        }
-        $handlingCostsObj = new Money('paymentHandlingCosts');
-        $handlingCostsObj->setAmount($handlingCosts);
-        $handlingCostsObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-        return $handlingCostsObj;
     }
     
     /**
