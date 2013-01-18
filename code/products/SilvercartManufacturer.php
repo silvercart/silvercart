@@ -125,11 +125,12 @@ class SilvercartManufacturer extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
-        $fieldLabels['URL']                 = _t('SilvercartPage.URL', 'URL');
-        $fieldLabels['logo']                = _t('SilvercartPage.LOGO', 'logo');
-        $fieldLabels['LogoForTable']        = _t('SilvercartPage.LOGO', 'logo');
-        $fieldLabels['SilvercartProducts']  = _t('SilvercartProduct.PLURALNAME', 'products');
+        $fieldLabels['Title']                            = _t('SilvercartPage.TITLE', 'title');
+        $fieldLabels['URL']                              = _t('SilvercartPage.URL', 'URL');
+        $fieldLabels['logo']                             = _t('SilvercartPage.LOGO', 'logo');
+        $fieldLabels['LogoForTable']                     = _t('SilvercartPage.LOGO', 'logo');
+        $fieldLabels['SilvercartProducts']               = _t('SilvercartProduct.PLURALNAME', 'products');
+        $fieldLabels['SilvercartManufacturerLanguages']  = _t('SilvercartConfig.TRANSLATIONS');
         return $fieldLabels;
     }
 

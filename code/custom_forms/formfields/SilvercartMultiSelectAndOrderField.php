@@ -166,8 +166,8 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
                 $selectedItemIdx++;
             }
 
-            $templateVars['available_items'] = new DataObjectSet($availableItems);
-            $templateVars['selected_items']  = new DataObjectSet($selectedItems);
+            $templateVars['available_items'] = new ArrayList($availableItems);
+            $templateVars['selected_items']  = new ArrayList($selectedItems);
             $output                          = $this->customise($templateVars)->renderWith('SilvercartMultiSelectAndOrderField');
         }
         
