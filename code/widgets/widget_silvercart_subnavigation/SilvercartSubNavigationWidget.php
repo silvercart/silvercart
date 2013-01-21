@@ -373,15 +373,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      */
     public function NavigationCacheKey() {
         $key            = $this->SilvercartProductGroupPageID.'_'.$this->LastEdited.'_';
-        $lastEditedPage = false;
-
-        foreach ($this->pageHierarchy as $pageId => $pageInfo) {
-            if (!$lastEditedPage ||
-                 $lastEditedPage->LastEdited < $pageInfo['Page']->LastEdited) {
-
-                $lastEditedPage = $pageInfo['Page'];
-            }
-        }
+        $lastEditedPage = DataObject::get_one('SilvercartProductGroupPage', '', true, 'LastEdited DESC');
 
         if ($lastEditedPage) {
             $key .= '_'.$lastEditedPage->LastEdited;
