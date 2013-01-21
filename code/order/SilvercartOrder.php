@@ -876,7 +876,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $this->TaxRatePayment   = $paymentFee->SilvercartTax()->getTaxRate();
                     $this->TaxAmountPayment = $paymentFee->getTaxAmount();
                 }
-                $this->HandlingCostPayment = $paymentFee->amount;
+                $this->HandlingCostPayment->setAmount($paymentFee->amount->getAmount());
+                $this->HandlingCostPayment->setCurrency($paymentFee->amount->getCurrency());
             }
         }
 
