@@ -486,9 +486,18 @@ class SilvercartPaymentMethod extends DataObject {
         }
 
         // Fallback if SilvercartHandlingCosts are available but no zone is defined
-        if (!$zonesDefined &&
-            $this->SilvercartHandlingCosts()->Count() > 0) {
-            $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
+        if (!$zonesDefined) {
+            if ($this->SilvercartHandlingCosts()->Count() > 0) {
+                $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
+            } else {
+                $silvercartTax                              = DataObject::get_one('SilvercartTax', 'isDefault = 1');
+                $handlingCostToUse                          = new SilvercartHandlingCost();
+                $handlingCostToUse->SilvercartPaymentMethod = $this;
+                $handlingCostToUse->SilvercartTax           = $silvercartTax;
+                $handlingCostToUse->amount                  = new Money();
+                $handlingCostToUse->amount->setAmount(0);
+                $handlingCostToUse->amount->setCurrency(SilvercartConfig::DefaultCurrency());
+            }
         }
 
         return $handlingCostToUse;

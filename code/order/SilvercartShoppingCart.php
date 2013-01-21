@@ -1107,7 +1107,12 @@ class SilvercartShoppingCart extends DataObject {
 
         if (SilvercartConfig::PriceType() == 'net') {
             $taxRate             = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
-            $handlingCostPayment = round(($handlingCostPaymentObj->getPriceAmount() / (100 + $taxRate->Rate) * 100), 2);
+
+            if ($handlingCostPaymentObj->getPriceAmount() > 0) {
+                $handlingCostPayment = round(($handlingCostPaymentObj->getPriceAmount() / (100 + $taxRate->Rate) * 100), 2);
+            } else {
+                $handlingCostPayment = 0;
+            }
 
             $handlingCostPaymentObj->setAmount($handlingCostPayment);
         }
