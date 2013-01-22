@@ -1658,10 +1658,13 @@ class SilvercartRequireDefaultRecords extends DataObject {
                         $language->Locale = $locale;
                     }
                     $language->SilvercartProductID = $productItem->ID;
-                    foreach ($product[$locale] as $attribute => $value) {
-                        $language->{$attribute} = $value;
+
+                    if (array_key_exists($locale, $product)) {
+                        foreach ($product[$locale] as $attribute => $value) {
+                            $language->{$attribute} = $value;
+                        }
                     }
-                    $language->write(); 
+                    $language->write();
                 }
                 
                 // Add product image
