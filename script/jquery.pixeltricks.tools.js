@@ -3,11 +3,10 @@ var pixeltricks         = pixeltricks       ? pixeltricks       : [];
     pixeltricks.tools   = pixeltricks.tools ? pixeltricks.tools : [];
 
 /**
- * Prueft, ob eine Email Adresse schon existiert und gibt dem Benutzer eine
- * entsprechende Rueckmeldung.
+ * Checks whether an email address exists already.
  *
- * @param pixeltricks.form.validator form
- * @param string fieldName
+ * @param form pixeltricks.form.validator 
+ * @param fieldName string
  */
 function doesEmailExistAlready(form, fieldName) {
     var fieldValue      = $('#' + form.formName + form.nameSeparator + fieldName).val();
@@ -37,12 +36,11 @@ function doesEmailExistAlready(form, fieldName) {
                 }
             }
         });
-
-        return {
-            success:        success,
-            errorMessage:   errorMessage
-        };
     }
+    return {
+        success:        success,
+        errorMessage:   errorMessage
+    };
 }
 
 /**
@@ -191,27 +189,17 @@ function activateShippingAddressValidation() {
  *
  * @return void
  *
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 28.05.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 24.01.2013
  */
 function SilvercartToggleQuickLoginBox() {
     if (typeof(window['updateSilvercartToggleQuickLoginBox']) !== 'undefined') {
         updateSilvercartToggleQuickLoginBox();
-        
         return false;
     }
     
-    var loginFormContainer = $('#silvercart-quicklogin-form');
-    
-    if (silvercartQuickLoginBoxVisibility == 'hidden') {
-        loginFormContainer.slideDown('fast');
-        silvercartQuickLoginBoxVisibility = 'visible';
-    } else {
-        loginFormContainer.slideUp('fast');
-        silvercartQuickLoginBoxVisibility = 'hidden';
-    }
-    
+    $('#silvercart-quicklogin-form').slideToggle('fast');
     return false;
 }
 
