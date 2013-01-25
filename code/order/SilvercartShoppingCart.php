@@ -1114,7 +1114,7 @@ class SilvercartShoppingCart extends DataObject {
                 $handlingCostPayment = 0;
             }
 
-            $handlingCostPaymentObj->setAmount($handlingCostPayment);
+            $handlingCostPaymentObj->amount->setAmount($handlingCostPayment);
         }
 
         return $handlingCostPaymentObj->amount;
