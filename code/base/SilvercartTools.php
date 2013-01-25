@@ -318,16 +318,18 @@ class SilvercartTools extends Object {
      * @return boolean 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.11.2012
+     * @since 25.01.2013
      */
     public static function isIsolatedEnvironment() {
-        $isolatedEnvironment = false;
-        if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
-            (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
-            (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
-            (SapphireTest::is_running_test()) ||
-            ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php')) {
-            $isolatedEnvironment = true;
+        if (is_null(self::$isIsolatedEnvironment)) {
+            self::$isIsolatedEnvironment = false;
+            if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
+                (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
+                (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
+                (SapphireTest::is_running_test()) ||
+                ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php')) {
+                self::$isIsolatedEnvironment = true;
+            }
         }
         return self::$isIsolatedEnvironment;
     }
