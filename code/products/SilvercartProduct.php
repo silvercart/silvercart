@@ -768,7 +768,7 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.11.2012
      */
     public static function defaultSort() {
@@ -800,6 +800,92 @@ class SilvercartProduct extends DataObject {
     public static function setDefaultSort($defaultSort) {
         Session::set('SilvercartProduct.defaultSort', $defaultSort);
         Session::save();
+    }
+    
+    /**
+     * Returns a list of products using the given filter parameters.
+     * The required attributes stored in self::$requiredAttributes will be added 
+     * to the filter parameters.
+     * 
+     * @param string $filter         Filter to use
+     * @param string $sort           Sort field(s) and direction
+     * @param string $join           Join tables
+     * @param string $limit          Result limitation
+     * @param string $containerClass Container class
+     * 
+     * @return DataList
+     */
+    public static function get($filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
+        $products = parent::get(null, $filter, $sort, $join, $limit, $containerClass);
+        
+        if (!SilvercartTools::isBackendEnvironment()) {
+            $requiredAttributesFilter = self::buildRequiredAttributesFilter();
+            if (!is_null($requiredAttributesFilter)) {
+                $products = $products->where($requiredAttributesFilter);
+            }
+        }
+        
+        return $products;
+    }
+    
+    /**
+     * Uses the required attributes stored in self::$requiredAttributes to build
+     * the filter to use to get a product list.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.01.2013
+     */
+    public static function buildRequiredAttributesFilter() {
+        $filter             = null;
+        $requiredAttributes = self::getRequiredAttributes();
+        $pricetype          = SilvercartConfig::Pricetype();
+        $exclude            = array();
+        
+        $requiredAttributes[] = 'isActive';
+
+        if (!empty($requiredAttributes)) {
+            foreach ($requiredAttributes as $requiredAttribute) {
+                //find out if we are dealing with a real attribute or a multilingual field
+                if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
+                    if ($requiredAttribute == "Price") {
+                        // Gross price as default if not defined
+                        if ($pricetype == "net") {
+                            $exclude['PriceNetAmount'] = 0;
+                        } else {
+                            $exclude['PriceGrossAmount'] = 0;
+                        }
+                    } else {
+                        $exclude[$requiredAttribute] = '';
+                    }
+                } else {
+                    // if its a multilingual attribute it comes from a relational class
+                    $exclude[$requiredAttribute] = '';
+                }
+                
+            }
+        }
+
+        $SQL_Statements = array();
+        foreach ($exclude as $fieldName => $value) {
+            if ($fieldName == 'ID') {
+                $fieldName = sprintf('"%s"."ID"', ClassInfo::baseDataClass('SilvercartProduct'));
+            } else {
+                $fieldName = '"' . Convert::raw2sql($fieldName) . '"';
+            }
+
+            if (is_array($value)) {
+                $SQL_Statements[] = ($fieldName . ' NOT IN (\'' . implode('\',\'', Convert::raw2sql($value)) . '\')');
+            } else {
+                $SQL_Statements[] = ($fieldName . ' != \'' . Convert::raw2sql($value) . '\'');
+            }
+        }
+
+        if (count($SQL_Statements) > 0) {
+            $filter = implode(" AND ", $SQL_Statements);
+        }
+        return $filter;
     }
 
     /**
@@ -1610,6 +1696,18 @@ class SilvercartProduct extends DataObject {
         if (in_array($attributeName, self::$requiredAttributes)) {
             self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes, 0));
         }
+    }
+
+    /**
+     * Resets the required attributes list.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.01.2013
+     */
+    public static function resetRequiredAttributes() {
+        self::$requiredAttributes = array();
     }
 
     /**
