@@ -418,6 +418,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getShippingAddressSummary($disableUpdate = false) {
         $shippingAddressSummary = '';
+        if (!empty($this->SilvercartShippingAddress()->Company)) {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->Company . PHP_EOL;
+        }
         $shippingAddressSummary .= $this->SilvercartShippingAddress()->FullName . PHP_EOL;
         if ($this->SilvercartShippingAddress()->IsPackstation) {
             $shippingAddressSummary .= $this->SilvercartShippingAddress()->PostNumber . PHP_EOL;
@@ -427,6 +430,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $shippingAddressSummary .= $this->SilvercartShippingAddress()->Street . ' ' . $this->SilvercartShippingAddress()->StreetNumber . PHP_EOL;
         }
         $shippingAddressSummary .= strtoupper($this->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartShippingAddress()->Postcode . ' ' . $this->SilvercartShippingAddress()->City . PHP_EOL;
+        if (!empty($this->SilvercartShippingAddress()->TaxIdNumber)) {
+            $shippingAddressSummary .= $this->SilvercartShippingAddress()->TaxIdNumber . PHP_EOL;
+        }
         if (!$disableUpdate) {
             $this->extend('updateShippingAddressSummary', $shippingAddressSummary);
         }
@@ -451,6 +457,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getInvoiceAddressSummary($disableUpdate = false) {
         $invoiceAddressSummary = '';
+        if (!empty($this->SilvercartInvoiceAddress()->Company)) {
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Company . PHP_EOL;
+        }
         $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->FullName . PHP_EOL;
         if ($this->SilvercartInvoiceAddress()->IsPackstation) {
             $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->PostNumber . PHP_EOL;
@@ -460,6 +469,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->Street . ' ' . $this->SilvercartInvoiceAddress()->StreetNumber . PHP_EOL;
         }
         $invoiceAddressSummary .= strtoupper($this->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->SilvercartInvoiceAddress()->Postcode . ' ' . $this->SilvercartInvoiceAddress()->City . PHP_EOL;
+        if (!empty($this->SilvercartInvoiceAddress()->TaxIdNumber)) {
+            $invoiceAddressSummary .= $this->SilvercartInvoiceAddress()->TaxIdNumber . PHP_EOL;
+        }
         if (!$disableUpdate) {
             $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
         }
@@ -534,7 +546,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return FieldSet the form fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 11.10.2012
+     * @since 28.01.2013
      */
     public function getCMSFields() {
         $this->markAsSeen();
@@ -643,6 +655,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         if (in_array('SilvercartShippingAddressID', $restrictFields)) {
             $fields->addFieldToTab('Root.ShippingAddressTab', new LiteralField('sa__Preview',           '<p>' . Convert::raw2xml($this->getShippingAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__TaxIdNumber',          $address->fieldLabel('TaxIdNumber'),        $this->SilvercartShippingAddress()->TaxIdNumber));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Company',              $address->fieldLabel('Company'),            $this->SilvercartShippingAddress()->Company));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__FirstName',            $address->fieldLabel('FirstName'),          $this->SilvercartShippingAddress()->FirstName));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Surname',              $address->fieldLabel('Surname'),            $this->SilvercartShippingAddress()->Surname));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Addition',             $address->fieldLabel('Addition'),           $this->SilvercartShippingAddress()->Addition));
@@ -660,6 +674,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         if (in_array('SilvercartInvoiceAddressID', $restrictFields)) {
             $fields->addFieldToTab('Root.InvoiceAddressTab', new LiteralField('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__TaxIdNumber',           $address->fieldLabel('TaxIdNumber'),        $this->SilvercartInvoiceAddress()->TaxIdNumber));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Company',               $address->fieldLabel('Company'),            $this->SilvercartInvoiceAddress()->Company));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__FirstName',             $address->fieldLabel('FirstName'),          $this->SilvercartInvoiceAddress()->FirstName));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Surname',               $address->fieldLabel('Surname'),            $this->SilvercartInvoiceAddress()->Surname));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Addition',              $address->fieldLabel('Addition'),           $this->SilvercartInvoiceAddress()->Addition));
