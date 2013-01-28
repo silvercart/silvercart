@@ -45,12 +45,12 @@ class SilvercartManufacturerTest extends SapphireTest {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.12.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 28.01.2013
      */
     public function testGetByUrlSegment() {
         $manufacturerFromFixture = $this->objFromFixture('SilvercartManufacturer', "testmanufacturer");
-        $manufacturerFromMethod = SilvercartManufacturer::getByUrlSegment('testmanufacturer');
+        $manufacturerFromMethod = SilvercartManufacturer::getByUrlSegment('test-manufacturer');
         $this->assertEquals($manufacturerFromFixture, $manufacturerFromMethod);
     }
     
@@ -59,12 +59,12 @@ class SilvercartManufacturerTest extends SapphireTest {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.12.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 28.01.2013
      */
     public function testTitle2urlSegment() {
         $manufacturer = $this->objFromFixture('SilvercartManufacturer', 'manufacturerWithUmlaut');
-        $this->assertEquals($manufacturer->title2urlSegment(), 'aeoeueAeOeUe----');
+        $this->assertEquals($manufacturer->title2urlSegment(), 'ae-oe-ue-ae-oe-and-ue');
     }
 }
 
