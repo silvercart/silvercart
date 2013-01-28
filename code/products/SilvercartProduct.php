@@ -807,6 +807,7 @@ class SilvercartProduct extends DataObject {
      * The required attributes stored in self::$requiredAttributes will be added 
      * to the filter parameters.
      * 
+     * @param string $callerClass    Caller class name
      * @param string $filter         Filter to use
      * @param string $sort           Sort field(s) and direction
      * @param string $join           Join tables
@@ -815,8 +816,8 @@ class SilvercartProduct extends DataObject {
      * 
      * @return DataList
      */
-    public static function get($filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
-        $products = parent::get(null, $filter, $sort, $join, $limit, $containerClass);
+    public static function get($callerClass = null, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
+        $products = parent::get($callerClass, $filter, $sort, $join, $limit, $containerClass);
         
         if (!SilvercartTools::isBackendEnvironment()) {
             $requiredAttributesFilter = self::buildRequiredAttributesFilter();
