@@ -214,10 +214,10 @@ class SilvercartManufacturer extends DataObject {
      * @return SilvercartManufacturer
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2011
+     * @since 28.01.2013
      */
     public static function getByUrlSegment($urlSegment) {
-        return DataObject::get_one('SilvercartManufacturer', sprintf("\"URLSegment\" = '%s'", Convert::raw2sql($urlSegment)));
+        return self::get()->filter(array('URLSegment' => $urlSegment))->First();
     }
 
     /**
