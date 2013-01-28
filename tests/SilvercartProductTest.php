@@ -42,52 +42,49 @@ class SilvercartProductTest extends SapphireTest {
     
     /**
      * test for the wrapper function SilvercartProduct::get()
-     * -isFreeOfCharge
      * -filtering via SilvercartProduct::setRequiredAttributes
      * -filtering via where clause
      * -isActive
      * -up to three required attributes
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.4.2011
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <diel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 25.01.2013
      */
     public function testGet() {
         //Only active products with a price or free of charge must be loaded. 
         SilvercartProduct::setRequiredAttributes("Price");
-        $products = SilvercartProduct::get();
-        $this->assertEquals(5, $products->Count(), "The quantity of products with a price or free of charge is not correct.");
+        $productsWithPrice = SilvercartProduct::get();
+        $this->assertEquals(5, (int) $productsWithPrice->Count(), "The quantity of products with a price is not correct.");
         
         //Only active products with short description and price defined as required attributes must be loaded
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription");
-        $products = SilvercartProduct::get();
-        $this->assertEquals(4, $products->Count(), "The quantity of products with price and short description is not correct.");
+        $productsWithPriceAndShortDescription = SilvercartProduct::get();
+        $this->assertEquals(4, (int) $productsWithPriceAndShortDescription->Count(), "The quantity of products with price and short description is not correct.");
         
-        //Only one specific product with Title = 'product with price'
-        $products = SilvercartProduct::get("Title = 'Product with price'");
-        $this->assertTrue($products->Count() == 1, "Quantity of products with Title 'product with price' not correct");
+        //Only one specific product with Title = 'Product with price'
+        $productsWithPriceTitle = SilvercartProduct::get()->filter(array("Title" => 'Product with price'));
+        $this->assertTrue($productsWithPriceTitle->Count() == 1, "Quantity of products with Title 'product with price' not correct");
         
         //inactive products must not be loaded
-        $products = SilvercartProduct::get("Title = 'inactive product'");
-        $this->assertNull($products, "An inactive product can be loaded via SilvercartProduct::get()");
-        
-        //products free of charge must be loaded with and without price
-        $products = SilvercartProduct::get("isFreeOfCharge = 1");
-        $this->assertTrue($products->Count() == 2, "The number of products free of charge is not correct");
+        $productsWithInactiveTitle = SilvercartProduct::get()->filter(array("Title" => 'inactive product'));
+        $this->assertTrue($productsWithInactiveTitle->Count() == 0, "An inactive product can be loaded via SilvercartProduct::get()");
         
         //load products with three required attributes defined
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription, LongDescription");
-        $products = SilvercartProduct::get();
-        $this->assertEquals(3, $products->Count(), "The quantity of products with price, short description and long description set is not correct.");
+        $productsWithPriceAndShortDescriptionAndLongDescription = SilvercartProduct::get();
+        $this->assertEquals(3, $productsWithPriceAndShortDescriptionAndLongDescription->Count(), "The quantity of products with price, short description and long description set is not correct.");
         
     }
     
     /**
      * tests the function getPrice which should return prices dependent on pricetypes
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.4.2011
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <diel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 28.01.2013
      */
     public function testGetPrice() {
         $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
@@ -100,7 +97,7 @@ class SilvercartProductTest extends SapphireTest {
         if ($member) {
             $member->logOut();
         }
-        $productWithPrice = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
+        
         $this->assertEquals(99.99, $productWithPrice->getPrice()->getAmount());
         
         //check price for business customers
@@ -121,9 +118,10 @@ class SilvercartProductTest extends SapphireTest {
      * add a new product to a cart
      * increase existing shopping cart positions amount
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.4.2011
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <diel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 25.01.2013
      */
     public function testAddToCart() {
         $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
@@ -133,42 +131,46 @@ class SilvercartProductTest extends SapphireTest {
         //existing position
         $productWithPrice->addToCart($cart->ID, 2);
         $position = DataObject::get_by_id("SilvercartShoppingCartPosition", $cartPosition->ID);
-        $this->assertEquals(3, $position->Quantity, "The quantity of the overwritten shopping cart position is incorrect.");
+        $this->assertEquals(3, (int) $position->Quantity, "The quantity of the overwritten shopping cart position is incorrect.");
         
         //new position
         $productWithPriceWithoutLongDescription = $this->objFromFixture("SilvercartProduct", "ProductWithPriceWithoutLongDescription");
         $productWithPriceWithoutLongDescription->addToCart($cart->ID);
-        $position = DataObject::get_one("SilvercartShoppingCartPosition", "SilvercartProductID = $productWithPriceWithoutLongDescription->ID");
-        $this->assertEquals(1, $position->Quantity, "The quantity of the newly created shopping cart position is incorrect.");
+        $refreshedPosition = DataObject::get_one("SilvercartShoppingCartPosition", "SilvercartProductID = $productWithPriceWithoutLongDescription->ID");
+        $this->assertEquals(1, $refreshedPosition->Quantity, "The quantity of the newly created shopping cart position is incorrect.");
         
     }
     
     /**
      * tests the reqired attributes system for products
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.4.2011
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <diel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 25.01.2013
      */
     public function testRequiredAttributes() {
         
         //two attributes
+        SilvercartProduct::resetRequiredAttributes();
         SilvercartProduct::setRequiredAttributes("Price, Weight");
-        $attributes = SilvercartProduct::getRequiredAttributes();
-        $this->assertEquals(array("Price", "Weight"), $attributes, "Something went wrong setting two required attributes.");
+        $twoAttributes = SilvercartProduct::getRequiredAttributes();
+        $this->assertEquals(array("Price", "Weight"), $twoAttributes, "Something went wrong setting two required attributes.");
         
         //four attributes
+        SilvercartProduct::resetRequiredAttributes();
         SilvercartProduct::setRequiredAttributes("Price, Weight, ShortDescription, LongDescription");
-        $attributes = SilvercartProduct::getRequiredAttributes();
-        $this->assertEquals(array("Price", "Weight", "ShortDescription", "LongDescription"), $attributes, "Something went wrong setting four required attributes.");
+        $fourAttributes = SilvercartProduct::getRequiredAttributes();
+        $this->assertEquals(array("Price", "Weight", "ShortDescription", "LongDescription"), $fourAttributes, "Something went wrong setting four required attributes.");
     }
     
     /**
      * Is tax rate returned correctly?
      * 
+     * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 24.4.2011
-     * @return void
      */
     public function testGetTaxRate() {
         $productWithTax = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
@@ -179,9 +181,10 @@ class SilvercartProductTest extends SapphireTest {
     /**
      * Does the method return the correct boolean answer?
      * 
+     * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 24.4.2011
-     * @return void
      */
     public function testShowPricesGross() {
         $product = $this->objFromFixture("SilvercartProduct", "ProductWithPrice");
