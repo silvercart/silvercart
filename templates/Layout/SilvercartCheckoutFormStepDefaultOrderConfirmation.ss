@@ -17,5 +17,5 @@
 </form>
 
 <% control Controller %>
-{$SiteConfig.GoogleConversionTrackingCode}
+{$SiteConfig.GoogleConversionTrackingCode.Raw}
 <% end_control %>
