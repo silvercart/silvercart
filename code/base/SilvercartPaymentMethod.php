@@ -366,6 +366,9 @@ class SilvercartPaymentMethod extends DataObject {
                     'SilvercartShippingMethods'         => _t('SilvercartShippingMethod.PLURALNAME'),
                     'SilvercartCountries'               => _t('SilvercartCountry.PLURALNAME'),
                     'LongPaymentDescription'            => _t('SilvercartPaymentMethod.LONG_PAYMENT_DESCRIPTION'),
+                    'SilvercartHandlingCosts'           => _t('SilvercartHandlingCost.PLURALNAME'),
+                    'PaymentLogos'                      => _t('SilvercartPaymentMethod.PAYMENT_LOGOS'),
+                    'SilvercartOrderStatus'             => _t('SilvercartOrderStatus.PLURALNAME')
                 )
         );
     }
@@ -1179,7 +1182,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabHandlingCosts= new Tab('HandlingCosts', _t('SilvercartPaymentMethod.HANDLINGCOSTS_SETTINGS'));
         $tabset->push($tabHandlingCosts);
         $config = GridFieldConfig_RelationEditor::create();
-        $handlingCostField = new GridField('SilvercartHandlingCost', 'SilvercartHandlingCost', SilvercartHandlingCost::get(), $config);
+        $handlingCostField = new GridField('SilvercartHandlingCost', $this->fieldLabel('SilvercartHandlingCosts'), SilvercartHandlingCost::get(), $config);
         $tabHandlingCosts->setChildren(
             new FieldList(
                 $handlingCostField
@@ -1192,7 +1195,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabLogos = new Tab('Logos', _t('SilvercartPaymentMethod.PAYMENT_LOGOS', 'Payment Logos'));
         $tabset->push($tabLogos);
         
-        $paymentLogosTable = new GridField('PaymentLogos', 'PaymentLogos', $this->PaymentLogos(), $config);
+        $paymentLogosTable = new GridField('PaymentLogos', $this->fieldLabel('PaymentLogos'), $this->PaymentLogos(), $config);
         $tabLogos->setChildren(
             new FieldList(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
@@ -1248,7 +1251,7 @@ class SilvercartPaymentMethod extends DataObject {
         
         $restrictionByOrderStatusField = new GridField(
                 'OrderRestrictionStatus',
-                'SilvercartOrderStatus',
+                $this->fieldLabel('SilvercartOrderStatus'),
                 SilvercartOrderStatus::get(),
                 $config
         );
@@ -1338,7 +1341,7 @@ class SilvercartPaymentMethod extends DataObject {
         $countriesTab = new Tab('SilvercartCountries', $this->fieldLabel('SilvercartCountries'));
         $tabset->push($countriesTab);
         $config = GridFieldConfig_RelationEditor::create(50);
-        $countriesTable = new GridField('SilvercartCountries', 'SilvercartCountries', SilvercartCountry::get(), $config);
+        $countriesTable = new GridField('SilvercartCountries', $this->fieldLabel('SilvercartCountries'), SilvercartCountry::get(), $config);
         $countriesTab->push($countriesTable);
         
         // --------------------------------------------------------------------
