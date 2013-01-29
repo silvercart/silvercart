@@ -1908,6 +1908,8 @@ class SilvercartPaymentMethod extends DataObject {
 
         if (array_key_exists('Shipping_IsPackstation', $checkoutData)) {
             $shippingAddress->IsPackstation = $checkoutData['Shipping_IsPackstation'];
+        } else {
+            $shippingAddress->IsPackstation = false;
         }
         if (array_key_exists('Shipping_PostNumber', $checkoutData)) {
             $shippingAddress->PostNumber = $checkoutData['Shipping_PostNumber'];
