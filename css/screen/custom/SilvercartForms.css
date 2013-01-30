@@ -16,6 +16,11 @@ form.yform .type-button {
     text-align:                     right;
 }
 
+.yform.silvercart-system-form .field, .yform div.type-text, .yform div.type-select, .yform div.type-check, .yform div.type-button {
+    padding-left:                   0px;
+    padding-right:                  0px;
+}
+
 .yform.silvercart-system-form .Actions input[type="submit"],
 form.yform input[type="submit"],
 form.yform .type-button input[type="submit"],
