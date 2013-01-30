@@ -106,7 +106,9 @@ class SilvercartRemovePositionForm extends CustomHtmlForm {
             $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
             if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
                 $position->delete();
-                Director::redirect($this->controller->Link());
+
+                $backLinkPage = DataObject::get_by_id('SiteTree', $formData['BlID']);
+                Director::redirect($backLinkPage->Link());
             }
         }
     }

@@ -131,7 +131,8 @@ class SilvercartShoppingCartPosition extends DataObject {
                     new $positionForm(
                         $controller,
                         array(
-                            'positionID' => $this->ID
+                            'positionID' => $this->ID,
+                            'BlID'       => $controller->ID
                         )
                     )
                 );

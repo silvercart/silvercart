@@ -73,7 +73,9 @@ class SilvercartDecrementPositionQuantityForm extends CustomHtmlForm {
                     $position->Quantity--;
                     $position->write();
                 }
-                Director::redirect($this->controller->Link());
+
+                $backLinkPage = DataObject::get_by_id('SiteTree', $formData['BlID']);
+                Director::redirect($backLinkPage->Link());
             }
         }
     }
