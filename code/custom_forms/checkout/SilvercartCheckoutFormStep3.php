@@ -126,6 +126,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }

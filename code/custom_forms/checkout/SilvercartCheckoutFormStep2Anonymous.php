@@ -139,6 +139,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
         return $this->preferences;
     }
 

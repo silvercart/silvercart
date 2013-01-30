@@ -9,6 +9,7 @@
             body { font-family: Verdana; font-size:70.00%; color:#666; }
 
             .right { text-align: right; }
+            .left { text-align: left; }
         </style>
 $ShopEmailMessage
     </body>

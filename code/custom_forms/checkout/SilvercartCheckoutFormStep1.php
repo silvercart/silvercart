@@ -112,6 +112,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
         $this->preferences['isConditionalStep']         = true;
         $this->preferences['loadModules']               = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }
