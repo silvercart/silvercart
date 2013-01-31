@@ -303,15 +303,17 @@ class SilvercartZone extends DataObject {
      * @return ComponentSet
      */
     public static function getZonesFor($countryID) {
-        return DataObject::get(
-                'SilvercartZone',
-                sprintf(
-                        "\"SilvercartZone_SilvercartCountries\".\"SilvercartCountryID\" = '%s'",
-                        $countryID
-                ),
-                '',
-                "LEFT JOIN \"SilvercartZone_SilvercartCountries\" ON (\"SilvercartZone_SilvercartCountries\".\"SilvercartZoneID\" = \"SilvercartZone\".\"ID\")"
-        );
+        return self::get()
+            ->leftJoin(
+                'SilvercartZone_SilvercartCountries',
+                'SZSC.SilvercartZoneID = SilvercartZone.ID',
+                'SZSC'
+            )
+            ->filter(
+                array(
+                    'SilvercartCountryID' => $countryID,
+                )
+            );
     }
     
     /**
