@@ -174,11 +174,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @since 31.01.2013
      */
     public function CanView() {
         $canView = false;
-        if (Member::currentUserID() == $this->MemberID ||
+        if ((Member::currentUserID() == $this->MemberID &&
+             !is_null($this->MemberID)) ||
             Permission::check('SILVERCART_ORDER_VIEW')) {
             $canView = true;
         }
