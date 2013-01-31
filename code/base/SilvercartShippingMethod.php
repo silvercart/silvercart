@@ -308,9 +308,9 @@ class SilvercartShippingMethod extends DataObject {
         if ($shippingCountry) {
             $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
-            if ($zones) {
-                $zoneMap            = $zones->map();
-                $zoneIDs            = array_flip($zoneMap);
+            if ($zones->Count() > 0) {
+                $zoneMap            = $zones->map('ID','ID');
+                $zoneIDs            = $zoneMap->toArray();
                 $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
                 $fees               = DataObject::get(
                     'SilvercartShippingFee',
