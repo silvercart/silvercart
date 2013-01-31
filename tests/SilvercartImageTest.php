@@ -45,10 +45,11 @@ class SilvercartImageTest extends SapphireTest {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.12.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 29.01.2013
      */
     public function testGetFileIcon() {
+        i18n::set_locale('en_US');
         $testimage = $this->objFromFixture('SilvercartImage', 'testimage');
         $this->assertEquals('<img src="'.SAPPHIRE_DIR . '/images/app_icons/image_32.gif" alt="JPEG image - good for photos" title="testimage" />', $testimage->getFileIcon());
     }
