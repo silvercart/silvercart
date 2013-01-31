@@ -308,7 +308,7 @@ class SilvercartShippingMethod extends DataObject {
         if ($shippingCountry) {
             $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
-            if ($zones->Count() > 0) {
+            if ($zones->count() > 0) {
                 $zoneMap            = $zones->map('ID','ID');
                 $zoneIDs            = $zoneMap->toArray();
                 $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
@@ -542,7 +542,7 @@ class SilvercartShippingMethod extends DataObject {
         $customerGroups = SilvercartCustomer::getCustomerGroups();
         if ($customerGroups &&
             $customerGroups instanceof ArrayList &&
-            $customerGroups->Count() > 0) {
+            $customerGroups->count() > 0) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
                 "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
@@ -644,7 +644,7 @@ class SilvercartShippingMethod extends DataObject {
         foreach ($shippingMethods as $shippingMethod) {
             foreach ($customerGroups as $customerGroup) {
                 if ($shippingMethod->SilvercartCustomerGroups()->find('ID', $customerGroup->ID) ||
-                    $shippingMethod->SilvercartCustomerGroups()->Count() == 0) {
+                    $shippingMethod->SilvercartCustomerGroups()->count() == 0) {
                     $allowedShippingMethods->push($shippingMethod);
                     break;
                 }

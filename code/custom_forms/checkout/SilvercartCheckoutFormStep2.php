@@ -45,7 +45,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
             $member             = SilvercartCustomer::currentRegisteredCustomer();
 
             if ($member) {
-                $numberOfAddresses = $member->SilvercartAddresses()->Count();
+                $numberOfAddresses = $member->SilvercartAddresses()->count();
 
                 if ($numberOfAddresses > 0) {
                     $cacheKeyExtension .= md5('_'.$numberOfAddresses.'_'.

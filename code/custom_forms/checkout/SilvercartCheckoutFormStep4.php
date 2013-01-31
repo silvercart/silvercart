@@ -194,7 +194,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         } else {
             if (isset($allowedPaymentMethods) &&
                 $allowedPaymentMethods &&
-                $allowedPaymentMethods->Count() > 0) {
+                $allowedPaymentMethods->count() > 0) {
                 $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
             }
         }
@@ -210,7 +210,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      */
     public function process() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
-        if ($allowedPaymentMethods->Count() === 1 &&
+        if ($allowedPaymentMethods->count() === 1 &&
             $this->getRegisteredNestedForms()->count() == 1 &&
             $this->getRegisteredNestedForms()->first() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
             // there is only one payment method, set it and skip this step

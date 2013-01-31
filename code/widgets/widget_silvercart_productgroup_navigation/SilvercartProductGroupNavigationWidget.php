@@ -260,7 +260,7 @@ class SilvercartProductGroupNavigationWidget_Controller extends WidgetSetWidget_
         $childPageStr = '';
         
         if ($childPages &&
-            $childPages->Count() > 0) {
+            $childPages->count() > 0) {
             
             foreach ($childPages as $childPage) {
                 $childPageStr .= $this->renderProductGroupNavigation($childPage, $currentPage, $level);

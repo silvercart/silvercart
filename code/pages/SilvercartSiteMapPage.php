@@ -117,7 +117,7 @@ class SilvercartSiteMapPage_Controller extends SilvercartMetaNavigationHolder_Co
      */
     public function generateSiteMap($page) {
         $page->SiteMapChildren = '';
-        if ($page->Children()->Count() > 0) {
+        if ($page->Children()->count() > 0) {
             foreach ($page->Children() as $child) {
                 if ($child->ShowInMenus) {
                 }

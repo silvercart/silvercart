@@ -364,7 +364,7 @@ class SilvercartAddress extends DataObject {
         $isLastAddress = false;
 
         if (Member::currentUser() &&
-            Member::currentUser()->SilvercartAddresses()->Count() < 2) {
+            Member::currentUser()->SilvercartAddresses()->count() < 2) {
 
             $isLastAddress = true;
         }

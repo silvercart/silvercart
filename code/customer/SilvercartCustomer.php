@@ -759,7 +759,7 @@ class SilvercartCustomer extends DataExtension {
                         }
                     }
                 }
-                if ($this->owner->Groups()->Count() > count($groups)) {
+                if ($this->owner->Groups()->count() > count($groups)) {
                     foreach ($this->owner->Groups() as $group) {
                         if (!in_array($group->ID, $groups)) {
                             $group->Members()->remove($this->owner);

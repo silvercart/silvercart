@@ -236,7 +236,7 @@ class SilvercartShopEmail extends DataObject {
      */
     public function getAdditionalRecipientsHtmlString() {
         $additionalRecipientsArray = array();
-        if ($this->AdditionalReceipients()->Count() > 0) {
+        if ($this->AdditionalReceipients()->count() > 0) {
             foreach ($this->AdditionalReceipients() as $additionalRecipient) {
                 $additionalRecipientsArray[] = htmlentities($additionalRecipient->getEmailAddressWithName());
             }
@@ -333,7 +333,7 @@ class SilvercartShopEmail extends DataObject {
         //Send the email to additional standard receipients from the n:m
         //relation AdditionalReceipients;
         //Email address is validated.
-        if ($mailObj->AdditionalReceipients()->Count() > 0) {
+        if ($mailObj->AdditionalReceipients()->count() > 0) {
             foreach ($mailObj->AdditionalReceipients() as $additionalReceipient) {
                 if ($additionalReceipient->getEmailAddressWithName() && Email::validEmailAddress($additionalReceipient->Email)) {
                     $to = $additionalReceipient->getEmailAddressWithName();

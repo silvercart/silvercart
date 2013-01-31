@@ -326,7 +326,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
                     $relationField = new $this->relationFieldName();
                     $relationField->setField('name', Convert::raw2sql($vars['callbackField']));
                     $relationField->setField($this->currentRecord->ClassName.'ID', $dataObj->ID);
-                    $relationField->setField('sortOrder', $dataObj->$relationName()->Count() + 1);
+                    $relationField->setField('sortOrder', $dataObj->$relationName()->count() + 1);
                     $relationField->setField('isCallbackField', true);
                     $relationField->write();
 
@@ -372,7 +372,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
                             $relationField = new $this->relationFieldName();
                             $relationField->setField('name', $field);
                             $relationField->setField($this->currentRecord->ClassName.'ID', $dataObj->ID);
-                            $relationField->setField('sortOrder', $dataObj->$relationName()->Count() + 1);
+                            $relationField->setField('sortOrder', $dataObj->$relationName()->count() + 1);
                             $relationField->write();
 
                             $dataObj->$relationName()->push($relationField);
@@ -472,7 +472,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
                         $itemToMove = $dataObj->$relationName()->find('name', $field);
 
                         if ($itemToMove) {
-                            if ($itemToMove->sortOrder <= $dataObj->$relationName()->Count()) {
+                            if ($itemToMove->sortOrder <= $dataObj->$relationName()->count()) {
                                 $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
                             }
                         }
@@ -527,7 +527,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
                         $itemToMove = $dataObj->$relationName()->find('name', $field);
 
                         if ($itemToMove) {
-                            if ($itemToMove->sortOrder < $dataObj->$relationName()->Count()) {
+                            if ($itemToMove->sortOrder < $dataObj->$relationName()->count()) {
                                 $itemsToMove['sort_'.str_pad($itemToMove->sortOrder, 10, '0', STR_PAD_LEFT)] = $itemToMove;
                             }
                         }

@@ -377,7 +377,7 @@ class SilvercartManyManyOrderField_RecordController extends ModelAdmin_RecordCon
             $relationName             = $vars['relationName'];
 
             $manyManyClass = DataObject::get_by_id($manyManyClassName, $this->currentRecord->ID);
-            $lastPosition  = $manyManyClass->$relationName()->Count();
+            $lastPosition  = $manyManyClass->$relationName()->count();
 
             foreach ($vars['availableItems'] as $silvercartProductVariantAttributeID) {
                 $belongsManyManyObject = DataObject::get_by_id($belongsManyManyClassName, $silvercartProductVariantAttributeID);
@@ -479,7 +479,7 @@ class SilvercartManyManyOrderField_RecordController extends ModelAdmin_RecordCon
             $relationName             = $vars['relationName'];
 
             $manyManyClass = DataObject::get_by_id($manyManyClassName, $this->currentRecord->ID);
-            $lastPosition  = $manyManyClass->$relationName()->Count();
+            $lastPosition  = $manyManyClass->$relationName()->count();
 
             foreach ($vars['selectedItems'] as $belongsManyManyId) {
                 $itemToMove = $manyManyClass->$relationName()->find('ID', $belongsManyManyId);
@@ -530,7 +530,7 @@ class SilvercartManyManyOrderField_RecordController extends ModelAdmin_RecordCon
             $relationName             = $vars['relationName'];
 
             $manyManyClass = DataObject::get_by_id($manyManyClassName, $this->currentRecord->ID);
-            $lastPosition  = $manyManyClass->$relationName()->Count();
+            $lastPosition  = $manyManyClass->$relationName()->count();
 
             foreach ($vars['selectedItems'] as $belongsManyManyId) {
                 $itemToMove = $manyManyClass->$relationName()->find('ID', $belongsManyManyId);

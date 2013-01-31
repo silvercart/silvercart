@@ -2316,7 +2316,7 @@ class SilvercartProduct extends DataObject {
 
         $this->extend('updateGetSilvercartImages', $images);
 
-        if ($images->Count() > 0) {
+        if ($images->count() > 0) {
             $existingImages = new ArrayList();
             foreach ($images as $image) {
                 if (!file_exists($image->Image()->getFullPath())) {
@@ -2337,7 +2337,9 @@ class SilvercartProduct extends DataObject {
             $noImageObj = SilvercartConfig::getNoImage();
 
             if ($noImageObj) {
-                return new ArrayList($noImageObj);
+                $noImageArray = new ArrayList();
+                $noImageArray->push($noImageObj);
+                return $noImageArray;
             }
         }
 

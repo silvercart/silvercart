@@ -560,12 +560,12 @@ class SilvercartWidgetTools extends Object {
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
         if ($widget->Elements() instanceof SS_List &&
-            $widget->Elements()->Count() > 0) {
+            $widget->Elements()->count() > 0) {
             $productMap             = $widget->Elements()->map('ID', 'LastEdited');
             if (!is_array($productMap)) {
                 $productMap = array();
             }
-            if ($widget->Elements()->Count() > 0 &&
+            if ($widget->Elements()->count() > 0 &&
                 (empty($productMap) ||
                 (count($productMap) == 1 &&
                 array_key_exists('', $productMap)))) {

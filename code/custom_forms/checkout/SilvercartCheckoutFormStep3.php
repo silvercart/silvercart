@@ -111,12 +111,12 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
     public function preferences() {
         $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
         $stepIsVisible      = true;
-        if ($shippingMethods->Count() === 1) {
+        if ($shippingMethods->count() === 1) {
             $stepIsVisible = false;
-        } elseif ($shippingMethods->Count() === 0) {
+        } elseif ($shippingMethods->count() === 0) {
             $shippingMethods = DataObject::get('SilvercartShippingMethod');
             if ($shippingMethods instanceof ArrayList &&
-                $shippingMethods->Count() === 1) {
+                $shippingMethods->count() === 1) {
                 $stepIsVisible = false;
             }
         }
@@ -167,7 +167,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         } else {
             if (isset($shippingMethods) &&
                 $shippingMethods &&
-                $shippingMethods->Count() > 0) {
+                $shippingMethods->count() > 0) {
                 $this->formFields['ShippingMethod']['selectedValue'] = $shippingMethods->First()->ID;
             }
         }
@@ -184,7 +184,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     public function process() {
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        if ($shippingMethods->Count() === 1) {
+        if ($shippingMethods->count() === 1) {
             // there is only one shipping method, set it and skip this step
             $formData = array(
                 'ShippingMethod' => $shippingMethods->First()->ID,

@@ -152,7 +152,7 @@ class SilvercartRating extends DataObject {
                 foreach ($ratings as $rating) {
                     $ratingGradesSum += $rating->RatingGrade;
                 }
-                $averageGrade = $ratingGradesSum / $ratings->Count();
+                $averageGrade = $ratingGradesSum / $ratings->count();
                 return round($averageGrade, $precision);
             }
         return false;

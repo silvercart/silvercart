@@ -57,7 +57,7 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
             $fieldname = $this->name;
             $controller = $this->getController();
             $relations = $controller->$fieldname();
-            if ($relations->Count() > 0) {
+            if ($relations->count() > 0) {
                 $values = array();
                 foreach ($relations as $dataObject) {
                     $attribute = $this->getAutoCompleteSourceAttribute();
@@ -211,7 +211,7 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
         $fieldName = $this->name;
         $controller = $this->getController();
         $relations = $controller->$fieldName();
-        if ($relations->Count() > 0) {
+        if ($relations->count() > 0) {
             $values = array();
             foreach ($relations as $dataObject) {
                 $attribute = $this->getAutoCompleteSourceAttribute();

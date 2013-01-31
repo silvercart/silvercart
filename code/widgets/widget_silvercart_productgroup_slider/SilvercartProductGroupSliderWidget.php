@@ -155,9 +155,9 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
         $productGroups  = $this->getProductGroups();
         
         if ($productGroups &&
-            $productGroups->Count() > 1) {
+            $productGroups->count() > 1) {
             
-            $productGroup = $productGroups->getRange(2,1)->First();
+            $productGroup = $productGroups->limit(2,1)->First();
         }
         
         return $productGroup;

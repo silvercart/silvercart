@@ -56,25 +56,25 @@ class SilvercartProductTest extends SapphireTest {
         //Only active products with a price or free of charge must be loaded. 
         SilvercartProduct::setRequiredAttributes("Price");
         $productsWithPrice = SilvercartProduct::get();
-        $this->assertEquals(5, (int) $productsWithPrice->Count(), "The quantity of products with a price is not correct.");
+        $this->assertEquals(5, (int) $productsWithPrice->count(), "The quantity of products with a price is not correct.");
         
         //Only active products with short description and price defined as required attributes must be loaded
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription");
         $productsWithPriceAndShortDescription = SilvercartProduct::get();
-        $this->assertEquals(4, (int) $productsWithPriceAndShortDescription->Count(), "The quantity of products with price and short description is not correct.");
+        $this->assertEquals(4, (int) $productsWithPriceAndShortDescription->count(), "The quantity of products with price and short description is not correct.");
         
         //Only one specific product with Title = 'Product with price'
         $productsWithPriceTitle = SilvercartProduct::get()->filter(array("Title" => 'Product with price'));
-        $this->assertTrue($productsWithPriceTitle->Count() == 1, "Quantity of products with Title 'product with price' not correct");
+        $this->assertTrue($productsWithPriceTitle->count() == 1, "Quantity of products with Title 'product with price' not correct");
         
         //inactive products must not be loaded
         $productsWithInactiveTitle = SilvercartProduct::get()->filter(array("Title" => 'inactive product'));
-        $this->assertTrue($productsWithInactiveTitle->Count() == 0, "An inactive product can be loaded via SilvercartProduct::get()");
+        $this->assertTrue($productsWithInactiveTitle->count() == 0, "An inactive product can be loaded via SilvercartProduct::get()");
         
         //load products with three required attributes defined
         SilvercartProduct::setRequiredAttributes("Price, ShortDescription, LongDescription");
         $productsWithPriceAndShortDescriptionAndLongDescription = SilvercartProduct::get();
-        $this->assertEquals(3, $productsWithPriceAndShortDescriptionAndLongDescription->Count(), "The quantity of products with price, short description and long description set is not correct.");
+        $this->assertEquals(3, $productsWithPriceAndShortDescriptionAndLongDescription->count(), "The quantity of products with price, short description and long description set is not correct.");
         
     }
     

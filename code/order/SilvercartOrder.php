@@ -492,7 +492,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @since 26.01.2012
      */
     public function getLimitedSilvercartOrderPositions($numberOfPositions = 2) {
-        return $this->SilvercartOrderPositions()->getRange(0, $numberOfPositions);
+        return $this->SilvercartOrderPositions()->limit(0, $numberOfPositions);
     }
 
     /**
@@ -508,7 +508,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function hasMoreSilvercartOrderPositionsThan($numberOfPositions = 2) {
         $hasMorePositions = false;
 
-        if ($this->SilvercartOrderPositions()->Count() > $numberOfPositions) {
+        if ($this->SilvercartOrderPositions()->count() > $numberOfPositions) {
             $hasMorePositions = true;
         }
 

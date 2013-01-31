@@ -471,9 +471,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
             $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
 
             $viewableChildrenSet = new ArrayList($viewableChildren);
-            $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
-            $viewableChildrenPage->setPaginationGetVar('groupStart');
-            $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
+            $viewableChildrenPage = $viewableChildrenSet->limit($pageStart, $pageLength);
             
             $this->viewableChildren = $viewableChildrenPage;
         }

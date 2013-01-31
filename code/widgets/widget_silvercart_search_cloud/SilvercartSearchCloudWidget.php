@@ -154,7 +154,7 @@ class SilvercartSearchCloudWidget extends WidgetSetWidget {
          */
         $searchTagCounts = array();
         foreach ($searchTags as $item) {
-                $key = ($item->hasMethod('Count')) ? $item->Count() : $item->Count;
+                $key = ($item->hasMethod('Count')) ? $item->count() : $item->Count;
 
                 if (!isset($searchTagCounts[$key])) {
                         $searchTagCounts[$key] = new ArrayList();

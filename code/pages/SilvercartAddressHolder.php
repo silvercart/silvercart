@@ -192,7 +192,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
 
             $addressID = (int) $params['ID'];
 
-            if (Member::currentUser()->SilvercartAddresses()->Count() == 1) {
+            if (Member::currentUser()->SilvercartAddresses()->count() == 1) {
                 // address can't be deleted because it's the only one
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));
             } elseif (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {

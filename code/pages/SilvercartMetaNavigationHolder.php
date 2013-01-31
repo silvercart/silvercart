@@ -84,7 +84,7 @@ class SilvercartMetaNavigationHolder extends Page {
         $widgetSet = $this->getManyManyComponents($widgetSetName);
         $parent    = $this->getParent();
 
-        if ($widgetSet->Count() == 0 &&
+        if ($widgetSet->count() == 0 &&
             $parent &&
             ($parent instanceof SilvercartMetaNavigationPage ||
              $parent instanceof SilvercartMetaNavigationHolder) &&

@@ -698,7 +698,7 @@ class SilvercartProductGroupPage extends Page {
         );
 
         if ($translations &&
-            $translations->Count() > 0) {
+            $translations->count() > 0) {
             foreach ($translations as $translation) {
                 $translationProductGroupIDs[] = $translation->ID;
             }
@@ -809,7 +809,7 @@ class SilvercartProductGroupPage extends Page {
             $translations       = $this->getTranslations();
             
             if ($translations &&
-                $translations->Count() > 0) {
+                $translations->count() > 0) {
                 foreach ($translations as $translation) {
                     $productGroupIDs = array_merge(
                             $productGroupIDs,
@@ -1097,12 +1097,12 @@ class SilvercartProductGroupPage extends Page {
         $widgetSet = $this->getManyManyComponents($widgetSetName);
         $parent    = $this->getParent();
 
-        if ($widgetSet->Count() == 0 &&
+        if ($widgetSet->count() == 0 &&
             $parent &&
             ($parent instanceof SilvercartProductGroupPage ||
              $parent instanceof SilvercartProductGroupHolder) &&
             array_key_exists($widgetSetName, $parent->many_many()) &&
-            $parent->$widgetSetName()->Count() > 0) {
+            $parent->$widgetSetName()->count() > 0) {
 
             $widgetSet = $parent->$widgetSetName();
         }
@@ -1696,7 +1696,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 );
 
                 if ($translations &&
-                    $translations->Count() > 0) {
+                    $translations->count() > 0) {
                     foreach ($translations as $translation) {
                         $translationProductGroupIDs[] = $translation->ID;
                     }
@@ -2076,9 +2076,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
 
             $viewableChildrenSet = new DataList($viewableChildren);
-            $viewableChildrenPage = $viewableChildrenSet->getRange($pageStart, $pageLength);
+            $viewableChildrenPage = $viewableChildrenSet->limit($pageStart, $pageLength);
             $viewableChildrenPage->setPaginationGetVar('groupStart');
-            $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->Count());
+            $viewableChildrenPage->setPageLimits($pageStart, $pageLength, $viewableChildrenSet->count());
         
             $this->viewableChildren = $viewableChildrenPage;
         }

@@ -231,7 +231,7 @@ HTML;
         
         if (is_null($this->totalCount)) {
             if ($this->customSourceItems) {
-                $this->totalCount = $this->customSourceItems->Count();
+                $this->totalCount = $this->customSourceItems->count();
             } else {
                 $this->totalCount = $this->getQuery()->unlimitedRowCount($countColumn);
             }

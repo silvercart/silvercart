@@ -313,7 +313,7 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
         $childPageStr = '';
 
         if ($childPages &&
-            $childPages->Count() > 0) {
+            $childPages->count() > 0) {
 
             $childLevel = $level + 1;
 

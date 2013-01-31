@@ -229,7 +229,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
         $products             = new ArrayList();
 
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
-             $productGroupPage->getProducts()->Count() > 0) {
+             $productGroupPage->getProducts()->count() > 0) {
 
             return $elements;
         }
@@ -378,7 +378,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
      * @since 13.11.2012
      */
     public function HasMoreProductsThan($count) {
-        return $this->Elements()->Count() > $count;
+        return $this->Elements()->count() > $count;
     }
 
     /**

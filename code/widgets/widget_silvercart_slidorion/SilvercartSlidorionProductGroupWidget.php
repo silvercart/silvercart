@@ -567,7 +567,7 @@ class SilvercartSlidorionProductGroupWidget_Controller extends WidgetSetWidget_C
         );
         
         $slidorionHeight        = $this->getWidgetHeightValue();
-        $numberOfItems          = $this->getImagesToDisplay()->Count();
+        $numberOfItems          = $this->getImagesToDisplay()->count();
         $accordeonTitleHeight   = 30;
         $correctionHeight       = 16;
         $accordeonContentHeight = $slidorionHeight - $numberOfItems * $accordeonTitleHeight - $correctionHeight;

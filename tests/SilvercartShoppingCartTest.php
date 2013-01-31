@@ -50,11 +50,11 @@ class SilvercartShoppingCartTest extends SapphireTest {
     public function testDelete() {
         //do all 4 positions get loaded?
         $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
-        $this->assertEquals(4, $cart->SilvercartShoppingCartPositions()->Count());
+        $this->assertEquals(4, $cart->SilvercartShoppingCartPositions()->count());
         
         //do all 4 positions get deleted?
         $cart->delete();
-        $this->assertEquals(0, $cart->SilvercartShoppingCartPositions()->Count());
+        $this->assertEquals(0, $cart->SilvercartShoppingCartPositions()->count());
     }
     
     /**

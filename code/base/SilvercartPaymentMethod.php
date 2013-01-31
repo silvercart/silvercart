@@ -708,7 +708,7 @@ class SilvercartPaymentMethod extends DataObject {
                 // Shipping method check
                 // ------------------------------------------------------------
                 if (!is_null($shippingMethodID) &&
-                    $paymentMethod->SilvercartShippingMethods()->Count() > 0 &&
+                    $paymentMethod->SilvercartShippingMethods()->count() > 0 &&
                     !$paymentMethod->SilvercartShippingMethods()->find('ID', $shippingMethodID)) {
                     $assumePaymentMethod    = false;
                     $doAccessChecks         = false;
@@ -720,7 +720,7 @@ class SilvercartPaymentMethod extends DataObject {
                 
                 if ($doAccessChecks) {
                     // Check if access for groups or is set positively
-                    if ($paymentMethod->ShowOnlyForGroups()->Count() > 0) {
+                    if ($paymentMethod->ShowOnlyForGroups()->count() > 0) {
                         foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
                             if ($memberGroups->find('ID', $paymentGroup->ID)) {
                                 $containedInGroup = true;
@@ -736,7 +736,7 @@ class SilvercartPaymentMethod extends DataObject {
                     }
 
                     // Check if access for users or is set positively
-                    if ($paymentMethod->ShowOnlyForUsers()->Count() > 0) {
+                    if ($paymentMethod->ShowOnlyForUsers()->count() > 0) {
                         if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
                             $containedInUsers = true;
                         }
@@ -751,7 +751,7 @@ class SilvercartPaymentMethod extends DataObject {
                     }
 
                     // Check if access for groups is set negatively
-                    if ($paymentMethod->ShowNotForGroups()->Count() > 0) {
+                    if ($paymentMethod->ShowNotForGroups()->count() > 0) {
                         foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
                             if ($memberGroups->find('ID', $paymentGroup->ID)) {
                                 if (!$containedInUsers) {
@@ -762,7 +762,7 @@ class SilvercartPaymentMethod extends DataObject {
                     }
 
                     // Check if access for users is set negatively
-                    if ($paymentMethod->ShowNotForUsers()->Count() > 0) {
+                    if ($paymentMethod->ShowNotForUsers()->count() > 0) {
                         if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
                             if (!$containedInUsers) {
                                 $assumePaymentMethod = false;
@@ -1551,7 +1551,7 @@ class SilvercartPaymentMethod extends DataObject {
                 foreach ($paymentLogos as $paymentChannel => $logos) {
                     $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
                     if ($paymentChannelMethod) {
-                        if ($paymentChannelMethod->PaymentLogos()->Count() == 0) {
+                        if ($paymentChannelMethod->PaymentLogos()->count() == 0) {
                             foreach ($logos as $title => $logo) {
                                 $paymentLogo = new SilvercartImage();
                                 $paymentLogo->Title = $title;
@@ -1577,7 +1577,7 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 // Single payment channels
                 foreach ($paymentLogos as $title => $logo) {
-                    if ($paymentModule->PaymentLogos()->Count() == 0) {
+                    if ($paymentModule->PaymentLogos()->count() == 0) {
 
                         $paymentLogo = new SilvercartImage();
                         $paymentLogo->Title = $title;

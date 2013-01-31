@@ -946,7 +946,7 @@ class SilvercartPage_Controller extends ContentController {
                     }
                 }
                 $elements = array(
-                    'SubElements' => new DataList($items),
+                    'SubElements' => new ArrayList($items),
                 );
                 $output = $this->customise($elements)->renderWith(
                     array(

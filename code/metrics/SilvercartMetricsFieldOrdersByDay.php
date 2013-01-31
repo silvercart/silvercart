@@ -138,7 +138,7 @@ class SilvercartMetricsFieldOrdersByDay extends SilvercartMetricsField {
         $orders       = $this->getOrders();
 
         if ($orders &&
-            $orders->Count() > 0) {
+            $orders->count() > 0) {
 
             $hasOrderLine = true;
         }
