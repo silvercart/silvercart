@@ -1,0 +1,42 @@
+SilvercartConfig:
+  default:
+    Locale: en_US
+SilvercartProduct:
+  product:
+    isActive: 1
+    PriceGrossAmount: 149.99
+    PriceGrossCurrency: 'EUR'
+  product2:
+    isActive: 1
+    PriceGrossAmount: 250
+    PriceGrossCurrency: 'EUR'
+  product3:
+    isActive: 1
+    PriceGrossAmount: 139.99
+    PriceGrossCurrency: 'EUR'
+  product4:
+    isActive: 1
+    PriceGrossAmount: 9.99
+    PriceGrossCurrency: 'EUR'
+SilvercartShoppingCart:
+  ShoppingCart:
+    ID: 5
+SilvercartShoppingCartPosition:
+  Position1:
+    Quantity: 3
+    SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    SilvercartProduct: =>SilvercartProduct.product
+  Position2:
+    Quantity: 5
+    SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    SilvercartProduct: =>SilvercartProduct.product2
+  Position3:
+    Quantity: 3
+    SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    SilvercartProduct: =>SilvercartProduct.product3
+  Position4:
+    Quantity: 1
+    SilvercartShoppingCart: =>SilvercartShoppingCart.ShoppingCart
+    SilvercartProduct: =>SilvercartProduct.product4
+
+    

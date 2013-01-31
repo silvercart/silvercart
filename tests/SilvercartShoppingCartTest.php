@@ -111,16 +111,16 @@ class SilvercartShoppingCartTest extends SapphireTest {
      * test for getAmountTotal()
      * This cart has no shipping costs or payment costs
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 4.5.2011
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <diel@pixeltricks.de>, Carolin Wörner <cwoerner@pixeltricks.de>
+     * @since 29.01.2013
      */
     public function testGetAmountTotal() {
        $cart = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCart");
-       $this->assertEquals(2131.74, $cart->getAmountTotal()->getAmount(), "The total amount of a cart without payment and shipping costs is NOT correct.");
-       
-       //cart with shipping costs
-       $cartWithShippingCosts = $this->objFromFixture("SilvercartShoppingCart", "ShoppingCartWithShippingCosts");
+       $tmp = $cart->getAmountTotal()->getAmount();
+      
+       $this->assertEquals(2129.93, $cart->getAmountTotal()->getAmount(), "The total amount of a cart without payment and shipping costs is NOT correct.");
     }
     
     
