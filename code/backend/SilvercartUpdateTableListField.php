@@ -86,15 +86,17 @@ class SilvercartUpdateTableListField extends TableListField {
 
     /**
      * Adds additional Requirements for SilverCart Update Manager.
+     * 
+     * @param array $properties Properties
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
+     * @since 31.01.2013
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         Requirements::themedCSS('SilvercartUpdateTableListField');
-        return parent::FieldHolder();
+        return parent::FieldHolder($properties);
     }
 }
 

@@ -83,15 +83,16 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
     /**
      * Builds the XML data
      *
-     * @param DataObject $obj    Object to build XML data for
-     * @param array      $fields Fields to build XML data for
+     * @param DataObject $obj       Object to build XML data for
+     * @param array      $fields    Fields to build XML data for
+     * @param array      $relations Relations to support
      * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @since 31.01.2013
      */
-    public function convertDataObjectWithoutHeader(DataObject $obj, $fields = null) {
+    public function convertDataObjectWithoutHeader(DataObject $obj, $fields = null, $relations = null) {
         $className  = $obj->class;
         $id         = $obj->ID;
         $objHref    = Director::absoluteURL(self::$api_base . $obj->class . "/" . $obj->ID);

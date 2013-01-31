@@ -113,15 +113,17 @@ class SilvercartEditableTableListField extends TableListField {
     
     /**
      * Adds custom requirements and returns the field holder
+     * 
+     * @param array $properties Properties
      *
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.07.2012
+     * @since 31.01.2013
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         Requirements::themedCSS('SilvercartEditableTableListField');
-        return parent::fieldHolder();
+        return parent::FieldHolder($properties);
     }
     
     /**
