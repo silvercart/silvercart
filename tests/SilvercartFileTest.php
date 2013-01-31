@@ -49,6 +49,7 @@ class SilvercartFileTest extends SapphireTest {
      * @since 19.12.2011
      */
     public function testGetFileIcon() {
+        i18n::set_locale('en_US');
         $testfile = $this->objFromFixture("SilvercartFile", "testfile");
         $this->assertEquals('<img src="'.SAPPHIRE_DIR . '/images/app_icons/pdf_32.gif" alt="Adobe Acrobat PDF file" title="Testfile" />', $testfile->getFileIcon());
     }
