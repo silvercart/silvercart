@@ -468,7 +468,8 @@ class SilvercartCountry extends DataObject {
         if (!array_key_exists($key, self::$prioritiveCountryCount)) {
             $prioritiveCountryCount = 0;
             $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
-            if ($prioritiveCountries instanceof ArrayList) {
+            if ($prioritiveCountries instanceof ArrayList ||
+                $prioritiveCountries instanceof DataList) {
                 $prioritiveCountryCount = $prioritiveCountries->count() + 1;
             }
             self::$prioritiveCountryCount[$key] = $prioritiveCountryCount;
@@ -516,7 +517,8 @@ class SilvercartCountry extends DataObject {
         if (!array_key_exists($key, self::$nonPrioritiveCountryCount)) {
             $nonPrioritiveCountryCount  = 0;
             $nonPrioritiveCountries     = self::getNonPrioritiveCountries($onlyActive);
-            if ($nonPrioritiveCountries instanceof ArrayList) {
+            if ($nonPrioritiveCountries instanceof ArrayList ||
+                $nonPrioritiveCountries instanceof DataList) {
                 $nonPrioritiveCountryCount = $nonPrioritiveCountries->count() + 1;
             }
             self::$nonPrioritiveCountryCount[$key] = $nonPrioritiveCountryCount;

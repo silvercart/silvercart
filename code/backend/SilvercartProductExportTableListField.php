@@ -105,15 +105,17 @@ class SilvercartProductExportTableListField extends TableListField {
 
     /**
      * Adds additional Requirements for the SilverCart product export manager.
+     * 
+     * @param array $properties Properties
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.01.2013
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         Requirements::themedCSS('SilvercartProductExportTableListField');
-        return parent::FieldHolder();
+        return parent::FieldHolder($properties);
     }
 }
 
