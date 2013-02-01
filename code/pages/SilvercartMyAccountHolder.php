@@ -214,7 +214,7 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
             $page = $page->Parent;
         }
 
-        return implode(SiteTree::$breadcrumbs_delimiter, array_reverse($parts));
+        return implode(" &raquo; ", array_reverse($parts));
     }
 
     /**

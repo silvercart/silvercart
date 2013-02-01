@@ -444,39 +444,43 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      *
      * @param int $numberOfProductGroups Number of product groups to display
      * 
-     * @return ArrayList
+     * @return PaginatedList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2011
      */
     public function getViewableChildren($numberOfProductGroups = false) {
         if ($this->viewableChildren === null) {
-            $viewableChildren = array();
+            $viewableChildren = new ArrayList();
             foreach ($this->Children() as $child) {
                 if ($child->hasProductsOrChildren()) {
-                    $viewableChildren[] = $child;
+                    $viewableChildren->push($child);
                 }
             }
-
-            if ($numberOfProductGroups == false) {
-                if ($this->productGroupsPerPage) {
-                    $pageLength = $this->productGroupsPerPage;
+            if ($viewableChildren->count() > 0) {
+                if ($numberOfProductGroups == false) {
+                    if ($this->productGroupsPerPage) {
+                        $pageLength = $this->productGroupsPerPage;
+                    } else {
+                        $pageLength = SilvercartConfig::ProductGroupsPerPage();
+                    }
                 } else {
-                    $pageLength = SilvercartConfig::ProductGroupsPerPage();
+                    $pageLength = $numberOfProductGroups;
                 }
+
+                $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
+
+                $viewableChildrenPage = new PaginatedList($viewableChildren, $this->getRequest());
+                $viewableChildrenPage->setPaginationGetVar('groupStart');
+                $viewableChildrenPage->setPageStart($pageStart);
+                $viewableChildrenPage->setPageLength($pageLength);
+                $this->viewableChildren = $viewableChildrenPage;         
             } else {
-                $pageLength = $numberOfProductGroups;
+                return false;
             }
-
-            $pageStart = $this->getSqlOffsetForProductGroups($numberOfProductGroups);
-
-            $viewableChildrenSet = new ArrayList($viewableChildren);
-            $viewableChildrenPage = $viewableChildrenSet->limit($pageStart, $pageLength);
-            
-            $this->viewableChildren = $viewableChildrenPage;
         }
-        
         return $this->viewableChildren;
+        
     }
     
     /**
@@ -491,7 +495,7 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * @since 09.11.2011
      */
     public function HasMoreViewableChildrenThan($nrOfViewableChildren) {
-        if ($this->getViewableChildren()->TotalItems() > $nrOfViewableChildren) {
+        if ($this->getViewableChildren()->getTotalItems() > $nrOfViewableChildren) {
             return true;
         }
         

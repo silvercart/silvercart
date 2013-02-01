@@ -408,19 +408,14 @@ class SilvercartProduct extends DataObject {
      * Returns the breadcrumbs for the product group
      *
      * @param bool   $unlinked  Set to false to get linked breacrumbs (HTML)
-     * @param string $delimiter Delimiter char to seperate product groups (default is Page::$breadcrumbs_delimiter)
+     * @param string $delimiter Delimiter char to seperate product groups
      * 
      * @return string
      */
     public function getSilvercartProductGroupBreadcrumbs($unlinked = true, $delimiter = null) {
         $breadcrumbs = '';
         if ($this->SilvercartProductGroupID > 0) {
-            $originalDelimiter = Page::$breadcrumbs_delimiter;
-            if (!is_null($delimiter)) {
-                Page::$breadcrumbs_delimiter = ' ' . $delimiter . ' ';
-            }
             $breadcrumbs = $this->SilvercartProductGroup()->Breadcrumbs(20, $unlinked);
-            Page::$breadcrumbs_delimiter = $originalDelimiter;
         }
         return $breadcrumbs;
     }
@@ -935,7 +930,7 @@ class SilvercartProduct extends DataObject {
             $filter = $filter . $whereClause . ' AND ';
         }
 
-        $filter .= 'isActive = 1';
+        $filter .= 'isActive = 1 AND SilvercartProductGroupID > 0';
 
         if ($sort === null) {
             $sort = self::defaultSort();

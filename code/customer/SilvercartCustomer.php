@@ -360,7 +360,7 @@ class SilvercartCustomer extends DataExtension {
      */
     public function getGroupNames() {
         if (is_null($this->groupNames)) {
-            $groupNamesMap      = $this->owner->Groups()->map()->toArray();
+            $groupNamesMap      = $this->owner->Groups()->toArray();
             $groupNamesAsString = implode(', ', $groupNamesMap);
             $this->groupNames   = $groupNamesAsString;
         }

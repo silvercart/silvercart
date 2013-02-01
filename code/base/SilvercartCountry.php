@@ -418,7 +418,7 @@ class SilvercartCountry extends DataObject {
     /**
      * Returns all active countries
      * 
-     * @return ArrayList
+     * @return SS_List
      */
     public static function get_active() {
         $activeCountries = DataObject::get('SilvercartCountry', '"Active" = 1');
@@ -433,7 +433,7 @@ class SilvercartCountry extends DataObject {
      * 
      * @param bool $onlyActive Search only for active coutries?
      * 
-     * @return ArrayList
+     * @return SS_List
      */
     public static function getPrioritiveCountries($onlyActive = true) {
         $key            = 0;
@@ -549,7 +549,7 @@ class SilvercartCountry extends DataObject {
             }
             if (self::getPrioritiveCountryCount() > 0) {
                 $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
-                foreach ($prioritiveCountries->map() as $id => $title) {
+                foreach ($prioritiveCountries->toArray() as $id => $title) {
                     $dropdownMap[$id] = $title;
                 }
             }
@@ -559,7 +559,7 @@ class SilvercartCountry extends DataObject {
                     $dropdownMap[' '] = '------------------------';
                 }
                 $nonPrioritiveCountries = self::getNonPrioritiveCountries($onlyActive);
-                foreach ($nonPrioritiveCountries->map() as $id => $title) {
+                foreach ($nonPrioritiveCountries->toArray() as $id => $title) {
                     $dropdownMap[$id] = $title;
                 }
             }

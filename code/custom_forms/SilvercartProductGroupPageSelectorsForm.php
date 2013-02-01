@@ -96,12 +96,14 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
     /**
      * Returns the form fields for this form
      *
+     * @param bool $withUpdate Call the method with decorator updates or not?
+     * 
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2012
      */
-    public function getFormFields() {
+    public function getFormFields($withUpdate = true) {
         $productsPerPage = $this->controller->getProductsPerPageSetting();
         if ($productsPerPage == SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
             $productsPerPage = 0;
@@ -136,7 +138,7 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
                 )
             ),
         );
-        return parent::getFormFields();
+        return parent::getFormFields($withUpdate = true);
     }
     
     

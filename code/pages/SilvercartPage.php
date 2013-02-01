@@ -788,7 +788,7 @@ class SilvercartPage_Controller extends ContentController {
             $page = $page->Parent;
         }
 
-        return implode(SiteTree::$breadcrumbs_delimiter, array_reverse($parts));
+        return implode(" &raquo; ", array_reverse($parts));
     }
     
     /**

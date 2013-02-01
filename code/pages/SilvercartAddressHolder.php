@@ -120,11 +120,11 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
         if (Controller::curr()->getAction() == 'addNewAddress') {
-            $parts = explode(self::$breadcrumbs_delimiter, $breadcrumbs);
+            $parts = explode(" &raquo; ", $breadcrumbs);
             $addressHolder = array_pop($parts);
             $parts[] = ("<a href=\"" . $this->Link() . "\">" . $addressHolder . "</a>");
             $parts[] = _t('SilvercartAddressHolder.ADD', 'Add new address');
-            $breadcrumbs = implode(self::$breadcrumbs_delimiter, $parts);
+            $breadcrumbs = implode(" &raquo; ", $parts);
         }
         return $breadcrumbs;
     }

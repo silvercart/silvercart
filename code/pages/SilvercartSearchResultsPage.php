@@ -417,7 +417,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         }
         
         $this->searchResultProducts  = $searchResultProducts;
-        $this->totalNumberOfProducts = $searchResultProducts->TotalItems();
+        $this->totalNumberOfProducts = $searchResultProducts->count();
         return $this->searchResultProducts;
     }
     
@@ -524,7 +524,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @since 20.04.2011
      */
     public function HasMorePagesThan($maxResults = 10) {
-        $items = $this->getProducts()->Pages()->TotalItems();
+        $items = $this->getProducts()->Pages()->count();
         $hasMoreResults = false;
 
         if ($items > $maxResults) {
@@ -548,7 +548,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     public function HasMoreProductsThan($maxResults = 10) {
         $products = $this->getProducts();
         if ($products &&
-            $products->TotalItems() > $maxResults) {
+            $products->count() > $maxResults) {
             return true;
         }
         
@@ -593,7 +593,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $totalItems = 0;
         
         if ($this->getProducts()) {
-            $totalItems = $this->getProducts()->TotalItems();
+            $totalItems = $this->getProducts()->count();
         }
         
         return $totalItems;

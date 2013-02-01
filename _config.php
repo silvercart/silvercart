@@ -297,12 +297,10 @@ if (class_exists('Page_Controller')) {
 // ----------------------------------------------------------------------------
 // add possible group views
 // ----------------------------------------------------------------------------
-/*
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
 SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewList');
 SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
-*/
 // ----------------------------------------------------------------------------
 // set default group view if not existant
 // ----------------------------------------------------------------------------

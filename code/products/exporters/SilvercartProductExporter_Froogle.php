@@ -97,7 +97,6 @@ class SilvercartProductExporter_Froogle {
      * @since 08.08.2011
      */
     public function ShopProductCategory($record) {
-        Page::$breadcrumbs_delimiter = ' > ';
         return $this->getDataObj($record)->SilvercartProductGroup()->Breadcrumbs(20, true);
     }
     
