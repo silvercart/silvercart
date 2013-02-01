@@ -425,14 +425,16 @@ class SilvercartShippingMethod extends DataObject {
 
     /**
      * Returns the attributed payment methods as string (limited to 150 chars).
+     * 
+     * @param string $dbField Db field to use to display
      *
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @since 01.02.2013
      */
-    public function AttributedPaymentMethods() {
-        return SilvercartTools::AttributedDataObject($this->SilvercartPaymentMethods());
+    public function AttributedPaymentMethods($dbField = "Name") {
+        return SilvercartTools::AttributedDataObject($this->SilvercartPaymentMethods(), $dbField);
     }
 
     /**
