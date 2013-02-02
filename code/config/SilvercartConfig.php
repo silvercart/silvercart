@@ -1619,6 +1619,9 @@ class SilvercartConfig extends DataObject {
      * @since 09.03.2012
      */
     public static function Locale() {
+        if (self::getConfig() === false) {
+            return i18n::default_locale();
+        }
         return self::getConfig()->Locale;
     }
     
@@ -1633,7 +1636,9 @@ class SilvercartConfig extends DataObject {
      */
     public static function useDefaultLanguageAsFallback() {
         if (is_null(self::$useDefaultLanguageAsFallback)) {
-            self::$useDefaultLanguageAsFallback = self::getConfig()->useDefaultLanguageAsFallback;
+            if (!self::getConfig() === false) {
+                self::$useDefaultLanguageAsFallback = self::getConfig()->useDefaultLanguageAsFallback;
+            }
         }
         return self::$useDefaultLanguageAsFallback;
     }

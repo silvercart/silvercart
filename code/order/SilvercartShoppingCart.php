@@ -1945,7 +1945,7 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
 
-        return new DataList($modules);
+        return new ArrayList($modules);
     }
 
     /**
