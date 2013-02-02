@@ -84,7 +84,7 @@ class SilvercartNewsletterResponsePage_Controller extends SilvercartMetaNavigati
     /**
      * Return the status messages as DataList.
      *
-     * @return DataList
+     * @return SS_List|false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH
@@ -92,15 +92,19 @@ class SilvercartNewsletterResponsePage_Controller extends SilvercartMetaNavigati
      */
     public function StatusMessages() {
         $status     = Session::get('SilvercartNewsletterStatus');
-        $messages   = array();
+        $results   = false;
 
         if ($status &&
             isset($status['messages']) &&
             is_array($status['messages'])) {
 
             $messages = $status['messages'];
+            $results = new ArrayList();
+            foreach ($messages as $message) {
+                $results->push(new DataObject($message));
+            }
         }
 
-        return new DataList($messages);
+        return $results;
     }
 }
