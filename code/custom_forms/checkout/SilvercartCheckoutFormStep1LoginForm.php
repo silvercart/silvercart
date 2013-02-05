@@ -71,11 +71,11 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 08.04.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.02.2013
      */
     protected function fillInFieldValues() {
+        parent::fillInFieldValues();
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['Email']['title']     = _t('SilvercartAddress.EMAIL', 'email address');
         $this->formFields['Password']['title']  = _t('SilvercartPage.PASSWORD');
