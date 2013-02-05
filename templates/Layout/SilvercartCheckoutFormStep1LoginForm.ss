@@ -14,6 +14,7 @@
 
     <div class="actionRow">
         <div class="type-button">
+            <a class="forgot-password-plain" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
             <% control Actions %>
                 $Field
             <% end_control %>
