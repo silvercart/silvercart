@@ -42,4 +42,26 @@ class SilvercartDataObject extends DataObjectDecorator {
         return $this->owner->renderWith($this->owner->ClassName . 'AdminQuickPreview');
     }
     
+    /**
+     * Returns the record as a array map with non escaped values
+     * 
+     * @param bool $toDisplayWithinHtml Set this to true to replace html special chars with its entities
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.02.2013
+     */
+    public function toRawMap($toDisplayWithinHtml = false) {
+        $record = $this->owner->getAllFields();
+        $rawMap = array();
+        foreach ($record as $field => $value) {
+            if ($toDisplayWithinHtml) {
+                $value = htmlspecialchars($value);
+            }
+            $rawValue = stripslashes($value);
+            $rawMap[$field] = $rawValue;
+        }
+        return $rawMap;
+    }
 }
