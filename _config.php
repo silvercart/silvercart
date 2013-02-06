@@ -324,7 +324,7 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_name == 'SilverStripe CMS' &&
     LeftAndMain::$application_logo_text = 'SilverStripe') {
     LeftAndMain::setApplicationName(
-        'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
+        'SilverCart - ' . SilvercartConfig::SilvercartFullVersion() . ' | SilverStripe CMS',
         'SilverCart<br />eCommerce software',
         'http://www.silvercart.org'
     );

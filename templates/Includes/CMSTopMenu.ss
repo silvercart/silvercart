@@ -171,12 +171,6 @@
     }
 </style>
 
-<script type="text/javascript">
-    function activateOrderPositionTab() {
-        alert("Call ok");
-    }
-</script>
-
 <div id="silvercart-cms-mainmenu">
     <div id="silvercart-cms-mainmenu-logo">
         <a href="http://www.silvercart.org">
@@ -216,3 +210,22 @@
         </li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery.ajax({
+            url:        "{$UpdateAvailableLink}",
+            success:    function(result) {
+                if (result == '1') {
+                    var content  = '<div class="silvercart-permanent-notification hidden">';
+                    content     += '<h2><% _t("Silvercart.UPDATE_AVAILABLE") %></h2>';
+                    content     += '<p><% _t("Silvercart.UPDATE_AVAILABLE_TEXT") %></p>';
+                    content     += '<span class="btn-close">x</span>';
+                    content     += '</div>';
+                    jQuery('body').append(content);
+                    jQuery('.silvercart-permanent-notification.hidden').slideDown();
+                }
+            }
+        });
+    });
+</script>

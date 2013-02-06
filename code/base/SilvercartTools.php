@@ -582,4 +582,36 @@ class SilvercartTools extends Object {
 
         return $isSibling;
     }
+    
+    /**
+     * Checks on silvercart.org whether there is an update available.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public static function checkForUpdate() {
+        $updateAvailable = false;
+        try {
+            $checkForUpdateUrl = sprintf(
+                    'http://www.silvercart.org/scsc/checkForUpdate/%s.%s',
+                    SilvercartConfig::SilvercartVersion(),
+                    SilvercartConfig::SilvercartMinorVersion()
+            );
+            $ch = curl_init($checkForUpdateUrl);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_REFERER, Director::absoluteBaseURL());
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec($ch);
+            curl_close($ch);
+        } catch (Exception $exc) {
+            $result = 0;
+        }
+        if ((int) $result == 1) {
+            // update available
+            $updateAvailable = true;
+        }
+        return $updateAvailable;
+    }
 }

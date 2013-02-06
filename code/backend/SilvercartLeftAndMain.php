@@ -32,6 +32,32 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartLeftAndMain extends DataObjectDecorator {
+    
+    /**
+     * List of allowed actions
+     *
+     * @var array
+     */
+    public static $allowed_actions = array(
+        'isUpdateAvailable',
+    );
+    
+    /**
+     * Injects some custom javascript to provide instant loading of DataObject
+     * tables.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2011
+     */
+    public function onAfterInit() {
+        if (Director::is_ajax()) {
+            return true;
+        }
+        $baseUrl = SilvercartTools::getBaseURLSegment();
+        Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
+    }
 
     /**
      * The new main menu routine.
@@ -281,5 +307,46 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      */
     public function BaseUrl() {
         return Director::baseUrl();
+    }
+    
+    /**
+     * Returns the Link to check for an available update.
+     * 
+     * @return string
+     */
+    public function getUpdateAvailableLink() {
+        $updateAvailableLink = Controller::curr()->Link();
+        if (strpos(strrev($updateAvailableLink), '/') !== 0) {
+            $updateAvailableLink .= '/';
+        }
+        $updateAvailableLink .= 'isUpdateAvailable';
+        return $updateAvailableLink;
+    }
+    
+    /**
+     * Returns whether there is an update available or not
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function UpdateAvailable() {
+        $updateAvailable = SilvercartTools::checkForUpdate();
+        return $updateAvailable;
+    }
+    
+    /**
+     * Action to print 1 or 0 to the output to determine whether there is an
+     * update available or not.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function isUpdateAvailable() {
+        print (int) $this->UpdateAvailable();
+        exit();
     }
 }
