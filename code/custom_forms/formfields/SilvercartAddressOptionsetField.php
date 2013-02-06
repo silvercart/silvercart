@@ -89,7 +89,7 @@ class SilvercartAddressOptionsetField extends OptionsetField {
                             'address'           => $address,
                             'SilvercartCountry' => $address->SilvercartCountry(),
                         ),
-                        $address->toMap()
+                        $address->toRawMap(true)
                     )
                 );
             }

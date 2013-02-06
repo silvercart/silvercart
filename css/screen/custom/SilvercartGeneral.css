@@ -327,7 +327,12 @@ p.silvercart-message.vdistance {
 .silvercart-button {
     float:                          right;
 }
-#ForgotPassword,
+#ForgotPassword a,
+.forgot-password-plain {
+    position:                       relative;
+    top:                            18px;
+    right:                          12px;
+}
 .silvercart-button.left,
 .silvercart-icon-button.left,
 .silvercart-icon-with-text-button.left {
@@ -343,13 +348,11 @@ p.silvercart-message.vdistance {
 .silvercart-button.right .silvercart-button_content {
     padding:                        0px 0px 0px 4px;
 }
-#ForgotPassword a,
 a.silvercart-button,
 .silvercart-button a {
     display:                        block;
     padding:                        3px 10px 5px 10px;
 }
-#ForgotPassword a,
 a.silvercart-button,
 .silvercart-button a,
 a.silvercart-button-small,
@@ -362,7 +365,6 @@ a.silvercart-button-small,
     -webkit-border-radius:          3px;
     $DefaultButton.Css
 }
-#ForgotPassword a:hover,
 a.silvercart-button:hover,
 .silvercart-button a:hover,
 a.silvercart-button-small:hover,

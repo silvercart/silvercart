@@ -81,6 +81,7 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
     }
 
     /**

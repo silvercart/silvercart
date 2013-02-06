@@ -44,6 +44,19 @@ function doesEmailExistAlready(form, fieldName) {
 }
 
 /**
+ * Dummy to skip JS validation
+ *
+ * @param pixeltricks.form.validator form
+ * @param string                     fieldName
+ */
+function doesEmailExistAlreadyServerSideOnly(form, fieldName) {
+    return {
+        success:        true,
+        errorMessage:   ''
+    };
+}
+
+/**
  * Prueft, ob die Im Feld "Versandart" eingesetzten Werte fuer das gewaehlte
  * Land verfuegbar sind. Nicht verfuegbare Werte werden entfernt.
  */

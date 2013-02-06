@@ -131,7 +131,8 @@ class SilvercartShoppingCartPosition extends DataObject {
                     new $positionForm(
                         $controller,
                         array(
-                            'positionID' => $this->ID
+                            'positionID' => $this->ID,
+                            'BlID'       => $controller->ID
                         )
                     )
                 );
@@ -243,7 +244,8 @@ class SilvercartShoppingCartPosition extends DataObject {
      * @since 23.11.2012
      */
     public function getPrice($forSingleProduct = false, $priceType = false) {
-        $priceKey = (int) $forSingleProduct . '-' . (int) $priceType;
+        $priceKey = (string) $forSingleProduct . '-' . (string) $priceType;
+
         if (!array_key_exists($priceKey, $this->prices)) {
             $pluginPriceObj = SilvercartPlugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
 
@@ -252,7 +254,7 @@ class SilvercartShoppingCartPosition extends DataObject {
             }
 
             $product = $this->SilvercartProduct();
-            $price = 0;
+            $price   = 0;
 
             if ($product && $product->getPrice($priceType)->getAmount()) {
                 if ($forSingleProduct) {

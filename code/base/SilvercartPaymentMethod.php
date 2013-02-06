@@ -1905,8 +1905,21 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingAddress->SilvercartCountryID   = isset($checkoutData['Shipping_Country'])          ? $checkoutData['Shipping_Country'] : '';
         $shippingAddress->PhoneAreaCode         = isset($checkoutData['Shipping_PhoneAreaCode'])    ? $checkoutData['Shipping_PhoneAreaCode'] : '';
         $shippingAddress->Phone                 = isset($checkoutData['Shipping_Phone'])            ? $checkoutData['Shipping_Phone'] : '';
+
+        if (array_key_exists('Shipping_IsPackstation', $checkoutData)) {
+            $shippingAddress->IsPackstation = $checkoutData['Shipping_IsPackstation'];
+        } else {
+            $shippingAddress->IsPackstation = false;
+        }
+        if (array_key_exists('Shipping_PostNumber', $checkoutData)) {
+            $shippingAddress->PostNumber = $checkoutData['Shipping_PostNumber'];
+        }
+        if (array_key_exists('Shipping_Packstation', $checkoutData)) {
+            $shippingAddress->Packstation = $checkoutData['Shipping_Packstation'];
+        }
+
         // Insert SilvercartCountry object
-        $shippingAddress->Country               = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
+        $shippingAddress->Country = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
 
         $this->setShippingAddress($shippingAddress);
     }

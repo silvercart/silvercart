@@ -69,7 +69,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             'checkRequirements' => array(
                 'isEmailAddress'    => true,
                 'isFilledIn'        => true,
-                'callBack'          => 'doesEmailExistAlready'
+                'callBack'          => 'doesEmailExistAlreadyServerSideOnly'
             )
         ),
         'BirthdayDay' => array(
@@ -200,11 +200,12 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      * @param string $value the email address to be checked
      *
      * @return array to be rendered in the template
+     * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.11.2012
+     * @since 05.02.2013
      */
-    public function doesEmailExistAlready($value) {
-        return SilvercartFormValidation::doesEmailExistAlready($value);
+    public function doesEmailExistAlreadyServerSideOnly($value) {
+        return SilvercartFormValidation::doesEmailExistAlready($value, Member::currentUserID());
     }
 
     /**

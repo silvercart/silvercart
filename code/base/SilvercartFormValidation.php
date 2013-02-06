@@ -31,26 +31,28 @@
  * @copyright 2012 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartFormValidation extends Object {    
-    
+class SilvercartFormValidation extends Object {
     /**
      * used as Form callback: Does the entered Email already exist?
      *
-     * @param string $value the email address to be checked
+     * @param string $value           The email address to be checked
+     * @param int    $allowedMemberID ID of a member to ignore this check for
      *
      * @return array to be rendered in the template
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.11.2012
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.02.2013
      */
-    public static function doesEmailExistAlready($value) { 
+    public static function doesEmailExistAlready($value, $allowedMemberID = null) { 
         $emailExistsAlready = false;
 
-        $results = DataObject::get_one(
+        $member = DataObject::get_one(
             'Member',
             "Email = '" . $value . "'"
         );
 
-        if ($results) {
+        if ($member instanceof Member &&
+            $member->ID != $allowedMemberID) {
             $emailExistsAlready = true;
         }
 

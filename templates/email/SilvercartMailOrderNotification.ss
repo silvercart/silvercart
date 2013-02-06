@@ -7,7 +7,7 @@
     table.full { width:100%; }
     table.fixed { table-layout:fixed; }
 
-    th,td { padding:0.5em; }
+    th,td { padding:0.2em 0.5em; }
     thead th { font-size: 10px; border-bottom:1px #666 solid; }
     tbody th { font-size: 10px; background:#e0e0e0; color:#666; border-bottom:1px solid #fff; text-align:left; }
     tbody th[scope="row"], tbody th.sub { background:#f0f0f0; }

@@ -96,6 +96,7 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
      */
     public function preferences() {
         $this->preferences['fillInRequestValues']       = true;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }

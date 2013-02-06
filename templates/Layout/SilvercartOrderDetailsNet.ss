@@ -20,7 +20,7 @@
         <% control SilvercartOrderListPositions %>
             <tr class="$EvenOrOdd">
                 <td class="left">$ProductNumber</td>
-                <td class="left">$Title.RAW<br/>$ShortDescription.RAW<br />$addToTitle.RAW</td>
+                <td class="left">$Title.RAW<% if ShortDescription %><br/>$ShortDescription.RAW<% end_if %><% if addToTitle %><br/>$addToTitle.RAW<% end_if %></td>
                 <td class="right">$Price.Nice</td>
                 <td class="right">{$TaxRate}%</td>
                 <td class="right quantity">$getTypeSafeQuantity</td>

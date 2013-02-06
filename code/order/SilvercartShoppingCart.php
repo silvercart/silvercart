@@ -1087,9 +1087,8 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.01.2013
      */
     public function HandlingCostPayment() {
         $paymentMethodObj = $this->getPaymentMethod();
@@ -1114,7 +1113,7 @@ class SilvercartShoppingCart extends DataObject {
                 $handlingCostPayment = 0;
             }
 
-            $handlingCostPaymentObj->setAmount($handlingCostPayment);
+            $handlingCostPaymentObj->amount->setAmount($handlingCostPayment);
         }
 
         return $handlingCostPaymentObj->amount;
