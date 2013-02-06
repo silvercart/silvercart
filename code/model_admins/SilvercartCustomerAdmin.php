@@ -66,7 +66,7 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Carriers';
+    public static $menu_title = 'Customers';
 
     /**
      * Managed models
@@ -88,7 +88,7 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      * @since 05.09.2012
      */
     public function __construct() {
-        self::$menu_title = _t('SilvercartCustomerAdmin.customers');
+        self::$menu_title = _t('SilvercartCustomerAdmin.MENUTITLE');
         
         parent::__construct();
     }
