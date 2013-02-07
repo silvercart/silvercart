@@ -318,7 +318,9 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
             $childLevel = $level + 1;
 
             foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderNavigation($childPage, $childLevel);
+                if ($childPage->ShowInMenus) {
+                    $childPageStr .= $this->renderNavigation($childPage, $childLevel);
+                }
             }
         }
 
