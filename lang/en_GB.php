@@ -63,6 +63,7 @@ $lang['en_GB']['Silvercart']['MINS'] = 'minutes';
 $lang['en_GB']['Silvercart']['SEC'] = 'second';
 $lang['en_GB']['Silvercart']['SECS'] = 'seconds';
 $lang['en_GB']['Silvercart']['MORE'] = 'More';
+$lang['en_GB']['Silvercart']['PRIORITY'] = 'Priority (the higher the more important)';
 $lang['en_GB']['Silvercart']['SEO'] = 'SEO';
 $lang['en_GB']['Silvercart']['YES'] = 'Yes';
 $lang['en_GB']['Silvercart']['NO'] = 'No';

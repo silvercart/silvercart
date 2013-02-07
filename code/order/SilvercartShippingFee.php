@@ -46,6 +46,7 @@ class SilvercartShippingFee extends DataObject {
         'PostPricing'                   => 'Boolean',
         'freeOfShippingCostsDisabled'   => 'Boolean',
         'freeOfShippingCostsFrom'       => 'Money',
+        'priority'                      => 'Int',
     );
 
     /**
@@ -81,6 +82,13 @@ class SilvercartShippingFee extends DataObject {
         'PriceAmount'                   => 'Varchar(255)',
         'PriceCurrency'                 => 'Varchar(255)',
     );
+
+    /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "`priority` DESC";
     
     /**
      * Returns the translated singular name of the object.
@@ -122,6 +130,7 @@ class SilvercartShippingFee extends DataObject {
                     'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
                     'MaximumWeightLimitedOrNot' => $this->fieldLabel('MaximumWeight'),
                     'PriceFormattedPlain'       => $this->fieldLabel('Price'),
+                    'priority'                  => $this->fieldLabel('priority'),
                 )
         );
     }
@@ -153,6 +162,7 @@ class SilvercartShippingFee extends DataObject {
                     'EmptyString'                   => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE'),
                     'freeOfShippingCostsDisabled'   => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSDISABLED'),
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
+                    'priority'                      => _t('Silvercart.PRIORITY'),
                 )
         );
     }

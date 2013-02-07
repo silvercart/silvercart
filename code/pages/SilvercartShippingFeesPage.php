@@ -97,7 +97,7 @@ class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHold
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function Carriers() {
-        $carriers = DataObject::get('SilvercartCarrier');
+        $carriers = DataObject::get('SilvercartCarrier', null, 'priority DESC');
         return $carriers;
     }
 }

@@ -39,7 +39,8 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'isActive' => 'Boolean'
+        'isActive' => 'Boolean',
+        'priority' => 'Int'
     );
     /**
      * Has-one relationships.
@@ -96,7 +97,7 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "`SilvercartCarrierID`";
+    public static $default_sort = "`priority` DESC";
     
     /**
      * Shipping address
@@ -159,20 +160,21 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                        'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
-                        'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
-                        'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                        'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-                        'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
-                        'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-                        'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
-                        'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
-                        'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
-                    )
-                );
+            parent::fieldLabels($includerelations),
+            array(
+                'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
+                'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                'priority'                          => _t('Silvercart.PRIORITY'),
+                'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+                'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
+                'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+                'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
+                'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
+                'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
+                'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
+            )
+        );
     }
     
     /**
@@ -190,6 +192,7 @@ class SilvercartShippingMethod extends DataObject {
             'activatedStatus'           => $this->fieldLabel('activatedStatus'),
             'AttributedZones'           => $this->fieldLabel('AttributedZones'),
             'AttributedCustomerGroups'  => $this->fieldLabel('SilvercartCustomerGroups'),
+            'priority'                  => $this->fieldLabel('priority'),
         );
         $this->extend("updateSummaryFields", $summaryFields);
         return $summaryFields;
