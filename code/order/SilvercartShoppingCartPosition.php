@@ -118,24 +118,27 @@ class SilvercartShoppingCartPosition extends DataObject {
      */
     public function registerCustomHtmlForms() {
         $controller     = Controller::curr();
-        $positionForms  = array(
-            'SilvercartIncrementPositionQuantityForm',
-            'SilvercartDecrementPositionQuantityForm',
-            'SilvercartRemovePositionForm'
-        );
 
-        foreach ($positionForms as $positionForm) {
-            if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
-                $controller->registerCustomHtmlForm(
-                    $positionForm . $this->ID,
-                    new $positionForm(
-                        $controller,
-                        array(
-                            'positionID' => $this->ID,
-                            'BlID'       => $controller->ID
+        if (method_exists($controller, 'getRegisteredCustomHtmlForms')) {
+            $positionForms  = array(
+                'SilvercartIncrementPositionQuantityForm',
+                'SilvercartDecrementPositionQuantityForm',
+                'SilvercartRemovePositionForm'
+            );
+
+            foreach ($positionForms as $positionForm) {
+                if (!$controller->getRegisteredCustomHtmlForm($positionForm . $this->ID)) {
+                    $controller->registerCustomHtmlForm(
+                        $positionForm . $this->ID,
+                        new $positionForm(
+                            $controller,
+                            array(
+                                'positionID' => $this->ID,
+                                'BlID'       => $controller->ID
+                            )
                         )
-                    )
-                );
+                    );
+                }
             }
         }
 
