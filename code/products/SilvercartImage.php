@@ -146,10 +146,29 @@ class SilvercartImage extends DataObject {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
+     * @param array $params configuration parameters
+     *
      * @return FieldSet the fields for the backend
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.02.2013
      */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
+    public function getCMSFields($params = null) {
+        $fields = parent::getCMSFields(
+            array_merge(
+                    (array) $params,
+                    array(
+                        'restrictFields' => array(
+                            'SortOrder',
+                        ),
+                    )
+            )
+        );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField->setUploadFolder('assets/Uploads/Images');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
@@ -189,20 +208,24 @@ class SilvercartImage extends DataObject {
      * @return FieldSet $fields field set for cms
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.07.2012
+     * @since 08.02.2013
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext(
                         array_merge(
                                 array(
                                     'restrictFields' => array(
-                                        'Image',
                                         'SortOrder',
                                     ),
                                 ),
                                 (array) $params
                         )
         );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField->setUploadFolder('assets/Uploads/ProductImages');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
@@ -220,19 +243,26 @@ class SilvercartImage extends DataObject {
      * @param array $params Scaffolding params
      * 
      * @return FieldSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.02.2013
      */
     public function getCMSFieldsForPayment($params = null) {
         $fields = $this->getCMSFieldsForContext(
                         array_merge(
                                 array(
                                     'restrictFields' => array(
-                                        'Image',
                                         'SortOrder',
                                     ),
                                 ),
                                 (array) $params
                         )
         );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField->setUploadFolder('assets/Uploads/PaymentImages');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->addFieldToTab('Root.Main', $languageField);
@@ -250,19 +280,26 @@ class SilvercartImage extends DataObject {
      * @param array $params Scaffolding params
      * 
      * @return FieldSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.02.2013
      */
     public function getCMSFieldsForWidget($params = null) {
         $fields = $this->getCMSFieldsForContext(
             array_merge(
                 array(
                     'restrictFields' => array(
-                        'Image',
                         'SortOrder',
                     ),
                 ),
                 (array) $params
             )
         );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField->setUploadFolder('assets/Uploads/WidgetImages');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'SortOrder');
