@@ -53,7 +53,14 @@ class SilvercartTask extends ScheduledTask {
      * @var array
      */
     protected static $infos = array();
-
+    
+    /**
+     * Folder for temporary files
+     *
+     * @var string
+     */
+    protected $tmpFolder = null;
+    
     /**
      * Init
      *
@@ -211,6 +218,33 @@ class SilvercartTask extends ScheduledTask {
     }
     
     /**
+     * Returns the folder for temporary files.
+     * If the folder does not exist yet, the folder will be created.
+     * 
+     * @return string
+     */
+    public function getTmpFolder() {
+        if (is_null($this->tmpFolder)) {
+            $this->setTmpFolder(Director::baseFolder() . '/silverstripe-cache/tmp');
+            if (!is_dir($this->tmpFolder)) {
+                mkdir($this->tmpFolder, 0777, true);
+            }
+        }
+        return $this->tmpFolder;
+    }
+
+    /**
+     * Sets the folder for temporary files
+     * 
+     * @param string $tmpFolder Folder for temporary files
+     * 
+     * @return void
+     */
+    public function setTmpFolder($tmpFolder) {
+        $this->tmpFolder = $tmpFolder;
+    }
+    
+    /**
      * Adds an error to the errors list
      *
      * @param string $error Error to add
@@ -293,4 +327,34 @@ class SilvercartTask extends ScheduledTask {
         SilvercartTools::Log($type, $text, get_class($this));
     }
     
+    /**
+     * Runs a command in background and returns its PID
+     * 
+     * @param string $command Command to run in background
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.02.2013
+     */
+    protected static function run_process_in_background($command) {
+        $PID = shell_exec($command . " > /dev/null & echo $!");
+        return trim($PID);
+    }
+    
+    /**
+     * Checks whether a process with the given PID is running
+     * 
+     * @param string $PID PID to look for a running process
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.02.2013
+     */
+    protected static function is_process_running($PID) {
+        $processState = null;
+        exec("ps $PID", $processState);
+        return count($processState) >= 2;
+    }
 }
