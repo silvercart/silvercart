@@ -1135,31 +1135,11 @@ class SilvercartProduct extends DataObject {
      * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
+     * 
+     * @todo Check widget admin
      */
     public function getFieldsForWidgets($fields) {
-        /**
-        $availableWidgets = array();
-
-        $classes = ClassInfo::subclassesFor('Widget');
-        array_shift($classes);
-        foreach ($classes as $class) {
-            if ($class == 'SilvercartWidget') {
-                continue;
-            }
-            $widgetClass        = singleton($class);
-            $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
-        }
-
-        $widgetAreaField = new SilvercartHasManyOrderField(
-            $this->WidgetArea(),
-            'Widgets',
-            'WidgetArea',
-            'Widget Konfiguration',
-            $availableWidgets
-        );
-
-        $fields->addFieldToTab('Root.Widgets', $widgetAreaField);
-        /**/
+        
         $fields->addFieldsToTab(
                 'Root.Widgets',
                 $this->WidgetArea()->scaffoldFormFields(

@@ -181,6 +181,16 @@ class SilvercartCustomer extends DataExtension {
     public function updateSearchableFields(&$fields) {
         $address = singleton('SilvercartAddress');
         
+        $addressesCountryFilter = array();
+        if ($this->owner->SilvercartAddresses()->count() > 0) {
+            $addressesCountryFilter = array(
+                'SilvercartAddresses.first.SilvercartCountry' => array(
+                    'title'     => $address->fieldLabel('SilvercartCountry'),
+                    'filter'    => 'ExactMatchFilter',
+                ),
+            );
+        }
+        
         $fields = array_merge(
                 $fields,
                 array(
@@ -225,10 +235,9 @@ class SilvercartCustomer extends DataExtension {
                         'title'     => $address->fieldLabel('City'),
                         'filter'    => 'PartialMatchFilter',
                     ),
-                    'SilvercartAddresses.SilvercartCountry.ID' => array(
-                        'title'     => $address->fieldLabel('SilvercartCountry'),
-                        'filter'    => 'ExactMatchFilter',
-                    ),
+                ),
+                $addressesCountryFilter,
+                array(
                     
                     'SilvercartInvoiceAddress.FirstName' => array(
                         'title'     => $address->fieldLabel('FirstName'),

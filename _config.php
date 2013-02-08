@@ -304,7 +304,7 @@ SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
 // ----------------------------------------------------------------------------
 // set default group view if not existant
 // ----------------------------------------------------------------------------
-/*
+
 if (is_null(SilvercartGroupViewHandler::getDefaultGroupView())) {
     SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
 }
@@ -315,7 +315,7 @@ if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
 if (method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }
-*/
+
 // ----------------------------------------------------------------------------
 // add silvercart branding if no other branding is set
 // ----------------------------------------------------------------------------
