@@ -22,7 +22,7 @@
  */
 
 // write country AD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AD";
     $country->ISO3      = "AND";
@@ -35,7 +35,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AD"))) {
     $country->write();
 }
 // write country AE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AE";
     $country->ISO3      = "ARE";
@@ -48,7 +48,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AE"))) {
     $country->write();
 }
 // write country AF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AF";
     $country->ISO3      = "AFG";
@@ -61,7 +61,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AF"))) {
     $country->write();
 }
 // write country AG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AG";
     $country->ISO3      = "ATG";
@@ -74,7 +74,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AG"))) {
     $country->write();
 }
 // write country AI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AI";
     $country->ISO3      = "AIA";
@@ -87,7 +87,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AI"))) {
     $country->write();
 }
 // write country AL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AL";
     $country->ISO3      = "ALB";
@@ -100,7 +100,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AL"))) {
     $country->write();
 }
 // write country AM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AM";
     $country->ISO3      = "ARM";
@@ -113,7 +113,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AM"))) {
     $country->write();
 }
 // write country AN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AN";
     $country->ISO3      = "ANT";
@@ -126,7 +126,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AN"))) {
     $country->write();
 }
 // write country AO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AO";
     $country->ISO3      = "AGO";
@@ -139,7 +139,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AO"))) {
     $country->write();
 }
 // write country AQ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AQ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AQ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AQ";
     $country->ISO3      = "ATA";
@@ -152,7 +152,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AQ"))) {
     $country->write();
 }
 // write country AR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AR";
     $country->ISO3      = "ARG";
@@ -165,7 +165,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AR"))) {
     $country->write();
 }
 // write country AS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AS";
     $country->ISO3      = "ASM";
@@ -178,7 +178,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AS"))) {
     $country->write();
 }
 // write country AT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AT";
     $country->ISO3      = "AUT";
@@ -191,7 +191,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AT"))) {
     $country->write();
 }
 // write country AU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AU";
     $country->ISO3      = "AUS";
@@ -204,7 +204,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AU"))) {
     $country->write();
 }
 // write country AW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AW";
     $country->ISO3      = "ABW";
@@ -217,7 +217,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AW"))) {
     $country->write();
 }
 // write country AX
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AX"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AX")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AX";
     $country->ISO3      = "ALA";
@@ -230,7 +230,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AX"))) {
     $country->write();
 }
 // write country AZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "AZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "AZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "AZ";
     $country->ISO3      = "AZE";
@@ -243,7 +243,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "AZ"))) {
     $country->write();
 }
 // write country BA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BA";
     $country->ISO3      = "BIH";
@@ -256,7 +256,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BA"))) {
     $country->write();
 }
 // write country BB
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BB"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BB")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BB";
     $country->ISO3      = "BRB";
@@ -269,7 +269,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BB"))) {
     $country->write();
 }
 // write country BD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BD";
     $country->ISO3      = "BGD";
@@ -282,7 +282,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BD"))) {
     $country->write();
 }
 // write country BE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BE";
     $country->ISO3      = "BEL";
@@ -295,7 +295,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BE"))) {
     $country->write();
 }
 // write country BF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BF";
     $country->ISO3      = "BFA";
@@ -308,7 +308,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BF"))) {
     $country->write();
 }
 // write country BG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BG";
     $country->ISO3      = "BGR";
@@ -321,7 +321,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BG"))) {
     $country->write();
 }
 // write country BH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BH";
     $country->ISO3      = "BHR";
@@ -334,7 +334,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BH"))) {
     $country->write();
 }
 // write country BI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BI";
     $country->ISO3      = "BDI";
@@ -347,7 +347,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BI"))) {
     $country->write();
 }
 // write country BJ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BJ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BJ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BJ";
     $country->ISO3      = "BEN";
@@ -360,7 +360,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BJ"))) {
     $country->write();
 }
 // write country BL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BL";
     $country->ISO3      = "BLM";
@@ -373,7 +373,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BL"))) {
     $country->write();
 }
 // write country BM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BM";
     $country->ISO3      = "BMU";
@@ -386,7 +386,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BM"))) {
     $country->write();
 }
 // write country BN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BN";
     $country->ISO3      = "BRN";
@@ -399,7 +399,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BN"))) {
     $country->write();
 }
 // write country BO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BO";
     $country->ISO3      = "BOL";
@@ -412,7 +412,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BO"))) {
     $country->write();
 }
 // write country BQ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BQ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BQ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BQ";
     $country->ISO3      = "BES";
@@ -425,7 +425,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BQ"))) {
     $country->write();
 }
 // write country BR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BR";
     $country->ISO3      = "BRA";
@@ -438,7 +438,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BR"))) {
     $country->write();
 }
 // write country BS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BS";
     $country->ISO3      = "BHS";
@@ -451,7 +451,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BS"))) {
     $country->write();
 }
 // write country BT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BT";
     $country->ISO3      = "BTN";
@@ -464,7 +464,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BT"))) {
     $country->write();
 }
 // write country BV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BV";
     $country->ISO3      = "BVT";
@@ -477,7 +477,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BV"))) {
     $country->write();
 }
 // write country BW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BW";
     $country->ISO3      = "BWA";
@@ -490,7 +490,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BW"))) {
     $country->write();
 }
 // write country BY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BY";
     $country->ISO3      = "BLR";
@@ -503,7 +503,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BY"))) {
     $country->write();
 }
 // write country BZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "BZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "BZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "BZ";
     $country->ISO3      = "BLZ";
@@ -516,7 +516,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "BZ"))) {
     $country->write();
 }
 // write country CA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CA";
     $country->ISO3      = "CAN";
@@ -529,7 +529,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CA"))) {
     $country->write();
 }
 // write country CC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CC";
     $country->ISO3      = "CCK";
@@ -542,7 +542,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CC"))) {
     $country->write();
 }
 // write country CD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CD";
     $country->ISO3      = "COD";
@@ -555,7 +555,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CD"))) {
     $country->write();
 }
 // write country CF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CF";
     $country->ISO3      = "CAF";
@@ -568,7 +568,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CF"))) {
     $country->write();
 }
 // write country CG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CG";
     $country->ISO3      = "COG";
@@ -581,7 +581,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CG"))) {
     $country->write();
 }
 // write country CH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CH";
     $country->ISO3      = "CHE";
@@ -594,7 +594,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CH"))) {
     $country->write();
 }
 // write country CI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CI";
     $country->ISO3      = "CIV";
@@ -607,7 +607,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CI"))) {
     $country->write();
 }
 // write country CK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CK";
     $country->ISO3      = "COK";
@@ -620,7 +620,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CK"))) {
     $country->write();
 }
 // write country CL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CL";
     $country->ISO3      = "CHL";
@@ -633,7 +633,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CL"))) {
     $country->write();
 }
 // write country CM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CM";
     $country->ISO3      = "CMR";
@@ -646,7 +646,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CM"))) {
     $country->write();
 }
 // write country CN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CN";
     $country->ISO3      = "CHN";
@@ -659,7 +659,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CN"))) {
     $country->write();
 }
 // write country CO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CO";
     $country->ISO3      = "COL";
@@ -672,7 +672,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CO"))) {
     $country->write();
 }
 // write country CR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CR";
     $country->ISO3      = "CRI";
@@ -685,7 +685,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CR"))) {
     $country->write();
 }
 // write country CS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CS";
     $country->ISO3      = "SCG";
@@ -698,7 +698,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CS"))) {
     $country->write();
 }
 // write country CU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CU";
     $country->ISO3      = "CUB";
@@ -711,7 +711,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CU"))) {
     $country->write();
 }
 // write country CV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CV";
     $country->ISO3      = "CPV";
@@ -724,7 +724,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CV"))) {
     $country->write();
 }
 // write country CW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CW";
     $country->ISO3      = "CUW";
@@ -737,7 +737,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CW"))) {
     $country->write();
 }
 // write country CX
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CX"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CX")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CX";
     $country->ISO3      = "CXR";
@@ -750,7 +750,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CX"))) {
     $country->write();
 }
 // write country CY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CY";
     $country->ISO3      = "CYP";
@@ -763,7 +763,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CY"))) {
     $country->write();
 }
 // write country CZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "CZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "CZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "CZ";
     $country->ISO3      = "CZE";
@@ -776,7 +776,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "CZ"))) {
     $country->write();
 }
 // write country DE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DE";
     $country->ISO3      = "DEU";
@@ -789,7 +789,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DE"))) {
     $country->write();
 }
 // write country DJ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DJ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DJ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DJ";
     $country->ISO3      = "DJI";
@@ -802,7 +802,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DJ"))) {
     $country->write();
 }
 // write country DK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DK";
     $country->ISO3      = "DNK";
@@ -815,7 +815,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DK"))) {
     $country->write();
 }
 // write country DM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DM";
     $country->ISO3      = "DMA";
@@ -828,7 +828,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DM"))) {
     $country->write();
 }
 // write country DO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DO";
     $country->ISO3      = "DOM";
@@ -841,7 +841,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DO"))) {
     $country->write();
 }
 // write country DZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "DZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "DZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "DZ";
     $country->ISO3      = "DZA";
@@ -854,7 +854,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "DZ"))) {
     $country->write();
 }
 // write country EC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "EC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "EC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "EC";
     $country->ISO3      = "ECU";
@@ -867,7 +867,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "EC"))) {
     $country->write();
 }
 // write country EE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "EE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "EE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "EE";
     $country->ISO3      = "EST";
@@ -880,7 +880,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "EE"))) {
     $country->write();
 }
 // write country EG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "EG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "EG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "EG";
     $country->ISO3      = "EGY";
@@ -893,7 +893,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "EG"))) {
     $country->write();
 }
 // write country EH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "EH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "EH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "EH";
     $country->ISO3      = "ESH";
@@ -906,7 +906,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "EH"))) {
     $country->write();
 }
 // write country ER
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ER"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ER")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ER";
     $country->ISO3      = "ERI";
@@ -919,7 +919,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ER"))) {
     $country->write();
 }
 // write country ES
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ES"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ES")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ES";
     $country->ISO3      = "ESP";
@@ -932,7 +932,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ES"))) {
     $country->write();
 }
 // write country ET
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ET"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ET")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ET";
     $country->ISO3      = "ETH";
@@ -945,7 +945,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ET"))) {
     $country->write();
 }
 // write country FI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FI";
     $country->ISO3      = "FIN";
@@ -958,7 +958,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FI"))) {
     $country->write();
 }
 // write country FJ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FJ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FJ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FJ";
     $country->ISO3      = "FJI";
@@ -971,7 +971,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FJ"))) {
     $country->write();
 }
 // write country FK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FK";
     $country->ISO3      = "FLK";
@@ -984,7 +984,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FK"))) {
     $country->write();
 }
 // write country FM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FM";
     $country->ISO3      = "FSM";
@@ -997,7 +997,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FM"))) {
     $country->write();
 }
 // write country FO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FO";
     $country->ISO3      = "FRO";
@@ -1010,7 +1010,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FO"))) {
     $country->write();
 }
 // write country FR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "FR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "FR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "FR";
     $country->ISO3      = "FRA";
@@ -1023,7 +1023,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "FR"))) {
     $country->write();
 }
 // write country GA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GA";
     $country->ISO3      = "GAB";
@@ -1036,7 +1036,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GA"))) {
     $country->write();
 }
 // write country GB
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GB"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GB")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GB";
     $country->ISO3      = "GBR";
@@ -1049,7 +1049,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GB"))) {
     $country->write();
 }
 // write country GD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GD";
     $country->ISO3      = "GRD";
@@ -1062,7 +1062,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GD"))) {
     $country->write();
 }
 // write country GE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GE";
     $country->ISO3      = "GEO";
@@ -1075,7 +1075,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GE"))) {
     $country->write();
 }
 // write country GF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GF";
     $country->ISO3      = "GUF";
@@ -1088,7 +1088,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GF"))) {
     $country->write();
 }
 // write country GG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GG";
     $country->ISO3      = "GGY";
@@ -1101,7 +1101,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GG"))) {
     $country->write();
 }
 // write country GH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GH";
     $country->ISO3      = "GHA";
@@ -1114,7 +1114,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GH"))) {
     $country->write();
 }
 // write country GI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GI";
     $country->ISO3      = "GIB";
@@ -1127,7 +1127,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GI"))) {
     $country->write();
 }
 // write country GL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GL";
     $country->ISO3      = "GRL";
@@ -1140,7 +1140,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GL"))) {
     $country->write();
 }
 // write country GM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GM";
     $country->ISO3      = "GMB";
@@ -1153,7 +1153,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GM"))) {
     $country->write();
 }
 // write country GN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GN";
     $country->ISO3      = "GIN";
@@ -1166,7 +1166,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GN"))) {
     $country->write();
 }
 // write country GP
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GP"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GP")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GP";
     $country->ISO3      = "GLP";
@@ -1179,7 +1179,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GP"))) {
     $country->write();
 }
 // write country GQ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GQ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GQ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GQ";
     $country->ISO3      = "GNQ";
@@ -1192,7 +1192,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GQ"))) {
     $country->write();
 }
 // write country GR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GR";
     $country->ISO3      = "GRC";
@@ -1205,7 +1205,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GR"))) {
     $country->write();
 }
 // write country GS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GS";
     $country->ISO3      = "SGS";
@@ -1218,7 +1218,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GS"))) {
     $country->write();
 }
 // write country GT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GT";
     $country->ISO3      = "GTM";
@@ -1231,7 +1231,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GT"))) {
     $country->write();
 }
 // write country GU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GU";
     $country->ISO3      = "GUM";
@@ -1244,7 +1244,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GU"))) {
     $country->write();
 }
 // write country GW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GW";
     $country->ISO3      = "GNB";
@@ -1257,7 +1257,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GW"))) {
     $country->write();
 }
 // write country GY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "GY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "GY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "GY";
     $country->ISO3      = "GUY";
@@ -1270,7 +1270,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "GY"))) {
     $country->write();
 }
 // write country HK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HK";
     $country->ISO3      = "HKG";
@@ -1283,7 +1283,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HK"))) {
     $country->write();
 }
 // write country HM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HM";
     $country->ISO3      = "HMD";
@@ -1296,7 +1296,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HM"))) {
     $country->write();
 }
 // write country HN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HN";
     $country->ISO3      = "HND";
@@ -1309,7 +1309,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HN"))) {
     $country->write();
 }
 // write country HR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HR";
     $country->ISO3      = "HRV";
@@ -1322,7 +1322,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HR"))) {
     $country->write();
 }
 // write country HT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HT";
     $country->ISO3      = "HTI";
@@ -1335,7 +1335,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HT"))) {
     $country->write();
 }
 // write country HU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "HU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "HU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "HU";
     $country->ISO3      = "HUN";
@@ -1348,7 +1348,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "HU"))) {
     $country->write();
 }
 // write country ID
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ID"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ID")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ID";
     $country->ISO3      = "IDN";
@@ -1361,7 +1361,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ID"))) {
     $country->write();
 }
 // write country IE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IE";
     $country->ISO3      = "IRL";
@@ -1374,7 +1374,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IE"))) {
     $country->write();
 }
 // write country IL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IL";
     $country->ISO3      = "ISR";
@@ -1387,7 +1387,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IL"))) {
     $country->write();
 }
 // write country IM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IM";
     $country->ISO3      = "IMN";
@@ -1400,7 +1400,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IM"))) {
     $country->write();
 }
 // write country IN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IN";
     $country->ISO3      = "IND";
@@ -1413,7 +1413,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IN"))) {
     $country->write();
 }
 // write country IO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IO";
     $country->ISO3      = "IOT";
@@ -1426,7 +1426,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IO"))) {
     $country->write();
 }
 // write country IQ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IQ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IQ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IQ";
     $country->ISO3      = "IRQ";
@@ -1439,7 +1439,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IQ"))) {
     $country->write();
 }
 // write country IR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IR";
     $country->ISO3      = "IRN";
@@ -1452,7 +1452,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IR"))) {
     $country->write();
 }
 // write country IS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IS";
     $country->ISO3      = "ISL";
@@ -1465,7 +1465,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IS"))) {
     $country->write();
 }
 // write country IT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "IT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "IT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "IT";
     $country->ISO3      = "ITA";
@@ -1478,7 +1478,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "IT"))) {
     $country->write();
 }
 // write country JE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "JE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "JE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "JE";
     $country->ISO3      = "JEY";
@@ -1491,7 +1491,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "JE"))) {
     $country->write();
 }
 // write country JM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "JM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "JM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "JM";
     $country->ISO3      = "JAM";
@@ -1504,7 +1504,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "JM"))) {
     $country->write();
 }
 // write country JO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "JO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "JO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "JO";
     $country->ISO3      = "JOR";
@@ -1517,7 +1517,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "JO"))) {
     $country->write();
 }
 // write country JP
-if (!SilvercartCountry::get()->filter(array("ISO2" => "JP"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "JP")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "JP";
     $country->ISO3      = "JPN";
@@ -1530,7 +1530,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "JP"))) {
     $country->write();
 }
 // write country KE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KE";
     $country->ISO3      = "KEN";
@@ -1543,7 +1543,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KE"))) {
     $country->write();
 }
 // write country KG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KG";
     $country->ISO3      = "KGZ";
@@ -1556,7 +1556,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KG"))) {
     $country->write();
 }
 // write country KH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KH";
     $country->ISO3      = "KHM";
@@ -1569,7 +1569,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KH"))) {
     $country->write();
 }
 // write country KI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KI";
     $country->ISO3      = "KIR";
@@ -1582,7 +1582,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KI"))) {
     $country->write();
 }
 // write country KM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KM";
     $country->ISO3      = "COM";
@@ -1595,7 +1595,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KM"))) {
     $country->write();
 }
 // write country KN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KN";
     $country->ISO3      = "KNA";
@@ -1608,7 +1608,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KN"))) {
     $country->write();
 }
 // write country KP
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KP"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KP")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KP";
     $country->ISO3      = "PRK";
@@ -1621,7 +1621,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KP"))) {
     $country->write();
 }
 // write country KR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KR";
     $country->ISO3      = "KOR";
@@ -1634,7 +1634,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KR"))) {
     $country->write();
 }
 // write country KW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KW";
     $country->ISO3      = "KWT";
@@ -1647,7 +1647,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KW"))) {
     $country->write();
 }
 // write country KY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KY";
     $country->ISO3      = "CYM";
@@ -1660,7 +1660,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KY"))) {
     $country->write();
 }
 // write country KZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "KZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "KZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "KZ";
     $country->ISO3      = "KAZ";
@@ -1673,7 +1673,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "KZ"))) {
     $country->write();
 }
 // write country LA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LA";
     $country->ISO3      = "LAO";
@@ -1686,7 +1686,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LA"))) {
     $country->write();
 }
 // write country LB
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LB"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LB")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LB";
     $country->ISO3      = "LBN";
@@ -1699,7 +1699,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LB"))) {
     $country->write();
 }
 // write country LC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LC";
     $country->ISO3      = "LCA";
@@ -1712,7 +1712,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LC"))) {
     $country->write();
 }
 // write country LI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LI";
     $country->ISO3      = "LIE";
@@ -1725,7 +1725,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LI"))) {
     $country->write();
 }
 // write country LK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LK";
     $country->ISO3      = "LKA";
@@ -1738,7 +1738,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LK"))) {
     $country->write();
 }
 // write country LR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LR";
     $country->ISO3      = "LBR";
@@ -1751,7 +1751,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LR"))) {
     $country->write();
 }
 // write country LS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LS";
     $country->ISO3      = "LSO";
@@ -1764,7 +1764,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LS"))) {
     $country->write();
 }
 // write country LT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LT";
     $country->ISO3      = "LTU";
@@ -1777,7 +1777,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LT"))) {
     $country->write();
 }
 // write country LU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LU";
     $country->ISO3      = "LUX";
@@ -1790,7 +1790,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LU"))) {
     $country->write();
 }
 // write country LV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LV";
     $country->ISO3      = "LVA";
@@ -1803,7 +1803,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LV"))) {
     $country->write();
 }
 // write country LY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "LY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "LY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "LY";
     $country->ISO3      = "LBY";
@@ -1816,7 +1816,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "LY"))) {
     $country->write();
 }
 // write country MA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MA";
     $country->ISO3      = "MAR";
@@ -1829,7 +1829,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MA"))) {
     $country->write();
 }
 // write country MC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MC";
     $country->ISO3      = "MCO";
@@ -1842,7 +1842,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MC"))) {
     $country->write();
 }
 // write country MD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MD";
     $country->ISO3      = "MDA";
@@ -1855,7 +1855,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MD"))) {
     $country->write();
 }
 // write country ME
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ME"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ME")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ME";
     $country->ISO3      = "MNE";
@@ -1868,7 +1868,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ME"))) {
     $country->write();
 }
 // write country MF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MF";
     $country->ISO3      = "MAF";
@@ -1881,7 +1881,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MF"))) {
     $country->write();
 }
 // write country MG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MG";
     $country->ISO3      = "MDG";
@@ -1894,7 +1894,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MG"))) {
     $country->write();
 }
 // write country MH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MH";
     $country->ISO3      = "MHL";
@@ -1907,7 +1907,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MH"))) {
     $country->write();
 }
 // write country MK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MK";
     $country->ISO3      = "MKD";
@@ -1920,7 +1920,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MK"))) {
     $country->write();
 }
 // write country ML
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ML"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ML")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ML";
     $country->ISO3      = "MLI";
@@ -1933,7 +1933,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ML"))) {
     $country->write();
 }
 // write country MM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MM";
     $country->ISO3      = "MMR";
@@ -1946,7 +1946,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MM"))) {
     $country->write();
 }
 // write country MN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MN";
     $country->ISO3      = "MNG";
@@ -1959,7 +1959,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MN"))) {
     $country->write();
 }
 // write country MO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MO";
     $country->ISO3      = "MAC";
@@ -1972,7 +1972,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MO"))) {
     $country->write();
 }
 // write country MP
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MP"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MP")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MP";
     $country->ISO3      = "MNP";
@@ -1985,7 +1985,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MP"))) {
     $country->write();
 }
 // write country MQ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MQ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MQ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MQ";
     $country->ISO3      = "MTQ";
@@ -1998,7 +1998,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MQ"))) {
     $country->write();
 }
 // write country MR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MR";
     $country->ISO3      = "MRT";
@@ -2011,7 +2011,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MR"))) {
     $country->write();
 }
 // write country MS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MS";
     $country->ISO3      = "MSR";
@@ -2024,7 +2024,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MS"))) {
     $country->write();
 }
 // write country MT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MT";
     $country->ISO3      = "MLT";
@@ -2037,7 +2037,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MT"))) {
     $country->write();
 }
 // write country MU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MU";
     $country->ISO3      = "MUS";
@@ -2050,7 +2050,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MU"))) {
     $country->write();
 }
 // write country MV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MV";
     $country->ISO3      = "MDV";
@@ -2063,7 +2063,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MV"))) {
     $country->write();
 }
 // write country MW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MW";
     $country->ISO3      = "MWI";
@@ -2076,7 +2076,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MW"))) {
     $country->write();
 }
 // write country MX
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MX"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MX")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MX";
     $country->ISO3      = "MEX";
@@ -2089,7 +2089,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MX"))) {
     $country->write();
 }
 // write country MY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MY";
     $country->ISO3      = "MYS";
@@ -2102,7 +2102,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MY"))) {
     $country->write();
 }
 // write country MZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "MZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "MZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "MZ";
     $country->ISO3      = "MOZ";
@@ -2115,7 +2115,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "MZ"))) {
     $country->write();
 }
 // write country NA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NA";
     $country->ISO3      = "NAM";
@@ -2128,7 +2128,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NA"))) {
     $country->write();
 }
 // write country NC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NC";
     $country->ISO3      = "NCL";
@@ -2141,7 +2141,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NC"))) {
     $country->write();
 }
 // write country NE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NE";
     $country->ISO3      = "NER";
@@ -2154,7 +2154,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NE"))) {
     $country->write();
 }
 // write country NF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NF";
     $country->ISO3      = "NFK";
@@ -2167,7 +2167,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NF"))) {
     $country->write();
 }
 // write country NG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NG";
     $country->ISO3      = "NGA";
@@ -2180,7 +2180,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NG"))) {
     $country->write();
 }
 // write country NI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NI";
     $country->ISO3      = "NIC";
@@ -2193,7 +2193,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NI"))) {
     $country->write();
 }
 // write country NL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NL";
     $country->ISO3      = "NLD";
@@ -2206,7 +2206,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NL"))) {
     $country->write();
 }
 // write country NO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NO";
     $country->ISO3      = "NOR";
@@ -2219,7 +2219,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NO"))) {
     $country->write();
 }
 // write country NP
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NP"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NP")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NP";
     $country->ISO3      = "NPL";
@@ -2232,7 +2232,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NP"))) {
     $country->write();
 }
 // write country NR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NR";
     $country->ISO3      = "NRU";
@@ -2245,7 +2245,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NR"))) {
     $country->write();
 }
 // write country NU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NU";
     $country->ISO3      = "NIU";
@@ -2258,7 +2258,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NU"))) {
     $country->write();
 }
 // write country NZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "NZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "NZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "NZ";
     $country->ISO3      = "NZL";
@@ -2271,7 +2271,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "NZ"))) {
     $country->write();
 }
 // write country OM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "OM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "OM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "OM";
     $country->ISO3      = "OMN";
@@ -2284,7 +2284,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "OM"))) {
     $country->write();
 }
 // write country PA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PA";
     $country->ISO3      = "PAN";
@@ -2297,7 +2297,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PA"))) {
     $country->write();
 }
 // write country PE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PE";
     $country->ISO3      = "PER";
@@ -2310,7 +2310,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PE"))) {
     $country->write();
 }
 // write country PF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PF";
     $country->ISO3      = "PYF";
@@ -2323,7 +2323,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PF"))) {
     $country->write();
 }
 // write country PG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PG";
     $country->ISO3      = "PNG";
@@ -2336,7 +2336,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PG"))) {
     $country->write();
 }
 // write country PH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PH";
     $country->ISO3      = "PHL";
@@ -2349,7 +2349,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PH"))) {
     $country->write();
 }
 // write country PK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PK";
     $country->ISO3      = "PAK";
@@ -2362,7 +2362,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PK"))) {
     $country->write();
 }
 // write country PL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PL";
     $country->ISO3      = "POL";
@@ -2375,7 +2375,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PL"))) {
     $country->write();
 }
 // write country PM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PM";
     $country->ISO3      = "SPM";
@@ -2388,7 +2388,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PM"))) {
     $country->write();
 }
 // write country PN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PN";
     $country->ISO3      = "PCN";
@@ -2401,7 +2401,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PN"))) {
     $country->write();
 }
 // write country PR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PR";
     $country->ISO3      = "PRI";
@@ -2414,7 +2414,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PR"))) {
     $country->write();
 }
 // write country PS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PS";
     $country->ISO3      = "PSE";
@@ -2427,7 +2427,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PS"))) {
     $country->write();
 }
 // write country PT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PT";
     $country->ISO3      = "PRT";
@@ -2440,7 +2440,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PT"))) {
     $country->write();
 }
 // write country PW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PW";
     $country->ISO3      = "PLW";
@@ -2453,7 +2453,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PW"))) {
     $country->write();
 }
 // write country PY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "PY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "PY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "PY";
     $country->ISO3      = "PRY";
@@ -2466,7 +2466,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "PY"))) {
     $country->write();
 }
 // write country QA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "QA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "QA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "QA";
     $country->ISO3      = "QAT";
@@ -2479,7 +2479,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "QA"))) {
     $country->write();
 }
 // write country RE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "RE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "RE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "RE";
     $country->ISO3      = "REU";
@@ -2492,7 +2492,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "RE"))) {
     $country->write();
 }
 // write country RO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "RO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "RO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "RO";
     $country->ISO3      = "ROU";
@@ -2505,7 +2505,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "RO"))) {
     $country->write();
 }
 // write country RS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "RS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "RS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "RS";
     $country->ISO3      = "SRB";
@@ -2518,7 +2518,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "RS"))) {
     $country->write();
 }
 // write country RU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "RU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "RU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "RU";
     $country->ISO3      = "RUS";
@@ -2531,7 +2531,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "RU"))) {
     $country->write();
 }
 // write country RW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "RW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "RW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "RW";
     $country->ISO3      = "RWA";
@@ -2544,7 +2544,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "RW"))) {
     $country->write();
 }
 // write country SA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SA";
     $country->ISO3      = "SAU";
@@ -2557,7 +2557,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SA"))) {
     $country->write();
 }
 // write country SB
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SB"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SB")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SB";
     $country->ISO3      = "SLB";
@@ -2570,7 +2570,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SB"))) {
     $country->write();
 }
 // write country SC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SC";
     $country->ISO3      = "SYC";
@@ -2583,7 +2583,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SC"))) {
     $country->write();
 }
 // write country SD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SD";
     $country->ISO3      = "SDN";
@@ -2596,7 +2596,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SD"))) {
     $country->write();
 }
 // write country SE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SE";
     $country->ISO3      = "SWE";
@@ -2609,7 +2609,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SE"))) {
     $country->write();
 }
 // write country SG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SG";
     $country->ISO3      = "SGP";
@@ -2622,7 +2622,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SG"))) {
     $country->write();
 }
 // write country SH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SH";
     $country->ISO3      = "SHN";
@@ -2635,7 +2635,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SH"))) {
     $country->write();
 }
 // write country SI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SI";
     $country->ISO3      = "SVN";
@@ -2648,7 +2648,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SI"))) {
     $country->write();
 }
 // write country SJ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SJ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SJ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SJ";
     $country->ISO3      = "SJM";
@@ -2661,7 +2661,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SJ"))) {
     $country->write();
 }
 // write country SK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SK";
     $country->ISO3      = "SVK";
@@ -2674,7 +2674,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SK"))) {
     $country->write();
 }
 // write country SL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SL";
     $country->ISO3      = "SLE";
@@ -2687,7 +2687,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SL"))) {
     $country->write();
 }
 // write country SM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SM";
     $country->ISO3      = "SMR";
@@ -2700,7 +2700,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SM"))) {
     $country->write();
 }
 // write country SN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SN";
     $country->ISO3      = "SEN";
@@ -2713,7 +2713,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SN"))) {
     $country->write();
 }
 // write country SO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SO";
     $country->ISO3      = "SOM";
@@ -2726,7 +2726,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SO"))) {
     $country->write();
 }
 // write country SR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SR";
     $country->ISO3      = "SUR";
@@ -2739,7 +2739,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SR"))) {
     $country->write();
 }
 // write country SS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SS";
     $country->ISO3      = "SSD";
@@ -2752,7 +2752,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SS"))) {
     $country->write();
 }
 // write country ST
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ST"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ST")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ST";
     $country->ISO3      = "STP";
@@ -2765,7 +2765,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ST"))) {
     $country->write();
 }
 // write country SV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SV";
     $country->ISO3      = "SLV";
@@ -2778,7 +2778,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SV"))) {
     $country->write();
 }
 // write country SX
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SX"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SX")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SX";
     $country->ISO3      = "SXM";
@@ -2791,7 +2791,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SX"))) {
     $country->write();
 }
 // write country SY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SY";
     $country->ISO3      = "SYR";
@@ -2804,7 +2804,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SY"))) {
     $country->write();
 }
 // write country SZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "SZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "SZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "SZ";
     $country->ISO3      = "SWZ";
@@ -2817,7 +2817,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "SZ"))) {
     $country->write();
 }
 // write country TC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TC";
     $country->ISO3      = "TCA";
@@ -2830,7 +2830,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TC"))) {
     $country->write();
 }
 // write country TD
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TD"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TD")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TD";
     $country->ISO3      = "TCD";
@@ -2843,7 +2843,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TD"))) {
     $country->write();
 }
 // write country TF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TF";
     $country->ISO3      = "ATF";
@@ -2856,7 +2856,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TF"))) {
     $country->write();
 }
 // write country TG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TG";
     $country->ISO3      = "TGO";
@@ -2869,7 +2869,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TG"))) {
     $country->write();
 }
 // write country TH
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TH"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TH")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TH";
     $country->ISO3      = "THA";
@@ -2882,7 +2882,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TH"))) {
     $country->write();
 }
 // write country TJ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TJ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TJ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TJ";
     $country->ISO3      = "TJK";
@@ -2895,7 +2895,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TJ"))) {
     $country->write();
 }
 // write country TK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TK";
     $country->ISO3      = "TKL";
@@ -2908,7 +2908,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TK"))) {
     $country->write();
 }
 // write country TL
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TL"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TL")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TL";
     $country->ISO3      = "TLS";
@@ -2921,7 +2921,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TL"))) {
     $country->write();
 }
 // write country TM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TM";
     $country->ISO3      = "TKM";
@@ -2934,7 +2934,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TM"))) {
     $country->write();
 }
 // write country TN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TN";
     $country->ISO3      = "TUN";
@@ -2947,7 +2947,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TN"))) {
     $country->write();
 }
 // write country TO
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TO"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TO")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TO";
     $country->ISO3      = "TON";
@@ -2960,7 +2960,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TO"))) {
     $country->write();
 }
 // write country TR
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TR"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TR")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TR";
     $country->ISO3      = "TUR";
@@ -2973,7 +2973,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TR"))) {
     $country->write();
 }
 // write country TT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TT";
     $country->ISO3      = "TTO";
@@ -2986,7 +2986,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TT"))) {
     $country->write();
 }
 // write country TV
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TV"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TV")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TV";
     $country->ISO3      = "TUV";
@@ -2999,7 +2999,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TV"))) {
     $country->write();
 }
 // write country TW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TW";
     $country->ISO3      = "TWN";
@@ -3012,7 +3012,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TW"))) {
     $country->write();
 }
 // write country TZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "TZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "TZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "TZ";
     $country->ISO3      = "TZA";
@@ -3025,7 +3025,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "TZ"))) {
     $country->write();
 }
 // write country UA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "UA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "UA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "UA";
     $country->ISO3      = "UKR";
@@ -3038,7 +3038,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "UA"))) {
     $country->write();
 }
 // write country UG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "UG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "UG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "UG";
     $country->ISO3      = "UGA";
@@ -3051,7 +3051,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "UG"))) {
     $country->write();
 }
 // write country UM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "UM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "UM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "UM";
     $country->ISO3      = "UMI";
@@ -3064,7 +3064,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "UM"))) {
     $country->write();
 }
 // write country US
-if (!SilvercartCountry::get()->filter(array("ISO2" => "US"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "US")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "US";
     $country->ISO3      = "USA";
@@ -3077,7 +3077,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "US"))) {
     $country->write();
 }
 // write country UY
-if (!SilvercartCountry::get()->filter(array("ISO2" => "UY"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "UY")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "UY";
     $country->ISO3      = "URY";
@@ -3090,7 +3090,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "UY"))) {
     $country->write();
 }
 // write country UZ
-if (!SilvercartCountry::get()->filter(array("ISO2" => "UZ"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "UZ")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "UZ";
     $country->ISO3      = "UZB";
@@ -3103,7 +3103,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "UZ"))) {
     $country->write();
 }
 // write country VA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VA";
     $country->ISO3      = "VAT";
@@ -3116,7 +3116,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VA"))) {
     $country->write();
 }
 // write country VC
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VC"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VC")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VC";
     $country->ISO3      = "VCT";
@@ -3129,7 +3129,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VC"))) {
     $country->write();
 }
 // write country VE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VE";
     $country->ISO3      = "VEN";
@@ -3142,7 +3142,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VE"))) {
     $country->write();
 }
 // write country VG
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VG"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VG")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VG";
     $country->ISO3      = "VGB";
@@ -3155,7 +3155,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VG"))) {
     $country->write();
 }
 // write country VI
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VI"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VI")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VI";
     $country->ISO3      = "VIR";
@@ -3168,7 +3168,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VI"))) {
     $country->write();
 }
 // write country VN
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VN"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VN")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VN";
     $country->ISO3      = "VNM";
@@ -3181,7 +3181,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VN"))) {
     $country->write();
 }
 // write country VU
-if (!SilvercartCountry::get()->filter(array("ISO2" => "VU"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "VU")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "VU";
     $country->ISO3      = "VUT";
@@ -3194,7 +3194,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "VU"))) {
     $country->write();
 }
 // write country WF
-if (!SilvercartCountry::get()->filter(array("ISO2" => "WF"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "WF")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "WF";
     $country->ISO3      = "WLF";
@@ -3207,7 +3207,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "WF"))) {
     $country->write();
 }
 // write country WS
-if (!SilvercartCountry::get()->filter(array("ISO2" => "WS"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "WS")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "WS";
     $country->ISO3      = "WSM";
@@ -3220,7 +3220,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "WS"))) {
     $country->write();
 }
 // write country XK
-if (!SilvercartCountry::get()->filter(array("ISO2" => "XK"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "XK")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "XK";
     $country->ISO3      = "XKX";
@@ -3233,7 +3233,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "XK"))) {
     $country->write();
 }
 // write country YE
-if (!SilvercartCountry::get()->filter(array("ISO2" => "YE"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "YE")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "YE";
     $country->ISO3      = "YEM";
@@ -3246,7 +3246,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "YE"))) {
     $country->write();
 }
 // write country YT
-if (!SilvercartCountry::get()->filter(array("ISO2" => "YT"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "YT")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "YT";
     $country->ISO3      = "MYT";
@@ -3259,7 +3259,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "YT"))) {
     $country->write();
 }
 // write country ZA
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ZA"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ZA")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ZA";
     $country->ISO3      = "ZAF";
@@ -3272,7 +3272,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ZA"))) {
     $country->write();
 }
 // write country ZM
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ZM"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ZM")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ZM";
     $country->ISO3      = "ZMB";
@@ -3285,7 +3285,7 @@ if (!SilvercartCountry::get()->filter(array("ISO2" => "ZM"))) {
     $country->write();
 }
 // write country ZW
-if (!SilvercartCountry::get()->filter(array("ISO2" => "ZW"))) {
+if (!SilvercartCountry::get()->filter("ISO2", "ZW")->exists()) {
     $country = new SilvercartCountry();
     $country->ISO2      = "ZW";
     $country->ISO3      = "ZWE";
