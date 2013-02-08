@@ -103,7 +103,7 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      */
     public function SectionTitle() {
         $sectionTitle = _t('SilvercartUpdateAdmin.SILVERCART_UPDATE');
-        if (DataObject::get('SilvercartUpdate',"\"Status\"='remaining'")) {
+        if (SilvercartUpdate::get()->filter("Status", "remaining")->exists()) {
         $sectionTitle .= ' (' . DataObject::get('SilvercartUpdate',"\"Status\"='remaining'")->count() . ')';
         }
         return $sectionTitle;

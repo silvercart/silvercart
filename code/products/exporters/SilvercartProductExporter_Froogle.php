@@ -112,7 +112,7 @@ class SilvercartProductExporter_Froogle {
      */
     public function ImageLink($record) {
         if ($this->getDataObj($record)->SilvercartImages()->count() > 0) {
-            return Director::absoluteURL($this->getDataObj($record)->SilvercartImages()->First()->Image()->Link());
+            return Director::absoluteURL($this->getDataObj($record)->SilvercartImages()->first()->Image()->Link());
         }
     }
     

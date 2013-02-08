@@ -251,7 +251,7 @@ class SilvercartNumberRange extends DataObject {
      * @return SilvercartNumberRange
      */
     public static function getByIdentifier($identifier) {
-        return SilvercartNumberRange::get()->filter('Identifier', $identifier)->First();
+        return SilvercartNumberRange::get()->filter('Identifier', $identifier)->first();
     }
 
     /**

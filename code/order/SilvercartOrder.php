@@ -1204,7 +1204,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function setOrderStatusByID($orderStatusID) {
         $orderStatusSet = false;
 
-        if (DataObject::get_by_id('SilvercartOrderStatus', $orderStatusID)) {
+        if (SilvercartOrderStatus::get()->filter('ID', $orderStatusID)->exists()) {
             $this->SilvercartOrderStatusID = $orderStatusID;
             $this->write();
             $orderStatusSet = true;

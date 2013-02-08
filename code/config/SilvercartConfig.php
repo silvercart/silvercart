@@ -562,8 +562,8 @@ class SilvercartConfig extends DataObject {
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-        if (SilvercartConfig::get()->First()) {
-            if (SilvercartConfig::get()->First()->ID !== $this->ID) {
+        if (SilvercartConfig::get()->first()) {
+            if (SilvercartConfig::get()->first()->ID !== $this->ID) {
                 // is there is an existent SilvercartConfig, do not write another.
                 $this->record = array();
             }
@@ -1070,7 +1070,7 @@ class SilvercartConfig extends DataObject {
      */
     public static function getConfig() {
         if (is_null(self::$config)) {
-            self::$config = SilvercartConfig::get()->First();
+            self::$config = SilvercartConfig::get()->first();
             if (!self::$config) {
                 if (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) {
                     return false;

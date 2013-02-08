@@ -81,7 +81,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultGroups() {
         // Create an own group for anonymous customers
-        $anonymousGroup = Group::get()->filter('Code', 'anonymous')->First();
+        $anonymousGroup = Group::get()->filter('Code', 'anonymous')->first();
         if (!$anonymousGroup) {
             $anonymousGroup             = new Group();
             $anonymousGroup->Title      = _t('SilvercartCustomer.ANONYMOUSCUSTOMER', 'anonymous customer');
@@ -91,7 +91,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
 
         // Create an own group for b2b customers
-        $B2Bgroup = Group::get()->filter('Code', 'b2b')->First();
+        $B2Bgroup = Group::get()->filter('Code', 'b2b')->first();
         if (!$B2Bgroup) {
             $B2Bgroup               = new Group();
             $B2Bgroup->Title        = _t('SilvercartCustomer.BUSINESSCUSTOMER', 'business customer');
@@ -101,7 +101,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
 
         //create a group for b2c customers
-        $B2Cgroup = Group::get()->filter('Code', 'b2c')->First();
+        $B2Cgroup = Group::get()->filter('Code', 'b2c')->first();
         if (!$B2Cgroup) {
             $B2Cgroup               = new Group();
             $B2Cgroup->Title        = _t('SilvercartCustomer.REGULARCUSTOMER', 'regular customer');
@@ -121,7 +121,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultConfig() {
         // create a SilvercartConfig if not exist
-        if (!SilvercartConfig::get()->First()) {
+        if (!SilvercartConfig::get()->first()) {
             $silvercartConfig = new SilvercartConfig();
             $silvercartConfig->DefaultCurrency = 'EUR';
             $email = Email::getAdminEmail();
@@ -274,16 +274,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $languages[$translationLocale] = $languages['en_US'];
             }
             foreach ($languages as $locale => $title) {
-                $objLanguage = $translatableDataObjectLanguageName::get()->filter(array('Locale'=> $locale, $translatableDataObjectRelationName => $obj->ID));
-//                $objLanguage    = DataObject::get_one(
-//                        $translatableDataObjectLanguageName,
-//                        sprintf(
-//                                "\"Locale\" = '%s' AND \"%s\" = '%s'",
-//                                $locale,
-//                                $translatableDataObjectRelationName,
-//                                $obj->ID
-//                        )
-//                );
+                $objLanguage = $translatableDataObjectLanguageName::get()->filter(array('Locale'=> $locale, $translatableDataObjectRelationName => $obj->ID))->first();
                 if (!$objLanguage) {
                     $objLanguage = new $translatableDataObjectLanguageName();
                     $objLanguage->Locale                                = $locale;
@@ -308,14 +299,14 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function createDefaultNumberRanges() {
         // create number ranges
-        $orderNumbers = SilvercartNumberRange::get()->filter('Identifier', 'OrderNumber')->First();
+        $orderNumbers = SilvercartNumberRange::get()->filter('Identifier', 'OrderNumber')->first();
         if (!$orderNumbers) {
             $orderNumbers = new SilvercartNumberRange();
             $orderNumbers->Identifier = 'OrderNumber';
             $orderNumbers->Title = _t('SilvercartNumberRange.ORDERNUMBER', 'Ordernumber');
             $orderNumbers->write();
         }
-        $customerNumbers = SilvercartNumberRange::get()->filter('Identifier', 'CustomerNumber')->First();
+        $customerNumbers = SilvercartNumberRange::get()->filter('Identifier', 'CustomerNumber')->first();
         if (!$customerNumbers) {
             $customerNumbers = new SilvercartNumberRange();
             $customerNumbers->Identifier = 'CustomerNumber';
@@ -333,7 +324,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 02.05.2012
      */
     public function createDefaultSiteTree() {
-        $rootPage = SilvercartPage::get()->filter('IdentifierCode', 'SilvercartCartPage')->First();
+        $rootPage = SilvercartPage::get()->filter('IdentifierCode', 'SilvercartCartPage')->first();
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages
             $rootPage                   = new SilvercartFrontPage();
@@ -803,8 +794,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         }
         
         // attribute ShopEmails to order status
-        $orderStatus = SilvercartOrderStatus::get()->filter('Code', 'shipped')->sort('ID');
-        $orderEmail = SilvercartShopEmail::get()->filter('Identifier', 'OrderShippedNotification')->sort('ID');
+        $orderStatus = SilvercartOrderStatus::get()->filter('Code', 'shipped')->sort('ID')->first();
+        $orderEmail = SilvercartShopEmail::get()->filter('Identifier', 'OrderShippedNotification')->sort('ID')->first();
         
         if ($orderStatus && $orderEmail) {
             $orderStatus->SilvercartShopEmails()->add($orderEmail);
@@ -821,7 +812,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function rerenderErrorPages() {
         $errorPages = ErrorPage::get();
-        if ($errorPages) {
+        if ($errorPages->exists()) {
             SilvercartConfig::$forceLoadingOfDefaultLayout = true;
             foreach ($errorPages as $errorPage) {
                 $errorPage->doPublish();
@@ -847,17 +838,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // create countries
         $this->requireOrUpdateCountries();
         // create order status
-        //$this->createDefaultOrderStatus();
+        $this->createDefaultOrderStatus();
         // create availability status
-        //$this->createDefaultAvailabilityStatus();
+        $this->createDefaultAvailabilityStatus();
         // create number ranges
-        //$this->createDefaultNumberRanges();
+        $this->createDefaultNumberRanges();
         // and now the whole site tree
         $rootPage = $this->createDefaultSiteTree();
         // create shop emails
-        //$this->createDefaultShopEmails();
+        $this->createDefaultShopEmails();
         // rewrite error page templates
-        //$this->rerenderErrorPages();
+        $this->rerenderErrorPages();
 
         $this->extend('updateDefaultRecords', $rootPage);
 
@@ -1034,8 +1025,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');
         }
         //activate at least one country dependant on the current locale
-        if (!DataObject::get_one('SilvercartCountry', "\"Active\"=1")) {
+        if (!SilvercartCountry::get()->filter('Active', 1)->exists()) {
             $country = DataObject::get_one('SilvercartCountry', sprintf("\"ISO2\"='%s'", substr(i18n::get_locale(), 3)));
+            #$country = SilvercartCountry::get()->filter("ISO2", substr(i18n::get_locale(), 3))->first();
             if ($country) {
                 $country->Active = true;
                 $country->write();

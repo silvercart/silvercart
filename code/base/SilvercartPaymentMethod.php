@@ -1233,7 +1233,7 @@ class SilvercartPaymentMethod extends DataObject {
                 Group::get(),
                 $config
         );
-        $anonyousMembers = Group::get()->filter(array('Code' => 'anonymous'))->First()->Members();
+        $anonyousMembers = Group::get()->filter(array('Code' => 'anonymous'))->first()->Members();
         $showOnlyForUsersTable = new GridField(
                 'ShowOnlyForUsers',
                 'ShowOnlyForUsers',

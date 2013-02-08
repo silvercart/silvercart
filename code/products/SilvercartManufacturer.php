@@ -217,7 +217,7 @@ class SilvercartManufacturer extends DataObject {
      * @since 28.01.2013
      */
     public static function getByUrlSegment($urlSegment) {
-        return self::get()->filter(array('URLSegment' => $urlSegment))->First();
+        return self::get()->filter(array('URLSegment' => $urlSegment))->first();
     }
 
     /**
