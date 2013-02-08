@@ -621,7 +621,7 @@ class SilvercartShippingMethod extends DataObject {
                 $join
         );
         
-        $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
+        $extendableShippingMethod->extend('updateAllowedShippingFeesFor', $shippingMethods, $product);
         
         $shippingFees = new DataObjectSet();
         
