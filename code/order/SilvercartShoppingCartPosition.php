@@ -119,7 +119,7 @@ class SilvercartShoppingCartPosition extends DataObject {
     public function registerCustomHtmlForms() {
         $controller     = Controller::curr();
 
-        if (method_exists($controller, 'getRegisteredCustomHtmlForms')) {
+        if ($controller->hasMethod('getRegisteredCustomHtmlForm')) {
             $positionForms  = array(
                 'SilvercartIncrementPositionQuantityForm',
                 'SilvercartDecrementPositionQuantityForm',
