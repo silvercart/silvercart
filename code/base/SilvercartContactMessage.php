@@ -160,6 +160,12 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.04.2011
      */
     public function canEdit($member = null) {
+        if ($member === null) {
+            $member = Member::currentUser();
+        }
+        if ($member && $member->inGroup('administrators')) {
+            return true;
+        }
         return false;
     }
 
@@ -201,6 +207,28 @@ class SilvercartContactMessage extends DataObject {
             $parentField = stripcslashes($parentField);
         }
         return $parentField;
+    }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 08.02.2013
+ */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        $fields->removeByName('Salutation');
+        $salutationArray = array(
+            '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            'Herr' => _t('SilvercartAddress.MISTER'),
+            'Frau' => _t('SilvercartAddress.MISSES')
+        );
+        $salutationDropdown = new DropdownField('Salutation', $this->fieldLabel('Salutation'), $salutationArray);
+        $fields->insertBefore($salutationDropdown, 'FirstName');
+        return $fields;
     }
    
     

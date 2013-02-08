@@ -191,7 +191,7 @@ class SilvercartShopEmail extends DataObject {
         $afterFieldName = 'Identifier';
         foreach ($languageFields as $languageField) {
             $fields->insertAfter($languageField, $afterFieldName);
-            $afterFieldName = $languageField->Name();
+            $afterFieldName = $languageField->getName();
         }
         
         $emailTextField = new TextareaField('EmailText', _t('SilvercartShopEmail.EMAILTEXT', 'message'), 30);
@@ -199,14 +199,15 @@ class SilvercartShopEmail extends DataObject {
         $fields->removeByName('EmailText');
         $fields->insertAfter($emailTextField, 'Subject');
         
-        if ($this->ID) {
-            $orderStatusTable = new SilvercartManyManyComplexTableField(
-                $this,
-                'SilvercartOrderStatus',
-                'SilvercartOrderStatus'
-            );
-            $fields->addFieldToTab('Root.SilvercartOrderStatus', $orderStatusTable);
-        }
+        $config = GridFieldConfig_RelationEditor::create(100);
+        $orderStatusTable = new GridField(
+            'SilvercartOrderStatus',
+             $this->fieldLabel('SilvercartOrderStatus'),
+             $this->SilvercartOrderStatus(),
+             $config
+        );
+        $fields->findOrMakeTab('Root.SilvercartOrderStatus', $this->fieldLabel('SilvercartOrderStatus'));
+        $fields->addFieldToTab('Root.SilvercartOrderStatus', $orderStatusTable);
         
         return $fields;
     }
