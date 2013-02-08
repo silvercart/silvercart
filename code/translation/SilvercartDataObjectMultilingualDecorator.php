@@ -339,9 +339,6 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
      */
     public function onAfterWrite() {
         SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->owner->toMap());
-        
-        SilvercartTools::Log("toMap call result: ", serialize($this->owner->toMap()), 'silvercartlog');
-        SilvercartTools::Log("getLanguage call result: ", serialize($this->getLanguage()), 'silvercartlog');
     }
     
     /**
