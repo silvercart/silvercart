@@ -165,7 +165,7 @@ class SilvercartImage extends DataObject {
             )
         );
         if ($this->ID) {
-            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
             $imageUploadField->setUploadFolder('assets/Uploads/Images');
             $fields->insertBefore($imageUploadField, 'SortOrder');
         }
@@ -222,7 +222,7 @@ class SilvercartImage extends DataObject {
                         )
         );
         if ($this->ID) {
-            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
             $imageUploadField->setUploadFolder('assets/Uploads/ProductImages');
             $fields->insertBefore($imageUploadField, 'SortOrder');
         }
@@ -259,7 +259,7 @@ class SilvercartImage extends DataObject {
                         )
         );
         if ($this->ID) {
-            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
             $imageUploadField->setUploadFolder('assets/Uploads/PaymentImages');
             $fields->insertBefore($imageUploadField, 'SortOrder');
         }
@@ -296,7 +296,7 @@ class SilvercartImage extends DataObject {
             )
         );
         if ($this->ID) {
-            $imageUploadField = new ImageUploadField('Image', 'Image');
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
             $imageUploadField->setUploadFolder('assets/Uploads/WidgetImages');
             $fields->insertBefore($imageUploadField, 'SortOrder');
         }
