@@ -327,6 +327,10 @@ p.silvercart-message.vdistance {
 .silvercart-button {
     float:                          right;
 }
+#ForgotPassword {
+    float:                          right;
+    margin-top:                     -2px;
+}
 #ForgotPassword a,
 .forgot-password-plain {
     position:                       relative;
