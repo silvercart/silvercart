@@ -893,7 +893,7 @@ class SilvercartProduct extends DataObject {
      * @param string  $join        string to be used as SQL JOIN clause;
      * @param integer $limit       DataObject limit
      *
-     * @return PaginatedList|false PaginatedList of products
+     * @return PaginatedList|ArrayList PaginatedList of products or empty ArrayList
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2012
      */
@@ -2182,16 +2182,10 @@ class SilvercartProduct extends DataObject {
             $mirrorPageIDs[] = $silvercartProductGroupMirrorPage->ID;
         }
 
-        $silvercartProductGroupSortOrderPages = DataObject::get(
-            'SilvercartProductGroupMirrorSortOrder',
-            sprintf(
-                "SilvercartProductID = %d",
-                $this->ID
-            )
-        );
+        $silvercartProductGroupSortOrderPages = SilvercartProductGroupMirrorSortOrder::get()->filter('SilvercartProductID', $this->ID);
 
         // delete old records
-        if ($silvercartProductGroupSortOrderPages) {
+        if ($silvercartProductGroupSortOrderPages->exists()) {
             foreach ($silvercartProductGroupSortOrderPages as $silvercartProductGroupSortOrderPage) {
                 if (!in_array($silvercartProductGroupSortOrderPage->SilvercartProductGroupPageID, $mirrorPageIDs)) {
                     $silvercartProductGroupSortOrderPage->delete();

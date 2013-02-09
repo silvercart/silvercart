@@ -640,13 +640,16 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @since 27.10.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @return DataList DataList with order objects
+     * @return DataList with order objects or empty DataList
      */
     public function CurrentMembersOrders($limit = null) {
         $memberID = Member::currentUserID();
         if ($memberID) {
-            $filter = sprintf("\"MemberID\" = '%s'", $memberID);
-            $orders = DataObject::get('SilvercartOrder', $filter, null, null, $limit);
+            if ($limit) {
+                $orders = SilvercartOrder::get()->filter('MemberID', $memberID)->limit($limit);
+            } else {
+                $orders = SilvercartOrder::get()->filter('MemberID', $memberID);
+            }
             return $orders;
         }
     }

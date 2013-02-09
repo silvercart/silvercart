@@ -615,7 +615,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         * ADDITION SECTION
         **********************************************************************/
         if (in_array('SilvercartShippingFeeID', $restrictFields)) {
-            $shippingFees = DataObject::get('SilvercartShippingFee');
+            $shippingFees = SilvercartShippingFee::get();
             $shippingFeesDropdown = new DropdownField(
                     'SilvercartShippingFeeID',
                     $this->fieldLabel('SilvercartShippingMethod'),
@@ -624,7 +624,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     null,
                     $this->fieldLabel('EmptyString')
             );
-            if ($shippingFees) {
+            if ($shippingFees->exists()) {
                 $shippingFeesDropdown->setSource($shippingFees->toDropDownMap('ID', 'FeeWithCarrierAndShippingMethod'));
                 $fields->addFieldToTab('Root.Main', $shippingFeesDropdown);
             }
@@ -928,13 +928,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         $member = Member::currentUser();
-        $filter = sprintf("\"SilvercartShoppingCartID\" = '%s'", $member->SilvercartShoppingCartID);
         $silvercartShoppingCart = $member->SilvercartShoppingCart();
         $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
         $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
-        $shoppingCartPositions = DataObject::get('SilvercartShoppingCartPosition', $filter);
+        $shoppingCartPositions = SilvercartShoppingCartPosition::get()->filter('SilvercartShoppingCartID', $member->SilvercartShoppingCartID);
 
-        if ($shoppingCartPositions) {
+        if ($shoppingCartPositions->exists()) {
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
                 $product = $shoppingCartPosition->SilvercartProduct();
 

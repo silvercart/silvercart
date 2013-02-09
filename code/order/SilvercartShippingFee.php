@@ -237,7 +237,7 @@ class SilvercartShippingFee extends DataObject {
                 "",
                 "LEFT JOIN \"SilvercartZone_SilvercartCarriers\" ON (\"SilvercartZone\".\"ID\" = \"SilvercartZone_SilvercartCarriers\".\"SilvercartZoneID\")"
         );
-        if ($zones) {
+        if ($zones->exists()) {
             $zonesField = new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),

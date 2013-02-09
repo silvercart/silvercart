@@ -147,7 +147,7 @@ class SilvercartRating extends DataObject {
      */
     public static function calculateAverageRatingGrade($className, $precision = 2, $filter = null) {
         $ratings = DataObject::get($className, $filter);
-        if ($ratings) {
+        if ($ratings->exists()) {
                 $ratingGradesSum = 0;
                 foreach ($ratings as $rating) {
                     $ratingGradesSum += $rating->RatingGrade;

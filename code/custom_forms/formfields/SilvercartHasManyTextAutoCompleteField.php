@@ -57,7 +57,7 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
             $fieldname = $this->name;
             $controller = $this->getController();
             $relations = $controller->$fieldname();
-            if ($relations->count() > 0) {
+            if ($relations->exists()) {
                 $values = array();
                 foreach ($relations as $dataObject) {
                     $attribute = $this->getAutoCompleteSourceAttribute();

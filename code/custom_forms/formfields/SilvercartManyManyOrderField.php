@@ -240,7 +240,7 @@ class SilvercartManyManyOrderField extends DropdownField {
             $this->belongsManyManyClass
         );
 
-        if ($items) {
+        if ($items->exists()) {
             foreach ($items as $item) {
                 $itemArray[] = array(
                     $item->ID,

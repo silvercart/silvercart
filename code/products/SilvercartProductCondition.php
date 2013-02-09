@@ -120,11 +120,9 @@ class SilvercartProductCondition extends DataObject {
      */
     public static function getDropdownFieldOptionSet() {
         $productConditionMap    = array();
-        $productConditions      = DataObject::get(
-            'SilvercartProductCondition'
-        );
+        $productConditions      = SilvercartProductCondition::get();
         
-        if ($productConditions) {
+        if ($productConditions->exists()) {
             $productConditionMap = $productConditions->map('ID', 'Title');
         }
         

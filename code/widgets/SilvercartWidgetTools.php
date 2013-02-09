@@ -560,22 +560,22 @@ class SilvercartWidgetTools extends Object {
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
         if ($widget->Elements() instanceof SS_List &&
-            $widget->Elements()->count() > 0) {
+            $widget->Elements()->exists()) {
             $productMap             = $widget->Elements()->map('ID', 'LastEdited');
             if (!is_array($productMap)) {
                 $productMap = array();
             }
-            if ($widget->Elements()->count() > 0 &&
+            if ($widget->Elements()->exists() &&
                 (empty($productMap) ||
                 (count($productMap) == 1 &&
                 array_key_exists('', $productMap)))) {
-                $productMap = array();
-                foreach ($widget->Elements() as $page) {
-                    $productMap = array_merge(
-                            $productMap,
-                            $page->Elements->map('ID', 'LastEdited')
-                    );
-                }
+//                $productMap = array();
+//                foreach ($widget->Elements() as $page) {
+//                $productMap = array_merge( 
+//                       $productMap,
+//                            $page->Elements->map('ID', 'LastEdited')
+//                );
+//            }
             }
             $productMapIDs          = implode('_', array_keys($productMap));
             sort($productMap);

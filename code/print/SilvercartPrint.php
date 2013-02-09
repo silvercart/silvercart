@@ -63,8 +63,8 @@ class SilvercartPrint {
      */
     public static function getPrintURLForMany($dataObjectSet) {
         $printURL = '';
-        if ($dataObjectSet instanceof ArrayList) {
-            $dataObject = $dataObjectSet->First();
+        if ($dataObjectSet instanceof SS_List) {
+            $dataObject = $dataObjectSet->first();
             if ($dataObject instanceof DataObject) {
                 $printURL = sprintf(
                         'silvercart-print-many/%s/%s',

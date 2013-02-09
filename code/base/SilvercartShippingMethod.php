@@ -308,27 +308,20 @@ class SilvercartShippingMethod extends DataObject {
         if ($shippingCountry) {
             $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
-            if ($zones->count() > 0) {
+            if ($zones->exists()) {
                 $zoneMap            = $zones->map('ID','ID');
                 $zoneIDs            = $zoneMap->toArray();
                 $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
-                $fees               = DataObject::get(
-                    'SilvercartShippingFee',
-                    sprintf(
-                        "\"SilvercartShippingMethodID\" = '%s' AND (\"MaximumWeight\" >= %d OR \"UnlimitedWeight\" = 1) AND \"SilvercartZoneID\" IN (%s)",
-                        $this->ID,
-                        $weight,
-                        $zoneIDsAsString
-                    ),
-                    'PriceAmount'
-                );
-
-                if ($fees) {
-                    $fee = $fees->First();
+                $filter = array("SilvercartShippingMethodID" => $this->ID,  "UnlimitedWeight" => 1, "SilvercartZoneID" => $zoneIDsAsString);
+                $fees = SilvercartShippingFee::get()
+                                                ->filter($filter)
+                                                ->where("\"MaximumWeight\" >= $weight")
+                                                ->sort('PriceAmount');
+                if ($fees->exists()) {
+                    $fee = $fees->first();
                 }
             }
         }
-        
         return $fee;
     }
     
@@ -527,7 +520,7 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @param SilvercartCarrier $carrier Carrier to get shipping methods for
      *
-     * @return ArrayList
+     * @return SS_List
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
@@ -543,8 +536,8 @@ class SilvercartShippingMethod extends DataObject {
         
         $customerGroups = SilvercartCustomer::getCustomerGroups();
         if ($customerGroups &&
-            $customerGroups instanceof ArrayList &&
-            $customerGroups->count() > 0) {
+            $customerGroups instanceof SS_List &&
+            $customerGroups->exists()) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
             $filter = sprintf(
                 "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
@@ -602,7 +595,7 @@ class SilvercartShippingMethod extends DataObject {
         
         $shippingFees = new ArrayList();
         
-        if ($shippingMethods) {
+        if ($shippingMethods->exists()) {
             foreach ($shippingMethods as $shippingMethod) {
                 $shippingMethod->setShippingCountry($country);
                 $shippingFee = $shippingMethod->getShippingFee($product->Weight);

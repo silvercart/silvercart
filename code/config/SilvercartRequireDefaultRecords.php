@@ -875,14 +875,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         );
         
         $translationLocale = $this->getTranslationLocale();
-        $pages = DataObject::get(
-                'SiteTree',
-                sprintf(
-                    "\"ParentID\" = '%s'",
-                    $parentID
-                )
-        );
-        if ($pages) {
+        $pages = SiteTree::get()->filter("ParentID", $parentID);
+        if ($pages->exists()) {
             foreach ($pages as $page) {
                 if (!$page->getTranslation($translationLocale)) {
                     $translation = $page->createTranslation($translationLocale);
@@ -935,15 +929,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function publishSiteTree($parentID = 0) {
         $translationLocale = $this->getTranslationLocale();
-        $pages = DataObject::get(
-                'SiteTree',
-                sprintf(
-                    "\"ParentID\" = '%s' AND \"Locale\" = '%s'",
-                    $parentID,
-                    $translationLocale
-                )
-        );
-        if ($pages) {
+        $pages = SiteTree::get()->filter(array("ParentID" => $parentID, "Locale" => $translationLocale));
+        if ($pages->exists()) {
             foreach ($pages as $page) {
                 $page->publish("Stage", "Live");
                 $this->publishSiteTree($page->ID);

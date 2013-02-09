@@ -504,14 +504,10 @@ class SilvercartProductGroupPage extends Page {
             $breadcrumbList = unserialize($breadcrumbList);
         } else {
             $breadcrumbList         = array();
-            $googleMerchantTaxonomy = DataObject::get(
-                'SilvercartGoogleMerchantTaxonomy'
-            );
+            $googleMerchantTaxonomy = SilvercartGoogleMerchantTaxonomy::get();
             
-            if ($googleMerchantTaxonomy) {
-                $breadcrumbList = DataObject::get(
-                    'SilvercartGoogleMerchantTaxonomy'
-                )->map('ID', 'BreadCrumb');
+            if ($googleMerchantTaxonomy->exists()) {
+                $breadcrumbList = SilvercartGoogleMerchantTaxonomy::get()->map('ID', 'BreadCrumb');
             }
             
             $cache->save(serialize($breadcrumbList));
@@ -1799,7 +1795,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $productMapLastEdited   = '';
             $groupIDs               = '';
 
-            if ($products instanceof ArrayList &&
+            if ($products instanceof SS_List &&
                 $products->count() > 0) {
                 $productMap = $this->getProducts()->map('ID', 'LastEdited');
                 if (!is_array($productMap)) {

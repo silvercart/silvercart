@@ -182,7 +182,7 @@ class SilvercartCustomer extends DataExtension {
         $address = singleton('SilvercartAddress');
         
         $addressesCountryFilter = array();
-        if ($this->owner->SilvercartAddresses()->count() > 0) {
+        if ($this->owner->SilvercartAddresses()->exists()) {
             $addressesCountryFilter = array(
                 'SilvercartAddresses.first.SilvercartCountry' => array(
                     'title'     => $address->fieldLabel('SilvercartCountry'),
@@ -558,9 +558,7 @@ class SilvercartCustomer extends DataExtension {
         if ($customer) {
             $customerGroups = $customer->Groups();
         } else {
-            $customerGroups = DataObject::get(
-                'Group', "\"Code\" = 'anonymous'"
-            );
+            $customerGroups = Group::get()->filter("Code", "anonymous");
         }
         return $customerGroups;
     }

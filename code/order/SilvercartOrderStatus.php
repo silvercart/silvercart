@@ -251,9 +251,7 @@ class SilvercartOrderStatus extends DataObject {
      * @since 23.11.2010
      */
     public static function getStatusList() {
-        $statusList = DataObject::get(
-            'SilvercartOrderStatus'
-        );
+        $statusList = SilvercartOrderStatus::get();
 
         return $statusList;
     }

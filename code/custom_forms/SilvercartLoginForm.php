@@ -112,7 +112,7 @@ class SilvercartLoginForm extends CustomHtmlForm {
                 //transfer cart positions from an anonymous user to the one logging in
                 $anonymousCustomer = SilvercartCustomer::currentAnonymousCustomer();
                 if ($anonymousCustomer) {
-                    if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->count() > 0) {
+                    if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->exists()) {
                         //delete registered customers cart positions
                         if ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()) {
                             foreach ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {

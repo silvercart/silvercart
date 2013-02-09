@@ -153,7 +153,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @since 31.03.2011
      */
     public function preferences() {
-        $paymentMethods = DataObject::get('SilvercartPaymentMethod', "\"isActive\" = 1");
+        $paymentMethods = SilvercartPaymentMethod::get()->filter("isActive", 1);
         $stepIsVisible  = true;
         if ($paymentMethods->count() === 1) {
             $stepIsVisible = false;
@@ -192,9 +192,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         if (isset($stepData['PaymentMethod'])) {
             $this->formFields['PaymentMethod']['selectedValue'] = $stepData['PaymentMethod'];
         } else {
-            if (isset($allowedPaymentMethods) &&
-                $allowedPaymentMethods &&
-                $allowedPaymentMethods->count() > 0) {
+            if ($allowedPaymentMethods &&
+                $allowedPaymentMethods->exists()) {
                 $this->formFields['PaymentMethod']['selectedValue'] = $allowedPaymentMethods->First()->ID;
             }
         }
@@ -293,11 +292,11 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
     /**
      * Sets the allowed payment methods.
      *
-     * @param ArrayList|Boolean $allowedPaymentMethods Allowed payment method
+     * @param SS_List|Boolean $allowedPaymentMethods Allowed payment method
      * 
      * @return void
      */
-    public function setAllowedPaymentMethods(ArrayList $allowedPaymentMethods) {
+    public function setAllowedPaymentMethods(SS_List $allowedPaymentMethods) {
         $this->allowedPaymentMethods = $allowedPaymentMethods;
     }
     

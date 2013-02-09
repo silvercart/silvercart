@@ -216,20 +216,14 @@ class SilvercartLatestBlogPostsWidget_Controller extends WidgetSetWidget_Control
      * Returns a configured number of blog posts.
      * Returns false if the blog module is not installed
      *
-     * @return DataList
+     * @return DataList|false returns false if the blog module is not installed. DataList may be empty
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.08.2011
      */
     public function BlogPosts() {
         if (class_exists('BlogEntry')) {
-            $blogEntries = DataObject::get(
-                'BlogEntry',
-                '',
-                'Sort DESC',
-                '',
-                $this->numberOfPostsToShow
-            );
+            $blogEntries = BlogEntry::get()->sort(array('Sort' => 'ASC'))->limit($this->numberOfPostsToShow);
 
             return $blogEntries;
         }

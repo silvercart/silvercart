@@ -302,7 +302,7 @@ class SilvercartTextAutoCompleteField extends TextField {
         $dataObjectSet = DataObject::get($this->getAutoCompleteSourceDataObject());
         $autoCompleteList = array();
         $attribute = $this->getAutoCompleteSourceAttribute();
-        if ($dataObjectSet) {
+        if ($dataObjectSet->exists()) {
             foreach ($dataObjectSet as $dataObject) {
                 if (is_array($attribute)) {
                     $listEntries = array();

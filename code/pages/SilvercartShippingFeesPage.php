@@ -90,12 +90,12 @@ class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHold
     /**
      * get all carriers; for the frontend
      *
-     * @return DataList all carrier objects
+     * @return DataList all carriers or empty DataList
      * @since 18.11.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function Carriers() {
-        $carriers = DataObject::get('SilvercartCarrier');
+        $carriers = SilvercartCarrier::get();
         return $carriers;
     }
 }

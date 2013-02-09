@@ -114,9 +114,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         if ($shippingMethods->count() === 1) {
             $stepIsVisible = false;
         } elseif ($shippingMethods->count() === 0) {
-            $shippingMethods = DataObject::get('SilvercartShippingMethod');
-            if ($shippingMethods instanceof ArrayList &&
-                $shippingMethods->count() === 1) {
+            $shippingMethods = SilvercartShippingMethod::get();
+            if ($shippingMethods->count() === 1) {
                 $stepIsVisible = false;
             }
         }
@@ -167,7 +166,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         } else {
             if (isset($shippingMethods) &&
                 $shippingMethods &&
-                $shippingMethods->count() > 0) {
+                $shippingMethods->exists()) {
                 $this->formFields['ShippingMethod']['selectedValue'] = $shippingMethods->First()->ID;
             }
         }

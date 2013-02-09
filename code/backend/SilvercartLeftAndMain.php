@@ -227,7 +227,7 @@ class SilvercartLeftAndMain extends DataExtension {
                 $groupedModelAdmins->push($modelAdmin);
             }
 
-            if ($groupedModelAdmins->count() > 0) {
+            if ($groupedModelAdmins->exists()) {
                 $silvercartMenus->push(
                     new DataObject(
                         array(

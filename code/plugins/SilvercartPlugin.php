@@ -331,7 +331,7 @@ class SilvercartPlugin extends Object {
         
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $extensionResult) {
-                if ($extensionResult instanceof ArrayList) {
+                if ($extensionResult instanceof SS_List) {
                     $result->merge($extensionResult);
                 } else {
                     $result->push($extensionResult);

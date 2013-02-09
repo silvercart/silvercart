@@ -300,7 +300,7 @@ class SilvercartZone extends DataObject {
      *
      * @param int $countryID ID of the country to get zones for
      * 
-     * @return ComponentSet
+     * @return DataList
      */
     public static function getZonesFor($countryID) {
         return self::get()
@@ -327,7 +327,7 @@ class SilvercartZone extends DataObject {
     public function hasAllCountries() {
         /* @var $countries ArrayList */
         $countries          = $this->SilvercartCountries();
-        $availableCountries = DataObject::get('SilvercartCountry', "\"Active\" = 1");
+        $availableCountries = SilvercartCountry::get()->filter("Active", 1);
         $hasAllCountries    = true;
         foreach ($availableCountries as $availableCountry) {
             if (!$countries->find('ID', $availableCountry->ID)) {

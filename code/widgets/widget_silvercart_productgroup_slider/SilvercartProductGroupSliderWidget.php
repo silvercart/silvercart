@@ -166,17 +166,13 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
     /**
      * Returns all product groups
      *
-     * @return DataList
+     * @return DataList may be empty
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.12.2011
      */
     public function getProductGroups() {
-        $productGroups = DataObject::get(
-            'SilvercartProductGroupPage',
-            'ShowInMenus = 1'
-        );
-        
+        $productGroups = SilvercartProductGroupPage::get()->filter('ShowInMenus', 1);
         return $productGroups;
     }
     
@@ -229,12 +225,9 @@ class SilvercartProductGroupSliderWidget_Controller extends WidgetSetWidget_Cont
      */
     public function init() {
         $productGroups          = array();
-        $productGroupObjects    = DataObject::get(
-            'SilvercartProductGroupPage',
-            'ShowInMenus = 1'
-        );
+        $productGroupObjects    = SilvercartProductGroupPage::get()->filter('ShowInMenus', 1);
         
-        if ($productGroupObjects) {
+        if ($productGroupObjects->exists()) {
             foreach ($productGroupObjects as $productGroupObject) {
                 $groupPictureURL        = '';
                 $groupPictureThumbURL   = '';

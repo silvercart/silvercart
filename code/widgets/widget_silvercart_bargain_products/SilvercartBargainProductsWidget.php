@@ -329,7 +329,7 @@ class SilvercartBargainProductsWidget_Controller extends WidgetSetWidget_Control
     /**
      * Returns a number of bargain products.
      * 
-     * @return ArrayList
+     * @return SS_List
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012

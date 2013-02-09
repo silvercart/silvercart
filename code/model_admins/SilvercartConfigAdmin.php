@@ -375,7 +375,7 @@ class SilvercartConfigAdmin_RecordController {
             $deletedImagesBecauseOfMissingImage     = Session::get('cleanDataBase.deletedImagesBecauseOfMissingImage');
             $reAssignedImages                       = Session::get('cleanDataBase.reAssignedImages');
             $silvercartImages = DataObject::get('SilvercartImage', '', '', '', $limit);
-            $silvercartProducts = DataObject::get('SilvercartProduct');
+            $silvercartProducts = SilvercartProduct::get();
 
             foreach ($silvercartImages as $silvercartImage) {
                 if ($silvercartImage->SilvercartProductID != 0) {

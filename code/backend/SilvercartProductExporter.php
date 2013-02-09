@@ -717,7 +717,7 @@ class SilvercartProductExporter extends DataObject {
             );
         }
         if ($this->selectOnlyProductsOfRelatedGroups &&
-            $this->SilvercartProductGroupPages()->count() > 0) {
+            $this->SilvercartProductGroupPages()->exists()) {
             $productGroups  = $this->SilvercartProductGroupPages();
             $productIDs     = array();
             foreach ($productGroups as $productGroup) {

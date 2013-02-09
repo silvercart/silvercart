@@ -92,8 +92,8 @@ class SilvercartSiteMapPage_Controller extends SilvercartMetaNavigationHolder_Co
      */
     public function SiteMap() {
         $siteMap                = '';
-        $productGroupHolders    = DataObject::get('SilvercartProductGroupHolder',   "ClassName = 'SilvercartProductGroupHolder'");
-        $metaNavigationHolders  = DataObject::get('SilvercartMetaNavigationHolder', "ClassName = 'SilvercartMetaNavigationHolder'");
+        $productGroupHolders    = SilvercartProductGroupHolder::get()->filter('ClassName', 'SilvercartProductGroupHolder');
+        $metaNavigationHolders  = SilvercartMetaNavigationHolder::get()->filter('ClassName', 'SilvercartMetaNavigationHolder');
         
         foreach ($productGroupHolders as $productGroupHolder) {
             $siteMap .= $this->generateSiteMap($productGroupHolder);
