@@ -369,7 +369,7 @@ class SilvercartCustomer extends DataExtension {
      */
     public function getGroupNames() {
         if (is_null($this->groupNames)) {
-            $groupNamesMap      = $this->owner->Groups()->toArray();
+            $groupNamesMap      = $this->owner->Groups()->map()->toArray();
             $groupNamesAsString = implode(', ', $groupNamesMap);
             $this->groupNames   = $groupNamesAsString;
         }
@@ -383,7 +383,7 @@ class SilvercartCustomer extends DataExtension {
      */
     public function getGroupIDs() {
         if (is_null($this->groupIDs)) {
-            $this->groupIDs = $this->owner->Groups()->map('ID','ID');;
+            $this->groupIDs = $this->owner->Groups()->map('ID','ID')->toArray();
         }
         return $this->groupIDs;
     }

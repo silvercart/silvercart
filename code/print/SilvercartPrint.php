@@ -69,7 +69,7 @@ class SilvercartPrint {
                 $printURL = sprintf(
                         'silvercart-print-many/%s/%s',
                         $dataObject->ClassName,
-                        implode('-', $dataObjectSet->map('ID','ID'))
+                        implode('-', $dataObjectSet->map('ID','ID')->toArray())
                 );
             }
         }

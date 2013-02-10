@@ -49,8 +49,7 @@ class SilvercartProductCondition extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'Title'             => 'VarChar(255)',
-        'TableIndicator'    => 'Text'
+        'Title'             => 'VarChar(255)'
     );
 
     /**
@@ -123,7 +122,7 @@ class SilvercartProductCondition extends DataObject {
         $productConditions      = SilvercartProductCondition::get();
         
         if ($productConditions->exists()) {
-            $productConditionMap = $productConditions->map('ID', 'Title');
+            $productConditionMap = $productConditions->map('ID', 'Title')->toArray();
         }
         
         return $productConditionMap;
@@ -184,7 +183,6 @@ class SilvercartProductCondition extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'TableIndicator'    => '',
             'Title'             => $this->fieldLabel('Title'),
         );
         

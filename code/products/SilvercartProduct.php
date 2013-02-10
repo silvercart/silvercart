@@ -497,7 +497,7 @@ class SilvercartProduct extends DataObject {
         $summaryFields = array(
             'ProductNumberShop'                     => $this->fieldLabel('ProductNumberShop'),
             'Title'                                 => $this->singular_name(),
-            //'SilvercartProductGroup.Title'          => $this->fieldLabel('SilvercartProductGroup'),
+            'SilvercartProductGroup.Title'          => $this->fieldLabel('SilvercartProductGroup'),
             'SilvercartManufacturer.Title'          => $this->fieldLabel('SilvercartManufacturer'),
             'SilvercartAvailabilityStatus.Title'    => $this->fieldLabel('SilvercartAvailabilityStatus'),
             'isActiveString'                        => $this->fieldLabel('isActive'),
@@ -1239,31 +1239,13 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForImages($fields) {
+        $config = new GridFieldConfig_RelationEditor();
         $silvercartImageField = new GridField(
                 'SilvercartImages',
-                'SilvercartImage',
-                $this->SilvercartImages()
+                $this->fieldLabel('SilvercartImages'),
+                $this->SilvercartImages(),
+                $config
         );
-        /**
-        $silvercartImageField = new ComplexTableField(
-                $this,
-                'SilvercartImages',
-                'SilvercartImage',
-                null,
-                'getCMSFieldsForProduct',
-                sprintf(                 
-                        "\"SilvercartImage\".\"SilvercartProductID\" = '%s'",
-                        $this->ID
-                )
-        );
-        $silvercartImageField->setPermissions(
-                array(
-                    'add',
-                    'edit',
-                    'delete',
-                )
-        );
-        /**/
         $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageField);
     }
 
@@ -1275,31 +1257,13 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForFiles($fields) {
+        $config = new GridFieldConfig_RelationEditor();
         $silvercartFileField = new GridField(
                 'SilvercartFiles',
-                'SilvercartFile',
-                $this->SilvercartFiles()
+                $this->fieldLabel('SilvercartFiles'),
+                $this->SilvercartFiles(),
+                $config
         );
-        /**
-        $silvercartFileField = new ComplexTableField(
-                $this,
-                'SilvercartFiles',
-                'SilvercartFile',
-                null,
-                'getCMSFieldsForProduct',
-                sprintf(
-                        "\"SilvercartFile\".\"SilvercartProductID\" = '%s'",
-                        $this->ID
-                )
-        );
-        $silvercartFileField->setPermissions(
-                array(
-                    'add',
-                    'edit',
-                    'delete',
-                )
-        );
-        /**/
         $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
     }
 

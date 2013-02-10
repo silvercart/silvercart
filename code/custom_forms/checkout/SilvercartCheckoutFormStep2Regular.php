@@ -157,9 +157,9 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlForm {
                     $member->SilvercartInvoiceAddress()->ID => $member->SilvercartInvoiceAddress()->ID
                 );
             } else {
-                $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->toArray();
+                $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->map()->toArray();
             }
-            $this->formFields['ShippingAddress']['value'] = $member->SilvercartAddresses()->toArray();
+            $this->formFields['ShippingAddress']['value'] = $member->SilvercartAddresses()->map()->toArray();
             if ($member->SilvercartInvoiceAddress()) {
                 $this->formFields['InvoiceAddress']['selectedValue'] = $member->SilvercartInvoiceAddress()->ID;
             }

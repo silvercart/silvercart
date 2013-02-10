@@ -63,8 +63,6 @@ class SilvercartImage extends DataObject {
         'Title'          => 'VarChar',
         'Content'        => 'HTMLText',
         'Description'    => 'HTMLText',
-        'TableIndicator' => 'Text',
-        'Thumbnail'      => 'HTMLText'
     );
     
     /**
@@ -295,7 +293,6 @@ class SilvercartImage extends DataObject {
                 'Title'                     => _t('SilvercartImage.TITLE'),
                 'Content'                   => _t('SilvercartImage.CONTENT'),
                 'Description'               => _t('SilvercartImage.DESCRIPTION'),
-                'TableIndicator'            => _t('Silvercart.TABLEINDICATOR'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
                 'Image'                     => _t('Image.SINGULARNAME'),
             )
@@ -315,9 +312,8 @@ class SilvercartImage extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Thumbnail'      => $this->fieldLabel('Thumbnail'),
-            'Title'          => $this->fieldLabel('Title'),
-            'TableIndicator' => $this->fieldLabel('TableIndicator'),
+            'Image.StripThumbnail' => $this->fieldLabel('Thumbnail'),
+            'Title'                => $this->fieldLabel('Title')
         );
 
         $this->extend('updateSummaryFields', $summaryFields);
@@ -369,28 +365,6 @@ class SilvercartImage extends DataObject {
             $link = $this->SilvercartProduct()->Link();
         }
         return $link;
-    }
-
-    /**
-     * Returns the URL to a thumbnail if an image is assigned.
-     *
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2012
-     */
-    public function getThumbnail() {
-        $thumbnail = '';
-
-        if ($this->ImageID > 0) {
-            $image     = $this->Image()->SetRatioSize(50, 50);
-            
-            if ($image) {
-                $thumbnail = $image->getTag();
-            }
-        }
-
-        return $thumbnail;
     }
     
     /**

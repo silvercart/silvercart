@@ -288,7 +288,7 @@ class SilvercartZone extends DataObject {
      */
     public function getSilvercartCarriersAsString() {
         $silvercartCarriersAsString    = '---';
-        $silvercartCarriersAsArray     = $this->SilvercartCarriers()->toArray();
+        $silvercartCarriersAsArray     = $this->SilvercartCarriers()->map()->toArray();
         if (count($silvercartCarriersAsArray) > 0 && is_array($silvercartCarriersAsArray)) {
             $silvercartCarriersAsString = implode(',', $silvercartCarriersAsArray);
         }

@@ -317,19 +317,8 @@ class SilvercartCountry extends DataObject {
                     ),
                 )
         );
-        $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartZones');
-        $fields->removeByName('Locale');//Field comes from Translatable
-
-        $config = GridFieldConfig_RelationEditor::create(100);
-        $paymentMethodsTable = new GridField(
-            'SilvercartPaymentMethods',
-             $this->fieldLabel('SilvercartPaymentMethods'),
-             SilvercartPaymentMethod::get(),
-             $config
-        );
-        $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
-        $fields->addFieldToTab($tabParam, $paymentMethodsTable);
+        $fields->removeByName('Locale');//Field comes from Translatable and is not needed
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
@@ -555,7 +544,7 @@ class SilvercartCountry extends DataObject {
             }
             if (self::getPrioritiveCountryCount() > 0) {
                 $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
-                foreach ($prioritiveCountries->toArray() as $id => $title) {
+                foreach ($prioritiveCountries->map()->toArray() as $id => $title) {
                     $dropdownMap[$id] = $title;
                 }
             }
@@ -565,7 +554,7 @@ class SilvercartCountry extends DataObject {
                     $dropdownMap[' '] = '------------------------';
                 }
                 $nonPrioritiveCountries = self::getNonPrioritiveCountries($onlyActive);
-                foreach ($nonPrioritiveCountries->toArray() as $id => $title) {
+                foreach ($nonPrioritiveCountries->map()->toArray() as $id => $title) {
                     $dropdownMap[$id] = $title;
                 }
             }

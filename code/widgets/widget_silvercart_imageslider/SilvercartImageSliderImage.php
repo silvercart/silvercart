@@ -41,7 +41,6 @@ class SilvercartImageSliderImage extends DataObject {
      */
     public static $casting = array(
         'Title'          => 'VarChar',
-        'TableIndicator' => 'Text',
         'Thumbnail'      => 'HTMLText'
     );
     
@@ -154,7 +153,6 @@ class SilvercartImageSliderImage extends DataObject {
         $summaryFields = array(
             'Thumbnail'      => $this->fieldLabel('Thumbnail'),
             'Title'          => $this->fieldLabel('Title'),
-            'TableIndicator' => ''
         );
 
 

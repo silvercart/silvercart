@@ -51,8 +51,7 @@ class SilvercartQuantityUnit extends DataObject {
      */
     public static $casting = array(
         'Title'          => 'Text',
-        'Abbreviation'   => 'Text',
-        'TableIndicator' => 'Text',
+        'Abbreviation'   => 'Text'
     );
     
     /**
@@ -152,7 +151,6 @@ class SilvercartQuantityUnit extends DataObject {
         return array_merge(
             parent::summaryFields(),
             array(
-                'TableIndicator'    => '',
                 'Title'             => $this->fieldLabel('Title'),
                 'Abbreviation'      => $this->fieldLabel('Abbreviation'),
             )

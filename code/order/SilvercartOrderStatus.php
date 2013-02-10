@@ -175,7 +175,6 @@ class SilvercartOrderStatus extends DataObject {
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
-        $fields->removeByName('SilvercartShopEmails');
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
@@ -189,19 +188,7 @@ class SilvercartOrderStatus extends DataObject {
                 $this->fieldLabel('ShopEmailLabelField')
             )
         );
-        
-        $config = GridFieldConfig_RelationEditor::create(100);
-        $shopEmailField = new GridField(
-                                'SilvercartShopEmails',
-                                $this->fieldLabel('ShopEmails'),
-                                SilvercartShopEmail::get(),
-                                $config
-                              );
-
-        $fields->findOrMakeTab('Root.shopEmails', $this->fieldLabel('ShopEmailsTab'));
-        
-        $fields->addFieldToTab('Root.shopEmails', $shopEmailLabelField);
-        $fields->addFieldToTab('Root.shopEmails', $shopEmailField);
+        $fields->addFieldToTab('Root.SilvercartShopEmails', $shopEmailLabelField, 'SilvercartShopEmails');
 
         $this->extend('updateCMSFields', $fields);
 

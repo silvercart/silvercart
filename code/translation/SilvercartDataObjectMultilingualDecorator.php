@@ -254,6 +254,7 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
      * helper attribute for table fields
      *
      * @return string
+     * @deprecated since version 2.0 we do not need this value for the grid field any more.
      */
     public function getTableIndicator() {
         return _t('SilvercartConfig.OPEN_RECORD');

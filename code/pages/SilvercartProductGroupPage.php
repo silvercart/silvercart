@@ -507,7 +507,7 @@ class SilvercartProductGroupPage extends Page {
             $googleMerchantTaxonomy = SilvercartGoogleMerchantTaxonomy::get();
             
             if ($googleMerchantTaxonomy->exists()) {
-                $breadcrumbList = SilvercartGoogleMerchantTaxonomy::get()->map('ID', 'BreadCrumb');
+                $breadcrumbList = SilvercartGoogleMerchantTaxonomy::get()->map('ID', 'BreadCrumb')->toArray();
             }
             
             $cache->save(serialize($breadcrumbList));
@@ -1003,7 +1003,7 @@ class SilvercartProductGroupPage extends Page {
                             array(
                                 utf8_decode($this->Title)
                             ),
-                            $products->toArray()
+                            $products->map()->toArray()
                         )
                 );
             }
@@ -1063,7 +1063,7 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getProductsOnPagesString() {
         $products = $this->getProducts();
-        if ($products->count() == 1) {
+        if ($products->exists()) {
             $singularOrPlural = 'PRODUCT_ON_PAGE';
         } elseif ($products->TotalPages() == 1) {
             $singularOrPlural = 'PRODUCTS_ON_PAGE';
@@ -1093,12 +1093,12 @@ class SilvercartProductGroupPage extends Page {
         $widgetSet = $this->getManyManyComponents($widgetSetName);
         $parent    = $this->getParent();
 
-        if ($widgetSet->count() == 0 &&
+        if ($widgetSet->exists() &&
             $parent &&
             ($parent instanceof SilvercartProductGroupPage ||
              $parent instanceof SilvercartProductGroupHolder) &&
             array_key_exists($widgetSetName, $parent->many_many()) &&
-            $parent->$widgetSetName()->count() > 0) {
+            $parent->$widgetSetName()->exists()) {
 
             $widgetSet = $parent->$widgetSetName();
         }
@@ -1797,7 +1797,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
             if ($products instanceof SS_List &&
                 $products->count() > 0) {
-                $productMap = $this->getProducts()->map('ID', 'LastEdited');
+                $productMap = $this->getProducts()->map('ID', 'LastEdited')->toArray();
                 if (!is_array($productMap)) {
                     $productMap = array();
                 }

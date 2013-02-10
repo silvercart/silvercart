@@ -561,7 +561,7 @@ class SilvercartWidgetTools extends Object {
         $key                    = '';
         if ($widget->Elements() instanceof SS_List &&
             $widget->Elements()->exists()) {
-            $productMap             = $widget->Elements()->map('ID', 'LastEdited');
+            $productMap             = $widget->Elements()->map('ID', 'LastEdited')->toArray();
             if (!is_array($productMap)) {
                 $productMap = array();
             }
@@ -573,7 +573,7 @@ class SilvercartWidgetTools extends Object {
 //                foreach ($widget->Elements() as $page) {
 //                $productMap = array_merge( 
 //                       $productMap,
-//                            $page->Elements->map('ID', 'LastEdited')
+//                            $page->Elements->map('ID', 'LastEdited')->toArray()
 //                );
 //            }
             }

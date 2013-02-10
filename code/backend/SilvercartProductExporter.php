@@ -724,7 +724,7 @@ class SilvercartProductExporter extends DataObject {
                 $products   = $productGroup->getProducts(false, false, true);
                 $productIDs = array_merge(
                         $productIDs,
-                        $products->map('ID','ID')
+                        $products->map('ID','ID')->toArray()
                 );
             }
             if (count($productIDs) > 0) {

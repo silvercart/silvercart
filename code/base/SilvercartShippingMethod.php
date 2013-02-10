@@ -241,26 +241,31 @@ class SilvercartShippingMethod extends DataObject {
         $fields->removeByName('SilvercartCountries');
         $fields->removeByName('SilvercartPaymentMethods');
         $fields->removeByName('SilvercartOrders');
-        $fields->removeByName('SilvercartZones');
 
-        if ($this->ID > 0) {
+        if ($this->isInDB()) {
+            
             $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
-
-            $config = GridFieldConfig_RelationEditor::create();
-            $zonesTable = new GridField(
-                    'SilvercartZones',
-                    'SilvercartZones',
-                    SilvercartZone::get(),
-                    $config
-            );
-            $fields->findOrMakeTab('Root.SilvercartZones', $this->fieldLabel('SilvercartZones'));
-            $fields->addFieldToTab('Root.SilvercartZones', $zonesTable);
+            $feesTableConfig = GridFieldConfig_RelationEditor::create();
+            $exportColumsArray = array(
+                            'ID',
+                            'MaximumWeight',
+                            'UnlimitedWeight',
+                            'PriceAmount',
+                            'PriceCurrency',
+                            'SilvercartZoneID',
+                            'SilvercartShippingMethodID',
+                            'SilvercartTaxID',
+                        );
+            $exportButton = new GridFieldExportButton();
+            $exportButton->setExportColumns($exportColumsArray);
+            $feesTableConfig->addComponent($exportButton);
+            $feeTable->setConfig($feesTableConfig);
             
             $groupsTable = new GridField(
                     'SilvercartCustomerGroups',
-                    'SilvercartCustomerGroups',
-                    Group::get(),
-                    $config
+                    $this->fieldLabel('SilvercartCustomerGroups'),
+                    $this->SilvercartCustomerGroups(),
+                    GridFieldConfig_RelationEditor::create()
             );
             $fields->findOrMakeTab('Root.SilvercartCustomerGroups', $this->fieldLabel('SilvercartCustomerGroups'));
             $fields->addFieldToTab('Root.SilvercartCustomerGroups', $groupsTable);
@@ -538,7 +543,7 @@ class SilvercartShippingMethod extends DataObject {
         if ($customerGroups &&
             $customerGroups instanceof SS_List &&
             $customerGroups->exists()) {
-            $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID'));
+            $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID')->toArray());
             $filter = sprintf(
                 "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
                 $customerGroupIDs,

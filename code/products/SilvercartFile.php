@@ -54,7 +54,6 @@ class SilvercartFile extends DataObject {
     public static $casting = array(
         'Title'             => 'VarChar',
         'Description'       => 'HTMLText',
-        'TableIndicator'    => 'VarChar',
         'FileIcon'          => 'HTMLText',
     );
     
@@ -137,8 +136,12 @@ class SilvercartFile extends DataObject {
             array(
                 'Title'                     => _t('SilvercartFile.TITLE'),
                 'FileIcon'                  => _t('SilvercartFile.FILEICON'),
-                'TableIndicator'            => _t('SilvercartFile.TABLE_INDICATOR'),
                 'SilvercartFileLanguages'   => _t('SilvercartFileLanguage.PLURALNAME'),
+                'SilvercartProduct'         => _t('SilvercartProduct.SINGULARNAME'),
+                'File'                      => _t('File.SINGULARNAME'),
+                'SilvercartDownloadPage'    => _t('SilvercartDownloadPage.SINGULARNAME'),
+                'Description'               => _t('SilvercartFile.DESCRIPTION'),
+                
             )
         );
 
@@ -158,7 +161,6 @@ class SilvercartFile extends DataObject {
         $summaryFields = array(
             'FileIcon'       => $this->fieldLabel('FileIcon'),
             'Title'          => $this->fieldLabel('Title'),
-            'TableIndicator' => $this->fieldLabel('TableIndicator'),
         );
 
 

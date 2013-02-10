@@ -186,6 +186,18 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         return $canView;
     }
+    
+    /**
+     * Order should not be created via backend
+     *
+     * @return false 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2012
+     */
+    public function canCreate($member = null) {
+        return false;
+    }
 
     /**
      * Indicates wether the current user can edit this object.
@@ -659,7 +671,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Packstation',          $address->fieldLabel('PackstationPlain'),   $this->SilvercartShippingAddress()->Packstation));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->SilvercartShippingAddress()->Postcode));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__City',                 $address->fieldLabel('City'),               $this->SilvercartShippingAddress()->City));
-            $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            SilvercartCountry::get_active()->toArray(), $this->SilvercartShippingAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map()->toArray(), $this->SilvercartShippingAddress()->SilvercartCountry()->ID));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PhoneAreaCode',        $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartShippingAddress()->PhoneAreaCode));
             $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Phone',                $address->fieldLabel('Phone'),              $this->SilvercartShippingAddress()->Phone));
         }
@@ -676,7 +688,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Packstation',           $address->fieldLabel('PackstationPlain'),   $this->SilvercartInvoiceAddress()->Packstation));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->SilvercartInvoiceAddress()->Postcode));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__City',                  $address->fieldLabel('City'),               $this->SilvercartInvoiceAddress()->City));
-            $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            SilvercartCountry::get_active()->toArray(), $this->SilvercartInvoiceAddress()->SilvercartCountry()->ID));
+            $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            SilvercartCountry::get_active()->map()->toArray(), $this->SilvercartInvoiceAddress()->SilvercartCountry()->ID));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PhoneAreaCode',         $address->fieldLabel('PhoneAreaCode'),      $this->SilvercartInvoiceAddress()->PhoneAreaCode));
             $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Phone',                 $address->fieldLabel('Phone'),              $this->SilvercartInvoiceAddress()->Phone));
         }

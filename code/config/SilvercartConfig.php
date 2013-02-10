@@ -239,6 +239,19 @@ class SilvercartConfig extends DataObject {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
+    
+    /**
+     * There is only one config object which is created on installation.
+     * This method disables creation of config objects in the modeladmin.
+     *
+     * @return false 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 09.02.2013
+     */
+    public function canCreate($member = null) {
+        return false;
+    }
 
     /**
      * Indicates that the config is translatable
