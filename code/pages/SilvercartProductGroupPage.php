@@ -991,21 +991,23 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 11.02.2013
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
                 $products = $this->getProducts();
-                $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
-                        array_merge(
-                            array(
-                                utf8_decode($this->Title)
-                            ),
-                            $products->map()->toArray()
-                        )
-                );
+                if ($products->count() > 0) {
+                    $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
+                            array_merge(
+                                array(
+                                    utf8_decode($this->Title)
+                                ),
+                                $products->map()->toArray()
+                            )
+                    );
+                }
             }
             $this->extend('updateMetaDescription', $metaDescription);
         }
