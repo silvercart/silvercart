@@ -1373,7 +1373,6 @@ de:
     PROTOCLOFORLINKS: "Protokoll für Links"
     SINGULARNAME: "Artikelexport"
   SilvercartProductExportAdmin:
-    MENUTITLE: "Artikelexport"
     PUSH_ENABLED_LABEL: "Push aktivieren"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart Artikelexport"
     TAB_BASIC_SETTINGS: "Grundeinstellungen"
@@ -1386,6 +1385,8 @@ de:
     PLURALNAME: "Preisportal Exporte"
     SINGULARNAME: "Preisportal Export"
     URL: "URL"
+  SilvercartProductExporterAdmin:
+    MENUTITLE: "Preisportal Exporte"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart Anzeige von Produkten aus Unterwarengruppen"
     DESCRIPTION: "Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind."

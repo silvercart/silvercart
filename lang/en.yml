@@ -1372,7 +1372,6 @@ en:
     PROTOCLOFORLINKS: "Protocol for Links"
     SINGULARNAME: "Product exporter"
   SilvercartProductExportAdmin:
-    MENUTITLE: "Product Export"
     PUSH_ENABLED_LABEL: "Enable push"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart product export"
     TAB_BASIC_SETTINGS: "Basic settings"
@@ -1385,6 +1384,8 @@ en:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
+  SilvercartProductExportAdmin:
+    MENUTITLE: "Product Export"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart show products of child productgroups"
     DESCRIPTION: "This widget displays products of a child productgroup if there are no products assigned to the current productgroup."
