@@ -686,7 +686,7 @@ class SilvercartProduct extends DataObject {
                 'ID'                                    => 'ID', //needed for the deeplink feature
                 'SilvercartProductLanguages'            => _t('SilvercartConfig.TRANSLATIONS'),
                 'SilvercartProductGroupItemsWidgets'    => _t('SilvercartProductGroupItemsWidget.TITLE'),
-                'WidgetArea'                            => _t('WidgetArea.SINGULARNAME'),
+                'WidgetArea'                            => _t('SilvercartProduct.WIDGETAREA'),
                 'Prices'                                => _t('SilvercartPrice.PLURALNAME'),
                 'SEO'                                   => _t('Silvercart.SEO'),
                 'SilvercartProductCondition'            => _t('SilvercartProductCondition.SINGULARNAME'),
@@ -1185,6 +1185,7 @@ class SilvercartProduct extends DataObject {
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('StockQuantity'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityOverbookable'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityExpirationDate'));
+        $fields->insertAfter($availabilityGroup, 'LongDescription');
         $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
@@ -2178,23 +2179,6 @@ class SilvercartProduct extends DataObject {
             $this->write();
         }
     }
-    
-    
-    /**
-     * saves the value of the field LongDescription correctly into HTMLText
-     * 
-     * @param string $value the field value
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
-     */
-    public function saveLongDescription($value) {
-        $languageObj = $this->getLanguage(true);
-        $languageObj->LongDescription = $value;
-        $languageObj->write();
-    }
 
     /**
      * Returns the url to a placeholder image.
@@ -2238,14 +2222,14 @@ class SilvercartProduct extends DataObject {
      *
      * @param string $filter An optional sql filter statement
      *
-     * @return mixed ArrayList|false
+     * @return DataList|ArrayList|false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.06.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.02.2013
      */
     public function getSilvercartImages($filter = '') {
         $images = $this->SilvercartImages($filter);
+        $silvercartImages = false;
 
         $this->extend('updateGetSilvercartImages', $images);
 
@@ -2265,18 +2249,21 @@ class SilvercartProduct extends DataObject {
                 }
                 $existingImages->push($image);
             }
-            return $existingImages;
+            $silvercartImages = $existingImages;
         } else {
             $noImageObj = SilvercartConfig::getNoImage();
 
             if ($noImageObj) {
+                $image = new SilvercartImage();
+                $image->ImageID             = $noImageObj->ID;
+                $image->SilvercartProductID = $this->ID;
                 $noImageArray = new ArrayList();
-                $noImageArray->push($noImageObj);
-                return $noImageArray;
+                $noImageArray->push($image);
+                $silvercartImages = $noImageArray;
             }
         }
 
-        return false;
+        return $silvercartImages;
     }
 
     /**

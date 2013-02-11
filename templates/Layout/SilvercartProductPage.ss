@@ -36,11 +36,11 @@
                     <div class="subcolumns">
                         <div class="c33l silvercart-product-page-box-images">
                             <div class="subcl">
-                                <% if getSilvercartImages %>
-                                    <% with getSilvercartImages.First %>
+                                <% if getSilvercartImages.count > 0 %>
+                                    <% with getSilvercartImages.first %>
                                         <div class="silvercart-product-page-box-image">
-                                            <a href="$Image.Link" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
-                                                $Image.SetRatioSize(200,200)
+                                            <a href="{$Image.Link}" class="silvercart-product-detail-image" rel="silvercart-standard-product-image-group">
+                                                {$Image.SetRatioSize(200,200)}
                                             </a>
                                         </div>
                                     <% end_with %>

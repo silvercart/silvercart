@@ -1329,6 +1329,7 @@ de:
     TITLE_DESC: "Bezeichnung absteigend"
     VAT: "MwSt"
     WEIGHT: "Gewicht"
+    WIDGETAREA: "Widgets"
   SilvercartProductAdmin:
     MENUTITLE: "Artikel"
   SilvercartProductAvailabilityStatusAdmin:

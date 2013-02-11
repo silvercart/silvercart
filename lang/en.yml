@@ -1328,6 +1328,7 @@ en:
     TITLE_DESC: "Title descending"
     VAT: "VAT"
     WEIGHT: "Weight"
+    WIDGETAREA: "Widgets"
   SilvercartProductAdmin:
     MENUTITLE: "Products"
   SilvercartProductAvailabilityStatusAdmin:
