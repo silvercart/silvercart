@@ -3298,22 +3298,27 @@ if (!SilvercartCountry::get()->filter("ISO2", "ZW")->exists()) {
     $country->write();
 }
 
-global $lang;
-$countries = SilvercartCountry::get();
-foreach ($countries as $country) {
-    foreach ($lang as $locale => $data) {
-        if ($country->hasLanguage($locale)) {
-            continue;
-        }
-
-        $key = 'TITLE_' . strtoupper($country->ISO2);
-        if (array_key_exists('SilvercartCountry', $data) &&
-            array_key_exists($key, $data['SilvercartCountry'])) {
-            $translation = new SilvercartCountryLanguage();
-            $translation->Locale    = $locale;
-            $translation->Title     = $data['SilvercartCountry'][$key];
-            $translation->write();
-            $country->SilvercartCountryLanguages()->add($translation);
+$translatorsByPrio = i18n::get_translators();
+foreach ($translatorsByPrio as $priority => $translators) {
+    foreach ($translators as $name => $translator) {
+        $adapter = $translator->getAdapter();
+        $languages = $adapter->getList();
+        foreach ($languages as $language) {
+            $locale = i18n::get_locale_from_lang($language);
+            if ($country->hasLanguage($locale)) {
+                continue;
+            }
+            $data = $adapter->getMessages($language);
+            foreach (SilvercartCountry::get() as $country) {
+                $key    = 'TITLE_' . strtoupper($country->ISO2);
+                if (array_key_exists('SilvercartCountry.' . $key, $data)) {
+                    $translation = new SilvercartCountryLanguage();
+                    $translation->Locale    = $locale;
+                    $translation->Title     = $data['SilvercartCountry.' . $key];
+                    $translation->write();
+                    $country->SilvercartCountryLanguages()->add($translation);
+                }
+            }
         }
     }
 }
