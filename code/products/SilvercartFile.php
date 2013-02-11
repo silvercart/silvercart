@@ -186,22 +186,6 @@ class SilvercartFile extends DataObject {
     }
     
     /**
-     * saves the value of the field LongDescription correctly into HTMLText
-     * 
-     * @param string $value the field value
-     *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.01.2012
-     */
-    public function saveDescription($value) {
-        $languageObj = $this->getLanguage();
-        $languageObj->Description = $value;
-        $languageObj->write();
-    }
-    
-    /**
      * wrapper that changes image upload workflow for better user experience
      * images may directly be added without pressing the save/add button of the
      * context object
