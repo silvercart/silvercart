@@ -795,6 +795,19 @@ class SilvercartCustomer extends DataExtension {
             }
         }
     }
+
+    /**
+     * Returns true if this user is an administrator.
+     * Administrators have access to everything.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.02.2013
+     */
+    public function isAdmin() {
+        return Permission::check('ADMIN', 'any', $this->owner);
+    }
 }
 
 /**
