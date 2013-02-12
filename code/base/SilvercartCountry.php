@@ -328,7 +328,7 @@ class SilvercartCountry extends DataObject {
         $displayPositionMap = array(
             '0' => _t('SilvercartOrderSearchForm.PLEASECHOOSE'),
         );
-        for ($x = 1; $x <= self::getPrioritiveCountryCount(false); $x++) {
+        for ($x = 1; $x <= self::getPrioritiveCountryCount(false) + 1; $x++) {
             $displayPositionMap[$x] = $x;
         }
         $displayPositionField = new DropdownField('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
@@ -445,7 +445,7 @@ class SilvercartCountry extends DataObject {
             $filter = array_merge(array("IsPrioritive" => 1), $addToFilter);
             $prioritiveCountries = SilvercartCountry::get()
                                     ->filter($filter)
-                                    ->sort(array("DisplayPosition" => "ASC", "SilvercartCountryLanguage.Title" => "ASC"));
+                                    ->sort(array("DisplayPosition" => "ASC", "Title" => "ASC"));
             self::$prioritiveCountries[$key] = $prioritiveCountries;
         }
         return self::$prioritiveCountries[$key];
@@ -467,7 +467,7 @@ class SilvercartCountry extends DataObject {
             $prioritiveCountryCount = 0;
             $prioritiveCountries    = self::getPrioritiveCountries($onlyActive);
             if ($prioritiveCountries instanceof SS_List) {
-                $prioritiveCountryCount = $prioritiveCountries->count() + 1;
+                $prioritiveCountryCount = (int) $prioritiveCountries->count();
             }
             self::$prioritiveCountryCount[$key] = $prioritiveCountryCount;
         }
@@ -492,7 +492,7 @@ class SilvercartCountry extends DataObject {
             $filter = array_merge(array("IsPrioritive" => 0), $addToFilter);
             $nonPrioritiveCountries = SilvercartCountry::get()
                                         ->filter($filter)
-                                        ->sort(array("SilvercartCountryLanguage.Title" => "ASC"));
+                                        ->sort(array("Title" => "ASC"));
             self::$nonPrioritiveCountries[$key] = $nonPrioritiveCountries;
         }
         return self::$nonPrioritiveCountries[$key];
@@ -514,7 +514,7 @@ class SilvercartCountry extends DataObject {
             $nonPrioritiveCountryCount  = 0;
             $nonPrioritiveCountries     = self::getNonPrioritiveCountries($onlyActive);
             if ($nonPrioritiveCountries instanceof SS_List) {
-                $nonPrioritiveCountryCount = $nonPrioritiveCountries->count() + 1;
+                $nonPrioritiveCountryCount = (int) $nonPrioritiveCountries->count();
             }
             self::$nonPrioritiveCountryCount[$key] = $nonPrioritiveCountryCount;
         }
