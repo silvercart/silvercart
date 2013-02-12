@@ -250,7 +250,7 @@
     -------------------------------------------------*/
 
     .yform .type-button input[type="submit"].action {
-        background:url("{$CurrentController.baseHref}silvercart/css/screen/images/button_gray.png") repeat-x scroll left top #454545;
+        background:url("{$CurrentController.baseHref}silvercart/css/images/button_gray.png") repeat-x scroll left top #454545;
         margin: 0 0 0 0;
     }
 
