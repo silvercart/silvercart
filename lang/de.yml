@@ -324,6 +324,7 @@ de:
     MENUTITLE: "Kontaktanfragen"
   SilvercartCountry:
     ACTIVE: "Aktiv"
+    TITLE: "Name"
     ATTRIBUTED_PAYMENTMETHOD: "zugeordnete Bezahlart"
     ATTRIBUTED_ZONES: "zugeordnete Zonen"
     CONTINENT: "Kontinent"
