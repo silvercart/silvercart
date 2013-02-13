@@ -56,7 +56,7 @@ class SilvercartShippingFee extends DataObject {
     public static $has_one = array(
         'SilvercartZone'              => 'SilvercartZone',
         'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
-        'SilvercartTax'               => 'SilvercartTax'
+        'SilvercartTax'               => 'SilvercartTax',
     );
 
     /**
@@ -134,7 +134,7 @@ class SilvercartShippingFee extends DataObject {
      * @return array
      * 
      * @author Seabstian Diel <sdiel@pixeltricks.de>
-     * @since 28.04.2011
+     * @since 13.02.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -153,6 +153,7 @@ class SilvercartShippingFee extends DataObject {
                     'EmptyString'                   => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE'),
                     'freeOfShippingCostsDisabled'   => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSDISABLED'),
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
+                    'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME'),
                 )
         );
     }
