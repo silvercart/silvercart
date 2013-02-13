@@ -618,6 +618,9 @@ en:
     SHIPPING_DATA: "Shipping address data"
     SUBSCRIBEDTONEWSLETTER: "Subscribed to newsletter"
     TYPE: "Type"
+  SilvercartCustomerGroup:
+    PLURALNAME: "Customer Groups"
+    SINGULARNAME: "Customer Group"
   SilvercartCustomerAdmin:
     MENUTITLE: "Customers"
   SilvercartDashboard:

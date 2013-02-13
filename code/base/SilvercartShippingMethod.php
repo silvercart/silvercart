@@ -91,7 +91,7 @@ class SilvercartShippingMethod extends DataObject {
         'Description'               => 'Text',
     );
     
-        /**
+    /**
      * Default sort field and direction
      *
      * @var string
@@ -169,7 +169,7 @@ class SilvercartShippingMethod extends DataObject {
                         'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
                         'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
                         'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
-                        'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
+                        'SilvercartCustomerGroups'          => _t('SilvercartCustomerGroup.PLURALNAME'),
                         'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
                     )
                 );
@@ -228,7 +228,7 @@ class SilvercartShippingMethod extends DataObject {
      * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 13.02.2013
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -244,9 +244,10 @@ class SilvercartShippingMethod extends DataObject {
 
         if ($this->isInDB()) {
             
-            $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
-            $feesTableConfig = GridFieldConfig_RelationEditor::create();
-            $exportColumsArray = array(
+            $feeTable           = $fields->dataFieldByName('SilvercartShippingFees');
+            $feesTableConfig    = $feeTable->getConfig();
+            $exportButton       = new GridFieldExportButton();
+            $exportColumsArray  = array(
                             'ID',
                             'MaximumWeight',
                             'UnlimitedWeight',
@@ -256,19 +257,19 @@ class SilvercartShippingMethod extends DataObject {
                             'SilvercartShippingMethodID',
                             'SilvercartTaxID',
                         );
-            $exportButton = new GridFieldExportButton();
             $exportButton->setExportColumns($exportColumsArray);
             $feesTableConfig->addComponent($exportButton);
-            $feeTable->setConfig($feesTableConfig);
+            $feesTableConfig->removeComponentsByType('GridFieldAddExistingAutocompleter');
             
-            $groupsTable = new GridField(
-                    'SilvercartCustomerGroups',
-                    $this->fieldLabel('SilvercartCustomerGroups'),
-                    $this->SilvercartCustomerGroups(),
-                    GridFieldConfig_RelationEditor::create()
-            );
-            $fields->findOrMakeTab('Root.SilvercartCustomerGroups', $this->fieldLabel('SilvercartCustomerGroups'));
-            $fields->addFieldToTab('Root.SilvercartCustomerGroups', $groupsTable);
+            $zonesTable = $fields->dataFieldByName('SilvercartZones');
+            $zonesTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
+            $zonesTable->getConfig()->removeComponentsByType('GridFieldDeleteAction');
+            $zonesTable->getConfig()->addComponent(new GridFieldDeleteAction(true));
+            
+            $fields->dataFieldByName('SilvercartShippingMethodLanguages')->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            
+            $fields->dataFieldByName('SilvercartCustomerGroups')->getConfig()->removeComponentsByType('GridFieldDeleteAction');
+            $fields->dataFieldByName('SilvercartCustomerGroups')->getConfig()->addComponent(new GridFieldDeleteAction(true));
         }
 
         return $fields;
@@ -283,7 +284,7 @@ class SilvercartShippingMethod extends DataObject {
      * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
+     * @since 13.02.2013
      */
     public function getShippingFee($weight = null) {
         $fee = false;
@@ -320,7 +321,7 @@ class SilvercartShippingMethod extends DataObject {
                 $filter = array("SilvercartShippingMethodID" => $this->ID,  "UnlimitedWeight" => 1, "SilvercartZoneID" => $zoneIDsAsString);
                 $fees = SilvercartShippingFee::get()
                                                 ->filter($filter)
-                                                ->where("\"MaximumWeight\" >= $weight")
+                                                ->where('"MaximumWeight" >= ' . $weight)
                                                 ->sort('PriceAmount');
                 if ($fees->exists()) {
                     $fee = $fees->first();
@@ -528,13 +529,13 @@ class SilvercartShippingMethod extends DataObject {
      * @return SS_List
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 12.02.2013
      */
     public static function getAllowedShippingMethodsBase($carrier = null) {
         $extendedFilter = "";
         if (!is_null($carrier)) {
             $extendedFilter = sprintf(
-                    " AND \"SilvercartShippingMethod\".\"SilvercartCarrierID\" = '%s'",
+                    ' AND "SilvercartShippingMethod"."SilvercartCarrierID" = \'%s\'',
                     $carrier->ID
             );
         }
@@ -545,27 +546,29 @@ class SilvercartShippingMethod extends DataObject {
             $customerGroups->exists()) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID')->toArray());
             $filter = sprintf(
-                "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
+                '"SilvercartShippingMethod"."isActive" = 1 AND ("SilvercartShippingMethod_SilvercartCustomerGroups"."GroupID" IN (%s) OR "SilvercartShippingMethod"."ID" NOT IN (%s))%s',
                 $customerGroupIDs,
-                "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\"",
+                'SELECT "SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" FROM "SilvercartShippingMethod_SilvercartCustomerGroups"',
                 $extendedFilter
             );
-            $join   = "LEFT JOIN \"SilvercartShippingMethod_SilvercartCustomerGroups\" ON (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" = \"SilvercartShippingMethod\".\"ID\")";
+            
+            $joinTable      = 'SilvercartShippingMethod_SilvercartCustomerGroups';
+            $joinOnClause   = '"SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" = "SilvercartShippingMethod"."ID"';
+            
+            $shippingMethods = SilvercartShippingMethod::get()
+                    ->leftJoin($joinTable, $joinOnClause)
+                    ->where($filter);
         } else {
             $filter = sprintf(
-                "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod\".\"ID\" NOT IN (%s))%s",
-                "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\"",
+                '"SilvercartShippingMethod"."isActive" = 1 AND ("SilvercartShippingMethod"."ID" NOT IN (%s))%s',
+                'SELECT "SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" FROM "SilvercartShippingMethod_SilvercartCustomerGroups"',
                 $extendedFilter
             );
-            $join   = "";
+            
+            $shippingMethods = SilvercartShippingMethod::get()
+                    ->where($filter);
         }
         
-        $shippingMethods        = DataObject::get(
-                'SilvercartShippingMethod',
-                $filter,
-                "",
-                $join
-        );
         return $shippingMethods;
     }
     
@@ -583,18 +586,17 @@ class SilvercartShippingMethod extends DataObject {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
         
         $filter = sprintf(
-            "\"SilvercartShippingMethod\".\"isActive\" = 1 AND (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"GroupID\" IN (%s) OR \"SilvercartShippingMethod\".\"ID\" NOT IN (%s))",
+            '"SilvercartShippingMethod"."isActive" = 1 AND ("SilvercartShippingMethod_SilvercartCustomerGroups"."GroupID" IN (%s) OR "SilvercartShippingMethod"."ID" NOT IN (%s))',
             $customerGroup->ID,
-            "SELECT \"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" FROM \"SilvercartShippingMethod_SilvercartCustomerGroups\""
+            'SELECT "SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" FROM "SilvercartShippingMethod_SilvercartCustomerGroups"'
         );
-        $join   = "LEFT JOIN \"SilvercartShippingMethod_SilvercartCustomerGroups\" ON (\"SilvercartShippingMethod_SilvercartCustomerGroups\".\"SilvercartShippingMethodID\" = \"SilvercartShippingMethod\".\"ID\")";
-        
-        $shippingMethods        = DataObject::get(
-                'SilvercartShippingMethod',
-                $filter,
-                "",
-                $join
-        );
+            
+        $joinTable      = 'SilvercartShippingMethod_SilvercartCustomerGroups';
+        $joinOnClause   = '"SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" = "SilvercartShippingMethod"."ID"';
+
+        $shippingMethods = SilvercartShippingMethod::get()
+                ->leftJoin($joinTable, $joinOnClause)
+                ->where($filter);
         
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
         

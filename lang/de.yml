@@ -619,6 +619,9 @@ de:
     SHIPPING_DATA: "Liefer-Adressdaten"
     SUBSCRIBEDTONEWSLETTER: "Newsletter aboniert"
     TYPE: "Typ"
+  SilvercartCustomerGroup:
+    PLURALNAME: "Kundengruppen"
+    SINGULARNAME: "Kundengruppe"
   SilvercartCustomerAdmin:
     MENUTITLE: "Kunden"
   SilvercartDashboard:
