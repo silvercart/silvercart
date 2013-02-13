@@ -121,7 +121,7 @@ Object::add_extension('SiteConfig',                                 'Translatabl
 Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
-Object::add_extension('Money',                                      'SilvercartMoney');
+Object::add_extension('Money',                                      'SilvercartMoneyExtension');
 Object::add_extension('CMSMain',                                    'SilvercartMain');
 Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
