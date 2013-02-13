@@ -1,14 +1,10 @@
 <?php
 /**
- * @ignore
- */
-
-/**
  * A single database record & abstract class for the data-access-model.
  *
- * <h2>Extensions and Decorators</h2>
+ * <h2>Extensions</h2>
  *
- * See {@link Extension} and {@link DataObjectDecorator}.
+ * See {@link Extension} and {@link DataExtension}.
  * 
  * <h2>Permission Control</h2>
  * 
@@ -67,7 +63,7 @@
  * @todo Add instance specific removeExtension() which undos loadExtraStatics()
  *  and defineMethods()
  * 
- * @package sapphire
+ * @package framework
  * @subpackage model
  */
 class DataObject extends ViewableData implements DataObjectInterface, i18nEntityProvider {
@@ -89,11 +85,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @todo Define the options that can be set here
 	 */
 	public static $api_access = false;
-	
-	public static
-		$cache_has_own_table       = array(),
-		$cache_has_own_table_field = array();
-	
+
 	/**
 	 * True if this DataObject has been destroyed.
 	 * @var boolean
@@ -101,8 +93,16 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	public $destroyed = false;
 	
 	/**
-	 * Data stored in this objects database record. An array indexed
-	 * by fieldname.
+	 * The DataModel from this this object comes
+	 */
+	protected $model;
+	
+	/**
+	 * Data stored in this objects database record. An array indexed by fieldname. 
+	 * 
+	 * Use {@link toMap()} if you want an array representation
+	 * of this object, as the $record array might contain lazy loaded field aliases.
+	 * 
 	 * @var array
 	 */
 	protected $record;
@@ -124,13 +124,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	protected $original;
 
 	/**
-	 * The one-to-one, one-to-many and many-to-one components
-	 * indexed by component name.
-	 * @var array
-	 */
-	protected $components;
-	
-	/**
 	 * Used by onBeforeDelete() to ensure child classes call parent::onBeforeDelete()
 	 * @var boolean
 	 */
@@ -146,7 +139,22 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * Should dataobjects be validated before they are written?
 	 */
 	private static $validation_enabled = true;
-	
+
+	/**
+	 * Static caches used by relevant functions.
+	 */
+	public static $cache_has_own_table = array();
+	public static $cache_has_own_table_field = array();
+	protected static $_cache_get_one;
+	protected static $_cache_get_class_ancestry;
+	protected static $_cache_composite_fields = array();	
+	protected static $_cache_field_labels = array();
+
+	/**
+	 * Non-static relationship cache, indexed by component name.
+	 */
+	protected $components;
+
 	/**
 	 * Returns when validation on DataObjects is enabled.
 	 * @return bool
@@ -165,16 +173,34 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * Return the complete map of fields on this object, including Created, LastEdited and ClassName
+	 * @var [string] - class => ClassName field definition cache for self::database_fields
+	 */
+	private static $classname_spec_cache = array();
+
+	/**
+	 * Return the complete map of fields on this object, including "Created", "LastEdited" and "ClassName".
+	 * See {@link custom_database_fields()} for a getter that excludes these "base fields".
 	 *
 	 * @param string $class
 	 * @return array
 	 */
 	public static function database_fields($class) {
 		if(get_parent_class($class) == 'DataObject') {
+			if(!isset(self::$classname_spec_cache[$class])) {
+				$classNames = ClassInfo::subclassesFor($class);
+
+				$db = DB::getConn();
+				if($db->hasField($class, 'ClassName')) {
+					$existing = $db->query("SELECT DISTINCT \"ClassName\" FROM \"$class\"")->column();
+					$classNames = array_unique(array_merge($existing, $classNames));
+				}
+
+				self::$classname_spec_cache[$class] = "Enum('" . implode(', ', $classNames) . "')";
+			}
+
 			return array_merge (
 				array (
-					'ClassName'  => "Enum('" . implode(', ', ClassInfo::subclassesFor($class)) . "')",
+					'ClassName'  => self::$classname_spec_cache[$class],
 					'Created'    => 'SS_Datetime',
 					'LastEdited' => 'SS_Datetime'
 				),
@@ -191,16 +217,19 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * into the actual database fields, rather than the name of the field which 
 	 * might not equate a database column.
 	 * 
+	 * Does not include "base fields" like "ID", "ClassName", "Created", "LastEdited",
+	 * see {@link database_fields()}.
+	 * 
 	 * @uses CompositeDBField->compositeDatabaseFields()
 	 *
 	 * @param string $class
 	 * @return array Map of fieldname to specification, similiar to {@link DataObject::$db}.
 	 */
 	public static function custom_database_fields($class) {
-		$fields = Object::uninherited_static($class, 'db');
+		$fields = Config::inst()->get($class, 'db', Config::UNINHERITED);
 		
 		foreach(self::composite_fields($class, false) as $fieldName => $fieldClass) {
-			// Remove the original fieldname, its not an actual database column
+			// Remove the original fieldname, it's not an actual database column
 			unset($fields[$fieldName]);
 			
 			// Add all composite columns
@@ -211,7 +240,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		}
 		
 		// Add has_one relationships
-		$hasOne = Object::uninherited_static($class, 'has_one');
+		$hasOne = Config::inst()->get($class, 'has_one', Config::UNINHERITED);
 		if($hasOne) foreach(array_keys($hasOne) as $field) {
 			$fields[$field . 'ID'] = 'ForeignKey';
 		}
@@ -219,18 +248,15 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		return (array)$fields;
 	}
 	
-	private static $_cache_custom_database_fields = array();
-	
-	
 	/**
 	 * Returns the field class if the given db field on the class is a composite field.
 	 * Will check all applicable ancestor classes and aggregate results.
 	 */
 	static function is_composite_field($class, $name, $aggregated = true) {
-		if(!isset(self::$_cache_composite_fields[$class])) self::cache_composite_fields($class);
+		if(!isset(DataObject::$_cache_composite_fields[$class])) self::cache_composite_fields($class);
 		
-		if(isset(self::$_cache_composite_fields[$class][$name])) {
-			return self::$_cache_composite_fields[$class][$name];
+		if(isset(DataObject::$_cache_composite_fields[$class][$name])) {
+			return DataObject::$_cache_composite_fields[$class][$name];
 			
 		} else if($aggregated && $class != 'DataObject' && ($parentClass=get_parent_class($class)) != 'DataObject') {
 			return self::is_composite_field($parentClass, $name);
@@ -242,9 +268,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * Will check all applicable ancestor classes and aggregate results.
 	 */
 	static function composite_fields($class, $aggregated = true) {
-		if(!isset(self::$_cache_composite_fields[$class])) self::cache_composite_fields($class);
+		if(!isset(DataObject::$_cache_composite_fields[$class])) self::cache_composite_fields($class);
 		
-		$compositeFields = self::$_cache_composite_fields[$class];
+		$compositeFields = DataObject::$_cache_composite_fields[$class];
 		
 		if($aggregated && $class != 'DataObject' && ($parentClass=get_parent_class($class)) != 'DataObject') {
 			$compositeFields = array_merge($compositeFields, 
@@ -260,8 +286,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	private static function cache_composite_fields($class) {
 		$compositeFields = array();
 		
-		$fields = Object::uninherited_static($class, 'db');
+		$fields = Config::inst()->get($class, 'db', Config::UNINHERITED);
 		if($fields) foreach($fields as $fieldName => $fieldClass) {
+			if(!is_string($fieldClass)) continue;
+
 			// Strip off any parameters
 			$bPos = strpos('(', $fieldClass);
 			if($bPos !== FALSE) $fieldClass = substr(0,$bPos, $fieldClass);
@@ -272,12 +300,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			}
 		}
 		
-		self::$_cache_composite_fields[$class] = $compositeFields;
+		DataObject::$_cache_composite_fields[$class] = $compositeFields;
 	}
 	
-	private static $_cache_composite_fields = array();
-	
-
 	/**
 	 * Construct a new DataObject.
 	 *
@@ -286,7 +311,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @param boolean $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
 	 * don't have their defaults set.
 	 */
-	function __construct($record = null, $isSingleton = false) {
+	function __construct($record = null, $isSingleton = false, $model = null) {
+
+		parent::__construct();
+
 		// Set the fields data.
 		if(!$record) {
 			$record = array(
@@ -301,46 +329,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			else $passed = "The value '$record'";
 
 			user_error("DataObject::__construct passed $passed.  It's supposed to be passed an array,
-			taken straight from the database.  Perhaps you should use DataObject::get_one instead?", E_USER_WARNING);
+			taken straight from the database.  Perhaps you should use DataList::create()->First(); instead?", E_USER_WARNING);
 			$record = null;
-		}
-
-		// Convert PostgreSQL boolean values
-		// TODO: Implement this more elegantly, for example by writing a more intelligent SQL SELECT query prior to object construction
-		if(DB::getConn() instanceof PostgreSQLDatabase) {
-			$this->class = get_class($this);
-			foreach($record as $k => $v) {
-				if($this->db($k) == 'Boolean' && $v == 'f') $record[$k] = '0';
-			}
-		}
-		
-		// TODO: MSSQL has a convert function that can do this on the SQL end. We just need a
-		// nice way of telling the database how we want to get the value out on a per-fieldtype basis
-		if(DB::getConn() instanceof MSSQLDatabase) {
-			$this->class = get_class($this);
-			foreach($record as $k => $v) {
-				if($v) {
-					if($k == 'Created' || $k == 'LastEdited') {
-						$fieldtype = 'SS_Datetime';
-					} else {
-						$fieldtype = $this->db($k);
-					}
-				
-					// MSSQLDatabase::date() uses datetime for the data type for "Date" and "SS_Datetime"
-					switch($fieldtype) {
-						case "Date":
-							$v = preg_replace('/:[0-9][0-9][0-9]([ap]m)$/i', ' \\1', $v);
-							$record[$k] = date('Y-m-d', strtotime($v));
-							break;
-					
-						case "Datetime":
-						case "SS_Datetime":
-							$v = preg_replace('/:[0-9][0-9][0-9]([ap]m)$/i', ' \\1', $v);
-							$record[$k] = date('Y-m-d H:i:s', strtotime($v));
-							break;
-					}
-				}
-			}
 		}
 
 		// Set $this->record to $record, but ignore NULLs
@@ -354,6 +344,19 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				else $this->record[$k] = $v;
 			}
 		}
+
+		// Identify fields that should be lazy loaded, but only on existing records
+		if(!empty($record['ID'])) {
+			$currentObj = get_class($this);
+			while($currentObj != 'DataObject') {
+				$fields = self::custom_database_fields($currentObj);
+				foreach($fields as $field => $type) {
+					if(!array_key_exists($field, $record)) $this->record[$field.'_Lazy'] = $currentObj;
+				}
+				$currentObj = get_parent_class($currentObj);
+			}
+		}
+
 		$this->original = $this->record;
 
 		// Keep track of the modification date of all the data sourced to make this page
@@ -362,8 +365,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			HTTP::register_modification_date($record['LastEdited']);
 		}
 
-		parent::__construct();
-
 		// Must be called after parent constructor
 		if(!$isSingleton && (!isset($this->record['ID']) || !$this->record['ID'])) {
 			$this->populateDefaults();
@@ -371,37 +372,106 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 		// prevent populateDefaults() and setField() from marking overwritten defaults as changed
 		$this->changed = array();
+		
+		$this->model = $model ? $model : DataModel::inst();
+	}
+	
+	/**
+	 * Set the DataModel
+	 */
+	function setDataModel(DataModel $model) {
+		$this->model = $model;
 	}
 
 	/**
-	 * Destroy all of this objects dependant objects.
+	 * Destroy all of this objects dependant objects and local caches.
 	 * You'll need to call this to get the memory of an object that has components or extensions freed.
 	 */
 	function destroy() {
-		$this->extension_instances = null;
-		$this->components = null;
-		$this->destroyed = true;
-		$this->record = null;
-		$this->original = null;
-		$this->changed = null;
+		//$this->destroyed = true;
+		gc_collect_cycles();
 		$this->flushCache(false);
 	}
 
 	/**
 	 * Create a duplicate of this node.
-	 * Caution: Doesn't duplicate relations.
+	 * Note: now also duplicates relations.
 	 *
 	 * @param $doWrite Perform a write() operation before returning the object.  If this is true, it will create the duplicate in the database.
 	 * @return DataObject A duplicate of this node. The exact type will be the type of this node.
 	 */
 	function duplicate($doWrite = true) {
 		$className = $this->class;
-		$clone = new $className( $this->record );
+		$clone = new $className( $this->toMap(), false, $this->model );
 		$clone->ID = 0;
-		if($doWrite) $clone->write();
+		
+		$clone->extend('onBeforeDuplicate', $this, $doWrite);
+		if($doWrite) {
+			$clone->write();
+			$this->duplicateManyManyRelations($this, $clone);
+		}
+		$clone->extend('onAfterDuplicate', $this, $doWrite);
+		
 		return $clone;
 	}
 
+	/**
+	 * Copies the many_many and belongs_many_many relations from one object to another instance of the name of object
+	 * The destinationObject must be written to the database already and have an ID. Writing is performed automatically when adding the new relations.
+	 *
+	 * @param $sourceObject the source object to duplicate from
+	 * @param $destinationObject the destination object to populate with the duplicated relations
+	 * @return DataObject with the new many_many relations copied in
+	 */
+	protected function duplicateManyManyRelations($sourceObject, $destinationObject) {
+		if (!$destinationObject || $destinationObject->ID < 1) user_error("Can't duplicate relations for an object that has not been written to the database", E_USER_ERROR);
+
+		//duplicate complex relations
+		// DO NOT copy has_many relations, because copying the relation would result in us changing the has_one relation
+		// on the other side of this relation to point at the copy and no longer the original (being a has_one, it can
+		// only point at one thing at a time). So, all relations except has_many can and are copied
+		if ($sourceObject->has_one()) foreach($sourceObject->has_one() as $name => $type) {
+			$this->duplicateRelations($sourceObject, $destinationObject, $name);
+		}
+		if ($sourceObject->many_many()) foreach($sourceObject->many_many() as $name => $type) { //many_many include belongs_many_many
+			$this->duplicateRelations($sourceObject, $destinationObject, $name);
+		}
+
+		return $destinationObject;
+	}
+
+	/**
+	 * Helper function to duplicate relations from one object to another
+	 * @param $sourceObject the source object to duplicate from
+	 * @param $destinationObject the destination object to populate with the duplicated relations
+	 * @param $name the name of the relation to duplicate (e.g. members) 
+	 */
+	private function duplicateRelations($sourceObject, $destinationObject, $name) {
+		$relations = $sourceObject->$name();
+		if ($relations) {
+			if ($relations instanceOf RelationList) {   //many-to-something relation
+				if ($relations->Count() > 0) {  //with more than one thing it is related to
+					foreach($relations as $relation) {
+						$destinationObject->$name()->add($relation);
+					}
+				}
+			} else {    //one-to-one relation
+				$destinationObject->$name = $relations;
+			}
+		}
+	}
+
+	function getObsoleteClassName() {
+		$className = $this->getField("ClassName");
+		if (!ClassInfo::exists($className)) return $className;
+	}
+
+	function getClassName() {
+		$className = $this->getField("ClassName");
+		if (!ClassInfo::exists($className)) return get_class($this);
+		return $className;
+	}
+	
 	/**
 	 * Set the ClassName attribute. {@link $class} is also updated.
 	 * Warning: This will produce an inconsistent record, as the object
@@ -443,7 +513,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				'ClassName' => $originalClass,
 				'RecordClassName' => $originalClass,
 			)
-		));
+		), false, $this->model);
 		
 		if($newClassName != $originalClass) {
 			$newInstance->setClassName($newClassName);
@@ -508,13 +578,25 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		return ($this->record && $this->record['ID'] > 0);
 	}
 
+	/**
+	 * Returns TRUE if all values (other than "ID") are
+	 * considered empty (by weak boolean comparison).
+	 * Only checks for fields listed in {@link custom_database_fields()}
+	 * 
+	 * @todo Use DBField->hasValue()
+	 * 
+	 * @return boolean
+	 */
 	public function isEmpty(){
 		$isEmpty = true;
-		if($this->record){
-			foreach($this->record as $k=>$v){
-				if($k != "ID"){
-					$isEmpty = $isEmpty && !$v;
-				}
+		$customFields = self::custom_database_fields(get_class($this));
+		if($map = $this->toMap()){
+			foreach($map as $k=>$v){
+				// only look at custom fields
+				if(!array_key_exists($k, $customFields)) continue;
+				
+				$dbObj = ($v instanceof DBField) ? $v : $this->dbObject($k);
+				$isEmpty = ($isEmpty && !$dbObj->exists());
 			}
 		}
 		return $isEmpty;
@@ -625,6 +707,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array The data as a map.
 	 */
 	public function toMap() {
+		$this->loadLazyFields();
 		return $this->record;
 	}
 
@@ -786,6 +869,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * if they are not already marked as changed.
 	 */
 	public function forceChange() {
+		// Ensure lazy fields loaded
+		$this->loadLazyFields();
+
 		// $this->record might not contain the blank values so we loop on $this->inheritedDatabaseFields() as well
 		$fieldNames = array_unique(array_merge(array_keys($this->record), array_keys($this->inheritedDatabaseFields())));
 		
@@ -803,7 +889,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * Validate the current object.
 	 *
 	 * By default, there is no validation - objects are always valid!  However, you can overload this method in your
-	 * DataObject sub-classes to specify custom validation.
+	 * DataObject sub-classes to specify custom validation, or use the hook through DataExtension.
 	 * 
 	 * Invalid objects won't be able to be written - a warning will be thrown and no write will occur.  onBeforeWrite()
 	 * and onAfterWrite() won't get called either.
@@ -814,7 +900,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return A {@link ValidationResult} object
 	 */
 	protected function validate() {
-		return new ValidationResult();
+		$result = new ValidationResult();
+		$this->extend('validate', $result);
+		return $result;
 	}
 
 	/**
@@ -824,7 +912,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *
 	 * This called after {@link $this->validate()}, so you can be sure that your data is valid.
 	 * 
-	 * @uses DataObjectDecorator->onBeforeWrite()
+	 * @uses DataExtension->onBeforeWrite()
 	 */
 	protected function onBeforeWrite() {
 		$this->brokenOnWrite = false;
@@ -839,7 +927,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * $this->changed will have a record
 	 * database.  Don't forget to call parent::onAfterWrite(), though!
 	 *
-	 * @uses DataObjectDecorator->onAfterWrite()
+	 * @uses DataExtension->onAfterWrite()
 	 */
 	protected function onAfterWrite() {
 		$dummy = null;
@@ -851,7 +939,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * You can overload this to clean up or otherwise process data before delete this
 	 * record.  Don't forget to call parent::onBeforeDelete(), though!
 	 *
-	 * @uses DataObjectDecorator->onBeforeDelete()
+	 * @uses DataExtension->onBeforeDelete()
 	 */
 	protected function onBeforeDelete() {
 		$this->brokenOnDelete = false;
@@ -869,13 +957,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * Will traverse the defaults of the current class and all its parent classes.
 	 * Called by the constructor when creating new records.
 	 * 
-	 *  @uses DataObjectDecorator->populateDefaults()
+	 *  @uses DataExtension->populateDefaults()
 	 */
 	public function populateDefaults() {
 		$classes = array_reverse(ClassInfo::ancestry($this));
 		
 		foreach($classes as $class) {
-			$defaults = Object::uninherited_static($class, 'defaults');
+			$defaults = Config::inst()->get($class, 'defaults', Config::UNINHERITED);
 			
 			if($defaults && !is_array($defaults)) {
 				user_error("Bad '$this->class' defaults given: " . var_export($defaults, true),
@@ -908,9 +996,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *  - All relevant tables will be updated.
 	 *  - $this->onBeforeWrite() gets called beforehand.
 	 *  - Extensions such as Versioned will ammend the database-write to ensure that a version is saved.
-	 *  - Calls to {@link DataObjectLog} can be used to see everything that's been changed.
 	 * 
-	 *  @uses DataObjectDecorator->augmentWrite()
+	 *  @uses DataExtension->augmentWrite()
 	 *
 	 * @param boolean $showDebug Show debugging information
 	 * @param boolean $forceInsert Run INSERT command rather than UPDATE, even if record already exists
@@ -926,15 +1013,32 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		$firstWrite = false;
 		$this->brokenOnWrite = true;
 		$isNewRecord = false;
-		
-		if(self::get_validation_enabled()) {
+
+		$writeException = null;
+
+		if ($this->ObsoleteClassName) {
+			$writeException = new ValidationException(
+				"Object is of class '{$this->ObsoleteClassName}' which doesn't exist - ".
+				"you need to change the ClassName before you can write it",
+				E_USER_WARNING
+			);
+		}
+		else if(self::get_validation_enabled()) {
 			$valid = $this->validate();
-			if(!$valid->valid()) {
-				// Used by DODs to clean up after themselves, eg, Versioned
-				$this->extend('onAfterSkippedWrite');
-				throw new ValidationException($valid, "Validation error writing a $this->class object: " . $valid->message() . ".  Object not written.", E_USER_WARNING);
-				return false;
+			if (!$valid->valid()) {
+				$writeException = new ValidationException(
+					$valid,
+					"Validation error writing a $this->class object: " . $valid->message() . ".  Object not written.",
+					E_USER_WARNING
+				);
 			}
+		}
+
+		if($writeException) {
+			// Used by DODs to clean up after themselves, eg, Versioned
+			$this->extend('onAfterSkippedWrite');
+			throw $writeException;
+			return false;
 		}
 
 		$this->onBeforeWrite();
@@ -1011,7 +1115,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 								// if database column doesn't correlate to a DBField instance...
 								if(!$fieldObj) {
-									$fieldObj = DBField::create('Varchar', $this->record[$fieldName], $fieldName);
+									$fieldObj = DBField::create_field('Varchar', $this->record[$fieldName], $fieldName);
 								}
 
 								// Both CompositeDBFields and regular fields need to be repopulated
@@ -1028,7 +1132,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 							if($dbCommand == 'insert') {
 								$manipulation[$class]['fields']["Created"] = "'".SS_Datetime::now()->Rfc2822()."'";
 								//echo "<li>$this->class - " .get_class($this);
-								$manipulation[$class]['fields']["ClassName"] = "'$this->class'";
+								$manipulation[$class]['fields']["ClassName"] = DB::getConn()->prepStringForDB($this->class);
 							}
 						}
 
@@ -1050,13 +1154,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				}
 				
 				DB::manipulate($manipulation);
-
-				if(isset($isNewRecord) && $isNewRecord) {
-					DataObjectLog::addedObject($this);
-				} else {
-					DataObjectLog::changedObject($this);
-				}
-				
 				$this->onAfterWrite();
 
 				$this->changed = null;
@@ -1078,17 +1175,16 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			$this->extend('onAfterSkippedWrite');
 		}
 
-		// Write ComponentSets as necessary
+		// Write relations as necessary
 		if($writeComponents) {
 			$this->writeComponents(true);
 		}
 		return $this->record['ID'];
 	}
 
-
 	/**
 	 * Write the cached components to the database. Cached components could refer to two different instances of the same record.
-	 * 
+	 *
 	 * @param $recursive Recursively write components
 	 */
 	public function writeComponents($recursive = false) {
@@ -1100,24 +1196,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 	
 	/**
-	 * Perform a write without affecting the version table.
-	 * On objects without versioning.
-	 *
-	 * @return int The ID of the record
-	 */
-	public function writeWithoutVersion() {
-		$this->changed['Version'] = 1;
-		if(!isset($this->record['Version'])) {
-			$this->record['Version'] = -1;
-		}
-		return $this->write();
-	}
-
-	/**
 	 * Delete this data object.
 	 * $this->onBeforeDelete() gets called.
 	 * Note that in Versioned objects, both Stage and Live will be deleted.
-	 *  @uses DataObjectDecorator->augmentSQL()
+	 *  @uses DataExtension->augmentSQL()
 	 */
 	public function delete() {
 		$this->brokenOnDelete = true;
@@ -1126,18 +1208,19 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			user_error("$this->class has a broken onBeforeDelete() function.  Make sure that you call parent::onBeforeDelete().", E_USER_ERROR);
 		}
 		
-		// Deleting a record without an ID shouldn't do anything
-		if(!$this->ID) throw new Exception("DataObject::delete() called on a DataObject without an ID");
-		
-		foreach($this->getClassAncestry() as $ancestor) {
-			if(self::has_own_table($ancestor)) {
-				$sql = new SQLQuery();
-				$sql->delete = true;
-				$sql->from[$ancestor] = "\"$ancestor\"";
-				$sql->where[] = "\"ID\" = $this->ID";
-				$this->extend('augmentSQL', $sql);
-				$sql->execute();
-			}
+        // Deleting a record without an ID shouldn't do anything
+        if(!$this->ID) throw new Exception("DataObject::delete() called on a DataObject without an ID");
+
+		// TODO: This is quite ugly.  To improve:
+		//  - move the details of the delete code in the DataQuery system
+		//  - update the code to just delete the base table, and rely on cascading deletes in the DB to do the rest
+		//    obviously, that means getting requireTable() to configure cascading deletes ;-)
+		$srcQuery = DataList::create($this->class, $this->model)->where("ID = $this->ID")->dataQuery()->query();
+		foreach($srcQuery->queriedTables() as $table) {
+			$query = new SQLQuery("*", array('"' . $table . '"'));
+			$query->setWhere("\"ID\" = $this->ID");
+			$query->setDelete(true);
+			$query->execute();
 		}
 		// Remove this item out of any caches
 		$this->flushCache();
@@ -1146,8 +1229,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 		$this->OldID = $this->ID;
 		$this->ID = 0;
-
-		DataObjectLog::deletedObject($this);
 	}
 
 	/**
@@ -1166,12 +1247,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * A cache used by getClassAncestry()
-	 * @var array
-	 */
-	protected static $ancestry;
-
-	/**
 	 * Get the class ancestry, including the current class name.
 	 * The ancestry will be returned as an array of class names, where the 0th element
 	 * will be the class that inherits directly from DataObject, and the last element
@@ -1180,13 +1255,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array Class ancestry
 	 */
 	public function getClassAncestry() {
-		if(!isset(DataObject::$ancestry[$this->class])) {
-			DataObject::$ancestry[$this->class] = array($this->class);
-			while(($class = get_parent_class(DataObject::$ancestry[$this->class][0])) != "DataObject") {
-				array_unshift(DataObject::$ancestry[$this->class], $class);
+		if(!isset(DataObject::$_cache_get_class_ancestry[$this->class])) {
+			DataObject::$_cache_get_class_ancestry[$this->class] = array($this->class);
+			while(($class = get_parent_class(DataObject::$_cache_get_class_ancestry[$this->class][0])) != "DataObject") {
+				array_unshift(DataObject::$_cache_get_class_ancestry[$this->class], $class);
 			}
 		}
-		return DataObject::$ancestry[$this->class];
+		return DataObject::$_cache_get_class_ancestry[$this->class];
 	}
 
 	/**
@@ -1207,11 +1282,11 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			$joinID    = $this->getField($joinField);
 			
 			if($joinID) {
-				$component = DataObject::get_by_id($class, $joinID);
+				$component = $this->model->$class->byID($joinID);
 			}
 			
 			if(!isset($component) || !$component) {
-				$component = new $class();
+				$component = $this->model->$class->newObject();
 			}
 		} elseif($class = $this->belongs_to($componentName)) {
 			$joinField = $this->getRemoteJoinField($componentName, 'belongs_to');
@@ -1222,7 +1297,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			}
 			
 			if(!isset($component) || !$component) {
-				$component = new $class();
+				$component = $this->model->$class->newObject();
 				$component->$joinField = $this->ID;
 			}
 		} else {
@@ -1234,16 +1309,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * A cache used by component getting classes
-	 * @var array
-	 */
-	protected $componentCache;
-
-	/**
-	 * Returns a one-to-many component, as a ComponentSet.
-	 * The return value will be cached on this object instance,
-	 * but only when no related objects are found (to avoid unnecessary empty checks in the database).
-	 * If related objects exist, no caching is applied.
+	 * Returns a one-to-many relation as a HasManyList
 	 *
 	 * @param string $componentName Name of the component
 	 * @param string $filter A filter to be inserted into the WHERE clause
@@ -1251,47 +1317,29 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @param string $join A single join clause. This can be used for filtering, only 1 instance of each DataObject will be returned.
 	 * @param string|array $limit A limit expression to be inserted into the LIMIT clause
 	 *
-	 * @return ComponentSet The components of the one-to-many relationship.
+	 * @return HasManyList The components of the one-to-many relationship.
 	 */
-	public function getComponents($componentName, $filter = "", $sort = "", $join = "", $limit = "") {
+	public function getComponents($componentName, $filter = "", $sort = "", $join = "", $limit = null) {
 		$result = null;
-
-		$sum = md5("{$filter}_{$sort}_{$join}_{$limit}");
-		if(isset($this->componentCache[$componentName . '_' . $sum]) && false != $this->componentCache[$componentName . '_' . $sum]) {
-			return $this->componentCache[$componentName . '_' . $sum];
-		}
 
 		if(!$componentClass = $this->has_many($componentName)) {
 			user_error("DataObject::getComponents(): Unknown 1-to-many component '$componentName' on class '$this->class'", E_USER_ERROR);
 		}
 
 		$joinField = $this->getRemoteJoinField($componentName, 'has_many');
+		
+		$result = new HasManyList($componentClass, $joinField);
+		if($this->model) $result->setDataModel($this->model);
+		$result = $result->forForeignID($this->ID);
 
-		if($this->isInDB()) { //Check to see whether we should query the db
-			$query = $this->getComponentsQuery($componentName, $filter, $sort, $join, $limit);
-			$result = $this->buildDataObjectSet($query->execute(), 'ComponentSet', $query, $componentClass);
-			if($result) $result->parseQueryLimit($query);
-		}
-
-		if(!$result) {
-			// If this record isn't in the database, then we want to hold onto this specific ComponentSet,
-			// because it's the only copy of the data that we have.
-			$result = new ComponentSet();
-			$this->setComponent($componentName . '_' . $sum, $result);
-		}
-
-		$result->setComponentInfo("1-to-many", $this, null, null, $componentClass, $joinField);
+		$result = $result->where($filter)->limit($limit)->sort($sort);
+		if($join) $result = $result->join($join);
 
 		return $result;
 	}
 
 	/**
 	 * Get the query object for a $has_many Component.
-	 *
-	 * Use {@link DataObjectSet->setComponentInfo()} to attach metadata to the
-	 * resultset you're building with this query.
-	 * Use {@link DataObject->buildDataObjectSet()} to build a set out of the {@link SQLQuery}
-	 * object, and pass "ComponentSet" as a $containerClass.
 	 *
 	 * @param string $componentName
 	 * @param string $filter
@@ -1315,7 +1363,38 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			
 		return singleton($componentClass)->extendedSQL($combinedFilter, $sort, $limit, $join);
 	}
-	
+
+	/**
+	 * Find the foreign class of a relation on this DataObject, regardless of the relation type.
+	 *
+	 * @param $relationName Relation name.
+	 * @return string Class name, or null if not found.
+	 */
+	public function getRelationClass($relationName) {
+		// Go through all relationship configuration fields.
+		$candidates = array_merge(
+			($relations = Config::inst()->get($this->class, 'has_one')) ? $relations : array(),
+			($relations = Config::inst()->get($this->class, 'has_many')) ? $relations : array(),
+			($relations = Config::inst()->get($this->class, 'many_many')) ? $relations : array(),
+			($relations = Config::inst()->get($this->class, 'belongs_many_many')) ? $relations : array(),
+			($relations = Config::inst()->get($this->class, 'belongs_to')) ? $relations : array()
+		);
+
+		if (isset($candidates[$relationName])) {
+			$remoteClass = $candidates[$relationName];
+
+			// If dot notation is present, extract just the first part that contains the class.
+			if(($fieldPos = strpos($remoteClass, '.'))!==false) {
+				return substr($remoteClass, 0, $fieldPos);
+			}
+
+			// Otherwise just return the class
+			return $remoteClass;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Tries to find the database key on another object that is used to store a relationship to this class. If no join
 	 * field can be found it defaults to 'ParentID'.
@@ -1335,7 +1414,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			return substr($remoteClass, $fieldPos + 1) . 'ID';
 		}
 		
-		$remoteRelations = array_flip(Object::combined_static($remoteClass, 'has_one', 'DataObject'));
+		$remoteRelations = array_flip(Config::inst()->get($remoteClass, 'has_one'));
 		
 		// look for remote has_one joins on this class or any parent classes
 		foreach(array_reverse(ClassInfo::ancestry($this)) as $class) {
@@ -1352,149 +1431,32 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * and {@link getManyManyComponents()}.
 	 *
 	 * @param string $componentName Name of the component
-	 * @param DataObject|ComponentSet $componentValue Value of the component
+	 * @param DataObject|HasManyList|ManyManyList $componentValue Value of the component
+	 * @deprecated 3.0 Not used internally anymore.
 	 */
 	public function setComponent($componentName, $componentValue) {
-		$this->componentCache[$componentName] = $componentValue;
+		Deprecation::notice('3.0', 'Not used internally anymore.');
 	}
 
 	/**
-	 * Returns a many-to-many component, as a ComponentSet.
-	 * The return value will be cached on this object instance,
-	 * but only when no related objects are found (to avoid unnecessary empty checks in the database).
-	 * If related objects exist, no caching is applied.
-	 * 
+	 * Returns a many-to-many component, as a ManyManyList.
 	 * @param string $componentName Name of the many-many component
-	 * @return ComponentSet The set of components
+	 * @return ManyManyList The set of components
 	 *
 	 * @todo Implement query-params
 	 */
 	public function getManyManyComponents($componentName, $filter = "", $sort = "", $join = "", $limit = "") {
-		$sum = md5("{$filter}_{$sort}_{$join}_{$limit}");
-		if(isset($this->componentCache[$componentName . '_' . $sum]) && false != $this->componentCache[$componentName . '_' . $sum]) {
-			return $this->componentCache[$componentName . '_' . $sum];
-		}
-
 		list($parentClass, $componentClass, $parentField, $componentField, $table) = $this->many_many($componentName);
-
-		// Join expression is done on SiteTree.ID even if we link to Page; it helps work around
-		// database inconsistencies
-		$componentBaseClass = ClassInfo::baseDataClass($componentClass);
-
-		if($this->ID && is_numeric($this->ID)) {
-				
-			if($componentClass) {
-				$query = $this->getManyManyComponentsQuery($componentName, $filter, $sort, $join, $limit);
-				$records = $query->execute();
-				$result = $this->buildDataObjectSet($records, "ComponentSet", $query, $componentBaseClass);
-				if($result) $result->parseQueryLimit($query); // for pagination support
-				if(!$result) {
-					$result = new ComponentSet();
-				}
-			}
-		} else {
-			$result = new ComponentSet();
-		}
-		$result->setComponentInfo("many-to-many", $this, $parentClass, $table, $componentClass);
-
-		// If this record isn't in the database, then we want to hold onto this specific ComponentSet,
-		// because it's the only copy of the data that we have.
-		if(!$this->isInDB()) {
-			$this->setComponent($componentName . '_' . $sum, $result);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Get the query object for a $many_many Component.
-	 * Use {@link DataObjectSet->setComponentInfo()} to attach metadata to the
-	 * resultset you're building with this query.
-	 * Use {@link DataObject->buildDataObjectSet()} to build a set out of the {@link SQLQuery}
-	 * object, and pass "ComponentSet" as a $containerClass.
-	 *
-	 * @param string $componentName
-	 * @param string $filter
-	 * @param string|array $sort
-	 * @param string $join
-	 * @param string|array $limit
-	 * @return SQLQuery
-	 */
-	public function getManyManyComponentsQuery($componentName, $filter = "", $sort = "", $join = "", $limit = "") {
-		list($parentClass, $componentClass, $parentField, $componentField, $table) = $this->many_many($componentName);
-
-		$componentObj = singleton($componentClass);
-
-		// Join expression is done on SiteTree.ID even if we link to Page; it helps work around
-		// database inconsistencies
-		$componentBaseClass = ClassInfo::baseDataClass($componentClass);
-
-
-		$query = $componentObj->extendedSQL(
-			"\"$table\".\"$parentField\" = $this->ID", // filter 
-			$sort,
-			$limit,
-			"INNER JOIN \"$table\" ON \"$table\".\"$componentField\" = \"$componentBaseClass\".\"ID\"" // join
-		);
 		
-		foreach((array)$this->many_many_extraFields($componentName) as $extraField => $extraFieldType) {
-			$query->select[] = "\"$table\".\"$extraField\"";
-			$query->groupby[] = "\"$table\".\"$extraField\"";
-		}
+		$result = Injector::inst()->create('ManyManyList', $componentClass, $table, $componentField, $parentField,
+			$this->many_many_extraFields($componentName));
+		if($this->model) $result->setDataModel($this->model);
 
-		if($filter) $query->where[] = $filter;
-		if($join) $query->from[] = $join;
-
-		return $query;
-	}
-
-	/**
-	 * Pull out a join clause for a many-many relationship.
-	 *
-	 * @param string $componentName The many_many or belongs_many_many relation to join to.
-	 * @param string $baseTable The classtable that will already be included in the SQL query to which this join will be added.
-	 * @return string SQL join clause
-	 */
-	function getManyManyJoin($componentName, $baseTable) {
-		if(!$componentClass = $this->many_many($componentName)) {
-			user_error("DataObject::getComponents(): Unknown many-to-many component '$componentName' on class '$this->class'", E_USER_ERROR);
-		}
-		$classes = array_reverse(ClassInfo::ancestry($this->class));
-
-		list($parentClass, $componentClass, $parentField, $componentField, $table) = $this->many_many($componentName);
-
-		$baseComponentClass = ClassInfo::baseDataClass($componentClass);
-		if($baseTable == $parentClass) {
-			return "LEFT JOIN \"$table\" ON (\"$table\".\"$parentField\" = \"$parentClass\".\"ID\" AND \"$table\".\"$componentField\" = '{$this->ID}')";
-		} else {
-			return "LEFT JOIN \"$table\" ON (\"$table\".\"$componentField\" = \"$baseComponentClass\".\"ID\" AND \"$table\".\"$parentField\" = '{$this->ID}')";
-		}
-	}
-
-	function getManyManyFilter($componentName, $baseTable) {
-		list($parentClass, $componentClass, $parentField, $componentField, $table) = $this->many_many($componentName);
-
-		return "\"$table\".\"$parentField\" = '{$this->ID}'";
-	}
-
-	/**
-	 * Return an aggregate object. An aggregate object returns the result of running some SQL aggregate function on a field of 
-	 * this dataobject type.
-	 * 
-	 * It can be called with no arguments, in which case it returns an object that calculates aggregates on this object's type,
-	 * or with an argument (possibly statically), in which case it returns an object for that type
-	 */
-	function Aggregate($type = null, $filter = '') {
-		return new Aggregate($type ? $type : $this->class, $filter);
-	}
-	
-	/**
-	 * Return an relationship aggregate object. A relationship aggregate does the same thing as an aggregate object, but operates
-	 * on a has_many rather than directly on the type specified
-	 */
-	function RelationshipAggregate($object = null, $relationship = '', $filter = '') {
-		if (is_string($object)) { $filter = $relationship; $relationship = $object; $object = $this; }
-		return new Aggregate_Relationship($object ? $object : $this->owner, $relationship, $filter);
+		// If this is called on a singleton, then we return an 'orphaned relation' that can have the
+		// foreignID set elsewhere.
+		$result = $result->forForeignID($this->ID);
+			
+		return $result->where($filter)->sort($sort)->limit($limit);
 	}
 	
 	/**
@@ -1512,13 +1474,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			if(in_array($class, array('Object', 'ViewableData', 'DataObject'))) continue;
 
 			if($component) {
-				$hasOne = Object::uninherited_static($class, 'has_one');
+				$hasOne = Config::inst()->get($class, 'has_one', Config::UNINHERITED);
 				
 				if(isset($hasOne[$component])) {
 					return $hasOne[$component];
 				}
 			} else {
-				$newItems = (array) Object::uninherited_static($class, 'has_one');
+				$newItems = (array)Config::inst()->get($class, 'has_one', Config::UNINHERITED);
 				// Validate the data
 				foreach($newItems as $k => $v) {
 					if(!is_string($k) || is_numeric($k) || !is_string($v)) user_error("$class::\$has_one has a bad entry: " 
@@ -1540,7 +1502,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return string|array
 	 */
 	public function belongs_to($component = null, $classOnly = true) {
-		$belongsTo = Object::combined_static($this->class, 'belongs_to', 'DataObject');
+		$belongsTo = $this->config()->belongs_to;
 		
 		if($component) {
 			if($belongsTo && array_key_exists($component, $belongsTo)) {
@@ -1568,7 +1530,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		$classes = ClassInfo::ancestry($this);
 		$good = false;
 		$items = array();
-		
+
 		foreach($classes as $class) {
 			// Wait until after we reach DataObject
 			if(!$good) {
@@ -1579,13 +1541,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			}
 
 			if($fieldName) {
-				$db = Object::uninherited_static($class, 'db');
+				$db = Config::inst()->get($class, 'db', Config::UNINHERITED);
 				
 				if(isset($db[$fieldName])) {
 					return $db[$fieldName];
 				}
 			} else {
-				$newItems = (array) Object::uninherited_static($class, 'db');
+				$newItems = (array)Config::inst()->get($class, 'db', Config::UNINHERITED);
 				// Validate the data
 				foreach($newItems as $k => $v) {
 					if(!is_string($k) || is_numeric($k) || !is_string($v)) user_error("$class::\$db has a bad entry: " 
@@ -1608,7 +1570,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return string|array
 	 */
 	public function has_many($component = null, $classOnly = true) {
-		$hasMany = Object::combined_static($this->class, 'has_many', 'DataObject');
+		$hasMany = $this->config()->has_many;
 		
 		if($component) {
 			if($hasMany && array_key_exists($component, $hasMany)) {
@@ -1730,7 +1692,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			if(in_array($class, array('ViewableData', 'Object', 'DataObject'))) continue;
 
 			if($component) {
-				$manyMany = Object::uninherited_static($class, 'many_many');
+				$manyMany = Config::inst()->get($class, 'many_many', Config::UNINHERITED);
 				// Try many_many
 				$candidate = (isset($manyMany[$component])) ? $manyMany[$component] : null;
 				if($candidate) {
@@ -1740,13 +1702,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				}
 
 				// Try belongs_many_many
-				$belongsManyMany = Object::uninherited_static($class, 'belongs_many_many');
+				$belongsManyMany = Config::inst()->get($class, 'belongs_many_many', Config::UNINHERITED);
 				$candidate = (isset($belongsManyMany[$component])) ? $belongsManyMany[$component] : null;
 				if($candidate) {
 					$childField = $candidate . "ID";
 
 					// We need to find the inverse component name
-					$otherManyMany = Object::uninherited_static($candidate, 'many_many');
+					$otherManyMany = Config::inst()->get($candidate, 'many_many', Config::UNINHERITED);
 					if(!$otherManyMany) {
 						user_error("Inverse component of $candidate not found ({$this->class})", E_USER_ERROR);
 					}
@@ -1765,7 +1727,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 					user_error("Orphaned \$belongs_many_many value for $this->class.$component", E_USER_ERROR);
 				}
 			} else {
-				$newItems = (array) Object::uninherited_static($class, 'many_many');
+				$newItems = (array)Config::inst()->get($class, 'many_many', Config::UNINHERITED);
 				// Validate the data
 				foreach($newItems as $k => $v) {
 					if(!is_string($k) || is_numeric($k) || !is_string($v)) user_error("$class::\$many_many has a bad entry: " 
@@ -1773,7 +1735,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				}
 				$items = isset($items) ? array_merge($newItems, $items) : $newItems;
 				
-				$newItems = (array) Object::uninherited_static($class, 'belongs_many_many');
+				$newItems = (array)Config::inst()->get($class, 'belongs_many_many', Config::UNINHERITED);
 				// Validate the data
 				foreach($newItems as $k => $v) {
 					if(!is_string($k) || is_numeric($k) || !is_string($v)) user_error("$class::\$belongs_many_many has a bad entry: " 
@@ -1795,8 +1757,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array or false
 	 */
 	function database_extensions($class){
-		
-		$extensions = Object::uninherited_static($class, 'database_extensions');
+		$extensions = Config::inst()->get($class, 'database_extensions', Config::UNINHERITED);
 		
 		if($extensions)
 			return $extensions;
@@ -1917,7 +1878,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * which returns a {@link FieldList} suitable for a {@link Form} object.
 	 * If not overloaded, we're using {@link scaffoldFormFields()} to automatically
 	 * generate this set. To customize, overload this method in a subclass
-	 * or decorate onto it by using {@link DataObjectDecorator->updateCMSFields()}.
+	 * or extended onto it by using {@link DataExtension->updateCMSFields()}.
 	 *
 	 * <code>
 	 * klass MyCustomClass extends DataObject {
@@ -1933,31 +1894,28 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *
 	 * @see Good example of complex FormField building: SiteTree::getCMSFields()
 	 *
-	 * @param array $params See {@link scaffoldFormFields()}
-	 * @return FieldSet Returns a TabSet for usage within the CMS - don't use for frontend forms.
-         * 
-         * PTFIX
+	 * @return FieldList Returns a TabSet for usage within the CMS - don't use for frontend forms.
+     * 
+     * PTFIX
 	 */
-	public function getCMSFields($params = null) {
-                
-                /* PTFIX_START */
-                $restrictFields = array();
-                $this->extend('updateRestrictCMSFields', $restrictFields);
-                if (!empty($restrictFields)) {
-                    if (!is_array($params)) {
-                        $params = array();
-                    }
-                    $params['restrictFields'] = $restrictFields;
-                }
-                /* PTFIX_END */
-                
-		$tabbedFields = $this->scaffoldFormFields(array_merge(
-			array(
-				'includeRelations' => true,
-				'tabbed' => true,
-				'ajaxSafe' => true
-			),
-			(array)$params
+	public function getCMSFields() {
+
+        /* PTFIX_START */
+        $restrictFields = array();
+        $this->extend('updateRestrictCMSFields', $restrictFields);
+        if (!empty($restrictFields)) {
+            if (!is_array($params)) {
+                $params = array();
+            }
+            $params['restrictFields'] = $restrictFields;
+        }
+        /* PTFIX_END */
+
+		$tabbedFields = $this->scaffoldFormFields(array(
+			// Don't allow has_many/many_many relationship editing before the record is first saved
+			'includeRelations' => ($this->ID > 0),
+			'tabbed' => true,
+			'ajaxSafe' => true
 		));
 		
 		$this->extend('updateCMSFields', $tabbedFields);
@@ -1967,12 +1925,12 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	
 	/**
 	 * need to be overload by solid dataobject, so that the customised actions of that dataobject,
-	 * including that dataobject's decorator customised actions could be added to the EditForm.
+	 * including that dataobject's extensions customised actions could be added to the EditForm.
 	 * 
-	 * @return an Empty FieldSet(); need to be overload by solid subclass
+	 * @return an Empty FieldList(); need to be overload by solid subclass
 	 */
 	public function getCMSActions() {
-		$actions = new FieldSet();
+		$actions = new FieldList();
 		$this->extend('updateCMSActions', $actions);
 		return $actions;
 	}
@@ -1982,12 +1940,12 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * Used for simple frontend forms without relation editing
 	 * or {@link TabSet} behaviour. Uses {@link scaffoldFormFields()}
 	 * by default. To customize, either overload this method in your
-	 * subclass, or decorate it by {@link DataObjectDecorator->updateFrontEndFields()}.
+	 * subclass, or extend it by {@link DataExtension->updateFrontEndFields()}.
 	 * 
 	 * @todo Decide on naming for "website|frontend|site|page" and stick with it in the API
 	 *
 	 * @param array $params See {@link scaffoldFormFields()}
-	 * @return FieldSet Always returns a simple field collection without TabSet.
+	 * @return FieldList Always returns a simple field collection without TabSet.
 	 */
 	public function getFrontEndFields($params = null) {
 		$untabbedFields = $this->scaffoldFormFields($params);
@@ -2007,12 +1965,26 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	public function getField($field) {
 		// If we already have an object in $this->record, then we should just return that
 		if(isset($this->record[$field]) && is_object($this->record[$field]))  return $this->record[$field];
-		
+
+		// Do we have a field that needs to be lazy loaded?
+		if(isset($this->record[$field.'_Lazy'])) {
+			$tableClass = $this->record[$field.'_Lazy'];
+			$this->loadLazyFields($tableClass);
+		}
+
 		// Otherwise, we need to determine if this is a complex field
 		if(self::is_composite_field($this->class, $field)) {
 			$helper = $this->castingHelper($field);
 			$fieldObj = Object::create_from_string($helper, $field);
-			
+
+			$compositeFields = $fieldObj->compositeDatabaseFields();
+			foreach ($compositeFields as $compositeName => $compositeType) {
+				if(isset($this->record[$field.$compositeName.'_Lazy'])) {
+					$tableClass = $this->record[$field.$compositeName.'_Lazy'];
+					$this->loadLazyFields($tableClass);
+				}
+			}
+
 			// write value only if either the field value exists,
 			// or a valid record has been loaded from the database
 			$value = (isset($this->record[$field])) ? $this->record[$field] : null;
@@ -2027,12 +1999,79 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * Return a map of all the fields for this record.
+	 * Return a map of all the fields for this record
+	 * @deprecated 2.4 Use toMap()
 	 *
 	 * @return array A map of field names to field values.
 	 */
 	public function getAllFields() {
-		return $this->record;
+		Deprecation::notice('3.0', 'Use toMap() instead.');
+		return $this->toMap();
+	}
+
+	/**
+	 * Loads all the stub fields that an initial lazy load didn't load fully.
+	 *
+	 * @param tableClass Base table to load the values from. Others are joined as required.
+	 *                   Not specifying a tableClass will load all lazy fields from all tables.
+	 */
+	protected function loadLazyFields($tableClass = null) {
+		if (!$tableClass) {
+			$loaded = array();
+
+			foreach ($this->record as $key => $value) {
+				if (strlen($key) > 5 && substr($key, -5) == '_Lazy' && !array_key_exists($value, $loaded)) {
+					$this->loadLazyFields($value);
+					$loaded[$value] = $value;
+				}
+			}
+
+			return;
+		}
+
+		$dataQuery = new DataQuery($tableClass);
+
+		// TableField sets the record ID to "new" on new row data, so don't try doing anything in that case
+		if(!is_numeric($this->record['ID'])) return false;
+
+		$dataQuery->where("\"$tableClass\".\"ID\" = {$this->record['ID']}")->limit(1);
+		$columns = array();
+
+		// Add SQL for fields, both simple & multi-value
+		// TODO: This is copy & pasted from buildSQL(), it could be moved into a method
+		$databaseFields = self::database_fields($tableClass);
+		if($databaseFields) foreach($databaseFields as $k => $v) {
+			if(!isset($this->record[$k]) || $this->record[$k] === null) {
+				$columns[] = $k;
+			}
+		}
+
+		if ($columns) {
+			$query = $dataQuery->query(); // eh?
+			$this->extend('augmentSQL', $query, $dataQuery);
+
+			$dataQuery->setQueriedColumns($columns);
+			$newData = $dataQuery->execute()->record();
+
+			// Load the data into record
+			if($newData) {
+				foreach($newData as $k => $v) {
+					if (in_array($k, $columns)) {
+						$this->record[$k] = $v;
+						$this->original[$k] = $v;
+						unset($this->record[$k . '_Lazy']);
+					}
+				}
+
+			// No data means that the query returned nothing; assign 'null' to all the requested fields
+			} else {
+				foreach($columns as $k) {
+					$this->record[$k] = null;
+					$this->original[$k] = null;
+					unset($this->record[$k . '_Lazy']);
+				}
+			}
+		}
 	}
 
 	/**
@@ -2060,7 +2099,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		// Update the changed array with references to changed obj-fields
 		foreach($this->record as $k => $v) {
 			if(is_object($v) && method_exists($v, 'isChanged') && $v->isChanged()) {
-				$this->changed[$k] = 1;
+				$this->changed[$k] = 2;
 			}
 		}
 		
@@ -2124,6 +2163,12 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		// Situation 1: Passing an DBField
 		if($val instanceof DBField) {
 			$val->Name = $fieldName;
+
+			// If we've just lazy-loaded the column, then we need to populate the $original array by
+			// called getField(). Too much overhead? Could this be done by a quicker method? Maybe only
+			// on a call to getChanged()?
+			$this->getField($fieldName);
+
 			$this->record[$fieldName] = $val;
 		// Situation 2: Passing a literal or non-DBField object
 		} else {
@@ -2145,7 +2190,12 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 					$this->changed[$fieldName] = 2;
 				}
 
-				// value is always saved back when strict check succeeds
+				// If we've just lazy-loaded the column, then we need to populate the $original array by
+				// called getField(). Too much overhead? Could this be done by a quicker method? Maybe only
+				// on a call to getChanged()?
+				$this->getField($fieldName);
+
+				// Value is always saved back when strict check succeeds.
 				$this->record[$fieldName] = $val;
 			}
 		}
@@ -2184,8 +2234,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 */
 	public function hasField($field) {
 		return (
-			array_key_exists($field, $this->record) 
+			array_key_exists($field, $this->record)
 			|| $this->db($field)
+			|| (substr($field,-2) == 'ID') && $this->has_one(substr($field,0, -2))
 			|| $this->hasMethod("get{$field}")
 		);
 	}
@@ -2225,16 +2276,16 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		if($field == "LastEdited" && get_parent_class($this) == "DataObject") return "SS_Datetime";
 		if($field == "Created" && get_parent_class($this) == "DataObject") return "SS_Datetime";
 
-		// Add fields from Versioned decorator
+		// Add fields from Versioned extension
 		if($field == 'Version' && $this->hasExtension('Versioned')) { 
 			return 'Int';
 		}
 		// get cached fieldmap
-		$fieldMap = isset(self::$cache_has_own_table_field[$this->class]) ? self::$cache_has_own_table_field[$this->class] : null;
+		$fieldMap = isset(DataObject::$cache_has_own_table_field[$this->class]) ? DataObject::$cache_has_own_table_field[$this->class] : null;
 		
 		// if no fieldmap is cached, get all fields
 		if(!$fieldMap) {
-			$fieldMap = Object::uninherited_static($this->class, 'db');
+			$fieldMap = Config::inst()->get($this->class, 'db', Config::UNINHERITED);
 			
 			// all $db fields on this specific class (no parents)
 			foreach(self::composite_fields($this->class, false) as $fieldname => $fieldtype) {
@@ -2246,13 +2297,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			
 			// all has_one relations on this specific class,
 			// add foreign key
-			$hasOne = Object::uninherited_static($this->class, 'has_one');
+			$hasOne = Config::inst()->get($this->class, 'has_one', Config::UNINHERITED);
 			if($hasOne) foreach($hasOne as $fieldName => $fieldSchema) {
 				$fieldMap[$fieldName . 'ID'] = "ForeignKey";
 			}
 
 			// set cached fieldmap
-			self::$cache_has_own_table_field[$this->class] = $fieldMap;
+			DataObject::$cache_has_own_table_field[$this->class] = $fieldMap;
 		}
 
 		// Remove string-based "constructor-arguments" from the DBField definition
@@ -2270,19 +2321,16 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return bool
 	 */
 	public static function has_own_table($dataClass) {
+		if(!is_subclass_of($dataClass,'DataObject')) return false;
 		
-		// The condition below has the same effect as !is_subclass_of($dataClass,'DataObject'),
-		// which causes PHP < 5.3 to segfault in rare circumstances, see PHP bug #46753
-		if($dataClass == 'DataObject' || !in_array('DataObject', ClassInfo::ancestry($dataClass))) return false;
-		
-		if(!isset(self::$cache_has_own_table[$dataClass])) {
+		if(!isset(DataObject::$cache_has_own_table[$dataClass])) {
 			if(get_parent_class($dataClass) == 'DataObject') {
-				self::$cache_has_own_table[$dataClass] = true;
+				DataObject::$cache_has_own_table[$dataClass] = true;
 			} else {
-				self::$cache_has_own_table[$dataClass] = Object::uninherited_static($dataClass, 'db') || Object::uninherited_static($dataClass, 'has_one');
+				DataObject::$cache_has_own_table[$dataClass] = Config::inst()->get($dataClass, 'db', Config::UNINHERITED) || Config::inst()->get($dataClass, 'has_one', Config::UNINHERITED);
 			}
 		}
-		return self::$cache_has_own_table[$dataClass];
+		return DataObject::$cache_has_own_table[$dataClass];
 	}
 	
 	/**
@@ -2319,6 +2367,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 					$groupList = implode(', ', $groups->column("ID"));
 
+					// TODO Fix relation table hardcoding
 					$query = new SQLQuery(
 						"\"Page_Can$perm\".PageID",
 					array("\"Page_Can$perm\""),
@@ -2327,6 +2376,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 					$permissionCache[$memberID][$perm] = $query->execute()->column();
 
 					if($perm == "View") {
+						// TODO Fix relation table hardcoding
 						$query = new SQLQuery("\"SiteTree\".\"ID\"", array(
 							"\"SiteTree\"",
 							"LEFT JOIN \"Page_CanView\" ON \"Page_CanView\".\"PageID\" = \"SiteTree\".\"ID\""
@@ -2340,9 +2390,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 							}
 					}
 
-					$this->set_uninherited('permissionCache', $permissionCache);
+					Config::inst()->update($this->class, 'permissionCache', $permissionCache);
 				}
-
 
 				if($permissionCache[$memberID][$perm]) {
 					return in_array($this->ID, $permissionCache[$memberID][$perm]);
@@ -2354,11 +2403,11 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * Process tri-state responses from permission-alterting decorators.  The decorators are
+	 * Process tri-state responses from permission-alterting extensions.  The extensions are
 	 * expected to return one of three values:
 	 * 
-	 *  - false: Disallow this permission, regardless of what other decorators say
-	 *  - true: Allow this permission, as long as no other decorators return false
+	 *  - false: Disallow this permission, regardless of what other extensions say
+	 *  - true: Allow this permission, as long as no other extensions return false
 	 *  - NULL: Don't affect the outcome
 	 * 
 	 * This method itself returns a tri-state value, and is designed to be used like this:
@@ -2470,13 +2519,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			
 		// Special case for has_one relationships
 		} else if(preg_match('/ID$/', $fieldName) && $this->has_one(substr($fieldName,0,-2))) {
-			$val = (isset($this->record[$fieldName])) ? $this->record[$fieldName] : null;
-			return DBField::create('ForeignKey', $val, $fieldName, $this);
+			$val = $this->$fieldName;
+			return DBField::create_field('ForeignKey', $val, $fieldName, $this);
 			
 		// Special case for ClassName
 		} else if($fieldName == 'ClassName') {
 			$val = get_class($this);
-			return DBField::create('Varchar', $val, $fieldName, $this);
+			return DBField::create_field('Varchar', $val, $fieldName, $this);
 		}
 	}
 
@@ -2488,28 +2537,62 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return DBField
 	 */
 	public function relObject($fieldPath) {
-		$parts = explode('.', $fieldPath);
-		$fieldName = array_pop($parts);
-		$component = $this;
-		foreach($parts as $relation) {
-			if ($rel = $component->has_one($relation)) {
-				$component = singleton($rel);
-			} elseif ($rel = $component->has_many($relation)) {
-				$component = singleton($rel);
-			} elseif ($rel = $component->many_many($relation)) {
-				$component = singleton($rel[1]);
-			} elseif($className = $this->castingClass($relation)) {
-				$component = $className;
+		if(strpos($fieldPath, '.') !== false) {
+			$parts = explode('.', $fieldPath);
+			$fieldName = array_pop($parts);
+
+			// Traverse dot syntax
+			$component = $this;
+			foreach($parts as $relation) {
+				if($component instanceof SS_List) {
+					if(method_exists($component,$relation)) $component = $component->$relation();
+					else $component = $component->relation($relation);
+				} else {
+					$component = $component->$relation();
+				}
 			}
+
+			$object = $component->dbObject($fieldName);
+
+		} else {
+			$object = $this->dbObject($fieldPath);
 		}
 
-		$object = $component->dbObject($fieldName);
 
-		if (!($object instanceof DBField) && !($object instanceof ComponentSet)) {
+		if (!($object instanceof DBField) && !($object instanceof DataList)) {
 			// Todo: come up with a broader range of exception objects to describe differnet kinds of errors programatically
 			throw new Exception("Unable to traverse to related object field [$fieldPath] on [$this->class]");
 		}
 		return $object;
+	}
+
+	/**
+	 * Traverses to a field referenced by relationships between data objects, returning the value
+	 * The path to the related field is specified with dot separated syntax (eg: Parent.Child.Child.FieldName)
+	 *
+	 * @param $fieldPath string
+	 * @return string
+	 */
+	public function relField($fieldName) {
+		$component = $this;
+
+		if(strpos($fieldName, '.') !== false) {
+			$parts = explode('.', $fieldName);
+			$fieldName = array_pop($parts);
+
+			// Traverse dot syntax
+			foreach($parts as $relation) {
+				if($component instanceof SS_List) {
+					if(method_exists($component,$relation)) $component = $component->$relation();
+					else $component = $component->relation($relation);
+				} else {
+					$component = $component->$relation();
+				}
+			}
+		}
+
+		if ($component->hasMethod($fieldName)) return $component->$fieldName();
+		return $component->$fieldName;
 	}
 
 	/**
@@ -2536,183 +2619,20 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * Build a {@link SQLQuery} object to perform the given query.
-	 *
-	 * @param string $filter A filter to be inserted into the WHERE clause.
-	 * @param string|array $sort A sort expression to be inserted into the ORDER BY clause. If omitted, self::$default_sort will be used.
-	 * @param string|array $limit A limit expression to be inserted into the LIMIT clause.
-	 * @param string $join A single join clause. This can be used for filtering, only 1 instance of each DataObject will be returned.
-	 * @param boolean $restictClasses Restrict results to only objects of either this class of a subclass of this class
-	 * @param string $having A filter to be inserted into the HAVING clause.
-	 *
-	 * @return SQLQuery Query built.
+	 * @deprecated 3.0 Use DataList::create and DataList to do your querying
 	 */
 	public function buildSQL($filter = "", $sort = "", $limit = "", $join = "", $restrictClasses = true, $having = "") {
-		// Cache the big hairy part of buildSQL
-		if(!isset(self::$cache_buildSQL_query[$this->class])) {
-			// Get the tables to join to
-			$tableClasses = ClassInfo::dataClassesFor($this->class);
-			if(!$tableClasses) {
-				if(!ManifestBuilder::has_been_included()) {
-					user_error("DataObjects have been requested before the manifest is loaded. Please ensure you are not querying the database in _config.php.", E_USER_ERROR);
-				} else {
-					user_error("DataObject::buildSQL: Can't find data classes (classes linked to tables) for $this->class. Please ensure you run dev/build after creating a new DataObject.", E_USER_ERROR);
-				}
-			}
-
-			$baseClass = array_shift($tableClasses);
-
-
-			// $collidingFields will keep a list fields that appear in mulitple places in the class
-			// heirarchy for this table.  They will be dealt with more explicitly in the SQL query
-			// to ensure that junk data from other tables doesn't corrupt data objects
-			$collidingFields = array();
-
-			// Build our intial query
-			$query = new SQLQuery(array());
-			$query->from("\"$baseClass\"");
-
-			// Add SQL for multi-value fields on the base table
-			$databaseFields = self::database_fields($baseClass);
-			if($databaseFields) foreach($databaseFields as $k => $v) {
-				if(!in_array($k, array('ClassName', 'LastEdited', 'Created')) && ClassInfo::classImplements($v, 'CompositeDBField')) {
-					$this->dbObject($k)->addToQuery($query);
-				} else {
-					$query->select[$k] = "\"$baseClass\".\"$k\"";
-				}
-			}
-			// Join all the tables
-			if($tableClasses && self::$subclass_access) {
-				foreach($tableClasses as $tableClass) {
-					$query->from[$tableClass] = "LEFT JOIN \"$tableClass\" ON \"$tableClass\".\"ID\" = \"$baseClass\".\"ID\"";
-
-					// Add SQL for multi-value fields
-					$databaseFields = self::database_fields($tableClass);
-					$compositeFields = self::composite_fields($tableClass, false);
-					if($databaseFields) foreach($databaseFields as $k => $v) {
-						if(!isset($compositeFields[$k])) {
-							// Update $collidingFields if necessary
-							if(isset($query->select[$k])) {
-								if(!isset($collidingFields[$k])) $collidingFields[$k] = array($query->select[$k]);
-								$collidingFields[$k][] = "\"$tableClass\".\"$k\"";
-								
-							} else {
-								$query->select[$k] = "\"$tableClass\".\"$k\"";
-							}
-						}
-					}
-					if($compositeFields) foreach($compositeFields as $k => $v) {
-						$dbO = $this->dbObject($k);
-						if($dbO) $dbO->addToQuery($query);
-					}
-				}
-			}
-			
-			// Resolve colliding fields
-			if($collidingFields) {
-				foreach($collidingFields as $k => $collisions) {
-					$caseClauses = array();
-					foreach($collisions as $collision) {
-						if(preg_match('/^"([^"]+)"/', $collision, $matches)) {
-							$collisionBase = $matches[1];
-							$collisionClasses = ClassInfo::subclassesFor($collisionBase);
-							$caseClauses[] = "WHEN \"$baseClass\".\"ClassName\" IN ('"
-								. implode("', '", $collisionClasses) . "') THEN $collision";
-						} else {
-							user_error("Bad collision item '$collision'", E_USER_WARNING);
-						}
-					}
-					$query->select[$k] = "CASE " . implode( " ", $caseClauses) . " ELSE NULL END"
-						.  " AS \"$k\"";
-				}
-			}
-			
-
-			$query->select[] = "\"$baseClass\".\"ID\"";
-			$query->select[] = "CASE WHEN \"$baseClass\".\"ClassName\" IS NOT NULL THEN \"$baseClass\".\"ClassName\" ELSE '$baseClass' END AS \"RecordClassName\"";
-
-			// Get the ClassName values to filter to
-			$classNames = ClassInfo::subclassesFor($this->class);
-
-			if(!$classNames) {
-				user_error("DataObject::get() Can't find data sub-classes for '$callerClass'");
-			}
-
-			// If querying the base class, don't bother filtering on class name
-			if($restrictClasses && $this->class != $baseClass) {
-				// Get the ClassName values to filter to
-				$classNames = ClassInfo::subclassesFor($this->class);
-				if(!$classNames) {
-					user_error("DataObject::get() Can't find data sub-classes for '$callerClass'");
-				}
-
-				$query->where[] = "\"$baseClass\".\"ClassName\" IN ('" . implode("','", $classNames) . "')";
-			}
-			self::$cache_buildSQL_query[$this->class] = clone $query;
-		} else {
-			$query = clone self::$cache_buildSQL_query[$this->class];
-			
-		}
-		
-		// Find a default sort
-		if(!$sort) {
-			$sort = $this->stat('default_sort');
-		}
-		// Add quoting to sort expression if it's a simple column name
-		if(preg_match('/^[A-Z][A-Z0-9_]*$/i', $sort)) $sort = "\"$sort\"";
-
-		$query->where($filter);
-		$query->orderby($sort);
-		$query->limit($limit);
-		
-
-		if($having) {
-			$query->having[] = $having;
-		}
-
-		if($join) {
-			$query->from[] = $join;
-			// In order to group by unique columns we have to group by everything listed in the select
-			foreach($query->select as $field) {
-				// Skip the _SortColumns; these are only going to be aggregate functions
-				if(preg_match('/AS\s+\"?_SortColumn/', $field, $matches)) {
-				
-				// Identify columns with aliases, and ignore the alias.  Making use of the alias in
-				// group by was causing problems when those queries were subsequently passed into
-				// SQLQuery::unlimitedRowCount.
-				} else if(preg_match('/^(.*)\s+AS\s+(\"[^"]+\")\s*$/', $field, $matches)) {
-					$query->groupby[] = $matches[1];
-				// Otherwise just use the field as is
-				} else {
-					$query->groupby[] = $field;
-				}
-			}
-		}
-
-		return $query;
+		Deprecation::notice('3.0', 'Use DataList::create and DataList to do your querying instead.');
+		return $this->extendedSQL($filter, $sort, $limit, $join, $having);
 	}
-	
-	/**
-	 * Cache for the hairy bit of buildSQL
-	 */
-	private static $cache_buildSQL_query;
 
 	/**
-	 * Like {@link buildSQL}, but applies the extension modifications.
-	 * 
-	 * @uses DataObjectDecorator->augmentSQL()
-	 *
-	 * @param string $filter A filter to be inserted into the WHERE clause.
-	 * @param string|array $sort A sort expression to be inserted into the ORDER BY clause. If omitted, self::$default_sort will be used.
-	 * @param string|array $limit A limit expression to be inserted into the LIMIT clause.
-	 * @param string $join A single join clause. This can be used for filtering, only 1 instance of each DataObject will be returned.
-	 * @param string $having A filter to be inserted into the HAVING clause.
-	 * @return SQLQuery Query built
+	 * @deprecated 3.0 Use DataList::create and DataList to do your querying
 	 */
-	public function extendedSQL($filter = "", $sort = "", $limit = "", $join = "", $having = ""){
-		$query = $this->buildSQL($filter, $sort, $limit, $join, true, $having);
-		$this->extend('augmentSQL', $query);
-		return $query;
+	public function extendedSQL($filter = "", $sort = "", $limit = "", $join = ""){
+		Deprecation::notice('3.0', 'Use DataList::create and DataList to do your querying instead.');
+		$dataList = DataObject::get($this->class, $filter, $sort, $join, $limit);
+		return $dataList->dataQuery()->query();
 	}
 
 	/**
@@ -2728,13 +2648,75 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *
 	 * @return mixed The objects matching the filter, in the class specified by $containerClass
 	 */
-	public static function get($callerClass, $filter = "", $sort = "", $join = "", $limit = "", $containerClass = "DataObjectSet") {
-		return singleton($callerClass)->instance_get($filter, $sort, $join, $limit, $containerClass);
+	public static function get($callerClass = null, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
+		if($callerClass == null) {
+			$callerClass = get_called_class();
+			if($callerClass == 'DataObject') {
+				throw new \InvalidArgumentException('Call <classname>::get() instead of DataObject::get()');
+			}
+			
+			if($filter || $sort || $join || $limit || ($containerClass != 'DataList')) {
+				throw new \InvalidArgumentException('If calling <classname>::get() then you shouldn\'t pass any other arguments');
+			}
+			
+			$result = DataList::create(get_called_class());
+			$result->setDataModel(DataModel::inst());
+			return $result;
+		}
+		
+		// Todo: Determine if we can deprecate for 3.0.0 and use DI or something instead
+		// Todo: Make the $containerClass method redundant
+		if($containerClass != 'DataList') {
+			Deprecation::notice('3.0', 'DataObject::get() - $containerClass argument is deprecated.', Deprecation::SCOPE_GLOBAL);
+		}
+
+		$result = DataList::create($callerClass)->where($filter)->sort($sort);
+
+		if($limit && strpos($limit, ',') !== false) {
+			$limitArguments = explode(',', $limit);
+			$result->limit($limitArguments[1],$limitArguments[0]);
+		} elseif($limit) {
+			$result->limit($limit);
+		}
+
+		if($join) $result = $result->join($join);
+
+		$result->setDataModel(DataModel::inst());
+		return $result;
+	}
+	
+	/**
+	 * @deprecated 3.0 Use DataList::create and DataList to do your querying
+	 */
+	public function Aggregate($class = null) {
+		Deprecation::notice('3.0', 'Call aggregate methods on a DataList directly instead. In templates ' .
+			'an example of the new syntax is &lt% cached List(Member).max(LastEdited) %&gt instead (check partial-caching.md documentation ' .
+			'for more details.)');
+
+		if($class) {
+			$list = new DataList($class);
+			$list->setDataModel(DataModel::inst());
+		} else if(isset($this)) {
+			$list = new DataList(get_class($this));
+			$list->setDataModel($this->model);
+		}
+		else throw new InvalidArgumentException("DataObject::aggregate() must be called as an instance method or passed a classname");
+		return $list;
 	}
 
 	/**
-	 * The internal function that actually performs the querying for get().
-	 * DataObject::get("Table","filter") is the same as singleton("Table")->instance_get("filter")
+	 * @deprecated 3.0 Use DataList::create and DataList to do your querying
+	 */
+	public function RelationshipAggregate($relationship) {
+		Deprecation::notice('3.0', 'Call aggregate methods on a relationship directly instead.');
+
+		return $this->$relationship();
+	}
+
+	/**
+	 * DataList::create("Table")->where("filter") is the same as singleton("Table")->instance_get("filter")
+	 *
+	 * @deprecated 3.0 Use DataList::create and DataList to do your querying
 	 *
 	 * @param string $filter A filter to be inserted into the WHERE clause.
 	 * @param string $sort A sort expression to be inserted into the ORDER BY clause.  If omitted, self::$default_sort will be used.
@@ -2745,22 +2727,14 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return mixed The objects matching the filter, in the class specified by $containerClass
 	 */
 	public function instance_get($filter = "", $sort = "", $join = "", $limit="", $containerClass = "DataObjectSet") {
-		if(!DB::isActive()) {
-			user_error("DataObjects have been requested before the database is ready. Please ensure your database connection details are correct, your database has been built, and that you are not trying to query the database in _config.php.", E_USER_ERROR);
-		}
-		
-		$query = $this->extendedSQL($filter, $sort, $limit, $join);
-		
-		$records = $query->execute();
-		
-		$ret = $this->buildDataObjectSet($records, $containerClass, $query, $this->class);
-		if($ret) $ret->parseQueryLimit($query);
-
-		return $ret;
+		Deprecation::notice('3.0', 'Use DataList::create and DataList to do your querying instead.');
+		return self::get($this->class, $filter, $sort, $join, $limit, $containerClass);
 	}
 
 	/**
 	 * Take a database {@link SS_Query} and instanciate an object for each record.
+	 * 
+	 * @deprecated 3.0 Replaced by DataList
 	 *
 	 * @param SS_Query|array $records The database records, a {@link SS_Query} object or an array of maps.
 	 * @param string $containerClass The class to place all of the objects into.
@@ -2768,6 +2742,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return mixed The new objects in an object of type $containerClass
 	 */
 	function buildDataObjectSet($records, $containerClass = "DataObjectSet", $query = null, $baseClass = null) {
+		Deprecation::notice('3.0', 'Use DataList instead.');
+
 		foreach($records as $record) {
 			if(empty($record['RecordClassName'])) {
 				$record['RecordClassName'] = $record['ClassName'];
@@ -2792,12 +2768,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * A cache used by get_one.
-	 * @var array
-	 */
-	protected static $cache_get_one;
-
-	/**
 	 * Return the first item matching the given query.
 	 * All calls to get_one() are cached.
 	 *
@@ -2818,104 +2788,89 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		$cacheKey = md5($cacheKey);
 		
 		// Flush destroyed items out of the cache
-		if($cache && isset(DataObject::$cache_get_one[$callerClass][$cacheKey]) && DataObject::$cache_get_one[$callerClass][$cacheKey] instanceof DataObject && DataObject::$cache_get_one[$callerClass][$cacheKey]->destroyed) {
-			DataObject::$cache_get_one[$callerClass][$cacheKey
+		if($cache && isset(DataObject::$_cache_get_one[$callerClass][$cacheKey]) && DataObject::$_cache_get_one[$callerClass][$cacheKey] instanceof DataObject && DataObject::$_cache_get_one[$callerClass][$cacheKey]->destroyed) {
+			DataObject::$_cache_get_one[$callerClass][$cacheKey
 			] = false;
 		}
-		if(!$cache || !isset(DataObject::$cache_get_one[$callerClass][$cacheKey])) {
-			$item = $SNG->instance_get_one($filter, $orderby);
+		if(!$cache || !isset(DataObject::$_cache_get_one[$callerClass][$cacheKey])) {
+			$dl = DataList::create($callerClass)->where($filter)->sort($orderby);
+			$dl->setDataModel(DataModel::inst());
+			$item = $dl->First();
+
 			if($cache) {
-				DataObject::$cache_get_one[$callerClass][$cacheKey] = $item;
-				if(!DataObject::$cache_get_one[$callerClass][$cacheKey]) {
-					DataObject::$cache_get_one[$callerClass][$cacheKey] = false;
+				DataObject::$_cache_get_one[$callerClass][$cacheKey] = $item;
+				if(!DataObject::$_cache_get_one[$callerClass][$cacheKey]) {
+					DataObject::$_cache_get_one[$callerClass][$cacheKey] = false;
 				}
 			}
 		}
-		return $cache ? DataObject::$cache_get_one[$callerClass][$cacheKey] : $item;
+		return $cache ? DataObject::$_cache_get_one[$callerClass][$cacheKey] : $item;
 	}
 
 	/**
 	 * Flush the cached results for all relations (has_one, has_many, many_many)
-	 * Also clears any cached aggregate data
-	 * 
-	 * @param boolean $persistant When true will also clear persistant data stored in the Cache system.
+	 * Also clears any cached aggregate data.
+	 *
+	 * @param boolean $persistent When true will also clear persistent data stored in the Cache system.
 	 *                            When false will just clear session-local cached data 
-	 * 
+	 *
 	 */
-	public function flushCache($persistant=true) {
-		if($persistant) Aggregate::flushCache($this->class);
+	public function flushCache($persistent = true) {
+		if($persistent) Aggregate::flushCache($this->class);
 		
 		if($this->class == 'DataObject') {
-			DataObject::$cache_get_one = array();
+			DataObject::$_cache_get_one = array();
 			return;
 		}
 
 		$classes = ClassInfo::ancestry($this->class);
 		foreach($classes as $class) {
-			if(isset(self::$cache_get_one[$class])) unset(self::$cache_get_one[$class]);
+			if(isset(DataObject::$_cache_get_one[$class])) unset(DataObject::$_cache_get_one[$class]);
 		}
 		
 		$this->extend('flushCache');
 		
-		$this->componentCache = array();
+		$this->components = array();
 	}
 
+	/**
+	 * Flush the get_one global cache and destroy associated objects.
+	 */
 	static function flush_and_destroy_cache() {
-		if(self::$cache_get_one) foreach(self::$cache_get_one as $class => $items) {
+		if(DataObject::$_cache_get_one) foreach(DataObject::$_cache_get_one as $class => $items) {
 			if(is_array($items)) foreach($items as $item) {
 				if($item) $item->destroy();
 			}
 		}
-		self::$cache_get_one = array();
+		DataObject::$_cache_get_one = array();
 	}
 	
 	/**
-	 * Reset internal caches, for example after test runs
+	 * Reset all global caches associated with DataObject.
 	 */
 	static function reset() {
-		self::$cache_get_one = array();
-		self::$cache_buildSQL_query = array();
+		DataObject::$cache_has_own_table = array();
+		DataObject::$cache_has_own_table_field = array();
+		DataObject::$_cache_get_one = array();
+		DataObject::$_cache_composite_fields = array();
+		DataObject::$_cache_get_class_ancestry = array();
+		DataObject::$_cache_field_labels = array();
 	}
 
 	/**
 	 * Does the hard work for get_one()
+	 *
+	 * @deprecated 3.0 Use DataList::create($this->class)->where($filter)->sort($orderby)->First() instead
 	 * 
-	 * @uses DataObjectDecorator->augmentSQL()
+	 * @uses DataExtension->augmentSQL()
 	 *
 	 * @param string $filter A filter to be inserted into the WHERE clause
 	 * @param string $orderby A sort expression to be inserted into the ORDER BY clause.
 	 * @return DataObject The first item matching the query
 	 */
 	public function instance_get_one($filter, $orderby = null) {
-		if(!DB::isActive()) {
-			user_error("DataObjects have been requested before the database is ready. Please ensure your database connection details are correct, your database has been built, and that you are not trying to query the database in _config.php.", E_USER_ERROR);
-		}
-		
-		$query = $this->buildSQL($filter);
-		$query->limit = "1";
-		if($orderby) {
-			$query->orderby = $orderby;
-		}
-
-		$this->extend('augmentSQL', $query);
-
-		$records = $query->execute();
-		$records->rewind();
-		$record = $records->current();
-
-		if($record) {
-			// Mid-upgrade, the database can have invalid RecordClassName values that need to be guarded against.
-			if(class_exists($record['RecordClassName'])) {
-				$record = new $record['RecordClassName']($record);
-			} else {
-				$record = new $this->class($record);
-			}
-
-			// Rather than restrict classes at the SQL-query level, we now check once the object has been instantiated
-			// This lets us check up on weird errors where the class has been incorrectly set, and give warnings to our
-			// developers
-			return $record;
-		}
+		Deprecation::notice('3.0', 'Use DataList::create($this->class)->where($filter)->sort($orderby)->First() instead.');
+		return DataObject::get_one($this->class, $filter, true, $orderby);
 	}
 
 	/**
@@ -2930,8 +2885,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	public static function get_by_id($callerClass, $id, $cache = true) {
 		if(is_numeric($id)) {
 			if(is_subclass_of($callerClass, 'DataObject')) {
-				$tableClasses = ClassInfo::dataClassesFor($callerClass);
-				$baseClass = array_shift($tableClasses);
+				$baseClass = ClassInfo::baseDataClass($callerClass);
 				return DataObject::get_one($callerClass,"\"$baseClass\".\"ID\" = $id", $cache);
 
 				// This simpler code will be used by non-DataObject classes that implement DataObjectInterface
@@ -2987,13 +2941,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	/**
 	 * Check the database schema and update it as necessary.
 	 * 
-	 * @uses DataObjectDecorator->augmentDatabase()
+	 * @uses DataExtension->augmentDatabase()
 	 */
 	public function requireTable() {
 		// Only build the table if we've actually got fields
 		$fields = self::database_fields($this->class);
 		$extensions = self::database_extensions($this->class);
-		
+
 		$indexes = $this->databaseIndexes();
 
 		if($fields) {
@@ -3036,7 +2990,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * this to add default records when the database is built, but make sure you
 	 * call parent::requireDefaultRecords().
 	 * 
-	 * @uses DataObjectDecorator->requireDefaultRecords()
+	 * @uses DataExtension->requireDefaultRecords()
 	 */
 	public function requireDefaultRecords() {
 		$defaultRecords = $this->stat('default_records');
@@ -3046,7 +3000,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			if(!$hasData) {
 				$className = $this->class;
 				foreach($defaultRecords as $record) {
-					$obj = new $className($record);
+					$obj = $this->model->$className->newObject($record);
 					$obj->write();
 				}
 				DB::alteration_message("Added default records to $className table","created");
@@ -3058,20 +3012,20 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 	
 	/**
+	 * @deprecated 3.0 Use DataObject::database_fields() instead
 	 * @see DataObject::database_fields()
 	 */
 	public function databaseFields() {
-		user_error("databaseFields() is deprecated; use self::database_fields() "
-			. "instead", E_USER_NOTICE);
+		Deprecation::notice('3.0', 'Use DataObject::database_fields() instead.');
 		return self::database_fields($this->class);
 	}
 	
 	/**
+	 * @deprecated 3.0 Use DataObject::custom_database_fields() instead
 	 * @see DataObject::custom_database_fields()
 	 */
 	public function customDatabaseFields() {
-		user_error("customDatabaseFields() is deprecated; use self::custom_database_fields() "
-			. "instead", E_USER_NOTICE);
+		Deprecation::notice('3.0', 'Use DataObject::custom_database_fields() instead.');
 		return self::custom_database_fields($this->class);
 	}
 	
@@ -3115,8 +3069,8 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		if(!$fields) $fields = array_keys($this->summaryFields());
 		
 		// we need to make sure the format is unified before
-		// augmenting fields, so decorators can apply consistent checks
-		// but also after augmenting fields, because the decorator
+		// augmenting fields, so extensions can apply consistent checks
+		// but also after augmenting fields, because the extension
 		// might use the shorthand notation as well
 
 		// rewrite array, if it is using shorthand syntax
@@ -3153,7 +3107,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 		$fields = $rewrite;
 		
-		// apply DataObjectDecorators if present
+		// apply DataExtensions if present
 		$this->extend('updateSearchableFields', $fields);
 
 		return $fields;
@@ -3182,33 +3136,39 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array|string Array of all element labels if no argument given, otherwise the label of the field
 	 */
 	public function fieldLabels($includerelations = true) {
-		$customLabels = $this->stat('field_labels');
-		$autoLabels = array();
+		$cacheKey = $this->class . '_' . $includerelations;
 		
-		// get all translated static properties as defined in i18nCollectStatics()
-		$ancestry = ClassInfo::ancestry($this->class);
-		$ancestry = array_reverse($ancestry);
-		if($ancestry) foreach($ancestry as $ancestorClass) {
-			if($ancestorClass == 'ViewableData') break;
-			$types = array(
-				'db'        => (array) Object::uninherited_static($ancestorClass, 'db'),
-			);
-			if($includerelations){
-				$types['has_one'] = (array)singleton($ancestorClass)->uninherited('has_one', true);
-				$types['has_many'] = (array)singleton($ancestorClass)->uninherited('has_many', true);
-				$types['many_many'] = (array)singleton($ancestorClass)->uninherited('many_many', true);
-			}
-			foreach($types as $type => $attrs) {
-				foreach($attrs as $name => $spec)
-				$autoLabels[$name] = _t("{$ancestorClass}.{$type}_{$name}",FormField::name_to_label($name));
- 			}
- 		}
+		if(!isset(self::$_cache_field_labels[$cacheKey])) {
+			$customLabels = $this->stat('field_labels');
+			$autoLabels = array();
+			
+			// get all translated static properties as defined in i18nCollectStatics()
+			$ancestry = ClassInfo::ancestry($this->class);
+			$ancestry = array_reverse($ancestry);
+			if($ancestry) foreach($ancestry as $ancestorClass) {
+				if($ancestorClass == 'ViewableData') break;
+				$types = array(
+					'db'        => (array)Config::inst()->get($ancestorClass, 'db', Config::UNINHERITED)
+				);
+				if($includerelations){
+					$types['has_one'] = (array)singleton($ancestorClass)->uninherited('has_one', true);
+					$types['has_many'] = (array)singleton($ancestorClass)->uninherited('has_many', true);
+					$types['many_many'] = (array)singleton($ancestorClass)->uninherited('many_many', true);
+				}
+				foreach($types as $type => $attrs) {
+					foreach($attrs as $name => $spec) {
+						// var_dump("{$ancestorClass}.{$type}_{$name}");
+						$autoLabels[$name] = _t("{$ancestorClass}.{$type}_{$name}",FormField::name_to_label($name));
+					}
+	 			}
+	 		}
 
-		$labels = array_merge((array)$autoLabels, (array)$customLabels);
+			$labels = array_merge((array)$autoLabels, (array)$customLabels);
+			$this->extend('updateFieldLabels', $labels);	
+			self::$_cache_field_labels[$cacheKey] = $labels;
+		}
 		
-		$this->extend('updateFieldLabels', $labels);
-
-		return $labels;
+		return self::$_cache_field_labels[$cacheKey];
 	}
 	
 	/**
@@ -3234,7 +3194,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array
 	 */
 	public function summaryFields(){
-
 		$fields = $this->stat('summary_fields');
 
 		// if fields were passed in numeric array,
@@ -3255,6 +3214,11 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		
 		// Final fail-over, just list ID field
 		if(!$fields) $fields['ID'] = 'ID';
+
+		// Localize fields (if possible)
+		foreach($this->fieldLabels(false) as $name => $label) {
+			if(isset($fields[$name])) $fields[$name] = $label;
+		}
 		
 		return $fields;
 	}
@@ -3290,29 +3254,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		return is_numeric( $this->ID ) && $this->ID > 0;
 	}
 
-	/**
-	 * Sets a 'context object' that can be used to provide hints about how to process a particular get / get_one request.
-	 * In particular, DataObjectDecorators can use this to amend queries more effectively.
-	 * Care must be taken to unset the context object after you're done with it, otherwise you will have a stale context,
-	 * which could cause horrible bugs.
-	 */
-	public static function set_context_obj($obj) {
-		if($obj && self::$context_obj) user_error("Dataobject::set_context_obj passed " . $obj->class . "." . $obj->ID . " when there is already a context: " . self::$context_obj->class . '.' . self::$context_obj->ID, E_USER_WARNING);
-		self::$context_obj = $obj;
-	}
-
-	/**
-	 * Retrieve the current context object.
-	 */
-	public static function context_obj() {
-		return self::$context_obj;
-	}
-
-	/**
-	 * @ignore
-	 */
-	protected static $context_obj = null;
-
 	/*
 	 * @ignore
 	 */
@@ -3335,6 +3276,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * This is a map from field names to field type. The field
 	 * type should be a class that extends .
 	 * @var array
+	 * @config
 	 */
 	public static $db = null;
 
@@ -3367,7 +3309,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @var array
 	 */
 	static $create_table_options = array(
-		'MySQLDatabase' => 'ENGINE=MyISAM'
+		'MySQLDatabase' => 'ENGINE=InnoDB'
 	);
 
 	/**
@@ -3547,13 +3489,13 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		
 		$entities["{$this->class}.SINGULARNAME"] = array(
 			$this->singular_name(),
-			PR_MEDIUM,
+			
 			'Singular name of the object, used in dropdowns and to generally identify a single object in the interface'
 		);
 
 		$entities["{$this->class}.PLURALNAME"] = array(
 			$this->plural_name(),
-			PR_MEDIUM,
+			
 			'Pural name of the object, used in dropdowns and to generally identify a collection of this object in the interface'
 		);
 		
@@ -3572,7 +3514,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
  	function hasValue($field, $arguments = null, $cache = true) {
  		$obj = $this->dbObject($field);
  		if($obj) {
- 			return $obj->hasValue();
+ 			return $obj->exists();
  		} else {
  			return parent::hasValue($field, $arguments, $cache);
  		}
