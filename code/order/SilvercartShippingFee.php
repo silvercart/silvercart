@@ -42,10 +42,10 @@ class SilvercartShippingFee extends DataObject {
     public static $db = array(
         'MaximumWeight'                 => 'Int',
         'UnlimitedWeight'               => 'Boolean',
-        'Price'                         => 'Money',
+        'Price'                         => 'SilvercartMoney',
         'PostPricing'                   => 'Boolean',
         'freeOfShippingCostsDisabled'   => 'Boolean',
-        'freeOfShippingCostsFrom'       => 'Money',
+        'freeOfShippingCostsFrom'       => 'SilvercartMoney',
     );
 
     /**
@@ -56,7 +56,7 @@ class SilvercartShippingFee extends DataObject {
     public static $has_one = array(
         'SilvercartZone'              => 'SilvercartZone',
         'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
-        'SilvercartTax'               => 'SilvercartTax'
+        'SilvercartTax'               => 'SilvercartTax',
     );
 
     /**
@@ -134,7 +134,7 @@ class SilvercartShippingFee extends DataObject {
      * @return array
      * 
      * @author Seabstian Diel <sdiel@pixeltricks.de>
-     * @since 28.04.2011
+     * @since 13.02.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -153,6 +153,7 @@ class SilvercartShippingFee extends DataObject {
                     'EmptyString'                   => _t('SilvercartShippingFee.EMPTYSTRING_CHOOSEZONE'),
                     'freeOfShippingCostsDisabled'   => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSDISABLED'),
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
+                    'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME'),
                 )
         );
     }
@@ -195,26 +196,14 @@ class SilvercartShippingFee extends DataObject {
 
     /**
      * Customizes the backends fields, mainly for ModelAdmin
-     * 
-     * @param array $params Scaffolding parameters
      *
      * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2012
+     * @since 13.02.2013
      */
-    public function getCMSFields($params = array()) {
-        $fields = parent::getCMSFields(
-                array_merge(
-                        $params,
-                        array(
-                            'fieldClasses' => array(
-                                'Price'                     => 'SilvercartMoneyField',
-                                'freeOfShippingCostsFrom'   => 'SilvercartMoneyField',
-                            ),
-                        )
-                )
-        );
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
         
         $postPricingField = $fields->dataFieldByName('PostPricing');
         $postPricingField->setTitle($postPricingField->Title() . ' (' . $this->fieldLabel('PostPricingInfo') . ')');
@@ -228,20 +217,21 @@ class SilvercartShippingFee extends DataObject {
         $fieldGroup->pushAndBreak(  $fields->dataFieldByName('SilvercartTaxID'));
         $fieldGroup->pushAndBreak(  $postPricingField);
         // only the carriers zones must be selectable
-        $zones  = DataObject::get(
-                'SilvercartZone',
-                sprintf(
-                        "\"SilvercartZone_SilvercartCarriers\".\"SilvercartCarrierID\" = %s",
-                        $this->SilvercartShippingMethod()->SilvercartCarrier()->ID
-                ),
-                "",
-                "LEFT JOIN \"SilvercartZone_SilvercartCarriers\" ON (\"SilvercartZone\".\"ID\" = \"SilvercartZone_SilvercartCarriers\".\"SilvercartZoneID\")"
+        $leftJoinTable  = 'SilvercartZone_SilvercartCarriers';
+        $leftJoinOn     = '"SilvercartZone"."ID" = "SilvercartZone_SilvercartCarriers"."SilvercartZoneID"';
+        $where          = sprintf(
+                            "\"SilvercartZone_SilvercartCarriers\".\"SilvercartCarrierID\" = %s",
+                            $this->SilvercartShippingMethod()->SilvercartCarrier()->ID
         );
+        $zones          = SilvercartZone::get()
+                            ->leftJoin($leftJoinTable, $leftJoinOn)
+                            ->where($where);
         if ($zones->exists()) {
+            $zonesMap   = $zones->map('ID', 'Title');
             $zonesField = new DropdownField(
                     'SilvercartZoneID',
                     _t('SilvercartShippingFee.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                    $zones->toDropDownMap('ID', 'Title', $this->fieldLabel('EmptyString'))
+                    $zonesMap->toArray()
             );
             $fieldGroup->push($zonesField);
         }

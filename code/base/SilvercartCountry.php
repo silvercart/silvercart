@@ -46,7 +46,7 @@ class SilvercartCountry extends DataObject {
         'Continent'                 => 'VarChar',
         'Currency'                  => 'VarChar',
         'Active'                    => 'Boolean',
-        'freeOfShippingCostsFrom'   => 'Money',
+        'freeOfShippingCostsFrom'   => 'SilvercartMoney',
         'IsPrioritive'              => 'Boolean(0)',
         'DisplayPosition'           => 'Int',
     );
@@ -177,31 +177,32 @@ class SilvercartCountry extends DataObject {
      *
      * @return array
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.06.2012
+     * @since 12.02.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'                         => _t('SilvercartCountry.SINGULARNAME'),
-                'ISO2'                          => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
-                'ISO3'                          => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
-                'ISON'                          => _t('SilvercartCountry.ISON', 'ISO numeric'),
-                'FIPS'                          => _t('SilvercartCountry.FIPS', 'FIPS code'),
-                'Continent'                     => _t('SilvercartCountry.CONTINENT', 'Continent'),
-                'Currency'                      => _t('SilvercartCountry.CURRENCY', 'Currency'),
-                'Active'                        => _t('SilvercartCountry.ACTIVE', 'Active'),
-                'AttributedZones'               => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
-                'AttributedPaymentMethods'      => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
-                'ActivityText'                  => _t('SilvercartCountry.ACTIVE', 'Active'),
-                'SilvercartCountryLanguages'    => _t('SilvercartCountryLanguage.PLURALNAME'),
-                'SilvercartZones'               => _t('SilvercartZone.PLURALNAME'),
-                'SilvercartPaymentMethods'      => _t('SilvercartPaymentMethod.PLURALNAME'),
-                'SilvercartZones'               => _t('SilvercartZone.PLURALNAME'),
-                'freeOfShippingCostsFrom'       => _t('SilvercartCountry.FREEOFSHIPPINGCOSTSFROM'),
-                'IsPrioritive'                  => _t('SilvercartCountry.ISPRIORITIVE'),
-                'IsPrioritiveShort'             => _t('SilvercartCountry.ISPRIORITIVE_SHORT'),
-                'DisplayPosition'               => _t('SilvercartCountry.DISPLAYPOSITION'),
+                'Title'                             => _t('SilvercartCountry.SINGULARNAME'),
+                'ISO2'                              => _t('SilvercartCountry.ISO2', 'ISO Alpha2'),
+                'ISO3'                              => _t('SilvercartCountry.ISO3', 'ISO Alpha3'),
+                'ISON'                              => _t('SilvercartCountry.ISON', 'ISO numeric'),
+                'FIPS'                              => _t('SilvercartCountry.FIPS', 'FIPS code'),
+                'Continent'                         => _t('SilvercartCountry.CONTINENT', 'Continent'),
+                'Currency'                          => _t('SilvercartCountry.CURRENCY', 'Currency'),
+                'Active'                            => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'AttributedZones'                   => _t('SilvercartCountry.ATTRIBUTED_ZONES', 'attributed zones'),
+                'AttributedPaymentMethods'          => _t('SilvercartCountry.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
+                'ActivityText'                      => _t('SilvercartCountry.ACTIVE', 'Active'),
+                'SilvercartCountryLanguages'        => _t('SilvercartCountryLanguage.PLURALNAME'),
+                'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME'),
+                'SilvercartPaymentMethods'          => _t('SilvercartPaymentMethod.PLURALNAME'),
+                'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME'),
+                'freeOfShippingCostsFrom'           => _t('SilvercartCountry.FREEOFSHIPPINGCOSTSFROM'),
+                'IsPrioritive'                      => _t('SilvercartCountry.ISPRIORITIVE'),
+                'IsPrioritiveShort'                 => _t('SilvercartCountry.ISPRIORITIVE_SHORT'),
+                'DisplayPosition'                   => _t('SilvercartCountry.DISPLAYPOSITION'),
+                'SilvercartCountryLanguages.Title'  => _t('SilvercartCountry.TITLE'),
             )
         );
     }
@@ -307,18 +308,15 @@ class SilvercartCountry extends DataObject {
      * @return FieldList the fields for the backend
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 13.02.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields(
-                array(
-                    'fieldClasses' => array(
-                        'freeOfShippingCostsFrom'   => 'SilvercartMoneyField',
-                    ),
-                )
-        );
+        $fields = parent::getCMSFields();
         $fields->removeByName('SilvercartZones');
-        $fields->removeByName('Locale');//Field comes from Translatable and is not needed
+        $fields->removeByName('Locale');
+        
+        $paymentMethodsTable = $fields->dataFieldByName('SilvercartPaymentMethods');
+        $paymentMethodsTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {

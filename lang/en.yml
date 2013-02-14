@@ -323,6 +323,7 @@ en:
     MENUTITLE: "Contact messages"
   SilvercartCountry:
     ACTIVE: "Active"
+    TITLE: "Name"
     ATTRIBUTED_PAYMENTMETHOD: "Attributed payment method"
     ATTRIBUTED_ZONES: "Attributed zones"
     CONTINENT: "Continent"
@@ -617,6 +618,9 @@ en:
     SHIPPING_DATA: "Shipping address data"
     SUBSCRIBEDTONEWSLETTER: "Subscribed to newsletter"
     TYPE: "Type"
+  SilvercartCustomerGroup:
+    PLURALNAME: "Customer Groups"
+    SINGULARNAME: "Customer Group"
   SilvercartCustomerAdmin:
     MENUTITLE: "Customers"
   SilvercartDashboard:
