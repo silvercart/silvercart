@@ -112,22 +112,9 @@ class SilvercartZone extends DataObject {
      * @since 13.02.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
-        
-        if ($this->ID) {
-            $countriesTable     = $fields->dataFieldByName('SilvercartCountries');
-            $carriersTable      = $fields->dataFieldByName('SilvercartCarriers');
-            $shippingTable      = $fields->dataFieldByName('SilvercartShippingMethods');
-            $useAllCountries    = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
-            
-            $countriesTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
-            $carriersTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
-            $shippingTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
+        $fields = SilvercartDataObject::getCMSFields($this);
+        if ($this->isInDB()) {
+            $useAllCountries = new CheckboxField('UseAllCountries', $this->fieldLabel('UseAllCountries'));
             $fields->addFieldToTab('Root.Main', $useAllCountries);
         }
         return $fields;
