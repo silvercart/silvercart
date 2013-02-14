@@ -102,7 +102,6 @@ RequirementsEngine::registerThemedCssFile('SilvercartAnythingSlider');
 // ----------------------------------------------------------------------------
 // Register JS requirements
 // ----------------------------------------------------------------------------
-RequirementsEngine::registerJsFile("customhtmlform/script/jquery.js");
 RequirementsEngine::registerJsFile("silvercart/script/document.ready_scripts.js");
 RequirementsEngine::registerJsFile("silvercart/script/jquery.pixeltricks.tools.js");
 RequirementsEngine::registerJsFile("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
