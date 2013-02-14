@@ -47,6 +47,10 @@ class SilvercartFormScaffolder extends FormScaffolder {
      */
     public function getFieldList() {
         $fields = new FieldList();
+        $excludeFromScaffolding = array();
+        if (method_exists($this->obj, 'excludeFromScaffolding')) {
+            $excludeFromScaffolding = $this->obj->excludeFromScaffolding();
+        }
 
         // tabbed or untabbed
         if ($this->tabbed) {
@@ -56,7 +60,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
 
         // add database fields
         foreach ($this->obj->db() as $fieldName => $fieldType) {
-            if ($this->restrictFields && !in_array($fieldName, $this->restrictFields)) {
+            if (in_array($fieldName, $excludeFromScaffolding) || ($this->restrictFields && !in_array($fieldName, $this->restrictFields))) {
                 continue;
             }
 
@@ -78,7 +82,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
         // add has_one relation fields
         if ($this->obj->has_one()) {
             foreach ($this->obj->has_one() as $relationship => $component) {
-                if ($this->restrictFields && !in_array($relationship, $this->restrictFields)) {
+                if (in_array($relationship, $excludeFromScaffolding) || ($this->restrictFields && !in_array($relationship, $this->restrictFields))) {
                     continue;
                 }
                 $fieldName = "{$relationship}ID";
@@ -99,10 +103,6 @@ class SilvercartFormScaffolder extends FormScaffolder {
 
         // only add relational fields if an ID is present
         if ($this->obj->ID) {
-            $excludeFromScaffolding = array();
-            if (method_exists($this->obj, 'excludeFromScaffolding')) {
-                $excludeFromScaffolding = $this->obj->excludeFromScaffolding();
-            }
             // add has_many relation fields
             if ($this->obj->has_many() && ($this->includeRelations === true || isset($this->includeRelations['has_many']))) {
                 foreach ($this->obj->has_many() as $relationship => $component) {

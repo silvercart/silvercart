@@ -200,7 +200,7 @@ class SilvercartFile extends DataObject {
     public function getCMSFieldsForContext($params = null) {
         /* @var $request SS_HTTPRequest */
         $request = Controller::curr()->getRequest();
-        if ($this->ID == 0 &&
+        if (!$this->isInDB() &&
             $request->param('Action') == 'add') {
             $this->write();
             $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());

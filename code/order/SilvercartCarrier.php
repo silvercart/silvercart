@@ -115,12 +115,7 @@ class SilvercartCarrier extends DataObject {
      * @return FieldList
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
-        
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
 

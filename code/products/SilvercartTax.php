@@ -145,14 +145,10 @@ class SilvercartTax extends DataObject {
      * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 10.02.2012
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
     

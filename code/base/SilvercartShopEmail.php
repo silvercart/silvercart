@@ -177,37 +177,12 @@ class SilvercartShopEmail extends DataObject {
      *
      * @return FieldList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann
      * @copyright 2011 pixeltricks GmbH
-     * @since 28.04.2011
+     * @since 10.02.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        /*
-         * insert the multilingual fields and fill them with values of the current locale
-         */
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        $afterFieldName = 'Identifier';
-        foreach ($languageFields as $languageField) {
-            $fields->insertAfter($languageField, $afterFieldName);
-            $afterFieldName = $languageField->getName();
-        }
-        
-        $emailTextField = new TextareaField('EmailText', _t('SilvercartShopEmail.EMAILTEXT', 'message'), 30);
-        
-        $fields->removeByName('EmailText');
-        $fields->insertAfter($emailTextField, 'Subject');
-        
-        $config = GridFieldConfig_RelationEditor::create(100);
-        $orderStatusTable = new GridField(
-            'SilvercartOrderStatus',
-             $this->fieldLabel('SilvercartOrderStatus'),
-             $this->SilvercartOrderStatus(),
-             $config
-        );
-        $fields->findOrMakeTab('Root.SilvercartOrderStatus', $this->fieldLabel('SilvercartOrderStatus'));
-        $fields->addFieldToTab('Root.SilvercartOrderStatus', $orderStatusTable);
+        $fields = SilvercartDataObject::getCMSFields($this, 'Identifier', true);
         
         return $fields;
     }

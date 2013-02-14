@@ -153,15 +153,29 @@ class SilvercartManufacturer extends DataObject {
     }
 
     /**
-     * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
+     * excludes defined fields from scaffolding
      *
-     * @param array $params See {@link scaffoldFormFields()}
+     * @return array numeric array with field identifiers 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'URLSegment'
+        );
+        
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        
+        return $excludeFromScaffolding;
+    }
+    /**
+     * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
      *
      * @return FieldList
      */
-    public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
-        $fields->removeByName('URLSegment');
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this, 'logoID', false);
         return $fields;
     }
 

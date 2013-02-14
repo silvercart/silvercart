@@ -147,11 +147,7 @@ class SilvercartImage extends DataObject {
      * @return FieldList the fields for the backend
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->insertBefore($languageField, 'SortOrder');
-        }
+        $fields = SilvercartDataObject::getCMSFields($this, 'SortOrder', false);
         return $fields;
     }
     
@@ -169,7 +165,7 @@ class SilvercartImage extends DataObject {
     public function getCMSFieldsForContext($params = null) {
         /* @var $request SS_HTTPRequest */
         $request = Controller::curr()->getRequest();
-        if ($this->ID == 0 &&
+        if (!$this->isInDB() &&
             $request->param('Action') == 'add') {
             $this->write();
             $editURL = str_replace('/add', '/item/' . $this->ID . '/edit', $request->getURL());
