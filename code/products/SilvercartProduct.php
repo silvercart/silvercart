@@ -57,10 +57,10 @@ class SilvercartProduct extends DataObject {
         'ProductNumberShop'           => 'VarChar(50)',
         'ProductNumberManufacturer'   => 'VarChar(50)',
         'EANCode'                     => 'VarChar(13)',
-        'PriceGross'                  => 'Money', //price taxes including
-        'PriceNet'                    => 'Money', //price taxes excluded
-        'MSRPrice'                    => 'Money', //manufacturers recommended price
-        'PurchasePrice'               => 'Money', //the price the shop owner bought the product for
+        'PriceGross'                  => 'SilvercartMoney', //price taxes including
+        'PriceNet'                    => 'SilvercartMoney', //price taxes excluded
+        'MSRPrice'                    => 'SilvercartMoney', //manufacturers recommended price
+        'PurchasePrice'               => 'SilvercartMoney', //the price the shop owner bought the product for
         'PurchaseMinDuration'         => 'Int',
         'PurchaseMaxDuration'         => 'Int',
         'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
@@ -1043,7 +1043,7 @@ class SilvercartProduct extends DataObject {
      * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 13.12.2013
      */
     public function scaffoldFormFields($params = null) {
         $params = array(
@@ -1082,17 +1082,11 @@ class SilvercartProduct extends DataObject {
             'includeRelations' => array(
                 'has_many'  => true,
             ),
-            'fieldClasses' => array(
-                'PriceGross'    => 'SilvercartMoneyField',
-                'PriceNet'      => 'SilvercartMoneyField',
-                'MSRPrice'      => 'SilvercartMoneyField',
-                'PurchasePrice' => 'SilvercartMoneyField',
-            ),
         );
 
         $this->extend('updateScaffoldFormFields', $params);
 
-        return parent::scaffoldFormFields($params);
+        return SilvercartDataObject::scaffoldFormFields($this, $params);
     }
 
     /**
