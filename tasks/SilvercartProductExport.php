@@ -92,9 +92,8 @@ class SilvercartProductExport extends ScheduledTask {
      * 
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 08.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.02.2013
      */
     protected function getDueSilvercartProductExporters($referenceCurrentTimeStamp, $getAll = false) {
         $dueSilvercartProductExporters = array();
@@ -111,21 +110,22 @@ class SilvercartProductExport extends ScheduledTask {
             'SilvercartProductExporter',
             "isActive = 1"
         );
-        
-        foreach ($silvercartProductExporters as $silvercartProductExport) {
-            if ($getAll) {
-                $dueSilvercartProductExporters[] = $silvercartProductExport;
-            } else {
-                // Get difference in minutes from now to the last export
-                $lastExportTimeStamp = strtotime($silvercartProductExport->lastExportDateTime);
-                $timeStampDifference = $referenceCurrentTimeStamp - $lastExportTimeStamp;
-                $differenceInMinutes = $this->time_duration($timeStampDifference, 'm');
-
-                // Get update interval in minutes
-                $intervalLengthInMinutes = $silvercartProductExport->updateInterval * $conversionTable[$silvercartProductExport->updateIntervalPeriod];
-
-                if ($differenceInMinutes > $intervalLengthInMinutes) {
+        if ($silvercartProductExporters instanceof DataObjectSet) {
+            foreach ($silvercartProductExporters as $silvercartProductExport) {
+                if ($getAll) {
                     $dueSilvercartProductExporters[] = $silvercartProductExport;
+                } else {
+                    // Get difference in minutes from now to the last export
+                    $lastExportTimeStamp = strtotime($silvercartProductExport->lastExportDateTime);
+                    $timeStampDifference = $referenceCurrentTimeStamp - $lastExportTimeStamp;
+                    $differenceInMinutes = $this->time_duration($timeStampDifference, 'm');
+
+                    // Get update interval in minutes
+                    $intervalLengthInMinutes = $silvercartProductExport->updateInterval * $conversionTable[$silvercartProductExport->updateIntervalPeriod];
+                    
+                    if ((int) str_replace(' minutes', '', $differenceInMinutes) >= $intervalLengthInMinutes) {
+                        $dueSilvercartProductExporters[] = $silvercartProductExport;
+                    }
                 }
             }
         }

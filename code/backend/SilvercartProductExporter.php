@@ -753,7 +753,7 @@ class SilvercartProductExporter extends DataObject {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2011
+     * @since 14.02.2013
      */
     protected function getCsvRowFromRecord($record) {
         $includeRow     = true;
@@ -807,12 +807,24 @@ class SilvercartProductExporter extends DataObject {
                                     $fieldValue = 0;
                                 }
                             } else {
-                                if ($product &&
-                                    $product->hasMethod($methodName)) {
-                                    if (is_null($methodParam)) {
-                                        $fieldValue = $product->{$methodName}();
+                                if ($product) {
+                                    if ($product->hasMethod($methodName)) {
+                                        if (is_null($methodParam)) {
+                                            $fieldValue = $product->{$methodName}();
+                                        } else {
+                                            $fieldValue = $product->{$methodName}($methodParam);
+                                        }
                                     } else {
-                                        $fieldValue = $product->{$methodName}($methodParam);
+                                        if (strpos($methodName, '.') !== false) {
+                                            $parts  = explode('.', $methodName);
+                                            $result = $product;
+                                            foreach ($parts as $part) {
+                                                $result = $result->{$part}();
+                                            }
+                                            $fieldValue = $result;
+                                        } else {
+                                            $fieldValue = @$product->{$methodName};
+                                        }
                                     }
                                 }
                             }
