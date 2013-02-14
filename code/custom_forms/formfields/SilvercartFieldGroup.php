@@ -39,6 +39,13 @@ class SilvercartFieldGroup extends CompositeField {
      * @var FieldSet
      */
     protected $fields = null;
+    
+    /**
+     * Markup of the field holder
+     *
+     * @var string
+     */
+    protected $fieldHolder = null;
 
     /**
      * Constructor
@@ -65,43 +72,42 @@ class SilvercartFieldGroup extends CompositeField {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.06.2012
+     * @since 13.02.2013
      */
     public function FieldHolder($properties = array()) {
-        $title              = $this->Title();
-        $name               = $this->getName();
-        $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup"><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
-        $singleFieldHolder  = '<div class="fieldgroupField %s">%s</div>';
-        $fieldMarkup        = array();
-        
-        if (!empty($title)) {
-            $titleField     = new HeaderField($name . 'Title', $title);
-            $fieldMarkup[]  = $titleField->Field();
-        }
-        
-        $addClass = '';
-        foreach ($this->getChildren() as $child) {
-            if ($child->BreakBefore) {
-                $addClass = 'silvercart-clearfix';
+        if (is_null($this->fieldHolder)) {
+            $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup field"><label class="left" for="">%s</label><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
+            $singleFieldHolder  = '<div class="fieldgroupField %s">%s</div>';
+            $fieldMarkup        = array();
+
+            $addClass = '';
+            foreach ($this->getChildren() as $child) {
+                if ($child->BreakBefore) {
+                    $addClass = 'silvercart-clearfix';
+                }
+                if ($child instanceof DropdownField) {
+                    $addClass .= ' field dropdown';
+                }
+                $fieldMarkup[]  = sprintf(
+                        $singleFieldHolder,
+                        $addClass,
+                        $child->SmallFieldHolder()
+                );
+                if ($child->BreakAfter) {
+                    $addClass = 'silvercart-clearfix';
+                } else {
+                    $addClass = '';
+                }
             }
-            $fieldMarkup[]  = sprintf(
-                    $singleFieldHolder,
-                    $addClass,
-                    $child->SmallFieldHolder()
+
+            $this->fieldHolder = sprintf(
+                    $fieldHolder,
+                    $this->Title(),
+                    implode('', $fieldMarkup)
             );
-            if ($child->BreakAfter) {
-                $addClass = 'silvercart-clearfix';
-            } else {
-                $addClass = '';
-            }
         }
         
-        $fieldHolder = sprintf(
-                $fieldHolder,
-                implode('', $fieldMarkup)
-        );
-        
-        return $fieldHolder;
+        return $this->fieldHolder;
     }
     
     /**

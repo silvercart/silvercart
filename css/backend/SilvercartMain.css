@@ -101,11 +101,20 @@
 }
 .silvercart-fieldgroup .fieldgroupField {
     float: left;
-    padding: 6px 12px 6px 0;
+    padding: 0px 12px 6px 0;
     min-width: 140px;
+}
+.silvercart-fieldgroup .fieldgroupField.field {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    display: block;
+    margin: 0px !important;
 }
 .silvercart-fieldgroup .fieldgroupField label {
     display: block;
+    width: auto !important;
+    margin: auto !important;
+    float: none !important;
 }
 .silvercart-fieldgroup .fieldgroupField select {
     
@@ -121,8 +130,7 @@
 }
 .silvercart-form-highlight,
 .silvercart-field-group {
-    background: #E9E9E9;
-    padding:    6px;
+    padding:    0px;
     margin:     6px 0;
 }
 
