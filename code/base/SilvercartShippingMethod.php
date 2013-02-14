@@ -223,6 +223,29 @@ class SilvercartShippingMethod extends DataObject {
     }
 
     /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'SilvercartCountries',
+            'SilvercartPaymentMethods',
+            'SilvercartOrders',
+        );
+        
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        
+        return $excludeFromScaffolding;
+    }
+
+        /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldList the fields for the backend
@@ -231,19 +254,9 @@ class SilvercartShippingMethod extends DataObject {
      * @since 13.02.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->insertBefore($languageField, 'isActive');
-        }
-        $fields->removeByName('SilvercartCountries');
-        $fields->removeByName('SilvercartPaymentMethods');
-        $fields->removeByName('SilvercartOrders');
+        $fields = SilvercartDataObject::getCMSFields($this, 'SilvercartCarrierID', false);
 
         if ($this->isInDB()) {
-            
             $feeTable           = $fields->dataFieldByName('SilvercartShippingFees');
             $feesTableConfig    = $feeTable->getConfig();
             $exportButton       = new GridFieldExportButton();
@@ -259,17 +272,9 @@ class SilvercartShippingMethod extends DataObject {
                         );
             $exportButton->setExportColumns($exportColumsArray);
             $feesTableConfig->addComponent($exportButton);
-            $feesTableConfig->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            
-            $zonesTable = $fields->dataFieldByName('SilvercartZones');
-            $zonesTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
-            $zonesTable->getConfig()->removeComponentsByType('GridFieldDeleteAction');
-            $zonesTable->getConfig()->addComponent(new GridFieldDeleteAction(true));
-            
-            $fields->dataFieldByName('SilvercartShippingMethodLanguages')->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            
-            $fields->dataFieldByName('SilvercartCustomerGroups')->getConfig()->removeComponentsByType('GridFieldDeleteAction');
-            $fields->dataFieldByName('SilvercartCustomerGroups')->getConfig()->addComponent(new GridFieldDeleteAction(true));
+            $feesTableConfig->removeComponentsByType('SilvercartGridFieldAddExistingAutocompleter');
+            $feesTableConfig->removeComponentsByType('GridFieldDeleteAction');
+            $feesTableConfig->addComponent(new GridFieldDeleteAction());
         }
 
         return $fields;
