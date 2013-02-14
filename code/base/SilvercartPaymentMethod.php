@@ -119,25 +119,6 @@ class SilvercartPaymentMethod extends DataObject {
         'showPaymentLogos'                 => true,
         'ShowFormFieldsOnPaymentSelection' => false,
     );
-    /**
-     * List of searchable fields for the model admin
-     *
-     * @var array
-     */
-    public static $searchable_fields = array(
-        'Name',
-        'isActive' => array(
-            'title' => 'Aktiviert'
-        ),
-        'minAmountForActivation',
-        'maxAmountForActivation',
-        'SilvercartZone.ID' => array(
-            'title' => 'Zugeordnete Zone'
-        ),
-        'SilvercartCountries.ID' => array(
-            'title' => 'Zugeordnete Länder'
-        )
-    );
     
     /**
      * The link to direct after cancelling by user or session expiry.
@@ -307,7 +288,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 5.7.2011
      */
     public function searchableFields() {
@@ -1139,7 +1119,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return FieldList
      */
     public function getCMSFieldsForModules() {
-        $tabset = new TabSet('Sections');
+        $tabset = new TabSet('Root');
         
         // --------------------------------------------------------------------
         // Common GUI elements for all payment methods
