@@ -1544,23 +1544,14 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 01.10.2012
      */
     public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
-        $paymentModule = DataObject::get_one(
-            'SilvercartPaymentMethod',
-            sprintf(
-                "\"SilvercartPaymentMethod\".\"ClassName\" = '%s'",
-                $paymentModuleName
-            ),
-            true,
-            "SilvercartPaymentMethod.ID"
-        );
-
+        $paymentModule = SilvercartPaymentMethod::get()->filter(array("ClassName" => $paymentModuleName))->sort(array("ID" => "ASC"))->first();
         if ($paymentModule) {
             if (count($this->getPossiblePaymentChannels()) > 0) {
                 // Multiple payment channels
                 foreach ($paymentLogos as $paymentChannel => $logos) {
                     $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
                     if ($paymentChannelMethod) {
-                        if ($paymentChannelMethod->PaymentLogos()->count() == 0) {
+                        if ($paymentChannelMethod->PaymentLogos()->exists()) {
                             foreach ($logos as $title => $logo) {
                                 $paymentLogo = new SilvercartImage();
                                 $paymentLogo->Title = $title;
@@ -1586,7 +1577,7 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 // Single payment channels
                 foreach ($paymentLogos as $title => $logo) {
-                    if ($paymentModule->PaymentLogos()->count() == 0) {
+                    if ($paymentModule->PaymentLogos()->exists()) {
 
                         $paymentLogo = new SilvercartImage();
                         $paymentLogo->Title = $title;

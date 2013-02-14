@@ -308,7 +308,7 @@ class SilvercartOrderPosition extends DataObject {
      * @since 06.11.2012
      */
     public function getCMSFields() {
-        if ($this->ID === 0) {
+        if ($this->isInDB()) {
             return $this->getCMSFields_forPopup();
         }
 
@@ -359,6 +359,45 @@ class SilvercartOrderPosition extends DataObject {
         }
 
         $this->extend('updateCMSFields', $fields);
+
+        return $fields;
+    }
+    
+    /**
+     * Return fields for popup.
+     *
+     * @return FieldSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 21.03.2012
+     */
+    public function getCMSFields_forPopup() {
+        $fields  = new FieldList();
+        $orderId = 0;
+
+        $fields->push(
+            new HiddenField(
+                'SilvercartOrderID',
+                '',
+                $orderId
+            )
+        );
+        $fields->push(
+            new DropdownField(
+                'SilvercartProductID',
+                $this->fieldLabel('SilvercartProduct'),
+                SilvercartProduct::get()->map('ID', 'Title')->toArray()
+            )
+        );
+        $fields->push(
+            new TextField(
+                'Quantity',
+                $this->fieldLabel('Quantity'),
+                '1'
+            )
+        );
+
+        $this->extend('updateGetCMSFields_forPopup', $fields);
 
         return $fields;
     }
