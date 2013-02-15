@@ -31,7 +31,7 @@
  * @since 08.04.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlForm {
+class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.

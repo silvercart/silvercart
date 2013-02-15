@@ -31,7 +31,7 @@
  * @since 01.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
+class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressFormStep {
 
     /**
      * Don't cache this form.

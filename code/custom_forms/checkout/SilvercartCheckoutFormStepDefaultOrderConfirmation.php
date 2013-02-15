@@ -33,7 +33,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlForm {
+class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.
