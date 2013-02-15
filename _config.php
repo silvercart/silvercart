@@ -352,6 +352,12 @@ $cacheDirectories = array(
     'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
 );
 
+if (Director::isDev()) {
+    $cachelifetime = 1;
+} else {
+    $cachelifetime = 86400;
+}
+
 foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
     if (!is_dir($cacheDirectory)) {
         mkdir($cacheDirectory);
@@ -365,9 +371,10 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
             'hashed_directory_level' => 2,
         )
     );
-    SS_Cache::set_cache_lifetime($cacheName, 86400);
+    SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);
     SS_Cache::pick_backend($cacheName, $cacheName);
 }
+SS_Cache::set_cache_lifetime('aggregate', $cachelifetime);
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
