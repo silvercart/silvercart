@@ -308,7 +308,7 @@ class SilvercartProductExporter extends DataObject {
      */
     public function getCMSFields($params = null) {
         $fields             = parent::getCMSFields($params);
-        $tabset             = new TabSet('Sections');
+        $tabset             = new TabSet('Root');
         $dbFields           = DataObject::database_fields('SilvercartProduct');
         $languageDbFields   = DataObject::database_fields('SilvercartProductLanguage');
         $lastExport         = $this->lastExportDateTime;

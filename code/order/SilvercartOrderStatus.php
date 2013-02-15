@@ -158,7 +158,7 @@ class SilvercartOrderStatus extends DataObject {
                 'SilvercartOrderStatusLanguages'        => _t('SilvercartOrderStatusLanguage.PLURALNAME'),
                 'ShopEmailsTab'                         => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
                 'ShopEmailLabelField'                   => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC'),
-                'ShopEmails'                            => _t('SilvercartShopEmail.PLURALNAME')
+                'SilvercartShopEmails'                  => _t('SilvercartShopEmail.PLURALNAME')
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -174,12 +174,8 @@ class SilvercartOrderStatus extends DataObject {
      * @since 12.07.2012
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this);
+
         // Add shop email field
         $shopEmailLabelField = new LiteralField(
             'ShopEmailLabelField',
