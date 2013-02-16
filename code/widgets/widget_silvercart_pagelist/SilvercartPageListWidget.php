@@ -173,7 +173,7 @@ class SilvercartPageListWidget extends WidgetSetWidget {
      * @since 06.12.2012
      */
     public function getCMSFields() {
-        $fields     = new FieldSet();
+        $fields     = new FieldList();
         $rootTabSet = new TabSet('Root');
         $basicTab   = new Tab('Basic', $this->fieldLabel('BasicTab'));
 

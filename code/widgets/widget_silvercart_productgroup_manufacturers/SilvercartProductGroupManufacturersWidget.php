@@ -101,7 +101,7 @@ class SilvercartProductGroupManufacturersWidget extends WidgetSetWidget {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields                     = new FieldSet();
+        $fields                     = new FieldList();
         $titleField                 = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
         $contentField               = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
 

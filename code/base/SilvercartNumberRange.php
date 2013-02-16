@@ -140,21 +140,37 @@ class SilvercartNumberRange extends DataObject {
                 )
         );
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'Identifier'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
 
     /**
      * customizes the backends fields
-     *
-     * @param array $params parameters
      *
      * @return FieldList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this);
         if (!empty($this->Identifier)) {
-            $fields->removeByName('Identifier');
             $fields->makeFieldReadonly('ActualCount');
         }
         return $fields;

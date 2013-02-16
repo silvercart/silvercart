@@ -128,19 +128,35 @@ class SilvercartDeeplink extends DataObject {
     }
     
     /**
-     * Returns the GUI fields for the storeadmin.
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
      * 
-     * @param array $params Additional parameters
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'productAttribute'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
+    
+    /**
+     * Returns the GUI fields for the storeadmin.
      * 
      * @return FieldList a set of fields 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @since 10.02.2013
      */
-    public function getCMSFields($params = null) {
+    public function getCMSFields() {
         $productFields  = array();
-        $fields         = parent::getCMSFields($params);
-        $fields->removeByName('productAttribute');
+        $fields         = SilvercartDataObject::getCMSFields($this);
         
         $dbFields = DataObject::database_fields('SilvercartProduct');
         foreach ($dbFields as $fieldName => $fieldType) {

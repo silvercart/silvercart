@@ -1531,7 +1531,7 @@ class SilvercartPaymentMethod extends DataObject {
                 foreach ($paymentLogos as $paymentChannel => $logos) {
                     $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
                     if ($paymentChannelMethod) {
-                        if ($paymentChannelMethod->PaymentLogos()->exists()) {
+                        if (!$paymentChannelMethod->PaymentLogos()->exists()) {
                             foreach ($logos as $title => $logo) {
                                 $paymentLogo = new SilvercartImage();
                                 $paymentLogo->Title = $title;

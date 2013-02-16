@@ -137,42 +137,48 @@ class SilvercartProductGroupChildProductsWidget extends WidgetSetWidget {
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'Title'       => _t('SilvercartProductGroupChildProductsWidget.TITLE'),
-                    'CMSTitle'    => _t('SilvercartProductGroupChildProductsWidget.CMSTITLE'),
-                    'Description' => _t('SilvercartProductGroupChildProductsWidget.DESCRIPTION'),
+                    'Title'                                              => _t('SilvercartProductGroupChildProductsWidget.TITLE'),
+                    'CMSTitle'                                           => _t('SilvercartProductGroupChildProductsWidget.CMSTITLE'),
+                    'Description'                                        => _t('SilvercartProductGroupChildProductsWidget.DESCRIPTION'),
+                    'SilvercartProductGroupChildProductsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS')
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'Sort',
+            'Parent',
+            'Type'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
 
     /**
      * Returns the input fields for this widget.
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2012
      */
     public function getCMSFields() {
-        $fields = new FieldSet();
-        $rootTabSet                 = new TabSet('Root');
-
-        $titleField                 = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
-        $contentField               = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
-
-        $basicTab = new Tab('Basic',          $this->fieldLabel('BasicTab'));
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
-
-        $translationTab         = new Tab('Translations',   $this->fieldLabel('TranslationsTab'));
-        $translationsTableField = new ComplexTableField($this, 'SilvercartProductGroupChildProductsWidgetLanguages', 'SilvercartProductGroupChildProductsWidgetLanguage');
-        $translationTab->push($translationsTableField);
-
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $fields->addFieldToTab('Root', $translationTab);
+        $fields = SilvercartDataObject::getCMSFields($this);
 
         return $fields;
     }

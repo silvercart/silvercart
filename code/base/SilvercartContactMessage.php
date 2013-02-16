@@ -210,6 +210,27 @@ class SilvercartContactMessage extends DataObject {
     }
     
     /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'Salutation'
+        );
+
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+
+        return $excludeFromScaffolding;
+    }
+    
+    /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldSet the fields for the backend
@@ -219,8 +240,7 @@ class SilvercartContactMessage extends DataObject {
      * @since 08.02.2013
  */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $fields->removeByName('Salutation');
+        $fields = SilvercartDataObject::getCMSFields($this);
         $salutationArray = array(
             '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
             'Herr' => _t('SilvercartAddress.MISTER'),

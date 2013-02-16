@@ -87,24 +87,38 @@ class SilvercartProductCondition extends DataObject {
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'SilvercartProducts'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
 
     /**
-     * define the CMS ields
+     * define the CMS fields
      *
      * @param array $params Parameters for scaffolding
      *
      * @return FieldList 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 10.02.2013
      */
-    public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
-        //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
     

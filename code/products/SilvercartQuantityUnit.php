@@ -96,7 +96,7 @@ class SilvercartQuantityUnit extends DataObject {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
+        $fields = SilvercartDataObject::getCMSFields($this);
 
         $fields->insertAfter(
             new LiteralField(
@@ -106,11 +106,6 @@ class SilvercartQuantityUnit extends DataObject {
             'numberOfDecimalPlaces'
         );
         
-        //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
         return $fields;
     }
 

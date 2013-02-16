@@ -150,9 +150,13 @@ class SilvercartAddress extends DataObject {
      * @return FieldSet
      */
     public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
+        $fields = SilvercartDataObject::getCMSFields($this);
         if ($fields->dataFieldByName('SilvercartCountryID')) {
-            $fields->dataFieldByName('SilvercartCountryID')->setSource(SilvercartCountry::getPrioritiveDropdownMap());
+            $countryDropdown = new DropdownField(
+                    'SilvercartCountryID',
+                    $this->fieldLabel('Country'),
+                    SilvercartCountry::getPrioritiveDropdownMap());
+            $fields->replaceField('SilvercartCountryID', $countryDropdown);
         }
         return $fields;
     }

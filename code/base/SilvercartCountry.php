@@ -301,6 +301,26 @@ class SilvercartCountry extends DataObject {
         $this->extend('updateSummary', $summaryFields);
         return $summaryFields;
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'SilvercartZones',
+            'Locale'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
@@ -311,9 +331,7 @@ class SilvercartCountry extends DataObject {
      * @since 13.02.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $fields->removeByName('SilvercartZones');
-        $fields->removeByName('Locale');
+        $fields = SilvercartDataObject::getCMSFields($this);
         
         $paymentMethodsTable = $fields->dataFieldByName('SilvercartPaymentMethods');
         $paymentMethodsTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());

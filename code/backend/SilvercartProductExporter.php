@@ -299,15 +299,13 @@ class SilvercartProductExporter extends DataObject {
     /**
      * Sets the GUI for the storeadmin..
      *
-     * @param array $params See {@link scaffoldFormFields()}
-     *
      * @return FieldList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2012
      */
-    public function getCMSFields($params = null) {
-        $fields             = parent::getCMSFields($params);
+    public function getCMSFields() {
+        $fields             = parent::getCMSFields();
         $tabset             = new TabSet('Root');
         $dbFields           = DataObject::database_fields('SilvercartProduct');
         $languageDbFields   = DataObject::database_fields('SilvercartProductLanguage');
@@ -325,7 +323,13 @@ class SilvercartProductExporter extends DataObject {
         
         $fields->dataFieldByName('BreadcrumbDelimiter')->setRightTitle(_t('SilvercartProductExport.BREADCRUMB_DELIMITER_DESCRIPTION'));
         $fields->dataFieldByName('SilvercartCountryID')->setRightTitle(_t('SilvercartProductExport.COUNTRY_DESCRIPTION'));
-        $fields->dataFieldByName('SilvercartCountryID')->setSource(SilvercartCountry::getPrioritiveDropdownMap());
+        
+        $countryDropdown = new DropdownField(
+        'SilvercartCountryID',
+        $this->fieldLabel('Country'),
+        SilvercartCountry::getPrioritiveDropdownMap());
+        $fields->replaceField('SilvercartCountryID', $countryDropdown);
+
         
         if (empty($this->BaseUrlForLinks)) {
             $this->BaseUrlForLinks = $_SERVER['HTTP_HOST'];

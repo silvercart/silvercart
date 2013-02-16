@@ -757,7 +757,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return FieldSet
      */
     public function getQuickAccessFields() {
-        $quickAccessFields = new FieldSet();
+        $quickAccessFields = new FieldList();
         
         $orderNumberField   = new TextField('OrderNumber__' . $this->ID,            $this->fieldLabel('OrderNumber'),           $this->OrderNumber);
         $orderStatusField   = new TextField('SilvercartOrderStatus__' . $this->ID,  $this->fieldLabel('SilvercartOrderStatus'), $this->SilvercartOrderStatus()->Title);

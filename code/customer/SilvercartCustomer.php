@@ -112,6 +112,12 @@ class SilvercartCustomer extends DataExtension {
         );
         $salutationDropdown = new DropdownField('Salutation', $this->owner->fieldLabel('Salutation'), $values);
         $fields->insertBefore($salutationDropdown, 'FirstName');
+        
+        //make addresses deletable in the grid field
+        $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
+        $addressesConfig = $addressesGrid->getConfig();
+        $addressesConfig->removeComponentsByType('GridFieldDeleteAction');
+        $addressesConfig->addComponent(new GridFieldDeleteAction());
     }
     
     /**
