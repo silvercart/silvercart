@@ -224,7 +224,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     public function getElementsByProductGroup() {
         $cache                = false;
         $productGroupPage     = Controller::curr();
-        $elements             = new ArrayList();
+        $elements             = new PaginatedList();
 
         if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
             $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
@@ -390,7 +390,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns the products.
      *
-     * @return ArrayList
+     * @return SS_List
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2012
@@ -402,7 +402,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends WidgetSetWidg
     /**
      * Returns the products.
      *
-     * @return ArrayList
+     * @return SS_List
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 13.11.2012

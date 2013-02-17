@@ -129,11 +129,10 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
      */
     public function getCMSFields() {
         $fields         = parent::getCMSFields();
-        $fieldLabels    = $this->fieldLabels();
 
         $frontTitleField    = new TextField('FrontTitle',   $this->fieldLabel('FrontTitle'));
-        $startAtLevelField  = new TextField('startAtLevel', $fieldLabels['startAtLevel']);
-        $siblingsField      = new CheckboxField('showSiblings', $fieldLabels['showSiblings']);
+        $startAtLevelField  = new TextField('startAtLevel', $this->fieldLabel('startAtLevel'));
+        $siblingsField      = new CheckboxField('showSiblings', $this->fieldLabel('showSiblings'));
 
         $fields->push($frontTitleField);
         $fields->push($startAtLevelField);
@@ -312,8 +311,7 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
         $childPages = $rootPage->Children();
         $childPageStr = '';
 
-        if ($childPages &&
-            $childPages->count() > 0) {
+        if ($childPages->exists()) {
 
             $childLevel = $level + 1;
 

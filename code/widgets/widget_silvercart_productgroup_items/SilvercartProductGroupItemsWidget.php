@@ -145,14 +145,19 @@ class SilvercartProductGroupItemsWidget extends WidgetSetWidget implements Silve
         );
         $cssField                   = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
         $productsDescription        = new LiteralField('', $this->fieldLabel('SelectProductDescription'));
-        $silvercartProducts         = new SilvercartManyManyTextAutoCompleteField(
-                $this,
-                'SilvercartProducts',
-                $this->fieldLabel('SilvercartProducts'),
-                'SilvercartProduct.ProductNumberShop'
-        );
+        $silvercartProducts = new GridField(
+                'SilvercartProducts', 
+                $this->fieldLabel('Products'), 
+                $this->SilvercartProducts(), 
+                SilvercartGridFieldConfig_RelationEditor::create()
+                );
         $selectionMethod            = new OptionsetField('useSelectionMethod',  $this->fieldLabel('useSelectionMethod'), $selectionMethods);
-        $translationsTableField     = new ComplexTableField($this, 'SilvercartProductGroupItemsWidgetLanguages', 'SilvercartProductGroupItemsWidgetLanguage');
+        $translationsTableField = new GridField(
+                'SilvercartProductGroupItemsWidgetLanguages',
+                $this->fieldLabel('SilvercartProductGroupItemsWidgetLanguages'),
+                $this->SilvercartProductGroupItemsWidgetLanguages(),
+                SilvercartGridFieldConfig_LanguageRelationEditor::create()
+                );
         
         $productGroupTab            = new Tab('productgroup',   $this->fieldLabel('ProductGroupTab'));
         $productsTab                = new Tab('products',       $this->fieldLabel('ProductsTab'));
@@ -276,6 +281,7 @@ class SilvercartProductGroupItemsWidget extends WidgetSetWidget implements Silve
                     'Title'                                      => _t('SilvercartProductGroupItemsWidget.TITLE'),
                     'CMSTitle'                                   => _t('SilvercartProductGroupItemsWidget.CMSTITLE'),
                     'Description'                                => _t('SilvercartProductGroupItemsWidget.DESCRIPTION'),
+                    'Products'                                   => _t('SilvercartProduct.PLURALNAME'),
                 )
         );
 

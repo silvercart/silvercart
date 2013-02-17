@@ -105,6 +105,10 @@ class SilvercartSlidorionProductGroupWidget extends WidgetSetWidget {
                     'hoverPause'       => _t('SilvercartSlidorionProductGroupWidget.HOVERPAUSE'),
                     'autoPlay'         => _t('SilvercartSlidorionProductGroupWidget.AUTOPLAY'),
                     'effect'           => _t('SilvercartSlidorionProductGroupWidget.EFFECT'),
+                    'translations'     => _t('SilvercartConfig.TRANSLATIONS'),
+                    'Images'           => _t('SilvercartImage.PLURALNAME'),
+                    
+                    
                 )
         );
 
@@ -167,20 +171,20 @@ class SilvercartSlidorionProductGroupWidget extends WidgetSetWidget {
         $titleField   = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
         $contentField = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
         
-        $imageTable = new ManyManyComplexTableField(
-            $this,
-            'SilvercartImages',
-            'SilvercartImage',
-            null,
-            'getCMSFieldsForWidget',
-            "SilvercartProductID = 0 AND SilvercartPaymentMethodID = 0"
+        $imageTable = new GridField(
+                'SilvercartImages',
+                $this->fieldLabel('Images'),
+                SilvercartImage::get()->filter(array('SilvercartProductID' => 0, 'SilvercartPaymentMethodID' => 0)),
+                SilvercartGridFieldConfig_RelationEditor::create()
         );
         
-        $translationsTableField = new ComplexTableField(
-            $this,
-            'SilvercartSlidorionProductGroupWidgetLanguages',
-            'SilvercartSlidorionProductGroupWidgetLanguage'
+        $translationsTableField = new GridField(
+                'SilvercartSlidorionProductGroupWidgetLanguages',
+                $this->fieldLabel('translations'),
+                $this->SilvercartSlidorionProductGroupWidgetLanguages(),
+                SilvercartGridFieldConfig_LanguageRelationEditor::create()
         );
+        
         $widgetHeightField = new TextField(
             'widgetHeight',
             $this->fieldLabel('widgetHeight')

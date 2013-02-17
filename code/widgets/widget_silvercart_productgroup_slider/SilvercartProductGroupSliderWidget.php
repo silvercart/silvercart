@@ -114,8 +114,8 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
         $activeProductGroup = false;
         $productGroups      = $this->getProductGroups();
         
-        if ($productGroups) {
-            $activeProductGroup = $productGroups->First();
+        if ($productGroups->exists()) {
+            $activeProductGroup = $productGroups->first();
         }
         
         return $activeProductGroup;
@@ -134,8 +134,8 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
         $productGroup   = false;
         $productGroups  = $this->getProductGroups();
         
-        if ($productGroups) {
-            $productGroup = $productGroups->Last();
+        if ($productGroups->exists()) {
+            $productGroup = $productGroups->last();
         }
         
         return $productGroup;
@@ -154,8 +154,7 @@ class SilvercartProductGroupSliderWidget extends WidgetSetWidget {
         $productGroup   = false;
         $productGroups  = $this->getProductGroups();
         
-        if ($productGroups &&
-            $productGroups->count() > 1) {
+        if ($productGroups->exists()) {
             
             $productGroup = $productGroups->limit(2,1)->first();
         }

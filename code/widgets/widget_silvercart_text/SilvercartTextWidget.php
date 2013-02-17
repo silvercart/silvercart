@@ -166,8 +166,8 @@ class SilvercartTextWidget extends WidgetSetWidget {
      */
     public function getCMSFields() {
         $fields             = new FieldList();
-        $rootTabSet         = new TabSet('RootTabSet');
-        $mainTab            = new Tab('Root', $this->fieldLabel('Content'));
+        $rootTabSet         = new TabSet('Root');
+        $mainTab            = new Tab('Main', $this->fieldLabel('Content'));
         $translationsTab    = new Tab('TranslationsTab', $this->fieldLabel('Translations'));
         
         $cssField           = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));

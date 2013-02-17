@@ -100,7 +100,7 @@ class SilvercartLatestBlogPostsWidget extends WidgetSetWidget {
                     'Translations' => _t('SilvercartConfig.TRANSLATIONS'),
                     'NumberOfPosts' => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
                     'IsContentView' => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
-                    
+                    'LatestBlogPostsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS')
                 )
         );
 
@@ -125,7 +125,13 @@ class SilvercartLatestBlogPostsWidget extends WidgetSetWidget {
         
         $numberOfPostsField     = new TextField('numberOfPostsToShow', $this->fieldLabel('NumberOfPosts'));
         $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('IsContentView'));
-        $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
+        $translationsTableField = new GridField(
+                                        'SilvercartLatestBlogPostsWidgetLanguages', 
+                                        $this->fieldLabel('LatestBlogPostsWidgetLanguages'), 
+                                        $this->SilvercartLatestBlogPostsWidgetLanguages(), 
+                                        SilvercartGridFieldConfig_LanguageRelationEditor::create()
+                                    );
+                                            
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {

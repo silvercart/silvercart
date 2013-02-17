@@ -153,12 +153,18 @@ class SilvercartImageSliderWidget extends WidgetSetWidget {
         $translationsTab    = new Tab('TranslationsTab',    $this->fieldLabel('Translations'));
         $imagesTab          = new Tab('slideImages',        $this->fieldLabel('Images'));
         
-        $translationsTableField = new ComplexTableField($this, 'SilvercartImageSliderWidgetLanguages', 'SilvercartImageSliderWidgetLanguage');
-        $imageField             = new ManyManyComplexTableField(
-            $this,
-            'slideImages',
-            'SilvercartImageSliderImage'
-        );
+        $translationsTableField = new GridField(
+                                                'SilvercartImageSliderWidgetLanguages',
+                                                $this->fieldLabel('Translations'), 
+                                                $this->SilvercartImageSliderWidgetLanguages(), 
+                                                SilvercartGridFieldConfig_LanguageRelationEditor::create()
+                );
+        $imageField = new GridField(
+                        'slideImages',
+                        $this->fieldLabel('SilvercartImageSliderImage'),
+                        $this->slideImages(),
+                        SilvercartGridFieldConfig_RelationEditor::create()
+                );
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
@@ -211,7 +217,8 @@ class SilvercartImageSliderWidget extends WidgetSetWidget {
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                     'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
-                    'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME')
+                    'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME'),
+                    'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME')
                     
                 )
         );

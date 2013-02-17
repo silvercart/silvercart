@@ -180,16 +180,10 @@ class SilvercartProductGroupNavigationWidget_Controller extends WidgetSetWidget_
             return false;
         }
         
-        $productgroupPage = DataObject::get_by_id(
-            'SilvercartProductGroupPage',
-            $this->SilvercartProductGroupPageID
-        );
+        $productgroupPage = SilvercartProductGroupPage::get()->byID($this->SilvercartProductGroupPageID);
         
         if (!$productgroupPage) {
-            $productgroupPage = DataObject::get_by_id(
-                'SilvercartProductGroupHolder',
-                $this->SilvercartProductGroupPageID
-            );
+            $productgroupPage = SilvercartProductGroupHolder::get()->byID($this->SilvercartProductGroupPageID);
         }
         
         if (!$productgroupPage) {
@@ -315,7 +309,7 @@ class SilvercartProductGroupNavigationWidget_Controller extends WidgetSetWidget_
             $key .= '_'.$lastEditedPage->LastEdited;
         }
 
-        $productGroupPage = DataObject::get_by_id('SiteTree', $this->SilvercartProductGroupPageID);
+        $productGroupPage = SiteTree::get()->byID($this->SilvercartProductGroupPageID);
 
         if ($productGroupPage) {
             $key .= '_'.$productGroupPage->LastEdited;
