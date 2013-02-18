@@ -48,6 +48,7 @@ $lang['en_GB']['Silvercart']['MINS'] = 'minutes';
 $lang['en_GB']['Silvercart']['SEC'] = 'second';
 $lang['en_GB']['Silvercart']['SECS'] = 'seconds';
 $lang['en_GB']['Silvercart']['MORE'] = 'More';
+$lang['en_GB']['Silvercart']['PRIORITY'] = 'Priority (the higher the more important)';
 $lang['en_GB']['Silvercart']['SEO'] = 'SEO';
 $lang['en_GB']['Silvercart']['YES'] = 'Yes';
 $lang['en_GB']['Silvercart']['NO'] = 'No';
@@ -63,6 +64,8 @@ $lang['en_GB']['Silvercart']['SORTORDER'] = 'Sort order';
 $lang['en_GB']['Silvercart']['PAGE'] = 'Page';
 $lang['en_GB']['Silvercart']['X_OF_Y'] = '%s of %s';
 $lang['en_GB']['Silvercart']['EXECUTE'] = 'Execute';
+$lang['en_GB']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
+$lang['en_GB']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
 
 $lang['en_GB']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_GB']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -893,8 +896,6 @@ $lang['en_GB']['SilvercartCustomer']['ADDRESS_DATA']    = 'Basic address data';
 $lang['en_GB']['SilvercartCustomer']['INVOICE_DATA']    = 'Invoice address data';
 $lang['en_GB']['SilvercartCustomer']['SHIPPING_DATA']   = 'Shipping address data';
 
-$lang['en_GB']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']  = 'Forms';
-
 $lang['en_GB']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_GB']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 
@@ -1039,7 +1040,7 @@ $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['EFFECT']              =
 $lang['en_GB']['SilvercartMailForgotPassword']['TITLE']                         = 'Reset Password';
 $lang['en_GB']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Please visit <a href="%s">this page</a> to reset your password.';
 $lang['en_GB']['SilvercartMailForgotPassword']['PASSWORT_RESET_LINK_HINT']      = 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.';
-$lang['en_GB']['SilvercartMailForgotPassword']['WONT_CHANGE']                   = 'If you do not want to change your password, you may ignore this email.';
+$lang['en_GB']['SilvercartMailForgotPassword']['NO_CHANGE']                     = 'If you do not want to change your password, you may ignore this email.';
 
 $lang['en_GB']['SilvercartMyAccountHolder']['ALREADY_HAVE_AN_ACCOUNT']          = 'Do you already have an account?';
 $lang['en_GB']['SilvercartMyAccountHolder']['DEFAULT_TITLE']                    = 'My account';
@@ -1626,12 +1627,12 @@ $lang['en_GB']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 $lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_GB']['SilvercartQuantityUnit']['NAME']                        = 'Name';
-$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abbreviation';
-$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME']                = 'quantity unit';
-$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME']                  = 'quantity units';
-$lang['en_GB']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
-$lang['en_GB']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Number of decimal places';
+$lang['en_GB']['SilvercartQuantityUnit']['NAME']                                = 'Name';
+$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
+$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'quantity unit';
+$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME']                          = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
 
 $lang['en_GB']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'quantity units';
 
@@ -1797,6 +1798,7 @@ $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata'
 $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'There are no products yet; if you want to create some testdata just click on the following link:';
 $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Jump to the testdata section';
 $lang['en_GB']['SilvercartSiteConfig']['GOOGLE_ANALYTICS_TRACKING_CODE']    = 'Google Analytics Tracking Code';
+$lang['en_GB']['SilvercartSiteConfig']['GOOGLE_CONVERSION_TRACKING_CODE']   = 'Google Conversion Tracking Code';
 $lang['en_GB']['SilvercartSiteConfig']['GOOGLE_WEBMASTER_CODE']             = 'Google Webmaster Tools Code';
 $lang['en_GB']['SilvercartSiteConfig']['PIWIK_TRACKING_CODE']               = 'Piwik Tracking Code';
 $lang['en_GB']['SilvercartSiteConfig']['FACEBOOK_LINK']                     = 'Facebook Link';

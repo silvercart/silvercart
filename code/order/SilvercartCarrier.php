@@ -34,6 +34,15 @@
 class SilvercartCarrier extends DataObject {
 
     /**
+     * Attributes.
+     *
+     * @var array
+     */
+    public static $db = array(
+        'priority' => 'Int'
+    );
+
+    /**
      * Has-many relationship.
      *
      * @var array
@@ -42,6 +51,7 @@ class SilvercartCarrier extends DataObject {
         'SilvercartShippingMethods'   => 'SilvercartShippingMethod',
         'SilvercartCarrierLanguages'  => 'SilvercartCarrierLanguage',
     );
+
     /**
      * Many to many relations
      * 
@@ -50,6 +60,7 @@ class SilvercartCarrier extends DataObject {
     public static $belongs_many_many = array(
         'SilvercartZones'   => 'SilvercartZone',
     );
+
     /**
      * Virtual database fields.
      *
@@ -61,6 +72,13 @@ class SilvercartCarrier extends DataObject {
         'Title'                     => 'VarChar(25)',
         'FullTitle'                 => 'VarChar(60)',
     );
+
+    /**
+     * Default sort field and direction
+     *
+     * @var string
+     */
+    public static $default_sort = "`priority` DESC";
     
     /**
      * retirieves title from related language class depending on the set locale
@@ -139,6 +157,7 @@ class SilvercartCarrier extends DataObject {
                     'SilvercartZones'            => _t('SilvercartZone.PLURALNAME', 'zones'),
                     'SilvercartCarrierLanguages' => _t('SilvercartConfig.TRANSLATIONS'),
                     'Title'                      => _t('SilvercartPage.TITLE'),
+                    'priority'                   => _t('Silvercart.PRIORITY'),
                 )
         );
     }
@@ -158,6 +177,7 @@ class SilvercartCarrier extends DataObject {
                 'Title'                     => $this->fieldLabel('Title'),
                 'AttributedZones'           => $this->fieldLabel('AttributedZones'),
                 'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
+                'priority'                  => $this->fieldLabel('priority'),
             )
         );
     }

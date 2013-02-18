@@ -91,11 +91,12 @@ class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHold
      * get all carriers; for the frontend
      *
      * @return DataList all carriers or empty DataList
+     * 
      * @since 18.11.10
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      */
     public function Carriers() {
-        $carriers = SilvercartCarrier::get();
+        $carriers = SilvercartCarrier::get()->sort(array('priority' => 'DESC'));
         return $carriers;
     }
 }

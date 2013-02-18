@@ -45,11 +45,13 @@
                     <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
                     <% with SilvercartShippingAddress %>
                     <table>
-                        <% if isCompanyAddress %>
+                        <% if TaxIdNumber %>
                             <tr>
                                 <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
                                 <td>$TaxIdNumber</td>
                             </tr>
+                        <% end_if %>
+                        <% if Company %>
                             <tr>
                                 <td><% _t('SilvercartAddress.COMPANY') %></td>
                                 <td>$Company</td>
@@ -104,11 +106,13 @@
                     <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
                     <% with SilvercartInvoiceAddress %>
                     <table>
-                        <% if isCompanyAddress %>
+                        <% if TaxIdNumber %>
                             <tr>
                                 <td><% _t('SilvercartAddress.TAXIDNUMBER') %></td>
                                 <td>$TaxIdNumber</td>
                             </tr>
+                        <% end_if %>
+                        <% if Company %>
                             <tr>
                                 <td><% _t('SilvercartAddress.COMPANY') %></td>
                                 <td>$Company</td>

@@ -1800,13 +1800,16 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
-     * Link to the controller, that shows this product
-     * An product has a unique URL
+     * Link to this product.
+     * The link is in context of the current controller. If the current 
+     * controller does not match some related product criteria (mirrored product 
+     * group, translation of a mirrored product group or translation of main
+     * group) the main group will be used as context.
      *
      * @return string URL of $this
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.05.2012
+     * @since 15.01.2013
      */
     public function Link() {
         $link = '';
@@ -1815,10 +1818,19 @@ class SilvercartProduct extends DataObject {
             !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
             $link = Controller::curr()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
-        } elseif ($this->SilvercartProductGroup()) {
+        } elseif (Controller::curr() instanceof SilvercartProductGroupPage_Controller && 
+                  Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
+            Translatable::disable_locale_filter();
+            if ($this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(SilvercartConfig::DefaultLanguage())->ID)) {
+                $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
+            }
+            Translatable::enable_locale_filter();
+        }
+        if (empty($link) &&
+            $this->SilvercartProductGroup()) {
             $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
         }
-
+        
         return $link;
     }
 

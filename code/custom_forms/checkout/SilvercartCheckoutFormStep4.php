@@ -31,7 +31,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.
@@ -159,6 +159,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }
@@ -173,7 +174,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      */
     protected function fillInFieldValues() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
-        
+
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep4.FIELDLABEL');
 

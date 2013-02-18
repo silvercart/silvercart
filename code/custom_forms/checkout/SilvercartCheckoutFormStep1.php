@@ -31,7 +31,14 @@
  * @since 08.04.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
+
+    /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
     
     /**
      * Returns the Cache Key for the current step
@@ -109,6 +116,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
         $this->preferences['isConditionalStep']         = true;
         $this->preferences['loadModules']               = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }

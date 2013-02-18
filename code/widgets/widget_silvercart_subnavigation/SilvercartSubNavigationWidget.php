@@ -316,7 +316,9 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
             $childLevel = $level + 1;
 
             foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderNavigation($childPage, $childLevel);
+                if ($childPage->ShowInMenus) {
+                    $childPageStr .= $this->renderNavigation($childPage, $childLevel);
+                }
             }
         }
 
@@ -371,15 +373,7 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
      */
     public function NavigationCacheKey() {
         $key            = $this->SilvercartProductGroupPageID.'_'.$this->LastEdited.'_';
-        $lastEditedPage = false;
-
-        foreach ($this->pageHierarchy as $pageId => $pageInfo) {
-            if (!$lastEditedPage ||
-                 $lastEditedPage->LastEdited < $pageInfo['Page']->LastEdited) {
-
-                $lastEditedPage = $pageInfo['Page'];
-            }
-        }
+        $lastEditedPage = DataObject::get_one('SilvercartProductGroupPage', '', true, 'LastEdited DESC');
 
         if ($lastEditedPage) {
             $key .= '_'.$lastEditedPage->LastEdited;

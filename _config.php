@@ -95,7 +95,6 @@ RequirementsEngine::registerThemedCssFile('SilvercartAnythingSlider',           
 // ----------------------------------------------------------------------------
 // Register JS requirements
 // ----------------------------------------------------------------------------
-RequirementsEngine::registerJsFile("customhtmlform/script/jquery.js");
 RequirementsEngine::registerJsFile("silvercart/script/document.ready_scripts.js");
 RequirementsEngine::registerJsFile("silvercart/script/jquery.pixeltricks.tools.js");
 RequirementsEngine::registerJsFile("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
@@ -114,6 +113,7 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+Object::add_extension('DataObject',                                 'SilvercartDataObject');
 Object::add_extension('Member',                                     'SilvercartCustomer');
 Object::add_extension('SilvercartPage',                             'SilvercartPageListWidgetPage');
 Object::add_extension('SiteTree',                                   'Translatable');
@@ -323,7 +323,7 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_name == 'SilverStripe CMS' &&
     LeftAndMain::$application_logo_text = 'SilverStripe') {
     LeftAndMain::setApplicationName(
-        'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
+        'SilverCart - ' . SilvercartConfig::SilvercartFullVersion() . ' | SilverStripe CMS',
         'SilverCart<br />eCommerce software',
         'http://www.silvercart.org'
     );
@@ -373,6 +373,12 @@ $cacheDirectories = array(
     'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
 );
 
+if (Director::isDev()) {
+    $cachelifetime = 1;
+} else {
+    $cachelifetime = 86400;
+}
+
 foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
     if (!is_dir($cacheDirectory)) {
         mkdir($cacheDirectory);
@@ -386,9 +392,10 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
             'hashed_directory_level' => 2,
         )
     );
-    SS_Cache::set_cache_lifetime($cacheName, 86400);
+    SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);
     SS_Cache::pick_backend($cacheName, $cacheName);
 }
+SS_Cache::set_cache_lifetime('aggregate', $cachelifetime);
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!

@@ -370,3 +370,39 @@
 .icon.icon-16.icon-widgetsetadmin {
     background-position: -238px 0;
 }
+
+.silvercart-permanent-notification {
+    position:                   absolute;
+    right:                      24px;
+    top:                        12px;
+    z-index:                    1000;
+    background:                 #000;
+    opacity:                    0.7;
+    -webkit-border-radius:      6px;
+    border-radius:              6px;
+    padding:                    6px 12px 12px 12px;
+    width:                      250px;
+    color:                      #fff;
+    filter:                     alpha(opacity=70);
+}
+.silvercart-permanent-notification.hidden {
+    display:                    none;
+}
+.silvercart-permanent-notification h2 {
+    color:                      #fff;
+    font-size:                  16px;
+    line-height:                1.5;
+}
+.silvercart-permanent-notification p {
+    color:                      #fff;
+    font-size:                  12px;
+    line-height:                1.2;
+}
+.silvercart-permanent-notification .btn-close {
+    color:                      #fff;
+    position:                   absolute;
+    right:                      6px;
+    top:                        3px;
+    font-size:                  14px;
+    cursor:                     pointer;
+}

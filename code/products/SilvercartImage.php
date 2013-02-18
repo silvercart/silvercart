@@ -183,14 +183,13 @@ class SilvercartImage extends DataObject {
      * @return FieldList $fields field set for cms
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.07.2012
+     * @since 08.02.2013
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext(
                         array_merge(
                                 array(
                                     'restrictFields' => array(
-                                        'Image',
                                         'SortOrder',
                                     ),
                                 ),
@@ -220,7 +219,6 @@ class SilvercartImage extends DataObject {
                         array_merge(
                                 array(
                                     'restrictFields' => array(
-                                        'Image',
                                         'SortOrder',
                                     ),
                                 ),
@@ -250,7 +248,6 @@ class SilvercartImage extends DataObject {
             array_merge(
                 array(
                     'restrictFields' => array(
-                        'Image',
                         'SortOrder',
                     ),
                 ),

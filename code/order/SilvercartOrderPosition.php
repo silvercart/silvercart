@@ -587,6 +587,7 @@ class SilvercartOrderPosition extends DataObject {
      */
     public function addToTitle() {
         $addToTitle = SilvercartPlugin::call($this, 'addToTitle', null, false, '');
+
         return $addToTitle;
     }
 }

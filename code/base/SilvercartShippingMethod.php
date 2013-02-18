@@ -39,7 +39,8 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'isActive' => 'Boolean'
+        'isActive' => 'Boolean',
+        'priority' => 'Int'
     );
     /**
      * Has-one relationships.
@@ -96,7 +97,7 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "SilvercartCarrierID";
+    public static $default_sort = "priority DESC";
     
     /**
      * Shipping address
@@ -164,6 +165,7 @@ class SilvercartShippingMethod extends DataObject {
                         'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
                         'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
                         'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                        'priority'                          => _t('Silvercart.PRIORITY'),
                         'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
                         'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
                         'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
@@ -190,6 +192,7 @@ class SilvercartShippingMethod extends DataObject {
             'activatedStatus'           => $this->fieldLabel('activatedStatus'),
             'AttributedZones'           => $this->fieldLabel('AttributedZones'),
             'AttributedCustomerGroups'  => $this->fieldLabel('SilvercartCustomerGroups'),
+            'priority'                  => $this->fieldLabel('priority'),
         );
         $this->extend("updateSummaryFields", $summaryFields);
         return $summaryFields;
@@ -603,7 +606,7 @@ class SilvercartShippingMethod extends DataObject {
                 ->leftJoin($joinTable, $joinOnClause)
                 ->where($filter);
         
-        $extendableShippingMethod->extend('updateAllowedShippingMethods', $shippingMethods);
+        $extendableShippingMethod->extend('updateAllowedShippingFeesFor', $shippingMethods, $product);
         
         $shippingFees = new ArrayList();
         

@@ -34,6 +34,32 @@
 class SilvercartLeftAndMain extends DataExtension {
     
     /**
+     * List of allowed actions
+     *
+     * @var array
+     */
+    public static $allowed_actions = array(
+        'isUpdateAvailable',
+    );
+    
+    /**
+     * Injects some custom javascript to provide instant loading of DataObject
+     * tables.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2011
+     */
+    public function onAfterInit() {
+        if (Director::is_ajax()) {
+            return true;
+        }
+        $baseUrl = SilvercartTools::getBaseURLSegment();
+        Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
+    }
+    
+    /**
      * Returns the used SilverCart version
      * 
      * @return string
@@ -71,7 +97,10 @@ class SilvercartLeftAndMain extends DataExtension {
                     continue;
                 }
 
-                $menuCode = singleton($menuItem->controller)->stat('menuCode');
+                $menuCode       = Object::get_static($menuItem->controller, 'menuCode');
+                $menuSection    = Object::get_static($menuItem->controller, 'menuSection');
+                $menuSortIndex  = Object::get_static($menuItem->controller, 'menuSortIndex');
+                $url_segment    = Object::get_static($menuItem->controller, 'url_segment');
 
                 if ($menuCode == $menu['code'] ||
                     (is_null($menuCode)) &&
@@ -86,7 +115,7 @@ class SilvercartLeftAndMain extends DataExtension {
                             $linkingmode = "current";
 
                         // default menu is the one with a blank {@link url_segment}
-                        } else if (singleton($menuItem->controller)->stat('url_segment') == '') {
+                        } elseif ($url_segment == '') {
                             if ($this->owner->Link() == $this->owner->stat('url_base').'/') {
                                 $linkingmode = "current";
                             }
@@ -95,15 +124,9 @@ class SilvercartLeftAndMain extends DataExtension {
                         }
                     }
 
-                    // Get the menu section
-                    $menuSection = singleton($menuItem->controller)->stat('menuSection');
-
                     if (empty($menuSection)) {
                         $menuSection = 'base';
                     }
-
-                    // Get the menu sort index
-                    $menuSortIndex = singleton($menuItem->controller)->stat('menuSortIndex');
 
                     if (empty($menuSortIndex )) {
                         $menuSortIndex = 1000;
@@ -156,5 +179,46 @@ class SilvercartLeftAndMain extends DataExtension {
      */
     public function BaseUrl() {
         return Director::baseUrl();
+    }
+    
+    /**
+     * Returns the Link to check for an available update.
+     * 
+     * @return string
+     */
+    public function getUpdateAvailableLink() {
+        $updateAvailableLink = Controller::curr()->Link();
+        if (strpos(strrev($updateAvailableLink), '/') !== 0) {
+            $updateAvailableLink .= '/';
+        }
+        $updateAvailableLink .= 'isUpdateAvailable';
+        return $updateAvailableLink;
+    }
+    
+    /**
+     * Returns whether there is an update available or not
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function UpdateAvailable() {
+        $updateAvailable = SilvercartTools::checkForUpdate();
+        return $updateAvailable;
+    }
+    
+    /**
+     * Action to print 1 or 0 to the output to determine whether there is an
+     * update available or not.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function isUpdateAvailable() {
+        print (int) $this->UpdateAvailable();
+        exit();
     }
 }

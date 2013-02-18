@@ -41,6 +41,7 @@ class SilvercartSiteConfig extends DataExtension {
      */
     public static $db = array(
                 'GoogleAnalyticsTrackingCode'   => 'Text',
+                'GoogleConversionTrackingCode'  => 'Text',
                 'GoogleWebmasterCode'           => 'Text',
                 'PiwikTrackingCode'             => 'Text',
                 'FacebookLink'                  => 'Text',
@@ -63,6 +64,7 @@ class SilvercartSiteConfig extends DataExtension {
                 $labels,
                 array(
                     'GoogleAnalyticsTrackingCode'   => _t('SilvercartSiteConfig.GOOGLE_ANALYTICS_TRACKING_CODE'),
+                    'GoogleConversionTrackingCode'  => _t('SilvercartSiteConfig.GOOGLE_CONVERSION_TRACKING_CODE'),
                     'GoogleWebmasterCode'           => _t('SilvercartSiteConfig.GOOGLE_WEBMASTER_CODE'),
                     'PiwikTrackingCode'             => _t('SilvercartSiteConfig.PIWIK_TRACKING_CODE'),
                     'FacebookLink'                  => _t('SilvercartSiteConfig.FACEBOOK_LINK'),
@@ -87,10 +89,12 @@ class SilvercartSiteConfig extends DataExtension {
         
         $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
         $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
+        $googleConversionTrackingCodeField  = new TextareaField('GoogleConversionTrackingCode', $this->owner->fieldLabel('GoogleConversionTrackingCode'));
         $piwikTrackingCodeField             = new TextareaField('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
         
         $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
         $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
+        $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
         
         

@@ -104,6 +104,7 @@ class SilvercartProductExporter extends DataObject {
      */
     public static $has_one = array(
         'SilvercartCountry' => 'SilvercartCountry',
+        'Group'             => 'Group',
     );
     
     /**
@@ -215,8 +216,8 @@ class SilvercartProductExporter extends DataObject {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.07.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.02.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -243,6 +244,7 @@ class SilvercartProductExporter extends DataObject {
                 'SilvercartProductGroupPages'           => _t('SilvercartProductGroupPage.PLURALNAME'),
                 'ProtocolForLinks'                      => _t('SilvercartProductExport.PROTOCLOFORLINKS'),
                 'BaseUrlForLinks'                       => _t('SilvercartProductExport.BASEURLFORLINKS'),
+                'Group'                                 => _t('Group.SINGULARNAME'),
             )
         );
         
@@ -344,6 +346,7 @@ class SilvercartProductExporter extends DataObject {
                 $fields->dataFieldByName('BreadcrumbDelimiter'),
                 $fields->dataFieldByName('ProtocolForLinks'),
                 $fields->dataFieldByName('BaseUrlForLinks'),
+                $fields->dataFieldByName('GroupID'),
                 $fields->dataFieldByName('SilvercartCountryID'),
                 $fields->dataFieldByName('createTimestampFile'),
                 $fields->dataFieldByName('updateInterval'),
@@ -563,7 +566,7 @@ class SilvercartProductExporter extends DataObject {
      * @return void
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.07.2012
+     * @since 08.02.2013
      */
     public function doExport($exportTimeStamp = null) {
         $this->switchHttpHost();
@@ -630,8 +633,12 @@ class SilvercartProductExporter extends DataObject {
                 } elseif ($exportFields->find('name', 'PriceNetAmount')) {
                     $amount = $record['PriceNetAmount'];
                 }
-                $product                                        = new SilvercartProduct($record);
-                $defaultShippingFee                             = $product->getDefaultShippingFee($this->SilvercartCountry());
+                $group              = null;
+                if ($this->GroupID > 0) {
+                    $group = $this->Group();
+                }
+                $product            = new SilvercartProduct($record);
+                $defaultShippingFee = $product->getDefaultShippingFee($this->SilvercartCountry(), $group);
                 if ($defaultShippingFee) {
                     $defaultShippingFeePriceAmount = $defaultShippingFee->getPriceAmount(true, $amount, $this->SilvercartCountry());
                 } else {
@@ -750,7 +757,7 @@ class SilvercartProductExporter extends DataObject {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2011
+     * @since 14.02.2013
      */
     protected function getCsvRowFromRecord($record) {
         $includeRow     = true;
@@ -804,12 +811,24 @@ class SilvercartProductExporter extends DataObject {
                                     $fieldValue = 0;
                                 }
                             } else {
-                                if ($product &&
-                                    $product->hasMethod($methodName)) {
-                                    if (is_null($methodParam)) {
-                                        $fieldValue = $product->{$methodName}();
+                                if ($product) {
+                                    if ($product->hasMethod($methodName)) {
+                                        if (is_null($methodParam)) {
+                                            $fieldValue = $product->{$methodName}();
+                                        } else {
+                                            $fieldValue = $product->{$methodName}($methodParam);
+                                        }
                                     } else {
-                                        $fieldValue = $product->{$methodName}($methodParam);
+                                        if (strpos($methodName, '.') !== false) {
+                                            $parts  = explode('.', $methodName);
+                                            $result = $product;
+                                            foreach ($parts as $part) {
+                                                $result = $result->{$part}();
+                                            }
+                                            $fieldValue = $result;
+                                        } else {
+                                            $fieldValue = @$product->{$methodName};
+                                        }
                                     }
                                 }
                             }

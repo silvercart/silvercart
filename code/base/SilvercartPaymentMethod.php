@@ -64,7 +64,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartHandlingCost'    => 'SilvercartHandlingCost',
         'SilvercartZone'            => 'SilvercartZone'
     );
     /**
@@ -73,8 +72,9 @@ class SilvercartPaymentMethod extends DataObject {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartOrders'                 => 'SilvercartOrder',
-        'PaymentLogos'                     => 'SilvercartImage'
+        'SilvercartHandlingCosts'   => 'SilvercartHandlingCost',
+        'SilvercartOrders'          => 'SilvercartOrder',
+        'PaymentLogos'              => 'SilvercartImage'
     );
     /**
      * Defines n:m relations
@@ -428,15 +428,67 @@ class SilvercartPaymentMethod extends DataObject {
      * @return Money a money object
      */
     public function getHandlingCost() {
-        if ((int) $this->SilvercartHandlingCostID === 0) {
-            $handlingCosts = new Money;
-            $handlingCosts->setAmount(0);
-            $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
+        $controller         = Controller::curr();
+        $member             = SilvercartCustomer::currentRegisteredCustomer();
+        $handlingCostToUse  = false;
+
+        if (method_exists($controller, 'getAddress')) {
+            // 1) Use shipping address from checkout
+            $shippingAddress   = $controller->getAddress('Shipping');
         } else {
-            $handlingCosts = $this->SilvercartHandlingCost()->amount;
+            if ($member &&
+                $member->ShippingAddressID > 0) {
+
+                // 2) Use customer's default shipping address
+                $shippingAddress = $member->ShippingAddress();
+            } else {
+                // 3) Generate shipping address with shop's default country
+                $currentShopLocale = i18n::get_lang_from_locale(i18n::get_locale());
+                $shippingAddress = new SilvercartAddress();
+                $shippingAddress->SilvercartCountry = DataObject::get_one(
+                    'SilvercartCountry',
+                    sprintf(
+                        "
+                        ISO2 = '%s'
+                        ",
+                        strtoupper($currentShopLocale)
+                    )
+                );
+            }
         }
 
-        return $handlingCosts;
+        if (!$shippingAddress) {
+            return false;
+        }
+
+        $zonesDefined = false;
+
+        foreach ($this->SilvercartHandlingCosts() as $handlingCost) {
+            $zone = $handlingCost->SilvercartZone();
+
+            if ($zone->SilvercartCountries()->find('ISO3', $shippingAddress->SilvercartCountry()->ISO3)) {
+                $handlingCostToUse = $handlingCost;
+                $zonesDefined = true;
+                break;
+            }
+        }
+
+        // Fallback if SilvercartHandlingCosts are available but no zone is defined
+        if (!$zonesDefined) {
+            if ($this->SilvercartHandlingCosts()->Count() > 0) {
+                $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
+            } else {
+                $silvercartTax                              = DataObject::get_one('SilvercartTax', 'isDefault = 1');
+                $handlingCostToUse                          = new SilvercartHandlingCost();
+                $handlingCostToUse->SilvercartPaymentMethod = $this;
+                $handlingCostToUse->SilvercartTax           = $silvercartTax;
+                $handlingCostToUse->amount                  = new Money();
+                $handlingCostToUse->amount->setAmount(0);
+                $handlingCostToUse->amount->setCurrency(SilvercartConfig::DefaultCurrency());
+            }
+        }
+
+        return $handlingCostToUse;
     }
     
     /**
@@ -1790,8 +1842,21 @@ class SilvercartPaymentMethod extends DataObject {
         $shippingAddress->SilvercartCountryID   = isset($checkoutData['Shipping_Country'])          ? $checkoutData['Shipping_Country'] : '';
         $shippingAddress->PhoneAreaCode         = isset($checkoutData['Shipping_PhoneAreaCode'])    ? $checkoutData['Shipping_PhoneAreaCode'] : '';
         $shippingAddress->Phone                 = isset($checkoutData['Shipping_Phone'])            ? $checkoutData['Shipping_Phone'] : '';
+
+        if (array_key_exists('Shipping_IsPackstation', $checkoutData)) {
+            $shippingAddress->IsPackstation = $checkoutData['Shipping_IsPackstation'];
+        } else {
+            $shippingAddress->IsPackstation = false;
+        }
+        if (array_key_exists('Shipping_PostNumber', $checkoutData)) {
+            $shippingAddress->PostNumber = $checkoutData['Shipping_PostNumber'];
+        }
+        if (array_key_exists('Shipping_Packstation', $checkoutData)) {
+            $shippingAddress->Packstation = $checkoutData['Shipping_Packstation'];
+        }
+
         // Insert SilvercartCountry object
-        $shippingAddress->Country               = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
+        $shippingAddress->Country = DataObject::get_by_id('SilvercartCountry', $shippingAddress->CountryID);
 
         $this->setShippingAddress($shippingAddress);
     }

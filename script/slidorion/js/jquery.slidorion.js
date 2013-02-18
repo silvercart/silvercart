@@ -80,6 +80,14 @@
 							restartAuto();
 						});
 					}
+                                        silvercartVisibilityChangeCallBackListBlur.push(function() {
+                                            intervalPause = true;
+                                            stopAuto();
+                                        });
+                                        silvercartVisibilityChangeCallBackListFocus.push(function() {
+                                            intervalPause = false;
+                                            restartAuto();
+                                        });
 					
 					resetLayers();
 					

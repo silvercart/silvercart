@@ -34,6 +34,13 @@
 class SilvercartLoginForm extends CustomHtmlForm {
 
     /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
+
+    /**
      * Form field definitions.
      *
      * @var array
