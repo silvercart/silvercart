@@ -38,21 +38,14 @@ class SilvercartCarrierAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'handling';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 80;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'shipping';
+    public static $menuSortIndex = 50;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartCarrierAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'carriers';
+    public static $menu_title = 'Carriers';
 
     /**
      * Managed models

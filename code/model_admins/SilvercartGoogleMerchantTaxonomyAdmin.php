@@ -38,21 +38,14 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'modules';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 130;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'others';
+    public static $menuSortIndex = 40;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartGoogleMerchantTaxonomyAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart google merchant taxonomy';
+    public static $menu_title = 'Google Merchant Taxonomy';
     
     /**
      * We use a custom result table class name.

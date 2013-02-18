@@ -59,7 +59,7 @@ class SilvercartManufacturerAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart manufacturers';
+    public static $menu_title = 'Manufacturers';
 
     /**
      * Managed models

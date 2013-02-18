@@ -38,21 +38,14 @@ class SilvercartImageAdmin extends ModelAdmin {
     * 
     * @var string
     */
-    public static $menuCode = 'config';
+    public static $menuCode = 'files';
 
     /**
     * The section of the menu under which this admin should be grouped.
     * 
     * @var string
     */
-    public static $menuSection = 'others';
-
-    /**
-    * The section of the menu under which this admin should be grouped.
-    * 
-    * @var string
-    */
-    public static $menuSortIndex = 120;
+    public static $menuSortIndex = 20;
 
     /**
     * The URL segment

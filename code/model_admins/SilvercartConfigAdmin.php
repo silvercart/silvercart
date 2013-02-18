@@ -59,7 +59,7 @@ class SilvercartConfigAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'SC config';
+    public static $menu_title = 'Configuration';
 
     /**
      * Managed models

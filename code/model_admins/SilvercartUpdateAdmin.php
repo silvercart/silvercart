@@ -45,14 +45,7 @@ class SilvercartUpdateAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 140;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'maintenance';
+    public static $menuSortIndex = 30;
 
     /**
      * Managed models

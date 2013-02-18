@@ -122,7 +122,7 @@ Object::add_extension('SiteConfig',                                 'SilvercartS
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('Money',                                      'SilvercartMoneyExtension');
-Object::add_extension('CMSMain',                                    'SilvercartMain');
+Object::add_extension('LeftAndMain',                                'SilvercartMain');
 Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
@@ -335,12 +335,31 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
 // ----------------------------------------------------------------------------
 // Register menus for the storeadmin
 // ----------------------------------------------------------------------------
-/*
-SilvercartConfig::registerMenu('orders', _t('SilvercartStoreAdminMenu.ORDERS'));
-SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS'));
-SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
-SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
-*/
+SilvercartConfig::registerMenu('default',   _t('SilvercartStoreAdminMenu.DEFAULT'));
+SilvercartConfig::registerMenu('files',     _t('SilvercartStoreAdminMenu.FILES'));
+SilvercartConfig::registerMenu('orders',    _t('SilvercartStoreAdminMenu.ORDERS'));
+SilvercartConfig::registerMenu('products',  _t('SilvercartStoreAdminMenu.PRODUCTS'));
+SilvercartConfig::registerMenu('handling',  _t('SilvercartStoreAdminMenu.HANDLING'));
+SilvercartConfig::registerMenu('customer',  _t('SilvercartStoreAdminMenu.CUSTOMER'));
+SilvercartConfig::registerMenu('config',    _t('SilvercartStoreAdminMenu.CONFIG'));
+SilvercartConfig::registerMenu('modules',   _t('SilvercartStoreAdminMenu.MODULES'));
+
+//AssetAdmin::$menuCode = 'files';
+Object::set_static('AssetAdmin',            'menuCode', 'files');
+Object::set_static('CMSFileAddController',  'menuCode', 'files');
+Object::set_static('CMSSettingsController', 'menuCode', 'config');
+Object::set_static('SecurityAdmin',         'menuCode', 'customer');
+
+Object::set_static('CMSPagesController',    'menuSortIndex', 10);
+Object::set_static('WidgetSetAdmin',        'menuSortIndex', 20);
+Object::set_static('ReportAdmin',           'menuSortIndex', 30);
+
+Object::set_static('AssetAdmin',            'menuSortIndex', 1);
+
+Object::set_static('SecurityAdmin',         'menuSortIndex', 30);
+
+Object::set_static('CMSSettingsController', 'menuSortIndex', 1);
+
 
 // ----------------------------------------------------------------------------
 // Dirty bugfixes ....

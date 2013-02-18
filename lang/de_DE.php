@@ -26,11 +26,6 @@
 
 global $lang;
 
-$lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
-$lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
-
-$lang['de_DE']['TableListField']['SELECT'] = 'Auswahl:';
-
 $lang['de_DE']['Silvercart']['CHOOSE'] = 'wählen';
 $lang['de_DE']['Silvercart']['CLEAR_CACHE'] = 'Cache leeren';
 $lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';
@@ -1639,7 +1634,7 @@ $lang['de_DE']['SilvercartQuantityUnit']['PLURALNAME']                  = 'Verka
 $lang['de_DE']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Auf 0 stellen oder leer lassen, um keine Dezimalstellen zu verwenden. Diese Einstellung wird z.B. für "in den Warenkorb legen" Formulare benutzt.';
 $lang['de_DE']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Anzahl Dezimalstellen';
 
-$lang['de_DE']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'VK-Mengeneinheiten';
+$lang['de_DE']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'Mengeneinheiten';
 
 $lang['de_DE']['SilvercartQuantityUnitLanguage']['PLURALNAME']                  = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                = _t('Silvercart.TRANSLATION');
@@ -1767,6 +1762,10 @@ $lang['de_DE']['SilvercartStoreAdminMenu']['CONFIG'] = 'Einstellungen';
 $lang['de_DE']['SilvercartStoreAdminMenu']['MODULES'] = 'Module';
 $lang['de_DE']['SilvercartStoreAdminMenu']['ORDERS'] = 'Bestellungen';
 $lang['de_DE']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Artikel';
+$lang['de_DE']['SilvercartStoreAdminMenu']['DEFAULT'] = 'CMS';
+$lang['de_DE']['SilvercartStoreAdminMenu']['HANDLING'] = 'Abwicklung';
+$lang['de_DE']['SilvercartStoreAdminMenu']['FILES'] = 'Dateien';
+$lang['de_DE']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Kunden';
 
 $lang['de_DE']['SilvercartText']['TITLE']               = 'Freitext';
 $lang['de_DE']['SilvercartText']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';
@@ -1836,3 +1835,8 @@ $lang['de_DE']['SilvercartDateRangePicker']['START_DATE']                       
 $lang['de_DE']['SilvercartDateRangePicker']['END_DATE']                         = 'Enddatum';
 $lang['de_DE']['SilvercartDateRangePicker']['NEXT']                             = 'Nächster';
 $lang['de_DE']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Vorheriger';
+
+$lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
+$lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';
+
+$lang['de_DE']['TableListField']['SELECT'] = 'Auswahl:';

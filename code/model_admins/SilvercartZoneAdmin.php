@@ -38,21 +38,14 @@ class SilvercartZoneAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'handling';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 60;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'shipping';
+    public static $menuSortIndex = 30;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartZoneAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart zones';
+    public static $menu_title = 'Zones';
 
     /**
      * Managed models

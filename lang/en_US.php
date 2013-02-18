@@ -1761,6 +1761,10 @@ $lang['en_US']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_US']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
 $lang['en_US']['SilvercartStoreAdminMenu']['ORDERS'] = 'Orders';
 $lang['en_US']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
+$lang['en_US']['SilvercartStoreAdminMenu']['DEFAULT'] = 'CMS';
+$lang['en_US']['SilvercartStoreAdminMenu']['HANDLING'] = 'Handling';
+$lang['en_US']['SilvercartStoreAdminMenu']['FILES'] = 'Files';
+$lang['en_US']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Customers';
 
 $lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';

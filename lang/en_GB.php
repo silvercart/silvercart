@@ -998,10 +998,14 @@ $lang['en_GB']['SilvercartInboundShoppingCartTransferPage']['ERROR_SHARED_SECRET
 $lang['en_GB']['SilvercartInvoiceAddress']['PLURALNAME'] = 'Invoice addresses';
 $lang['en_GB']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Invoice address';
 
+$lang['en_GB']['SilvercartManufacturer']['DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartManufacturer']['PLURALNAME'] = 'Manufacturers';
 $lang['en_GB']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
 $lang['en_GB']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Manufacturers';
+
+$lang['en_GB']['SilvercartManufacturerLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartManufacturerLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
 
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigation';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
@@ -1622,10 +1626,12 @@ $lang['en_GB']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 $lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_GB']['SilvercartQuantityUnit']['NAME'] = 'Name';
-$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION'] = 'Abbreviation';
-$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME'] = 'quantity unit';
-$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME'] = 'quantity units';
+$lang['en_GB']['SilvercartQuantityUnit']['NAME']                        = 'Name';
+$lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abbreviation';
+$lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME']                = 'quantity unit';
+$lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME']                  = 'quantity units';
+$lang['en_GB']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_GB']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Number of decimal places';
 
 $lang['en_GB']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'quantity units';
 
@@ -1755,6 +1761,10 @@ $lang['en_GB']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_GB']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
 $lang['en_GB']['SilvercartStoreAdminMenu']['ORDERS'] = 'Orders';
 $lang['en_GB']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
+$lang['en_GB']['SilvercartStoreAdminMenu']['DEFAULT'] = 'CMS';
+$lang['en_GB']['SilvercartStoreAdminMenu']['HANDLING'] = 'Handling';
+$lang['en_GB']['SilvercartStoreAdminMenu']['FILES'] = 'Files';
+$lang['en_GB']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Customers';
 
 $lang['en_GB']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_GB']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';

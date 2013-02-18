@@ -39,7 +39,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @var string
      */
     public static $menuCode = 'products';
-
+    
     public static $tree_class = 'SilvercartProduct';
 
     /**
@@ -61,7 +61,7 @@ class SilvercartProductAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart products';
+    public static $menu_title = 'Products';
 
     /**
      * Managed models

@@ -37,21 +37,14 @@ class SilvercartNumberRangeAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'orders';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 120;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'others';
+    public static $menuSortIndex = 30;
 
     /**
      * The URL segment
@@ -65,7 +58,7 @@ class SilvercartNumberRangeAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart number ranges';
+    public static $menu_title = 'Number Ranges';
 
     /**
      * Managed models
