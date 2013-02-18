@@ -45,7 +45,7 @@ class SilvercartQuantityUnitAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 50;
+    public static $menuSortIndex = 40;
 
     /**
      * The URL segment
@@ -59,7 +59,7 @@ class SilvercartQuantityUnitAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart quantity units';
+    public static $menu_title = 'Quantity Units';
 
     /**
      * Managed models

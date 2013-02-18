@@ -38,21 +38,14 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'customer';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 119;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'others';
+    public static $menuSortIndex = 20;
 
     /**
      * The URL segment
@@ -74,8 +67,8 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      * @var array
      */
     public static $managed_models = array(
-                                        'Member'
-                                    );
+        'Member'
+    );
     
     /**
      * Provides hook for decorators, so that they can overwrite css

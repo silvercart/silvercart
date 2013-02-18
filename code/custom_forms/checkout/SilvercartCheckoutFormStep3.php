@@ -31,7 +31,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.
@@ -41,21 +41,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
-     * Returns the Cache Key for the current step
-     * 
-     * @return string
-     */
-    public function getCacheKeyExtension() {
-        return $this->Controller()->getCacheKey();
-    }
-
-    /**
      * The form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
      */
     protected $formFields = array(
         'ShippingMethod' => array(
@@ -78,7 +66,6 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -104,9 +91,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.02.2013
      */
     public function preferences() {
         $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
@@ -125,6 +111,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }
@@ -134,9 +121,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 3.1.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.02.2013
      */
     protected function fillInFieldValues() {
         $this->controller->fillFormFields($this->formFields);
@@ -155,7 +141,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
         $this->formFields['ShippingMethod']['title'] = $title;
                     
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        if ($shippingMethods) {
+        if ($shippingMethods->count() > 0) {
             $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee')->toArray();
         }
         
@@ -205,7 +191,6 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 4.1.2011
      */
     public function submitSuccess($data, $form, $formData) {
@@ -224,6 +209,15 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlForm {
      */
     public function getShippingAddress() {
         return $this->Controller()->getShippingAddress();
+    }
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
     }
 }
 

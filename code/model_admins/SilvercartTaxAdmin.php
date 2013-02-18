@@ -45,7 +45,7 @@ class SilvercartTaxAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 60;
+    public static $menuSortIndex = 50;
 
     /**
      * The URL segment
@@ -59,7 +59,7 @@ class SilvercartTaxAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart tax';
+    public static $menu_title = 'Taxes';
 
     /**
      * Managed models

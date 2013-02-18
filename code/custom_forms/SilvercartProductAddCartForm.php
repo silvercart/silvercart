@@ -43,6 +43,21 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * @since 22.07.2011
      */
     protected $securityTokenEnabled = false;
+
+    /**
+     * Returns the Cache Key for the current step
+     *
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        if (empty($this->cacheKeyExtension)) {
+            $silvercartProduct       = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
+            $cacheKeyExtension       = $silvercartProduct->ID.'_'.$silvercartProduct->LastEdited;
+            $this->cacheKeyExtension = md5($cacheKeyExtension);
+        }
+
+        return $this->cacheKeyExtension;
+    }
     
     /**
      * field configuration

@@ -32,90 +32,43 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartLeftAndMain extends DataExtension {
-
+    
     /**
-     * The new main menu routine.
-     * 
-     * @return ArrayList
+     * List of allowed actions
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
+     * @var array
      */
-    public function SilvercartMainMenu() {
-
-        // Don't accidentally return a menu if you're not logged in - it's used to determine access.
-        if (!Member::currentUser()) {
-            return new ArrayList();
+    public static $allowed_actions = array(
+        'isUpdateAvailable',
+    );
+    
+    /**
+     * Injects some custom javascript to provide instant loading of DataObject
+     * tables.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2011
+     */
+    public function onAfterInit() {
+        if (Director::is_ajax()) {
+            return true;
         }
-
-        // Encode into DO set
-        $menu                  = new ArrayList();
-        $menuItems             = CMSMenu::get_viewable_menu_items();
-        $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
-
-        if ($menuItems) {
-            foreach ($menuItems as $code => $menuItem) {
-                // alternate permission checks (in addition to LeftAndMain->canView())
-                if (
-                    isset($menuItem->controller) 
-                    && $this->owner->hasMethod('alternateMenuDisplayCheck')
-                    && !$this->owner->alternateMenuDisplayCheck($menuItem->controller)
-                ) {
-                    continue;
-                }
-
-                $linkingmode = "";
-
-                if (strpos($this->owner->Link(), $menuItem->url) !== false) {
-                    if ($this->owner->Link() == $menuItem->url) {
-                        $linkingmode = "current";
-
-                    // default menu is the one with a blank {@link url_segment}
-                    } else if (singleton($menuItem->controller)->stat('url_segment') == '') {
-                        if ($this->owner->Link() == $this->owner->stat('url_base').'/') {
-                            $linkingmode = "current";
-                        }
-                    } else {
-                        $linkingmode = "current";
-                    }
-                }
-
-                if (!empty($menuItem->controller)) {
-                    $urlSegment = singleton($menuItem->controller)->stat('url_segment');
-                    $doSkip     = false;
-
-                    foreach ($menuNonCmsIdentifiers as $identifier) {
-                        if (substr($urlSegment, 0, strlen($identifier)) === $identifier) {
-                            $doSkip = true;
-                        }
-                    }
-
-                    if ($doSkip) {
-                        continue;
-                    }
-                }
-
-                // already set in CMSMenu::populate_menu(), but from a static pre-controller
-                // context, so doesn't respect the current user locale in _t() calls - as a workaround,
-                // we simply call LeftAndMain::menu_title_for_class() again if we're dealing with a controller
-                if ($menuItem->controller) {
-                    $defaultTitle = LeftAndMain::menu_title_for_class($menuItem->controller);
-                    $title = _t("{$menuItem->controller}.MENUTITLE", $defaultTitle);
-                } else {
-                    $title = $menuItem->title;
-                }
-
-                $menu->push(new ArrayData(array(
-                    "MenuItem"    => $menuItem,
-                    "Title"       => Convert::raw2xml($title),
-                    "Code"        => $code,
-                    "Link"        => $menuItem->url,
-                    "LinkingMode" => $linkingmode
-                )));
-            }
-        }
-
-        return $menu;
+        $baseUrl = SilvercartTools::getBaseURLSegment();
+        Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
+    }
+    
+    /**
+     * Returns the used SilverCart version
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.02.2013
+     */
+    public function SilvercartVersion() {
+        return SilvercartConfig::SilvercartVersion();
     }
 
     /**
@@ -123,24 +76,20 @@ class SilvercartLeftAndMain extends DataExtension {
      * 
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.02.2013
      */
     public function SilvercartMenus() {
         $silvercartMenus = new ArrayList();
         $menuItems       = CMSMenu::get_viewable_menu_items();
-
+        
         foreach (SilvercartConfig::getRegisteredMenus() as $menu) {
-            $menuSectionIndicator = '';
             $modelAdmins          = new ArrayList();
-            $groupedModelAdmins   = new ArrayList();
 
             foreach ($menuItems as $code => $menuItem) {
-                if (
-                    isset($menuItem->controller) &&
+                if (isset($menuItem->controller) &&
                     $this->owner->hasMethod('alternateMenuDisplayCheck') &&
-                    !$this->owner->alternateMenuDisplayCheck($menuItem->controller)
-                ) {
+                    !$this->owner->alternateMenuDisplayCheck($menuItem->controller)) {
                     continue;
                 }
 
@@ -148,9 +97,14 @@ class SilvercartLeftAndMain extends DataExtension {
                     continue;
                 }
 
-                $menuCode = singleton($menuItem->controller)->stat('menuCode');
+                $menuCode       = Object::get_static($menuItem->controller, 'menuCode');
+                $menuSection    = Object::get_static($menuItem->controller, 'menuSection');
+                $menuSortIndex  = Object::get_static($menuItem->controller, 'menuSortIndex');
+                $url_segment    = Object::get_static($menuItem->controller, 'url_segment');
 
-                if ($menuCode == $menu['code']) {
+                if ($menuCode == $menu['code'] ||
+                    (is_null($menuCode)) &&
+                     $menu['code'] == 'default') {
                     $defaultTitle = LeftAndMain::menu_title_for_class($menuItem->controller);
                     $title = _t("{$menuItem->controller}.MENUTITLE", $defaultTitle);
 
@@ -161,7 +115,7 @@ class SilvercartLeftAndMain extends DataExtension {
                             $linkingmode = "current";
 
                         // default menu is the one with a blank {@link url_segment}
-                        } else if (singleton($menuItem->controller)->stat('url_segment') == '') {
+                        } elseif ($url_segment == '') {
                             if ($this->owner->Link() == $this->owner->stat('url_base').'/') {
                                 $linkingmode = "current";
                             }
@@ -170,22 +124,12 @@ class SilvercartLeftAndMain extends DataExtension {
                         }
                     }
 
-                    // Get the menu section
-                    $menuSection = singleton($menuItem->controller)->stat('menuSection');
-
                     if (empty($menuSection)) {
                         $menuSection = 'base';
                     }
 
-                    // Get the menu sort index
-                    $menuSortIndex = singleton($menuItem->controller)->stat('menuSortIndex');
-
                     if (empty($menuSortIndex )) {
                         $menuSortIndex = 1000;
-                    }
-
-                    if ($title == $this->owner->SectionTitle()) {
-                        $menuSectionIndicator = ': '.$title;
                     }
 
                     $modelAdmins->push(
@@ -202,39 +146,20 @@ class SilvercartLeftAndMain extends DataExtension {
                             )
                         )
                     );
+                    unset($menuItems[$code]);
                 }
             }
 
             $modelAdmins->sort('SortIndex', 'ASC');
-            $currentSection = '';
 
-            foreach ($modelAdmins as $modelAdmin) {
-                if ($modelAdmin->Section != $currentSection) {
-                    $currentSection = $modelAdmin->Section;
-
-                    if ($modelAdmin->Section != 'base') {
-                        $groupedModelAdmins->push(
-                            new DataObject(
-                                array(
-                                    "IsSection" => true,
-                                    "name"      => _t('SilvercartMenu.SECTION_'.$currentSection, $currentSection)
-                                )
-                            )
-                        );
-                    }
-                }
-
-                $groupedModelAdmins->push($modelAdmin);
-            }
-
-            if ($groupedModelAdmins->exists()) {
+            if ($modelAdmins->exists()) {
                 $silvercartMenus->push(
                     new DataObject(
                         array(
                             'name'        => $menu['name'],
-                            'MenuSection' => $menuSectionIndicator,
                             'code'        => $menu['code'],
-                            'ModelAdmins' => $groupedModelAdmins
+                            'Code'        => $menu['code'],
+                            'ModelAdmins' => $modelAdmins
                         )
                     )
                 );
@@ -242,33 +167,6 @@ class SilvercartLeftAndMain extends DataExtension {
         }
 
         return $silvercartMenus;
-    }
-
-    /**
-     * Returns the active CMS section title
-     * 
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
-     */
-    public function getCmsSection() {
-        $section               = '';
-        $urlSegment            = $this->owner->stat('url_segment');
-        $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
-        $foundCmsSection       = true;
-
-        foreach ($menuNonCmsIdentifiers as $identifier) {
-            if (in_array(substr($urlSegment, 0, strlen($identifier)), $menuNonCmsIdentifiers)) {
-                $foundCmsSection = false;
-            }
-        }
-
-        if ($foundCmsSection) {
-            $section = ': '.$this->owner->SectionTitle();
-        }
-
-        return $section;
     }
 
     /**
@@ -281,5 +179,46 @@ class SilvercartLeftAndMain extends DataExtension {
      */
     public function BaseUrl() {
         return Director::baseUrl();
+    }
+    
+    /**
+     * Returns the Link to check for an available update.
+     * 
+     * @return string
+     */
+    public function getUpdateAvailableLink() {
+        $updateAvailableLink = Controller::curr()->Link();
+        if (strpos(strrev($updateAvailableLink), '/') !== 0) {
+            $updateAvailableLink .= '/';
+        }
+        $updateAvailableLink .= 'isUpdateAvailable';
+        return $updateAvailableLink;
+    }
+    
+    /**
+     * Returns whether there is an update available or not
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function UpdateAvailable() {
+        $updateAvailable = SilvercartTools::checkForUpdate();
+        return $updateAvailable;
+    }
+    
+    /**
+     * Action to print 1 or 0 to the output to determine whether there is an
+     * update available or not.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public function isUpdateAvailable() {
+        print (int) $this->UpdateAvailable();
+        exit();
     }
 }

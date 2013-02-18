@@ -38,14 +38,14 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'orders';
+    public static $menuCode = 'customer';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 20;
+    public static $menuSortIndex = 10;
 
     /**
      * The URL segment

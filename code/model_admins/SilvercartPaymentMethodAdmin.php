@@ -38,21 +38,14 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'handling';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 40;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'payment';
+    public static $menuSortIndex = 10;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartPaymentMethodAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart payment methods';
+    public static $menu_title = 'Payment Methods';
 
     /**
      * Managed models

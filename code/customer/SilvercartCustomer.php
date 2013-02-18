@@ -49,12 +49,9 @@ class SilvercartCustomer extends DataExtension {
     protected $groupIDs = null;
     
     /**
-     * Extends the database fields and relations of the decorated class.
+     * DB attributes
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2011
      */
     public static $db = array(
         'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
@@ -66,24 +63,54 @@ class SilvercartCustomer extends DataExtension {
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'VarChar(128)',
     );
+    
+    /**
+     * has one attributes
+     *
+     * @var array
+     */
     public static $has_one = array(
         'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
         'SilvercartInvoiceAddress'      => 'SilvercartAddress',
         'SilvercartShippingAddress'     => 'SilvercartAddress',
-        'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig'
+        'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig',
     );
+    
+    /**
+     * has many attributes
+     *
+     * @var array
+     */
     public static $has_many = array(
         'SilvercartAddresses'   => 'SilvercartAddress',
         'SilvercartOrder'       => 'SilvercartOrder'
     );
+    
+    /**
+     * belongs many many attributes
+     *
+     * @var array
+     */
     public static $belongs_many_many = array(
         'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
     );
+    
+    /**
+     * api access
+     *
+     * @var array
+     */
     public static $api_access = array(
         'view' => array(
             'Email'
         )
     );
+    
+    /**
+     * casted attributes
+     *
+     * @var array
+     */
     public static $casting = array(
         'GroupNames' => 'Text',
     );

@@ -31,7 +31,7 @@
  * @since 03.01.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.
@@ -44,9 +44,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * The form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
      */
     protected $formFields = array(
         'PaymentMethod' => array(
@@ -83,7 +80,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -149,7 +145,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 31.03.2011
      */
     public function preferences() {
@@ -164,6 +159,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }
@@ -174,12 +170,11 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 09.11.2010
      */
     protected function fillInFieldValues() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
-        
+
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['PaymentMethod']['title'] = _t('SilvercartCheckoutFormStep4.FIELDLABEL');
 
@@ -251,7 +246,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 09.11.2010
      */
     public function submitSuccess($data, $form, $formData) {

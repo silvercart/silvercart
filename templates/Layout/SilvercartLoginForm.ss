@@ -24,7 +24,7 @@
                 $Field
             <% end_loop %>
     
-            <a class="silvercart-button left" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
+            <a class="forgot-password-plain" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
         </div>
     </div>
 

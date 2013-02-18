@@ -38,21 +38,14 @@ class SilvercartInboundShoppingCartTransferAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'modules';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 100;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'externalConnections';
+    public static $menuSortIndex = 20;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartInboundShoppingCartTransferAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart inbound shoppingcart transfers';
+    public static $menu_title = 'Inbound Shoppingcart Transfers';
 
     /**
      * Managed models

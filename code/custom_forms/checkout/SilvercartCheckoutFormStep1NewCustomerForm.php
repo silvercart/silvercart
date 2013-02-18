@@ -31,7 +31,7 @@
  * @since 08.04.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
+class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlFormStep {
 
     /**
      * The form field definitions.
@@ -81,6 +81,7 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlForm {
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
     }
 
     /**

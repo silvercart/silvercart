@@ -554,10 +554,6 @@ class SilvercartSlidorionProductGroupWidget_Controller extends WidgetSetWidget_C
                             nextObj.trigger('click');
                         });
                     });
-                    jQuery(document).blur(function(){
-                        var slidorionSelector = '#silvercart-slidorion-%d';
-                        $(slidorionSelector).stop();
-                    });
                 })(jQuery);
                 ",
                 $this->ID,
@@ -565,8 +561,7 @@ class SilvercartSlidorionProductGroupWidget_Controller extends WidgetSetWidget_C
                 $this->getIntervalValue(),
                 $this->getEffectValue(),
                 $this->getHoverPauseValue(),
-                $this->getAutoPlayValue(),
-                $this->ID
+                $this->getAutoPlayValue()
             )
         );
         

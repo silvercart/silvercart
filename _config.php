@@ -95,7 +95,6 @@ RequirementsEngine::registerThemedCssFile('SilvercartAnythingSlider',           
 // ----------------------------------------------------------------------------
 // Register JS requirements
 // ----------------------------------------------------------------------------
-RequirementsEngine::registerJsFile("customhtmlform/script/jquery.js");
 RequirementsEngine::registerJsFile("silvercart/script/document.ready_scripts.js");
 RequirementsEngine::registerJsFile("silvercart/script/jquery.pixeltricks.tools.js");
 RequirementsEngine::registerJsFile("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
@@ -114,6 +113,7 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+Object::add_extension('DataObject',                                 'SilvercartDataObject');
 Object::add_extension('Member',                                     'SilvercartCustomer');
 Object::add_extension('SilvercartPage',                             'SilvercartPageListWidgetPage');
 Object::add_extension('SiteTree',                                   'Translatable');
@@ -122,7 +122,7 @@ Object::add_extension('SiteConfig',                                 'SilvercartS
 Object::add_extension('Group',                                      'SilvercartGroupDecorator');
 Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
 Object::add_extension('Money',                                      'SilvercartMoneyExtension');
-Object::add_extension('CMSMain',                                    'SilvercartMain');
+Object::add_extension('LeftAndMain',                                'SilvercartMain');
 Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMain');
 Object::add_extension('Security',                                   'SilvercartSecurityController');
 Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
@@ -323,7 +323,7 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
     LeftAndMain::$application_name == 'SilverStripe CMS' &&
     LeftAndMain::$application_logo_text = 'SilverStripe') {
     LeftAndMain::setApplicationName(
-        'SilverCart - ' . SilvercartConfig::SilvercartVersion() . ' | SilverStripe CMS',
+        'SilverCart - ' . SilvercartConfig::SilvercartFullVersion() . ' | SilverStripe CMS',
         'SilverCart<br />eCommerce software',
         'http://www.silvercart.org'
     );
@@ -335,12 +335,31 @@ if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
 // ----------------------------------------------------------------------------
 // Register menus for the storeadmin
 // ----------------------------------------------------------------------------
-/*
-SilvercartConfig::registerMenu('orders', _t('SilvercartStoreAdminMenu.ORDERS'));
-SilvercartConfig::registerMenu('products', _t('SilvercartStoreAdminMenu.PRODUCTS'));
-SilvercartConfig::registerMenu('modules', _t('SilvercartStoreAdminMenu.MODULES'));
-SilvercartConfig::registerMenu('config', _t('SilvercartStoreAdminMenu.CONFIG'));
-*/
+SilvercartConfig::registerMenu('default',   _t('SilvercartStoreAdminMenu.DEFAULT'));
+SilvercartConfig::registerMenu('files',     _t('SilvercartStoreAdminMenu.FILES'));
+SilvercartConfig::registerMenu('orders',    _t('SilvercartStoreAdminMenu.ORDERS'));
+SilvercartConfig::registerMenu('products',  _t('SilvercartStoreAdminMenu.PRODUCTS'));
+SilvercartConfig::registerMenu('handling',  _t('SilvercartStoreAdminMenu.HANDLING'));
+SilvercartConfig::registerMenu('customer',  _t('SilvercartStoreAdminMenu.CUSTOMER'));
+SilvercartConfig::registerMenu('config',    _t('SilvercartStoreAdminMenu.CONFIG'));
+SilvercartConfig::registerMenu('modules',   _t('SilvercartStoreAdminMenu.MODULES'));
+
+//AssetAdmin::$menuCode = 'files';
+Object::set_static('AssetAdmin',            'menuCode', 'files');
+Object::set_static('CMSFileAddController',  'menuCode', 'files');
+Object::set_static('CMSSettingsController', 'menuCode', 'config');
+Object::set_static('SecurityAdmin',         'menuCode', 'customer');
+
+Object::set_static('CMSPagesController',    'menuSortIndex', 10);
+Object::set_static('WidgetSetAdmin',        'menuSortIndex', 20);
+Object::set_static('ReportAdmin',           'menuSortIndex', 30);
+
+Object::set_static('AssetAdmin',            'menuSortIndex', 1);
+
+Object::set_static('SecurityAdmin',         'menuSortIndex', 30);
+
+Object::set_static('CMSSettingsController', 'menuSortIndex', 1);
+
 
 // ----------------------------------------------------------------------------
 // Dirty bugfixes ....
@@ -353,6 +372,12 @@ $cacheDirectories = array(
     'cacheblock' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'cacheblock',
     'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
 );
+
+if (Director::isDev()) {
+    $cachelifetime = 1;
+} else {
+    $cachelifetime = 86400;
+}
 
 foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
     if (!is_dir($cacheDirectory)) {
@@ -367,9 +392,10 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
             'hashed_directory_level' => 2,
         )
     );
-    SS_Cache::set_cache_lifetime($cacheName, 86400);
+    SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);
     SS_Cache::pick_backend($cacheName, $cacheName);
 }
+SS_Cache::set_cache_lifetime('aggregate', $cachelifetime);
 
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!

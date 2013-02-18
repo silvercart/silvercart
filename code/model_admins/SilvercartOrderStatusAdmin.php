@@ -45,7 +45,7 @@ class SilvercartOrderStatusAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 30;
+    public static $menuSortIndex = 20;
 
     /**
      * The URL segment
@@ -59,7 +59,7 @@ class SilvercartOrderStatusAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart order status';
+    public static $menu_title = 'Order Status';
 
     /**
      * Managed models

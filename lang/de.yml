@@ -1525,7 +1525,7 @@ de:
     PLURALNAME: "Verkaufsmengeneinheiten"
     SINGULARNAME: "Verkaufsmengeneinheit"
   SilvercartQuantityUnitAdmin:
-    MENUTITLE: "VK-Mengeneinheiten"
+    MENUTITLE: "Mengeneinheiten"
   SilvercartQuantityUnitLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
@@ -1721,6 +1721,10 @@ de:
     MODULES: "Module"
     ORDERS: "Bestellungen"
     PRODUCTS: "Artikel"
+    DEFAULT: "CMS"
+    HANDLING: "Abwicklung"
+    FILES: "Dateien"
+    CUSTOMER: "Kunden"
   SilvercartSubNavigationWidget:
     CMSTITLE: "SilverCart Subnavigation"
     DESCRIPTION: "Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an."

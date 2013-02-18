@@ -38,7 +38,14 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'products';
+    public static $menuCode = 'modules';
+
+    /**
+     * The section of the menu under which this admin should be grouped.
+     * 
+     * @var string
+     */
+    public static $menuSortIndex = 10;
 
     /**
      * The URL segment
@@ -52,7 +59,7 @@ class SilvercartProductExporterAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart product exporters';
+    public static $menu_title = 'Product Exporters';
 
     /**
      * Managed models

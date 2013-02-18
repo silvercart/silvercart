@@ -1,4 +1,4 @@
-<li class="silvercart-change-language">
+<div class="silvercart-change-language">
     <form class="silvercart-change-language-form" $FormAttributes>
         $CustomHtmlFormMetadata
         $CustomHtmlFormErrorMessages
@@ -14,4 +14,4 @@
         </span>
     </form>
 
-</li>
+</div>

@@ -31,7 +31,14 @@
  * @since 08.04.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
+class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
+
+    /**
+     * Don't cache this form.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
     
     /**
      * Returns the Cache Key for the current step
@@ -53,7 +60,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -83,16 +89,15 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Seabstian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2011
      */
     public function isConditionForDisplayFulfilled() {
-        if (SilvercartCustomer::currentRegisteredCustomer()) {
-            return false;
+        $isConditionForDisplayFulfilled = false;
+        if (!SilvercartCustomer::currentRegisteredCustomer()) {
+            $isConditionForDisplayFulfilled = true;
         }
-
-        return true;
+        return $isConditionForDisplayFulfilled;
     }
 
     /**
@@ -101,7 +106,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function preferences() {
@@ -112,6 +116,7 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
         $this->preferences['isConditionalStep']         = true;
         $this->preferences['loadModules']               = false;
         $this->preferences['createShoppingcartForms']   = false;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }
@@ -127,7 +132,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function submitSuccess($data, $form, $formData) {

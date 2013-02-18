@@ -12,7 +12,10 @@
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include SectionIndicatorRegistration %>
+        $SectionIndicatorRegistration
+        <% if $SectionIndicatorRegistration %>
+            <% include SectionIndicatorRegistration %>
+        <% end_if %>
         $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>

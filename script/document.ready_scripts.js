@@ -1,4 +1,6 @@
-var silvercartQuickLoginBoxVisibility = 'hidden';
+var silvercartQuickLoginBoxVisibility           = 'hidden';
+var silvercartVisibilityChangeCallBackListFocus = new Array();
+var silvercartVisibilityChangeCallBackListBlur  = new Array();
 
 (function($) {jQuery(document).ready(function(){
 
@@ -80,5 +82,54 @@ var silvercartQuickLoginBoxVisibility = 'hidden';
     if (jQuery(".silvercart-product-group-page-selectors")) {
         jQuery(".silvercart-product-group-page-selectors .type-button").hide();
         jQuery(".silvercart-product-group-page-selectors select").live('change', function() { this.form.submit(); });
+    }
+    
+    var hidden,
+        change,
+        vis = {
+            hidden:         "visibilitychange",
+            mozHidden:      "mozvisibilitychange",
+            webkitHidden:   "webkitvisibilitychange",
+            msHidden:       "msvisibilitychange",
+            oHidden:        "ovisibilitychange" // not currently supported
+        };             
+    for (hidden in vis) {
+        if (vis.hasOwnProperty(hidden) && hidden in document) {
+            change = vis[hidden];
+            break;
+        }
+    }
+    if (change) {
+        document.addEventListener(change, onchange);
+    } else if (/*@cc_on!@*/false) { // IE 9 and lower
+        document.onfocusin = document.onfocusout = onchange
+    } else {
+        window.onfocus = window.onblur = onchange;
+    }
+
+    function onchange (evt) {
+        var body    = document.body;
+        evt         = evt || window.event;
+
+        if (evt.type == "focus" || evt.type == "focusin") {
+            body.className = "visible";
+        } else if (evt.type == "blur" || evt.type == "focusout") {
+            body.className = "hidden";
+        } else {
+            body.className = this[hidden] ? "hidden" : "visible";
+        }
+        if (body.className == 'visible') {
+            $.each(silvercartVisibilityChangeCallBackListFocus, function() {
+                if (typeof this == "function") {
+                    this();
+                }
+            });
+        } else {
+            $.each(silvercartVisibilityChangeCallBackListBlur, function() {
+                if (typeof this == "function") {
+                    this();
+                }
+            });
+        }
     }
 })})(jQuery);

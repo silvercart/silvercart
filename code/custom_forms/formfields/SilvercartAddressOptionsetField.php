@@ -28,11 +28,18 @@
  * @package Silvercart
  * @subpackage Forms
  * @copyright pixeltricks GmbH
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 21.04.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 13.02.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartAddressOptionsetField extends OptionsetField {
+    
+    /**
+     * Markup of the field
+     *
+     * @var string
+     */
+    protected $field = null;
 
     /**
      * Create a UL tag containing sets of radio buttons and labels.  The IDs are set to
@@ -43,65 +50,68 @@ class SilvercartAddressOptionsetField extends OptionsetField {
      * @return string
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2011
+     * @since 13.02.2013
      */
     public function Field($properties = array()) {
-        $odd            = 0;
-        $itemIdx        = 0;
-        $source         = $this->getSource();
-        $items          = array();
-        $templateVars   = array(
-            'ID'            => $this->id(),
-            'extraClass'    => $this->extraClass(),
-            'items'         => array()
-        );
+        if (is_null($this->field)) {
+            $odd            = 0;
+            $itemIdx        = 0;
+            $source         = $this->getSource();
+            $items          = array();
+            $templateVars   = array(
+                'ID'            => $this->id(),
+                'extraClass'    => $this->extraClass(),
+                'items'         => array()
+            );
 
-        foreach ($source as $key => $value) {
+            foreach ($source as $key => $value) {
 
-            // get payment method
-            $address = DataObject::get_by_id('SilvercartAddress', $key);
+                // get payment method
+                $address = DataObject::get_by_id('SilvercartAddress', $key);
 
-            if ($address) {
-                $odd                = ($odd + 1) % 2;
-                $extraClass         = $odd ? "odd" : "even";
-                $checked            = false;
-                $isCompanyAddress   = $address->isCompanyAddress();
-                
-                // check if field should be checked
-                if ($this->value == $key) {
-                    $checked = true;
+                if ($address) {
+                    $odd                = ($odd + 1) % 2;
+                    $extraClass         = $odd ? "odd" : "even";
+                    $checked            = false;
+                    $isCompanyAddress   = $address->isCompanyAddress();
+
+                    // check if field should be checked
+                    if ($this->value == $key) {
+                        $checked = true;
+                    }
+
+                    $items['item_'.$itemIdx] = new ArrayData(
+                        array_merge(
+                            array(
+                                'ID'                => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
+                                'checked'           => $checked,
+                                'odd'               => $odd,
+                                'even'              => !$odd,
+                                'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
+                                'value'             => $key,
+                                'label'             => $value,
+                                'name'              => $this->name,
+                                'htmlId'            => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
+                                'isInvoiceAddress'  => $address->isInvoiceAddress(),
+                                'isShippingAddress' => $address->isShippingAddress(),
+                                'isCompanyAddress'  => $isCompanyAddress,
+                                'isLastAddress'     => $address->isLastAddress(),
+                                'address'           => $address,
+                                'SilvercartCountry' => $address->SilvercartCountry(),
+                            ),
+                            $address->toRawMap()
+                        )
+                    );
                 }
 
-                $items['item_'.$itemIdx] = new ArrayData(
-                    array_merge(
-                        array(
-                            'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                            'checked'           => $checked,
-                            'odd'               => $odd,
-                            'even'              => !$odd,
-                            'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
-                            'value'             => $key,
-                            'label'             => $value,
-                            'name'              => $this->name,
-                            'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                            'isInvoiceAddress'  => $address->isInvoiceAddress(),
-                            'isShippingAddress' => $address->isShippingAddress(),
-                            'isCompanyAddress'  => $isCompanyAddress,
-                            'isLastAddress'     => $address->isLastAddress(),
-                            'address'           => $address,
-                            'SilvercartCountry' => $address->SilvercartCountry(),
-                        ),
-                        $address->toMap()
-                    )
-                );
+                $itemIdx++;
             }
+            $templateVars['items'] = new ArrayList($items);
+            $output                = $this->customise($templateVars)->renderWith('SilvercartAddressOptionsetField');
 
-            $itemIdx++;
+            $this->field = $output;
         }
-        $templateVars['items'] = new ArrayList($items);
-        $output                = $this->customise($templateVars)->renderWith('SilvercartAddressOptionsetField');
-
-        return $output;
+        return $this->field;
     }
     
     /**

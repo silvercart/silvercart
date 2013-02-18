@@ -38,21 +38,14 @@ class SilvercartDeepLinkAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'modules';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 110;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'externalConnections';
+    public static $menuSortIndex = 30;
 
     /**
      * The URL segment

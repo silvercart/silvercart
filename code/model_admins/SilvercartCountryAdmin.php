@@ -38,21 +38,14 @@ class SilvercartCountryAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuCode = 'config';
+    public static $menuCode = 'handling';
 
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
-    public static $menuSortIndex = 70;
-
-    /**
-     * The section of the menu under which this admin should be grouped.
-     * 
-     * @var string
-     */
-    public static $menuSection = 'shipping';
+    public static $menuSortIndex = 40;
 
     /**
      * The URL segment
@@ -66,7 +59,7 @@ class SilvercartCountryAdmin extends ModelAdmin {
      *
      * @var string
      */
-    public static $menu_title = 'Silvercart countries';
+    public static $menu_title = 'Countries';
 
     /**
      * Managed models

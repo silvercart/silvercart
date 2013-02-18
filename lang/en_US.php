@@ -48,6 +48,7 @@ $lang['en_US']['Silvercart']['MINS'] = 'minutes';
 $lang['en_US']['Silvercart']['SEC'] = 'second';
 $lang['en_US']['Silvercart']['SECS'] = 'seconds';
 $lang['en_US']['Silvercart']['MORE'] = 'More';
+$lang['en_US']['Silvercart']['PRIORITY'] = 'Priority (the higher the more important)';
 $lang['en_US']['Silvercart']['SEO'] = 'SEO';
 $lang['en_US']['Silvercart']['YES'] = 'Yes';
 $lang['en_US']['Silvercart']['NO'] = 'No';
@@ -63,6 +64,8 @@ $lang['en_US']['Silvercart']['SORTORDER'] = 'Sort order';
 $lang['en_US']['Silvercart']['PAGE'] = 'Page';
 $lang['en_US']['Silvercart']['X_OF_Y'] = '%s of %s';
 $lang['en_US']['Silvercart']['EXECUTE'] = 'Execute';
+$lang['en_US']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
+$lang['en_US']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
 
 $lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -893,8 +896,6 @@ $lang['en_US']['SilvercartCustomer']['ADDRESS_DATA']    = 'Basic address data';
 $lang['en_US']['SilvercartCustomer']['INVOICE_DATA']    = 'Invoice address data';
 $lang['en_US']['SilvercartCustomer']['SHIPPING_DATA']   = 'Shipping address data';
 
-$lang['en_US']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']   = 'Forms';
-
 $lang['en_US']['SilvercartGroupDecorator']['PRICETYPE'] = 'Pricetype';
 $lang['en_US']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 
@@ -980,7 +981,7 @@ $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']           
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Product matching field';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Referer identifier';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
-$lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']                         = 'activate shared secret';
+$lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'activate shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_IDENTIFIER']              = 'Request variable name for shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SINGULARNAME']                          = 'Inbound Shopping Cart Transfer';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['TITLE']                                 = 'Title';
@@ -1626,12 +1627,12 @@ $lang['en_US']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 $lang['en_US']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
 $lang['en_US']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_US']['SilvercartQuantityUnit']['NAME']                        = 'Name';
-$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION']                = 'Abbreviation';
-$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME']                = 'quantity unit';
-$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME']                  = 'quantity units';
-$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES'] = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
-$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']    = 'Number of decimal places';
+$lang['en_US']['SilvercartQuantityUnit']['NAME']                                = 'Name';
+$lang['en_US']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
+$lang['en_US']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'quantity unit';
+$lang['en_US']['SilvercartQuantityUnit']['PLURALNAME']                          = 'quantity units';
+$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
 
 $lang['en_US']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'Quantity Units';
 
@@ -1761,6 +1762,10 @@ $lang['en_US']['SilvercartStoreAdminMenu']['CONFIG'] = 'Configuration';
 $lang['en_US']['SilvercartStoreAdminMenu']['MODULES'] = 'Modules';
 $lang['en_US']['SilvercartStoreAdminMenu']['ORDERS'] = 'Orders';
 $lang['en_US']['SilvercartStoreAdminMenu']['PRODUCTS'] = 'Products';
+$lang['en_US']['SilvercartStoreAdminMenu']['DEFAULT'] = 'CMS';
+$lang['en_US']['SilvercartStoreAdminMenu']['HANDLING'] = 'Handling';
+$lang['en_US']['SilvercartStoreAdminMenu']['FILES'] = 'Files';
+$lang['en_US']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Customers';
 
 $lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
 $lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';
@@ -1793,6 +1798,7 @@ $lang['en_US']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata'
 $lang['en_US']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'There are no products yet; if you want to create some testdata just click on the following link:';
 $lang['en_US']['SilvercartSiteConfig']['TESTDATA_LINKTEXT']         = 'Jump to the testdata section';
 $lang['en_US']['SilvercartSiteConfig']['GOOGLE_ANALYTICS_TRACKING_CODE']    = 'Google Analytics Tracking Code';
+$lang['en_US']['SilvercartSiteConfig']['GOOGLE_CONVERSION_TRACKING_CODE']   = 'Google Conversion Tracking Code';
 $lang['en_US']['SilvercartSiteConfig']['GOOGLE_WEBMASTER_CODE']             = 'Google Webmaster Tools Code';
 $lang['en_US']['SilvercartSiteConfig']['PIWIK_TRACKING_CODE']               = 'Piwik Tracking Code';
 $lang['en_US']['SilvercartSiteConfig']['FACEBOOK_LINK']                     = 'Facebook Link';

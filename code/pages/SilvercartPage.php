@@ -481,6 +481,18 @@ class SilvercartPage_Controller extends ContentController {
     }
 
     /**
+     * Returns the protocol for the current page.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-01-23
+     */
+    public function getProtocol() {
+        return Director::protocol();
+    }
+
+    /**
      * Returns HTML code that has been created by SilverCart modules.
      *
      * @return string

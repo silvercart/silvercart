@@ -31,7 +31,7 @@
  * @since 11.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
+class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlFormStep {
 
     /**
      * Don't cache this form.
@@ -96,6 +96,7 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlForm {
      */
     public function preferences() {
         $this->preferences['fillInRequestValues']       = true;
+        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }

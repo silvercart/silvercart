@@ -96,6 +96,7 @@ class SilvercartConfig extends DataObject {
      */
     public static $db = array(
         'SilvercartVersion'                     => 'VarChar(16)',
+        'SilvercartMinorVersion'                => 'VarChar(16)',
         'SilvercartUpdateVersion'               => 'VarChar(16)',
         'DefaultCurrency'                       => 'VarChar(16)',
         'DefaultPriceType'                      => 'Enum("gross,net","gross")',
@@ -150,7 +151,8 @@ class SilvercartConfig extends DataObject {
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
-        'SilvercartUpdateVersion'       => '6',
+        'SilvercartMinorVersion'        => '5',
+        'SilvercartUpdateVersion'       => '7',
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
@@ -199,6 +201,8 @@ class SilvercartConfig extends DataObject {
     public static $useMinimumOrderValue                     = null;
     public static $productsPerPage                          = null;
     public static $silvercartVersion                        = null;
+    public static $silvercartMinorVersion                   = null;
+    public static $silvercartFullVersion                    = null;
     public static $enableStockManagement                    = null;
     public static $isStockManagementOverbookable            = null;
     public static $redirectToCartAfterAddToCart             = null;
@@ -243,6 +247,8 @@ class SilvercartConfig extends DataObject {
     /**
      * There is only one config object which is created on installation.
      * This method disables creation of config objects in the modeladmin.
+     * 
+     * @param Member $member Member to check permission for
      *
      * @return false 
      * 
@@ -289,6 +295,7 @@ class SilvercartConfig extends DataObject {
         );
         // Remove not required fields
         $defaultCMSFields->removeByName('SilvercartVersion');
+        $defaultCMSFields->removeByName('SilvercartMinorVersion');
         $defaultCMSFields->removeByName('SilvercartUpdateVersion');
         $defaultCMSFields->removeByName('DefaultCurrency');
         $defaultCMSFields->removeByName('useMinimumOrderValue');
@@ -827,6 +834,42 @@ class SilvercartConfig extends DataObject {
             self::$silvercartVersion = self::$defaults['SilvercartVersion'];
         }
         return self::$silvercartVersion;
+    }
+
+    /**
+     * Returns the SilverCart minor version.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public static function SilvercartMinorVersion() {
+        if (is_null(self::$silvercartMinorVersion)) {
+            self::$silvercartMinorVersion = self::$defaults['SilvercartMinorVersion'];
+        }
+        return self::$silvercartMinorVersion;
+    }
+
+    /**
+     * Returns the full SilverCart version number.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2013
+     */
+    public static function SilvercartFullVersion() {
+        if (is_null(self::$silvercartFullVersion)) {
+            $version        = self::SilvercartVersion();
+            $minorVersion   = self::SilvercartMinorVersion();
+            self::$silvercartFullVersion = $version;
+            if (!is_null($minorVersion) &&
+                !empty($minorVersion)) {
+                self::$silvercartFullVersion .= '.' . $minorVersion;
+            }
+        }
+        return self::$silvercartFullVersion;
     }
     
     /**
