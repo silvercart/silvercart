@@ -281,9 +281,9 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * @since 18.02.2013
      */
     public function getCmsSection() {
-        $menuCode              = $this->owner->stat('menuCode');
+        $menuCode   = $this->owner->stat('menuCode');
+        $section    = '';
         if (is_null($menuCode)) {
-            $section               = '';
             $urlSegment            = $this->owner->stat('url_segment');
             $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
             $foundCmsSection       = true;
