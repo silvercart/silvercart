@@ -49,7 +49,7 @@ class SilvercartCheckoutFormStep2 extends CustomHtmlForm {
 
                 if ($numberOfAddresses > 0) {
                     $cacheKeyExtension .= md5('_'.$numberOfAddresses.'_'.
-                                     $member->Aggregate('SilvercartAddress')->MAX('LastEdited'));
+                                     $member->SilvercartAddresses()->max('LastEdited'));
                 } else {
                     $cacheKeyExtension .= md5('_0');
                 }

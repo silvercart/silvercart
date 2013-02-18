@@ -53,7 +53,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -83,16 +82,15 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Seabstian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2011
      */
     public function isConditionForDisplayFulfilled() {
-        if (SilvercartCustomer::currentRegisteredCustomer()) {
-            return false;
+        $isConditionForDisplayFulfilled = false;
+        if (!SilvercartCustomer::currentRegisteredCustomer()) {
+            $isConditionForDisplayFulfilled = true;
         }
-
-        return true;
+        return $isConditionForDisplayFulfilled;
     }
 
     /**
@@ -101,7 +99,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function preferences() {
@@ -127,7 +124,6 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 08.04.2011
      */
     public function submitSuccess($data, $form, $formData) {
