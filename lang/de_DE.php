@@ -910,10 +910,6 @@ $lang['de_DE']['SilvercartCustomer']['ADDRESS_DATA']    = 'Adressdaten allgemein
 $lang['de_DE']['SilvercartCustomer']['INVOICE_DATA']    = 'Rechnungs-Adressdaten';
 $lang['de_DE']['SilvercartCustomer']['SHIPPING_DATA']   = 'Liefer-Adressdaten';
 
-$lang['de_DE']['SilvercartCustomHtmlFormAdmin']['MENUTITLE']   = 'Formulare';
-$lang['de_DE']['SilvercartCustomHtmlFormAdmin']['PLURALNAME'] = 'Formulare';
-$lang['de_DE']['SilvercartCustomHtmlFormAdmin']['SINGULARNAME'] = 'Formulare';
-
 $lang['de_DE']['SilvercartGroupDecorator']['PRICETYPE'] = 'Preistyp';
 $lang['de_DE']['SilvercartGroupDecorator']['NO_PRICETYPE'] = '---';
 

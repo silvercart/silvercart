@@ -64,8 +64,8 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * 
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.02.2013
      */
     public function SilvercartMainMenu() {
 
@@ -107,6 +107,10 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 }
 
                 if (!empty($menuItem->controller)) {
+                    $menuCode = Object::get_static($menuItem->controller, 'menuCode');
+                    if (!is_null($menuCode)) {
+                        continue;
+                    }
                     $urlSegment = singleton($menuItem->controller)->stat('url_segment');
                     $doSkip     = false;
 
@@ -120,7 +124,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                         continue;
                     }
                 }
-
+                
                 // already set in CMSMenu::populate_menu(), but from a static pre-controller
                 // context, so doesn't respect the current user locale in _t() calls - as a workaround,
                 // we simply call LeftAndMain::menu_title_for_class() again if we're dealing with a controller
@@ -150,7 +154,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * @return DataObjectSet
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2012
+     * @since 18.02.2013
      */
     public function SilvercartMenus() {
         $silvercartMenus = new DataObjectSet();
@@ -174,7 +178,10 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                     continue;
                 }
 
-                $menuCode = singleton($menuItem->controller)->stat('menuCode');
+                $menuCode       = Object::get_static($menuItem->controller, 'menuCode');
+                $menuSection    = Object::get_static($menuItem->controller, 'menuSection');
+                $menuSortIndex  = Object::get_static($menuItem->controller, 'menuSortIndex');
+                $url_segment    = Object::get_static($menuItem->controller, 'url_segment');
 
                 if ($menuCode == $menu['code']) {
                     $defaultTitle = LeftAndMain::menu_title_for_class($menuItem->controller);
@@ -187,7 +194,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                             $linkingmode = "current";
 
                         // default menu is the one with a blank {@link url_segment}
-                        } else if (singleton($menuItem->controller)->stat('url_segment') == '') {
+                        } elseif ($url_segment == '') {
                             if ($this->owner->Link() == $this->owner->stat('url_base').'/') {
                                 $linkingmode = "current";
                             }
@@ -196,15 +203,9 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                         }
                     }
 
-                    // Get the menu section
-                    $menuSection = singleton($menuItem->controller)->stat('menuSection');
-
                     if (empty($menuSection)) {
                         $menuSection = 'base';
                     }
-
-                    // Get the menu sort index
-                    $menuSortIndex = singleton($menuItem->controller)->stat('menuSortIndex');
 
                     if (empty($menuSortIndex )) {
                         $menuSortIndex = 1000;
@@ -228,6 +229,7 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                             )
                         )
                     );
+                    unset($menuItems[$code]);
                 }
             }
 
@@ -275,23 +277,25 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.02.2013
      */
     public function getCmsSection() {
-        $section               = '';
-        $urlSegment            = $this->owner->stat('url_segment');
-        $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
-        $foundCmsSection       = true;
-
-        foreach ($menuNonCmsIdentifiers as $identifier) {
-            if (in_array(substr($urlSegment, 0, strlen($identifier)), $menuNonCmsIdentifiers)) {
-                $foundCmsSection = false;
+        $menuCode              = $this->owner->stat('menuCode');
+        if (is_null($menuCode)) {
+            $section               = '';
+            $urlSegment            = $this->owner->stat('url_segment');
+            $menuNonCmsIdentifiers = SilvercartConfig::getMenuNonCmsIdentifiers();
+            $foundCmsSection       = true;
+            foreach ($menuNonCmsIdentifiers as $identifier) {
+                if (in_array(substr($urlSegment, 0, strlen($identifier)), $menuNonCmsIdentifiers)) {
+                    $foundCmsSection = false;
+                }
             }
-        }
 
-        if ($foundCmsSection) {
-            $section = ': '.$this->owner->SectionTitle();
+            if ($foundCmsSection) {
+                $section = ': '.$this->owner->SectionTitle();
+            }
         }
 
         return $section;
