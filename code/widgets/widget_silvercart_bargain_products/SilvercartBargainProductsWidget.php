@@ -122,14 +122,16 @@ class SilvercartBargainProductsWidget extends WidgetSetWidget implements Silverc
      * @since 27.03.2012
      */
     public function getCMSFields() {
-        $fields = SilvercartWidgetTools::getCMSFieldsForProductSliderWidget($this);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         
-        $translationTab             = new Tab('Translations',   $this->fieldLabel('TranslationsTab'));
-        $translationsTableField     = new ComplexTableField($this, 'SilvercartBargainProductsWidgetLanguages', 'SilvercartBargainProductsWidgetLanguage');
-        
-        $fields->addFieldToTab('Root', $translationTab);
-        $translationTab->push($translationsTableField);
-        
+        $fetchMethods               = array(
+                'random'        => $this->fieldLabel('fetchMethodRandom'),
+                'sortOrderAsc'  => $this->fieldLabel('fetchMethodSortOrderAsc'),
+                'sortOrderDesc' => $this->fieldLabel('fetchMethodSortOrderDesc'),
+        );
+        $fetchMethodsField = $fields->dataFieldByName('fetchMethod');
+        $fetchMethodsField->setSource($fetchMethods);
+        $fields->replaceField('GroupView', SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView')));
         return $fields;
     }
     
@@ -219,7 +221,6 @@ class SilvercartBargainProductsWidget extends WidgetSetWidget implements Silverc
                     'SelectionMethodProducts'                   => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
                     'ProductGroupTab'                           => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                     'ProductsTab'                               => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
-                    'TranslationsTab'                           => _t('SilvercartConfig.TRANSLATIONS'),
                     'SilvercartBargainProductsWidgetLanguages'  => _t('SilvercartBargainProductsWidgetLanguage.PLURALNAME'),
                 )
         );
