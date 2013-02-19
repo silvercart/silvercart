@@ -113,7 +113,7 @@ class SilvercartImageSliderImage extends DataObject {
      * @since 10.02.2013
      */
     public function getCMSFields() {
-        $fields = SilvercartDataObject::getCMSFields($this, 'SortOrder', false);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         
         $siteTreeField = new TreeDropdownField(
             'SiteTreeID',

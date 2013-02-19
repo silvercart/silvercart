@@ -94,8 +94,8 @@ class SilvercartImageSliderWidgetLanguage extends DataObject {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'FrontTitle'    => _t('SilvercartWidget.FRONTTITLE'),
-                    'FrontContent'  => _t('SilvercartWidget.FRONTCONTENT'),
+                    'FrontTitle'                        => _t('WidgetSetWidget.FRONTTITLE'),
+                    'FrontContent'                      => _t('WidgetSetWidget.FRONTCONTENT'),
                 )
         );
 

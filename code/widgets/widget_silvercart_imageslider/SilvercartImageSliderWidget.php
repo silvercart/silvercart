@@ -146,40 +146,7 @@ class SilvercartImageSliderWidget extends WidgetSetWidget {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields = new FieldList();
-        
-        $rootTabSet         = new TabSet('Root');
-        $basicTab           = new Tab('Basic',              $this->fieldLabel('BasicTab'));
-        $translationsTab    = new Tab('TranslationsTab',    $this->fieldLabel('Translations'));
-        $imagesTab          = new Tab('slideImages',        $this->fieldLabel('Images'));
-        
-        $translationsTableField = new GridField(
-                                                'SilvercartImageSliderWidgetLanguages',
-                                                $this->fieldLabel('Translations'), 
-                                                $this->SilvercartImageSliderWidgetLanguages(), 
-                                                SilvercartGridFieldConfig_LanguageRelationEditor::create()
-                );
-        $imageField = new GridField(
-                        'slideImages',
-                        $this->fieldLabel('SilvercartImageSliderImage'),
-                        $this->slideImages(),
-                        SilvercartGridFieldConfig_RelationEditor::create()
-                );
-        
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $rootTabSet->push($imagesTab);
-        $this->getCMSFieldsSliderTab($rootTabSet);
-        $rootTabSet->push($translationsTab);
-        
-        $imagesTab->push($imageField);
-        $translationsTab->push($translationsTableField);
-                
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Basic', $languageField);
-        }
-        
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         return $fields;
     }
     
@@ -218,7 +185,8 @@ class SilvercartImageSliderWidget extends WidgetSetWidget {
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                     'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
                     'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME'),
-                    'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME')
+                    'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME'),
+                    'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME')
                     
                 )
         );
