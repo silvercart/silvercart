@@ -88,7 +88,7 @@ class SilvercartShippingFee extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "`priority` DESC";
+    public static $default_sort = "priority DESC";
     
     /**
      * Returns the translated singular name of the object.

@@ -794,7 +794,7 @@ class SilvercartProductGroupPage extends Page {
      * @return DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.12.2012
+     * @since 19.02.2013
      */
     public function ActiveSilvercartProducts() {
         if (is_null($this->activeSilvercartProducts)) {
@@ -826,12 +826,12 @@ class SilvercartProductGroupPage extends Page {
                         if ($requiredAttribute == "Price") {
                             // Gross price as default if not defined
                             if (SilvercartConfig::Pricetype() == "net") {
-                                $filter[] = sprintf("(`PriceNetAmount` != 0.0)");
+                                $filter[] = sprintf('("PriceNetAmount" != 0.0)');
                             } else {
-                                $filter[] = sprintf("(`PriceGrossAmount` != 0.0)");
+                                $filter[] = sprintf('("PriceGrossAmount" != 0.0)');
                             }
                         } else {
-                            $filter[] = sprintf("`%s` != ''", $requiredAttribute);
+                            $filter[] = sprintf('"%s" != \'\'', $requiredAttribute);
                         }
                     } else {
                         // if its a multilingual attribute it comes from a relational class

@@ -78,7 +78,7 @@ class SilvercartCarrier extends DataObject {
      *
      * @var string
      */
-    public static $default_sort = "`priority` DESC";
+    public static $default_sort = "priority DESC";
     
     /**
      * retirieves title from related language class depending on the set locale
