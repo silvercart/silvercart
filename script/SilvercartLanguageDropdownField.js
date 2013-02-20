@@ -28,6 +28,7 @@
         languageSelectorOptions.each(function() {
             var locale  = $(this).val();
             var iso2    = $(this).attr('class');
+            var link    = $(this).attr('rel');
             if (firstLanguage) {
                 languageCssClass    = 'first';
                 firstLanguage       = false;
@@ -35,7 +36,7 @@
                 languageCssClass    = 'selectable';
             }
             var img = '<img src="/silvercart/images/icons/flags/' + iso2 + '.png" alt="" />';
-            markup += '<li class="' + locale + ' ' + languageCssClass + '">' + img + $(this).html() + '</li>';
+            markup += '<li class="' + locale + ' ' + languageCssClass + '"><a href="' + link + '">' + img + $(this).html() + '</a></li>';
         });
         
         markup += '</ul>';

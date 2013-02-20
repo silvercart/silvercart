@@ -116,7 +116,8 @@ class SilvercartLanguageDropdownField extends DropdownField {
      * @since 27.04.2012
      */
     public function Field() {
-        $options = '';
+        $options    = '';
+        $controller = $this->getController();
 
         $source = $this->getSource();
         if ($source) {
@@ -138,11 +139,19 @@ class SilvercartLanguageDropdownField extends DropdownField {
                     $this->isSelected = ($selected) ? true : false;
                 }
 
+
+                if ($controller) {
+                    $link = $controller->getTranslation($value)->Link();
+                } else {
+                    $link = "#";
+                }
+
                 $options .= $this->createTag(
                     'option', array(
                         'selected'  => $selected,
                         'value'     => $value,
                         'class'     => $rel,
+                        'rel'       => $link
                     ),
                     Convert::raw2xml($title)
                 );

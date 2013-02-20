@@ -27,6 +27,10 @@ ul.silvercart-change-language-selector li {
     margin:                         0;
     cursor:                         default;
 }
+ul.silvercart-change-language-selector li a {
+    color:                          #fff;
+    text-decoration:                none;
+}
 ul.silvercart-change-language-selector li img {
     padding:                        0 6px 0 0;
 }
