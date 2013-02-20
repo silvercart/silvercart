@@ -120,19 +120,20 @@ class SilvercartShippingFee extends DataObject {
      * @return array
      * 
      * @author Seabstian Diel <sdiel@pixeltricks.de>
-     * @since 28.04.2011
+     * @since 20.02.2013
      */
     public function summaryFields() {
-        return array_merge(
-                parent::summaryFields(),
-                array(
-                    'SilvercartZone.Title'      => $this->fieldLabel('SilvercartZone'),
-                    'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
-                    'MaximumWeightLimitedOrNot' => $this->fieldLabel('MaximumWeight'),
-                    'PriceFormattedPlain'       => $this->fieldLabel('Price'),
-                    'priority'                  => $this->fieldLabel('priority'),
-                )
+        $summaryFields = array(
+            'SilvercartZone.Title'      => $this->fieldLabel('SilvercartZone'),
+            'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
+            'MaximumWeightLimitedOrNot' => $this->fieldLabel('MaximumWeight'),
+            'PriceFormattedPlain'       => $this->fieldLabel('Price'),
+            'priority'                  => $this->fieldLabel('priority'),
         );
+        
+        $this->extend('updateSummaryFields', $summaryFields);
+        
+        return $summaryFields;
     }
 
     /**
