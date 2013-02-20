@@ -142,6 +142,19 @@
                 <td>&nbsp;</td>
             <% end_if %>
         </tr>
+
+        <% control registeredModules %>
+            <% if IncludedInTotalShoppingCartPositions %>
+                <% control IncludedInTotalShoppingCartPositions %>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td colspan="3" class="right">$Name</td>
+                        <td class="right">{$PriceTotalFormatted}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                <% end_control %>
+            <% end_if %>
+        <% end_control %>
         
         <% if Top.EditableShoppingCart %>
             <% if addToEditableShoppingCartTable %>

@@ -200,6 +200,17 @@
                 </tr>
             <% end_control %>
         <% end_if %>
+
+        <% if HasIncludedInTotalPositions %>
+            <% control SilvercartOrderIncludedInTotalPositions %>
+                <tr class="$EvenOrOdd">
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="3" class="right">$Title.RAW</td>
+                    <td class="right">$Price.Nice</td>
+                </tr>
+            <% end_control %>
+        <% end_if %>
     </tbody>
 </table>
 <% control SilvercartShippingMethod.ShippingFee %><% if PostPricing %><b>* <% _t('SilvercartPage.PLUS_SHIPPING') %>, <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></b><% end_if %><% end_control %>

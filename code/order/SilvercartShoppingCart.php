@@ -1931,6 +1931,7 @@ class SilvercartShoppingCart extends DataObject {
         $hookMethods = array(
             'NonTaxableShoppingCartPositions',
             'TaxableShoppingCartPositions',
+            'IncludedInTotalShoppingCartPositions',
             'ShoppingCartActions',
             'ShoppingCartTotal',
         );

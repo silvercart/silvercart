@@ -72,6 +72,7 @@ class SilvercartOrderPosition extends DataObject {
         'Price'                              => 'Money',
         'PriceTotal'                         => 'Money',
         'isChargeOrDiscount'                 => 'Boolean(0)',
+        'isIncludedInTotal'                  => 'Boolean(0)',
         'chargeOrDiscountModificationImpact' => "enum('none,productValue,totalValue','none')",
         'Tax'                                => 'Float',
         'TaxTotal'                           => 'Float',
