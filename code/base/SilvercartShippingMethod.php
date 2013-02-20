@@ -278,6 +278,10 @@ class SilvercartShippingMethod extends DataObject {
             $feesTableConfig->removeComponentsByType('SilvercartGridFieldAddExistingAutocompleter');
             $feesTableConfig->removeComponentsByType('GridFieldDeleteAction');
             $feesTableConfig->addComponent(new GridFieldDeleteAction());
+            
+            if (class_exists('GridFieldSortableRows')) {
+                $feesTableConfig->addComponent(new GridFieldSortableRows('priority'));
+            }
         }
 
         return $fields;
