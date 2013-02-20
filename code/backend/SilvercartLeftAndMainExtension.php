@@ -31,7 +31,7 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartLeftAndMain extends DataExtension {
+class SilvercartLeftAndMainExtension extends DataExtension {
     
     /**
      * List of allowed actions
