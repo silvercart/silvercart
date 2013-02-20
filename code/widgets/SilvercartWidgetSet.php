@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,176 +26,38 @@
  *
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 27.05.2011
+ * @author Patrick Schneider <pschneider@pixeltricks.de>
+ * @since 20.02.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2011 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  */
-class SilvercartWidgetSet extends DataObject {
-    
-    /**
-     * Attributes
-     *
-     * @var array
-     */
-    public static $db = array(
-        'Title' => 'VarChar(255)'
-    );
-    
-    /**
-     * Has-one relationships
-     *
-     * @var array
-     */
-    public static $has_one = array(
-        'WidgetArea' => 'WidgetArea'
-    );
-    
-    /**
-     * Has-many relationships
-     *
-     * @var array
-     */
-    public static $belongs_many_many = array(
-        'SilvercartPages' => 'SilvercartPage'
-    );
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name() {
-        return SilvercartTools::singular_name_for($this);
-    }
-
+class SilvercartWidgetSet extends DataExtension {
 
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name() {
-        return SilvercartTools::plural_name_for($this); 
-    }
-    
-    /**
-     * Returns the GUI fields for the storeadmin.
-     * 
-     * @param array $params Additional parameters
-     * 
-     * @return FieldList
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    public function getCMSFields($params = null) {
-        $fields = parent::getCMSFields($params);
-
-        if ($this->ID > 0) {
-            $fields->removeByName('WidgetAreaID');
-            //$fields->removeFieldFromTab('Root', 'SilvercartPages');
-
-            $widgetAreaFieldConfig = GridFieldConfig_RelationEditor::create();
-            #$widgetAreaFieldConfig->addComponent(new GridFieldSortableRows('Widget.Sort'));
-
-            $widgetAreaField = new GridField(
-                'WidgetArea.Widgets',
-                'Widgets',
-                $this->WidgetArea()->Widgets(),
-                $widgetAreaFieldConfig
-            );
-            $widgetAreaField->setModelClass('SilvercartWidget');
-
-            $fields->addFieldToTab('Root.Main', $widgetAreaField);
-        } else {
-            $fields->removeByName('WidgetAreaID');
-        }
-
-        return $fields;
-    }
-    
-    /**
-     * Summary fields for display in tables.
+     * used to override the WidgetSet::getCMSFields to use the
+     * SilverCarts scaffholding with excluded attributes and relations
      * 
      * @return array
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 20.02.2013
      */
-    public function summaryFields() {
-        $fields = array(
-            'Title' => $this->fieldLabel('Title')
+    public function overrideGetCMSFields() {
+        return SilvercartDataObject::getCMSFields($this->owner);
+    }
+    
+    /**
+     * exclude these fields from form scaffolding
+     *
+     * @return array the field names in a numeric array 
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 20.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludedFields = array(
+            'WidgetArea'
         );
-        
-        return $fields;
-    }
-    
-    /**
-     * Field labels for display in tables.
-     *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
-     *
-     * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.10.2011
-     */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'Title' => _t('SilvercartAvailabilityStatus.TITLE')
-                )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
-    }
-    
-    /**
-     * We have to create a WdgetArea object if there's none attributed yet.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
-     */
-    public function onAfterWrite() {
-        parent::onAfterWrite();
-        
-        if ($this->WidgetAreaID == 0) {
-            $widgetArea = new WidgetArea();
-            $widgetArea->write();
-            
-            $this->WidgetAreaID = $widgetArea->ID;
-            $this->write();
-        }
-    }
-    
-    /**
-     * We want to delete all attributed WidgetAreas and Widgets before deletion.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
-     */
-    public function onBeforeDelete() {
-        parent::onBeforeDelete();
-        
-        foreach ($this->WidgetArea()->Widgets() as $widget) {
-            $widget->delete();
-        }
-        
-        $this->WidgetArea()->delete();
+        return $excludedFields;
     }
 }

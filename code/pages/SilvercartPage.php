@@ -57,8 +57,8 @@ class SilvercartPage extends SiteTree {
      * @var array
      */
     public static $many_many = array(
-        'WidgetSetSidebar'  => 'SilvercartWidgetSet',
-        'WidgetSetContent'  => 'SilvercartWidgetSet'
+        'WidgetSetSidebar'  => 'WidgetSet',
+        'WidgetSetContent'  => 'WidgetSet'
     );
 
     /**
@@ -127,7 +127,7 @@ class SilvercartPage extends SiteTree {
         } else {
             $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
         }
-        
+    /*    
         // prevent edit/add/show/delete actions for widget sets in CMS area.
         $permissions = array();
         
@@ -164,7 +164,7 @@ class SilvercartPage extends SiteTree {
         $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarField);
         $fields->addFieldToTab("Root.Widgets", $widgetSetContentlabel);
         $fields->addFieldToTab("Root.Widgets", $widgetSetContentField);
-
+*/
         return $fields;
     }
 
