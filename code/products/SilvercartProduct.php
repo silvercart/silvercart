@@ -479,13 +479,18 @@ class SilvercartProduct extends DataObject {
      * @return bool
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @since 20.02.2013
      */
     public function canView($member = null) {
         $canView = parent::canView($member);
         if (!$canView &&
             $this->isActive) {
             $canView = true;
+        }
+        if (!SilvercartTools::isBackendEnvironment()) {
+            if (!$this->isActive) {
+                $canView = false;
+            }
         }
         return $canView;
     }
