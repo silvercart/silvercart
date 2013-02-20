@@ -168,18 +168,19 @@ class SilvercartCarrier extends DataObject {
      * @return array
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2012
+     * @since 19.02.2013
      */
     public function summaryFields() {
-        return array_merge(
-            parent::summaryFields(),
-            array(
-                'Title'                     => $this->fieldLabel('Title'),
-                'AttributedZones'           => $this->fieldLabel('AttributedZones'),
-                'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
-                'priority'                  => $this->fieldLabel('priority'),
-            )
+        $summaryFields = array(
+            'Title'                     => $this->fieldLabel('Title'),
+            'AttributedZones'           => $this->fieldLabel('AttributedZones'),
+            'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
+            'priority'                  => $this->fieldLabel('priority'),
         );
+        
+        $this->extend('updateSummaryFields', $summaryFields);
+        
+        return $summaryFields;
     }
     
     /**
