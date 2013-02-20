@@ -40,6 +40,20 @@ class SilvercartModelAdmin extends ModelAdmin {
      * @var string
      */
     public static $sortable_field = '';
+    
+    /**
+     * Provides hook for decorators, so that they can overwrite css
+     * and other definitions.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.02.2013
+     */
+    public function init() {
+        parent::init();
+        $this->extend('updateInit');
+    }
 
     /**
      * title in the top bar of the CMS

@@ -31,7 +31,14 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartCarrierAdmin extends ModelAdmin {
+class SilvercartCarrierAdmin extends SilvercartModelAdmin {
+    
+    /**
+     * Name of DB field to make records sortable by.
+     *
+     * @var string
+     */
+    public static $sortable_field = 'priority';
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -69,31 +76,5 @@ class SilvercartCarrierAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartCarrier',
     );
-    
-    /**
-     * Provides hook for decorators, so that they can overwrite css
-     * and other definitions.
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function init() {
-        parent::init();
-        $this->extend('updateInit');
-    }
-    
-    /**
-     * title in the top bar of the CMS
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartCarrier.PLURALNAME');
-    }
 }
 
