@@ -206,6 +206,10 @@
     overflow: auto;
 }
 
+.ui-accordion-content {
+    height: auto !important;
+}
+
 .admin-quick-preview {
     
 }
