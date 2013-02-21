@@ -69,6 +69,12 @@ The shopping cart widget shows the cart with all cart positions and the price su
 ![](_images/widget-free-text_1-2.jpg)
 
 This widget offers you the possibility to enter a text on any place in your site. You may enrich this text with HTML tags, be careful though not to create design bugs using HTML ;)
+### Bargain products
+
+![](_images/bargain_widget_2_0.png)
+
+Shows a number of products with a large difference between MSR price and store price.
+
 ### Silvercart topseller products
 
 ![](_images/widget-silvercart-topseller_1-2.jpg)

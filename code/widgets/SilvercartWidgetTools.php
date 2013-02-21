@@ -89,16 +89,15 @@ class SilvercartWidgetTools extends Object {
     /**
      * Returns the slider tab input fields for this widget.
      * 
-     * @param SilvercartWidget_Controller $widget      Widget to initialize
-     * @param TabSet                      &$rootTabSet The root tab set
+     * @param SilvercartWidget  $widget      Widget to initialize
+     * @param TabList           &$rootTabSet The root tab set
      * 
-     * @return FieldList
+     * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function getCMSFieldsSliderTabForProductSliderWidget(SilvercartWidget_Controller $widget, &$rootTabSet) {
-        $sliderTab          = new Tab('anythingSlider',             $widget->fieldLabel('SliderTab'));
+    public static function getCMSFieldsSliderTabForProductSliderWidget(SilvercartWidget $widget, &$rootTabSet) {
         $useSlider          = new CheckboxField('useSlider',        $widget->fieldLabel('useSlider'));
         $autoplay           = new CheckboxField('Autoplay',         $widget->fieldLabel('Autoplay'));
         $slideDelay         = new TextField('slideDelay',           $widget->fieldLabel('slideDelay'));
@@ -118,17 +117,23 @@ class SilvercartWidgetTools extends Object {
             )
         );
         
-        $sliderTab->push($useSlider);
-        $sliderTab->push($autoplay);
-        $sliderTab->push($slideDelay);
-        $sliderTab->push($buildArrows);
-        $sliderTab->push($buildNavigation);
-        $sliderTab->push($buildStartStop);
-        $sliderTab->push($autoPlayDelayed);
-        $sliderTab->push($autoPlayLocked);
-        $sliderTab->push($stopAtEnd);
-        $sliderTab->push($transitionEffect);
-        $rootTabSet->push($sliderTab);
+        $sliderToggle = ToggleCompositeField::create(
+                'Slider',
+                $widget->fieldLabel('SlideshowTab'),
+                array(
+                    $useSlider,
+                    $autoplay,
+                    $slideDelay,
+                    $buildArrows,
+                    $buildNavigation,
+                    $buildStartStop,
+                    $autoPlayDelayed,
+                    $autoPlayLocked,
+                    $stopAtEnd,
+                    $transitionEffect,
+                )
+        )->setHeadingLevel(4);
+        $rootTabSet->addFieldToTab("Root.Main", $sliderToggle);
     }
     
     /**

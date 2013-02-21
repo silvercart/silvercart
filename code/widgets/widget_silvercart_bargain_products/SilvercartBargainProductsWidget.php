@@ -132,8 +132,46 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
         $fetchMethodsField = $fields->dataFieldByName('fetchMethod');
         $fetchMethodsField->setSource($fetchMethods);
         $fields->replaceField('GroupView', SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView')));
+        SilvercartWidgetTools::getCMSFieldsSliderTabForProductSliderWidget($this, $fields);
         return $fields;
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * Excludes all fields that are added in a ToggleCompositeField later.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $parentExcludes = parent::excludeFromScaffolding();
+        
+        $excludeFromScaffolding = array_merge(
+                $parentExcludes,
+                array(
+                    'Autoplay',
+                    'autoPlayDelayed',
+                    'autoPlayLocked',
+                    'buildArrows',
+                    'buildNavigation',
+                    'buildStartStop',
+                    'slideDelay',
+                    'stopAtEnd',
+                    'transitionEffect',
+                    'useSlider',
+                    'useRoundabout'
+                )
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
+    
+    
     
     /**
      * Returns the slider tab input fields for this widget.
@@ -221,7 +259,8 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
                     'SelectionMethodProducts'                   => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
                     'ProductGroupTab'                           => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                     'ProductsTab'                               => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
-                    'SilvercartBargainProductsWidgetLanguages'  => _t('SilvercartBargainProductsWidgetLanguage.PLURALNAME'),
+                    'SilvercartBargainProductsWidgetLanguages'  => _t('Silvercart.TRANSLATIONS'),
+                    'SlideshowTab'                              => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME')
                 )
         );
     }
