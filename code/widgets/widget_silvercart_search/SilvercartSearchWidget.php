@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartSearchWidget extends WidgetSetWidget {
+class SilvercartSearchWidget extends SilvercartWidget {
     
     /**
      * Field labels for display in tables.
@@ -105,7 +105,7 @@ class SilvercartSearchWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartSearchWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartSearchWidget_Controller extends SilvercartWidget_Controller {
     
     /**
      * We register the search form on the page controller here.

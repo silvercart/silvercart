@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartSubNavigationWidget extends WidgetSetWidget {
+class SilvercartSubNavigationWidget extends SilvercartWidget {
 
     /**
      * Contains the page hierarchy.
@@ -399,5 +399,5 @@ class SilvercartSubNavigationWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartSubNavigationWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartSubNavigationWidget_Controller extends SilvercartWidget_Controller {
 }

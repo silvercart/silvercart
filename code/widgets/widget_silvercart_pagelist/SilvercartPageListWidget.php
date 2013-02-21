@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartPageListWidget extends WidgetSetWidget {
+class SilvercartPageListWidget extends SilvercartWidget {
 
     /**
      * Attributes
@@ -208,7 +208,7 @@ class SilvercartPageListWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartPageListWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns the attributed pages as DataObjectSet

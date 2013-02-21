@@ -1079,33 +1079,7 @@ class SilvercartProductGroupPage extends Page {
         );
         return $productsOnPagesString;
     }
-
-    /**
-     * Returns the given WidgetSet many-to-many relation.
-     * If there is no relation, the parent relation will be recursively used
-     *
-     * @param string $widgetSetName The name of the widget set relation
-     *
-     * @return SilvercartWidgetSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function getWidgetSetRelation($widgetSetName) {
-        $widgetSet = $this->getManyManyComponents($widgetSetName);
-        $parent    = $this->getParent();
-
-        if ($widgetSet->exists() &&
-            $parent &&
-            ($parent instanceof SilvercartProductGroupPage ||
-             $parent instanceof SilvercartProductGroupHolder) &&
-            array_key_exists($widgetSetName, $parent->many_many()) &&
-            $parent->$widgetSetName()->exists()) {
-
-            $widgetSet = $parent->$widgetSetName();
-        }
-        return $widgetSet;
-    }
+    
 }
 
 /**

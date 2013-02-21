@@ -168,7 +168,7 @@ class SilvercartWidgetTools extends Object {
             $widget->Elements();
         }
         
-        if ($widget->getElements()) {
+        if ($widget->getElements()->count() > 0) {
             $elementIdx = 0;
 
             if ($widget->useSlider ||
@@ -176,7 +176,13 @@ class SilvercartWidgetTools extends Object {
                 // Roundabout / Slider
                 foreach ($widget->getElements() as $productPage) {
                     foreach ($productPage as $elementHolder) {
-                        foreach ($elementHolder->Elements as $element) {
+                        $elements = array();
+                        if ($elementHolder instanceof ArrayList) {
+                            $elements = $elementHolder;
+                        } elseif ($elementHolder instanceof ArrayData) {
+                            $elements = $elementHolder->Elements;
+                        }
+                        foreach ($elements as $element) {
                             self::registerAddCartFormForProductWidget($widget, $element, $elementIdx);
                         }
                     }
@@ -410,7 +416,7 @@ class SilvercartWidgetTools extends Object {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 21.02.2013
      */
     public static function registerAddCartFormForProductWidget(SilvercartWidget_Controller $widget, $element, &$elementIdx, $addCartFormName = 'ProductAddCartForm') {
         if ($element instanceof SilvercartProduct) {
@@ -430,14 +436,7 @@ class SilvercartWidgetTools extends Object {
                 $formIdentifier,
                 $productAddCartForm
             );
-
-            $element->productAddCartForm = $controller->InsertCustomHtmlForm(
-                $formIdentifier,
-                array(
-                    $element
-                )
-            );
-            $element->productAddCartFormObj = $productAddCartForm;
+            
             $elementIdx++;
         }
     }
@@ -555,13 +554,18 @@ class SilvercartWidgetTools extends Object {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2012
+     * @since 21.02.2013
      */
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
         if ($widget->Elements() instanceof SS_List &&
             $widget->Elements()->exists()) {
-            $productMap             = $widget->Elements()->map('ID', 'LastEdited')->toArray();
+            $map = $widget->Elements()->map('ID', 'LastEdited');
+            if ($map instanceof SS_Map) {
+                $productMap = $map->toArray();
+            } else {
+                $productMap = $map;
+            }
             if (!is_array($productMap)) {
                 $productMap = array();
             }
@@ -569,13 +573,19 @@ class SilvercartWidgetTools extends Object {
                 (empty($productMap) ||
                 (count($productMap) == 1 &&
                 array_key_exists('', $productMap)))) {
-//                $productMap = array();
-//                foreach ($widget->Elements() as $page) {
-//                $productMap = array_merge( 
-//                       $productMap,
-//                            $page->Elements->map('ID', 'LastEdited')->toArray()
-//                );
-//            }
+                $productMap = array();
+                foreach ($widget->Elements() as $page) {
+                    $map = $page->Elements->map('ID', 'LastEdited');
+                    if ($map instanceof SS_Map) {
+                        $productMapToAdd = $map->toArray();
+                    } else {
+                        $productMapToAdd = $map;
+                    }
+                    $productMap = array_merge( 
+                            $productMap,
+                            $productMapToAdd
+                    );
+                }
             }
             $productMapIDs          = implode('_', array_keys($productMap));
             sort($productMap);

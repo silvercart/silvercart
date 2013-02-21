@@ -31,13 +31,12 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartWidget extends Widget {
+class SilvercartWidget extends WidgetSetWidget {
 
     /**
      * Set whether to use the widget container divs or not.
      *
      * @var bool
-     * @since 2012-11-14
      */
     public $useWidgetContainer = true;
 
@@ -143,6 +142,30 @@ class SilvercartWidget extends Widget {
 
         return $fields;
     }
+
+    /**
+     * Indicate whether to use the widget container divs or not.
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function DoUseWidgetContainer() {
+        return $this->useWidgetContainer;
+    }
+
+    /**
+     * Note: Overloaded in {@link SilvercartWidget_Controller}.
+     * 
+     * @return string HTML
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function WidgetHolder() {
+        return $this->renderWith("SilvercartWidgetHolder");
+    }
 }
 
 /**
@@ -155,21 +178,7 @@ class SilvercartWidget extends Widget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartWidget_Controller extends Widget_Controller {
-    
-    /**
-     * Instances of $this will have a unique ID
-     *
-     * @var array
-     */
-    public static $classInstanceCounter = array();
-    
-    /**
-     * Contains the unique ID of the current class instance
-     * 
-     * @var int
-     */
-    protected $classInstanceIdx = 0;
+class SilvercartWidget_Controller extends WidgetSetWidget_Controller {
 
     /**
      * Contains a list of all registered filter plugins.
@@ -179,38 +188,17 @@ class SilvercartWidget_Controller extends Widget_Controller {
     public static $registeredFilterPlugins = array();
     
     /**
-     * We register the search form on the page controller here.
-     * 
-     * @param string $widget Not documented in parent class unfortunately
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function __construct($widget = null) {
-        parent::__construct($widget);
-        
-        // Initialize or increment the Counter for the form class
-        if (!isset(self::$classInstanceCounter[$this->class])) {
-            self::$classInstanceCounter[$this->class] = 0;
-        } else {
-            self::$classInstanceCounter[$this->class]++;
-        }
-        
-        $this->classInstanceIdx = self::$classInstanceCounter[$this->class];
-    }
-    
-    /**
      * returns a page by IdentifierCode
      *
      * @param string $identifierCode the DataObjects IdentifierCode
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        return SilvercartPage_Controller::PageByIdentifierCode($identifierCode);
+        return SilvercartTools::PageByIdentifierCode($identifierCode);
     }
     
     /**
@@ -220,23 +208,24 @@ class SilvercartWidget_Controller extends Widget_Controller {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
-        return SilvercartPage_Controller::PageByIdentifierCodeLink($identifierCode);
+        return SilvercartTools::PageByIdentifierCodeLink($identifierCode);
     }
-
+    
     /**
-     * Indicate whether to use the widget container divs or not.
-     *
-     * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.11.2012
+     * Overloaded from {@link Widget->WidgetHolder()}
+     * to allow for controller/form linking.
+     * 
+     * @return string HTML
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
-    public function DoUseWidgetContainer() {
-        return $this->useWidgetContainer;
+    public function WidgetHolder() {
+        return $this->renderWith("SilvercartWidgetHolder");
     }
 
     /**

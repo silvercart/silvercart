@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartImageSliderWidget extends WidgetSetWidget {
+class SilvercartImageSliderWidget extends SilvercartWidget {
     
     /**
      * Attributes.
@@ -206,7 +206,7 @@ class SilvercartImageSliderWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartImageSliderWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller {
     
     /**
      * Create javascript for the slider.

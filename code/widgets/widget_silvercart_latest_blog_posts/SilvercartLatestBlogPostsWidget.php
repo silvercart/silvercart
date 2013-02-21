@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartLatestBlogPostsWidget extends WidgetSetWidget {
+class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
 
     /**
      * Attributes.
@@ -216,7 +216,7 @@ class SilvercartLatestBlogPostsWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartLatestBlogPostsWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartLatestBlogPostsWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns a configured number of blog posts.

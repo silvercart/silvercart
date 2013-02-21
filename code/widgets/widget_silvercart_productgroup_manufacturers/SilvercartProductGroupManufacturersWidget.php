@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartProductGroupManufacturersWidget extends WidgetSetWidget {
+class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
     
     /**
      * Attributes.
@@ -197,7 +197,7 @@ class SilvercartProductGroupManufacturersWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2012 pixeltricks GmbH
  */
-class SilvercartProductGroupManufacturersWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartProductGroupManufacturersWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns a ArrayList of all manufacturers for this page.
