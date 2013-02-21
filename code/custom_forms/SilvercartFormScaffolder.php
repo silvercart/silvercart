@@ -48,7 +48,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
     public function getFieldList() {
         $fields = new FieldList();
         $excludeFromScaffolding = array();
-        if (method_exists($this->obj, 'excludeFromScaffolding')) {
+        if ($this->obj->hasMethod('excludeFromScaffolding')) {
             $excludeFromScaffolding = $this->obj->excludeFromScaffolding();
         }
 
