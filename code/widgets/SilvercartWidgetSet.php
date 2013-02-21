@@ -46,9 +46,10 @@ class SilvercartWidgetSet extends DataExtension {
         $fields = SilvercartDataObject::getCMSFields($this->owner);
         $fields->addFieldsToTab(
             'Root.Main',
-             $this->owner->scaffoldWidgetFields()
+             $this->owner->scaffoldWidgetAreaFields()
         );
         return $fields;
+
     }
     
     /**
