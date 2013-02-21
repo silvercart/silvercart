@@ -239,6 +239,9 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',      
 // use custom classes
 Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
+// configure WidgetSet
+WidgetSetWidgetExtension::preventWidgetCreationByClass('SilvercartWidget');
+
 // ----------------------------------------------------------------------------
 // Register i18n plugins
 // ----------------------------------------------------------------------------
