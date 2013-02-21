@@ -43,7 +43,12 @@ class SilvercartWidgetSet extends DataExtension {
      * @since 20.02.2013
      */
     public function overrideGetCMSFields() {
-        return SilvercartDataObject::getCMSFields($this->owner);
+        $fields = SilvercartDataObject::getCMSFields($this->owner);
+        $fields->addFieldsToTab(
+            'Root.Main',
+             $this->owner->scaffoldWidgetFields()
+        );
+        return $fields;
     }
     
     /**
