@@ -114,9 +114,8 @@ class SilvercartPage extends SiteTree {
      *
      * @return FieldList all related CMS fields
      * 
-     * @author Jiri Ripa <jripa@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 15.10.2010
+     * @author Jiri Ripa <jripa@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -127,44 +126,7 @@ class SilvercartPage extends SiteTree {
         } else {
             $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
         }
-    /*    
-        // prevent edit/add/show/delete actions for widget sets in CMS area.
-        $permissions = array();
         
-        $widgetSetInfoValue = _t('SilvercartWidgetSet.INFO');
-        $widgetSetInfo = new LiteralField('WidgetSetInfo', $widgetSetInfoValue);
-
-        $widgetFieldConfig = GridFieldConfig::create();
-        $widgetFieldConfig->addComponent(new GridFieldToolbarHeader());
-        $widgetFieldConfig->addComponent(new GridFieldDataColumns());
-        $widgetFieldConfig->addComponent(new GridFieldFilterHeader());
-        $widgetFieldConfig->addComponent(new GridFieldSortableHeader());
-        $widgetFieldConfig->addComponent(new GridFieldPaginator(25));
-        $widgetFieldConfig->addComponent(new GridFieldDeleteAction());
-        //$widgetFieldConfig->addComponent(new GridFieldAddNewButton());
-
-        $widgetSetSidebarLabel = new HeaderField('WidgetSetSidebarLabel', _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'));
-        $widgetSetSidebarField = new GridField(
-            'WidgetSetSidebar',
-            _t('SilvercartWidgets.WIDGETSET_SIDEBAR_FIELD_LABEL'),
-            $this->WidgetSetSidebar(),
-            $widgetFieldConfig
-        );
-
-        $widgetSetContentlabel = new HeaderField('WidgetSetContentLabel', _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'));
-        $widgetSetContentField = new GridField(
-            'WidgetSetContent',
-            _t('SilvercartWidgets.WIDGETSET_CONTENT_FIELD_LABEL'),
-            $this->WidgetSetContent(),
-            $widgetFieldConfig
-        );
-
-        $fields->addFieldToTab("Root.Widgets", $widgetSetInfo);
-        $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarLabel);
-        $fields->addFieldToTab("Root.Widgets", $widgetSetSidebarField);
-        $fields->addFieldToTab("Root.Widgets", $widgetSetContentlabel);
-        $fields->addFieldToTab("Root.Widgets", $widgetSetContentField);
-*/
         return $fields;
     }
 
@@ -183,23 +145,6 @@ class SilvercartPage extends SiteTree {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-
-    /**
-     * Returns the given WidgetSet many-to-many relation.
-     * If there is no relation, the parent relation will be recursively used
-     *
-     * @param string $widgetSetName The name of the widget set relation
-     *
-     * @return SilvercartWidgetSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function getWidgetSetRelation($widgetSetName) {
-        $widgetSet = $this->getManyManyComponents($widgetSetName);
-
-        return $widgetSet;
     }
     
     /**
@@ -292,26 +237,6 @@ class SilvercartPage extends SiteTree {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
     }
-
-    /**
-     * Intercepts calls to widget set relations and delegates them to the generic
-     * method "getWidgetSetRelation".
-     *
-     * @param string $name      The method name
-     * @param mixed  $arguments optional argument(s)
-     *
-     * @return mixed
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2012
-     */
-    public function __call($name, $arguments) {
-        if (substr($name, 0, 9) == 'WidgetSet') {
-            return $this->getWidgetSetRelation($name);
-        }
-
-        return parent::__call($name, $arguments);
-    }
 }
 
 /**
@@ -334,35 +259,10 @@ class SilvercartPage_Controller extends ContentController {
     public static $instanceMemorizer = array();
 
     /**
-     * Contains the output of all WidgetSets of the parent page
-     *
-     * @var array
-     */
-    protected $widgetOutput = array();
-    
-    /**
-     * Contains all registered widget sets.
-     * 
-     * @var ArrayList
-     */
-    protected $registeredWidgetSets;
-    
-    /**
-     * Contains all registered widget set controllers.
-     * 
-     * @var array
-     * 
-     * @var ArrayList
-     */
-    protected $registeredWidgetSetControllers;
-
-    /**
      * Contains HTML code from modules that shall be inserted on the Page.ss
      * template.
      *
      * @var array
-     *
-     * @since 2013-01-03
      */
     protected static $moduleHtmlInjections = array();
     
@@ -374,15 +274,15 @@ class SilvercartPage_Controller extends ContentController {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
+     * @since 21.02.2013
      */
     public function __construct($dataRecord = null) {
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
         
-        $this->registerWidgetSet('WidgetSetContent', $this->getWidgetSetRelation('WidgetSetContent'));
-        $this->registerWidgetSet('WidgetSetSidebar', $this->getWidgetSetRelation('WidgetSetSidebar'));
+        $this->registerWidgetSet('WidgetSetContent', $this->WidgetSetContent());
+        $this->registerWidgetSet('WidgetSetSidebar', $this->WidgetSetSidebar());
     }
 
     /**
@@ -579,46 +479,9 @@ class SilvercartPage_Controller extends ContentController {
         
         return $errorStr;
     }
-    
-    /**
-     * Returns the HTML Code as string for all widgets in the given WidgetArea.
-     *
-     * If there's no WidgetArea for this page defined we try to get the
-     * definition from its parent page.
-     * 
-     * @param string $identifier The identifier of the widget area to insert
-     * 
-     * @return string
-     * 
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function InsertWidgetArea($identifier = 'Sidebar') {
-        $output = '';
-
-        if ($this->registeredWidgetSetControllers) {
-            $controllerName = 'WidgetSet'.$identifier;
-
-            if (!array_key_exists($controllerName, $this->registeredWidgetSetControllers)) {
-                return $output;
-            }
-
-            foreach ($this->registeredWidgetSetControllers[$controllerName] as $controller) {
-                $output .= $controller->WidgetHolder();
-            }
-
-            if (empty($output)) {
-                if (array_key_exists($identifier, $this->widgetOutput)) {
-                    $output = $this->widgetOutput[$identifier];
-                }
-            }
-        }
-        
-        return $output;
-    }
 
     /**
-     * Eigene Zugriffsberechtigungen definieren.
+     * Provide permissions
      * 
      * @return array configuration of API permissions
      * 
@@ -864,21 +727,6 @@ class SilvercartPage_Controller extends ContentController {
         }
         return $output;
     }
-    
-    /**
-     * Adds a widget output to the class variable "$this->widgetOutput".
-     *
-     * @param string $key    The key for the output
-     * @param string $output The actual output of the widget
-     *
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.09.2011
-     */
-    public function saveWidgetOutput($key, $output) {
-        $this->widgetOutput[$key] = $output;
-    }
 
     /**
      * used to determine weather something should be shown on a template or not
@@ -1075,60 +923,6 @@ class SilvercartPage_Controller extends ContentController {
     }
     
     /**
-     * Loads the widget controllers into class variables so that we can use
-     * them in method 'InsertWidgetArea'.
-     * 
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    protected function loadWidgetControllers() {
-        $registeredWidgetSets = $this->getRegisteredWidgetSets();
-
-        foreach ($registeredWidgetSets as $registeredWidgetSetName => $registeredWidgetSetItems) {
-            $controllers = new ArrayList();
-
-            foreach ($registeredWidgetSetItems as $registeredWidgetSetItem) {
-                $widgets = $registeredWidgetSetItem->WidgetArea()->WidgetControllers();
-                $widgets->sort('Sort', 'ASC');
-                $controllers->merge(
-                    $widgets
-                );
-            }
-
-            $this->registeredWidgetSetControllers[$registeredWidgetSetName] = $controllers;
-        }
-    }
-
-    /**
-     * Returns all registered widget sets as associative array.
-     * 
-     * @return array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2012-10-10
-     */
-    public function getRegisteredWidgetSets() {
-        return $this->registeredWidgetSets;
-    }
-    
-    /**
-     * Registers a WidgetSet.
-     * 
-     * @param string    $widgetSetName  The name of the widget set (used as array key)
-     * @param ArrayList $widgetSetItems The widget set items (usually coming from a relation)
-     * 
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.05.2011
-     */
-    public function registerWidgetSet($widgetSetName, $widgetSetItems) {
-        $this->registeredWidgetSets[$widgetSetName] = $widgetSetItems;
-    }
-    
-    /**
      * Builds an associative array of ProductGroups to use in GroupedDropDownFields.
      *
      * @param SiteTree $parent      Expects a SilvercartProductGroupHolder or a SilvercartProductGroupPage
@@ -1136,6 +930,8 @@ class SilvercartPage_Controller extends ContentController {
      * @param boolean  $withParent  ???
      *
      * @return array
+     * 
+     * @deprecated no uses found. remove before release.
      */
     public static function getRecursivePagesForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false) {
         $pages = array();

@@ -68,33 +68,7 @@ class SilvercartMetaNavigationHolder extends Page {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
-
-    /**
-     * Returns the given WidgetSet many-to-many relation.
-     * If there is no relation, the parent relation will be recursively used
-     *
-     * @param string $widgetSetName The name of the widget set relation
-     *
-     * @return SilvercartWidgetSet
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.10.2012
-     */
-    public function getWidgetSetRelation($widgetSetName) {
-        $widgetSet = $this->getManyManyComponents($widgetSetName);
-        $parent    = $this->getParent();
-
-        if ($widgetSet->count() == 0 &&
-            $parent &&
-            ($parent instanceof SilvercartMetaNavigationPage ||
-             $parent instanceof SilvercartMetaNavigationHolder) &&
-            array_key_exists($widgetSetName, $parent->many_many()) &&
-            $parent->$widgetSetName()->count() > 0) {
-
-            $widgetSet = $parent->$widgetSetName();
-        }
-        return $widgetSet;
-    }
+    
 }
 
 /**

@@ -34,7 +34,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartLoginWidget extends WidgetSetWidget {
+class SilvercartLoginWidget extends SilvercartWidget {
     
     /**
      * Returns the title of this widget.
@@ -87,7 +87,7 @@ class SilvercartLoginWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartLoginWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
     
     /**
      * We register the search form on the page controller here.

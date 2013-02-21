@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTextWidget extends WidgetSetWidget {
+class SilvercartTextWidget extends SilvercartWidget {
     
     /**
      * DB attributes
@@ -201,7 +201,7 @@ class SilvercartTextWidget extends WidgetSetWidget {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTextWidget_Controller extends WidgetSetWidget_Controller {
+class SilvercartTextWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Overloaded from {@link Widget->Content()}

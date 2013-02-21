@@ -31,7 +31,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupItemsWidget extends WidgetSetWidget implements SilvercartProductSliderWidget {
+class SilvercartProductGroupItemsWidget extends SilvercartWidget implements SilvercartProductSliderWidget {
     
     /**
      * Attributes.
@@ -316,7 +316,7 @@ class SilvercartProductGroupItemsWidget extends WidgetSetWidget implements Silve
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Controller implements SilvercartProductSliderWidget_Controller {
+class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Controller implements SilvercartProductSliderWidget_Controller {
 
     /**
      * Product elements
@@ -444,40 +444,44 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
         $pages          = array();
         $pageProducts   = array();
         $pageNr         = 0;
-        $PageProductIdx = 1;
+        $pageProductIdx = 1;
         $isFirst        = true;
 
         if ($products) {
             foreach ($products as $product) {
                 $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $pageProducts[] = $product;
-                $PageProductIdx++;
+                $pageProductIdx++;
 
                 if ($pageNr > 0) {
                     $isFirst = false;
                 }
-                if ($PageProductIdx > $this->numberOfProductsToShow) {
-                    $pages['Page'.$pageNr] = array(
-                        'Elements' => new ArrayList($pageProducts),
-                        'IsFirst'    => $isFirst
+                if ($pageProductIdx > $this->numberOfProductsToShow) {
+                    $pages[$pageNr] = new ArrayData(
+                            array(
+                                'Elements' => new ArrayList($pageProducts),
+                                'IsFirst'  => $isFirst
+                            )
                     );
-                    $PageProductIdx = 1;
+                    $pageProductIdx = 1;
                     $pageProducts   = array();
                     $pageNr++;
                 }
             }
         }
 
-        if (!array_key_exists('Page'.$pageNr, $pages) &&
+        if (!array_key_exists($pageNr, $pages) &&
             !empty($pageProducts)) {
 
             if ($pageNr > 0) {
                 $isFirst = false;
             }
 
-            $pages['Page'.$pageNr] = array(
-                'Elements' => new ArrayList($pageProducts),
-                'IsFirst'  => $isFirst
+            $pages[$pageNr] = new ArrayData(
+                    array(
+                        'Elements' => new ArrayList($pageProducts),
+                        'IsFirst'  => $isFirst
+                    )
             );
         }
 
@@ -491,26 +495,26 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
      * 
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.02.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function Elements() {
-        if ($this->elements != null) {
-            return $this->elements;
-        }
+        if (is_null($this->elements)) {
+            switch ($this->useSelectionMethod) {
+                case 'products':
+                    $this->elements = $this->getElementsByProducts();
+                    break;
+                case 'productGroup':
+                default:
+                    $this->elements = $this->getElementsByProductGroup();
+                    break;
+            }
 
-        switch ($this->useSelectionMethod) {
-            case 'products':
-                $this->elements = $this->getElementsByProducts();
-                break;
-            case 'productGroup':
-            default:
-                $this->elements = $this->getElementsByProductGroup();
-                break;
-        }
+            $this->elements = new ArrayList($this->elements->toArray());
 
-        foreach ($this->elements as $element) {
-            $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            foreach ($this->elements as $element) {
+                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            }
         }
 
         return $this->elements;
@@ -564,10 +568,10 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
     /**
      * Returns a number of products from the chosen productgroup.
      * 
-     * @return ArrayList
+     * @return DataList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function getElementsByProductGroup() {
         $elements = new ArrayList();
@@ -586,7 +590,7 @@ class SilvercartProductGroupItemsWidget_Controller extends WidgetSetWidget_Contr
         );
 
         if (!$productgroupPage) {
-            return false;
+            return $elements;
         }
         $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
         
