@@ -1903,20 +1903,21 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
         /* PTFIX_START */
         $restrictFields = array();
         $this->extend('updateRestrictCMSFields', $restrictFields);
+		$params = array();
         if (!empty($restrictFields)) {
-            if (!is_array($params)) {
-                $params = array();
-            }
             $params['restrictFields'] = $restrictFields;
         }
-        /* PTFIX_END */
 
-		$tabbedFields = $this->scaffoldFormFields(array(
-			// Don't allow has_many/many_many relationship editing before the record is first saved
-			'includeRelations' => ($this->ID > 0),
-			'tabbed' => true,
-			'ajaxSafe' => true
+		$tabbedFields = $this->scaffoldFormFields(array_merge(
+				array(
+                    // Don't allow has_many/many_many relationship editing before the record is first saved
+                    'includeRelations' => ($this->ID > 0),
+                    'tabbed' => true,
+                    'ajaxSafe' => true
+				),
+				$params
 		));
+        /* PTFIX_END */
 		
 		$this->extend('updateCMSFields', $tabbedFields);
 		
