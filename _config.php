@@ -43,6 +43,7 @@ Director::addRules(50, array(
     'silvercart-print/$DataObjectName/$DataObjectID'        => 'SilvercartPrint_Controller',
     'silvercart-print-inline/$DataObjectName/$DataObjectID' => 'SilvercartPrint_Controller',
     'silvercart-print-many/$DataObjectName/$DataObjectID'   => 'SilvercartPrint_Controller',
+    'api/silvercart'                                        => 'SilvercartRestfulServer',
 ));
 
 // ----------------------------------------------------------------------------

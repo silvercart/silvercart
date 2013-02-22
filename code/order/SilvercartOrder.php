@@ -110,6 +110,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'PriceTypeText'             => 'VarChar(24)',
     );
 
+    public static $api_access = true;
+
     /**
      * Default sort direction in tables.
      *
@@ -178,6 +180,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function CanView() {
         $canView = false;
+
         if ((Member::currentUserID() == $this->MemberID &&
              !is_null($this->MemberID)) ||
             Permission::check('SILVERCART_ORDER_VIEW')) {
