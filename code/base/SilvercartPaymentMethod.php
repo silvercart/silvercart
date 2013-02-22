@@ -1036,7 +1036,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.11.2012
+     * @since 21.02.2013
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
@@ -1057,7 +1057,7 @@ class SilvercartPaymentMethod extends DataObject {
             if ($has_multiple_payment_channels) {
                 $paymentModule = new $className();
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
-                    if (!DataObject::get_one($className, sprintf("\"PaymentChannel\"='%s'", $channel))) {
+                    if (!DataObject::get($className)->filter('PaymentChannel', $channel)->exists()) {
                         $paymentMethod = new $className();
                         $paymentMethod->isActive       = 0;
                         $paymentMethod->PaymentChannel = $channel;
