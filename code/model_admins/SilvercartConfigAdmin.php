@@ -31,7 +31,7 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartConfigAdmin extends ModelAdmin {
+class SilvercartConfigAdmin extends SilvercartLeftAndMain {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -95,13 +95,15 @@ class SilvercartConfigAdmin extends ModelAdmin {
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
+     * @param bool $skipUpdateInit Set to true to skip the parents updateInit extension
+     * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.02.2013
      */
-    public function init() {
-        parent::init();
+    public function init($skipUpdateInit = false) {
+        parent::init($skipUpdateInit);
 
         Requirements::css(CMS_DIR . '/css/WidgetAreaEditor.css');
         Requirements::javascript(CMS_DIR . '/javascript/WidgetAreaEditor.js');
@@ -110,67 +112,103 @@ class SilvercartConfigAdmin extends ModelAdmin {
     }
     
     /**
-     * title in the upper bar of the CMS
-     *
-     * @return string 
+     * Builds and returns the edit form
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartConfig.SINGULARNAME');
-    }
-    
-}
-
-/**
- * Modifies the model admin search panel.
- *
- * @package Silvercart
- * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 31.01.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- */
-class SilvercartConfigAdmin_CollectionController {
-
-    /**
-     * Return a modified search form.
-     *
+     * @param int       $id     Not used. Available because of inheritance.
+     * @param FieldList $fields Not used. Available because of inheritance.
+     * 
      * @return Form
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.01.2011
      */
-    public function SearchForm() {
-        $form = parent::SearchForm();
-        if (in_array($this->getModelClass(), SilvercartConfigAdmin::$reset_search_form_for)) {
-            $form->setFields(new FieldList());
-            $form->Actions()->fieldByName('action_search')->Title = _t('SilvercartConfig.SHOW_CONFIG');
-            $form->Actions()->removeByName('action_clearsearch');
+    public function getEditForm($id = null, $fields = null) {
+        $config     = SilvercartConfig::getConfig();
+        $fields     = $config->getCMSFields();
+        $actions    = $config->getCMSActions();
+        
+        $form = new Form($this, 'EditForm', $fields, $actions);
+        $form->addExtraClass('root-form');
+        $form->addExtraClass('cms-edit-form cms-panel-padded center cms-tabset');
+        // don't add data-pjax-fragment=CurrentForm, its added in the content template instead
+
+        if ($form->Fields()->hasTabset()) {
+            $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
         }
+        $form->setHTMLID('Form_EditForm');
+        $form->loadDataFrom($config);
+        $form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
+
+        // Use <button> to allow full jQuery UI styling
+        $actionFields = $actions->dataFields();
+        if ($actionFields) {
+            foreach ($actionFields as $action) {
+                $action->setUseButtonTag(true);
+            }
+        }
+
+        $this->extend('updateEditForm', $form);
+
         return $form;
     }
 
     /**
-     * Disable the creation of SilvercartUpdate DataObjects.
+     * Save the current sites {@link SiteConfig} into the database
      *
-     * @return bool
-     *
+     * @param array $data Data to save
+     * @param Form  $form Form to extract data from
+     * 
+     * @return string
+     * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.03.2011
+     * @since 20.02.2013
      */
-    public function alternatePermissionCheck() {
-        $result = true;
-        if (in_array($this->getModelClass(), SilvercartConfigAdmin::$disable_creation_and_import_for)) {
-            $result = false;
-            $this->showImportForm = false;
-        }
-        return $result;
-    }
+    public function save_scconfig($data, $form) {
+        $config = SilvercartConfig::getConfig();
+        $form->saveInto($config);
+        $config->write();
 
+        $this->response->addHeader('X-Status', rawurlencode(_t('LeftAndMain.SAVEDUP', 'Saved.')));
+        return $this->getResponseNegotiator()->respond($this->request);
+    }
+    
+    /**
+     * Adds example data to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.02.2013
+     */
+    public function add_example_data() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestData();
+        if ($result) {
+            $responseText   = _t('SilvercartConfig.ADDED_EXAMPLE_DATA');
+        } else {
+            $responseText   = _t('SilvercartConfig.EXAMPLE_DATA_ALREADY_ADDED');
+        }
+        $this->response->addHeader('X-Status', rawurlencode($responseText));
+        return $this->getResponseNegotiator()->respond($this->request);
+    }
+    
+    /**
+     * Adds example configuration to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function add_example_config() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestConfiguration();
+        if ($result) {
+            $responseText   = _t('SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION');
+        } else {
+            $responseText   = _t('SilvercartConfig.EXAMPLE_CONFIGURATION_ALREADY_ADDED');
+        }
+        $this->response->addHeader('X-Status', rawurlencode($responseText));
+        return $this->getResponseNegotiator()->respond($this->request);
+    }
+    
 }
 
 /**
@@ -183,111 +221,10 @@ class SilvercartConfigAdmin_CollectionController {
  * @copyright 2011 pixeltricks GmbH
  * @since 02.07.2011
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * 
+ * @deprecated should be outsourced into a SilvercartTask or deleted.
  */
 class SilvercartConfigAdmin_RecordController {
-    
-    /**
-     * Adds the abillity to execute additional actions to the model admin's
-     * action handling.
-     *
-     * @param SS_HTTPRequest $request the request object
-     * 
-     * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.07.2011
-     */
-    public function handleAction(SS_HTTPRequest $request) {
-        $vars = $request->getVars();
-        if (array_key_exists('addExampleData', $vars)) {
-            return $this->addExampleData();
-        } elseif (array_key_exists('addExampleConfig', $vars)) {
-            return $this->addExampleConfig();
-        } elseif (array_key_exists('cleanDataBase', $vars)) {
-            return $this->cleanDataBase();
-        } else {
-            return parent::handleAction($request);
-        }
-        
-    }
-    
-    /**
-     * Adds example data to SilverCart when triggered in ModelAdmin.
-     *
-     * @return SS_HTTPResponse 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.07.2011
-     */
-    public function addExampleData() {
-        SilvercartConfig::enableTestData();
-        $result = SilvercartRequireDefaultRecords::createTestData();
-        if ($result) {
-            $extraClass = 'addedExampleData';
-        } else {
-            $extraClass = 'exampleDataAlreadyAdded';
-        }
-        if ($this->currentRecord) {
-            if (Director::is_ajax()) {
-                $form = $this->EditForm();
-                $form->addExtraClass($extraClass);
-                return new SS_HTTPResponse(
-                    $form->forAjaxTemplate(), 
-                    200, 
-                    _t('SilvercartConfig.ADDED_EXAMPLE_DATA', "Added Example Data")
-                );
-            } else {
-                // This is really quite ugly; fixing it will require a change in the way that customise() works. :-(
-                return $this->parentController->parentController->customise(array(
-                        'Right' => $this->parentController->parentController->customise(array(
-                                'EditForm' => $this->EditForm()
-                        ))->renderWith('ModelAdmin_right')
-                ))->renderWith(array('ModelAdmin','LeftAndMain'));
-                return ;
-            }
-        } else {
-            return _t('ModelAdmin.ITEMNOTFOUND');
-        }
-    }
-    
-    /**
-     * Adds example configuration to SilverCart when triggered in ModelAdmin.
-     *
-     * @return SS_HTTPResponse 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.07.2011
-     */
-    public function addExampleConfig() {
-        SilvercartConfig::enableTestData();
-        $result = SilvercartRequireDefaultRecords::createTestConfiguration();
-        if ($result) {
-            $extraClass = 'addedExampleConfig';
-        } else {
-            $extraClass = 'exampleConfigAlreadyAdded';
-        }
-        if ($this->currentRecord) {
-            if (Director::is_ajax()) {
-                $form = $this->EditForm();
-                $form->addExtraClass($extraClass);
-                return new SS_HTTPResponse(
-                    $form->forAjaxTemplate(), 
-                    200, 
-                    _t('SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION', "Added Example Configuration")
-                );
-            } else {
-                // This is really quite ugly; to fix will require a change in the way that customise() works. :-(
-                return $this->parentController->parentController->customise(array(
-                        'Right' => $this->parentController->parentController->customise(array(
-                                'EditForm' => $this->EditForm()
-                        ))->renderWith('ModelAdmin_right')
-                ))->renderWith(array('ModelAdmin','LeftAndMain'));
-                return ;
-            }
-        } else {
-            return _t('ModelAdmin.ITEMNOTFOUND', "I can't find that item");
-        }
-    }
     
     /**
      * Cleans the SilverCart database
@@ -296,6 +233,8 @@ class SilvercartConfigAdmin_RecordController {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2011
+     * 
+     * @deprecated should be outsourced into a SilvercartTask or deleted.
      */
     public function cleanDataBase() {
         // check SilvercartImages

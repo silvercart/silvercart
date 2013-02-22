@@ -149,7 +149,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             if ( $this->getCurrentStep() < 5 &&
                  SilvercartConfig::UseMinimumOrderValue() &&
                  SilvercartConfig::MinimumOrderValue() &&
-                !SilvercartConfig::DisregardMinimumOrderValue() &&
                  SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
                 
                 $_SESSION['Silvercart']['errors'][] = sprintf(

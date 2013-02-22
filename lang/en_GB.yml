@@ -28,6 +28,7 @@ en_GB:
     NOT_ALLOWED_TO_PRINT: "You are not allowed to print this object!"
     PAGE: "Page"
     PRINT: "Print"
+    PRIORITY: "Priority (the higher the more important)"
     SEC: "second"
     SECS: "seconds"
     SEO: "SEO"
@@ -36,6 +37,8 @@ en_GB:
     TRANSLATION: "Translation"
     TRANSLATIONS: "Translations"
     UNMARK_ALL: "Unmark all"
+    UPDATE_AVAILABLE: "Update available"
+    UPDATE_AVAILABLE_TEXT: "Download the latest SilverCart version on <a href=\"http://www.silvercart.org/downloads/\" target=\"blank\">http://www.silvercart.org/downloads/</a>."
     WEEK: "week"
     WEEKS: "weeks"
     X_OF_Y: "%s of %s"
@@ -130,8 +133,8 @@ en_GB:
     STATUS_NOT_AVAILABLE: "not available"
     TITLE: "Title"
   SilvercartAvailabilityStatusLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartBargainProductsWidget:
     CMSTITLE: "SilverCart Slider for Bargain Products"
     DESCRIPTION: "This widget displays bargain products (highest difference between MSR and customer price). You can define how many products from which product group should be shown."
@@ -139,8 +142,8 @@ en_GB:
     FETCHMETHOD_SORTORDERDESC: "Price difference descending"
     TITLE: "Bargain products"
   SilvercartBargainProductsWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartCarrier:
     ATTRIBUTED_SHIPPINGMETHODS: "Attributed shipping methods"
     FULL_NAME: "Full name"
@@ -149,8 +152,8 @@ en_GB:
   SilvercartCarrierAdmin:
     MENUTITLE: "Carrier"
   SilvercartCarrierLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartCartPage:
     CART_EMPTY: "Your cart is empty."
     DEFAULT_TITLE: "Cart"
@@ -221,13 +224,18 @@ en_GB:
     CLEAN_DATABASE_DESCRIPTION: "The action \"Optimize database\" searches for destroyed DataObjects and tries to reassign them. In case of failure, the object will be deleted.<br/><strong>CAUTION: This action can take a few minutes!</strong>"
     CLEAN_DATABASE_INPROGRESS: "Optimization in progress... (%s/%s) (%s%% completed, %s remaining)"
     CLEAN_DATABASE_START_INDEX: "Startindex"
+    CheckoutConfiguration: "Cart  & Checkout Settings"
+    CustomerConfiguration: "Customer Settings"
     DEFAULTCURRENCY: "Default currency"
     DEFAULTPRICETYPE: "Default price type"
     DEFAULT_CONTACT_MESSAGE_RECIPIENT: "Default email recipient for contact messages"
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: "Contact messages will be sent to this address (no more to Default Email Recipient)."
     DEFAULT_IMAGE: "Default product image"
     DEFAULT_LANGUAGE: "default language"
     DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: "Default email recipient for order notifications"
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: "Order notifications will be sent to this address (no more to Default Email Recipient)."
     DEFAULT_MAIL_RECIPIENT: "Default email recipient (general)"
+    DEFAULT_MAIL_RECIPIENT_INFO: "Emails which are directed to shop operator will be sent to this address."
     DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: "Demand birthday date on registration?"
     DISPLAYEDPAGINATION: "number of simultaneously shown page numbers"
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: "Display type of product administration"
@@ -243,6 +251,7 @@ en_GB:
     ERROR_TITLE: "An error occured!"
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: "Example Configuration already added"
     EXAMPLE_DATA_ALREADY_ADDED: "Example Data already added"
+    EmailConfiguration: "Email Settings"
     FLAT: "flat"
     FREEOFSHIPPINGCOSTSFROM: "Free of shipping costs from"
     FREEOFSHIPPINGCOSTSTAB: "Free of shipping costs"
@@ -255,6 +264,7 @@ en_GB:
     GEONAMES_USERNAME: "GeoNames username"
     GLOBALEMAILRECIPIENT: "Global email recipient"
     GLOBALEMAILRECIPIENT_INFO: "The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but appended."
+    GeneralConfiguration: "Gerneral Settings"
     INTERFACES: "Interfaces"
     INTERFACES_GEONAMES: "GeoNames"
     LAYOUT: "Layout"
@@ -273,6 +283,7 @@ en_GB:
     PRODUCTSPERPAGE: "Products per page"
     PRODUCTSPERPAGE_ALL: "Show all"
     PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Field for product description in the shopping cart"
+    ProductConfiguration: "Product Settings"
     QUANTITY_OVERBOOKABLE: "Is the stock quantity of a product generally overbookable?"
     REDIRECTTOCARTAFTERADDTOCART: "Redirect customer to cart after \"add to cart\" action"
     SEARCH: "Search"
@@ -280,17 +291,19 @@ en_GB:
     SHOW_CONFIG: "Show configuration"
     SINGULARNAME: "General configuration"
     STOCK: "Stock"
+    SecurityConfiguration: "Security Settings"
     TABBED: "tabbed"
     TRANSLATION: "Translation"
     TRANSLATIONS: "Translations"
     USEFREEOFSHIPPINGCOSTSFROM: "Use settings for \"free of shipping costs\""
     USEMINIMUMORDERVALUE: "Activate minimum order value"
-    USER_AGENT_BLACKLIST: "UserAgent blacklist (one UserAgent per line)"
+    USER_AGENT_BLACKLIST: "UserAgent blacklist"
+    USER_AGENT_BLACKLIST_INFO: "Set one UserAgent per line.<br/>If a visitors UserAgent matches one out of this list, the request will be blocked to prevent spam bot attacks onto input forms.<br/><strong>Caution: Every visitor has an UserAgent. Only add a UserAgent to this list when you are sure that it will only match spam bots.</strong>."
     USE_DEFAULT_LANGUAGE: "Use default language if no translation is found?"
     USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: "Display product description in shopping cart"
     USE_STRICT_SEARCH_RELEVANCE: "Use strict search. Displays only exact matches."
   SilvercartConfigAdmin:
-    MENUTITLE: "SC Configuration"
+    MENUTITLE: "Settings Shop"
   SilvercartContactFormPage:
     DEFAULT_TITLE: "Contact"
     DEFAULT_URLSEGMENT: "contact"
@@ -337,6 +350,7 @@ en_GB:
     ISPRIORITIVE_SHORT: "Prioritive"
     PLURALNAME: "Countries"
     SINGULARNAME: "Country"
+    TITLE: "Name"
     TITLE_AD: "Andorra"
     TITLE_AE: "United Arab Emirates"
     TITLE_AF: "Afghanistan"
@@ -547,7 +561,7 @@ en_GB:
     TITLE_SO: "Somalia"
     TITLE_SR: "Suriname"
     TITLE_SS: "South Sudan"
-    TITLE_ST: "Sao Tome and Principe"
+    TITLE_ST: "Sao Toma and Principe"
     TITLE_SV: "El Salvador"
     TITLE_SX: "Sint Maarten"
     TITLE_SY: "Syria"
@@ -592,10 +606,8 @@ en_GB:
   SilvercartCountryAdmin:
     MENUTITLE: "Countries"
   SilvercartCountryLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
-  SilvercartCustomHtmlFormAdmin:
-    MENUTITLE: "Forms"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartCustomer:
     ADDRESS_DATA: "Basic address data"
     ANONYMOUSCUSTOMER: "Anonymous customer"
@@ -619,6 +631,9 @@ en_GB:
     TYPE: "Type"
   SilvercartCustomerAdmin:
     MENUTITLE: "Customers"
+  SilvercartCustomerGroup:
+    PLURALNAME: "Customer Groups"
+    SINGULARNAME: "Customer Group"
   SilvercartDashboard:
     NEWS_HEADLINE: "News"
     NEWS_READ_MORE: "Read more"
@@ -687,8 +702,8 @@ en_GB:
     TITLE: "Display name"
     TYPE: "Type"
   SilvercartFileLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartFrontPage:
     CONTENT: "<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src=\"/silvercart/images/silvercart_passion_teaser.jpg\" alt=\"\" title=\"SilverCart - created with passion for eCommerce\"/>"
     DEFAULT_CONTENT: "<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src=\"/silvercart/images/silvercart_passion_teaser.jpg\" alt=\"\" title=\"SilverCart - created with passion for eCommerce\"/>"
@@ -735,22 +750,22 @@ en_GB:
     SELECT_PAYMENTMETHOD_IMAGES: "Payment method images"
     SELECT_PRODUCT_IMAGES: "Product images"
   SilvercartImageLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartImageSliderImage:
     LINKPAGE: "Page that shall be linked to"
     PLURALNAME: "slider images"
     SINGULARNAME: "slider image"
   SilvercartImageSliderImageLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartImageSliderWidget:
     CMSTITLE: "Imageslider"
     DESCRIPTION: "Provides an image slider for displaying multiple images in a slide show."
     TITLE: "Images"
   SilvercartImageSliderWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartInboundShoppingCartTransfer:
     COMBINED_STRING: "All information in one string with separators"
     COMBINED_STRING_ENTITY_SEPARATOR: "Entity separator for combined string method"
@@ -789,8 +804,8 @@ en_GB:
     TITLE: "Show latest blog posts"
     WIDGET_TITLE: "Widget headline"
   SilvercartLatestBlogPostsWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartLoginWidget:
     CMSTITLE: "SilverCart login"
     DESCRIPTION: "This widget shows a login form and links to the registration page. If the customer is logged in already links to their account section are shown instead."
@@ -798,14 +813,19 @@ en_GB:
     TITLE_LOGGED_IN: "My account"
     TITLE_NOT_LOGGED_IN: "Login"
   SilvercartMailForgotPassword:
+    NO_CHANGE: "If you do not want to change your password, you may ignore this email."
     PASSWORT_RESET_LINK_HINT: "If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser."
     TITLE: "Reset Password"
     VISIT_TEXT: "Please visit <a href=\"%s\">this page</a> to reset your password."
   SilvercartManufacturer:
+    DESCRIPTION: "Description"
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
   SilvercartManufacturerAdmin:
     MENUTITLE: "Manufacturers"
+  SilvercartManufacturerLanguage:
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartManyManyOrderField:
     ATTRIBUTED_FIELDS: "Attributed"
     AVAILABLE_RELATION_OBJECTS: "Available"
@@ -1042,8 +1062,8 @@ en_GB:
   SilvercartOrderStatusAdmin:
     MENUTITLE: "Order Status"
   SilvercartOrderStatusLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
     TITLE: "Title"
   SilvercartPage:
     ABOUT_US: "About us"
@@ -1231,8 +1251,8 @@ en_GB:
   SilvercartPaymentMethodAdmin:
     MENUTITLE: "Payment Methods"
   SilvercartPaymentMethodLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartPaymentMethodsPage:
     DEFAULT_TITLE: "Payment methods"
     DEFAULT_URLSEGMENT: "payment-methods"
@@ -1247,8 +1267,8 @@ en_GB:
     URL_SEGMENT: "payment-notification"
   SilvercartPaymentPrepaymentLanguage:
     INVOICEINFO: "informations for payment method invoice"
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
     TEXTBANKACCOUNTINFO: "informations for payment method prepayment"
   SilvercartPrice:
     PLURALNAME: "Prices"
@@ -1322,6 +1342,7 @@ en_GB:
     TITLE_DESC: "Title descending"
     VAT: "VAT"
     WEIGHT: "Weight"
+    WIDGETAREA: "Widgets"
   SilvercartProductAdmin:
     MENUTITLE: "Products"
   SilvercartProductAvailabilityStatusAdmin:
@@ -1335,8 +1356,8 @@ en_GB:
   SilvercartProductConditionAdmin:
     MENUTITLE: "Product Condition"
   SilvercartProductConditionLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartProductExport:
     ACTIVATE_CSV_HEADERS: "Activate CSV headers"
     ATTRIBUTE_EXPORT_FIELDS_LABEL: "Set export fields"
@@ -1367,6 +1388,7 @@ en_GB:
     PROTOCLOFORLINKS: "Protocol for Links"
     SINGULARNAME: "Product exporter"
   SilvercartProductExportAdmin:
+    MENUTITLE: "Product Export"
     PUSH_ENABLED_LABEL: "Enable push"
     SILVERCART_PRODUCT_EXPORT_ADMIN_LABEL: "SilverCart product export"
     TAB_BASIC_SETTINGS: "Basic settings"
@@ -1379,15 +1401,13 @@ en_GB:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
-  SilvercartProductExportAdmin:
-    MENUTITLE: "Product Export"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart show products of child productgroups"
     DESCRIPTION: "This widget displays products of a child productgroup if there are no products assigned to the current productgroup."
     TITLE: "Products of child productgroups"
   SilvercartProductGroupChildProductsWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartProductGroupHolder:
     DEFAULT_TITLE: "Product groups"
     DEFAULT_URLSEGMENT: "productgroups"
@@ -1412,8 +1432,8 @@ en_GB:
     TITLE: "Products"
     USE_SELECTIONMETHOD: "Selection method for products"
   SilvercartProductGroupItemsWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartProductGroupManufacturersWidget:
     CMSTITLE: "SilverCart manufacturer list"
     DESCRIPTION: "This widget displays a list of manufacturer logos for a product group page."
@@ -1464,8 +1484,8 @@ en_GB:
     SINGULARNAME: "Gallery"
   SilvercartProductLanguage:
     LOCALE: "Language"
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartProductPage:
     ADD_TO_CART: "Add to cart"
     OUT_OF_STOCK: "This product is out of stock."
@@ -1507,14 +1527,16 @@ en_GB:
     SINGULARNAME: "Product translation text"
   SilvercartQuantityUnit:
     ABBREVIATION: "Abbreviation"
+    EXPLANATION_TO_DECIMAL_PLACES: "Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms."
     NAME: "Name"
+    NUMBER_OF_DECIMAL_PLACES: "Number of decimal places"
     PLURALNAME: "quantity units"
     SINGULARNAME: "quantity unit"
   SilvercartQuantityUnitAdmin:
     MENUTITLE: "quantity units"
   SilvercartQuantityUnitLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartQuickSearchForm:
     SUBMITBUTTONTITLE: "Search"
   SilvercartRating:
@@ -1615,8 +1637,8 @@ en_GB:
   SilvercartShippingMethodAdmin:
     MENUTITLE: "Shipping Methods"
   SilvercartShippingMethodLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartShopAdmin:
     PAYMENT_DESCRIPTION: "Description"
     PAYMENT_ISACTIVE: "Activated"
@@ -1650,8 +1672,8 @@ en_GB:
   SilvercartShopEmailAdmin:
     MENUTITLE: "Shop Emails"
   SilvercartShopEmailLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartShoppingCart:
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "The minimum order value is %s"
     PLURALNAME: "Carts"
@@ -1673,6 +1695,7 @@ en_GB:
     DASHBOARD_TAB: "SilverCart Dashboard"
     FACEBOOK_LINK: "Facebook Link"
     GOOGLE_ANALYTICS_TRACKING_CODE: "Google Analytics Tracking Code"
+    GOOGLE_CONVERSION_TRACKING_CODE: "Google Conversion Tracking Code"
     GOOGLE_WEBMASTER_CODE: "Google Webmaster Tools Code"
     PIWIK_TRACKING_CODE: "Piwik Tracking Code"
     PUBLISHBUTTON: "Publish all pages of this translation"
@@ -1704,6 +1727,10 @@ en_GB:
     WIDGET_HEIGHT: "Height of the widget (in pixels)"
   SilvercartStoreAdminMenu:
     CONFIG: "Configuration"
+    CUSTOMER: "Customers"
+    DEFAULT: "CMS"
+    FILES: "Files"
+    HANDLING: "Handling"
     MODULES: "Modules"
     ORDERS: "Orders"
     PRODUCTS: "Products"
@@ -1725,8 +1752,8 @@ en_GB:
   SilvercartTaxAdmin:
     MENUTITLE: "Tax Rates"
   SilvercartTaxLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartTestData:
     CURRENCY: "EUR"
     IMAGEFOLDERNAME: "Image folder name"
@@ -1756,17 +1783,17 @@ en_GB:
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "product group pages sidebar area"
     slidorion_productGroupHolder_TITLE: "Advantages of SilverCart"
     slidorion_productGroupHolder_URLSEGMENT: "advantages-of-silvercart"
-  SilvercartTextWidget:
+  SilvercartText:
     CSSFIELD_LABEL: "Extra CSS classes (optional):"
     DESCRIPTION: "Enter any text you want."
     FREETEXTFIELD_LABEL: "Your text:"
     HEADLINEFIELD_LABEL: "Headline (optional):"
     TITLE: "Free text"
-    CMSTITLE: "Free text"
+  SilvercartTextWidget:
     IS_CONTENT_VIEW: "use content view instead of widget view"
   SilvercartTextWidgetLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartTopsellerProductsWidget:
     CMSTITLE: "SilverCart top selling products"
     DESCRIPTION: "This widget shows a configurable number of top selling products."
@@ -1802,8 +1829,8 @@ en_GB:
   SilvercartZoneAdmin:
     MENUTITLE: "Zones"
   SilvercartZoneLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SiteConfig:
     SITENAMEDEFAULT: "SilverCart"
     TAGLINEDEFAULT: "eCommerce software. Open-source. You'll love it."

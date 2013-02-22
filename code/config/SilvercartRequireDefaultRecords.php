@@ -1658,7 +1658,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetSetFrontPageContentArea = new WidgetArea();
             $widgetSetFrontPageContentArea->write();
             
-            $widgetSetFrontPageContent = new SilvercartWidgetSet();
+            $widgetSetFrontPageContent = new WidgetSet();
             $widgetSetFrontPageContent->setField('Title', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_CONTENT_TITLE'));
             $widgetSetFrontPageContent->setField('WidgetAreaID', $widgetSetFrontPageContentArea->ID);
             $widgetSetFrontPageContent->write();
@@ -1666,7 +1666,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetSetFrontPageSidebarArea = new WidgetArea();
             $widgetSetFrontPageSidebarArea->write();
             
-            $widgetSetFrontPageSidebar = new SilvercartWidgetSet();
+            $widgetSetFrontPageSidebar = new WidgetSet();
             $widgetSetFrontPageSidebar->setField('Title', _t('SilvercartTestData.WIDGETSET_FRONTPAGE_SIDEBAR_TITLE'));
             $widgetSetFrontPageSidebar->setField('WidgetAreaID', $widgetSetFrontPageSidebarArea->ID);
             $widgetSetFrontPageSidebar->write();
@@ -1674,7 +1674,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetSetProductGroupPagesSidebarArea = new WidgetArea();
             $widgetSetProductGroupPagesSidebarArea->write();
             
-            $widgetSetProductGroupPagesSidebar = new SilvercartWidgetSet();
+            $widgetSetProductGroupPagesSidebar = new WidgetSet();
             $widgetSetProductGroupPagesSidebar->setField('Title', _t('SilvercartTestData.WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE'));
             $widgetSetProductGroupPagesSidebar->setField('WidgetAreaID', $widgetSetProductGroupPagesSidebarArea->ID);
             $widgetSetProductGroupPagesSidebar->write();
