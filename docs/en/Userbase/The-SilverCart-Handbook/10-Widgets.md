@@ -74,6 +74,8 @@ This widget offers you the possibility to enter a text on any place in your site
 ![](_images/bargain_widget_2_0.png)
 
 Shows a number of products with a large difference between MSR price and store price.
+###Image slider
+Shows selected images; A headline and text may be added. The image slider has several configuration options.
 
 ### Silvercart topseller products
 

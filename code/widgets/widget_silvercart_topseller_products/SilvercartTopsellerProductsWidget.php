@@ -85,51 +85,12 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-                    'Title'            => _t('SilvercartTopsellerProductsWidget.TITLE'),
-                    'CMSTitle'         => _t('SilvercartTopsellerProductsWidget.CMSTITLE'),
-                    'Description'      => _t('SilvercartTopsellerProductsWidget.DESCRIPTION'),
+                    
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
     }
 }
 

@@ -149,43 +149,6 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     }
 
     /**
-     * Returns the title of this widget.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
-     */
-    public function Title() {
-        return _t('SilvercartLatestBlogPostsWidget.TITLE');
-    }
-
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
-     */
-    public function CMSTitle() {
-        return _t('SilvercartLatestBlogPostsWidget.CMSTITLE');
-    }
-
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.08.2011
-     */
-    public function Description() {
-        return _t('SilvercartLatestBlogPostsWidget.DESCRIPTION');
-    }
-
-    /**
      * We set checkbox field values here to false if they are not in the post
      * data array.
      *

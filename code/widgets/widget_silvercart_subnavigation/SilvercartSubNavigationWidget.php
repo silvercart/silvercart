@@ -106,9 +106,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'Title'         => _t('SilvercartSubNavigationWidget.TITLE'),
-                'CMSTitle'      => _t('SilvercartSubNavigationWidget.CMSTITLE'),
-                'Description'   => _t('SilvercartSubNavigationWidget.DESCRIPTION'),
                 'startAtLevel'  => _t('SilvercartSubNavigationWidget.STARTATLEVEL'),
                 'showSiblings'  => _t('SilvercartSubNavigationWidget.SHOW_SIBLINGS'),
                 'FrontTitle'    => _t('SilvercartWidget.FRONTTITLE'),
@@ -139,47 +136,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         $fields->push($siblingsField);
 
         return $fields;
-    }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Carolin Woerner <cwoerner@pixeltricks.de>
-     * @since 11.10.2012
-     */
-    public function Title() {
-        $title = $this->fieldLabel('CMSTitle');
-        if (!is_null($this->Title)) {
-            $title = $this->Title;
-        }
-        return $title;
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
     }
 
     /**

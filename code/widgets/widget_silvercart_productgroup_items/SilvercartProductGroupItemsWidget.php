@@ -123,6 +123,41 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     }
     
     /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * Excludes all fields that are added in a ToggleCompositeField later.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $parentExcludes = parent::excludeFromScaffolding();
+        
+        $excludeFromScaffolding = array_merge(
+                $parentExcludes,
+                array(
+                    'Autoplay',
+                    'autoPlayDelayed',
+                    'autoPlayLocked',
+                    'buildArrows',
+                    'buildNavigation',
+                    'buildStartStop',
+                    'slideDelay',
+                    'stopAtEnd',
+                    'transitionEffect',
+                    'useSlider',
+                    'useRoundabout'
+                )
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
+    
+    /**
      * Returns the input fields for this widget.
      * 
      * @return FieldList
@@ -131,59 +166,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields = SilvercartWidgetTools::getCMSFieldsForProductSliderWidget($this);
-        
-        $selectionMethods           = array(
-                'productGroup'  => $this->fieldLabel('SelectionMethodProductGroup'),
-                'products'      => $this->fieldLabel('SelectionMethodProducts'),
-        );
-        $productGroupField          = new SilvercartGroupedDropdownField(
-            'SilvercartProductGroupPageID',
-            $this->fieldLabel('SilvercartProductGroupPage'),
-            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
-            $this->SilvercartProductGroupPageID
-        );
-        $cssField                   = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
-        $productsDescription        = new LiteralField('', $this->fieldLabel('SelectProductDescription'));
-        $silvercartProducts = new GridField(
-                'SilvercartProducts', 
-                $this->fieldLabel('Products'), 
-                $this->SilvercartProducts(), 
-                SilvercartGridFieldConfig_RelationEditor::create()
-                );
-        $selectionMethod            = new OptionsetField('useSelectionMethod',  $this->fieldLabel('useSelectionMethod'), $selectionMethods);
-        $translationsTableField = new GridField(
-                'SilvercartProductGroupItemsWidgetLanguages',
-                $this->fieldLabel('SilvercartProductGroupItemsWidgetLanguages'),
-                $this->SilvercartProductGroupItemsWidgetLanguages(),
-                SilvercartGridFieldConfig_LanguageRelationEditor::create()
-                );
-        
-        $productGroupTab            = new Tab('productgroup',   $this->fieldLabel('ProductGroupTab'));
-        $productsTab                = new Tab('products',       $this->fieldLabel('ProductsTab'));
-        $translationTab             = new Tab('Translations',   $this->fieldLabel('TranslationsTab'));
-        
-        $fields->addFieldToTab('Root', $translationTab);
-        $fields->addFieldToTab('Root.Basic.DisplaySet', $productGroupTab);
-        $fields->addFieldToTab('Root.Basic.DisplaySet', $productsTab);
-        $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $selectionMethod);
-
-        $productGroupTab->push($productGroupField);
-        $productGroupTab->push($fields->dataFieldByName('fetchMethod'));
-        $productGroupTab->push($fields->dataFieldByName('numberOfProductsToShow'));
-        $productGroupTab->push($fields->dataFieldByName('numberOfProductsToFetch'));
-
-        $productsTab->push($productsDescription);
-        $productsTab->push($silvercartProducts);
-
-        $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $cssField);
-
-        $translationTab->push($translationsTableField);
-        
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Basic.DisplaySet.Display', $languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         
         return $fields;
     }
@@ -215,43 +198,6 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     public function getCMSFieldsRoundaboutTab(&$rootTabSet) {
         SilvercartWidgetTools::getCMSFieldsRoundaboutTabForProductSliderWidget($this, $rootTabSet);
     }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
-    }
 
     /**
      * Field labels for display in tables.
@@ -274,13 +220,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                     'SelectionMethodProductGroup'                => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
                     'SelectionMethodProducts'                    => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),
                     'ProductGroupTab'                            => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
-                    'ProductsTab'                                => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
-                    'TranslationsTab'                            => _t('SilvercartConfig.TRANSLATIONS'),
-                    'SilvercartProductGroupItemsWidgetLanguages' => _t('SilvercartProductGroupItemsWidgetLanguage.PLURALNAME'),
+                    'SilvercartProductGroupItemsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS'),
                     'SelectProductDescription'                   => _t("SilvercartProductGroupItemsWidget.SELECT_PRODUCT_DESCRIPTION"),
-                    'Title'                                      => _t('SilvercartProductGroupItemsWidget.TITLE'),
-                    'CMSTitle'                                   => _t('SilvercartProductGroupItemsWidget.CMSTITLE'),
-                    'Description'                                => _t('SilvercartProductGroupItemsWidget.DESCRIPTION'),
                     'Products'                                   => _t('SilvercartProduct.PLURALNAME'),
                 )
         );

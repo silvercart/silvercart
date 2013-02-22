@@ -61,9 +61,6 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
                     'FieldLabel'                => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'levelsToShow'              => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
                     'ShowAllLevels'             => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
-                    'Title'                     => _t('SilvercartProductGroupNavigationWidget.TITLE'),
-                    'CMSTitle'                  => _t('SilvercartProductGroupNavigationWidget.CMSTITLE'),
-                    'Description'               => _t('SilvercartProductGroupNavigationWidget.DESCRIPTION'),
                     'expandActiveSectionOnly'   => _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
 
                 )
@@ -115,43 +112,6 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $fields->push($expandActiveSectionOnlyField);
 
         return $fields;
-    }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
     }
 }
 

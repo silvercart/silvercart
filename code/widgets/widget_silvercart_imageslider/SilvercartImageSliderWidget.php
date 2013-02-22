@@ -101,43 +101,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     }
     
     /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
-     */
-    public function Title() {
-        return _t('SilvercartImageSliderWidget.TITLE');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
-     */
-    public function CMSTitle() {
-        return _t('SilvercartImageSliderWidget.CMSTITLE');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.10.2011
-     */
-    public function Description() {
-        return _t('SilvercartImageSliderWidget.DESCRIPTION');
-    }
-    
-    /**
      * Returns the input fields for this widget.
      * 
      * @return FieldList
@@ -147,7 +110,55 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
+        $slideImagesToggleChildren[] = new GridField(
+                    'slideImages', 
+                    $this->fieldLabel('slideImages'), 
+                    $this->slideImages(), 
+                    SilvercartGridFieldConfig_RelationEditor::create()
+                );
+        $slideImagesToggle = new ToggleCompositeField(
+                    'slideImagesToggle', 
+                    $this->fieldLabel('slideImages'), 
+                    $slideImagesToggleChildren
+                );
+        $fields->addFieldToTab('Root.Main', $slideImagesToggle);
         return $fields;
+    }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * Excludes all fields that are added in a ToggleCompositeField later.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $parentExcludes = parent::excludeFromScaffolding();
+        
+        $excludeFromScaffolding = array_merge(
+                $parentExcludes,
+                array(
+                    'Autoplay',
+                    'autoPlayDelayed',
+                    'autoPlayLocked',
+                    'buildArrows',
+                    'buildNavigation',
+                    'buildStartStop',
+                    'slideDelay',
+                    'stopAtEnd',
+                    'transitionEffect',
+                    'useSlider',
+                    'useRoundabout',
+                    'slideImages'
+                )
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
     }
     
     /**
@@ -180,7 +191,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'SilvercartImageSliderWidgetLanguages'  => _t('SilvercartImageSliderWidgetLanguage.PLURALNAME'),
+                    'SilvercartImageSliderWidgetLanguages'  => _t('Silvercart.TRANSLATIONS'),
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                     'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),

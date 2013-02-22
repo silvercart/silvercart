@@ -37,40 +37,17 @@
 class SilvercartLoginWidget extends SilvercartWidget {
     
     /**
-     * Returns the title of this widget.
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
      * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Title() {
-        return _t('SilvercartLoginWidget.TITLE');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function CMSTitle() {
-        return _t('SilvercartLoginWidget.CMSTITLE');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Description() {
-        return _t('SilvercartLoginWidget.DESCRIPTION');
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 21.02.2013
+    */
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this);
+        return $fields;
     }
 }
 

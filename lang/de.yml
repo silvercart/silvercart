@@ -1774,13 +1774,13 @@ de:
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "Warengruppenseiten Seitenleiste"
     slidorion_productGroupHolder_TITLE: "Vorteile von SilverCart"
     slidorion_productGroupHolder_URLSEGMENT: "vorteile-von-silvercart"
-  SilvercartText:
+  SilvercartTextWidget:
     CSSFIELD_LABEL: "Zusätzliche CSS Klassen (optional):"
     DESCRIPTION: "Geben Sie beliebigen Text ein."
     FREETEXTFIELD_LABEL: "Ihr Text:"
     HEADLINEFIELD_LABEL: "Überschrift (optional):"
     TITLE: "Freitext"
-  SilvercartTextWidget:
+    CMSTITLE: "Freitext"
     IS_CONTENT_VIEW: "Inhaltsansicht statt Widgetansicht verwenden"
   SilvercartTextWidgetLanguage:
     PLURALNAME: "Übersetzungen"

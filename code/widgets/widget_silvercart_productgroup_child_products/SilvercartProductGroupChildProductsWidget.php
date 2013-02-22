@@ -86,43 +86,6 @@ class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
     }
 
     /**
-     * Returns the title of this widget.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.11.2012
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
-
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.11.2012
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.11.2012
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
-    }
-
-    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -137,9 +100,6 @@ class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'Title'                                              => _t('SilvercartProductGroupChildProductsWidget.TITLE'),
-                    'CMSTitle'                                           => _t('SilvercartProductGroupChildProductsWidget.CMSTITLE'),
-                    'Description'                                        => _t('SilvercartProductGroupChildProductsWidget.DESCRIPTION'),
                     'SilvercartProductGroupChildProductsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS')
                 )
         );

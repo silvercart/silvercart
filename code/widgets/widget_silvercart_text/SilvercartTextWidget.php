@@ -86,18 +86,6 @@ class SilvercartTextWidget extends SilvercartWidget {
     public function getHeadline() {
         return $this->getLanguageFieldValue('Headline');
     }
-
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
     
     /**
      * Field labels for display in tables.
@@ -114,13 +102,11 @@ class SilvercartTextWidget extends SilvercartWidget {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ExtraCssClasses'               => _t('SilvercartText.CSSFIELD_LABEL'),
+                'ExtraCssClasses'               => _t('SilvercartTextWidget.CSSFIELD_LABEL'),
                 'SilvercartTextWidgetLanguages' => _t('SilvercartTextWidgetLanguage.PLURALNAME'),
-                'Headline'                      => _t('SilvercartText.HEADLINEFIELD_LABEL'),
-                'FreeText'                      => _t('SilvercartText.FREETEXTFIELD_LABEL'),
+                'Headline'                      => _t('SilvercartTextWidget.HEADLINEFIELD_LABEL'),
+                'FreeText'                      => _t('SilvercartTextWidget.FREETEXTFIELD_LABEL'),
                 'isContentView'                 => _t('SilvercartTextWidget.IS_CONTENT_VIEW'),
-                'Title'                         => _t('SilvercartText.TITLE'),
-                'Description'                   => _t('SilvercartText.DESCRIPTION'),
                 'Content'                       => _t('Silvercart.CONTENT'),
                 'Translations'                  => _t('SilvercartConfig.TRANSLATIONS'),
                 
@@ -129,31 +115,6 @@ class SilvercartTextWidget extends SilvercartWidget {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function CMSTitle() {
-         return $this->fieldLabel('Title');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
     }
     
     /**

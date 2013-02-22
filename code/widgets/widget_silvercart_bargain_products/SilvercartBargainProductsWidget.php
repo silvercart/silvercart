@@ -200,43 +200,6 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     public function getCMSFieldsRoundaboutTab(&$rootTabSet) {
         SilvercartWidgetTools::getCMSFieldsRoundaboutTabForProductSliderWidget($this, $rootTabSet);
     }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.03.2012
-     */
-    public function Title() {
-        return _t($this->ClassName() . '.TITLE');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.03.2012
-     */
-    public function CMSTitle() {
-        return _t($this->ClassName() . '.CMSTITLE');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.03.2012
-     */
-    public function Description() {
-        return _t($this->ClassName() . '.DESCRIPTION');
-    }
 
     /**
      * Field labels for display in tables.

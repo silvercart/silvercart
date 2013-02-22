@@ -90,9 +90,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-                    'Title'            => _t('SilvercartSlidorionProductGroupWidget.TITLE'),
-                    'CMSTitle'         => _t('SilvercartSlidorionProductGroupWidget.CMSTITLE'),
-                    'Description'      => _t('SilvercartSlidorionProductGroupWidget.DESCRIPTION'),
                     'SilvercartImages' => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
                     'BasicTab'         => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
                     'AdvancedTab'      => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
@@ -114,43 +111,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    /**
-     * Returns the title of this widget.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function Title() {
-        return $this->fieldLabel('Title');
-    }
-    
-    /**
-     * Returns the title of this widget for display in the WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
-    }
-    
-    /**
-     * Returns the description of what this template does for display in the
-     * WidgetArea GUI.
-     * 
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function Description() {
-        return $this->fieldLabel('Description');
     }
     
     /**
