@@ -122,7 +122,7 @@ class SilvercartPage extends SiteTree {
 
         if (Permission::check('ADMIN')) {
             $fields->addFieldToTab('Root.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-            $fields->addFieldToTab('Root.Main', new LiteralField('ForIdentifierCode', '<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>'));
+            $fields->dataFieldByName('IdentifierCode')->setRightTitle('<strong>' . _t('SilvercartPage.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!') . '</strong>');
         } else {
             $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
         }
@@ -305,7 +305,7 @@ class SilvercartPage_Controller extends ContentController {
             parent::init();
             return true;
         }
-
+        
         $controller = Controller::curr();
         
         if ($this != $controller &&
