@@ -1576,6 +1576,8 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 01.10.2012
      */
     public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
+        //make sure that the folder "Uploads" exists
+        Folder::find_or_make('Uploads');
         $paymentModule = SilvercartPaymentMethod::get()->filter(array("ClassName" => $paymentModuleName))->sort(array("ID" => "ASC"))->first();
         if ($paymentModule) {
             if (count($this->getPossiblePaymentChannels()) > 0) {
@@ -1609,7 +1611,7 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 // Single payment channels
                 foreach ($paymentLogos as $title => $logo) {
-                    if ($paymentModule->PaymentLogos()->exists()) {
+                    if (!$paymentModule->PaymentLogos()->exists()) {
 
                         $paymentLogo = new SilvercartImage();
                         $paymentLogo->Title = $title;
