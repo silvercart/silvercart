@@ -5,6 +5,7 @@
 \.conflict\~$
 \.DS_Store$
 ^config/.*\.conf$
+^docs/.*\.md\.plist
 ^log/.*\.log$
 silverstripe-cache/.*
 nbproject/.*
