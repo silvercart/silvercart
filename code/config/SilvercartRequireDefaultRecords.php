@@ -1571,9 +1571,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
             );
             
             // Create folder for product images
-            $exampleDataDir = Director::baseFolder().'/assets/test_images/';
+            $exampleDataDir = Director::baseFolder().'/assets/test-images/';
             $imageFolder = new Folder();
-            $imageFolder->setName('test_images');
+            $imageFolder->setName('test-images');
             $imageFolder->write();
             
             if (!file_exists($exampleDataDir)) {
@@ -1638,7 +1638,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 if (array_key_exists('productImage', $product)) {
                     copy(
                         Director::baseFolder().'/silvercart/images/exampledata/'.$product['productImage'],
-                        $exampleDataDir.'/'.$product['productImage']
+                        $exampleDataDir.$product['productImage']
                     );
 
                     $productImage = new Image();
@@ -1648,8 +1648,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $productImage->write();
 
                     $silvercartImage = new SilvercartImage();
-                    $silvercartImage->setField('SilvercartProductID', $productItem->ID);
-                    $silvercartImage->setField('ImageID',             $productImage->ID);
+                    $silvercartImage->SilvercartProductID = $productItem->ID;
+                    $silvercartImage->ImageID = $productImage->ID;
                     $silvercartImage->write();
                 }
             }
