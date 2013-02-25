@@ -93,6 +93,38 @@ class SilvercartRestfulServer extends RestfulServer {
     }
 
     /**
+     * Return only relations which have $api_access enabled.
+     *
+     * @param string $class  The class name
+     * @param Member $member The current member
+     *
+     * @return array
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-02-25
+     */
+    protected function getAllowedRelations($class, $member = null) {
+        $allowedRelations = array();
+        $obj              = singleton($class);
+        $relations        = (array)$obj->has_one() + (array)$obj->has_many() + (array)$obj->many_many();
+
+        if ($relations) {
+            foreach ($relations as $relName => $relClass) {
+                $apiAccess = singleton($relClass)->stat('api_access');
+
+                if ($apiAccess === true ||
+                   (is_array($apiAccess) &&
+                    array_key_exists('view', $apiAccess))) {
+
+                    $allowedRelations[] = $relName;
+                }
+            }
+        }
+
+        return $allowedRelations;
+    }
+
+    /**
      * Returns a SilvercartXMLDataFormatter.
      *
      * @param boolean $includeAcceptHeader Determines wether to inspect and prioritize any HTTP Accept headers
@@ -113,23 +145,17 @@ class SilvercartRestfulServer extends RestfulServer {
         if ($customFields = $this->request->getVar('fields')) {
             $formatter->setCustomFields(explode(',',$customFields));
         }
+
         $formatter->setCustomRelations(
             $this->getAllowedRelations($this->urlParams['ClassName'])
         );
 
         $apiAccess = singleton($this->urlParams['ClassName'])->stat('api_access');
         if (is_array($apiAccess)) {
-            $formatter->setCustomAddFields(array_intersect((array) $formatter->getCustomAddFields(), (array) $apiAccess['view']));
-
             if ($formatter->getCustomFields()) {
                 $formatter->setCustomFields(array_intersect((array) $formatter->getCustomFields(), (array) $apiAccess['view']));
             } else {
                 $formatter->setCustomFields((array) $apiAccess['view']);
-            }
-            if ($formatter->getCustomRelations()) {
-                $formatter->setCustomRelations(array_intersect((array) $formatter->getCustomRelations(), (array) $apiAccess['view']));
-            } else {
-                $formatter->setCustomRelations((array) $apiAccess['view']);
             }
         }
 

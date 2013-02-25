@@ -138,13 +138,6 @@ class SilvercartOrderPosition extends DataObject {
 
         return $fieldLabels;
     }
-    
-    /**
-     * API access is allowed for this object
-     *
-     * @var string
-     */
-    public static $api_access = true;
 
     /**
      * Returns the translated singular name of the object. If no translation exists

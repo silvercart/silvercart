@@ -110,8 +110,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'PriceTypeText'             => 'VarChar(24)',
     );
 
-    public static $api_access = true;
-
     /**
      * Default sort direction in tables.
      *
@@ -391,7 +389,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * Set the default search context for this field
      * 
-     * @return return_value
+     * @return DateRangeSearchContext
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.02.2012
