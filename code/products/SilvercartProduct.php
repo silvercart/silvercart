@@ -2175,6 +2175,39 @@ class SilvercartProduct extends DataObject {
         }
     }
     
+    /**
+     * Sets the cache relevant fields.
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.02.2013
+     */
+    public function getCacheRelevantFields() {
+        $cacheRelevantFields = array(
+            'isActive',
+            'ProductNumberShop',
+            'ProductNumberManufacturer',
+            'EANCode',
+            'PriceGrossAmount',
+            'PriceNetAmount',
+            'MSRPriceAmount',
+            'PurchaseMinDuration',
+            'PurchaseMaxDuration',
+            'PurchaseTimeUnit',
+            'PackagingQuantity',
+            'StockQuantity'     => 0,
+            
+            'SilvercartTaxID',
+            'SilvercartManufacturerID',
+            'SilvercartProductGroupID',
+            'SilvercartAvailabilityStatusID',
+            'SilvercartProductConditionID',
+            'SilvercartQuantityUnitID',
+        );
+        $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
+        return $cacheRelevantFields;
+    }
     
     /**
      * saves the value of the field LongDescription correctly into HTMLText

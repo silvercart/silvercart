@@ -147,6 +147,8 @@ Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartG
 Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 Object::add_extension('Image',                                      'SilvercartImageExtension');
+Object::add_extension('SilvercartProduct',                          'SilvercartDataObject');
+Object::add_extension('SilvercartProductLanguage',                  'SilvercartDataObject');
 Object::add_extension('DataObject',                                 'SilvercartDataObject');
 Object::add_extension('DataObjectSet',                              'SilvercartDataObjectSet');
 // DataObject Translations

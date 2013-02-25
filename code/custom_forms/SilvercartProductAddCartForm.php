@@ -52,7 +52,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
     public function getCacheKeyExtension() {
         if (empty($this->cacheKeyExtension)) {
             $silvercartProduct       = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
-            $cacheKeyExtension       = $silvercartProduct->ID.'_'.$silvercartProduct->LastEdited;
+            $cacheKeyExtension       = $silvercartProduct->ID . '_' . $silvercartProduct->LastEditedForCache;
             $this->cacheKeyExtension = md5($cacheKeyExtension);
         }
 

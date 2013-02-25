@@ -139,6 +139,27 @@ class SilvercartProductLanguage extends DataObject {
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
-
+    
+    /**
+     * Sets the cache relevant fields.
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.02.2013
+     */
+    public function getCacheRelevantFields() {
+        $cacheRelevantFields = array(
+            'Title',
+            'ShortDescription',
+            'LongDescription',
+            'MetaDescription',
+            'MetaTitle',
+            'MetaKeywords',
+        );
+        $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
+        return $cacheRelevantFields;
+    }
+    
 }
 

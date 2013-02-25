@@ -1804,7 +1804,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
             if ($products instanceof DataObjectSet &&
                 $products->Count() > 0) {
-                $productMap = $this->getProducts()->map('ID', 'LastEdited');
+                $productMap = $this->getProducts()->map('ID', 'LastEditedForCache');
                 if (!is_array($productMap)) {
                     $productMap = array();
                 }
