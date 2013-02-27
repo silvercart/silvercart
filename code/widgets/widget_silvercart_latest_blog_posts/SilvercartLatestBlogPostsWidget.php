@@ -96,11 +96,11 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-                    'Content' => _t('Silvercart.CONTENT'),
-                    'Translations' => _t('SilvercartConfig.TRANSLATIONS'),
-                    'NumberOfPosts' => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
-                    'IsContentView' => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
-                    'LatestBlogPostsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS')
+                    'Content'                                  => _t('Silvercart.CONTENT'),
+                    'Translations'                             => _t('SilvercartConfig.TRANSLATIONS'),
+                    'NumberOfPosts'                            => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
+                    'IsContentView'                            => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
+                    'SilvercartLatestBlogPostsWidgetLanguages' => _t('Silvercart.TRANSLATIONS')
                 )
         );
 
@@ -117,33 +117,7 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields             = new FieldList();
-        
-        $rootTabSet         = new TabSet('RootTabSet');
-        $mainTab            = new Tab('Root', $this->fieldLabel('Content'));
-        $translationsTab    = new Tab('TranslationsTab', $this->fieldLabel('Translations'));
-        
-        $numberOfPostsField     = new TextField('numberOfPostsToShow', $this->fieldLabel('NumberOfPosts'));
-        $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('IsContentView'));
-        $translationsTableField = new GridField(
-                                        'SilvercartLatestBlogPostsWidgetLanguages', 
-                                        $this->fieldLabel('LatestBlogPostsWidgetLanguages'), 
-                                        $this->SilvercartLatestBlogPostsWidgetLanguages(), 
-                                        SilvercartGridFieldConfig_LanguageRelationEditor::create()
-                                    );
-                                            
-        
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $mainTab->push($languageField);
-        }
-        
-        $fields->push($rootTabSet);
-        $rootTabSet->push($mainTab);
-        $rootTabSet->push($translationsTab);
-        $mainTab->push($numberOfPostsField);
-        $mainTab->push($isContentView);
-        $translationsTab->push($translationsTableField);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         
         return $fields;
     }

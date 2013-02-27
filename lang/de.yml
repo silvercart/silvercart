@@ -797,7 +797,7 @@ de:
     PLURALNAME: "Rechnungsadressen"
     SINGULARNAME: "Rechnungsadresse"
   SilvercartLatestBlogPostsWidget:
-    CMSTITLE: "Neueste Blogeinträge anzeigen"
+    CMSTITLE: "Neueste Blogeinträge"
     DESCRIPTION: "Zeigt die neuesten Blogeinträge an."
     IS_CONTENT_VIEW: "Normale Artikelansicht statt Widgetansicht verwenden"
     SHOW_ENTRY: "Meldung lesen"

@@ -194,7 +194,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                     'SilvercartImageSliderWidgetLanguages'  => _t('Silvercart.TRANSLATIONS'),
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
-                    'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
                     'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME'),
                     'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME'),
                     'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME')

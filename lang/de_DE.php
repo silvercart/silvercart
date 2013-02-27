@@ -1657,7 +1657,7 @@ $lang['de_DE']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                
 
 // Widgets ----------------------------------------------------------------- */
 
-$lang['de_DE']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Neueste Blogeinträge anzeigen';
+$lang['de_DE']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Neueste Blogeinträge';
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['DESCRIPTION']                = 'Zeigt die neuesten Blogeinträge an.';
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['IS_CONTENT_VIEW']            = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartLatestBlogPostsWidget']['SHOW_ENTRY']                 = 'Meldung lesen';

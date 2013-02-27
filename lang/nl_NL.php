@@ -1269,7 +1269,7 @@ $lang['nl_NL']['SilvercartQuantityUnit']['PLURALNAME'] = 'aantal eenheden';
 
 // Widgets ----------------------------------------------------------------- */
 
-$lang['nl_NL']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Toon laatste blog-berichten';
+$lang['nl_NL']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Laatste blog-berichten';
 $lang['nl_NL']['SilvercartLatestBlogPostsWidget']['DESCRIPTION']                = 'Toont de meest recente blog-berichten.';
 $lang['nl_NL']['SilvercartLatestBlogPostsWidget']['IS_CONTENT_VIEW']            = 'Gebruik het normale overzicht in plaats van de widgetview';
 $lang['nl_NL']['SilvercartLatestBlogPostsWidget']['SHOW_ENTRY']                 = 'Lees bericht';

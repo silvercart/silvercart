@@ -34,14 +34,6 @@
 class SilvercartProductGroupSliderWidget extends SilvercartWidget {
     
     /**
-     * Attributes.
-     * 
-     * @var array
-     */
-    public static $db = array(
-    );
-    
-    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -157,7 +149,7 @@ class SilvercartProductGroupSliderWidget extends SilvercartWidget {
      * @since 13.12.2011
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
+        $fields = SilvercartDataObject::getCMSFields($this);
         
         return $fields;
     }

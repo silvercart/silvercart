@@ -1657,7 +1657,7 @@ $lang['en_US']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                
 
 // Widgets ----------------------------------------------------------------- */
 
-$lang['en_US']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Show latest blog posts';
+$lang['en_US']['SilvercartLatestBlogPostsWidget']['CMSTITLE']                   = 'Latest blog posts';
 $lang['en_US']['SilvercartLatestBlogPostsWidget']['DESCRIPTION']                = 'Shows the most current blog posts.';
 $lang['en_US']['SilvercartLatestBlogPostsWidget']['IS_CONTENT_VIEW']            = 'Use regular productview instead of widgetview';
 $lang['en_US']['SilvercartLatestBlogPostsWidget']['SHOW_ENTRY']                 = 'Read message';

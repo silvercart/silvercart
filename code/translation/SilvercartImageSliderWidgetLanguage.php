@@ -62,7 +62,7 @@ class SilvercartImageSliderWidgetLanguage extends DataObject {
      * @since 13.07.2012
      */
     public function singular_name() {
-        return SilvercartTools::singular_name_for($this);
+        return _t('Silvercart.TRANSLATION');
     }
 
 
@@ -76,7 +76,7 @@ class SilvercartImageSliderWidgetLanguage extends DataObject {
      * @since 13.07.2012
      */
     public function plural_name() {
-        return SilvercartTools::plural_name_for($this); 
+        return _t('Silvercart.TRANSLATIONS'); 
     }
 
     /**
