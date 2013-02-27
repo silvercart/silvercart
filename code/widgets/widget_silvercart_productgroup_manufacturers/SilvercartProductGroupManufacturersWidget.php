@@ -101,23 +101,7 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields                     = new FieldList();
-        $titleField                 = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
-        $contentField               = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
-
-        $rootTabSet                 = new TabSet('Root');
-        $basicTab                   = new Tab('Basic',          $this->fieldLabel('BasicTab'));
-        $translationTab             = new Tab('Translations',   $this->fieldLabel('TranslationsTab'));
-        $translationsTableField     = new ComplexTableField($this, 'SilvercartProductGroupManufacturersWidgetLanguages', 'SilvercartProductGroupManufacturersWidgetLanguage');
-
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $rootTabSet->push($translationTab);
-
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
-
-        $translationTab->push($translationsTableField);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
 
         return $fields;
     }
@@ -137,8 +121,7 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'TranslationsTab' => _t('SilvercartConfig.TRANSLATIONS'),
-                    'DisplayTab'      => _t('SilvercartConfig.TRANSLATIONS'),
+                    'SilvercartProductGroupManufacturersWidgetLanguages' => _t('Silvercart.TRANSLATIONS'),
                 )
         );
 

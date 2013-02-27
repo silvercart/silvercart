@@ -75,7 +75,12 @@ This widget offers you the possibility to enter a text on any place in your site
 
 Shows a number of products with a large difference between MSR price and store price.
 ###Image slider
+
 Shows selected images; A headline and text may be added. The image slider has several configuration options.
+###Manufacturer list
+Shows a list of all existing manufacturers; no special fields;
+
+![](_images/silvercart2_manufacturer_list_widget.png)
 
 ### Silvercart topseller products
 
