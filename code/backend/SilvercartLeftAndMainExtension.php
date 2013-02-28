@@ -77,7 +77,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.02.2013
+     * @since 28.02.2013
      */
     public function SilvercartMenus() {
         $silvercartMenus = new ArrayList();
@@ -153,6 +153,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
             $modelAdmins->sort('SortIndex', 'ASC');
 
             if ($modelAdmins->exists()) {
+                $menu['name'] = _t('SilvercartStoreAdminMenu.' . strtoupper($menu['code']), $menu['name']);
                 $silvercartMenus->push(
                     new DataObject(
                         array(
