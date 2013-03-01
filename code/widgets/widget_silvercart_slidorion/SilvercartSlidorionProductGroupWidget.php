@@ -463,12 +463,12 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-        
-        $this->SilvercartImages()->removeAll();
-        
+                
         if (array_key_exists('SilvercartImages', $_REQUEST) &&
             is_array($_REQUEST['SilvercartImages'])) {
-            
+        
+            $this->SilvercartImages()->removeAll();    
+        
             if (array_key_exists('selected', $_REQUEST['SilvercartImages'])) {
                 unset($_REQUEST['SilvercartImages']['selected']);
             }
