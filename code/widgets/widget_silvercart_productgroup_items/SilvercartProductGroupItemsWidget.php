@@ -388,7 +388,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         $pageProductIdx = 1;
         $isFirst        = true;
 
-        if ($products) {
+        if ($products->exists()) {
+            $products = new ArrayList($products->toArray());
             foreach ($products as $product) {
                 $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $pageProducts[] = $product;

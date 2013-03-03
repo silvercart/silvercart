@@ -50,10 +50,10 @@ class SilvercartFieldGroup extends CompositeField {
     /**
      * Constructor
      *
-     * @param string   $name     Name
-     * @param string   $title    Title
-     * @param FieldSet $fields   CMS fields
-     * @param mixed    $children Children
+     * @param string    $name     Name
+     * @param string    $title    Title
+     * @param FieldList $fields   CMS fields
+     * @param mixed     $children Children
      * 
      * @return void
      */
@@ -163,7 +163,7 @@ class SilvercartFieldGroup extends CompositeField {
     /**
      * Returns the fields
      *
-     * @return FieldSet 
+     * @return FieldList 
      */
     public function getFields() {
         return $this->fields;
@@ -172,7 +172,7 @@ class SilvercartFieldGroup extends CompositeField {
     /**
      * Sets the fields
      *
-     * @param FieldSet $fields Fields to set
+     * @param FieldList $fields Fields to set
      * 
      * @return void
      */

@@ -81,6 +81,7 @@ class SilvercartGridFieldConfig_LanguageRelationEditor extends GridFieldConfig {
 
     /**
      * Loads the components, sets default properties.
+     * Is useful for exclusive relations.
      *
      * @param int $itemsPerPage How many items per page should show up
      * 

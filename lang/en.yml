@@ -1332,7 +1332,7 @@ en:
     PURCHASE_TIME_UNIT: "Purchase time unit"
     QUANTITY: "Quantity"
     QUANTITY_SHORT: "Qty."
-    SHORTDESCRIPTION: "Listdescription"
+    SHORTDESCRIPTION: "List description"
     SINGULARNAME: "Product"
     STOCKQUANTITY: "stock quantity"
     STOCK_QUANTITY: "Is the stock quantity of this product overbookable?"
