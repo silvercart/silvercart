@@ -1644,8 +1644,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.03.2013
      */
     public function productAddCartForm() {
         $controller = Controller::curr();
@@ -1667,13 +1667,45 @@ class SilvercartProduct extends DataObject {
                 $addCartFormName = 'SilvercartProductAddCartFormDetail';
             }
         }
-
+        
+        $formIdentifier = $addCartFormName.$addCartFormIdentifier;
+        $this->registerProductAddCartForm($addCartFormName, $formIdentifier);
+        
         return Controller::curr()->InsertCustomHtmlForm(
-            $addCartFormName.$addCartFormIdentifier,
+            $formIdentifier,
             array(
                 $this
             )
         );
+    }
+    
+    /**
+     * Registers a CustomHtmlForm with the given name, identifier and controller.
+     * 
+     * @param string     $addCartFormName Name of the form
+     * @param string     $formIdentifier  Identifier of the form
+     * @param Controller $controller      Controller of the form
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.03.2013
+     */
+    public function registerProductAddCartForm($addCartFormName, $formIdentifier, $controller = null) {
+        if (is_null($controller)) {
+            $controller = Controller::curr();
+        }
+        if ($controller->getRegisteredCustomHtmlForm($formIdentifier) == false) {
+            $controller->registerCustomHtmlForm(
+                    $formIdentifier,
+                    new $addCartFormName(
+                        $controller,
+                        array(
+                            'productID' => $this->ID,
+                        )
+                    )
+            );
+        }
     }
 
     /**
