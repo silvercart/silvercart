@@ -512,6 +512,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $termsOfServicePage->write();
             $termsOfServicePage->publish("Stage", "Live");
 
+            //create a revocation instructions page
+            $revocationInstructionPage                  = new RedirectorPage();
+            $revocationInstructionPage->RedirectionType = 'Internal';
+            $revocationInstructionPage->LinkToID        = $termsOfServicePage->ID;
+            $revocationInstructionPage->Title           = _t('RevocationInstructionPage.DEFAULT_TITLE', 'revocation instruction');
+            $revocationInstructionPage->URLSegment      = _t('RevocationInstructionPage.DEFAULT_URLSEGMENT', 'revocation-instruction');
+            $revocationInstructionPage->Status          = "Published";
+            $revocationInstructionPage->ShowInMenus     = 1;
+            $revocationInstructionPage->ParentID        = $metaNavigationHolder->ID;
+            $revocationInstructionPage->IdentifierCode  = "SilvercartRevocationInstructionPage";
+            $revocationInstructionPage->write();
+            $revocationInstructionPage->publish("Stage", "Live");
+
             //create an imprint page as a child of the meta navigation holder
             $imprintPage                    = new SilvercartMetaNavigationPage();
             $imprintPage->Title             = _t('ImprintPage.DEFAULT_TITLE', 'imprint');
