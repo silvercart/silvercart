@@ -182,6 +182,7 @@
                     
                 </div>
             </div>
+            {$AfterProductHtmlInjections}
         <% end_control %>
     </div>
 </div>

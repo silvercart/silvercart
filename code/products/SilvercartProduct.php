@@ -152,6 +152,7 @@ class SilvercartProduct extends DataObject {
         'DefaultShippingFee'                => 'Text',
         'MSRPriceNice'                      => 'Text',
         'BeforeProductHtmlInjections'       => 'HTMLText',
+        'AfterProductHtmlInjections'        => 'HTMLText',
     );
 
     /**
@@ -463,6 +464,17 @@ class SilvercartProduct extends DataObject {
         $beforeProductHtmlInjections = '';
         $this->extend('updateBeforeProductHtmlInjections', $beforeProductHtmlInjections);
         return $beforeProductHtmlInjections;
+    }
+    
+    /**
+     * Returns some injected markup to display after the products detail data.
+     * 
+     * @return string
+     */
+    public function getAfterProductHtmlInjections() {
+        $afterProductHtmlInjections = '';
+        $this->extend('updateAfterProductHtmlInjections', $afterProductHtmlInjections);
+        return $afterProductHtmlInjections;
     }
 
     /**
