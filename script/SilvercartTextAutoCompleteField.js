@@ -49,6 +49,7 @@ SilvercartTextAutoCompleteField.init = function() {
     });
 }
 
+jQuery;
 (function($) {
     $(document).ready(function() {
         setTimeout('SilvercartTextAutoCompleteField.init();', 1000);
