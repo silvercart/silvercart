@@ -151,6 +151,7 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductGroupBreadcrumbs' => 'Text',
         'DefaultShippingFee'                => 'Text',
         'MSRPriceNice'                      => 'Text',
+        'BeforeProductHtmlInjections'       => 'HTMLText',
     );
 
     /**
@@ -451,6 +452,17 @@ class SilvercartProduct extends DataObject {
      */
     public function getMSRPriceNice() {
         return $this->MSRPrice->Nice();
+    }
+    
+    /**
+     * Returns some injected markup to display before the products detail data.
+     * 
+     * @return string
+     */
+    public function getBeforeProductHtmlInjections() {
+        $beforeProductHtmlInjections = '';
+        $this->extend('updateBeforeProductHtmlInjections', $beforeProductHtmlInjections);
+        return $beforeProductHtmlInjections;
     }
 
     /**
