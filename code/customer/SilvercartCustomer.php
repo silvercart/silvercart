@@ -126,19 +126,17 @@ class SilvercartCustomer extends DataExtension {
      * 
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.3.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
      */
     public function updateCMSFields(FieldList $fields) {
         parent::updateCMSFields($fields);
         
-        $fields->removeByName('Salutation');
-        $values = array(
+        $fields->insertBefore($fields->dataFieldByName('Salutation'), 'FirstName');
+        $fields->dataFieldByName('Salutation')->setSource(array(
             'Herr' => _t('SilvercartAddress.MISTER'),
             'Frau' => _t('SilvercartAddress.MISSES')
-        );
-        $salutationDropdown = new DropdownField('Salutation', $this->owner->fieldLabel('Salutation'), $values);
-        $fields->insertBefore($salutationDropdown, 'FirstName');
+        ));
         
         //make addresses deletable in the grid field
         $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
