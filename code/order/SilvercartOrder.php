@@ -630,8 +630,11 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         $orderLogField = $fields->dataFieldByName('SilvercartOrderLogs');
-        $orderLogField->setPermissions(array());
-        $orderLogField->setPageSize(50);
+        $orderLogFieldConfig = $orderLogField->getConfig();
+        $orderLogFieldConfig->removeComponentsByType('GridFieldEditButton');
+        $orderLogFieldConfig->removeComponentsByType('GridFieldDeleteAction');
+        $orderLogFieldPaginator = $orderLogFieldConfig->getComponentByType('GridFieldPaginator');
+        $orderLogFieldPaginator->setItemsPerPage(50);
 
         /***********************************************************************
         * REMOVALSECTION
@@ -1484,13 +1487,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * Returns all SilvercartOrderPositions that are included in the total
      * price.
      *
-     * @return mixed DataObjectSet
+     * @return mixed ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-02-20
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.03.2013
      */
     public function SilvercartOrderIncludedInTotalPositions() {
-        $positions = new DataObjectSet();
+        $positions = new ArrayList();
 
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if ($orderPosition->isIncludedInTotal) {

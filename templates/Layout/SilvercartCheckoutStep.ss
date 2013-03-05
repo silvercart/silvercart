@@ -32,7 +32,7 @@
                         <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
                         <div class="silvercart-widget-content_frame">
                             <ul class="vlist">
-                                <% loop Top.StepList %>
+                                <% loop Controller.StepList %>
                                     <% with step %>
                                         <% if StepIsVisible %>
                                         <li<% if IsCurrentStep %> class="active"<% end_if %>>

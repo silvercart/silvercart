@@ -482,6 +482,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $handlingCostToUse                          = new SilvercartHandlingCost();
                 $handlingCostToUse->SilvercartPaymentMethod = $this;
                 $handlingCostToUse->SilvercartTax           = $silvercartTax;
+                $handlingCostToUse->SilvercartTaxID         = $silvercartTax->ID;
                 $handlingCostToUse->amount                  = new Money();
                 $handlingCostToUse->amount->setAmount(0);
                 $handlingCostToUse->amount->setCurrency(SilvercartConfig::DefaultCurrency());

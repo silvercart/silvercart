@@ -1609,7 +1609,7 @@ class SilvercartShoppingCart extends DataObject {
             if ($paymentMethod) {
                 $paymentFee = $paymentMethod->getHandlingCost();
 
-                if ($paymentFee) {
+                if ($paymentFee instanceof SilvercartHandlingCost) {
                     if ($paymentFee->SilvercartTax()) {
                         $taxRate = $paymentFee->SilvercartTax()->getTaxRate();
 

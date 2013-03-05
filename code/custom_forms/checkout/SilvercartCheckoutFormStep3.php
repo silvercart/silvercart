@@ -142,7 +142,11 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
                     
         $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
         if ($shippingMethods->count() > 0) {
-            $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee')->toArray();
+            $map = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
+            if ($map instanceof SS_Map) {
+                $map = $map->toArray();
+            }
+            $this->formFields['ShippingMethod']['value'] = $map;
         }
         
         $stepData = $this->controller->getCombinedStepData();

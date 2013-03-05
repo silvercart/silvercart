@@ -43,7 +43,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 05.03.2013
      */
     public function Field($properties = array()) {
         $odd            = 0;
@@ -56,34 +56,35 @@ class SilvercartShippingOptionsetField extends OptionsetField {
             'items'         => array()
         );
 
-        foreach ($source as $key => $value) {
-            $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $key);
+        if (is_array($source)) {
+            foreach ($source as $key => $value) {
+                $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $key);
 
-            if ($shippingMethod) {
-                $odd        = ($odd + 1) % 2;
-                $extraClass = $odd ? "odd" : "even";
-                $checked    = false;
-                
-                // check if field should be checked
-                if ($this->value == $key) {
-                    $checked = true;
+                if ($shippingMethod) {
+                    $odd        = ($odd + 1) % 2;
+                    $checked    = false;
+
+                    // check if field should be checked
+                    if ($this->value == $key) {
+                        $checked = true;
+                    }
+
+                    $items['item_'.$itemIdx] = new ArrayData(array(
+                        'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                        'checked'           => $checked,
+                        'odd'               => $odd,
+                        'even'              => !$odd,
+                        'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
+                        'value'             => $key,
+                        'label'             => $value,
+                        'name'              => $this->name,
+                        'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                        'description'       => Convert::raw2xml($shippingMethod->Description),
+                    ));
                 }
 
-                $items['item_'.$itemIdx] = new ArrayData(array(
-                    'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'checked'           => $checked,
-                    'odd'               => $odd,
-                    'even'              => !$odd,
-                    'disabled'          => ($this->disabled || in_array($key, $this->disabledItems)),
-                    'value'             => $key,
-                    'label'             => $value,
-                    'name'              => $this->name,
-                    'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
-                    'description'       => Convert::raw2xml($shippingMethod->Description),
-                ));
+                $itemIdx++;
             }
-
-            $itemIdx++;
         }
 
         $templateVars['items'] = new ArrayList($items);

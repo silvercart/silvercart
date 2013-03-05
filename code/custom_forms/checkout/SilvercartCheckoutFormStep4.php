@@ -144,16 +144,16 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.03.2013
      */
     public function preferences() {
         $paymentMethods = SilvercartPaymentMethod::get()->filter("isActive", 1);
         $stepIsVisible  = true;
-        if ($paymentMethods->count() === 0) {
+        if ($paymentMethods->count() == 0) {
             $this->addMessage('Keine Zahlungsarten definiert!');
         } else {
-            if ($paymentMethods->count() === 1) {
+            if ($paymentMethods->count() == 1) {
                 $stepIsVisible = false;
             }
             $this->preferences['stepIsVisible']             = $stepIsVisible;

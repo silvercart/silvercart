@@ -323,17 +323,24 @@ class SilvercartShippingMethod extends DataObject {
             }
         }
         
-        if ($shippingCountry) {
+        if ($shippingCountry instanceof SilvercartCountry) {
             $zones = SilvercartZone::getZonesFor($shippingCountry->ID);
             
             if ($zones->exists()) {
                 $zoneMap            = $zones->map('ID','ID');
                 $zoneIDs            = $zoneMap->toArray();
                 $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
-                $filter = array("SilvercartShippingMethodID" => $this->ID,  "UnlimitedWeight" => 1, "SilvercartZoneID" => $zoneIDsAsString);
+                $filter = array(
+                    "SilvercartShippingMethodID" => $this->ID,
+                );
                 $fees = SilvercartShippingFee::get()
                                                 ->filter($filter)
-                                                ->where('"MaximumWeight" >= ' . $weight)
+                                                ->where(
+                                                        sprintf(
+                                                                '("MaximumWeight" >= ' . $weight . ' OR "UnlimitedWeight" = 1) AND "SilvercartZoneID" IN (%s)',
+                                                                $zoneIDsAsString
+                                                        )
+                                                )
                                                 ->sort('PriceAmount');
                 if ($fees->exists()) {
                     $fee = $fees->first();
