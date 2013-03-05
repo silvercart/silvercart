@@ -38,6 +38,7 @@ Director::addRules(100, array(
     'silvercart-print/$DataObjectName/$DataObjectID'        => 'SilvercartPrint_Controller',
     'silvercart-print-inline/$DataObjectName/$DataObjectID' => 'SilvercartPrint_Controller',
     'silvercart-print-many/$DataObjectName/$DataObjectID'   => 'SilvercartPrint_Controller',
+    'api/silvercart'                                        => 'SilvercartRestfulServer',
 ));
 
 if (!class_exists('RequirementsEngine')) {
@@ -131,6 +132,8 @@ Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartG
 Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
 Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
 Object::add_extension('Image',                                      'SilvercartImageDecorator');
+Object::add_extension('SilvercartProduct',                          'SilvercartDataObject');
+Object::add_extension('SilvercartProductLanguage',                  'SilvercartDataObject');
 Object::add_extension('WidgetSet',                                  'SilvercartWidgetSet');
 // DataObject Translations
 Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
@@ -271,6 +274,7 @@ define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
 // Register at required modules
 // ----------------------------------------------------------------------------
 CustomHtmlForm::registerModule('silvercart', 49);
+CustomHtmlFormActionHandler::addHandler('SilvercartActionHandler');
 
 // ----------------------------------------------------------------------------
 // Set spam check for forms

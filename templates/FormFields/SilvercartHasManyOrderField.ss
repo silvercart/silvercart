@@ -94,7 +94,7 @@
                     display : 'none'
                 });
             }
-            $('#SilvercartOverlay').fadeIn(animationSpeed, function() {
+            $('#SilvercartOverlay').fadeIn(10, function() {
                 $('#SilvercartWidgetEditForm_loader').show();
                 $('#SilvercartWidgetEditForm').fadeIn(animationSpeed);
             });

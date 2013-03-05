@@ -1184,8 +1184,6 @@ ru:
     WEIGHT: "вес"
   SilvercartProductAdmin:
     MENUTITLE: "артикул"
-  SilvercartProductAvailabilityStatusAdmin:
-    MENUTITLE: "наличие"
   SilvercartProductCondition:
     PLEASECHOOSE: "пожалуйста выберите"
     PLURALNAME: "состояние товара"
@@ -1461,7 +1459,7 @@ ru:
     VARIABLES: "переменные"
     YOUR_TEAM: "SilverCart Webshop Team"
   SilvercartShopEmailAdmin:
-    MENUTITLE: "Shop E-Mails"
+    MENUTITLE: "Shop E-Mail"
   SilvercartShopEmailLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перводы"

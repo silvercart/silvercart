@@ -180,6 +180,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function CanView($member = null) {
         $canView = false;
+
         if ((Member::currentUserID() == $this->MemberID &&
              !is_null($this->MemberID)) ||
             Permission::check('SILVERCART_ORDER_VIEW')) {
@@ -408,7 +409,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * Set the default search context for this field
      * 
-     * @return return_value
+     * @return DateRangeSearchContext
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.02.2012
@@ -1150,7 +1151,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'ShoppingCartConvert',
                 array(
                     Member::currentUser()->SilvercartShoppingCart(),
-                    Member::currentUser()
+                    Member::currentUser(),
+                    $this
                 )
             );
             
@@ -1477,7 +1479,28 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         return $orderPositions;
     }
-    
+
+    /**
+     * Returns all SilvercartOrderPositions that are included in the total
+     * price.
+     *
+     * @return mixed DataObjectSet
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-02-20
+     */
+    public function SilvercartOrderIncludedInTotalPositions() {
+        $positions = new DataObjectSet();
+
+        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
+            if ($orderPosition->isIncludedInTotal) {
+                $positions->push($orderPosition);
+            }
+        }
+
+        return $positions;
+    }
+
     /**
      * Returns all regular order positions.
      *
@@ -2093,6 +2116,23 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         return $hasChargePositionsForTotal;
+    }
+
+    /**
+     * Indicates wether there are positions that are included in the total
+     * price.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-02-20
+     */
+    public function HasIncludedInTotalPositions() {
+        if ($this->SilvercartOrderIncludedInTotalPositions()) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /**

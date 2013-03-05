@@ -89,8 +89,8 @@ class SilvercartWidgetTools extends Object {
     /**
      * Returns the slider tab input fields for this widget.
      * 
-     * @param SilvercartWidget  $widget      Widget to initialize
-     * @param TabList           &$rootTabSet The root tab set
+     * @param SilvercartWidget $widget      Widget to initialize
+     * @param TabList          &$rootTabSet The root tab set
      * 
      * @return void
      * 
@@ -565,7 +565,7 @@ class SilvercartWidgetTools extends Object {
         $key                    = '';
         if ($widget->Elements() instanceof SS_List &&
             $widget->Elements()->exists()) {
-            $map = $widget->Elements()->map('ID', 'LastEdited');
+            $map = $widget->Elements()->map('ID', 'LastEditedForCache');
             if ($map instanceof SS_Map) {
                 $productMap = $map->toArray();
             } else {
@@ -580,7 +580,7 @@ class SilvercartWidgetTools extends Object {
                 array_key_exists('', $productMap)))) {
                 $productMap = array();
                 foreach ($widget->Elements() as $page) {
-                    $map = $page->Elements->map('ID', 'LastEdited');
+                    $map = $page->Elements->map('ID', 'LastEditedForCache');
                     if ($map instanceof SS_Map) {
                         $productMapToAdd = $map->toArray();
                     } else {

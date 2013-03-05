@@ -151,6 +151,8 @@ class SilvercartProduct extends DataObject {
         'SilvercartProductGroupBreadcrumbs' => 'Text',
         'DefaultShippingFee'                => 'Text',
         'MSRPriceNice'                      => 'Text',
+        'BeforeProductHtmlInjections'       => 'HTMLText',
+        'AfterProductHtmlInjections'        => 'HTMLText',
     );
 
     /**
@@ -447,6 +449,28 @@ class SilvercartProduct extends DataObject {
     public function getMSRPriceNice() {
         return $this->MSRPrice->Nice();
     }
+    
+    /**
+     * Returns some injected markup to display before the products detail data.
+     * 
+     * @return string
+     */
+    public function getBeforeProductHtmlInjections() {
+        $beforeProductHtmlInjections = '';
+        $this->extend('updateBeforeProductHtmlInjections', $beforeProductHtmlInjections);
+        return $beforeProductHtmlInjections;
+    }
+    
+    /**
+     * Returns some injected markup to display after the products detail data.
+     * 
+     * @return string
+     */
+    public function getAfterProductHtmlInjections() {
+        $afterProductHtmlInjections = '';
+        $this->extend('updateAfterProductHtmlInjections', $afterProductHtmlInjections);
+        return $afterProductHtmlInjections;
+    }
 
     /**
      * Returns if the MSR price is greater than 0
@@ -474,13 +498,18 @@ class SilvercartProduct extends DataObject {
      * @return bool
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @since 20.02.2013
      */
     public function canView($member = null) {
         $canView = parent::canView($member);
         if (!$canView &&
             $this->isActive) {
             $canView = true;
+        }
+        if (!SilvercartTools::isBackendEnvironment()) {
+            if (!$this->isActive) {
+                $canView = false;
+            }
         }
         return $canView;
     }
@@ -1661,8 +1690,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.03.2013
      */
     public function productAddCartForm() {
         $controller = Controller::curr();
@@ -1684,13 +1713,45 @@ class SilvercartProduct extends DataObject {
                 $addCartFormName = 'SilvercartProductAddCartFormDetail';
             }
         }
-
+        
+        $formIdentifier = $addCartFormName.$addCartFormIdentifier;
+        $this->registerProductAddCartForm($addCartFormName, $formIdentifier);
+        
         return Controller::curr()->InsertCustomHtmlForm(
-            $addCartFormName.$addCartFormIdentifier,
+            $formIdentifier,
             array(
                 $this
             )
         );
+    }
+    
+    /**
+     * Registers a CustomHtmlForm with the given name, identifier and controller.
+     * 
+     * @param string     $addCartFormName Name of the form
+     * @param string     $formIdentifier  Identifier of the form
+     * @param Controller $controller      Controller of the form
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.03.2013
+     */
+    public function registerProductAddCartForm($addCartFormName, $formIdentifier, $controller = null) {
+        if (is_null($controller)) {
+            $controller = Controller::curr();
+        }
+        if ($controller->getRegisteredCustomHtmlForm($formIdentifier) == false) {
+            $controller->registerCustomHtmlForm(
+                    $formIdentifier,
+                    new $addCartFormName(
+                        $controller,
+                        array(
+                            'productID' => $this->ID,
+                        )
+                    )
+            );
+        }
     }
 
     /**
@@ -2184,6 +2245,40 @@ class SilvercartProduct extends DataObject {
             $this->WidgetAreaID = $widgetArea->ID;
             $this->write();
         }
+    }
+    
+    /**
+     * Sets the cache relevant fields.
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.02.2013
+     */
+    public function getCacheRelevantFields() {
+        $cacheRelevantFields = array(
+            'isActive',
+            'ProductNumberShop',
+            'ProductNumberManufacturer',
+            'EANCode',
+            'PriceGrossAmount',
+            'PriceNetAmount',
+            'MSRPriceAmount',
+            'PurchaseMinDuration',
+            'PurchaseMaxDuration',
+            'PurchaseTimeUnit',
+            'PackagingQuantity',
+            'StockQuantity'     => 0,
+            
+            'SilvercartTaxID',
+            'SilvercartManufacturerID',
+            'SilvercartProductGroupID',
+            'SilvercartAvailabilityStatusID',
+            'SilvercartProductConditionID',
+            'SilvercartQuantityUnitID',
+        );
+        $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
+        return $cacheRelevantFields;
     }
 
     /**

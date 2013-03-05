@@ -108,6 +108,10 @@
     margin:                         20px 0px 0px 0px;
 }
 
+.silvercart-product-page .silvercart-product-page-product-info ul {
+    list-style-type:                disc;
+}
+
 /* file tab ------------------------------------------------------------ */
 
 .silvercart-product-page-downloads-entry {

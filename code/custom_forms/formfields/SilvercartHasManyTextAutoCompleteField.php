@@ -118,21 +118,33 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
             );
         }
 
-        $items = array();
-        $list = $this->value;
+        $saveDest->setByIDList($this->getRelatedIDs());
+    }
+    
+    /**
+     * Returns the related IDs
+     * 
+     * @return array
+     */
+    public function getRelatedIDs() {
+        $items              = array();
+        $list               = $this->value;
         $autoCompleteSource = $this->getAutoCompleteSource();
         if (empty ($autoCompleteSource)) {
             $this->generateAutoCompleteSource();
         }
-        $autoCompleteSourceDataObject = $this->getAutoCompleteSourceDataObject();
-        $autoCompleteSourceAttribute = $this->getAutoCompleteSourceAttribute();
-        $relatedIDs = array();
+        $autoCompleteSourceDataObject   = $this->getAutoCompleteSourceDataObject();
+        $autoCompleteSourceAttribute    = $this->getAutoCompleteSourceAttribute();
+        $relatedIDs                     = array();
         if ($list) {
             if ($list != 'undefined') {
                 $items = explode($this->getEntryDelimiter(), $list);
                 foreach ($items as $item) {
                     if (trim($item) == '') {
                         continue;
+                    }
+                    if (strpos($item, trim($this->getEntryDelimiter())) == strlen($item) - 1) {
+                        $item = substr($item, 0, strlen($item) - 1);
                     }
                     $item = trim($item);
                     if (is_array($autoCompleteSourceAttribute)) {
@@ -173,11 +185,10 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
                 }
             }
         }
-
-        $saveDest->setByIDList($relatedIDs);
+        return $relatedIDs;
     }
-    
-    /**
+
+        /**
      * Generates the autocomplete source by the given controllers relations and
      * fieldname
      * 

@@ -26,6 +26,9 @@
 
 global $lang;
 
+$lang['de_DE']['RevocationInstructionPage']['DEFAULT_TITLE']      = 'Widerrufsbelehrung';
+$lang['de_DE']['RevocationInstructionPage']['DEFAULT_URLSEGMENT'] = 'widerrufsbelehrung';
+
 $lang['de_DE']['Silvercart']['CHOOSE'] = 'wählen';
 $lang['de_DE']['Silvercart']['CLEAR_CACHE'] = 'Cache leeren';
 $lang['de_DE']['Silvercart']['CONTENT'] = 'Inhalt';

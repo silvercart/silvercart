@@ -212,7 +212,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return void
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 23.11.2012
+     * @since 20.02.2013
      */
     public function init($skip = false) {
         SilvercartProduct::addExtendedSortableFrontendFields(
@@ -221,6 +221,11 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 )
         );
         parent::init(true);
+        
+        if ($this->isProductDetailView()) {
+            // product detail views are not possible on SilvercartSearchResultsPage
+            Director::redirect(DataObject::get_one('ErrorPage', '"ErrorCode" = 404')->Link());
+        }
         if (isset($_GET['start'])) {
             $this->SQL_start = (int)$_GET['start'];
         }

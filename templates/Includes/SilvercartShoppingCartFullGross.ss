@@ -177,6 +177,24 @@
                 <% end_with %>
             <% end_if %>
         <% else %>
+            <% control registeredModules %>
+                <% if NonTaxableShoppingCartPositions %>
+                    <% control NonTaxableShoppingCartPositions %>
+                        <tr>
+                            <td colspan="3">TEST 1$Name</td>
+                            <td class="right">$PriceFormatted</td>
+                            <td>&nbsp;</td>
+                            <td class="right">$getTypeSafeQuantity</td>
+                            <td class="right">$PriceTotalFormatted</td>
+
+                            <% if Top.EditableShoppingCart %>
+                            <td>$removeFromCartForm</td>
+                            <% end_if %>
+                        </tr>
+                    <% end_control %>
+                <% end_if %>
+            <% end_control %>
+
             <tr>
                 <td colspan="3">&nbsp;</td>
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
@@ -200,6 +218,19 @@
                     </tr>
                 <% end_with %>
             <% end_if %>
+
+            <% control registeredModules %>
+                <% if IncludedInTotalShoppingCartPositions %>
+                    <% control IncludedInTotalShoppingCartPositions %>
+                        <tr>
+                            <td colspan="3">&nbsp;</td>
+                            <td colspan="3" class="right">$Name</td>
+                            <td class="right">{$PriceTotalFormatted}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    <% end_control %>
+                <% end_if %>
+            <% end_control %>
         <% end_if %>
         
         <% if Top.EditableShoppingCart %>

@@ -2,6 +2,9 @@ de:
   ImprintPage:
     DEFAULT_TITLE: "Impressum"
     DEFAULT_URLSEGMENT: "impressum"
+  RevocationInstructionPage:
+    DEFAULT_TITLE: "Widerrufsbelehrung"
+    DEFAULT_URLSEGMENT: "widerrufsbelehrung"
   Silvercart:
     CHOOSE: "wählen"
     CLEAR_CACHE: "Cache leeren"

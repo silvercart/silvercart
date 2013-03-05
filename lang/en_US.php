@@ -26,6 +26,9 @@
 
 global $lang;
 
+$lang['en_US']['RevocationInstructionPage']['DEFAULT_TITLE']      = 'Revocation instruction';
+$lang['en_US']['RevocationInstructionPage']['DEFAULT_URLSEGMENT'] = 'revocation-instruction';
+
 $lang['en_US']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_US']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_US']['Silvercart']['CONTENT'] = 'Content';
@@ -1306,8 +1309,8 @@ $lang['en_US']['SilvercartPage']['REGISTER'] = 'Register';
 $lang['en_US']['SilvercartPage']['REMARKS'] = 'Remarks';
 $lang['en_US']['SilvercartPage']['REMOVE_FROM_CART'] = 'Remove';
 $lang['en_US']['SilvercartPage']['RETURNTOPRODUCTGROUP'] = 'Return to "%s"';
-$lang['en_US']['SilvercartPage']['REVOCATION'] = 'revocation instructions';
-$lang['en_US']['SilvercartPage']['REVOCATIONREAD'] = 'revocation instructions';
+$lang['en_US']['SilvercartPage']['REVOCATION'] = 'revocation instruction';
+$lang['en_US']['SilvercartPage']['REVOCATIONREAD'] = 'revocation instruction';
 $lang['en_US']['SilvercartPage']['SAVE'] = 'Save';
 $lang['en_US']['SilvercartPage']['SEARCH_RESULTS'] = 'results';
 $lang['en_US']['SilvercartPage']['SEPTEMBER'] = 'September';

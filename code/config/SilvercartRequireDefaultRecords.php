@@ -345,52 +345,56 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $rootPage->publish("Stage", "Live");
             
             //create a deeplink page as child of the silvercart root
-            $deeplinkPage                   = new SilvercartDeeplinkPage();
-            $deeplinkPage->IdentifierCode   = "SilvercartDeeplinkPage";
-            $deeplinkPage->Title            = _t('SilvercartDeeplinkPage.DEFAULT_TITLE');
-            $deeplinkPage->URLSegment       = 'deeplink';
-            $deeplinkPage->Status           = 'Published';
-            $deeplinkPage->ParentID         = $rootPage->ID;
-            $deeplinkPage->ShowInMenus      = false;
-            $deeplinkPage->ShowInSearch     = false;
-            $deeplinkPage->CanViewType      = "Anyone";
+            $deeplinkPage                       = new SilvercartDeeplinkPage();
+            $deeplinkPage->IdentifierCode       = "SilvercartDeeplinkPage";
+            $deeplinkPage->Title                = _t('SilvercartDeeplinkPage.DEFAULT_TITLE');
+            $deeplinkPage->URLSegment           = 'deeplink';
+            $deeplinkPage->Status               = 'Published';
+            $deeplinkPage->ParentID             = $rootPage->ID;
+            $deeplinkPage->ShowInMenus          = false;
+            $deeplinkPage->ShowInSearch         = false;
+            $deeplinkPage->CanViewType          = "Anyone";
+            $deeplinkPage->InheritFromParent    = false;
             $deeplinkPage->write();
             $deeplinkPage->publish("Stage", "Live");
 
             //create a silvercart product group holder as a child af the silvercart root
-            $productGroupHolder                 = new SilvercartProductGroupHolder();
-            $productGroupHolder->Title          = _t('SilvercartProductGroupHolder.DEFAULT_TITLE',      'product groups');
-            $productGroupHolder->URLSegment     = _t('SilvercartProductGroupHolder.DEFAULT_URLSEGMENT', 'productgroups');
-            $productGroupHolder->Status         = "Published";
-            $productGroupHolder->ParentID       = $rootPage->ID;
-            $productGroupHolder->IdentifierCode = "SilvercartProductGroupHolder";
+            $productGroupHolder                     = new SilvercartProductGroupHolder();
+            $productGroupHolder->Title              = _t('SilvercartProductGroupHolder.DEFAULT_TITLE',      'product groups');
+            $productGroupHolder->URLSegment         = _t('SilvercartProductGroupHolder.DEFAULT_URLSEGMENT', 'productgroups');
+            $productGroupHolder->Status             = "Published";
+            $productGroupHolder->ParentID           = $rootPage->ID;
+            $productGroupHolder->IdentifierCode     = "SilvercartProductGroupHolder";
+            $productGroupHolder->InheritFromParent  = false;
             $productGroupHolder->write();
             $productGroupHolder->publish("Stage", "Live");
 
             //create a cart page
-            $cartPage                   = new SilvercartCartPage();
-            $cartPage->Title            = _t('SilvercartCartPage.DEFAULT_TITLE');
-            $cartPage->URLSegment       = _t('SilvercartCartPage.DEFAULT_URLSEGMENT', 'cart');
-            $cartPage->Status           = "Published";
-            $cartPage->ShowInMenus      = true;
-            $cartPage->ShowInSearch     = false;
-            $cartPage->IdentifierCode   = "SilvercartCartPage";
-            $cartPage->ParentID         = $rootPage->ID;
+            $cartPage                       = new SilvercartCartPage();
+            $cartPage->Title                = _t('SilvercartCartPage.DEFAULT_TITLE');
+            $cartPage->URLSegment           = _t('SilvercartCartPage.DEFAULT_URLSEGMENT', 'cart');
+            $cartPage->Status               = "Published";
+            $cartPage->ShowInMenus          = true;
+            $cartPage->ShowInSearch         = false;
+            $cartPage->IdentifierCode       = "SilvercartCartPage";
+            $cartPage->ParentID             = $rootPage->ID;
+            $cartPage->InheritFromParent    = false;
             $cartPage->write();
             $cartPage->publish("Stage", "Live");
 
             //create a silvercart checkout step (checkout) as achild of the silvercart root
-            $checkoutStep                   = new SilvercartCheckoutStep();
-            $checkoutStep->Title            = _t('SilvercartCheckoutStep.DEFAULT_TITLE');
-            $checkoutStep->URLSegment       = _t('SilvercartCheckoutStep.DEFAULT_URLSEGMENT', 'checkout');
-            $checkoutStep->Status           = "Published";
-            $checkoutStep->ShowInMenus      = true;
-            $checkoutStep->ShowInSearch     = true;
-            $checkoutStep->basename         = 'SilvercartCheckoutFormStep';
-            $checkoutStep->showCancelLink   = true;
-            $checkoutStep->cancelPageID     = $cartPage->ID;
-            $checkoutStep->ParentID         = $rootPage->ID;
-            $checkoutStep->IdentifierCode   = "SilvercartCheckoutStep";
+            $checkoutStep                       = new SilvercartCheckoutStep();
+            $checkoutStep->Title                = _t('SilvercartCheckoutStep.DEFAULT_TITLE');
+            $checkoutStep->URLSegment           = _t('SilvercartCheckoutStep.DEFAULT_URLSEGMENT', 'checkout');
+            $checkoutStep->Status               = "Published";
+            $checkoutStep->ShowInMenus          = true;
+            $checkoutStep->ShowInSearch         = true;
+            $checkoutStep->basename             = 'SilvercartCheckoutFormStep';
+            $checkoutStep->showCancelLink       = true;
+            $checkoutStep->cancelPageID         = $cartPage->ID;
+            $checkoutStep->ParentID             = $rootPage->ID;
+            $checkoutStep->IdentifierCode       = "SilvercartCheckoutStep";
+            $checkoutStep->InheritFromParent    = false;
             $checkoutStep->write();
             $checkoutStep->publish("Stage", "Live");
 
@@ -403,6 +407,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $myAccountHolder->ShowInSearch      = false;
             $myAccountHolder->ParentID          = $rootPage->ID;
             $myAccountHolder->IdentifierCode    = "SilvercartMyAccountHolder";
+            $myAccountHolder->InheritFromParent = false;
             $myAccountHolder->write();
             $myAccountHolder->publish("Stage", "Live");
 
@@ -472,13 +477,14 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $addressPage->publish("Stage", "Live");
 
             //create a meta navigation holder
-            $metaNavigationHolder                   = new SilvercartMetaNavigationHolder();
-            $metaNavigationHolder->Title            = _t('SilvercartMetaNavigationHolder.DEFAULT_TITLE');
-            $metaNavigationHolder->URLSegment       = _t('SilvercartMetaNavigationHolder.DEFAULT_URLSEGMENT', 'metanavigation');
-            $metaNavigationHolder->Status           = "Published";
-            $metaNavigationHolder->ShowInMenus      = 0;
-            $metaNavigationHolder->IdentifierCode   = "SilvercartMetaNavigationHolder";
-            $metaNavigationHolder->ParentID         = $rootPage->ID;
+            $metaNavigationHolder                       = new SilvercartMetaNavigationHolder();
+            $metaNavigationHolder->Title                = _t('SilvercartMetaNavigationHolder.DEFAULT_TITLE');
+            $metaNavigationHolder->URLSegment           = _t('SilvercartMetaNavigationHolder.DEFAULT_URLSEGMENT', 'metanavigation');
+            $metaNavigationHolder->Status               = "Published";
+            $metaNavigationHolder->ShowInMenus          = 0;
+            $metaNavigationHolder->IdentifierCode       = "SilvercartMetaNavigationHolder";
+            $metaNavigationHolder->ParentID             = $rootPage->ID;
+            $metaNavigationHolder->InheritFromParent    = false;
             $metaNavigationHolder->write();
             $metaNavigationHolder->publish("Stage", "Live");
 
@@ -503,6 +509,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $termsOfServicePage->IdentifierCode = "TermsOfServicePage";
             $termsOfServicePage->write();
             $termsOfServicePage->publish("Stage", "Live");
+
+            //create a revocation instructions page
+            $revocationInstructionPage                  = new RedirectorPage();
+            $revocationInstructionPage->RedirectionType = 'Internal';
+            $revocationInstructionPage->LinkToID        = $termsOfServicePage->ID;
+            $revocationInstructionPage->Title           = _t('RevocationInstructionPage.DEFAULT_TITLE', 'revocation instruction');
+            $revocationInstructionPage->URLSegment      = _t('RevocationInstructionPage.DEFAULT_URLSEGMENT', 'revocation-instruction');
+            $revocationInstructionPage->Status          = "Published";
+            $revocationInstructionPage->ShowInMenus     = 1;
+            $revocationInstructionPage->ParentID        = $metaNavigationHolder->ID;
+            $revocationInstructionPage->IdentifierCode  = "SilvercartRevocationInstructionPage";
+            $revocationInstructionPage->write();
+            $revocationInstructionPage->publish("Stage", "Live");
 
             //create an imprint page as a child of the meta navigation holder
             $imprintPage                    = new SilvercartMetaNavigationPage();
@@ -562,15 +581,16 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactFormResponsePage->publish("Stage", "Live");
 
             //create a silvercart order confirmation page as a child of the silvercart root
-            $orderConfirmationPage                  = new SilvercartOrderConfirmationPage();
-            $orderConfirmationPage->Title           = _t('SilvercartOrderConfirmationPage.DEFAULT_TITLE', 'order conirmation page');
-            $orderConfirmationPage->URLSegment      = _t('SilvercartOrderConfirmationPage.DEFAULT_URLSEGMENT', 'order-conirmation');
-            $orderConfirmationPage->Status          = "Published";
-            $orderConfirmationPage->ShowInMenus     = false;
-            $orderConfirmationPage->ShowInSearch    = false;
-            $orderConfirmationPage->CanViewType     = "LoggedInUsers";
-            $orderConfirmationPage->IdentifierCode  = "SilvercartOrderConfirmationPage";
-            $orderConfirmationPage->ParentID        = $rootPage->ID;
+            $orderConfirmationPage                      = new SilvercartOrderConfirmationPage();
+            $orderConfirmationPage->Title               = _t('SilvercartOrderConfirmationPage.DEFAULT_TITLE', 'order conirmation page');
+            $orderConfirmationPage->URLSegment          = _t('SilvercartOrderConfirmationPage.DEFAULT_URLSEGMENT', 'order-conirmation');
+            $orderConfirmationPage->Status              = "Published";
+            $orderConfirmationPage->ShowInMenus         = false;
+            $orderConfirmationPage->ShowInSearch        = false;
+            $orderConfirmationPage->CanViewType         = "LoggedInUsers";
+            $orderConfirmationPage->IdentifierCode      = "SilvercartOrderConfirmationPage";
+            $orderConfirmationPage->ParentID            = $rootPage->ID;
+            $orderConfirmationPage->InheritFromParent   = false;
             $orderConfirmationPage->write();
             $orderConfirmationPage->publish("Stage", "Live");
 
@@ -583,19 +603,21 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $paymentNotification->ShowInSearch      = 0;
             $paymentNotification->ParentID          = $rootPage->ID;
             $paymentNotification->IdentifierCode    = "SilvercartPaymentNotification";
+            $paymentNotification->InheritFromParent = false;
             $paymentNotification->write();
             $paymentNotification->publish('Stage', 'Live');
             DB::alteration_message('SilvercartPaymentNotification Page created', 'created');
 
             //create a silvercart registration page as a child of silvercart root
-            $registrationPage                   = new SilvercartRegistrationPage();
-            $registrationPage->Title            = _t('SilvercartRegistrationPage.DEFAULT_TITLE', 'registration page');
-            $registrationPage->URLSegment       = _t('SilvercartRegistrationPage.DEFAULT_URLSEGMENT', 'registration');
-            $registrationPage->Status           = "Published";
-            $registrationPage->ShowInMenus      = false;
-            $registrationPage->ShowInSearch     = true;
-            $registrationPage->ParentID         = $rootPage->ID;
-            $registrationPage->IdentifierCode   = "SilvercartRegistrationPage";
+            $registrationPage                       = new SilvercartRegistrationPage();
+            $registrationPage->Title                = _t('SilvercartRegistrationPage.DEFAULT_TITLE', 'registration page');
+            $registrationPage->URLSegment           = _t('SilvercartRegistrationPage.DEFAULT_URLSEGMENT', 'registration');
+            $registrationPage->Status               = "Published";
+            $registrationPage->ShowInMenus          = false;
+            $registrationPage->ShowInSearch         = true;
+            $registrationPage->ParentID             = $rootPage->ID;
+            $registrationPage->IdentifierCode       = "SilvercartRegistrationPage";
+            $registrationPage->InheritFromParent    = false;
             $registrationPage->write();
             $registrationPage->publish("Stage", "Live");
 
@@ -613,14 +635,15 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $registerConfirmationPage->publish("Stage", "Live");
 
             //create a silvercart search results page as a child of the silvercart root
-            $searchResultsPage                  = new SilvercartSearchResultsPage();
-            $searchResultsPage->Title           = _t('SilvercartSearchResultsPage.DEFAULT_TITLE', 'search results');
-            $searchResultsPage->URLSegment      = _t('SilvercartSearchResultsPage.DEFAULT_URLSEGMENT', 'search-results');
-            $searchResultsPage->Status          = "Published";
-            $searchResultsPage->ShowInMenus     = false;
-            $searchResultsPage->ShowInSearch    = false;
-            $searchResultsPage->ParentID        = $rootPage->ID;
-            $searchResultsPage->IdentifierCode  = "SilvercartSearchResultsPage";
+            $searchResultsPage                      = new SilvercartSearchResultsPage();
+            $searchResultsPage->Title               = _t('SilvercartSearchResultsPage.DEFAULT_TITLE', 'search results');
+            $searchResultsPage->URLSegment          = _t('SilvercartSearchResultsPage.DEFAULT_URLSEGMENT', 'search-results');
+            $searchResultsPage->Status              = "Published";
+            $searchResultsPage->ShowInMenus         = false;
+            $searchResultsPage->ShowInSearch        = false;
+            $searchResultsPage->ParentID            = $rootPage->ID;
+            $searchResultsPage->IdentifierCode      = "SilvercartSearchResultsPage";
+            $searchResultsPage->InheritFromParent   = false;
             $searchResultsPage->write();
             $searchResultsPage->publish("Stage", "Live");
 

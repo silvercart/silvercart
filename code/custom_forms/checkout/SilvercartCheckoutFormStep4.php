@@ -150,16 +150,20 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
     public function preferences() {
         $paymentMethods = SilvercartPaymentMethod::get()->filter("isActive", 1);
         $stepIsVisible  = true;
-        if ($paymentMethods->count() === 1) {
-            $stepIsVisible = false;
+        if ($paymentMethods->count() === 0) {
+            $this->addMessage('Keine Zahlungsarten definiert!');
+        } else {
+            if ($paymentMethods->count() === 1) {
+                $stepIsVisible = false;
+            }
+            $this->preferences['stepIsVisible']             = $stepIsVisible;
+            $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Payment');
+            $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
+            $this->preferences['fillInRequestValues']       = true;
+            $this->preferences['loadShoppingcartModules']   = false;
+            $this->preferences['createShoppingcartForms']   = false;
+            $this->preferences['doJsValidationScrolling']   = false;
         }
-        $this->preferences['stepIsVisible']             = $stepIsVisible;
-        $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep4.TITLE', 'Payment');
-        $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD', 'Next');
-        $this->preferences['fillInRequestValues']       = true;
-        $this->preferences['loadShoppingcartModules']   = false;
-        $this->preferences['createShoppingcartForms']   = false;
-        $this->preferences['doJsValidationScrolling']   = false;
 
         parent::preferences();
     }

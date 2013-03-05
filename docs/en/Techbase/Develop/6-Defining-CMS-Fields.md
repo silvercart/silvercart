@@ -1,4 +1,4 @@
-# Defining CMS fields
+# Defining CMS Fields
 
 <div class="warning" markdown='1'>
 **Stop:** This page is still under construction with several details not yet written.

@@ -1773,7 +1773,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
             if ($products instanceof SS_List &&
                 $products->count() > 0) {
-                $productMap = $this->getProducts()->map('ID', 'LastEdited')->toArray();
+                $productMap = $this->getProducts()->map('ID', 'LastEditedForCache')->toArray();
                 if (!is_array($productMap)) {
                     $productMap = array();
                 }

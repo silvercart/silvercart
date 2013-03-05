@@ -79,6 +79,28 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
     public function setRelationDetailDepth($relationDetailDepth) {
         $this->relationDetailDepth = $relationDetailDepth;
     }
+
+    /**
+     * Checks if an object may be viewed on a per-field basis and sets
+     * $this->customFields and $this->customAddFields appropriately.
+     *
+     * @param Mixed $obj The object to get the field permissions for
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-02-25
+     */
+    public function getDataObjectFieldPermissions($obj) {
+        $apiAccess = $obj->stat('api_access');
+
+        if ($apiAccess === true) {
+            $this->setCustomFields(array_keys($obj->stat('db')));
+        } else if (is_array($apiAccess)) {
+            $this->setCustomAddFields((array) $apiAccess['view']);
+            $this->setCustomFields((array) $apiAccess['view']);
+        }
+    }
     
     /**
      * Builds the XML data
@@ -97,6 +119,10 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
         $id         = $obj->ID;
         $objHref    = Director::absoluteURL(self::$api_base . $obj->class . "/" . $obj->ID);
         $xml        = "<$className href=\"$objHref.xml\">\n";
+
+        $this->getDataObjectFieldPermissions($obj);
+        $fields = array_intersect((array) $this->getCustomAddFields(), (array) $this->getCustomFields());
+
         foreach ($this->getFieldsForObj($obj) as $fieldName => $fieldType) {
             // Field filtering
             if ($fields && !in_array($fieldName, $fields)) {
@@ -136,7 +162,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                         $originalCustomAddFields = $this->getCustomAddFields();
                         $customAddFields = Object::get_static($relObj->ClassName, 'custom_add_export_fields');
                         $this->setCustomAddFields((array) $customAddFields);
-                        $xml .= $this->convertDataObjectWithoutHeader($relObj);
+                        $xml .= $this->convertDataObjectWithoutHeader($relObj, $fields);
                         $this->setCustomAddFields($originalCustomAddFields);
                         
                         $this->setRelationDepth($relationDepth);
@@ -154,13 +180,13 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                 if ($this->skipRelation($relName, $relClass, $fields)) {
                     continue;
                 }
-                $xml .= $this->addMany($relName, $relClass, $objHref, $obj);
+                $xml .= $this->addMany($relName, $relClass, $objHref, $obj, 'has_many', $fields);
             }
             foreach ($obj->many_many() as $relName => $relClass) {
                 if ($this->skipRelation($relName, $relClass, $fields)) {
                     continue;
                 }
-                $xml .= $this->addMany($relName, $relClass, $objHref, $obj, 'many_many');
+                $xml .= $this->addMany($relName, $relClass, $objHref, $obj, 'many_many', $fields);
             }
         }
 
@@ -177,13 +203,14 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
      * @param string     $objHref  Link to the object
      * @param DataObject $obj      DataObject to get relation data for
      * @param string     $relType  Relation type (has_many/many_many)
-     * 
+     * @param array      $fields   The fields for this DataObject
+     *
      * @return string 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function addMany($relName, $relClass, $objHref, $obj, $relType = 'has_many') {
+    public function addMany($relName, $relClass, $objHref, $obj, $relType = 'has_many', $fields) {
         $xmlPart    = "<$relName linktype=\"$relType\" href=\"$objHref/$relName.xml\">\n";
         $items      = $obj->$relName();
         if ($items) {
@@ -191,7 +218,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                 if ($this->getRelationDetailDepth() > 0) {
                     $relationDepth = $this->getRelationDepth();
                     $this->setRelationDepth($relationDepth - 1);
-                    $xmlPart .= $this->convertDataObjectWithoutHeader($item);
+                    $xmlPart .= $this->convertDataObjectWithoutHeader($item, $fields);
                     $this->setRelationDepth($relationDepth);
                 } else {
                     $href       = Director::absoluteURL(self::$api_base . "$relClass/$item->ID");
@@ -217,14 +244,26 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
      */
     public function skipRelation($relName, $relClass, $fields) {
         $skipRelation = false;
-        if (!singleton($relClass)->stat('api_access')) {
-            $skipRelation = true;
-        }
+        $obj          = singleton($relClass);
+        $this->getDataObjectFieldPermissions($obj);
+        $fields       = array_intersect((array) $this->getCustomAddFields(), (array) $this->getCustomFields());
+        $relObj       = singleton($relClass);
+        $relObjFields = $relObj->stat('db');
+
         // Field filtering
-        if ($fields &&
-            !in_array($relName, $fields)) {
+        if ($obj->stat('api_access') === true) {
+            $skipRelation = false;
+        } else if ($fields) {
             $skipRelation = true;
+
+            foreach ($fields as $fieldName) {
+                if (array_key_exists($fieldName, $relObjFields)) {
+                    $skipRelation = false;
+                    break;
+                }
+            }
         }
+
         if ($this->customRelations &&
             !in_array($relName, $this->customRelations)) {
             $skipRelation = true;
