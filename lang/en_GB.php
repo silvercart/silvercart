@@ -93,6 +93,7 @@ $lang['en_GB']['SilvercartAddress']['EMAIL'] = 'Email address';
 $lang['en_GB']['SilvercartAddress']['EMAIL_CHECK'] = 'Email address check';
 $lang['en_GB']['SilvercartAddress']['FAX'] = 'Fax';
 $lang['en_GB']['SilvercartAddress']['FIRSTNAME'] = 'First name';
+$lang['en_GB']['SilvercartAddress']['ISBUSINESSACCOUNT'] = 'Is business address';
 $lang['en_GB']['SilvercartAddress']['MISSES'] = 'Mrs';
 $lang['en_GB']['SilvercartAddress']['MISTER'] = 'Mr';
 $lang['en_GB']['SilvercartAddress']['NAME'] = 'Name';

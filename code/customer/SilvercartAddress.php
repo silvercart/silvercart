@@ -209,6 +209,7 @@ class SilvercartAddress extends DataObject {
                 'Surname'               => _t('SilvercartAddress.SURNAME'),
                 'TaxIdNumber'           => _t('SilvercartAddress.TAXIDNUMBER'),
                 'Company'               => _t('SilvercartAddress.COMPANY'),
+                'IsBusinessAccount'     => _t('SilvercartAddress.ISBUSINESSACCOUNT'),
                 'Name'                  => _t('SilvercartAddress.NAME'),
                 'UsePackstation'        => _t('SilvercartAddress.USE_PACKSTATION'),
                 'UseAbsoluteAddress'    => _t('SilvercartAddress.USE_ABSOLUTEADDRESS'),

@@ -116,6 +116,15 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             );
             
         }
+
+        if ($this->EnableBusinessCustomers()) {
+            $this->formFields['Invoice_TaxIdNumber']['checkRequirements']['isFilledInDependantOn']['field'] = 'Invoice_IsBusinessAccount';
+            $this->formFields['Shipping_TaxIdNumber']['checkRequirements']['isFilledInDependantOn']['field'] = 'Shipping_IsBusinessAccount';
+
+            $this->formFields['Invoice_Company']['checkRequirements']['isFilledInDependantOn']['field'] = 'Invoice_IsBusinessAccount';
+            $this->formFields['Shipping_Company']['checkRequirements']['isFilledInDependantOn']['field'] = 'Shipping_IsBusinessAccount';
+        }
+
         if ($withUpdate && !empty($this->class)) {
             $this->extend('updateFormFields', $this->formFields);
         }
@@ -237,6 +246,19 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             $formData['Shipping_PhoneAreaCode']    = $formData['Invoice_PhoneAreaCode'];
             $formData['Shipping_Phone']            = $formData['Invoice_Phone'];
             $formData['Shipping_Country']          = $formData['Invoice_Country'];
+
+            if ($this->EnableBusinessCustomers()) {
+                $formData['Shipping_Company']           = $formData['Invoice_Company'];
+                $formData['Shipping_TaxIdNumber']       = $formData['Invoice_TaxIdNumber'];
+                $formData['Shipping_IsBusinessAccount'] = $formData['Invoice_IsBusinessAccount'];
+            }
+        }
+
+        if (array_key_exists('Invoice_IsBusinessAccount', $formData)) {
+            unset($formData['Invoice_IsBusinessAccount']);
+        }
+        if (array_key_exists('Shipping_IsBusinessAccount', $formData)) {
+            unset($formData['Shipping_IsBusinessAccount']);
         }
 
         $this->controller->setStepData($formData);
