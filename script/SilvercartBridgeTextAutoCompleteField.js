@@ -1,45 +1,45 @@
 
-var SilvercartHasManyTextAutoCompleteField = [];
-    SilvercartHasManyTextAutoCompleteField.AutoCompleteList = [];
-    SilvercartHasManyTextAutoCompleteField.EntryDelimiter   = [];
+var SilvercartBridgeTextAutoCompleteField = [];
+    SilvercartBridgeTextAutoCompleteField.AutoCompleteList = [];
+    SilvercartBridgeTextAutoCompleteField.EntryDelimiter   = [];
 
-SilvercartHasManyTextAutoCompleteField.split = function(val, fieldName) {
-    return val.split(SilvercartHasManyTextAutoCompleteField.EntryDelimiter[fieldName]);
+SilvercartBridgeTextAutoCompleteField.split = function(val, fieldName) {
+    return val.split(SilvercartBridgeTextAutoCompleteField.EntryDelimiter[fieldName]);
 }
-SilvercartHasManyTextAutoCompleteField.extractLast = function(term, fieldName) {
+SilvercartBridgeTextAutoCompleteField.extractLast = function(term, fieldName) {
     return this.split(term, fieldName).pop();
 }
-SilvercartHasManyTextAutoCompleteField.init = function() {
-    jQuery('.silvercarthasmanytextautocomplete input').live(
+SilvercartBridgeTextAutoCompleteField.init = function() {
+    jQuery('.silvercartbridgetextautocomplete input').live(
         "focus",
         function() {
             var fieldName     = jQuery(this).attr('name');
-            var availableTags = SilvercartHasManyTextAutoCompleteField.AutoCompleteList[fieldName];
+            var availableTags = SilvercartBridgeTextAutoCompleteField.AutoCompleteList[fieldName];
             jQuery(this).autocomplete({
                 minLength: 0,
                 source: function(request, response) {
                     // delegate back to autocomplete, but extract the last term
                     response(jQuery.ui.autocomplete.filter(
-                        availableTags, SilvercartHasManyTextAutoCompleteField.extractLast(request.term, fieldName)));
+                        availableTags, SilvercartBridgeTextAutoCompleteField.extractLast(request.term, fieldName)));
                 },
                 focus: function() {
                     // prevent value inserted on focus
                     return false;
                 },
                 select: function(event, ui) {
-                    var terms = SilvercartHasManyTextAutoCompleteField.split(this.value, fieldName);
+                    var terms = SilvercartBridgeTextAutoCompleteField.split(this.value, fieldName);
                     // remove the current input
                     terms.pop();
                     // add the selected item
                     terms.push(ui.item.value);
                     // add placeholder to get the comma-and-space at the end
                     terms.push("");
-                    this.value = terms.join(SilvercartHasManyTextAutoCompleteField.EntryDelimiter[fieldName]);
+                    this.value = terms.join(SilvercartBridgeTextAutoCompleteField.EntryDelimiter[fieldName]);
                     return false;
                 }
             })
     })
-    jQuery('.silvercarthasmanytextautocomplete input').live(
+    jQuery('.silvercartbridgetextautocomplete input').live(
         "keydown",
         function(event) {
             if (event.keyCode === jQuery.ui.keyCode.TAB &&
@@ -52,6 +52,6 @@ SilvercartHasManyTextAutoCompleteField.init = function() {
 jQuery;
 (function($) {
     $(document).ready(function() {
-        setTimeout('SilvercartHasManyTextAutoCompleteField.init();', 1000);
+        setTimeout('SilvercartBridgeTextAutoCompleteField.init();', 1000);
     });
 })(jQuery);

@@ -279,6 +279,7 @@ define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
 // Register at required modules
 // ----------------------------------------------------------------------------
 CustomHtmlForm::registerModule('silvercart', 49);
+CustomHtmlFormActionHandler::addHandler('SilvercartActionHandler');
 
 // ----------------------------------------------------------------------------
 // Check if the page.php descends from the SilvercartPage
