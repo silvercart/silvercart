@@ -17,14 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with CustomHtmlForms.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package CustomHtmlForm
+ * @package Silvercart
  * @subpackage Controller
  */
 
 /**
  * Central handler for form actions.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Controller
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
